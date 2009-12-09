@@ -54,7 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrangeQuestion.cs" />
-    <Compile Include="Specs.cs" />
+    <Compile Include="Spec_answer_check_box_list.cs" />
+    <Compile Include="Spec_answer_radio_list.cs" />
+    <Compile Include="Spec_answer_simple_text.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
