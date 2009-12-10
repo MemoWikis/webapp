@@ -10,23 +10,14 @@ namespace TrueOrFalse.Tests
     [TestFixture]
     public class Spec_answer_simple_text
     {
-        Context _context = new Context();
+        ContextQuestion _context = new ContextQuestion();
 
-        public class Context
-        {
-            public Quiz Quiz;
-            public User User;
-            public QuestionText QuestionText;
-            public AnswerText AnswerText;
-        }
-
-        public ArrangeQuestion Arrange_question(string s)
+        public ArrangeQuestion Arrange_question(string questionText)
         {
             var result = new ArrangeQuestion();
             _context.QuestionText = result.QuestionText;
             return result;
         }
-
 
         [Test]
         public void Text_answer_should_be_equal_to_valid_user_input()
@@ -37,13 +28,28 @@ namespace TrueOrFalse.Tests
             _context.QuestionText.
                 IsValidAnswer(new UserInputText("Behaviour Driven Development"))
                     .Should().Be.True();
-
         }
 
         [Test]
         public void Text_answer_should_be_agnostic_to_white_spaces()
         {
-            
+            Arrange_question(" What is BDD ")
+                .WithStrictAnswer("Behaviour Driven Development");
+
+            _context.QuestionText.
+                IsValidAnswer(new UserInputText("Behaviour Driven Development"))
+                    .Should().Be.True();
+        }
+
+        [Test]
+        public void Text_answer_should_be_invalid_on_wrong_input()
+        {
+            Arrange_question(" What is BDD ")
+                .WithStrictAnswer("Invalid answer");
+
+            _context.QuestionText.
+                IsValidAnswer(new UserInputText("Behaviour Driven Development"))
+                    .Should().Be.False();            
         }
     }
 }

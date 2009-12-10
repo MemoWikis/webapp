@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrueOrFalse.Tests
 {
-    public class Class1
+    public class User_creation_spec
     {
     }
 }

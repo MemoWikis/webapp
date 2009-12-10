@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrueOrFalse.Core
+namespace TrueOrFalse.Tests
 {
-    public class Class1
+    public class Spec_answer_check_box_list
     {
     }
 }

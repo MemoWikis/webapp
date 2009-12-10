@@ -15,6 +15,11 @@ namespace TrueOrFalse.Tests
             QuestionText = new QuestionText();
         }
 
+        public void With(string questionText)
+        {
+            
+        }
+
         public void WithStrictAnswer(string answerText)
         {
             QuestionText.AnswerText = new AnswerText();

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrueOrFalse.Tests
 {
-    class Spec_answer_radio_list
+    public class User_question_creation_spec
     {
     }
 }

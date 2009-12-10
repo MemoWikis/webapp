@@ -1,0 +1,21 @@
+Roles:
+PO: Mike
+SM: 
+Team A: Marco, Robert, Rico, Anton, Mike
+
+
+Motivation/Vision
+
+Benutzer sollen vordefinierte Fragen beantworten können, um BDD und TDD
+
+
+User Stories:
+
+Benutzer dürfen Fragen erstellen, um andere Benutzer zu befragen.
+Bei einem Quiz können Benutzer die Fragen erstellen, gültige Antworten hinterlegen.
+
+
+Benutzer können offene Fragen erstellen, um ...
+
+
+Das System soll erweiterbar sein, um 3party Herstellern die Entwicklung von Erweiterungen im Frage/Antwort - Model zu ermöglichen.
