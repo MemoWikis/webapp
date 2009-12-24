@@ -38,7 +38,7 @@ namespace TrueOrFalse.Tests
 
             _context.QuestionText.
                 IsValidAnswer(new UserInputText("Behaviour Driven Development"))
-                    .Should().Be.True();
+                    .Should().Be.True(); 
         }
 
         [Test]
