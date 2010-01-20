@@ -7,5 +7,9 @@ namespace TrueOrFalse.Core
 {
     public class QuestionList : List<Question>
     {
+        public Question GetById(int id)
+        {
+            return Find(question => question.Id == id);
+        }
     }
 }

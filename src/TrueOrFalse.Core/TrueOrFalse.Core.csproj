@@ -51,11 +51,14 @@
     <Compile Include="Domain\Question\Answer.cs" />
     <Compile Include="Domain\Question\IQuestionService.cs" />
     <Compile Include="Domain\Question\Question.cs" />
+    <Compile Include="Domain\Question\QuestionDemoData.cs" />
+    <Compile Include="Domain\Question\QuestionList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\Question\QuestionService.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="Domain\User\UserInputText.cs" />
     <Compile Include="View\QuestionCreateModel.cs" />
+    <Compile Include="View\QuestionHomeModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

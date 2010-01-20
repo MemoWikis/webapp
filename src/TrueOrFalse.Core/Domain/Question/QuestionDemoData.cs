@@ -5,9 +5,9 @@ using System.Text;
 
 namespace TrueOrFalse.Core
 {
-    public class QuestionDemoData
+    public static class QuestionDemoData
     {
-        public QuestionList All()
+        public static QuestionList All()
         {
             var result = new QuestionList();
             result.Add(new Question { Id=  1, Text = "Wie alt bin ich", Answer = new Answer("23")});

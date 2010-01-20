@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Core;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Tests.Answer;
 
@@ -22,7 +23,10 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         {
             ViewData["Message"] = "Welcome to ASP.NET MVC!";
 
-            return View();
+            var model = new QuestionHomeModel();
+            model.MostPopular = QuestionDemoData.All();
+
+            return View(model);
         }
 
         public ActionResult CreateQuestion()

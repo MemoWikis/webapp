@@ -7,17 +7,18 @@ namespace TrueOrFalse.Tests.Answer
     {
         public void Create(Question question)
         {
-            throw new NotImplementedException();
+            question.Id = QuestionDemoData.All().Count + 1;
+            QuestionDemoData.All().Add(question);
         }
 
         public Question GetById(int id)
         {
-            
+            return QuestionDemoData.All().GetById(id);
         }
 
         public QuestionList GetAll()
         {
-            
+            return QuestionDemoData.All();
         }
     }
 }
