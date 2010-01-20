@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Models;
 
 namespace TrueOrFalse.Frontend.Web.Controllers
 {
@@ -16,7 +17,24 @@ namespace TrueOrFalse.Frontend.Web.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult CreateQuestion()
+        {
+            var model = new CreateQuestionModel();
+            model.Answer = "Antwort eingeben";
+            model.Question = "Frage eingeben";
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult CreateQuestion(CreateQuestionModel model)
+        {
+            ViewData["question"] = model.Question;
+
+            return View(model);
+        }
+
+        public ActionResult UpdateQuestion()
         {
             return View();
         }

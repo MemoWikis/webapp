@@ -55,8 +55,8 @@
   <ItemGroup>
     <Compile Include="Answer\ArrangeQuestion.cs" />
     <Compile Include="Answer\ContextQuestion.cs" />
-    <Compile Include="Answer\Spec_answer_check_box_list.cs" />
-    <Compile Include="Answer\Spec_answer_radio_list.cs" />
+    <Compile Include="Answer\QuestionService.cs" />
+    <Compile Include="Answer\Spec_answer_persistance.cs" />
     <Compile Include="Answer\Spec_answer_simple_text.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User\User_question_creation_spec.cs" />

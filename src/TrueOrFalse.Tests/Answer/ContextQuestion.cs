@@ -8,9 +8,15 @@ namespace TrueOrFalse.Tests
 {
     public class ContextQuestion
     {
-        public Quiz Quiz;
         public User User;
-        public QuestionText QuestionText;
-        public AnswerText AnswerText;
+        public Question Question;
+        public Core.Answer Answer;
+
+        public ArrangeQuestion Arrange_question(string questionText)
+        {
+            var result = new ArrangeQuestion();
+            Question = result.Question;
+            return result;
+        }
     }
 }

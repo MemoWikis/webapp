@@ -8,12 +8,14 @@ namespace TrueOrFalse.Tests
 {
     public class ArrangeQuestion
     {
-        public QuestionText QuestionText;
+        public Question Question;
 
         public ArrangeQuestion()
         {
-            QuestionText = new QuestionText();
+            Question = new Question();
         }
+
+
 
         public void With(string questionText)
         {
@@ -22,8 +24,8 @@ namespace TrueOrFalse.Tests
 
         public void WithStrictAnswer(string answerText)
         {
-            QuestionText.AnswerText = new AnswerText();
-            QuestionText.AnswerText.Text = answerText;
+            Question.Answer = new Core.Answer();
+            Question.Answer.Text = answerText;
         }
     }
 }
