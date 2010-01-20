@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Autofac.Builder;
+using Autofac.Integration.Web;
+using Autofac.Integration.Web.Mvc;
+using TrueOrFalse.Tests.Answer;
 
 namespace TrueOrFalse.Frontend.Web
 {
@@ -12,6 +17,13 @@ namespace TrueOrFalse.Frontend.Web
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        static IContainerProvider _containerProvider;
+
+        public IContainerProvider ContainerProvider
+        {
+            get { return _containerProvider; }
+        }
+
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -26,9 +38,22 @@ namespace TrueOrFalse.Frontend.Web
 
         protected void Application_Start()
         {
+            InitializeAutofac();
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterRoutes(RouteTable.Routes);
+        }
+
+        private void InitializeAutofac()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new AutofacControllerModule(Assembly.GetExecutingAssembly()));
+            builder.Register<QuestionService>().As<IQuestionService>();
+
+            _containerProvider = new ContainerProvider(builder.Build());
+            
+            ControllerBuilder.Current.SetControllerFactory(new AutofacControllerFactory(ContainerProvider));
         }
     }
 }

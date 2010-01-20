@@ -7,7 +7,10 @@ namespace TrueOrFalse.Core
 {
     public class Question
     {
-        public Answer Answer; 
+        public int Id;
+
+        public Answer Answer;
+        public string Text;
 
         public bool IsValidAnswer(UserInputText userinput)
         {

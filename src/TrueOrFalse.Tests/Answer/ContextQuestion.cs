@@ -16,6 +16,7 @@ namespace TrueOrFalse.Tests
         {
             var result = new ArrangeQuestion();
             Question = result.Question;
+            Question.Text = questionText;
             return result;
         }
     }

@@ -13,5 +13,12 @@ namespace TrueOrFalse.Core
     public class Answer : IAnswer
     {
         public string Text;
+
+        public Answer(){}
+
+        public Answer(string answerText)
+        {
+            Text = answerText;
+        }
     }
 }

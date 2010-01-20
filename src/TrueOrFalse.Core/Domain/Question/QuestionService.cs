@@ -9,5 +9,15 @@ namespace TrueOrFalse.Tests.Answer
         {
             throw new NotImplementedException();
         }
+
+        public Question GetById(int id)
+        {
+            
+        }
+
+        public QuestionList GetAll()
+        {
+            
+        }
     }
 }
