@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Frontend.Web.Models
 {
-    public class CreateQuestionModel
+    public class QuestionCreateModel
     {
         [Required]
         [DataType(DataType.MultilineText )]
@@ -18,5 +19,15 @@ namespace TrueOrFalse.Frontend.Web.Models
         [DataType(DataType.MultilineText)]
         [DisplayName("Antwort")]
         public string Answer { get; set; }
+
+        public Question ConvertToQuestion()
+        {
+            var question = new Question();
+            Question = Question;
+            Answer = Answer;
+            return question;
+        }
     }
+
+    
 }

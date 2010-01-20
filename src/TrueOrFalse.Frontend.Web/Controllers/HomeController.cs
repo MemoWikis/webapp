@@ -27,7 +27,7 @@ namespace TrueOrFalse.Frontend.Web.Controllers
 
         public ActionResult CreateQuestion()
         {
-            var model = new CreateQuestionModel();
+            var model = new QuestionCreateModel();
             model.Answer = "Antwort eingeben";
             model.Question = "Frage eingeben";
 
@@ -35,11 +35,11 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateQuestion(CreateQuestionModel model)
+        public ActionResult CreateQuestion(QuestionCreateModel model)
         {
             ViewData["question"] = model.Question;
 
-            //_questionService.Create();
+            _questionService.Create(model.ConvertToQuestion());
 
             return View(model);
         }
