@@ -3,7 +3,7 @@ using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Tests.Answer
 {
-    public class QuestionService
+    public class QuestionService : IQuestionService
     {
         public void Create(Question question)
         {
