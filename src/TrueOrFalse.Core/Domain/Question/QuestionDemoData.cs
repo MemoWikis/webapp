@@ -18,5 +18,19 @@ namespace TrueOrFalse.Core
 
             return result;
         }
+		
+/*
+
+Weitere Fragen: 
+
+----
+Frage: Ist JSON eine Untermenge von YAML
+Antwort: Ja
+Antwort-Beschreibung: JSON ist eine echte Untermenge von YAML. Jedes JSON-Dokument ist ein valides YAML-Dokument.
+Tags: Softwareentwicklung {YAML, JSON, Datenformate}
+----
+
+
+*/
     }
 }
