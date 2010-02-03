@@ -8,7 +8,7 @@ using TrueOrFalse.Core;
 namespace TrueOrFalse.Tests
 {
     [TestFixture]
-	[Category("Spec")]
+    [Category(TestCategories.BehaviourTest)]
     public class Spec_answer_simple_text
     {
         readonly ContextQuestion _context = new ContextQuestion();

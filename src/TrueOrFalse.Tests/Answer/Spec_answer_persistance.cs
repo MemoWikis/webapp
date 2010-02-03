@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace TrueOrFalse.Tests.Answer
 {
     [TestFixture]
-	[Category("Spec")]
+    [Category(TestCategories.BehaviourTest)]
     public class Spec_answer_persistance
     {
         readonly ContextQuestion _context = new ContextQuestion();

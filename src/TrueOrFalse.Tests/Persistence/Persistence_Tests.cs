@@ -8,7 +8,7 @@ namespace TrueOrFalse.Tests.Persistence
 {
 	[TestFixture]
 	[Category(TestCategories.Programmer)]
-	class Persistence_Tests
+	public class Persistence_Tests
 	{
 	}
 }
