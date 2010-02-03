@@ -29,7 +29,10 @@ Antwort: Ja
 Antwort-Beschreibung: JSON ist eine echte Untermenge von YAML. Jedes JSON-Dokument ist ein valides YAML-Dokument.
 Tags: Softwareentwicklung {YAML, JSON, Datenformate}
 ----
-
+Frage: Wofür steht YAML
+Antwort: "YAML Ain't Markup Language"
+Antwort-Lang: YAML ist ein rekursives Akronym für „YAML Ain't Markup Language“ (ursprünglich „Yet Another Markup Language“). 
+Tags: Softwareentwicklung {YAML, Datenformate}
 
 */
     }
