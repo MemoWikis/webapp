@@ -34,6 +34,20 @@ Antwort: "YAML Ain't Markup Language"
 Antwort-Lang: YAML ist ein rekursives Akronym für „YAML Ain't Markup Language“ (ursprünglich „Yet Another Markup Language“). 
 Tags: Softwareentwicklung {YAML, Datenformate}
 
+----
+Frage: Wofür steht SUT
+Antwort: "System under test"
+Antwort-Lang: "". 
+Antwort-Wikipedia-URL: http://en.wikipedia.org/wiki/System_under_test
+Tags: Softwareentwicklung {Testing, Acronyme}
+
+Frage: Wofür steth CQRS
+Antwort: Command Query Responsibility Segregation
+Antwort-Url: http://elegantcode.com/2009/11/11/cqrs-la-greg-young/
+Antwort-Url: http://jonathan-oliver.blogspot.com/2009/03/dddd-and-cqs-getting-started.html
+Antwort-Url: http://www.vimeo.com/8944337
+Tags: Softwareentwicklung {DDD, Acronyme}
+
 */
     }
 }
