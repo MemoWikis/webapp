@@ -49,7 +49,7 @@ namespace TrueOrFalse.Frontend.Web
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new AutofacControllerModule(Assembly.GetExecutingAssembly()));
-            builder.Register<QuestionService>().As<IQuestionService>();
+            builder.Register<QuestionServiceDemoData>().As<IQuestionService>();
 
             _containerProvider = new ContainerProvider(builder.Build());
             

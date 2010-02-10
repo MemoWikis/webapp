@@ -7,12 +7,12 @@ namespace TrueOrFalse.Core
 {
     public class Question
     {
-        public int Id;
+        public virtual int Id{ get; set;}
 
-        public Answer Answer;
-        public string Text;
+        public virtual Answer Answer{ get; set; }
+        public virtual string Text { get; set; }
 
-        public bool IsValidAnswer(UserInputText userinput)
+        public virtual bool IsValidAnswer(UserInputText userinput)
         {
             return Answer.Text.Equals(userinput.Text);
         }
