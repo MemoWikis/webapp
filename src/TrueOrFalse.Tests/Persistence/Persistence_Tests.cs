@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using NUnit.Framework;
 using TrueOrFalse.Tests.Answer;
 
@@ -22,6 +23,8 @@ namespace TrueOrFalse.Tests.Persistence
             var questionService = new QuestionService();
             questionService.Create(_context.Question);
 
+        	questionService.GetAll()
+				.Count.Should().Be.EqualTo(1);
         }
 
 	}

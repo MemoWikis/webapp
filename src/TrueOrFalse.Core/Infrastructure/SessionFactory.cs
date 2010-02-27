@@ -20,7 +20,7 @@ namespace TrueOrFalse.Core
             _fileDbName = "firstProject.db";
             return Fluently.Configure()
               .Database(
-                SQLiteConfiguration.Standard
+                SQLiteConfiguration.Standard 
                   .UsingFile(_fileDbName)
               )
               .Mappings(m =>

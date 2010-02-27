@@ -7,7 +7,14 @@ namespace TrueOrFalse.Core
 {
     public class QuestionList : List<Question>
     {
-        public Question GetById(int id)
+		public QuestionList(){}
+
+    	public QuestionList(IEnumerable<Question> questions)
+    	{
+    		AddRange(questions);
+    	}
+
+    	public Question GetById(int id)
         {
             return Find(question => question.Id == id);
         }
