@@ -5,9 +5,10 @@ obj/
 [Dd]ebug/   
 [Rr]elease/   
 _Re[Ss]harper.*
-*.resharper
-*.resharper.user
+*.[Rr]e[Ss]harper
+*.[Rr]e[Ss]harper.user
 *.suo
 *.cache
 *~
 *.swp
+*.user
