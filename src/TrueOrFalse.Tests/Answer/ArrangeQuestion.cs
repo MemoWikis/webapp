@@ -15,8 +15,6 @@ namespace TrueOrFalse.Tests
             Question = new Question();
         }
 
-
-
         public void With(string questionText)
         {
             

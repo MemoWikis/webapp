@@ -1,6 +1,6 @@
 ﻿using TrueOrFalse.Core;
 
-namespace TrueOrFalse.Tests.Answer
+namespace TrueOrFalse.Core
 {
     public interface IQuestionService
     {

@@ -10,7 +10,7 @@ namespace TrueOrFalse.Tests
     {
         public User User;
         public Question Question;
-        public Core.Answer Answer;
+        public Answer Answer;
 
         public ArrangeQuestion Arrange_question(string questionText)
         {

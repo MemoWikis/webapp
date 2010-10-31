@@ -1,7 +1,7 @@
 ﻿using System;
 using TrueOrFalse.Core;
 
-namespace TrueOrFalse.Tests.Answer
+namespace TrueOrFalse.Core
 {
     public class QuestionService : IQuestionService
     {
