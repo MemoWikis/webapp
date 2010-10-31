@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using NUnit.Framework;
-using TrueOrFalse.Tests.Answer;
+using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Tests.Persistence
 {

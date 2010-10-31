@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Frontend.Web.Models;
-using TrueOrFalse.Tests.Answer;
 
 namespace TrueOrFalse.Frontend.Web.Controllers
 {

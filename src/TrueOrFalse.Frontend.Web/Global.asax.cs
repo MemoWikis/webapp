@@ -6,10 +6,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
-using Autofac.Builder ;
 using Autofac.Integration.Web;
 using Autofac.Integration.Web.Mvc;
-using TrueOrFalse.Tests.Answer;
+using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Frontend.Web
 {

@@ -22,7 +22,7 @@ namespace TrueOrFalse.Tests
 
         public void WithStrictAnswer(string answerText)
         {
-            Question.Answer = new Core.Answer();
+            Question.Answer = new Answer();
             Question.Answer.Text = answerText;
         }
     }
