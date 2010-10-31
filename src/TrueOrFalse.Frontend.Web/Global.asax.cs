@@ -5,7 +5,8 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Autofac.Builder;
+using Autofac;
+using Autofac.Builder ;
 using Autofac.Integration.Web;
 using Autofac.Integration.Web.Mvc;
 using TrueOrFalse.Tests.Answer;
@@ -15,7 +16,7 @@ namespace TrueOrFalse.Frontend.Web
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication, IContainerProviderAccessor 
     {
         static IContainerProvider _containerProvider;
 
@@ -48,12 +49,13 @@ namespace TrueOrFalse.Frontend.Web
         private void InitializeAutofac()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new AutofacControllerModule(Assembly.GetExecutingAssembly()));
-            builder.Register<QuestionServiceDemoData>().As<IQuestionService>();
+			builder.RegisterControllers(Assembly.GetExecutingAssembly());
+			builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
+            builder.RegisterType<QuestionServiceDemoData>().As<IQuestionService>();
 
             _containerProvider = new ContainerProvider(builder.Build());
-            
-            ControllerBuilder.Current.SetControllerFactory(new AutofacControllerFactory(ContainerProvider));
+
+			ControllerBuilder.Current.SetControllerFactory(new AutofacControllerFactory(ContainerProvider));
         }
     }
 }
