@@ -92,8 +92,6 @@
     <Compile Include="Domain\Question\QuestionServiceDemoData.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="Domain\User\UserInputText.cs" />
-    <Compile Include="View\QuestionCreateModel.cs" />
-    <Compile Include="View\QuestionHomeModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
