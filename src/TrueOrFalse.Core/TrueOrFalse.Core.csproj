@@ -79,8 +79,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Question\Answer.cs" />
-    <Compile Include="Domain\Question\AnswerMap.cs" />
+    <Compile Include="Domain\Question\Answer\Answer.cs" />
+    <Compile Include="Domain\Question\Answer\AnswerMap.cs" />
     <Compile Include="Domain\Question\IQuestionService.cs" />
     <Compile Include="Domain\Question\Question.cs" />
     <Compile Include="Domain\Question\QuestionDemoData.cs" />
