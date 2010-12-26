@@ -15,7 +15,7 @@ namespace TrueOrFalse.Tests.Persistence
         readonly ContextQuestion _context = new ContextQuestion();
 
         [Test]
-        public void Answer_should_be_persisted()
+        public void Question_should_be_persisted()
         {
             _context.Arrange_question("What is BDD")
                 .WithStrictAnswer("Behaviour Driven Development");
