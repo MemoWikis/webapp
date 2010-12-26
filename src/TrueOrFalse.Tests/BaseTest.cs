@@ -5,7 +5,7 @@ using System.Text;
 using Autofac;
 using NUnit.Framework;
 using TrueOrFalse.Core;
-using IContainer = System.ComponentModel.IContainer;
+using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Tests
 {
@@ -14,7 +14,7 @@ namespace TrueOrFalse.Tests
     {
         private IContainer _container;
 
-        [Test]
+        [SetUp]
         public void SetUp()
         {
             InitializeContainer();
@@ -23,10 +23,13 @@ namespace TrueOrFalse.Tests
         private void InitializeContainer()
         {
             var builder = new ContainerBuilder();
-            //builder.RegisterType<SampleEntityService>();
-            //builder.RegisterType<SampleEntityRepository>();
-            //builder.RegisterInstance(SessionFactory.CreateSessionFactory().OpenSession());
-            //_container = builder.Build();
+            builder.RegisterModule<AutofacCoreModule>();
+            _container = builder.Build();
+        }
+
+        public T Resolve<T>()
+        {
+            return _container.Resolve<T>();
         }
     }
 }

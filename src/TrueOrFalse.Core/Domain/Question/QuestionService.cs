@@ -1,37 +1,27 @@
 ﻿using System;
+using NHibernate;
 using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Core
 {
     public class QuestionService : IQuestionService
     {
-        public QuestionService()
+        private readonly ISession _session;
+
+        public QuestionService(ISession session)
         {
-            
+            _session = session;
         }
 
         public void Create(Question question)
         {
-            var sessionFactory = SessionFactory.CreateSessionFactory();
-            
-            using(var session = sessionFactory.OpenSession())
-            {
-                session.SaveOrUpdate(question);
-            }
+            _session.SaveOrUpdate(question);
         }
 
     	public QuestionList GetAll()
     	{
-			var sessionFactory = SessionFactory.CreateSessionFactory();
-
-			using (var session = sessionFactory.OpenSession())
-			{
-				return new QuestionList(
-					session.CreateCriteria(typeof (Question)).List<Question>()
-				);
-			}
+    	    return new QuestionList(
+    	        _session.CreateCriteria(typeof (Question)).List<Question>());
     	}
-
-
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Core;
 using TrueOrFalse.Frontend.Web.Models;
 
 namespace TrueOrFalse.Frontend.Web.Controllers
@@ -36,9 +37,5 @@ namespace TrueOrFalse.Frontend.Web.Controllers
             return View(model);
         }
 
-        public ActionResult UpdateQuestion()
-        {
-            return View();
-        }
     }
 }

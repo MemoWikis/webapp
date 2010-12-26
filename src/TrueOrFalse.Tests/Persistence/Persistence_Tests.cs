@@ -8,9 +8,8 @@ using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Tests.Persistence
 {
-	[TestFixture]
     [Category(TestCategories.Programmer)]
-	public class Persistence_Tests
+	public class Persistence_Tests : BaseTest
 	{
         readonly ContextQuestion _context = new ContextQuestion();
 
@@ -20,7 +19,7 @@ namespace TrueOrFalse.Tests.Persistence
             _context.Arrange_question("What is BDD")
                 .WithStrictAnswer("Behaviour Driven Development");
 
-            var questionService = new QuestionService();
+            var questionService = Resolve<QuestionService>();
             questionService.Create(_context.Question);
 
         	questionService.GetAll()
