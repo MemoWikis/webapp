@@ -9,5 +9,8 @@ namespace TrueOrFalse.Frontend.Web.Code
     {
         public static string QuestionCreate = "CreateQuestion";
         public static string QuestionUpdate = "UpdateQuestion";
+
+        public static string WelcomeController = "Welcome";
+        public static string QuestionController = "Question"; 
     }
 }

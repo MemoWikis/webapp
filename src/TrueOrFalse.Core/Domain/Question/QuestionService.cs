@@ -5,6 +5,11 @@ namespace TrueOrFalse.Core
 {
     public class QuestionService : IQuestionService
     {
+        public QuestionService()
+        {
+            
+        }
+
         public void Create(Question question)
         {
             var sessionFactory = SessionFactory.CreateSessionFactory();

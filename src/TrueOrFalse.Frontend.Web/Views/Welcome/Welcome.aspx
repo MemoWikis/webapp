@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<TrueOrFalse.Frontend.Web.Models.QuestionHomeModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
+	Inherits="System.Web.Mvc.ViewPage<TrueOrFalse.Frontend.Web.Models.QuestionHomeModel>" %>
 
 <asp:Content ID="indexTitle" ContentPlaceHolderID="TitleContent" runat="server">
     Willkommen bei True Or False
