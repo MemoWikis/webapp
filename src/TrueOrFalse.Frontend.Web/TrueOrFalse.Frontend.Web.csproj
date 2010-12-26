@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Links.cs" />
+    <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Question\CreateQuestionModel.cs" />
     <Compile Include="Views\Question\QuestionController.cs" />
     <Compile Include="Views\Welcome\WeclomeModel.cs" />
@@ -94,11 +95,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Views\Account\LogOff.aspx" />
+    <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Question\AnswerQuestion.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
