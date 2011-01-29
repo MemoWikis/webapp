@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace TrueOrFalse.View.Web
 {
+    [HandleError]
     public class AccountController : Controller
     {
         public ActionResult LogOn()
