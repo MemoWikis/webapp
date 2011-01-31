@@ -7,5 +7,6 @@ namespace TrueOrFalse.Core
 {
     public class User
     {
+        public virtual int Id { get; set; }
     }
 }
