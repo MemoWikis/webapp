@@ -2,7 +2,7 @@
 
 namespace TrueOrFalse.Core
 {
-    public interface IQuestionService
+    public interface IQuestionRepository
     {
         void Create(Question question);
     }

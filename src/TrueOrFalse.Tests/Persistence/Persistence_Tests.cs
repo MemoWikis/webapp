@@ -21,7 +21,7 @@ namespace TrueOrFalse.Tests.Persistence
             _context.Arrange_question("What is BDD")
                 .WithStrictAnswer("Behaviour Driven Development");
 
-            var questionService = Resolve<QuestionService>();
+            var questionService = Resolve<QuestionRepository>();
             questionService.Create(_context.Question);
 
             questionService.GetAll()

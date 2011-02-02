@@ -3,7 +3,7 @@ using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Core
 {
-    public class QuestionServiceDemoData : IQuestionService
+    public class QuestionRepositoryDemoData : IQuestionRepository
     {
         public void Create(Question question)
         {

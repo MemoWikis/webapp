@@ -10,7 +10,7 @@ namespace TrueOrFalse.Core.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<QuestionService>();
+            builder.RegisterType<QuestionRepository>();
             builder.RegisterInstance(SessionFactory.CreateSessionFactory().OpenSession());
            
         }

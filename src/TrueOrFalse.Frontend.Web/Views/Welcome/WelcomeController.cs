@@ -11,11 +11,11 @@ namespace TrueOrFalse.Frontend.Web.Controllers
     [HandleError]
     public class WelcomeController : Controller
     {
-        private readonly IQuestionService _questionService;        
+        private readonly IQuestionRepository _questionRepository;        
 
-        public WelcomeController(IQuestionService questionService)
+        public WelcomeController(IQuestionRepository questionRepository)
         {
-            _questionService = questionService;
+            _questionRepository = questionRepository;
         }
 
         public ActionResult Welcome()

@@ -11,11 +11,11 @@ namespace TrueOrFalse.Frontend.Web.Controllers
     [HandleError]
     public class QuestionController : Controller
     {
-        private readonly IQuestionService _questionService;
+        private readonly IQuestionRepository _questionRepository;
 
-        public QuestionController(IQuestionService questionService)
+        public QuestionController(IQuestionRepository questionRepository)
         {
-            _questionService = questionService;
+            _questionRepository = questionRepository;
         }
 
         public ActionResult CreateQuestion()
@@ -32,7 +32,7 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         {
             ViewData["question"] = model.Question;
 
-            _questionService.Create(model.ConvertToQuestion());
+            _questionRepository.Create(model.ConvertToQuestion());
 
             return View(model);
         }

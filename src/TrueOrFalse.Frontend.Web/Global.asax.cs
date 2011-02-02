@@ -50,7 +50,7 @@ namespace TrueOrFalse.Frontend.Web
             var builder = new ContainerBuilder();
 			builder.RegisterControllers(Assembly.GetExecutingAssembly());
 			builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
-            builder.RegisterType<QuestionServiceDemoData>().As<IQuestionService>();
+            builder.RegisterType<QuestionRepositoryDemoData>().As<IQuestionRepository>();
 
             _containerProvider = new ContainerProvider(builder.Build());
 

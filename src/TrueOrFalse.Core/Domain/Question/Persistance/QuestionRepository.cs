@@ -4,11 +4,11 @@ using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Core
 {
-    public class QuestionService : IQuestionService
+    public class QuestionRepository : IQuestionRepository
     {
         private readonly ISession _session;
 
-        public QuestionService(ISession session)
+        public QuestionRepository(ISession session)
         {
             _session = session;
         }
