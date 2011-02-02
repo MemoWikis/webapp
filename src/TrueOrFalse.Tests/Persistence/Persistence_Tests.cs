@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using NUnit.Framework;
+using SharpTestsEx;
 using TrueOrFalse.Core;
+
 
 namespace TrueOrFalse.Tests.Persistence
 {
     [Category(TestCategories.Programmer)]
-	public class Persistence_Tests : BaseTest
-	{
+    public class Persistence_Tests : BaseTest
+    {
         readonly ContextQuestion _context = new ContextQuestion();
 
         [Test]
@@ -22,9 +24,9 @@ namespace TrueOrFalse.Tests.Persistence
             var questionService = Resolve<QuestionService>();
             questionService.Create(_context.Question);
 
-        	questionService.GetAll()
-				.Count.Should().Be.EqualTo(1);
+            questionService.GetAll()
+                .Count.Should().Be.EqualTo(1);
         }
 
-	}
+    }
 }
