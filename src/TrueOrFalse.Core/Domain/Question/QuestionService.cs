@@ -4,7 +4,7 @@ using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Core
 {
-    public abstract class QuestionService : IQuestionService
+    public class QuestionService : IQuestionService
     {
         private readonly ISession _session;
 
