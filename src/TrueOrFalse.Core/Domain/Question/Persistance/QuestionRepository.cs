@@ -1,27 +1,14 @@
 ﻿using System;
 using NHibernate;
+using Seedworks.Lib.Persistance;
 using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Core
 {
-    public class QuestionRepository : IQuestionRepository
+    public class QuestionRepository : RepositoryDb<Question, QuestionList>, IQuestionRepository 
     {
-        private readonly ISession _session;
-
-        public QuestionRepository(ISession session)
+        public QuestionRepository(ISession session) : base(session)
         {
-            _session = session;
         }
-
-        public void Create(Question question)
-        {
-            _session.SaveOrUpdate(question);
-        }
-
-    	public QuestionList GetAll()
-    	{
-    	    return new QuestionList(
-    	        _session.CreateCriteria(typeof (Question)).List<Question>());
-    	}
     }
 }

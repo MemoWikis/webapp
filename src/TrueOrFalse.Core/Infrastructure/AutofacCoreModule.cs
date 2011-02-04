@@ -12,7 +12,7 @@ namespace TrueOrFalse.Core.Infrastructure
         {
             builder.RegisterType<QuestionRepository>();
             builder.RegisterInstance(SessionFactory.CreateSessionFactory().OpenSession());
-           
+
         }
     }
 }

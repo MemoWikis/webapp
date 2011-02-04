@@ -72,6 +72,12 @@
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Seedworks.Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Seedworks.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Seedworks.Lib.Persistance">
+      <HintPath>..\..\lib\Seedworks.Lib.Persistance.dll</HintPath>
+    </Reference>
     <Reference Include="SharpTestsEx">
       <HintPath>..\..\lib\SharpTestsEx.dll</HintPath>
     </Reference>

@@ -13,11 +13,10 @@ namespace TrueOrFalse.Core
 {
     public class SessionFactory
     {
-        private static string _fileDbName;
+        private const string _fileDbName = "trueOrFalse.db";
 
         public static ISessionFactory CreateSessionFactory()
         {
-            _fileDbName = "firstProject.db";
             return Fluently.Configure()
               .Database(
                 SQLiteConfiguration.Standard 
@@ -31,14 +30,16 @@ namespace TrueOrFalse.Core
 
         private static void BuildSchema(Configuration config)
         {
-            // delete the existing db on each run
-            if (File.Exists(_fileDbName))
-                File.Delete(_fileDbName);
+            DeleteDbOnEachRun();
 
-            // this NHibernate tool takes a configuration (with mapping info in)
-            // and exports a database schema from it
             new SchemaExport(config)
               .Create(false, true);
+        }
+
+        private static void DeleteDbOnEachRun()
+        {
+            if (File.Exists(_fileDbName))
+                File.Delete(_fileDbName);
         }
     }
 }

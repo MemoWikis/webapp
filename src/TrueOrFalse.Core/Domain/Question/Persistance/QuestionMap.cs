@@ -12,6 +12,8 @@ namespace TrueOrFalse.Core
         {
             Id(x => x.Id);
             Map(x => x.Text);
+            Map(x => x.DateCreated);
+            Map(x => x.DateModified);
         }
     }
 }
