@@ -1,8 +1,23 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
+
+<script type="text/javascript" >
+
+    /* Source http://www.html-advisor.com/javascript/hide-email-with-javascript-jquery/ */
+    $(function () {
+        var spt = $('span.mailme');
+        var at = / at /;
+        var dot = / dot /g;
+        var addr = $(spt).text().replace(at, "@").replace(dot, ".");
+        $(spt).after('<a href="mailto:' + addr + '" title="Send an email">' + addr + '</a>').hover(function () { window.status = "Send a letter!"; }, function () { window.status = ""; });
+        $(spt).remove();
+    });
+</script>
+
     
 </asp:Content>
+
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -14,13 +29,13 @@ Robert Mischkw<br />
 Robert Mischke Softwareentwicklung<br />
 Warschauer Str. 62<br />
 10243 Berlin<br />
-</p>
+
 <h2>Kontakt:</h2>
 <table><tr>
 <td><p>Telefon:</p></td>
 <td><p>030 97005939</p></td></tr>
 <tr><td><p>E-Mail:</p></td>
-<td><p>robert@robert-m.de</p></td>
+<td><p ><span class="mailme">robert at robert-m dot de</span></p></td>
 </tr></table>
 <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h2>
 <p>Robert Mischke<br />
