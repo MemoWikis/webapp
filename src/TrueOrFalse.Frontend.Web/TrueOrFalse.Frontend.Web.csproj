@@ -140,6 +140,7 @@
     <Content Include="Views\Imprint\Imprint.aspx" />
     <Content Include="Views\Question\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\MenuLeft.ascx" />
+    <Content Include="Views\Welcome\WelcomeFooter.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

@@ -45,9 +45,10 @@
             
         <%-- FOOTER--%>
         <div id="footer" class="span-24 last">
-            Footer
+            <% Html.RenderPartial(UserControls.WelcomeFooter); %>
         </div>
         
     </div>
+    <br />
 </body>
 </html>

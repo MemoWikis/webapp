@@ -12,5 +12,8 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string WelcomeController = "Welcome";
         public const string QuestionController = "Question"; 
+
+        public const string Impressum = "Imprint";
+        public const string ImpressumController = "Imprint";
     }
 }
