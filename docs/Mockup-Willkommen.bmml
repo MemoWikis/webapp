@@ -185,7 +185,7 @@
         <text>Passwort</text>
       </controlProperties>
     </control>
-    <control controlID="86" controlTypeID="com.balsamiq.mockups::FieldSet" x="794" y="384" w="200" h="110" measuredW="200" measuredH="170" zOrder="30" locked="false" isInGroup="-1">
+    <control controlID="86" controlTypeID="com.balsamiq.mockups::FieldSet" x="794" y="384" w="200" h="90" measuredW="200" measuredH="170" zOrder="30" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Registrieren</text>
       </controlProperties>
@@ -195,6 +195,10 @@
         <text>Noch%20kein%20Nutzerkonto%3F</text>
       </controlProperties>
     </control>
-    <control controlID="89" controlTypeID="com.balsamiq.mockups::Link" x="822" y="444" w="-1" h="-1" measuredW="36" measuredH="22" zOrder="32" locked="false" isInGroup="-1"/>
+    <control controlID="89" controlTypeID="com.balsamiq.mockups::Link" x="811" y="435" w="-1" h="-1" measuredW="91" measuredH="22" zOrder="32" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Hier%20anmelden%21</text>
+      </controlProperties>
+    </control>
   </controls>
 </mockup>

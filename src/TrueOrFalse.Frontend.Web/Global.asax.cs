@@ -28,12 +28,9 @@ namespace TrueOrFalse.Frontend.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                "Default",                                              // Route name
-                "{controller}/{action}/{id}",                           // URL with parameters
-                new { controller = "Welcome", action = "Welcome", id = "" }  // Parameter defaults
-            );
-
+            routes.MapRoute("Imprint-Route", "Imprint", new { controller = "Imprint", action = "Imprint" });
+            routes.MapRoute("Default","{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });
+            
         }
 
         protected void Application_Start()

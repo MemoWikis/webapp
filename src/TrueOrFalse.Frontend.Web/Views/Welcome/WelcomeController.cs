@@ -28,6 +28,5 @@ namespace TrueOrFalse.Frontend.Web.Controllers
             return View(model);
         }
 
-
     }
 }

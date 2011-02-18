@@ -5,12 +5,12 @@ using System.Web;
 
 namespace TrueOrFalse.Frontend.Web.Code
 {
-    public class Links
+    public static class Links
     {
-        public static string QuestionCreate = "CreateQuestion";
-        public static string QuestionUpdate = "UpdateQuestion";
+        public const string QuestionCreate = "CreateQuestion";
+        public const string QuestionUpdate = "UpdateQuestion";
 
-        public static string WelcomeController = "Welcome";
-        public static string QuestionController = "Question"; 
+        public const string WelcomeController = "Welcome";
+        public const string QuestionController = "Question"; 
     }
 }

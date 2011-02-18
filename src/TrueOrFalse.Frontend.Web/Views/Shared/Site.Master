@@ -22,19 +22,13 @@
             </div>
               
             <div id="logindisplay">
-                <% Html.RenderPartial("LogOnUserControl"); %>
+                <% Html.RenderPartial(UserControls.Logon); %>
             </div> 
         </div>
 
         <%-- BODY--%>
         <div class="span-5">
-            <div class="menu">
-                <ul >              
-                    <li><%= Html.ActionLink("Willkommen", "Welcome", Links.WelcomeController)%></li>
-                    <li><%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.QuestionController)%></li>
-                    <li><%= Html.ActionLink("bearbeiten", Links.QuestionUpdate, Links.QuestionController)%></li>                    
-                </ul>
-            </div>
+            <% Html.RenderPartial(UserControls.MenuLeft); %>
         </div>
     
         <div class="span-19 last" >
