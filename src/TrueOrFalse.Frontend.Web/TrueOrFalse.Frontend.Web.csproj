@@ -93,13 +93,15 @@
     <Reference Include="System.Web.Helpers" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\UserControls.cs" />
-    <Compile Include="Code\Links.cs" />
+    <Compile Include="Code\RequestContext.cs" />
+    <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Code\Resources\Links.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Account\RegisterModel.cs" />
     <Compile Include="Views\Imprint\ImprintController.cs" />
     <Compile Include="Views\Question\CreateQuestionModel.cs" />
     <Compile Include="Views\Question\QuestionController.cs" />
+    <Compile Include="Views\Shared\ShowLeftMenu.cs" />
     <Compile Include="Views\Welcome\WeclomeModel.cs" />
     <Compile Include="Views\Welcome\WelcomeController.cs" />
     <Compile Include="Global.asax.cs">

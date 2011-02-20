@@ -8,15 +8,9 @@ namespace TrueOrFalse.View.Web.Views
 {
     public class ImprintController : Controller
     {
-        //
-        // GET: /Home/
-
         public ActionResult Imprint()
         {
             return View();
         }
-
-
-
     }
 }

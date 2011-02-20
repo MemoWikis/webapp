@@ -13,11 +13,8 @@
     <script src="Scripts/jquery-1.4.4.min.js" type="text/javascript"></script>
 
     <asp:ContentPlaceHolder ID="Head" runat="server" />
-
     
 </head>
-
-
 
 <body>
   
@@ -45,7 +42,9 @@
             
         <%-- FOOTER--%>
         <div id="footer" class="span-24 last">
-            <% Html.RenderPartial(UserControls.WelcomeFooter); %>
+            <%// ReSharper disable Asp.NotResolved
+ Html.RenderPartial(UserControls.WelcomeFooter); 
+// ReSharper restore Asp.NotResolved%>
         </div>
         
     </div>
