@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace TrueOrFalse.Frontend.Web.Models
+namespace TrueOrFalse.Frontend.Web.Models 
 {
-    public class RegisterModel
+    public class RegisterModel : ModelBase
     {
         [Required]
         [DisplayName("Benutzername")]

@@ -22,8 +22,7 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         {
             ViewData["Message"] = "Richtig oder falsch?";
 
-            var model = new QuestionHomeModel();
-            model.MostPopular = QuestionDemoData.All();
+            var model = new QuestionHomeModel {MostPopular = QuestionDemoData.All()};
 
             return View(model);
         }

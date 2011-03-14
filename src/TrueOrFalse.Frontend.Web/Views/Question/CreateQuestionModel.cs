@@ -8,7 +8,7 @@ using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Frontend.Web.Models
 {
-    public class CreateQuestionModel
+    public class CreateQuestionModel : ModelBase
     {
         [Required]
         [DataType(DataType.MultilineText )]
