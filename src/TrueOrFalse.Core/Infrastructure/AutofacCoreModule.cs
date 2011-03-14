@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Autofac;
+using Module = Autofac.Module;
 
 namespace TrueOrFalse.Core.Infrastructure
 {
@@ -10,9 +12,9 @@ namespace TrueOrFalse.Core.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web")).AssignableTo<IRegisterAsInstancePerLifetime>();
             builder.RegisterType<QuestionRepository>();
             builder.RegisterInstance(SessionFactory.CreateSessionFactory().OpenSession());
-
         }
     }
 }

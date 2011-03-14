@@ -12,24 +12,25 @@ namespace TrueOrFalse.Tests
     [TestFixture]
     public class BaseTest
     {
-        private IContainer _container;
+        private static IContainer _container;
 
-        [SetUp]
-        public void SetUp()
+        public BaseTest()
         {
             InitializeContainer();
         }
 
-        private void InitializeContainer()
+        private static void InitializeContainer()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacCoreModule>();
             _container = builder.Build();
         }
 
-        public T Resolve<T>()
+        public static T Resolve<T>()
         {
             return _container.Resolve<T>();
         }
+
+
     }
 }
