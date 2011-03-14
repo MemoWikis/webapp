@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using TrueOrFalse.Core.Infrastructure;
+using TrueOrFalse.Frontend.Web.Controllers;
 
 namespace TrueOrFalse.View.Web
 {
@@ -11,9 +13,9 @@ namespace TrueOrFalse.View.Web
     /// </summary>
     public class ShowLeftMenu : IRegisterAsInstancePerLifetime
     {
-        public bool Yes()
+        public bool Yes(Controller controller)
         {
-            return true;
+            return controller.GetType() != typeof (WelcomeController);
         }
     }
 }

@@ -13,9 +13,8 @@ namespace TrueOrFalse.Tests
 
     public class When_showing_the_welcome_page : BaseTest
     {
-        Establish context = () => { _welcomeController = new WelcomeController(null) ; };
-        Because of = () => _result = _welcomeController.Welcome();
-        It should_be_not_visible_the_left_menu = () => Resolve<ShowLeftMenu>().Yes().ShouldBeFalse();
+        Because of = () => _welcomeController = new WelcomeController(null);
+        It should_be_not_visible_the_left_menu = () => Resolve<ShowLeftMenu>().Yes(_welcomeController).ShouldBeFalse();
 
         static WelcomeController _welcomeController;
         static ActionResult _result;
