@@ -7,6 +7,7 @@ namespace TrueOrFalse.Frontend.Web.Models
 {
     public class ModelBase
     {
+        public ShowRightLogin ShowRightLogin = new ShowRightLogin(false);
         public bool ShowLeftMenu = true;
     }
 }

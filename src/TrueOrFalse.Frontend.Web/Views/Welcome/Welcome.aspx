@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-	Inherits="System.Web.Mvc.ViewPage<TrueOrFalse.Frontend.Web.Models.QuestionHomeModel>"
+	Inherits="System.Web.Mvc.ViewPage<TrueOrFalse.Frontend.Web.Models.WelcomeModel>"
     Title="Willkommen bei True Or False" %>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -12,7 +12,7 @@
 
        <hr/>
 
-        <div class="span-8 colborder">  
+        <div class="span-6 colborder">  
             <h3>Spannende Fragen 1</h3>  
 
 		    <%foreach(var question in Model.MostPopular){ %>
@@ -22,7 +22,7 @@
 		    <%} %>
         </div>  
   
-        <div class="span-7 last">  
+        <div class="span-6 last">  
             <h3>Spannende Fragen 2</h3>  
 
 		    <%foreach(var question in Model.MostPopular){ %>

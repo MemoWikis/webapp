@@ -6,13 +6,14 @@ using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Frontend.Web.Models
 {
-    public class QuestionHomeModel : ModelBase
+    public class WelcomeModel : ModelBase
     {
         public QuestionList MostPopular;
 
-        public QuestionHomeModel()
+        public WelcomeModel()
         {
-            this.ShowLeftMenu = false;
+            ShowRightLogin.Yes = true;
+            ShowLeftMenu = false;
         }
     }
 }

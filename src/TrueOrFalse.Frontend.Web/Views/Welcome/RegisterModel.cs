@@ -21,5 +21,14 @@ namespace TrueOrFalse.Frontend.Web.Models
         [DisplayName("Password")]
         public string Password { get; set; }
 
+        [Required]
+        [DisplayName("AGB Bestätigen: [TODO erstellen und verlinken]")]
+        public bool TermsAndConditionsApproved { get; set; }
+
+        public RegisterModel()
+        {
+            ShowLeftMenu = false;
+        }
+
     }
 }

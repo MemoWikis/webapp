@@ -1,0 +1,24 @@
+<mockup version="1.0" skin="sketch" measuredW="744" measuredH="501" mockupW="674" mockupH="471">
+  <controls>
+    <control controlID="26" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="60" y="106" w="182" h="-1" measuredW="215" measuredH="358" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Fragens%E4tze%20*%0A_%20Finden%0A_%20Hinzuf%FCgen%0A*Fragen*%0A_%20Finden%0A_%20Hinzuf%FCgen%0A*Netzwerk*%0A_%20Kontakte</text>
+      </controlProperties>
+    </control>
+    <control controlID="27" controlTypeID="com.balsamiq.mockups::Title" x="60" y="20" w="-1" h="-1" measuredW="674" measuredH="62" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Verschiedene%20Navigationsversionen</text>
+      </controlProperties>
+    </control>
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="275" y="104" w="182" h="-1" measuredW="215" measuredH="387" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Wissen*%0A_%20Fragens%E4tze%0A_%20%20%20%20Finden%0A_%20%20%20%20Erstellen%0A_%20*Fragen*%0A_%20%20%20%20Finden%0A_%20%20%20%20Erstellen%0A*Netzwerk*%0A_%20Kontakte</text>
+      </controlProperties>
+    </control>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="495" y="103" w="182" h="-1" measuredW="215" measuredH="300" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Wissen*%0A_%20Fragens%E4tze%0A_%20*Fragen*%0A_%20*Antworten*%0A*Netzwerk*%0A_%20Kontakte</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

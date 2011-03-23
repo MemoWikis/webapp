@@ -108,16 +108,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1 View\WelcomeControllerSpec.cs" />
+    <Compile Include="1 View\Spec.WelcomeController.cs" />
     <Compile Include="2 Core\Answer\ArrangeQuestion.cs" />
     <Compile Include="2 Core\Answer\ContextQuestion.cs" />
     <Compile Include="2 Core\Answer\Spec_answer_simple_text.cs" />
+    <Compile Include="2 Core\User\Tests.PersistUser.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="2 Core\Persistence\Persistence_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestCategories.cs" />
-    <Compile Include="2 Core\User\User_question_creation_spec.cs" />
-    <Compile Include="2 Core\User\User_creation_spec.cs" />
+    <Compile Include="2 Core\User\Spec.RegisterUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrueOrFalse.Core\TrueOrFalse.Core.csproj">

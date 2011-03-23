@@ -98,6 +98,9 @@
     <Compile Include="Domain\Question\Persistance\QuestionRepository.cs" />
     <Compile Include="Domain\User\Ops.Registration\RegisterUser.cs" />
     <Compile Include="Domain\User\Ops.Registration\IsUserNameAvailable.cs" />
+    <Compile Include="Domain\User\Persistance\UserMap.cs" />
+    <Compile Include="Domain\User\Persistance\UserRepository.cs" />
+    <Compile Include="Domain\User\UserList.cs" />
     <Compile Include="Infrastructure\AutofacCoreModule.cs" />
     <Compile Include="Infrastructure\IRegisterAsInstancePerLifetime.cs" />
     <Compile Include="Infrastructure\SessionFactory.cs" />
@@ -126,7 +129,6 @@
   <ItemGroup>
     <Folder Include="Domain\Question.Answer\Persistance\" />
     <Folder Include="Domain\User\Ops\" />
-    <Folder Include="Domain\User\Persistance\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

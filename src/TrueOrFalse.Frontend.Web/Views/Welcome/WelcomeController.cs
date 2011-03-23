@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
 
 namespace TrueOrFalse.Frontend.Web.Controllers
@@ -20,12 +21,20 @@ namespace TrueOrFalse.Frontend.Web.Controllers
 
         public ActionResult Welcome()
         {
-            ViewData["Message"] = "Richtig oder falsch?";
+            ViewData["Message"] = "Sind Sie sicher?";
 
-            var model = new QuestionHomeModel {MostPopular = QuestionDemoData.All()};
+            var model = new WelcomeModel {MostPopular = QuestionDemoData.All()};
 
             return View(model);
         }
+
+        public ActionResult Register(){ return View(new RegisterModel()); }
+        [HttpPost]
+        public ActionResult Register(RegisterModel model){
+            return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController );
+        }
+
+        public ActionResult RegisterSuccess() { return View(new RegisterSuccessModel()); }
 
     }
 }

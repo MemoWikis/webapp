@@ -18,7 +18,7 @@ namespace TrueOrFalse.Core
 
         public virtual DateTime Birthday { get; set; }
 
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
+        public virtual DateTime DateCreated { get; set; }
+        public virtual DateTime DateModified { get; set; }
     }
 }

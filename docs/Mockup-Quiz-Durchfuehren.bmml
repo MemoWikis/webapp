@@ -1,6 +1,6 @@
-<mockup version="1.0" skin="sketch" measuredW="1099" measuredH="741" mockupW="999" mockupH="708">
+<mockup version="1.0" skin="sketch" measuredW="1099" measuredH="643" mockupW="999" mockupH="610">
   <controls>
-    <control controlID="16" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="90" y="23" w="999" h="708" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="90" y="23" w="999" h="610" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Richtig-oder-falsch%3F%0Ahttp%3A//www.true-or-false.com/answer/wofuer-steht-bdd/</text>
       </controlProperties>

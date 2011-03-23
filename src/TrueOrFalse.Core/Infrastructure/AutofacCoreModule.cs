@@ -13,6 +13,11 @@ namespace TrueOrFalse.Core.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web")).AssignableTo<IRegisterAsInstancePerLifetime>();
+            
+            var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse.Core");
+            builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
+            builder.RegisterAssemblyTypes(assemblyTrueOrFalse).Where(a => a.Name.EndsWith("Repository"));
+
             builder.RegisterType<QuestionRepository>();
             builder.RegisterInstance(SessionFactory.CreateSessionFactory().OpenSession());
         }

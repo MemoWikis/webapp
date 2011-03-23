@@ -17,6 +17,5 @@ namespace TrueOrFalse.Tests
         It should_be_not_visible_the_left_menu = () => Resolve<ShowLeftMenu>().Yes(_welcomeController).ShouldBeFalse();
 
         static WelcomeController _welcomeController;
-        static ActionResult _result;
     }
 }

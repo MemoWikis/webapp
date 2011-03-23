@@ -3,13 +3,15 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-<h2>Register</h2>
+<h2>Registrierung</h2>
 
 <script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
 <script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>
 
 <% using (Html.BeginForm()) { %>
     <%: Html.ValidationSummary(true) %>
+
+	<br />
     <fieldset>
         <legend>Registrierung</legend>
 
@@ -38,8 +40,16 @@
             <%: Html.ValidationMessageFor(model => model.Password) %>
         </div>
 
+        <div class="editor-label">
+            <%: Html.LabelFor(model => model.TermsAndConditionsApproved ) %>
+        </div>
+        <div class="editor-field">
+            <%: Html.CheckBoxFor(model => model.TermsAndConditionsApproved)%>
+            <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
+        </div>
+
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Registrieren" />
         </p>
     </fieldset>
 <% } %>
