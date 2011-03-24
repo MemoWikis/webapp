@@ -100,10 +100,13 @@
     <Compile Include="Domain\User\Ops.Registration\IsUserNameAvailable.cs" />
     <Compile Include="Domain\User\Persistance\UserMap.cs" />
     <Compile Include="Domain\User\Persistance\UserRepository.cs" />
+    <Compile Include="Domain\User\Persistance\UserSearchSpec.cs" />
     <Compile Include="Domain\User\UserList.cs" />
     <Compile Include="Infrastructure\AutofacCoreModule.cs" />
     <Compile Include="Infrastructure\IRegisterAsInstancePerLifetime.cs" />
-    <Compile Include="Infrastructure\SessionFactory.cs" />
+    <Compile Include="Infrastructure\Persistence\SessionFactory.cs" />
+    <Compile Include="Infrastructure\Persistence\SpecFilterBase.cs" />
+    <Compile Include="Infrastructure\Persistence\SpecOrderByBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\Question\Persistance\QuestionRepositoryDemoData.cs" />
     <Compile Include="Domain\User\User.cs" />

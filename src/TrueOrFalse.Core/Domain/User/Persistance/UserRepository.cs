@@ -12,5 +12,15 @@ namespace TrueOrFalse.Core
         public UserRepository(ISession session): base(session)
         {
         }
+
+        public User GetByUserName(string userName)
+        {
+            var userSearchSpec = new UserSearchSpec();
+            userSearchSpec.Filter.UserName.EqualTo(userName);
+            
+            
+            GetBy(userSearchSpec);
+
+        }
     }
 }
