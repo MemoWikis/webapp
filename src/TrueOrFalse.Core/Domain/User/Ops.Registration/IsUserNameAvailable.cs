@@ -14,7 +14,7 @@ namespace TrueOrFalse.Core
             _userRepository = userRepository;
         }
 
-        public bool Run(string userName)
+        public bool Yes(string userName)
         {
             return (_userRepository.GetByUserName(userName) != null);
         }

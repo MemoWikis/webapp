@@ -6,7 +6,7 @@ using Seedworks.Lib.Persistance;
 
 namespace TrueOrFalse.Core
 {
-    public class UserSearchSpec : SearchDescriptionBase<UserFilter, UserOrderBy>{}
+    public class UserSearchSpec : SearchSpecificationBase<UserFilter, UserOrderBy>{}
 
     public class UserFilter : ConditionContainer
     {

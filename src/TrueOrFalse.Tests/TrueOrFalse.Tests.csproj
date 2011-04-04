@@ -54,8 +54,14 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Autofac">
       <HintPath>..\TrueOrFalse.Frontend.Web\Bin\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="BDDish">
+      <HintPath>..\..\lib\BDDish.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -71,6 +77,7 @@
     <Reference Include="Machine.Specifications.ReSharperRunner.5.1">
       <HintPath>..\..\lib\Machine.Specifications.ReSharperRunner.5.1.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="NHibernate.ByteCode.Castle, Version=2.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\NHibernate.ByteCode.Castle.dll</HintPath>
@@ -112,7 +119,13 @@
     <Compile Include="2 Core\Answer\ArrangeQuestion.cs" />
     <Compile Include="2 Core\Answer\ContextQuestion.cs" />
     <Compile Include="2 Core\Answer\Spec_answer_simple_text.cs" />
+    <Compile Include="2 Core\User\Context.RegisteredUser.cs" />
+    <Compile Include="2 Core\User\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Core\User\Tests.PersistUser.cs" />
+    <Compile Include="a Test MetaData\Features\Features.cs" />
+    <Compile Include="a Test MetaData\Personas\Persona.cs" />
+    <Compile Include="a Test MetaData\Personas\Persona.LoggedInUser.cs" />
+    <Compile Include="a Test MetaData\Personas\Persona.UserWhoWantsToRegister.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="2 Core\Persistence\Persistence_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

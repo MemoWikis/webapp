@@ -6,7 +6,7 @@ using Seedworks.Lib.Persistance;
 
 namespace TrueOrFalse.Core
 {
-    public class User :  IPersistable, WithDateCreated
+    public class User : IPersistable, WithDateCreated
     {
         public virtual int Id { get; set; }
 

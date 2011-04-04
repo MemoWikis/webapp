@@ -16,11 +16,13 @@ namespace TrueOrFalse.Core
         public User GetByUserName(string userName)
         {
             var userSearchSpec = new UserSearchSpec();
-            userSearchSpec.Filter.UserName.EqualTo(userName);
+            //userSearchSpec.Filter.UserName.EqualTo(userName);
             
             
-            GetBy(userSearchSpec);
+            //GetByUnique(userSearchSpec);
 
+            //GetBy
+            return null;
         }
     }
 }
