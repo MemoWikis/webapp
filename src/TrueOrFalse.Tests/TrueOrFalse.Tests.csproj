@@ -120,7 +120,7 @@
     <Compile Include="2 Core\Answer\ContextQuestion.cs" />
     <Compile Include="2 Core\Answer\Spec_answer_simple_text.cs" />
     <Compile Include="2 Core\User\Context.RegisteredUser.cs" />
-    <Compile Include="2 Core\User\Spec.IsUserNameAvailable.cs" />
+    <Compile Include="2 Core\User\Registration\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Core\User\Tests.PersistUser.cs" />
     <Compile Include="a Test MetaData\Features\Features.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.cs" />
@@ -130,7 +130,7 @@
     <Compile Include="2 Core\Persistence\Persistence_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestCategories.cs" />
-    <Compile Include="2 Core\User\Spec.RegisterUser.cs" />
+    <Compile Include="2 Core\User\Registration\Spec.RegisterUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrueOrFalse.Core\TrueOrFalse.Core.csproj">

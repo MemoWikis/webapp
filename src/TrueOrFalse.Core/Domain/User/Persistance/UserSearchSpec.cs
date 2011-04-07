@@ -13,7 +13,7 @@ namespace TrueOrFalse.Core
         public readonly ConditionString UserName;
 
         public UserFilter(){
-            UserName = new ConditionString(this, "Name");
+            UserName = new ConditionString(this, "UserName");
         }
     }
 
