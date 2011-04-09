@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using TrueOrFalse.Core.Infrastructure;
 
-namespace TrueOrFalse.Core
+namespace TrueOrFalse.Core.Registration
 {
     public class IsUserNameAvailable : IRegisterAsInstancePerLifetime
     {

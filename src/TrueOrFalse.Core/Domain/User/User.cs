@@ -13,8 +13,12 @@ namespace TrueOrFalse.Core
         public virtual string UserName { get; set; }
         public virtual string PasswordHashedAndSalted { get; set; }
 
+        public virtual string EmailAddress { get; set; }
+
         public virtual string FirstName { get; set; }
         public virtual string LastName { get; set; }
+
+        public virtual Boolean IsEmailConfirmed { get; set;  }
 
         public virtual DateTime Birthday { get; set; }
 
