@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using TrueOrFalse.Core;
+using TrueOrFalse.Core.Registration;
 using IContextDescription = BDDish.Model.IContextDescription;
 
 
@@ -17,7 +17,7 @@ namespace TrueOrFalse.Tests
                     AceptanceCriterion("A used username should not be available twice").
                         Given(a_used_username).
                         Then(the_username_should_not_be_available_anymore).
-                Execute();            
+                Execute(this);            
         }
 
         private static Context_RegisteredUser _context;

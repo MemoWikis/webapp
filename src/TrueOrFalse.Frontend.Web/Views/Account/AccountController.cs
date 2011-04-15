@@ -20,15 +20,5 @@ namespace TrueOrFalse.View.Web
             return View();
         }
 
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Register(RegisterModel model)
-        {
-            return View(model);
-        }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using BDDish.English;
 using NUnit.Framework;
 using TrueOrFalse.Core;
+using TrueOrFalse.Core.Registration;
 
 namespace TrueOrFalse.Tests
 {
     public class User_creation_spec  : BaseTest
     {
+
         [Test]
         public void Test()
         {
@@ -20,7 +19,7 @@ namespace TrueOrFalse.Tests
                         When(the_user_registers).
                         Then(an_email_should_be_send).
                         Then(he_should_be_able_to_login).
-                Execute();
+                Execute(this);
         }
 
         EmptyContext the_user_registers = new EmptyContext(()=>
