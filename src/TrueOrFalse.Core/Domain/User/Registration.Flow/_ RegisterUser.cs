@@ -4,10 +4,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using NHibernate;
+using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Core.Registration
 {
-    public class RegisterUser
+    public class RegisterUser : IRegisterAsInstancePerLifetime
     {
         private readonly IsUserNameAvailable _isUserNameAvailable;
         private readonly UserRepository _userRepository;
