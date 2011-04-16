@@ -51,8 +51,8 @@
     <control controlID="106" controlTypeID="com.balsamiq.mockups::Label" x="282" y="221" w="-1" h="-1" measuredW="51" measuredH="26" zOrder="10" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>false</bold>
-        <href>Wissen.Fragen.b%20Beantworten.Training%26bm%3BWissen.Fragen.b%20Beantworten.Training.bmml%26bm%3BWissen.Fragen.b%20Beantworten.Training.bmml%26bm%3BWissen.Fragen.b%20Beantworten.Training.bmml</href>
-        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22215%2C197%2C266%2C223%22%20href%3D%22Wissen.Fragen.b%20Beantworten.Training.bmml%22%20alt%3D%22Wissen.Fragen.b%20Beantworten.Training%22%20id%3D%22106%22/%3E</map>
+        <href>Wissen.Fragen.2%20Browsen%2C%20Liste%26bm%3BWissen.Fragen.2%20Browsen%2C%20Liste.bmml%26bm%3BWissen.Fragen.2%20Browsen%2C%20Liste.bmml%26bm%3BWissen.Fragen.2%20Browsen%2C%20Liste.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22215%2C197%2C266%2C223%22%20href%3D%22Wissen.Fragen.2%20Browsen%2C%20Liste.bmml%22%20alt%3D%22Wissen.Fragen.2%20Browsen%2C%20Liste%22%20id%3D%22106%22/%3E</map>
         <size>14</size>
         <text>Fragen</text>
       </controlProperties>
