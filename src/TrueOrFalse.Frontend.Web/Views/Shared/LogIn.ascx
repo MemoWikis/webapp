@@ -10,8 +10,8 @@ Passwort:<br />
 <input value="Anmelden" type="submit" style="float:right; margin-top:4px; font-size:13px;" />
 </div>
 
-<div style="width:155px; margin-top:50px;" >
+<div style="width:155px; margin-top:50px; " >
 <h3>Registrieren</h3>
-Noch kein Benutzer?<br />
+<span style="font-size:1.2em">Noch kein Benutzer?</span><br />
 <%= Html.ActionLink("Hier anmelden", Links.Register, Links.WelcomeController)%>
 </div>

@@ -6,10 +6,9 @@ body
     
     font-size: .80em;
     font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
-
     color: #696969;
     background: #ffffff;
-    background-image:url('/Images/background.png');
+    /* background-image:url('/Images/background.png'); */
     background-repeat:repeat-x;
 }
 
@@ -41,16 +40,15 @@ p
 
 h1, h2, h3, h4, h5, h6
 {
-    color: #06266F	;
+    color: #0b4b82	;
     font-variant: small-caps;
     text-transform: none;
-    font-weight: 200;
+    font-weight: 100;
     margin-bottom: 0px;
+    font-size: 1.6em;
 }
 
 h3 { margin-bottom:8px;}
-
-
 
 
 /* PRIMARY LAYOUT ELEMENTS   
@@ -60,8 +58,7 @@ h3 { margin-bottom:8px;}
 {
     width: 960px;
     background-color: #fff;
-    margin: 20px auto 0px auto;
-    border: 1px solid #496077;
+    margin: auto auto 0px auto;
 }
 
 #header
@@ -69,19 +66,19 @@ h3 { margin-bottom:8px;}
     position: relative;
     margin: 0px;
     padding: 0px;
-    background: #4b6c9e;
     width: 100%;
+    border-bottom: 7px solid;
+    background-color: ghostwhite;
 }
 
-#header h1
+#header h1 a
 {
-    font-weight: 700;
+    font-weight: 800;
     margin: 0px;
-    padding: 0px 0px 0px 20px;
-    color: #f9f9f9;
+    padding: 0px 0px 0px 0px;
     border: none;
-    line-height: 2em;
-    font-size: 2em;
+    font-size: 2.0em;
+    color: rgb(254, 168, 127);
 }
 
 .main
@@ -117,7 +114,6 @@ div.menuLeft
 {
     padding: 4px 0px 4px 8px;
     width:150px;
-    height:max;
 }
 
 div.menuLeft ul
@@ -131,7 +127,7 @@ div.menuLeft ul
 div.menuLeft ul li a, div.menuLeft ul li a:visited
 {
     background-color: #ffffff;
-    border: 1px #blue none;
+    border: 1px blue;
     color: black;
     display: block;
     line-height: 1.35em;

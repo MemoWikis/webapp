@@ -23,7 +23,7 @@
         <%--HEADER--%>
         <div id="header"  class="span-24 last">
             <div id="title">
-                <h1><a href="/" style="text-decoration:none; color:White;">Richtig oder falsch?</a></h1>
+                <h1><a href="/" style="text-decoration:none;">Richtig oder falsch?</a></h1>
             </div>
               
             <div id="logindisplay" style="float:right">

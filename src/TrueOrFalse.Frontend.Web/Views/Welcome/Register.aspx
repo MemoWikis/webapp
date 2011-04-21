@@ -13,7 +13,7 @@
 
 	<br />
     <fieldset>
-        <legend>Registrierung</legend>
+        <legend>Registrieren Sie sich</legend>
 
         <div class="editor-label">
             <%: Html.LabelFor(model => model.UserName)  %>
@@ -48,8 +48,10 @@
             <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
         </div>
 
+        <br/>
         <p>
             <input type="submit" value="Registrieren" />
+            
         </p>
     </fieldset>
 <% } %>
