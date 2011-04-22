@@ -1,23 +1,94 @@
-<mockup version="1.0" skin="sketch" measuredW="744" measuredH="501" mockupW="674" mockupH="471">
+<mockup version="1.0" skin="sketch" measuredW="1595" measuredH="611" mockupW="1527" mockupH="593">
   <controls>
-    <control controlID="26" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="60" y="106" w="182" h="-1" measuredW="215" measuredH="358" zOrder="0" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Fragens%E4tze%20*%0A_%20Finden%0A_%20Hinzuf%FCgen%0A*Fragen*%0A_%20Finden%0A_%20Hinzuf%FCgen%0A*Netzwerk*%0A_%20Kontakte</text>
-      </controlProperties>
-    </control>
-    <control controlID="27" controlTypeID="com.balsamiq.mockups::Title" x="60" y="20" w="-1" h="-1" measuredW="674" measuredH="62" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="27" controlTypeID="com.balsamiq.mockups::Title" x="58" y="8" w="-1" h="-1" measuredW="674" measuredH="62" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Verschiedene%20Navigationsversionen</text>
       </controlProperties>
     </control>
-    <control controlID="28" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="275" y="104" w="182" h="-1" measuredW="215" measuredH="387" zOrder="2" locked="false" isInGroup="-1">
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="622" y="85" w="182" h="-1" measuredW="215" measuredH="474" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Wissen*%0A_%20Fragens%E4tze%0A_%20%20%20%20Finden%0A_%20%20%20%20Erstellen%0A_%20*Fragen*%0A_%20%20%20%20Finden%0A_%20%20%20%20Erstellen%0A*Netzwerk*%0A_%20Kontakte</text>
+        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Wissen*%0A_%20*Fragen*%0A_%20%20%20%20Finden%0A_%20%20%20%20Erstellen%0A_%20Fragens%E4tze%0A_%20%20%20%20Finden%0A_%20%20%20%20Erstellen%0A_%20Kurse%0A_%20%20%20%20Finden%0A_%20%20%20%20Erstellen%0A*Netzwerk*%0A_%20Kontakte</text>
       </controlProperties>
     </control>
-    <control controlID="29" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="495" y="103" w="182" h="-1" measuredW="215" measuredH="300" zOrder="3" locked="false" isInGroup="-1">
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::StickyNote" x="67" y="141" w="188" h="65" measuredW="109" measuredH="123" zOrder="2" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Wissen*%0A_%20Fragens%E4tze%0A_%20*Fragen*%0A_%20*Antworten*%0A*Netzwerk*%0A_%20Kontakte</text>
+        <text>Geschlossen</text>
+      </controlProperties>
+    </control>
+    <control controlID="31" controlTypeID="com.balsamiq.mockups::Icon" x="651" y="298" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>AddPageIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::Icon" x="649" y="271" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>SearchIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::Icon" x="649" y="355" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>SearchIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="34" controlTypeID="com.balsamiq.mockups::Icon" x="649" y="443" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>SearchIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="35" controlTypeID="com.balsamiq.mockups::Icon" x="649" y="386" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>AddPageIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="36" controlTypeID="com.balsamiq.mockups::Icon" x="649" y="474" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>AddPageIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="37" controlTypeID="com.balsamiq.mockups::StickyNote" x="67" y="70" w="457" h="65" measuredW="109" measuredH="123" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Operationen%3A%20Finden/Erstellen/sind%20Teil%20der%20Navigation</text>
+      </controlProperties>
+    </control>
+    <control controlID="38" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="73" y="236" w="182" h="-1" measuredW="215" measuredH="300" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Wissen*%0A_%20*Fragen*%0A_%20Fragens%E4tze%0A_%20Kurse%0A*Netzwerk*%0A_%20Kontakte</text>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="290" y="243" w="182" h="-1" measuredW="215" measuredH="358" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Wissen*%0A*%20*Fragen*%20%0A_%20%20%20%20Finden%0A_%20%20%20%20Erstellen%0A_%20Fragens%E4tze%0A_%20Kurse%0A*Netzwerk*%0A_%20Kontakte</text>
+      </controlProperties>
+    </control>
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::Icon" x="317" y="456" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>AddPageIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Icon" x="315" y="429" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>SearchIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::StickyNote" x="290" y="144" w="225" h="65" measuredW="109" measuredH="123" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Menupunt%3A%20%22Fragen%22%20ist%20aktiv</text>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::StickyNote" x="830" y="79" w="-1" h="-1" measuredW="109" measuredH="123" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Alle%20aufgeklappt%2C%20kann%20aber%20nie%20eintreten</text>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Tree" x="1285" y="40" w="-1" h="-1" measuredW="300" measuredH="363" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>f%20Use%20f%20for%20closed%20folders%0AF%20Use%20F%20for%20open%20folders%0A%5B+%5D%20You%20may%20also%20use%20this%0A%5B-%5D%20and%20this%0A%5Bx%5D%20or%20this%0A%5B%20%5D%20and%20this%0A%3E%20or%20even%20this%0Av%20and%20this%0A-%20Use%20-%20for%20a%20file%20icon%0A_%20or%20_%20to%20leave%20a%20space%20for%20your%20own%20icon%0AF%20use%20spaces%20or%20dots%20for%20hierarchy%0A%20v%20just%20like%0A..-%20this</text>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::Tree" x="1026" y="63" w="201" h="225" measuredW="300" measuredH="225" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>none</borderStyle>
+        <text>%3E%20Neues%20%2875%29%0Av%20Wissen%0A%20v%20Fragen%0A..-%204/17%0A%20v%20Fragens%E4tze%0A%20v%20Kurse%0Av%20Netzwerk</text>
       </controlProperties>
     </control>
   </controls>
