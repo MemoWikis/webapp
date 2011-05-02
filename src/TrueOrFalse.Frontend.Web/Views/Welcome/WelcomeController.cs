@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
+using TrueOrFalse.Core.Registration;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
 
@@ -12,11 +13,11 @@ namespace TrueOrFalse.Frontend.Web.Controllers
     [HandleError]
     public class WelcomeController : Controller
     {
-        private readonly IQuestionRepository _questionRepository;        
+        private readonly RegisterUser _registerUser;
 
-        public WelcomeController(IQuestionRepository questionRepository)
+        public WelcomeController(RegisterUser registerUser)
         {
-            _questionRepository = questionRepository;
+            _registerUser = registerUser;
         }
 
         public ActionResult Welcome()
@@ -31,7 +32,14 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         public ActionResult Register(){ return View(new RegisterModel()); }
         [HttpPost]
         public ActionResult Register(RegisterModel model){
-            return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController );
+
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController);
+            }
+                
+
+            return View(model);
         }
 
         public ActionResult RegisterSuccess() { return View(new RegisterSuccessModel()); }

@@ -12,7 +12,7 @@ namespace TrueOrFalse.Core.Infrastructure
 
         public static string SmtpServer { get { return Get<string>("SmtpServer"); } }
         public static string SmtpUser { get { return Get<string>("SmtpUser"); } }
-        public static string SmtpPass { get { return Get<string>("SmtpPass"); } }
+        public static string SmtpPass { get { return Get<string>("SmtpPassword"); } }
 
         public static string EmailDefaultFrom { get { return Get<string>("EmailDefaultFrom"); } }
         
@@ -20,4 +20,4 @@ namespace TrueOrFalse.Core.Infrastructure
             return (T)_settingReader.GetValue(settingKey, typeof(T));
         }
     }
-}
+}   

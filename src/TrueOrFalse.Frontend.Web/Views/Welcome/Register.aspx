@@ -5,22 +5,23 @@
 
 <h2>Registrierung</h2>
 
-<script src="<%: Url.Content("~/Scripts/jquery.validate.min.js") %>" type="text/javascript"></script>
-<script src="<%: Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js") %>" type="text/javascript"></script>
-
 <% using (Html.BeginForm()) { %>
-    <%: Html.ValidationSummary(true) %>
-
+    
 	<br />
     <fieldset>
-        <legend>Registrieren Sie sich</legend>
+        
+        <legend>Registriere Dich</legend>
+
+       <% Html.ValidationSummary(true, "Bitte überprüfen Sie Ihre eingaben");  %>
+
+       <p>Wir gehen sorgfältig mit Deinen Daten um.</p>
+       
 
         <div class="editor-label">
-            <%: Html.LabelFor(model => model.UserName)  %>
-            
+            <%: Html.LabelFor(model => model.UserName)  %><br/>
         </div>
         <div class="editor-field">
-            <%: Html.EditorFor(model => model.UserName) %> 
+            <%: Html.EditorFor(model => model.UserName) %> <br/>
             <%: Html.ValidationMessageFor(model => model.UserName) %>
         </div>
 
@@ -36,7 +37,7 @@
             <%: Html.LabelFor(model => model.Password) %>
         </div>
         <div class="editor-field">
-            <%: Html.EditorFor(model => model.Password) %>
+            <%: Html.Password("Password") %>
             <%: Html.ValidationMessageFor(model => model.Password) %>
         </div>
 
