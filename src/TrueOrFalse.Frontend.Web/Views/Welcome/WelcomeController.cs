@@ -31,10 +31,14 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         public ActionResult Register(){ return View(new RegisterModel()); }
         [HttpPost]
         public ActionResult Register(RegisterModel model){
-            return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController );
+
+            if (ModelState.IsValid)
+                return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController);
+
+            return View(model);
         }
 
         public ActionResult RegisterSuccess() { return View(new RegisterSuccessModel()); }
-
+            
     }
 }
