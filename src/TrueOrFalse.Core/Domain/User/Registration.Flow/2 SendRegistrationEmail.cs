@@ -7,20 +7,18 @@ using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Core.Registration
 {
-    public class SendRegistrationEmail
+    public class SendRegistrationEmail : IRegisterAsInstancePerLifetime
     {
         private readonly CreateEmailConfirmationLink _createEmailConfirmationLink;
 
-        public SendRegistrationEmail(CreateEmailConfirmationLink createEmailConfirmationLink){
+        public SendRegistrationEmail(CreateEmailConfirmationLink createEmailConfirmationLink,
+                                     SendEmail sendEmail)
+        {
             _createEmailConfirmationLink = createEmailConfirmationLink;
+            _sendEmail = sendEmail;
         }
 
         private readonly SendEmail _sendEmail;
-
-        public SendRegistrationEmail(SendEmail sendEmail)
-        {
-            _sendEmail = sendEmail;
-        }
 
         public void Run(User user)
         {

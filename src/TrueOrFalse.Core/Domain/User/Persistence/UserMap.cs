@@ -13,6 +13,7 @@ namespace TrueOrFalse.Core
             Id(x => x.Id);
             Map(x => x.UserName);
             Map(x => x.PasswordHashedAndSalted);
+            Map(x => x.Salt);
             Map(x => x.EmailAddress);
             Map(x => x.FirstName);
             Map(x => x.LastName);

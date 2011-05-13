@@ -18,7 +18,7 @@ namespace TrueOrFalse.Frontend.Web.Models
 
         [Required(ErrorMessage = "Wir benötigen Deine E-Mail Adresse.")]
         [RegularExpression(EmailRegEx, ErrorMessage = "Wir benötigen eine gültige E-Mail Adresse.")]
-        [DisplayName("Email")]
+        [DisplayName("Email")]  
         public string Email { get; set; }
 
         [Required(ErrorMessage ="Ein Passwort ist Pflicht!")]

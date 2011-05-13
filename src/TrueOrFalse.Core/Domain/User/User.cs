@@ -12,6 +12,7 @@ namespace TrueOrFalse.Core
 
         public virtual string UserName { get; set; }
         public virtual string PasswordHashedAndSalted { get; set; }
+        public virtual string Salt { get; set; }
 
         public virtual string EmailAddress { get; set; }
 

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace TrueOrFalse.Core.Infrastructure
 {
-    public class SendEmail
+    public class SendEmail : IRegisterAsInstancePerLifetime
     {
         public void Run(MailMessage mail)
         {

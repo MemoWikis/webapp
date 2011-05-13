@@ -106,6 +106,7 @@
     <Compile Include="Views\Question\CreateQuestionModel.cs" />
     <Compile Include="Views\Question\QuestionController.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
+    <Compile Include="Views\Welcome\RegisterModelToUser.cs" />
     <Compile Include="Views\Welcome\RegisterSuccessModel.cs" />
     <Compile Include="Views\Welcome\WelcomeModel.cs" />
     <Compile Include="Views\Welcome\WelcomeController.cs" />

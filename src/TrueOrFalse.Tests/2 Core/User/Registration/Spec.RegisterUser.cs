@@ -28,6 +28,7 @@ namespace TrueOrFalse.Tests
             user.FirstName = "Firstname";
             user.LastName = "Lastname";
             user.UserName = "UserName";
+            user.EmailAddress = "test@test.de";
 
             Resolve<RegisterUser>().Run(user);
         });
