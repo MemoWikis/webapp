@@ -1,6 +1,7 @@
 _svn/
 .svn/
 obj/
+_debugEmails/
 [Bb]in/
 [Dd]ebug/   
 [Rr]elease/   

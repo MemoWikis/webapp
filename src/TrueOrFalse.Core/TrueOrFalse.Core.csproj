@@ -98,6 +98,7 @@
     <Compile Include="Domain\Question\QuestionList.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionMap.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionRepository.cs" />
+    <Compile Include="Domain\User\Registration.Login\CredentialsAreValid.cs" />
     <Compile Include="Domain\User\Registration.Confirmation\CreateConfirmationLink.cs" />
     <Compile Include="Domain\User\Registration.Confirmation\SetUserEmailAsConfirmed.cs" />
     <Compile Include="Domain\User\Registration.Confirmation\ValidateConfirmationKey.cs" />
@@ -109,7 +110,7 @@
     <Compile Include="Domain\User\Persistence\UserSearchSpec.cs" />
     <Compile Include="Domain\User\Registration.Password\HashPassword.cs" />
     <Compile Include="Domain\User\Registration.Password\SetUserPassword.cs" />
-    <Compile Include="Domain\User\Registration.Password\ValidatePassword.cs" />
+    <Compile Include="Domain\User\Registration.Password\IsValdidPassword.cs" />
     <Compile Include="Domain\User\UserList.cs" />
     <Compile Include="Infrastructure\IoC\AutofacCoreModule.cs" />
     <Compile Include="Infrastructure\Email\SendEmail.cs" />
