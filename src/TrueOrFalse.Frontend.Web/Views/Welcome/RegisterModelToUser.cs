@@ -1,4 +1,5 @@
 ﻿using TrueOrFalse.Core;
+using TrueOrFalse.Core.Registration;
 
 namespace TrueOrFalse.Frontend.Web.Models
 {
@@ -8,7 +9,9 @@ namespace TrueOrFalse.Frontend.Web.Models
         {
             var user = new User();
             user.EmailAddress = registerModel.Email;
-            
+            user.UserName = registerModel.UserName;
+
+            SetUserPassword.Run(registerModel.Password, user);
 
             return user;
         }

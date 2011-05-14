@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -13,13 +14,21 @@ namespace TrueOrFalse.Core
 {
     public class SessionFactory
     {
-        private const string _fileDbName = "trueOrFalse.db";
+        private static readonly string _fileDbName;
+
+        static SessionFactory()
+        {
+            if (HttpContext.Current != null)
+                _fileDbName = HttpContext.Current.Server.MapPath("trueOrFalse.db");
+            else
+                _fileDbName = "trueOrFalse.db";
+        }
 
         public static ISessionFactory CreateSessionFactory()
         {
             return Fluently.Configure()
               .Database(
-                SQLiteConfiguration.Standard 
+                SQLiteConfiguration.Standard
                   .UsingFile(_fileDbName)
               )
               .Mappings(m =>
