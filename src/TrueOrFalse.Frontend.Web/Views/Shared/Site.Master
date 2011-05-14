@@ -54,7 +54,6 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
         </div>
 
-		<%-- FOOTER--%>
 		<div class="span-5 last" style="margin-top:40px;" >
 			<%
 				if (Model.ShowRightLogin.Yes)
@@ -65,8 +64,8 @@
         <%-- FOOTER--%>
         <div id="footer" class="span-24 last">
             <%// ReSharper disable Asp.NotResolved
- Html.RenderPartial(UserControls.WelcomeFooter); 
-// ReSharper restore Asp.NotResolved%>
+               Html.RenderPartial(UserControls.WelcomeFooter); 
+              // ReSharper restore Asp.NotResolved%>
         </div>
         
     </div>

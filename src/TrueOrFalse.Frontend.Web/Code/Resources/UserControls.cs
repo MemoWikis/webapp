@@ -11,6 +11,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string WelcomeFooter = "../Welcome/WelcomeFooter";
         public const string MenuLeft = "MenuLeft";
         public const string Logon = "Logon";
-        public const string Login = "Login";
+        public const string Login = "LoginUc";
     }
 }

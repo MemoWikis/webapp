@@ -41,7 +41,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -58,7 +58,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Autofac">
-      <HintPath>..\TrueOrFalse.Frontend.Web\Bin\Autofac.dll</HintPath>
+      <HintPath>..\..\lib\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="BDDish">
       <HintPath>..\..\lib\BDDish.dll</HintPath>

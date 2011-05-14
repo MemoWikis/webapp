@@ -5,9 +5,9 @@ using System.Web;
 
 namespace TrueOrFalse.Frontend.Web.Models
 {
-    public class ModelBase
+    public class LoginModel : ModelBase
     {
-        public readonly ShowRightLogin ShowRightLogin = new ShowRightLogin(false);
-        public bool ShowLeftMenu = true;
+        public bool IsError;
+        public string ErrorMessage;
     }
 }
