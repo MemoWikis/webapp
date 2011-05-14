@@ -305,6 +305,16 @@
             });
             </example>
         </member>
+        <member name="M:FluentNHibernate.Mapping.ClasslikeMapBase`1.Component(FluentNHibernate.Mapping.Providers.IComponentMappingProvider)">
+            <summary>
+            Allows the user to add a custom component mapping to the class mapping.        
+            Note: not a fluent method.
+            </summary>
+            <remarks>
+            In some cases, our users need a way to add an instance of their own implementation of IComponentMappingProvider.
+            For an example of where this might be necessary, see: http://codebetter.com/blogs/jeremy.miller/archive/2010/02/16/our-extension-properties-story.aspx
+            </remarks>        
+        </member>
         <member name="M:FluentNHibernate.Mapping.ClasslikeMapBase`1.HasMany``1(System.Linq.Expressions.Expression{System.Func{`0,System.Collections.Generic.IEnumerable{``0}}})">
             <summary>
             Maps a collection of entities as a one-to-many
@@ -391,6 +401,12 @@
             Specify the key column name
             </summary>
             <param name="column">Column name</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.JoinPart`1.KeyColumn(System.String[])">
+            <summary>
+            Specify the key column name
+            </summary>
+            <param name="columnNames">Column names</param>
         </member>
         <member name="M:FluentNHibernate.Mapping.JoinPart`1.Schema(System.String)">
             <summary>
@@ -789,28 +805,19 @@
             <remarks>See http://nhforge.org/blogs/nhibernate/archive/2008/10/21/entity-name-in-action-a-strongly-typed-entity.aspx</remarks>
         </member>
         <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter(System.String,System.String)">
-            <overloads>
-            Applies a filter to this entity given it's name.
-            </overloads>
             <summary>
-            Applies a filter to this entity given it's name.
+            Applies a filter to this entity given its name.
             </summary>
             <param name="name">The filter's name</param>
             <param name="condition">The condition to apply</param>
         </member>
         <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter(System.String)">
-            <overloads>
-            Applies a filter to this entity given it's name.
-            </overloads>
             <summary>
-            Applies a filter to this entity given it's name.
+            Applies a filter to this entity given its name.
             </summary>
             <param name="name">The filter's name</param>
         </member>
         <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter``1(System.String)">
-            <overloads>
-            Applies a named filter to this entity.
-            </overloads>
             <summary>
             Applies a named filter to this entity.
             </summary>
@@ -822,7 +829,7 @@
         </member>
         <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter``1">
             <summary>
-            Applies a named filter to this one-to-many.
+            Applies a named filter to this entity.
             </summary>
             <typeparam name="TFilter">
             The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
@@ -1067,6 +1074,13 @@
             <param name="member">Collection property</param>
             <returns>Value column name</returns>
         </member>
+        <member name="M:FluentNHibernate.Automapping.IAutomappingConfiguration.IsVersion(FluentNHibernate.Member)">
+            <summary>
+            Specifies whether the current member is a version property
+            </summary>
+            <param name="member">Candidate member</param>
+            <returns>Is member a version</returns>
+        </member>
         <member name="M:FluentNHibernate.Automapping.IAutomappingConfiguration.GetMappingSteps(FluentNHibernate.Automapping.AutoMapper,FluentNHibernate.Conventions.IConventionFinder)">
             <summary>
             Gets the steps that are executed to map a type.
@@ -1198,20 +1212,6 @@
         <member name="P:FluentNHibernate.Mapping.SubClassPart`1.Not">
             <summary>
             Inverts the next boolean
-            </summary>
-        </member>
-        <member name="T:FluentNHibernate.CombinedAssemblyTypeSource">
-            <summary>
-            Provides types for mapping from multiple assemblies
-            </summary>
-        </member>
-        <member name="P:FluentNHibernate.Conventions.Inspections.IInspector.StringIdentifierForModel">
-            <summary>
-            Represents a string identifier for the model instance, used in conventions for a lazy
-            shortcut.
-            
-            e.g. for a ColumnMapping the StringIdentifierForModel would be the Name attribute,
-            this allows the user to find any columns with the matching name.
             </summary>
         </member>
         <member name="M:FluentNHibernate.Cfg.Db.PersistenceConfiguration`2.Dialect(System.String)">
@@ -1350,6 +1350,30 @@
             <param name="value">Setting value</param>
             <returns>Configuration builder</returns>
         </member>
+        <member name="M:FluentNHibernate.Cfg.Db.PersistenceConfiguration`2.CollectionTypeFactory(System.String)">
+            <summary>
+            Sets the collectiontype.factory_class property.
+            NOTE: NHibernate 2.1 only
+            </summary>
+            <param name="collectionTypeFactoryClass">factory class</param>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.PersistenceConfiguration`2.CollectionTypeFactory(System.Type)">
+            <summary>
+            Sets the collectiontype.factory_class property.
+            NOTE: NHibernate 2.1 only
+            </summary>
+            <param name="collectionTypeFactoryClass">factory class</param>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.PersistenceConfiguration`2.CollectionTypeFactory``1">
+            <summary>
+            Sets the collectiontype.factory_class property.
+            NOTE: NHibernate 2.1 only
+            </summary>
+            <typeparam name="TCollectionTypeFactory">factory class</typeparam>
+            <returns>Configuration</returns>
+        </member>
         <member name="M:FluentNHibernate.Cfg.Db.PersistenceConfiguration`2.ProxyFactoryFactory(System.String)">
             <summary>
             Sets the proxyfactory.factory_class property.
@@ -1414,12 +1438,10 @@
             Negates the next boolean option.
             </summary>
         </member>
-        <member name="T:FluentNHibernate.Conventions.AttributeCollectionConvention`1">
+        <member name="T:FluentNHibernate.CombinedAssemblyTypeSource">
             <summary>
-            Base class for attribute based conventions. Create a subclass of this to supply your own
-            attribute based conventions.
+            Provides types for mapping from multiple assemblies
             </summary>
-            <typeparam name="T">Attribute identifier</typeparam>
         </member>
         <member name="T:FluentNHibernate.Conventions.IConvention`2">
             <summary>
@@ -1444,6 +1466,74 @@
             </summary>
             <param name="criteria">Instace that could be supplied</param>
             <returns>Apply on this target?</returns>
+        </member>
+        <member name="P:FluentNHibernate.Conventions.Inspections.IInspector.StringIdentifierForModel">
+            <summary>
+            Represents a string identifier for the model instance, used in conventions for a lazy
+            shortcut.
+            
+            e.g. for a ColumnMapping the StringIdentifierForModel would be the Name attribute,
+            this allows the user to find any columns with the matching name.
+            </summary>
+        </member>
+        <member name="T:FluentNHibernate.Diagnostics.DiagnosticsConfiguration">
+            <summary>
+            Diagnostic logging configuration
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Diagnostics.DiagnosticsConfiguration.Enable(System.Boolean)">
+            <summary>
+            Conditionally enable logging
+            </summary>
+            <param name="enable">Enable logging</param>
+        </member>
+        <member name="M:FluentNHibernate.Diagnostics.DiagnosticsConfiguration.Enable">
+            <summary>
+            Enable logging
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Diagnostics.DiagnosticsConfiguration.Disable">
+            <summary>
+            Disable logging
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Diagnostics.DiagnosticsConfiguration.RegisterListener(FluentNHibernate.Diagnostics.IDiagnosticListener)">
+            <summary>
+            Register a logging listener
+            </summary>
+            <param name="listener">Listener</param>
+        </member>
+        <member name="M:FluentNHibernate.Diagnostics.DiagnosticsConfiguration.OutputToConsole">
+            <summary>
+            Register a default Console.Write listener
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FluentNHibernate.Diagnostics.DiagnosticsConfiguration.OutputToConsole(FluentNHibernate.Diagnostics.IDiagnosticResultsFormatter)">
+            <summary>
+            Register a Console.Write listener with a custom result formatter
+            </summary>
+            <param name="formatter">Result formatter</param>
+        </member>
+        <member name="M:FluentNHibernate.Diagnostics.DiagnosticsConfiguration.OutputToFile(System.String)">
+            <summary>
+            Register a default file output listener
+            </summary>
+            <param name="path">Output path</param>
+        </member>
+        <member name="M:FluentNHibernate.Diagnostics.DiagnosticsConfiguration.OutputToFile(FluentNHibernate.Diagnostics.IDiagnosticResultsFormatter,System.String)">
+            <summary>
+            Register a file output listener with a custom result formatter
+            </summary>
+            <param name="formatter">Result formatter</param>
+            <param name="path">Output path</param>
+        </member>
+        <member name="T:FluentNHibernate.Conventions.AttributeCollectionConvention`1">
+            <summary>
+            Base class for attribute based conventions. Create a subclass of this to supply your own
+            attribute based conventions.
+            </summary>
+            <typeparam name="T">Attribute identifier</typeparam>
         </member>
         <member name="M:FluentNHibernate.Conventions.AttributeCollectionConvention`1.Apply(`0,FluentNHibernate.Conventions.Instances.ICollectionInstance)">
             <summary>
@@ -1559,6 +1649,16 @@
             </summary>
             <typeparam name="T"></typeparam>
             <returns></returns>
+        </member>
+        <member name="P:FluentNHibernate.Conventions.Inspections.IManyToManyInspector.Where">
+            <summary>
+            Applies to the joining table for this many-to-many. 
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Conventions.Inspections.IManyToManyInspector.OrderBy">
+            <summary>
+            Applies to the joining table for this many-to-many. 
+            </summary>
         </member>
         <member name="M:FluentNHibernate.Conventions.Instances.GeneratorInstance.Increment">
             <summary>
@@ -1898,6 +1998,80 @@
             <param name="property"></param>
             <param name="paramValues">Params configuration</param>
         </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IManyToManyInstance.Where(System.String)">
+            <summary>
+            Applies to the joining table for this many-to-many. 
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IManyToManyInstance.OrderBy(System.String)">
+            <summary>
+            Applies to the joining table for this many-to-many. 
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IManyToManyCollectionInstance.ApplyFilter(System.String,System.String)">
+            <summary>
+            Applies a filter to this relationship given its name.
+            </summary>
+            <param name="name">The filter's name</param>
+            <param name="condition">The condition to apply</param>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IManyToManyCollectionInstance.ApplyFilter(System.String)">
+            <summary>
+            Applies a filter to this relationship given its name.
+            </summary>
+            <param name="name">The filter's name</param>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IManyToManyCollectionInstance.ApplyFilter``1(System.String)">
+            <summary>
+            Applies a named filter to this relationship.
+            </summary>
+            <param name="condition">The condition to apply</param>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IManyToManyCollectionInstance.ApplyFilter``1">
+            <summary>
+            Applies a named filter to this relationship.
+            </summary>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IClassInstance.ApplyFilter(System.String,System.String)">
+            <summary>
+            Applies a filter to this entity given its name.
+            </summary>
+            <param name="name">The filter's name</param>
+            <param name="condition">The condition to apply</param>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IClassInstance.ApplyFilter(System.String)">
+            <summary>
+            Applies a filter to this entity given its name.
+            </summary>
+            <param name="name">The filter's name</param>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IClassInstance.ApplyFilter``1(System.String)">
+            <summary>
+            Applies a named filter to this entity.
+            </summary>
+            <param name="condition">The condition to apply</param>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IClassInstance.ApplyFilter``1">
+            <summary>
+            Applies a named filter to this entity.
+            </summary>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
+        </member>
         <member name="M:FluentNHibernate.Conventions.Instances.IManyToOneInstance.LazyLoad">
             <summary>
             Specify the lazy behaviour of this relationship.
@@ -1957,6 +2131,38 @@
             <example>
             LazyLoad(Laziness.NoProxy);
             </example>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IOneToManyCollectionInstance.ApplyFilter(System.String,System.String)">
+            <summary>
+            Applies a filter to this relationship given its name.
+            </summary>
+            <param name="name">The filter's name</param>
+            <param name="condition">The condition to apply</param>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IOneToManyCollectionInstance.ApplyFilter(System.String)">
+            <summary>
+            Applies a filter to this relationship given its name.
+            </summary>
+            <param name="name">The filter's name</param>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IOneToManyCollectionInstance.ApplyFilter``1(System.String)">
+            <summary>
+            Applies a named filter to this relationship.
+            </summary>
+            <param name="condition">The condition to apply</param>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.IOneToManyCollectionInstance.ApplyFilter``1">
+            <summary>
+            Applies a named filter to this relationship.
+            </summary>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
         </member>
         <member name="M:FluentNHibernate.Conventions.Instances.ISubclassInstance.Extends``1">
             <summary>
@@ -2564,11 +2770,12 @@
             </summary>                
             <returns>Fluent mappings configuration</returns>
         </member>
-        <member name="M:FluentNHibernate.Cfg.AutoMappingsContainer.Apply(NHibernate.Cfg.Configuration)">
+        <member name="M:FluentNHibernate.Cfg.AutoMappingsContainer.Apply(NHibernate.Cfg.Configuration,FluentNHibernate.PersistenceModel)">
             <summary>
             Applies any added mappings to the NHibernate Configuration
             </summary>
             <param name="cfg">NHibernate Configuration instance</param>
+            <param name="model"></param>
         </member>
         <member name="P:FluentNHibernate.Cfg.AutoMappingsContainer.WasUsed">
             <summary>
@@ -2916,6 +3123,12 @@
             Fluent configuration API for NHibernate
             </summary>
         </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.Diagnostics(System.Action{FluentNHibernate.Diagnostics.DiagnosticsConfiguration})">
+            <summary>
+            Configure diagnostic logging
+            </summary>
+            <param name="diagnosticsSetup">Diagnostic configuration</param>
+        </member>
         <member name="M:FluentNHibernate.Cfg.FluentConfiguration.Database(System.Func{FluentNHibernate.Cfg.Db.IPersistenceConfigurer})">
             <summary>
             Apply database settings
@@ -2929,6 +3142,82 @@
             </summary>
             <param name="config">Database configuration instance</param>
             <returns>Fluent configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.Cache(System.Action{FluentNHibernate.Cfg.Db.CacheSettingsBuilder})">
+            <summary>
+            Configure caching.
+            </summary>
+            <example>
+                Cache(x =>
+                {
+                  x.UseQueryCache();
+                  x.UseMinimalPuts();
+                });
+            </example>
+            <param name="cacheExpression">Closure for configuring caching</param>
+            <returns>Configuration builder</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.CollectionTypeFactory(System.String)">
+            <summary>
+            Sets the collectiontype.factory_class property.
+            NOTE: NHibernate 2.1 only
+            </summary>
+            <param name="collectionTypeFactoryClass">factory class</param>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.CollectionTypeFactory(System.Type)">
+            <summary>
+            Sets the collectiontype.factory_class property.
+            NOTE: NHibernate 2.1 only
+            </summary>
+            <param name="collectionTypeFactoryClass">factory class</param>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.CollectionTypeFactory``1">
+            <summary>
+            Sets the collectiontype.factory_class property.
+            NOTE: NHibernate 2.1 only
+            </summary>
+            <typeparam name="TCollectionTypeFactory">factory class</typeparam>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.ProxyFactoryFactory(System.String)">
+            <summary>
+            Sets the proxyfactory.factory_class property.
+            NOTE: NHibernate 2.1 only
+            </summary>
+            <param name="proxyFactoryFactoryClass">factory class</param>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.ProxyFactoryFactory(System.Type)">
+            <summary>
+            Sets the proxyfactory.factory_class property.
+            NOTE: NHibernate 2.1 only
+            </summary>
+            <param name="proxyFactoryFactory">factory class</param>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.ProxyFactoryFactory``1">
+            <summary>
+            Sets the proxyfactory.factory_class property.
+            NOTE: NHibernate 2.1 only
+            </summary>
+            <typeparam name="TProxyFactoryFactory">factory class</typeparam>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.CurrentSessionContext(System.String)">
+            <summary>
+            Sets the current_session_context_class property.
+            </summary>
+            <param name="currentSessionContextClass">current session context class</param>
+            <returns>Configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentConfiguration.CurrentSessionContext``1">
+            <summary>
+            Sets the current_session_context_class property.
+            </summary>
+            <typeparam name="TSessionContext">Implementation of ICurrentSessionContext to use</typeparam>
+            <returns>Configuration</returns>
         </member>
         <member name="M:FluentNHibernate.Cfg.FluentConfiguration.Mappings(System.Action{FluentNHibernate.Cfg.MappingConfiguration})">
             <summary>
@@ -3026,11 +3315,11 @@
             </summary>                
             <returns>Fluent mappings configuration</returns>
         </member>
-        <member name="M:FluentNHibernate.Cfg.FluentMappingsContainer.Apply(NHibernate.Cfg.Configuration)">
+        <member name="M:FluentNHibernate.Cfg.FluentMappingsContainer.Apply(FluentNHibernate.PersistenceModel)">
             <summary>
             Applies any added mappings to the NHibernate Configuration
             </summary>
-            <param name="cfg">NHibernate Configuration instance</param>
+            <param name="model">PersistenceModel to alter</param>
         </member>
         <member name="P:FluentNHibernate.Cfg.FluentMappingsContainer.Conventions">
             <summary>
@@ -3088,6 +3377,7 @@
             <summary>
             Applies any mappings to the NHibernate Configuration
             </summary>
+            <param name="logger">Diagnostics logger</param>
             <param name="cfg">NHibernate Configuration instance</param>
         </member>
         <member name="P:FluentNHibernate.Cfg.MappingConfiguration.FluentMappings">
@@ -3114,6 +3404,12 @@
             <summary>
             Convention finder - used to search through assemblies for types that implement a specific convention interface.
             </summary>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.IConventionFinder.AddSource(FluentNHibernate.ITypeSource)">
+            <summary>
+            Add a source to be queried.
+            </summary>
+            <param name="source">Source to query</param>
         </member>
         <member name="M:FluentNHibernate.Conventions.IConventionFinder.AddAssembly(System.Reflection.Assembly)">
             <summary>
@@ -3319,6 +3615,11 @@
             Sets the access-strategy to use the backing-field of an auto-property.
             </summary>
         </member>
+        <member name="M:FluentNHibernate.Mapping.AccessStrategyBuilder.ReadOnly">
+            <summary>
+            Sets the access-strategy to readonly.
+            </summary>
+        </member>
         <member name="M:FluentNHibernate.Mapping.AccessStrategyBuilder.CamelCaseField">
             <summary>
             Sets the access-strategy to field and the naming-strategy to camelcase (field.camelcase).
@@ -3490,6 +3791,12 @@
             This is often used with <see cref="T:NHibernate.UserTypes.IUserType"/>
             </remarks>
             <param name="type">Custom type</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.DiscriminatorPart.SqlType(System.String)">
+            <summary>
+            Specifies a custom SQL type for the discriminator.
+            </summary>
+            <param name="type">Custom SQL type.</param>
         </member>
         <member name="P:FluentNHibernate.Mapping.DiscriminatorPart.Not">
             <summary>
@@ -4254,6 +4561,12 @@
             <summary>
             Sets the access-strategy to use the backing-field of an auto-property.
             </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.AccessStrategyBuilder`1.ReadOnly">
+            <summary>
+            Sets the access-strategy to readonly.
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:FluentNHibernate.Mapping.AccessStrategyBuilder`1.CamelCaseField">
             <summary>

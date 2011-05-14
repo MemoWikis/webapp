@@ -21,7 +21,7 @@ namespace TrueOrFalse.Core
 
         public virtual Boolean IsEmailConfirmed { get; set;  }
 
-        public virtual DateTime Birthday { get; set; }
+        public virtual DateTime? Birthday { get; set; }
 
         public virtual DateTime DateCreated { get; set; }
         public virtual DateTime DateModified { get; set; }

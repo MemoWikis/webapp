@@ -14,22 +14,16 @@ namespace TrueOrFalse.Core
 {
     public class SessionFactory
     {
-        private static readonly string _fileDbName;
+        
 
-        static SessionFactory()
-        {
-            if (HttpContext.Current != null)
-                _fileDbName = HttpContext.Current.Server.MapPath("trueOrFalse.db");
-            else
-                _fileDbName = "trueOrFalse.db";
-        }
 
         public static ISessionFactory CreateSessionFactory()
         {
             return Fluently.Configure()
               .Database(
-                SQLiteConfiguration.Standard
-                  .UsingFile(_fileDbName)
+                MsSqlConfiguration.MsSql2008
+                  .ConnectionString(c => c
+                    .FromConnectionStringWithKey("main"))
               )
               .Mappings(m =>
                 m.FluentMappings.AddFromAssemblyOf<Question>())
@@ -39,16 +33,8 @@ namespace TrueOrFalse.Core
 
         private static void BuildSchema(Configuration config)
         {
-            DeleteDbOnEachRun();
-
             new SchemaExport(config)
               .Create(false, true);
-        }
-
-        private static void DeleteDbOnEachRun()
-        {
-            if (File.Exists(_fileDbName))
-                File.Delete(_fileDbName);
         }
     }
 }
