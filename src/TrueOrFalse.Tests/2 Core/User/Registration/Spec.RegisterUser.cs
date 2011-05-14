@@ -8,7 +8,6 @@ namespace TrueOrFalse.Tests
 {
     public class User_creation_spec  : BaseTest
     {
-
         [Test]
         public void Test()
         {
@@ -22,6 +21,8 @@ namespace TrueOrFalse.Tests
                 Execute(this);
         }
 
+        private const string _password = "somePassword";
+
         EmptyContext the_user_registers = new EmptyContext(()=>
         {
             var user = new User();
@@ -29,12 +30,13 @@ namespace TrueOrFalse.Tests
             user.LastName = "Lastname";
             user.UserName = "UserName";
             user.EmailAddress = "test@test.de";
+            SetUserPassword.Run(_password, user);
 
             Resolve<RegisterUser>().Run(user);
         });
 
-        Action an_email_should_be_send;
-        private Action he_should_be_able_to_login;
+        private Action an_email_should_be_send = () => Assert.That(OneEmailWasSend.IsTrue(), Is.True);
+        private Action he_should_be_able_to_login = () => { };
 
     }
 }

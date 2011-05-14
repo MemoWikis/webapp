@@ -9,6 +9,7 @@ using Autofac;
 using Autofac.Integration.Web;
 using Autofac.Integration.Web.Mvc;
 using TrueOrFalse.Core;
+using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Frontend.Web
 {
@@ -48,6 +49,7 @@ namespace TrueOrFalse.Frontend.Web
 			builder.RegisterControllers(Assembly.GetExecutingAssembly());
 			builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterType<QuestionRepositoryDemoData>().As<IQuestionRepository>();
+            builder.RegisterModule<AutofacCoreModule>();
 
             _containerProvider = new ContainerProvider(builder.Build());
 

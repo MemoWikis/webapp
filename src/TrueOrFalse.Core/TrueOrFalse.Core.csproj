@@ -107,8 +107,8 @@
     <Compile Include="Domain\User\Persistence\UserMap.cs" />
     <Compile Include="Domain\User\Persistence\UserRepository.cs" />
     <Compile Include="Domain\User\Persistence\UserSearchSpec.cs" />
-    <Compile Include="Domain\User\Registration.Password\CreateSalt.cs" />
     <Compile Include="Domain\User\Registration.Password\HashPassword.cs" />
+    <Compile Include="Domain\User\Registration.Password\SetUserPassword.cs" />
     <Compile Include="Domain\User\Registration.Password\ValidatePassword.cs" />
     <Compile Include="Domain\User\UserList.cs" />
     <Compile Include="Infrastructure\IoC\AutofacCoreModule.cs" />

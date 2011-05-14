@@ -13,7 +13,7 @@ namespace TrueOrFalse.View.Web.Views.Api
 
         public ActionResult IsUserNameAvailable()
         {
-            return View();
+            return new ViewResult();
         }
 
     }

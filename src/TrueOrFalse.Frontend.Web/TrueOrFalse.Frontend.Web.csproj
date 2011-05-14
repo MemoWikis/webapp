@@ -117,6 +117,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Images\background.jpg" />
+    <Content Include="Images\background.png" />
+    <Content Include="Images\Buttons\cross.png" />
+    <Content Include="Images\Buttons\key.png" />
+    <Content Include="Images\Buttons\tick.png" />
+    <Content Include="Images\edit_installation_config.png" />
+    <Content Include="Images\RowHeaderBackground.png" />
     <Content Include="Style\ie.css" />
     <Content Include="Style\plugins\buttons\readme.txt" />
     <Content Include="Style\plugins\buttons\screen.css" />

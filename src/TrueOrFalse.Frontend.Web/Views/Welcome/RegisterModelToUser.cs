@@ -8,7 +8,7 @@ namespace TrueOrFalse.Frontend.Web.Models
         {
             var user = new User();
             user.EmailAddress = registerModel.Email;
-            //registerModel .Password
+            
 
             return user;
         }

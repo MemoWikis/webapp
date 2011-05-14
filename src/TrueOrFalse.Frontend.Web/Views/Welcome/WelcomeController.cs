@@ -35,6 +35,7 @@ namespace TrueOrFalse.Frontend.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                _registerUser.Run(RegisterModelToUser.Run(model));
                 return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController);
             }
                 

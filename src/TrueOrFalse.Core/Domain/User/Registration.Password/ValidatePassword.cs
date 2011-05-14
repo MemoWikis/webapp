@@ -7,9 +7,9 @@ namespace TrueOrFalse.Core.Registration
 {
     public class IsValdidPassword
     {
-        public bool True()
+        public bool True(string givenPasswordString, string dbPassword, string dbSalt)
         {
-            return true;
+            return dbPassword == HashPassword.Run(givenPasswordString.Trim(), dbSalt);
         }
     }
 }

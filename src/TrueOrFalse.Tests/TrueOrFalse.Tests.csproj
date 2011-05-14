@@ -95,6 +95,7 @@
       <HintPath>..\..\lib\SharpTestsEx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -126,11 +127,14 @@
     <Compile Include="a Test MetaData\Personas\Persona.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.LoggedInUser.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.UserWhoWantsToRegister.cs" />
-    <Compile Include="BaseTest.cs" />
+    <Compile Include="_ code\BaseTest.cs" />
     <Compile Include="2 Core\Persistence\Persistence_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestCategories.cs" />
+    <Compile Include="a Test MetaData\TestCategories.cs" />
     <Compile Include="2 Core\User\Registration\Spec.RegisterUser.cs" />
+    <Compile Include="_ code\Email\CleanEmailsFromPickupDirectory.cs" />
+    <Compile Include="_ code\Email\OneEmailWasSend.cs" />
+    <Compile Include="_ code\Email\GetEmailsFromPickupDirectory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrueOrFalse.Core\TrueOrFalse.Core.csproj">
@@ -162,6 +166,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
