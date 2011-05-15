@@ -187,9 +187,9 @@
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
     <Content Include="Views\Shared\Site.Master" />
-    <Content Include="Views\Web.config">
+    <None Include="Views\Web.config">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <Content Include="Scripts\jquery-1.4.4.js" />
     <Content Include="Scripts\jquery-1.4.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.4.min.js" />

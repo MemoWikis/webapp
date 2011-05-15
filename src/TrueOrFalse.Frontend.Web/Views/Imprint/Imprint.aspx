@@ -25,7 +25,6 @@
 <h1>Impressum</h1>
 
 <p>Angaben gemäß § 5 TMG:<br/><br/></p>
-Robert Mischkw<br />
 Robert Mischke Softwareentwicklung<br />
 Warschauer Str. 62<br />
 10243 Berlin<br />
