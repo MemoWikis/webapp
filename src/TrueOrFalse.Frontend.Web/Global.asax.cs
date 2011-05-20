@@ -10,6 +10,7 @@ using Autofac.Integration.Web;
 using Autofac.Integration.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
+using RegistrationExtensions = Autofac.Integration.Mvc.RegistrationExtensions;
 
 namespace TrueOrFalse.Frontend.Web
 {
@@ -46,8 +47,8 @@ namespace TrueOrFalse.Frontend.Web
         private void InitializeAutofac()
         {
             var builder = new ContainerBuilder();
-			builder.RegisterControllers(Assembly.GetExecutingAssembly());
-			builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
+			RegistrationExtensions.RegisterControllers(builder, Assembly.GetExecutingAssembly());
+			RegistrationExtensions.RegisterModelBinders(builder, Assembly.GetExecutingAssembly());
             builder.RegisterType<QuestionRepositoryDemoData>().As<IQuestionRepository>();
             builder.RegisterModule<AutofacCoreModule>();
 

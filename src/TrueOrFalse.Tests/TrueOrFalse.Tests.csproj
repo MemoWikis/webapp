@@ -58,30 +58,53 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Autofac">
-      <HintPath>..\..\lib\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="BDDish">
-      <HintPath>..\..\lib\BDDish.dll</HintPath>
+    <Reference Include="Autofac.Configuration">
+      <HintPath>..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="BDDish, Version=0.1.1.39440, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Castle.Core.dll</HintPath>
+      <HintPath>..\packages\BDDish.0.1.1.39440\lib\BDDish.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=1.2.0.712, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.1.2.0.712\lib\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.3.1.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="NHibernate, Version=3.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.3.1.0.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate.ByteCode.Castle">
-      <HintPath>..\..\lib\NHibernate.ByteCode.Castle.dll</HintPath>
+      <HintPath>..\packages\NHibernate.Castle.3.1.0.4000\lib\Net35\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\Seedworks.Lib.dll</HintPath>
+    <Reference Include="nunit.mocks, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="pnunit.framework">
+      <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Seedworks.Lib">
+      <HintPath>..\packages\Seedworks.Persistance.0.8.1.34871\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib.Persistance">
-      <HintPath>..\..\lib\Seedworks.Lib.Persistance.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Persistance.0.8.1.34871\lib\Seedworks.Lib.Persistance.dll</HintPath>
     </Reference>
-    <Reference Include="SharpTestsEx">
-      <HintPath>..\..\lib\SharpTestsEx.dll</HintPath>
+    <Reference Include="SharpTestsEx, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8c60d8070630b1c1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpTestsEx.1.1.1\lib\SharpTestsEx.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTestsEx.Mvc">
+      <HintPath>..\packages\SharpTestsEx.1.1.1\lib\SharpTestsEx.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -150,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

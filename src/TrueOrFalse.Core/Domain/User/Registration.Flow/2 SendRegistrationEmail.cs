@@ -27,9 +27,9 @@ namespace TrueOrFalse.Core.Registration
             mail.From = new MailAddress(Settings.EmailDefaultFrom);
 
             var emailBody = new StringBuilder();
-            emailBody.Append("Schön dass Du dabei bist.");
-            emailBody.Append("Um Dein Benutzerkonto zu bestätigen,");
-            emailBody.Append("folge bitte diesem Link:" + _createEmailConfirmationLink.Run(user));
+            emailBody.AppendLine("Schön dass Du dabei bist.");
+            emailBody.AppendLine("Um Dein Benutzerkonto zu bestätigen,");
+            emailBody.AppendLine("folge bitte diesem Link: " + _createEmailConfirmationLink.Run(user));
 
             mail.Subject = "Willkommen bei True Or False";
             mail.Body = emailBody.ToString();
