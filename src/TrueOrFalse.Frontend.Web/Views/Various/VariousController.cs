@@ -7,11 +7,16 @@ using TrueOrFalse.Frontend.Web.Models;
 
 namespace TrueOrFalse.View.Web.Views
 {
-    public class ImprintController : Controller
+    public class VariousController : Controller
     {
         public ActionResult Imprint()
         {
             return View(new ModelBase());
+        }
+
+        public ActionResult NotDoneYet()
+        {
+            return View(new ModelBase{ShowLeftMenu = false});
         }
     }
 }

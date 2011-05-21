@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Register" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<TrueOrFalse.Frontend.Web.Models.RegisterModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -52,10 +53,20 @@
         <br/>
         <p>
             <input type="submit" value="Registrieren" />
-            
         </p>
     </fieldset>
 <% } %>
+
+    <div class="span-8" >
+        <p>
+            Schon Benutzer?<br/>
+            <%: Html.ActionLink("Jetzt anmelden!", Links.Login) %>
+
+            <br/><br/>
+            <%: Html.ActionLink("Passwort verloren?", Links.NotDoneYet, Links.VariousController)  %>
+        </p>
+    </div>
+
 
 <div>
     

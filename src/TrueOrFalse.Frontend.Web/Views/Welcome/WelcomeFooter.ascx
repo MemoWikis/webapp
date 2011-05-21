@@ -3,5 +3,5 @@
 
 
 <div style="text-align:right; padding:10px;">
-    <%= Html.ActionLink("Impressum", Links.Impressum, Links.ImpressumController )%>
+    <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%>
 </div>

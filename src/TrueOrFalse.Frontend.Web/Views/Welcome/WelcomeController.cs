@@ -49,6 +49,12 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         {
             return View(new LoginModel());
         }
+
+        [HttpPost]
+        public ActionResult Login(LoginModel loginModel)
+        {
+            return View(loginModel);
+        }
             
     }
 }

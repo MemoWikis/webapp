@@ -98,7 +98,7 @@
     <Compile Include="Code\Resources\Links.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\Validation.cs" />
-    <Compile Include="Views\Imprint\ImprintController.cs" />
+    <Compile Include="Views\Various\VariousController.cs" />
     <Compile Include="Views\Question\CreateQuestionModel.cs" />
     <Compile Include="Views\Question\QuestionController.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
@@ -159,10 +159,11 @@
     <Content Include="Style\src\typography.css" />
     <Content Include="Views\Account\LogOff.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
-    <Content Include="Views\Imprint\Imprint.aspx" />
+    <Content Include="Views\Various\Imprint.aspx" />
     <Content Include="Views\Question\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\LoginUc.ascx" />
     <Content Include="Views\Shared\MenuLeft.ascx" />
+    <Content Include="Views\Various\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\Welcome\Login.aspx" />
     <Content Include="Views\Welcome\Register.aspx" />
@@ -232,9 +233,8 @@
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:52297/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://trueOrFalse</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

@@ -30,7 +30,7 @@ namespace TrueOrFalse.Frontend.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("Imprint-Route", "Imprint", new { controller = "Imprint", action = "Imprint" });
+            routes.MapRoute("Various", "{action}", new { controller = "Various" });
             routes.MapRoute("Default","{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });
             
         }

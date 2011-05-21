@@ -9,5 +9,13 @@ namespace TrueOrFalse.Frontend.Web.Models
     {
         public bool IsError;
         public string ErrorMessage;
+
+        public string UserName;
+        public string Password;
+
+        public LoginModel()
+        {
+            ShowLeftMenu = false;
+        }
     }
 }
