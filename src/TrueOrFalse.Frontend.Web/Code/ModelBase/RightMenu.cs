@@ -5,11 +5,10 @@ using System.Web;
 
 namespace TrueOrFalse.Frontend.Web.Models
 {
-    public class ShowRightLogin
+    public class RightMenu
     {
         public bool Yes;
-        public bool ShowRegisterBlock = true;
 
-        public ShowRightLogin(bool yes){ Yes = yes; }
+        public RightMenu(bool yes){ Yes = yes; }
     }
 }

@@ -7,7 +7,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 {
     public static class Links
     {
-        
         public const string QuestionController = "Question"; 
         public const string QuestionCreate = "CreateQuestion";
         public const string QuestionUpdate = "UpdateQuestion";
@@ -17,10 +16,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string RegisterSuccess = "RegisterSuccess";
         public const string Login = "Login";
 
-        public const string Impressum = "Imprint";
-        public const string ImpressumController = "Imprint";
-
         public const string VariousController = "Various";
         public const string NotDoneYet = "NotDoneYet";
+        public const string Impressum = "Imprint";
+        public const string WelfareCompany = "WelfareCompany";
     }
 }

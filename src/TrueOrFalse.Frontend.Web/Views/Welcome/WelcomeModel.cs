@@ -12,8 +12,8 @@ namespace TrueOrFalse.Frontend.Web.Models
 
         public WelcomeModel()
         {
-            ShowRightLogin.Yes = true;
-            ShowLeftMenu = false;
+            RightMenu.Yes = true;
+            ShowLeftMenu_TopUsers();
         }
     }
 }

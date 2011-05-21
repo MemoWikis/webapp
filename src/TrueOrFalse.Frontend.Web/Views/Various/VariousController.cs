@@ -11,12 +11,17 @@ namespace TrueOrFalse.View.Web.Views
     {
         public ActionResult Imprint()
         {
-            return View(new ModelBase());
+            return View(new ModelBase().ShowLeftMenu_TopUsers().ShowRightLogin());
         }
 
         public ActionResult NotDoneYet()
         {
-            return View(new ModelBase{ShowLeftMenu = false});
+            return View(new ModelBase().ShowLeftMenu_Empty());
+        }
+
+        public ActionResult WelfareCompany()
+        {
+            return View(new ModelBase().ShowLeftMenu_Empty().ShowRightLogin());
         }
     }
 }

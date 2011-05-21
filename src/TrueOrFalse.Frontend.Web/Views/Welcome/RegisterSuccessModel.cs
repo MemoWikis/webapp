@@ -9,7 +9,7 @@ namespace TrueOrFalse.Frontend.Web.Models
     {
         public RegisterSuccessModel()
         {
-            ShowLeftMenu = true;
+            ShowLeftMenu_Empty();
         }
     }
 }

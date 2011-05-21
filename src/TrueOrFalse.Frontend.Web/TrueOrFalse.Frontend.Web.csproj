@@ -92,7 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\ModelBase\ModelBase.cs" />
-    <Compile Include="Code\ModelBase\ShowRightLogin.cs" />
+    <Compile Include="Code\ModelBase\RightMenu.cs" />
     <Compile Include="Code\RequestContext.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\Resources\Links.cs" />
@@ -165,6 +165,7 @@
     <Content Include="Views\Shared\MenuLeft.ascx" />
     <Content Include="Views\Various\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
+    <Content Include="Views\Various\WelfareCompany.aspx" />
     <Content Include="Views\Welcome\Login.aspx" />
     <Content Include="Views\Welcome\Register.aspx" />
     <Content Include="Views\Welcome\RegisterSuccess.aspx" />

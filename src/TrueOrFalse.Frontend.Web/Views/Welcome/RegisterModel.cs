@@ -32,7 +32,7 @@ namespace TrueOrFalse.Frontend.Web.Models
 
         public RegisterModel()
         {
-            ShowLeftMenu = false;
+            ShowLeftMenu_Empty();
         }
 
         private const string EmailRegEx = @"^(([^<>()[\]\\.,;:\s@\""]+"

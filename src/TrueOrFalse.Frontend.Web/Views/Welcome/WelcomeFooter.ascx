@@ -3,5 +3,6 @@
 
 
 <div style="text-align:right; padding:10px;">
+    <%= Html.ActionLink("Gemeinwohlunternehmen", Links.WelfareCompany, Links.VariousController)%> | 
     <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%>
 </div>

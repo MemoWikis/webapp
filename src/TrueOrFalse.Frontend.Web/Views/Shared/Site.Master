@@ -40,11 +40,8 @@
         <%-- BODY--%>
         <div class="span-5" style=" padding-left:10px;">
 			<%
-				if (Model.ShowLeftMenu)
-					Html.RenderPartial(UserControls.MenuLeft);
-				
-				if (Model.ShowRightLogin.Yes)
-					Html.RenderPartial(UserControls.TopUsers);
+                if (!String.IsNullOrEmpty(Model.CurrentLeftMenu))
+					Html.RenderPartial(Model.CurrentLeftMenu);
 			%>
 			&nbsp;
         </div>
@@ -56,7 +53,7 @@
 
 		<div class="span-5 last" style="margin-top:40px;" >
 			<%
-				if (Model.ShowRightLogin.Yes)
+				if (Model.RightMenu.Yes)
 					Html.RenderPartial(UserControls.Login);
 			 %>
 		</div>

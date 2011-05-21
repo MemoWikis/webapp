@@ -15,7 +15,7 @@ namespace TrueOrFalse.Frontend.Web.Models
 
         public LoginModel()
         {
-            ShowLeftMenu = false;
+            ShowLeftMenu_Empty();
         }
     }
 }
