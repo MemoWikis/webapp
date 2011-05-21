@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Core
@@ -16,7 +17,7 @@ namespace TrueOrFalse.Core
             return QuestionDemoData.All().GetById(id);
         }
 
-        public QuestionList GetAll()
+        public IList<Question> GetAll()
         {
             return QuestionDemoData.All();
         }

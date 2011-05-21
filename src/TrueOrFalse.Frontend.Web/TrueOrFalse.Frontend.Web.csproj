@@ -56,13 +56,13 @@
       <HintPath>..\packages\Autofac.Web.2.4.5.724\lib\NET40\Autofac.Integration.Web.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Web.Mvc, Version=2.3.2.632, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL" />
-    <Reference Include="Seedworks.Lib, Version=0.8.1.34871, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Seedworks.Lib, Version=0.8.2.1242, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistance.0.8.1.34871\lib\Seedworks.Lib.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Persistance.0.8.2.0\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib.Persistance, Version=0.8.1.34871, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Seedworks.Lib.Persistance, Version=0.8.2.2827, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistance.0.8.1.34871\lib\Seedworks.Lib.Persistance.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Persistance.0.8.2.0\lib\Seedworks.Lib.Persistance.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />

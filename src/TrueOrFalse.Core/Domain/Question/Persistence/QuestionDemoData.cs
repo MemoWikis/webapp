@@ -7,9 +7,9 @@ namespace TrueOrFalse.Core
 {
     public static class QuestionDemoData
     {
-        public static QuestionList All()
+        public static List<Question> All()
         {
-            var result = new QuestionList();
+            var result = new List<Question>();
             result.Add(new Question { Id=  1, Text = "Wie alt bin ich", Answer = new Answer("23")});
             result.Add(new Question { Id = 2, Text = "Wie alt bist Du", Answer = new Answer("42") });
             result.Add(new Question { Id = 3, Text = "Was ist BDD", Answer = new Answer("Behaviour Driven Development") });

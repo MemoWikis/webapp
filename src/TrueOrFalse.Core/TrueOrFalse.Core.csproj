@@ -76,11 +76,13 @@
     <Reference Include="NHibernate.ByteCode.Castle, Version=3.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.Castle.3.1.0.4000\lib\Net35\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib">
-      <HintPath>..\..\lib\Seedworks.Lib.dll</HintPath>
+    <Reference Include="Seedworks.Lib, Version=0.8.2.1242, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Seedworks.Persistance.0.8.2.0\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib.Persistance">
-      <HintPath>..\..\lib\Seedworks.Lib.Persistance.dll</HintPath>
+    <Reference Include="Seedworks.Lib.Persistance, Version=0.8.2.2827, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Seedworks.Persistance.0.8.2.0\lib\Seedworks.Lib.Persistance.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
@@ -107,7 +109,7 @@
     <Compile Include="Domain\Question\Persistence\IQuestionRepository.cs" />
     <Compile Include="Domain\Question\Question.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionDemoData.cs" />
-    <Compile Include="Domain\Question\QuestionList.cs" />
+    <Compile Include="Domain\Question\QueryList.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionMap.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionRepository.cs" />
     <Compile Include="Domain\User\Registration.Login\CredentialsAreValid.cs" />
@@ -123,7 +125,6 @@
     <Compile Include="Domain\User\Registration.Password\HashPassword.cs" />
     <Compile Include="Domain\User\Registration.Password\SetUserPassword.cs" />
     <Compile Include="Domain\User\Registration.Password\IsValdidPassword.cs" />
-    <Compile Include="Domain\User\UserList.cs" />
     <Compile Include="Infrastructure\IoC\AutofacCoreModule.cs" />
     <Compile Include="Infrastructure\Email\SendEmail.cs" />
     <Compile Include="Infrastructure\IoC\IRegisterAsInstancePerLifetime.cs" />

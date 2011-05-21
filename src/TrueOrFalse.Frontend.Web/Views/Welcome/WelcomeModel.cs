@@ -8,7 +8,7 @@ namespace TrueOrFalse.Frontend.Web.Models
 {
     public class WelcomeModel : ModelBase
     {
-        public QuestionList MostPopular;
+        public IList<Question> MostPopular;
 
         public WelcomeModel()
         {

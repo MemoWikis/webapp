@@ -3,7 +3,7 @@ using Seedworks.Lib.Persistance;
 
 namespace TrueOrFalse.Core
 {
-    public class UserRepository : RepositoryDb<User, UserList>
+    public class UserRepository : RepositoryDb<User>
     {
         public UserRepository(ISession session): base(session)
         {

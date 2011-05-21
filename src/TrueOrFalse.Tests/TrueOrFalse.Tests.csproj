@@ -93,11 +93,13 @@
     <Reference Include="pnunit.framework">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib">
-      <HintPath>..\packages\Seedworks.Persistance.0.8.1.34871\lib\Seedworks.Lib.dll</HintPath>
+    <Reference Include="Seedworks.Lib, Version=0.8.2.1242, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Seedworks.Persistance.0.8.2.0\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib.Persistance">
-      <HintPath>..\packages\Seedworks.Persistance.0.8.1.34871\lib\Seedworks.Lib.Persistance.dll</HintPath>
+    <Reference Include="Seedworks.Lib.Persistance, Version=0.8.2.2827, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Seedworks.Persistance.0.8.2.0\lib\Seedworks.Lib.Persistance.dll</HintPath>
     </Reference>
     <Reference Include="SharpTestsEx, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8c60d8070630b1c1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -126,7 +128,7 @@
   <ItemGroup>
     <Compile Include="1 View\Spec.WelcomeController.cs" />
     <Compile Include="2 Core\Answer\ArrangeQuestion.cs" />
-    <Compile Include="2 Core\Answer\ContextQuestion.cs" />
+    <Compile Include="2 Core\Answer\Context.Question.cs" />
     <Compile Include="2 Core\Answer\Spec_answer_simple_text.cs" />
     <Compile Include="2 Core\User\Context.RegisteredUser.cs" />
     <Compile Include="2 Core\User\Registration\Spec.IsUserNameAvailable.cs" />
