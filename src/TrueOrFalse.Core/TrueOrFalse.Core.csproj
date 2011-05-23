@@ -136,6 +136,7 @@
     <Compile Include="Domain\Question\Persistence\QuestionRepositoryDemoData.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="Domain\Question.Answer\Model.UserInput\UserInputText.cs" />
+    <Compile Include="SampleData.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
