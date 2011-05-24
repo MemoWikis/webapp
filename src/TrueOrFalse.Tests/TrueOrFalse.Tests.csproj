@@ -63,9 +63,9 @@
     <Reference Include="Autofac.Configuration">
       <HintPath>..\packages\Autofac.2.4.5.724\lib\NET40\Autofac.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="BDDish, Version=0.1.1.39440, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="BDDish, Version=0.1.1.4392, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\BDDish.0.1.1.39440\lib\BDDish.dll</HintPath>
+      <HintPath>..\packages\BDDish.0.1.2.1\lib\BDDish.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
@@ -93,13 +93,12 @@
     <Reference Include="pnunit.framework">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.1242, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Seedworks.Lib, Version=0.8.2.3904, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistance.0.8.2.0\lib\Seedworks.Lib.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Persistence.0.8.2.2\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib.Persistance, Version=0.8.2.2827, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistance.0.8.2.0\lib\Seedworks.Lib.Persistance.dll</HintPath>
+    <Reference Include="Seedworks.Lib.Persistence">
+      <HintPath>..\packages\Seedworks.Persistence.0.8.2.2\lib\Seedworks.Lib.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="SharpTestsEx, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8c60d8070630b1c1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -174,7 +173,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
