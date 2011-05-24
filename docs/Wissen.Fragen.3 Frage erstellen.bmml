@@ -1,0 +1,179 @@
+<mockup version="1.0" skin="sketch" measuredW="996" measuredH="707" mockupW="988" mockupH="682">
+  <controls>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="8" y="25" w="988" h="682" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Richtig-oder-falsch%3F%0Ahttp%3A//www.true-or-false.com/answer/wofuer-steht-bdd/</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::Label" x="216" y="147" w="-1" h="-1" measuredW="97" measuredH="32" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>18</size>
+        <text>Dashboard</text>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Paragraph" x="774" y="105" w="218" h="26" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Hallo%20%5BMax%20Mustermann%5D%20%7C%20%5BLogout%5D</text>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::TextInput" x="213" y="110" w="253" h="-1" measuredW="50" measuredH="29" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Suche</text>
+      </controlProperties>
+    </control>
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::MultilineButton" x="23" y="105" w="182" h="71" measuredW="149" measuredH="78" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>True-Or-False%0ADie%20Lernmaschine</text>
+      </controlProperties>
+    </control>
+    <control controlID="60" controlTypeID="com.balsamiq.mockups::MenuBar" x="750" y="133" w="223" h="29" measuredW="222" measuredH="29" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Startseite%2C%20Profil%2C%20Konto</text>
+      </controlProperties>
+    </control>
+    <control controlID="61" controlTypeID="com.balsamiq.mockups::iPhoneMenu" x="23" y="192" w="182" h="-1" measuredW="215" measuredH="300" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*Neues*%20%2875%29%0A_%20Wissen%20%2823%29%0A_%20Netzwerk%20%2823%29%0A_%20Einstellungen%0A%20*Wissen*%0A_%20*Fragen*%0A_%20Fragens%E4tze%0A_%20Kurse%0A*Netzwerk*%0A_%20Kontakte</text>
+      </controlProperties>
+    </control>
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::Label" x="425" y="445" w="351" h="20" measuredW="64" measuredH="25" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Software</text>
+      </controlProperties>
+    </control>
+    <control controlID="81" controlTypeID="com.balsamiq.mockups::Button" x="677" y="566" w="165" h="26" measuredW="131" measuredH="28" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Speichern%20%26%20Neu</text>
+      </controlProperties>
+    </control>
+    <control controlID="82" controlTypeID="com.balsamiq.mockups::FieldSet" x="221" y="192" w="742" h="430" measuredW="200" measuredH="170" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Neue%20Frage%20erstellen</text>
+      </controlProperties>
+    </control>
+    <control controlID="83" controlTypeID="com.balsamiq.mockups::Label" x="370" y="291" w="50" h="35" measuredW="47" measuredH="25" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Frage%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="84" controlTypeID="com.balsamiq.mockups::Label" x="313" y="445" w="121" h="49" measuredW="109" measuredH="25" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Hauptkategorie%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="85" controlTypeID="com.balsamiq.mockups::ComboBox" x="427" y="259" w="138" h="-1" measuredW="85" measuredH="25" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Freitext</text>
+      </controlProperties>
+    </control>
+    <control controlID="86" controlTypeID="com.balsamiq.mockups::Label" x="344" y="259" w="130" h="36" measuredW="75" measuredH="25" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Fragentyp%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="87" controlTypeID="com.balsamiq.mockups::TextArea" x="427" y="290" w="429" h="27" measuredW="200" measuredH="140" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Wof%FCr%20steht%20BDD</text>
+      </controlProperties>
+    </control>
+    <control controlID="88" controlTypeID="com.balsamiq.mockups::Label" x="355" y="328" w="84" h="22" measuredW="61" measuredH="25" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Antwort%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="89" controlTypeID="com.balsamiq.mockups::TextArea" x="427" y="325" w="429" h="29" measuredW="200" measuredH="140" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Behaviour%20Driven%20Development</text>
+      </controlProperties>
+    </control>
+    <control controlID="90" controlTypeID="com.balsamiq.mockups::Button" x="536" y="566" w="130" h="26" measuredW="86" measuredH="28" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <href>Mockup-Fragen-Detail.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22528%2C541%2C658%2C567%22%20href%3D%22Mockup-Fragen-Detail%22%20alt%3D%22Mockup-Fragen-Detail%22%20id%3D%2290%22/%3E</map>
+        <text>Speichern</text>
+      </controlProperties>
+    </control>
+    <control controlID="91" controlTypeID="com.balsamiq.mockups::TextArea" x="427" y="359" w="429" h="81" measuredW="200" measuredH="140" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Behaviour%20Driven%20Development%2C%20alternative%20Begriffe%20sind%20auch%20ATTD.%20Im%20Vordergund%20steht%20eine%20Beschreibung%20von%20Anforderungen%20die%20von%20unterschiedlichen%20Teammitgliedern%20verstanden%20wird.</text>
+      </controlProperties>
+    </control>
+    <control controlID="92" controlTypeID="com.balsamiq.mockups::Label" x="346" y="359" w="99" h="48" measuredW="70" measuredH="25" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Erkl%E4rung%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="93" controlTypeID="com.balsamiq.mockups::Label" x="344" y="509" w="78" h="28" measuredW="74" measuredH="25" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Charakter%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="94" controlTypeID="com.balsamiq.mockups::ComboBox" x="425" y="509" w="-1" h="-1" measuredW="78" measuredH="25" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Wissen</text>
+      </controlProperties>
+    </control>
+    <control controlID="95" controlTypeID="com.balsamiq.mockups::Label" x="309" y="465" w="121" h="23" measuredW="113" measuredH="25" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Unterkategorien%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="96" controlTypeID="com.balsamiq.mockups::Label" x="425" y="464" w="351" h="20" measuredW="136" measuredH="25" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Testen%2C%20BDD%2C%20ATDD</text>
+      </controlProperties>
+    </control>
+    <control controlID="97" controlTypeID="com.balsamiq.mockups::Label" x="328" y="221" w="130" h="36" measuredW="90" measuredH="25" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Sichtbarkeit%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="99" controlTypeID="com.balsamiq.mockups::RadioButton" x="431" y="221" w="-1" h="-1" measuredW="46" measuredH="22" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Alle</text>
+      </controlProperties>
+    </control>
+    <control controlID="100" controlTypeID="com.balsamiq.mockups::RadioButton" x="484" y="221" w="-1" h="-1" measuredW="68" measuredH="22" zOrder="26" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Nur%20ich</text>
+      </controlProperties>
+    </control>
+    <control controlID="101" controlTypeID="com.balsamiq.mockups::RadioButton" x="565" y="223" w="184" h="18" measuredW="164" measuredH="22" zOrder="27" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Ich%20und%20meine%20Freunde</text>
+      </controlProperties>
+    </control>
+    <control controlID="102" controlTypeID="com.balsamiq.mockups::Label" x="234" y="486" w="202" h="23" measuredW="186" measuredH="25" zOrder="28" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Verkn%FCpfungen%20in%20der%20Lehre%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="104" controlTypeID="com.balsamiq.mockups::Icon" x="565" y="468" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="29" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CircledPlusIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="105" controlTypeID="com.balsamiq.mockups::Icon" x="494" y="447" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="30" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CircledPlusIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="106" controlTypeID="com.balsamiq.mockups::Label" x="425" y="485" w="351" h="20" measuredW="365" measuredH="25" zOrder="31" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Informartik%209%20Klasse%20%28Hessen%2C%20Berlin%29%2C%20Uni%20XP%20Informatik</text>
+      </controlProperties>
+    </control>
+    <control controlID="107" controlTypeID="com.balsamiq.mockups::Link" x="731" y="484" w="-1" h="-1" measuredW="92" measuredH="25" zOrder="32" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>u.%2025%20weitere</text>
+      </controlProperties>
+    </control>
+    <control controlID="108" controlTypeID="com.balsamiq.mockups::Icon" x="834" y="487" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="33" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CircledPlusIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
