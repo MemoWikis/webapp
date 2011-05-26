@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Frontend.WebAdmin.Controllers
 {
     public class HomeController : Controller
     {
+        private SampleData _sampleData;
+
+        public HomeController(SampleData sampleData) 
+        {
+            _sampleData = sampleData;
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -23,6 +31,7 @@ namespace TrueOrFalse.Frontend.WebAdmin.Controllers
         {
             if (createSampleData != null)
             {
+                _sampleData.CreateLogins();
                 ViewBag.Message = "Beispieldaten wurden angelegt";       
             }
 

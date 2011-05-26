@@ -125,7 +125,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1 View\Spec.WelcomeController.cs" />
     <Compile Include="2 Core\Answer\ArrangeQuestion.cs" />
     <Compile Include="2 Core\Answer\Context.Question.cs" />
     <Compile Include="2 Core\Answer\Spec_answer_simple_text.cs" />
@@ -178,7 +177,9 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="1 View\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
