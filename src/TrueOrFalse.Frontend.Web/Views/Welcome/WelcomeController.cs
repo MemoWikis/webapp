@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Registration;
+using TrueOrFalse.Core.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
 
@@ -14,10 +15,16 @@ namespace TrueOrFalse.Frontend.Web.Controllers
     public class WelcomeController : Controller
     {
         private readonly RegisterUser _registerUser;
+        private readonly CredentialsAreValid _credentialsAreValid;
+        private readonly SessionUser _sessionUser;
 
-        public WelcomeController(RegisterUser registerUser)
+        public WelcomeController(RegisterUser registerUser, 
+                                 CredentialsAreValid credentialsAreValid, 
+                                 SessionUser sessionUser)
         {
             _registerUser = registerUser;
+            _credentialsAreValid = credentialsAreValid;
+            _sessionUser = sessionUser;
         }
 
         public ActionResult Welcome()
@@ -53,6 +60,17 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel loginModel)
         {
+            loginModel.UserName = Request["UserName"];
+            loginModel.Password = Request["Password"];
+
+            if (_credentialsAreValid.Yes(loginModel.UserName, loginModel.Password))
+            {
+                _sessionUser.Login(_credentialsAreValid.User);
+                return RedirectToAction("/" + Links.Summary);
+            }
+
+            loginModel.SetToWrongCredentials();
+
             return View(loginModel);
         }
             

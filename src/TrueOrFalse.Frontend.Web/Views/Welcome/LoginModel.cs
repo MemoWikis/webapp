@@ -17,5 +17,11 @@ namespace TrueOrFalse.Frontend.Web.Models
         {
             ShowLeftMenu_Empty();
         }
+
+        public void SetToWrongCredentials()
+        {
+            IsError = true;
+            ErrorMessage = "Du konntest nicht angemeldet werden. Bitte überprüfe Deinen Benutzernamen und Passwort";
+        }
     }
 }

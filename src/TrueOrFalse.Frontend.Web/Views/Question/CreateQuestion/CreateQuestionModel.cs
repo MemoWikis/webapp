@@ -27,6 +27,12 @@ namespace TrueOrFalse.Frontend.Web.Models
             Answer = Answer;
             return question;
         }
+
+        public CreateQuestionModel()
+        {
+            ShowLeftMenu_Nav();
+        }
+
     }
 
     

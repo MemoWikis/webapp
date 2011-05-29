@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<TrueOrFalse.Frontend.Web.Models.LoginModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="TrueOrFalse.View.Web.Views.Shared" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -8,6 +9,11 @@
 <% using (Html.BeginForm()) { %>
 
 	<br />
+
+    <% if(Model.IsError){
+        Html.RenderPartial(UserControls.ErrorMesage, new ErrorMessageModel(Model.ErrorMessage));
+    } %>
+
     <fieldset>
 
         <legend>Login</legend>

@@ -10,6 +10,8 @@ namespace TrueOrFalse.Core.Registration
     {
         private readonly UserRepository _userRepository;
         private readonly IsValdidPassword _isValidPassword;
+        
+        public User User;
 
         public CredentialsAreValid(UserRepository userRepository, 
                                    IsValdidPassword isValidPassword)
@@ -20,12 +22,18 @@ namespace TrueOrFalse.Core.Registration
 
         public bool Yes(string userName, string password)
         {
+            User = null;
             var user = _userRepository.GetByUserName(userName.Trim());
 
             if (user == null)
                 return false;
 
-            return _isValidPassword.True(password, user);
+            var isValidPassword =  _isValidPassword.True(password, user);
+
+            if (isValidPassword)
+                User = user;
+
+            return isValidPassword;
         }
     }
 }

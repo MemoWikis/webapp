@@ -50,6 +50,13 @@
       <HintPath>..\packages\Autofac.Mvc2.2.4.5.724\lib\NET40\Autofac.Integration.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Seedworks.Lib, Version=0.8.2.41343, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Seedworks.Web.Lib.Persistence">
+      <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
     <Reference Include="System.Web.Helpers" />

@@ -5,9 +5,9 @@
 <div style="width:155px;">
     <% using (Html.BeginForm("Login", "Welcome")) { %>
         Benutzername:<br />
-        <input type="text" />
+        <input type="text" name="UserName" />
         Passwort:<br />
-        <input type="password" />
+        <input type="password" name="Password" />
         <input value="Anmelden" type="submit" style="float:right; margin-top:4px; font-size:13px;" />
     <% } %>
 </div>

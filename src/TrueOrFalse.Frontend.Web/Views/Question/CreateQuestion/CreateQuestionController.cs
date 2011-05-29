@@ -6,25 +6,26 @@ using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Frontend.Web.Models;
 
-namespace TrueOrFalse.Frontend.Web.Controllers
+namespace TrueOrFalse.View.Web.Views.Question
 {
     [HandleError]
-    public class QuestionController : Controller
+    public class CreateQuestionController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
+        private const string _viewLocation = "~/Views/Question/CreateQuestion/CreateQuestion.aspx";
 
-        public QuestionController(IQuestionRepository questionRepository)
+        public CreateQuestionController(IQuestionRepository questionRepository)
         {
             _questionRepository = questionRepository;
         }
-
+        
         public ActionResult CreateQuestion()
         {
             var model = new CreateQuestionModel();
             model.Answer = "Antwort eingeben";
             model.Question = "Frage eingeben";
 
-            return View(model);
+            return View(_viewLocation, model);
         }
 
         [HttpPost]
@@ -34,7 +35,7 @@ namespace TrueOrFalse.Frontend.Web.Controllers
 
             _questionRepository.Create(model.ConvertToQuestion());
 
-            return View(model);
+            return View(_viewLocation, model);
         }
 
     }

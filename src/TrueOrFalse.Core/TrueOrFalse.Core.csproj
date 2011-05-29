@@ -76,12 +76,15 @@
     <Reference Include="NHibernate.ByteCode.Castle, Version=3.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.Castle.3.1.0.4000\lib\Net35\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.3904, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Seedworks.Lib, Version=0.8.2.41343, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.2\lib\Seedworks.Lib.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib.Persistence">
       <HintPath>..\packages\Seedworks.Persistence.0.8.2.2\lib\Seedworks.Lib.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="Seedworks.Web.Lib.Persistence">
+      <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
@@ -135,7 +138,8 @@
     <Compile Include="Domain\Question\Persistence\QuestionRepositoryDemoData.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="Domain\Question.Answer\Model.UserInput\UserInputText.cs" />
-    <Compile Include="SampleData.cs" />
+    <Compile Include="SampleData\SampleData.cs" />
+    <Compile Include="Web\Context\SessionUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -159,6 +163,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

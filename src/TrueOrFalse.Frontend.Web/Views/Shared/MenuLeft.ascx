@@ -2,10 +2,22 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="menu">
-    <ul >              
-        <li><%= Html.ActionLink("Willkommen", "Welcome", Links.WelcomeController)%></li>
-        <li><%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.QuestionController)%></li>
+    <ul >
+        <li><%= Html.ActionLink("Übersicht", Links.Summary, Links.SummaryController)%></li>
+        <li>Neues</li>
+        <ul>
+            <li>Wissen</li>
+            <li>Netzwerk</li>
+        </ul> 
+        <li>Wissen</li>
+        <ul>
+            <li>Fragen</li>
+            <li>Fragensätze</li>
+            <li>Kurse</li>
+        </ul>           
         
+        <li><%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.QuestionController)%></li>
+            
     </ul>
 </div>
 

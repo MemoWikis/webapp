@@ -20,5 +20,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string NotDoneYet = "NotDoneYet";
         public const string Impressum = "Imprint";
         public const string WelfareCompany = "WelfareCompany";
+
+        public const string SummaryController = "Summary";
+        public const string Summary = "Summary";
     }
 }

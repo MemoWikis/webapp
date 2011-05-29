@@ -13,13 +13,10 @@
 
 <ol>
     <li>Min. 50% aller Gewinne werden an gemeinützige Projekte transferiert.</li>
-    <li>Es erfolgt kein private Gewinnmaxmierung. Es werden ausschließlich (und moderate) Arbeitsvergütungen gezahlt.</li>
+    <li>Es erfolgt kein private Gewinnmaxmierung. Es werden ausschließlich (und moderate*) Arbeitsvergütungen gezahlt.</li>
     <li><i>Alle</i> Finanzen werden mind. 1/4 järhlich öffentlich gemacht.</li>
-    <li>Im 1/4 Jahrestakt, wird über Aktivitäten und insbesonder deren Gemeinwohlcharakter Rechenschaft abgelegt.</li>
+    <li>Im 1/4 Jahrestakt, wird über Aktivitäten und insbesondere deren Gemeinwohlcharakter Rechenschaft abgelegt.</li>
 </ol>
-
-
-
 
 <%--in dem <a href="http://robert-m.de">ich</a> --%>
 
