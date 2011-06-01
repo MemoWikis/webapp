@@ -17,14 +17,17 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         private readonly RegisterUser _registerUser;
         private readonly CredentialsAreValid _credentialsAreValid;
         private readonly SessionUser _sessionUser;
+        private readonly SampleData _sampleData;
 
         public WelcomeController(RegisterUser registerUser, 
                                  CredentialsAreValid credentialsAreValid, 
-                                 SessionUser sessionUser)
+                                 SessionUser sessionUser, 
+                                 SampleData sampleData)
         {
             _registerUser = registerUser;
             _credentialsAreValid = credentialsAreValid;
             _sessionUser = sessionUser;
+            _sampleData = sampleData;
         }
 
         public ActionResult Welcome()
@@ -72,6 +75,12 @@ namespace TrueOrFalse.Frontend.Web.Controllers
             loginModel.SetToWrongCredentials();
 
             return View(loginModel);
+        }
+
+        public void CreateDemoData()
+        {
+            _sampleData.CreateLogins();
+            Response.Redirect("/");
         }
             
     }

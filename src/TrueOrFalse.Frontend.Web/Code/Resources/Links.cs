@@ -15,6 +15,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Register = "Register";
         public const string RegisterSuccess = "RegisterSuccess";
         public const string Login = "Login";
+        public const string CreateDemoData = "CreateDemoData";
 
         public const string VariousController = "Various";
         public const string NotDoneYet = "NotDoneYet";
