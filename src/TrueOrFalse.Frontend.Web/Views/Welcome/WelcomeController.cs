@@ -66,7 +66,7 @@ namespace TrueOrFalse.Frontend.Web.Controllers
             if (_credentialsAreValid.Yes(loginModel.UserName, loginModel.Password))
             {
                 _sessionUser.Login(_credentialsAreValid.User);
-                return RedirectToAction("/" + Links.Summary);
+                return RedirectToAction(Links.Summary, Links.SummaryController );
             }
 
             loginModel.SetToWrongCredentials();
