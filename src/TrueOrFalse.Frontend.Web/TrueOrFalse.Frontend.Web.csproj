@@ -62,6 +62,12 @@
     <Reference Include="FluentNHibernate, Version=1.2.0.712, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentNHibernate.1.2.0.712\lib\FluentNHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>..\packages\Glimpse.0.82\lib\net40\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Mvc3">
+      <HintPath>..\packages\Glimpse.Mvc3.0.82\lib\net40\Glimpse.Mvc3.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.3.1.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -116,6 +122,7 @@
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\Validation.cs" />
     <Compile Include="Views\Question\CreateQuestion\CreateQuestionController.cs" />
+    <Compile Include="Views\Question\QuestionController.cs" />
     <Compile Include="Views\Shared\ErrorMessageModel.cs" />
     <Compile Include="Views\Summary\SummaryController.cs" />
     <Compile Include="Views\Summary\SummaryModel.cs" />
@@ -144,6 +151,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Readme\glimpse.mvc3.readme.txt" />
+    <Content Include="App_Readme\glimpse.readme.txt" />
     <Content Include="Global.asax" />
     <Content Include="Images\background.jpg" />
     <Content Include="Images\background.png" />
@@ -179,6 +188,7 @@
     <Content Include="Style\src\typography.css" />
     <Content Include="Views\Account\LogOff.aspx" />
     <Content Include="Views\Account\LogOn.aspx" />
+    <Content Include="Views\Question\Question.aspx" />
     <Content Include="Views\Shared\ErrorMessage.ascx" />
     <Content Include="Views\Summary\Summary.aspx" />
     <Content Include="Views\Various\Imprint.aspx" />

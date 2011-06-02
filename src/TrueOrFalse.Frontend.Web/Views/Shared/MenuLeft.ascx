@@ -16,7 +16,7 @@
             <li>Kurse</li>
         </ul>           
         
-        <li><%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.QuestionController)%></li>
+        <li><%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.CreateQuestionController)%></li>
             
     </ul>
 </div>
