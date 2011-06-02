@@ -30,8 +30,7 @@
             <%: Html.LabelFor(model => model.Password)  %><br/>
         </div>
         <div class="editor-field">
-            <%: Html.EditorFor(model => model.Password) %> <br/>
-            <%: Html.ValidationMessageFor(model => model.Password) %>
+            <%: Html.Password("Password") %> &nbsp; (grOß kLEinScHReiBunG beachten!)
         </div>
 
         <br/>
