@@ -7,7 +7,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 {
     public static class Links
     {
-        public const string CreateQuestionController = "Question/CreateQuestionController"; 
+        public const string CreateQuestionController = "CreateQuestion"; 
         public const string QuestionCreate = "CreateQuestion";
         public const string QuestionUpdate = "UpdateQuestion";
 
