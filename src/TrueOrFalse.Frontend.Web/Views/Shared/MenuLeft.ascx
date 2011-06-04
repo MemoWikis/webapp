@@ -14,10 +14,7 @@
             <li>Fragen</li>
             <li>Fragensätze</li>
             <li>Kurse</li>
-        </ul>           
-        
-        <li><%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.CreateQuestionController)%></li>
-            
+        </ul>               
     </ul>
 </div>
 
