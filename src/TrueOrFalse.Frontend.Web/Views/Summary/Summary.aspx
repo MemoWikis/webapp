@@ -72,19 +72,32 @@
 
 <h2>Willkommen Robert Mischke, schön das Du da bist.</h2>
 
+<br/>
+<button>
 <%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.CreateQuestionController)%>
+</button>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
 
 <h3>Wissensentwicklung</h3>
 
-<select>
-
-</select>
+<%= Html.DropDownList("ddlKnowledgeType", Model.KenDevelopmentTypes) %>
+Innerhalb von: <%= Html.DropDownList("ddlPeriod", Model.KenDevelopmentPeriod) %>
 
 <div id="container" style="width: 600px; height: 350px; margin: 0 auto;"></div>
  
 <h3>Interessante Fragen</h3>
-<p></p>
+
 <h3>Zuletzt beantwortete Fragen</h3>
 
+</asp:Content>
+
+<asp:Content ID="RightMenu" ContentPlaceHolderID="RightMenu" runat="server">
+    Suche <span style="float:right;">[filter]</span>
+    <%= Html.TextBox("search") %>
 </asp:Content>
 
