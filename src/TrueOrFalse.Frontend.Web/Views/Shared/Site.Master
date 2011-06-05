@@ -42,9 +42,9 @@
             <div id="title">
                 <%--<h1><a href="/" style="text-decoration:none;">Richtig oder falsch?</a></h1>--%>
                 <h1><a href="/" style="text-decoration:none;">
-                    <span style="color:rgb(203, 203, 203)">Richtig</span> 
-                    <span style="color:rgb(203, 203, 203); font-size:32px;" >oder</span> 
-                    <span style="color:rgb(174, 10, 17); font-family: 'Over the Rainbow', serif; font-variant:normal; font-size:50px; margin-top:-5px; margin-top:-5px;position:relative;top:10px;">f</span><span style="color:rgb(203, 203, 203)">alsch</span><span style="color:rgb(203, 203, 203)">?</span>
+                    <span class="green">Richtig</span> 
+                    <span style="font-size:32px;" class="green" >oder</span> 
+                    <span style="color:rgb(174, 10, 17); font-family: 'Over the Rainbow', serif; font-variant:normal; font-size:50px; margin-top:-5px; margin-top:-5px;position:relative;top:10px;">f</span><span class="green">alsch</span><span class="green">?</span>
                 </a></h1>
             </div>
               

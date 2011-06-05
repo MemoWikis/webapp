@@ -83,6 +83,11 @@ h3 { margin-bottom:8px;}
     font-style: italic;
 }
 
+#header h1 .green
+{
+    color: rgb(104, 130, 80);
+}
+
 .main
 {
     padding: 0px 12px;
