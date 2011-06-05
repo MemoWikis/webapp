@@ -204,6 +204,7 @@
     <Content Include="Scripts\MicrosoftMvcAjax.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Style\fonts\OFL.txt" />
     <Content Include="Style\ie.css" />
     <Content Include="Style\plugins\buttons\readme.txt" />
     <Content Include="Style\plugins\buttons\screen.css" />
@@ -253,6 +254,7 @@
     <Content Include="Views\Shared\LogOn.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="packages.config" />
+    <None Include="Style\fonts\Candal.ttf" />
     <None Include="Views\Web.config">
       <SubType>Designer</SubType>
     </None>
