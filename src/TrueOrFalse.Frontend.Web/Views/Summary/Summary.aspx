@@ -72,15 +72,74 @@
 
 <h2>Willkommen Robert Mischke, schön das Du da bist.</h2>
 
-<br/>
-<button>
+<%--<button>
 <%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.CreateQuestionController)%>
-</button>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+</button>--%>
+
+<%--<div>
+    
+</div>--%>
+
+<p>
+    <a href="/">
+        test
+    </a>
+</p>
+
+<script>
+	$(function () {
+	    $("#radio").buttonset();
+	});
+
+	$(function () {
+	    $("#check").button();
+	    $("#format").buttonset();
+	});
+	
+	$(function () {
+	    $(".demo button:first").button({
+	        icons: {
+	            primary: "ui-icon-locked"
+	        },
+	        text: false
+	    }).next().button({
+	        icons: {
+	            primary: "ui-icon-locked"
+	        }
+	    }).next().button({
+	        icons: {
+	            primary: "ui-icon-gear",
+	            secondary: "ui-icon-triangle-1-s"
+	        }
+	    }).next().button({
+	        icons: {
+	            primary: "ui-icon-gear",
+	            secondary: "ui-icon-triangle-1-s"
+	        },
+	        text: false
+	    });
+	});
+	
+</script>
+
+<div id="radio">
+	<input type="radio" id="radio1" name="radio" /><label for="radio1">Choice 1</label>
+	<input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Choice 2</label>
+	<input type="radio" id="radio3" name="radio" /><label for="radio3">Choice 3</label>
+</div>
+
+<div id="format">
+	<input type="checkbox" id="check1" /><label for="check1">B</label>
+	<input type="checkbox" id="check2" /><label for="check2">I</label>
+	<input type="checkbox" id="check3" /><label for="check3">U</label>
+</div>
+
+
+
+<button>Button with icon only</button>
+<button>Button with icon on the left</button>
+<button>Button with two icons</button>
+<button>Button with two icons and no text</button>
 
 
 <h3>Wissensentwicklung</h3>
