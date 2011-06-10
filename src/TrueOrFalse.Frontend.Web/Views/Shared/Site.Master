@@ -7,9 +7,7 @@
     <title></title>
     <link href="/Style/screen.css" rel="stylesheet" type="text/css" />	
 	<link href="/Style/site.css" rel="stylesheet" type="text/css" />
-	<link href="/Style/plugins/link-icons/screen.css" rel="stylesheet" type="text/css" />
-	<link href="/Style/plugins/buttons/screen.css" rel="stylesheet" type="text/css" />
-    
+
     <% if(!Request.IsLocal){ %>        
         <link href='http://fonts.googleapis.com/css?family=Over+the+Rainbow' rel='stylesheet' type='text/css'/>
         <link href="http://fonts.googleapis.com/css?family=Candal:regular" rel="stylesheet" type="text/css" />
@@ -19,15 +17,16 @@
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js" type="text/javascript"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
     <% }else{ %>
-        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="/Style/fonts/OvertheRainbow.ttf" rel="stylesheet" type="text/css" />
         <link href="/Style/fonts/Candal.ttf" rel="stylesheet" type="text/css" />
+        <link href="/Style/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
         <script src="/Scripts/jquery-1.6.1.min.js" type="text/javascript"></script>
         <script src="/Scripts/jquery-ui-1.8.13.min.js" type="text/javascript"></script>
         <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
         <script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
     <% } %>
 
--    <script src="/Scripts/highcharts.js" type="text/javascript"></script>
+   <script src="/Scripts/highcharts.js" type="text/javascript"></script>
 
     <asp:ContentPlaceHolder ID="Head" runat="server" />
     

@@ -61,6 +61,14 @@
 
 
 		});
+
+		$(function() {
+		    //hover states on the static widgets
+		    $('.button').hover(
+		        function() { $(this).addClass('ui-state-hover'); },
+		        function() { $(this).removeClass('ui-state-hover'); }
+				    );
+		});		    
 				
 	</script> 
 		
@@ -76,70 +84,16 @@
 <%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.CreateQuestionController)%>
 </button>--%>
 
-<%--<div>
-    
-</div>--%>
 
-<p>
-    <a href="/">
-        test
-    </a>
-</p>
+<style type="text/css">
+	/*demo page css*/
+	a.button {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+	a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+</style>
 
-<script>
-	$(function () {
-	    $("#radio").buttonset();
-	});
-
-	$(function () {
-	    $("#check").button();
-	    $("#format").buttonset();
-	});
-	
-	$(function () {
-	    $(".demo button:first").button({
-	        icons: {
-	            primary: "ui-icon-locked"
-	        },
-	        text: false
-	    }).next().button({
-	        icons: {
-	            primary: "ui-icon-locked"
-	        }
-	    }).next().button({
-	        icons: {
-	            primary: "ui-icon-gear",
-	            secondary: "ui-icon-triangle-1-s"
-	        }
-	    }).next().button({
-	        icons: {
-	            primary: "ui-icon-gear",
-	            secondary: "ui-icon-triangle-1-s"
-	        },
-	        text: false
-	    });
-	});
-	
-</script>
-
-<div id="radio">
-	<input type="radio" id="radio1" name="radio" /><label for="radio1">Choice 1</label>
-	<input type="radio" id="radio2" name="radio" checked="checked" /><label for="radio2">Choice 2</label>
-	<input type="radio" id="radio3" name="radio" /><label for="radio3">Choice 3</label>
+<div>
+<a href="#" class="button ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span>Neue Frage erstellen</a>
 </div>
-
-<div id="format">
-	<input type="checkbox" id="check1" /><label for="check1">B</label>
-	<input type="checkbox" id="check2" /><label for="check2">I</label>
-	<input type="checkbox" id="check3" /><label for="check3">U</label>
-</div>
-
-
-
-<button>Button with icon only</button>
-<button>Button with icon on the left</button>
-<button>Button with two icons</button>
-<button>Button with two icons and no text</button>
 
 
 <h3>Wissensentwicklung</h3>
