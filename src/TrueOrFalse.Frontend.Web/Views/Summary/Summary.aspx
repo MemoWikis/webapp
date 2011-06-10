@@ -61,14 +61,6 @@
 
 
 		});
-
-		$(function() {
-		    //hover states on the static widgets
-		    $('.button').hover(
-		        function() { $(this).addClass('ui-state-hover'); },
-		        function() { $(this).removeClass('ui-state-hover'); }
-				    );
-		});		    
 				
 	</script> 
 		
@@ -85,14 +77,9 @@
 </button>--%>
 
 
-<style type="text/css">
-	/*demo page css*/
-	a.button {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
-	a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
-</style>
 
-<div>
-<a href="#" class="button ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span>Neue Frage erstellen</a>
+<div class="button">
+    <a href="#" class="button ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span>Neue Frage erstellen</a>
 </div>
 
 
