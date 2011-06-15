@@ -77,10 +77,8 @@
 </button>--%>
 
 
+<%= Html.ActionLink() %>
 
-<div class="button">
-    <a href="#" class="button ui-state-default ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span>Neue Frage erstellen</a>
-</div>
 
 
 <h3>Wissensentwicklung</h3>
