@@ -72,14 +72,7 @@
 
 <h2>Willkommen Robert Mischke, schön das Du da bist.</h2>
 
-<%--<button>
-<%= Html.ActionLink("Frage erstellen", Links.QuestionCreate, Links.CreateQuestionController)%>
-</button>--%>
-
-
-<%= Html.ActionLink() %>
-
-
+<%= Buttons.Link("Frage erstellen", Links.QuestionCreate, Links.CreateQuestionController)%>
 
 <h3>Wissensentwicklung</h3>
 
