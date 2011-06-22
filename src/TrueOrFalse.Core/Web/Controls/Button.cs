@@ -9,13 +9,7 @@ using System.Web.Mvc.Html;
 
 namespace System.Web.Mvc
 {
-
-    public class BlaModel
-    {
-        
-    }
-
-    public class Buttons
+    public static class Button
     {
         public static string Link(string buttonText, string actionName, string controllerName)
         {

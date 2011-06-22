@@ -102,7 +102,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />	
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Message\Message.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="Domain\Question.Answer\Model.UserInput\UserInputText.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
-    <Compile Include="Web\Controls\Buttons.cs" />
+    <Compile Include="Web\Controls\Button.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
