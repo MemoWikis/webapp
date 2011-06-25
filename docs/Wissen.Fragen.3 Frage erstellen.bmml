@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" measuredW="996" measuredH="707" mockupW="988" mockupH="682">
+<mockup version="1.0" skin="sketch" measuredW="1266" measuredH="707" mockupW="1258" mockupH="682">
   <controls>
     <control controlID="55" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="8" y="25" w="988" h="682" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
@@ -160,19 +160,30 @@
         <icon>CircledPlusIcon%7Cxsmall</icon>
       </controlProperties>
     </control>
-    <control controlID="106" controlTypeID="com.balsamiq.mockups::Label" x="425" y="485" w="351" h="20" measuredW="365" measuredH="25" zOrder="31" locked="false" isInGroup="-1">
+    <control controlID="107" controlTypeID="com.balsamiq.mockups::Link" x="587" y="484" w="-1" h="-1" measuredW="87" measuredH="25" zOrder="31" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Informartik%209%20Klasse%20%28Hessen%2C%20Berlin%29%2C%20Uni%20XP%20Informatik</text>
+        <text>u.%2025%20andere</text>
       </controlProperties>
     </control>
-    <control controlID="107" controlTypeID="com.balsamiq.mockups::Link" x="731" y="484" w="-1" h="-1" measuredW="92" measuredH="25" zOrder="32" locked="false" isInGroup="-1">
+    <control controlID="108" controlTypeID="com.balsamiq.mockups::Icon" x="571" y="489" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="32" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>u.%2025%20weitere</text>
+        <icon>PencilIcon%7Cxsmall</icon>
       </controlProperties>
     </control>
-    <control controlID="108" controlTypeID="com.balsamiq.mockups::Icon" x="834" y="487" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="33" locked="false" isInGroup="-1">
+    <control controlID="109" controlTypeID="com.balsamiq.mockups::Arrow" x="836" y="437" w="166" h="63" measuredW="150" measuredH="100" zOrder="33" locked="false" isInGroup="-1">
       <controlProperties>
-        <icon>CircledPlusIcon%7Cxsmall</icon>
+        <direction>bottom</direction>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="110" controlTypeID="com.balsamiq.mockups::StickyNote" x="1028" y="375" w="238" h="134" measuredW="109" measuredH="123" zOrder="34" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Verkn%FCpfungen%20in%20der%20Lehre%20werden%20pro%20Benutzer%20hinterlegt%20und%20in%20einem%20eigenen%20Dialog%20verwaltet.</text>
+      </controlProperties>
+    </control>
+    <control controlID="112" controlTypeID="com.balsamiq.mockups::ComboBox" x="425" y="484" w="-1" h="-1" measuredW="139" measuredH="25" zOrder="35" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>9%20Klasse%20-%20Berlin</text>
       </controlProperties>
     </control>
   </controls>

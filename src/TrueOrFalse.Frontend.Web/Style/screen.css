@@ -103,6 +103,9 @@ form.inline p {margin-bottom:0;}
 .success a {color:#264409;}
 .info a {color:#205791;}
 
+/* forms.css */
+
+
 /* grid.css */
 .container {width:950px;margin:0 auto;}
 .showgrid {background:url(src/grid.png);}

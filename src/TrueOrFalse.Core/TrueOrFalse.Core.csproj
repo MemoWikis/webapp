@@ -115,6 +115,7 @@
     <Compile Include="Domain\Question\QueryList.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionMap.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionRepository.cs" />
+    <Compile Include="Domain\Question\QuestionVisibility.cs" />
     <Compile Include="Domain\User\Registration.Login\CredentialsAreValid.cs" />
     <Compile Include="Domain\User\Registration.Confirmation\CreateConfirmationLink.cs" />
     <Compile Include="Domain\User\Registration.Confirmation\SetUserEmailAsConfirmed.cs" />
@@ -141,7 +142,7 @@
     <Compile Include="Domain\Question.Answer\Model.UserInput\UserInputText.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
-    <Compile Include="Web\Controls\Button.cs" />
+    <Compile Include="Web\Controls\Buttons.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
