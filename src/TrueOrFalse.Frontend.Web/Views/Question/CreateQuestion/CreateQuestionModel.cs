@@ -14,23 +14,14 @@ namespace TrueOrFalse.Frontend.Web.Models
         [DisplayName("Sichbar")]
         public QuestionVisibility Visibility { get; set; }
 
-        public IEnumerable<SelectListItem> VisibilityData
-        {
-            get
-            {
-                return new List<SelectListItem>
-                           {
-                               new SelectListItem {Text = "Alle", Value = QuestionVisibility.All.ToString()},
-                               new SelectListItem {Text = "Nur Ich", Value = QuestionVisibility.Owner.ToString()},
-                               new SelectListItem {Text = "Ich und meine Freunde", Value = QuestionVisibility.OwnerAndFriends.ToString()},
-                           };
-            }
-        }
-
         [Required]
         [DataType(DataType.MultilineText )]
         [DisplayName("Frage")]
         public string Question { get; set; }
+
+        [Required]
+        [DisplayName("Antwort")]
+        public string AnswerType { get; set; }
 
         [Required]
         [DataType(DataType.MultilineText)]
@@ -64,6 +55,36 @@ namespace TrueOrFalse.Frontend.Web.Models
                            };
             }
         }
+
+
+        public IEnumerable<SelectListItem> VisibilityData
+        {
+            get
+            {
+                return new List<SelectListItem>
+                           {
+                               new SelectListItem {Text = "Alle", Value = QuestionVisibility.All.ToString()},
+                               new SelectListItem {Text = "Nur Ich", Value = QuestionVisibility.Owner.ToString()},
+                               new SelectListItem {Text = "Ich und meine Freunde", Value = QuestionVisibility.OwnerAndFriends.ToString()},
+                           };
+            }
+        }
+
+
+        public IEnumerable<SelectListItem> AnswerTypeData
+        {
+            get
+            {
+                return new List<SelectListItem>
+                           {
+                               new SelectListItem {Text = "Exakt", Value = Core.AnswerType.ExactText.ToString()},
+                               new SelectListItem {Text = "Freitext", Value = Core.AnswerType.FreeText.ToString()},
+                               new SelectListItem {Text = "Multiple Choice", Value = Core.AnswerType.MultipleChoice.ToString()},
+                               new SelectListItem {Text = "Annäherung", Value = Core.AnswerType.Approximation.ToString()}
+                           };
+            }
+        }
+
 
         [DataType(DataType.Text)]
         [DisplayName("Charakter")]

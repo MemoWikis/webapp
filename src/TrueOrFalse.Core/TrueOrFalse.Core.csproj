@@ -108,6 +108,7 @@
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Persistance\MessageMap.cs" />
     <Compile Include="Domain\Question.Answer\Answer.cs" />
+    <Compile Include="Domain\Question.Answer\AnswerType.cs" />
     <Compile Include="Domain\Question.Answer\Persistence\AnswerMap.cs" />
     <Compile Include="Domain\Question\Persistence\IQuestionRepository.cs" />
     <Compile Include="Domain\Question\Question.cs" />
