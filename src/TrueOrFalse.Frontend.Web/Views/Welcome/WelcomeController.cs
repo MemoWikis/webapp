@@ -34,7 +34,7 @@ namespace TrueOrFalse.Frontend.Web.Controllers
         {
             ViewData["Message"] = "Sind Sie sicher?";
 
-            var model = new WelcomeModel {MostPopular = QuestionDemoData.All()};
+            var model = new WelcomeModel {};
 
             return View(model);
         }

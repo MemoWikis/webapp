@@ -51,7 +51,7 @@ namespace TrueOrFalse.Frontend.Web
             var builder = new ContainerBuilder();
 			RegistrationExtensions.RegisterControllers(builder, Assembly.GetExecutingAssembly());
 			RegistrationExtensions.RegisterModelBinders(builder, Assembly.GetExecutingAssembly());
-            builder.RegisterType<QuestionRepositoryDemoData>().As<IQuestionRepository>();
+            builder.RegisterType<QuestionRepository>().As<QuestionRepository>();
             builder.RegisterModule<AutofacCoreModule>();
 
             _containerProvider = new ContainerProvider(builder.Build());

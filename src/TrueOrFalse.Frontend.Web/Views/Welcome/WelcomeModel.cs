@@ -14,6 +14,7 @@ namespace TrueOrFalse.Frontend.Web.Models
         {
             RightMenu.Yes = true;
             ShowLeftMenu_TopUsers();
+            MostPopular = new List<Question>();
         }
     }
 }

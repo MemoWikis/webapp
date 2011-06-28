@@ -110,9 +110,7 @@
     <Compile Include="Domain\Question.Answer\Answer.cs" />
     <Compile Include="Domain\Question.Answer\AnswerType.cs" />
     <Compile Include="Domain\Question.Answer\Persistence\AnswerMap.cs" />
-    <Compile Include="Domain\Question\Persistence\IQuestionRepository.cs" />
     <Compile Include="Domain\Question\Question.cs" />
-    <Compile Include="Domain\Question\Persistence\QuestionDemoData.cs" />
     <Compile Include="Domain\Question\QueryList.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionMap.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionRepository.cs" />
@@ -139,7 +137,6 @@
     <Compile Include="Infrastructure\Persistence\SpecOrderByBase.cs" />
     <Compile Include="Infrastructure\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Domain\Question\Persistence\QuestionRepositoryDemoData.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="Domain\Question.Answer\Model.UserInput\UserInputText.cs" />
     <Compile Include="SampleData\SampleData.cs" />

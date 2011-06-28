@@ -13,10 +13,10 @@ namespace TrueOrFalse.View.Web.Views.Question
     [HandleError]
     public class CreateQuestionController : Controller
     {
-        private readonly IQuestionRepository _questionRepository;
+        private readonly QuestionRepository _questionRepository;
         private const string _viewLocation = "~/Views/Question/CreateQuestion/CreateQuestion.aspx";
 
-        public CreateQuestionController(IQuestionRepository questionRepository)
+        public CreateQuestionController(QuestionRepository questionRepository)
         {
             _questionRepository = questionRepository;
         }
