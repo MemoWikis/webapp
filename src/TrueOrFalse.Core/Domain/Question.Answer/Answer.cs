@@ -19,6 +19,8 @@ namespace TrueOrFalse.Core
         public virtual int Id { get; set; }
 
         public virtual string Text { get; set; }
+        public virtual string Description { get; set; }
+        public virtual AnswerType Type { get; set; }
 
         public virtual DateTime DateCreated { get; set; }
         public virtual DateTime DateModified { get; set; }

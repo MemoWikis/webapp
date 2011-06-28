@@ -6,17 +6,14 @@ using FluentNHibernate.Mapping;
 
 namespace TrueOrFalse.Core
 {
-    public class AnswerMap : ClassMap<Answer>
+    public class MainCategoryMap : ClassMap<MainCategory>
     {
-        public AnswerMap()
+        public MainCategoryMap()
         {
             Id(x => x.Id);
-            Map(x => x.Type);
-            Map(x => x.Text);
-            Map(x => x.Description);
+            Map(x => x.Title);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
         }
-
     }
 }
