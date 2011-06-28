@@ -6,11 +6,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
+using Message = TrueOrFalse.Core.Web.Message;
 
 namespace TrueOrFalse.Frontend.Web.Models
 {
     public class CreateQuestionModel : ModelBase
     {
+        public Message Message;
+
         [DisplayName("Sichbar")]
         public QuestionVisibility Visibility { get; set; }
 
@@ -40,9 +43,11 @@ namespace TrueOrFalse.Frontend.Web.Models
         [DisplayName("Unterkategorie")]
         public string CategorySub { get; set; }
 
-        [DataType(DataType.Text)]
         [DisplayName("Verknüpfung Lehre")]
         public string EducationLink {get; set;}
+
+        [DisplayName("Charakter")]
+        public string Character { get; set; } 
 
         public IEnumerable<SelectListItem> EducationLinkData
         {
@@ -85,18 +90,15 @@ namespace TrueOrFalse.Frontend.Web.Models
             }
         }
 
-
-        [DataType(DataType.Text)]
         [DisplayName("Charakter")]
-        public IEnumerable<SelectListItem> Character
+        public IEnumerable<SelectListItem> CharacterData
         {
             get
             {
                 return new List<SelectListItem>
                            {
-                               new SelectListItem {Text = "Fakten Wissen"},
-                               new SelectListItem {Text = "Didaktisch"},
-                               new SelectListItem {Text = "Unterhaltung"},
+                               new SelectListItem {Text = "Ernsthaft", Value = QuestionCharacter.Serious.ToString()},
+                               new SelectListItem {Text = "Unterhaltsam", Value = QuestionCharacter.Entertaining.ToString()}
                            };
             }
         }

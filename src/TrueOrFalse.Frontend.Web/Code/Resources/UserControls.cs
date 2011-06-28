@@ -13,6 +13,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Logon = "Logon";
         public const string Login = "LoginUc";
 
-        public const string ErrorMesage = "ErrorMessage";
+        public const string Message = "Message";
     }
 }

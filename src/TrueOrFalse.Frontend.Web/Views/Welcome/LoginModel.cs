@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TrueOrFalse.Core.Web;
 
 namespace TrueOrFalse.Frontend.Web.Models
 {
     public class LoginModel : ModelBase
     {
-        public bool IsError;
-        public string ErrorMessage;
+        public Message Message;
 
         public string UserName;
         public string Password;
@@ -20,8 +20,8 @@ namespace TrueOrFalse.Frontend.Web.Models
 
         public void SetToWrongCredentials()
         {
-            IsError = true;
-            ErrorMessage = "Du konntest nicht angemeldet werden. Bitte überprüfe Deinen Benutzernamen und Passwort";
+            Message = new Message(MessageType.IsError, 
+                "Du konntest nicht angemeldet werden. Bitte überprüfe Deinen Benutzernamen und Passwort"); ;
         }
     }
 }

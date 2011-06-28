@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
+using TrueOrFalse.Core.Web;
 using TrueOrFalse.Frontend.Web.Models;
+using Message = TrueOrFalse.Core.Web.Message;
 
 namespace TrueOrFalse.View.Web.Views.Question
 {
@@ -34,6 +36,8 @@ namespace TrueOrFalse.View.Web.Views.Question
             ViewData["question"] = model.Question;
 
             _questionRepository.Create(model.ConvertToQuestion());
+
+            model.Message = new SuccessMessage("Die Nachricht wurde gespeichert");
 
             return View(_viewLocation, model);
         }
