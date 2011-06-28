@@ -21,7 +21,7 @@ namespace TrueOrFalse.View.Web.Views.Question
             _questionRepository = questionRepository;
         }
         
-        public ActionResult CreateQuestion()
+        public ActionResult Create()
         {
             var model = new CreateQuestionModel();
             model.Answer = "Antwort eingeben";
@@ -31,7 +31,7 @@ namespace TrueOrFalse.View.Web.Views.Question
         }
 
         [HttpPost]
-        public ActionResult CreateQuestion(CreateQuestionModel model)
+        public ActionResult Create(CreateQuestionModel model)
         {
             ViewData["question"] = model.Question;
 
