@@ -11,7 +11,7 @@ namespace TrueOrFalse.Core
         public SubCategoryMap()
         {
             Id(x => x.Id);
-            Map(x => x.MainCategory);
+            References(x => x.MainCategory);
             Map(x => x.Title);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);

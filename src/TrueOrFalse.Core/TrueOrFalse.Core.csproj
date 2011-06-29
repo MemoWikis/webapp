@@ -139,6 +139,7 @@
     <Compile Include="Infrastructure\IoC\AutofacCoreModule.cs" />
     <Compile Include="Infrastructure\Email\SendEmail.cs" />
     <Compile Include="Infrastructure\IoC\IRegisterAsInstancePerLifetime.cs" />
+    <Compile Include="Infrastructure\Persistence\EnumConvention.cs" />
     <Compile Include="Infrastructure\Persistence\SessionFactory.cs" />
     <Compile Include="Infrastructure\Persistence\SpecFilterBase.cs" />
     <Compile Include="Infrastructure\Persistence\SpecOrderByBase.cs" />

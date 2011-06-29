@@ -9,14 +9,13 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Core
 {
     public class SessionFactory
     {
         
-
-
         public static ISessionFactory CreateSessionFactory()
         {
             return Fluently.Configure()
@@ -26,7 +25,7 @@ namespace TrueOrFalse.Core
                     .FromConnectionStringWithKey("main"))
               )
               .Mappings(m =>
-                m.FluentMappings.AddFromAssemblyOf<Question>())
+                m.FluentMappings.Conventions.Add<EnumConvention>().AddFromAssemblyOf<Question>())
               .ExposeConfiguration(BuildSchema)
               .BuildSessionFactory();
         }
