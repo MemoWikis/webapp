@@ -21,6 +21,7 @@ namespace TrueOrFalse.Core
                 }
             
             base.Create(question);
+            Flush();
         }
     }
 }

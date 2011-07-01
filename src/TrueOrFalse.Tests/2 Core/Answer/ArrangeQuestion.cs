@@ -15,9 +15,10 @@ namespace TrueOrFalse.Tests
             Question = new Question();
         }
 
-        public void WithAnswer(string answerText)
+        public ArrangeQuestion AddAnswer(string answerText)
         {
             Question.Answers.Add(new Answer(answerText));
+            return this;
         }
     }
 }
