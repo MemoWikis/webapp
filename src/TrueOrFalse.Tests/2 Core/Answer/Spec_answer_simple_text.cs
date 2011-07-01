@@ -18,7 +18,7 @@ namespace TrueOrFalse.Tests
         public void Text_answer_should_be_equal_to_valid_user_input()
         {
             _context.Arrange_question("What is BDD")
-                .WithStrictAnswer("Behaviour Driven Development");
+                .WithAnswer("Behaviour Driven Development");
 
             //_context.Question.
             //    IsValidAnswer(new UserInputText("Behaviour Driven Development"))
@@ -29,7 +29,7 @@ namespace TrueOrFalse.Tests
         public void Text_answer_should_be_agnostic_to_white_spaces()
         {
             _context.Arrange_question(" What is BDD ")
-                .WithStrictAnswer("Behaviour Driven Development");
+                .WithAnswer("Behaviour Driven Development");
 
             //_context.Question.
             //    IsValidAnswer(new UserInputText("Behaviour Driven Development"))
@@ -40,7 +40,7 @@ namespace TrueOrFalse.Tests
         public void Text_answer_should_be_invalid_on_wrong_input()
         {
             _context.Arrange_question(" What is BDD ")
-                .WithStrictAnswer("Invalid answer");
+                .WithAnswer("Invalid answer");
 
             //_context.Question.
             //    IsValidAnswer(new UserInputText("Behaviour Driven Development"))

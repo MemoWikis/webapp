@@ -136,7 +136,7 @@
     <Compile Include="a Test MetaData\Personas\Persona.LoggedInUser.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.UserWhoWantsToRegister.cs" />
     <Compile Include="_ code\BaseTest.cs" />
-    <Compile Include="2 Core\Persistence\Persistence_Tests.cs" />
+    <Compile Include="2 Core\Persistence\Question_persistence_tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="a Test MetaData\TestCategories.cs" />
     <Compile Include="2 Core\User\Registration\Spec.RegisterUser.cs" />

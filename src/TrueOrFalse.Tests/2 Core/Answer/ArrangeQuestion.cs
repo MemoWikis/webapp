@@ -15,15 +15,9 @@ namespace TrueOrFalse.Tests
             Question = new Question();
         }
 
-        public void With(string questionText)
+        public void WithAnswer(string answerText)
         {
-            
-        }
-
-        public void WithStrictAnswer(string answerText)
-        {
-            //Question.Answer = new Answer();
-            //Question.Answer.Text = answerText;
+            Question.Answers.Add(new Answer(answerText));
         }
     }
 }

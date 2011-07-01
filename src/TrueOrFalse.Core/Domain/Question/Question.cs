@@ -19,5 +19,10 @@ namespace TrueOrFalse.Core
         public virtual DateTime DateModified { get; set; }
         public virtual DateTime DateCreated { get; set; }
 
+        public Question()
+        {
+            Answers = new List<Answer>();
+        }
+
     }
 }

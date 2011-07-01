@@ -11,7 +11,7 @@ using TrueOrFalse.Core;
 namespace TrueOrFalse.Tests.Persistence
 {
     [Category(TestCategories.Programmer)]
-    public class Persistence_Tests : BaseTest
+    public class Question_persistence_tests : BaseTest
     {
         readonly ContextQuestion _context = new ContextQuestion();
 
@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tests.Persistence
         public void Question_should_be_persisted()
         {
             _context.Arrange_question("What is BDD")
-                .WithStrictAnswer("Behaviour Driven Development");
+                .WithAnswer("Behaviour Driven Development");
 
             var questionService = Resolve<QuestionRepository>();
             questionService.Create(_context.Question);
