@@ -31,7 +31,7 @@ namespace TrueOrFalse.Frontend.WebAdmin.Controllers
         {
             if (createSampleData != null)
             {
-                _sampleData.CreateLogins();
+                _sampleData.CreateUsers();
                 ViewBag.Message = "Beispieldaten wurden angelegt";       
             }
 

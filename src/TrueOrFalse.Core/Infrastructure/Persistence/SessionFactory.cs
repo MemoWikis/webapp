@@ -15,6 +15,7 @@ namespace TrueOrFalse.Core
 {
     public class SessionFactory
     {
+        private static Configuration _configuration;
         
         public static ISessionFactory CreateSessionFactory()
         {
@@ -26,14 +27,19 @@ namespace TrueOrFalse.Core
               )
               .Mappings(m =>
                 m.FluentMappings.Conventions.Add<EnumConvention>().AddFromAssemblyOf<Question>())
-              .ExposeConfiguration(BuildSchema)
+              .ExposeConfiguration(SetConfig)
               .BuildSessionFactory();
         }
 
-        private static void BuildSchema(Configuration config)
+        private static void SetConfig(Configuration config)
         {
-            new SchemaExport(config)
-              .Create(false, true);
+            _configuration = config;
+        }
+
+        public static void BuildSchema()
+        {
+            new SchemaExport(_configuration)
+                .Create(false, true);
         }
     }
 }

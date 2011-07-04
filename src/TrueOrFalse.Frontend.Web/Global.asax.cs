@@ -33,8 +33,7 @@ namespace TrueOrFalse.Frontend.Web
             routes.MapRoute("CreateQuestion", "Question/Create/{action}", new { controller = "CreateQuestion", action = "Create" });
             routes.MapRoute("Summary", "Summary/{action}", new { controller = "Summary", action="Summary" });
             routes.MapRoute("Various", "{action}", new { controller = "Various" });
-            routes.MapRoute("Default","{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });
-            
+            routes.MapRoute("Default","{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });            
         }
 
         protected void Application_Start()
@@ -56,6 +55,7 @@ namespace TrueOrFalse.Frontend.Web
 
             _containerProvider = new ContainerProvider(builder.Build());
 
+            GlobalFilters.Filters.Add(new GlobalAuthorizationAttribute());
 			ControllerBuilder.Current.SetControllerFactory(new AutofacControllerFactory(ContainerProvider));
         }
     }

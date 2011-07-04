@@ -120,6 +120,7 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\Resources\Links.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
+    <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\Validation.cs" />
     <Compile Include="Views\Question\CreateQuestion\CreateQuestionController.cs" />
     <Compile Include="Views\Summary\SummaryController.cs" />

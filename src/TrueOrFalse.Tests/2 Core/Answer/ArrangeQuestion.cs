@@ -15,9 +15,17 @@ namespace TrueOrFalse.Tests
             Question = new Question();
         }
 
-        public ArrangeQuestion AddAnswer(string answerText)
+        public ArrangeQuestion AddAnswer(string answerText, 
+                                         string description = "some description",
+                                         AnswerType answerType = AnswerType.FreeText)
         {
-            Question.Answers.Add(new Answer(answerText));
+            Question.Answers.Add(
+                new Answer(answerText)
+                    {
+                        Type = answerType,
+                        Description = description
+                    }
+            );
             return this;
         }
     }

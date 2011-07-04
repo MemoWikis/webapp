@@ -16,7 +16,7 @@ namespace TrueOrFalse.Core
             _registerUser = registerUser;
         }
 
-        public void CreateLogins()
+        public void CreateUsers()
         {
             var user = new User();
             user.EmailAddress = "robert@robert-m.de";
