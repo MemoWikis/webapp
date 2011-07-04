@@ -18,12 +18,17 @@ namespace TrueOrFalse.Core
 
         public void CreateUsers()
         {
-            var user = new User();
-            user.EmailAddress = "robert@robert-m.de";
-            user.UserName = "RobertM";
-            SetUserPassword.Run("fooBar", user);
+            var robert = new User();
+            robert.EmailAddress = "robert@robert-m.de";
+            robert.UserName = "Robert";
+            SetUserPassword.Run("fooBar", robert);
+            _registerUser.Run(robert);
 
-            _registerUser.Run(user);
+            var jule = new User();
+            jule.EmailAddress = "jule@robert-m.de";
+            jule.UserName = "Jule";
+            SetUserPassword.Run("fooBar", robert);
+            _registerUser.Run(jule);
         }
     }
 }

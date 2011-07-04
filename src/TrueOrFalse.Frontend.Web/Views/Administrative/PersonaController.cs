@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
@@ -27,9 +23,19 @@ namespace TrueOrFalse.View.Web.Views.Administrative
 
         public ActionResult Robert()
         {
+            return LoginUser("Robert");
+        }
+
+        public ActionResult Jule()
+        {
+            return LoginUser("Jule");
+        }
+
+        private ActionResult LoginUser(string userName)
+        {
             SessionFactory.BuildSchema();
             _sampleData.CreateUsers();
-            var robertM = _userRepository.GetByUserName("RobertM");
+            var robertM = _userRepository.GetByUserName(userName);
             _sessionUser.Login(robertM);
 
             return RedirectToAction(Links.Summary, Links.SummaryController);
