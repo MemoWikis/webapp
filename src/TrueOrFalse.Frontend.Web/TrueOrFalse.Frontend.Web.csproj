@@ -230,8 +230,7 @@
     <Content Include="Style\src\print.css" />
     <Content Include="Style\src\reset.css" />
     <Content Include="Style\src\typography.css" />
-    <Content Include="Views\Account\LogOff.aspx" />
-    <Content Include="Views\Account\LogOn.aspx" />
+    <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Summary\Summary.aspx" />
     <Content Include="Views\Various\Imprint.aspx" />

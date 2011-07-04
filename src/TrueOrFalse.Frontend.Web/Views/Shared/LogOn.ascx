@@ -1,14 +1,18 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
+<%@ Import Namespace="TrueOrFalse.Core.Web.Context" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%
-    if (Request.IsAuthenticated) {
+    var userSession = new SessionUser();
+    if (userSession.IsLoggedIn)
+    {
 %>
-        Welcome <b><%= Html.Encode(Page.User.Identity.Name) %></b>!
-        [ <%= Html.ActionLink("Log Off", "LogOff", "Account") %> ]
+        Hallo <b><%= Html.Encode(userSession.User.UserName) %></b>!
+        [ <%= Html.ActionLink("Abmelden", Links.Logout, Links.AccountController) %> ]
 <%
     }
     else {
 %> 
-        [ <%= Html.ActionLink("Log On", "LogOn", "Account")%> ]
+        [ <%= Html.ActionLink("Anmelden", "LogOn", "Account")%> ]
 <%
     }
 %>

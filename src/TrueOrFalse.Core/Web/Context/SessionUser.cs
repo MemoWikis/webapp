@@ -26,5 +26,11 @@ namespace TrueOrFalse.Core.Web.Context
             IsLoggedIn = true;
             User = user;
         }
+
+        public void Logout()
+        {
+            IsLoggedIn = false;
+            User = null;
+        }
     }
 }
