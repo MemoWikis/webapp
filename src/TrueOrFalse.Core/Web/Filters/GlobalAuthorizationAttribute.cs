@@ -8,7 +8,7 @@ namespace System.Web.Mvc
 {
     public class GlobalAuthorizationAttribute : ActionFilterAttribute
     {
-        readonly List<string> _publicControllers = new List<string> { "Welcome", "Imprint", "Persona", "WelfareCompany" }; 
+        readonly List<string> _publicControllers = new List<string> { "Welcome", "Imprint", "Persona", "VariousPublic" }; 
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {

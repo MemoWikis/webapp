@@ -125,7 +125,7 @@
     <Compile Include="Views\Question\CreateQuestion\CreateQuestionController.cs" />
     <Compile Include="Views\Summary\SummaryController.cs" />
     <Compile Include="Views\Summary\SummaryModel.cs" />
-    <Compile Include="Views\Various\VariousController.cs" />
+    <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
     <Compile Include="Views\Question\CreateQuestion\CreateQuestionModel.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
     <Compile Include="Global.asax.cs">
@@ -233,13 +233,13 @@
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Summary\Summary.aspx" />
-    <Content Include="Views\Various\Imprint.aspx" />
+    <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Question\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\LoginUc.ascx" />
     <Content Include="Views\Shared\MenuLeft.ascx" />
-    <Content Include="Views\Various\NotDoneYet.aspx" />
+    <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
-    <Content Include="Views\Various\WelfareCompany.aspx" />
+    <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
     <Content Include="Views\Welcome\Login.aspx" />
     <Content Include="Views\Welcome\Register.aspx" />
     <Content Include="Views\Welcome\RegisterSuccess.aspx" />

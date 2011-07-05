@@ -7,7 +7,7 @@ using TrueOrFalse.Frontend.Web.Models;
 
 namespace TrueOrFalse.View.Web.Views
 {
-    public class VariousController : Controller
+    public class VariousPublicController : Controller
     {
         public ActionResult Imprint()
         {

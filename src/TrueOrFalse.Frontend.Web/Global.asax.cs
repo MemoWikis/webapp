@@ -32,7 +32,7 @@ namespace TrueOrFalse.Frontend.Web
 
             routes.MapRoute("CreateQuestion", "Question/Create/{action}", new { controller = "CreateQuestion", action = "Create" });
             routes.MapRoute("Summary", "Summary/{action}", new { controller = "Summary", action="Summary" });
-            routes.MapRoute("Various", "{action}", new { controller = "Various" });
+            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
             routes.MapRoute("Default","{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });            
         }
 

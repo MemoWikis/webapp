@@ -15,7 +15,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string RegisterSuccess = "RegisterSuccess";
         public const string Login = "Login";
 
-        public const string VariousController = "Various";
+        public const string VariousController = "VariousPublic";
         public const string NotDoneYet = "NotDoneYet";
         public const string Impressum = "Imprint";
         public const string WelfareCompany = "WelfareCompany";
