@@ -10,9 +10,10 @@ namespace TrueOrFalse.Core
     {
         public virtual int Id { get; set; }
 
-        public virtual string Title { get; set; }
+        public virtual string Name { get; set; }
 
         public virtual DateTime DateModified { get; set; }
         public virtual DateTime DateCreated { get; set; }
+
     }
 }

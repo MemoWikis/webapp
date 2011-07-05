@@ -32,7 +32,7 @@ namespace TrueOrFalse.View.Web.Views.Question
 
             _questionRepository.Create(model.ConvertToQuestion());
 
-            model.Message = new SuccessMessage("Die Nachricht wurde gespeichert");
+            model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
             return View(_viewLocation, model);
         }

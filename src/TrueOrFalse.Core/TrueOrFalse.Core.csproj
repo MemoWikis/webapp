@@ -105,13 +105,12 @@
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Category\Category.cs" />
-    <Compile Include="Domain\Category\MainCategory\MainCategoryMap.cs" />
-    <Compile Include="Domain\Category\MainCategory\MainCategory.cs" />
-    <Compile Include="Domain\Category\MainCategory\MainCategoryRepository.cs" />
-    <Compile Include="Domain\Category\SubCategory\SubCategory.cs" />
-    <Compile Include="Domain\Category\SubCategory\SubCategoryMap.cs" />
-    <Compile Include="Domain\Category\SubCategory\SubCategoryRepository.cs" />
+    <Compile Include="Domain\Classification\MainCategory\CategoryMap.cs" />
+    <Compile Include="Domain\Classification\MainCategory\Category.cs" />
+    <Compile Include="Domain\Classification\MainCategory\CategoryRepository.cs" />
+    <Compile Include="Domain\Classification\Keywords\Keyword.cs" />
+    <Compile Include="Domain\Classification\Keywords\KeywordMap.cs" />
+    <Compile Include="Domain\Classification\Keywords\KeywordRepository.cs" />
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Persistance\MessageMap.cs" />
     <Compile Include="Domain\Question.Answer\Answer.cs" />
