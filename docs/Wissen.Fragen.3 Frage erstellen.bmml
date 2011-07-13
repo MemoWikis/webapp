@@ -140,7 +140,7 @@
         <text>9%20Klasse%2C%20Deutschunterricht%2C%20...%20-%20Berlin</text>
       </controlProperties>
     </control>
-    <control controlID="113" controlTypeID="com.balsamiq.mockups::Paragraph" x="45" y="208" w="154" h="329" measuredW="200" measuredH="140" zOrder="27" locked="false" isInGroup="-1">
+    <control controlID="113" controlTypeID="com.balsamiq.mockups::Paragraph" x="44" y="202" w="154" h="329" measuredW="200" measuredH="140" zOrder="27" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>false</bold>
         <text>*%7Bcolor%3A%23cf2a27%7DNeues%20%2835%29%7Bcolor%7D*%0A%20%0A%20%0A%20%0A*%7Bcolor%3A%23cf2a27%7DWissen%20%7Bcolor%7D*%20%0AFragen%20%284234%29%0AFragens%E4tze%20%2874%29%0AKurse%20%284%29%0A%20---------------%0AKategorien%0A%20%0A*%7Bcolor%3A%23cf2a27%7DNetzwerk%20%7Bcolor%7D*%20%0AKontakte%20%2892%29</text>
@@ -303,6 +303,11 @@
           </groupChildrenDescriptors>
         </control>
       </groupChildrenDescriptors>
+    </control>
+    <control controlID="135" controlTypeID="com.balsamiq.mockups::Icon" x="737" y="296" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="45" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>ClockIcon%7Cxsmall</icon>
+      </controlProperties>
     </control>
   </controls>
 </mockup>
