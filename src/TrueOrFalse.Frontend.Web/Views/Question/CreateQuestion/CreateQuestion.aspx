@@ -54,16 +54,37 @@
             </div><br style="font-size:1px; line-height:1px; height:1px;"/>
 		    <%= Html.LabelFor(m => m.Question)%>
 		    <%= Html.TextAreaFor(m => m.Question, new { @style = "height:30px;" })%><br />
+
+            <script>
+                $(function () {
+                    $("#tabs").tabs();
+                });
+	        </script>
+           
+               <%= Html.Label("tabs")%>
+               <div id="tabs" style="width:326px; float:left;">               
+                    <ul>
+                        <li><a href="#tabs-1">Sport</a></li>
+                        <li><a href="#tabs-2">Ereignis</a></li>
+                        <li><a href="#tabs-3">+</a></li>
+                    </ul>
+                 <div id="tabs-1"><p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. 
+                                     Curabitur nec arcu.</p>
+                 </div>
+                 <div id="tabs-2"><p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. 
+                                     Duis scelerisque molestie turpis.</p>
+                 </div>
+                 <div id="tabs-3"><p>Mauris eleifend est et turpis. Duis id erat.</p>
+                 </div>
+              </div>
+            
+            <br />
             <%= Html.LabelFor(m => m.AnswerType ) %>
 		    <%= Html.DropDownListFor(m => Model.AnswerType, Model.AnswerTypeData)%> <br />
             <%= Html.LabelFor(m => m.Answer ) %>
 		    <%= Html.TextAreaFor( m=>m.Answer  ) %><br />
 		    <%= Html.LabelFor(m => m.Description ) %>
-		    <%= Html.TextAreaFor( m=>m.Description ) %><br />
-		    <%= Html.LabelFor(m => m.CategoryMain ) %>
-		    <%= Html.TextBoxFor(m => m.CategoryMain, new { @style = "width:220px;" })%> <br />
-		    <%= Html.LabelFor(m => m.CategorySub ) %>
-		    <%= Html.TextBoxFor(m => m.CategorySub, new { @style = "width:220px;" })%> <br />
+		    <%= Html.TextAreaFor( m=>m.Description ) %><br />		   
 		    <%= Html.LabelFor(m => m.EducationLink ) %>
 		    <%= Html.DropDownListFor(m => Model.EducationLink, Model.EducationLinkData)%> <br />
 		    <%= Html.LabelFor(m => m.Character) %>

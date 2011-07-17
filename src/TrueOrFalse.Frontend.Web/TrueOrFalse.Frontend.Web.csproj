@@ -254,7 +254,9 @@
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
     <Content Include="Views\Shared\Site.Master" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Style\fonts\Candal.ttf" />
     <None Include="Style\fonts\OvertheRainbow.ttf" />
     <None Include="Views\Web.config">
