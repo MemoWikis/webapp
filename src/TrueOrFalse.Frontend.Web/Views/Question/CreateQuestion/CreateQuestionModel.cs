@@ -35,14 +35,6 @@ namespace TrueOrFalse.Frontend.Web.Models
         [DisplayName("Erklärung")]
         public string Description { get; set; }
 
-        [DataType(DataType.Text)]
-        [DisplayName("Hauptkategorie")]
-        public string CategoryMain { get; set; }
-        
-        [DataType(DataType.Text)]
-        [DisplayName("Unterkategorie")]
-        public string CategorySub { get; set; }
-
         [DisplayName("Verknüpfung Lehre")]
         public string EducationLink {get; set;}
 
