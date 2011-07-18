@@ -1,33 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TrueOrFalse.Core.Web.Context;
 using TrueOrFalse.Frontend.Web.Models;
 
-namespace TrueOrFalse.View.Web
+
+[HandleError]
+public class AccountController : Controller
 {
-    [HandleError]
-    public class AccountController : Controller
+    private readonly SessionUser _sessionUser;
+
+    public AccountController(SessionUser sessionUser)
     {
-        private readonly SessionUser _sessionUser;
-
-        public AccountController(SessionUser sessionUser)
-        {
-            _sessionUser = sessionUser;
-        }
-
-        public ActionResult LogOn()
-        {
-            return View();
-        }
-
-        public ActionResult Logout()
-        {
-            _sessionUser.Logout();
-            return View(new ModelBase());
-        }
-
+        _sessionUser = sessionUser;
     }
+
+    public ActionResult LogOn()
+    {
+        return View();
+    }
+
+    public ActionResult Logout()
+    {
+        _sessionUser.Logout();
+        return View(new ModelBase());
+    }
+
 }

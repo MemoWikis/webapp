@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using TrueOrFalse.Core.Web;
+﻿using TrueOrFalse.Core.Web;
+using TrueOrFalse.Frontend.Web.Models;
 
-namespace TrueOrFalse.Frontend.Web.Models
+public class LoginModel : ModelBase
 {
-    public class LoginModel : ModelBase
+    public Message Message;
+
+    public string UserName;
+    public string Password;
+
+    public LoginModel()
     {
-        public Message Message;
+        ShowLeftMenu_Empty();
+    }
 
-        public string UserName;
-        public string Password;
-
-        public LoginModel()
-        {
-            ShowLeftMenu_Empty();
-        }
-
-        public void SetToWrongCredentials()
-        {
-            Message = new Message(MessageType.IsError, 
-                "Du konntest nicht angemeldet werden. Bitte überprüfe Deinen Benutzernamen und Passwort"); ;
-        }
+    public void SetToWrongCredentials()
+    {
+        Message = new Message(MessageType.IsError, 
+            "Du konntest nicht angemeldet werden. Bitte überprüfe Deinen Benutzernamen und Passwort"); ;
     }
 }

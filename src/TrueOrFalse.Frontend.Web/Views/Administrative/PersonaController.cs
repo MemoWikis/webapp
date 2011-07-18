@@ -3,42 +3,40 @@ using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
 
-namespace TrueOrFalse.View.Web.Views.Administrative
+
+[AccessOnlyLocal]
+public class PersonaController : Controller
 {
-    [AccessOnlyLocal]
-    public class PersonaController : Controller
+    private readonly SessionUser _sessionUser;
+    private readonly SampleData _sampleData;
+    private readonly UserRepository _userRepository;
+
+    public PersonaController(SessionUser sessionUser,
+                                SampleData sampleData, 
+                                UserRepository userRepository)
     {
-        private readonly SessionUser _sessionUser;
-        private readonly SampleData _sampleData;
-        private readonly UserRepository _userRepository;
+        _sessionUser = sessionUser;
+        _sampleData = sampleData;
+        _userRepository = userRepository;
+    }
 
-        public PersonaController(SessionUser sessionUser,
-                                 SampleData sampleData, 
-                                 UserRepository userRepository)
-        {
-            _sessionUser = sessionUser;
-            _sampleData = sampleData;
-            _userRepository = userRepository;
-        }
+    public ActionResult Robert()
+    {
+        return LoginUser("Robert");
+    }
 
-        public ActionResult Robert()
-        {
-            return LoginUser("Robert");
-        }
+    public ActionResult Jule()
+    {
+        return LoginUser("Jule");
+    }
 
-        public ActionResult Jule()
-        {
-            return LoginUser("Jule");
-        }
+    private ActionResult LoginUser(string userName)
+    {
+        SessionFactory.BuildSchema();
+        _sampleData.CreateUsers();
+        var robertM = _userRepository.GetByUserName(userName);
+        _sessionUser.Login(robertM);
 
-        private ActionResult LoginUser(string userName)
-        {
-            SessionFactory.BuildSchema();
-            _sampleData.CreateUsers();
-            var robertM = _userRepository.GetByUserName(userName);
-            _sessionUser.Login(robertM);
-
-            return RedirectToAction(Links.Summary, Links.SummaryController);
-        }
+        return RedirectToAction(Links.Summary, Links.SummaryController);
     }
 }

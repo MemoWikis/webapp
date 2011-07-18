@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using TrueOrFalse.Core;
+using TrueOrFalse.Frontend.Web.Models;
 
-namespace TrueOrFalse.Frontend.Web.Models
+
+public class WelcomeModel : ModelBase
 {
-    public class WelcomeModel : ModelBase
-    {
-        public IList<Question> MostPopular;
+    public IList<Question> MostPopular;
 
-        public WelcomeModel()
-        {
-            RightMenu.Yes = true;
-            ShowLeftMenu_TopUsers();
-            MostPopular = new List<Question>();
-        }
+    public WelcomeModel()
+    {
+        RightMenu.Yes = true;
+        ShowLeftMenu_TopUsers();
+        MostPopular = new List<Question>();
     }
 }

@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Models;
 
-namespace TrueOrFalse.View.Web.Views
+public class VariousPublicController : Controller
 {
-    public class VariousPublicController : Controller
+    public ActionResult Imprint()
     {
-        public ActionResult Imprint()
-        {
-            return View(new ModelBase().ShowLeftMenu_TopUsers().ShowRightLogin());
-        }
+        return View(new ModelBase().ShowLeftMenu_TopUsers().ShowRightLogin());
+    }
 
-        public ActionResult NotDoneYet()
-        {
-            return View(new ModelBase().ShowLeftMenu_Empty());
-        }
+    public ActionResult NotDoneYet()
+    {
+        return View(new ModelBase().ShowLeftMenu_Empty());
+    }
 
-        public ActionResult WelfareCompany()
-        {
-            return View(new ModelBase().ShowLeftMenu_Empty().ShowRightLogin());
-        }
+    public ActionResult WelfareCompany()
+    {
+        return View(new ModelBase().ShowLeftMenu_Empty().ShowRightLogin());
     }
 }
+

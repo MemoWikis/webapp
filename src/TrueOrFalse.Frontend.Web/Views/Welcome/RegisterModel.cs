@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using TrueOrFalse.Frontend.Web.Models;
 
-namespace TrueOrFalse.Frontend.Web.Models 
-{
-    public class RegisterModel : ModelBase
+public class RegisterModel : ModelBase
     {
         [Required(ErrorMessage="Wir benötigen Deinen Benutzernamen.")]
         
@@ -50,6 +45,3 @@ namespace TrueOrFalse.Frontend.Web.Models
         //}
 
     }
-
-
-}
