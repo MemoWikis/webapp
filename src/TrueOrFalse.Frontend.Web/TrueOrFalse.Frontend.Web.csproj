@@ -188,6 +188,7 @@
     <Content Include="Images\Buttons\key.png" />
     <Content Include="Images\Buttons\tick.png" />
     <Content Include="Images\edit_installation_config.png" />
+    <Content Include="Images\menu-icon-person.png" />
     <Content Include="Images\RowHeaderBackground.png" />
     <Content Include="Scripts\highcharts.js" />
     <Content Include="Scripts\jquery-1.6.1-vsdoc.js" />

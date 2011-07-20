@@ -3,7 +3,7 @@
 
 <div class="menu">
 
-    <div>Neues</div>
+    <div class="main">Neues</div>
     
     <div class="main"><%= Html.ActionLink("Wissen", Links.Summary, Links.SummaryController)%></div>
     <div>Fragen</div>
@@ -12,8 +12,6 @@
     <div>-------------</div>
     <div>Kategorien</div>
 
-    <div>Netzwerk</div>
-    <div>Kontakt</div>
+    <div class="main">Netzwerk <img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></div>
 
 </div>
-

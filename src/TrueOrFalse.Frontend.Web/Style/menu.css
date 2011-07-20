@@ -1,3 +1,6 @@
 ﻿div.menu {
-    border-right: 1px solid silver;
+    font-size: 16px;
+    padding-top: 10px;
 }
+
+div.menu div.main a{ color: firebrick; font-weight: 600;text-decoration: none; }
