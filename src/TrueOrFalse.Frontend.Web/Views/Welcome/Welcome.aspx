@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" 
-	Inherits="System.Web.Mvc.ViewPage<TrueOrFalse.Frontend.Web.Models.WelcomeModel>"
+	Inherits="ViewPage<WelcomeModel>"
     Title="Willkommen bei True Or False" %>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">

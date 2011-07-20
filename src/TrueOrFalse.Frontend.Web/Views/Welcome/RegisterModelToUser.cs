@@ -1,19 +1,17 @@
 ﻿using TrueOrFalse.Core;
 using TrueOrFalse.Core.Registration;
+using TrueOrFalse.Frontend.Web.Models;
 
-namespace TrueOrFalse.Frontend.Web.Models
+public class RegisterModelToUser : ModelBase
 {
-    public class RegisterModelToUser : ModelBase
+    public static User Run(RegisterModel registerModel)
     {
-        public static User Run(RegisterModel registerModel)
-        {
-            var user = new User();
-            user.EmailAddress = registerModel.Email;
-            user.UserName = registerModel.UserName;
+        var user = new User();
+        user.EmailAddress = registerModel.Email;
+        user.UserName = registerModel.UserName;
 
-            SetUserPassword.Run(registerModel.Password, user);
+        SetUserPassword.Run(registerModel.Password, user);
 
-            return user;
-        }
+        return user;
     }
 }
