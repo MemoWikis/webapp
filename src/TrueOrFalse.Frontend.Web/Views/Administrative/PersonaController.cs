@@ -37,6 +37,6 @@ public class PersonaController : Controller
         var robertM = _userRepository.GetByUserName(userName);
         _sessionUser.Login(robertM);
 
-        return RedirectToAction(Links.Summary, Links.SummaryController);
+        return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
     }
 }

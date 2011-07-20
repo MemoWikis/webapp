@@ -5,7 +5,7 @@
 
     <div class="main">Neues</div>
     
-    <div class="main"><%= Html.ActionLink("Wissen", Links.Summary, Links.SummaryController)%></div>
+    <div class="main"><%= Html.ActionLink("Wissen", Links.Knowledge, Links.KnowledgeController)%></div>
     <div>Fragen</div>
     <div>Fragensätze</div>
     <div>Kurse</div>

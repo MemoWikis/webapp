@@ -20,8 +20,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Impressum = "Imprint";
         public const string WelfareCompany = "WelfareCompany";
 
-        public const string SummaryController = "Summary";
-        public const string Summary = "Summary";
+        public const string KnowledgeController = "Knowledge";
+        public const string Knowledge = "Knowledge";
 
         public const string AccountController = "Account";
         public const string Logout = "Logout";

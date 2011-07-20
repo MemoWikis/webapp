@@ -125,8 +125,8 @@
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\Validation.cs" />
     <Compile Include="Views\Question\CreateQuestion\CreateQuestionController.cs" />
-    <Compile Include="Views\Summary\SummaryController.cs" />
-    <Compile Include="Views\Summary\SummaryModel.cs" />
+    <Compile Include="Views\Knowledge\KnowledgeController.cs" />
+    <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
     <Compile Include="Views\Question\CreateQuestion\CreateQuestionModel.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
@@ -236,7 +236,7 @@
     <Content Include="Style\src\typography.css" />
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Shared\Message.ascx" />
-    <Content Include="Views\Summary\Summary.aspx" />
+    <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Question\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\LoginUc.ascx" />

@@ -31,7 +31,7 @@ namespace TrueOrFalse.Frontend.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute("CreateQuestion", "Question/Create/{action}", new { controller = "CreateQuestion", action = "Create" });
-            routes.MapRoute("Summary", "Summary/{action}", new { controller = "Summary", action="Summary" });
+            routes.MapRoute("Knowledge", "Knowledge/{action}", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
             routes.MapRoute("Default","{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });            
         }

@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Models;
 
 
-public class SummaryModel : ModelBase
+public class KnowledgeModel : ModelBase
 {
 
     public IEnumerable<SelectListItem> KenDevelopmentTypes
@@ -30,7 +30,7 @@ public class SummaryModel : ModelBase
         }
     }
 
-    public SummaryModel()
+    public KnowledgeModel()
     {
         ShowLeftMenu_Nav();
     }
