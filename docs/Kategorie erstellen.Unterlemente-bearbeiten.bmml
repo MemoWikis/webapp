@@ -83,111 +83,35 @@
         <icon>LeftFillTriangleIcon%7Cxsmall</icon>
       </controlProperties>
     </control>
-    <control controlID="119" controlTypeID="__group__" x="24" y="202" w="19" h="26" measuredW="19" measuredH="26" zOrder="14" locked="false" isInGroup="-1">
-      <groupChildrenDescriptors>
-        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="3" y="10" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="0" locked="false" isInGroup="119">
-          <controlProperties>
-            <color>0</color>
-            <icon>DownTriangleIcon%7Cxsmall</icon>
-            <rotation>90</rotation>
-          </controlProperties>
-        </control>
-        <control controlID="1" controlTypeID="__group__" x="0" y="0" w="10" h="26" measuredW="10" measuredH="26" zOrder="1" locked="false" isInGroup="119">
-          <groupChildrenDescriptors>
-            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="10" h="26" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="1">
-              <controlProperties>
-                <borderColor>16777215</borderColor>
-                <shape>rectangle</shape>
-                <size>9</size>
-              </controlProperties>
-            </control>
-          </groupChildrenDescriptors>
-        </control>
-      </groupChildrenDescriptors>
-    </control>
-    <control controlID="120" controlTypeID="__group__" x="28" y="288" w="16" h="19" measuredW="16" measuredH="19" zOrder="15" locked="false" isInGroup="-1">
-      <groupChildrenDescriptors>
-        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="3" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="0" locked="false" isInGroup="120">
-          <controlProperties>
-            <color>0</color>
-            <icon>DownTriangleIcon%7Cxsmall</icon>
-          </controlProperties>
-        </control>
-        <control controlID="1" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="16" h="10" measuredW="32" measuredH="32" zOrder="1" locked="false" isInGroup="120">
-          <controlProperties>
-            <borderColor>16777215</borderColor>
-            <shape>rectangle</shape>
-          </controlProperties>
-        </control>
-      </groupChildrenDescriptors>
-    </control>
-    <control controlID="121" controlTypeID="__group__" x="28" y="428" w="16" h="19" measuredW="16" measuredH="19" zOrder="16" locked="false" isInGroup="-1">
-      <groupChildrenDescriptors>
-        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="0" y="3" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="0" locked="false" isInGroup="121">
-          <controlProperties>
-            <color>0</color>
-            <icon>DownTriangleIcon%7Cxsmall</icon>
-          </controlProperties>
-        </control>
-        <control controlID="1" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="16" h="10" measuredW="32" measuredH="32" zOrder="1" locked="false" isInGroup="121">
-          <controlProperties>
-            <borderColor>16777215</borderColor>
-            <shape>rectangle</shape>
-          </controlProperties>
-        </control>
-      </groupChildrenDescriptors>
-    </control>
-    <control controlID="134" controlTypeID="__group__" x="22" y="382" w="19" h="26" measuredW="19" measuredH="26" zOrder="17" locked="false" isInGroup="-1">
-      <groupChildrenDescriptors>
-        <control controlID="0" controlTypeID="com.balsamiq.mockups::Icon" x="3" y="10" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="0" locked="false" isInGroup="134">
-          <controlProperties>
-            <color>0</color>
-            <icon>DownTriangleIcon%7Cxsmall</icon>
-            <rotation>90</rotation>
-          </controlProperties>
-        </control>
-        <control controlID="1" controlTypeID="__group__" x="0" y="0" w="10" h="26" measuredW="10" measuredH="26" zOrder="1" locked="false" isInGroup="134">
-          <groupChildrenDescriptors>
-            <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="10" h="26" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="1">
-              <controlProperties>
-                <borderColor>16777215</borderColor>
-                <shape>rectangle</shape>
-                <size>9</size>
-              </controlProperties>
-            </control>
-          </groupChildrenDescriptors>
-        </control>
-      </groupChildrenDescriptors>
-    </control>
-    <control controlID="137" controlTypeID="com.balsamiq.mockups::Icon" x="326" y="485" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="18" locked="false" isInGroup="-1">
+    <control controlID="137" controlTypeID="com.balsamiq.mockups::Icon" x="326" y="485" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="14" locked="false" isInGroup="-1">
       <controlProperties>
         <icon>CircledPlusIcon%7Csmall</icon>
       </controlProperties>
     </control>
-    <control controlID="139" controlTypeID="com.balsamiq.mockups::Label" x="365" y="485" w="186" h="56" measuredW="225" measuredH="25" zOrder="19" locked="false" isInGroup="-1">
+    <control controlID="139" controlTypeID="com.balsamiq.mockups::Label" x="365" y="485" w="186" h="56" measuredW="225" measuredH="25" zOrder="15" locked="false" isInGroup="-1">
       <controlProperties>
         <color>2848996</color>
         <text>Weitere%20Unterkategorie%20hinzuf%FCgen</text>
         <underline>true</underline>
       </controlProperties>
     </control>
-    <control controlID="162" controlTypeID="com.balsamiq.mockups::Label" x="326" y="228" w="-1" h="-1" measuredW="39" measuredH="25" zOrder="20" locked="false" isInGroup="-1">
+    <control controlID="162" controlTypeID="com.balsamiq.mockups::Label" x="326" y="228" w="-1" h="-1" measuredW="39" measuredH="25" zOrder="16" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Sport</text>
       </controlProperties>
     </control>
-    <control controlID="163" controlTypeID="com.balsamiq.mockups::Label" x="196" y="252" w="117" h="36" measuredW="105" measuredH="25" zOrder="21" locked="false" isInGroup="-1">
+    <control controlID="163" controlTypeID="com.balsamiq.mockups::Label" x="196" y="252" w="117" h="36" measuredW="105" measuredH="25" zOrder="17" locked="false" isInGroup="-1">
       <controlProperties>
         <align>right</align>
         <text>Unterkategorie%3A</text>
       </controlProperties>
     </control>
-    <control controlID="164" controlTypeID="com.balsamiq.mockups::Label" x="326" y="250" w="-1" h="-1" measuredW="72" measuredH="25" zOrder="22" locked="false" isInGroup="-1">
+    <control controlID="164" controlTypeID="com.balsamiq.mockups::Label" x="326" y="250" w="-1" h="-1" measuredW="72" measuredH="25" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Sportarten</text>
       </controlProperties>
     </control>
-    <control controlID="165" controlTypeID="com.balsamiq.mockups::DataGrid" x="326" y="285" w="211" h="168" measuredW="205" measuredH="168" zOrder="23" locked="false" isInGroup="-1">
+    <control controlID="165" controlTypeID="com.balsamiq.mockups::DataGrid" x="326" y="285" w="211" h="168" measuredW="205" measuredH="168" zOrder="19" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Fussball%2C%20Age%0AHandball%2C%2034%2C%20%0AGuido%20Jack%20Guilizzoni%2C%204%0AMarco%20Botton%5CrTuttofare%2C%2031%0AMariah%20Maclachlan%5CrBetter%20Half%2C%2035</text>
       </controlProperties>

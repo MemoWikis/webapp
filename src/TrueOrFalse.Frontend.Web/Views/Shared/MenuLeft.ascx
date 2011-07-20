@@ -2,19 +2,18 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="menu">
-    <ul >
-        <li><%= Html.ActionLink("Übersicht", Links.Summary, Links.SummaryController)%></li>
-        <li>Neues</li>
-        <ul>
-            <li>Wissen</li>
-            <li>Netzwerk</li>
-        </ul> 
-        <li>Wissen</li>
-        <ul>
-            <li>Fragen</li>
-            <li>Fragensätze</li>
-            <li>Kurse</li>
-        </ul>               
-    </ul>
+
+    <div>Neues</div>
+    
+    <div class="main"><%= Html.ActionLink("Wissen", Links.Summary, Links.SummaryController)%></div>
+    <div>Fragen</div>
+    <div>Fragensätze</div>
+    <div>Kurse</div>
+    <div>-------------</div>
+    <div>Kategorien</div>
+
+    <div>Netzwerk</div>
+    <div>Kontakt</div>
+
 </div>
 

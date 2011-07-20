@@ -208,6 +208,7 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Style\fonts\OFL.txt" />
     <Content Include="Style\ie.css" />
+    <Content Include="Style\menu.css" />
     <Content Include="Style\print.css" />
     <Content Include="Style\screen.css" />
     <Content Include="Style\site.css" />
