@@ -6,5 +6,4 @@ public class KnowledgeController : Controller
     {
         return View(new KnowledgeModel());
     }
-
 }

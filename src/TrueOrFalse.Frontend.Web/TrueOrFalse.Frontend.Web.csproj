@@ -124,6 +124,12 @@
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\Validation.cs" />
+    <Compile Include="Views\Categories\CategoriesController.cs" />
+    <Compile Include="Views\Categories\CategoriesModel.cs" />
+    <Compile Include="Views\News\NewsController.cs" />
+    <Compile Include="Views\News\NewsModel.cs" />
+    <Compile Include="Views\Questions\QuestionsController.cs" />
+    <Compile Include="Views\Questions\QuestionsModel.cs" />
     <Compile Include="Views\Question\CreateQuestion\CreateQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
@@ -235,6 +241,9 @@
     <Content Include="Style\src\reset.css" />
     <Content Include="Style\src\typography.css" />
     <Content Include="Views\Account\Logout.aspx" />
+    <Content Include="Views\Categories\Categories.aspx" />
+    <Content Include="Views\News\News.aspx" />
+    <Content Include="Views\Questions\Questions.aspx" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
@@ -273,7 +282,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Questions\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

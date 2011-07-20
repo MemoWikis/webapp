@@ -3,4 +3,5 @@
     padding-top: 10px;
 }
 
-div.menu div.main a{ color: firebrick; font-weight: 600;text-decoration: none; }
+div.menu a{ text-decoration: none;}
+div.menu div.main a{ color: firebrick; font-weight:700; }
