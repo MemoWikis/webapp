@@ -130,11 +130,11 @@
     <Compile Include="Views\News\NewsModel.cs" />
     <Compile Include="Views\Questions\QuestionsController.cs" />
     <Compile Include="Views\Questions\QuestionsModel.cs" />
-    <Compile Include="Views\Question\CreateQuestion\CreateQuestionController.cs" />
+    <Compile Include="Views\Questions\Create\CreateQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
-    <Compile Include="Views\Question\CreateQuestion\CreateQuestionModel.cs" />
+    <Compile Include="Views\Questions\Create\CreateQuestionModel.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -247,7 +247,7 @@
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
-    <Content Include="Views\Question\AnswerQuestion.aspx" />
+    <Content Include="Views\Questions\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\LoginUc.ascx" />
     <Content Include="Views\Shared\MenuLeft.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
@@ -261,7 +261,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Question\CreateQuestion\CreateQuestion.aspx" />
+    <Content Include="Views\Questions\Create\CreateQuestion.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
     <Content Include="Views\Shared\Site.Master" />

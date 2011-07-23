@@ -8,7 +8,7 @@ using TrueOrFalse.Frontend.Web.Models;
 public class CreateQuestionController : Controller
 {
     private readonly QuestionRepository _questionRepository;
-    private const string _viewLocation = "~/Views/Question/CreateQuestion/CreateQuestion.aspx";
+    private const string _viewLocation = "~/Views/Questions/Create/CreateQuestion.aspx";
 
     public CreateQuestionController(QuestionRepository questionRepository)
     {
