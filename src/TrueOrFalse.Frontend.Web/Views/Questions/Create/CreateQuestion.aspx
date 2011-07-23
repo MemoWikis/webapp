@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="About Us" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<CreateQuestionModel>" %>
 
 <%@ Import Namespace="TrueOrFalse.Core" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Models" %>
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <script type="text/ecmascript" language="javascript">
@@ -17,41 +15,17 @@
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <style type="text/css">
-        label
-        {
-            width: 90px;
-            display:block;
-            float:left;
-            text-align:right;
-            padding-right:10px;
-            line-height:20px;
-            
-        }
-        
-        label.textarea
-        {
-            
-        }
-        
-        textarea
-        {
-            width: 400px;    
-            height: 80px;
-        }
-        
-    </style>
-
 	<h2 style="padding-left:100px; padding-bottom:10px;">Frage erstellen</h2>
-	<% using (Html.BeginForm()){ %>
-
+	<% using (Html.BeginForm())
+    { %>
+    
         <% Html.Message(Model.Message); %>
 	
 	    <h2><%= Html.Encode(ViewData["Msg"]) %></h2>
 
 	    
             <%= Html.LabelFor(m => m.Visibility) %>
-            <div style="postion: relative -3px;">
+            <div style="">
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All )%> Alle &nbsp;&nbsp;
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %> Nur ich &nbsp;&nbsp;
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %> Ich und meine Freunde

@@ -126,6 +126,8 @@
     <Compile Include="Views\Api\Validation.cs" />
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
+    <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
+    <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
     <Compile Include="Views\News\NewsController.cs" />
     <Compile Include="Views\News\NewsModel.cs" />
     <Compile Include="Views\Questions\QuestionsController.cs" />
@@ -214,6 +216,7 @@
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Style\fonts\OFL.txt" />
+    <Content Include="Style\form.css" />
     <Content Include="Style\ie.css" />
     <Content Include="Style\menu.css" />
     <Content Include="Style\print.css" />
@@ -242,6 +245,7 @@
     <Content Include="Style\src\typography.css" />
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Categories\Categories.aspx" />
+    <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <Content Include="Views\News\News.aspx" />
     <Content Include="Views\Questions\Questions.aspx" />
     <Content Include="Views\Shared\Message.ascx" />

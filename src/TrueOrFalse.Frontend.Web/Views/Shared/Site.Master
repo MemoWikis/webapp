@@ -8,6 +8,7 @@
     <link href="/Style/screen.css" rel="stylesheet" type="text/css" />	
 	<link href="/Style/site.css" rel="stylesheet" type="text/css" />
     <link href="/Style/menu.css" rel="stylesheet" type="text/css" />
+    <link href="/Style/form.css" rel="stylesheet" type="text/css" />
 
     <% if(Request.IsLocal){ %>        
         <style type="text/css">

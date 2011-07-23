@@ -7,15 +7,21 @@ namespace TrueOrFalse.Frontend.Web.Code
 {
     public static class Links
     {
-        public const string Categories = "Categories";
-        public const string CategoriesController = "Categories";
-
+        /*Question*/
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
 
         public const string CreateQuestionController = "CreateQuestion"; 
         public const string CreateQuestion = "Create";
+
+        /*Category*/
+        public const string Categories = "Categories";
+        public const string CategoriesController = "Categories";
+
+        public const string CreateCategory = "Create";
+        public const string CreateCategoryController = "EditCategory";
     
+        /**/
         public const string WelcomeController = "Welcome";
         public const string Register = "Register";
         public const string RegisterSuccess = "RegisterSuccess";
