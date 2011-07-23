@@ -80,7 +80,17 @@
         </div>
 
         <%-- BODY--%>
-        <div class="span-5" style=" padding-left:10px;">
+        <%
+            var leftMenuWidth = "span-5";
+            var mainWidth = "span-14";
+            
+            if (UserControls.MenuLeft == Model.CurrentLeftMenu)
+            {
+                leftMenuWidth = "span-4";
+                mainWidth = "span-15";
+            }
+        %>
+        <div class="<%=leftMenuWidth %>" style=" padding-left:10px;">
 			<%
                 if (!String.IsNullOrEmpty(Model.CurrentLeftMenu))
 					Html.RenderPartial(Model.CurrentLeftMenu);
@@ -89,7 +99,7 @@
         </div>
     
 		<%-- MAIN CONTENT--%>
-        <div class="span-14" style="min-height:600px">
+        <div class="<%=mainWidth %>" style="min-height:600px">
             <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
         </div>
 
