@@ -103,5 +103,5 @@ h3 { margin-bottom:8px;}
 ----------------------------------------------------------*/
 
 div.button {margin: 15px 0 10px 0}
-a.button {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+a.button {padding: .3em 1em .4em 20px;text-decoration: none;position: relative;}
 a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
