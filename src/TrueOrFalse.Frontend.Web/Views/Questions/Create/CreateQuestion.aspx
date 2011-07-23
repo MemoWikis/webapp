@@ -18,7 +18,7 @@
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <style type="text/css">
-        fieldset.entry label
+        label
         {
             width: 130px;
             display:block;
@@ -28,7 +28,7 @@
             padding-top:4px;
         }
         
-        fieldset.entry textarea
+        textarea
         {
             width: 320px;    
             height: 80px;
@@ -43,9 +43,7 @@
 	
 	    <h2><%= Html.Encode(ViewData["Msg"]) %></h2>
 
-	    <fieldset class="entry">
-		    <legend>Neue Frage erstellen</legend>
-
+	    
             <%= Html.LabelFor(m => m.Visibility) %>
             <div style="padding-bottom:3px;">
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All )%> Alle &nbsp;&nbsp;
@@ -95,6 +93,6 @@
 
             <%= Buttons.Submit("Speichern", inline:true)%>
             <%= Buttons.Submit("Speichern & Neu", inline: true)%>
-	    </fieldset>
+	    
 	<% } %>
 </asp:Content>
