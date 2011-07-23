@@ -31,7 +31,7 @@ public class CreateQuestionModel : ModelBase
     [DisplayName("Erklärung")]
     public string Description { get; set; }
 
-    [DisplayName("Verknüpfung Lehre")]
+    [DisplayName("Schule/Uni")]
     public string EducationLink {get; set;}
 
     [DisplayName("Charakter")]

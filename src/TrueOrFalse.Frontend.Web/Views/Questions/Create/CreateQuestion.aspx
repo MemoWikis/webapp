@@ -20,7 +20,7 @@
     <style type="text/css">
         label
         {
-            width: 120px;
+            width: 90px;
             display:block;
             float:left;
             text-align:right;
@@ -42,7 +42,7 @@
         
     </style>
 
-	<h2 style="padding-left:130px; padding-bottom:10px;">Frage erstellen</h2>
+	<h2 style="padding-left:100px; padding-bottom:10px;">Frage erstellen</h2>
 	<% using (Html.BeginForm()){ %>
 
         <% Html.Message(Model.Message); %>
