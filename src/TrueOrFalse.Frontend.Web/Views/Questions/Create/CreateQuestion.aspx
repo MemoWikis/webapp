@@ -20,23 +20,29 @@
     <style type="text/css">
         label
         {
-            width: 130px;
+            width: 120px;
             display:block;
             float:left;
             text-align:right;
             padding-right:10px;
-            padding-top:4px;
+            line-height:20px;
+            
+        }
+        
+        label.textarea
+        {
+            
         }
         
         textarea
         {
-            width: 320px;    
+            width: 400px;    
             height: 80px;
         }
         
     </style>
 
-	<h2>Frage erstellen</h2>
+	<h2 style="padding-left:130px; padding-bottom:10px;">Frage erstellen</h2>
 	<% using (Html.BeginForm()){ %>
 
         <% Html.Message(Model.Message); %>
@@ -45,7 +51,7 @@
 
 	    
             <%= Html.LabelFor(m => m.Visibility) %>
-            <div style="padding-bottom:3px;">
+            <div style="postion: relative -3px;">
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All )%> Alle &nbsp;&nbsp;
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %> Nur ich &nbsp;&nbsp;
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %> Ich und meine Freunde
@@ -59,8 +65,8 @@
                 });
 	        </script>
            
-               <%= Html.Label("tabs")%>
-               <div id="tabs" style="width:326px; float:left;">               
+               <%= Html.Label("Kategorien")%>
+               <div id="tabs" style="width:400px; float:left; font-size: 10px;">               
                     <ul>
                         <li><a href="#tabs-1">Sport</a></li>
                         <li><a href="#tabs-2">Ereignis</a></li>

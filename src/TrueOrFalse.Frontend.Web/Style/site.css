@@ -12,6 +12,11 @@ body
     background-repeat:repeat-x;
 }
 
+textarea {
+    color: #696969;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+}
+
 a:link, a:visited
 {
     color: #034af3;
