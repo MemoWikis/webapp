@@ -1,11 +1,21 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<CategoriesModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Kategorien</h2>
+    <div>
+        <h2 style="float: left;">Kategorien</h2>
+        <div style="float: right;">
+            <%= Buttons.Link("Kategorie erstellen", Links.CreateQuestion, Links.CreateQuestionController, ButtonIcon.Add)%>
+        </div>
+        
+    </div>
+    
+
+    
 
 </asp:Content>
 
