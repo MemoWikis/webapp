@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace TrueOrFalse.View.Web.Views.Api
 {
-    public class Validation : Controller
+    public class ValidationContoller : Controller
     {
         //
         // GET: /Validation/

@@ -122,8 +122,9 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\Resources\Links.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
+    <Compile Include="Views\Api\ExportController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
-    <Compile Include="Views\Api\Validation.cs" />
+    <Compile Include="Views\Api\Intern\ValidationController.cs" />
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
