@@ -6,12 +6,14 @@ using Seedworks.Lib.Persistance;
 
 namespace TrueOrFalse.Core
 {
-    public class Keyword : IPersistable, WithDateCreated
+    public class ClassificationItem : IPersistable, WithDateCreated
     {
-
         public virtual int Id { get; set; }
 
-        public virtual Category Category { get; set; }
+        /// <summary>
+        /// Parent
+        /// </summary>
+        public virtual Classification Classification { get; set; }
 
         public virtual string Name { get; set; }
 

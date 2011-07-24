@@ -4,6 +4,8 @@
 
 <h2>Kategorie erstellen</h2>
 
+<label>0</label>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
