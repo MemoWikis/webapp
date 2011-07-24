@@ -127,6 +127,7 @@
     <Compile Include="Views\Api\Intern\ValidationController.cs" />
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
+    <Compile Include="Views\Categories\Edit\ClassificationRowModel.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
     <Compile Include="Views\News\NewsController.cs" />
@@ -194,6 +195,7 @@
     <Content Include="Global.asax" />
     <Content Include="Images\background.jpg" />
     <Content Include="Images\background.png" />
+    <Content Include="Images\Buttons\add.png" />
     <Content Include="Images\Buttons\cross.png" />
     <Content Include="Images\Buttons\key.png" />
     <Content Include="Images\Buttons\tick.png" />
@@ -247,6 +249,7 @@
     <Content Include="Style\src\typography.css" />
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Categories\Categories.aspx" />
+    <Content Include="Views\Categories\Edit\ClassificationRow.ascx" />
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <Content Include="Views\News\News.aspx" />
     <Content Include="Views\Questions\QuestionRow.ascx" />

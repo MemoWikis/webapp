@@ -10,7 +10,10 @@ public class EditCategoryController : Controller
 
     public ActionResult Create()
     {
-        return View(_viewLocation, new CategoriesModel());
-
+        var editCategoryModel = new EditCategoryModel();
+        editCategoryModel.Classifications.Add(new ClassificationRowModel());
+        return View(_viewLocation, editCategoryModel);
     }
+
+
 }

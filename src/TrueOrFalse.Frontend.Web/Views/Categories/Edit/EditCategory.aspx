@@ -1,15 +1,32 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<EditCategoryModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<h2>Kategorie erstellen</h2>
+<h2 class="form-title">Kategorie erstellen</h2>
 
-<label>0</label>
+<% using (Html.BeginForm()){ %>
+
+    <%= Html.LabelFor(m => m.Name ) %>
+    <%= Html.TextBoxFor(m => m.Name ) %>
+
+    <% foreach (var classification in Model.Classifications){ %>
+        <h3 class="form-sub-title">Unterkategorie</h3> 
+    <%      Html.RenderPartial("~/Views/Categories/Edit/ClassificationRow.ascx", classification);
+       } %>
+
+    <br />
+    <label>&nbsp;</label>
+    <a href="<% Url.Action(Links.CreateCategory, Links.CreateCategoryController); %>">
+        <img src='/Images/Buttons/add.png'> <span>Unterkategorie hinzufügen</span>
+    </a>
+
+    <br/><br/><br/>
+    <label>&nbsp;</label>
+    <%= Buttons.Submit("Speichern", inline:true)%>
+    <%= Buttons.Submit("Speichern & Neu", inline: true)%>
+
+<% } %>
 
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-</asp:Content>
-
-<asp:Content ID="Content3" ContentPlaceHolderID="RightMenu" runat="server">
-</asp:Content>

@@ -15,7 +15,7 @@
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
 
-	<h2 style="padding-left:100px; padding-bottom:10px;">Frage erstellen</h2>
+	<h2 class="form-title">Frage erstellen</h2>
 	<% using (Html.BeginForm())
     { %>
     
