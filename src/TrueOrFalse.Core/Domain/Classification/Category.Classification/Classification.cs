@@ -14,6 +14,7 @@ namespace TrueOrFalse.Core
         public virtual IList<ClassificationItem> Items { get; set; } 
 
         public virtual string Name { get; set; }
+        public virtual ClassificationType Type { get; set; }  
 
         public virtual DateTime DateModified { get; set; }
         public virtual DateTime DateCreated { get; set; }

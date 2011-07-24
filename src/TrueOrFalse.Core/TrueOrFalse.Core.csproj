@@ -108,12 +108,13 @@
     <Compile Include="Domain\Classification\Category.ClassificationItem\ClassificationItem.cs" />
     <Compile Include="Domain\Classification\Category.ClassificationItem\ClassificationItemMap.cs" />
     <Compile Include="Domain\Classification\Category.ClassificationItem\ClassificationItemRepository.cs" />
+    <Compile Include="Domain\Classification\Category.Classification\ClassificationType.cs" />
     <Compile Include="Domain\Classification\Category\CategoryMap.cs" />
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\CategoryRepository.cs" />
     <Compile Include="Domain\Classification\Category.Classification\Classification.cs" />
-    <Compile Include="Domain\Classification\Category.Classification\ClassificationMap.cs" />
-    <Compile Include="Domain\Classification\Category.Classification\ClassificationRepository.cs" />
+    <Compile Include="Domain\Classification\Category.Classification\Persistence\ClassificationMap.cs" />
+    <Compile Include="Domain\Classification\Category.Classification\Persistence\ClassificationRepository.cs" />
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Persistance\MessageMap.cs" />
     <Compile Include="Domain\Question.Answer\Answer.cs" />
