@@ -135,14 +135,32 @@
     <Compile Include="Domain\User\Registration.Password\HashPassword.cs" />
     <Compile Include="Domain\User\Registration.Password\SetUserPassword.cs" />
     <Compile Include="Domain\User\Registration.Password\IsValdidPassword.cs" />
-    <Compile Include="Infrastructure\IoC\AutofacCoreModule.cs" />
-    <Compile Include="Infrastructure\Email\SendEmail.cs" />
-    <Compile Include="Infrastructure\IoC\IRegisterAsInstancePerLifetime.cs" />
-    <Compile Include="Infrastructure\Persistence\EnumConvention.cs" />
-    <Compile Include="Infrastructure\Persistence\SessionFactory.cs" />
-    <Compile Include="Infrastructure\Persistence\SpecFilterBase.cs" />
-    <Compile Include="Infrastructure\Persistence\SpecOrderByBase.cs" />
-    <Compile Include="Infrastructure\Settings.cs" />
+    <Compile Include="Infrastructure\Email\SendEmail.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\IoC\AutofacCoreModule.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\IoC\IRegisterAsInstancePerLifetime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Persistence\Constants.cs" />
+    <Compile Include="Infrastructure\Persistence\EnumConvention.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Persistence\SessionFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Persistence\SpecFilterBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Persistence\SpecOrderByBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Settings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="Domain\Question.Answer\Model.UserInput\UserInputText.cs" />

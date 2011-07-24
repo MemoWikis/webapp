@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Seedworks.Lib.Persistance;
+using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Core
 {
@@ -22,6 +23,11 @@ namespace TrueOrFalse.Core
         public Question()
         {
             Answers = new List<Answer>();
+        }
+
+        public virtual string GetShortTitle()
+        {
+            return Text.TruncateAtWord(100);
         }
 
     }

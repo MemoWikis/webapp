@@ -130,6 +130,7 @@
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
     <Compile Include="Views\News\NewsController.cs" />
     <Compile Include="Views\News\NewsModel.cs" />
+    <Compile Include="Views\Questions\QuestionRowModel.cs" />
     <Compile Include="Views\Questions\QuestionsController.cs" />
     <Compile Include="Views\Questions\QuestionsModel.cs" />
     <Compile Include="Views\Questions\Create\CreateQuestionController.cs" />
@@ -247,6 +248,7 @@
     <Content Include="Views\Categories\Categories.aspx" />
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <Content Include="Views\News\News.aspx" />
+    <Content Include="Views\Questions\QuestionRow.ascx" />
     <Content Include="Views\Questions\Questions.aspx" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />

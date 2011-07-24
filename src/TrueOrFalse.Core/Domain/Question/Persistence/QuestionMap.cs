@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FluentNHibernate.Mapping;
+using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Core
 {
@@ -11,7 +12,7 @@ namespace TrueOrFalse.Core
         public QuestionMap()
         {
             Id(x => x.Id);
-            Map(x => x.Text);
+            Map(x => x.Text).Length(Constants.VarCharMaxLength);
             Map(x => x.Visibility);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);

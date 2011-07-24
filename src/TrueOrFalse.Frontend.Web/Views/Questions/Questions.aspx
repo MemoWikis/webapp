@@ -11,7 +11,15 @@
         <div style="float: right;">
             <%= Buttons.Link("Frage erstellen", Links.CreateQuestion, Links.CreateQuestionController, ButtonIcon.Add)%>
         </div>
+
     </div>
+
+    <div>
+        <% foreach (var row in Model.QuestionRows)
+           {
+               Html.RenderPartial("QuestionRow", row);
+           } %>
+    </div> 
 
 </asp:Content>
 
