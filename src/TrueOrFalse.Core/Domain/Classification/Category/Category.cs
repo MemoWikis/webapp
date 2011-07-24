@@ -15,7 +15,16 @@ namespace TrueOrFalse.Core
         public virtual DateTime DateModified { get; set; }
         public virtual DateTime DateCreated { get; set; }
 
-        public virtual List<Classification> Classifications { get; set; }
+        public virtual IList<Classification> Classifications { get; set; }
 
+        public Category()
+        {
+            Classifications = new List<Classification>();
+        }
+
+        public Category(string name) : this()
+        {
+            Name = name;
+        }
     }
 }

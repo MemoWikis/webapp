@@ -20,5 +20,11 @@ namespace TrueOrFalse.Core
         public virtual DateTime DateModified { get; set; }
         public virtual DateTime DateCreated { get; set; }
 
+        public ClassificationItem(){}
+
+        public ClassificationItem(string name)
+        {
+            Name = name;
+        }
     }
 }
