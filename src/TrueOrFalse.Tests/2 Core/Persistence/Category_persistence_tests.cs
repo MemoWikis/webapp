@@ -22,6 +22,11 @@ namespace TrueOrFalse.Tests.Persistence
             category.Classifications[0].Items.Add(new ClassificationItem("Tennis"));
 
             categoryRepository.Create(category);
+
+            var categoryFromDb = categoryRepository.GetAll().First();
+            Assert.That(categoryFromDb.Classifications.Count, Is.EqualTo(1));
+            Assert.That(categoryFromDb.Classifications[0].Items.Count, Is.EqualTo(3));
+            Assert.That(categoryFromDb.Classifications[0].Items[0].Name, Is.EqualTo("Swimming"));
         }
 
     }
