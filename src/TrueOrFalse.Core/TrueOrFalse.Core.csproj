@@ -148,6 +148,7 @@
     <Compile Include="Domain\Question.Answer\Model.UserInput\UserInputText.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
+    <Compile Include="Web\Controls\ButtonIcon.cs" />
     <Compile Include="Web\Controls\Buttons.cs" />
     <Compile Include="Web\Controls\UserMessage\MessageHtml.cs" />
     <Compile Include="Web\Controls\UserMessage\MessageType.cs" />

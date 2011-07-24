@@ -1,0 +1,17 @@
+﻿label
+{
+    width: 90px;
+    display:block;
+    float:left;
+    text-align:right;
+    padding-right:10px;
+    line-height:20px;
+            
+}
+        
+textarea
+{
+    width: 400px;    
+    height: 80px;
+}
+

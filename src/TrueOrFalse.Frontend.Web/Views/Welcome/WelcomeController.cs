@@ -59,7 +59,7 @@ public class WelcomeController : Controller
         if (_credentialsAreValid.Yes(loginModel.UserName, loginModel.Password))
         {
             _sessionUser.Login(_credentialsAreValid.User);
-            return RedirectToAction(Links.Summary, Links.SummaryController );
+            return RedirectToAction(Links.Knowledge, Links.KnowledgeController );
         }
 
         loginModel.SetToWrongCredentials();

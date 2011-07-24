@@ -7,9 +7,21 @@ namespace TrueOrFalse.Frontend.Web.Code
 {
     public static class Links
     {
+        /*Question*/
+        public const string Questions = "Questions";
+        public const string QuestionsController = "Questions";
+
         public const string CreateQuestionController = "CreateQuestion"; 
-        public const string QuestionCreate = "Create";
+        public const string CreateQuestion = "Create";
+
+        /*Category*/
+        public const string Categories = "Categories";
+        public const string CategoriesController = "Categories";
+
+        public const string CreateCategory = "Create";
+        public const string CreateCategoryController = "EditCategory";
     
+        /**/
         public const string WelcomeController = "Welcome";
         public const string Register = "Register";
         public const string RegisterSuccess = "RegisterSuccess";
@@ -20,8 +32,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Impressum = "Imprint";
         public const string WelfareCompany = "WelfareCompany";
 
-        public const string SummaryController = "Summary";
-        public const string Summary = "Summary";
+        public const string KnowledgeController = "Knowledge";
+        public const string Knowledge = "Knowledge";
+
+        public const string News = "News";
+        public const string NewsController = "News";
 
         public const string AccountController = "Account";
         public const string Logout = "Logout";

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<SummaryModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<KnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
@@ -72,7 +72,7 @@
 
 <h2>Willkommen Robert Mischke, schön das Du da bist.</h2>
 
-<%= Buttons.Link("Frage erstellen", Links.QuestionCreate, Links.CreateQuestionController)%>
+<%= Buttons.Link("Frage erstellen", Links.CreateQuestion, Links.CreateQuestionController)%>
 
 <h3>Wissensentwicklung</h3>
 

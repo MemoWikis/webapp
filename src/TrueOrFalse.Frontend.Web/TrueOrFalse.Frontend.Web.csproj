@@ -124,11 +124,19 @@
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\Validation.cs" />
-    <Compile Include="Views\Question\CreateQuestion\CreateQuestionController.cs" />
-    <Compile Include="Views\Summary\SummaryController.cs" />
-    <Compile Include="Views\Summary\SummaryModel.cs" />
+    <Compile Include="Views\Categories\CategoriesController.cs" />
+    <Compile Include="Views\Categories\CategoriesModel.cs" />
+    <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
+    <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
+    <Compile Include="Views\News\NewsController.cs" />
+    <Compile Include="Views\News\NewsModel.cs" />
+    <Compile Include="Views\Questions\QuestionsController.cs" />
+    <Compile Include="Views\Questions\QuestionsModel.cs" />
+    <Compile Include="Views\Questions\Create\CreateQuestionController.cs" />
+    <Compile Include="Views\Knowledge\KnowledgeController.cs" />
+    <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
-    <Compile Include="Views\Question\CreateQuestion\CreateQuestionModel.cs" />
+    <Compile Include="Views\Questions\Create\CreateQuestionModel.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -188,6 +196,7 @@
     <Content Include="Images\Buttons\key.png" />
     <Content Include="Images\Buttons\tick.png" />
     <Content Include="Images\edit_installation_config.png" />
+    <Content Include="Images\menu-icon-person.png" />
     <Content Include="Images\RowHeaderBackground.png" />
     <Content Include="Scripts\highcharts.js" />
     <Content Include="Scripts\jquery-1.6.1-vsdoc.js" />
@@ -207,7 +216,9 @@
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Style\fonts\OFL.txt" />
+    <Content Include="Style\form.css" />
     <Content Include="Style\ie.css" />
+    <Content Include="Style\menu.css" />
     <Content Include="Style\print.css" />
     <Content Include="Style\screen.css" />
     <Content Include="Style\site.css" />
@@ -233,10 +244,14 @@
     <Content Include="Style\src\reset.css" />
     <Content Include="Style\src\typography.css" />
     <Content Include="Views\Account\Logout.aspx" />
+    <Content Include="Views\Categories\Categories.aspx" />
+    <Content Include="Views\Categories\Edit\EditCategory.aspx" />
+    <Content Include="Views\News\News.aspx" />
+    <Content Include="Views\Questions\Questions.aspx" />
     <Content Include="Views\Shared\Message.ascx" />
-    <Content Include="Views\Summary\Summary.aspx" />
+    <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
-    <Content Include="Views\Question\AnswerQuestion.aspx" />
+    <Content Include="Views\Questions\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\LoginUc.ascx" />
     <Content Include="Views\Shared\MenuLeft.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
@@ -250,7 +265,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Question\CreateQuestion\CreateQuestion.aspx" />
+    <Content Include="Views\Questions\Create\CreateQuestion.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
     <Content Include="Views\Shared\Site.Master" />
@@ -271,7 +286,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Questions\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
