@@ -14,7 +14,7 @@
 
     </div>
 
-    <div>
+    <div style="clear: both;">
         <% foreach (var row in Model.QuestionRows)
            {
                Html.RenderPartial("QuestionRow", row);
