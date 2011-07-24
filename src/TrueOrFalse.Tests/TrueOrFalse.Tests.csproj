@@ -128,6 +128,8 @@
     <Compile Include="2 Core\Answer\ArrangeQuestion.cs" />
     <Compile Include="2 Core\Answer\Context.Question.cs" />
     <Compile Include="2 Core\Answer\Spec_answer_simple_text.cs" />
+    <Compile Include="2 Core\Category\ArrangeCategory.cs" />
+    <Compile Include="2 Core\Persistence\Category_persistence_tests.cs" />
     <Compile Include="2 Core\User\Context.RegisteredUser.cs" />
     <Compile Include="2 Core\User\Registration\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Core\User\Tests.PersistUser.cs" />
