@@ -15,8 +15,7 @@ namespace TrueOrFalse.Core
             Map(x => x.Visibility);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
-            HasManyToMany<Answer>(x => x.Answers)
-                .Cascade.All().Table("QuestionAnswer");
+            HasMany<Answer>(x => x.Answers).Cascade.All();
         }
     }
 }

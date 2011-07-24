@@ -16,8 +16,7 @@ namespace TrueOrFalse.Core
             Map(x => x.Description);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
-            HasManyToMany<Question>(x => x.Questions)
-                .Table("QuestionAnswer").Inverse();
+            References(x => x.Question);
         }
 
     }

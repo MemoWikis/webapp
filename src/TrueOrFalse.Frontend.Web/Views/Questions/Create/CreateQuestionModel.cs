@@ -94,8 +94,8 @@ public class CreateQuestionModel : ModelBase
     public Question ConvertToQuestion()
     {
         var question = new Question();
-        Question = Question;
-        Answer = Answer;
+        question.Text = Question;
+        question.Answers.Add(new Answer(Answer));
         return question;
     }
 
