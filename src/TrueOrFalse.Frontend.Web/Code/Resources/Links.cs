@@ -7,6 +7,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 {
     public static class Links
     {
+        
         /*Question*/
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
@@ -19,6 +20,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string CategoriesController = "Categories";
 
         public const string CreateCategory = "Create";
+        public const string AddClassification = "AddClassification";
         public const string CreateCategoryController = "EditCategory";
     
         /**/

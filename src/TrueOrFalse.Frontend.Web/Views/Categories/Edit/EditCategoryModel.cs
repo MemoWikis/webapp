@@ -11,7 +11,7 @@ public class EditCategoryModel : ModelBase
     [DisplayName("Name")]
     public string Name { get; set; }
 
-    public List<ClassificationRowModel> Classifications = new List<ClassificationRowModel>(); 
+    public List<ClassificationRowModel> Classifications { get; set; } 
 
     public EditCategoryModel()
     {

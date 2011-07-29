@@ -1,6 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<EditCategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
+    <script src="EditCategory.js" type="text/javascript"></script>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
 <h2 class="form-title">Kategorie erstellen</h2>
@@ -17,9 +21,11 @@
 
     <br />
     <label>&nbsp;</label>
-    <a href="<% Url.Action(Links.CreateCategory, Links.CreateCategoryController); %>">
+    <%--<a href="/Categories/Create/AddClassification">
         <img src='/Images/Buttons/add.png'> <span>Unterkategorie hinzufügen</span>
-    </a>
+    </a>--%>
+
+    
 
     <br/><br/><br/>
     <label>&nbsp;</label>
