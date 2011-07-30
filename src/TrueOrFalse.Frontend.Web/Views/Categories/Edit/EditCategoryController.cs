@@ -6,21 +6,20 @@ using System.Web.Mvc;
 
 public class EditCategoryController : Controller
 {
-    private const string _viewLocation = "~/Views/Categories/Edit/EditCategory.aspx";
+    private const string _viewPathClassificationRow = "~/Views/Categories/Edit/ClassificationRow.ascx";
+    private const string _viewPath = "~/Views/Categories/Edit/EditCategory.aspx";
 
     public ViewResult Create()
     {
         var model = new EditCategoryModel();
         model.Classifications = new List<ClassificationRowModel>();
         model.Classifications.Add(new ClassificationRowModel());
-        return View(_viewLocation, model);
+        return View(_viewPath, model);
     }
 
-    [HttpGet]
-    public ViewResult AddClassification(EditCategoryModel model)
+    public ViewResult AddClassificationRow()
     {
-        model.Classifications.Add(new ClassificationRowModel());
-        return View(_viewLocation, model);
+        return View(_viewPathClassificationRow, new ClassificationRowModel());
     }
 
 }
