@@ -178,6 +178,7 @@
     <Compile Include="Web\Controls\UserMessage\Message.cs" />
     <Compile Include="Web\Filters\AccessOnlyLocalAttribute.cs" />
     <Compile Include="Web\Filters\GlobalAuthorizationAttribute.cs" />
+    <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptActionInvoker.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptView.cs" />
