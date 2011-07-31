@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web;
 using System.Collections.Generic;
 
-namespace EditorDemo.Helpers
+namespace ListBinding.Helpers
 {
     public static class HtmlPrefixScopeExtensions
     {
@@ -11,13 +11,22 @@ namespace EditorDemo.Helpers
 
         public static IDisposable BeginCollectionItem(this HtmlHelper html, string collectionName)
         {
+            if (html.ViewData["ContainerPrefix"] != null)
+            {
+                collectionName = string.Concat(html.ViewData["ContainerPrefix"], ".", collectionName);
+            }
+
             var idsToReuse = GetIdsToReuse(html.ViewContext.HttpContext, collectionName);
             string itemIndex = idsToReuse.Count > 0 ? idsToReuse.Dequeue() : Guid.NewGuid().ToString();
+
+            var htmlFieldPrefix = string.Format("{0}[{1}]", collectionName, itemIndex);
+
+            html.ViewData["ContainerPrefix"] = htmlFieldPrefix;
 
             // autocomplete="off" is needed to work around a very annoying Chrome behaviour whereby it reuses old values after the user clicks "Back", which causes the xyz.index and xyz[...] values to get out of sync.
             html.ViewContext.Writer.WriteLine(string.Format("<input type=\"hidden\" name=\"{0}.index\" autocomplete=\"off\" value=\"{1}\" />", collectionName, html.Encode(itemIndex)));
 
-            return BeginHtmlFieldPrefixScope(html, string.Format("{0}[{1}]", collectionName, itemIndex));
+            return BeginHtmlFieldPrefixScope(html, htmlFieldPrefix);
         }
 
         public static IDisposable BeginHtmlFieldPrefixScope(this HtmlHelper html, string htmlFieldPrefix)
@@ -31,7 +40,8 @@ namespace EditorDemo.Helpers
             // otherwise the framework won't render the validation error messages next to each item.
             string key = idsToReuseKey + collectionName;
             var queue = (Queue<string>)httpContext.Items[key];
-            if (queue == null) {
+            if (queue == null)
+            {
                 httpContext.Items[key] = queue = new Queue<string>();
                 var previouslyUsedIds = httpContext.Request[collectionName + ".index"];
                 if (!string.IsNullOrEmpty(previouslyUsedIds))

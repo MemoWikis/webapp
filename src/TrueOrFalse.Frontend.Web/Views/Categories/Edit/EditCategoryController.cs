@@ -18,6 +18,7 @@ public class EditCategoryController : Controller
     public ViewResult Create()
     {
         var model = new EditCategoryModel();
+        model.Name = "Some name";
         model.Classifications = new List<ClassificationRowModel>();
         model.Classifications.Add(new ClassificationRowModel());
         return View(_viewPath, model);
