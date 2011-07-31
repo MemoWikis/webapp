@@ -1,30 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
-using Autofac.Integration.Web;
-using Autofac.Integration.Web.Mvc;
-using TrueOrFalse.Core;
+using Autofac.Integration.Mvc;
 using TrueOrFalse.Core.Infrastructure;
-using RegistrationExtensions = Autofac.Integration.Mvc.RegistrationExtensions;
 
 namespace TrueOrFalse.Frontend.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : HttpApplication, IContainerProviderAccessor 
+    public class MvcApplication : HttpApplication
     {
-        static IContainerProvider _containerProvider;
-
-        public IContainerProvider ContainerProvider
-        {
-            get { return _containerProvider; }
-        }
 
         public static void RegisterRoutes(RouteCollection routes)
         {
@@ -48,20 +36,19 @@ namespace TrueOrFalse.Frontend.Web
             AreaRegistration.RegisterAllAreas();
 
             RegisterRoutes(RouteTable.Routes);
+            
+            GlobalFilters.Filters.Add(new GlobalAuthorizationAttribute());
         }
 
         private void InitializeAutofac()
         {
             var builder = new ContainerBuilder();
-			RegistrationExtensions.RegisterControllers(builder, Assembly.GetExecutingAssembly());
-			RegistrationExtensions.RegisterModelBinders(builder, Assembly.GetExecutingAssembly());
-            builder.RegisterType<QuestionRepository>().As<QuestionRepository>();
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModule<AutofacCoreModule>();
 
-            _containerProvider = new ContainerProvider(builder.Build());
-
-            GlobalFilters.Filters.Add(new GlobalAuthorizationAttribute());
-			ControllerBuilder.Current.SetControllerFactory(new AutofacControllerFactory(ContainerProvider));
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }
