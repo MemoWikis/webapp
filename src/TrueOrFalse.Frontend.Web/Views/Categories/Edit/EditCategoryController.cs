@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Core.Web;
 
 public class EditCategoryController : Controller
 {
     private const string _viewPathClassificationRow = "~/Views/Categories/Edit/ClassificationRow.ascx";
     private const string _viewPath = "~/Views/Categories/Edit/EditCategory.aspx";
+
+    public EditCategoryController()
+    {
+        ActionInvoker = new JavaScriptActionInvoker();
+    }
 
     public ViewResult Create()
     {

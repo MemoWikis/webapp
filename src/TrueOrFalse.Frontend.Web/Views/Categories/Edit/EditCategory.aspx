@@ -1,35 +1,35 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<EditCategoryModel>" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <script src="Edit/EditCategory.js" type="text/javascript"></script>
+    <script src="EditCategory.js" type="text/javascript"></script>
     <script language="javascript" type="text/javascript">
 
-        $(function () {
+//        $(function () {
 
-            $("#addClassificationRow").click(function () {
-                $.ajax({
-                    url: this.href,
-                    cache: false,
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        alert("hello");
-                        /*console.info('in error');
-                        console.log(jqXHR, textStatus, errorThrown); */
-                    },
-                    success: function (html) {
-                        $("#classifications").append(html);
-                    }
-                });
-                return false;
-            });
-        
-            
-        });
+//            $("#addClassificationRow").click(function () {
+//                $.ajax({
+//                    url: this.href,
+//                    cache: false,
+//                    error: function (jqXHR, textStatus, errorThrown) {
+//                        alert("hello");
+//                        /*console.info('in error');
+//                        console.log(jqXHR, textStatus, errorThrown); */
+//                    },
+//                    success: function (html) {
+//                        $("#classifications").append(html);
+//                    }
+//                });
+//                return false;
+//            });
+//        
+//            
+//        });
 
 
-        $("a.deleteRow").live("click", function () {
-            $(this).parents("div.editorRow:first").remove();
-            return false;
-        });
+//        $("a.deleteRow").live("click", function () {
+//            $(this).parents("div.editorRow:first").remove();
+//            return false;
+//        });
         
     </script>
 </asp:Content>

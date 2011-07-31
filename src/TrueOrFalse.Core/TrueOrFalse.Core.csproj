@@ -177,6 +177,10 @@
     <Compile Include="Web\Controls\UserMessage\Message.cs" />
     <Compile Include="Web\Filters\AccessOnlyLocalAttribute.cs" />
     <Compile Include="Web\Filters\GlobalAuthorizationAttribute.cs" />
+    <Compile Include="Web\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
+    <Compile Include="Web\JavascriptViewEngine\JavascriptActionInvoker.cs" />
+    <Compile Include="Web\JavascriptViewEngine\JavascriptView.cs" />
+    <Compile Include="Web\JavascriptViewEngine\JavascriptViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
