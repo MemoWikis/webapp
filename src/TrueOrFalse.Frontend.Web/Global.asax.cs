@@ -5,6 +5,7 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
 using TrueOrFalse.Core.Infrastructure;
+using TrueOrFalse.Core.Web.JavascriptView;
 
 namespace TrueOrFalse.Frontend.Web
 {
@@ -24,9 +25,10 @@ namespace TrueOrFalse.Frontend.Web
             routes.MapRoute("Categories_Create", "Categories/Create/{action}", new { controller = "EditCategory", action = "Create" });
             routes.MapRoute("Knowledge", "Knowledge/{action}", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("News", "News/{action}", new { controller = "News", action = "News" });
-            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
-            routes.MapRoute("Default","{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });
+            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });          
             routes.MapRoute("Export", "Api/Export/{action}", new { controller = "Export", action="Questions" });
+
+            routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });
         }
 
         protected void Application_Start()
@@ -34,6 +36,7 @@ namespace TrueOrFalse.Frontend.Web
             InitializeAutofac();
 
             AreaRegistration.RegisterAllAreas();
+            ViewEngines.Engines.Add(new JavaScriptViewEngine());
 
             RegisterRoutes(RouteTable.Routes);
             

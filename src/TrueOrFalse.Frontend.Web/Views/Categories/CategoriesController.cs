@@ -9,6 +9,5 @@ public class CategoriesController : Controller
     public ActionResult Categories()
     {
         return View(new CategoriesModel());
-
     }
 }

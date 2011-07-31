@@ -23,6 +23,12 @@ public class EditCategoryController : Controller
         return View(_viewPath, model);
     }
 
+    [HttpPost]
+    public ViewResult Create(EditCategoryModel editCategoryModel)
+    {
+        return View(_viewPath, editCategoryModel);
+    }
+
     public ViewResult AddClassificationRow()
     {
         return View(_viewPathClassificationRow, new ClassificationRowModel());

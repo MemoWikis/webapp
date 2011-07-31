@@ -188,12 +188,12 @@
         <text>Name%3A</text>
       </controlProperties>
     </control>
-    <control controlID="137" controlTypeID="com.balsamiq.mockups::Icon" x="327" y="423" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="23" locked="false" isInGroup="-1">
+    <control controlID="137" controlTypeID="com.balsamiq.mockups::Icon" x="326" y="572" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="23" locked="false" isInGroup="-1">
       <controlProperties>
         <icon>CircledPlusIcon%7Csmall</icon>
       </controlProperties>
     </control>
-    <control controlID="139" controlTypeID="com.balsamiq.mockups::Label" x="360" y="421" w="186" h="56" measuredW="225" measuredH="25" zOrder="24" locked="false" isInGroup="-1">
+    <control controlID="139" controlTypeID="com.balsamiq.mockups::Label" x="359" y="570" w="186" h="56" measuredW="225" measuredH="25" zOrder="24" locked="false" isInGroup="-1">
       <controlProperties>
         <color>2848996</color>
         <text>Weitere%20Unterkategorie%20hinzuf%FCgen</text>
@@ -216,7 +216,7 @@
         <text>Liste</text>
       </controlProperties>
     </control>
-    <control controlID="145" controlTypeID="com.balsamiq.mockups::Label" x="249" y="367" w="-1" h="-1" measuredW="66" measuredH="25" zOrder="28" locked="false" isInGroup="-1">
+    <control controlID="145" controlTypeID="com.balsamiq.mockups::Label" x="249" y="363" w="-1" h="-1" measuredW="66" measuredH="25" zOrder="28" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Elemente%3A</text>
       </controlProperties>
@@ -234,15 +234,63 @@
         <text>Verkn%FCpfungen</text>
       </controlProperties>
     </control>
-    <control controlID="149" controlTypeID="com.balsamiq.mockups::Label" x="328" y="366" w="272" h="25" measuredW="249" measuredH="25" zOrder="31" locked="false" isInGroup="-1">
+    <control controlID="149" controlTypeID="com.balsamiq.mockups::Label" x="328" y="362" w="272" h="25" measuredW="249" measuredH="25" zOrder="31" locked="false" isInGroup="-1">
       <controlProperties>
         <text>35%20%28Aerobic%2C%20Aikido%2C%20Air%20Hockey%2C%20%20...%29</text>
       </controlProperties>
     </control>
-    <control controlID="150" controlTypeID="com.balsamiq.mockups::Button" x="600" y="365" w="-1" h="-1" measuredW="87" measuredH="28" zOrder="32" locked="false" isInGroup="-1">
+    <control controlID="150" controlTypeID="com.balsamiq.mockups::Button" x="600" y="361" w="-1" h="-1" measuredW="87" measuredH="28" zOrder="32" locked="false" isInGroup="-1">
       <controlProperties>
         <size>12</size>
         <text>bearbeiten</text>
+      </controlProperties>
+    </control>
+    <control controlID="151" controlTypeID="com.balsamiq.mockups::Label" x="327" y="408" w="129" h="24" measuredW="100" measuredH="25" zOrder="33" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Unterkategorie</text>
+      </controlProperties>
+    </control>
+    <control controlID="152" controlTypeID="com.balsamiq.mockups::Label" x="229" y="437" w="86" h="26" measuredW="46" measuredH="25" zOrder="34" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <text>Name%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="153" controlTypeID="com.balsamiq.mockups::TextArea" x="327" y="436" w="173" h="27" measuredW="200" measuredH="140" zOrder="35" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Sportart</text>
+      </controlProperties>
+    </control>
+    <control controlID="154" controlTypeID="com.balsamiq.mockups::Label" x="229" y="469" w="86" h="26" measuredW="34" measuredH="25" zOrder="36" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <text>Typ%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="155" controlTypeID="com.balsamiq.mockups::ComboBox" x="327" y="469" w="173" h="-1" measuredW="62" measuredH="25" zOrder="37" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Liste</text>
+      </controlProperties>
+    </control>
+    <control controlID="156" controlTypeID="com.balsamiq.mockups::Label" x="249" y="503" w="-1" h="-1" measuredW="66" measuredH="25" zOrder="38" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Elemente%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="157" controlTypeID="com.balsamiq.mockups::Label" x="328" y="502" w="272" h="25" measuredW="249" measuredH="25" zOrder="39" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>35%20%28Aerobic%2C%20Aikido%2C%20Air%20Hockey%2C%20%20...%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="158" controlTypeID="com.balsamiq.mockups::Button" x="600" y="501" w="-1" h="-1" measuredW="87" measuredH="28" zOrder="40" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>12</size>
+        <text>bearbeiten</text>
+      </controlProperties>
+    </control>
+    <control controlID="159" controlTypeID="com.balsamiq.mockups::Link" x="431" y="407" w="-1" h="-1" measuredW="66" measuredH="25" zOrder="41" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%28loeschen%29</text>
       </controlProperties>
     </control>
   </controls>
