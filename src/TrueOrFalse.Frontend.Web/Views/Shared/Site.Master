@@ -54,7 +54,16 @@
 		        function () { $(this).addClass('ui-state-hover'); },
 		        function () { $(this).removeClass('ui-state-hover'); }
 			);
-       });   
+       });
+
+       /* links with class submit should submit a forms */
+       $(document).ready(function () {
+           $("a.submit").click(function (event) {
+               $(this).closest('form').submit();
+               event.preventDefault();
+           });
+       })       
+       
    </script>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
     

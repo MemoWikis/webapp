@@ -4,12 +4,7 @@
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <script type="text/ecmascript" language="javascript">
-        $(document).ready(function () {
-            $("a.submit").click(function (event) {
-                $(this).closest('form').submit();
-                event.preventDefault();
-            });
-        })
+
     </script>
 </asp:Content>
 
