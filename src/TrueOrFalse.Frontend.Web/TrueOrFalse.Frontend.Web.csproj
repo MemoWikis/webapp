@@ -124,6 +124,7 @@
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\ExportController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
+    <Compile Include="Views\Api\ExportQuestionsModel.cs" />
     <Compile Include="Views\Api\Intern\ValidationController.cs" />
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
@@ -248,6 +249,7 @@
     <Content Include="Style\src\reset.css" />
     <Content Include="Style\src\typography.css" />
     <Content Include="Views\Account\Logout.aspx" />
+    <Content Include="Views\Api\ExportQuestions.aspx" />
     <Content Include="Views\Categories\Categories.aspx" />
     <Content Include="Views\Categories\Edit\ClassificationRow.ascx" />
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
