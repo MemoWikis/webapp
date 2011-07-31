@@ -49,21 +49,21 @@
    <script src="/Scripts/highcharts.js" type="text/javascript"></script>
 
    <script type="text/javascript">
-       $(function () {
+       $(function () 
+       {
            $('a.button').hover(
 		        function () { $(this).addClass('ui-state-hover'); },
 		        function () { $(this).removeClass('ui-state-hover'); }
 			);
-       });
 
-       /* links with class submit should submit a forms */
-       $(document).ready(function () {
+           /* links with class submit should submit a forms */
            $("a.submit").click(function (event) {
                $(this).closest('form').submit();
                event.preventDefault();
-           });
-       })       
-       
+           });          
+           
+       });
+
    </script>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
     
