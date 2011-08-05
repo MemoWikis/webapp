@@ -27,7 +27,7 @@ namespace TrueOrFalse.Core
 
         public virtual string GetShortTitle()
         {
-            return Text.TruncateAtWord(100);
+            return Text.TruncateAtWord(96);
         }
 
     }
