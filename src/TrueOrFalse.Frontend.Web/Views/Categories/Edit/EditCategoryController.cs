@@ -4,14 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core.Web;
+using TrueOrFalse.Core;
 
 public class EditCategoryController : Controller
 {
+    private readonly CategoryRepository _categoryRepository;
     private const string _viewPathClassificationRow = "~/Views/Categories/Edit/ClassificationRow.ascx";
     private const string _viewPath = "~/Views/Categories/Edit/EditCategory.aspx";
 
-    public EditCategoryController()
+    public EditCategoryController(CategoryRepository categoryRepository)
     {
+        _categoryRepository = categoryRepository;
         ActionInvoker = new JavaScriptActionInvoker();
     }
 
@@ -25,9 +28,9 @@ public class EditCategoryController : Controller
     }
 
     [HttpPost]
-    public ViewResult Create(EditCategoryModel editCategoryModel)
+    public ViewResult Create(EditCategoryModel model)
     {
-        editCategoryModel.Classifications = new List<ClassificationRowModel>();
+        model.Classifications = new List<ClassificationRowModel>();
 
         foreach(var rowData in from string postKey in Request.Form.Keys
                                  where postKey.StartsWith("row[")
@@ -39,7 +42,7 @@ public class EditCategoryController : Controller
                                  select groupedItems.ToDictionary(p => p.Key, p=> p.Value))
 
         {
-            editCategoryModel.Classifications.Add(
+            model.Classifications.Add(
                 new ClassificationRowModel
                     {
                         Name = rowData["Name"],
@@ -47,7 +50,9 @@ public class EditCategoryController : Controller
                     });
         }
 
-        return View(_viewPath, editCategoryModel);
+        _categoryRepository.Create(model.ConvertToCategory());
+
+        return View(_viewPath, model);
     }
 
     public ViewResult AddClassificationRow()

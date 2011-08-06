@@ -18,4 +18,11 @@ public class EditCategoryModel : ModelBase
         ShowLeftMenu_Nav();
     }
 
+    public Category ConvertToCategory()
+    {
+        return new Category(Name)
+                   {
+                       Classifications = (from model in Classifications select model.ConvertToClassification()).ToList()
+                   };
+    }
 }

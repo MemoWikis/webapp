@@ -25,4 +25,12 @@ public class ClassificationRowModel
                         };
         }
     }
+
+    public Classification ConvertToClassification()
+    {
+        return new Classification(Name)
+                   {
+                       Type = (ClassificationType) Enum.Parse(typeof(ClassificationType), Type)
+                   };
+    }
 }
