@@ -12,6 +12,7 @@ public class ClassificationRowModel
     {
         Name = classification.Name;
         Type = classification.Type.ToString();
+        Id = classification.Id;
     }
 
     public ClassificationRowModel()
@@ -23,6 +24,8 @@ public class ClassificationRowModel
 
     [DisplayName("Type")]
     public string Type { get; set; }
+
+    public int Id { get; set; }
 
     public IEnumerable<SelectListItem> TypeData
     {
@@ -42,5 +45,11 @@ public class ClassificationRowModel
                    {
                        Type = (ClassificationType) Enum.Parse(typeof(ClassificationType), Type)
                    };
+    }
+
+    public void UpdateClassification(Classification classification)
+    {
+        classification.Name = Name;
+        classification.Type = (ClassificationType) Enum.Parse(typeof (ClassificationType), Type);
     }
 }

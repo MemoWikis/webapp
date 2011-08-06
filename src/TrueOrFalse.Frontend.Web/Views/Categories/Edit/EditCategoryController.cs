@@ -42,8 +42,8 @@ public class EditCategoryController : Controller
     {
         PopulateClassificationsFromPost(model);
 
-        var category = model.ConvertToCategory();
-        category.Id = id;
+        var category = _categoryRepository.GetById(id);
+        model.UpdateCategory(category);
         _categoryRepository.Update(category);
 
         return View(_viewPath, model);
@@ -78,7 +78,8 @@ public class EditCategoryController : Controller
                 new ClassificationRowModel
                     {
                         Name = rowData["Name"],
-                        Type = rowData["Type"]
+                        Type = rowData["Type"],
+                        Id = Convert.ToInt32(rowData["Id"])
                     });
         }
     }

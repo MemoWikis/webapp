@@ -34,4 +34,27 @@ public class EditCategoryModel : ModelBase
                        Classifications = (from model in Classifications select model.ConvertToClassification()).ToList()
                    };
     }
+
+    public void UpdateCategory(Category category)
+    {
+        category.Name = Name;
+        foreach (var classificationRowModel in Classifications)
+        {
+            Classification classification = null;
+            if (classificationRowModel.Id > 0)
+            {
+                classification = category.Classifications.SingleOrDefault(c => c.Id == classificationRowModel.Id);
+            }
+
+            if (classification == null)
+            {
+                category.Classifications.Add(classificationRowModel.ConvertToClassification());
+            }
+            else
+            {
+                classificationRowModel.UpdateClassification(classification);
+            }
+
+        }
+    }
 }

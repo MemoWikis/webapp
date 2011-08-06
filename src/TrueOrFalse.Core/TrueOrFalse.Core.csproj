@@ -157,6 +157,7 @@
     <Compile Include="Infrastructure\Persistence\SessionFactory.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Infrastructure\Persistence\SessionManager.cs" />
     <Compile Include="Infrastructure\Persistence\SpecFilterBase.cs">
       <SubType>Code</SubType>
     </Compile>

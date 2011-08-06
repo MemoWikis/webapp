@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Autofac;
+using NHibernate;
+using TrueOrFalse.Core.Infrastructure.Persistence;
 using Module = Autofac.Module;
 
 namespace TrueOrFalse.Core.Infrastructure
@@ -19,7 +21,9 @@ namespace TrueOrFalse.Core.Infrastructure
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).Where(a => a.Name.EndsWith("Repository"));
 
             builder.RegisterType<QuestionRepository>();
-            builder.RegisterInstance(SessionFactory.CreateSessionFactory().OpenSession());
+            builder.RegisterInstance(SessionFactory.CreateSessionFactory());
+            builder.Register(context => new SessionManager(context.Resolve<ISessionFactory>().OpenSession())).InstancePerLifetimeScope();
+            builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
         }
     }
 }
