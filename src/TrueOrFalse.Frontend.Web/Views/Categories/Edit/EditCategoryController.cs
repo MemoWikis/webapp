@@ -27,19 +27,51 @@ public class EditCategoryController : Controller
         return View(_viewPath, model);
     }
 
+
+    public ViewResult Edit(int id)
+    {
+        var model = new EditCategoryModel(_categoryRepository.GetById(id))
+                        {
+                            IsEditing = true
+                        };
+        return View(_viewPath, model);
+    }
+
+    [HttpPost]
+    public ViewResult Edit(int id, EditCategoryModel model)
+    {
+        PopulateClassificationsFromPost(model);
+
+        var category = model.ConvertToCategory();
+        category.Id = id;
+        _categoryRepository.Update(category);
+
+        return View(_viewPath, model);
+    }
+
     [HttpPost]
     public ViewResult Create(EditCategoryModel model)
     {
+        PopulateClassificationsFromPost(model);
+
+        _categoryRepository.Create(model.ConvertToCategory());
+
+        return View(_viewPath, model);
+    }
+
+    private void PopulateClassificationsFromPost(EditCategoryModel model)
+    {
         model.Classifications = new List<ClassificationRowModel>();
 
-        foreach(var rowData in from string postKey in Request.Form.Keys
-                                 where postKey.StartsWith("row[")
-                                 let id = postKey.Split('.').First()
-                                 let property = postKey.Split('.').Last()
-                                 let value = Request.Form[postKey]
-                                 let item = new KeyValuePair<string,string>(property, value)
-                                 group item by id into groupedItems
-                                 select groupedItems.ToDictionary(p => p.Key, p=> p.Value))
+        foreach (var rowData in from string postKey in Request.Form.Keys
+                                where postKey.StartsWith("row[")
+                                let id = postKey.Split('.').First()
+                                let property = postKey.Split('.').Last()
+                                let value = Request.Form[postKey]
+                                let item = new KeyValuePair<string, string>(property, value)
+                                group item by id
+                                into groupedItems
+                                select groupedItems.ToDictionary(p => p.Key, p => p.Value))
 
         {
             model.Classifications.Add(
@@ -49,10 +81,6 @@ public class EditCategoryController : Controller
                         Type = rowData["Type"]
                     });
         }
-
-        _categoryRepository.Create(model.ConvertToCategory());
-
-        return View(_viewPath, model);
     }
 
     public ViewResult AddClassificationRow()

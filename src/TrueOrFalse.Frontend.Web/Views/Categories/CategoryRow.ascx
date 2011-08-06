@@ -3,5 +3,5 @@
 
 <p>
     <%=Model.CategoryName%>
-    <span style="float: right"><%= Html.ActionLink("Bearbeiten", "action?", "controller?")%></span>
+    <span style="float: right"><%= Html.ActionLink("Bearbeiten", Links.EditCategory + "/" + Model.CategoryId, Links.EditCategoryController)%></span>
 </p>

@@ -8,6 +8,16 @@ using TrueOrFalse.Core;
 
 public class ClassificationRowModel
 {
+    public ClassificationRowModel(Classification classification)
+    {
+        Name = classification.Name;
+        Type = classification.Type.ToString();
+    }
+
+    public ClassificationRowModel()
+    {
+    }
+
     [DisplayName("Name")]
     public string Name { get; set; }
 

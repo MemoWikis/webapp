@@ -11,11 +11,20 @@ public class EditCategoryModel : ModelBase
     [DisplayName("Name")]
     public string Name { get; set; }
 
-    public IList<ClassificationRowModel> Classifications { get; set; } 
+    public IList<ClassificationRowModel> Classifications { get; set; }
+
+    public bool IsEditing { get; set; }
 
     public EditCategoryModel()
     {
         ShowLeftMenu_Nav();
+    }
+
+    public EditCategoryModel(Category category)
+    {
+        Name = category.Name;
+        Classifications = (from classification in category.Classifications
+                           select new ClassificationRowModel(classification)).ToList();
     }
 
     public Category ConvertToCategory()

@@ -6,7 +6,7 @@
     <div>
         <h2 style="float: left;">Kategorien</h2>
         <div style="float: right;">
-            <%= Buttons.Link("Kategorie erstellen", Links.CreateCategory, Links.CreateCategoryController, ButtonIcon.Add)%>
+            <%= Buttons.Link("Kategorie erstellen", Links.CreateCategory, Links.EditCategoryController, ButtonIcon.Add)%>
         </div>
     </div>
 

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using HibernatingRhinos.NHibernate.Profiler.Appender;
 using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Core.Web.JavascriptView;
 
@@ -20,9 +21,10 @@ namespace TrueOrFalse.Frontend.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute("Questions", "Questions", new { controller = "Questions", action = "Questions" });
-            routes.MapRoute("Question_Create", "Questions/Create/{action}", new { controller = "CreateQuestion", action = "Create" });
+            routes.MapRoute("Question_Create", "Questions/Create/", new { controller = "CreateQuestion", action = "Create" });
             routes.MapRoute("Categories", "Categories", new { controller = "Categories", action = "Categories" });
-            routes.MapRoute("Categories_Create", "Categories/Create/{action}", new { controller = "EditCategory", action = "Create" });
+            routes.MapRoute("Categories_Create", "Categories/Create/", new { controller = "EditCategory", action = "Create" });
+            routes.MapRoute("Categories_Edit", "Categories/Edit/{id}", new { controller = "EditCategory", action = "Edit" });
             routes.MapRoute("Knowledge", "Knowledge/{action}", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("News", "News/{action}", new { controller = "News", action = "News" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });          
@@ -41,6 +43,11 @@ namespace TrueOrFalse.Frontend.Web
             RegisterRoutes(RouteTable.Routes);
             
             GlobalFilters.Filters.Add(new GlobalAuthorizationAttribute());
+
+#if DEBUG
+            NHibernateProfiler.Initialize();
+#endif
+
         }
 
         private void InitializeAutofac()

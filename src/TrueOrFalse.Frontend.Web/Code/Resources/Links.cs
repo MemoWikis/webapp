@@ -20,8 +20,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string CategoriesController = "Categories";
 
         public const string CreateCategory = "Create";
+        public const string EditCategory = "Edit";
         public const string AddClassification = "AddClassification";
-        public const string CreateCategoryController = "EditCategory";
+        public const string EditCategoryController = "EditCategory";
     
         /**/
         public const string WelcomeController = "Welcome";

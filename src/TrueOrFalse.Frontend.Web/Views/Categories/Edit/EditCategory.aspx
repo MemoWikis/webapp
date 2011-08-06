@@ -6,7 +6,13 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<h2 class="form-title">Kategorie erstellen</h2>
+<h2 class="form-title"><% if (Model.IsEditing) { %>
+                            Kategorie bearbeiten
+                       <% } else { %>
+                            Kategorie erstellen
+                       <% } %>
+</h2>
+
 
 <% using (Html.BeginForm()){ %>
 
