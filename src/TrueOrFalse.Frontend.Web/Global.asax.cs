@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
-using HibernatingRhinos.NHibernate.Profiler.Appender;
+using HibernatingRhinos.Profiler.Appender.NHibernate;
 using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Core.Web.JavascriptView;
 
