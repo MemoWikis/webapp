@@ -27,6 +27,26 @@ public class EditCategoryController : Controller
     [HttpPost]
     public ViewResult Create(EditCategoryModel editCategoryModel)
     {
+        editCategoryModel.Classifications = new List<ClassificationRowModel>();
+
+        foreach(var rowData in from string postKey in Request.Form.Keys
+                                 where postKey.StartsWith("row[")
+                                 let id = postKey.Split('.').First()
+                                 let property = postKey.Split('.').Last()
+                                 let value = Request.Form[postKey]
+                                 let item = new KeyValuePair<string,string>(property, value)
+                                 group item by id into groupedItems
+                                 select groupedItems.ToDictionary(p => p.Key, p=> p.Value))
+
+        {
+            editCategoryModel.Classifications.Add(
+                new ClassificationRowModel
+                    {
+                        Name = rowData["Name"],
+                        Type = rowData["Type"]
+                    });
+        }
+
         return View(_viewPath, editCategoryModel);
     }
 
