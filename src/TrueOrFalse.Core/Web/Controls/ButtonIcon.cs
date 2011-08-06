@@ -10,6 +10,7 @@ namespace System.Web.Mvc
         Add,
         Delete,
         Link, 
-        Settings
+        Settings,
+        Edit
     }
 }

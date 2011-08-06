@@ -1,43 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
-using Autofac.Integration.Web;
-using Autofac.Integration.Web.Mvc;
-using TrueOrFalse.Core;
+using Autofac.Integration.Mvc;
+using HibernatingRhinos.NHibernate.Profiler.Appender;
 using TrueOrFalse.Core.Infrastructure;
-using RegistrationExtensions = Autofac.Integration.Mvc.RegistrationExtensions;
+using TrueOrFalse.Core.Web.JavascriptView;
 
 namespace TrueOrFalse.Frontend.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : HttpApplication, IContainerProviderAccessor 
+    public class MvcApplication : HttpApplication
     {
-        static IContainerProvider _containerProvider;
-
-        public IContainerProvider ContainerProvider
-        {
-            get { return _containerProvider; }
-        }
 
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute("Questions", "Questions", new { controller = "Questions", action = "Questions" });
-            routes.MapRoute("Question_Create", "Questions/Create/{action}", new { controller = "CreateQuestion", action = "Create" });
-            routes.MapRoute("Categories", "Categories", new { controller = "Categories", action = "" });
-            routes.MapRoute("Categories_Create", "Categories/Create/{action}", new { controller = "EditCategory", action = "Create" });
+            routes.MapRoute("Question_Create", "Questions/Create/", new { controller = "CreateQuestion", action = "Create" });
+            routes.MapRoute("Categories", "Categories", new { controller = "Categories", action = "Categories" });
+            routes.MapRoute("Categories_Create", "Categories/Create/", new { controller = "EditCategory", action = "Create" });
+            routes.MapRoute("Categories_Edit", "Categories/Edit/{id}", new { controller = "EditCategory", action = "Edit" });
             routes.MapRoute("Knowledge", "Knowledge/{action}", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("News", "News/{action}", new { controller = "News", action = "News" });
-            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
-            routes.MapRoute("Default","{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });            
+            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });          
+            routes.MapRoute("Export", "Api/Export/{action}", new { controller = "Export", action="Questions" });
+
+            routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = "" });
         }
 
         protected void Application_Start()
@@ -45,22 +38,27 @@ namespace TrueOrFalse.Frontend.Web
             InitializeAutofac();
 
             AreaRegistration.RegisterAllAreas();
+            ViewEngines.Engines.Add(new JavaScriptViewEngine());
 
             RegisterRoutes(RouteTable.Routes);
+            
+            GlobalFilters.Filters.Add(new GlobalAuthorizationAttribute());
+
+#if DEBUG
+            NHibernateProfiler.Initialize();
+#endif
+
         }
 
         private void InitializeAutofac()
         {
             var builder = new ContainerBuilder();
-			RegistrationExtensions.RegisterControllers(builder, Assembly.GetExecutingAssembly());
-			RegistrationExtensions.RegisterModelBinders(builder, Assembly.GetExecutingAssembly());
-            builder.RegisterType<QuestionRepository>().As<QuestionRepository>();
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModule<AutofacCoreModule>();
 
-            _containerProvider = new ContainerProvider(builder.Build());
-
-            GlobalFilters.Filters.Add(new GlobalAuthorizationAttribute());
-			ControllerBuilder.Current.SetControllerFactory(new AutofacControllerFactory(ContainerProvider));
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

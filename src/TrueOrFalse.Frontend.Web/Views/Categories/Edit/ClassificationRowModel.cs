@@ -8,6 +8,16 @@ using TrueOrFalse.Core;
 
 public class ClassificationRowModel
 {
+    public ClassificationRowModel(Classification classification)
+    {
+        Name = classification.Name;
+        Type = classification.Type.ToString();
+    }
+
+    public ClassificationRowModel()
+    {
+    }
+
     [DisplayName("Name")]
     public string Name { get; set; }
 
@@ -24,5 +34,13 @@ public class ClassificationRowModel
                             new SelectListItem {Text = "Geschlossene Liste", Value = ClassificationType.ClosedList.ToString()},
                         };
         }
+    }
+
+    public Classification ConvertToClassification()
+    {
+        return new Classification(Name)
+                   {
+                       Type = (ClassificationType) Enum.Parse(typeof(ClassificationType), Type)
+                   };
     }
 }

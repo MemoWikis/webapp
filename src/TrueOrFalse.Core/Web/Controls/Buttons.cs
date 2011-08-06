@@ -39,6 +39,9 @@
 
                 case ButtonIcon.Settings:
                     return "ui-icon-wrench";
+
+                case ButtonIcon.Edit:
+                    return "ui-icon-pencil";
             }
 
             throw new Exception("unknown button style");
