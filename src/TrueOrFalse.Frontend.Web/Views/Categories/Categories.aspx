@@ -10,4 +10,11 @@
         </div>
     </div>
 
+    <div style="clear: both;">
+        <% foreach (var row in Model.CategoryRows)
+           {
+               Html.RenderPartial("CategoryRow", row);
+           } %>
+    </div> 
+
 </asp:Content>
