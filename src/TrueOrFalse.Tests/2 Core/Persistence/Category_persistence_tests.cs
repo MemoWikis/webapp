@@ -16,17 +16,17 @@ namespace TrueOrFalse.Tests.Persistence
             var categoryRepository = Resolve<CategoryRepository>();
 
             var category = new Category("Sports");
-            category.Classifications.Add(new Classification("Type"));
-            category.Classifications[0].Items.Add(new ClassificationItem("Swimming"));
-            category.Classifications[0].Items.Add(new ClassificationItem("Soccer"));
-            category.Classifications[0].Items.Add(new ClassificationItem("Tennis"));
+            category.SubCategories.Add(new SubCategory("Type"));
+            category.SubCategories[0].Items.Add(new SubCategoryItem("Swimming"));
+            category.SubCategories[0].Items.Add(new SubCategoryItem("Soccer"));
+            category.SubCategories[0].Items.Add(new SubCategoryItem("Tennis"));
 
             categoryRepository.Create(category);
 
             var categoryFromDb = categoryRepository.GetAll().First();
-            Assert.That(categoryFromDb.Classifications.Count, Is.EqualTo(1));
-            Assert.That(categoryFromDb.Classifications[0].Items.Count, Is.EqualTo(3));
-            Assert.That(categoryFromDb.Classifications[0].Items[0].Name, Is.EqualTo("Swimming"));
+            Assert.That(categoryFromDb.SubCategories.Count, Is.EqualTo(1));
+            Assert.That(categoryFromDb.SubCategories[0].Items.Count, Is.EqualTo(3));
+            Assert.That(categoryFromDb.SubCategories[0].Items[0].Name, Is.EqualTo("Swimming"));
         }
 
     }

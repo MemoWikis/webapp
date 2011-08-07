@@ -7,9 +7,9 @@ using Seedworks.Lib.Persistance;
 
 namespace TrueOrFalse.Core
 {
-    public class ClassificationItemRepository : RepositoryDb<Classification>
+    public class SubCategoryItemRepository : RepositoryDb<SubCategory>
     {
-        public ClassificationItemRepository(ISession session)
+        public SubCategoryItemRepository(ISession session)
             : base(session)
         {
         }

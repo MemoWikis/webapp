@@ -6,13 +6,15 @@ using FluentNHibernate.Mapping;
 
 namespace TrueOrFalse.Core
 {
-    public class CategoryMap : ClassMap<Category>
+    public class SubCategoryMap : ClassMap<SubCategory>
     {
-        public CategoryMap()
+        public SubCategoryMap()
         {
             Id(x => x.Id);
+            References(x => x.Category);
+            HasMany(x => x.Items).Cascade.All();
             Map(x => x.Name);
-            HasMany(x => x.Classifications).Cascade.All();
+            Map(x => x.Type);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
         }

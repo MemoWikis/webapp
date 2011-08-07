@@ -9,7 +9,7 @@ using TrueOrFalse.Core;
 public class EditCategoryController : Controller
 {
     private readonly CategoryRepository _categoryRepository;
-    private const string _viewPathClassificationRow = "~/Views/Categories/Edit/ClassificationRow.ascx";
+    private const string _viewPathSubCategoryRow = "~/Views/Categories/Edit/SubCategoryRow.ascx";
     private const string _viewPath = "~/Views/Categories/Edit/EditCategory.aspx";
 
     public EditCategoryController(CategoryRepository categoryRepository)
@@ -22,8 +22,8 @@ public class EditCategoryController : Controller
     {
         var model = new EditCategoryModel();
         model.Name = "Some name";
-        model.Classifications = new List<ClassificationRowModel>();
-        model.Classifications.Add(new ClassificationRowModel());
+        model.SubCategories = new List<SubCategoryRowModel>();
+        model.SubCategories.Add(new SubCategoryRowModel());
         return View(_viewPath, model);
     }
 
@@ -40,7 +40,7 @@ public class EditCategoryController : Controller
     [HttpPost]
     public ViewResult Edit(int id, EditCategoryModel model)
     {
-        PopulateClassificationsFromPost(model);
+        PopulateSubCategoriesFromPost(model);
 
         var category = _categoryRepository.GetById(id);
         model.UpdateCategory(category);
@@ -52,16 +52,16 @@ public class EditCategoryController : Controller
     [HttpPost]
     public ViewResult Create(EditCategoryModel model)
     {
-        PopulateClassificationsFromPost(model);
+        PopulateSubCategoriesFromPost(model);
 
         _categoryRepository.Create(model.ConvertToCategory());
 
         return View(_viewPath, model);
     }
 
-    private void PopulateClassificationsFromPost(EditCategoryModel model)
+    private void PopulateSubCategoriesFromPost(EditCategoryModel model)
     {
-        model.Classifications = new List<ClassificationRowModel>();
+        model.SubCategories = new List<SubCategoryRowModel>();
 
         foreach (var rowData in from string postKey in Request.Form.Keys
                                 where postKey.StartsWith("row[")
@@ -74,8 +74,8 @@ public class EditCategoryController : Controller
                                 select groupedItems.ToDictionary(p => p.Key, p => p.Value))
 
         {
-            model.Classifications.Add(
-                new ClassificationRowModel
+            model.SubCategories.Add(
+                new SubCategoryRowModel
                     {
                         Name = rowData["Name"],
                         Type = rowData["Type"],
@@ -84,9 +84,9 @@ public class EditCategoryController : Controller
         }
     }
 
-    public ViewResult AddClassificationRow()
+    public ViewResult AddSubCategoryRow()
     {
-        return View(_viewPathClassificationRow, new ClassificationRowModel());
+        return View(_viewPathSubCategoryRow, new SubCategoryRowModel());
     }
 
 }

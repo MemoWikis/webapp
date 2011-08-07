@@ -6,23 +6,25 @@ using Seedworks.Lib.Persistance;
 
 namespace TrueOrFalse.Core
 {
-    public class ClassificationItem : IPersistable, WithDateCreated
+    public class SubCategory : IPersistable, WithDateCreated
     {
         public virtual int Id { get; set; }
 
-        /// <summary>
-        /// Parent
-        /// </summary>
-        public virtual Classification Classification { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual IList<SubCategoryItem> Items { get; set; } 
 
         public virtual string Name { get; set; }
+        public virtual SubCategoryType Type { get; set; }  
 
         public virtual DateTime DateModified { get; set; }
         public virtual DateTime DateCreated { get; set; }
 
-        public ClassificationItem(){}
+        public SubCategory()
+        {
+            Items = new List<SubCategoryItem>();
+        }
 
-        public ClassificationItem(string name)
+        public SubCategory(string name) : this()
         {
             Name = name;
         }

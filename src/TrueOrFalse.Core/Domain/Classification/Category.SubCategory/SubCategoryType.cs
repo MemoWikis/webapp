@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrueOrFalse.Core
 {
-    public enum ClassificationType
+    public enum SubCategoryType
     {
         /// <summary>
         /// Everybody can add items

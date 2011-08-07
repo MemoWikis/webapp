@@ -20,16 +20,16 @@
     <%= Html.LabelFor(m => m.Name ) %>
     <%= Html.TextBoxFor(m => m.Name ) %>
 
-    <div id="classifications">
-        <% foreach (var classification in Model.Classifications){ 
-                Html.RenderPartial("~/Views/Categories/Edit/ClassificationRow.ascx", classification);
+    <div id="subCategories">
+        <% foreach (var subCategory in Model.SubCategories){
+               Html.RenderPartial("~/Views/Categories/Edit/SubCategoryRow.ascx", subCategory);
         } %>
     </div>
 
     <br />
     <label>&nbsp;</label>
 
-    <a href="<%= Url.Action(Links.AddClassificationRow, Links.EditCategoryController) %>" id="addClassificationRow">
+    <a href="<%= Url.Action(Links.AddSubCategoryRow, Links.EditCategoryController) %>" id="addSubCategoryRow">
         <img src='/Images/Buttons/add.png'> <span>Unterkategorie hinzufügen</span>
     </a>
 

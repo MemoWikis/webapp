@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="ViewUserControl<ClassificationRowModel>" %>
+﻿<%@ Control Language="C#" Inherits="ViewUserControl<SubCategoryRowModel>" %>
 <%@ Import Namespace="ListBinding.Helpers" %>
 
 <h3 class="form-sub-title">Unterkategorie</h3> 

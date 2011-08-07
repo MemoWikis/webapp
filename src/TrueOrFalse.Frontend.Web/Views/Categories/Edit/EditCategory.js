@@ -1,11 +1,11 @@
 ﻿$(function () {
     
-    $("#addClassificationRow").click(function () {
+    $("#addSubCategoryRow").click(function () {
         $.ajax({
             url: this.href,
             cache: false,
             success: function (html) {
-                $("#classifications").append(html);
+                $("#subCategories").append(html);
             }
         });
         return false;

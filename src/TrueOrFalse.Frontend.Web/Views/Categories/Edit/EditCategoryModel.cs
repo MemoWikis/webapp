@@ -11,7 +11,7 @@ public class EditCategoryModel : ModelBase
     [DisplayName("Name")]
     public string Name { get; set; }
 
-    public IList<ClassificationRowModel> Classifications { get; set; }
+    public IList<SubCategoryRowModel> SubCategories { get; set; }
 
     public bool IsEditing { get; set; }
 
@@ -23,36 +23,36 @@ public class EditCategoryModel : ModelBase
     public EditCategoryModel(Category category)
     {
         Name = category.Name;
-        Classifications = (from classification in category.Classifications
-                           select new ClassificationRowModel(classification)).ToList();
+        SubCategories = (from subCategory in category.SubCategories
+                           select new SubCategoryRowModel(subCategory)).ToList();
     }
 
     public Category ConvertToCategory()
     {
         return new Category(Name)
                    {
-                       Classifications = (from model in Classifications select model.ConvertToClassification()).ToList()
+                       SubCategories = (from model in SubCategories select model.ConvertToSubCategory()).ToList()
                    };
     }
 
     public void UpdateCategory(Category category)
     {
         category.Name = Name;
-        foreach (var classificationRowModel in Classifications)
+        foreach (var subCategoryRowModel in SubCategories)
         {
-            Classification classification = null;
-            if (classificationRowModel.Id > 0)
+            SubCategory subCategory = null;
+            if (subCategoryRowModel.Id > 0)
             {
-                classification = category.Classifications.SingleOrDefault(c => c.Id == classificationRowModel.Id);
+                subCategory = category.SubCategories.SingleOrDefault(c => c.Id == subCategoryRowModel.Id);
             }
 
-            if (classification == null)
+            if (subCategory == null)
             {
-                category.Classifications.Add(classificationRowModel.ConvertToClassification());
+                category.SubCategories.Add(subCategoryRowModel.ConvertToSubCategory());
             }
             else
             {
-                classificationRowModel.UpdateClassification(classification);
+                subCategoryRowModel.UpdateSubCategory(subCategory);
             }
 
         }

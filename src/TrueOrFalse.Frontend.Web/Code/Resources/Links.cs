@@ -22,7 +22,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string CreateCategory = "Create";
         public const string EditCategory = "Edit";
         public const string DeleteCategory = "Delete";
-        public const string AddClassificationRow = "AddClassificationRow";
+        public const string AddSubCategoryRow = "AddSubCategoryRow";
         public const string EditCategoryController = "EditCategory";
     
         /**/

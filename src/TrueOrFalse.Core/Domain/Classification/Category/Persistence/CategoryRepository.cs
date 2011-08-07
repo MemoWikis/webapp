@@ -16,29 +16,29 @@ namespace TrueOrFalse.Core
 
         public override void Create(Category category)
         {
-            InitializeNewClassifications(category);
+            InitializeNewSubCategories(category);
             base.Create(category);
             Flush();
         }
 
         public override void Update(Category category)
         {
-            InitializeNewClassifications(category);
+            InitializeNewSubCategories(category);
             base.Update(category);
             Flush();
         }
 
-        private static void InitializeNewClassifications(Category category)
+        private static void InitializeNewSubCategories(Category category)
         {
-            foreach (var classification in category.Classifications.Where(classification => classification.Id == 0))
+            foreach (var subCategory in category.SubCategories.Where(subCategory => subCategory.Id == 0))
             {
-                classification.DateCreated = DateTime.Now;
-                classification.DateModified = DateTime.Now;
+                subCategory.DateCreated = DateTime.Now;
+                subCategory.DateModified = DateTime.Now;
 
-                foreach (var classificationItem in classification.Items.Where(classificationItem => classificationItem.Id == 0))
+                foreach (var subCategoryItem in subCategory.Items.Where(subCategoryItem => subCategoryItem.Id == 0))
                 {
-                    classificationItem.DateCreated = DateTime.Now;
-                    classificationItem.DateModified = DateTime.Now;
+                    subCategoryItem.DateCreated = DateTime.Now;
+                    subCategoryItem.DateModified = DateTime.Now;
                 }
             }
         }

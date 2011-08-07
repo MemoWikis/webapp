@@ -4,16 +4,16 @@
     <% foreach (var question in Model.Categories) { %>
     <category>
         <name><%=question.Name %></name>        
-        <% foreach (var classification in question.Classifications) { %>
-        <classification>
-            <name><%=classification.Name %></name>
-            <type><%=classification.Type %></type>
-           <% foreach (var item in classification.Items) { %>
+        <% foreach (var subCategory in question.SubCategories) { %>
+        <SubCategory>
+            <name><%=subCategory.Name %></name>
+            <type><%=subCategory.Type %></type>
+           <% foreach (var item in subCategory.Items) { %>
             <item>
                 <name><%=item.Name %></name>
             </item>            
         <% } %>
-        </classification>            
+        </SubCategory>            
         <% } %>
     </category>     
     <% } %>    
