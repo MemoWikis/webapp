@@ -41,7 +41,6 @@
     <control controlID="90" controlTypeID="com.balsamiq.mockups::Button" x="431" y="564" w="130" h="26" measuredW="86" measuredH="28" zOrder="7" locked="false" isInGroup="-1">
       <controlProperties>
         <href>Mockup-Fragen-Detail.bmml</href>
-        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22423%2C539%2C553%2C565%22%20href%3D%22Mockup-Fragen-Detail%22%20alt%3D%22Mockup-Fragen-Detail%22%20id%3D%2290%22/%3E</map>
         <text>Speichern</text>
       </controlProperties>
     </control>
@@ -111,9 +110,9 @@
         <text>Sportarten</text>
       </controlProperties>
     </control>
-    <control controlID="165" controlTypeID="com.balsamiq.mockups::DataGrid" x="326" y="285" w="211" h="168" measuredW="205" measuredH="168" zOrder="19" locked="false" isInGroup="-1">
+    <control controlID="165" controlTypeID="com.balsamiq.mockups::DataGrid" x="326" y="285" w="211" h="168" measuredW="88" measuredH="148" zOrder="19" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Fussball%2C%20Age%0AHandball%2C%2034%2C%20%0AGuido%20Jack%20Guilizzoni%2C%204%0AMarco%20Botton%5CrTuttofare%2C%2031%0AMariah%20Maclachlan%5CrBetter%20Half%2C%2035</text>
+        <text>Fussball%0AHandball%0ABasketball%0ASchwimmen%0ANasepopeln</text>
       </controlProperties>
     </control>
   </controls>
