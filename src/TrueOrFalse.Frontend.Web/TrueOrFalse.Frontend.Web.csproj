@@ -124,7 +124,6 @@
   <ItemGroup>
     <Compile Include="Code\ModelBase\ModelBase.cs" />
     <Compile Include="Code\ModelBase\RightMenu.cs" />
-    <Compile Include="Code\RequestContext.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\Resources\Links.cs" />
     <Compile Include="Views\Account\AccountController.cs" />

@@ -31,11 +31,14 @@ public class ClassificationRowModel
     {
         get
         {
-            return new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Offene Liste", Value = ClassificationType.OpenList.ToString()},
-                            new SelectListItem {Text = "Geschlossene Liste", Value = ClassificationType.ClosedList.ToString()},
-                        };
+            var items = new List<SelectListItem>
+                                      {
+                                          new SelectListItem {Text = "Offene Liste", Value = ClassificationType.OpenList.ToString()},
+                                          new SelectListItem {Text = "Geschlossene Liste", Value = ClassificationType.ClosedList.ToString()},
+                                      };
+            var selectedItem = items.SingleOrDefault(item => item.Value == Type);
+            if (selectedItem != null) selectedItem.Selected = true;
+            return items;
         }
     }
 
