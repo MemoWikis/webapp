@@ -21,7 +21,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string CreateCategory = "Create";
         public const string EditCategory = "Edit";
-        public const string AddClassification = "AddClassification";
+        public const string AddClassificationRow = "AddClassificationRow";
         public const string EditCategoryController = "EditCategory";
     
         /**/

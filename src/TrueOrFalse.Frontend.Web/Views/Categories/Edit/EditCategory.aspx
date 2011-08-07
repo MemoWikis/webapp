@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<EditCategoryModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <script src="<%= Url.Content("~/Views/Categories/Edit/EditCategory.js") %>" type="text/javascript"></script>
@@ -27,7 +28,8 @@
 
     <br />
     <label>&nbsp;</label>
-    <a href="Create/AddClassificationRow" id="addClassificationRow">
+
+    <a href="<%= Url.Action(Links.AddClassificationRow, Links.EditCategoryController) %>" id="addClassificationRow">
         <img src='/Images/Buttons/add.png'> <span>Unterkategorie hinzufügen</span>
     </a>
 
