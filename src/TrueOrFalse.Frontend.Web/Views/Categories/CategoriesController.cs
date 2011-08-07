@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoriesController : Controller
 {
@@ -18,5 +19,11 @@ public class CategoriesController : Controller
     public ActionResult Categories()
     {
         return View(new CategoriesModel(_categoryRepository.GetAll()));
+    }
+
+    public ActionResult Delete(int id)
+    {
+        _categoryRepository.Delete(id);
+        return View(Links.Categories, new CategoriesModel(_categoryRepository.GetAll()));
     }
 }

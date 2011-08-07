@@ -28,6 +28,7 @@ namespace TrueOrFalse.Frontend.Web
             routes.MapRoute("Categories", "Categories", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_Create", "Categories/Create", new { controller = "EditCategory", action = "Create" });
             routes.MapRoute("Categories_Edit", "Categories/Edit/{id}", new { controller = "EditCategory", action = "Edit" });
+            routes.MapRoute("Categories_Delete", "Categories/Delete/{id}", new { controller = "Categories", action = "Delete" });
             routes.MapRoute("Categories_AddClassificationRow", "Categories/AddClassificationRow", new { controller = "EditCategory", action = "AddClassificationRow" });
 
             routes.MapRoute("Knowledge", "Knowledge/{action}", new { controller = "Knowledge", action = "Knowledge" });

@@ -37,6 +37,7 @@
     <label>&nbsp;</label>
     <%= Buttons.Submit("Speichern", inline:true)%>
     <%= Buttons.Submit("Speichern & Neu", inline: true)%>
+    <%= Buttons.Link("Löschen", inline: true, actionName: Links.DeleteCategory, controllerName: Links.CategoriesController, buttonIcon: ButtonIcon.Delete)%>
 
 <% } %>
 
