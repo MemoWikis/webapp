@@ -25,7 +25,15 @@ public class SubCategoryRowModel
     [DisplayName("Type")]
     public string Type { get; set; }
 
+    [DisplayName("ItemCount")]
+    public int ItemCount { get; set; }
+
     public int Id { get; set; }
+
+    public bool IsNew
+    {
+        get { return Id == 0; }
+    }
 
     public IEnumerable<SelectListItem> TypeData
     {

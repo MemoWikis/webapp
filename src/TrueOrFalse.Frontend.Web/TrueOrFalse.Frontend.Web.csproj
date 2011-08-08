@@ -135,6 +135,8 @@
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
+    <Compile Include="Views\Categories\Edit\EditSubCategoryItemsController.cs" />
+    <Compile Include="Views\Categories\Edit\EditSubCategoryItemsModel.cs" />
     <Compile Include="Views\Categories\Edit\SubCategoryRowModel.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
@@ -260,6 +262,7 @@
     <Content Include="Views\Api\ExportQuestions.aspx" />
     <Content Include="Views\Categories\Categories.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
+    <Content Include="Views\Categories\Edit\EditSubCategoryItems.aspx" />
     <Content Include="Views\Categories\Edit\SubCategoryRow.ascx" />
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <Content Include="Views\Categories\Edit\EditCategory.js" />

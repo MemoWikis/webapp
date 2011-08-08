@@ -24,6 +24,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string DeleteCategory = "Delete";
         public const string AddSubCategoryRow = "AddSubCategoryRow";
         public const string EditCategoryController = "EditCategory";
+        public const string EditSubCategoryItems = "Edit";
+        public const string EditSubCategoryItemsController = "EditSubCategoryItems";
     
         /**/
         public const string WelcomeController = "Welcome";
