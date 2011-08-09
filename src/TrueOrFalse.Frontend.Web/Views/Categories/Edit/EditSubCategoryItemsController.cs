@@ -10,6 +10,7 @@ public class EditSubCategoryItemsController : Controller
 {
     private readonly SubCategoryRepository _subCategoryRepository;
     private const string _viewPath = "~/Views/Categories/Edit/EditSubCategoryItems.aspx";
+    private const string _viewPathSubCategoryItemRow = "~/Views/Categories/Edit/SubCategoryItemRow.ascx";
 
     public EditSubCategoryItemsController(SubCategoryRepository subCategoryRepository)
     {
@@ -21,5 +22,10 @@ public class EditSubCategoryItemsController : Controller
         var model = new EditSubCategoryItemsModel(_subCategoryRepository.GetById(id));
 
         return View(_viewPath, model);
+    }
+
+    public ViewResult AddSubCategoryItemRow(string name)
+    {
+        return View(_viewPathSubCategoryItemRow, new SubCategoryItemRowModel(name));
     }
 }

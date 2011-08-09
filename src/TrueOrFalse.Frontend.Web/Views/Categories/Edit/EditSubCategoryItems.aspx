@@ -1,6 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<EditSubCategoryItemsModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
+    <script src="<%= Url.Content("~/Views/Categories/Edit/EditSubCategoryItems.js") %>" type="text/javascript"></script>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
 <h2 class="form-title">Einträge Bearbeiten</h2>
@@ -8,15 +12,16 @@ für <%= Model.CategoryName %>/<%= Model.SubCategoryName %>
 
 <% using (Html.BeginForm()){ %>
 
-    <ul>
-    <% foreach (var item in Model.Items) { %>
-        <li><%= item.Name %></li>
-    <% } %>           
+    <ul id="items">    
+    <% foreach (var item in Model.Items) {    
+        Html.RenderPartial("~/Views/Categories/Edit/SubCategoryRowItem.ascx", item);       
+    } %>
     </ul>
 
-    <br/><br/><br/>
-    <label>&nbsp;</label>
-    <%= Buttons.Submit("Speichern", inline:true)%>
+    <%= Html.TextBoxFor(m => m.NewItem, new {id="newItem"} ) %>
+    <a href="<%= Url.Action(Links.AddSubCategoryItemRow, Links.EditSubCategoryItemsController) %>" id="addSubCategoryItemRow">
+        <img src='/Images/Buttons/add.png'> <span>Hinzufügen</span>
+    </a>
 
 <% } %>
 
