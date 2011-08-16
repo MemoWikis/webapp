@@ -6,8 +6,7 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core
 {
-
-    public class Answer : IPersistable, WithDateCreated
+    public class Answer : DomainEntity
     {
         public Answer(){}
 
@@ -16,15 +15,10 @@ namespace TrueOrFalse.Core
             Text = answerText;
         }
 
-        public virtual int Id { get; set; }
-
         public virtual Question Question { get; set; }
 
         public virtual string Text { get; set; }
         public virtual string Description { get; set; }
         public virtual AnswerType Type { get; set; }
-
-        public virtual DateTime DateCreated { get; set; }
-        public virtual DateTime DateModified { get; set; }
     }
 }

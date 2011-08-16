@@ -6,10 +6,8 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core
 {
-    public class User : IPersistable, WithDateCreated
+    public class User : DomainEntity
     {
-        public virtual int Id { get; set; }
-
         public virtual string UserName { get; set; }
         public virtual string PasswordHashedAndSalted { get; set; }
         public virtual string Salt { get; set; }
@@ -22,8 +20,5 @@ namespace TrueOrFalse.Core
         public virtual Boolean IsEmailConfirmed { get; set;  }
 
         public virtual DateTime? Birthday { get; set; }
-
-        public virtual DateTime DateCreated { get; set; }
-        public virtual DateTime DateModified { get; set; }
     }
 }

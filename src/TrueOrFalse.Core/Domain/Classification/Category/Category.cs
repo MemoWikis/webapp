@@ -6,14 +6,9 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core
 {
-    public class Category : IPersistable, WithDateCreated
+    public class Category : DomainEntity
     {
-        public virtual int Id { get; set; }
-
         public virtual string Name { get; set; }
-
-        public virtual DateTime DateModified { get; set; }
-        public virtual DateTime DateCreated { get; set; }
 
         public virtual IList<SubCategory> SubCategories { get; set; }
 
