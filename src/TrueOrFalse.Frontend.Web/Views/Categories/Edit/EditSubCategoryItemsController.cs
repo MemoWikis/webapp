@@ -24,8 +24,10 @@ public class EditSubCategoryItemsController : Controller
         return View(_viewPath, model);
     }
 
-    public ViewResult AddSubCategoryItemRow(string name)
+    public ViewResult AddSubCategoryItemRow(int id, string name)
     {
+        var subCategory = _subCategoryRepository.GetById(id);
+        // hier weiter...
         return View(_viewPathSubCategoryItemRow, new SubCategoryItemRowModel(name));
     }
 }

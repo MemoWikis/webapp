@@ -12,10 +12,13 @@ public class EditSubCategoryItemsModel : ModelBase
 
     public EditSubCategoryItemsModel(SubCategory subCategory)
     {
+        Id = subCategory.Id;
         CategoryName = subCategory.Category.Name;
         SubCategoryName = subCategory.Name;
-        Items = from item in subCategory.Items select new SubCategoryItemRowModel(item);
+        Items = from item in subCategory.Items select new SubCategoryItemRowModel(item);        
     }
+
+    public int Id { get; set; }
 
     public string CategoryName { get; set; }
 
