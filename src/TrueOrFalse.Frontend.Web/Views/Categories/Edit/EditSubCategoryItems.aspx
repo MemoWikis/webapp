@@ -19,7 +19,7 @@ für <%= Model.CategoryName %>/<%= Model.SubCategoryName %>
     </ul>
 
     <%= Html.TextBoxFor(m => m.NewItem, new {id="newItem"} ) %>
-    <a href="<%= Url.Action(Links.AddSubCategoryItemRow, Links.EditSubCategoryItemsController) %>" id="addSubCategoryItemRow">
+    <a href="<%= Url.Action(Links.AddSubCategoryItemRow, Links.EditSubCategoryItemsController, new {id = Model.Id }, null) %>" id="addSubCategoryItemRow">
         <img src='/Images/Buttons/add.png'> <span>Hinzufügen</span>
     </a>
 
