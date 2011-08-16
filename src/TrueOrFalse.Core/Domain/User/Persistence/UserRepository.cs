@@ -1,5 +1,5 @@
 ﻿using NHibernate;
-using Seedworks.Lib.Persistance;
+using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core
 {

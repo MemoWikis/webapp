@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using NHibernate;
-using Seedworks.Lib.Persistance;
+using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core.Infrastructure.Persistence
 {

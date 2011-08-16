@@ -1,7 +1,6 @@
 ﻿using System;
 using NHibernate;
-using Seedworks.Lib.Persistance;
-using TrueOrFalse.Core;
+using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core
 {
