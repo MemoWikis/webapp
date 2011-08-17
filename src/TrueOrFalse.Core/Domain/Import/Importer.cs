@@ -9,6 +9,7 @@ namespace TrueOrFalse.Core
     public class Importer
     {
         public IEnumerable<Question> Questions { get; private set; }
+        public IEnumerable<Category> Categories { get; private set; }
 
         public Importer(string xml)
         {

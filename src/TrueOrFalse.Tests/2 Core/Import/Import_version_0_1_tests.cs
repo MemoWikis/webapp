@@ -28,6 +28,19 @@ namespace TrueOrFalse.Tests
                                                 <text>Second answer to Question 2</text>
                                             </answer>
                                         </question>
+                                        <category>
+                                            <name>Sport</name>
+                                            <SubCategory>
+                                                <name>Sportart</name>
+                                                <type>OpenList</type>
+                                                <item>
+                                                    <name>Tennis</name>
+                                                </item>
+                                                <item>
+                                                    <name>Fussball</name>
+                                                </item>
+                                            </SubCategory>
+                                        </category>
                                     </trueorfalse>";
 
 
@@ -45,5 +58,15 @@ namespace TrueOrFalse.Tests
             importer.Questions.Last().Answers.First().Text.Should().Be.EqualTo("First answer to Question 2");
             importer.Questions.Last().Answers.Last().Text.Should().Be.EqualTo("Second answer to Question 2");
         }
+
+        [Test]
+        public void Should_import_categories()
+        {
+            var importer = new Importer(Xml);
+
+            importer.Categories.Count().Should().Be.EqualTo(1);
+            /// continue here
+        }
+
     }
 }

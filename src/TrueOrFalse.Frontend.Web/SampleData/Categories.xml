@@ -1,0 +1,24 @@
+
+<trueorfalse>    
+    <version>0.1</version>
+    
+    <category>
+        <name>Sport</name>        
+        
+        <SubCategory>
+            <name>Sportart</name>
+            <type>OpenList</type>
+           
+            <item>
+                <name>Tennis</name>
+            </item>            
+        
+            <item>
+                <name>Fussball</name>
+            </item>            
+        
+        </SubCategory>            
+        
+    </category>     
+        
+</trueorfalse>
