@@ -14,7 +14,7 @@ für <%= Model.CategoryName %>/<%= Model.SubCategoryName %>
 
     <ul id="items">    
     <% foreach (var item in Model.Items) {    
-        Html.RenderPartial("~/Views/Categories/Edit/SubCategoryRowItem.ascx", item);       
+        Html.RenderPartial("~/Views/Categories/Edit/SubCategoryItemRow.ascx", item);       
     } %>
     </ul>
 

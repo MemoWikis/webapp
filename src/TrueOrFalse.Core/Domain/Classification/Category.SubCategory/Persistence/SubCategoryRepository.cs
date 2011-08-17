@@ -12,5 +12,16 @@ namespace TrueOrFalse.Core
         public SubCategoryRepository(ISession session) : base(session)
         {
         }
+
+        public override void Update(SubCategory subCategory)
+        {
+            foreach (var subCategoryItem in subCategory.Items.Where(subCategoryItem => subCategoryItem.Id == 0))
+            {
+                subCategoryItem.DateCreated = DateTime.Now;
+                subCategoryItem.DateModified = DateTime.Now;
+            }
+
+            base.Update(subCategory);
+        }
     }
 }

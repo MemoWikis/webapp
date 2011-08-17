@@ -27,7 +27,8 @@ public class EditSubCategoryItemsController : Controller
     public ViewResult AddSubCategoryItemRow(int id, string name)
     {
         var subCategory = _subCategoryRepository.GetById(id);
-        // hier weiter...
+        subCategory.Items.Add(new SubCategoryItem(name));
+        _subCategoryRepository.Update(subCategory);
         return View(_viewPathSubCategoryItemRow, new SubCategoryItemRowModel(name));
     }
 }
