@@ -13,6 +13,7 @@ public class SubCategoryRowModel
         Name = subCategory.Name;
         Type = subCategory.Type.ToString();
         Id = subCategory.Id;
+        ItemCount = subCategory.Items.Count;
     }
 
     public SubCategoryRowModel()
