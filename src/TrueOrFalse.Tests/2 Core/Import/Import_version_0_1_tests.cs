@@ -30,7 +30,7 @@ namespace TrueOrFalse.Tests
                                         </question>
                                         <category>
                                             <name>Sport</name>
-                                            <SubCategory>
+                                            <subCategory>
                                                 <name>Sportart</name>
                                                 <type>OpenList</type>
                                                 <item>
@@ -39,7 +39,7 @@ namespace TrueOrFalse.Tests
                                                 <item>
                                                     <name>Fussball</name>
                                                 </item>
-                                            </SubCategory>
+                                            </subCategory>
                                         </category>
                                     </trueorfalse>";
 
@@ -65,7 +65,13 @@ namespace TrueOrFalse.Tests
             var importer = new Importer(Xml);
 
             importer.Categories.Count().Should().Be.EqualTo(1);
-            /// continue here
+            importer.Categories.Single().Name.Should().Be.EqualTo("Sport");
+            importer.Categories.Single().SubCategories.Count.Should().Be.EqualTo(1);
+            importer.Categories.Single().SubCategories.Single().Name.Should().Be.EqualTo("Sportart");
+            importer.Categories.Single().SubCategories.Single().Type.Should().Be.EqualTo(SubCategoryType.OpenList);
+            importer.Categories.Single().SubCategories.Single().Items.Count.Should().Be.EqualTo(2);
+            importer.Categories.Single().SubCategories.Single().Items.First().Name.Should().Be.EqualTo("Tennis");
+            importer.Categories.Single().SubCategories.Single().Items.Last().Name.Should().Be.EqualTo("Fussball");
         }
 
     }

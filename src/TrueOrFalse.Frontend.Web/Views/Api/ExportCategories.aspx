@@ -5,7 +5,7 @@
     <category>
         <name><%=question.Name %></name>        
         <% foreach (var subCategory in question.SubCategories) { %>
-        <SubCategory>
+        <subCategory>
             <name><%=subCategory.Name %></name>
             <type><%=subCategory.Type %></type>
            <% foreach (var item in subCategory.Items) { %>
@@ -13,7 +13,7 @@
                 <name><%=item.Name %></name>
             </item>            
         <% } %>
-        </SubCategory>            
+        </subCategory>            
         <% } %>
     </category>     
     <% } %>    
