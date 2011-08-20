@@ -31,7 +31,9 @@ public class EditCategoryModel : ModelBase
     {
         return new Category(Name)
                    {
-                       SubCategories = (from model in SubCategories select model.ConvertToSubCategory()).ToList()
+                       SubCategories = (from model in SubCategories 
+                                        where !string.IsNullOrWhiteSpace(model.Name)
+                                        select model.ConvertToSubCategory()).ToList()
                    };
     }
 
