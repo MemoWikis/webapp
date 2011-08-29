@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionRowModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
 <div class="span-20 question-row" style="border-top:1px solid; margin-top:10px; background-color:silver;">
@@ -11,7 +12,11 @@
     <div class="span-13" style="background-color: seashell; ">
         <div style="height: 20px;">
             <img src="/Images/delete.png"/> 
-            <img src="/Images/edit.png"/> 
+
+            <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>">
+                <img src="/Images/edit.png"/> 
+            </a>
+            
             Von X Mustermann
         </div>
         <div style="height: 100%; font-weight:normal; font-size:large;"><%=Model.QuestionShort%></div>   

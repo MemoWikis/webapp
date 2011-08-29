@@ -12,8 +12,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
 
-        public const string CreateQuestionController = "CreateQuestion"; 
+        public const string EditQuestionController = "CreateQuestion"; 
         public const string CreateQuestion = "Create";
+        public const string EditQuestion = "Edit";
 
         /*Category*/
         public const string Categories = "Categories";
@@ -23,6 +24,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string EditCategory = "Edit";
         public const string DeleteCategory = "Delete";
         public const string AddSubCategoryRow = "AddSubCategoryRow";
+        
+        /* CategoryEdit */
         public const string EditCategoryController = "EditCategory";
         public const string EditSubCategoryItems = "Edit";
         public const string EditSubCategoryItemsController = "EditSubCategoryItems";

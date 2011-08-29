@@ -18,7 +18,7 @@ div.question-row div.stats-2 div.falsePercentage{ width: 30px;}
     <div>
         <h2 style="float: left;">Fragen</h2>
         <div style="float: right;">
-            <%= Buttons.Link("Frage erstellen", Links.CreateQuestion, Links.CreateQuestionController, ButtonIcon.Add)%>
+            <%= Buttons.Link("Frage erstellen", Links.CreateQuestion, Links.EditQuestionController, ButtonIcon.Add)%>
         </div>
 
     </div>
