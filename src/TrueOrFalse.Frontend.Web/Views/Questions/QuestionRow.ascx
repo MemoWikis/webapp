@@ -9,7 +9,10 @@
     </div>
 
     <div class="span-12" style="background-color: seashell; ">
-        <div style="height: 20px; background-color: cadetblue">Von X Mustermann</div>
+        <div style="height: 20px;">
+            <img src="/Images/delete.png"/> 
+            Von X Mustermann
+        </div>
         <div style="height: 100%; font-weight:normal; font-size:large;"><%=Model.QuestionShort%></div>   
     </div>
 
