@@ -5,19 +5,19 @@ using TrueOrFalse.Frontend.Web.Models;
 
 
 [HandleError]
-public class CreateQuestionController : Controller
+public class EditQuestionController : Controller
 {
     private readonly QuestionRepository _questionRepository;
-    private const string _viewLocation = "~/Views/Questions/Create/CreateQuestion.aspx";
+    private const string _viewLocation = "~/Views/Questions/Edit/EditQuestion.aspx";
 
-    public CreateQuestionController(QuestionRepository questionRepository)
+    public EditQuestionController(QuestionRepository questionRepository)
     {
         _questionRepository = questionRepository;
     }
         
     public ActionResult Create()
     {
-        var model = new CreateQuestionModel();
+        var model = new EditQuestionModel();
         model.Answer = "Antwort eingeben";
         model.Question = "Frage eingeben";
 
@@ -25,7 +25,7 @@ public class CreateQuestionController : Controller
     }
 
     [HttpPost]
-    public ActionResult Create(CreateQuestionModel model)
+    public ActionResult Create(EditQuestionModel model)
     {
         ViewData["question"] = model.Question;
 

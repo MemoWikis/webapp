@@ -146,11 +146,11 @@
     <Compile Include="Views\Questions\QuestionRowModel.cs" />
     <Compile Include="Views\Questions\QuestionsController.cs" />
     <Compile Include="Views\Questions\QuestionsModel.cs" />
-    <Compile Include="Views\Questions\Create\CreateQuestionController.cs" />
+    <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
-    <Compile Include="Views\Questions\Create\CreateQuestionModel.cs" />
+    <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -293,7 +293,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Questions\Create\CreateQuestion.aspx" />
+    <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
     <Content Include="Views\Shared\Site.Master" />

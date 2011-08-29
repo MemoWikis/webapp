@@ -6,7 +6,7 @@ using TrueOrFalse.Core;
 using TrueOrFalse.Frontend.Web.Models;
 using Message = TrueOrFalse.Core.Web.Message;
 
-public class CreateQuestionModel : ModelBase
+public class EditQuestionModel : ModelBase
 {
     public Message Message;
 
@@ -99,7 +99,7 @@ public class CreateQuestionModel : ModelBase
         return question;
     }
 
-    public CreateQuestionModel()
+    public EditQuestionModel()
     {
         ShowLeftMenu_Nav();
     }
