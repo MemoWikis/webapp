@@ -2,6 +2,15 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+
+<style type="text/css">
+
+div.question-row div.stats-2 div.answersTotal{ width: 65px;}
+div.question-row div.stats-2 div.truePercentage{ width: 30px;}
+div.question-row div.stats-2 div.falsePercentage{ width: 30px;}
+
+</style>
+
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
