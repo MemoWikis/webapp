@@ -8,7 +8,7 @@ public class QuestionRowModel
     public QuestionRowModel(Question question) 
     {
         QuestionShort = question.GetShortTitle();
-        QuestionId = QuestionId;
+        QuestionId = question.Id;
     }
 
     public string QuestionShort { get; private set; }
