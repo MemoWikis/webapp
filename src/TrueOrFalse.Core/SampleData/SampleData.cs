@@ -11,11 +11,13 @@ namespace TrueOrFalse.Core
     {
         private readonly RegisterUser _registerUser;
         private readonly QuestionRepository _questionRepository;
+        private readonly CategoryRepository _categoryRepository;
 
-        public SampleData(RegisterUser registerUser, QuestionRepository questionRepository)
+        public SampleData(RegisterUser registerUser, QuestionRepository questionRepository, CategoryRepository categoryRepository)
         {
             _registerUser = registerUser;
             _questionRepository = questionRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public void CreateUsers()
@@ -31,6 +33,17 @@ namespace TrueOrFalse.Core
             jule.UserName = "Jule";
             SetUserPassword.Run("fooBar", robert);
             _registerUser.Run(jule);
+        }
+
+        public void ImportCategories(string xmlFile)
+        {
+            var importer = new Importer(System.IO.File.ReadAllText(xmlFile));
+
+            foreach (var category in importer.Categories)
+            {
+                _categoryRepository.Create(category);
+            }
+
         }
 
         public void ImportQuestions(string xmlFile)

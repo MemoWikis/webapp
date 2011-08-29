@@ -47,7 +47,9 @@
                  <div id="tabs-2"><p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. 
                                      Duis scelerisque molestie turpis.</p>
                  </div>
-                 <div id="tabs-3"><p>Mauris eleifend est et turpis. Duis id erat.</p>
+                 <div id="tabs-3">
+                    <label for="newCategory">Kategorie Hinzuf&uuml;gen:</label>
+                    <input id="newCategory" />                      
                  </div>
               </div>
             

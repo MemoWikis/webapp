@@ -3,21 +3,32 @@
     <version>0.1</version>
     
     <category>
-        <name>Sport</name>        
+        <name>Physik</name>        
         
-        <SubCategory>
-            <name>Sportart</name>
-            <type>OpenList</type>
-           
-            <item>
-                <name>Tennis</name>
-            </item>            
+    </category>     
+    
+    <category>
+        <name>Entdeckung</name>        
         
-            <item>
-                <name>Fussball</name>
-            </item>            
+    </category>     
+    
+    <category>
+        <name>Person</name>        
         
-        </SubCategory>            
+    </category>     
+    
+    <category>
+        <name>Formel</name>        
+        
+    </category>     
+    
+    <category>
+        <name>Elektrotechnik</name>        
+        
+    </category>     
+    
+    <category>
+        <name>Datum</name>        
         
     </category>     
         
