@@ -17,5 +17,7 @@ namespace TrueOrFalse.Frontend.Web.Models
         public ModelBase ShowLeftMenu_Empty() { CurrentLeftMenu = null; return this; }
 
         public ModelBase ShowRightLogin(){ RightMenu.Yes = true; return this; }
+
+        public bool MainFullWidth;
     }
 }

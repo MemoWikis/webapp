@@ -99,6 +99,9 @@
                 leftMenuWidth = "span-4";
                 mainWidth = "span-15";
             }
+
+            if (Model.MainFullWidth)
+                mainWidth = "span-20 last";
         %>
         <div class="<%=leftMenuWidth %>" style=" padding-left:10px;">
 			<%
@@ -109,17 +112,19 @@
         </div>
     
 		<%-- MAIN CONTENT--%>
-        <div class="<%=mainWidth %>" style="min-height:600px">
+        <div class="<%=mainWidth %>" style="min-height:600px; ">
             <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
         </div>
 
-		<div class="span-5 last" style="margin-top:40px;" >
-            <asp:ContentPlaceHolder ID="RightMenu" runat="server"  />
-			<%
-				if (Model.RightMenu.Yes)
-					Html.RenderPartial(UserControls.Login);
-			 %>
-		</div>
+        <% if (!Model.MainFullWidth){ %>
+		    <div class="span-5 last" style="margin-top:40px;" >
+                <asp:ContentPlaceHolder ID="RightMenu" runat="server"  />
+			    <%
+				    if (Model.RightMenu.Yes)
+					    Html.RenderPartial(UserControls.Login);
+			     %>
+		    </div>
+        <% } %>
             
         <%-- FOOTER--%>
         <div id="footer" class="span-24 last">

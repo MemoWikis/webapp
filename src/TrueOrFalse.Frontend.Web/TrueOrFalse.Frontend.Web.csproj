@@ -212,7 +212,7 @@
     <Content Include="Images\Buttons\tick.png" />
     <Content Include="Images\delete.png" />
     <Content Include="Images\delete.png.licence.txt" />
-    <Content Include="Images\edit_installation_config.png" />
+    <Content Include="Images\edit.png" />
     <Content Include="Images\menu-icon-person.png" />
     <Content Include="Images\menu-icon-person.png.licence.txt" />
     <Content Include="Images\RowHeaderBackground.png" />

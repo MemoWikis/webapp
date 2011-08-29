@@ -11,6 +11,7 @@ public class QuestionsModel : ModelBase
         ShowLeftMenu_Nav();
 
         QuestionRows = from question in questions select new QuestionRowModel(question);
+        MainFullWidth = true;
     }
 
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
