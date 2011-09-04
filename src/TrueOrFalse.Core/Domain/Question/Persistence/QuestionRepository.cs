@@ -10,6 +10,15 @@ namespace TrueOrFalse.Core
         {
         }
 
+        public override void Update(Question question)
+        {
+            foreach (Answer answer in question.Answers)
+                answer.DateModified = DateTime.Now;
+            
+            base.Update(question);
+            Flush();            
+        }
+
         public override void Create(Question question)
         {
             foreach(Answer answer in question.Answers)

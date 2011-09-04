@@ -96,7 +96,7 @@ public class EditQuestionModel : ModelBase
         ShowLeftMenu_Nav();
     }
 
-    public EditQuestionModel(Question question)
+    public EditQuestionModel(Question question) : this()
     {
         Question = question.Text;
         var answer = question.Answers[0];
@@ -109,9 +109,15 @@ public class EditQuestionModel : ModelBase
     public Question ConvertToQuestion()
     {
         var question = new Question();
+        question.Answers.Add(new Answer());
+        return UpdateQuestion(question);
+    }
+
+    public Question UpdateQuestion(Question question)
+    {
         question.Text = Question;
         question.Description = Description;
-        question.Answers.Add(new Answer(Answer));
+        question.Answers[0].Text = Answer;
         return question;
     }
 

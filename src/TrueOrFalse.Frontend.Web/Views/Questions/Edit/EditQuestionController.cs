@@ -25,12 +25,18 @@ public class EditQuestionController : Controller
     }
 
     [HttpPost]
+    public ActionResult Edit(int id, EditQuestionModel model)
+    {
+        _questionRepository.Update(model.UpdateQuestion(_questionRepository.GetById(id)));
+        model.Message = new SuccessMessage("Die Frage wurde gespeichert");
+
+        return View(_viewLocation, model);
+    }
+
+    [HttpPost]
     public ActionResult Create(EditQuestionModel model)
     {
-        ViewData["question"] = model.Question;
-
         _questionRepository.Create(model.ConvertToQuestion());
-
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);
