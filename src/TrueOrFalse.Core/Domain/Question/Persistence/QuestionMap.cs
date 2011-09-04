@@ -13,6 +13,7 @@ namespace TrueOrFalse.Core
         {
             Id(x => x.Id);
             Map(x => x.Text).Length(Constants.VarCharMaxLength);
+            Map(x => x.Description).Length(Constants.VarCharMaxLength);
             Map(x => x.Visibility);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);

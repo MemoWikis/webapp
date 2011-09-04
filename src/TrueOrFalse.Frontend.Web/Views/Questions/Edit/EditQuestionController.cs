@@ -36,4 +36,11 @@ public class EditQuestionController : Controller
         return View(_viewLocation, model);
     }
 
+    public ViewResult Edit(int id)
+    {
+        var model = new EditQuestionModel(_questionRepository.GetById(id));
+        return View(_viewLocation, model);
+    }
+
+
 }

@@ -91,17 +91,28 @@ public class EditQuestionModel : ModelBase
         }
     }
 
+    public EditQuestionModel()
+    {
+        ShowLeftMenu_Nav();
+    }
+
+    public EditQuestionModel(Question question)
+    {
+        Question = question.Text;
+        var answer = question.Answers[0];
+        Answer = answer.Text;
+        AnswerType = answer.Type.ToString();
+        Description = question.Description;
+
+    }
+
     public Question ConvertToQuestion()
     {
         var question = new Question();
         question.Text = Question;
+        question.Description = Description;
         question.Answers.Add(new Answer(Answer));
         return question;
-    }
-
-    public EditQuestionModel()
-    {
-        ShowLeftMenu_Nav();
     }
 
 }
