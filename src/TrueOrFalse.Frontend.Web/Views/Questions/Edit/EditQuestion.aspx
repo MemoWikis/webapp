@@ -3,9 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Core" %>
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
-    <script type="text/ecmascript" language="javascript">
-
-    </script>
+    <script src="<%= Url.Content("~/Views/Questions/Edit/EditQuestion.js") %>" type="text/javascript"></script>
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
