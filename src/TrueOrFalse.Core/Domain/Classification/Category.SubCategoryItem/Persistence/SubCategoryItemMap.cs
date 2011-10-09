@@ -13,6 +13,8 @@ namespace TrueOrFalse.Core
             Id(x => x.Id);
             References(x => x.SubCategory);
             Map(x => x.Name);
+            References(x => x.Creator);
+
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
         }

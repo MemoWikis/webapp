@@ -13,8 +13,10 @@ namespace TrueOrFalse.Core
             Id(x => x.Id);
             Map(x => x.Name);
             HasMany(x => x.SubCategories).Cascade.All();
+            References(x => x.Creator);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
+            
         }
     }
 }

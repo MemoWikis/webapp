@@ -15,6 +15,7 @@ namespace TrueOrFalse.Core
             Map(x => x.Text).Length(Constants.VarCharMaxLength);
             Map(x => x.Description).Length(Constants.VarCharMaxLength);
             Map(x => x.Visibility);
+            References(x => x.Creator);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
             HasMany<Answer>(x => x.Answers).Cascade.All();

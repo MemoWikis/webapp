@@ -9,6 +9,7 @@ namespace TrueOrFalse.Core
     public class Category : DomainEntity
     {
         public virtual string Name { get; set; }
+        public virtual User Creator { get; set; }
 
         public virtual IList<SubCategory> SubCategories { get; set; }
 

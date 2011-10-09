@@ -16,6 +16,7 @@ namespace TrueOrFalse.Core
         }
 
         public virtual Question Question { get; set; }
+        public virtual User Creator { get; set; }
 
         public virtual string Text { get; set; }
         public virtual string Description { get; set; }

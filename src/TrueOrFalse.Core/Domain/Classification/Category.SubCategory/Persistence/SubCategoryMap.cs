@@ -15,6 +15,7 @@ namespace TrueOrFalse.Core
             HasMany(x => x.Items).Cascade.All();
             Map(x => x.Name);
             Map(x => x.Type);
+            References(x => x.Creator);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
         }

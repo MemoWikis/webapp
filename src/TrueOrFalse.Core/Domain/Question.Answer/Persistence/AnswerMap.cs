@@ -14,7 +14,8 @@ namespace TrueOrFalse.Core
             Id(x => x.Id);
             Map(x => x.Type);
             Map(x => x.Text).Length(Constants.VarCharMaxLength);
-            Map(x => x.Description).Length(Constants.VarCharMaxLength); 
+            Map(x => x.Description).Length(Constants.VarCharMaxLength);
+            References(x => x.Creator);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
             References(x => x.Question);

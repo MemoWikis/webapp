@@ -1,20 +1,22 @@
 ﻿using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web;
-using TrueOrFalse.Frontend.Web.Models;
-
+using TrueOrFalse.Core.Web.Context;
 
 [HandleError]
 public class EditQuestionController : Controller
 {
     private readonly QuestionRepository _questionRepository;
+    private readonly SessionUser _sessionUser;
     private const string _viewLocation = "~/Views/Questions/Edit/EditQuestion.aspx";
 
-    public EditQuestionController(QuestionRepository questionRepository)
+    public EditQuestionController(QuestionRepository questionRepository,
+                                  SessionUser sessionUser)
     {
         _questionRepository = questionRepository;
+        _sessionUser = sessionUser;
     }
-        
+
     public ActionResult Create()
     {
         var model = new EditQuestionModel();
@@ -36,7 +38,9 @@ public class EditQuestionController : Controller
     [HttpPost]
     public ActionResult Create(EditQuestionModel model)
     {
-        _questionRepository.Create(model.ConvertToQuestion());
+        var question = model.ConvertToQuestion();
+        question.Creator = _sessionUser.User;
+        _questionRepository.Create(question);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);

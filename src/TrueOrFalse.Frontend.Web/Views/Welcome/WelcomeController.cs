@@ -12,8 +12,8 @@ public class WelcomeController : Controller
     private readonly SessionUser _sessionUser;
         
     public WelcomeController(RegisterUser registerUser, 
-                                CredentialsAreValid credentialsAreValid, 
-                                SessionUser sessionUser)
+                             CredentialsAreValid credentialsAreValid, 
+                             SessionUser sessionUser)
     {
         _registerUser = registerUser;
         _credentialsAreValid = credentialsAreValid;

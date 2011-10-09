@@ -10,6 +10,7 @@ namespace TrueOrFalse.Core
         public virtual IList<SubCategoryItem> Items { get; set; } 
 
         public virtual string Name { get; set; }
+        public virtual User Creator { get; set; }
         public virtual SubCategoryType Type { get; set; }  
 
         public SubCategory()

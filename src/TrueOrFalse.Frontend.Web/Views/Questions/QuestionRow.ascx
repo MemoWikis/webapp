@@ -17,7 +17,7 @@
                 <img src="/Images/edit.png"/> 
             </a>
             
-            Von X Mustermann
+            <%=Model.CreatorName %>
         </div>
         <div style="height: 100%; font-weight:normal; font-size:large;"><%=Model.QuestionShort%></div>   
     </div>
