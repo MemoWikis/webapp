@@ -6,27 +6,27 @@ using IContextDescription = BDDish.Model.IContextDescription;
 
 namespace TrueOrFalse.Tests
 {
-    public class Spec_IsUserNameAvailable : BaseTest
+    public class Spec_IsEmailAdressNotInUse : BaseTest
     {
         [Test]
         public void Test()
         {
             Features.Registration
-                .Requirement("Username should be unique")
+                .Requirement("Email address should be unique")
                 .Customer(Persona.UserWhoWantsToRegister).
-                    AceptanceCriterion("A used username should not be available twice").
-                        Given(a_used_username).
-                        Then(the_username_should_not_be_available_anymore).
+                    AceptanceCriterion("A used email address should not be usable again for registration").
+                        Given(a_used_email_address).
+                        Then(the_email_address_should_not_be_usable_anymore).
                 Execute(this);            
         }
 
         private static Context_RegisteredUser _context;
 
-        private readonly Func<IContextDescription> a_used_username = () => _context = new Context_RegisteredUser().SetUserName("someUserName");
-        private readonly Action the_username_should_not_be_available_anymore 
+        private readonly Func<IContextDescription> a_used_email_address = () => _context = new Context_RegisteredUser().SetEmailAddress("some@emailAddress.com");
+        private readonly Action the_email_address_should_not_be_usable_anymore 
             = () => {
-                       Assert.That(Resolve<IsEmailAddressNotInUse>().Yes(_context.Name), Is.False);
-                       Assert.That(Resolve<IsEmailAddressNotInUse>().Yes("someOtherUserName"), Is.True);
+                       Assert.That(Resolve<IsEmailAddressNotInUse>().Yes(_context.EmailAddress), Is.False);
+                       Assert.That(Resolve<IsEmailAddressNotInUse>().Yes("some@otherAddress.com"), Is.True);
                      };
     }
 }

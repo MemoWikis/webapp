@@ -14,7 +14,8 @@ namespace TrueOrFalse.Tests
     {
         private static IContainer _container;
 
-        public BaseTest()
+        [SetUp]
+        public void SetUp()
         {
             CleanEmailsFromPickupDirectory.Run();
             InitializeContainer();

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web;
 using TrueOrFalse.Core.Web.Context;
@@ -40,6 +41,7 @@ public class EditQuestionController : Controller
     {
         var question = model.ConvertToQuestion();
         question.Creator = _sessionUser.User;
+        question.Answers.Single().Creator = _sessionUser.User;
         _questionRepository.Create(question);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 

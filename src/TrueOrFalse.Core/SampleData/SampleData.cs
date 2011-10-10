@@ -12,15 +12,17 @@ namespace TrueOrFalse.Core
         private readonly RegisterUser _registerUser;
         private readonly QuestionRepository _questionRepository;
         private readonly CategoryRepository _categoryRepository;
+        private readonly Importer _importer;
 
-        public SampleData(RegisterUser registerUser, QuestionRepository questionRepository, CategoryRepository categoryRepository)
+        public SampleData(RegisterUser registerUser, QuestionRepository questionRepository, CategoryRepository categoryRepository, Importer importer)
         {
             _registerUser = registerUser;
             _questionRepository = questionRepository;
             _categoryRepository = categoryRepository;
+            _importer = importer;
         }
 
-        public void CreateUsers()
+        public List<User> CreateUsers()
         {
             var stefan = new User();
             stefan.EmailAddress = "noackstefan@googlemail.com";
@@ -39,13 +41,15 @@ namespace TrueOrFalse.Core
             jule.Name = "Jule";
             SetUserPassword.Run("fooBar", robert);
             _registerUser.Run(jule);
+
+            return new List<User> {stefan, robert, jule};
         }
 
         public void ImportCategories(string xmlFile)
         {
-            var importer = new Importer(System.IO.File.ReadAllText(xmlFile));
+            _importer.Run(System.IO.File.ReadAllText(xmlFile));
 
-            foreach (var category in importer.Categories)
+            foreach (var category in _importer.Categories)
             {
                 _categoryRepository.Create(category);
             }
@@ -54,9 +58,9 @@ namespace TrueOrFalse.Core
 
         public void ImportQuestions(string xmlFile)
         {
-            var importer = new Importer(System.IO.File.ReadAllText(xmlFile));
+             _importer.Run(System.IO.File.ReadAllText(xmlFile));
 
-            foreach (var question in importer.Questions)
+            foreach (var question in _importer.Questions)
             {
                 _questionRepository.Create(question);
             }

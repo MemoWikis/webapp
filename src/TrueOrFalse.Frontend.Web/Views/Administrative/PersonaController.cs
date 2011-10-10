@@ -22,17 +22,17 @@ public class PersonaController : Controller
 
     public ActionResult Stefan()
     {
-        return LoginUser("Stefan");
+        return LoginUser("noackstefan@googlemail.com");
     }
 
     public ActionResult Robert()
     {
-        return LoginUser("Robert");
+        return LoginUser("robert@robert-m.de");
     }
 
     public ActionResult Jule()
     {
-        return LoginUser("Jule");
+        return LoginUser("jule@robert-m.de");
     }
 
     private ActionResult LoginUser(string emailAddress)

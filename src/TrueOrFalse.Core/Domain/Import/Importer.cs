@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Core
 {
-    public class Importer
+    public class Importer : IRegisterAsInstancePerLifetime
     {
+        private readonly UserRepository _userRepository;
         public IEnumerable<Question> Questions { get; private set; }
         public IEnumerable<Category> Categories { get; private set; }
 
-        public Importer(string xml)
+        public Importer(UserRepository userRepository)
         {
-            Read(xml);
+            _userRepository = userRepository;
         }
 
-        private void Read(string xml)
+        public void Run(string xml)
         {
             var document = XDocument.Parse(xml);
 
@@ -24,10 +26,12 @@ namespace TrueOrFalse.Core
                         select new Question
                         {
                             Text = questionElement.Element("text").Value,
+                            Creator = _userRepository.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value)),
                             Answers = (from answerElement in questionElement.Elements("answer")
                                        select new Answer
                                        {
-                                           Text = answerElement.Element("text").Value
+                                           Text = answerElement.Element("text").Value,
+                                           Creator = _userRepository.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value))
                                        }).ToList()
                         };
 

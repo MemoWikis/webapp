@@ -1,66 +1,91 @@
-﻿
+
 <trueorfalse>    
     <version>0.1</version>
     
     <question>
-        <text>Wer erklärte als erster den Photoelektrischen Effekt?</text>
-      <creatorId></creatorId>
+        <text>Wer erklärte als erster den Photoelektrischen Effekt?</text>   
+        <creatorId>1</creatorId>        
+        
         <answer>
             <text>Albert Einstein</text>
+            <creatorId>1</creatorId>    
         </answer>            
         
     </question>     
     
     <question>
-        <text>Wie berechnet man die Radialbeschleunigung bei der Geschwindigkeit v und dem Radius r?</text>        
+        <text>Wie berechnet man die Radialbeschleunigung bei der Geschwindigkeit v und dem Radius r?</text>   
+        <creatorId>1</creatorId>        
         
         <answer>
             <text>v^2 / r</text>
+            <creatorId>1</creatorId>    
         </answer>            
         
     </question>     
     
     <question>
-        <text>Wie berechnet man die Radialbeschleunigung bei der Winkelgeschwindigkeit w und dem Radius r?</text>        
+        <text>Wie berechnet man die Radialbeschleunigung bei der Winkelgeschwindigkeit w und dem Radius r?</text>   
+        <creatorId>1</creatorId>        
         
         <answer>
             <text>w^2 * r</text>
+            <creatorId>1</creatorId>    
         </answer>            
         
     </question>     
     
     <question>
-        <text>Wie berechnet man die Geschwindigkeit von Ladungsträgern in einem Leiter? (Ladungsträgerdichte n, Strom I, Querschnittsfläche A, Elementarladung e)</text>        
+        <text>Wie berechnet man die Geschwindigkeit von Ladungsträgern in einem Leiter? (Ladungsträgerdichte n, Strom I, Querschnittsfläche A, Elementarladung e)</text>   
+        <creatorId>1</creatorId>        
         
         <answer>
             <text>I / (e*n*a)</text>
+            <creatorId>1</creatorId>    
         </answer>            
         
     </question>     
     
     <question>
-        <text>Wie merkst du dir die Dreieck-Stern-Umrechnung?</text>        
+        <text>Wie merkst du dir die Dreieck-Stern-Umrechnung?</text>   
+        <creatorId>1</creatorId>        
         
         <answer>
             <text>Produkt der Widerstände, die zusammengelegt werden, geteilt durch Summe aller Widerstände.</text>
+            <creatorId>1</creatorId>    
         </answer>            
         
     </question>     
     
     <question>
-        <text>Wie merkst du dir die Stern-Dreieck-Umrechnung?</text>        
+        <text>Wie merkst du dir die Stern-Dreieck-Umrechnung?</text>   
+        <creatorId>1</creatorId>        
         
         <answer>
             <text>Produkt der Leitwerte, die aufgetrennt werden, geteilt durch Summe aller Leitwerte.</text>
+            <creatorId>1</creatorId>    
         </answer>            
         
     </question>     
-   
+    
     <question>
-        <text>Wann wurde Robert geboren?</text>        
+        <text>Wann wurde Robert geboren?</text>   
+        <creatorId>1</creatorId>        
         
         <answer>
             <text>3.8.1980</text>
+            <creatorId>1</creatorId>    
+        </answer>            
+        
+    </question>     
+    
+    <question>
+        <text>Wann wurde Stefan geboren</text>   
+        <creatorId>2</creatorId>        
+        
+        <answer>
+            <text>Antwort eingeben</text>
+            <creatorId>2</creatorId>    
         </answer>            
         
     </question>     
