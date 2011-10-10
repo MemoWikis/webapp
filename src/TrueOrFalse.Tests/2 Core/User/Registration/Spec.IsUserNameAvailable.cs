@@ -25,8 +25,8 @@ namespace TrueOrFalse.Tests
         private readonly Func<IContextDescription> a_used_username = () => _context = new Context_RegisteredUser().SetUserName("someUserName");
         private readonly Action the_username_should_not_be_available_anymore 
             = () => {
-                       Assert.That(Resolve<IsUserNameAvailable>().Yes(_context.UserName), Is.False);
-                       Assert.That(Resolve<IsUserNameAvailable>().Yes("someOtherUserName"), Is.True);
+                       Assert.That(Resolve<IsEmailAddressNotInUse>().Yes(_context.Name), Is.False);
+                       Assert.That(Resolve<IsEmailAddressNotInUse>().Yes("someOtherUserName"), Is.True);
                      };
     }
 }

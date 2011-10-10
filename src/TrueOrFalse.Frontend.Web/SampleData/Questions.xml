@@ -3,8 +3,8 @@
     <version>0.1</version>
     
     <question>
-        <text>Wer erklärte als erster den Photoelektrischen Effekt?</text>        
-        
+        <text>Wer erklärte als erster den Photoelektrischen Effekt?</text>
+      <creatorId></creatorId>
         <answer>
             <text>Albert Einstein</text>
         </answer>            

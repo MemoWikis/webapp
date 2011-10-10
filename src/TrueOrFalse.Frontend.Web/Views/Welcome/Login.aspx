@@ -17,11 +17,11 @@
         <legend>Login</legend>
 
         <div class="editor-label">
-            <%: Html.LabelFor(model => model.UserName)  %><br/>
+            <%: Html.LabelFor(model => model.EmailAddress)  %><br/>
         </div>
         <div class="editor-field">
-            <%: Html.EditorFor(model => model.UserName) %> <br/>
-            <%: Html.ValidationMessageFor(model => model.UserName) %>
+            <%: Html.EditorFor(model => model.EmailAddress)%> <br/>
+            <%: Html.ValidationMessageFor(model => model.EmailAddress)%>
         </div>
 
         <div class="editor-label">

@@ -19,11 +19,11 @@
        
 
         <div class="editor-label">
-            <%: Html.LabelFor(model => model.UserName)  %><br/>
+            <%: Html.LabelFor(model => model.Name)  %><br/>
         </div>
         <div class="editor-field">
-            <%: Html.EditorFor(model => model.UserName) %> <br/>
-            <%: Html.ValidationMessageFor(model => model.UserName) %>
+            <%: Html.EditorFor(model => model.Name) %> <br/>
+            <%: Html.ValidationMessageFor(model => model.Name) %>
         </div>
 
         <div class="editor-label">

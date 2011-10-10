@@ -11,12 +11,10 @@ namespace TrueOrFalse.Core
         public UserMap()
         {
             Id(x => x.Id);
-            Map(x => x.UserName);
             Map(x => x.PasswordHashedAndSalted);
             Map(x => x.Salt);
             Map(x => x.EmailAddress);
-            Map(x => x.FirstName);
-            Map(x => x.LastName);
+            Map(x => x.Name);
             Map(x => x.IsEmailConfirmed);
             Map(x => x.Birthday);
             Map(x => x.DateCreated);

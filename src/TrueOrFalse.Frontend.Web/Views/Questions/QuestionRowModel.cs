@@ -9,7 +9,7 @@ public class QuestionRowModel
     {
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;
-        CreatorName = question.Creator.FirstName + " " + question.Creator.LastName;
+        CreatorName = question.Creator.Name;
     }
 
     public string CreatorName {get; private set;}

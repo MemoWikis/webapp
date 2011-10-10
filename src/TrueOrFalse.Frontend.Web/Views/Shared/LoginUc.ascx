@@ -4,8 +4,8 @@
 <h3>Anmelden</h3>
 <div style="width:155px;">
     <% using (Html.BeginForm("Login", "Welcome")) { %>
-        Benutzername:<br />
-        <input type="text" name="UserName" />
+        Email:<br />
+        <input type="text" name="EmailAddress" />
         Passwort:<br />
         <input type="password" name="Password" />
         <input value="Anmelden" type="submit" style="float:right; margin-top:4px; font-size:13px;" />

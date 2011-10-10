@@ -22,14 +22,12 @@ namespace TrueOrFalse.Tests
         }
 
         private const string _password = "somePassword";
-        private const string _userName = "UserName";
+        private const string _name = "John Doe";
 
         EmptyContext the_user_registers = new EmptyContext(()=>
         {
             var user = new User();
-            user.FirstName = "Firstname";
-            user.LastName = "Lastname";
-            user.UserName = _userName;
+            user.Name = _name;
             user.EmailAddress = "test@test.de";
             SetUserPassword.Run(_password, user);
 
@@ -39,9 +37,9 @@ namespace TrueOrFalse.Tests
         private Action an_email_should_be_send = () => Assert.That(OneEmailWasSend.IsTrue(), Is.True);
         private Action he_should_be_able_to_login = () =>
         {
-            Assert.That(Resolve<CredentialsAreValid>().Yes(_userName, _password), Is.True);
+            Assert.That(Resolve<CredentialsAreValid>().Yes(_name, _password), Is.True);
             Assert.That(Resolve<CredentialsAreValid>().Yes("invalidUserNamer", _password), Is.False);
-            Assert.That(Resolve<CredentialsAreValid>().Yes(_userName, "invalidPassword"), Is.False);
+            Assert.That(Resolve<CredentialsAreValid>().Yes(_name, "invalidPassword"), Is.False);
         };
 
     }

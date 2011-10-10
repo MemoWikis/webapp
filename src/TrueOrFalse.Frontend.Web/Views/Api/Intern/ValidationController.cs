@@ -11,7 +11,7 @@ namespace TrueOrFalse.View.Web.Views.Api
         //
         // GET: /Validation/
 
-        public ActionResult IsUserNameAvailable()
+        public ActionResult IsEmailAddressAvailable()
         {
             return new ViewResult();
         }

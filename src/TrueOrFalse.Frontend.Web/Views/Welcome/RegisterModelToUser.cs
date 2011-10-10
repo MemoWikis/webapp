@@ -8,7 +8,7 @@ public class RegisterModelToUser : ModelBase
     {
         var user = new User();
         user.EmailAddress = registerModel.Email;
-        user.UserName = registerModel.UserName;
+        user.Name = registerModel.Name;
 
         SetUserPassword.Run(registerModel.Password, user);
 

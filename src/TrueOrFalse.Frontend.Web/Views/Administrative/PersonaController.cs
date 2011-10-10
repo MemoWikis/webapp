@@ -20,6 +20,11 @@ public class PersonaController : Controller
         _userRepository = userRepository;
     }
 
+    public ActionResult Stefan()
+    {
+        return LoginUser("Stefan");
+    }
+
     public ActionResult Robert()
     {
         return LoginUser("Robert");
@@ -30,13 +35,13 @@ public class PersonaController : Controller
         return LoginUser("Jule");
     }
 
-    private ActionResult LoginUser(string userName)
+    private ActionResult LoginUser(string emailAddress)
     {
         SessionFactory.BuildSchema();
         _sampleData.CreateUsers();
         _sampleData.ImportCategories(Server.MapPath("~/SampleData/Categories.xml"));
         _sampleData.ImportQuestions(Server.MapPath("~/SampleData/Questions.xml"));
-        var robertM = _userRepository.GetByUserName(userName);
+        var robertM = _userRepository.GetByEmailAddress(emailAddress);
         _sessionUser.Login(robertM);
 
         if (Request["target-url"] != null)

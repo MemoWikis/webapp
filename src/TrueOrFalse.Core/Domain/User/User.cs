@@ -8,14 +8,12 @@ namespace TrueOrFalse.Core
 {
     public class User : DomainEntity
     {
-        public virtual string UserName { get; set; }
         public virtual string PasswordHashedAndSalted { get; set; }
         public virtual string Salt { get; set; }
 
         public virtual string EmailAddress { get; set; }
 
-        public virtual string FirstName { get; set; }
-        public virtual string LastName { get; set; }
+        public virtual string Name { get; set; }
 
         public virtual Boolean IsEmailConfirmed { get; set;  }
 

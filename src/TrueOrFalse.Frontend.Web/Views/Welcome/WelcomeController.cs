@@ -53,10 +53,10 @@ public class WelcomeController : Controller
     [HttpPost]
     public ActionResult Login(LoginModel loginModel)
     {
-        loginModel.UserName = Request["UserName"];
+        loginModel.EmailAddress = Request["EmailAddress"];
         loginModel.Password = Request["Password"];
 
-        if (_credentialsAreValid.Yes(loginModel.UserName, loginModel.Password))
+        if (_credentialsAreValid.Yes(loginModel.EmailAddress, loginModel.Password))
         {
             _sessionUser.Login(_credentialsAreValid.User);
             return RedirectToAction(Links.Knowledge, Links.KnowledgeController );

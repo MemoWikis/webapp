@@ -9,10 +9,10 @@ namespace TrueOrFalse.Core
         {
         }
 
-        public User GetByUserName(string userName)
+        public User GetByEmailAddress(string emailAddress)
         {
             var userSearchSpec = new UserSearchSpec();
-            userSearchSpec.Filter.UserName.EqualTo(userName);
+            userSearchSpec.Filter.EmailAddress.EqualTo(emailAddress);
             return GetByUnique(userSearchSpec);
         }
     }

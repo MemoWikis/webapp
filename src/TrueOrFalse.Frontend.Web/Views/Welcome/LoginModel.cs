@@ -5,8 +5,8 @@ public class LoginModel : ModelBase
 {
     public Message Message;
 
-    public string UserName;
     public string Password;
+    public string EmailAddress;
 
     public LoginModel()
     {

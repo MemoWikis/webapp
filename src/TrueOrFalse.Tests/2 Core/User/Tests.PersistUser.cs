@@ -13,8 +13,7 @@ namespace TrueOrFalse.Tests
         public void Should_perist_user() 
         {
             var user = new User();
-            user.FirstName = "Vorname";
-            user.LastName = "Nachname";
+            user.Name = "Vorname Nachname";
             user.Birthday = new DateTime(1980, 08, 03);
 
             var userRepository = Resolve<UserRepository>();

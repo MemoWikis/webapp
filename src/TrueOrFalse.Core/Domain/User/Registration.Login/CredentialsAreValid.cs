@@ -20,10 +20,10 @@ namespace TrueOrFalse.Core.Registration
             _isValidPassword = isValidPassword;
         }
 
-        public bool Yes(string userName, string password)
+        public bool Yes(string emailAdress, string password)
         {
             User = null;
-            var user = _userRepository.GetByUserName(userName.Trim());
+            var user = _userRepository.GetByEmailAddress(emailAdress.Trim());
 
             if (user == null)
                 return false;

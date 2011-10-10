@@ -6,10 +6,9 @@ public class RegisterModel : ModelBase
     {
         [Required(ErrorMessage="Wir benötigen Deinen Benutzernamen.")]
         
-        [StringLength(20, MinimumLength=3, ErrorMessage = "Mind. 3 Zeichen kurz und maximal 20 Zeichen lang sein.")]
-        [DisplayName("Benutzername")]
-        //[IsNew(ErrorMessage = "Someone has already signed up with this e-mail address.")]
-        public string UserName { get; set; }
+        [StringLength(20, MinimumLength=4, ErrorMessage = "Sollte aus Vornamen und Nachnamen bestehen. ")]
+        [DisplayName("Ihre Name")]
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "Wir benötigen Deine E-Mail Adresse.")]
         [RegularExpression(EmailRegEx, ErrorMessage = "Wir benötigen eine gültige E-Mail Adresse.")]

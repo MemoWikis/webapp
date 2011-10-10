@@ -6,10 +6,10 @@ namespace TrueOrFalse.Core
 
     public class UserFilter : ConditionContainer
     {
-        public readonly ConditionString UserName;
+        public readonly ConditionString EmailAddress;
 
         public UserFilter(){
-            UserName = new ConditionString(this, "UserName");
+            EmailAddress = new ConditionString(this, "EmailAddress");
         }
     }
 

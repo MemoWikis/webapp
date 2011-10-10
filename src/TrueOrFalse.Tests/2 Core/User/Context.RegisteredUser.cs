@@ -11,20 +11,18 @@ namespace TrueOrFalse.Tests
     {
         public string SampleDesciption { get; set; }
 
-        public string UserName = "UserName";
+        public string Name = "John Doe";
         
         public void Setup()
         {
             var user = new User();
-            user.FirstName = "Firstname";
-            user.LastName = "Lastname";
-            user.UserName = UserName;
+            user.Name = Name;
             user.Birthday = new DateTime(1980, 08, 03);
 
             var userRepository = BaseTest.Resolve<UserRepository>();
             userRepository.Create(user);
         }
 
-        public Context_RegisteredUser SetUserName(string userName) { UserName = userName; return this; }
+        public Context_RegisteredUser SetUserName(string userName) { Name = userName; return this; }
     }
 }
