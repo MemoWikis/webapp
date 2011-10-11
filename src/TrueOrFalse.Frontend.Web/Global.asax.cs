@@ -41,6 +41,8 @@ namespace TrueOrFalse.Frontend.Web
             routes.MapRoute("Export", "Api/Export/{action}", new { controller = "Export", action="Questions" });
 
             routes.MapRoute("Default", "{controller}/{action}", new { controller = "Welcome", action = "Welcome", id = "" });
+
+            routes.MapRoute("User", "{controller}/{name}/{id}", new { controller = "User", action = "Profile" });
         }
 
         protected void Application_Start()
