@@ -17,7 +17,7 @@
                 <img src="/Images/edit.png"/> 
             </a>
             
-            <a href="<%= Url.Action(Links., Links.EditQuestionController, new {id = Model.QuestionId}, null) %>""><%=Model.CreatorName %></a>
+            <a href="<%= Url.Action(Links.UserProfile, Links.UserProfileController, new {name= Model.CreatorUrlName, id = Model.CreatorId}, null) %>"><%=Model.CreatorName %></a>
         </div>
         <div style="height: 100%; font-weight:normal; font-size:large;"><%=Model.QuestionShort%></div>   
     </div>

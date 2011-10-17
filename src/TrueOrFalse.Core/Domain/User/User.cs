@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core
@@ -18,5 +19,10 @@ namespace TrueOrFalse.Core
         public virtual Boolean IsEmailConfirmed { get; set;  }
 
         public virtual DateTime? Birthday { get; set; }
+
+        public virtual string GetUrlName()
+        {
+             return HttpUtility.UrlEncode(Name.Replace(" ", "_")); 
+        }
     }
 }
