@@ -20,9 +20,6 @@ namespace TrueOrFalse.Core
 
         public virtual DateTime? Birthday { get; set; }
 
-        public virtual string GetUrlName()
-        {
-             return HttpUtility.UrlEncode(Name.Replace(" ", "_")); 
-        }
+
     }
 }

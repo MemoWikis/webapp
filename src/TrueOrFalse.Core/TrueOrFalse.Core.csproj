@@ -188,6 +188,10 @@
     <Compile Include="Web\JavascriptViewEngine\JavascriptActionInvoker.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptView.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptViewEngine.cs" />
+    <Compile Include="Web\Uris\Links.cs" />
+    <Compile Include="Web\Uris\UriSanitizer.cs" />
+    <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
+    <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

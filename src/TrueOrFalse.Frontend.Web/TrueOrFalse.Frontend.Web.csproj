@@ -125,7 +125,6 @@
     <Compile Include="Code\ModelBase\ModelBase.cs" />
     <Compile Include="Code\ModelBase\RightMenu.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
-    <Compile Include="Code\Resources\Links.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\ExportCategoriesModel.cs" />
     <Compile Include="Views\Api\ExportController.cs" />
@@ -143,6 +142,8 @@
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
     <Compile Include="Views\News\NewsController.cs" />
     <Compile Include="Views\News\NewsModel.cs" />
+    <Compile Include="Views\Questions\Answer\AnswerQuestionController.cs" />
+    <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
     <Compile Include="Views\Questions\QuestionRowModel.cs" />
     <Compile Include="Views\Questions\QuestionsController.cs" />
     <Compile Include="Views\Questions\QuestionsModel.cs" />
@@ -277,6 +278,7 @@
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <Content Include="Views\Categories\Edit\EditCategory.js" />
     <Content Include="Views\News\News.aspx" />
+    <Content Include="Views\Questions\Answer\AnswerQuestion.js" />
     <Content Include="Views\Questions\Edit\EditQuestion.js" />
     <Content Include="Views\Questions\QuestionRow.ascx" />
     <Content Include="Views\Questions\Questions.aspx" />
@@ -284,7 +286,7 @@
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\User\UserProfile.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
-    <Content Include="Views\Questions\AnswerQuestion.aspx" />
+    <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\LoginUc.ascx" />
     <Content Include="Views\Shared\MenuLeft.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />

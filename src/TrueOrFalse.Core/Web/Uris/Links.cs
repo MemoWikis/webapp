@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using TrueOrFalse.Core;
+using TrueOrFalse.Core.Web;
+using TrueOrFalse.Core.Web.Uris;
 
 namespace TrueOrFalse.Frontend.Web.Code
 {
@@ -13,10 +17,23 @@ namespace TrueOrFalse.Frontend.Web.Code
         /*Question*/
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
+        public const string AnswerQuestionSubmit = "AnswerSubmit";
+
+        public static string AnswerQuestion(UrlHelper url, Question question)
+        {
+            return url.Action("Answer", Links.AnswerQuestionController, new { text = UriSegmentFriendlyQuestion.Run(question.Text), id = question.Id }, null);
+        }
+
+        public static string Profile(UrlHelper url, string userName, int userId)
+        {
+            return url.Action(Links.UserProfile, Links.UserProfileController, new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
+        }
 
         public const string EditQuestionController = "EditQuestion"; 
         public const string CreateQuestion = "Create";
         public const string EditQuestion = "Edit";
+
+        public const string AnswerQuestionController = "AnswerQuestion";
 
         /*Category*/
         public const string Categories = "Categories";

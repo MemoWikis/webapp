@@ -17,9 +17,9 @@
                 <img src="/Images/edit.png"/> 
             </a>
             
-            <a href="<%= Url.Action(Links.UserProfile, Links.UserProfileController, new {name= Model.CreatorUrlName, id = Model.CreatorId}, null) %>"><%=Model.CreatorName %></a>
+            <a href="<%= Model.Profile(Url)  %>"><%=Model.CreatorName %></a>
         </div>
-        <div style="height: 100%; font-weight:normal; font-size:large;"><%=Model.QuestionShort%></div>   
+        <div style="height: 100%; font-weight:normal; font-size:large;"><a href="<%= Model.AnswerQuestion(Url) %>"><%=Model.QuestionShort%></a></div>   
     </div>
 
     <div class="span-4 last stats-2">
