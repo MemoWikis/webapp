@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using TrueOrFalse.Core.Web.Uris;
 using TrueOrFalse.Frontend.Web.Code;
@@ -17,6 +18,8 @@ public class QuestionRowModel
 
         CreatorUrlName = UriSegmentFriendlyUser.Run(question.Creator.Name);
         CreatorId = question.Creator.Id;
+
+        AnswerQuestionLink = url => Links.AnswerQuestion(url, question);
     }
 
     public string CreatorName {get; private set;}
@@ -27,5 +30,5 @@ public class QuestionRowModel
     public string CreatorUrlName { get; private set; }
     public int CreatorId { get; private set; }
 
-
+    public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
 }

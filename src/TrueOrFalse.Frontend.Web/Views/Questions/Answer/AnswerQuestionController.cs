@@ -24,10 +24,10 @@ public class AnswerQuestionController : Controller
         return View(_viewLocation, new AnswerQuestionModel(question));
     }
 
-    public JsonResult Answer()
-    {
-        return null;
-    }
+    //public JsonResult Answer()
+    //{
+    //    return null;
+    //}
 
 }
 
