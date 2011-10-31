@@ -21,7 +21,7 @@ public class EditCategoryController : Controller
     public ViewResult Create()
     {
         var model = new EditCategoryModel();
-        model.Name = "Some name";
+        model.QuestionText = "Some name";
         model.SubCategories = new List<SubCategoryRowModel>();
         model.SubCategories.Add(new SubCategoryRowModel());
         return View(_viewPath, model);

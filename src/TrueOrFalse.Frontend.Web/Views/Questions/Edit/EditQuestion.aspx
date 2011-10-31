@@ -4,7 +4,15 @@
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <script src="<%= Url.Content("~/Views/Questions/Edit/EditQuestion.js") %>" type="text/javascript"></script>
+
+    <script language="javascript" type="text/javascript">
+        $(function () { $('#Question').defaultText("Bitte geben Sie eine Frage ein."); });
+        $(function () { $('#Answer').defaultText("Antwort eingeben."); });
+        $(function () { $('#Description').defaultText("Erklärung der Antwort und Quellen."); });
+    </script>
 </asp:Content>
+
+
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -58,10 +66,10 @@
 		    <%= Html.TextAreaFor( m=>m.Answer  ) %><br />
 		    <%= Html.LabelFor(m => m.Description ) %>
 		    <%= Html.TextAreaFor( m=>m.Description ) %><br />		   
-		    <%= Html.LabelFor(m => m.EducationLink ) %>
-		    <%= Html.DropDownListFor(m => Model.EducationLink, Model.EducationLinkData)%> <br />
 		    <%= Html.LabelFor(m => m.Character) %>
 		    <%= Html.DropDownListFor(m => Model.Character, Model.CharacterData)%> <br />
+            <%= Html.LabelFor(m => m.EducationLink ) %>
+		    <%= Html.DropDownListFor(m => Model.EducationLink, Model.EducationLinkData)%> <br />
 
             <br />
             <label>&nbsp;</label>
