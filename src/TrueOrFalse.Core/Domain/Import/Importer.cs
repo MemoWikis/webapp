@@ -26,6 +26,8 @@ namespace TrueOrFalse.Core
                         select new Question
                         {
                             Text = questionElement.Element("text").Value,
+                            Description= questionElement.Element("description").Value,
+                            Visibility = (QuestionVisibility) Enum.Parse(typeof(QuestionVisibility), questionElement.Element("visibility").Value),
                             Creator = _userRepository.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value)),
                             Answers = (from answerElement in questionElement.Elements("answer")
                                        select new Answer
