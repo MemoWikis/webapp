@@ -1,6 +1,8 @@
 ﻿$.fn.defaultText = function (defaultText) {
 
-    $(this).val(defaultText);
+    if ($(this).val().trim() == "") {
+        $(this).val(defaultText);
+    }
 
     $(this).focus(function () {
 
