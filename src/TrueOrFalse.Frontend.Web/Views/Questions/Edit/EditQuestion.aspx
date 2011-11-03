@@ -6,9 +6,17 @@
     <script src="<%= Url.Content("~/Views/Questions/Edit/EditQuestion.js") %>" type="text/javascript"></script>
 
     <script language="javascript" type="text/javascript">
-        $(function () { $('#Question').defaultText("Bitte geben Sie eine Frage ein."); });
-        $(function () { $('#Answer').defaultText("Antwort eingeben."); });
-        $(function () { $('#Description').defaultText("Erklärung der Antwort und Quellen."); });
+        $(function () {
+            $('#Question').defaultText("Bitte geben Sie eine Frage ein.");
+            $('#Answer').defaultText("Antwort eingeben.");
+            $('#Description').defaultText("Erklärung der Antwort und Quellen.");
+
+            var content = $('#txtAnswerValue').val();
+            $('#txtAnswerValue').append("<input type='txt')";
+            add().remove()
+        });
+
+        /* ddlAnswerType */
     </script>
 </asp:Content>
 
@@ -61,9 +69,11 @@
             
             <br />
             <%= Html.LabelFor(m => m.AnswerType ) %>
-		    <%= Html.DropDownListFor(m => Model.AnswerType, Model.AnswerTypeData)%> <br />
+		    <%= Html.DropDownListFor(m => Model.AnswerType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%> <br />
+            
             <%= Html.LabelFor(m => m.Answer ) %>
-		    <%= Html.TextAreaFor( m=>m.Answer  ) %><br />
+		    <%= Html.TextAreaFor(m=>m.Answer, new {@id="txtAnswerValue", @style="visibility:hidden; display:none;"}) %><br />
+
 		    <%= Html.LabelFor(m => m.Description ) %>
 		    <%= Html.TextAreaFor( m=>m.Description ) %><br />		   
 		    <%= Html.LabelFor(m => m.Character) %>
