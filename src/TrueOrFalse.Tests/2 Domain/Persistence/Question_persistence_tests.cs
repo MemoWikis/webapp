@@ -29,7 +29,7 @@ namespace TrueOrFalse.Tests.Persistence
             questions.Count.Should().Be.EqualTo(1);
             questions[0].Answers.Count.Should().Be.EqualTo(2);
             questions[0].Answers[0].Text.StartsWith("Behaviour").Should().Be.True();
-            questions[0].Answers[0].Type = AnswerType.FreeText;
+            //questions[0].Answers[0].Type = AnswerType.FreeText;
             questions[0].Answers[1].Text.StartsWith("Another").Should().Be.True();
         }
 

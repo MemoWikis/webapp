@@ -11,16 +11,14 @@
             $('#Answer').defaultText("Antwort eingeben.");
             $('#Description').defaultText("Erklärung der Antwort und Quellen.");
 
-            var content = $('#txtAnswerValue').val();
-            $('#txtAnswerValue').append("<input type='txt')";
-            add().remove()
+//            var content = $('#txtAnswerValue').val();
+//            $('#txtAnswerValue').append("<input type='txt')";
+//            add().remove()
         });
 
         /* ddlAnswerType */
     </script>
 </asp:Content>
-
-
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -71,8 +69,7 @@
             <%= Html.LabelFor(m => m.AnswerType ) %>
 		    <%= Html.DropDownListFor(m => Model.AnswerType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%> <br />
             
-            <%= Html.LabelFor(m => m.Answer ) %>
-		    <%= Html.TextAreaFor(m=>m.Answer, new {@id="txtAnswerValue", @style="visibility:hidden; display:none;"}) %><br />
+            <% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>
 
 		    <%= Html.LabelFor(m => m.Description ) %>
 		    <%= Html.TextAreaFor( m=>m.Description ) %><br />		   

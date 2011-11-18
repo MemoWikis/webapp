@@ -17,7 +17,7 @@ namespace TrueOrFalse.Tests
 
         public ArrangeQuestion AddAnswer(string answerText, 
                                          string description = "some description",
-                                         AnswerType answerType = AnswerType.FreeText)
+                                         AnswerType answerType = AnswerType.Exact)
         {
             Question.Answers.Add(
                 new Answer(answerText)

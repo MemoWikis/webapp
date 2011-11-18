@@ -70,10 +70,11 @@ public class EditQuestionModel : ModelBase
         {
             return new List<SelectListItem>
                         {
-                            new SelectListItem {Text = "Exakt", Value = TrueOrFalse.Core.AnswerType.ExactText.ToString()},
-                            new SelectListItem {Text = "Freitext", Value = TrueOrFalse.Core.AnswerType.FreeText.ToString()},
+                            new SelectListItem {Text = "Exakt", Value = TrueOrFalse.Core.AnswerType.Exact.ToString()},
+                            new SelectListItem {Text = "Annäherung", Value = TrueOrFalse.Core.AnswerType.Approximation.ToString()},
                             new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.Core.AnswerType.MultipleChoice.ToString()},
-                            new SelectListItem {Text = "Annäherung", Value = TrueOrFalse.Core.AnswerType.Approximation.ToString()}
+                            new SelectListItem {Text = "Vokable", Value = TrueOrFalse.Core.AnswerType.Vocable.ToString()},
+                            
                         };
         }
     }
