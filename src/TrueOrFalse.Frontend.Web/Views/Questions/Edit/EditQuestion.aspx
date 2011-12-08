@@ -16,8 +16,13 @@
 //            add().remove()
         });
 
-        /* ddlAnswerType */
+    /* ddlAnswerType */
     </script>
+
+    <style type="text/css">
+        div.classification  input {width: 75px; background-color: beige;}
+    </style>
+
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -46,26 +51,16 @@
                 });
 	        </script>
            
-               <%= Html.Label("Kategorien")%>
-               <div id="tabs" style="width:400px; float:left; font-size: 10px;">               
-                    <ul>
-                        <li><a href="#tabs-1">Sport</a></li>
-                        <li><a href="#tabs-2">Ereignis</a></li>
-                        <li><a href="#tabs-3">+</a></li>
-                    </ul>
-                 <div id="tabs-1"><p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. 
-                                     Curabitur nec arcu.</p>
-                 </div>
-                 <div id="tabs-2"><p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. 
-                                     Duis scelerisque molestie turpis.</p>
-                 </div>
-                 <div id="tabs-3">
-                    <label for="newCategory">Kategorie Hinzuf&uuml;gen:</label>
-                    <input id="newCategory" />                      
-                 </div>
-              </div>
-            
-            <br />
+             <%= Html.Label("Klassifizierung")%>
+            <div style="width:400px; float:left; font-size: 10px;" class="classification">
+                <input type="text" id="cat1" /><input type="text" id="cat2" /><input type="text" id="cat3"/><input type="text" id="cat4" /><input type="text" id="cat5" /><br/>
+            </div>
+			<%= Html.LabelFor(m => m.Character) %>
+			<div style="width:400px; float:left; font-size: 10px;" class="classification">
+				<%= Html.DropDownListFor(m => Model.Character, Model.CharacterData)%>  &nbsp;&nbsp;
+				<input type="text" id="char1" /><input type="text" id="char2" /><input type="text" id="char3" />
+			</div>
+
             <%= Html.LabelFor(m => m.AnswerType ) %>
 		    <%= Html.DropDownListFor(m => Model.AnswerType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%> <br />
             
@@ -73,8 +68,6 @@
 
 		    <%= Html.LabelFor(m => m.Description ) %>
 		    <%= Html.TextAreaFor( m=>m.Description ) %><br />		   
-		    <%= Html.LabelFor(m => m.Character) %>
-		    <%= Html.DropDownListFor(m => Model.Character, Model.CharacterData)%> <br />
             <%= Html.LabelFor(m => m.EducationLink ) %>
 		    <%= Html.DropDownListFor(m => Model.EducationLink, Model.EducationLinkData)%> <br />
 
