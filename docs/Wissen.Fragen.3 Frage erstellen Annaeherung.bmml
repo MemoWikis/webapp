@@ -1,6 +1,6 @@
-<mockup version="1.0" skin="sketch" measuredW="1013" measuredH="864" mockupW="1005" mockupH="839">
+<mockup version="1.0" skin="sketch" measuredW="1017" measuredH="839" mockupW="1005" mockupH="839">
   <controls>
-    <control controlID="55" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="8" y="25" w="1005" h="839" measuredW="450" measuredH="400" zOrder="0" locked="true" isInGroup="-1">
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="12" y="0" w="1005" h="839" measuredW="450" measuredH="400" zOrder="0" locked="true" isInGroup="-1">
       <controlProperties>
         <text>Richtig-oder-falsch%3F%0Ahttp%3A//www.true-or-false.com/answer/wofuer-steht-bdd/</text>
         <verticalScrollbar>false</verticalScrollbar>
@@ -33,7 +33,7 @@
         <text>Startseite%2C%20Profil%2C%20Konto</text>
       </controlProperties>
     </control>
-    <control controlID="81" controlTypeID="com.balsamiq.mockups::Button" x="570" y="591" w="165" h="26" measuredW="131" measuredH="28" zOrder="9" locked="false" isInGroup="-1">
+    <control controlID="81" controlTypeID="com.balsamiq.mockups::Button" x="567" y="681" w="165" h="26" measuredW="131" measuredH="28" zOrder="10" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Speichern%20%26%20Neu</text>
       </controlProperties>
@@ -48,12 +48,12 @@
         <text>Kategorien%3A</text>
       </controlProperties>
     </control>
-    <control controlID="85" controlTypeID="com.balsamiq.mockups::ComboBox" x="324" y="327" w="138" h="-1" measuredW="68" measuredH="25" zOrder="8" locked="false" isInGroup="-1">
+    <control controlID="85" controlTypeID="com.balsamiq.mockups::ComboBox" x="324" y="327" w="138" h="-1" measuredW="103" measuredH="25" zOrder="8" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Exakt</text>
+        <text>Ann%E4herung</text>
       </controlProperties>
     </control>
-    <control controlID="86" controlTypeID="com.balsamiq.mockups::Label" x="175" y="327" w="130" h="36" measuredW="82" measuredH="25" zOrder="10" locked="false" isInGroup="-1">
+    <control controlID="86" controlTypeID="com.balsamiq.mockups::Label" x="175" y="327" w="130" h="36" measuredW="82" measuredH="25" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
         <align>right</align>
         <text>Antworttyp%3A</text>
@@ -61,46 +61,46 @@
     </control>
     <control controlID="87" controlTypeID="com.balsamiq.mockups::TextArea" x="328" y="257" w="429" h="27" measuredW="200" measuredH="140" zOrder="11" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Wer%20wurde%202002%20Fussballweltmeister%3F</text>
+        <text>Wie%20hoch%20ist%20die%20Lichtgeschwindigkeit%3F</text>
       </controlProperties>
     </control>
-    <control controlID="88" controlTypeID="com.balsamiq.mockups::Label" x="248" y="367" w="84" h="22" measuredW="61" measuredH="25" zOrder="12" locked="false" isInGroup="-1">
+    <control controlID="88" controlTypeID="com.balsamiq.mockups::Label" x="245" y="415" w="84" h="22" measuredW="61" measuredH="25" zOrder="13" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Antwort%3A</text>
       </controlProperties>
     </control>
-    <control controlID="89" controlTypeID="com.balsamiq.mockups::TextArea" x="324" y="362" w="138" h="29" measuredW="200" measuredH="140" zOrder="13" locked="false" isInGroup="-1">
+    <control controlID="89" controlTypeID="com.balsamiq.mockups::TextArea" x="321" y="410" w="138" h="29" measuredW="200" measuredH="140" zOrder="14" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Brasilien</text>
+        <text>299792458</text>
       </controlProperties>
     </control>
-    <control controlID="90" controlTypeID="com.balsamiq.mockups::Button" x="429" y="591" w="130" h="26" measuredW="86" measuredH="28" zOrder="14" locked="false" isInGroup="-1">
+    <control controlID="90" controlTypeID="com.balsamiq.mockups::Button" x="426" y="681" w="130" h="26" measuredW="86" measuredH="28" zOrder="15" locked="false" isInGroup="-1">
       <controlProperties>
         <href>Mockup-Fragen-Detail.bmml</href>
         <text>Speichern</text>
       </controlProperties>
     </control>
-    <control controlID="91" controlTypeID="com.balsamiq.mockups::TextArea" x="324" y="400" w="429" h="81" measuredW="200" measuredH="140" zOrder="15" locked="false" isInGroup="-1">
+    <control controlID="91" controlTypeID="com.balsamiq.mockups::TextArea" x="321" y="490" w="429" h="81" measuredW="200" measuredH="140" zOrder="16" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Nach%20120min%20gewannen%20die%20Brasilianer%20nach%20Verl%E4ngerung%204%3A1%20gegen%20England.%20</text>
+        <text/>
       </controlProperties>
     </control>
-    <control controlID="92" controlTypeID="com.balsamiq.mockups::Label" x="239" y="400" w="99" h="48" measuredW="70" measuredH="25" zOrder="16" locked="false" isInGroup="-1">
+    <control controlID="92" controlTypeID="com.balsamiq.mockups::Label" x="236" y="490" w="99" h="48" measuredW="70" measuredH="25" zOrder="17" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Erkl%E4rung%3A</text>
       </controlProperties>
     </control>
-    <control controlID="93" controlTypeID="com.balsamiq.mockups::Label" x="237" y="518" w="78" h="28" measuredW="74" measuredH="25" zOrder="17" locked="false" isInGroup="-1">
+    <control controlID="93" controlTypeID="com.balsamiq.mockups::Label" x="234" y="608" w="78" h="28" measuredW="74" measuredH="25" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Charakter%3A</text>
       </controlProperties>
     </control>
-    <control controlID="94" controlTypeID="com.balsamiq.mockups::ComboBox" x="324" y="520" w="-1" h="-1" measuredW="76" measuredH="25" zOrder="18" locked="false" isInGroup="-1">
+    <control controlID="94" controlTypeID="com.balsamiq.mockups::ComboBox" x="321" y="610" w="-1" h="-1" measuredW="76" measuredH="25" zOrder="19" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Wissen</text>
       </controlProperties>
     </control>
-    <control controlID="97" controlTypeID="com.balsamiq.mockups::Label" x="229" y="228" w="130" h="36" measuredW="90" measuredH="25" zOrder="19" locked="false" isInGroup="-1">
+    <control controlID="97" controlTypeID="com.balsamiq.mockups::Label" x="229" y="228" w="130" h="36" measuredW="90" measuredH="25" zOrder="12" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Sichtbarkeit%3A</text>
       </controlProperties>
@@ -121,27 +121,27 @@
         <text>Ich%20und%20meine%20Freunde</text>
       </controlProperties>
     </control>
-    <control controlID="102" controlTypeID="com.balsamiq.mockups::Label" x="214" y="487" w="101" h="23" measuredW="94" measuredH="25" zOrder="23" locked="false" isInGroup="-1">
+    <control controlID="102" controlTypeID="com.balsamiq.mockups::Label" x="211" y="577" w="101" h="23" measuredW="94" measuredH="25" zOrder="24" locked="false" isInGroup="-1">
       <controlProperties>
         <text>In%20der%20Lehre%3A</text>
       </controlProperties>
     </control>
-    <control controlID="107" controlTypeID="com.balsamiq.mockups::Link" x="651" y="491" w="-1" h="-1" measuredW="87" measuredH="25" zOrder="24" locked="false" isInGroup="-1">
+    <control controlID="107" controlTypeID="com.balsamiq.mockups::Link" x="648" y="581" w="-1" h="-1" measuredW="87" measuredH="25" zOrder="25" locked="false" isInGroup="-1">
       <controlProperties>
         <text>u.%2025%20andere</text>
       </controlProperties>
     </control>
-    <control controlID="108" controlTypeID="com.balsamiq.mockups::Icon" x="635" y="496" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="25" locked="false" isInGroup="-1">
+    <control controlID="108" controlTypeID="com.balsamiq.mockups::Icon" x="632" y="586" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="26" locked="false" isInGroup="-1">
       <controlProperties>
         <icon>PencilIcon%7Cxsmall</icon>
       </controlProperties>
     </control>
-    <control controlID="112" controlTypeID="com.balsamiq.mockups::ComboBox" x="324" y="487" w="-1" h="-1" measuredW="293" measuredH="25" zOrder="26" locked="false" isInGroup="-1">
+    <control controlID="112" controlTypeID="com.balsamiq.mockups::ComboBox" x="321" y="577" w="-1" h="-1" measuredW="293" measuredH="25" zOrder="27" locked="false" isInGroup="-1">
       <controlProperties>
         <text>9%20Klasse%2C%20Deutschunterricht%2C%20...%20-%20Berlin</text>
       </controlProperties>
     </control>
-    <control controlID="113" controlTypeID="com.balsamiq.mockups::Paragraph" x="44" y="202" w="125" h="270" measuredW="200" measuredH="140" zOrder="27" locked="false" isInGroup="-1">
+    <control controlID="113" controlTypeID="com.balsamiq.mockups::Paragraph" x="44" y="202" w="125" h="273" measuredW="200" measuredH="140" zOrder="23" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>false</bold>
         <text>*%7Bcolor%3A%23cf2a27%7DNeues%20%2835%29%7Bcolor%7D*%0A%20%0A%20%0A%20%0A*%7Bcolor%3A%23cf2a27%7DWissen%20%7Bcolor%7D*%20%0AFragen%20%284234%29%0AFragens%E4tze%20%2874%29%0AKurse%20%284%29%0A%20---------------%0AKategorien%0A%20%0A*%7Bcolor%3A%23cf2a27%7DNetzwerk%20%7Bcolor%7D*%20%0AKontakte%20%2892%29</text>
@@ -227,13 +227,13 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="128" controlTypeID="com.balsamiq.mockups::Label" x="474" y="365" w="-1" h="-1" measuredW="273" measuredH="25" zOrder="35" locked="false" isInGroup="-1">
+    <control controlID="128" controlTypeID="com.balsamiq.mockups::Label" x="589" y="413" w="-1" h="-1" measuredW="141" measuredH="25" zOrder="36" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>false</bold>
-        <text>%28alternative%20Bezeichnungen/%20Schreibweisen%29</text>
+        <text>%28alternative%20Einheiten%29</text>
       </controlProperties>
     </control>
-    <control controlID="129" controlTypeID="com.balsamiq.mockups::Paragraph" x="812" y="242" w="157" h="136" measuredW="200" measuredH="140" zOrder="36" locked="false" isInGroup="-1">
+    <control controlID="129" controlTypeID="com.balsamiq.mockups::Paragraph" x="812" y="242" w="157" h="136" measuredW="200" measuredH="140" zOrder="35" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>false</bold>
         <color>13421772</color>
@@ -280,34 +280,80 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="139" controlTypeID="__group__" x="404" y="288" w="179" h="112" measuredW="179" measuredH="112" zOrder="41" locked="false" isInGroup="-1">
-      <groupChildrenDescriptors>
-        <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="0" y="0" w="179" h="112" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="139">
-          <controlProperties>
-            <bottomheight>0</bottomheight>
-            <close>false</close>
-            <text>Fu%DFbal...</text>
-            <topheight>28</topheight>
-          </controlProperties>
-        </control>
-        <control controlID="1" controlTypeID="com.balsamiq.mockups::List" x="8" y="30" w="100" h="74" measuredW="100" measuredH="126" zOrder="1" locked="false" isInGroup="139">
-          <controlProperties>
-            <alternateRowColor>15594478</alternateRowColor>
-            <borderStyle>none</borderStyle>
-            <color>15594478</color>
-            <text>Vorschlag%201%0AVorschlag%202%0AVorschlag%203</text>
-          </controlProperties>
-        </control>
-      </groupChildrenDescriptors>
-    </control>
-    <control controlID="141" controlTypeID="com.balsamiq.mockups::TextInput" x="326" y="288" w="-1" h="-1" measuredW="61" measuredH="29" zOrder="42" locked="false" isInGroup="-1">
+    <control controlID="141" controlTypeID="com.balsamiq.mockups::TextInput" x="326" y="288" w="-1" h="-1" measuredW="50" measuredH="29" zOrder="41" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Ereignis</text>
+        <text>Physik</text>
       </controlProperties>
     </control>
-    <control controlID="142" controlTypeID="com.balsamiq.mockups::Icon" x="594" y="294" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="43" locked="false" isInGroup="-1">
+    <control controlID="142" controlTypeID="com.balsamiq.mockups::Icon" x="512" y="294" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="42" locked="false" isInGroup="-1">
       <controlProperties>
         <icon>PlusBigIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="143" controlTypeID="com.balsamiq.mockups::TextInput" x="387" y="288" w="-1" h="-1" measuredW="116" measuredH="29" zOrder="43" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Naturkonstanten</text>
+      </controlProperties>
+    </control>
+    <control controlID="145" controlTypeID="com.balsamiq.mockups::Label" x="477" y="332" w="-1" h="-1" measuredW="371" measuredH="25" zOrder="44" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>false</bold>
+        <color>13576743</color>
+        <text>%3E%20Bezeichnung%20muss%20klarmachen%2C%20dass%20hier%20nur%20Zahlen%20m%F6glich</text>
+      </controlProperties>
+    </control>
+    <control controlID="146" controlTypeID="com.balsamiq.mockups::Label" x="326" y="364" w="440" h="25" measuredW="413" measuredH="25" zOrder="45" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>false</bold>
+        <color>13576743</color>
+        <text>%3E%20nach%20Auswahl%20von%20%22Ann%E4herung%22%20erscheint%20angepasstes%20Fragemen%FC%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="147" controlTypeID="com.balsamiq.mockups::Label" x="466" y="413" w="58" h="22" measuredW="54" measuredH="25" zOrder="48" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Einheit%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="148" controlTypeID="com.balsamiq.mockups::TextArea" x="532" y="410" w="47" h="29" measuredW="200" measuredH="140" zOrder="49" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>m/s</text>
+      </controlProperties>
+    </control>
+    <control controlID="149" controlTypeID="com.balsamiq.mockups::Label" x="486" y="394" w="-1" h="-1" measuredW="137" measuredH="25" zOrder="50" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>false</bold>
+        <color>13576743</color>
+        <text>als%20Text%20oder%20Formel%3F</text>
+      </controlProperties>
+    </control>
+    <control controlID="150" controlTypeID="com.balsamiq.mockups::Label" x="169" y="458" w="160" h="22" measuredW="140" measuredH="25" zOrder="51" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>zul%E4ssige%20Abweichung%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="151" controlTypeID="com.balsamiq.mockups::TextArea" x="321" y="453" w="66" h="29" measuredW="200" measuredH="140" zOrder="52" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="153" controlTypeID="com.balsamiq.mockups::Label" x="391" y="457" w="22" h="22" measuredW="16" measuredH="25" zOrder="53" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%25</text>
+      </controlProperties>
+    </control>
+    <control controlID="156" controlTypeID="com.balsamiq.mockups::Label" x="419" y="457" w="34" h="22" measuredW="33" measuredH="25" zOrder="54" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>oder</text>
+      </controlProperties>
+    </control>
+    <control controlID="157" controlTypeID="com.balsamiq.mockups::TextInput" x="459" y="454" w="-1" h="-1" measuredW="79" measuredH="29" zOrder="46" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="158" controlTypeID="com.balsamiq.mockups::Label" x="542" y="458" w="34" h="22" measuredW="27" measuredH="25" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>m/s</text>
       </controlProperties>
     </control>
   </controls>
