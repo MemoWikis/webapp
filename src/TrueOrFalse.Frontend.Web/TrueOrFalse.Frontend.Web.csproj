@@ -126,6 +126,7 @@
     <Compile Include="Code\ModelBase\RightMenu.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
+    <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\ExportCategoriesModel.cs" />
     <Compile Include="Views\Api\ExportController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />

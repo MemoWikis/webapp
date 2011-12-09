@@ -11,12 +11,12 @@
             $('#Answer').defaultText("Antwort eingeben.");
             $('#Description').defaultText("Erklärung der Antwort und Quellen.");
 
-//            var content = $('#txtAnswerValue').val();
-//            $('#txtAnswerValue').append("<input type='txt')";
-//            add().remove()
+            $("#cat1").autocomplete({
+            	source:  '<%= Url.Action("ByName", "CategoryApi") %>',
+            	minLength : 1
+            });
         });
 
-    /* ddlAnswerType */
     </script>
 
     <style type="text/css">
