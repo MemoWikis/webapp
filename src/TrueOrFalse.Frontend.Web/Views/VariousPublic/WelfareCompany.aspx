@@ -12,10 +12,10 @@
 <p>Um dies zu erreichen wird die Unternehmung folgenden Regeln folgen: </p>
 
 <ol>
-    <li>Min. 50% aller Gewinne werden an gemeinützige Projekte transferiert.</li>
-    <li>Es erfolgt kein private Gewinnmaxmierung. Es werden ausschließlich (und moderate*) Arbeitsvergütungen gezahlt.</li>
-    <li><i>Alle</i> Finanzen werden mind. 1/4 järhlich öffentlich gemacht.</li>
-    <li>Im 1/4 Jahrestakt, wird über Aktivitäten und insbesondere deren Gemeinwohlcharakter Rechenschaft abgelegt.</li>
+    <li>Min. 50% aller Gewinne werden an gemeinnützige Projekte transferiert.</li>
+    <li>Es erfolgt keine private Gewinnmaxmierung. Es werden ausschließlich (und moderate*) Arbeitsvergütungen gezahlt.</li>
+    <li><i>Alle</i> Finanzen werden mind. vierteljährlich öffentlich gemacht.</li>
+    <li>Im Vierteljahrestakt wird über Aktivitäten und insbesondere deren Gemeinwohlcharakter Rechenschaft abgelegt.</li>
 </ol>
 
 <%--in dem <a href="http://robert-m.de">ich</a> --%>
