@@ -11,4 +11,4 @@
 
 
 <%= Html.LabelFor(m => m.Answer ) %>
-<%= Html.TextAreaFor(m => m.Answer, new { @id = "txtAnswerValue" })%><br />
+<%= Html.TextAreaFor(m => m.Answer, new { @id = "Answer" })%><br />

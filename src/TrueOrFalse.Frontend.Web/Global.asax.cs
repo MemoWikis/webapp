@@ -39,7 +39,9 @@ namespace TrueOrFalse.Frontend.Web
             routes.MapRoute("Knowledge", "Knowledge/{action}", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("News", "News/{action}", new { controller = "News", action = "News" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });          
-            routes.MapRoute("Export", "Api/Export/{action}", new { controller = "Export", action="Questions" });
+            
+            routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action="Questions" });
+            routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi"});
 
             routes.MapRoute("User", "User/{name}/{id}", new { controller = "UserProfile", action = "Profile" });
 
