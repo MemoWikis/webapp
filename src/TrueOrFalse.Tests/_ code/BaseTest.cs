@@ -25,6 +25,7 @@ namespace TrueOrFalse.Tests
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacCoreModule>();
+            builder.RegisterModule<AutofacTestModule>();
             _container = builder.Build();
             SessionFactory.BuildSchema();
         }
@@ -33,7 +34,6 @@ namespace TrueOrFalse.Tests
         {
             return _container.Resolve<T>();
         }
-
-
     }
+
 }

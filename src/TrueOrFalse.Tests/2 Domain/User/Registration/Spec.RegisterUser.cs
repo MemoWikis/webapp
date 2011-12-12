@@ -6,7 +6,7 @@ using TrueOrFalse.Core.Registration;
 
 namespace TrueOrFalse.Tests
 {
-    public class User_creation_spec  : BaseTest
+    public class User_creation_spec : BaseTest
     {
         [Test]
         public void Test()
