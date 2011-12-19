@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
@@ -16,6 +15,10 @@ namespace TrueOrFalse.Tests
                 Add("Cat2").
                 Add("Cat3").Persist();
 
+            Assert.That(Resolve<CategorySearch>().Run("CAT").Count, Is.EqualTo(3));
+            Assert.That(Resolve<CategorySearch>().Run("cat").Count, Is.EqualTo(3));
+            Assert.That(Resolve<CategorySearch>().Run("3").Count, Is.EqualTo(1));
+            Assert.That(Resolve<CategorySearch>().Run("at2").Count, Is.EqualTo(1));
         }
 
     }
