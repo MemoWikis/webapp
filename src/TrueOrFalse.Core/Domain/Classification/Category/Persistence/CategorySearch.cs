@@ -18,6 +18,7 @@ namespace TrueOrFalse.Tests
         {            
             return _session.CreateQuery("from Category as c where c.Name like :nameLike")
                     .SetString("nameLike", "%" + likeStatement + "%")
+                    .SetMaxResults(20)
                     .List<Category>();
         }
     }

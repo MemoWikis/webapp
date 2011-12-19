@@ -21,5 +21,15 @@ namespace TrueOrFalse.Tests
             Assert.That(Resolve<CategorySearch>().Run("at2").Count, Is.EqualTo(1));
         }
 
+        [Test]
+        public void Should_retrieve_limited_result_set()
+        {
+            var categoryContext = ContextCategory.New();
+            for(var i = 0; i < 100; i++) categoryContext.Add("Cat" + i);
+            categoryContext.Persist();
+
+            Assert.That(Resolve<CategorySearch>().Run("CAT").Count, Is.EqualTo(20));
+        }
+
     }
 }
