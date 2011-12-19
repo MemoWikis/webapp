@@ -24,6 +24,8 @@ namespace TrueOrFalse.Tests
                                         <question>
                                             <text>Question 1</text>
                                             <creatorId>1</creatorId>
+                                            <description>foo bar</description>
+                                            <visibility>All</visibility>
                                             <answer>
                                                 <text>Answer to question 1</text>
                                                 <creatorId>1</creatorId>
@@ -32,6 +34,8 @@ namespace TrueOrFalse.Tests
                                         <question>
                                             <text>Question 2</text>
                                             <creatorId>1</creatorId>
+                                            <description>foo bar</description>
+                                            <visibility>All</visibility>
                                             <answer>
                                                 <text>First answer to Question 2</text>
                                                 <creatorId>1</creatorId>
