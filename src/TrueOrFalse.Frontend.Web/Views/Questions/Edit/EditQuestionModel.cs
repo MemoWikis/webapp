@@ -35,7 +35,13 @@ public class EditQuestionModel : ModelBase
     public string EducationLink {get; set;}
 
     [DisplayName("Charakter")]
-    public string Character { get; set; } 
+    public string Character { get; set; }
+
+    public string Category1 { get; set; }
+    public string Category2 { get; set; }
+    public string Category3 { get; set; }
+    public string Category4 { get; set; }
+    public string Category5 { get; set; }
 
     public IEnumerable<SelectListItem> EducationLinkData
     {

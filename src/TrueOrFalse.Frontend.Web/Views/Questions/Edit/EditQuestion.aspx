@@ -11,10 +11,14 @@
             $('#Answer').defaultText("Antwort eingeben.");
             $('#Description').defaultText("Erklärung der Antwort und Quellen.");
 
-            $("#cat1").autocomplete({
-            	source:  '<%= Url.Action("ByName", "CategoryApi") %>',
-            	minLength : 1
-            });
+			for (var i = 0; i <= 5; i++)
+            {
+				$("#cat" + i).autocomplete({
+            		source:  '<%= Url.Action("ByName", "CategoryApi") %>',
+            		minLength : 1
+				});                
+            }
+
         });
 
     </script>
