@@ -3,21 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrueOrFalse.Core;
+using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Tests
 {
-    public class ContextQuestion
+    public class ContextQuestion : IRegisterAsInstancePerLifetime
     {
-        public User User;
-        public Question Question;
-        public Answer Answer;
+        private readonly QuestionRepository _questionRepository;
+        private readonly CategoryRepository _categoryRepository;
+        
+        public List<Question> Questions = new List<Question>();
 
-        public ArrangeQuestion Arrange_question(string questionText)
+        public static ContextQuestion New()
         {
-            var result = new ArrangeQuestion();
-            Question = result.Question;
-            Question.Text = questionText;
-            return result;
+            return BaseTest.Resolve<ContextQuestion>();
+        }
+
+        public ContextQuestion(QuestionRepository questionRepository, 
+                               CategoryRepository categoryRepository)
+        {
+            _questionRepository = questionRepository;
+            _categoryRepository = categoryRepository;
+        }
+
+        public ArrangeQuestion AddQuestion(string questionText)
+        {
+            var arrangeQuestion = new ArrangeQuestion(this);
+            arrangeQuestion.Question.Text= questionText;
+            Questions.Add(arrangeQuestion.Question);
+            return arrangeQuestion;
+        }
+
+        public void Persist()
+        {
+            foreach (var question in Questions)
+            {
+                _questionRepository.Create(question);
+            }            
         }
     }
 }

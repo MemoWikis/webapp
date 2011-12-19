@@ -10,6 +10,7 @@ namespace TrueOrFalse.Core
         public virtual string Text { get; set; }
         public virtual string Description { get; set; }
         public virtual IList<Answer> Answers { get; set; }
+        public virtual IList<Category> Categories { get; set; }
         public virtual QuestionVisibility Visibility { get; set; }
         public virtual User Creator { get; set; }
 

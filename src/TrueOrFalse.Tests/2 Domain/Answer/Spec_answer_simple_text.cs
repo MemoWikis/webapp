@@ -12,12 +12,10 @@ namespace TrueOrFalse.Tests
     [Category(TestCategories.BehaviourTest)]
     public class Spec_answer_simple_text
     {
-        readonly ContextQuestion _context = new ContextQuestion();
-
         [Test]
         public void Text_answer_should_be_equal_to_valid_user_input()
         {
-            _context.Arrange_question("What is BDD")
+            ContextQuestion.New().AddQuestion("What is BDD")
                 .AddAnswer("Behaviour Driven Development");
 
             //_context.Question.
@@ -28,7 +26,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Text_answer_should_be_agnostic_to_white_spaces()
         {
-            _context.Arrange_question(" What is BDD ")
+            ContextQuestion.New().AddQuestion(" What is BDD ")
                 .AddAnswer("Behaviour Driven Development");
 
             //_context.Question.
@@ -39,7 +37,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Text_answer_should_be_invalid_on_wrong_input()
         {
-            _context.Arrange_question(" What is BDD ")
+            ContextQuestion.New().AddQuestion(" What is BDD ")
                 .AddAnswer("Invalid answer");
 
             //_context.Question.

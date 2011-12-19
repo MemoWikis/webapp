@@ -8,10 +8,12 @@ namespace TrueOrFalse.Tests
 {
     public class ArrangeQuestion
     {
-        public Question Question;
+        private readonly ContextQuestion _context;
+        public readonly Question Question;
 
-        public ArrangeQuestion()
+        public ArrangeQuestion(ContextQuestion context)
         {
+            _context = context;
             Question = new Question();
         }
 
@@ -28,5 +30,21 @@ namespace TrueOrFalse.Tests
             );
             return this;
         }
+
+        public ArrangeQuestion AddCategory(string categoryName)
+        {
+            return this;
+        }
+
+        public ArrangeQuestion AddQuestion()
+        {
+            return this;
+        }
+
+        public void Persist()
+        {
+            _context.Persist();
+        }
+
     }
 }
