@@ -5,12 +5,12 @@ GERMAN
 ---------------------
 
 ### 1:) Nicht kommerzielle Nutzung
- 
-Der Quelltext, dessen Kompilate u. dem Quelltext beigelegte Artefakte, für die Anwendung TrueOrFalse (Referenz: https://github.com/RobertMischke/TrueOrFalse), soweit Sie nicht den rechten Dritter unterliegen, dürfen für nicht kommerzielle Zwecke uneingeschränkt eingesetzt werden. 
- 
+
+Der Quelltext, dessen Kompilate u. dem Quelltext beigelegte Artefakte, fuer die Anwendung TrueOrFalse (Referenz: https://github.com/RobertMischke/TrueOrFalse), soweit Sie nicht den rechten Dritter unterliegen, duerfen fuer nicht kommerzielle Zwecke uneingeschraenkt eingesetzt werden.
+
 ### 2:) Kommerzielle Nutzung
- 
-Für eine kommerzielle Nutzung ist eine Lizensierung nötig. Bitte kontaktieren Sie Robert Mischke (http://robert-m.de) für weiter Information. 
+
+Fuer eine kommerzielle Nutzung ist eine Lizensierung noetig. Bitte kontaktieren Sie Robert Mischke (http://robert-m.de) fuer weiter Information. 
 
 ENGLISH: 
 ---------------------
