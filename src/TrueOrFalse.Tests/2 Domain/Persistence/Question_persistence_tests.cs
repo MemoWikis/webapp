@@ -19,10 +19,16 @@ namespace TrueOrFalse.Tests.Persistence
             ContextQuestion.New().AddQuestion("What is BDD")
                                     .AddAnswer("Behaviour Driven Development")
                                     .AddAnswer("Another name for writing acceptance tests")
+                                    .AddCategory("A")
+                                    .AddCategory("B")
+                                    .AddCategory("D")
+                                 .AddQuestion("Another Question")
+                                    .AddAnswer("Some answer")
                                  .Persist();
 
             var questions = Resolve<QuestionRepository>().GetAll();
-            questions.Count.Should().Be.EqualTo(1);
+            questions.Count.Should().Be.EqualTo(2);
+            questions[0].Categories.Count.Should().Be.EqualTo(3);
             questions[0].Answers.Count.Should().Be.EqualTo(2);
             questions[0].Answers[0].Text.StartsWith("Behaviour").Should().Be.True();
             questions[0].Answers[1].Text.StartsWith("Another").Should().Be.True();

@@ -38,8 +38,22 @@ namespace TrueOrFalse.Tests
         {
             foreach (var question in Questions)
             {
+                PersistNonExisitingCategories(question.Categories);
                 _questionRepository.Create(question);
             }            
+        }
+
+        private void PersistNonExisitingCategories(IEnumerable<Category> categories)
+        {
+            foreach(var category in categories)
+            {
+                if(!_categoryRepository.Exists(category.Name))
+                {
+                    _categoryRepository.Create(category);
+                }
+                    
+            }
+                
         }
     }
 }

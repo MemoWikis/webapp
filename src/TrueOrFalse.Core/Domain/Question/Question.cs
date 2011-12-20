@@ -17,6 +17,7 @@ namespace TrueOrFalse.Core
         public Question()
         {
             Answers = new List<Answer>();
+            Categories = new List<Category>();
         }
 
         public virtual string GetShortTitle()

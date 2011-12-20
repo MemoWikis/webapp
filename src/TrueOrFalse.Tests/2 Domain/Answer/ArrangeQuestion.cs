@@ -33,12 +33,13 @@ namespace TrueOrFalse.Tests
 
         public ArrangeQuestion AddCategory(string categoryName)
         {
+            Question.Categories.Add(new Category(categoryName));
             return this;
         }
 
-        public ArrangeQuestion AddQuestion()
+        public ArrangeQuestion AddQuestion(string questionText)
         {
-            return this;
+            return _context.AddQuestion(questionText);
         }
 
         public void Persist()
