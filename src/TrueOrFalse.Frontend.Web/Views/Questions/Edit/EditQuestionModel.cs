@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using Autofac.Integration.Mvc;
 using TrueOrFalse.Core;
+using TrueOrFalse.Core.Web;
 using TrueOrFalse.Frontend.Web.Models;
 using Message = TrueOrFalse.Core.Web.Message;
 
@@ -114,11 +115,11 @@ public class EditQuestionModel : ModelBase
         AnswerType = answer.Type.ToString();
         Description = question.Description;
         
-        Category1 = question.Categories.GetValueByIndex(1);
+        Category1 = question.Categories.GetValueByIndex(0);
+        Category2 = question.Categories.GetValueByIndex(1);
         Category2 = question.Categories.GetValueByIndex(2);
         Category2 = question.Categories.GetValueByIndex(3);
         Category2 = question.Categories.GetValueByIndex(4);
-        Category2 = question.Categories.GetValueByIndex(5);
     }
 
     public Question ToQuestion_Create()
@@ -149,10 +150,7 @@ public class EditQuestionModel : ModelBase
         if (String.IsNullOrEmpty(categoryName))
             return;
 
-        
-        var lifetimeScope = AutofacDependencyResolver.Current.RequestLifetimeScope.
-
-        var category = _categoryRepository.GetByName(categoryName);
+        var category = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
 
         if(category == null)
             throw new Exception(String.Format("category not "));

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 
-namespace TrueOrFalse.Core.Web
+namespace TrueOrFalse.Core
 {
     public class ServiceLocator
     {

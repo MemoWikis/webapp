@@ -57,13 +57,13 @@
     <Reference Include="Accessibility">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Autofac, Version=2.5.1.827, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac, Version=2.5.2.830, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.2.5.1.827\lib\NET40\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Configuration, Version=2.5.1.827, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac.Configuration, Version=2.5.2.830, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.2.5.1.827\lib\NET40\Autofac.Configuration.dll</HintPath>
+      <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="BDDish, Version=0.1.1.34987, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
