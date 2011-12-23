@@ -131,14 +131,15 @@
   <ItemGroup>
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
-    <Compile Include="2 Domain\Answer\ArrangeQuestion.cs" />
-    <Compile Include="2 Domain\Answer\ContextQuestion.cs" />
-    <Compile Include="2 Domain\Answer\Spec_answer_simple_text.cs" />
-    <Compile Include="2 Domain\Category\ArrangeCategory.cs" />
-    <Compile Include="2 Domain\Category\ContextCategory.cs" />
+    <Compile Include="2 Domain\Question\Setup\ArrangeQuestion.cs" />
+    <Compile Include="2 Domain\Question\Setup\ContextQuestion.cs" />
+    <Compile Include="2 Domain\Question.Answer\Spec_answer_simple_text.cs" />
+    <Compile Include="2 Domain\Category\Setup\ArrangeCategory.cs" />
+    <Compile Include="2 Domain\Category\Setup\ContextCategory.cs" />
     <Compile Include="2 Domain\Category\Spec_get_categories_by_name.cs" />
     <Compile Include="2 Domain\Import\Import_version_0_1_tests.cs" />
-    <Compile Include="2 Domain\Persistence\Category_persistence_tests.cs" />
+    <Compile Include="2 Domain\Category\Category_persistence_tests.cs" />
+    <Compile Include="2 Domain\Question\Spec_changing_question_categories.cs" />
     <Compile Include="2 Domain\User\Context.RegisteredUser.cs" />
     <Compile Include="2 Domain\User\Registration\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Domain\User\Tests.PersistUser.cs" />
@@ -149,7 +150,7 @@
     <Compile Include="a Test MetaData\Personas\Persona.UserWhoWantsToRegister.cs" />
     <Compile Include="_ code\AutofacTestModule.cs" />
     <Compile Include="_ code\BaseTest.cs" />
-    <Compile Include="2 Domain\Persistence\Question_persistence_tests.cs" />
+    <Compile Include="2 Domain\Question\Question_persistence_tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="a Test MetaData\TestCategories.cs" />
     <Compile Include="2 Domain\User\Registration\Spec.RegisterUser.cs" />

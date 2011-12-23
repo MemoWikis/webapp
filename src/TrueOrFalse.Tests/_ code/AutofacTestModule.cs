@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Autofac;
+using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
 using Module = Autofac.Module;
 

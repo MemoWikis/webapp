@@ -34,13 +34,14 @@ namespace TrueOrFalse.Tests
             return arrangeQuestion;
         }
 
-        public void Persist()
+        public ContextQuestion Persist()
         {
             foreach (var question in Questions)
             {
                 PersistNonExisitingCategories(question.Categories);
                 _questionRepository.Create(question);
-            }            
+            }
+            return this;
         }
 
         private void PersistNonExisitingCategories(IEnumerable<Category> categories)

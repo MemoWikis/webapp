@@ -57,7 +57,11 @@
            
              <%= Html.Label("Klassifizierung")%>
             <div style="width:400px; float:left; font-size: 10px;" class="classification">
-                <input type="text" id="cat1" /><input type="text" id="cat2" /><input type="text" id="cat3"/><input type="text" id="cat4" /><input type="text" id="cat5" /><br/>
+                <input type="text" id="cat1" value="<%= Model.Category1 %>" />
+				<input type="text" id="cat2" value="<%= Model.Category2 %>" />
+				<input type="text" id="cat3" value="<%= Model.Category3 %>" />
+				<input type="text" id="cat4" value="<%= Model.Category4 %>" />
+				<input type="text" id="cat5" value="<%= Model.Category5 %>" /><br/>
             </div>
 			<%= Html.LabelFor(m => m.Character) %>
 			<div style="width:400px; float:left; font-size: 10px;" class="classification">

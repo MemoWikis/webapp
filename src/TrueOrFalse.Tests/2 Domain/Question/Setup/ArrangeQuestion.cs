@@ -42,9 +42,9 @@ namespace TrueOrFalse.Tests
             return _context.AddQuestion(questionText);
         }
 
-        public void Persist()
+        public ContextQuestion Persist()
         {
-            _context.Persist();
+            return _context.Persist();
         }
 
     }
