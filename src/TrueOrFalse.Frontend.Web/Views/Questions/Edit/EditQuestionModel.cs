@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Autofac.Integration.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Frontend.Web.Models;
 using Message = TrueOrFalse.Core.Web.Message;
+
 
 public class EditQuestionModel : ModelBase
 {
@@ -110,23 +113,51 @@ public class EditQuestionModel : ModelBase
         Answer = answer.Text;
         AnswerType = answer.Type.ToString();
         Description = question.Description;
-
+        
+        Category1 = question.Categories.GetValueByIndex(1);
+        Category2 = question.Categories.GetValueByIndex(2);
+        Category2 = question.Categories.GetValueByIndex(3);
+        Category2 = question.Categories.GetValueByIndex(4);
+        Category2 = question.Categories.GetValueByIndex(5);
     }
 
-    public Question ConvertToQuestion()
+    public Question ToQuestion_Create()
     {
         var question = new Question();
         question.Answers.Add(new Answer());
-        return UpdateQuestion(question);
+        return ToQuestion_Update(question);
     }
 
-    public Question UpdateQuestion(Question question)
+    public Question ToQuestion_Update(Question question)
     {
         question.Text = Question;
         question.Description = Description;
+        question.Categories.Clear();
+
+        AddCategory(question, Category1);
+        AddCategory(question, Category2);
+        AddCategory(question, Category3);
+        AddCategory(question, Category4);
+        AddCategory(question, Category5);
+
         question.Answers[0].Text = Answer;
         return question;
     }
 
+    private void AddCategory(Question question, string categoryName)
+    {
+        if (String.IsNullOrEmpty(categoryName))
+            return;
+
+        
+        var lifetimeScope = AutofacDependencyResolver.Current.RequestLifetimeScope.
+
+        var category = _categoryRepository.GetByName(categoryName);
+
+        if(category == null)
+            throw new Exception(String.Format("category not "));
+
+        question.Categories.Add(category);
+    }
 }
 

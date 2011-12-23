@@ -27,10 +27,16 @@ public class EditQuestionController : Controller
         return View(_viewLocation, model);
     }
 
+    public ViewResult Edit(int id)
+    {
+        var model = new EditQuestionModel(_questionRepository.GetById(id));
+        return View(_viewLocation, model);
+    }
+
     [HttpPost]
     public ActionResult Edit(int id, EditQuestionModel model)
     {
-        _questionRepository.Update(model.UpdateQuestion(_questionRepository.GetById(id)));
+        _questionRepository.Update(model.ToQuestion_Update(_questionRepository.GetById(id)));
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);
@@ -39,7 +45,7 @@ public class EditQuestionController : Controller
     [HttpPost]
     public ActionResult Create(EditQuestionModel model)
     {
-        var question = model.ConvertToQuestion();
+        var question = model.ToQuestion_Create();
         question.Creator = _sessionUser.User;
         question.Answers.Single().Creator = _sessionUser.User;
         _questionRepository.Create(question);
