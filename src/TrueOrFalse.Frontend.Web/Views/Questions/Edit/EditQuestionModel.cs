@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web;
 using TrueOrFalse.Frontend.Web.Models;
+using System.Linq;
 using Message = TrueOrFalse.Core.Web.Message;
 
 public class EditQuestionModel : ModelBase
@@ -45,6 +47,21 @@ public class EditQuestionModel : ModelBase
     public string Category3 { get; set; }
     public string Category4 { get; set; }
     public string Category5 { get; set; }
+
+    public IEnumerable<String> Categories
+    {
+        get 
+        { 
+            return new [] 
+            {
+                Category1,
+                Category2,
+                Category3,
+                Category4,
+                Category5
+            }.Where(x => !String.IsNullOrWhiteSpace(x));
+        }
+    }
 
     public IEnumerable<SelectListItem> EducationLinkData{ get {
             return new List<SelectListItem>{

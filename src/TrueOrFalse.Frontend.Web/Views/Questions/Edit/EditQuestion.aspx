@@ -53,10 +53,10 @@
             <%= Html.Label("Klassifizierung")%>
         <div style="width:400px; float:left; font-size: 10px;" class="classification">
             <%= Html.TextBoxFor(m => Model.Category1, new { @id = "cat1" })%>
-			<input type="text" id="cat2" value="<%= Model.Category2 %>" />
-			<input type="text" id="cat3" value="<%= Model.Category3 %>" />
-			<input type="text" id="cat4" value="<%= Model.Category4 %>" />
-			<input type="text" id="cat5" value="<%= Model.Category5 %>" /><br/>
+			<%= Html.TextBoxFor(m => Model.Category2, new { @id = "cat2" })%>
+			<%= Html.TextBoxFor(m => Model.Category3, new { @id = "cat3" })%>
+			<%= Html.TextBoxFor(m => Model.Category4, new { @id = "cat4" })%>
+			<%= Html.TextBoxFor(m => Model.Category5, new { @id = "cat5" })%><br/>
         </div>
 		<%= Html.LabelFor(m => m.Character) %>
 		<div style="width:400px; float:left; font-size: 10px;" class="classification">
