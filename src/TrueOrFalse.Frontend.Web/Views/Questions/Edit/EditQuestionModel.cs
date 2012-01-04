@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Web.Mvc;
-using Autofac.Integration.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web;
 using TrueOrFalse.Frontend.Web.Models;
 using Message = TrueOrFalse.Core.Web.Message;
-
 
 public class EditQuestionModel : ModelBase
 {
@@ -47,12 +46,8 @@ public class EditQuestionModel : ModelBase
     public string Category4 { get; set; }
     public string Category5 { get; set; }
 
-    public IEnumerable<SelectListItem> EducationLinkData
-    {
-        get
-        {
-            return new List<SelectListItem>
-                        {
+    public IEnumerable<SelectListItem> EducationLinkData{ get {
+            return new List<SelectListItem>{
                             new SelectListItem {Text = "Fernuni Hagen, Elektrotechnik 1. Semester"},
                             new SelectListItem {Text = "- weitere Hinzufügen - "}
                         };
@@ -60,12 +55,8 @@ public class EditQuestionModel : ModelBase
     }
 
 
-    public IEnumerable<SelectListItem> VisibilityData
-    {
-        get
-        {
-            return new List<SelectListItem>
-                        {
+    public IEnumerable<SelectListItem> VisibilityData { get {
+            return new List<SelectListItem> {
                             new SelectListItem {Text = "Alle", Value = QuestionVisibility.All.ToString()},
                             new SelectListItem {Text = "Nur Ich", Value = QuestionVisibility.Owner.ToString()},
                             new SelectListItem {Text = "Ich und meine Freunde", Value = QuestionVisibility.OwnerAndFriends.ToString()},
@@ -74,10 +65,7 @@ public class EditQuestionModel : ModelBase
     }
 
 
-    public IEnumerable<SelectListItem> AnswerTypeData
-    {
-        get
-        {
+    public IEnumerable<SelectListItem> AnswerTypeData{ get {
             return new List<SelectListItem>
                         {
                             new SelectListItem {Text = "Exakt", Value = TrueOrFalse.Core.AnswerType.Exact.ToString()},
@@ -90,10 +78,7 @@ public class EditQuestionModel : ModelBase
     }
 
     [DisplayName("Charakter")]
-    public IEnumerable<SelectListItem> CharacterData
-    {
-        get
-        {
+    public IEnumerable<SelectListItem> CharacterData{ get {
             return new List<SelectListItem>
                         {
                             new SelectListItem {Text = "Ernsthaft", Value = QuestionCharacter.Serious.ToString()},
@@ -122,40 +107,5 @@ public class EditQuestionModel : ModelBase
         Category2 = question.Categories.GetValueByIndex(4);
     }
 
-    public Question ToQuestion_Create()
-    {
-        var question = new Question();
-        question.Answers.Add(new Answer());
-        return ToQuestion_Update(question);
-    }
-
-    public Question ToQuestion_Update(Question question)
-    {
-        question.Text = Question;
-        question.Description = Description;
-        question.Categories.Clear();
-
-        AddCategory(question, Category1);
-        AddCategory(question, Category2);
-        AddCategory(question, Category3);
-        AddCategory(question, Category4);
-        AddCategory(question, Category5);
-
-        question.Answers[0].Text = Answer;
-        return question;
-    }
-
-    private void AddCategory(Question question, string categoryName)
-    {
-        if (String.IsNullOrEmpty(categoryName))
-            return;
-
-        var category = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
-
-        if(category == null)
-            throw new Exception(String.Format("category not "));
-
-        question.Categories.Add(category);
-    }
 }
 
