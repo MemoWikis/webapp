@@ -5,11 +5,9 @@ using System.Linq;
 using System.Web;
 using TrueOrFalse.Core;
 
-namespace TrueOrFalse.View.Web.Views.Questions.Edit
-{
     public class EditQuestionModel_to_Question
     {
-        public void Create(EditQuestionModel model)
+        public Question Create(EditQuestionModel model)
         {
             var question = new Question();
             question.Answers.Add(new Answer());
@@ -48,4 +46,3 @@ namespace TrueOrFalse.View.Web.Views.Questions.Edit
 
 
     }
-}

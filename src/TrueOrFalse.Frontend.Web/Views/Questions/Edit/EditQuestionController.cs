@@ -36,7 +36,7 @@ public class EditQuestionController : Controller
     [HttpPost]
     public ActionResult Edit(int id, EditQuestionModel model)
     {
-        _questionRepository.Update(model.ToQuestion_Update(_questionRepository.GetById(id)));
+        _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model, _questionRepository.GetById(id)));
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);
@@ -45,7 +45,7 @@ public class EditQuestionController : Controller
     [HttpPost]
     public ActionResult Create(EditQuestionModel model)
     {
-        var question = model.ToQuestion_Create();
+        var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model);
         question.Creator = _sessionUser.User;
         question.Answers.Single().Creator = _sessionUser.User;
         _questionRepository.Create(question);
