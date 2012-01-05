@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Tests", "TrueOr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Frontend.Web", "TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj", "{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Frontend.WebAdmin", "TrueOrFalse.Frontend.WebAdmin\TrueOrFalse.Frontend.WebAdmin.csproj", "{278108BA-AF41-4825-AAC5-113B4F4D56C9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{278108BA-AF41-4825-AAC5-113B4F4D56C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{278108BA-AF41-4825-AAC5-113B4F4D56C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{278108BA-AF41-4825-AAC5-113B4F4D56C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{278108BA-AF41-4825-AAC5-113B4F4D56C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
