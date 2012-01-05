@@ -1,4 +1,4 @@
-<mockup version="1.0" skin="sketch" measuredW="1013" measuredH="864" mockupW="1005" mockupH="839">
+<mockup version="1.0" skin="sketch" measuredW="1382" measuredH="864" mockupW="1374" mockupH="839">
   <controls>
     <control controlID="55" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="8" y="25" w="1005" h="839" measuredW="450" measuredH="400" zOrder="0" locked="true" isInGroup="-1">
       <controlProperties>
@@ -312,7 +312,7 @@
         <text>Antwortformat%3A</text>
       </controlProperties>
     </control>
-    <control controlID="155" controlTypeID="com.balsamiq.mockups::Label" x="44" y="652" w="114" h="36" measuredW="104" measuredH="25" zOrder="47" locked="false" isInGroup="-1">
+    <control controlID="155" controlTypeID="com.balsamiq.mockups::Label" x="1080" y="395" w="114" h="36" measuredW="104" measuredH="25" zOrder="47" locked="false" isInGroup="-1">
       <controlProperties>
         <align>right</align>
         <text>Antwortformat%3A</text>
@@ -323,17 +323,9 @@
         <text>Datum</text>
       </controlProperties>
     </control>
-    <control controlID="158" controlTypeID="com.balsamiq.mockups::ComboBox" x="170" y="652" w="176" h="-1" measuredW="63" measuredH="152" zOrder="49" locked="false" isInGroup="-1">
+    <control controlID="158" controlTypeID="com.balsamiq.mockups::ComboBox" x="1206" y="395" w="176" h="-1" measuredW="63" measuredH="152" zOrder="49" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Text%0AText%0AZahl%20ohne%20Einheit%0AZahl%20mit%20Einheit%0ADatum%0AJahr%0AJa/Nein</text>
-      </controlProperties>
-    </control>
-    <control controlID="159" controlTypeID="com.balsamiq.mockups::Arrow" x="149" y="421" w="80" h="206" measuredW="150" measuredH="100" zOrder="50" locked="false" isInGroup="-1">
-      <controlProperties>
-        <color>16750848</color>
-        <direction>bottom</direction>
-        <leftArrow>true</leftArrow>
-        <rightArrow>false</rightArrow>
       </controlProperties>
     </control>
   </controls>
