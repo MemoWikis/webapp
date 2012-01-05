@@ -1,1 +1,0 @@
-﻿The folder should be created after cloning.

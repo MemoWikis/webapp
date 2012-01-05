@@ -40,5 +40,17 @@ namespace TrueOrFalse.Core
                 }
             }
         }
+
+        public Category GetByName(string categoryName)
+        {
+            return _session.CreateQuery("from Category as c where c.Name = :categoryName")
+                           .SetString("categoryName", categoryName)
+                           .UniqueResult<Category>();
+        }
+
+        public bool Exists(string categoryName)
+        {
+            return GetByName(categoryName) != null;
+        }
     }
 }

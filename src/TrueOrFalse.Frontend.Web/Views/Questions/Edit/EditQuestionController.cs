@@ -27,10 +27,16 @@ public class EditQuestionController : Controller
         return View(_viewLocation, model);
     }
 
+    public ViewResult Edit(int id)
+    {
+        var model = new EditQuestionModel(_questionRepository.GetById(id));
+        return View(_viewLocation, model);
+    }
+
     [HttpPost]
     public ActionResult Edit(int id, EditQuestionModel model)
     {
-        _questionRepository.Update(model.UpdateQuestion(_questionRepository.GetById(id)));
+        _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model, _questionRepository.GetById(id)));
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);
@@ -39,12 +45,21 @@ public class EditQuestionController : Controller
     [HttpPost]
     public ActionResult Create(EditQuestionModel model)
     {
-        var question = model.ConvertToQuestion();
-        question.Creator = _sessionUser.User;
-        question.Answers.Single().Creator = _sessionUser.User;
-        _questionRepository.Create(question);
-        model.Message = new SuccessMessage("Die Frage wurde gespeichert");
-
+        var editQuestionModelCategoriesExist = ServiceLocator.Resolve<EditQuestionModel_Categories_Exist>();
+        if (editQuestionModelCategoriesExist.Yes(model))
+        {
+            var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model);
+            question.Creator = _sessionUser.User;
+            question.Answers.Single().Creator = _sessionUser.User;
+            _questionRepository.Create(question);
+            model.Message = new SuccessMessage("Die Frage wurde gespeichert");
+        }
+        else
+        {
+            model.Message = new ErrorMessage(
+                string.Format("Die Kategorie '{0}' existiert nicht.", 
+                editQuestionModelCategoriesExist.MissingCategory));
+        }
         return View(_viewLocation, model);
     }
 }

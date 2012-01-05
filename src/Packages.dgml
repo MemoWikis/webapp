@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="TrueOrFalse.Frontend.Web" Label="TrueOrFalse.Frontend.Web" Category="Project" />
+    <Node Id="Iesi.Collections 3.1.0.4000" Label="Iesi.Collections 3.1.0.4000" Category="Package" />
+    <Node Id="NHibernate 3.1.0.4000" Label="NHibernate 3.1.0.4000" Category="Package" />
+    <Node Id="Castle.Core 2.5.2" Label="Castle.Core 2.5.2" Category="Package" />
+    <Node Id="NHibernate.Castle 3.1.0.4000" Label="NHibernate.Castle 3.1.0.4000" Category="Package" />
+    <Node Id="FluentNHibernate 1.2.0.712" Label="FluentNHibernate 1.2.0.712" Category="Package" />
+    <Node Id="Seedworks.Web.State 0.8.2.3" Label="Seedworks.Web.State 0.8.2.3" Category="Package" />
+    <Node Id="Glimpse 0.82" Label="Glimpse 0.82" Category="Package" />
+    <Node Id="Glimpse.Mvc3 0.82" Label="Glimpse.Mvc3 0.82" Category="Package" />
+    <Node Id="jQuery 1.6.1" Label="jQuery 1.6.1" Category="Package" />
+    <Node Id="jQuery.vsdoc 1.6" Label="jQuery.vsdoc 1.6" Category="Package" />
+    <Node Id="jQuery.Validation 1.8.0.1" Label="jQuery.Validation 1.8.0.1" Category="Package" />
+    <Node Id="jQuery.UI.Combined 1.8.13" Label="jQuery.UI.Combined 1.8.13" Category="Package" />
+    <Node Id="Autofac 2.5.1.827" Label="Autofac 2.5.1.827" Category="Package" />
+    <Node Id="Autofac.Mvc3 2.5.1.827" Label="Autofac.Mvc3 2.5.1.827" Category="Package" />
+    <Node Id="log4net 1.2.10" Label="log4net 1.2.10" Category="Package" />
+    <Node Id="Seedworks.Persistence 0.8.2.12" Label="Seedworks.Persistence 0.8.2.12" Category="Package" />
+    <Node Id="TrueOrFalse.Tests" Label="TrueOrFalse.Tests" Category="Project" />
+    <Node Id="NUnit 2.5.10.11092" Label="NUnit 2.5.10.11092" Category="Package" />
+    <Node Id="Iesi.Collections 3.1.0.4000" Label="Iesi.Collections 3.1.0.4000" Category="Package" />
+    <Node Id="NHibernate 3.1.0.4000" Label="NHibernate 3.1.0.4000" Category="Package" />
+    <Node Id="Castle.Core 2.5.2" Label="Castle.Core 2.5.2" Category="Package" />
+    <Node Id="NHibernate.Castle 3.1.0.4000" Label="NHibernate.Castle 3.1.0.4000" Category="Package" />
+    <Node Id="FluentNHibernate 1.2.0.712" Label="FluentNHibernate 1.2.0.712" Category="Package" />
+    <Node Id="SharpTestsEx 1.1.1" Label="SharpTestsEx 1.1.1" Category="Package" />
+    <Node Id="Autofac 2.5.1.827" Label="Autofac 2.5.1.827" Category="Package" />
+    <Node Id="Seedworks.Persistence 0.8.2.12" Label="Seedworks.Persistence 0.8.2.12" Category="Package" />
+    <Node Id="BDDish 0.1.2.2" Label="BDDish 0.1.2.2" Category="Package" />
+    <Node Id="TrueOrFalse.Core" Label="TrueOrFalse.Core" Category="Project" />
+    <Node Id="Iesi.Collections 3.1.0.4000" Label="Iesi.Collections 3.1.0.4000" Category="Package" />
+    <Node Id="NHibernate 3.1.0.4000" Label="NHibernate 3.1.0.4000" Category="Package" />
+    <Node Id="Castle.Core 2.5.2" Label="Castle.Core 2.5.2" Category="Package" />
+    <Node Id="NHibernate.Castle 3.1.0.4000" Label="NHibernate.Castle 3.1.0.4000" Category="Package" />
+    <Node Id="FluentNHibernate 1.2.0.712" Label="FluentNHibernate 1.2.0.712" Category="Package" />
+    <Node Id="Seedworks.Web.State 0.8.2.3" Label="Seedworks.Web.State 0.8.2.3" Category="Package" />
+    <Node Id="Autofac 2.5.1.827" Label="Autofac 2.5.1.827" Category="Package" />
+    <Node Id="Seedworks.Persistence 0.8.2.12" Label="Seedworks.Persistence 0.8.2.12" Category="Package" />
+  </Nodes>
+  <Links>
+    <Link Source="NHibernate 3.1.0.4000" Target="Iesi.Collections 3.1.0.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Castle 3.1.0.4000" Target="NHibernate 3.1.0.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Castle 3.1.0.4000" Target="Castle.Core 2.5.2" Category="Package Dependency" />
+    <Link Source="FluentNHibernate 1.2.0.712" Target="NHibernate.Castle 3.1.0.4000" Category="Package Dependency" />
+    <Link Source="Glimpse.Mvc3 0.82" Target="Glimpse 0.82" Category="Package Dependency" />
+    <Link Source="jQuery.vsdoc 1.6" Target="jQuery 1.6.1" Category="Package Dependency" />
+    <Link Source="jQuery.Validation 1.8.0.1" Target="jQuery 1.6.1" Category="Package Dependency" />
+    <Link Source="jQuery.UI.Combined 1.8.13" Target="jQuery 1.6.1" Category="Package Dependency" />
+    <Link Source="Autofac.Mvc3 2.5.1.827" Target="Autofac 2.5.1.827" Category="Package Dependency" />
+    <Link Source="TrueOrFalse.Frontend.Web" Target="FluentNHibernate 1.2.0.712" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Frontend.Web" Target="Seedworks.Web.State 0.8.2.3" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Frontend.Web" Target="Glimpse.Mvc3 0.82" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Frontend.Web" Target="jQuery.vsdoc 1.6" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Frontend.Web" Target="jQuery.Validation 1.8.0.1" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Frontend.Web" Target="jQuery.UI.Combined 1.8.13" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Frontend.Web" Target="Autofac.Mvc3 2.5.1.827" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Frontend.Web" Target="log4net 1.2.10" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Frontend.Web" Target="Seedworks.Persistence 0.8.2.12" Category="Installed Package" />
+    <Link Source="NHibernate 3.1.0.4000" Target="Iesi.Collections 3.1.0.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Castle 3.1.0.4000" Target="NHibernate 3.1.0.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Castle 3.1.0.4000" Target="Castle.Core 2.5.2" Category="Package Dependency" />
+    <Link Source="FluentNHibernate 1.2.0.712" Target="NHibernate.Castle 3.1.0.4000" Category="Package Dependency" />
+    <Link Source="BDDish 0.1.2.2" Target="NUnit 2.5.10.11092" Category="Package Dependency" />
+    <Link Source="TrueOrFalse.Tests" Target="FluentNHibernate 1.2.0.712" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Tests" Target="SharpTestsEx 1.1.1" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Tests" Target="Autofac 2.5.1.827" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Tests" Target="Seedworks.Persistence 0.8.2.12" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Tests" Target="BDDish 0.1.2.2" Category="Installed Package" />
+    <Link Source="NHibernate 3.1.0.4000" Target="Iesi.Collections 3.1.0.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Castle 3.1.0.4000" Target="NHibernate 3.1.0.4000" Category="Package Dependency" />
+    <Link Source="NHibernate.Castle 3.1.0.4000" Target="Castle.Core 2.5.2" Category="Package Dependency" />
+    <Link Source="FluentNHibernate 1.2.0.712" Target="NHibernate.Castle 3.1.0.4000" Category="Package Dependency" />
+    <Link Source="TrueOrFalse.Core" Target="FluentNHibernate 1.2.0.712" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Core" Target="Seedworks.Web.State 0.8.2.3" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Core" Target="Autofac 2.5.1.827" Category="Installed Package" />
+    <Link Source="TrueOrFalse.Core" Target="Seedworks.Persistence 0.8.2.12" Category="Installed Package" />
+  </Links>
+  <Categories>
+    <Category Id="Project" />
+    <Category Id="Package" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Project" ValueLabel="True">
+      <Condition Expression="HasCategory('Project')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Package Dependency" ValueLabel="True">
+      <Condition Expression="HasCategory('Package Dependency')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>

@@ -13,10 +13,9 @@ namespace TrueOrFalse.Frontend.Web
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : HttpApplication
+    public class Global : HttpApplication
     {
-
-        public static void RegisterRoutes(RouteCollection routes)
+        private static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
@@ -62,7 +61,6 @@ namespace TrueOrFalse.Frontend.Web
 #if DEBUG
             NHibernateProfiler.Initialize();
 #endif
-
         }
 
         private void InitializeAutofac()

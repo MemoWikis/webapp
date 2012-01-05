@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Autofac;
+using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NUnit.Framework;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
@@ -13,6 +14,13 @@ namespace TrueOrFalse.Tests
     public class BaseTest
     {
         private static IContainer _container;
+
+        static BaseTest()
+        {
+            #if DEBUG
+                NHibernateProfiler.Initialize();
+            #endif
+        }
 
         [SetUp]
         public void SetUp()
@@ -25,6 +33,7 @@ namespace TrueOrFalse.Tests
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacCoreModule>();
+            builder.RegisterModule<AutofacTestModule>();
             _container = builder.Build();
             SessionFactory.BuildSchema();
         }
@@ -33,7 +42,6 @@ namespace TrueOrFalse.Tests
         {
             return _container.Resolve<T>();
         }
-
-
     }
+
 }
