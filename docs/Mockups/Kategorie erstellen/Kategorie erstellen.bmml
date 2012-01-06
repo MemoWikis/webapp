@@ -51,7 +51,6 @@
     <control controlID="90" controlTypeID="com.balsamiq.mockups::Button" x="431" y="656" w="130" h="26" measuredW="86" measuredH="28" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
         <href>Mockup-Fragen-Detail.bmml</href>
-        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22423%2C631%2C553%2C657%22%20href%3D%22Mockup-Fragen-Detail%22%20alt%3D%22Mockup-Fragen-Detail%22%20id%3D%2290%22/%3E</map>
         <text>Speichern</text>
       </controlProperties>
     </control>
