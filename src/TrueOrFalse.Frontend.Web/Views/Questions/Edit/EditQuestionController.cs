@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web;
 using TrueOrFalse.Core.Web.Context;
@@ -56,9 +57,12 @@ public class EditQuestionController : Controller
         }
         else
         {
+            var missingCategory = editQuestionModelCategoriesExist.MissingCategory;
             model.Message = new ErrorMessage(
-                string.Format("Die Kategorie '{0}' existiert nicht.", 
-                editQuestionModelCategoriesExist.MissingCategory));
+                string.Format("Die Kategorie <strong>'{0}'</strong> existiert nicht. " +
+                "Klicke <a href=\"{1}\">hier</a>, um Kategorien anzulegen.",
+                missingCategory,
+                Url.Action("Create", "EditCategory", new { name = missingCategory })));
         }
         return View(_viewLocation, model);
     }

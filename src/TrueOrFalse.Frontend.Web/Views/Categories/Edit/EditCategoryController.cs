@@ -18,10 +18,10 @@ public class EditCategoryController : Controller
         ActionInvoker = new JavaScriptActionInvoker();
     }
 
-    public ViewResult Create()
+    public ViewResult Create(string name)
     {
         var model = new EditCategoryModel();
-        model.Name= "Some name";
+        model.Name= name ?? "Some name";
         model.SubCategories = new List<SubCategoryRowModel>();
         model.SubCategories.Add(new SubCategoryRowModel());
         return View(_viewPath, model);
