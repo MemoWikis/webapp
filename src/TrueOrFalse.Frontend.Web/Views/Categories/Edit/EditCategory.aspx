@@ -17,6 +17,8 @@
 
 <% using (Html.BeginForm()){ %>
 
+    <% Html.Message(Model.Message); %>
+
     <%= Html.LabelFor(m => m.Name ) %>
     <%= Html.TextBoxFor(m => m.Name ) %>
 

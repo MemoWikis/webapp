@@ -5,11 +5,14 @@ using System.Linq;
 using System.Web;
 using TrueOrFalse.Core;
 using TrueOrFalse.Frontend.Web.Models;
+using Message = TrueOrFalse.Core.Web.Message;
 
 public class EditCategoryModel : ModelBase
 {
     [DisplayName("Name")]
     public string Name { get; set; }
+
+    public Message Message;
 
     public IList<SubCategoryRowModel> SubCategories { get; set; }
 
