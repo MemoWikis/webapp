@@ -130,6 +130,7 @@
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
+    <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
     <Compile Include="Views\Categories\Edit\EditSubCategoryItemsController.cs" />
     <Compile Include="Views\Categories\Edit\EditSubCategoryItemsModel.cs" />
     <Compile Include="Views\Categories\Edit\SubCategoryItemRowModel.cs" />
@@ -140,7 +141,7 @@
     <Compile Include="Views\News\NewsModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
-    <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
+    <Compile Include="Views\Categories\Edit\EditCategoryModel_Category_Exists.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
     <Compile Include="Views\Questions\QuestionRowModel.cs" />
     <Compile Include="Views\Questions\QuestionsController.cs" />

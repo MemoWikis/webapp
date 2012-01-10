@@ -54,10 +54,20 @@ public class EditCategoryController : Controller
     {
         PopulateSubCategoriesFromPost(model);
 
-        _categoryRepository.Create(model.ConvertToCategory());
+        var categoryExists = new EditCategoryModel_Category_Exists();
+        if (categoryExists.Yes(model))
+        {
+            model.Message = new ErrorMessage(string.Format("Die Kategorie <strong>'{0}'</strong> existiert bereits. " +
+                                                           "Klicke <a href=\"{1}\">hier</a>, um sie zu bearbeiten.", 
+                                                           categoryExists.ExistingCategory.Name,
+                                                           Url.Action("Edit", new { id = categoryExists.ExistingCategory.Id })));
+        }
+        else
+        {
+            _categoryRepository.Create(model.ConvertToCategory());
 
-        model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));
-
+            model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));
+        }
         return View(_viewPath, model);
     }
 
