@@ -43,9 +43,18 @@ public class EditCategoryController : Controller
         PopulateSubCategoriesFromPost(model);
 
         var category = _categoryRepository.GetById(id);
-        model.UpdateCategory(category);
-        _categoryRepository.Update(category);
 
+        var categoryExists = new EditCategoryModel_Category_Exists();
+        if (model.Name != category.Name && categoryExists.Yes(model))
+        {
+            model.Message = new ErrorMessage(string.Format("Es existiert bereits eine Kategorie mit dem Namen <strong>'{0}'</strong>.",
+                                                           categoryExists.ExistingCategory.Name));
+        }
+        else
+        {
+            model.UpdateCategory(category);
+            _categoryRepository.Update(category);
+        }
         return View(_viewPath, model);
     }
 
