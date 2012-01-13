@@ -63,7 +63,7 @@
         <text>*In%20Frages%E4tzen*%3A%0A-%20%5BFussball%20WM%202002%5D%0A-%20%5BFacts%20WM%202002%5D%0A-%20%5BFussball%20WMs%5D%0A-%20%5BAlles%20Fussball%5D%0A-%20%5BSport%2C%20Sport%2C%20Sport%5D%0A%20%20%20%20%20%20%20%20%20%20%281-5%20von%20%20732%29%20%5B%3E%5D</text>
       </controlProperties>
     </control>
-    <control controlID="147" controlTypeID="com.balsamiq.mockups::TextArea" x="324" y="464" w="429" h="81" measuredW="200" measuredH="140" zOrder="11" locked="false" isInGroup="-1">
+    <control controlID="147" controlTypeID="com.balsamiq.mockups::TextArea" x="324" y="278" w="429" h="81" measuredW="200" measuredH="140" zOrder="11" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Gib%20hier%20deine%20Antwort%20ein%0AFeld%20f%FCr%20Antwort%2C%20angepasst%20an%20Antworttyp</text>
       </controlProperties>
@@ -111,7 +111,7 @@
                 <rotation>90</rotation>
               </controlProperties>
             </control>
-            <control controlID="1" controlTypeID="__group__" x="0" y="0" w="10" h="26" measuredW="10" measuredH="26" zOrder="1" locked="false" isInGroup="5">
+            <control controlID="1" controlTypeID="__group__" x="0" y="0" w="0" h="0" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="5">
               <groupChildrenDescriptors>
                 <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="10" h="26" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="1">
                   <controlProperties>
@@ -165,7 +165,7 @@
                 <rotation>90</rotation>
               </controlProperties>
             </control>
-            <control controlID="1" controlTypeID="__group__" x="0" y="0" w="10" h="26" measuredW="10" measuredH="26" zOrder="1" locked="false" isInGroup="8">
+            <control controlID="1" controlTypeID="__group__" x="0" y="0" w="0" h="0" measuredW="0" measuredH="0" zOrder="1" locked="false" isInGroup="8">
               <groupChildrenDescriptors>
                 <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="10" h="26" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="1">
                   <controlProperties>
@@ -180,58 +180,64 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="160" controlTypeID="com.balsamiq.mockups::Label" x="211" y="464" w="104" h="35" measuredW="101" measuredH="25" zOrder="13" locked="false" isInGroup="-1">
+    <control controlID="160" controlTypeID="com.balsamiq.mockups::Label" x="250" y="278" w="65" h="35" measuredW="61" measuredH="25" zOrder="13" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Deine%20Antwort%3A</text>
+        <text>Antwort%3A</text>
       </controlProperties>
     </control>
-    <control controlID="161" controlTypeID="com.balsamiq.mockups::Label" x="326" y="166" w="-1" h="-1" measuredW="62" measuredH="25" zOrder="14" locked="false" isInGroup="-1">
+    <control controlID="163" controlTypeID="com.balsamiq.mockups::Button" x="324" y="472" w="-1" h="-1" measuredW="136" measuredH="28" zOrder="14" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Linguistik</text>
+        <state>disabled</state>
+        <text>Frage%20%FCbernehmen</text>
       </controlProperties>
     </control>
-    <control controlID="162" controlTypeID="com.balsamiq.mockups::Label" x="422" y="166" w="-1" h="-1" measuredW="70" measuredH="25" zOrder="15" locked="false" isInGroup="-1">
+    <control controlID="164" controlTypeID="com.balsamiq.mockups::Button" x="486" y="472" w="-1" h="-1" measuredW="215" measuredH="28" zOrder="15" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Grammatik</text>
+        <state>disabled</state>
+        <text>Frage%20kopieren%20und%20bearbeiten</text>
       </controlProperties>
     </control>
-    <control controlID="163" controlTypeID="com.balsamiq.mockups::Label" x="516" y="166" w="-1" h="-1" measuredW="54" measuredH="25" zOrder="16" locked="false" isInGroup="-1">
+    <control controlID="166" controlTypeID="com.balsamiq.mockups::Link" x="326" y="390" w="-1" h="-1" measuredW="118" measuredH="25" zOrder="16" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Deutsch</text>
+        <text>Antwort%20%20anzeigen</text>
       </controlProperties>
     </control>
-    <control controlID="164" controlTypeID="com.balsamiq.mockups::Label" x="610" y="166" w="-1" h="-1" measuredW="77" measuredH="25" zOrder="17" locked="false" isInGroup="-1">
+    <control controlID="167" controlTypeID="com.balsamiq.mockups::Button" x="585" y="377" w="166" h="28" measuredW="146" measuredH="28" zOrder="17" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Kategorie%204</text>
+        <color>545684</color>
+        <text>Antwort%20%FCberpr%FCfen</text>
       </controlProperties>
     </control>
-    <control controlID="165" controlTypeID="com.balsamiq.mockups::Label" x="326" y="202" w="-1" h="-1" measuredW="209" measuredH="25" zOrder="18" locked="false" isInGroup="-1">
+    <control controlID="168" controlTypeID="com.balsamiq.mockups::Label" x="327" y="370" w="-1" h="-1" measuredW="140" measuredH="25" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Geh%F6rt%20zu%20%22Meine%20Frageliste%20xy%22</text>
+        <color>10066329</color>
+        <text>Hilfestellung/Hinweis</text>
+        <underline>true</underline>
       </controlProperties>
     </control>
-    <control controlID="166" controlTypeID="com.balsamiq.mockups::Label" x="238" y="166" w="77" h="35" measuredW="77" measuredH="25" zOrder="19" locked="false" isInGroup="-1">
+    <control controlID="173" controlTypeID="com.balsamiq.mockups::Label" x="324" y="168" w="-1" h="-1" measuredW="70" measuredH="25" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>545684</color>
+        <text>einblenden</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="174" controlTypeID="com.balsamiq.mockups::Label" x="324" y="204" w="-1" h="-1" measuredW="143" measuredH="25" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>545684</color>
+        <state>disabled</state>
+        <text>%22Meine%20Frageliste%20xy%22</text>
+        <underline>true</underline>
+      </controlProperties>
+    </control>
+    <control controlID="175" controlTypeID="com.balsamiq.mockups::Label" x="232" y="168" w="77" h="35" measuredW="77" measuredH="25" zOrder="21" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Kategorien%3A</text>
       </controlProperties>
     </control>
-    <control controlID="167" controlTypeID="com.balsamiq.mockups::RoundButton" x="451" y="288" w="125" h="41" measuredW="32" measuredH="32" zOrder="20" locked="false" isInGroup="-1">
+    <control controlID="176" controlTypeID="com.balsamiq.mockups::Paragraph" x="235" y="204" w="77" h="20" measuredW="200" measuredH="140" zOrder="22" locked="false" isInGroup="-1">
       <controlProperties>
-        <borderColor>0</borderColor>
-        <color>40463</color>
-        <shape>roundRect</shape>
-        <size>16</size>
-        <text>*%7Bcolor%3A%23000000%7DRichtig%21%7Bcolor%7D*</text>
-      </controlProperties>
-    </control>
-    <control controlID="168" controlTypeID="com.balsamiq.mockups::TextArea" x="324" y="356" w="429" h="81" measuredW="200" measuredH="140" zOrder="21" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Antwort</text>
-      </controlProperties>
-    </control>
-    <control controlID="169" controlTypeID="com.balsamiq.mockups::Label" x="196" y="356" w="119" h="35" measuredW="117" measuredH="25" zOrder="22" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Richtige%20Antwort%3A</text>
+        <text>Geh%F6rt%20zu%3A</text>
       </controlProperties>
     </control>
   </controls>
