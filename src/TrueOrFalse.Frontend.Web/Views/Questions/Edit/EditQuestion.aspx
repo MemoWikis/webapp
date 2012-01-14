@@ -71,8 +71,6 @@
 
 		<%= Html.LabelFor(m => m.Description ) %>
 		<%= Html.TextAreaFor( m=>m.Description ) %><br />		   
-        <%= Html.LabelFor(m => m.EducationLink ) %>
-		<%= Html.DropDownListFor(m => Model.EducationLink, Model.EducationLinkData)%> <br />
 
         <br />
         <label>&nbsp;</label>

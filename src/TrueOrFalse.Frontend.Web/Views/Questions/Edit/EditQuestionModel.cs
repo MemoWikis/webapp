@@ -36,9 +36,6 @@ public class EditQuestionModel : ModelBase
     [DisplayName("Erklärung")]
     public string Description { get; set; }
 
-    [DisplayName("Schule/Uni")]
-    public string EducationLink {get; set;}
-
     [DisplayName("Charakter")]
     public string Character { get; set; }
 
@@ -63,15 +60,6 @@ public class EditQuestionModel : ModelBase
         }
     }
 
-    public IEnumerable<SelectListItem> EducationLinkData{ get {
-            return new List<SelectListItem>{
-                            new SelectListItem {Text = "Fernuni Hagen, Elektrotechnik 1. Semester"},
-                            new SelectListItem {Text = "- weitere Hinzufügen - "}
-                        };
-        }
-    }
-
-
     public IEnumerable<SelectListItem> VisibilityData { get {
             return new List<SelectListItem> {
                             new SelectListItem {Text = "Alle", Value = QuestionVisibility.All.ToString()},
@@ -80,7 +68,6 @@ public class EditQuestionModel : ModelBase
                         };
         }
     }
-
 
     public IEnumerable<SelectListItem> AnswerTypeData{ get {
             return new List<SelectListItem>
