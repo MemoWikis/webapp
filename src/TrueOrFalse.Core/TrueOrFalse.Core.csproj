@@ -76,12 +76,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NHibernate.3.2.0.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.33157, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Seedworks.Lib, Version=0.8.2.26744, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.12\lib\Seedworks.Lib.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Persistence.0.8.2.13\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.12\lib\Seedworks.Lib.Persistence.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Persistence.0.8.2.13\lib\Seedworks.Lib.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Web.Lib.Persistence">
       <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
