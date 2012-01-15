@@ -87,7 +87,12 @@
               
             <div id="logindisplay" style="float:right">
                 <% Html.RenderPartial(UserControls.Logon); %>
-            </div> 
+            
+                <% if (HttpContext.Current.Request.IsLocal)
+                   { %>
+                    <%: Html.ActionLink("Exportieren", "AllToLocalFile", "Export") %>
+                <% } %>
+            </div>
         </div>
 
         <%-- BODY--%>

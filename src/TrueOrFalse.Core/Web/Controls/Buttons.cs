@@ -4,7 +4,7 @@
     {
         public static string Submit(string buttonText, string id = null, string url = null, bool inline = true)
         {
-            return String.Format("<div class='button' {0} {1}><a href='{2}' class='submit button ui-state-default ui-corner-all'><span class='ui-icon ui-icon-triangle-1-e'></span>{3}</a></div>",
+            return String.Format("<div class='button' {0}><a href='{2}' {1} class='submit button ui-state-default ui-corner-all'><span class='ui-icon ui-icon-triangle-1-e'></span>{3}</a></div>",
                 inline ? "style='display:inline;'" : "",
                 id != null ? "id='"+ id +"'" : "",
                 url ?? "#",

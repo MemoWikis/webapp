@@ -29,6 +29,12 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action(Links.UserProfile, Links.UserProfileController, new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
         }
 
+        public static string ValidateAnswer(UrlHelper url, Question question)
+        {
+            return url.Action("ValidateAnswer", Links.AnswerQuestionController, new { id = question.Id }, null);
+        }
+
+
         public const string EditQuestionController = "EditQuestion"; 
         public const string CreateQuestion = "Create";
         public const string EditQuestion = "Edit";
@@ -70,5 +76,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string AccountController = "Account";
         public const string Logout = "Logout";
+
     }
 }

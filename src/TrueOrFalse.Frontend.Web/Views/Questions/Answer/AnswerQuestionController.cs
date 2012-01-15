@@ -24,10 +24,11 @@ public class AnswerQuestionController : Controller
         return View(_viewLocation, new AnswerQuestionModel(question));
     }
 
-    //public JsonResult Answer()
-    //{
-    //    return null;
-    //}
+    [HttpPost]
+    public JsonResult ValidateAnswer(int id, string answer)
+    {
+        return new JsonResult {Data = new {correct = true}};
+    }
 
 }
 
