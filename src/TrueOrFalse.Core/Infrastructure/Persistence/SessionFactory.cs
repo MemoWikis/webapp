@@ -9,6 +9,7 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Core
@@ -22,8 +23,7 @@ namespace TrueOrFalse.Core
             return Fluently.Configure()
               .Database(
                 MsSqlConfiguration.MsSql2008
-                  .ConnectionString(c => c
-                    .FromConnectionStringWithKey("main"))
+                  .ConnectionString(GetConnectionString.Run())
               )
               .Mappings(m =>
                 m.FluentMappings.Conventions.Add<EnumConvention>().AddFromAssemblyOf<Question>())

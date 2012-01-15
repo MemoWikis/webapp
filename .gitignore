@@ -15,3 +15,5 @@ _Re[Ss]harper.*
 *.user
 
 src/TrueOrFalse.Frontend.Web/TrueOrFalse.Frontend.Web.Publish.xml
+src/TrueOrFalse.Frontend.Web/Web.overwritten.config
+src/TrueOrFalse.Tests/App.overwritten.config

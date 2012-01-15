@@ -187,6 +187,10 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="App.overwritten.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="App.overwritten.config.sample" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

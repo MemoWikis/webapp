@@ -90,6 +90,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -167,10 +168,13 @@
     <Compile Include="Infrastructure\Persistence\SpecOrderByBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Settings.cs">
+    <Compile Include="Infrastructure\Settings\ConnectionString\GetConnectionString.cs" />
+    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionString.cs" />
+    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionStringResult.cs" />
+    <Compile Include="Infrastructure\Settings\Settings.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\StringExtensions.cs" />
+    <Compile Include="Infrastructure\Settings\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="Domain\Question.Answer\Model.UserInput\UserInputText.cs" />
