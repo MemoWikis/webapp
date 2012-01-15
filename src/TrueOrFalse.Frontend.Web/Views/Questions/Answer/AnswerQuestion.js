@@ -2,9 +2,12 @@
 
     $("#btnCheck").click(function () {
         $.ajax({
-            url: this.href + "?answer=" + $("#txtAnswer")[0].value,
+            type: 'POST',
+            url: this.href,
+            data: { answer: $("#txtAnswer")[0].value },
             cache: false,
-            success: function (html) {
+            success: function (result) {
+                alert(result.correct);
             }
         });
         return false;
