@@ -19,7 +19,7 @@ namespace TrueOrFalse.Core
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
             HasMany(x => x.Answers).Cascade.All();
-            HasMany(x => x.Categories);
+            HasManyToMany(x => x.Categories).Cascade.AllDeleteOrphan();
         }
     }
 }

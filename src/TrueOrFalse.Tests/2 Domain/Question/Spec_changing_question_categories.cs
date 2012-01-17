@@ -35,7 +35,7 @@ namespace TrueOrFalse.Tests
             var questionFromDb = categeoryRepository.GetAll()[0];
             Assert.That(questionFromDb.Categories.Count, Is.EqualTo(3));
             Assert.That(questionFromDb.Categories[0].Name, Is.EqualTo("A"));
-            Assert.That(questionFromDb.Categories[1].Name, Is.EqualTo("C"));
+            Assert.That(questionFromDb.Categories[1].Name, Is.EqualTo("B"));
             Assert.That(questionFromDb.Categories[2].Name, Is.EqualTo("X"));
         }
 
