@@ -266,9 +266,6 @@
     <Content Include="Style\src\reset.css" />
     <Content Include="Style\src\typography.css" />
     <None Include="Web.overwritten.config.sample" />
-    <None Include="Web.overwritten.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Api\ExportCategories.aspx" />
     <Content Include="Views\Api\ExportQuestions.aspx" />
