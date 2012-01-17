@@ -22,9 +22,6 @@ public class EditQuestionController : Controller
     public ActionResult Create()
     {
         var model = new EditQuestionModel();
-        model.Answer = "Antwort eingeben";
-        model.Question = "Frage eingeben";
-
         return View(_viewLocation, model);
     }
 
