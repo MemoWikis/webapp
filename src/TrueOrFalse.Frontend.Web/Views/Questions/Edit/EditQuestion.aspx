@@ -33,7 +33,8 @@
 	<h2 class="form-title">Frage erstellen</h2>
 	<% using (Html.BeginForm()){ %>
     
-	    <% Html.Message(Model.Message); %>
+    
+	    <div style="margin-left: 100px; width:412px; padding-bottom: 5px;"><% Html.Message(Model.Message); %></div>
 
         <%= Html.LabelFor(m => m.Visibility) %>
         <div style="">
