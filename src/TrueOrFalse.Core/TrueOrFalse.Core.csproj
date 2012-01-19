@@ -122,6 +122,9 @@
     <Compile Include="Domain\Import\Importer.cs" />
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Persistence\MessageMap.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\AnswerHistory.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\AnswerHistoryMap.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\AnswerHistoryRepository.cs" />
     <Compile Include="Domain\Question\Question.cs" />
     <Compile Include="Domain\Question\QueryList.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionMap.cs" />
