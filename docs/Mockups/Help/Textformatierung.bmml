@@ -1,0 +1,9 @@
+<mockup version="1.0" skin="sketch" measuredW="803" measuredH="720" mockupW="743" mockupH="700">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Image" x="60" y="20" w="-1" h="-1" measuredW="743" measuredH="700" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./assets/textformatierung.png</src>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

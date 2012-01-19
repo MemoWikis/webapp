@@ -153,7 +153,7 @@
     <Compile Include="Infrastructure\IoC\IRegisterAsInstancePerLifetime.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\IoC\ServiceLocator.cs" />
+    <Compile Include="Domain\ServiceLocator.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
     <Compile Include="Infrastructure\Persistence\EnumConvention.cs">
       <SubType>Code</SubType>
