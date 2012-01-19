@@ -122,15 +122,13 @@
     <Compile Include="Domain\Import\Importer.cs" />
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Persistence\MessageMap.cs" />
-    <Compile Include="Domain\Question.Answer\Answer.cs" />
-    <Compile Include="Domain\Question.Answer\AnswerType.cs" />
-    <Compile Include="Domain\Question.Answer\Persistence\AnswerMap.cs" />
     <Compile Include="Domain\Question\Question.cs" />
     <Compile Include="Domain\Question\QueryList.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionMap.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionRepository.cs" />
     <Compile Include="Domain\Question\QuestionCharacter.cs" />
     <Compile Include="Domain\Question\QuestionVisibility.cs" />
+    <Compile Include="Domain\Question\Solution\SolutionType.cs" />
     <Compile Include="Domain\User\Registration.Login\CredentialsAreValid.cs" />
     <Compile Include="Domain\User\Registration.Confirmation\CreateConfirmationLink.cs" />
     <Compile Include="Domain\User\Registration.Confirmation\SetUserEmailAsConfirmed.cs" />
@@ -177,7 +175,6 @@
     <Compile Include="Infrastructure\Settings\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\User\User.cs" />
-    <Compile Include="Domain\Question.Answer\Model.UserInput\UserInputText.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Web\Context\Data\UserNavigationModel.cs" />
     <Compile Include="Web\Context\Data\UserNavigationModelList.cs" />

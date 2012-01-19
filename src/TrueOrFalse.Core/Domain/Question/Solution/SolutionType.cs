@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrueOrFalse.Core
 {
-    public enum AnswerType
+    public enum SolutionType
     {
         Exact = 1,
         Approximation = 2,

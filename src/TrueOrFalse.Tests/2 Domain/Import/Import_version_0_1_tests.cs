@@ -26,24 +26,14 @@ namespace TrueOrFalse.Tests
                                             <creatorId>1</creatorId>
                                             <description>foo bar</description>
                                             <visibility>All</visibility>
-                                            <answer>
-                                                <text>Answer to question 1</text>
-                                                <creatorId>1</creatorId>
-                                            </answer>
+                                            <solution>Answer to question 1</solution>
                                         </question>
                                         <question>
                                             <text>Question 2</text>
                                             <creatorId>1</creatorId>
                                             <description>foo bar</description>
                                             <visibility>All</visibility>
-                                            <answer>
-                                                <text>First answer to Question 2</text>
-                                                <creatorId>1</creatorId>
-                                            </answer>
-                                            <answer>
-                                                <text>Second answer to Question 2</text>
-                                                <creatorId>1</creatorId>
-                                            </answer>
+                                            <solution>First answer to Question 2</solution>
                                         </question>
                                         <category>
                                             <name>Sport</name>
@@ -70,14 +60,11 @@ namespace TrueOrFalse.Tests
             importer.Questions.Count().Should().Be.EqualTo(2);
             importer.Questions.First().Text.Should().Be.EqualTo("Question 1");
             importer.Questions.First().Creator.Should().Be.EqualTo(_users.First());
-            importer.Questions.First().Answers.Single().Text.Should().Be.EqualTo("Answer to question 1");
-            importer.Questions.First().Answers.Single().Creator.Should().Be.EqualTo(_users.First());
+            importer.Questions.First().Solution.Should().Be.EqualTo("Answer to question 1");
 
             importer.Questions.Last().Text.Should().Be.EqualTo("Question 2");
             importer.Questions.Last().Creator.Should().Be.EqualTo(_users.First());
-            importer.Questions.Last().Answers.Count().Should().Be.EqualTo(2);
-            importer.Questions.Last().Answers.First().Text.Should().Be.EqualTo("First answer to Question 2");
-            importer.Questions.Last().Answers.Last().Text.Should().Be.EqualTo("Second answer to Question 2");
+            importer.Questions.Last().Solution.Should().Be.EqualTo("First answer to Question 2");
         }
 
         [Test]

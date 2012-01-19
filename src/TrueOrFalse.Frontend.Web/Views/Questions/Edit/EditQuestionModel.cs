@@ -25,12 +25,12 @@ public class EditQuestionModel : ModelBase
 
     [Required]
     [DisplayName("Antwort")]
-    public string AnswerType { get; set; }
+    public string SolutionType { get; set; }
 
     [Required]
     [DataType(DataType.MultilineText)]
     [DisplayName("Antwort")]
-    public string Answer { get; set; }
+    public string Solution { get; set; }
 
     [DataType(DataType.MultilineText)]
     [DisplayName("Erklärung")]
@@ -72,10 +72,10 @@ public class EditQuestionModel : ModelBase
     public IEnumerable<SelectListItem> AnswerTypeData{ get {
             return new List<SelectListItem>
                         {
-                            new SelectListItem {Text = "Exakt", Value = TrueOrFalse.Core.AnswerType.Exact.ToString()},
-                            new SelectListItem {Text = "Annäherung", Value = TrueOrFalse.Core.AnswerType.Approximation.ToString()},
-                            new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.Core.AnswerType.MultipleChoice.ToString()},
-                            new SelectListItem {Text = "Vokable", Value = TrueOrFalse.Core.AnswerType.Vocable.ToString()},
+                            new SelectListItem {Text = "Exakt", Value = TrueOrFalse.Core.SolutionType.Exact.ToString()},
+                            new SelectListItem {Text = "Annäherung", Value = TrueOrFalse.Core.SolutionType.Approximation.ToString()},
+                            new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.Core.SolutionType.MultipleChoice.ToString()},
+                            new SelectListItem {Text = "Vokable", Value = TrueOrFalse.Core.SolutionType.Vocable.ToString()},
                             
                         };
         }
@@ -99,9 +99,8 @@ public class EditQuestionModel : ModelBase
     public EditQuestionModel(Question question) : this()
     {
         Question = question.Text;
-        var answer = question.Answers[0];
-        Answer = answer.Text;
-        AnswerType = answer.Type.ToString();
+        Solution = question.Solution;
+        SolutionType = question.SolutionType.ToString();
         Description = question.Description;
         
         Category1 = question.Categories.GetValueByIndex(0);

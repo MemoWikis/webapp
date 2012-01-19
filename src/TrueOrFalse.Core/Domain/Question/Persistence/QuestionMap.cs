@@ -18,7 +18,7 @@ namespace TrueOrFalse.Core
             References(x => x.Creator);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
-            HasMany(x => x.Answers).Cascade.All();
+            Map(x => x.Solution);
             HasManyToMany(x => x.Categories).Cascade.AllDeleteOrphan();
         }
     }

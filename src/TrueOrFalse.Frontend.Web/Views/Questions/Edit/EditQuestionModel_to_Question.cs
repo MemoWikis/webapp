@@ -10,7 +10,6 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
     public Question Create(EditQuestionModel model)
     {
         var question = new Question();
-        question.Answers.Add(new Answer());
         return Update(model, question);
     }
 
@@ -26,7 +25,7 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
             AddCategory(question, category);
         }
 
-        question.Answers[0].Text = model.Answer;
+        question.Solution = model.Solution;
         return question;
     }
 

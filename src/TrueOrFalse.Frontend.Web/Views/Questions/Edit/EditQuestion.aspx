@@ -65,8 +65,8 @@
 			<input type="text" id="char1" /><input type="text" id="char2" /><input type="text" id="char3" />
 		</div>
 
-        <%= Html.LabelFor(m => m.AnswerType ) %>
-		<%= Html.DropDownListFor(m => Model.AnswerType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%> <br />
+        <%= Html.LabelFor(m => m.SolutionType ) %>
+		<%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%> <br />
             
         <% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>
 
