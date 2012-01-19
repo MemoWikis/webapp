@@ -27,7 +27,7 @@ public class AnswerQuestionController : Controller
     [HttpPost]
     public JsonResult ValidateAnswer(int id, string answer)
     {
-        return new JsonResult {Data = new {correct = true}};
+        return new JsonResult {Data = new {correct = answer == "Kuchen"}};
     }
 
 }
