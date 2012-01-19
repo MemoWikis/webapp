@@ -21,11 +21,19 @@
         <div>
             <div style="float: right; margin-right: 175px; ">
                 <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
-                <%= Buttons.Submit("Antworten", url: Model.AnswerQuestionLink(Url),  id: "btnCheck", inline: true)%>
+                <div id="buttons-first-try">
+                    <%= Buttons.Submit("Antworten", url: Model.AnswerQuestionLink(Url),  id: "btnCheck", inline: true)%>
+                </div>
+                <div id="buttons-correct-answer" style="display: none">
+                    <%= Buttons.Submit("N&auml;chste Frage", url: "#",  id: "btnNext", inline: true)%>
+                </div>
+                <div id="buttons-wrong-answer" style="display: none">
+                    <%= Buttons.Submit("Nochmal Antworten", url: Model.AnswerQuestionLink(Url), id: "btnCheckAgain", inline: true)%>
+                </div>
             </div>
             <div style="clear: both"></div>
         </div>
-
+        
     </div>
 
     <div class="span-5 last">
