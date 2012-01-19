@@ -48,7 +48,6 @@ public class EditQuestionController : Controller
         {
             var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model);
             question.Creator = _sessionUser.User;
-            question.Answers.Single().Creator = _sessionUser.User;
             _questionRepository.Create(question);
             model.Message = new SuccessMessage("Die Frage wurde gespeichert");
         }

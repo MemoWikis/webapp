@@ -29,12 +29,7 @@ namespace TrueOrFalse.Core
                             Description= questionElement.Element("description").Value,
                             Visibility = (QuestionVisibility) Enum.Parse(typeof(QuestionVisibility), questionElement.Element("visibility").Value),
                             Creator = _userRepository.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value)),
-                            Answers = (from answerElement in questionElement.Elements("answer")
-                                       select new Answer
-                                       {
-                                           Text = answerElement.Element("text").Value,
-                                           Creator = _userRepository.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value))
-                                       }).ToList()
+                            Solution = questionElement.Element("solution").Value
                         };
 
             Categories = from categoryElement in document.Root.Elements("category")

@@ -10,5 +10,5 @@
 </asp:Content>--%>
 
 
-<%= Html.LabelFor(m => m.Answer ) %>
-<%= Html.TextAreaFor(m => m.Answer, new { @id = "Answer" })%><br />
+<%= Html.LabelFor(m => m.Solution ) %>
+<%= Html.TextAreaFor(m => m.Solution, new { @id = "Answer" })%><br />

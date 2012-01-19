@@ -12,9 +12,8 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_change_categories()
         {
-            var questionContext = 
-                ContextQuestion.New().AddQuestion("Question")
-                                       .AddAnswer("Answer")
+            var questionContext =
+                ContextQuestion.New().AddQuestion("Question", "Answer")
                                        .AddCategory("A")
                                        .AddCategory("B")
                                        .AddCategory("C")

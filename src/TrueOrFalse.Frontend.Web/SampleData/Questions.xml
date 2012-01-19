@@ -7,12 +7,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>1</creatorId>
-        
-        <answer>
-            <text>Albert Einstein</text>
-            <creatorId>1</creatorId>    
-        </answer>            
-        
+		<solution>Albert Einstein</solution>
     </question>     
     
     <question>
@@ -20,12 +15,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>1</creatorId>
-        
-        <answer>
-            <text>v^2 / r</text>
-            <creatorId>1</creatorId>    
-        </answer>            
-        
+		<solution>v^2 / r</solution>
     </question>     
     
     <question>
@@ -33,12 +23,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>1</creatorId>
-        
-        <answer>
-            <text>w^2 * r</text>
-            <creatorId>1</creatorId>    
-        </answer>            
-        
+        <solution>w^2 * r</solution>
     </question>     
     
     <question>
@@ -46,12 +31,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>1</creatorId>
-        
-        <answer>
-            <text>I / (e*n*a)</text>
-            <creatorId>1</creatorId>    
-        </answer>            
-        
+        <solution>I / (e*n*a)</solution>
     </question>     
     
     <question>
@@ -59,12 +39,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>1</creatorId>
-        
-        <answer>
-            <text>Produkt der Widerstände, die zusammengelegt werden, geteilt durch Summe aller Widerstände.</text>
-            <creatorId>1</creatorId>    
-        </answer>            
-        
+        <solution>Produkt der Widerstände, die zusammengelegt werden, geteilt durch Summe aller Widerstände.</solution>
     </question>     
     
     <question>
@@ -72,12 +47,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>1</creatorId>
-        
-        <answer>
-            <text>Produkt der Leitwerte, die aufgetrennt werden, geteilt durch Summe aller Leitwerte.</text>
-            <creatorId>1</creatorId>    
-        </answer>            
-        
+        <solution>Produkt der Leitwerte, die aufgetrennt werden, geteilt durch Summe aller Leitwerte.</solution>
     </question>     
     
     <question>
@@ -85,12 +55,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>1</creatorId>
-        
-        <answer>
-            <text>3.8.1980</text>
-            <creatorId>1</creatorId>    
-        </answer>            
-        
+        <solution>3.8.1980</solution>
     </question>     
     
     <question>
@@ -98,12 +63,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>2</creatorId>
-        
-        <answer>
-            <text>Antwort eingeben</text>
-            <creatorId>2</creatorId>    
-        </answer>            
-        
+        <solution>Antwort eingeben</solution>
     </question>     
     
     <question>
@@ -111,12 +71,7 @@
         <description>http://de.wikipedia.org/wiki/Unternehmen</description>
         <visibility>All</visibility>
         <creatorId>2</creatorId>
-        
-        <answer>
-            <text>3 Millionen</text>
-            <creatorId>2</creatorId>    
-        </answer>            
-        
+        <solution>3 Millionen</solution>
     </question>     
         
 </trueorfalse>

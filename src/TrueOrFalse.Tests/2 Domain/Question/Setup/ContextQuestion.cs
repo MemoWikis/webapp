@@ -26,12 +26,19 @@ namespace TrueOrFalse.Tests
             _categoryRepository = categoryRepository;
         }
 
-        public ArrangeQuestion AddQuestion(string questionText)
+        public ContextQuestion AddQuestion(string questionText, string solutionText)
         {
-            var arrangeQuestion = new ArrangeQuestion(this);
-            arrangeQuestion.Question.Text= questionText;
-            Questions.Add(arrangeQuestion.Question);
-            return arrangeQuestion;
+            var question = new Question();
+            question.Text = questionText;
+            question.Solution = solutionText;
+            Questions.Add(question);
+            return this;
+        }
+
+        public ContextQuestion AddCategory(string categoryName)
+        {
+            Questions.Last().Categories.Add(new Category(categoryName));
+            return this;
         }
 
         public ContextQuestion Persist()
@@ -54,7 +61,6 @@ namespace TrueOrFalse.Tests
                 }
                     
             }
-                
         }
     }
 }

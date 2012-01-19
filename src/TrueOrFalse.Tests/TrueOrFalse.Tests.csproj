@@ -126,7 +126,6 @@
   <ItemGroup>
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
-    <Compile Include="2 Domain\Question\Setup\ArrangeQuestion.cs" />
     <Compile Include="2 Domain\Question\Setup\ContextQuestion.cs" />
     <Compile Include="2 Domain\Question.Answer\Spec_answer_simple_text.cs" />
     <Compile Include="2 Domain\Category\Setup\ArrangeCategory.cs" />
