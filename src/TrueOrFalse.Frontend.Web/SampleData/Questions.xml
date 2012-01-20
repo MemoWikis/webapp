@@ -73,5 +73,13 @@
         <creatorId>2</creatorId>
         <solution>3 Millionen</solution>
     </question>     
+    
+    <question>
+        <text>Wie heißt die Tabelle, in der Zählerstände gemeldet werden.</text>
+        <description>Erklärung der Antwort und Quellen.</description>
+        <visibility>All</visibility>
+        <creatorId>2</creatorId>
+        <solution>MaschinenZaehler</solution>
+    </question>     
         
 </trueorfalse>
