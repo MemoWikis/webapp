@@ -7,12 +7,7 @@
         <description><%= question.Description %></description>
         <visibility><%= question.Visibility %></visibility>
         <creatorId><%=question.Creator.Id %></creatorId>
-        <% foreach (var answer in question.Answers) { %>
-        <answer>
-            <text><%=answer.Text %></text>
-            <creatorId><%=answer.Creator.Id%></creatorId>    
-        </answer>            
-        <% } %>
+        <solution><%=question.Solution %></solution>
     </question>     
     <% } %>    
 </trueorfalse>

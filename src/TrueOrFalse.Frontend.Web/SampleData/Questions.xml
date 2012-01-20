@@ -7,7 +7,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>1</creatorId>
-		<solution>Albert Einstein</solution>
+        <solution>Albert Einstein</solution>
     </question>     
     
     <question>
@@ -15,7 +15,7 @@
         <description></description>
         <visibility>All</visibility>
         <creatorId>1</creatorId>
-		<solution>v^2 / r</solution>
+        <solution>v^2 / r</solution>
     </question>     
     
     <question>

@@ -43,7 +43,7 @@ public class ExportController : Controller
 
     private void ExportToFile(string actionName , string filePath)
     {
-        var request = WebRequest.Create(Url.Action(actionName, null, null, "http"));
+        var request = WebRequest.Create(Url.Action(actionName, "Export", null, "http"));
 
         using (var responseStream = request.GetResponse().GetResponseStream())
             using (var fileStream = new FileStream(filePath, FileMode.Create))
