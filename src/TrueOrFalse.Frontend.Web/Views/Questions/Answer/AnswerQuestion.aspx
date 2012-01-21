@@ -27,7 +27,10 @@
                 <div id="buttons-correct-answer" style="display: none">
                     <%= Buttons.Submit("N&auml;chste Frage", url: "#",  id: "btnNext", inline: true)%>
                 </div>
-                <div id="buttons-wrong-answer" style="display: none">
+                <div id="buttons-edit-answer" style="display: none">
+                    <%= Buttons.Submit("Antwort &Uuml;berarbeiten", url: "#",  id: "btnEditAnswer", inline: true)%>
+                </div>
+                <div id="buttons-answer-again" style="display: none">
                     <%= Buttons.Submit("Nochmal Antworten", url: Model.AnswerQuestionLink(Url), id: "btnCheckAgain", inline: true)%>
                 </div>
             </div>
