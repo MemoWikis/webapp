@@ -5,11 +5,9 @@ using System.Text;
 
 namespace TrueOrFalse.Core
 {
-    public enum SolutionType
+    public class AnswerQuestionResult
     {
-        Exact = 1,
-        Approximation = 2,
-        MultipleChoice = 3,
-        Vocable = 4
+        public bool IsCorrect;
+        public string CorrectAnswer = "";
     }
 }

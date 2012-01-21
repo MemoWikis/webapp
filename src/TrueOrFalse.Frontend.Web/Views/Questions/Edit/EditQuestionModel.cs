@@ -72,10 +72,10 @@ public class EditQuestionModel : ModelBase
     public IEnumerable<SelectListItem> AnswerTypeData{ get {
             return new List<SelectListItem>
                         {
-                            new SelectListItem {Text = "Exakt", Value = TrueOrFalse.Core.SolutionType.Exact.ToString()},
-                            new SelectListItem {Text = "Annäherung", Value = TrueOrFalse.Core.SolutionType.Approximation.ToString()},
-                            new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.Core.SolutionType.MultipleChoice.ToString()},
-                            new SelectListItem {Text = "Vokable", Value = TrueOrFalse.Core.SolutionType.Vocable.ToString()},
+                            new SelectListItem {Text = "Exakt", Value = TrueOrFalse.Core.QuestionSolutionType.Exact.ToString()},
+                            new SelectListItem {Text = "Annäherung", Value = TrueOrFalse.Core.QuestionSolutionType.Approximation.ToString()},
+                            new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.Core.QuestionSolutionType.MultipleChoice.ToString()},
+                            new SelectListItem {Text = "Vokable", Value = TrueOrFalse.Core.QuestionSolutionType.Vocable.ToString()},
                             
                         };
         }
@@ -100,7 +100,7 @@ public class EditQuestionModel : ModelBase
     {
         Question = question.Text;
         Solution = question.Solution;
-        SolutionType = question.SolutionType.ToString();
+        SolutionType = question.QuestionSolutionType.ToString();
         Description = question.Description;
         
         Category1 = question.Categories.GetValueByIndex(0);

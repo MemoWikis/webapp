@@ -4,17 +4,24 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
+using TrueOrFalse.Core.Web.Context;
 
 [HandleError]
 public class AnswerQuestionController : Controller
 {
     private readonly QuestionRepository _questionRepository;
+    private readonly AnswerQuestion _answerQuestion;
+    private readonly SessionUser _sessionUser;
 
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
-    public AnswerQuestionController(QuestionRepository questionRepository)
+    public AnswerQuestionController(QuestionRepository questionRepository, 
+                                    AnswerQuestion answerQuestion,
+                                    SessionUser sessionUser)
     {
         _questionRepository = questionRepository;
+        _answerQuestion = answerQuestion;
+        _sessionUser = sessionUser;
     }
 
     public ActionResult Answer(string text, int id)
@@ -25,9 +32,15 @@ public class AnswerQuestionController : Controller
     }
 
     [HttpPost]
-    public JsonResult ValidateAnswer(int id, string answer)
+    public JsonResult SendAnswer(int id, string answer)
     {
-        return new JsonResult {Data = new {correct = answer == "Kuchen"}};
+        var result = _answerQuestion.Run(id, answer, _sessionUser.User.Id);
+
+        return new JsonResult {Data = new
+                                          {
+                                              correct = result.IsCorrect, 
+                                              correctAnswer = result.CorrectAnswer
+                                          }};
     }
 
 }

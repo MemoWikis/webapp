@@ -33,7 +33,7 @@ public class AnswerQuestionModel : ModelBase
 
         AverageAnswerTime = "";
 
-        AnswerQuestionLink = url => Links.ValidateAnswer(url, question);
+        AnswerQuestionLink = url => Links.SendAnswer(url, question);
 
     }
 

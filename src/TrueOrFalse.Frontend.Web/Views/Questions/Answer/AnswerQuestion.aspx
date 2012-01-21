@@ -19,18 +19,27 @@
         <textarea id="txtAnswer"></textarea>
 
         <div>
-            <div style="float: right; margin-right: 175px; ">
-                <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
-                <div id="buttons-first-try">
+            <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
+            <div id="buttons-first-try">
+                <div style="float: right; margin-right: 175px; ">
                     <%= Buttons.Submit("Antworten", url: Model.AnswerQuestionLink(Url),  id: "btnCheck", inline: true)%>
                 </div>
-                <div id="buttons-correct-answer" style="display: none">
+            </div>
+            <div id="buttons-correct-answer" style="display: none">
+                <div style="float: right; margin-right: 175px; ">
                     <%= Buttons.Submit("N&auml;chste Frage", url: "#",  id: "btnNext", inline: true)%>
+                    </div>
+            </div>
+            <div id="buttons-edit-answer" style="display: none">
+                    
+                <a href="#">Antwort anzeigen</a>
+                <div style="float: right; margin-right: 175px; ">
+                    
+                <%= Buttons.Submit("Antwort &Uuml;berarbeiten", url: "#",  id: "btnEditAnswer", inline: true)%>
                 </div>
-                <div id="buttons-edit-answer" style="display: none">
-                    <%= Buttons.Submit("Antwort &Uuml;berarbeiten", url: "#",  id: "btnEditAnswer", inline: true)%>
-                </div>
-                <div id="buttons-answer-again" style="display: none">
+            </div>
+            <div id="buttons-answer-again" style="display: none">
+                <div style="float: right; margin-right: 175px; ">
                     <%= Buttons.Submit("Nochmal Antworten", url: Model.AnswerQuestionLink(Url), id: "btnCheckAgain", inline: true)%>
                 </div>
             </div>
