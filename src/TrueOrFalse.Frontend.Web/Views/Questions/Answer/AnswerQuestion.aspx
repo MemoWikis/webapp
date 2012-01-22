@@ -42,7 +42,7 @@
                     <%= Buttons.Submit("Nochmal Antworten", url: Model.AnswerQuestionLink(Url), id: "btnCheckAgain", inline: true)%>
                 </div>
             </div>
-            <div id="answerFeedback" style="display: none; margin-top:12px;">Du könntest es wenigstens probieren!</div>
+            <div id="answerFeedback" style="display: none; margin-top:12px; padding-right: 140px;">Du könntest es wenigstens probieren!</div>
             <div style="clear: both"></div>
         </div>
         
