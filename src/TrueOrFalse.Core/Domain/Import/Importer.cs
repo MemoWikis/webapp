@@ -33,21 +33,7 @@ namespace TrueOrFalse.Core
                         };
 
             Categories = from categoryElement in document.Root.Elements("category")
-                         select new Category
-                         {
-                             Name = categoryElement.Element("name").Value,
-                             SubCategories = (from subCategoryElement in categoryElement.Elements("subCategory")
-                                              select new SubCategory
-                                              {
-                                                  Name = subCategoryElement.Element("name").Value,
-                                                  Type = (SubCategoryType) Enum.Parse(typeof(SubCategoryType), subCategoryElement.Element("type").Value),
-                                                  Items = (from itemElement in subCategoryElement.Elements("item")
-                                                           select new SubCategoryItem
-                                                                      {
-                                                                          Name = itemElement.Element("name").Value
-                                                                      }).ToList()
-                                              }).ToList()
-                         };
+                         select new Category(categoryElement.Element("name").Value);
 
         }
     }

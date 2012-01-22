@@ -11,11 +11,9 @@ namespace TrueOrFalse.Core
         public virtual string Name { get; set; }
         public virtual User Creator { get; set; }
 
-        public virtual IList<SubCategory> SubCategories { get; set; }
 
         public Category()
         {
-            SubCategories = new List<SubCategory>();
         }
 
         public Category(string name) : this()

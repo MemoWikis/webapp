@@ -22,18 +22,11 @@
     <%= Html.LabelFor(m => m.Name ) %>
     <%= Html.TextBoxFor(m => m.Name ) %>
 
-    <div id="subCategories">
-        <% foreach (var subCategory in Model.SubCategories){
-               Html.RenderPartial("~/Views/Categories/Edit/SubCategoryRow.ascx", subCategory);
-        } %>
+    <h3>Steht in enger Beziehung zu den Kategorien (ausgehend)</h3>
+    <div id="relatedCategories">
+        <input id="txtNewRelatedCategory" />
+        <a href="#" id="addRelatedCategory" style="display:none"><img alt="" src='/Images/Buttons/add.png' /></a>
     </div>
-
-    <br />
-    <label>&nbsp;</label>
-
-    <a href="<%= Url.Action(Links.AddSubCategoryRow, Links.EditCategoryController) %>" id="addSubCategoryRow">
-        <img src='/Images/Buttons/add.png'> <span>Unterkategorie hinzufügen</span>
-    </a>
 
     <br/><br/><br/>
     <label>&nbsp;</label>

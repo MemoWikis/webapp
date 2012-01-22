@@ -36,17 +36,7 @@ namespace TrueOrFalse.Tests
                                             <solution>First answer to Question 2</solution>
                                         </question>
                                         <category>
-                                            <name>Sport</name>
-                                            <subCategory>
-                                                <name>Sportart</name>
-                                                <type>OpenList</type>
-                                                <item>
-                                                    <name>Tennis</name>
-                                                </item>
-                                                <item>
-                                                    <name>Fussball</name>
-                                                </item>
-                                            </subCategory>
+                                            <name>Sport</name>                                        
                                         </category>
                                     </trueorfalse>";
 
@@ -75,13 +65,7 @@ namespace TrueOrFalse.Tests
 
             importer.Categories.Count().Should().Be.EqualTo(1);
             importer.Categories.Single().Name.Should().Be.EqualTo("Sport");
-            importer.Categories.Single().SubCategories.Count.Should().Be.EqualTo(1);
-            importer.Categories.Single().SubCategories.Single().Name.Should().Be.EqualTo("Sportart");
-            importer.Categories.Single().SubCategories.Single().Type.Should().Be.EqualTo(SubCategoryType.OpenList);
-            importer.Categories.Single().SubCategories.Single().Items.Count.Should().Be.EqualTo(2);
-            importer.Categories.Single().SubCategories.Single().Items.First().Name.Should().Be.EqualTo("Tennis");
-            importer.Categories.Single().SubCategories.Single().Items.Last().Name.Should().Be.EqualTo("Fussball");
-        }
+         }
 
     }
 }

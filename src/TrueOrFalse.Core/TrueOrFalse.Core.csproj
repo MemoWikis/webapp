@@ -106,18 +106,11 @@
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Classification\Category.SubCategoryItem\SubCategoryItem.cs" />
-    <Compile Include="Domain\Classification\Category.SubCategoryItem\Persistence\SubCategoryItemMap.cs" />
-    <Compile Include="Domain\Classification\Category.SubCategoryItem\Persistence\SubCategoryItemRepository.cs" />
-    <Compile Include="Domain\Classification\Category.SubCategory\SubCategoryType.cs" />
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryMap.cs" />
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />
-    <Compile Include="Domain\Classification\Category.SubCategory\SubCategory.cs" />
-    <Compile Include="Domain\Classification\Category.SubCategory\Persistence\SubCategoryMap.cs" />
-    <Compile Include="Domain\Classification\Category.SubCategory\Persistence\SubCategoryRepository.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategorySearch.cs" />
     <Compile Include="Domain\Import\Importer.cs" />
     <Compile Include="Domain\Message\Message.cs" />
