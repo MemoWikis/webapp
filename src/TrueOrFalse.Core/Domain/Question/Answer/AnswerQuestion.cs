@@ -24,6 +24,7 @@ namespace TrueOrFalse.Core
             var result = new AnswerQuestionResult();
             result.IsCorrect = question.Solution == answer.Trim();
             result.CorrectAnswer = question.Solution;
+            result.AnswerGiven = answer;
 
             _answerHistoryLog.Run(question, result, userId);
 

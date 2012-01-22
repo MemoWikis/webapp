@@ -126,16 +126,16 @@
   <ItemGroup>
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
-    <Compile Include="2 Domain\Question.AnswerHistory\QuestionAnswerHistory.cs" />
+    <Compile Include="2 Domain\Question\Answer\AnswerQuestionTests.cs" />
+    <Compile Include="2 Domain\Question\History\QuestionAnswerHistoryTests.cs" />
     <Compile Include="2 Domain\Question\Setup\ContextQuestion.cs" />
-    <Compile Include="2 Domain\Question.Answer\Spec_answer_simple_text.cs" />
     <Compile Include="2 Domain\Category\Setup\ArrangeCategory.cs" />
     <Compile Include="2 Domain\Category\Setup\ContextCategory.cs" />
     <Compile Include="2 Domain\Category\Spec_get_categories_by_name.cs" />
     <Compile Include="2 Domain\Import\Import_version_0_1_tests.cs" />
     <Compile Include="2 Domain\Category\Category_persistence_tests.cs" />
     <Compile Include="2 Domain\Question\Spec_changing_question_categories.cs" />
-    <Compile Include="2 Domain\User\Context.RegisteredUser.cs" />
+    <Compile Include="2 Domain\User\ContextRegisteredUser.cs" />
     <Compile Include="2 Domain\User\Registration\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Domain\User\Tests.PersistUser.cs" />
     <Compile Include="3 Web\UriSanitizer_Tests.cs" />
