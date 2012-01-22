@@ -5,7 +5,7 @@
     $("#answerFeedback").hide();
 
     if(answerText.trim().length == 0) {
-        msgErrorShow("(Du könntest es es ja wenigstens probieren! Tzzzz...) "); return "";
+        msgErrorShow("Du könntest es es ja wenigstens probieren! Tzzzz... "); return "";
     }
 
     $.ajax({
@@ -80,14 +80,14 @@ function msgErrorRandomText() {
 }
 
 function msgSuccess() {
-    $("#answerFeedback").text(successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
+    $("#answerFeedback").html("<font color=green>Richtig!</font>  " + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
 }
 
 function msgErrorShow(text) {
     $("#buttons-first-try").hide();
     $("#buttons-answer-again").hide();
 
-    $("#answerFeedback").text(text).show();
+    $("#answerFeedback").html("<font color=red>Falsche Antwort!</font></br>(" + text + ")").show();
 
     animateWrongAnswer();
 }
