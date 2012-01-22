@@ -7,7 +7,7 @@ using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Tests
 {
-    public class QuestionAnswerHistoryTests
+    public class QuestionAnswerHistoryTests : BaseTest
     {
         [Test]
         public void Persistence_Test()
@@ -18,7 +18,7 @@ namespace TrueOrFalse.Tests
             questionHistory.UserId = 1;
             questionHistory.AnswerText = "asdfasfsf";
 
-
+            Resolve<AnswerHistoryRepository>().Create(questionHistory);
         }
     }
 }

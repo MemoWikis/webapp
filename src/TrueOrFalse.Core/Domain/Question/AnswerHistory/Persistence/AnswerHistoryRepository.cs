@@ -11,6 +11,7 @@ namespace TrueOrFalse.Core
     {
         public AnswerHistoryRepository(ISession session) : base(session)
         {
+
         }
     }
 }

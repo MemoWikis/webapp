@@ -20,9 +20,9 @@ namespace TrueOrFalse.Tests
                 Execute(this);            
         }
 
-        private static Context_RegisteredUser _context;
+        private static ContextRegisteredUser _context;
 
-        private readonly Func<IContextDescription> a_used_email_address = () => _context = new Context_RegisteredUser().SetEmailAddress("some@emailAddress.com");
+        private readonly Func<IContextDescription> a_used_email_address = () => _context = ContextRegisteredUser.New().SetEmailAddress("some@emailAddress.com");
         private readonly Action the_email_address_should_not_be_usable_anymore 
             = () => {
                        Assert.That(Resolve<IsEmailAddressNotInUse>().Yes(_context.EmailAddress), Is.False);
