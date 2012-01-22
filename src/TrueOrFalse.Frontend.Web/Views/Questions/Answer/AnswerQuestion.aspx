@@ -16,7 +16,7 @@
 
         <h4><%= Model.QuestionText %></h4>
         
-        <textarea id="txtAnswer"></textarea>
+        <textarea id="txtAnswer" style="height: 30px;"></textarea>
 
         <div>
             <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
@@ -31,7 +31,6 @@
                     </div>
             </div>
             <div id="buttons-edit-answer" style="display: none">
-                    
                 <a href="#">Antwort anzeigen</a>
                 <div style="float: right; margin-right: 175px; ">
                     
@@ -43,6 +42,7 @@
                     <%= Buttons.Submit("Nochmal Antworten", url: Model.AnswerQuestionLink(Url), id: "btnCheckAgain", inline: true)%>
                 </div>
             </div>
+            <div id="answerFeedback" style="display: none; margin-top:12px;">Du könntest es wenigstens probieren!</div>
             <div style="clear: both"></div>
         </div>
         
