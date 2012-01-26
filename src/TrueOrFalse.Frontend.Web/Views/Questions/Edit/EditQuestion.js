@@ -1,29 +1,12 @@
 ﻿$(function () {
-    var availableTags = [
-			"ActionScript",
-			"AppleScript",
-			"Asp",
-			"BASIC",
-			"C",
-			"C++",
-			"Clojure",
-			"COBOL",
-			"ColdFusion",
-			"Erlang",
-			"Fortran",
-			"Groovy",
-			"Haskell",
-			"Java",
-			"JavaScript",
-			"Lisp",
-			"Perl",
-			"PHP",
-			"Python",
-			"Ruby",
-			"Scala",
-			"Scheme"
-		];
-    $("#newCategory").autocomplete({
-        source: availableTags
-    });
+    $('#Question').defaultText("Bitte geben Sie eine Frage ein.");
+    $('#Answer').defaultText("Antwort eingeben.");
+    $('#Description').defaultText("Erklärung der Antwort und Quellen.");
+
+    for (var i = 0; i <= 5; i++) {
+        $("#cat" + i).autocomplete({
+            source: '/Api/Category/ByName',
+            minLength: 1
+        });
+    }
 });

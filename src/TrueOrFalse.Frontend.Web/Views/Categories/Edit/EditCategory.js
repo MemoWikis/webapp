@@ -1,19 +1,20 @@
-﻿$(function () {
-    
-    $("#addSubCategoryRow").click(function () {
-        $.ajax({
-            url: this.href,
-            cache: false,
-            success: function (html) {
-                $("#subCategories").append(html);
-            }
-        });
-        return false;
-    });
+﻿function escape_regexp(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 
-    $("a.deleteRow").live("click", function () {
-        $(this).parents("div.editorRow:first").remove();
-        return false;
-    });
+$.expr[':'].textEquals = function (a, i, m) {
+    return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i"));
+};
 
+$(function () {
+    $("#txtNewRelatedCategory").autocomplete({
+        source: '/Api/Category/ByName',
+        minLength: 1
+    }).keyup(function() {
+        if ($(".ui-autocomplete li:textEquals('" + $(this).val() + "')").size() == 0) {
+            $("#addRelatedCategory").hide();
+        } else {
+            $("#addRelatedCategory").show();
+        }
+    });
 });

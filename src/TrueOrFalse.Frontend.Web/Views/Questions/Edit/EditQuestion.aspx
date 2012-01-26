@@ -4,24 +4,6 @@
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <script src="<%= Url.Content("~/Views/Questions/Edit/EditQuestion.js") %>" type="text/javascript"></script>
-
-    <script language="javascript" type="text/javascript">
-        $(function () {
-            $('#Question').defaultText("Bitte geben Sie eine Frage ein.");
-            $('#Answer').defaultText("Antwort eingeben.");
-            $('#Description').defaultText("Erklärung der Antwort und Quellen.");
-
-			for (var i = 0; i <= 5; i++)
-            {
-				$("#cat" + i).autocomplete({
-            		source:  '<%= Url.Action("ByName", "CategoryApi") %>',
-            		minLength : 1
-				});                
-            }
-        });
-
-    </script>
-
     <style type="text/css">
         div.classification  input {width: 75px; background-color: beige;}
     </style>
