@@ -14,12 +14,13 @@ namespace TrueOrFalse.Core
             _answerHistoryRepository = answerHistoryRepository;
         }
 
-        public void Run(Question question, AnswerQuestionResult result, int userId)
+        public void Run(Question question, AnswerQuestionResult answerQuestionResult, int userId)
         {
             var answerHistory = new AnswerHistory();
-            answerHistory.AnswerText = result.AnswerGiven;
             answerHistory.QuestionId = question.Id;
             answerHistory.UserId = userId;
+            answerHistory.AnswerText = answerQuestionResult.AnswerGiven;
+            answerHistory.AnswerredCorrectly = answerQuestionResult.IsCorrect;
             _answerHistoryRepository.Create(answerHistory);
         }
     }
