@@ -10,21 +10,42 @@ $(function () {
     $("#txtNewRelatedCategory").autocomplete({
         source: '/Api/Category/ByName',
         minLength: 1
-    }).keyup(function () {
-        var matched = $(".ui-autocomplete li:textEquals('" + $(this).val() + "')");
-        if (matched.size() == 0) {
+    });
+
+    var bouncing = false;
+    function checkText() {
+        var text = $("#txtNewRelatedCategory").val();
+        var matched = $(".ui-autocomplete li:textEquals('" + text + "')");
+        var existing = $(".added-cat:textEquals('" + text + "')");
+        if (matched.size() == 0 || existing.size() != 0) {
             $("#addRelatedCategory").hide();
         } else {
             $("#addRelatedCategory").show();
-            $(this).val(matched.text());
+            $("#txtNewRelatedCategory").val(matched.text());
         }
-    });
+        if (!bouncing && existing.size() != 0) {
+            bouncing = true;
+            existing.effect('bounce', null, 'fast', function () { bouncing = false; });
+        }
+        setTimeout(checkText, 0.25);
+    }
+    checkText();
 
-    var lastCategoryId = 1;
-    $("#addRelatedCategory").click(function () {
+    var catId = 1;
+    function addCat() {
         var catText = $("#txtNewRelatedCategory").val();
-        var catId = "category-" + lastCategoryId;
-        $("#txtNewRelatedCategory").before("<span id='" + catId + "'>" + catText + "</span> ");
+        $("#txtNewRelatedCategory").before(
+            "<div class='added-cat' id='span-cat-" + catId + "'>" + catText +
+                "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" +
+                    "</div> ");
         $("#txtNewRelatedCategory").val('');
+        catId++;
+    }
+
+    $("#addRelatedCategory").click(addCat);
+    $("#txtNewRelatedCategory").keydown(function (event) {
+        if (event.keyCode == 13 && $("#addRelatedCategory").is(':visible')) {
+            addCat();
+        }
     });
 });
