@@ -12,7 +12,7 @@ $(function () {
         minLength: 1
     });
 
-    var bouncing = false;
+    var animating = false;
     function checkText() {
         var text = $("#txtNewRelatedCategory").val();
         var matched = $(".ui-autocomplete li:textEquals('" + text + "')");
@@ -21,25 +21,39 @@ $(function () {
             $("#addRelatedCategory").hide();
         } else {
             $("#addRelatedCategory").show();
-            $("#txtNewRelatedCategory").val(matched.text());
+            if ($("#txtNewRelatedCategory").val() != matched.text()) {
+                $("#txtNewRelatedCategory").val(matched.text());
+            }
         }
-        if (!bouncing && existing.size() != 0) {
-            bouncing = true;
-            existing.effect('bounce', null, 'fast', function () { bouncing = false; });
+        if (!animating && existing.size() != 0) {
+            animating = true;
+            existing.effect('bounce', null, 'fast', function () { animating = false; });
         }
-        setTimeout(checkText, 0.25);
+        setTimeout(checkText, 250);
     }
     checkText();
 
-    var catId = 1;
+    var nextCatId = 1;
     function addCat() {
+        var catId = nextCatId;
+        nextCatId++;
         var catText = $("#txtNewRelatedCategory").val();
         $("#txtNewRelatedCategory").before(
-            "<div class='added-cat' id='span-cat-" + catId + "'>" + catText +
+            "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + catText +
                 "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" +
-                    "</div> ");
+                    "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
+                        "</div> ");
         $("#txtNewRelatedCategory").val('');
-        catId++;
+        $("#delete-cat-" + catId).click(function () {
+            animating = true;
+            $("#cat-" + catId).stop(true).animate({ opacity: 0 }, 250, function () {
+                $(this).hide("blind", { direction: "horizontal" }, function () {
+                    $(this).remove();
+                    animating = false;
+                });
+            });
+        });
+        $("#cat-" + catId).show("blind", { direction: "horizontal" });
     }
 
     $("#addRelatedCategory").click(addCat);
