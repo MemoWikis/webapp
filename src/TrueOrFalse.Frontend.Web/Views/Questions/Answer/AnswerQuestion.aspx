@@ -31,7 +31,7 @@
                     </div>
             </div>
             <div id="buttons-edit-answer" style="display: none">
-                <a href="#">Antwort anzeigen</a>
+                <a href="#" id="btnShowAnswer">Antwort anzeigen</a>
                 <div style="float: right; margin-right: 175px; ">
                     
                 <%= Buttons.Submit("Antwort &Uuml;berarbeiten", url: "#",  id: "btnEditAnswer", inline: true)%>
@@ -44,6 +44,11 @@
             </div>
             <div id="answerFeedback" style="display: none; margin-top:12px; padding-right: 140px;">Du könntest es wenigstens probieren!</div>
             <div style="clear: both"></div>
+        </div>
+        
+        <div id="divCorrectAnswer" style="display: none; margin-top:10px;">
+            <b>Richtige Antwort:</b><br />
+            <span id="spanCorrectAnswer"></span>
         </div>
         
     </div>
