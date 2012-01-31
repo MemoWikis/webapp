@@ -5,7 +5,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <link href="/Style/screen.css" rel="stylesheet" type="text/css" />	
 	<link href="/Style/site.css" rel="stylesheet" type="text/css" />
     <link href="/Style/menu.css" rel="stylesheet" type="text/css" />
     <link href="/Style/form.css" rel="stylesheet" type="text/css" />
@@ -37,8 +36,7 @@
         <script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
         <script src="/Scripts/lib.js" type="text/javascript"></script>
     <% }else{ %>
-        <link href='http://fonts.googleapis.com/css?family=Over+the+Rainbow' rel='stylesheet' type='text/css'/>
-        <link href="http://fonts.googleapis.com/css?family=Candal:regular" rel="stylesheet" type="text/css" />
+        
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js" type="text/javascript"></script>
@@ -46,6 +44,10 @@
         <script src="http://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
 
     <% } %>
+    
+    <link rel="stylesheet" href="/style/bootstrap.css">
+    <link href="http://fonts.googleapis.com/css?family=Sirin Stencil:regular" rel="stylesheet" type="text/css" />
+    
 
    <script src="/Scripts/highcharts.js" type="text/javascript"></script>
 
@@ -72,17 +74,11 @@
 
 <body>
   
-    <div class="page container">
-
+    <div class="container">
         <%--HEADER--%>
-        <div id="header"  class="span-24 last">
+        <div id="header"  class="span24 last">
             <div id="title">
-                <%--<h1><a href="/" style="text-decoration:none;">Richtig oder falsch?</a></h1>--%>
-                <h1><a href="/" style="text-decoration:none;">
-                    <span class="green">Richtig</span> 
-                    <span style="font-size:32px;" class="green" >oder</span> 
-                    <span style="color:rgb(174, 10, 17); font-family: 'Over the Rainbow', serif; font-variant:normal; font-size:50px; margin-top:-5px; margin-top:-5px;position:relative;top:10px;">f</span><span class="green">alsch</span><span class="green">?</span>
-                </a></h1>
+                <h1>Richtig oder Falsch</h1>
             </div>
               
             <div id="logindisplay" style="float:right">
@@ -97,13 +93,13 @@
 
         <%-- BODY--%>
         <%
-            var leftMenuWidth = "span-5";
-            var mainWidth = "span-14";
+            var leftMenuWidth = "sidebar";
+            var mainWidth = "content";
             
             if (UserControls.MenuLeft == Model.CurrentLeftMenu)
             {
-                leftMenuWidth = "span-4";
-                mainWidth = "span-15";
+                leftMenuWidth = "sidebar";
+                mainWidth = "content";
             }
 
             if (Model.MainFullWidth)
@@ -123,7 +119,7 @@
         </div>
 
         <% if (!Model.MainFullWidth){ %>
-		    <div class="span-5 last" style="margin-top:40px;" >
+		    <div class="span5 last" style="margin-top:40px;" >
                 <asp:ContentPlaceHolder ID="RightMenu" runat="server"  />
 			    <%
 				    if (Model.RightMenu.Yes)
