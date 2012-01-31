@@ -33,7 +33,7 @@
             });
 	    </script>
            
-            <%= Html.Label("Klassifizierung")%>
+            <%= Html.Label("Kategorien")%>
         <div style="width:400px; float:left; font-size: 10px;" class="classification">
             <%= Html.TextBoxFor(m => Model.Category1, new { @id = "cat1" })%>
 			<%= Html.TextBoxFor(m => Model.Category2, new { @id = "cat2" })%>
