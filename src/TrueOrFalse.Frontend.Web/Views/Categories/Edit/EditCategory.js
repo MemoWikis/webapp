@@ -58,6 +58,7 @@ $(function () {
 
     $("#addRelatedCategory").click(addCat);
     $("#txtNewRelatedCategory").keydown(function (event) {
+        checkText();
         if (event.keyCode == 13 && $("#addRelatedCategory").is(':visible')) {
             addCat();
         }

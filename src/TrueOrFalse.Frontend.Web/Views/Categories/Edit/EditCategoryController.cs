@@ -66,6 +66,7 @@ public class EditCategoryController : Controller
         }
         else
         {
+            model.FillReleatedCategoriesFromPostData(Request.Form);
             _categoryRepository.Create(model.ConvertToCategory());
 
             model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));

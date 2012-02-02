@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
@@ -28,11 +29,21 @@ public class EditCategoryModel : ModelBase
 
     public Category ConvertToCategory()
     {
-        return new Category(Name);
+        var category = new Category(Name) {RelatedCategories = new List<Category>()};
+        foreach (var name in RelatedCategories)
+            category.RelatedCategories.Add(ServiceLocator.Resolve<CategoryRepository>().GetByName(name));
+        return category;
     }
 
     public void UpdateCategory(Category category)
     {
         category.Name = Name;
+    }
+
+    public IEnumerable<string> RelatedCategories { get; set; } 
+
+    public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
+    {
+        RelatedCategories = from key in postData.AllKeys where key.StartsWith("cat") select postData[key];
     }
 }
