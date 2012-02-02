@@ -233,12 +233,10 @@
     <Content Include="Scripts\MicrosoftMvcAjax.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Style\bootstrap.css" />
     <Content Include="Style\fonts\OFL.txt" />
     <Content Include="Style\form.css" />
-    <Content Include="Style\ie.css" />
     <Content Include="Style\menu.css" />
-    <Content Include="Style\print.css" />
-    <Content Include="Style\screen.css" />
     <Content Include="Style\site.css" />
     <Content Include="Style\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Style\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />

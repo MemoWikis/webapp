@@ -14,6 +14,7 @@ namespace TrueOrFalse.Core
             Map(x => x.UserId);
             Map(x => x.QuestionId);
             Map(x => x.AnswerText);
+            Map(x => x.AnswerredCorrectly);
             Map(x => x.Milliseconds);
             Map(x => x.DateCreated);
         }

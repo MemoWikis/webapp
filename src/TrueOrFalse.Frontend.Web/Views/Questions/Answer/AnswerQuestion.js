@@ -1,4 +1,6 @@
-﻿function check() {
+﻿var answerResult;
+
+function check() {
 
     var answerText = $("#txtAnswer")[0].value;
 
@@ -14,6 +16,7 @@
         data: { answer: answerText },
         cache: false,
         success: function (result) {
+            answerResult = result;
             $("#buttons-first-try").hide();
             $("#buttons-answer-again").hide();
             if (result.correct) {
@@ -45,10 +48,15 @@ $.fn.setCursorPosition = function (pos) {
     return this;
 };
 
-$(function() {
+$(function () {
     $("#btnCheck").click(check);
     $("#btnCheckAgain").click(check);
-    $("#buttons-edit-answer").click(function() {
+    $("#btnShowAnswer").click(function () {
+        $("#divCorrectAnswer").show();
+        $("#spanCorrectAnswer").html(answerResult.correctAnswer);
+        return false;
+    });
+    $("#buttons-edit-answer").click(function () {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
     });
@@ -69,7 +77,7 @@ function animateWrongAnswer() {
 var errMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
                 "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
                 "Weiter, weiter nicht aufgeben.",
-                "Überung macht den Meister, Du bist auf dem richtigen Weg.", 
+                "Übung macht den Meister, Du bist auf dem richtigen Weg.", 
                 "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
                ];
 

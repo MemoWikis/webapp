@@ -3,12 +3,16 @@
     Title="Willkommen bei True Or False" %>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
+    
+    
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Willkommen</h1>
+        <p>Schön das Du da bist. Entscheide was Dir wichtig ist und merke es Dir - Für immer!</p>
+        <p><a class="btn primary large">Mehr Erfahren &raquo;</a></p>
+      </div>
+      
 
-       <h2><%= Html.Encode(ViewData["Message"]) %></h2>
-
-       <div class="span-16">
-       
-       </div>
 
        <hr/>
 
