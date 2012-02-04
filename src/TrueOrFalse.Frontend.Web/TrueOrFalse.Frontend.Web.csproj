@@ -245,6 +245,15 @@
     <Content Include="Images\menu-icon-person.png.licence.txt" />
     <Content Include="Images\RowHeaderBackground.png" />
     <Content Include="Images\star.png" />
+    <Content Include="img\browsers.png" />
+    <Content Include="img\github-16px.png" />
+    <Content Include="img\glyphicons-halflings-white.png" />
+    <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="img\grid-18px-masked.png" />
+    <Content Include="img\icon-css3.png" />
+    <Content Include="img\icon-github.png" />
+    <Content Include="img\icon-html5.png" />
+    <Content Include="img\icon-twitter.png" />
     <Content Include="Scripts\application.js" />
     <Content Include="Scripts\bootstrap-alert.js" />
     <Content Include="Scripts\bootstrap-button.js" />
