@@ -6,14 +6,15 @@
 
 
 <% using (Html.BeginForm()) { %>
-<% Html.Message(Model.Message); %>
-
 
     <div class="row" style="padding-top:30px;">
         <div class="span2">&nbsp;</div>
         <div class="form-horizontal span8">
             <fieldset>
                 <legend>Anmelden</legend>
+                
+                <% Html.Message(Model.Message); %>
+
                 <div class="control-group">
                     <%: Html.LabelFor(model => model.EmailAddress)%>
                     <%: Html.EditorFor(model => model.EmailAddress)%> 
