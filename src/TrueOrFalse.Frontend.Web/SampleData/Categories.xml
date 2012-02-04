@@ -5,6 +5,8 @@
     <category>
         <name>Physik</name>        
         
+        <related>Mathematik</related>           
+        
     </category>     
     
     <category>
@@ -34,6 +36,11 @@
     
     <category>
         <name>Concept-Office</name>        
+        
+    </category>     
+    
+    <category>
+        <name>Mathematik</name>        
         
     </category>     
         
