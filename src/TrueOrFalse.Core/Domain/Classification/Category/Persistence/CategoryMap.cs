@@ -15,7 +15,7 @@ namespace TrueOrFalse.Core
             References(x => x.Creator);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
-            HasManyToMany(x => x.RelatedCategories).ChildKeyColumn("Related_Id");
+            HasManyToMany(x => x.RelatedCategories).ChildKeyColumn("Related_Id").Cascade.All();
         }
     }
 }
