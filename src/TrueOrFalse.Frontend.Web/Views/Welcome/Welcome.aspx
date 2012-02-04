@@ -3,38 +3,57 @@
     Title="Willkommen bei True Or False" %>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    
-    
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h1>Willkommen</h1>
+                      
+    <div class="hero-unit row" style="padding: 50px 50px 30px 50px" >
+        <h1 style="font-size:50px;">Willkommen</h1>
         <p>Schön das Du da bist. Entscheide was Dir wichtig ist und merke es Dir - Für immer!</p>
         <p><a class="btn primary large">Mehr Erfahren &raquo;</a></p>
-      </div>
-      
+    </div>
+    
+    <div class="row" style="padding-left:50px; padding-top: 0px;">
+        <h3>
+            "Wenn ich über die steuer- und erbrechtliche 
+            Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren."<br/>
+        </h3>
+        Wer hat das gesagt: 
+        <span class="label label-success">Jörg Heider</span>
+        <span class="label label-success">Helmut Kohl</span>
+        <span class="label label-success">Edmund Stoiber</span>
+    </div>
+    
+    <div class="row" style="padding-left:50px; padding-top:30px;">
+        <h3>
+            Welches Auto ist in der Grundausstattung teurer:
+        </h3>
+        
+        <span class="label label-info">BMW 318i</span> oder 
+        <span class="label label-info">Golf GTI</span> ?
+    </div>
+    
+    <div class="row" style="padding-left:50px; padding-top:30px;">
+        <h3>
+            Wieviele Mitarbeiter arbeiten bei der Deutschen-Bahn?
+        </h3>
+        
+        <b>Deine Antwort: </b>
+        <input type="text" width="30px;"/> <small>(bis zu 20% Abweichung zugelassen)</small>
+    </div>
 
 
-       <hr/>
+<%--    <div class="row">
+        <h3>Spannende Fragen 1</h3>  
 
-        <div class="span-6 colborder">  
-            <h3>Spannende Fragen 1</h3>  
+		<%foreach(var question in Model.MostPopular){ %>
+			<div><%= question.Text %></div>
+		<%} %>
+    </div>
 
-		    <%foreach(var question in Model.MostPopular){ %>
-		
-			    <div><%= question.Text %></div>
-		
-		    <%} %>
-        </div>  
-  
-        <div class="span-6 last">  
-            <h3>Spannende Fragen 2</h3>  
-
-		    <%foreach(var question in Model.MostPopular){ %>
-		
-			    <div><%= question.Text %></div>
-		
-		    <%} %>        
-        </div>  
+    <div class="row">
+        <h3>Spannende Fragen 2</h3>  
+		<%foreach(var question in Model.MostPopular){ %>
+			<div><%= question.Text %></div>
+		<%} %>        
+    </div>  --%>
 
 
 </asp:Content>
