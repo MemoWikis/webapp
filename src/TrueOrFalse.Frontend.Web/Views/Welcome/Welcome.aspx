@@ -35,8 +35,14 @@
             Wieviele Mitarbeiter arbeiten bei der Deutschen-Bahn?
         </h3>
         
-        <b>Deine Antwort: </b>
-        <input type="text" width="30px;"/> <small>(bis zu 20% Abweichung zugelassen)</small>
+        <form class="form-search">
+            <div class="control-group">
+                Deine Antwort:
+                <input type="text" class="input-medium" style="width: 50px;">
+                <button class="btn">Antworten</button> (bis zu 20% Abweichung zugelassen)
+             </div>
+         </form>
+        
     </div>
 
 
