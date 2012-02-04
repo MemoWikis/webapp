@@ -1,4 +1,4 @@
-﻿<%@ Page Title="About Us" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<EditQuestionModel>" %>
+﻿<%@ Page Title="About Us" Language="C#" MasterPageFile="~/Views/Shared/Site.User.Master" Inherits="ViewPage<EditQuestionModel>" %>
 
 <%@ Import Namespace="TrueOrFalse.Core" %>
 

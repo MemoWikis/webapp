@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.User.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
 <%@ Import Namespace="TrueOrFalse.Core.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 

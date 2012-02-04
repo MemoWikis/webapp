@@ -1,0 +1,22 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+    <% Html.RenderPartial("Site.Resources.Head"); %>
+</head>
+<body>
+    <div class="container">
+        
+        <%--HEADER--%>
+        <% Html.RenderPartial("Site.Resources.Title"); %>
+        
+
+        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+</body>
+</html>

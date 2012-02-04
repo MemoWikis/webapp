@@ -259,6 +259,9 @@
     <Content Include="Style\src\print.css" />
     <Content Include="Style\src\reset.css" />
     <Content Include="Style\src\typography.css" />
+    <Content Include="Views\Shared\Site.Resources.Title.ascx" />
+    <Content Include="Views\Shared\Site.Resources.Head.ascx" />
+    <Content Include="Views\Shared\Site.Welcome.Master" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Api\ExportCategories.aspx" />
@@ -298,7 +301,7 @@
     <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
-    <Content Include="Views\Shared\Site.Master" />
+    <Content Include="Views\Shared\Site.User.Master" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>

@@ -1,0 +1,67 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<TrueOrFalse.Frontend.Web.Models.ModelBase>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    
+    <title>Richtig oder Falsch</title>
+    <% Html.RenderPartial("Site.Resources.Head"); %>
+    <asp:ContentPlaceHolder ID="Head" runat="server" />
+</head>
+
+<body>
+  
+    <div class="container">
+        
+        <%--HEADER--%>
+        <% Html.RenderPartial("Site.Resources.Title"); %>
+
+        <%-- BODY--%>
+        <%
+            var leftMenuWidth = "sidebar";
+            var mainWidth = "content";
+            
+            if (UserControls.MenuLeft == Model.CurrentLeftMenu)
+            {
+                leftMenuWidth = "sidebar";
+                mainWidth = "content";
+            }
+
+            if (Model.MainFullWidth)
+                mainWidth = "span-20 last";
+        %>
+        <div class="<%=leftMenuWidth %>" style=" padding-left:10px;">
+			<%
+                if (!String.IsNullOrEmpty(Model.CurrentLeftMenu))
+					Html.RenderPartial(Model.CurrentLeftMenu);
+			%>
+			&nbsp;
+        </div>
+    
+		<%-- MAIN CONTENT--%>
+        <div class="<%=mainWidth %>" style="min-height:600px; ">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+        </div>
+
+        <% if (!Model.MainFullWidth){ %>
+		    <div class="span5 last" style="margin-top:40px;" >
+                <asp:ContentPlaceHolder ID="RightMenu" runat="server"  />
+			    <%
+				    if (Model.RightMenu.Yes)
+					    Html.RenderPartial(UserControls.Login);
+			     %>
+		    </div>
+        <% } %>
+            
+        <%-- FOOTER--%>
+        <div id="footer" class="span-24 last">
+            <%// ReSharper disable Asp.NotResolved
+               Html.RenderPartial(UserControls.WelcomeFooter); 
+              // ReSharper restore Asp.NotResolved%>
+        </div>
+        
+    </div>
+    <br />
+</body>
+</html>

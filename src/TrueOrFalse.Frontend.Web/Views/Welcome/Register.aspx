@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Register" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<RegisterModel>" %>
+﻿<%@ Page Title="Register" Language="C#" MasterPageFile="~/Views/Shared/Site.User.Master" Inherits="ViewPage<RegisterModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
