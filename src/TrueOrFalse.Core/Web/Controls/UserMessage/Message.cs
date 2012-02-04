@@ -20,14 +20,14 @@ namespace TrueOrFalse.Core.Web
         public readonly string Text;
         public readonly MessageType Type;
 
-        public string Style
+        public string CssClass
         {
             get
             {
                 if (Type == MessageType.IsError)
-                    return "border:1px solid red; background-color:#FFDBDD;";
+                    return "alert alert-error";
 
-                return "background-color:rgb(217, 255, 189); border:1px solid rgb(0, 194, 0);";
+                return "alert alert-success";
             }
         }
 

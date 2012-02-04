@@ -1,69 +1,61 @@
 ﻿<%@ Page Title="Register" Language="C#" MasterPageFile="~/Views/Shared/Site.User.Master" Inherits="ViewPage<RegisterModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
-<h2>Registrierung</h2>
 
 <% using (Html.BeginForm()) { %>
     
-	<br />
-    <fieldset>
-        
-        <legend>Registriere Dich</legend>
+    <div class="row" style="padding-top:30px;">
+        <div class="span2" style="padding-top:7px;">
+            <i class="icon-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
+        </div>
+        <div class="form-horizontal span8">
+            <fieldset>
+                <legend>Registriere Dich</legend>
 
-       <% Html.ValidationSummary(true, "Bitte überprüfen Sie Ihre eingaben");  %>
-
-       <p>Wir gehen sorgfältig mit Deinen Daten um.</p>
+                <% Html.ValidationSummary(true, "Bitte überprüfen Sie Ihre eingaben");  %>
+                
+                <div class="alert alert-info">
+                    Wir gehen sorgfältig mit Deinen Daten um.
+                </div>
        
+                <div class="control-group">
+                    <%: Html.LabelFor(model => model.Name)  %>
+                    <%: Html.EditorFor(model => model.Name) %>
+                    <%: Html.ValidationMessageFor(model => model.Name) %>
+                </div>
+                
+                <div class="control-group">
+                    <%: Html.LabelFor(model => model.Email) %>
+                    <%: Html.EditorFor(model => model.Email) %>
+                    <%: Html.ValidationMessageFor(model => model.Email) %>
+                </div>
 
-        <div class="editor-label">
-            <%: Html.LabelFor(model => model.Name)  %><br/>
-        </div>
-        <div class="editor-field">
-            <%: Html.EditorFor(model => model.Name) %> <br/>
-            <%: Html.ValidationMessageFor(model => model.Name) %>
-        </div>
+                <div class="control-group">
+                    <%: Html.LabelFor(model => model.Password) %>
+                    <%: Html.Password("Password") %>
+                    <%: Html.ValidationMessageFor(model => model.Password) %>
+                </div>
 
-        <div class="editor-label">
-            <%: Html.LabelFor(model => model.Email) %>
-        </div>
-        <div class="editor-field">
-            <%: Html.EditorFor(model => model.Email) %>
-            <%: Html.ValidationMessageFor(model => model.Email) %>
-        </div>
+                <div class="control-group">
+                    <%: Html.LabelFor(model => model.TermsAndConditionsApproved ) %>
+                    <%: Html.CheckBoxFor(model => model.TermsAndConditionsApproved)%>
+                    <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
+                </div>
+                
+                <div class="form-actions">
+                    <input type="submit" value="Registrieren" class="btn btn-primary" />&nbsp;
+                    <%: Html.ActionLink("Anmeldung für Benutzer!", Links.Login, Links.VariousController, new { @style = "vertical-align:bottom; margin-left:20px;" })%>
+                </div>
 
-        <div class="editor-label">
-            <%: Html.LabelFor(model => model.Password) %>
+            </fieldset>            
         </div>
-        <div class="editor-field">
-            <%: Html.Password("Password") %>
-            <%: Html.ValidationMessageFor(model => model.Password) %>
-        </div>
-
-        <div class="editor-label">
-            <%: Html.LabelFor(model => model.TermsAndConditionsApproved ) %>
-        </div>
-        <div class="editor-field">
-            <%: Html.CheckBoxFor(model => model.TermsAndConditionsApproved)%>
-            <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
-        </div>
-
-        <br/>
-        <p>
-            <input type="submit" value="Registrieren" />
-        </p>
-    </fieldset>
+    </div>
 <% } %>
 
     <div class="span-8" >
         <p>
-            Schon Benutzer?<br/>
-            <%: Html.ActionLink("Jetzt anmelden!", Links.Login) %>
-
-            <br/><br/>
-            <%: Html.ActionLink("Passwort verloren?", Links.NotDoneYet, Links.VariousController)  %>
+            
         </p>
     </div>
 

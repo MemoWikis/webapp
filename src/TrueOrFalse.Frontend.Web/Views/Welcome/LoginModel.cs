@@ -1,4 +1,5 @@
-﻿using TrueOrFalse.Core.Web;
+﻿using System.ComponentModel;
+using TrueOrFalse.Core.Web;
 using TrueOrFalse.Frontend.Web.Models;
 
 public class LoginModel : ModelBase
@@ -6,7 +7,9 @@ public class LoginModel : ModelBase
     public Message Message;
 
     public string Password;
-    public string EmailAddress;
+
+    [DisplayName("Email")]
+    public string EmailAddress { get; set; }
 
     public LoginModel()
     {

@@ -22,6 +22,10 @@ namespace TrueOrFalse.Core.Registration
 
         public bool Yes(string emailAdress, string password)
         {
+
+            if (emailAdress.Trim().Length == 0 || password.Trim().Length == 0)
+                return false;
+
             User = null;
             var user = _userRepository.GetByEmailAddress(emailAdress.Trim());
 

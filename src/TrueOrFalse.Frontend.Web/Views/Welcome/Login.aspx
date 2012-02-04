@@ -4,49 +4,44 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<h2>Login</h2>
 
 <% using (Html.BeginForm()) { %>
 
-	<br />
-
-    <% Html.Message(Model.Message); %>
-
-    <fieldset>
-
-        <legend>Login</legend>
-
-        <div class="editor-label">
-            <%: Html.LabelFor(model => model.EmailAddress)  %><br/>
+    <div class="row" style="padding-top:30px;">
+        <div class="span2" style="padding-top:7px;">
+            <i class="icon-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
         </div>
-        <div class="editor-field">
-            <%: Html.EditorFor(model => model.EmailAddress)%> <br/>
-            <%: Html.ValidationMessageFor(model => model.EmailAddress)%>
-        </div>
+        <div class="form-horizontal span8">
+            <fieldset>
+                <legend>Anmelden</legend>
+                
+                <% Html.Message(Model.Message); %>
 
-        <div class="editor-label">
-            <%: Html.LabelFor(model => model.Password)  %><br/>
-        </div>
-        <div class="editor-field">
-            <%: Html.Password("Password") %> &nbsp; (grOß kLEinScHReiBunG beachten!)
-        </div>
+                <div class="control-group">
+                    <%: Html.LabelFor(model => model.EmailAddress)%>
+                    <%: Html.EditorFor(model => model.EmailAddress)%> 
+                    <%: Html.ValidationMessageFor(model => model.EmailAddress)%>            
+                </div>
 
-        <br/>
-        <p>
-            <input type="submit" value="Anmelden" />
-        </p>
+                <div class="control-group">
+                    <%: Html.LabelFor(model => model.Password)  %>
+                    <%: Html.Password("Password") %> &nbsp; (grOß kLEinScHReiBunG beachten!)
+                 </div>
 
-    </fieldset>
-    
-    <div class="span-8" >
-        <p>
-            Noch kein Benutzer?<br/>
-            <%: Html.ActionLink("Jetzt registrieren!", Links.Register) %>
+                 <div class="form-actions">
+                     <input type="submit" value="Anmelden" class="btn btn-primary" /> 
+                     <%: Html.ActionLink("Passwort vergessen?", Links.NotDoneYet, Links.VariousController, new {@style="vertical-align:bottom; margin-left:20px;"} )  %>
+                 </div>
+                 
+                 <div class="form-actions" style="border-top:0px; background-color:white;">
+                    Noch kein Benutzer?&nbsp;
+                    <%: Html.ActionLink("Jetzt registrieren!", Links.Register) %><br/><br />
+                 </div>
 
-            <br/><br/>
-            <%: Html.ActionLink("Passwort verloren?", Links.NotDoneYet, Links.VariousController)  %>
-        </p>
+             </fieldset>
+        </div>        
     </div>
+
 
 <% } %>
 
