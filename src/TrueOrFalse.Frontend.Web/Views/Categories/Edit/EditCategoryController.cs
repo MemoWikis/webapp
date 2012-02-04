@@ -47,6 +47,7 @@ public class EditCategoryController : Controller
         }
         else
         {
+            model.FillReleatedCategoriesFromPostData(Request.Form);
             model.UpdateCategory(category);
             _categoryRepository.Update(category);
         }
