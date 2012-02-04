@@ -14,6 +14,8 @@ namespace TrueOrFalse.Core
 
         public override void Create(Category category)
         {
+            foreach (var related in category.RelatedCategories.Where(x => x.DateCreated == default(DateTime)))
+                related.DateModified = related.DateCreated = DateTime.Now;
             base.Create(category);
             Flush();
         }
