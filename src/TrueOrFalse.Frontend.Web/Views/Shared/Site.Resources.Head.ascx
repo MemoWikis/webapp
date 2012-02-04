@@ -20,7 +20,7 @@
 <% } %>
     
 <link rel="stylesheet" href="/style/bootstrap.css">
-<link href="http://fonts.googleapis.com/css?family=Sirin Stencil:regular" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 
 <script src="/Scripts/highcharts.js" type="text/javascript"></script>
 <script type="text/javascript">
