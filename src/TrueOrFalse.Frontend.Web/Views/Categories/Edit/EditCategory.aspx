@@ -30,6 +30,14 @@
 
     <h3>Steht in enger Beziehung zu den Kategorien (ausgehend)</h3>
     <div id="relatedCategories">
+        <script type="text/javascript">
+            $(function() {
+                <%foreach (var category in Model.RelatedCategories) { %>
+                    $("#txtNewRelatedCategory").val('<%=category %>');
+                    $("#addRelatedCategory").click();
+                <% } %>
+            });
+        </script>
         <input id="txtNewRelatedCategory" />
         <a href="#" id="addRelatedCategory" style="display:none"><img alt="" src='/Images/Buttons/add.png' /></a>
     </div>

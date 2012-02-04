@@ -32,8 +32,16 @@ namespace TrueOrFalse.Core
                             Solution = questionElement.Element("solution").Value
                         };
 
-            Categories = from categoryElement in document.Root.Elements("category")
-                         select new Category(categoryElement.Element("name").Value);
+            Categories = (from categoryElement in document.Root.Elements("category")
+                          select new Category(categoryElement.Element("name").Value)).ToList();
+
+            foreach (var category in Categories)
+            {
+                var categoryElement = document.Root.Elements("category").Single(x => x.Element("name").Value == category.Name);
+                category.RelatedCategories = (from relatedElement in categoryElement.Elements("related")
+                                              select Categories.Single(x => x.Name == relatedElement.Value)).ToList();
+            }
+
 
         }
     }

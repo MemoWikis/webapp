@@ -38,6 +38,10 @@ namespace TrueOrFalse.Tests
                                         <category>
                                             <name>Sport</name>                                        
                                         </category>
+                                        <category>
+                                            <name>Football</name>
+                                            <related>Sport</related>
+                                        </category>
                                     </trueorfalse>";
 
 
@@ -63,9 +67,11 @@ namespace TrueOrFalse.Tests
             var importer = Resolve<Importer>();
             importer.Run(Xml);
 
-            importer.Categories.Count().Should().Be.EqualTo(1);
-            importer.Categories.Single().Name.Should().Be.EqualTo("Sport");
-         }
+            importer.Categories.Count().Should().Be.EqualTo(2);
+            importer.Categories.First().Name.Should().Be.EqualTo("Sport");
+            importer.Categories.Last().Name.Should().Be.EqualTo("Football");
+            importer.Categories.Last().RelatedCategories.Single().Should().Be.SameInstanceAs(importer.Categories.First());
+        }
 
     }
 }

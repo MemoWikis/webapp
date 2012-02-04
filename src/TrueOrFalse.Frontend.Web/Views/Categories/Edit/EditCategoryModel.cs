@@ -15,6 +15,8 @@ public class EditCategoryModel : ModelBase
 
     public Message Message;
 
+    public List<string> RelatedCategories = new List<string>();
+
     public bool IsEditing { get; set; }
 
     public EditCategoryModel()
@@ -25,6 +27,7 @@ public class EditCategoryModel : ModelBase
     public EditCategoryModel(Category category)
     {
         Name = category.Name;
+        RelatedCategories = (from cat in category.RelatedCategories select cat.Name).ToList();
     }
 
     public Category ConvertToCategory()
@@ -38,12 +41,13 @@ public class EditCategoryModel : ModelBase
     public void UpdateCategory(Category category)
     {
         category.Name = Name;
+        category.RelatedCategories = new List<Category>();
+        foreach (var name in RelatedCategories)
+            category.RelatedCategories.Add(ServiceLocator.Resolve<CategoryRepository>().GetByName(name));
     }
-
-    public IEnumerable<string> RelatedCategories { get; set; } 
-
+    
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
-        RelatedCategories = from key in postData.AllKeys where key.StartsWith("cat") select postData[key];
+        RelatedCategories = (from key in postData.AllKeys where key.StartsWith("cat") select postData[key]).ToList();
     }
 }
