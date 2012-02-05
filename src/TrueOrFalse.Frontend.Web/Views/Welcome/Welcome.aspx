@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Welcome.Master" 
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" 
 	Inherits="ViewPage<WelcomeModel>"
     Title="Willkommen bei True Or False" %>
 

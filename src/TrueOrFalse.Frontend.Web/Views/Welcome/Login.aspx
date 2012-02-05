@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.User.Master" Inherits="ViewPage<LoginModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<LoginModel>" %>
 <%@ Import Namespace="TrueOrFalse.Core.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 

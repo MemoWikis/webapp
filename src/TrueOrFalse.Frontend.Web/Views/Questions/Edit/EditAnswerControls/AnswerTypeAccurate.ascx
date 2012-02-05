@@ -10,5 +10,7 @@
 </asp:Content>--%>
 
 
-<%= Html.LabelFor(m => m.Solution ) %>
-<%= Html.TextAreaFor(m => m.Solution, new { @id = "Answer" })%><br />
+<div class="control-group">
+    <%= Html.LabelFor(m => m.Solution ) %>
+    <%= Html.TextAreaFor(m => m.Solution, new { @id = "Answer", @style = "height:18px; width:435px;" })%><br />
+</div>

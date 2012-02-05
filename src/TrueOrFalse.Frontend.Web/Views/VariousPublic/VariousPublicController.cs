@@ -5,7 +5,7 @@ public class VariousPublicController : Controller
 {
     public ActionResult Imprint()
     {
-        return View(new ModelBase().ShowLeftMenu_TopUsers().ShowRightLogin());
+        return View(new ModelBase());
     }
 
     public ActionResult NotDoneYet()
@@ -15,7 +15,7 @@ public class VariousPublicController : Controller
 
     public ActionResult WelfareCompany()
     {
-        return View(new ModelBase().ShowLeftMenu_Empty().ShowRightLogin());
+        return View(new ModelBase());
     }
 }
 

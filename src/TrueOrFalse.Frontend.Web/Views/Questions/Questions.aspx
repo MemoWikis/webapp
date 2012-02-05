@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.User.Master" Inherits="ViewPage<QuestionsModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -14,7 +14,6 @@ div.question-row div.stats-2 div.falsePercentage{ width: 30px;}
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
     <div>
         <h2 style="float: left;">Fragen</h2>
         <div style="float: right;">
@@ -29,8 +28,5 @@ div.question-row div.stats-2 div.falsePercentage{ width: 30px;}
                Html.RenderPartial("QuestionRow", row);
            } %>
     </div> 
-
 </asp:Content>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="RightMenu" runat="server">
-</asp:Content>

@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <!DOCTYPE html>
 
@@ -15,10 +16,15 @@
             <% Html.RenderPartial("Site.Resources.Title"); %>
         </div>
         
+        <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
         
-            <asp:ContentPlaceHolder ID="MainContent" runat="server">
-            </asp:ContentPlaceHolder>
+                <%-- FOOTER--%>
+        <div id="footer" class="span12">
+            <%// ReSharper disable Asp.NotResolved
+               Html.RenderPartial(UserControls.WelcomeFooter); 
+              // ReSharper restore Asp.NotResolved%>
         </div>
+        
     </div>
 </body>
 </html>

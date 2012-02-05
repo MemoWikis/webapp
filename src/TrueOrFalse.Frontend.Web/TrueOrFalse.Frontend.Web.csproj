@@ -118,7 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\ModelBase\ModelBase.cs" />
-    <Compile Include="Code\ModelBase\RightMenu.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
@@ -314,7 +313,7 @@
     <Content Include="Style\src\typography.css" />
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
-    <Content Include="Views\Shared\Site.Welcome.Master" />
+    <Content Include="Views\Shared\Site.MenuNo.Master" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Api\ExportCategories.aspx" />
@@ -354,7 +353,7 @@
     <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
-    <Content Include="Views\Shared\Site.User.Master" />
+    <Content Include="Views\Shared\Site.MenuLeft.Master" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>

@@ -1,0 +1,39 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<TrueOrFalse.Frontend.Web.Models.ModelBase>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    
+    <title>Richtig oder Falsch</title>
+    <% Html.RenderPartial("Site.Resources.Head"); %>
+    <asp:ContentPlaceHolder ID="Head" runat="server" />
+</head>
+
+<body>
+
+    <div class="container">
+        
+        <% Html.RenderPartial("Site.Resources.Title"); %>    
+        <div class="row">
+            <div class="span2" >
+                <% Html.RenderPartial(Model.CurrentLeftMenu); %>    
+            </div>
+                
+            <div class="span10">
+                <%-- MAIN CONTENT--%>
+                <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+            </div>
+        </div>
+    </div>
+
+    <%-- FOOTER--%>
+    <div id="footer" class="span12 row">
+        <%// ReSharper disable Asp.NotResolved
+            Html.RenderPartial(UserControls.WelcomeFooter); 
+            // ReSharper restore Asp.NotResolved%>
+    </div>
+        
+    <br />
+</body>
+</html>

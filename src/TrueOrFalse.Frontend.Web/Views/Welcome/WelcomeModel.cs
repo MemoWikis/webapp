@@ -9,7 +9,6 @@ public class WelcomeModel : ModelBase
 
     public WelcomeModel()
     {
-        RightMenu.Yes = true;
         ShowLeftMenu_TopUsers();
         MostPopular = new List<Question>();
     }

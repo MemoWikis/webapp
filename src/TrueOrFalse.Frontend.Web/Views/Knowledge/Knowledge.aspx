@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.User.Master" Inherits="ViewPage<KnowledgeModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
@@ -87,8 +87,4 @@ Innerhalb von: <%= Html.DropDownList("ddlPeriod", Model.KenDevelopmentPeriod) %>
 
 </asp:Content>
 
-<asp:Content ID="RightMenu" ContentPlaceHolderID="RightMenu" runat="server">
-    Suche <span style="float:right;">[filter]</span>
-    <%= Html.TextBox("search") %>
-</asp:Content>
 
