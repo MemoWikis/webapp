@@ -4,7 +4,7 @@
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
                       
-    <div class="hero-unit row" style="padding: 50px 50px 30px 50px" >
+    <div class="hero-unit row" style="padding: 50px 50px 30px 50px; margin-top: -20px;" >
         <h1 style="font-size:50px;">Willkommen</h1>
         <p>Schön das Du da bist. Entscheide was Dir wichtig ist und merke es Dir - Für immer!</p>
         <p><a class="btn primary large">Mehr Erfahren &raquo;</a></p>

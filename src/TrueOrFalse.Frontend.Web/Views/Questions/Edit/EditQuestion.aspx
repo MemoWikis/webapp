@@ -11,8 +11,7 @@
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
-    
-    
+
     <% using (Html.BeginForm()){ %>
     
     <div class="form-horizontal" style="padding-top:10px;">
