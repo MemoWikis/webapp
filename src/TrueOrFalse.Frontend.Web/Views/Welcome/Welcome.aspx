@@ -41,8 +41,17 @@
                 <input type="text" class="input-medium" style="width: 50px;">
                 <button class="btn">Antworten</button> (bis zu 20% Abweichung zugelassen)
              </div>
-         </form>
+         </form>        
+    </div>
+    
+    <div class="row" style="padding-left:50px; padding-top:30px;">
+        <h3>
+            Welcher Politiker hat die 1. Autobahn eingeweiht?
+        </h3>
         
+        <span class="label label-important">Adolf Hitler</span>, 
+        <span class="label label-important">Konrad Adenauer</span> oder
+        <span class="label label-important">Helmut Ebron</span> ?
     </div>
 
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 
@@ -22,69 +22,76 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 
-<h1>Impressum</h1>
+<div class="row" style="padding-top:30px;">
+    <div class="span2" style="padding-top:7px;">
+        <i class="icon-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
+    </div>
+    <div class="form-horizontal span8">
 
-<p>Angaben gemäß § 5 TMG:<br/><br/></p>
-Robert Mischke Softwareentwicklung<br />
-Warschauer Str. 62<br />
-10243 Berlin<br />
+        <h1>Impressum</h1>
 
-<h2>Kontakt:</h2>
-<table><tr>
-<td><p>Telefon:</p></td>
-<td><p>030 97005939</p></td></tr>
-<tr><td><p>E-Mail:</p></td>
-<td><p ><span class="mailme">robert at robert-m dot de</span></p></td>
-</tr></table>
-<h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h2>
-<p>Robert Mischke<br />
-<br />
-Warschauer Str. 62<br />
-10243 Berlin</p>
-<p> </p>
-<p>Quelle: <i>erstellt mit dem <a href="http://www.e-recht24.de/impressum-generator.html" target="_blank">Impressum-Generator Einzelunternehmer</a> von eRecht24 u. in Teilen angepasst.</i></p>
-<h2>Haftungsausschluss:</h2>
-<p><strong>Haftung für Inhalte</strong></p>
-    <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. 
-      Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte 
-      können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für 
-      eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. 
-      Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht 
-      verpflichtet, übermittelte oder gespeicherte fremde Informationen zu 
-      überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige 
-      Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der 
-      Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon 
-      unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem 
-      Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei 
-      Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte 
-      umgehend entfernen.</p>
-    <p><strong>Haftung für Links</strong></p>
-    <p>Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren 
-      Inhalte wir keinen Einfluss haben. Deshalb können wir für diese 
-      fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte 
-      der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der 
-      Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung 
-      auf mögliche Rechtsverstöße überprüft. Rechtswidrige 
-      Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente 
-      inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte 
-      einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen 
-      werden wir derartige Links umgehend entfernen.</p>
-    <p><strong>Datenschutz</strong></p>
-    <p>Die Nutzung unserer Webseite ist teils ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, 
-      Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.   
-    </p>
-    <p>Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. 
-      bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. 
-      Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht 
-      möglich. </p>
-    <p>Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten 
-      durch Dritte zur Übersendung von nicht ausdrücklich angeforderter 
-      Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. 
-      Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte 
-      im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, 
-      vor.</p><p> </p>
-<p>Quelle: <i><a href="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank">Disclaimer</a> von eRecht24, dem Portal zum Internetrecht von <a href="http://www.e-recht24.de/" target="_blank">Rechtsanwalt</a> Sören Siebert.</i></p>
+        <p>Angaben gemäß § 5 TMG:<br/><br/></p>
+        Robert Mischke Softwareentwicklung<br />
+        Warschauer Str. 62<br />
+        10243 Berlin<br />
 
+        <h2>Kontakt:</h2>
+        <table><tr>
+        <td><p>Telefon:</p></td>
+        <td><p>030 97005939</p></td></tr>
+        <tr><td><p>E-Mail:</p></td>
+        <td><p ><span class="mailme">robert at robert-m dot de</span></p></td>
+        </tr></table>
+        <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h2>
+        <p>Robert Mischke<br />
+        <br />
+        Warschauer Str. 62<br />
+        10243 Berlin</p>
+        <p> </p>
+        <p>Quelle: <i>erstellt mit dem <a href="http://www.e-recht24.de/impressum-generator.html" target="_blank">Impressum-Generator Einzelunternehmer</a> von eRecht24 u. in Teilen angepasst.</i></p>
+        <h2>Haftungsausschluss:</h2>
+        <p><strong>Haftung für Inhalte</strong></p>
+        <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. 
+            Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte 
+            können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für 
+            eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. 
+            Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht 
+            verpflichtet, übermittelte oder gespeicherte fremde Informationen zu 
+            überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige 
+            Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der 
+            Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon 
+            unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem 
+            Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei 
+            Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte 
+            umgehend entfernen.</p>
+        <p><strong>Haftung für Links</strong></p>
+        <p>Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren 
+            Inhalte wir keinen Einfluss haben. Deshalb können wir für diese 
+            fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte 
+            der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der 
+            Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung 
+            auf mögliche Rechtsverstöße überprüft. Rechtswidrige 
+            Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente 
+            inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte 
+            einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen 
+            werden wir derartige Links umgehend entfernen.</p>
+        <p><strong>Datenschutz</strong></p>
+        <p>Die Nutzung unserer Webseite ist teils ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, 
+            Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.   
+        </p>
+        <p>Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. 
+            bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. 
+            Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht 
+            möglich. </p>
+        <p>Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten 
+            durch Dritte zur Übersendung von nicht ausdrücklich angeforderter 
+            Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. 
+            Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte 
+            im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, 
+            vor.</p><p> </p>
+            <p>Quelle: <i><a href="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank">Disclaimer</a> von eRecht24, dem Portal zum Internetrecht von <a href="http://www.e-recht24.de/" target="_blank">Rechtsanwalt</a> Sören Siebert.</i>
+        </p>
 
+    </div>
 
 </asp:Content>
