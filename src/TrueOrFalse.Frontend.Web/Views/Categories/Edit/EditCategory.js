@@ -3,7 +3,7 @@
 }
 
 $.expr[':'].textEquals = function (a, i, m) {
-    return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i"));
+    return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i")) != null;
 };
 
 $(function () {
