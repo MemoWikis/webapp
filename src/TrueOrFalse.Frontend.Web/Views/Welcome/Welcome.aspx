@@ -46,7 +46,7 @@
     
     <div class="row" style="padding-left:50px; padding-top:30px;">
         <h3>
-            Welcher Politiker hat die 1. Autobahn eingeweiht?
+            Welcher Politiker hat die deutsche 1. Autobahn eingeweiht?
         </h3>
         
         <span class="label label-important">Adolf Hitler</span>, 

@@ -7,7 +7,7 @@ function check() {
     $("#answerFeedback").hide();
 
     if(answerText.trim().length == 0) {
-        msgErrorShow("Du könntest es es ja wenigstens probieren! Tzzzz... "); return "";
+        msgErrorShow("Du könntest es es ja wenigstens probieren! Tzzzz... "); return false;
     }
 
     $.ajax({
