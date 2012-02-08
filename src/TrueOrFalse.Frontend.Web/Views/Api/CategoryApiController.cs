@@ -18,7 +18,11 @@ namespace TrueOrFalse.View.Web.Views.Api
 
         public JsonResult ByName(string term)
         {
-            return Json(_categorySearch.Run(term).Select(c => c.Name), JsonRequestBehavior.AllowGet); 
+            return Json(from c in _categorySearch.Run(term) 
+                        select new {
+                            name = c.Name,
+                            numberOfQuestions = 23
+                        }, JsonRequestBehavior.AllowGet); 
         }
 
     }
