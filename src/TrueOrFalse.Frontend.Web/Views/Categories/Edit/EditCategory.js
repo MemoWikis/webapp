@@ -8,14 +8,28 @@ $.expr[':'].textEquals = function (a, i, m) {
 
 $(function () {
     $("#txtNewRelatedCategory").autocomplete({
+        minLength: 0,
         source: '/Api/Category/ByName',
-        minLength: 1
-    });
+        focus: function (event, ui) {
+            $("#txtNewRelatedCategory").val(ui.item.name);
+            return false;
+        },
+        select: function (event, ui) {
+            $("#txtNewRelatedCategory").val(ui.item.name);
+            return false;
+        }
+    })
+		.data("autocomplete")._renderItem = function (ul, item) {
+		    return $("<li></li>")
+				.data("item.autocomplete", item)
+				.append("<a><span class='cat-name'>" + item.name + "</span><br><i>" + item.numberOfQuestions + " Fragen</i></a>")
+				.appendTo(ul);
+		};
 
     var animating = false;
     function checkText() {
         var text = $("#txtNewRelatedCategory").val();
-        var matched = $(".ui-autocomplete li:textEquals('" + text + "')");
+        var matched = $(".ui-autocomplete li .cat-name:textEquals('" + text + "')");
         var existing = $(".added-cat:textEquals('" + text + "')");
         if (matched.size() == 0 || existing.size() != 0) {
             $("#addRelatedCategory").hide();
