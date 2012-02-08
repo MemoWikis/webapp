@@ -4,58 +4,62 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <script src="<%= Url.Content("~/Views/Questions/Answer/AnswerQuestion.js") %>" type="text/javascript"></script>
+    
+    <style type="text/css">
+        .btnRight{float: right; margin-right: 149px;}
+        
+        div.headerLinks {}
+        div.headerLinks i { margin-top: 2px;}
+        
+        .questionBlockWidth { width: 400px;}
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="row">
-        
-        <div class="span6">
-            <h2>
-                Frage beantworten
-                <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-chevron-left"></i>&nbsp;zu den Fragen</a>
-            </h2>
+    <div class="row" style="min-height: 400px;">
+        <div class="span7 ">
             
-            <br/>
-            <h4><%= Model.QuestionText %></h4>
-        
-            <textarea id="txtAnswer" style="height: 30px; width: 430px;"></textarea>
+            <div class="row" style="padding-bottom: 20px;">
+                <div style="float:left"><h2>Frage beantworten</h2></div>
+                <div class="pull-right headerLinks" style="padding-top:12px;">
+                    <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-th-list"></i> zur übersicht</a><br style="line-height: 10px;"/>
+                    <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>                                        
+                </div>                    
+            </div>
+            
 
-            <div>
+            <h3 class="questionBlockWidth row" style="padding-bottom:12px;"><%= Model.QuestionText %></h3>
+        
+            <textarea id="txtAnswer" class="questionBlockWidth row" style="height: 30px;"></textarea>    
+            
+            <div class="row" >
                 <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
                 <div id="buttons-first-try">
-                    <div style="float: right; margin-right: 20px; ">
-                        <a href="<%= Model.AnswerQuestionLink(Url) %>" id="btnCheck" class="btn btn-primary">Antworten</a>
-                    </div>
+                    <a href="<%= Model.AnswerQuestionLink(Url) %>" id="btnCheck" class="btn btn-primary btnRight">Antworten</a>
                 </div>
                 <div id="buttons-correct-answer" style="display: none">
-                    <div style="float: right; margin-right: 20px; ">
-                        <a href="#" id="btnNext" class="btn btn-success">N&auml;chste Frage</a>
-                    </div>
+                    <a href="#" id="btnNext" class="btn btn-success btnRight">N&auml;chste Frage</a>
                 </div>
-                <div id="buttons-edit-answer" style="display: none">
+                <div id="buttons-edit-answer" style="display: none;">
                     <a href="#" id="btnShowAnswer">Antwort anzeigen</a>
-                    <div style="float: right; margin-right: 20px; ">
-                    
-                    <a href="#" id="btnEditAnswer" class="btn btn-warning">Antwort &Uuml;berarbeiten</a>
-                    </div>
+                    <a href="#" id="btnEditAnswer" class="btn btn-warning btnRight">Antwort &Uuml;berarbeiten</a>
                 </div>
                 <div id="buttons-answer-again" style="display: none">
-                    <div style="float: right; margin-right: 175px; ">
-                        <%= Buttons.Submit("Nochmal Antworten", url: Model.AnswerQuestionLink(Url), id: "btnCheckAgain", inline: true)%>
-                    </div>
+                    <a href="<%= Model.AnswerQuestionLink(Url) %>" id="btnCheckAgain" class="btn btn-warning btnRight">Nochmal Antworten</a>
                 </div>
+                
                 <div id="answerFeedback" style="display: none; margin-top:12px; padding-right: 140px;">Du könntest es wenigstens probieren!</div>
-                <div style="clear: both"></div>
             </div>
-        
-            <div id="divCorrectAnswer" style="display: none; margin-top:10px;">
+            
+            <div class="row" id="divCorrectAnswer" style="display: none; padding-top:15px;">
                 <b>Richtige Antwort:</b><br />
                 <span id="spanCorrectAnswer"></span>
-            </div>            
+            </div>
+
         </div>
         
-        <div class="span3">
+        <div class="span2" style="padding-top: 90px; padding-left: 20px;">
             Erstellt von: <br />
             am: <br />
             Über die Antwort

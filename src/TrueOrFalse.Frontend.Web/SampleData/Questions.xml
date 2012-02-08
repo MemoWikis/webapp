@@ -81,5 +81,13 @@
         <creatorId>2</creatorId>
         <solution>MaschinenZaehler</solution>
     </question>     
+    
+    <question>
+        <text>Wann hat Juliane Geburtstag?</text>
+        <description>Erklärung der Antwort und Quellen.</description>
+        <visibility>All</visibility>
+        <creatorId>2</creatorId>
+        <solution>25.09.1982</solution>
+    </question>     
         
 </trueorfalse>
