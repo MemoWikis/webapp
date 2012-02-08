@@ -11,11 +11,6 @@ public class LoginModel : ModelBase
     [DisplayName("Email")]
     public string EmailAddress { get; set; }
 
-    public LoginModel()
-    {
-        ShowLeftMenu_Empty();
-    }
-
     public void SetToWrongCredentials()
     {
         Message = new Message(MessageType.IsError, 

@@ -12,8 +12,6 @@ public class CategoriesModel : ModelBase
 
     public CategoriesModel(IEnumerable<Category> categories)
     {
-        ShowLeftMenu_Nav();
-
         CategoryRows = from category in categories select new CategoryRowModel(category);
     }
 }

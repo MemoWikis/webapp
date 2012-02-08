@@ -24,11 +24,6 @@ public class RegisterModel : ModelBase
         [DisplayName("AGB Bestätigen: [TODO erstellen und verlinken]")]
         public bool TermsAndConditionsApproved { get; set; }
 
-        public RegisterModel()
-        {
-            ShowLeftMenu_Empty();
-        }
-
         private const string EmailRegEx = @"^(([^<>()[\]\\.,;:\s@\""]+"
         + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
         + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"

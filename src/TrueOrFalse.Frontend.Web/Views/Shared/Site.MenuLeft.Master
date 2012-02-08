@@ -17,7 +17,7 @@
         <% Html.RenderPartial("Site.Resources.Title"); %>    
         <div class="row">
             <div class="span2" >
-                <% Html.RenderPartial(Model.CurrentLeftMenu); %>    
+                <% Html.RenderPartial(UserControls.MenuLeft); %>
             </div>
                 
             <div class="span10">

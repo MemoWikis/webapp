@@ -19,10 +19,7 @@ public class EditCategoryModel : ModelBase
 
     public bool IsEditing { get; set; }
 
-    public EditCategoryModel()
-    {
-        ShowLeftMenu_Nav();
-    }
+    public EditCategoryModel(){}
 
     public EditCategoryModel(Category category)
     {

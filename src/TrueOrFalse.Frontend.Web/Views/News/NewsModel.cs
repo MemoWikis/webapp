@@ -9,6 +9,5 @@ public class NewsModel : ModelBase
 
     public NewsModel()
     {
-        ShowLeftMenu_Nav();
     }
 }

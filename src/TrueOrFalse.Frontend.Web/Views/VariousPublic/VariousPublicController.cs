@@ -10,7 +10,7 @@ public class VariousPublicController : Controller
 
     public ActionResult NotDoneYet()
     {
-        return View(new ModelBase().ShowLeftMenu_Empty());
+        return View(new ModelBase());
     }
 
     public ActionResult WelfareCompany()

@@ -9,7 +9,6 @@ public class UserProfileModel : ModelBase
 {
     public UserProfileModel(User user)
     {
-        ShowLeftMenu_Nav();
         Name = user.Name;
     }
 

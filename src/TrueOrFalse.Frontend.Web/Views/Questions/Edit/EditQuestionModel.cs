@@ -91,12 +91,9 @@ public class EditQuestionModel : ModelBase
         }
     }
 
-    public EditQuestionModel()
-    {
-        ShowLeftMenu_Nav();
-    }
+    public EditQuestionModel() { }
 
-    public EditQuestionModel(Question question) : this()
+    public EditQuestionModel(Question question)
     {
         Question = question.Text;
         Solution = question.Solution;

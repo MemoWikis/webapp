@@ -12,8 +12,6 @@ public class AnswerQuestionModel : ModelBase
 {
     public AnswerQuestionModel()
     {
-        ShowLeftMenu_Nav();
-        MainFullWidth = true;
     }
 
     public AnswerQuestionModel(Question question) : this()

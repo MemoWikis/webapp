@@ -4,6 +4,5 @@ public class RegisterSuccessModel : ModelBase
 {
     public RegisterSuccessModel()
     {
-        ShowLeftMenu_Nav();
     }
 }

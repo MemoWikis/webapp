@@ -30,8 +30,4 @@ public class KnowledgeModel : ModelBase
         }
     }
 
-    public KnowledgeModel()
-    {
-        ShowLeftMenu_Nav();
-    }
 }
