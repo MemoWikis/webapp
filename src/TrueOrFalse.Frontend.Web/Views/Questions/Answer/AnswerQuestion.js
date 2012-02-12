@@ -1,13 +1,29 @@
 ﻿var answerResult;
 
+$(function () {
+    $("#btnCheck").click(validateAnswer);
+    $("#btnCheckAgain").click(validateAnswer);
+    $("#errorTryCount").click(function () {
+        var divAnswerHistory = $("#divAnswerHistory");
+        if (!divAnswerHistory.is(":visible"))
+            divAnswerHistory.show();
+        else
+            divAnswerHistory.hide();
+    });
+    $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
+    $("#buttons-edit-answer").click(function () {
+        $("#txtAnswer").focus();
+        $("#txtAnswer").setCursorPosition(0);
+    });
+});
+
+
 function validateAnswer() {
 
     var answerText = $("#txtAnswer")[0].value;
 
-    $("#answerFeedback").hide();
-
     if(answerText.trim().length == 0) {
-        showMsgError("Du könntest es es ja wenigstens probieren! Tzzzz... "); return false;
+        showMsgError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true); return false;
     }
 
     $.ajax({
@@ -57,15 +73,6 @@ $.fn.setCursorPosition = function (pos) {
     return this;
 };
 
-$(function () {
-    $("#btnCheck").click(validateAnswer);
-    $("#btnCheckAgain").click(validateAnswer);
-    $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
-    $("#buttons-edit-answer").click(function () {
-        $("#txtAnswer").focus();
-        $("#txtAnswer").setCursorPosition(0);
-    });
-});
 
 function animateWrongAnswer() {
     $("#buttons-edit-answer").show();
@@ -74,16 +81,15 @@ function animateWrongAnswer() {
         $("#buttons-answer-again").show();
         $(this).animate({ backgroundColor: "white" }, 200);
         $(this).unbind(event);
-        $("#answerFeedback").hide();
     });
     $("#txtAnswer").animate({ backgroundColor: "#FFB6C1" }, 1000);
 }
 
 var errMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
-                "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
-                "Weiter, weiter nicht aufgeben.",
-                "Übung macht den Meister, Du bist auf dem richtigen Weg.", 
-                "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
+               "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
+               "Weiter, weiter nicht aufgeben.",
+               "Übung macht den Meister, Du bist auf dem richtigen Weg.", 
+               "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
                ];
 
 var successMsgs = ["Yeah! Weiter so.", "Du bis auf einem guten Weg.", "Sauber!", "Well Done!"];
@@ -93,18 +99,25 @@ function showMsgErrorWithRandomText() {
 }
 
 function showMsgSuccess() {
-    $("#buttons-correct-answer").show();
+    $("#buttons-next-answer").show();
     /* $('#txtAnswer').attr('readonly', true); */
     $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
+    $("#divWrongAnswer").hide();
 
-    $("#answerFeedback").html("<font color=green>Richtig!</font>  " + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
+    $("#divAnsweredCorrect").show();
+    $("#wellDoneMsg").html("" + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
 }
 
-function showMsgError(text) {
+function showMsgError(text, forceShow) {
+    $("#divWrongAnswer").show();
     $("#buttons-first-try").hide();
     $("#buttons-answer-again").hide();
 
-    $("#answerFeedback").html("<font color=red>Falsche Antwort!</font></br>(" + text + ")").show();
+    if (forceShow || randomXToY(1, 10) % 4 == 0) {
+        $("#answerFeedback").html(text).show();
+    }else {
+        $("#answerFeedback").html(text).hide();
+    }
 
     animateWrongAnswer();
 }
@@ -115,13 +128,27 @@ function randomXToY(minVal, maxVal, floatVal) {
 }
 
 function showCorrectAnswer() {
+
+    showNextAnswer();
+    $("#divWrongAnswer").hide();
     $("#divCorrectAnswer").show();
-    
+
     if (answerResult != null)
         $("#spanCorrectAnswer").html(answerResult.correctAnswer);
 
     ajaxGetAnswer(function(correctAnswer) {
         $("#spanCorrectAnswer").html(correctAnswer);
     });
+}
+
+function showNextAnswer() {
+    $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
+    $("#answerFeedback").hide();
+    
+    $("#buttons-first-try").hide();
+    $("#buttons-edit-answer").hide();
+    $("#buttons-answer-again").hide();
+    
+    $("#buttons-next-answer").show();
 }
 
