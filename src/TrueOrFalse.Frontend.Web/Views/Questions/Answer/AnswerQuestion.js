@@ -20,9 +20,6 @@ function validateAnswer() {
             $("#buttons-first-try").hide();
             $("#buttons-answer-again").hide();
             if (result.correct) {
-                $("#buttons-correct-answer").show();
-                $('#txtAnswer').attr('readonly', true);
-                $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
                 showMsgSuccess();
             } else {
                 showMsgErrorWithRandomText();
@@ -96,6 +93,10 @@ function showMsgErrorWithRandomText() {
 }
 
 function showMsgSuccess() {
+    $("#buttons-correct-answer").show();
+    /* $('#txtAnswer').attr('readonly', true); */
+    $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
+
     $("#answerFeedback").html("<font color=green>Richtig!</font>  " + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
 }
 
