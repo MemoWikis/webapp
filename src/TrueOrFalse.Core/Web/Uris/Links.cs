@@ -34,6 +34,11 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("SendAnswer", Links.AnswerQuestionController, new { id = question.Id }, null);
         }
 
+        public static string GetAnswer(UrlHelper url, Question question)
+        {
+            return url.Action("GetAnswer", Links.AnswerQuestionController, new { id = question.Id }, null);
+        }
+
 
         public const string EditQuestionController = "EditQuestion"; 
         public const string CreateQuestion = "Create";

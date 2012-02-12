@@ -1,18 +1,49 @@
 ﻿var answerResult;
 
-function check() {
+var errMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
+               "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
+               "Weiter, weiter nicht aufgeben.",
+               "Übung macht den Meister, Du bist auf dem richtigen Weg.",
+               "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
+               ];
+
+var successMsgs = ["Yeah! Weiter so.", "Du bis auf einem guten Weg.", "Sauber!", "Well Done!"];
+
+var answerHistory = [];
+var amountOfTries = 0;
+
+$(function () {
+    $("#btnCheck").click(validateAnswer);
+    $("#btnCheckAgain").click(validateAnswer);
+    $("#errorTryCount").click(function () {
+        var divAnswerHistory = $("#divAnswerHistory");
+        if (!divAnswerHistory.is(":visible"))
+            divAnswerHistory.show();
+        else
+            divAnswerHistory.hide();
+    });
+    $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
+    $("#buttons-edit-answer").click(function () {
+        $("#txtAnswer").focus();
+        $("#txtAnswer").setCursorPosition(0);
+    });
+});
+
+
+function validateAnswer() {
 
     var answerText = $("#txtAnswer")[0].value;
 
-    $("#answerFeedback").hide();
+    amountOfTries++;
+    answerHistory.push(answerText);
 
     if(answerText.trim().length == 0) {
-        msgErrorShow("Du könntest es es ja wenigstens probieren! Tzzzz... "); return false;
+        showMsgError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true); return false;
     }
 
     $.ajax({
         type: 'POST',
-        url: this.href,
+        url: window.ajaxUrl_SendAnswer,
         data: { answer: answerText },
         cache: false,
         success: function (result) {
@@ -20,18 +51,31 @@ function check() {
             $("#buttons-first-try").hide();
             $("#buttons-answer-again").hide();
             if (result.correct) {
-                $("#buttons-correct-answer").show();
-                $('#txtAnswer').attr('readonly', true);
-                $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
-                msgSuccess();
+                showMsgSuccess();
             } else {
-                msgErrorRandomText();
+                showMsgErrorWithRandomText();
                 animateWrongAnswer();
             };
         }
     });
     return false;
 }
+
+function updateAmountOfTries() {
+    
+}
+
+function ajaxGetAnswer(onSuccessAction) {
+    $.ajax({
+        type: 'POST',
+        url: window.ajaxUrl_GetAnswer,
+        cache: false,
+        success: function (result) {
+            onSuccessAction(result.correctAnswer);
+        }
+    });
+}
+
 
 $.fn.setCursorPosition = function (pos) {
     this.each(function (index, elem) {
@@ -48,19 +92,6 @@ $.fn.setCursorPosition = function (pos) {
     return this;
 };
 
-$(function () {
-    $("#btnCheck").click(check);
-    $("#btnCheckAgain").click(check);
-    $("#btnShowAnswer").click(function () {
-        $("#divCorrectAnswer").show();
-        $("#spanCorrectAnswer").html(answerResult.correctAnswer);
-        return false;
-    });
-    $("#buttons-edit-answer").click(function () {
-        $("#txtAnswer").focus();
-        $("#txtAnswer").setCursorPosition(0);
-    });
-});
 
 function animateWrongAnswer() {
     $("#buttons-edit-answer").show();
@@ -69,33 +100,60 @@ function animateWrongAnswer() {
         $("#buttons-answer-again").show();
         $(this).animate({ backgroundColor: "white" }, 200);
         $(this).unbind(event);
-        $("#answerFeedback").hide();
     });
     $("#txtAnswer").animate({ backgroundColor: "#FFB6C1" }, 1000);
 }
 
-var errMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
-                "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
-                "Weiter, weiter nicht aufgeben.",
-                "Übung macht den Meister, Du bist auf dem richtigen Weg.", 
-                "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
-               ];
-
-var successMsgs = ["Yeah! Weiter so.", "Du bis auf einem guten Weg.", "Sauber!", "Well Done!"];
-
-function msgErrorRandomText() {
-    msgErrorShow(errMsgs[randomXToY(0, errMsgs.length - 1)]);
+function showMsgErrorWithRandomText() {
+    showMsgError(errMsgs[randomXToY(0, errMsgs.length - 1)]);
 }
 
-function msgSuccess() {
-    $("#answerFeedback").html("<font color=green>Richtig!</font>  " + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
+function showMsgSuccess() {
+    $("#buttons-next-answer").show();
+    /* $('#txtAnswer').attr('readonly', true); */
+    $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
+    $("#divWrongAnswer").hide();
+
+    $("#divAnsweredCorrect").show();
+    $("#wellDoneMsg").html("" + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
 }
 
-function msgErrorShow(text) {
+function showMsgError(text, forceShow) {
+
+    var errorTryText;
+    var amountOfTriesText = ["ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"];
+    
+    switch (amountOfTries) {
+        case 1:
+            errorTryText = amountOfTriesText[amountOfTries - 1]; break;
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            errorTryText = amountOfTriesText[amountOfTries - 1] + " Versuche"; break;
+        case 6:
+        case 7 :
+            errorTryText = amountOfTriesText[amountOfTries - 1]; break;
+        default:
+            errorTryText = amountOfTriesText[7];
+    }
+    $("#errorTryCount").html(errorTryText);
+
+    $('#ulAnswerHistory').html("");
+    $.each(answerHistory, function(index, val) {
+        $('#ulAnswerHistory').append(
+            $('<li>' + val + '</li>'));
+    });
+    
+    $("#divWrongAnswer").show();
     $("#buttons-first-try").hide();
     $("#buttons-answer-again").hide();
 
-    $("#answerFeedback").html("<font color=red>Falsche Antwort!</font></br>(" + text + ")").show();
+    if (forceShow || randomXToY(1, 10) % 4 == 0) {
+        $("#answerFeedback").html(text).show();
+    }else {
+        $("#answerFeedback").html(text).hide();
+    }
 
     animateWrongAnswer();
 }
@@ -104,3 +162,29 @@ function randomXToY(minVal, maxVal, floatVal) {
     var randVal = minVal + (Math.random() * (maxVal - minVal));
     return typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal);
 }
+
+function showCorrectAnswer() {
+
+    showNextAnswer();
+    $("#divWrongAnswer").hide();
+    $("#divCorrectAnswer").show();
+
+    if (answerResult != null)
+        $("#spanCorrectAnswer").html(answerResult.correctAnswer);
+
+    ajaxGetAnswer(function(correctAnswer) {
+        $("#spanCorrectAnswer").html(correctAnswer);
+    });
+}
+
+function showNextAnswer() {
+    $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
+    $("#answerFeedback").hide();
+    
+    $("#buttons-first-try").hide();
+    $("#buttons-edit-answer").hide();
+    $("#buttons-answer-again").hide();
+    
+    $("#buttons-next-answer").show();
+}
+
