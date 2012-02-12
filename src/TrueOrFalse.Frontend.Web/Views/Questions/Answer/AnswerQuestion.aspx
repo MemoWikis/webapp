@@ -52,7 +52,7 @@
                 <div style="margin-top:5px;" id="answerFeedback">Du könntest es wenigstens probieren!</div>
                 
                 <div style="margin-top:7px; display: none;" id="divAnswerHistory" >
-                    Bisherige Antworten:
+                    Historie:
                     <ul style="padding-top:5px;" id="ulAnswerHistory">
                     </ul>
                 </div>
