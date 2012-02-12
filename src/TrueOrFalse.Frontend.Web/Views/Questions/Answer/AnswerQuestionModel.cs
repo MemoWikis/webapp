@@ -31,8 +31,8 @@ public class AnswerQuestionModel : ModelBase
 
         AverageAnswerTime = "";
 
-        AnswerQuestionLink = url => Links.SendAnswer(url, question);
-
+        AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
+        AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
     }
 
     public string QuestionId;
@@ -51,5 +51,6 @@ public class AnswerQuestionModel : ModelBase
 
     public string QuestionText { get; private set; }
 
-    public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
+    public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
+    public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
 }

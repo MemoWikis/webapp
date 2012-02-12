@@ -1,18 +1,18 @@
 ﻿var answerResult;
 
-function check() {
+function validateAnswer() {
 
     var answerText = $("#txtAnswer")[0].value;
 
     $("#answerFeedback").hide();
 
     if(answerText.trim().length == 0) {
-        msgErrorShow("Du könntest es es ja wenigstens probieren! Tzzzz... "); return false;
+        showMsgError("Du könntest es es ja wenigstens probieren! Tzzzz... "); return false;
     }
 
     $.ajax({
         type: 'POST',
-        url: this.href,
+        url: window.ajaxUrl_SendAnswer,
         data: { answer: answerText },
         cache: false,
         success: function (result) {
@@ -23,15 +23,27 @@ function check() {
                 $("#buttons-correct-answer").show();
                 $('#txtAnswer').attr('readonly', true);
                 $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
-                msgSuccess();
+                showMsgSuccess();
             } else {
-                msgErrorRandomText();
+                showMsgErrorWithRandomText();
                 animateWrongAnswer();
             };
         }
     });
     return false;
 }
+
+function ajaxGetAnswer(onSuccessAction) {
+    $.ajax({
+        type: 'POST',
+        url: window.ajaxUrl_GetAnswer,
+        cache: false,
+        success: function (result) {
+            onSuccessAction(result.correctAnswer);
+        }
+    });
+}
+
 
 $.fn.setCursorPosition = function (pos) {
     this.each(function (index, elem) {
@@ -49,13 +61,9 @@ $.fn.setCursorPosition = function (pos) {
 };
 
 $(function () {
-    $("#btnCheck").click(check);
-    $("#btnCheckAgain").click(check);
-    $("#btnShowAnswer").click(function () {
-        $("#divCorrectAnswer").show();
-        $("#spanCorrectAnswer").html(answerResult.correctAnswer);
-        return false;
-    });
+    $("#btnCheck").click(validateAnswer);
+    $("#btnCheckAgain").click(validateAnswer);
+    $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
     $("#buttons-edit-answer").click(function () {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
@@ -83,15 +91,15 @@ var errMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht ei
 
 var successMsgs = ["Yeah! Weiter so.", "Du bis auf einem guten Weg.", "Sauber!", "Well Done!"];
 
-function msgErrorRandomText() {
-    msgErrorShow(errMsgs[randomXToY(0, errMsgs.length - 1)]);
+function showMsgErrorWithRandomText() {
+    showMsgError(errMsgs[randomXToY(0, errMsgs.length - 1)]);
 }
 
-function msgSuccess() {
+function showMsgSuccess() {
     $("#answerFeedback").html("<font color=green>Richtig!</font>  " + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
 }
 
-function msgErrorShow(text) {
+function showMsgError(text) {
     $("#buttons-first-try").hide();
     $("#buttons-answer-again").hide();
 
@@ -104,3 +112,15 @@ function randomXToY(minVal, maxVal, floatVal) {
     var randVal = minVal + (Math.random() * (maxVal - minVal));
     return typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal);
 }
+
+function showCorrectAnswer() {
+    $("#divCorrectAnswer").show();
+    
+    if (answerResult != null)
+        $("#spanCorrectAnswer").html(answerResult.correctAnswer);
+
+    ajaxGetAnswer(function(correctAnswer) {
+        $("#spanCorrectAnswer").html(correctAnswer);
+    });
+}
+

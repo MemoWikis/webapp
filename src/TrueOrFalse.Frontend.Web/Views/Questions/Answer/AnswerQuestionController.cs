@@ -43,5 +43,12 @@ public class AnswerQuestionController : Controller
                                           }};
     }
 
+    [HttpPost]
+    public JsonResult GetAnswer(int id, string answer)
+    {
+        var question = _questionRepository.GetById(id);
+        return new JsonResult { Data = new { correctAnswer = question.Solution} };        
+    }
+
 }
 
