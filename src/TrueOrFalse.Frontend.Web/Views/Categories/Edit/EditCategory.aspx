@@ -21,7 +21,8 @@
 </h2>
 
 
-<% using (Html.BeginForm()){ %>
+<% using (Html.BeginForm())
+   { %>
 
     <% Html.Message(Model.Message); %>
 
@@ -41,7 +42,7 @@
         <input id="txtNewRelatedCategory" />
         <a href="#" id="addRelatedCategory" style="display:none"><img alt="" src='/Images/Buttons/add.png' /></a>
     </div>
-
+    <label for="imageUpload">Bild:</label> <input type="file" name="imageUpload" />
     <br/><br/><br/>
     <label>&nbsp;</label>
     <%= Buttons.Submit("Speichern", inline:true)%>
