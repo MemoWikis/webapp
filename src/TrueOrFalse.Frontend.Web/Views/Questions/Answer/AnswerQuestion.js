@@ -137,7 +137,7 @@ function showMsgError(text, forceShow) {
         default:
             errorTryText = amountOfTriesText[7];
     }
-    $("#errorTryCount").html(errorTryText);
+    $("#errorTryCount").html("(" + errorTryText + ")");
 
     $('#ulAnswerHistory').html("");
     $.each(answerHistory, function(index, val) {
