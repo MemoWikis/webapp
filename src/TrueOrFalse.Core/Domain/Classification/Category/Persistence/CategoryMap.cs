@@ -16,7 +16,6 @@ namespace TrueOrFalse.Core
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
             HasManyToMany(x => x.RelatedCategories).ChildKeyColumn("Related_Id").Cascade.All();
-            HasManyToMany(x => x.Questions).Inverse().Cascade.All();
         }
     }
 }

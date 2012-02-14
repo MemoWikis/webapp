@@ -21,7 +21,7 @@ namespace TrueOrFalse.View.Web.Views.Api
             return Json(from c in _categorySearch.Run(term) 
                         select new {
                             name = c.Name,
-                            numberOfQuestions = c.Questions.Count
+                            numberOfQuestions = "14"
                         }, JsonRequestBehavior.AllowGet); 
         }
 
