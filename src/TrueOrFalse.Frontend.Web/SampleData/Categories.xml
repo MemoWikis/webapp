@@ -1,52 +1,68 @@
+<trueorfalse>
+  <version>0.1</version>
 
-<trueorfalse>    
-    <version>0.1</version>
-    
-    <category>
-        <name>Physik</name>        
-        
-        <related>Mathematik</related>           
-        
-    </category>     
-    
-    <category>
-        <name>Mathematik</name>        
-        
-    </category>     
-    
-    <category>
-        <name>Entdeckung</name>        
-        
-    </category>     
-    
-    <category>
-        <name>Person</name>        
-        
-    </category>     
-    
-    <category>
-        <name>Formel</name>        
-        
-    </category>     
-    
-    <category>
-        <name>Elektrotechnik</name>        
-        
-    </category>     
-    
-    <category>
-        <name>Datum</name>        
-        
-    </category>     
-    
-    <category>
-        <name>Concept-Office</name>        
-        
-    </category>     
-    
-    <category>
-        <name>Geburtstag</name>        
-        
-    </category>     
-        
+  <category>
+    <id>1</id>
+    <name>Physik</name>
+    <relatedCategories>
+      <id>2</id>
+    </relatedCategories>
+  </category>
+
+  <category>
+    <id>2</id>
+    <name>Mathematik</name>
+    <relatedCategories>
+    </relatedCategories>
+  </category>
+
+  <category>
+    <id>3</id>
+    <name>Entdeckung</name>
+    <relatedCategories>
+    </relatedCategories>
+  </category>
+
+  <category>
+    <id>4</id>
+    <name>Person</name>
+    <relatedCategories>
+    </relatedCategories>
+  </category>
+
+  <category>
+    <id>5</id>
+    <name>Formel</name>
+    <relatedCategories>
+    </relatedCategories>
+  </category>
+
+  <category>
+    <id>6</id>
+    <name>Elektrotechnik</name>
+    <relatedCategories>
+    </relatedCategories>
+  </category>
+
+  <category>
+    <id>7</id>
+    <name>Datum</name>
+    <relatedCategories>
+    </relatedCategories>
+  </category>
+
+  <category>
+    <id>8</id>
+    <name>Concept-Office</name>
+    <relatedCategories>
+    </relatedCategories>
+  </category>
+
+  <category>
+    <id>9</id>
+    <name>Geburtstag</name>
+    <relatedCategories>
+    </relatedCategories>
+  </category>
+
 </trueorfalse>

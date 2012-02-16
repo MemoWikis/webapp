@@ -44,6 +44,10 @@ namespace TrueOrFalse.Core
                                                  select result.Categories.Single(x => x.Id == Convert.ToInt32(categoryIdElement.Value))).ToList() 
                                };
 
+            foreach (var category in result.Categories)
+            {
+                category.Id = 0;
+            }
 
             return result;
         }

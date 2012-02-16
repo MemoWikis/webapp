@@ -39,8 +39,7 @@ namespace TrueOrFalse.Tests
                                             <solution>First answer to Question 2</solution>
                                             <categories>                                                
                                             </categories>
-                                        </question>
-                                        
+                                        </question>                                        
                                         <category>
                                             <id>1</id>
                                             <name>Sport</name>
