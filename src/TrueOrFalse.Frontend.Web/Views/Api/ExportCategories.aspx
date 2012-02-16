@@ -3,10 +3,12 @@
     <version>0.1</version>
     <% foreach (var question in Model.Categories) { %>
     <category>
-        <name><%=question.Name %></name>        
+        <name><%=question.Name %></name>
+        <relatedCategories>
         <% foreach (var related in question.RelatedCategories) { %>
-        <related><%=related.Name %></related>           
+            <id><%=related.Name %></id>
         <% } %>
+        </relatedCategories>
     </category>     
     <% } %>    
 </trueorfalse>

@@ -47,10 +47,9 @@ namespace TrueOrFalse.Core
 
         public void ImportCategories(string xmlFile)
         {
-            _importer.Run(System.IO.File.ReadAllText(xmlFile));
+            var importerResult = _importer.Run(System.IO.File.ReadAllText(xmlFile));
 
-            foreach (var category in _importer.Categories)
-            {
+            foreach (var category in importerResult.Categories){
                 _categoryRepository.Create(category);
             }
 
@@ -58,10 +57,9 @@ namespace TrueOrFalse.Core
 
         public void ImportQuestions(string xmlFile)
         {
-             _importer.Run(System.IO.File.ReadAllText(xmlFile));
+             var importerResult = _importer.Run(System.IO.File.ReadAllText(xmlFile));
 
-            foreach (var question in _importer.Questions)
-            {
+            foreach (var question in importerResult.Questions){
                 _questionRepository.Create(question);
             }
 

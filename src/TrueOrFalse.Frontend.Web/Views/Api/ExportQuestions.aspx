@@ -8,6 +8,11 @@
         <visibility><%= question.Visibility %></visibility>
         <creatorId><%=question.Creator.Id %></creatorId>
         <solution><%=question.Solution %></solution>
-    </question>     
+        <categories>
+            <% foreach (var category in question.Categories){ %>
+                <id><%=category.Id %></id>
+            <% } %>
+        </categories>
+    </question>    
     <% } %>    
 </trueorfalse>

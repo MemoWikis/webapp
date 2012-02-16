@@ -27,6 +27,9 @@ namespace TrueOrFalse.Tests
                                             <description>foo bar</description>
                                             <visibility>All</visibility>
                                             <solution>Answer to question 1</solution>
+                                            <categories>
+                                                <id>1</id>
+                                            </categories>
                                         </question>
                                         <question>
                                             <text>Question 2</text>
@@ -34,13 +37,22 @@ namespace TrueOrFalse.Tests
                                             <description>foo bar</description>
                                             <visibility>All</visibility>
                                             <solution>First answer to Question 2</solution>
+                                            <categories>                                                
+                                            </categories>
                                         </question>
+                                        
                                         <category>
-                                            <name>Sport</name>                                        
+                                            <id>1</id>
+                                            <name>Sport</name>
+                                            <relatedCategories>
+                                            </relatedCategories>                                    
                                         </category>
                                         <category>
+                                            <id>2</id>
                                             <name>Football</name>
-                                            <related>Sport</related>
+                                            <relatedCategories>
+                                                <id>1</id>
+                                            </relatedCategories>
                                         </category>
                                     </trueorfalse>";
 
@@ -49,28 +61,30 @@ namespace TrueOrFalse.Tests
         public void Should_import_questions_and_answers()
         {
             var importer = Resolve<Importer>();
-            importer.Run(Xml);
+            var importerResutl = importer.Run(Xml);
 
-            importer.Questions.Count().Should().Be.EqualTo(2);
-            importer.Questions.First().Text.Should().Be.EqualTo("Question 1");
-            importer.Questions.First().Creator.Should().Be.EqualTo(_users.First());
-            importer.Questions.First().Solution.Should().Be.EqualTo("Answer to question 1");
+            importerResutl.Questions.Count().Should().Be.EqualTo(2);
+            importerResutl.Questions.First().Text.Should().Be.EqualTo("Question 1");
+            importerResutl.Questions.First().Creator.Should().Be.EqualTo(_users.First());
+            importerResutl.Questions.First().Solution.Should().Be.EqualTo("Answer to question 1");
+            importerResutl.Questions.First().Categories.Single().Name.Should().Be.EqualTo("Sport");
+                
 
-            importer.Questions.Last().Text.Should().Be.EqualTo("Question 2");
-            importer.Questions.Last().Creator.Should().Be.EqualTo(_users.First());
-            importer.Questions.Last().Solution.Should().Be.EqualTo("First answer to Question 2");
+            importerResutl.Questions.Last().Text.Should().Be.EqualTo("Question 2");
+            importerResutl.Questions.Last().Creator.Should().Be.EqualTo(_users.First());
+            importerResutl.Questions.Last().Solution.Should().Be.EqualTo("First answer to Question 2");
         }
 
         [Test]
         public void Should_import_categories()
         {
             var importer = Resolve<Importer>();
-            importer.Run(Xml);
+            var importerResult = importer.Run(Xml);
 
-            importer.Categories.Count().Should().Be.EqualTo(2);
-            importer.Categories.First().Name.Should().Be.EqualTo("Sport");
-            importer.Categories.Last().Name.Should().Be.EqualTo("Football");
-            importer.Categories.Last().RelatedCategories.Single().Should().Be.SameInstanceAs(importer.Categories.First());
+            importerResult.Categories.Count().Should().Be.EqualTo(2);
+            importerResult.Categories.First().Name.Should().Be.EqualTo("Sport");
+            importerResult.Categories.Last().Name.Should().Be.EqualTo("Football");
+            importerResult.Categories.Last().RelatedCategories.Single().Should().Be.SameInstanceAs(importerResult.Categories.First());
         }
 
     }

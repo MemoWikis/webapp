@@ -10,39 +10,42 @@ namespace TrueOrFalse.Core
     public class Importer : IRegisterAsInstancePerLifetime
     {
         private readonly UserRepository _userRepository;
-        public IEnumerable<Question> Questions { get; private set; }
-        public IEnumerable<Category> Categories { get; private set; }
 
         public Importer(UserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public void Run(string xml)
+        public ImporterResult Run(string xml)
         {
             var document = XDocument.Parse(xml);
 
-            Questions = from questionElement in document.Root.Elements("question")
-                        select new Question
-                        {
-                            Text = questionElement.Element("text").Value,
-                            Description= questionElement.Element("description").Value,
-                            Visibility = (QuestionVisibility) Enum.Parse(typeof(QuestionVisibility), questionElement.Element("visibility").Value),
-                            Creator = _userRepository.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value)),
-                            Solution = questionElement.Element("solution").Value
-                        };
+            var result = new ImporterResult();
 
-            Categories = (from categoryElement in document.Root.Elements("category")
-                          select new Category(categoryElement.Element("name").Value)).ToList();
+            result.Categories = (from categoryElement in document.Root.Elements("category")
+                                 select new Category(categoryElement.Element("name").Value) { Id = Convert.ToInt32(categoryElement.Element("id").Value) }).ToList();
 
-            foreach (var category in Categories)
+            foreach (var category in result.Categories)
             {
                 var categoryElement = document.Root.Elements("category").Single(x => x.Element("name").Value == category.Name);
-                category.RelatedCategories = (from relatedElement in categoryElement.Elements("related")
-                                              select Categories.Single(x => x.Name == relatedElement.Value)).ToList();
+                category.RelatedCategories = (from relatedElementId in categoryElement.Element("relatedCategories").Elements("id")
+                                              select result.Categories.Single(x => x.Id == Convert.ToInt32(relatedElementId.Value))).ToList();
             }
 
+            result.Questions = from questionElement in document.Root.Elements("question")
+                               select new Question
+                               {
+                                   Text = questionElement.Element("text").Value,
+                                   Description= questionElement.Element("description").Value,
+                                   Visibility = (QuestionVisibility) Enum.Parse(typeof(QuestionVisibility), questionElement.Element("visibility").Value),
+                                   Creator = _userRepository.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value)),
+                                   Solution = questionElement.Element("solution").Value,
+                                   Categories = (from categoryIdElement in questionElement.Element("categories").Elements("id")
+                                                 select result.Categories.Single(x => x.Id == Convert.ToInt32(categoryIdElement.Value))).ToList() 
+                               };
 
+
+            return result;
         }
     }
 }
