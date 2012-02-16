@@ -45,24 +45,17 @@ namespace TrueOrFalse.Core
             return new List<User> {stefan, robert, jule};
         }
 
-        public void ImportCategories(string xmlFile)
+        public void Import(string xmlFile)
         {
             var importerResult = _importer.Run(System.IO.File.ReadAllText(xmlFile));
 
             foreach (var category in importerResult.Categories){
                 _categoryRepository.Create(category);
             }
-
-        }
-
-        public void ImportQuestions(string xmlFile)
-        {
-             var importerResult = _importer.Run(System.IO.File.ReadAllText(xmlFile));
-
-            foreach (var question in importerResult.Questions){
+            foreach (var question in importerResult.Questions)
+            {
                 _questionRepository.Create(question);
             }
-
         }
     }
 }

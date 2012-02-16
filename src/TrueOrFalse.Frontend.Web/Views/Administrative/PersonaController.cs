@@ -39,8 +39,7 @@ public class PersonaController : Controller
     {
         SessionFactory.BuildSchema();
         _sampleData.CreateUsers();
-        _sampleData.ImportCategories(Server.MapPath("~/SampleData/Categories.xml"));
-        _sampleData.ImportQuestions(Server.MapPath("~/SampleData/Questions.xml"));
+        _sampleData.Import(Server.MapPath("~/SampleData/Export.xml"));
         var robertM = _userRepository.GetByEmailAddress(emailAddress);
         _sessionUser.Login(robertM);
 

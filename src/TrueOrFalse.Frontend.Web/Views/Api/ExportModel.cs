@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using TrueOrFalse.Core;
 
-public class ExportQuestionsModel 
+public class ExportModel 
 {
 
     public IEnumerable<Question> Questions { get; set; }
+    public IEnumerable<Category> Categories { get; set; }
 
-    public ExportQuestionsModel(IEnumerable<Question> questions)
+    public ExportModel(IEnumerable<Question> questions, IEnumerable<Category> categories)
     {
         Questions = questions;
+        Categories = categories;
     }
 }
