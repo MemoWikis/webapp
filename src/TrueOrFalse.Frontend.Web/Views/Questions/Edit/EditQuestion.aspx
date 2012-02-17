@@ -45,18 +45,20 @@
         <p class="help-block form-text">
             Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und andere <br />die Fragen wiederzufinden.
         </p>
-        <h3>Kategorien</h3>
-        <div id="relatedCategories">
-            <script type="text/javascript">
-                $(function() {
-                    <%foreach (var category in Model.Categories) { %>
-                        $("#txtNewRelatedCategory").val('<%=category %>');
-                        $("#addRelatedCategory").click();
-                    <% } %>
-                });
-            </script>
-            <input id="txtNewRelatedCategory" />
-            <a href="#" id="addRelatedCategory" style="display:none"><img alt="" src='/Images/Buttons/add.png' /></a>
+        <div class="control-group">
+            <%= Html.Label("Kategorien")%>
+            <div id="relatedCategories">
+                <script type="text/javascript">
+                    $(function() {
+                        <%foreach (var category in Model.Categories) { %>
+                            $("#txtNewRelatedCategory").val('<%=category %>');
+                            $("#addRelatedCategory").click();
+                        <% } %>
+                    });
+                </script>
+                <input id="txtNewRelatedCategory" />
+                <a href="#" id="addRelatedCategory" style="display:none"><img alt="" src='/Images/Buttons/add.png' /></a>
+            </div>
         </div>
             
 <%--            <div class="control-group">
