@@ -3,6 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Core" %>
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
+    <script src="<%= Url.Content("~/Views/Categories/Edit/RelatedCategories.js") %>" type="text/javascript"></script>
     <script src="<%= Url.Content("~/Views/Questions/Edit/EditQuestion.js") %>" type="text/javascript"></script>
     <style type="text/css">
         div.classification  input {width: 75px; background-color: beige;}
@@ -44,15 +45,18 @@
         <p class="help-block form-text">
             Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und andere <br />die Fragen wiederzufinden.
         </p>
-        <div class="control-group">
-            <%= Html.Label("Kategorien")%>
-            <div class="classification">
-                <%= Html.TextBoxFor(m => Model.Category1, new { @id = "cat1" })%>
-			    <%= Html.TextBoxFor(m => Model.Category2, new { @id = "cat2" })%>
-			    <%= Html.TextBoxFor(m => Model.Category3, new { @id = "cat3" })%>
-			    <%= Html.TextBoxFor(m => Model.Category4, new { @id = "cat4" })%>
-			    <%= Html.TextBoxFor(m => Model.Category5, new { @id = "cat5" })%><br/>
-            </div>
+        <h3>Kategorien</h3>
+        <div id="relatedCategories">
+            <script type="text/javascript">
+                $(function() {
+                    <%foreach (var category in Model.Categories) { %>
+                        $("#txtNewRelatedCategory").val('<%=category %>');
+                        $("#addRelatedCategory").click();
+                    <% } %>
+                });
+            </script>
+            <input id="txtNewRelatedCategory" />
+            <a href="#" id="addRelatedCategory" style="display:none"><img alt="" src='/Images/Buttons/add.png' /></a>
         </div>
             
 <%--            <div class="control-group">

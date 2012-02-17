@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -39,26 +40,7 @@ public class EditQuestionModel : ModelBase
     [DisplayName("Charakter")]
     public string Character { get; set; }
 
-    public string Category1 { get; set; }
-    public string Category2 { get; set; }
-    public string Category3 { get; set; }
-    public string Category4 { get; set; }
-    public string Category5 { get; set; }
-
-    public IEnumerable<String> Categories
-    {
-        get 
-        { 
-            return new [] 
-            {
-                Category1,
-                Category2,
-                Category3,
-                Category4,
-                Category5
-            }.Where(x => !String.IsNullOrWhiteSpace(x));
-        }
-    }
+    public IEnumerable<String> Categories = new List<string>();
 
     public IEnumerable<SelectListItem> VisibilityData { get {
             return new List<SelectListItem> {
@@ -99,12 +81,12 @@ public class EditQuestionModel : ModelBase
         Solution = question.Solution;
         SolutionType = question.QuestionSolutionType.ToString();
         Description = question.Description;
-        
-        Category1 = question.Categories.GetValueByIndex(0);
-        Category2 = question.Categories.GetValueByIndex(1);
-        Category2 = question.Categories.GetValueByIndex(2);
-        Category2 = question.Categories.GetValueByIndex(3);
-        Category2 = question.Categories.GetValueByIndex(4);
+        Categories = (from cat in question.Categories select cat.Name).ToList();
+    }
+
+    public void FillCategoriesFromPostData(NameValueCollection postData)
+    {
+        Categories = (from key in postData.AllKeys where key.StartsWith("cat") select postData[key]).ToList();
     }
 
 }

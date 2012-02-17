@@ -34,6 +34,7 @@ public class EditQuestionController : Controller
     [HttpPost]
     public ActionResult Edit(int id, EditQuestionModel model)
     {
+        model.FillCategoriesFromPostData(Request.Form);
         _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model, _questionRepository.GetById(id)));
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
@@ -43,6 +44,7 @@ public class EditQuestionController : Controller
     [HttpPost]
     public ActionResult Create(EditQuestionModel model)
     {
+        model.FillCategoriesFromPostData(Request.Form);
         var editQuestionModelCategoriesExist = ServiceLocator.Resolve<EditQuestionModel_Categories_Exist>();
         if (editQuestionModelCategoriesExist.Yes(model))
         {

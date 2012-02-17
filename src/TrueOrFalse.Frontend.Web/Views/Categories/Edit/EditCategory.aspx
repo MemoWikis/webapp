@@ -2,13 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <script src="<%= Url.Content("~/Views/Categories/Edit/EditCategory.js") %>" type="text/javascript"></script>
-<style type="text/css">
-    .added-cat {
-        float: left;
-        margin-right: 1em;
-    }    
-</style>
+<script src="<%= Url.Content("~/Views/Categories/Edit/RelatedCategories.js") %>" type="text/javascript"></script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

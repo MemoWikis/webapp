@@ -28,3 +28,8 @@ h3.form-sub-title
     padding-top: 30px;
     font-size: 1.3em;
 }
+
+.added-cat {
+    float: left;
+    margin-right: 1em;
+}    

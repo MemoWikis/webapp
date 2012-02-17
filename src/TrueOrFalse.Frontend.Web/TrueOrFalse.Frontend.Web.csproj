@@ -311,7 +311,7 @@
     <Content Include="Views\Categories\Categories.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
-    <Content Include="Views\Categories\Edit\EditCategory.js" />
+    <Content Include="Views\Categories\Edit\RelatedCategories.js" />
     <Content Include="Views\News\News.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.js" />
     <Content Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeAccurate.ascx" />
