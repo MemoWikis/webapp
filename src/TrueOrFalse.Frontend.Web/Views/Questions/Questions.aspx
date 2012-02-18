@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
+<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -73,14 +74,12 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
     <div class="row" style="margin-top:-20px;">
         <div class="pagination" style="text-align:center;" >
             <ul>
-                <li class=" disabled "><a href="#">«</a></li>
-                <li class="active">
-                    <a href="#">1</a>
-                </li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">»</a></li>
+                <li class="disabled"><a href="#">«</a></li>
+                <% for (var i = 1; i <= Model.Pager.PageCount; i++) { %>
+                    <li><%= Html.ActionLink(i.ToString(CultureInfo.InvariantCulture), 
+                        Links.Questions, Links.QuestionsController, new {page=i}, null ) %></li>
+                <% } %>
+                <li class="disabled"><a href="#">»</a></li>
             </ul>
         </div>        
     </div>
