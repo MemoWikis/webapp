@@ -71,17 +71,7 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
             Html.RenderPartial("QuestionRow", row);
         } %>
     
-    <div class="row" style="margin-top:-20px;">
-        <div class="pagination" style="text-align:center;" >
-            <ul>
-                <li class="disabled"><a href="#">«</a></li>
-                <% for (var i = 1; i <= Model.Pager.PageCount; i++) { %>
-                    <li><%= Html.ActionLink(i.ToString(CultureInfo.InvariantCulture), 
-                        Links.Questions, Links.QuestionsController, new {page=i}, null ) %></li>
-                <% } %>
-                <li class="disabled"><a href="#">»</a></li>
-            </ul>
-        </div>        
-    </div>
+     <% Html.RenderPartial("Pager", Model.Pager); %>
+
 </asp:Content>
 

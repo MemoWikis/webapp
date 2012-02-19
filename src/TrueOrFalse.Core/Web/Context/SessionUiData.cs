@@ -13,7 +13,7 @@ namespace TrueOrFalse.Core.Web.Context
 
         public QuestionSearchSpec QuestionSearchSpec
         {
-            get { return Data.Get("questionSearchSpec", new QuestionSearchSpec()); }
+            get { return Data.Get("questionSearchSpec", new QuestionSearchSpec{PageSize = 5}); }
         }
     }
 }

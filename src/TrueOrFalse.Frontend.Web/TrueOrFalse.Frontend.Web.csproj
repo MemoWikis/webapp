@@ -325,6 +325,7 @@
     <Content Include="Scripts\lib.js" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
+    <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\User\UserProfile.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
