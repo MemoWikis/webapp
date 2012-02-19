@@ -13,6 +13,17 @@ var answerHistory = [];
 var amountOfTries = 0;
 
 $(function () {
+
+    $("#txtAnswer").keypress(function (e) {
+        if (e.keyCode == 13) {
+            if (isAnswerPossible()) {
+                validateAnswer();
+                return false;
+            }
+        }
+        return true;
+    });
+
     $("#btnCheck").click(validateAnswer);
     $("#btnCheckAgain").click(validateAnswer);
     $("#errorTryCount").click(function () {
@@ -188,3 +199,16 @@ function showNextAnswer() {
     $("#buttons-next-answer").show();
 }
 
+function isAnswerPossible() {
+
+    if ($("#buttons-first-try").is(":visible"))
+        return true;
+
+    if ($("#buttons-edit-answer").is(":visible"))
+        return true;
+
+    if ($("#buttons-answer-again").is(":visible"))
+        return true;
+
+    return false;
+}
