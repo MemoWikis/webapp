@@ -122,6 +122,7 @@
     <Compile Include="Domain\Question\AnswerHistory\Persistence\AnswerHistoryRepository.cs" />
     <Compile Include="Domain\Question\Answer\AnswerQuestion.cs" />
     <Compile Include="Domain\Question\Answer\AnswerQuestionResult.cs" />
+    <Compile Include="Domain\Question\Persistence\QuestionSearchSpec.cs" />
     <Compile Include="Domain\Question\Question.cs" />
     <Compile Include="Domain\Question\QuestionListExt.cs" />
     <Compile Include="Domain\Question\Persistence\QuestionMap.cs" />

@@ -10,5 +10,10 @@ namespace TrueOrFalse.Core.Web.Context
         {
             get { return Data.Get("lastVisitedProfiles", new UserNavigationModelList()); }
         } 
+
+        public QuestionSearchSpec QuestionSearchSpec
+        {
+            get { return Data.Get("questionSearchSpec", new QuestionSearchSpec()); }
+        }
     }
 }

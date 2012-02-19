@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Core;
 
@@ -13,4 +14,5 @@ public class QuestionsModel : ModelBase
 
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
 
+    public IPager Pager { get; set; }
 }
