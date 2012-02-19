@@ -61,7 +61,6 @@ function validateAnswer() {
             answerResult = result;
             $("#buttons-first-try").hide();
             $("#buttons-answer-again").hide();
-            $("buttons-edit-answer").hide();
             if (result.correct) {
                 showMsgSuccess();
             } else {
@@ -104,10 +103,9 @@ $.fn.setCursorPosition = function (pos) {
     return this;
 };
 
-
 function animateWrongAnswer() {
     $("#buttons-edit-answer").show();
-    $("#txtAnswer").focus(function (event) {
+    $("#txtAnswer").keypress(function (event) {
         $("#buttons-edit-answer").hide();
         $("#buttons-answer-again").show();
         $(this).animate({ backgroundColor: "white" }, 200);
@@ -122,7 +120,7 @@ function showMsgErrorWithRandomText() {
 
 function showMsgSuccess() {
     $("#buttons-next-answer").show();
-    /* $('#txtAnswer').attr('readonly', true); */
+    $("#buttons-edit-answer").hide();
     $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
     $("#divWrongAnswer").hide();
 
@@ -191,13 +189,14 @@ function showCorrectAnswer() {
 
 function showNextAnswer() {
     $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
+
+    $("#buttons-next-answer").show();
+
     $("#answerFeedback").hide();
     
     $("#buttons-first-try").hide();
     $("#buttons-edit-answer").hide();
     $("#buttons-answer-again").hide();
-    
-    $("#buttons-next-answer").show();
 }
 
 function isAnswerPossible() {
