@@ -61,6 +61,7 @@ function validateAnswer() {
             answerResult = result;
             $("#buttons-first-try").hide();
             $("#buttons-answer-again").hide();
+            $("buttons-edit-answer").hide();
             if (result.correct) {
                 showMsgSuccess();
             } else {
