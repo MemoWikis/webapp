@@ -25,21 +25,7 @@
 <script src="/Scripts/highcharts.js" type="text/javascript"></script>
 
 <script src="/Scripts/google-code-prettify/prettify.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-transition.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-alert.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-modal.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-dropdown.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-scrollspy.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-tab.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-tooltip.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-popover.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-button.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-collapse.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-carousel.js" type="text/javascript"></script>
-<script src="/Scripts/bootstrap-typeahead.js" type="text/javascript"></script>
-<script src="/Scripts/application.js" type="text/javascript"></script>
-        
-
+<script src="/Scripts/bootstrap.js" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(function () {
