@@ -86,13 +86,13 @@
         </div>
         
         <div class="span2" style="padding-top: 90px; padding-left: 20px;">
-            Erstellt von: <br />
-            am: <br />
-            Über die Antwort
-            <%= Model.TimesAnswered %>x beantwortet<br />
-            <%= Model.TimesAnsweredCorrect %>x richtig<br />
+            Erstellt von: <%= Model.CreatorName %><br />
+            vor: <%= Model.CreationDate %> <br />
+            <br />
+            <%= Model.TimesAnswered %> beantwortet<br />
+            <%= Model.TimesAnsweredCorrect %> richtig<br />
             <%= Model.TimesAnsweredWrong %>x falsche<br />
-            <%= Model.TimesJumpedOver %>x übersprungen<br />
+            <%= Model.TimesJumpedOver %> übersprungen<br />
             druchschn. Antwortzeit <%= Model.AverageAnswerTime %><br />            
         </div>
         
