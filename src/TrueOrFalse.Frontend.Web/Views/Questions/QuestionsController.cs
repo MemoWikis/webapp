@@ -15,8 +15,9 @@ public class QuestionsController : Controller
 
     public ActionResult Questions(int? page)
     {
+        //_sessionUiData.QuestionSearchSpec.PageSize = 1;
         if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
         return View(new QuestionsModel(_questionRepository.GetBy(_sessionUiData.QuestionSearchSpec))
-                        {Pager = _sessionUiData.QuestionSearchSpec});
+                        {Pager = new PagerModel(_sessionUiData.QuestionSearchSpec)});
     }
 }

@@ -14,5 +14,5 @@ public class QuestionsModel : ModelBase
 
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
 
-    public IPager Pager { get; set; }
+    public PagerModel Pager { get; set; }
 }

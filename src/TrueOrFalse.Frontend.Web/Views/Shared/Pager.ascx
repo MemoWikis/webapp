@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Seedworks.Lib.Persistence.IPager>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<PagerModel>" %>
 <%@ Import Namespace="System.Globalization" %>
 
 <% const int size = 3; %>
@@ -6,27 +6,59 @@
 <div class="row" style="margin-top:-20px;">
     <div class="pagination" style="text-align:center;" >
         <ul>
-            <li <% if (!Model.HasPreviousPage()) { %>class="disabled"<% } %>>
-                <%= Html.ActionLink("«",
+            <% if (Model.HasPreviousPage) { %>
+                <li>
+                    <%= Html.ActionLink("«",
+                        ViewContext.RouteData.Values["action"].ToString(), 
+                        ViewContext.RouteData.Values["controller"].ToString(),
+                        new { page = Model.CurrentPage - 1}, null)%>
+                </li>
+            <% } else { %>
+                <li class="disabled"><a href="#">«</a></li>
+            <% } %>
+
+            
+            <li <% if (1 == Model.CurrentPage) { %> class="active" <% } %>>
+                <%= Html.ActionLink(1.ToString(CultureInfo.InvariantCulture),
                     ViewContext.RouteData.Values["action"].ToString(), 
-                    ViewContext.RouteData.Values["controller"].ToString(),
-                    new { page = Model.CurrentPage - 1}, null)%>
+                    ViewContext.RouteData.Values["controller"].ToString(), 
+                    new { page = 1 }, null)%>
             </li>
-            <% for (var i =  1;  i <= Model.PageCount; i++)
-               { %>
-                <li <% if (Model.CurrentPage == i) { %>class="active"<% } %>>
+            
+            <% if (Model.SkippedLeft) { %>
+                <li class="disabled"><a href="#">...</a></li>
+            <% } %>
+            
+            <% foreach (var i in Enumerable.Range(Model.Start, Model.Length)) { %>
+                <li <% if (i == Model.CurrentPage) { %> class="active" <% } %>>
                     <%= Html.ActionLink(i.ToString(CultureInfo.InvariantCulture),
                         ViewContext.RouteData.Values["action"].ToString(), 
-                        ViewContext.RouteData.Values["controller"].ToString(), 
+                        ViewContext.RouteData.Values["controller"].ToString(),
                         new { page = i }, null)%>
-                </li>
+                </li>   
             <% } %>
-            <li <% if (!Model.HasNextPage()) { %>class="disabled"<% } %>>
-                <%= Html.ActionLink("»",
+            
+            <% if (Model.SkippedRight) { %>
+                <li class="disabled"><a href="#">...</a></li>
+            <% } %>
+
+            <li <% if (Model.LastPage == Model.CurrentPage) { %> class="active" <% } %>>
+                <%= Html.ActionLink(Model.LastPage.ToString(CultureInfo.InvariantCulture),
                     ViewContext.RouteData.Values["action"].ToString(), 
-                    ViewContext.RouteData.Values["controller"].ToString(),
-                    new { page = Model.CurrentPage + 1}, null)%>
+                    ViewContext.RouteData.Values["controller"].ToString(), 
+                    new { page = Model.LastPage }, null)%>
             </li>
+
+            <% if (Model.HasNextPage) { %>
+                <li>
+                    <%= Html.ActionLink("»",
+                        ViewContext.RouteData.Values["action"].ToString(), 
+                        ViewContext.RouteData.Values["controller"].ToString(),
+                        new { page = Model.CurrentPage + 1}, null)%>
+                </li>
+            <% } else { %>
+                <li class="disabled"><a href="#">»</a></li>
+            <% } %>
         </ul>
     </div>        
 </div>
