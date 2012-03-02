@@ -37,9 +37,6 @@ public class PersonaController : Controller
 
     private ActionResult LoginUser(string emailAddress)
     {
-        SessionFactory.BuildSchema();
-        _sampleData.CreateUsers();
-        _sampleData.Import(Server.MapPath("~/SampleData/Export.xml"));
         var robertM = _userRepository.GetByEmailAddress(emailAddress);
         _sessionUser.Login(robertM);
 
