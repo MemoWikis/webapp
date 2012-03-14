@@ -35,7 +35,6 @@ namespace TrueOrFalse.Tests
             builder.RegisterModule<AutofacCoreModule>();
             builder.RegisterModule<AutofacTestModule>();
             _container = builder.Build();
-            SessionFactory.BuildSchema();
         }
 
         public static T Resolve<T>()
