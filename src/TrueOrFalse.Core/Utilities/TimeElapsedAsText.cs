@@ -22,10 +22,13 @@ namespace TrueOrFalse
                 return elapsedTime.TotalSeconds + " Sekunden";
 
             if (elapsedTime.TotalMinutes <= 60)
-                return elapsedTime.TotalMinutes + "Minuten";
+                return elapsedTime.TotalMinutes + " Minuten";
 
             if (elapsedTime.TotalHours <= 24)
-                return elapsedTime.TotalHours + "Stund";
+                if ((int)Math.Round(elapsedTime.TotalHours,0) == 1)
+                    return "1 Stunde";
+                else
+                    return (int)elapsedTime.TotalHours + " Stunden";
 
             return "";
         }

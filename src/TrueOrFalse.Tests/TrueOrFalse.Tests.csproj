@@ -138,7 +138,8 @@
     <Compile Include="2 Domain\User\ContextRegisteredUser.cs" />
     <Compile Include="2 Domain\User\Registration\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Domain\User\Tests.PersistUser.cs" />
-    <Compile Include="3 Web\UriSanitizer_Tests.cs" />
+    <Compile Include="4 Utiltities\TimeElapsedAsTextTests.cs" />
+    <Compile Include="5 Web\UriSanitizer_Tests.cs" />
     <Compile Include="a Test MetaData\Features\Features.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.LoggedInUser.cs" />
@@ -192,7 +193,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="3 Infrastructure\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="_debugEmails\keepFolder.txt" />
   </ItemGroup>
