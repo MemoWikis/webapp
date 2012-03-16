@@ -8,15 +8,12 @@ using TrueOrFalse.Frontend.Web.Code;
 public class PersonaController : Controller
 {
     private readonly SessionUser _sessionUser;
-    private readonly SampleData _sampleData;
     private readonly UserRepository _userRepository;
 
     public PersonaController(SessionUser sessionUser,
-                                SampleData sampleData, 
                                 UserRepository userRepository)
     {
         _sessionUser = sessionUser;
-        _sampleData = sampleData;
         _userRepository = userRepository;
     }
 
