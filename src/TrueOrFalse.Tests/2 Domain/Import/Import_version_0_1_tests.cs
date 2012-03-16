@@ -66,8 +66,6 @@ namespace TrueOrFalse.Tests
             importerResutl.Questions.First().Text.Should().Be.EqualTo("Question 1");
             importerResutl.Questions.First().Creator.Should().Be.EqualTo(_users.First());
             importerResutl.Questions.First().Solution.Should().Be.EqualTo("Answer to question 1");
-            importerResutl.Questions.First().Categories.Single().Name.Should().Be.EqualTo("Sport");
-                
 
             importerResutl.Questions.Last().Text.Should().Be.EqualTo("Question 2");
             importerResutl.Questions.Last().Creator.Should().Be.EqualTo(_users.First());
