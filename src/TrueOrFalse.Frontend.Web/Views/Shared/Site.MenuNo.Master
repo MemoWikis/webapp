@@ -13,7 +13,7 @@
         
         <div class="row">
             <%--HEADER--%>
-            <% Html.RenderPartial("Site.Resources.Title"); %>
+            <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>
         </div>
         
         <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>

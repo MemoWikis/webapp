@@ -144,6 +144,7 @@
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
+    <Compile Include="Views\Shared\Site.Resources.TitleModel.cs" />
     <Compile Include="Views\User\UserProfileController.cs" />
     <Compile Include="Views\User\UserProfileModel.cs" />
     <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
