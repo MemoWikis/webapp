@@ -3,8 +3,8 @@
 <%@ Import Namespace="TrueOrFalse.Core" %>
 
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
-    <script src="<%= Url.Content("~/Views/Categories/Edit/RelatedCategories.js") %>" type="text/javascript"></script>
-    <script src="<%= Url.Content("~/Views/Questions/Edit/EditQuestion.js") %>" type="text/javascript"></script>
+    <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
+    <script src="/Views/Questions/Edit/EditQuestion.js" type="text/javascript"></script>
     <style type="text/css">
         div.classification  input {width: 75px; background-color: beige;}
     </style>
