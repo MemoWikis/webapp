@@ -41,7 +41,7 @@ namespace TrueOrFalse.Core
                                    Creator = _userRepository.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value)),
                                    Solution = questionElement.Element("solution").Value,
                                    Categories = (from categoryIdElement in questionElement.Element("categories").Elements("id")
-                                                 select result.Categories.Single(x => x.Id == Convert.ToInt32(categoryIdElement.Value))).ToList() 
+                                                 select result.Categories.SingleOrDefault(x => x.Id == Convert.ToInt32(categoryIdElement.Value))).ToList() 
                                };
 
             foreach (var category in result.Categories)

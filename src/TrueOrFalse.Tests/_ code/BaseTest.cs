@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Autofac;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
+using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
@@ -35,6 +36,7 @@ namespace TrueOrFalse.Tests
             builder.RegisterModule<AutofacCoreModule>();
             builder.RegisterModule<AutofacTestModule>();
             _container = builder.Build();
+            SessionFactory.BuildSchema();
         }
 
         public static T Resolve<T>()

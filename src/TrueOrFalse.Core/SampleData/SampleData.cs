@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TrueOrFalse.Core.Infrastructure;
+﻿using System.Collections.Generic;
 using TrueOrFalse.Core.Registration;
 
 namespace TrueOrFalse.Core

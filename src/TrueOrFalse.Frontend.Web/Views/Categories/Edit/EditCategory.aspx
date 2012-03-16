@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-<script src="<%= Url.Content("~/Views/Categories/Edit/RelatedCategories.js") %>" type="text/javascript"></script>
+<script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
