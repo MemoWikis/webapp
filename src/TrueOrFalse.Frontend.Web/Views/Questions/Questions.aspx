@@ -23,6 +23,8 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
 
 </style>
 
+<script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>
+
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -45,7 +47,7 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
               <button class="btn">von allen</button> 
             </div>
             <span class="help-inline">und</span>&nbsp;
-            <input type="text" class="span2"/>
+            <input type="text" class="span2" id="txtAddUserFilter"/>
         </div>
         <div class="control-group" style="margin-bottom: 8px;">
             <label><b>Kategorien Filter</b>:</label>

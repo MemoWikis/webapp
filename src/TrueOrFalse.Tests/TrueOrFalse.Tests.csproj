@@ -126,6 +126,8 @@
   <ItemGroup>
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
+    <Compile Include="2 Domain\User\Setup\ContextUser.cs" />
+    <Compile Include="2 Domain\User\Spec_get_users_by_name.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerQuestionTests.cs" />
     <Compile Include="2 Domain\Question\History\QuestionAnswerHistoryTests.cs" />
     <Compile Include="2 Domain\Question\Setup\ContextQuestion.cs" />

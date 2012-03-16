@@ -43,6 +43,7 @@ namespace TrueOrFalse.Frontend.Web
             
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action="Export" });
             routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi"});
+            routes.MapRoute("ApiUser", "Api/User/{action}", new { controller = "UserApi" });
 
             routes.MapRoute("User", "User/{name}/{id}", new { controller = "UserProfile", action = "Profile" });
 
