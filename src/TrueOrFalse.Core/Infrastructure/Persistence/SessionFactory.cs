@@ -35,5 +35,34 @@ namespace TrueOrFalse.Core
         {
             _configuration = config;
         }
+
+        public static void BuildSchema()
+        {
+            DropAllTables();
+            DropAllTables();//twice, because FK reference tableds wont't be delete on the first run.
+            new SchemaExport(_configuration)
+                .Create(script: false, export: true);
+        }
+
+        private static void DropAllTables()
+        {
+            var sqlString = @"select name into #tables from sys.objects where type = 'U'
+                             while (select count(1) from #tables) > 0
+                             begin
+                             declare @sql varchar(max)
+                             declare @tbl varchar(255)
+                             select top 1 @tbl = name from #tables
+                             set @sql = 'drop table ' + @tbl
+                             exec(@sql)
+                             delete from #tables where name = @tbl
+                             end
+                             drop table #tables;";
+
+            using (var session = _configuration.BuildSessionFactory().OpenSession())
+            {
+                session.CreateSQLQuery(sqlString);
+            }
+        }
+
     }
 }
