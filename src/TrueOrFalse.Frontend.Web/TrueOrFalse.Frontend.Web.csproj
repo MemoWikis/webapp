@@ -125,6 +125,7 @@
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\ExportModel.cs" />
     <Compile Include="Views\Api\Intern\ValidationController.cs" />
+    <Compile Include="Views\Api\UserApiController.cs" />
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
@@ -295,6 +296,7 @@
     <Content Include="Style\smoothness\images\ui-icons_888888_256x240.png" />
     <Content Include="Style\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Style\smoothness\jquery-ui.css" />
+    <Content Include="Views\Questions\SelectUsers.js" />
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
