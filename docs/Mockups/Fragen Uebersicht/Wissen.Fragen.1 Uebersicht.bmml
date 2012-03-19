@@ -36,7 +36,7 @@
     <control controlID="125" controlTypeID="com.balsamiq.mockups::Paragraph" x="101" y="186" w="154" h="329" measuredW="200" measuredH="140" zOrder="6" locked="false" isInGroup="-1">
       <controlProperties>
         <bold>false</bold>
-        <text>*%7Bcolor%3A%23cf2a27%7DNeues%20%2835%29%7Bcolor%7D*%0AWissen%20%2823%29%0ANetzwerk%20%2812%29%0AEinstellungen%0A%20%0A%20%0A%20%0A*%7Bcolor%3A%23cf2a27%7DWissen%20%7Bcolor%7D*%20%0AFragen%20%284234%29%0AFragens%E4tze%20%2874%29%0AKurse%20%284%29%0A%20---------------%0AKategorien%0A%20%0A*%7Bcolor%3A%23cf2a27%7DNetzwerk%20%7Bcolor%7D*%20%0AKurse%20%2892%29%0A27%20more</text>
+        <text>*%7Bcolor%3A%23cf2a27%7DNeues%20%2835%29%7Bcolor%7D*%0AWissen%20%2823%29%0ANetzwerk%20%2812%29%0AEinstellungen%0A%20%0A%20%0A%20%0A*%7Bcolor%3A%23cf2a27%7DWissen%20%7Bcolor%7D*%20%0AFragen%20%284234%29%0AFragens%E4tze%20%2874%29%0APr%FCfungen%20%2815%29%0AKurse%20%284%29%0A%20---------------%0AKategorien%0A%20%0A*%7Bcolor%3A%23cf2a27%7DNetzwerk%20%7Bcolor%7D*%20%0AKurse%20%2892%29%0A27%20more</text>
       </controlProperties>
     </control>
     <control controlID="126" controlTypeID="com.balsamiq.mockups::Canvas" x="101" y="278" w="124" h="35" measuredW="100" measuredH="70" zOrder="7" locked="false" isInGroup="-1">
@@ -125,7 +125,7 @@
         </control>
       </groupChildrenDescriptors>
     </control>
-    <control controlID="134" controlTypeID="com.balsamiq.mockups::Icon" x="169" y="470" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="15" locked="false" isInGroup="-1">
+    <control controlID="134" controlTypeID="com.balsamiq.mockups::Icon" x="194" y="419" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="15" locked="false" isInGroup="-1">
       <controlProperties>
         <icon>EmoticonIcon%7Cxsmall</icon>
       </controlProperties>
