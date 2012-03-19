@@ -48,6 +48,7 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
             </div>
             <span class="help-inline">und</span>&nbsp;
             <input type="text" class="span2" id="txtAddUserFilter"/>
+            <a href="#" id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></a>
         </div>
         <div class="control-group" style="margin-bottom: 8px;">
             <label><b>Kategorien Filter</b>:</label>
