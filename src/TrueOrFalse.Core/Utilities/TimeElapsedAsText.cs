@@ -22,13 +22,13 @@ namespace TrueOrFalse
                 return "vor Augenblicken";
 
             if (elapsedTime.TotalSeconds <= 60)
-                return elapsedTime.TotalSeconds + " Sekunden";
+                return (int)elapsedTime.TotalSeconds + " Sekunden";
 
             if (elapsedTime.TotalMinutes <= 60)
-                return elapsedTime.TotalMinutes + " Minuten";
+                return (int)elapsedTime.TotalMinutes + " Minuten";
 
             if (elapsedTime.TotalHours <= 24)
-                if ((int)Math.Round(elapsedTime.TotalHours,0) == 1)
+                if ((int)Math.Round(elapsedTime.TotalHours ,0) == 1)
                     return "einer Stunde";
                 else
                     return (int)elapsedTime.TotalHours + " Stunden";
