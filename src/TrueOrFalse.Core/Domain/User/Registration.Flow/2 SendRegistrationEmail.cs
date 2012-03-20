@@ -24,7 +24,7 @@ namespace TrueOrFalse.Core.Registration
         {
             var mail = new MailMessage();
             mail.To.Add(user.EmailAddress);
-            mail.From = new MailAddress(Settings.EmailDefaultFrom);
+            mail.From = new MailAddress("willkommen@richtig-oder-falsch.de");
 
             var emailBody = new StringBuilder();
             emailBody.AppendLine("Schön dass Du dabei bist.");
