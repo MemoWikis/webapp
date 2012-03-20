@@ -87,7 +87,7 @@
         </div>
         
         <div class="span2" style="padding-top: 90px; padding-left: 20px;">
-            Erstellt von: <%= Model.CreatorName %><br />
+            von: <a href=""><%= Model.CreatorName %></a><br />
             vor <%= Model.CreationDateNiceText%> <br />
             <br />
             <%= Model.TimesAnswered %> beantwortet<br />
