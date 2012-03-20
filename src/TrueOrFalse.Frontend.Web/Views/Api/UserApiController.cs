@@ -15,10 +15,11 @@ namespace TrueOrFalse.View.Web.Views.Api
 
         public JsonResult ByName(string term)
         {
-            return Json(from c in _userSearch.Run(term)
+            return Json(from u in _userSearch.Run(term)
                         select new
                                    {
-                                       name = c.Name,
+                                       id = u.Id,
+                                       name = u.Name,
                                        numberOfQuestions = "14"
                                    }, JsonRequestBehavior.AllowGet);
         }

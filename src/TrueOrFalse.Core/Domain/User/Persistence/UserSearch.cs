@@ -13,12 +13,12 @@ namespace TrueOrFalse.Tests
             _session = session;
         }
 
-        public IList<Category> Run(string likeStatement)
+        public IList<User> Run(string likeStatement)
         {
             return _session.CreateQuery("from User as u where u.Name like :nameLike")
                 .SetString("nameLike", "%" + likeStatement + "%")
                 .SetMaxResults(20)
-                .List<Category>();
+                .List<User>();
         }
     }
 }
