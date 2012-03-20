@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
+<%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Core.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -87,7 +88,7 @@
         
         <div class="span2" style="padding-top: 90px; padding-left: 20px;">
             Erstellt von: <%= Model.CreatorName %><br />
-            vor: <%= Model.CreationDate %> <br />
+            vor <%= Model.CreationDateNiceText%> <br />
             <br />
             <%= Model.TimesAnswered %> beantwortet<br />
             <%= Model.TimesAnsweredCorrect %> richtig<br />

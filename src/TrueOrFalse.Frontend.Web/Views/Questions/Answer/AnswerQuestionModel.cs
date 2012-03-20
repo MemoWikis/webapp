@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse;
 using TrueOrFalse.Core;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
@@ -19,6 +20,7 @@ public class AnswerQuestionModel : ModelBase
         CreatorId = question.Creator.Id.ToString();
         CreatorName = question.Creator.Name;
         CreationDate = question.DateCreated.ToString("yyyy.MM.dd");
+        CreationDateNiceText = TimeElapsedAsText.Run(question.DateCreated);
 
         QuestionId = question.Id.ToString();
         QuestionText = question.Text;
@@ -39,6 +41,7 @@ public class AnswerQuestionModel : ModelBase
     public string CreatorId { get; private set; }
     public string CreatorName { get; private set; }
 
+    public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }
 
     public string TimesAnswered { get; private set; }
