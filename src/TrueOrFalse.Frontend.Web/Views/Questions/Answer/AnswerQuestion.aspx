@@ -87,9 +87,10 @@
         </div>
         
         <div class="span2" style="padding-top: 90px; padding-left: 20px;">
-            von: <a href=""><%= Model.CreatorName %></a><br />
-            vor <%= Model.CreationDateNiceText%> <br />
+            von: <a href="#"><%= Model.CreatorName %></a><br />
+            vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             <br />
+
             <%= Model.TimesAnswered %> beantwortet<br />
             <%= Model.TimesAnsweredCorrect %> richtig<br />
             <%= Model.TimesAnsweredWrong %>x falsche<br />

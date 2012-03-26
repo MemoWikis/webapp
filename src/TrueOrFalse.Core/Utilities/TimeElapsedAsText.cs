@@ -37,7 +37,7 @@ namespace TrueOrFalse
                 if ((int)Math.Round(elapsedTime.TotalDays, 0) == 1)
                     return "einem Tag";
                 else
-                    return (int) elapsedTime.TotalDays + " Tage";
+                    return (int) elapsedTime.TotalDays + " Tagen";
 
             if(elapsedTime.TotalDays < 365)
                 if ((int)Math.Round(elapsedTime.TotalDays / 30, 0) == 1)

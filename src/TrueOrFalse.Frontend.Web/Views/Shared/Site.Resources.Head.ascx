@@ -39,8 +39,10 @@
             $(this).closest('form').submit();
             event.preventDefault();
         });
-        
+
         $(".alert-message").alert();
+        $('.show-tooltip').tooltip();
+        $('.show-popover').popover();
     });
 </script>
 

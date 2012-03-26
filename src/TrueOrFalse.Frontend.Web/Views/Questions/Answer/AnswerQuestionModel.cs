@@ -19,7 +19,7 @@ public class AnswerQuestionModel : ModelBase
     {
         CreatorId = question.Creator.Id.ToString();
         CreatorName = question.Creator.Name;
-        CreationDate = question.DateCreated.ToString("yyyy.MM.dd");
+        CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = TimeElapsedAsText.Run(question.DateCreated);
 
         QuestionId = question.Id.ToString();
