@@ -13,11 +13,22 @@ public class QuestionsController : Controller
         _sessionUiData = sessionUiData;
     }
 
-    public ActionResult Questions(int? page)
+    public ActionResult Questions(int? page, QuestionsModel model)
     {
         //_sessionUiData.QuestionSearchSpec.PageSize = 1;
+
+        if (model.FilterByMe)
+        {
+            //todo
+        }
+        if (model.FilterByAll)
+        {
+            //todo
+        }
+
         if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
-        return View(new QuestionsModel(_questionRepository.GetBy(_sessionUiData.QuestionSearchSpec))
-                        {Pager = new PagerModel(_sessionUiData.QuestionSearchSpec)});
+        return View("Questions", 
+                    new QuestionsModel(_questionRepository.GetBy(_sessionUiData.QuestionSearchSpec))
+                    {Pager = new PagerModel(_sessionUiData.QuestionSearchSpec)});
     }
 }

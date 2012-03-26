@@ -39,12 +39,14 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
         </div>
     </div>
     
+<% using (Html.BeginForm())
+   { %>
     <div class="row form-horizontal well" style="padding-bottom: 0px; padding-top: 14px; margin-bottom: 0px;">
         <div class="control-group" style="margin-bottom: 8px;">
             <label><b>Fragen erstellt von</b>:</label>            
             <div class="btn-group" data-toggle="buttons-checkbox" style="display: inline">
-              <button class="btn"><i class="icon-user"></i>&nbsp;von mir</button>
-              <button class="btn">von allen</button> 
+              <%: Html.CheckBoxFor(model => model.FilterByMe)%> <i class="icon-user"></i>&nbsp;von mir
+              <%: Html.CheckBoxFor(model => model.FilterByAll)%> von allen
             </div>
             <span class="help-inline">und</span>&nbsp;
             <input type="text" class="span2" id="txtAddUserFilter"/>
@@ -63,8 +65,13 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
                 <span class="help-inline">Qualität von: </span>
                 <input class="span1"/>
         </div>
+        <div class="control-group" style="margin-bottom: 8px;">
+            <label></label>
+            <%= Buttons.Submit("Filtern", inline: true)%>    
+        </div>
     </div>
-    
+<% } %>
+
     <div class="row" style="padding-top:5px; padding-bottom: 3px;">
         <div class="pull-right">3274 Fragen</div>
     </div>

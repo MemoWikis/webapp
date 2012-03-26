@@ -32,4 +32,9 @@ h3.form-sub-title
 .added-cat {
     float: left;
     margin-right: 1em;
-}    
+}
+
+.added-usr {
+    display: inline-block;
+    margin-right: 1em;
+}      

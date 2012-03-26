@@ -32,14 +32,19 @@ $(function () {
 
     function addUser() {
         var userName = $("#txtAddUserFilter").val();
+        var usrId = addingUserId;
         $("#txtAddUserFilter").before(
-            "<div class='added-usr' id='usr-" + addingUserId + "' style='display: none;'>" + userName +
-                "<input type='hidden' value='" + addingUserId + "' name='usr-" + addingUserId + "'/>" +
-                    "<a href='#' id='delete-usr-" + addingUserId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
+            "<div class='added-usr' id='usr-" + usrId + "' style='display: none;'>" + userName +
+                "<input type='hidden' value='" + usrId + "' name='usr-" + usrId + "'/>" +
+                    "<a href='#' id='delete-usr-" + usrId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
                         "</div> ");
         $("#txtAddUserFilter").val('');
-        $("#delete-cat-" + addingUserId).click(function () {
-            //todo
+        $("#delete-usr-" + usrId).click(function () {
+            $("#usr-" + usrId).stop(true).animate({ opacity: 0 }, 250, function () {
+                $(this).hide("blind", { direction: "horizontal" }, function () {
+                    $(this).remove();
+                });
+            });
         });
         $("#usr-" + addingUserId).show("blind", { direction: "horizontal" });
     }
