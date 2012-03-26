@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TrueOrFalse.Core.Infrastructure
 {
-    public class Settings
+    public class WebConfigSettings
     {
         private static readonly AppSettingsReader _settingReader = new AppSettingsReader();
 

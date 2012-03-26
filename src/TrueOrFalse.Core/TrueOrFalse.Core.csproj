@@ -76,12 +76,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NHibernate.3.2.0.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.26744, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Seedworks.Lib, Version=0.8.2.5396, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.13\lib\Seedworks.Lib.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Settings.0.8.0.1\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.13\lib\Seedworks.Lib.Persistence.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Settings.0.8.0.1\lib\Seedworks.Lib.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="Seedworks.Lib.Settings">
+      <HintPath>..\packages\Seedworks.Settings.0.8.0.1\lib\Seedworks.Lib.Settings.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Web.Lib.Persistence">
       <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
@@ -155,30 +158,37 @@
     </Compile>
     <Compile Include="Domain\ServiceLocator.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
-    <Compile Include="Infrastructure\Persistence\EnumConvention.cs">
+    <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />
+    <Compile Include="Infrastructure\Persistence\Session\EnumConvention.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Persistence\SessionFactory.cs">
+    <Compile Include="Infrastructure\Persistence\Schema\DoesTableExist.cs" />
+    <Compile Include="Infrastructure\Persistence\Session\SessionFactory.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Persistence\SessionManager.cs" />
-    <Compile Include="Infrastructure\Persistence\SpecFilterBase.cs">
+    <Compile Include="Infrastructure\Persistence\Session\SessionManager.cs" />
+    <Compile Include="Infrastructure\Persistence\Spec\SpecFilterBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Persistence\SpecOrderByBase.cs">
+    <Compile Include="Infrastructure\Persistence\Spec\SpecOrderByBase.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\Settings\ConnectionString\GetConnectionString.cs" />
     <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionString.cs" />
     <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionStringResult.cs" />
-    <Compile Include="Infrastructure\Settings\Settings.cs">
+    <Compile Include="Infrastructure\Settings\DbSettings.cs" />
+    <Compile Include="Infrastructure\Settings\WebConfigSettings.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Settings\StringExtensions.cs" />
+    <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs3.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs2.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs1.cs" />
+    <Compile Include="Utilities\Update\Update.cs" />
     <Compile Include="Web\Context\Data\UserNavigationModel.cs" />
     <Compile Include="Web\Context\Data\UserNavigationModelList.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
@@ -222,7 +232,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Utilities\Update\Scripts\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
