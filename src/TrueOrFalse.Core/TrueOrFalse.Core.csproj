@@ -77,14 +77,14 @@
       <HintPath>..\packages\NHibernate.3.2.0.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib, Version=0.8.2.5396, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Settings.0.8.0.1\lib\Seedworks.Lib.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Seedworks.Settings.0.8.0.1\lib\Seedworks.Lib.Persistence.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.Persistence.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib.Settings">
-      <HintPath>..\packages\Seedworks.Settings.0.8.0.1\lib\Seedworks.Lib.Settings.dll</HintPath>
+    <Reference Include="Seedworks.Lib.Settings, Version=0.8.2.41827, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.Settings.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Web.Lib.Persistence">
       <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
@@ -158,6 +158,7 @@
     </Compile>
     <Compile Include="Domain\ServiceLocator.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
+    <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
     <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />
     <Compile Include="Infrastructure\Persistence\Session\EnumConvention.cs">
       <SubType>Code</SubType>
@@ -176,6 +177,7 @@
     <Compile Include="Infrastructure\Settings\ConnectionString\GetConnectionString.cs" />
     <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionString.cs" />
     <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionStringResult.cs" />
+    <Compile Include="Infrastructure\Settings\DbSettingLoader.cs" />
     <Compile Include="Infrastructure\Settings\DbSettings.cs" />
     <Compile Include="Infrastructure\Settings\WebConfigSettings.cs">
       <SubType>Code</SubType>
@@ -185,6 +187,7 @@
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
+    <Compile Include="Utilities\Update\ExcecIfNeeded.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs3.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs2.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs1.cs" />
@@ -232,8 +235,11 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Utilities\Update\Scripts\" />
+    <Content Include="Utilities\Update\Scripts\1-create-setting-tbl.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

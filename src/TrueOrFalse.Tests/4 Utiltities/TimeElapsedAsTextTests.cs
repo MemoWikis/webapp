@@ -22,8 +22,6 @@ namespace TrueOrFalse.Utilities.Tests
             Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-31)), Is.EqualTo("einem Monat"));
             Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-87)), Is.EqualTo("3 Monate"));
             Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-96)), Is.EqualTo("3 Monate"));
-
-            new Updates.Update().Run();
         }
     }
 }

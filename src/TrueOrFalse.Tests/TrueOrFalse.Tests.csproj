@@ -91,12 +91,15 @@
     <Reference Include="pnunit.framework">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.26744, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Seedworks.Lib, Version=0.8.2.5396, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.13\lib\Seedworks.Lib.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.13\lib\Seedworks.Lib.Persistence.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="Seedworks.Lib.Settings, Version=0.8.2.41827, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.Settings.dll</HintPath>
     </Reference>
     <Reference Include="SharpTestsEx, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8c60d8070630b1c1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -140,6 +143,7 @@
     <Compile Include="2 Domain\User\ContextRegisteredUser.cs" />
     <Compile Include="2 Domain\User\Registration\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Domain\User\Tests.PersistUser.cs" />
+    <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="4 Utiltities\TimeElapsedAsTextTests.cs" />
     <Compile Include="5 Web\UriSanitizer_Tests.cs" />

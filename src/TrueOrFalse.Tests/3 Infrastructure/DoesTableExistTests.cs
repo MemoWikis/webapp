@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using TrueOrFalse.Core.Infrastructure.Persistence;
+using TrueOrFalse.Updates;
 
 namespace TrueOrFalse.Tests
 {
@@ -14,6 +15,8 @@ namespace TrueOrFalse.Tests
         {
             Assert.That(Resolve<DoesTableExist>().Run("Some_unknown_table"), Is.False);
             Assert.That(Resolve<DoesTableExist>().Run("Category"), Is.True);
+
+            Resolve<Update>().Run();
         }
     }
 }
