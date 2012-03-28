@@ -39,13 +39,26 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
         </div>
     </div>
     
+
     <div class="row form-horizontal well" style="padding-bottom: 0px; padding-top: 14px; margin-bottom: 0px;">
         <div class="control-group" style="margin-bottom: 8px;">
             <label><b>Fragen erstellt von</b>:</label>            
-            <div class="btn-group" data-toggle="buttons-checkbox" style="display: inline">
-              <button class="btn"><i class="icon-user"></i>&nbsp;von mir</button>
-              <button class="btn">von allen</button> 
+            <div class="btn-group" style="display: inline">
+             <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
+             <button class="btn btn-filterByAll">von allen</button>
             </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('.btn-filterByMe').click(function () {
+                        $(this).toggleClass('active');
+                        $('#FilterByMe').val($(this).hasClass('active'));
+                    });
+                    $('.btn-filterByAll').click(function () {
+                        $(this).toggleClass('active');
+                        $('#FilterByAll').val($(this).hasClass('active'));
+                    });
+                })
+            </script>
             <span class="help-inline">und</span>&nbsp;
             <input type="text" class="span2" id="txtAddUserFilter"/>
             <a href="#" id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></a>
@@ -63,8 +76,17 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
                 <span class="help-inline">Qualität von: </span>
                 <input class="span1"/>
         </div>
+        <% using (Html.BeginForm()) { %>
+        <div class="control-group" style="margin-bottom: 8px;">
+            <%: Html.HiddenFor(model => model.FilterByMe)%>
+            <%: Html.HiddenFor(model => model.FilterByAll)%>
+            <label></label>
+            <%= Buttons.Submit("Filtern", inline: true)%>    
+        </div>
+        <% } %>
     </div>
-    
+
+
     <div class="row" style="padding-top:5px; padding-bottom: 3px;">
         <div class="pull-right">3274 Fragen</div>
     </div>

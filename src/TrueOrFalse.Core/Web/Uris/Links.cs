@@ -17,6 +17,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         /*Question*/
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
+        public const string FilterQuestions = "Filter";
+
         public const string AnswerQuestionSubmit = "AnswerSubmit";
 
         public static string AnswerQuestion(UrlHelper url, Question question)
