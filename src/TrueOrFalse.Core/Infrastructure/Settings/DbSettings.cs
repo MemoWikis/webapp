@@ -10,7 +10,8 @@ namespace TrueOrFalse.Core.Infrastructure
     {
         public static readonly string TypeName = SettingType.From(typeof(DbSettings));
 
-        public SettingInteger AppVersion { get { return Get<SettingInteger>("0"); } }
+        public SettingInteger Integer1 { get { return Get<SettingInteger>("Key_Int", "99"); } }
+        public SettingInteger AppVersion { get { return Get<SettingInteger>("AppVersion","0"); } }
 
         public DbSettings(IList<Setting> settings)
             : base(settings, TypeName)

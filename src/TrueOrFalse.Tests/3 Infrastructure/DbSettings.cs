@@ -16,8 +16,10 @@ namespace TrueOrFalse.Tests
         {
             var dbSettingsLoader = Resolve<DbSettingsLoader>();
             var dbSettings = dbSettingsLoader.Get();
-            Assert.That(dbSettings.AppVersion.Id, Is.EqualTo(0));
-            dbSettings.AppVersion.Id = 1;
+            Assert.That(dbSettings.Integer1.Value, Is.EqualTo(99));
+            Assert.That(dbSettings.AppVersion.Value, Is.EqualTo(0));
+            dbSettings.AppVersion.Value = 1;
+            dbSettings.Integer1.Value = 100;
 
             dbSettingsLoader.Update(dbSettings);
         }
