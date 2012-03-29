@@ -40,5 +40,4 @@ namespace TrueOrFalse.Tests
             return _container.Resolve<T>();
         }
     }
-
 }

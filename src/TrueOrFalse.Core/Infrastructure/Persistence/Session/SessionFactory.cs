@@ -22,8 +22,7 @@ namespace TrueOrFalse.Core
               )
               .Mappings(m =>
                 m.FluentMappings.Conventions.Add<EnumConvention>()
-                    .AddFromAssemblyOf<Question>()
-                    .AddFromAssembly(Assembly.Load("Seedworks.Lib.Settings")))
+                    .AddFromAssemblyOf<Question>())
               .ExposeConfiguration(SetConfig)
               .BuildSessionFactory();
         }

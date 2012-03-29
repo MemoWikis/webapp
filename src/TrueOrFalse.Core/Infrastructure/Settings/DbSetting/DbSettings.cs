@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core.Infrastructure
 {
-    public class DbSettings 
+    public class DbSettings : DomainEntity
     {
-        public int AppVersion;
+        public virtual int AppVersion { get; set; }
     }
 }

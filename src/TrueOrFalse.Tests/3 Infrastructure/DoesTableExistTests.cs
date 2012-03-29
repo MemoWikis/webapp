@@ -15,8 +15,6 @@ namespace TrueOrFalse.Tests
         {
             Assert.That(Resolve<DoesTableExist>().Run("Some_unknown_table"), Is.False);
             Assert.That(Resolve<DoesTableExist>().Run("Category"), Is.True);
-
-            Resolve<Update>().Run();
         }
     }
 }
