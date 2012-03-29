@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Web;
+﻿using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
-using Seedworks.Lib.Settings;
 using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Core.Infrastructure.Persistence;
 
@@ -30,7 +23,6 @@ namespace TrueOrFalse.Core
               .Mappings(m =>
                 m.FluentMappings.Conventions.Add<EnumConvention>()
                     .AddFromAssemblyOf<Question>()
-                    .AddFromAssemblyOf<SettingBag>()
                     .AddFromAssembly(Assembly.Load("Seedworks.Lib.Settings")))
               .ExposeConfiguration(SetConfig)
               .BuildSessionFactory();

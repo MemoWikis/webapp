@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using Autofac;
 using NHibernate;
-using Seedworks.Lib.Settings;
 using TrueOrFalse.Core.Infrastructure.Persistence;
 using Module = Autofac.Module;
 
@@ -22,8 +21,6 @@ namespace TrueOrFalse.Core.Infrastructure
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).Where(a => a.Name.EndsWith("Repository"));
 
             builder.RegisterInstance(SessionFactory.CreateSessionFactory());
-            builder.RegisterType<SettingStorage>();
-            builder.RegisterType<SettingRepository>().As<ISettingRepository>();
             builder.Register(context => new SessionManager(context.Resolve<ISessionFactory>().OpenSession())).InstancePerLifetimeScope();
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
         }

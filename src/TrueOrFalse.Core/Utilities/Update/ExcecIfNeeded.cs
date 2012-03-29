@@ -11,13 +11,13 @@ namespace TrueOrFalse.Updates
     public class UpdateStepExcecuter : IRegisterAsInstancePerLifetime
     {
         private readonly DoesTableExist _doesTableExist;
-        private readonly DbSettingsLoader _dbSettingsLoader;
+        private readonly DbSettingsStorage _dbSettingsStorage;
         private readonly Dictionary<int, Action> _actions = new Dictionary<int, Action>();
 
-        public UpdateStepExcecuter(DoesTableExist doesTableExist, DbSettingsLoader dbSettingsLoader)
+        public UpdateStepExcecuter(DoesTableExist doesTableExist, DbSettingsStorage dbSettingsStorage)
         {
             _doesTableExist = doesTableExist;
-            _dbSettingsLoader = dbSettingsLoader;
+            _dbSettingsStorage = dbSettingsStorage;
         }
 
         public UpdateStepExcecuter Add(int stepNo, Action action)
@@ -28,9 +28,9 @@ namespace TrueOrFalse.Updates
 
         public void Run()
         {
-            var dbSettings = _dbSettingsLoader.Get();
+            var dbSettings = _dbSettingsStorage.Get();
 
-            int currentVersion = _doesTableExist.Run("Setting") ? 0 : dbSettings.AppVersion.Value;
+            int currentVersion = _doesTableExist.Run("Setting") ? 0 : dbSettings.AppVersion;
 
             foreach (var dictionaryItem in _actions)
                 if (currentVersion > dictionaryItem.Key)
@@ -38,7 +38,7 @@ namespace TrueOrFalse.Updates
                 else
                 {
                     dictionaryItem.Value();
-                    _dbSettingsLoader.Update(dbSettings);
+                    _dbSettingsStorage.Update(dbSettings);
                 }
                     
         }

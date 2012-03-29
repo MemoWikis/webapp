@@ -14,12 +14,10 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Load_and_save_settings()
         {
-            var dbSettingsLoader = Resolve<DbSettingsLoader>();
+            var dbSettingsLoader = Resolve<DbSettingsStorage>();
             var dbSettings = dbSettingsLoader.Get();
-            Assert.That(dbSettings.Integer1.Value, Is.EqualTo(99));
-            Assert.That(dbSettings.AppVersion.Value, Is.EqualTo(0));
-            dbSettings.AppVersion.Value = 1;
-            dbSettings.Integer1.Value = 100;
+            Assert.That(dbSettings.AppVersion, Is.EqualTo(0));
+            dbSettings.AppVersion = 1;
 
             dbSettingsLoader.Update(dbSettings);
         }

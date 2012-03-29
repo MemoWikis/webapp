@@ -98,9 +98,6 @@
     <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.Persistence.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib.Settings, Version=0.8.2.41827, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.Settings.dll</HintPath>
-    </Reference>
     <Reference Include="SharpTestsEx, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8c60d8070630b1c1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SharpTestsEx.1.1.1\lib\SharpTestsEx.dll</HintPath>
