@@ -10,7 +10,7 @@ namespace TrueOrFalse.Core
 
         public QuestionFilter()
         {
-            CreatorId = new ConditionInteger(this, "CreatorId");
+            CreatorId = new ConditionInteger(this, "Creator.Id");
         }
     }
 

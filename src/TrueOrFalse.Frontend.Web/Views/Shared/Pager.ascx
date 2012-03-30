@@ -29,7 +29,7 @@
                 <li class="disabled"><a href="#">...</a></li>
             <% } %>
             
-            <% foreach (var i in Enumerable.Range(Model.Start, Model.Length)) { %>
+            <% if (Model.Length > 0)  foreach (var i in Enumerable.Range(Model.Start, Model.Length)) { %>
                 <li <% if (i == Model.CurrentPage) { %> class="active" <% } %>>
                     <%= Html.ActionLink(i.ToString(CultureInfo.InvariantCulture),
                         ViewContext.RouteData.Values["action"].ToString(), 
