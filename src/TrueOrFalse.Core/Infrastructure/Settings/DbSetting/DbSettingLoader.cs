@@ -19,5 +19,11 @@ namespace TrueOrFalse.Core.Infrastructure
             return base.GetById(1);
         }
 
+        public void SetAppVersion(int newAppVersion)
+        {
+            var dbSettings = Get();
+            dbSettings.AppVersion = newAppVersion;
+            base.Update(dbSettings);
+        }
     }
 }

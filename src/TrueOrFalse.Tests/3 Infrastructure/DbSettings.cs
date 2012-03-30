@@ -12,16 +12,15 @@ namespace TrueOrFalse.Tests
     public class DbSettingsTests : BaseTest
     {
         [Test]
-        public void Load_and_save_settings()
+        public void Should_load_and_save_settings()
         {
             CreateInitialRecord();
 
             var dbSettingsRepository = Resolve<DbSettingsRepository>();
-            var dbSettings = dbSettingsRepository.Get();
-
-            //dbSettingsLoader.Get();
-            //Assert.That(dbSettings.AppVersion, Is.EqualTo(0));
-            //dbSettings.AppVersion = 1;
+            Assert.That(dbSettingsRepository.Get().AppVersion, Is.EqualTo(0));
+            
+            dbSettingsRepository.SetAppVersion(25);
+            Assert.That(dbSettingsRepository.Get().AppVersion, Is.EqualTo(25));
         }
 
         private static void CreateInitialRecord()
