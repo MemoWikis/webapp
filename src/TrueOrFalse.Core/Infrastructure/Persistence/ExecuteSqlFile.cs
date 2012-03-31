@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 using NHibernate;
 
 namespace TrueOrFalse.Core.Infrastructure.Persistence
@@ -16,7 +17,10 @@ namespace TrueOrFalse.Core.Infrastructure.Persistence
         }
 
         public void Run(string filePath)
-        {   
+        {
+            if (HttpContext.Current != null)
+                filePath = HttpContext.Current.Server.MapPath("bin/" + filePath);
+
             _session.CreateSQLQuery(File.ReadAllText(filePath)).ExecuteUpdate();    
         }
     }

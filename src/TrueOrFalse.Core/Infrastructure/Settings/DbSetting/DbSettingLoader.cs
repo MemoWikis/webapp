@@ -19,11 +19,12 @@ namespace TrueOrFalse.Core.Infrastructure
             return base.GetById(1);
         }
 
-        public void SetAppVersion(int newAppVersion)
+        public void UpdateAppVersion(int newAppVersion)
         {
             var dbSettings = Get();
             dbSettings.AppVersion = newAppVersion;
             base.Update(dbSettings);
+            base.Flush();
         }
     }
 }

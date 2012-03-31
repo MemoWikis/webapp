@@ -5,16 +5,24 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using TrueOrFalse.Core;
+using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs1
+    public class UpdateToVs1InitialStep
     {
         public static void Run()
         {
             ServiceLocator.Resolve<ExecuteSqlFile>().Run("Utilities/Update/Scripts/1-create-setting-tbl.sql");
-            Console.WriteLine("update to 1");
+            CreateInitialRecord();
+        }
+
+        private static void CreateInitialRecord()
+        {
+            var dbSettingsRepository = ServiceLocator.Resolve<DbSettingsRepository>();
+            var dbSettings = new DbSettings {AppVersion = 1};
+            dbSettingsRepository.Create(dbSettings);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tests
             var dbSettingsRepository = Resolve<DbSettingsRepository>();
             Assert.That(dbSettingsRepository.Get().AppVersion, Is.EqualTo(0));
             
-            dbSettingsRepository.SetAppVersion(25);
+            dbSettingsRepository.UpdateAppVersion(25);
             Assert.That(dbSettingsRepository.Get().AppVersion, Is.EqualTo(25));
         }
 

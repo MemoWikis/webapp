@@ -4,9 +4,12 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Gibraltar.Agent;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
+using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Core.Web.JavascriptView;
+using TrueOrFalse.Updates;
 
 namespace TrueOrFalse.Frontend.Web
 {
@@ -54,16 +57,18 @@ namespace TrueOrFalse.Frontend.Web
         {
             InitializeAutofac();
 
+#if DEBUG
+            NHibernateProfiler.Initialize();
+#endif
+            
+            Sl.Resolve<Update>().Run();
+
             AreaRegistration.RegisterAllAreas();
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
 
             RegisterRoutes(RouteTable.Routes);
             
             GlobalFilters.Filters.Add(new GlobalAuthorizationAttribute());
-
-#if DEBUG
-            NHibernateProfiler.Initialize();
-#endif
         }
 
         private void InitializeAutofac()

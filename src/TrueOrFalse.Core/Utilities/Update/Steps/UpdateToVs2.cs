@@ -9,7 +9,6 @@ namespace TrueOrFalse.Updates
     {
         public static void Run()
         {
-            Console.WriteLine("update to 2");
         }
     }
 }

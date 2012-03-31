@@ -9,6 +9,11 @@ using Autofac.Integration.Mvc;
 
 namespace TrueOrFalse.Core
 {
+    public class Sl
+    {
+        public static T Resolve<T>(){return ServiceLocator.Resolve<T>();}
+    }
+
     public class ServiceLocator
     {
         private static IContainer _container;
