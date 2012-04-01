@@ -53,10 +53,18 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
                         $(this).toggleClass('active');
                         $('#FilterByMe').val($(this).hasClass('active'));
                     });
+                    if ($('#FilterByMe').val().toLowerCase() == "true") {
+                        $('.btn-filterByMe').addClass('active');
+                    }
+
                     $('.btn-filterByAll').click(function () {
                         $(this).toggleClass('active');
                         $('#FilterByAll').val($(this).hasClass('active'));
                     });
+                    if ($('#FilterByAll').val().toLowerCase() == "true") {
+                        $('.btn-filterByAll').addClass('active');
+                    }
+
                 })
             </script>
             <span class="help-inline">und</span>&nbsp;
