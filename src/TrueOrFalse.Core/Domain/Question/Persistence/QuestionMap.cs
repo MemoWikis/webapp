@@ -16,6 +16,10 @@ namespace TrueOrFalse.Core
             Map(x => x.Description).Length(Constants.VarCharMaxLength);
             Map(x => x.Visibility);
             References(x => x.Creator);
+
+            Map(x => x.TotalTrueAnswers);
+            Map(x => x.TotalFalseAnswers);
+
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
             Map(x => x.Solution);

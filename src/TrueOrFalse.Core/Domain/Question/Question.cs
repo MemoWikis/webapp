@@ -7,7 +7,6 @@ namespace TrueOrFalse.Core
 {
     public class Question : DomainEntity
     {
-        
         public virtual string Text { get; set; }
         public virtual string Description { get; set; }
         public virtual string Solution { get; set; }
@@ -15,6 +14,9 @@ namespace TrueOrFalse.Core
         public virtual QuestionVisibility Visibility { get; set; }
         public virtual QuestionSolutionType QuestionSolutionType { get; set; }
         public virtual User Creator { get; set; }
+
+        public virtual int TotalTrueAnswers { get; set; }
+        public virtual int TotalFalseAnswers { get; set; }
 
         public Question()
         {
