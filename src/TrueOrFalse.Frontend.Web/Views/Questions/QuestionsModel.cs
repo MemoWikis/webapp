@@ -21,6 +21,6 @@ public class QuestionsModel : ModelBase
 
     public PagerModel Pager { get; set; }
 
-    public bool FilterByMe { get; set; }
-    public bool FilterByAll { get; set; }
+    public bool? FilterByMe { get; set; }
+    public bool? FilterByAll { get; set; }
 }
