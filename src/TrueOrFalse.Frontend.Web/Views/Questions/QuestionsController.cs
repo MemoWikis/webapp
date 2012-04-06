@@ -19,36 +19,11 @@ public class QuestionsController : Controller
     {
         //_sessionUiData.QuestionSearchSpec.PageSize = 1;
 
-        if (model.FilterByMe.HasValue)
-        {
-            _sessionUiData.QuestionsFilterByMe = model.FilterByMe.Value;
-        }
-        else
-        {
-            model.FilterByMe = _sessionUiData.QuestionsFilterByMe;
-        }
+        _sessionUiData.QuestionSearchSpec.SetFilterByMe(model.FilterByMe);
+        _sessionUiData.QuestionSearchSpec.SetFilterByAll(model.FilterByAll);
 
-        if (model.FilterByAll.HasValue)
-        {
-            _sessionUiData.QuestionsFilterByAll = model.FilterByAll.Value;
-        }
-        else
-        {
-            model.FilterByAll = _sessionUiData.QuestionsFilterByAll;
-        }
-
-        if (model.FilterByMe.Value && !model.FilterByAll.Value)
-        {
-            _sessionUiData.QuestionSearchSpec.Filter.CreatorId.EqualTo(_sessionUser.User.Id);
-        }
-        else if (!model.FilterByMe.Value && model.FilterByAll.Value)
-        {
-            _sessionUiData.QuestionSearchSpec.Filter.CreatorId.IsNotEqualTo(_sessionUser.User.Id);
-        }
-        else
-        {
-            _sessionUiData.QuestionSearchSpec.Filter.CreatorId.Remove();
-        }
+        model.FilterByMe = _sessionUiData.QuestionSearchSpec.FilterByMe;
+        model.FilterByAll = _sessionUiData.QuestionSearchSpec.FilterByAll;
 
         if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
         return View("Questions", 
