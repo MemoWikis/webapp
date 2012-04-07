@@ -41,8 +41,10 @@ namespace TrueOrFalse.Frontend.Web
             routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });
 
             routes.MapRoute("Knowledge", "Knowledge/{action}", new { controller = "Knowledge", action = "Knowledge" });
+            routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("News", "News/{action}", new { controller = "News", action = "News" });
-            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });          
+            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
+            
             
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action="Export" });
             routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi"});

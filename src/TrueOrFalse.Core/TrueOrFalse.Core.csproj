@@ -117,6 +117,7 @@
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategorySearch.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\User\Persistence\UserSearch.cs" />
     <Compile Include="Domain\Import\Importer.cs" />
     <Compile Include="Domain\Import\ImporterResult.cs" />

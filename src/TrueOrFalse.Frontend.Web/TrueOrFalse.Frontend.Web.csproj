@@ -124,6 +124,7 @@
   <ItemGroup>
     <Compile Include="Code\ModelBase\ModelBase.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\ExportController.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
+    <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
@@ -302,6 +304,7 @@
     <Content Include="Style\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Style\smoothness\jquery-ui.css" />
     <Content Include="Views\Questions\SelectUsers.js" />
+    <Content Include="Views\Maintenance\Maintenance.aspx" />
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
