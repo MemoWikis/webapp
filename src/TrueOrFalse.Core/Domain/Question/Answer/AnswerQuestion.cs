@@ -9,12 +9,15 @@ namespace TrueOrFalse.Core
     {
         private readonly QuestionRepository _questionRepository;
         private readonly AnswerHistoryLog _answerHistoryLog;
+        private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
 
         public AnswerQuestion(QuestionRepository questionRepository, 
-                              AnswerHistoryLog answerHistoryLog)
+                              AnswerHistoryLog answerHistoryLog, 
+                              UpdateQuestionAnswerCount updateQuestionAnswerCount)
         {
             _questionRepository = questionRepository;
             _answerHistoryLog = answerHistoryLog;
+            _updateQuestionAnswerCount = updateQuestionAnswerCount;
         }
 
         public AnswerQuestionResult Run(int questionId, string answer, int userId)
@@ -27,6 +30,7 @@ namespace TrueOrFalse.Core
             result.AnswerGiven = answer;
 
             _answerHistoryLog.Run(question, result, userId);
+            _updateQuestionAnswerCount.Run(questionId, result.IsCorrect);
 
             return result;
         }
