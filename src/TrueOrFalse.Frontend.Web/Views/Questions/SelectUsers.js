@@ -34,19 +34,16 @@ $(function () {
         var userName = $("#txtAddUserFilter").val();
         var usrId = addingUserId;
         $("#txtAddUserFilter").before(
-            "<div class='added-usr' id='usr-" + usrId + "' style='display: none;'>" + userName +
+            "<div class='added-usr' id='usr-" + usrId + "'>" + userName +
                 "<input type='hidden' value='" + usrId + "' name='usr-" + usrId + "'/>" +
                     "<a href='#' id='delete-usr-" + usrId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
                         "</div> ");
         $("#txtAddUserFilter").val('');
         $("#delete-usr-" + usrId).click(function () {
             $("#usr-" + usrId).stop(true).animate({ opacity: 0 }, 250, function () {
-                $(this).hide("blind", { direction: "horizontal" }, function () {
-                    $(this).remove();
-                });
+                $(this).remove();
             });
         });
-        $("#usr-" + addingUserId).show("blind", { direction: "horizontal" });
     }
 
     $("#addUserFilter").click(addUser);
