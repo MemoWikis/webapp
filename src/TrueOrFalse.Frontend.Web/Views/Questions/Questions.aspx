@@ -41,6 +41,7 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
     
 
     <div class="row form-horizontal well" style="padding-bottom: 0px; padding-top: 14px; margin-bottom: 0px;">
+        <% using (Html.BeginForm()) { %>
         <div class="control-group" style="margin-bottom: 8px;">
             <label><b>Fragen erstellt von</b>:</label>            
             <div class="btn-group" style="display: inline">
@@ -84,7 +85,6 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
                 <span class="help-inline">Qualität von: </span>
                 <input class="span1"/>
         </div>
-        <% using (Html.BeginForm()) { %>
         <div class="control-group" style="margin-bottom: 8px;">
             <%: Html.HiddenFor(model => model.FilterByMe)%>
             <%: Html.HiddenFor(model => model.FilterByAll)%>

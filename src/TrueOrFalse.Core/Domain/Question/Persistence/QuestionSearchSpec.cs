@@ -37,18 +37,25 @@ namespace TrueOrFalse.Core
 
         private void UpdateFilter()
         {
-            // TODO: FilterByUsers?!
-            if (FilterByMe && !FilterByAll)
+            Filter.Clear();
+         
+            if (FilterByAll && !FilterByMe)
             {
-                Filter.CreatorId.EqualTo(ServiceLocator.Resolve<SessionUser>().User.Id);
+                var condition = new ConditionInteger(Filter, "Creator.Id");
+                condition.IsNotEqualTo(ServiceLocator.Resolve<SessionUser>().User.Id);
             }
-            else if (!FilterByMe && FilterByAll)
+            else if (FilterByAll && FilterByMe)
             {
-                Filter.CreatorId.IsNotEqualTo(ServiceLocator.Resolve<SessionUser>().User.Id);
+                // show all, not filtered
             }
             else
             {
-                Filter.CreatorId.Remove();
+                var condition = new ConditionDisjunction<int>(Filter, "Creator.Id");
+                condition.Add(FilterByUsers.ToArray());
+                if (FilterByMe)
+                {
+                    condition.Add(ServiceLocator.Resolve<SessionUser>().User.Id);   
+                }
             }
         }
 
@@ -56,12 +63,7 @@ namespace TrueOrFalse.Core
 
     public class QuestionFilter : ConditionContainer
     {
-        public readonly ConditionInteger CreatorId;
 
-        public QuestionFilter()
-        {
-            CreatorId = new ConditionInteger(this, "Creator.Id");
-        }
     }
 
     public class QuestionOrderBy : SpecOrderByBase { }
