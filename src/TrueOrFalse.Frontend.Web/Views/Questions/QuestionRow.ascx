@@ -32,14 +32,14 @@
        </div>
 
        <div class="row">
-           <div class="column answersTotal ">Alle: 4237x</div>
-           <div class="column truePercentage">64%</div>
-           <div class="column last falsePercentage">36%</div>       
+           <div class="column answersTotal ">Alle: <%=Model.AnswerCountTotal%></div>
+           <div class="column truePercentage"><%= Model.AnswerPercentageTrue %>%</div>
+           <div class="column last falsePercentage"><%= Model.AnswerPercentageFalse %>%</div>       
        </div>
 
        <div class="row">
-           <div class="column answersTotal">Ich: 4237x</div>
-           <div class="column truePercentage">48%</div>
+           <div class="column answersTotal">Ich: <%= Model.AnswerCountMe%></div>
+           <div class="column truePercentage">48%</div> 
            <div class="column last falsePercentage">52%</div>       
        </div>
 

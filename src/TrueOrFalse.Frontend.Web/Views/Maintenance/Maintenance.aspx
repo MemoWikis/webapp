@@ -8,7 +8,7 @@
     
     <% Html.Message(Model.Message); %>
     
-    <a class="btn btn-large" href="CalcAggregatedValues">Aggregierte Zahlen für Fragen aktualisieren</a>
+    <a class="btn btn-large" href="/Maintenance/CalcAggregatedValues">Aggregierte Zahlen für Fragen aktualisieren</a>
 
 </asp:Content>
 

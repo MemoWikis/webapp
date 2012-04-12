@@ -28,5 +28,19 @@ namespace TrueOrFalse.Core
             return Text.TruncateAtWord(96);
         }
 
+        public virtual int TotalAnswers() { return TotalFalseAnswers + TotalTrueAnswers; }
+        public virtual int TotalTrueAnswersPercentage()
+        {
+            if (TotalAnswers() == 0) return 0;
+            if (TotalTrueAnswers == 0) return 0;
+            return Convert.ToInt32((TotalTrueAnswers / TotalAnswers()) * 100);
+        }
+        public virtual int TotalFalseAnswerPercentage()
+        {
+            if (TotalAnswers() == 0) return 0;
+            if (TotalFalseAnswers == 0) return 0;
+            return Convert.ToInt32((TotalFalseAnswers / TotalAnswers()) * 100);
+        }
+
     }
 }
