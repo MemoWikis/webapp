@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;
 
@@ -21,6 +22,10 @@ public class QuestionsController : Controller
 
         _sessionUiData.QuestionSearchSpec.SetFilterByMe(model.FilterByMe);
         _sessionUiData.QuestionSearchSpec.SetFilterByAll(model.FilterByAll);
+        _sessionUiData.QuestionSearchSpec.SetFilterByUsers(
+             from key in Request.Form.AllKeys
+             where key.StartsWith("usr")
+             select int.Parse(Request.Form[key]));
 
         model.FilterByMe = _sessionUiData.QuestionSearchSpec.FilterByMe;
         model.FilterByAll = _sessionUiData.QuestionSearchSpec.FilterByAll;
