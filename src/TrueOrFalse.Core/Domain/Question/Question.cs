@@ -15,8 +15,19 @@ namespace TrueOrFalse.Core
         public virtual QuestionSolutionType QuestionSolutionType { get; set; }
         public virtual User Creator { get; set; }
 
-        public virtual int TotalTrueAnswers { get; set; }
-        public virtual int TotalFalseAnswers { get; set; }
+        private int _totalTrueAnswers;
+        public virtual int TotalTrueAnswers
+        {
+            get { return _totalTrueAnswers; }
+            set { _totalTrueAnswers = value; }
+        }
+
+        private int _totalFalseAnswers;
+        public virtual int TotalFalseAnswers
+        {
+            get { return _totalFalseAnswers; }
+            set { _totalFalseAnswers = value; }
+        }
 
         public Question()
         {
@@ -33,13 +44,13 @@ namespace TrueOrFalse.Core
         {
             if (TotalAnswers() == 0) return 0;
             if (TotalTrueAnswers == 0) return 0;
-            return Convert.ToInt32((TotalTrueAnswers / TotalAnswers()) * 100);
+            return Convert.ToInt32(((decimal)TotalTrueAnswers / (decimal)TotalAnswers()) * 100);
         }
         public virtual int TotalFalseAnswerPercentage()
         {
             if (TotalAnswers() == 0) return 0;
             if (TotalFalseAnswers == 0) return 0;
-            return Convert.ToInt32((TotalFalseAnswers / TotalAnswers()) * 100);
+            return Convert.ToInt32(((decimal)TotalFalseAnswers / (decimal)TotalAnswers()) * 100);
         }
 
     }
