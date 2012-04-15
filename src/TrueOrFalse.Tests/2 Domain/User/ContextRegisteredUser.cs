@@ -26,20 +26,25 @@ namespace TrueOrFalse.Tests
             return BaseTest.Resolve<ContextRegisteredUser>();
         }
         
-        public ContextRegisteredUser Persist()
+        public ContextRegisteredUser Add()
         {
             var user = new User();
             user.EmailAddress = EmailAddress;
             user.Birthday = new DateTime(1980, 08, 03);
-
-            _userRepository.Create(user);
-
             Users.Add(user);
 
             return this;
         }
 
-        public void Setup() { Persist(); }
+        public ContextRegisteredUser Persist()
+        {
+            foreach(var user in Users)
+                _userRepository.Create(user);
+
+            return this;
+        }
+
+        public void Setup() { Add(); }
 
         public ContextRegisteredUser SetEmailAddress(string emailAddress) { EmailAddress = emailAddress; return this; }
     }

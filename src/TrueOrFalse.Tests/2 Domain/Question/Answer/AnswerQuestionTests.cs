@@ -13,7 +13,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void When_answering_question_answer_history_should_be_created()
         {
-            var contextUsers = ContextRegisteredUser.New().Persist();
+            var contextUsers = ContextRegisteredUser.New().Add().Persist();
             var contextQuestion = ContextQuestion.New()
                 .AddQuestion("Some Question", "Some answer")
                 .AddCategory("A").

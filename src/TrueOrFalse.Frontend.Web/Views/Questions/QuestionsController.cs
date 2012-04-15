@@ -18,7 +18,7 @@ public class QuestionsController : Controller
 
     public ActionResult Questions(int? page, QuestionsModel model)
     {
-        //_sessionUiData.QuestionSearchSpec.PageSize = 1;
+        _sessionUiData.QuestionSearchSpec.PageSize = 10;
 
         _sessionUiData.QuestionSearchSpec.SetFilterByMe(model.FilterByMe);
         _sessionUiData.QuestionSearchSpec.SetFilterByAll(model.FilterByAll);

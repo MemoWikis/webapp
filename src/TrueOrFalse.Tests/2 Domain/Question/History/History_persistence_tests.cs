@@ -7,7 +7,7 @@ using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Tests
 {
-    public class QuestionAnswerHistoryTests : BaseTest
+    public class QuestionAnswerHistoryPersistenceTests : BaseTest
     {
         [Test]
         public void Persistence_Test()
