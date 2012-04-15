@@ -65,7 +65,11 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
                     if ($('#FilterByAll').val().toLowerCase() == "true") {
                         $('.btn-filterByAll').addClass('active');
                     }
-
+                    <%foreach (var user in Model.FilterByUsers) { %>
+                        window.addingUserId = <%=user.Key %>;
+                        $("#txtAddUserFilter").val('<%=user.Value %>');
+                        $("#addUserFilter").click();
+                    <% } %>
                 })
             </script>
             <span class="help-inline">und</span>&nbsp;
