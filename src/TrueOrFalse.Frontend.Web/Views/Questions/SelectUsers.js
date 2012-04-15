@@ -8,19 +8,17 @@ $.expr[':'].textEquals = function (a, i, m) {
 
 $(function () {
 
-    var addingUserId;
-
     $("#txtAddUserFilter").autocomplete({
         minLength: 0,
         source: '/Api/User/ByName',
         focus: function (event, ui) {
             $("#txtAddUserFilter").val(ui.item.name);
-            addingUserId = ui.item.id;
+            window.addingUserId = ui.item.id;
             return false;
         },
         select: function (event, ui) {
             $("#txtAddUserFilter").val(ui.item.name);
-            addingUserId = ui.item.id;
+            window.addingUserId = ui.item.id;
             return false;
         }
     }).data("autocomplete")._renderItem = function (ul, item) {
@@ -32,7 +30,7 @@ $(function () {
 
     function addUser() {
         var userName = $("#txtAddUserFilter").val();
-        var usrId = addingUserId;
+        var usrId = window.addingUserId;
         $("#txtAddUserFilter").before(
             "<div class='added-usr' id='usr-" + usrId + "'>" + userName +
                 "<input type='hidden' value='" + usrId + "' name='usr-" + usrId + "'/>" +
