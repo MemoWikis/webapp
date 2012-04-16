@@ -28,6 +28,19 @@ $(function () {
 				.appendTo(ul);
     };
 
+    function checkText() {
+        var text = $("#txtAddUserFilter").val();
+        var matched = $(".ui-autocomplete li .usr-name:textEquals('" + text + "')");
+        //var existing = $(".added-cat:textEquals('" + text + "')");
+        if (matched.size() == 0) {// || existing.size() != 0) {
+            $("#addUserFilter").hide();
+        } else {
+            $("#addUserFilter").show();
+        }
+        setTimeout(checkText, 250);
+    }
+    checkText();
+
     function addUser() {
         var userName = $("#txtAddUserFilter").val();
         var usrId = window.addingUserId;
@@ -45,4 +58,10 @@ $(function () {
     }
 
     $("#addUserFilter").click(addUser);
+    $("#txtAddUserFilter").keydown(function (event) {
+        checkText();
+        //if (event.keyCode == 13 && $("#addUserFilter").is(':visible')) {
+        //    addUser();
+        //}
+    });
 });
