@@ -194,7 +194,7 @@
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
-    <Compile Include="Utilities\Update\ExcecIfNeeded.cs" />
+    <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs3.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs2.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs1InitialStep.cs" />

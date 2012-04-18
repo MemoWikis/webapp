@@ -7,19 +7,19 @@ using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateStepExcecuter : IRegisterAsInstancePerLifetime
+    public class UpdateStepExecuter : IRegisterAsInstancePerLifetime
     {
         private readonly DoesTableExist _doesTableExist;
         private readonly DbSettingsRepository _dbSettingsRepository;
         private readonly Dictionary<int, Action> _actions = new Dictionary<int, Action>();
 
-        public UpdateStepExcecuter(DoesTableExist doesTableExist, DbSettingsRepository dbSettingsRepository)
+        public UpdateStepExecuter(DoesTableExist doesTableExist, DbSettingsRepository dbSettingsRepository)
         {
             _doesTableExist = doesTableExist;
             _dbSettingsRepository = dbSettingsRepository;
         }
 
-        public UpdateStepExcecuter Add(int stepNo, Action action)
+        public UpdateStepExecuter Add(int stepNo, Action action)
         {
             _actions.Add(stepNo, action);
             return this;

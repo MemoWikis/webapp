@@ -4,16 +4,15 @@ namespace TrueOrFalse.Updates
 {
     public class Update : IRegisterAsInstancePerLifetime
     {
-        private readonly UpdateStepExcecuter _updateStepExcecuter;
+        private readonly UpdateStepExecuter _updateStepExecuter;
 
-        public Update(UpdateStepExcecuter updateStepExcecuter)
-        {
-            _updateStepExcecuter = updateStepExcecuter;
+        public Update(UpdateStepExecuter updateStepExecuter){
+            _updateStepExecuter = updateStepExecuter;
         }
 
         public void Run()
         {
-            _updateStepExcecuter
+            _updateStepExecuter
                 .Add(2, UpdateToVs2.Run)
                 //.Add(3, UpdateToVs3.Run)
                 .Run();
