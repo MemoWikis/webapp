@@ -25,7 +25,7 @@ namespace TrueOrFalse.Tests
         {
             return BaseTest.Resolve<ContextRegisteredUser>();
         }
-        
+
         public ContextRegisteredUser Add()
         {
             var user = new User();
