@@ -37,30 +37,26 @@ namespace TrueOrFalse.Tests
 
         public ContextQuestion AddCategory(string categoryName)
         {
-            Questions.Last().Categories.Add(new Category(categoryName));
+            Category category;
+            if (!_categoryRepository.Exists(categoryName))
+                category = _categoryRepository.GetByName(categoryName);
+            else
+            {
+                category = new Category(categoryName);
+                _categoryRepository.Create(new Category(categoryName));
+            }
+
+            Questions.Last().Categories.Add(category);
             return this;
         }
 
         public ContextQuestion Persist()
         {
             foreach (var question in Questions)
-            {
-                PersistNonExisitingCategories(question.Categories);
                 _questionRepository.Create(question);
-            }
+            
             return this;
         }
 
-        private void PersistNonExisitingCategories(IEnumerable<Category> categories)
-        {
-            foreach(var category in categories)
-            {
-                if(!_categoryRepository.Exists(category.Name))
-                {
-                    _categoryRepository.Create(category);
-                }
-                    
-            }
-        }
     }
 }

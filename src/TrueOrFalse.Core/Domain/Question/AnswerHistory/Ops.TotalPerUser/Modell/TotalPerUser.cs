@@ -5,14 +5,6 @@ using System.Text;
 
 namespace TrueOrFalse.Core
 {
-    public class TotalsPerUser
-    {
-        public TotalPerUser GetByQuestionId(int questionId)
-        {
-            return new TotalPerUser();
-        }
-    }
-
     public class TotalPerUser
     {
         public int QuestionId;
@@ -21,8 +13,6 @@ namespace TrueOrFalse.Core
 
         public int Total(){ return TotalTrue + TotalFalse;}
         public int PercentageTrue(){ return 0;}
-         
-
     }
 
 }

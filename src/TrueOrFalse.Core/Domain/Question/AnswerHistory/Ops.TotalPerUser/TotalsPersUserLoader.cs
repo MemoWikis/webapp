@@ -21,14 +21,22 @@ namespace TrueOrFalse.Core
                 throw new Exception("at least one question Id is expected");
 
             var sbQuestionIdRestriction = new StringBuilder();
-            foreach (var questionId in questionIds)
-                sbQuestionIdRestriction.AppendLine("AND QuestionId = " + questionId);
 
+            var firstHit = true;
+            foreach (var questionId in questionIds)
+                if(firstHit)
+                {
+                    sbQuestionIdRestriction.AppendLine("AND QuestionId = " + questionId);
+                    firstHit = false;
+                }
+                else
+                    sbQuestionIdRestriction.AppendLine("OR QuestionId = " + questionId);
+            
             var query = String.Format(
                 @"SELECT 
 	                  QuestionId, 
-	                  COUNT(QuestionId) -SUM(CAST(AnswerredCorrectly as Integer)) as WrongAnswers , 
-	                  SUM(CAST(AnswerredCorrectly as Integer)) as CorrectAnswers
+	                  COUNT(QuestionId) -SUM(CAST(AnswerredCorrectly as Integer)) as TotalFalse, 
+	                  SUM(CAST(AnswerredCorrectly as Integer)) as TotalTrue
                   FROM AnswerHistory
                   GROUP BY QuestionId, UserId
                   HAVING UserId = {0} 
