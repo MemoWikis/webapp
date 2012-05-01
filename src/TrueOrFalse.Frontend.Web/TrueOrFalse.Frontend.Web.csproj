@@ -341,9 +341,9 @@
     <Content Include="Views\Welcome\RegisterSuccess.aspx" />
     <Content Include="Views\Welcome\Welcome.aspx" />
     <Content Include="Views\Welcome\WelcomeFooter.ascx" />
-    <Content Include="Web.config">
+    <None Include="Web.config">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
