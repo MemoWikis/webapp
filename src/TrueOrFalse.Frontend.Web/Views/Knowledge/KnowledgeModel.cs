@@ -1,10 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using TrueOrFalse.Core.Web.Context;
 using TrueOrFalse.Frontend.Web.Models;
 
 
 public class KnowledgeModel : ModelBase
 {
+    private readonly SessionUser _sessionUser;
+
+    public KnowledgeModel(SessionUser sessionUser)
+    {
+        _sessionUser = sessionUser;
+    }
+
+    public string UserName { get { return _sessionUser.User.Name; } }
 
     public IEnumerable<SelectListItem> KenDevelopmentTypes
     {

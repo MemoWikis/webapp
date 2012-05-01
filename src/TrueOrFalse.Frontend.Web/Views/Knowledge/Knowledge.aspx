@@ -70,7 +70,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<h2>Willkommen Robert Mischke, schön das Du da bist.</h2>
+<h2>Willkommen <%= Model.UserName %>, schön das Du da bist.</h2>
 
 <%= Buttons.Link("Frage erstellen", Links.CreateQuestion, Links.EditQuestionController)%>
 
