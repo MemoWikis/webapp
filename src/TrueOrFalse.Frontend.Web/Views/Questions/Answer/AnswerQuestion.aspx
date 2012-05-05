@@ -34,13 +34,9 @@
                 <div style="float:left"><h2>Frage beantworten</h2></div>
                 
                 <div class="pull-right headerLinks" style="margin-top:8px; line-height: 25px;">
-                    <a href="<%= Url.Action("Previous", Links.AnswerQuestionController) %>" >
-                        <i class="icon-arrow-left"></i> 
-                    </a>
+                    <a href="<%= Url.Action("Previous", Links.AnswerQuestionController) %>" ><i class="icon-arrow-left"></i></a>
                     <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
-                    <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>" >
-                        <i class="icon-arrow-right"></i> 
-                    </a>
+                    <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>" ><i class="icon-arrow-right"></i> </a>
                 </div>
                 
                 <br style="line-height: 10px;"/>
