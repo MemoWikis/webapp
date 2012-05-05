@@ -21,9 +21,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string AnswerQuestionSubmit = "AnswerSubmit";
 
-        public static string AnswerQuestion(UrlHelper url, Question question)
+        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage)
         {
-            return url.Action("Answer", Links.AnswerQuestionController, new { text = UriSegmentFriendlyQuestion.Run(question.Text), id = question.Id }, null);
+            return url.Action("Answer", Links.AnswerQuestionController, new { text = UriSegmentFriendlyQuestion.Run(question.Text), id = question.Id, elementOnPage = paramElementOnPage}, null);
         }
 
         public static string Profile(UrlHelper url, string userName, int userId)

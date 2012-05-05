@@ -36,8 +36,8 @@ public class QuestionsController : Controller
                 .ToDictionary(user => user.Id, user => user.Name);
 
         if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
-        return View("Questions", 
-                    new QuestionsModel(_questionRepository.GetBy(_sessionUiData.QuestionSearchSpec))
+        return View("Questions",
+                    new QuestionsModel(_questionRepository.GetBy(_sessionUiData.QuestionSearchSpec), _sessionUiData.QuestionSearchSpec)
                     {Pager = new PagerModel(_sessionUiData.QuestionSearchSpec),
                      FilterByMe = model.FilterByMe,
                      FilterByAll = model.FilterByAll,

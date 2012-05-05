@@ -18,7 +18,7 @@ public class QuestionRowModel
         CreatorUrlName = UriSegmentFriendlyUser.Run(question.Creator.Name);
         CreatorId = question.Creator.Id;
 
-        AnswerQuestionLink = url => Links.AnswerQuestion(url, question);
+        AnswerQuestionLink = url => Links.AnswerQuestion(url, question, indexInResultSet);
 
         AnswerCountTotal = question.TotalAnswers();
         AnswerPercentageTrue = question.TotalTrueAnswersPercentage();

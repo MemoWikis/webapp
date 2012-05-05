@@ -13,7 +13,7 @@
         <div style="height: 20px;">
             <img src="/Images/delete.png"/> 
 
-            <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>">
+            <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}) %>">
                 <img src="/Images/edit.png"/> 
             </a>
             

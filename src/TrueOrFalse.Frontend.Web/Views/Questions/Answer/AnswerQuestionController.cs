@@ -26,7 +26,7 @@ public class AnswerQuestionController : Controller
 
     public ActionResult Answer(string text, int id, int elementOnPage)
     {
-        var question = _questiSonRepository.GetById(id);
+        var question = _questionRepository.GetById(id);
 
         return View(_viewLocation, new AnswerQuestionModel(question, _sessionUiData.QuestionSearchSpec));
     }
