@@ -25,7 +25,7 @@
     </div>
 
     <div class="column-3">
-       <div class="row header" >
+       <div class="row header">
            <div class="column answersTotal ">Antwort</div>
            <div class="column truePercentage" style="color:green">richtig</div>
            <div class="column last falsePercentage" style="color:red">falsch</div>
@@ -34,7 +34,7 @@
        <div class="row">
            <div class="column answersTotal ">Alle: <%=Model.AnswerCountTotal%></div>
            <div class="column truePercentage"><%= Model.AnswerPercentageTrue %>%</div>
-           <div class="column last falsePercentage"><%= Model.AnswerPercentageFalse %>%</div>       
+           <div class="column last falsePercentage"><%= Model.AnswerPercentageFalse %>%</div>
        </div>
 
        <div class="row">

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;

@@ -14,9 +14,11 @@ public class QuestionsModel : ModelBase
         FilterByUsers = new Dictionary<int, string>();
     }
 
-    public QuestionsModel(IEnumerable<Question> questions)
+    public QuestionsModel(IEnumerable<Question> questions, QuestionSearchSpec questionSearchSpec)
     {
-        QuestionRows = from question in questions select new QuestionRowModel(question);
+        int counter = 0; 
+        QuestionRows = from question in questions
+                       select new QuestionRowModel(question, counter++);
         FilterByUsers = new Dictionary<int, string>();
     }
 

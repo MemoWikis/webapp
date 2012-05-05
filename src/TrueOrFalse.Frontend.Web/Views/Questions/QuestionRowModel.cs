@@ -9,7 +9,7 @@ public class QuestionRowModel
     public int AnswerPercentageTrue;
     public int AnswerPercentageFalse;
 
-    public QuestionRowModel(Question question) 
+    public QuestionRowModel(Question question, int indexInResultSet) 
     {
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;
@@ -24,13 +24,15 @@ public class QuestionRowModel
         AnswerPercentageTrue = question.TotalTrueAnswersPercentage();
         AnswerPercentageFalse = question.TotalFalseAnswerPercentage();
         AnswerCountMe = 0;
+        IndexInresulSet = indexInResultSet;
 
     }
     public string CreatorName {get; private set;}
 
     public string QuestionShort { get; private set; }
     public int QuestionId { get; private set; }
-
+    public int IndexInresulSet { get; private set; }
+   
     public string CreatorUrlName { get; private set; }
     public int CreatorId { get; private set; }
 

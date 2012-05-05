@@ -32,13 +32,20 @@
             
             <div class="row" style="padding-bottom: 20px;">
                 <div style="float:left"><h2>Frage beantworten</h2></div>
-                <div class="pull-right headerLinks" style="padding-top:12px;">
-                    <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-th-list"></i> zur übersicht</a><br style="line-height: 10px;"/>
-                    <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>                                        
-                </div>                    
+                
+                <div class="pull-right headerLinks" style="margin-top:8px; line-height: 25px;">
+                    <a href="<%= Url.Action("Previous", Links.AnswerQuestionController) %>" >
+                        <i class="icon-arrow-left"></i> 
+                    </a>
+                    <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
+                    <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>" >
+                        <i class="icon-arrow-right"></i> 
+                    </a>
+                </div>
+                
+                <br style="line-height: 10px;"/>
             </div>
             
-
             <h3 class="questionBlockWidth row" style="padding-bottom:12px;"><%= Model.QuestionText %></h3>
             
             <div class="row alert alert-info" id="divCorrectAnswer" style="display: none; margin-top:5px; width: 360px;">
@@ -86,7 +93,14 @@
 
         </div>
         
-        <div class="span2" style="padding-top: 90px; padding-left: 20px;">
+        <div class="span2" style="padding-left: 20px;">
+            <div style="padding-top:12px;">
+                <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-th-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
+                <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>                                        
+            </div>            
+            
+            <div style="padding-top: 20px;"/>
+
             von: <a href="#"><%= Model.CreatorName %></a><br />
             vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             <br />

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;
@@ -12,23 +9,44 @@ public class AnswerQuestionController : Controller
     private readonly QuestionRepository _questionRepository;
     private readonly AnswerQuestion _answerQuestion;
     private readonly SessionUser _sessionUser;
+    private readonly SessionUiData _sessionUiData;
 
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
     public AnswerQuestionController(QuestionRepository questionRepository, 
                                     AnswerQuestion answerQuestion,
-                                    SessionUser sessionUser)
+                                    SessionUser sessionUser, 
+                                    SessionUiData sessionUiData)
     {
         _questionRepository = questionRepository;
         _answerQuestion = answerQuestion;
         _sessionUser = sessionUser;
+        _sessionUiData = sessionUiData;
     }
 
-    public ActionResult Answer(string text, int id)
+    public ActionResult Answer(string text, int id, int elementOnPage)
     {
-        var question = _questionRepository.GetById(id);
+        var question = _questiSonRepository.GetById(id);
 
-        return View(_viewLocation, new AnswerQuestionModel(question));
+        return View(_viewLocation, new AnswerQuestionModel(question, _sessionUiData.QuestionSearchSpec));
+    }
+
+    public ActionResult Next()
+    {
+        _sessionUiData.QuestionSearchSpec.NextPage(1);
+        return GetViewByCurrentSearchSpec();
+    }
+
+    public ActionResult Previous()
+    {
+        _sessionUiData.QuestionSearchSpec.PreviousPage(1);
+        return GetViewByCurrentSearchSpec();
+    }
+
+    private ActionResult GetViewByCurrentSearchSpec()
+    {
+        var question = _questionRepository.GetBy(_sessionUiData.QuestionSearchSpec).Single();
+        return View(_viewLocation, new AnswerQuestionModel(question, _sessionUiData.QuestionSearchSpec));
     }
 
     [HttpPost]

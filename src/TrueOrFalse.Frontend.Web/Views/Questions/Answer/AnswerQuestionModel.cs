@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Core;
@@ -15,7 +12,7 @@ public class AnswerQuestionModel : ModelBase
     {
     }
 
-    public AnswerQuestionModel(Question question) : this()
+    public AnswerQuestionModel(Question question, QuestionSearchSpec questionSearchSpec) : this()
     {
         CreatorId = question.Creator.Id.ToString();
         CreatorName = question.Creator.Name;
@@ -31,6 +28,10 @@ public class AnswerQuestionModel : ModelBase
         TimesAnsweredWrong = "";
         TimesJumpedOver = "";
 
+        questionSearchSpec.PageSize = 1;
+        PageCurrent = questionSearchSpec.CurrentPage.ToString();
+        PagesTotal = questionSearchSpec.PageCount.ToString();
+
         AverageAnswerTime = "";
 
         AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
@@ -40,6 +41,9 @@ public class AnswerQuestionModel : ModelBase
     public string QuestionId;
     public string CreatorId { get; private set; }
     public string CreatorName { get; private set; }
+
+    public string PageCurrent;
+    public string PagesTotal;
 
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }
