@@ -17,6 +17,7 @@ public class QuestionsModel : ModelBase
         QuestionRows = from question in questions
                        select new QuestionRowModel(question, ((questionSearchSpec.CurrentPage - 1) * questionSearchSpec.PageSize) + ++counter);
         FilterByUsers = new Dictionary<int, string>();
+        TotalQuestions = questionSearchSpec.TotalItems;
     }
 
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
@@ -26,5 +27,7 @@ public class QuestionsModel : ModelBase
     public bool? FilterByMe { get; set; }
     public bool? FilterByAll { get; set; }
     public Dictionary<int, string> FilterByUsers { get; set; }
+
+    public int TotalQuestions;
 
 }

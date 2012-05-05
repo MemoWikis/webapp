@@ -100,7 +100,7 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
 
 
     <div class="row" style="padding-top:5px; padding-bottom: 3px;">
-        <div class="pull-right">3274 Fragen</div>
+        <div class="pull-right"><%= Model.TotalQuestions %> Fragen</div>
     </div>
 
     <% foreach (var row in Model.QuestionRows)
