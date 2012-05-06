@@ -1,4 +1,6 @@
 ﻿<%@ Page Title="About Us" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditQuestionModel>" %>
+<%@ Import Namespace="System.Web.Mvc.Html" %>
+<%@ Import Namespace="TrueOrFalse.Core.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse.Core" %>
 
@@ -20,34 +22,39 @@
         <legend>
             <span >
                 Frage Erstellen  
-                <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-chevron-left"></i>&nbsp;zu den Fragen</a>
             </span>
+            <div class="pull-right" >
+                <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" style="font-size: 12px;"><i class="icon-th-list"></i> zur Übersicht</a>
+            </div>
         </legend>
         
 	    <% Html.Message(Model.Message); %>
             
         <div class="control-group">
 
-            <%= Html.LabelFor(m => m.Visibility) %>    
-                    
-            <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All )%> Alle &nbsp;&nbsp;
-            <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %> Nur ich &nbsp;&nbsp;
-            <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %> Ich und meine Freunde
-            <%--<label class="checkbox"></label>--%>
+            <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>    
+            <div class="controls">                    
+                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All )%> Alle &nbsp;&nbsp;
+                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %> Nur ich &nbsp;&nbsp;
+                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %> Ich und meine Freunde
+            </div>
 
         </div>
             
         <div class="control-group">
-		    <%= Html.LabelFor(m => m.Question)%>
-		    <%= Html.TextAreaFor(m => m.Question, new { @style = "height:50px; width:435px;" })%><br />
+		    <%= Html.LabelFor(m => m.Question, new { @class = "control-label" })%>
+            <div class="controls">
+		        <%= Html.TextAreaFor(m => m.Question, new { @style = "height:50px; width:435px;" })%><br />
+            </div>
         </div>
             
-        <p class="help-block form-text">
-            Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und andere <br />die Fragen wiederzufinden.
+        <p class="help-block help-text">
+            Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen <br />die Fragen wiederzufinden.
         </p>
+        
         <div class="control-group">
-            <%= Html.Label("Kategorien")%>
-            <div id="relatedCategories">
+            <%= Html.Label("Kategorien", new { @class = "control-label" })%>
+            <div id="relatedCategories" class="controls">
                 <script type="text/javascript">
                     $(function() {
                         <%foreach (var category in Model.Categories) { %>
@@ -72,20 +79,24 @@
         </div>--%>
             
         <div class="control-group">
-            <%= Html.LabelFor(m => m.SolutionType ) %>
-		    <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%> 
+            <%= Html.LabelFor(m => m.SolutionType, new { @class = "control-label" }) %>
+            <div class="controls">
+                <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%> 
+            </div>
         </div>
             
         <% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>
 
-        <p class="help-block form-text">
+        <p class="help-block help-text">
             Je ausführlicher die Erklärung, desto besser!<br/>
             Verwende Links u. Bilder aber achte auf die Urheberrechte.
         </p>
 
         <div class="control-group">
-		    <%= Html.LabelFor(m => m.Description ) %>
-            <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;" })%>    
+		    <%= Html.LabelFor(m => m.Description, new { @class = "control-label" })%>
+            <div class="controls">
+                <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;" })%>
+            </div>
         </div>
             
         <div class="form-actions">

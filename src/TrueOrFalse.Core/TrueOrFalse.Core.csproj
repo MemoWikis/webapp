@@ -58,10 +58,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Configuration, Version=2.5.2.830, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.Configuration.dll</HintPath>
-    </Reference>
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc3.2.5.2.830\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
@@ -72,18 +68,9 @@
     <Reference Include="Gibraltar.Agent">
       <HintPath>..\packages\Gibraltar.Agent.2.5.2.815\lib\Gibraltar.Agent.dll</HintPath>
     </Reference>
-    <Reference Include="Gibraltar.Packager">
-      <HintPath>..\packages\Gibraltar.Agent.2.5.2.815\lib\Gibraltar.Packager.exe</HintPath>
-    </Reference>
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
-    </Reference>
     <Reference Include="NHibernate, Version=3.2.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NHibernate.3.2.0.4000\lib\Net35\NHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.5396, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Seedworks.Settings.0.8.0.2\lib\Seedworks.Lib.Persistence.dll</HintPath>
@@ -92,18 +79,13 @@
       <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
@@ -211,6 +193,7 @@
     <Compile Include="Web\Controls\UserMessage\Message.cs" />
     <Compile Include="Web\Filters\AccessOnlyLocalAttribute.cs" />
     <Compile Include="Web\Filters\GlobalAuthorizationAttribute.cs" />
+    <Compile Include="Web\HtmlLabelExtensions.cs" />
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptActionInvoker.cs" />

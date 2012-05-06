@@ -4,7 +4,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-
 <% using (Html.BeginForm()) { %>
 
     <div class="row" style="padding-top:30px;">
@@ -18,14 +17,18 @@
                 <% Html.Message(Model.Message); %>
 
                 <div class="control-group">
-                    <%: Html.LabelFor(model => model.EmailAddress)%>
-                    <%: Html.EditorFor(model => model.EmailAddress)%> 
+                    <%: Html.LabelFor(model => model.EmailAddress, new { @class = "control-label" })%>
+                    <div class="controls">
+                        <%: Html.EditorFor(model => model.EmailAddress)%> 
+                    </div>
                     <%: Html.ValidationMessageFor(model => model.EmailAddress)%>            
                 </div>
 
                 <div class="control-group">
-                    <%: Html.LabelFor(model => model.Password)  %>
-                    <%: Html.Password("Password") %> &nbsp; (grOß kLEinScHReiBunG beachten!)
+                    <%: Html.LabelFor(model => model.Password, new { @class = "control-label" })%>
+                    <div class="controls">
+                        <%: Html.Password("Password") %> &nbsp; (grOß kLEinScHReiBunG beachten!)
+                    </div>
                  </div>
 
                  <div class="form-actions">
