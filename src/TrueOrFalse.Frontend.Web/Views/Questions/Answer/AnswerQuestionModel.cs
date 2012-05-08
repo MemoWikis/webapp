@@ -12,7 +12,7 @@ public class AnswerQuestionModel : ModelBase
     {
     }
 
-    public AnswerQuestionModel(Question question, QuestionSearchSpec questionSearchSpec) : this()
+    public AnswerQuestionModel(Question question, QuestionSearchSpec questionSearchSpec, int elementOnPage = -1) : this()
     {
         CreatorId = question.Creator.Id.ToString();
         CreatorName = question.Creator.Name;
@@ -29,6 +29,9 @@ public class AnswerQuestionModel : ModelBase
         TimesJumpedOver = "";
 
         questionSearchSpec.PageSize = 1;
+        if (elementOnPage != -1)
+            questionSearchSpec.CurrentPage = elementOnPage;
+
         PageCurrent = questionSearchSpec.CurrentPage.ToString();
         PagesTotal = questionSearchSpec.PageCount.ToString();
 

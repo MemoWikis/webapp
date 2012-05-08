@@ -1,8 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
-using System.Web.Mvc;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Core;
 
@@ -18,7 +15,7 @@ public class QuestionsModel : ModelBase
     {
         int counter = 0; 
         QuestionRows = from question in questions
-                       select new QuestionRowModel(question, counter++);
+                       select new QuestionRowModel(question, ((questionSearchSpec.CurrentPage - 1) * questionSearchSpec.PageSize) + ++counter);
         FilterByUsers = new Dictionary<int, string>();
     }
 
