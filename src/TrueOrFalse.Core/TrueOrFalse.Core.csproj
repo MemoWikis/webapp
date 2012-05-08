@@ -163,7 +163,7 @@
     <Compile Include="Infrastructure\IoC\IRegisterAsInstancePerLifetime.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Domain\ServiceLocator.cs" />
+    <Compile Include="Infrastructure\IoC\ServiceLocator.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
     <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
     <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />
