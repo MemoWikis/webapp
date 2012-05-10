@@ -23,7 +23,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage)
         {
-            return url.Action("Answer", Links.AnswerQuestionController, new { text = UriSegmentFriendlyQuestion.Run(question.Text), id = question.Id, elementOnPage = paramElementOnPage}, null);
+            return url.Action("Answer", AnswerQuestionController, new { text = UriSegmentFriendlyQuestion.Run(question.Text), id = question.Id, elementOnPage = paramElementOnPage}, null);
         }
 
         public static string Profile(UrlHelper url, string userName, int userId)

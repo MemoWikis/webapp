@@ -60,6 +60,11 @@ namespace TrueOrFalse.Core
             }
         }
 
+        public QuestionSearchSpec()
+        {
+            FilterByUsers = new ReadOnlyCollection<int>(new List<int>());
+        }
+
     }
 
     public class QuestionFilter : ConditionContainer

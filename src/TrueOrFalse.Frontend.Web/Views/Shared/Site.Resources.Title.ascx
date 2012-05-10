@@ -15,9 +15,6 @@
                 <%: Html.ActionLink("Exportieren", "AllToLocalFile", "Export") %>
             <% } %>
         </div>
-        
-        </h1>
-        
 
     </div>
 </div>
