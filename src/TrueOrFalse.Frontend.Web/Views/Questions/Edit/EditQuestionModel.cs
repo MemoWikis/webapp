@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
-using TrueOrFalse.Core.Web;
+using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Frontend.Web.Models;
 using System.Linq;
 using Message = TrueOrFalse.Core.Web.Message;
@@ -41,6 +39,9 @@ public class EditQuestionModel : ModelBase
     public string Character { get; set; }
 
     public IEnumerable<String> Categories = new List<string>();
+    
+    public string PageTitle;
+    public bool ShowSaveAndNewButton;
 
     public IEnumerable<SelectListItem> VisibilityData { get {
             return new List<SelectListItem> {
@@ -54,10 +55,10 @@ public class EditQuestionModel : ModelBase
     public IEnumerable<SelectListItem> AnswerTypeData{ get {
             return new List<SelectListItem>
                         {
-                            new SelectListItem {Text = "Exakt", Value = TrueOrFalse.Core.QuestionSolutionType.Exact.ToString()},
-                            new SelectListItem {Text = "Annäherung", Value = TrueOrFalse.Core.QuestionSolutionType.Approximation.ToString()},
-                            new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.Core.QuestionSolutionType.MultipleChoice.ToString()},
-                            new SelectListItem {Text = "Vokable", Value = TrueOrFalse.Core.QuestionSolutionType.Vocable.ToString()},
+                            new SelectListItem {Text = "Exakt", Value = QuestionSolutionType.Exact.ToString()},
+                            new SelectListItem {Text = "Annäherung", Value = QuestionSolutionType.Approximation.ToString()},
+                            new SelectListItem {Text = "Multiple Choice", Value = QuestionSolutionType.MultipleChoice.ToString()},
+                            new SelectListItem {Text = "Vokable", Value = QuestionSolutionType.Vocable.ToString()},
                             
                         };
         }
@@ -73,7 +74,9 @@ public class EditQuestionModel : ModelBase
         }
     }
 
-    public EditQuestionModel() { }
+    public EditQuestionModel()
+    {
+    }
 
     public EditQuestionModel(Question question)
     {
@@ -82,11 +85,24 @@ public class EditQuestionModel : ModelBase
         SolutionType = question.QuestionSolutionType.ToString();
         Description = question.Description;
         Categories = (from cat in question.Categories select cat.Name).ToList();
+        
     }
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
     {
         Categories = (from key in postData.AllKeys where key.StartsWith("cat") select postData[key]).ToList();
+    }
+
+    public void SetToCreateModel()
+    {
+        PageTitle = "Frage erstellen";
+        ShowSaveAndNewButton = true;
+    }
+
+    public void SetToUpdateModel()
+    {
+        PageTitle = string.Format("Frage '{0}' bearbeiten", Question.TruncateAtWord(20));
+        ShowSaveAndNewButton = false;
     }
 
 }

@@ -19,19 +19,27 @@
     
     <div class="form-horizontal" style="padding-top:10px;">
         
-        <legend>
-            <span >
-                Frage Erstellen  
+        <legend style="background-color: ">
+            <span>
+                <%=Model.PageTitle %>
             </span>
-            <div class="pull-right" >
-                <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" style="font-size: 12px;"><i class="icon-th-list"></i> zur Übersicht</a>
+            <div class="pull-right" style="vertical-align: bottom;">
+                <div style="background-color: white; line-height: 12px ">
+                    <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" style="font-size: 12px; margin: 0px;"><i class="icon-th-list"></i> zur Übersicht</a><br/>
+                </div>
+                <% if (!Model.ShowSaveAndNewButton){ %>
+                    <div style="line-height: 12px">
+	                    <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px; margin: 0px;"><i class="icon-plus-sign"></i> Frage erstellen</a>
+                    </div>
+                <%} %>
             </div>
         </legend>
         
-	    <% Html.Message(Model.Message); %>
+        <div style=" margin-top: -5px; padding-left:14px; margin-right:-15px;">
+	        <% Html.Message(Model.Message); %>
+        </div>
             
         <div class="control-group">
-
             <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>    
             <div class="controls">                    
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All )%> Alle &nbsp;&nbsp;
@@ -100,8 +108,10 @@
         </div>
             
         <div class="form-actions">
-            <input type="submit" value="Speichern" class="btn btn-primary" />&nbsp;&nbsp;&nbsp;
-            <input type="submit" value="Speichern & Neu" class="btn " />&nbsp;
+            <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />&nbsp;&nbsp;&nbsp;
+            <% if(Model.ShowSaveAndNewButton){ %>
+                <input type="submit" value="Speichern & Neu" class="btn" name="btnSaveAndNew" />&nbsp;
+            <% } %>
         </div>
 
     </div>

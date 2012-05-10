@@ -44,8 +44,8 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
         <div class="control-group" style="margin-bottom: 8px;">
             <label><b>Fragen erstellt von</b>:</label>            
             <div class="btn-group" style="display: inline">
-             <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
-             <button class="btn btn-filterByAll">von allen</button>
+                <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
+                <button class="btn btn-filterByAll">von allen</button>
             </div>
             <script type="text/javascript">
                 $(function () {
