@@ -26,6 +26,7 @@ public class QuestionsModel : ModelBase
 
     public bool? FilterByMe { get; set; }
     public bool? FilterByAll { get; set; }
+    public int? AddFilterUser { get; set; }
     public Dictionary<int, string> FilterByUsers { get; set; }
 
     public int TotalQuestions;

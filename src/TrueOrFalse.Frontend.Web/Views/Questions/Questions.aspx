@@ -44,8 +44,10 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
         <div class="control-group" style="margin-bottom: 8px;">
             <label><b>Fragen erstellt von</b>:</label>            
             <div class="btn-group" style="display: inline">
-                <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
-                <button class="btn btn-filterByAll">von allen</button>
+             <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
+             <button class="btn btn-filterByAll">von allen</button>
+             <%: Html.HiddenFor(model => model.FilterByMe)%>
+             <%: Html.HiddenFor(model => model.FilterByAll)%>
             </div>
             <script type="text/javascript">
                 $(function () {
@@ -64,16 +66,12 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
                     if ($('#FilterByAll').val().toLowerCase() == "true") {
                         $('.btn-filterByAll').addClass('active');
                     }
-                    <%foreach (var user in Model.FilterByUsers) { %>
-                        window.addingUserId = <%=user.Key %>;
-                        $("#txtAddUserFilter").val('<%=user.Value %>');
-                        $("#addUserFilter").click();
-                    <% } %>
                 })
             </script>
             <span class="help-inline">und</span>&nbsp;
+            <%: Html.HiddenFor(m => m.AddFilterUser, new {id="addFilterUserId"}) %>
             <input type="text" class="span2" id="txtAddUserFilter"/>
-            <a href="#" id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></a>
+            <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
         </div>
         <div class="control-group" style="margin-bottom: 8px;">
             <label><b>Kategorien Filter</b>:</label>
@@ -89,10 +87,7 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
                 <input class="span1"/>
         </div>
         <div class="control-group" style="margin-bottom: 8px;">
-            <%: Html.HiddenFor(model => model.FilterByMe)%>
-            <%: Html.HiddenFor(model => model.FilterByAll)%>
             <label></label>
-            <%= Buttons.Submit("Filtern", inline: true)%>    
         </div>
         <% } %>
     </div>

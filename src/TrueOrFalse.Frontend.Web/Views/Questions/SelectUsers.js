@@ -13,12 +13,12 @@ $(function () {
         source: '/Api/User/ByName',
         focus: function (event, ui) {
             $("#txtAddUserFilter").val(ui.item.name);
-            window.addingUserId = ui.item.id;
+            $("#addFilterUserId").val(ui.item.id);
             return false;
         },
         select: function (event, ui) {
             $("#txtAddUserFilter").val(ui.item.name);
-            window.addingUserId = ui.item.id;
+            $("#addFilterUserId").val(ui.item.id);
             return false;
         }
     }).data("autocomplete")._renderItem = function (ul, item) {
@@ -41,23 +41,6 @@ $(function () {
     }
     checkText();
 
-    function addUser() {
-        var userName = $("#txtAddUserFilter").val();
-        var usrId = window.addingUserId;
-        $("#txtAddUserFilter").before(
-            "<div class='added-usr' id='usr-" + usrId + "'>" + userName +
-                "<input type='hidden' value='" + usrId + "' name='usr-" + usrId + "'/>" +
-                    "<a href='#' id='delete-usr-" + usrId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
-                        "</div> ");
-        $("#txtAddUserFilter").val('');
-        $("#delete-usr-" + usrId).click(function () {
-            $("#usr-" + usrId).stop(true).animate({ opacity: 0 }, 250, function () {
-                $(this).remove();
-            });
-        });
-    }
-
-    $("#addUserFilter").click(addUser);
     $("#txtAddUserFilter").keydown(function (event) {
         checkText();
         //if (event.keyCode == 13 && $("#addUserFilter").is(':visible')) {

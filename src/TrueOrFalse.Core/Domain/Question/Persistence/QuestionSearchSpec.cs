@@ -26,9 +26,10 @@ namespace TrueOrFalse.Core
             UpdateFilter();
         }
         
-        public void SetFilterByUsers(IEnumerable<int> userIds)
+        public void AddFilterByUser(int? userId)
         {
-            var newUserIds = userIds.ToList().AsReadOnly();
+            if (!userId.HasValue) return;
+            var newUserIds = ((FilterByUsers ?? Enumerable.Empty<int>()).Union(new[] { userId.Value })).ToList().AsReadOnly();
             if (FilterByUsers != null && newUserIds.SequenceEqual(FilterByUsers)) return;
 
             FilterByUsers = newUserIds;
