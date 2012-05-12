@@ -24,11 +24,11 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
 </style>
 
 <script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>
+<script src="/Views/Questions/Questions.js" type="text/javascript"></script>
 
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
     <div class="row" >
         <h2 style="float: left;">Fragen</h2>
         <div style="float: right;">
@@ -103,6 +103,21 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
         } %>
     
      <% Html.RenderPartial("Pager", Model.Pager); %>
+     
+     
+    <div class="modal hide fade" id="modalDelete" style="">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Frage '<span id="spanQuestionTitle"></span>' löschen</h3>
+        </div>
+        <div class="modal-body">
+            <p>One fine body…</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn">Close</a>
+            <a href="#" class="btn btn-primary">Save changes</a>
+        </div>
+    </div>
 
 </asp:Content>
 

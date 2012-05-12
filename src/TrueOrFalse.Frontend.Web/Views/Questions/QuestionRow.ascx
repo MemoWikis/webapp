@@ -11,7 +11,7 @@
 
     <div class="column-2">
         <div style="height: 20px;">
-            <img src="/Images/delete.png"/> 
+            <a data-toggle="modal" data-questionId="<%=Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
             <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}) %>">
                 <img src="/Images/edit.png"/> 

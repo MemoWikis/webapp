@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Core;
 
@@ -30,5 +33,4 @@ public class QuestionsModel : ModelBase
     public Dictionary<int, string> FilterByUsers { get; set; }
 
     public int TotalQuestions;
-
 }

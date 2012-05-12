@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Seedworks.Lib;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;
 
@@ -40,4 +41,19 @@ public class QuestionsController : Controller
                      FilterByAll = model.FilterByAll,
                      FilterByUsers =  model.FilterByUsers});
     }
+
+    [HttpPost]
+    public JsonResult GetQuestionDeleteDetails(int questionId)
+    {
+        var question = _questionRepository.GetById(questionId);
+
+        return new JsonResult{
+            Data = new
+                       {
+                           questionTitle = question.Text.WordWrap(50),
+                           totalAnswers = question.TotalAnswers()
+                       }
+        };
+    }
+
 }

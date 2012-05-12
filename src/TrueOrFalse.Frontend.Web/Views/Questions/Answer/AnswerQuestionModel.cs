@@ -8,9 +8,7 @@ using TrueOrFalse.Frontend.Web.Models;
 
 public class AnswerQuestionModel : ModelBase
 {
-    public AnswerQuestionModel()
-    {
-    }
+    public AnswerQuestionModel(){}
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec questionSearchSpec, int elementOnPage = -1) : this()
     {

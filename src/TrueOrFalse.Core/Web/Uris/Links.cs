@@ -21,26 +21,21 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string AnswerQuestionSubmit = "AnswerSubmit";
 
-        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage)
-        {
+        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage){
             return url.Action("Answer", AnswerQuestionController, new { text = UriSegmentFriendlyQuestion.Run(question.Text), id = question.Id, elementOnPage = paramElementOnPage}, null);
         }
 
-        public static string Profile(UrlHelper url, string userName, int userId)
-        {
+        public static string Profile(UrlHelper url, string userName, int userId){
             return url.Action(Links.UserProfile, Links.UserProfileController, new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
         }
 
-        public static string SendAnswer(UrlHelper url, Question question)
-        {
+        public static string SendAnswer(UrlHelper url, Question question){
             return url.Action("SendAnswer", Links.AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string GetAnswer(UrlHelper url, Question question)
-        {
+        public static string GetAnswer(UrlHelper url, Question question){
             return url.Action("GetAnswer", Links.AnswerQuestionController, new { id = question.Id }, null);
         }
-
 
         public const string EditQuestionController = "EditQuestion"; 
         public const string CreateQuestion = "Create";

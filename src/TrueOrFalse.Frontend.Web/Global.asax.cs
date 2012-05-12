@@ -25,6 +25,7 @@ namespace TrueOrFalse.Frontend.Web
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
             
             routes.MapRoute("Questions", "Questions", new { controller = "Questions", action = "Questions" });
+            routes.MapRoute("Questions_DeeleteDetails", "Questions/GetQuestionDeleteDetails/{questionId}", new { controller = "Questions", action = "GetQuestionDeleteDetails" });
             routes.MapRoute("Question_Create", "Questions/Create/", new { controller = "EditQuestion", action = "Create" });
             routes.MapRoute("Question_Edit", "Questions/Edit/{id}", new { controller = "EditQuestion", action = "Edit" });
             routes.MapRoute("Question_Delete", "Questions/Delete/{id}", new { controller = "Questions", action = "Delete" });
