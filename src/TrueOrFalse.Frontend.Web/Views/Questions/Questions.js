@@ -1,24 +1,40 @@
 ﻿
+var questionIdToDelete;
+
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
-        populateDeleteQuestionId($(this).attr("data-questionId"));
+        questionIdToDelete = $(this).attr("data-questionId");
+        populateDeleteQuestionId(questionIdToDelete);
     });
+
+    $('#confirmQuestionDelete').click(function () {
+        deleteQuestion(questionIdToDelete);
+        $("#modalDelete").modal('hide');
+    });
+
 });
 
 function populateDeleteQuestionId(questionId) {
     $.ajax({
         type: 'POST',
-        url: "/Questions/GetQuestionDeleteDetails/" + questionId,
+        url: "/Questions/DeleteDetails/" + questionId,
         cache: false,
         success: function (result) {
-            $("#spanQuestionTitle").innerText = result.questionTitle;
-            if (result.correct) {
-            } else {
-            };
+            $("#spanQuestionTitle").html(result.questionTitle.toString());
         },
-        error: function (result) {
-            alert(result);
+        error: function () {
+             alert("Ein Fehler ist aufgetreten");
         }
     });
+}
 
+function deleteQuestion(questionId) {
+    $.ajax({
+        type: 'POST',
+        url: "/Questions/Delete/" + questionId,
+        cache: false,
+        success:function (){window.location.reload();},
+        error: function (result) { alert("Ein Fehler ist aufgetreten"); }
+    });    
+    
 }

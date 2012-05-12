@@ -105,17 +105,19 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
      <% Html.RenderPartial("Pager", Model.Pager); %>
      
      
-    <div class="modal hide fade" id="modalDelete" style="">
+    <div id="modalDelete" class="modal hide fade">
         <div class="modal-header">
             <button class="close" data-dismiss="modal">×</button>
-            <h3>Frage '<span id="spanQuestionTitle"></span>' löschen</h3>
+            <h3>Frage löschen</h3>
         </div>
         <div class="modal-body">
-            <p>One fine body…</p>
+            <div class="alert alert-error">
+                Die Frage <b>'<span id="spanQuestionTitle"></span>'</b> wird unwiederbringlich gelöscht. Alle damit verknüpften Daten werden entfernt! 
+            </div>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn">Close</a>
-            <a href="#" class="btn btn-primary">Save changes</a>
+            <a href="#" class="btn">Schliessen</a>
+            <a href="#" class="btn btn-primary btn-danger" id="confirmQuestionDelete">Löschen</a>
         </div>
     </div>
 

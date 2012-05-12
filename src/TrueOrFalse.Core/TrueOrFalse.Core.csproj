@@ -108,6 +108,7 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
+    <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
     <Compile Include="Domain\User\Persistence\UserSearch.cs" />
     <Compile Include="Domain\Import\Importer.cs" />
     <Compile Include="Domain\Import\ImporterResult.cs" />
@@ -119,11 +120,11 @@
     <Compile Include="Domain\Question\AnswerHistory\Persistence\AnswerHistoryRepository.cs" />
     <Compile Include="Domain\Question\Answer\AnswerQuestion.cs" />
     <Compile Include="Domain\Question\Answer\AnswerQuestionResult.cs" />
-    <Compile Include="Domain\Question\Persistence\QuestionSearchSpec.cs" />
+    <Compile Include="Domain\Question\Question.Persistence\QuestionSearchSpec.cs" />
     <Compile Include="Domain\Question\Question.cs" />
     <Compile Include="Domain\Question\QuestionListExt.cs" />
-    <Compile Include="Domain\Question\Persistence\QuestionMap.cs" />
-    <Compile Include="Domain\Question\Persistence\QuestionRepository.cs" />
+    <Compile Include="Domain\Question\Question.Persistence\QuestionMap.cs" />
+    <Compile Include="Domain\Question\Question.Persistence\QuestionRepository.cs" />
     <Compile Include="Domain\Question\QuestionCharacter.cs" />
     <Compile Include="Domain\Question\QuestionVisibility.cs" />
     <Compile Include="Domain\Question\QuestionSolutionType.cs" />

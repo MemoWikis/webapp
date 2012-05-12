@@ -43,7 +43,7 @@ public class QuestionsController : Controller
     }
 
     [HttpPost]
-    public JsonResult GetQuestionDeleteDetails(int questionId)
+    public JsonResult DeleteDetails(int questionId)
     {
         var question = _questionRepository.GetById(questionId);
 
@@ -54,6 +54,13 @@ public class QuestionsController : Controller
                            totalAnswers = question.TotalAnswers()
                        }
         };
+    }
+
+    [HttpPost] 
+    public EmptyResult Delete(int questionId)
+    {
+        Sl.Resolve<QuestionDeleter>().Run(questionId);
+        return new EmptyResult();
     }
 
 }
