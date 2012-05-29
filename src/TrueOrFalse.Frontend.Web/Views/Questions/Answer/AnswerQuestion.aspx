@@ -86,6 +86,63 @@
                     <a href="#" id="btnCheckAgain" class="btn btn-warning btnRight">Nochmal Antworten</a>
                 </div>
             </div>
+            
+            <style type="text/css">
+                .val .valRow{ <%--background-color: blue;--%> width: 410px; margin-top: 1px; }
+                .val .valRow .valColumn1{ <%--background-color: yellowgreen;--%> width: 200px; margin-left: 0px;  }
+                .val .valRow .valColumn2{ <%--background-color: red;--%> width: 190px; height: 20px;padding-top: 3px; }
+                .val .valRow .valColumn2 .ui-slider{ width: 140px;float: left; }
+                .val .valRow .valColumn2 .imgDelete{ margin-top: -2px;padding-left: 5px; float: left; }
+                .val .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0px;padding-left: 5px; float: left; }
+                
+            </style>            
+            <div class=" val" style="padding-top:20px; width: 400px;">
+                
+                <div class="valRow row" style="border-bottom: 1px solid silver; margin-bottom: 5px;">
+                    <div class="valColumn1 span3">
+                        <h4>Allgemeine Einschätzung</h4>
+                    </div>
+                    <div class="valColumn2 span2">
+                        <h4>Meine Einschätzung</h4>
+                    </div>
+                </div>
+                
+                <div class="valRow row">
+                    <div class="valColumn1 span3">
+                        Qualität: <i class="icon-user"></i>&nbsp;3210 Ø 7,6
+                    </div>
+                    <div class="valColumn2 span2">
+                        <div id="hue" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                            <div class="ui-slider-range ui-widget-header ui-slider-range-min" style="width: 55.833333333333336%; background-color: rgb(0, 159, 245); background-position: initial initial; background-repeat: initial initial; "></div>
+                            <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 55.833333333333336%; "></a>
+                        </div>                        
+                        <img src="/Images/delete.png" class="imgDelete">
+                        <span class="valMine">4.9</span>
+                    </div>
+                </div>
+                
+                <div class="valRow row">
+                    <div class="valColumn1 span3">
+                        Relevanz für mich: <i class="icon-user"></i>&nbsp;430 Ø 2,5
+                    </div>
+                    <div class="valColumn2 span2">
+                        <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                            <div class="ui-slider-range ui-widget-header ui-slider-range-min" style="width: 55.833333333333336%; background-color: rgb(0, 159, 245); background-position: initial initial; background-repeat: initial initial; "></div>
+                            <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 55.833333333333336%; "></a>
+                        </div>                        
+                        <img src="/Images/delete.png" class="imgDelete">
+                    </div>
+                </div>
+
+                <div class="valRow row">
+                    <div class="valColumn1 span3">
+                        Sollte jeder wissen: <i class="icon-user"></i>&nbsp;417 Ø 9,8
+                    </div>
+                    <div class="valColumn2 span2">
+                        <a href="#">- Einschätzung hinzfügen <i class="icon-plus"></i> ---</a>
+                    </div>
+                </div>
+            </div>
 
         </div>
         
