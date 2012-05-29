@@ -10,8 +10,8 @@ namespace TrueOrFalse.Core
     {
         public bool FilterByMe { get; private set; }
         public bool FilterByAll { get; private set; }
-        public ReadOnlyCollection<int> FilterByUsers { get; private set; } 
-
+        public ReadOnlyCollection<int> FilterByUsers { get; private set; }
+        
         public void SetFilterByMe(bool? value)
         {
             if (!value.HasValue || value.Value == FilterByMe) return;
@@ -29,7 +29,17 @@ namespace TrueOrFalse.Core
         public void AddFilterByUser(int? userId)
         {
             if (!userId.HasValue) return;
-            var newUserIds = ((FilterByUsers ?? Enumerable.Empty<int>()).Union(new[] { userId.Value })).ToList().AsReadOnly();
+            var newUserIds = (FilterByUsers ?? Enumerable.Empty<int>()).Union(new[] { userId.Value }).ToList().AsReadOnly();
+            if (FilterByUsers != null && newUserIds.SequenceEqual(FilterByUsers)) return;
+
+            FilterByUsers = newUserIds;
+            UpdateFilter();
+        }
+
+        public void DelFilterByUser(int? userId)
+        {
+            if (!userId.HasValue) return;
+            var newUserIds = (FilterByUsers ?? Enumerable.Empty<int>()).Except(new[] { userId.Value }).ToList().AsReadOnly();
             if (FilterByUsers != null && newUserIds.SequenceEqual(FilterByUsers)) return;
 
             FilterByUsers = newUserIds;
@@ -57,12 +67,18 @@ namespace TrueOrFalse.Core
                 {
                     condition.Add(ServiceLocator.Resolve<SessionUser>().User.Id);   
                 }
+                if (condition.ItemCount == 0)
+                {
+                 condition.Add(-1);   
+                }
             }
         }
 
         public QuestionSearchSpec()
         {
             FilterByUsers = new ReadOnlyCollection<int>(new List<int>());
+            FilterByMe = true;
+            UpdateFilter();
         }
 
     }

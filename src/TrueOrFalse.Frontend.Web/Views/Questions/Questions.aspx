@@ -45,7 +45,7 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
             <label><b>Fragen erstellt von</b>:</label>            
             <div class="btn-group" style="display: inline">
              <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
-             <button class="btn btn-filterByAll">von allen</button>
+             <button class="btn btn-filterByAll">von anderen</button>
              <%: Html.HiddenFor(model => model.FilterByMe)%>
              <%: Html.HiddenFor(model => model.FilterByAll)%>
             </div>
@@ -69,7 +69,25 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
                 })
             </script>
             <span class="help-inline">und</span>&nbsp;
+            <% foreach (var filterByUser in Model.FilterByUsers)
+               { %>
+                  <span class="added-usr"><%: filterByUser.Value %><button id="del-usr-<%:filterByUser.Key%>"><i class="icon-remove"></i></button></span>
+                  <script type="text/javascript">
+                      $(function() {
+                          $("#del-usr-<%:filterByUser.Key%>").click(function() {
+                              $("#delFilterUserId").val("<%:filterByUser.Key%>");
+                          });
+                      });
+                  </script>
+             <% } %>
             <%: Html.HiddenFor(m => m.AddFilterUser, new {id="addFilterUserId"}) %>
+            <%: Html.HiddenFor(m => m.DelFilterUser, new {id="delFilterUserId"}) %>
+            <script>
+                $(function () {
+                    $("#addFilterUserId").val("");
+                    $("#delFilterUserId").val("");
+                });
+            </script>
             <input type="text" class="span2" id="txtAddUserFilter"/>
             <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
         </div>
