@@ -9,7 +9,7 @@ public class QuestionRowModel
     public int AnswerPercentageTrue;
     public int AnswerPercentageFalse;
 
-    public QuestionRowModel(Question question, int indexInResultSet) 
+    public QuestionRowModel(Question question, int indexInResultSet, int currentUserid) 
     {
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;
@@ -26,6 +26,8 @@ public class QuestionRowModel
         AnswerCountMe = 0;
         IndexInresulSet = indexInResultSet;
 
+        IsOwner = currentUserid == CreatorId;
+
     }
     public string CreatorName {get; private set;}
 
@@ -38,6 +40,8 @@ public class QuestionRowModel
 
     public int AnswerCountTotal { get; private set; }
     public int AnswerCountMe { get; private set; }
+
+    public bool IsOwner;
 
     public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
 }

@@ -11,7 +11,7 @@ public class PersonaController : Controller
     private readonly UserRepository _userRepository;
 
     public PersonaController(SessionUser sessionUser,
-                                UserRepository userRepository)
+                             UserRepository userRepository)
     {
         _sessionUser = sessionUser;
         _userRepository = userRepository;

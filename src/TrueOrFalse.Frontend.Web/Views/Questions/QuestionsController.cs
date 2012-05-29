@@ -9,14 +9,17 @@ public class QuestionsController : Controller
     private readonly QuestionRepository _questionRepository;
     private readonly UserRepository _userRepository;
     private readonly SessionUiData _sessionUiData;
+    private readonly SessionUser _sessionUser;
 
     public QuestionsController (QuestionRepository questionRepository,
                                 UserRepository userRepository, 
-                                SessionUiData sessionUiData)
+                                SessionUiData sessionUiData, 
+                                SessionUser sessionUser)
     {
         _questionRepository = questionRepository;
         _userRepository = userRepository;
         _sessionUiData = sessionUiData;
+        _sessionUser = sessionUser;
     }
 
     public ActionResult Questions(int? page, QuestionsModel model)
@@ -35,7 +38,7 @@ public class QuestionsController : Controller
 
         if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
         return View("Questions",
-                    new QuestionsModel(_questionRepository.GetBy(_sessionUiData.QuestionSearchSpec), _sessionUiData.QuestionSearchSpec)
+                    new QuestionsModel(_questionRepository.GetBy(_sessionUiData.QuestionSearchSpec), _sessionUiData.QuestionSearchSpec, _sessionUser.User.Id)
                     {Pager = new PagerModel(_sessionUiData.QuestionSearchSpec),
                      FilterByMe = model.FilterByMe,
                      FilterByAll = model.FilterByAll,
