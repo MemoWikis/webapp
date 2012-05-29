@@ -134,7 +134,7 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
             </div>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn">Schliessen</a>
+            <a href="#" class="btn" id="btnCloseQuestionDelete">Schliessen</a>
             <a href="#" class="btn btn-primary btn-danger" id="confirmQuestionDelete">Löschen</a>
         </div>
     </div>

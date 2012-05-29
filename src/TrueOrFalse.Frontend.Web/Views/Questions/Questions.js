@@ -7,6 +7,10 @@ $(function () {
         populateDeleteQuestionId(questionIdToDelete);
     });
 
+    $('#btnCloseQuestionDelete').click(function () {
+        $("#modalDelete").modal('hide');
+    });
+
     $('#confirmQuestionDelete').click(function () {
         deleteQuestion(questionIdToDelete);
         $("#modalDelete").modal('hide');
