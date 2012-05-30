@@ -6,7 +6,7 @@
     if (userSession.IsLoggedIn)
     {
 %>
-        Hallo <b><%= Html.Encode(userSession.User.Name) %></b>!
+        Hallo  <b><%= Html.ActionLink(userSession.User.Name, "Profile", "UserProfile", new {name = userSession.User.Name, id = userSession.User.Id} , null)%></b>!
         [ <%= Html.ActionLink("Abmelden", Links.Logout, Links.AccountController) %> ]
 <%
     }
