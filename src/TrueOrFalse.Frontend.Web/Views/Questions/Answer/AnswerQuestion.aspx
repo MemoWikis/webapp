@@ -10,7 +10,7 @@
         
         .selectorShowAnswer{/* marker class */}
         
-        .btnRight{float: right; margin-right: 149px;}
+        .btnRight{float: right; margin-right: -10px;}
         
         div.headerLinks {}
         div.headerLinks i { margin-top: 2px;}
@@ -28,17 +28,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="row" style="min-height: 400px;">
-        <div class="span7 ">
+        <div class="span5 ">
             
             <div class="row" style="padding-bottom: 20px;">
-                <div style="float:left"><h2>Frage beantworten</h2></div>
-                
-                <div class="pull-right headerLinks" style="margin-top:8px; line-height: 25px;">
-                    <a href="<%= Url.Action("Previous", Links.AnswerQuestionController) %>" ><i class="icon-arrow-left"></i></a>
-                    <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
-                    <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>" ><i class="icon-arrow-right"></i> </a>
-                </div>
-                
+                <div style="float:left"><h2>Frage beantworten</h2></div>                
                 <br style="line-height: 10px;"/>
             </div>
             
@@ -86,16 +79,16 @@
                     <a href="#" id="btnCheckAgain" class="btn btn-warning btnRight">Nochmal Antworten</a>
                 </div>
             </div>
-            
+                        
             <style type="text/css">
                 .val .valRow{ <%--background-color: blue;--%> width: 410px; margin-top: 1px; }
                 .val .valRow .valColumn1{ <%--background-color: yellowgreen;--%> width: 200px; margin-left: 0px;  }
                 .val .valRow .valColumn2{ <%--background-color: red;--%> width: 190px; height: 20px;padding-top: 3px; }
                 .val .valRow .valColumn2 .ui-slider{ width: 140px;float: left; }
                 .val .valRow .valColumn2 .imgDelete{ margin-top: -2px;padding-left: 5px; float: left; }
-                .val .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0px;padding-left: 5px; float: left; }
-                
-            </style>            
+                .val .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0px;padding-left: 5px; float: left; }    
+            </style>
+
             <div class=" val" style="padding-top:20px; width: 400px;">
                 
                 <div class="valRow row" style="border-bottom: 1px solid silver; margin-bottom: 5px;">
@@ -143,7 +136,21 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="row" style="margin-top: 17px; width: 400px;">
+                Die Frage bitte: &nbsp;
+                <a href="#modalImprove" data-toggle="modal"><i class="icon-retweet"></i> verbessern!</a>&nbsp; / 
+                <a href="#"><i class="icon-fire"></i> entfernen!</a>
+            </div>
 
+        </div>
+        
+        <div class="span2">
+            <div class="pull-right headerLinks" style="margin-top:8px; line-height: 25px;">
+                <a href="<%= Url.Action("Previous", Links.AnswerQuestionController) %>" ><i class="icon-arrow-left"></i></a>
+                <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
+                <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>" ><i class="icon-arrow-right"></i> </a>
+            </div>            
         </div>
         
         <div class="span2" style="padding-left: 20px;">
@@ -163,8 +170,34 @@
             <%= Model.TimesAnsweredWrong %>x falsche<br />
             <%= Model.TimesJumpedOver %> übersprungen<br />
             druchschn. Antwortzeit <%= Model.AverageAnswerTime %><br />            
+            <br/>
+            
+            Feedback: 
+            <a href="#">4x <i class="icon-retweet"></i></a>
+            <a href="#">2x <i class="icon-fire"></i></a>
         </div>
         
+    </div>
+    
+    <div id="modalImprove" class="modal hide fade">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Dies Frage verbessern</h3>
+        </div>
+        <div class="modal-body">
+            Ich bitte darum, dass diese Frage verbessert wird weil: 
+            <ul>
+                <li>Die Frage sollte privat sein</li>
+                <li>Die Quellen sind falsch</li>
+                <li>Die Quellen sind online nicht zu erreichen</li>
+                <li>Die Antwort ist eindeutig</li>
+                <li>Die Antwort ist eindeutig</li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal" id="btnCloseQuestionDelete">Schliessen</a>
+            <a href="#" class="btn btn-primary btn-success" id="confirmQuestionDelete">Absenden</a>
+        </div>
     </div>
 
 </asp:Content>
