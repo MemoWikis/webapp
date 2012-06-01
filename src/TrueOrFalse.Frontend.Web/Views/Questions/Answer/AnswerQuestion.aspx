@@ -105,7 +105,7 @@
                         Qualität: <i class="icon-user"></i>&nbsp;3210 Ø 7,6
                     </div>
                     <div class="valColumn2 span2">
-                        <div id="hue" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                        <div id="sliderQuality" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
                             <div class="ui-slider-range ui-widget-header ui-slider-range-min" style="width: 55.833333333333336%; background-color: rgb(0, 159, 245); background-position: initial initial; background-repeat: initial initial; "></div>
                             <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 55.833333333333336%; "></a>
                         </div>                        
@@ -139,8 +139,8 @@
             
             <div class="row" style="margin-top: 17px; width: 400px;">
                 Die Frage bitte: &nbsp;
-                <a href="#modalImprove" data-toggle="modal"><i class="icon-retweet"></i> verbessern!</a>&nbsp; / 
-                <a href="#"><i class="icon-fire"></i> entfernen!</a>
+                <a href="#modalImprove" data-toggle="modal"><i class="icon-repeat"></i> verbessern!</a>&nbsp; / 
+                <a href="#modalDelete" data-toggle="modal"><i class="icon-fire"></i> entfernen!</a>
             </div>
 
         </div>
@@ -173,30 +173,70 @@
             <br/>
             
             Feedback: 
-            <a href="#">4x <i class="icon-retweet"></i></a>
+            <a href="#">4x <i class="icon-repeat"></i></a>
             <a href="#">2x <i class="icon-fire"></i></a>
         </div>
         
     </div>
     
+    <%--MODAL IMPROVE--%>
     <div id="modalImprove" class="modal hide fade">
         <div class="modal-header">
             <button class="close" data-dismiss="modal">×</button>
             <h3>Dies Frage verbessern</h3>
         </div>
         <div class="modal-body">
-            Ich bitte darum, dass diese Frage verbessert wird weil: 
-            <ul>
-                <li>Die Frage sollte privat sein</li>
-                <li>Die Quellen sind falsch</li>
-                <li>Die Quellen sind online nicht zu erreichen</li>
-                <li>Die Antwort ist eindeutig</li>
-                <li>Die Antwort ist eindeutig</li>
-            </ul>
+            <div >
+                <p>
+                    Ich bitte darum, dass diese Frage verbessert wird weil: 
+                </p>
+                <ul>
+                    <li><a href="#">Die Frage sollte privat sein.</a></li>
+                    <li><a href="#">Die Quellen sind falsch.</a></li>
+                    <li><a href="#">Die Quellen sind online nicht zu erreichen.</a></li>
+                    <li><a href="#">Die Antwort ist nicht eindeutig.</a></li>
+                    <li><a href="#">... ein anderer Grund.</a></li>
+                </ul>
+            </div>
+            <p>
+                Erläuterung zum Verbesserungsvorschlag (optional).
+            </p>
+            <textarea style="width: 500px;" rows="3"></textarea>
+            
         </div>
         <div class="modal-footer">
             <a href="#" class="btn" data-dismiss="modal" id="btnCloseQuestionDelete">Schliessen</a>
             <a href="#" class="btn btn-primary btn-success" id="confirmQuestionDelete">Absenden</a>
+        </div>
+    </div>
+    
+    <%--MODAL DELETE--%>
+    <div id="modalDelete" class="modal hide fade">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Dies Frage bitte löschen</h3>
+        </div>
+        <div class="modal-body">
+            <div >
+                <p>
+                    Ich bitte darum, dass diese Frage gelöscht wird weil: 
+                </p>
+                <ul>
+                    <li><a href="#">Die Frage ist Beleidigend, abwertend oder rassistisch.</a></li>
+                    <li><a href="#">Urheberrechte werden verletzt.</a></li>
+                    <li><a href="#">Es handelt sich um Spam.</a></li>
+                    <li><a href="#">... ein anderer Grund.</a></li>
+                </ul>
+            </div>
+            <p>
+                Weiter Erläuterung (optional).
+            </p>
+            <textarea style="width: 500px;" rows="3"></textarea>
+            
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal" id="A1">Schliessen</a>
+            <a href="#" class="btn btn-primary btn-danger" id="A2">Absenden</a>
         </div>
     </div>
 

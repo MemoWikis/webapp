@@ -38,6 +38,16 @@ $(function () {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
     });
+
+
+    $("#sliderQuality").slider({
+        range: "min",
+        max: 100,
+        value: 30,
+        slide: {},
+        change: {}
+    });
+
 });
 
 
