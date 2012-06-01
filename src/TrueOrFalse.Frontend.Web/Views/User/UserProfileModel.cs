@@ -13,4 +13,5 @@ public class UserProfileModel : ModelBase
     }
 
     public string Name { get; private set; }
+    public bool IsCurrentUserProfile;
 }
