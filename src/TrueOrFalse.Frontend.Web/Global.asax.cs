@@ -52,7 +52,7 @@ namespace TrueOrFalse.Frontend.Web
             routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi"});
             routes.MapRoute("ApiUser", "Api/User/{action}", new { controller = "UserApi" });
 
-            routes.MapRoute("User", "User/{name}/{id}", new { controller = "UserProfile", action = "Profile" });
+            routes.MapRoute("User", "User/{name}/{id}/{action}", new { controller = "UserProfile", action = "Profile" });
 
             routes.MapRoute("Default", "{controller}/{action}", new { controller = "Welcome", action = "Welcome", id = "" });
         }
