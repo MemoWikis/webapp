@@ -39,16 +39,32 @@ $(function () {
         $("#txtAnswer").setCursorPosition(0);
     });
 
+    InitFeedbackSliders();
 
-    $("#sliderQuality").slider({
+});
+
+function InitFeedbackSliders() {
+    
+    //Quality
+    InitFeedbackSlider("Quality");
+    InitFeedbackSlider("Relevance");
+}
+
+function InitFeedbackSlider(sliderName) {
+    
+    $("#remove" + sliderName + "Value").click(function () {
+        $("#div" + sliderName + "Slider").hide();
+        $("#div" + sliderName + "Add").show();
+    });
+
+    $("#slider" + sliderName).slider({
         range: "min",
         max: 100,
         value: 30,
-        slide: {},
-        change: {}
-    });
-
-});
+        slide: function (event, ui) { $("#slider" + sliderName + "Value").text(ui.value / 10); },
+        change: function (event, ui) { }
+    });    
+}
 
 
 function validateAnswer() {
