@@ -47,7 +47,8 @@ function InitFeedbackSliders() {
     
     //Quality
     InitFeedbackSlider("Quality");
-    InitFeedbackSlider("Relevance");
+    InitFeedbackSlider("RelevancePersonal");
+    InitFeedbackSlider("RelevanceForAll");
 }
 
 function InitFeedbackSlider(sliderName) {
@@ -55,6 +56,11 @@ function InitFeedbackSlider(sliderName) {
     $("#remove" + sliderName + "Value").click(function () {
         $("#div" + sliderName + "Slider").hide();
         $("#div" + sliderName + "Add").show();
+    });
+
+    $("#select" + sliderName + "Value").click(function () {
+        $("#div" + sliderName + "Slider").show();
+        $("#div" + sliderName + "Add").hide();
     });
 
     $("#slider" + sliderName).slider({
