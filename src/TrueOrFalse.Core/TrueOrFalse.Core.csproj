@@ -87,6 +87,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq">
@@ -103,6 +104,10 @@
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategorySearch.cs" />
+    <Compile Include="Domain\Images\GetCategoryImageUrl.cs" />
+    <Compile Include="Domain\Images\GetImageUrl.cs" />
+    <Compile Include="Domain\Images\GetUserImageUrl.cs" />
+    <Compile Include="Domain\Images\StoreImages.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalsPerUserExt.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />

@@ -15,7 +15,7 @@
 </h2>
 
 
-<% using (Html.BeginForm())
+<% using (Html.BeginForm("Edit", "EditCategory", null,FormMethod.Post,new { enctype = "multipart/form-data" }))
    { %>
 
     <% Html.Message(Model.Message); %>
@@ -36,7 +36,9 @@
         <input id="txtNewRelatedCategory" />
         <a href="#" id="addRelatedCategory" style="display:none"><img alt="" src='/Images/Buttons/add.png' /></a>
     </div>
-    <label for="imageUpload">Bild:</label> <input type="file" name="imageUpload" />
+    <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" />
+    <label for="imageUpload">Bild:</label>
+    <input type="file" accept="image/*" name="file" id="file" />
     <br/><br/><br/>
     <label>&nbsp;</label>
     <%= Buttons.Submit("Speichern", inline:true)%>
