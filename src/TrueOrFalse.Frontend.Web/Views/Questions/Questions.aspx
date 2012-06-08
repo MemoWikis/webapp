@@ -98,11 +98,11 @@ div.question-row div.falsePercentage{ width: 35px;float: right;}
         <div class="control-group" style="margin-bottom: 8px;">
             <label><b>Mindestens</b>:</label>
             
-                <span class="help-inline">Relevanz von </span>
-                <input class="span1"/>
+            <span class="help-inline">Relevanz von </span>
+            <input class="span1"/>
                 
-                <span class="help-inline">Qualität von: </span>
-                <input class="span1"/>
+            <span class="help-inline">Qualität von: </span>
+            <input class="span1"/>
         </div>
         <div class="control-group" style="margin-bottom: 8px;">
             <label></label>

@@ -255,6 +255,7 @@
     <Content Include="Images\edit.png.licence.txt" />
     <Content Include="Images\menu-icon-person.png" />
     <Content Include="Images\menu-icon-person.png.licence.txt" />
+    <Content Include="Images\no-profile-picture-128.png" />
     <Content Include="Images\RowHeaderBackground.png" />
     <Content Include="Images\star.png" />
     <Content Include="Images\toflogo.png" />
@@ -370,6 +371,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Users\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

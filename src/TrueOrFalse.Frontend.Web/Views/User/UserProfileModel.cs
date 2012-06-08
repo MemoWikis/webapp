@@ -13,4 +13,8 @@ public class UserProfileModel : ModelBase
     }
 
     public string Name { get; private set; }
+
+    public string ImageUrl { get; set; }
+
+    public bool IsCurrentUserProfile;
 }
