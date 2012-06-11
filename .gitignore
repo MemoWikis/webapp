@@ -18,3 +18,4 @@ src/TrueOrFalse.Frontend.Web/TrueOrFalse.Frontend.Web.Publish.xml
 src/TrueOrFalse.Frontend.Web/Web.overwritten.config
 src/TrueOrFalse.Tests/App.overwritten.config
 docs/diagrams-enterprise-architect.ldb
+src/TrueOrFalse.Frontend.Web/Images/Categories/

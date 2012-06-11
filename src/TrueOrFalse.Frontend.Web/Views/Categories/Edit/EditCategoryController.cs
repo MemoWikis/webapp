@@ -27,15 +27,17 @@ public class EditCategoryController : Controller
 
     public ViewResult Edit(int id)
     {
-        var model = new EditCategoryModel(_categoryRepository.GetById(id))
+        var category = _categoryRepository.GetById(id);
+        var model = new EditCategoryModel(category)
                         {
-                            IsEditing = true
+                            IsEditing = true,
+                            ImageUrl = new GetCategoryImageUrl().Run(category)
                         };
         return View(_viewPath, model);
     }
 
     [HttpPost]
-    public ViewResult Edit(int id, EditCategoryModel model)
+    public ViewResult Edit(int id, EditCategoryModel model, HttpPostedFileBase file)
     {
         var category = _categoryRepository.GetById(id);
 
@@ -51,11 +53,12 @@ public class EditCategoryController : Controller
             model.UpdateCategory(category);
             _categoryRepository.Update(category);
         }
+        UpdateImage(file, id);
         return View(_viewPath, model);
     }
 
     [HttpPost]
-    public ViewResult Create(EditCategoryModel model)
+    public ViewResult Create(EditCategoryModel model, HttpPostedFileBase file)
     {
         var categoryExists = new EditCategoryModel_Category_Exists();
         if (categoryExists.Yes(model))
@@ -68,11 +71,18 @@ public class EditCategoryController : Controller
         else
         {
             model.FillReleatedCategoriesFromPostData(Request.Form);
-            _categoryRepository.Create(model.ConvertToCategory());
-
+            var category = model.ConvertToCategory();
+            _categoryRepository.Create(category);
+            UpdateImage(file, category.Id);
             model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));
         }
         return View(_viewPath, model);
+    }
+
+    private void  UpdateImage(HttpPostedFileBase file, int categoryId)
+    {
+        if (file == null) return;
+        new StoreImages().Run(file.InputStream, Server.MapPath("/Images/Categories/" + categoryId));
     }
 
 }
