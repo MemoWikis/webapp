@@ -44,7 +44,6 @@ $(function () {
 });
 
 function InitFeedbackSliders() {
-    
     //Quality
     InitFeedbackSlider("Quality");
     InitFeedbackSlider("RelevancePersonal");
@@ -68,10 +67,20 @@ function InitFeedbackSlider(sliderName) {
         max: 100,
         value: 30,
         slide: function (event, ui) { $("#slider" + sliderName + "Value").text(ui.value / 10); },
-        change: function (event, ui) { }
-    });    
+        change: function (event, ui) {
+            $.ajax({
+                type: 'POST',
+                url: "/Questions/SaveQuality/32/23",
+                cache: false,
+                success: function (result) {
+                    console.log(result);
+                    $("#span" + sliderName + "Count").text(result.totalValuations.toString());
+                    $("#span" + sliderName + "Average").text(result.totalAverage.toString());
+                }
+            });
+        }
+    });
 }
-
 
 function validateAnswer() {
 
@@ -104,9 +113,7 @@ function validateAnswer() {
     return false;
 }
 
-function updateAmountOfTries() {
-    
-}
+function updateAmountOfTries() {}
 
 function ajaxGetAnswer(onSuccessAction) {
     $.ajax({

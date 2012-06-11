@@ -148,7 +148,7 @@
                 <% foreach (var row in feebackRows){ %>
                     <div class="valRow row">
                         <div class="valColumn1 span3">
-                            <%= row.Title %>: <i class="icon-user"></i>&nbsp;<%= row.FeedbackCount %> Ø <%= row.FeedbackAverage %>
+                            <%= row.Title %>: <i class="icon-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
                         </div>
                         <div id="div<%= row.Key%>Slider" class="valColumn2 span2">
                             <div id="slider<%= row.Key %>" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
