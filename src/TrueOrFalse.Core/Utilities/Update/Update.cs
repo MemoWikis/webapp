@@ -14,7 +14,7 @@ namespace TrueOrFalse.Updates
         {
             _updateStepExecuter
                 .Add(2, UpdateToVs2.Run)
-                //.Add(3, UpdateToVs3.Run)
+                .Add(3, UpdateToVs3.Run)
                 .Run();
         }
 

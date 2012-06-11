@@ -10,7 +10,8 @@ namespace TrueOrFalse.Updates
     public class UpdateToVs2
     {
         public static void Run(){
-            ServiceLocator.Resolve<ExecuteSqlFile>().Run("Utilities/Update/Scripts/2-new-total-fields-tbl-question.sql");
+            ServiceLocator.Resolve<ExecuteSqlFile>().Run(
+                "Utilities/Update/Scripts/2-new-total-fields-tbl-question.sql");
         }
     }
 }

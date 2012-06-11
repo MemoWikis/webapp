@@ -7,7 +7,7 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core
 {
-    public class QuestionValuationRepository : RepositoryDb<Question> 
+    public class QuestionValuationRepository : RepositoryDb<QuestionValuation> 
     {
         public QuestionValuationRepository(ISession session) : base(session){}
     }

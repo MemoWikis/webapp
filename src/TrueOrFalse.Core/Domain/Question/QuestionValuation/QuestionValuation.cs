@@ -15,5 +15,9 @@ namespace TrueOrFalse.Core
         public virtual int RelevanceForAll { get; set; }
 
         public virtual DateTime DateCreated { get; set;  }
+
+        public virtual bool IsSetQuality(){ return false;}
+        public virtual bool IsSetRelevanceForAll(){ return false;}
+        public virtual bool IsSetRelevancePersonal() { return false; }
     }
 }
