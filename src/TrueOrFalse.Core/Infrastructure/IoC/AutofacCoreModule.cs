@@ -13,7 +13,8 @@ namespace TrueOrFalse.Core.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web")).AssignableTo<IRegisterAsInstancePerLifetime>();
+            builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
+                   .AssignableTo<IRegisterAsInstancePerLifetime>();
             
             var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse.Core");
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();

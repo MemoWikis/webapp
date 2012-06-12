@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using NHibernate;
 using TrueOrFalse.Core;
-using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Tests
 {
@@ -9,8 +8,7 @@ namespace TrueOrFalse.Tests
     {
         private readonly ISession _session;
 
-        public CategorySearch(ISession session)
-        {
+        public CategorySearch(ISession session){
             _session = session;
         }
 
