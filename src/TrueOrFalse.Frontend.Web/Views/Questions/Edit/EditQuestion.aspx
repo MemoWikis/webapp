@@ -66,8 +66,8 @@
                 <script type="text/javascript">
                     $(function() {
                         <%foreach (var category in Model.Categories) { %>
-                            $("#txtNewRelatedCategory").val('<%=category %>');
-                            $("#addRelatedCategory").click();
+                        $("#txtNewRelatedCategory").val('<%=category %>');
+                        $("#addRelatedCategory").click();
                         <% } %>
                     });
                 </script>
@@ -92,8 +92,29 @@
                 <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%> 
             </div>
         </div>
-            
-        <% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>
+        
+        <div id="question-body"></div>
+        
+        <script type="text/javascript">
+            $("#ddlAnswerType").change(function () {
+                var selectedValue = $(this).val();
+                $.ajax({
+                    url: '<%=Url.Action("QuestionBody") %>?type=' + selectedValue,
+                    type: 'GET',
+                    beforeSend: function () {
+                        //some loading indicator
+                    },
+                    success: function (data) {
+                        $("#question-body").html(data);
+                    },
+                    error: function (data) {
+                        //handle error
+                    }
+                });
+            });
+        </script>
+
+        <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>
 
         <p class="help-block help-text">
             Je ausführlicher die Erklärung, desto besser!<br/>

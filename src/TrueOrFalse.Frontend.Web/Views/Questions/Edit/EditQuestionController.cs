@@ -10,6 +10,7 @@ public class EditQuestionController : Controller
     private readonly QuestionRepository _questionRepository;
     private readonly SessionUser _sessionUser;
     private const string _viewLocation = "~/Views/Questions/Edit/EditQuestion.aspx";
+    private const string _viewLocationBody = "~/Views/Questions/Edit/EditAnswerControls/AnswerType{0}.ascx";
 
     public EditQuestionController(QuestionRepository questionRepository,
                                   SessionUser sessionUser)
@@ -79,10 +80,13 @@ public class EditQuestionController : Controller
                 "Klicke <a href=\"{1}\">hier</a>, um Kategorien anzulegen.",
                 missingCategory,
                 Url.Action("Create", "EditCategory", new { name = missingCategory })));
-
-            View(_viewLocation, model);
         }
 
         return View(_viewLocation, resultModel);
+    }
+
+    public ActionResult QuestionBody(QuestionSolutionType type)
+    {
+        return View(string.Format(_viewLocationBody, type));
     }
 }

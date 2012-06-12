@@ -20,7 +20,8 @@ namespace TrueOrFalse.View.Web.Views.Api
                                    {
                                        id = u.Id,
                                        name = u.Name,
-                                       numberOfQuestions = "14"
+                                       numberOfQuestions = "?",
+                                       imageUrl = string.Format(new GetUserImageUrl().Run(u), 50)
                                    }, JsonRequestBehavior.AllowGet);
         }
 
