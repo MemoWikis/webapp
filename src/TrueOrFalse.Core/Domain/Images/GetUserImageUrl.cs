@@ -1,15 +1,22 @@
+using System;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
 using TrueOrFalse.Core;
 
-public class GetUserImageUrl : GetImageUrl
-    {
-    public string Run(User user)
-    {
-        return Run(user.Id);
-    }
+public class GetUserImageUrl : GetImageUrl<User>
+{
 
-    protected override string PlaceholderImage
+    protected override string GetFallbackImage(User user)
     {
-        get { return "/Images/no-profile-picture-{0}.png"; }
+        var sanitizedEmailAdress = user.EmailAddress.Trim().ToLowerInvariant();
+        var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
+        return "http://www.gravatar.com/avatar/" + 
+                BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant() + "?s={0}&d=" +
+                Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" + 
+                                     HttpContext.Current.Request.Url.Authority + 
+                                     HttpContext.Current.Request.ApplicationPath + 
+                                     "Images/no-profile-picture-") + "{0}.png";
     }
 
     protected override string RelativePath

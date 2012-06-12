@@ -1,15 +1,12 @@
+using System.Web;
+using System.Web.Mvc;
 using TrueOrFalse.Core;
 
-public class GetCategoryImageUrl : GetImageUrl
+public class GetCategoryImageUrl : GetImageUrl<Category>
 {
-    public string Run(Category category)
+    protected override string GetFallbackImage(Category category)
     {
-        return Run(category.Id);
-    }
-
-    protected override string PlaceholderImage
-    {
-        get { return "/Images/no-category-picture-{0}.png"; }
+        return "/Images/no-category-picture-{0}.png";
     }
 
     protected override string RelativePath

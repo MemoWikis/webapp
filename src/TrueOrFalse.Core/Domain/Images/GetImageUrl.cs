@@ -1,22 +1,26 @@
 using System.IO;
 using System.Linq;
 using System.Web;
+using Seedworks.Lib.Persistence;
 
-public abstract class GetImageUrl
+public abstract class GetImageUrl<T> where T: IPersistable
 {
-    protected abstract string PlaceholderImage { get; }
+    
     protected abstract string RelativePath { get; }
 
-    protected string Run(int id)
+    public string Run(T entity)
     {
         var serverPath = HttpContext.Current.Server.MapPath(RelativePath);
-        if (Directory.GetFiles(serverPath, string.Format("{0}_*.jpg", id)).Any())
+        if (Directory.GetFiles(serverPath, string.Format("{0}_*.jpg", entity.Id)).Any())
         {
-            return RelativePath + id + "_{0}.jpg";
+            return RelativePath + entity.Id + "_{0}.jpg";
         }
         else
         {
-            return PlaceholderImage;
+            return GetFallbackImage(entity);
         }
     }
+
+    protected abstract string GetFallbackImage(T entity);
+
 }

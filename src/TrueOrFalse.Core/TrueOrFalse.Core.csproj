@@ -110,8 +110,6 @@
     <Compile Include="Domain\Images\GetImageUrl.cs" />
     <Compile Include="Domain\Images\GetUserImageUrl.cs" />
     <Compile Include="Domain\Images\StoreImages.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalsPerUserExt.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Persistence\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
@@ -243,6 +241,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\" />
     <Folder Include="Domain\Question\QuestionValuation\Ops\" />
   </ItemGroup>
   <ItemGroup>
