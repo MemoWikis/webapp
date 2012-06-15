@@ -99,7 +99,7 @@
             $("#ddlAnswerType").change(function () {
                 var selectedValue = $(this).val();
                 $.ajax({
-                    url: '<%=Url.Action("QuestionBody") %>?type=' + selectedValue,
+                    url: '<%=Url.Action("SolutionEditBody") %>?type=' + selectedValue,
                     type: 'GET',
                     beforeSend: function () {
                         //some loading indicator
