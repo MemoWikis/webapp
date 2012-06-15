@@ -59,7 +59,7 @@ public class EditQuestionModel : ModelBase
                             new SelectListItem {Text = "Annäherung", Value = QuestionSolutionType.Approximation.ToString()},
                             new SelectListItem {Text = "Multiple Choice", Value = QuestionSolutionType.MultipleChoice.ToString()},
                             new SelectListItem {Text = "Vokable", Value = QuestionSolutionType.Vocable.ToString()},
-                            
+                            new SelectListItem {Text = "Sequenz", Value = QuestionSolutionType.Sequence.ToString()},
                         };
         }
     }

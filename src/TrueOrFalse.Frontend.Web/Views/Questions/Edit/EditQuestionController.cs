@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Core.Web;
@@ -85,8 +86,22 @@ public class EditQuestionController : Controller
         return View(_viewLocation, resultModel);
     }
 
-    public ActionResult QuestionBody(QuestionSolutionType type)
+    public ActionResult SolutionEditBody(int? id, QuestionSolutionType type)
     {
-        return View(string.Format(_viewLocationBody, type));
+        object model = null;
+
+        if (id.HasValue)
+        {
+            var question = _questionRepository.GetById(id.Value);
+            switch (type)
+            {
+                case QuestionSolutionType.Sequence:
+                    var serializer = new JavaScriptSerializer();
+                    model = serializer.Deserialize<AnswerTypeSequenceModel>(question.Solution);
+                    break;
+            }
+        }
+
+        return View(string.Format(_viewLocationBody, type), model);
     }
 }
