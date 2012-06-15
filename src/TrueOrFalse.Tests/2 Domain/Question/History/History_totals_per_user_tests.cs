@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using TrueOrFalse.Core;
 
-namespace TrueOrFalse.Tests._2_Domain.Question.History
+namespace TrueOrFalse.Tests
 {
     public class History_totals_per_user_tests : BaseTest
     {

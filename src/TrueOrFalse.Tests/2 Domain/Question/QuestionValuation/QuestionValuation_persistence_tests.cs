@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using TrueOrFalse.Core;
 
-namespace TrueOrFalse.Tests.Persistence
+namespace TrueOrFalse.Tests
 {
     [Category(TestCategories.Programmer)]
     public class QestionValuation_persistence_tests : BaseTest

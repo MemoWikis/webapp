@@ -114,6 +114,7 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Persistence\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\UpdateQuestionTotals.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepository.cs" />
     <Compile Include="Domain\Question\QuestionValuation\QuestionValuation.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationMap.cs" />
@@ -242,7 +243,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\" />
-    <Folder Include="Domain\Question\QuestionValuation\Ops\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utilities\Update\Scripts\1-create-setting-tbl.sql">
