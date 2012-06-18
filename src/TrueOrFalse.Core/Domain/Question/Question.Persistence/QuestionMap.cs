@@ -23,6 +23,7 @@ namespace TrueOrFalse.Core
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
             Map(x => x.Solution);
+            Map(x => x.SolutionType);
             HasManyToMany(x => x.Categories).Table("CategoriesToQuestions").Cascade.All();
         }
     }

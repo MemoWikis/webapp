@@ -60,6 +60,17 @@ public class EditQuestionController : Controller
         if (editQuestionModelCategoriesExist.Yes(model))
         {
             var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model);
+
+            switch (question.SolutionType)
+            {
+                case QuestionSolutionType.Sequence:
+                    var solutionModel = new AnswerTypeSequenceModel();
+                    solutionModel.FillFromPostData(Request.Form);
+                    var serializer = new JavaScriptSerializer();
+                    question.Solution = serializer.Serialize(solutionModel);
+                    break;
+            }
+
             question.Creator = _sessionUser.User;
             _questionRepository.Create(question);
             resultModel.Message = new SuccessMessage(string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Nun wird eine <b>neue</b> Frage erstellt.", question.Text.TruncateAtWord(30)));
@@ -86,13 +97,13 @@ public class EditQuestionController : Controller
         return View(_viewLocation, resultModel);
     }
 
-    public ActionResult SolutionEditBody(int? id, QuestionSolutionType type)
+    public ActionResult SolutionEditBody(int? questionId, QuestionSolutionType type)
     {
         object model = null;
 
-        if (id.HasValue)
+        if (questionId.HasValue)
         {
-            var question = _questionRepository.GetById(id.Value);
+            var question = _questionRepository.GetById(questionId.Value);
             switch (type)
             {
                 case QuestionSolutionType.Sequence:

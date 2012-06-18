@@ -26,6 +26,7 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         }
 
         question.Solution = model.Solution;
+        question.SolutionType = (QuestionSolutionType) Enum.Parse(typeof(QuestionSolutionType), model.SolutionType);
         return question;
     }
 
