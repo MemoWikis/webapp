@@ -38,6 +38,8 @@ public class EditQuestionModel : ModelBase
     [DisplayName("Charakter")]
     public string Character { get; set; }
 
+    public int? Id;
+
     public IEnumerable<String> Categories = new List<string>();
     
     public string PageTitle;
@@ -80,9 +82,10 @@ public class EditQuestionModel : ModelBase
 
     public EditQuestionModel(Question question)
     {
+        Id = question.Id;
         Question = question.Text;
         Solution = question.Solution;
-        SolutionType = question.QuestionSolutionType.ToString();
+        SolutionType = question.SolutionType.ToString();
         Description = question.Description;
         Categories = (from cat in question.Categories select cat.Name).ToList();
         
