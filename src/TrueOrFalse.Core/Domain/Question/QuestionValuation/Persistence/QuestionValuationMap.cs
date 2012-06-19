@@ -11,7 +11,7 @@ namespace TrueOrFalse.Core
             Map(x => x.QuestionId);
 
             Map(x => x.Quality);
-            Map(x => x.RelevancePesonal);
+            Map(x => x.RelevancePersonal);
             Map(x => x.RelevanceForAll);
 
             Map(x => x.DateCreated);

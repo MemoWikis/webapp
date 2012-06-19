@@ -53,5 +53,13 @@ namespace TrueOrFalse.Core
             return Convert.ToInt32(((decimal)TotalFalseAnswers / (decimal)TotalAnswers()) * 100);
         }
 
+        public virtual int TotalQualityAvg { get; set; }
+        public virtual int TotalQualityEntries { get; set; }
+
+        public virtual int TotalRelevanceForAllAvg { get; set; }
+        public virtual int TotalRelevanceForAllEntries { get; set; }
+
+        public virtual int TotalRelevancePersonalAvg { get; set; }
+        public virtual int TotalRelevancePersonalEntries { get; set; }
     }
 }

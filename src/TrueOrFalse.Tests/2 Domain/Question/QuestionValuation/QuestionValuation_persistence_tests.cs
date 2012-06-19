@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using TrueOrFalse.Core;
 
-namespace TrueOrFalse.Tests.Persistence
+namespace TrueOrFalse.Tests
 {
     [Category(TestCategories.Programmer)]
     public class QestionValuation_persistence_tests : BaseTest
@@ -20,7 +16,7 @@ namespace TrueOrFalse.Tests.Persistence
                     UserId = 1,
                     Quality = 91,
                     RelevanceForAll = 40,
-                    RelevancePesonal = 7
+                    RelevancePersonal = 7
                 };
 
             Resolve<QuestionValuationRepository>().Create(questionValuation);
