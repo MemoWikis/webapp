@@ -12,7 +12,7 @@ namespace TrueOrFalse.Core
         public virtual string Solution { get; set; }
         public virtual IList<Category> Categories { get; set; }
         public virtual QuestionVisibility Visibility { get; set; }
-        public virtual QuestionSolutionType QuestionSolutionType { get; set; }
+        public virtual QuestionSolutionType SolutionType { get; set; }
         public virtual User Creator { get; set; }
 
         private int _totalTrueAnswers;

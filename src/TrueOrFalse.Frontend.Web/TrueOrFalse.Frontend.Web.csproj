@@ -140,6 +140,7 @@
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
+    <Compile Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeMulitpleChoiceModel.cs" />
     <Compile Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeSequenceModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />

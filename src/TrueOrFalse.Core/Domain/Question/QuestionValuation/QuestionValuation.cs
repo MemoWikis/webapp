@@ -11,19 +11,19 @@ namespace TrueOrFalse.Core
         public virtual int QuestionId { get; set; }
 
         public virtual int Quality { get; set; }
-        public virtual int RelevancePesonal { get; set; }
+        public virtual int RelevancePersonal { get; set; }
         public virtual int RelevanceForAll { get; set; }
 
         public virtual DateTime DateCreated { get; set;  }
 
         public virtual bool IsSetQuality(){ return Quality != -1;}
         public virtual bool IsSetRelevanceForAll(){ return RelevanceForAll != -1;}
-        public virtual bool IsSetRelevancePersonal() { return RelevancePesonal != -1; }
+        public virtual bool IsSetRelevancePersonal() { return RelevancePersonal != -1; }
 
         public QuestionValuation()
         {
             Quality = -1;
-            RelevancePesonal = - 1;
+            RelevancePersonal = - 1;
             RelevanceForAll = -1;
         }
     }

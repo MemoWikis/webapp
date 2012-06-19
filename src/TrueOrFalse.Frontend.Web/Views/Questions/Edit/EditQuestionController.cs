@@ -41,9 +41,10 @@ public class EditQuestionController : Controller
     [HttpPost]
     public ActionResult Edit(int id, EditQuestionModel model)
     {
+        model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
         model.SetToUpdateModel();
-        _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model, _questionRepository.GetById(id)));
+        _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model, _questionRepository.GetById(id), Request.Form));
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);
@@ -59,7 +60,8 @@ public class EditQuestionController : Controller
         var editQuestionModelCategoriesExist = ServiceLocator.Resolve<EditQuestionModel_Categories_Exist>();
         if (editQuestionModelCategoriesExist.Yes(model))
         {
-            var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model);
+            var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
+
             question.Creator = _sessionUser.User;
             _questionRepository.Create(question);
             resultModel.Message = new SuccessMessage(string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Nun wird eine <b>neue</b> Frage erstellt.", question.Text.TruncateAtWord(30)));
@@ -86,18 +88,23 @@ public class EditQuestionController : Controller
         return View(_viewLocation, resultModel);
     }
 
-    public ActionResult SolutionEditBody(int? id, QuestionSolutionType type)
+    public ActionResult SolutionEditBody(int? questionId, QuestionSolutionType type)
     {
         object model = null;
 
-        if (id.HasValue)
+        if (questionId.HasValue)
         {
-            var question = _questionRepository.GetById(id.Value);
+            var question = _questionRepository.GetById(questionId.Value);
+            var serializer = new JavaScriptSerializer();
+
             switch (type)
             {
                 case QuestionSolutionType.Sequence:
-                    var serializer = new JavaScriptSerializer();
                     model = serializer.Deserialize<AnswerTypeSequenceModel>(question.Solution);
+                    break;
+
+                case QuestionSolutionType.MultipleChoice:
+                    model = serializer.Deserialize<AnswerTypeMulitpleChoiceModel>(question.Solution);
                     break;
             }
         }

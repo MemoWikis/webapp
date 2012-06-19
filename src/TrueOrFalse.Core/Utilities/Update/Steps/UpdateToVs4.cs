@@ -7,10 +7,12 @@ using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs3
+    public class UpdateToVs4
     {
         public static void Run()
         {
+            ServiceLocator.Resolve<ExecuteSqlFile>().Run(
+              "Utilities/Update/Scripts/3-new-total-fields-tbl-question.sql");
         }
     }
 }

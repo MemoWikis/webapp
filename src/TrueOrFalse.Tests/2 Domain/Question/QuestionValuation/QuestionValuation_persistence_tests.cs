@@ -16,7 +16,7 @@ namespace TrueOrFalse.Tests
                     UserId = 1,
                     Quality = 91,
                     RelevanceForAll = 40,
-                    RelevancePesonal = 7
+                    RelevancePersonal = 7
                 };
 
             Resolve<QuestionValuationRepository>().Create(questionValuation);
