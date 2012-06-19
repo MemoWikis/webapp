@@ -95,11 +95,16 @@ public class EditQuestionController : Controller
         if (questionId.HasValue)
         {
             var question = _questionRepository.GetById(questionId.Value);
+            var serializer = new JavaScriptSerializer();
+
             switch (type)
             {
                 case QuestionSolutionType.Sequence:
-                    var serializer = new JavaScriptSerializer();
                     model = serializer.Deserialize<AnswerTypeSequenceModel>(question.Solution);
+                    break;
+
+                case QuestionSolutionType.MultipleChoice:
+                    model = serializer.Deserialize<AnswerTypeMulitpleChoiceModel>(question.Solution);
                     break;
             }
         }

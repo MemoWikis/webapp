@@ -30,13 +30,19 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         question.Solution = model.Solution;
         question.SolutionType = (QuestionSolutionType) Enum.Parse(typeof(QuestionSolutionType), model.SolutionType);
 
+        var serializer = new JavaScriptSerializer();
         switch (question.SolutionType)
         {
             case QuestionSolutionType.Sequence:
-                var solutionModel = new AnswerTypeSequenceModel();
-                solutionModel.FillFromPostData(postData);
-                var serializer = new JavaScriptSerializer();
-                question.Solution = serializer.Serialize(solutionModel);
+                var solutionModel1 = new AnswerTypeSequenceModel();
+                solutionModel1.FillFromPostData(postData);
+                question.Solution = serializer.Serialize(solutionModel1);
+                break;
+
+            case QuestionSolutionType.MultipleChoice:
+                var solutionModel2 = new AnswerTypeMulitpleChoiceModel();
+                solutionModel2.FillFromPostData(postData);
+                question.Solution = serializer.Serialize(solutionModel2);
                 break;
         }
 
