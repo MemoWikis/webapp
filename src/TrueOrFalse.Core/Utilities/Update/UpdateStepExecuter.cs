@@ -34,9 +34,7 @@ namespace TrueOrFalse.Updates
             var dbSettings = _dbSettingsRepository.Get();
 
             foreach (var dictionaryItem in _actions)
-                if (dbSettings.AppVersion > dictionaryItem.Key)
-                    return;
-                else
+                if (dbSettings.AppVersion < dictionaryItem.Key)
                 {
                     Log.TraceInformation(String.Format("update to {0} - START", dictionaryItem.Key));
                     dictionaryItem.Value();

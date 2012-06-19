@@ -191,7 +191,12 @@
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
+    <Content Include="Utilities\Update\Scripts\5-new-total-field-tbl-question.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs4.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs5.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs3.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs2.cs" />
@@ -253,7 +258,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Update\Scripts\3-new-table-questionValuation.sql" />
-    <Content Include="Utilities\Update\Scripts\4-new-column-solutiontype.sql" />
+    <Content Include="Utilities\Update\Scripts\4-new-column-solutiontype.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
