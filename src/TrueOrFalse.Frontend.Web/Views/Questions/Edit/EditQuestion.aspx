@@ -96,22 +96,24 @@
         <div id="question-body"></div>
         
         <script type="text/javascript">
-            $("#ddlAnswerType").change(function () {
-                var selectedValue = $(this).val();
+            function updateSolutionBody() {
+                var selectedValue = $("#ddlAnswerType").val();
                 $.ajax({
                     url: '<%=Url.Action("SolutionEditBody") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
                     type: 'GET',
-                    beforeSend: function () {
+                    beforeSend: function() {
                         //some loading indicator
                     },
-                    success: function (data) {
+                    success: function(data) {
                         $("#question-body").html(data);
                     },
-                    error: function (data) {
+                    error: function(data) {
                         //handle error
                     }
                 });
-            });
+            }
+            $("#ddlAnswerType").change(updateSolutionBody);
+            updateSolutionBody();
         </script>
 
         <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>

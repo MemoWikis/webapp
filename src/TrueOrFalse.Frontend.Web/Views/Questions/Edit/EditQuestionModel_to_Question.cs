@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using TrueOrFalse.Core;
 
 public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
 {
-    public Question Create(EditQuestionModel model)
+    public Question Create(EditQuestionModel model, NameValueCollection postData)
     {
         var question = new Question();
-        return Update(model, question);
+        return Update(model, question, postData);
     }
 
 
-    public Question Update(EditQuestionModel model, Question question)
+    public Question Update(EditQuestionModel model, Question question, NameValueCollection postData)
     {
         question.Text = model.Question;
         question.Description = model.Description;
@@ -27,6 +29,17 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
 
         question.Solution = model.Solution;
         question.SolutionType = (QuestionSolutionType) Enum.Parse(typeof(QuestionSolutionType), model.SolutionType);
+
+        switch (question.SolutionType)
+        {
+            case QuestionSolutionType.Sequence:
+                var solutionModel = new AnswerTypeSequenceModel();
+                solutionModel.FillFromPostData(postData);
+                var serializer = new JavaScriptSerializer();
+                question.Solution = serializer.Serialize(solutionModel);
+                break;
+        }
+
         return question;
     }
 

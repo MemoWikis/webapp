@@ -41,9 +41,10 @@ public class EditQuestionController : Controller
     [HttpPost]
     public ActionResult Edit(int id, EditQuestionModel model)
     {
+        model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
         model.SetToUpdateModel();
-        _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model, _questionRepository.GetById(id)));
+        _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model, _questionRepository.GetById(id), Request.Form));
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);
@@ -59,17 +60,7 @@ public class EditQuestionController : Controller
         var editQuestionModelCategoriesExist = ServiceLocator.Resolve<EditQuestionModel_Categories_Exist>();
         if (editQuestionModelCategoriesExist.Yes(model))
         {
-            var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model);
-
-            switch (question.SolutionType)
-            {
-                case QuestionSolutionType.Sequence:
-                    var solutionModel = new AnswerTypeSequenceModel();
-                    solutionModel.FillFromPostData(Request.Form);
-                    var serializer = new JavaScriptSerializer();
-                    question.Solution = serializer.Serialize(solutionModel);
-                    break;
-            }
+            var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
 
             question.Creator = _sessionUser.User;
             _questionRepository.Create(question);
