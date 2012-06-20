@@ -24,19 +24,39 @@ namespace TrueOrFalse.Core
 
             var sb = new StringBuilder();
 
-            sb.Append(GenerateAvgQuery("TotalQualityAvg", "Quality", questionValuation.QuestionId, questionValuation.UserId));
-            sb.Append(GenerateAvgQuery("TotalRelevanceForAllAvg", "RelevanceForAll", questionValuation.QuestionId, questionValuation.UserId));
-            sb.Append(GenerateAvgQuery("TotalRelevancePersonalAvg", "RelevancePersonal", questionValuation.QuestionId, questionValuation.UserId));
-
-            sb.Append(GenerateEntriesQuery("TotalQualityEntries", "Quality", questionValuation.QuestionId, questionValuation.UserId));
-            sb.Append(GenerateEntriesQuery("TotalRelevanceForAllEntries", "RelevanceForAll", questionValuation.QuestionId, questionValuation.UserId));
+            sb.Append(GenerateQualityQuery(questionValuation.QuestionId, questionValuation.UserId));
+            sb.Append(GenerateRelevanceAllQuery(questionValuation.QuestionId, questionValuation.UserId));
+            
+            sb.Append(GenerateAvgQuery("TotalRelevancePersonalAvg", "RelevancePersonal", questionValuation.QuestionId, questionValuation.UserId));    
             sb.Append(GenerateEntriesQuery("TotalRelevancePersonalEntries", "RelevancePersonal", questionValuation.QuestionId, questionValuation.UserId));
 
             _session.CreateSQLQuery(sb.ToString()).ExecuteUpdate();
             _session.Flush();
         }
+        
+        public void UpdateQuality(int questionId, int userId)
+        {
+            var questionValuation = _questionValuationRepository.GetBy(questionId, 99);
 
-        public string GenerateAvgQuery(string fieldToSet, string fieldSource, int questionId, int userId)
+            _session.CreateSQLQuery(GenerateQualityQuery(questionId, userId)).ExecuteUpdate();
+            _session.Flush();
+        }
+
+        private string GenerateQualityQuery(int questionId, int userId)
+        {
+            return 
+             GenerateAvgQuery("TotalQualityAvg", "Quality", questionId, userId) + " " +
+             GenerateEntriesQuery("TotalQualityEntries", "Quality", questionId, userId);
+        }
+
+        private string GenerateRelevanceAllQuery(int questionId, int userId)
+        {
+            return 
+                GenerateAvgQuery("TotalRelevanceForAllAvg", "RelevanceForAll", questionId, userId) + " " +
+                GenerateEntriesQuery("TotalRelevanceForAllEntries", "RelevanceForAll", questionId, userId);
+        }
+
+        private string GenerateAvgQuery(string fieldToSet, string fieldSource, int questionId, int userId)
         {
             return String.Format("UPDATE Question SET {0} = " +
                                    "(SELECT SUM({1}) FROM QuestionValuation " +
@@ -44,12 +64,13 @@ namespace TrueOrFalse.Core
                                  "WHERE Id = "+ questionId + ";", fieldToSet, fieldSource, fieldSource);
         }
 
-        public string GenerateEntriesQuery(string fieldToSet, string fieldSource, int questionId, int userId)
+        private string GenerateEntriesQuery(string fieldToSet, string fieldSource, int questionId, int userId)
         {
             return String.Format("UPDATE Question SET {0} = " +
                                    "(SELECT COUNT(Id) FROM QuestionValuation " +
                                    "WHERE UserId = " + userId + " AND QuestionId = " + questionId + " AND {2} != -1) " +
                                  "WHERE Id = "+ questionId + ";", fieldToSet, fieldSource, fieldSource);
         }
+
     }
 }

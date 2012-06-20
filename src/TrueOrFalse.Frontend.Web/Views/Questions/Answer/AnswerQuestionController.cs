@@ -72,6 +72,8 @@ public class AnswerQuestionController : Controller
     [HttpPost]
     public JsonResult SaveQuality(int id, int newValue)
     {
+        Sl.Resolve<UpdateQuestionTotals>()
+            .UpdateQuality(id, _sessionUser.User.Id);
         return new JsonResult {Data = new {totalValuations = 1000, totalAverage = 10}};
     }
 
