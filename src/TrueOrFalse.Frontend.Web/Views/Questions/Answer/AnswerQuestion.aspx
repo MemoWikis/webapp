@@ -103,6 +103,7 @@
                 <script language="c#" runat="server">
                     public class FeedbackRow
                     {
+                        public string Key;
                         public string Title;
                         public string FeedbackCount;
                         public string FeedbackAverage;
@@ -115,6 +116,7 @@
                     var feebackRows = new List<FeedbackRow>();
                     feebackRows.Add(new FeedbackRow
                     {
+                        Key = "Quality",
                         Title = "Qualität", 
                         FeedbackAverage = "7,6",
                         FeedbackCount = "3216",
@@ -124,6 +126,7 @@
 
                     feebackRows.Add(new FeedbackRow
                     {
+                        Key = "RelevancePersonal",
                         Title = "Relevanz für mich",
                         FeedbackAverage = "2,5",
                         FeedbackCount = "430",
@@ -133,6 +136,7 @@
                     
                     feebackRows.Add(new FeedbackRow
                     {
+                        Key = "RelevanceForAll",
                         Title = "Sollte jeder wissen",
                         FeedbackAverage = "9,8",
                         FeedbackCount = "417",
@@ -141,53 +145,26 @@
                     });                    
                  %>
                 
-                <% foreach (var feedbackRow in feebackRows){ %>
-                
+                <% foreach (var row in feebackRows){ %>
+                    <div class="valRow row">
+                        <div class="valColumn1 span3">
+                            <%= row.Title %>: <i class="icon-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
+                        </div>
+                        <div id="div<%= row.Key%>Slider" class="valColumn2 span2">
+                            <div id="slider<%= row.Key %>" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+                                <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+                            </div>                        
+                            <a href="#" id="remove<%= row.Key %>Value"><img src="/Images/delete.png" class="imgDelete"></a>
+                            <span id="slider<%= row.Key %>Value" class="valMine">4.9</span>
+                        </div>
+                    
+                        <div id="div<%= row.Key %>Add" class="valColumn2 span2" style="display: none">
+                            <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="icon-plus"></i> ---</a>
+                        </div>
+                    </div>
                 <%} %>
-                <div class="valRow row">
-                    <div class="valColumn1 span3">
-                        Qualität: <i class="icon-user"></i>&nbsp;3210 Ø 7,6
-                    </div>
-                    <div id="divQualitySlider" class="valColumn2 span2">
-                        <div id="sliderQuality" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-                            <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-                            <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-                        </div>                        
-                        <a href="#" id="removeQualityValue"><img src="/Images/delete.png" class="imgDelete"></a>
-                        <span id="sliderQualityValue" class="valMine">4.9</span>
-                    </div>
-                    
-                    <div id="divQualityAdd" class="valColumn2 span2" style="display: none">
-                        <a href="#">- Einschätzung hinzfügen <i class="icon-plus"></i> ---</a>
-                    </div>
-                </div>
-                
-                <div class="valRow row">
-                    <div class="valColumn1 span3">
-                        Relevanz für mich: <i class="icon-user"></i>&nbsp;430 Ø 2,5
-                    </div>
-                    <div id="divSliderRelevance" class="valColumn2 span2">
-                        <div id="sliderRelevance" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-                            <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-                            <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" ></a>
-                        </div>                        
-                        <a href="#" id="removeRelevance"><img src="/Images/delete.png" class="imgDelete"></a>
-                        <span id="sliderRelevanceValue" class="valMine">4.9</span>
-                    </div>
-                    
-                    <div id="divRelevanceAdd" class="valColumn2 span2" style="display: none">
-                        <a href="#">- Einschätzung hinzfügen <i class="icon-plus"></i> ---</a>
-                    </div>
-                </div>
 
-                <div class="valRow row">
-                    <div class="valColumn1 span3">
-                        Sollte jeder wissen: <i class="icon-user"></i>&nbsp;417 Ø 9,8
-                    </div>
-                    <div class="valColumn2 span2">
-                        <a href="#">- Einschätzung hinzfügen <i class="icon-plus"></i> ---</a>
-                    </div>
-                </div>
             </div>
             
             <div class="row" style="margin-top: 17px; width: 400px;">

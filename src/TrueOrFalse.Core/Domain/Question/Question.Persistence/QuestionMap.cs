@@ -20,9 +20,20 @@ namespace TrueOrFalse.Core
             Map(x => x.TotalTrueAnswers);
             Map(x => x.TotalFalseAnswers);
 
+            Map(x => x.TotalQualityAvg);
+            Map(x => x.TotalQualityEntries);
+            
+            Map(x => x.TotalRelevanceForAllAvg);
+            Map(x => x.TotalRelevanceForAllEntries);
+            
+            Map(x => x.TotalRelevancePersonalAvg);
+            Map(x => x.TotalRelevancePersonalEntries);
+            
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
+            
             Map(x => x.Solution);
+            Map(x => x.SolutionType);
             HasManyToMany(x => x.Categories).Table("CategoriesToQuestions").Cascade.All();
         }
     }

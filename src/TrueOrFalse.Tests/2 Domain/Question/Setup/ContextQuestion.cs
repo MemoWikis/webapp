@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TrueOrFalse.Core;
-using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Tests
 {
@@ -38,12 +35,12 @@ namespace TrueOrFalse.Tests
         public ContextQuestion AddCategory(string categoryName)
         {
             Category category;
-            if (!_categoryRepository.Exists(categoryName))
+            if (_categoryRepository.Exists(categoryName))
                 category = _categoryRepository.GetByName(categoryName);
             else
             {
                 category = new Category(categoryName);
-                _categoryRepository.Create(new Category(categoryName));
+                _categoryRepository.Create(category);
             }
 
             Questions.Last().Categories.Add(category);

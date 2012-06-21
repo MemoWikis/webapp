@@ -12,7 +12,7 @@ namespace TrueOrFalse.Core
         public virtual string Solution { get; set; }
         public virtual IList<Category> Categories { get; set; }
         public virtual QuestionVisibility Visibility { get; set; }
-        public virtual QuestionSolutionType QuestionSolutionType { get; set; }
+        public virtual QuestionSolutionType SolutionType { get; set; }
         public virtual User Creator { get; set; }
 
         private int _totalTrueAnswers;
@@ -53,5 +53,13 @@ namespace TrueOrFalse.Core
             return Convert.ToInt32(((decimal)TotalFalseAnswers / (decimal)TotalAnswers()) * 100);
         }
 
+        public virtual int TotalQualityAvg { get; set; }
+        public virtual int TotalQualityEntries { get; set; }
+
+        public virtual int TotalRelevanceForAllAvg { get; set; }
+        public virtual int TotalRelevanceForAllEntries { get; set; }
+
+        public virtual int TotalRelevancePersonalAvg { get; set; }
+        public virtual int TotalRelevancePersonalEntries { get; set; }
     }
 }

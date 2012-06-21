@@ -66,8 +66,8 @@
                 <script type="text/javascript">
                     $(function() {
                         <%foreach (var category in Model.Categories) { %>
-                            $("#txtNewRelatedCategory").val('<%=category %>');
-                            $("#addRelatedCategory").click();
+                        $("#txtNewRelatedCategory").val('<%=category %>');
+                        $("#addRelatedCategory").click();
                         <% } %>
                     });
                 </script>
@@ -92,8 +92,31 @@
                 <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%> 
             </div>
         </div>
-            
-        <% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>
+        
+        <div id="question-body"></div>
+        
+        <script type="text/javascript">
+            function updateSolutionBody() {
+                var selectedValue = $("#ddlAnswerType").val();
+                $.ajax({
+                    url: '<%=Url.Action("SolutionEditBody") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
+                    type: 'GET',
+                    beforeSend: function() {
+                        //some loading indicator
+                    },
+                    success: function(data) {
+                        $("#question-body").html(data);
+                    },
+                    error: function(data) {
+                        //handle error
+                    }
+                });
+            }
+            $("#ddlAnswerType").change(updateSolutionBody);
+            updateSolutionBody();
+        </script>
+
+        <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>
 
         <p class="help-block help-text">
             Je ausführlicher die Erklärung, desto besser!<br/>
@@ -108,9 +131,9 @@
         </div>
             
         <div class="form-actions">
-            <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />&nbsp;&nbsp;&nbsp;
+            <input type="submit" value="Speichern" class="btn" name="btnSave <% if(!Model.ShowSaveAndNewButton){%>btn-primary<% } %>" />&nbsp;&nbsp;&nbsp;
             <% if(Model.ShowSaveAndNewButton){ %>
-                <input type="submit" value="Speichern & Neu" class="btn" name="btnSaveAndNew" />&nbsp;
+                <input type="submit" value="Speichern & Neu" class="btn btn-primary" name="btnSaveAndNew" />&nbsp;
             <% } %>
         </div>
 

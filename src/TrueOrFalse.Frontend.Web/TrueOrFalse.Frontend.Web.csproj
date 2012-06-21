@@ -140,6 +140,8 @@
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
+    <Compile Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeMulitpleChoiceModel.cs" />
+    <Compile Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeSequenceModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
@@ -308,6 +310,7 @@
     <Content Include="Style\smoothness\images\ui-icons_888888_256x240.png" />
     <Content Include="Style\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Style\smoothness\jquery-ui.css" />
+    <Content Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeSequence.ascx" />
     <Content Include="Views\Questions\Questions.js" />
     <Content Include="Views\Questions\SelectUsers.js" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
@@ -323,8 +326,8 @@
     <Content Include="Views\Categories\Edit\RelatedCategories.js" />
     <Content Include="Views\News\News.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.js" />
-    <Content Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeAccurate.ascx" />
-    <Content Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeFuzzy.ascx" />
+    <Content Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeExact.ascx" />
+    <Content Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeApproximation.ascx" />
     <Content Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeVocable.ascx" />
     <Content Include="Views\Questions\Edit\EditQuestion.js" />
@@ -371,6 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Categories\" />
     <Folder Include="Images\Users\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

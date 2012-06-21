@@ -14,8 +14,7 @@ namespace TrueOrFalse.Core.Registration
             _userRepository = userRepository;
         }
 
-        public bool Yes(string emailAddress)
-        {
+        public bool Yes(string emailAddress){
             return _userRepository.GetByEmailAddress(emailAddress) == null;
         }
     }

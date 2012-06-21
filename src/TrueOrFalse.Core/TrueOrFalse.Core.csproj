@@ -87,6 +87,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq">
@@ -103,12 +104,20 @@
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategorySearch.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalsPerUserExt.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Persistence\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Persistence\Ops.TotalPerUser\Modell\TotalsPerUserExt.cs" />
+    <Compile Include="Domain\Images\GetCategoryImageUrl.cs" />
+    <Compile Include="Domain\Images\GetImageUrl.cs" />
+    <Compile Include="Domain\Images\GetUserImageUrl.cs" />
+    <Compile Include="Domain\Images\StoreImages.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Persistence\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\UpdateQuestionTotals.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepository.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\QuestionValuation.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationMap.cs" />
     <Compile Include="Domain\User\Persistence\UserSearch.cs" />
     <Compile Include="Domain\Import\Importer.cs" />
     <Compile Include="Domain\Import\ImporterResult.cs" />
@@ -182,6 +191,12 @@
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
+    <Content Include="Utilities\Update\Scripts\5-new-total-field-tbl-question.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs6.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs5.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs3.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs2.cs" />
@@ -232,12 +247,18 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Utilities\Update\Scripts\1-create-setting-tbl.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Update\Scripts\2-new-total-fields-tbl-question.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\Scripts\3-new-table-questionValuation.sql" />
+    <Content Include="Utilities\Update\Scripts\6-new-column-solutiontype.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -8,7 +8,7 @@ namespace TrueOrFalse.Updates
     {
         public static void Run()
         {
-            ServiceLocator.Resolve<ExecuteSqlFile>().Run("Utilities/Update/Scripts/1-create-setting-tbl.sql");
+            ServiceLocator.Resolve<ExecuteSqlFile>().Run(ScriptPath.Get("1-create-setting-tbl.sql"));
             CreateInitialRecord();
         }
 

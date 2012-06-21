@@ -69,5 +69,25 @@ public class AnswerQuestionController : Controller
         return new JsonResult { Data = new { correctAnswer = question.Solution} };        
     }
 
+    [HttpPost]
+    public JsonResult SaveQuality(int id, int newValue)
+    {
+        Sl.Resolve<UpdateQuestionTotals>()
+            .UpdateQuality(id, _sessionUser.User.Id);
+        return new JsonResult {Data = new {totalValuations = 1000, totalAverage = 10}};
+    }
+
+    [HttpPost]
+    public JsonResult SaveRelevancePersonal(int id, int newValue)
+    {
+        return new JsonResult { Data = new { totalValuations = 2000, totalAverage = 5 } };
+    }
+
+    [HttpPost]
+    public JsonResult SaveRelevanceAll(int id, int newValue)
+    {
+        return new JsonResult { Data = new { totalValuations = 3000, totalAverage = 1 } };
+    }
+
 }
 
