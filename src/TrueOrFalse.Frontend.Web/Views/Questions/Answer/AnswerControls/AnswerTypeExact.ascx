@@ -9,4 +9,8 @@
     function getAnswerData() {
         return { answer: $("#txtAnswer").val() };
     }
+    function clearAnswer() {
+        $("#txtAnswer").focus();
+        $("#txtAnswer").setCursorPosition(0);
+    }
 </script>

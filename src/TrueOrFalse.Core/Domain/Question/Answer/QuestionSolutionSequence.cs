@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Web.Script.Serialization;
 
-public class AnswerTypeSequenceModel
+public class QuestionSolutionSequence : QuestionSolution
 {
     public Dictionary<string, string> Rows;
 
@@ -17,5 +18,16 @@ public class AnswerTypeSequenceModel
 
             Rows.Add(key, value);
         }
+    }
+
+    public override bool IsCorrect(string answer)
+    {
+        var values = new JavaScriptSerializer().Deserialize<string[]>(answer);
+        return values.SequenceEqual(Rows.Values);
+    }
+
+    public override string CorrectAnswer()
+    {
+        return new JavaScriptSerializer().Serialize(Rows.Values.ToArray());
     }
 }

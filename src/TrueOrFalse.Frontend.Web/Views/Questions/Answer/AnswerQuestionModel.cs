@@ -20,7 +20,7 @@ public class AnswerQuestionModel : ModelBase
         QuestionId = question.Id.ToString();
         QuestionText = question.Text;
         SolutionType = question.SolutionType.ToString();
-        SolutionModel = GetQuestionSolutionModel.Run(question.SolutionType, question.Solution);
+        SolutionModel = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
 
         TimesAnswered = "0";
         PercenctageCorrectAnswers = "34";

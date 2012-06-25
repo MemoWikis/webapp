@@ -66,7 +66,8 @@ public class AnswerQuestionController : Controller
     public JsonResult GetAnswer(int id, string answer)
     {
         var question = _questionRepository.GetById(id);
-        return new JsonResult { Data = new { correctAnswer = question.Solution} };        
+        var solution = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
+        return new JsonResult {Data = new {correctAnswer = solution.CorrectAnswer()}};
     }
 
     [HttpPost]

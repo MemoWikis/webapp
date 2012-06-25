@@ -34,13 +34,13 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         switch (question.SolutionType)
         {
             case QuestionSolutionType.Sequence:
-                var solutionModel1 = new AnswerTypeSequenceModel();
+                var solutionModel1 = new QuestionSolutionSequence();
                 solutionModel1.FillFromPostData(postData);
                 question.Solution = serializer.Serialize(solutionModel1);
                 break;
 
             case QuestionSolutionType.MultipleChoice:
-                var solutionModel2 = new AnswerTypeMulitpleChoiceModel();
+                var solutionModel2 = new QuestionSolutionMultipleChoice();
                 solutionModel2.FillFromPostData(postData);
                 question.Solution = serializer.Serialize(solutionModel2);
                 break;

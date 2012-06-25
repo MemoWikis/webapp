@@ -101,7 +101,7 @@ public class EditQuestionController : Controller
         if (questionId.HasValue)
         {
             var question = _questionRepository.GetById(questionId.Value);
-            model = GetQuestionSolutionModel.Run(type, question.Solution);
+            model = new GetQuestionSolution().Run(type, question.Solution);
         }
 
         return View(string.Format(_viewLocationBody, type), model);

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerTypeMulitpleChoiceModel>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMultipleChoice>" %>
 
 
 <% var random = new Random();
@@ -13,5 +13,8 @@
     }
     function getAnswerData() {
         return { answer: $('input:radio[name=answer]:checked').val() };
+    }
+    function clearAnswer() {
+        $('input:radio[name=answer]:checked').removeProp('checked');
     }
 </script>

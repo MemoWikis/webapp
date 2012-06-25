@@ -35,10 +35,8 @@ $(function () {
     });
     $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
     $("#buttons-edit-answer").click(function () {
-        $("#txtAnswer").focus();
-        $("#txtAnswer").setCursorPosition(0);
+        clearAnswer();
     });
-
     InitFeedbackSliders();
 
 });
