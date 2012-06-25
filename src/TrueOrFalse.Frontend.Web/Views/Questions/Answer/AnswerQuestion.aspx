@@ -55,7 +55,7 @@
                 </div>
             </div>
         
-            <textarea id="txtAnswer" class="questionBlockWidth row" style="height: 30px;"></textarea>    
+           <%Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/AnswerType" + Model.SolutionType +".ascx", Model.SolutionModel); %>
             
             <div class="row" >
                 <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>

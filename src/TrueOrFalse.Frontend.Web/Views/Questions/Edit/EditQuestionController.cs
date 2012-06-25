@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Core.Web;
@@ -31,8 +30,9 @@ public class EditQuestionController : Controller
     {
         var model = new EditQuestionModel(_questionRepository.GetById(id));
         model.SetToUpdateModel();
-        if (TempData["createQuestionsMsg"] != null){
-            model.Message = (SuccessMessage)TempData["createQuestionsMsg"];
+        if (TempData["createQuestionsMsg"] != null)
+        {
+            model.Message = (SuccessMessage) TempData["createQuestionsMsg"];
         }
 
         return View(_viewLocation, model);
@@ -44,7 +44,10 @@ public class EditQuestionController : Controller
         model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
         model.SetToUpdateModel();
-        _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model, _questionRepository.GetById(id), Request.Form));
+        _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model,
+                                                                                                  _questionRepository.
+                                                                                                      GetById(id),
+                                                                                                  Request.Form));
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);
@@ -64,7 +67,10 @@ public class EditQuestionController : Controller
 
             question.Creator = _sessionUser.User;
             _questionRepository.Create(question);
-            resultModel.Message = new SuccessMessage(string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Nun wird eine <b>neue</b> Frage erstellt.", question.Text.TruncateAtWord(30)));
+            resultModel.Message =
+                new SuccessMessage(
+                    string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Nun wird eine <b>neue</b> Frage erstellt.",
+                                  question.Text.TruncateAtWord(30)));
 
             if (Request["btnSave"] != null)
             {
@@ -80,9 +86,9 @@ public class EditQuestionController : Controller
             var missingCategory = editQuestionModelCategoriesExist.MissingCategory;
             resultModel.Message = new ErrorMessage(
                 string.Format("Die Kategorie <strong>'{0}'</strong> existiert nicht. " +
-                "Klicke <a href=\"{1}\">hier</a>, um Kategorien anzulegen.",
-                missingCategory,
-                Url.Action("Create", "EditCategory", new { name = missingCategory })));
+                              "Klicke <a href=\"{1}\">hier</a>, um Kategorien anzulegen.",
+                              missingCategory,
+                              Url.Action("Create", "EditCategory", new {name = missingCategory})));
         }
 
         return View(_viewLocation, resultModel);
@@ -95,18 +101,7 @@ public class EditQuestionController : Controller
         if (questionId.HasValue)
         {
             var question = _questionRepository.GetById(questionId.Value);
-            var serializer = new JavaScriptSerializer();
-
-            switch (type)
-            {
-                case QuestionSolutionType.Sequence:
-                    model = serializer.Deserialize<AnswerTypeSequenceModel>(question.Solution);
-                    break;
-
-                case QuestionSolutionType.MultipleChoice:
-                    model = serializer.Deserialize<AnswerTypeMulitpleChoiceModel>(question.Solution);
-                    break;
-            }
+            model = new GetQuestionSolution().Run(type, question.Solution);
         }
 
         return View(string.Format(_viewLocationBody, type), model);

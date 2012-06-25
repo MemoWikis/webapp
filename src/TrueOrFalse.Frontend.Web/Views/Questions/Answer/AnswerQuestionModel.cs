@@ -19,6 +19,8 @@ public class AnswerQuestionModel : ModelBase
 
         QuestionId = question.Id.ToString();
         QuestionText = question.Text;
+        SolutionType = question.SolutionType.ToString();
+        SolutionModel = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
 
         TimesAnswered = "0";
         PercenctageCorrectAnswers = "34";
@@ -45,6 +47,8 @@ public class AnswerQuestionModel : ModelBase
 
     public string PageCurrent;
     public string PagesTotal;
+    public string SolutionType;
+    public object SolutionModel;
 
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }

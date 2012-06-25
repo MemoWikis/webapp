@@ -35,10 +35,8 @@ $(function () {
     });
     $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
     $("#buttons-edit-answer").click(function () {
-        $("#txtAnswer").focus();
-        $("#txtAnswer").setCursorPosition(0);
+        clearAnswer();
     });
-
     InitFeedbackSliders();
 
 });
@@ -84,7 +82,7 @@ function InitFeedbackSlider(sliderName) {
 
 function validateAnswer() {
 
-    var answerText = $("#txtAnswer")[0].value;
+    var answerText = getAnswerText();
 
     amountOfTries++;
     answerHistory.push(answerText);
@@ -96,7 +94,7 @@ function validateAnswer() {
     $.ajax({
         type: 'POST',
         url: window.ajaxUrl_SendAnswer,
-        data: { answer: answerText },
+        data: getAnswerData(),
         cache: false,
         success: function (result) {
             answerResult = result;

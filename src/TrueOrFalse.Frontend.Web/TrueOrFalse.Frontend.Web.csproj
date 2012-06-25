@@ -140,8 +140,6 @@
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
-    <Compile Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeMulitpleChoiceModel.cs" />
-    <Compile Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeSequenceModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
@@ -310,6 +308,11 @@
     <Content Include="Style\smoothness\images\ui-icons_888888_256x240.png" />
     <Content Include="Style\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Style\smoothness\jquery-ui.css" />
+    <Content Include="Views\Questions\Answer\AnswerControls\AnswerTypeApproximation.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\AnswerTypeExact.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\AnswerTypeMultipleChoice.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\AnswerTypeSequence.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\AnswerTypeVocable.ascx" />
     <Content Include="Views\Questions\Edit\EditAnswerControls\AnswerTypeSequence.ascx" />
     <Content Include="Views\Questions\Questions.js" />
     <Content Include="Views\Questions\SelectUsers.js" />
