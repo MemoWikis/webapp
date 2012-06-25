@@ -1,9 +1,17 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerTypeMulitpleChoiceModel>" %>
 
-<select>
+
 <% var random = new Random();
    foreach (var choice in Model.Choices.OrderBy(x => random.Next()))
    { %>
-  <option><%: choice %></option>
+    <input type="radio" name="answer" value="<%: choice %>" /> <%: choice %> <br />
 <% } %>
-</select>
+
+<script type="text/javascript">
+    function getAnswerText() {
+        return $('input:radio[name=answer]:checked').val();
+    }
+    function getAnswerData() {
+        return { answer: $('input:radio[name=answer]:checked').val() };
+    }
+</script>

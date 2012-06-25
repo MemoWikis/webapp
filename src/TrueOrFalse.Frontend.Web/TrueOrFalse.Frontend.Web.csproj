@@ -151,6 +151,7 @@
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel_Category_Exists.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
+    <Compile Include="Views\Questions\Edit\GetQuestionSolutionModel.cs" />
     <Compile Include="Views\Questions\QuestionRowModel.cs" />
     <Compile Include="Views\Questions\QuestionsController.cs" />
     <Compile Include="Views\Questions\QuestionsModel.cs" />
