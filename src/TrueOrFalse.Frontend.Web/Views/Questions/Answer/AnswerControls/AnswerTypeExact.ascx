@@ -12,7 +12,7 @@
     function getAnswerData() {
         return { answer: $("#txtAnswer").val() };
     }
-    function clearAnswer() {
+    function newAnswer() {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
     }

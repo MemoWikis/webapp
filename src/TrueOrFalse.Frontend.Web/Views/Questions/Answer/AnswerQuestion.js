@@ -35,7 +35,7 @@ $(function () {
     });
     $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
     $("#buttons-edit-answer").click(function () {
-        clearAnswer();
+        newAnswer();
         animateNeutral();
     });
     InitFeedbackSliders();
