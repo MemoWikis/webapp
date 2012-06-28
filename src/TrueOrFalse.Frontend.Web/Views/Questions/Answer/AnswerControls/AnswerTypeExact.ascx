@@ -3,6 +3,9 @@
 <textarea id="txtAnswer" class="questionBlockWidth row" style="height: 30px;"></textarea>    
 
 <script type="text/javascript">
+    $("#txtAnswer").keypress(function () {
+        answerChanged();
+    });
     function getAnswerText() {
         return $("#txtAnswer").val();
     }

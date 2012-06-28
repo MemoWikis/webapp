@@ -36,6 +36,7 @@ $(function () {
     $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
     $("#buttons-edit-answer").click(function () {
         clearAnswer();
+        animateNeutral();
     });
     InitFeedbackSliders();
 
@@ -142,13 +143,19 @@ $.fn.setCursorPosition = function (pos) {
 
 function animateWrongAnswer() {
     $("#buttons-edit-answer").show();
-    $("#txtAnswer").keypress(function (event) {
+    $("#txtAnswer").animate({ backgroundColor: "#FFB6C1" }, 1000);
+}
+
+function animateNeutral() {
+    $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
+}
+
+function answerChanged() {
+    if ($("#buttons-edit-answer").is(":visible")) {
         $("#buttons-edit-answer").hide();
         $("#buttons-answer-again").show();
-        $(this).animate({ backgroundColor: "white" }, 200);
-        $(this).unbind(event);
-    });
-    $("#txtAnswer").animate({ backgroundColor: "#FFB6C1" }, 1000);
+        animateNeutral();
+    }
 }
 
 function showMsgErrorWithRandomText() {
