@@ -67,7 +67,11 @@ public class AnswerQuestionController : Controller
     {
         var question = _questionRepository.GetById(id);
         var solution = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
-        return new JsonResult {Data = new {correctAnswer = solution.CorrectAnswer()}};
+        return new JsonResult {Data = new
+                                          {
+                                              correctAnswer = solution.CorrectAnswer(),
+                                              correctAnswerDesc = question.Description
+                                          }};
     }
 
     [HttpPost]
@@ -90,4 +94,3 @@ public class AnswerQuestionController : Controller
     }
 
 }
-
