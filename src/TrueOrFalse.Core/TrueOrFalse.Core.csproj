@@ -264,7 +264,9 @@
     <Content Include="Utilities\Update\Scripts\2-new-total-fields-tbl-question.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\Scripts\3-new-table-questionValuation.sql" />
+    <Content Include="Utilities\Update\Scripts\3-new-table-questionValuation.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Utilities\Update\Scripts\6-new-column-solutiontype.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
