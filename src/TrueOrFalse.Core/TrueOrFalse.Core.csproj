@@ -89,6 +89,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -113,6 +114,11 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Persistence\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
+    <Compile Include="Domain\Question\Answer\GetQuestionSolution.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSoulutionExact.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\CreateQuestionValue_IfNotExists.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\UpdateQuestionTotals.cs" />

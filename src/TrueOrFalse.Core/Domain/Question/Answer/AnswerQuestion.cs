@@ -23,10 +23,11 @@ namespace TrueOrFalse.Core
         public AnswerQuestionResult Run(int questionId, string answer, int userId)
         {
             var question = _questionRepository.GetById(questionId);
+            var solution = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
 
             var result = new AnswerQuestionResult();
-            result.IsCorrect = question.Solution == answer.Trim();
-            result.CorrectAnswer = question.Solution;
+            result.IsCorrect = solution.IsCorrect(answer.Trim());
+            result.CorrectAnswer = solution.CorrectAnswer();
             result.AnswerGiven = answer;
 
             _answerHistoryLog.Run(question, result, userId);
