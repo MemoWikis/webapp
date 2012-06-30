@@ -9,7 +9,7 @@ namespace TrueOrFalse.Updates
         public static void Run()
         {
             ServiceLocator.Resolve<ISession>().CreateSQLQuery(
-                "UPDATE Question SET SolutionType = 1 WHERE SolutionType IS NULL OR SolutionType = 0");
+                "UPDATE Question SET SolutionType = 1 WHERE SolutionType IS NULL OR SolutionType = 0").ExecuteUpdate();
         }
 
     }
