@@ -19,6 +19,15 @@
     </style>
     
     <script type="text/javascript">
+        var questionId = "<%= Model.QuestionId %>";
+        var qualityAvg = "<%= Model.TotalQualityAvg %>";
+        var qualityEntries = "<%= Model.TotalQualityEntries %>";
+        
+        var relevancePeronalAvg = "<%= Model.TotalRelevancePersonalAvg %>";
+        var relevancePersonalEntries = "<%= Model.TotalRelevancePersonalEntries %>";
+        var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
+        var relevanceForAlleEntries = "<%= Model.TotalRelevanceForAllEntries %>";
+        
         var ajaxUrl_SendAnswer = "<%= Model.AjaxUrl_SendAnswer(Url) %>";
         var ajaxUrl_GetAnswer = "<%= Model.AjaxUrl_GetAnswer(Url) %>";
     </script>

@@ -3,7 +3,7 @@
 	[UserId] [int] NULL,
 	[QuestionId] [int] NULL,
 	[Quality] [int] NULL,
-	[RelevancePesonal] [int] NULL,
+	[RelevancePersonal] [int] NULL,
 	[RelevanceForAll] [int] NULL,
 	[DateCreated] [datetime] NULL,
 PRIMARY KEY CLUSTERED 

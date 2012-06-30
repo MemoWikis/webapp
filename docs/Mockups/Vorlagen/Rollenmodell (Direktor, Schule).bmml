@@ -190,7 +190,7 @@
         <tooltipDirection>NE</tooltipDirection>
       </controlProperties>
     </control>
-    <control controlID="142" controlTypeID="com.balsamiq.mockups::Tooltip" x="590" y="347" w="177" h="84" measuredW="161" measuredH="84" zOrder="25" locked="false" isInGroup="-1">
+    <control controlID="142" controlTypeID="com.balsamiq.mockups::Tooltip" x="590" y="347" w="177" h="84" measuredW="158" measuredH="84" zOrder="25" locked="false" isInGroup="-1">
       <controlProperties>
         <text>SCHULINTERN%0AIn%20einem%20gesch%FCtzten%20Umfeld%20bleibe</text>
       </controlProperties>
