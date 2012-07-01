@@ -167,6 +167,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\IoC\ServiceLocator.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\ReadCookie.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\WriteCookie.cs" />
+    <Compile Include="Infrastructure\Login\Model\PersistentLogin.cs" />
+    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginMap.cs" />
+    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepository.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
     <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
     <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />
