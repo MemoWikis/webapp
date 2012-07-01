@@ -178,13 +178,13 @@
         <tooltipDirection>SW</tooltipDirection>
       </controlProperties>
     </control>
-    <control controlID="140" controlTypeID="com.balsamiq.mockups::Tooltip" x="207" y="245" w="165" h="48" measuredW="159" measuredH="100" zOrder="23" locked="false" isInGroup="-1">
+    <control controlID="140" controlTypeID="com.balsamiq.mockups::Tooltip" x="205" y="242" w="166" h="96" measuredW="159" measuredH="116" zOrder="23" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>Medienkompetenz%20steigern%3A%0ALernen%20in%20einem%20Gesch%FCtzen%20Umfeld%20mit%20sozialen%20Websiten%20umzugehen</text>
+        <text>%20%0AMedienkompetenz%20steigern%3A%0ALernen%20in%20einem%20Gesch%FCtzen%20Umfeld%20mit%20sozialen%20Websiten%20umzugehen</text>
         <tooltipDirection>SE</tooltipDirection>
       </controlProperties>
     </control>
-    <control controlID="141" controlTypeID="com.balsamiq.mockups::Tooltip" x="223" y="340" w="118" h="81" measuredW="80" measuredH="132" zOrder="24" locked="false" isInGroup="-1">
+    <control controlID="141" controlTypeID="com.balsamiq.mockups::Tooltip" x="223" y="340" w="118" h="81" measuredW="115" measuredH="81" zOrder="24" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Kontroller%20der%20Lernleistung%20der%20gesamten%20Schule</text>
         <tooltipDirection>NE</tooltipDirection>
@@ -200,12 +200,12 @@
         <text>Schule%2C%20Universit%E4t%2C%20Firma</text>
       </controlProperties>
     </control>
-    <control controlID="144" controlTypeID="com.balsamiq.mockups::StickyNote" x="419.0395170142701" y="297.47200878155877" w="-1" h="-1" measuredW="109" measuredH="123" zOrder="27" locked="false" isInGroup="-1">
+    <control controlID="144" controlTypeID="com.balsamiq.mockups::StickyNote" x="419" y="297" w="-1" h="-1" measuredW="109" measuredH="123" zOrder="27" locked="false" isInGroup="-1">
       <controlProperties>
         <text>DER%20DIREKTOR</text>
       </controlProperties>
     </control>
-    <control controlID="145" controlTypeID="com.balsamiq.mockups::TabBar" x="199" y="202" w="590" h="381" measuredW="258" measuredH="100" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="145" controlTypeID="com.balsamiq.mockups::TabBar" x="199" y="202" w="590" h="381" measuredW="256" measuredH="100" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Dirketor%2C%20Lehrer%2C%20Sch%FCler</text>
       </controlProperties>
