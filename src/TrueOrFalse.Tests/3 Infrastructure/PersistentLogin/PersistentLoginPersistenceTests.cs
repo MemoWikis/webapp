@@ -11,18 +11,21 @@ namespace TrueOrFalse.Tests
     public class PersistentLoginPersistenceTests : BaseTest
     {
         [Test]
-        public void Should_CRUD_entry(){
-            var persitentLogin = new PersistentLogin {UserId = 10, LoginGuid = Guid.NewGuid().ToString()};
+        public void Should_CRUD_entry()
+        {
+
+            var guid = Guid.NewGuid().ToString();
+            var persitentLogin = new PersistentLogin {UserId = 10, LoginGuid = guid};
             
             //Created
             Resolve<PersistentLoginRepository>().Create(persitentLogin);
 
             //Retrieve
-            Assert.That(Resolve<PersistentLoginRepository>().Get(persitentLogin.UserId, persitentLogin.LoginGuid), Is.Not.Null);
+            Assert.That(Resolve<PersistentLoginRepository>().Get(persitentLogin.UserId, guid), Is.Not.Null);
 
             //Delete
-            Resolve<PersistentLoginRepository>().Delete(persitentLogin.UserId, persitentLogin.LoginGuid);
-            Assert.That(Resolve<PersistentLoginRepository>().Get(persitentLogin.UserId, persitentLogin.LoginGuid), Is.Null);
+            Resolve<PersistentLoginRepository>().Delete(persitentLogin.UserId, guid);
+            Assert.That(Resolve<PersistentLoginRepository>().Get(persitentLogin.UserId, guid), Is.Null);
         }
 
         [Test]

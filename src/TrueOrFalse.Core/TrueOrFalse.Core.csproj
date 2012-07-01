@@ -168,10 +168,11 @@
     </Compile>
     <Compile Include="Infrastructure\IoC\ServiceLocator.cs" />
     <Compile Include="Infrastructure\Login\Cookie\GetPersistentLoginCookieValues.cs" />
-    <Compile Include="Infrastructure\Login\Cookie\GetPersistentLoginFromCookie.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\GetPersistentLoginCookieValuesResult.cs" />
     <Compile Include="Infrastructure\Login\Cookie\RemovePersistentLoginFromCookie.cs" />
     <Compile Include="Infrastructure\Login\Cookie\WritePersistentLoginToCookie.cs" />
     <Compile Include="Infrastructure\Login\Model\Ops\CreatePersistentLogin.cs" />
+    <Compile Include="Infrastructure\Login\Model\Ops\LoginFromCookie.cs" />
     <Compile Include="Infrastructure\Login\Model\PersistentLogin.cs" />
     <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginMap.cs" />
     <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepository.cs" />

@@ -26,7 +26,9 @@ namespace TrueOrFalse.Core
                 return;
 
             _persistentLoginRepository.Delete(persistentCookieValue.UserId, persistentCookieValue.LoginGuid);
-            HttpContext.Current.Response.Cookies.Get("richtig-oder-falsch").Values.Set("persistentLogin", "");
+            var cookie = HttpContext.Current.Response.Cookies.Get("richtig-oder-falsch");
+            cookie.Values.Set("persistentLogin", "");
+            cookie.Expires = DateTime.Now.AddDays(45);
         }
     }
 }

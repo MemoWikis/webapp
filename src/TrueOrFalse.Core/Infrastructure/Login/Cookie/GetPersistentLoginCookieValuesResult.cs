@@ -1,6 +1,6 @@
 namespace TrueOrFalse.Core
 {
-    public class GetPersistentLoginFromCookie
+    public class GetPersistentLoginCookieValuesResult
     {
         public int UserId = -1;
         public string LoginGuid;
