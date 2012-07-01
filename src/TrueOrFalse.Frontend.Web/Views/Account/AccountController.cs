@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;
 using TrueOrFalse.Frontend.Web.Models;
 
@@ -7,10 +8,13 @@ using TrueOrFalse.Frontend.Web.Models;
 public class AccountController : Controller
 {
     private readonly SessionUser _sessionUser;
+    private readonly RemovePersistentLoginFromCookie _removePersistentLoginFromCookie;
 
-    public AccountController(SessionUser sessionUser)
+    public AccountController(SessionUser sessionUser, 
+                             RemovePersistentLoginFromCookie removePersistentLoginFromCookie)
     {
         _sessionUser = sessionUser;
+        _removePersistentLoginFromCookie = removePersistentLoginFromCookie;
     }
 
     public ActionResult LogOn()
@@ -20,6 +24,7 @@ public class AccountController : Controller
 
     public ActionResult Logout()
     {
+        _removePersistentLoginFromCookie.Run();
         _sessionUser.Logout();
         return View(new ModelBase());
     }

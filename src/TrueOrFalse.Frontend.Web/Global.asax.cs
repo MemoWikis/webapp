@@ -89,5 +89,10 @@ namespace TrueOrFalse.Frontend.Web
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
+
+        protected void Session_Start()
+        {
+            
+        }
     }
 }
