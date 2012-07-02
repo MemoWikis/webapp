@@ -28,6 +28,13 @@ public class AnswerQuestionModel : ModelBase
         TimesAnsweredWrong = "";
         TimesJumpedOver = "";
 
+        TotalQualityAvg = question.TotalQualityAvg.ToString();
+        TotalQualityEntries = question.TotalQualityEntries.ToString();
+        TotalRelevanceForAllAvg = question.TotalRelevanceForAllAvg.ToString();
+        TotalRelevanceForAllEntries = question.TotalRelevanceForAllEntries.ToString();
+        TotalRelevancePersonalAvg = question.TotalRelevancePersonalAvg.ToString();
+        TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries.ToString();
+
         questionSearchSpec.PageSize = 1;
         if (elementOnPage != -1)
             questionSearchSpec.CurrentPage = elementOnPage;
@@ -47,6 +54,13 @@ public class AnswerQuestionModel : ModelBase
 
     public string PageCurrent;
     public string PagesTotal;
+    
+    public string TotalQualityAvg;
+    public string TotalQualityEntries;
+    public string TotalRelevanceForAllAvg;
+    public string TotalRelevanceForAllEntries;
+    public string TotalRelevancePersonalAvg;
+    public string TotalRelevancePersonalEntries;
     public string SolutionType;
     public object SolutionModel;
 

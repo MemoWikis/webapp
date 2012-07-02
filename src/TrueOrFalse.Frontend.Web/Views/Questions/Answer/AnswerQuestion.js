@@ -120,7 +120,7 @@ function ajaxGetAnswer(onSuccessAction) {
         url: window.ajaxUrl_GetAnswer,
         cache: false,
         success: function (result) {
-            onSuccessAction(result.correctAnswer);
+            onSuccessAction(result);
         }
     });
 }
@@ -222,12 +222,11 @@ function showCorrectAnswer() {
     showNextAnswer();
     $("#divWrongAnswer").hide();
     $("#divCorrectAnswer").show();
-
-    if (answerResult != null)
-        $("#spanCorrectAnswer").html(answerResult.correctAnswer);
-
-    ajaxGetAnswer(function(correctAnswer) {
-        $("#spanCorrectAnswer").html(correctAnswer);
+    
+    ajaxGetAnswer(function (result) {
+        $("#spanCorrectAnswer").html(result.correctAnswer);
+        $("#spanAnswerDescription").html(result.correctAnswerDesc);
+        
     });
 }
 
