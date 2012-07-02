@@ -28,6 +28,6 @@ public class QuestionSolutionSequence : QuestionSolution
 
     public override string CorrectAnswer()
     {
-        return new JavaScriptSerializer().Serialize(Rows.Values.ToArray());
+        return string.Join(", ", Rows.Values);
     }
 }
