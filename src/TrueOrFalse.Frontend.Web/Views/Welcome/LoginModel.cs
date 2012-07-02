@@ -11,6 +11,8 @@ public class LoginModel : ModelBase
     [DisplayName("Email")]
     public string EmailAddress { get; set; }
 
+    public bool PersistentLogin { get; set; }
+
     public void SetToWrongCredentials()
     {
         Message = new Message(MessageType.IsError, 

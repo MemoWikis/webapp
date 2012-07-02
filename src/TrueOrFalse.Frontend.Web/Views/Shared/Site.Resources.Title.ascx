@@ -7,13 +7,8 @@
             <a href="/"><h1><%= Model.TitleText  %></h1></a>
         </div>
         
-        
         <div class="pull-right" style="padding-top: 15px; ">
             <% Html.RenderPartial(UserControls.Logon); %>
-            
-            <% if (HttpContext.Current.Request.IsLocal){ %>
-                <%: Html.ActionLink("Exportieren", "AllToLocalFile", "Export") %>
-            <% } %>
         </div>
 
     </div>

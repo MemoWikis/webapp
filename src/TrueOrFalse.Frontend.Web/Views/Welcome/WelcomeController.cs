@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using TrueOrFalse.Core;
 using TrueOrFalse.Core.Registration;
 using TrueOrFalse.Core.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
@@ -9,14 +10,17 @@ public class WelcomeController : Controller
 {
     private readonly RegisterUser _registerUser;
     private readonly CredentialsAreValid _credentialsAreValid;
+    private readonly WritePersistentLoginToCookie _writePersistentLoginToCookie;
     private readonly SessionUser _sessionUser;
         
     public WelcomeController(RegisterUser registerUser, 
                              CredentialsAreValid credentialsAreValid, 
+                             WritePersistentLoginToCookie writePersistentLoginToCookie, 
                              SessionUser sessionUser)
     {
         _registerUser = registerUser;
         _credentialsAreValid = credentialsAreValid;
+        _writePersistentLoginToCookie = writePersistentLoginToCookie;
         _sessionUser = sessionUser;
     }
 
@@ -53,12 +57,18 @@ public class WelcomeController : Controller
     [HttpPost]
     public ActionResult Login(LoginModel loginModel)
     {
-        loginModel.EmailAddress = Request["EmailAddress"];
+        loginModel.EmailAddress = loginModel.EmailAddress;
         loginModel.Password = Request["Password"];
 
         if (_credentialsAreValid.Yes(loginModel.EmailAddress, loginModel.Password))
         {
+
+            if(loginModel.PersistentLogin){
+                _writePersistentLoginToCookie.Run(_credentialsAreValid.User.Id);
+            }
+            
             _sessionUser.Login(_credentialsAreValid.User);
+
             return RedirectToAction(Links.Knowledge, Links.KnowledgeController );
         }
 
