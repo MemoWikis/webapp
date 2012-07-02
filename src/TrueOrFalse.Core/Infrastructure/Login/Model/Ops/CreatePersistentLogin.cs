@@ -14,11 +14,12 @@ namespace TrueOrFalse.Core
             _persistentLoginRepository = persistentLoginRepository;
         }
 
-        public PersistentLogin Run(int userId)
+        public string Run(int userId)
         {
-            var persistentLogin = new PersistentLogin{UserId = userId, LoginGuid = Guid.NewGuid().ToString()};
+            var newGuid = Guid.NewGuid().ToString();
+            var persistentLogin = new PersistentLogin { UserId = userId, LoginGuid = newGuid };
             _persistentLoginRepository.Create(persistentLogin);
-            return persistentLogin;
+            return newGuid;
         }
     }
 }
