@@ -105,21 +105,22 @@
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategorySearch.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Persistence\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Persistence\Ops.TotalPerUser\Modell\TotalsPerUserExt.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalsPerUserExt.cs" />
     <Compile Include="Domain\Images\GetCategoryImageUrl.cs" />
     <Compile Include="Domain\Images\GetImageUrl.cs" />
     <Compile Include="Domain\Images\GetUserImageUrl.cs" />
     <Compile Include="Domain\Images\StoreImages.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Persistence\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
     <Compile Include="Domain\Question\Answer\GetQuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSoulutionExact.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\CreateQuestionValue_IfNotExists.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\UpdateQuestionTotals.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepository.cs" />
     <Compile Include="Domain\Question\QuestionValuation\QuestionValuation.cs" />
@@ -166,6 +167,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\IoC\ServiceLocator.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\GetPersistentLoginCookieValues.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\GetPersistentLoginCookieValuesResult.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\RemovePersistentLoginFromCookie.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\WritePersistentLoginToCookie.cs" />
+    <Compile Include="Infrastructure\Login\Model\Ops\CreatePersistentLogin.cs" />
+    <Compile Include="Infrastructure\Login\Model\Ops\LoginFromCookie.cs" />
+    <Compile Include="Infrastructure\Login\Model\PersistentLogin.cs" />
+    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginMap.cs" />
+    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepository.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
     <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
     <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />
@@ -203,6 +213,8 @@
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs6.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs5.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs7.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs8.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs3.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs2.cs" />
@@ -229,6 +241,9 @@
     <Compile Include="Web\Uris\UriSanitizer.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
+    <Content Include="Utilities\Update\Scripts\8-create-tbl-persistentLogin.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -253,9 +268,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Utilities\Update\Scripts\1-create-setting-tbl.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -263,7 +276,9 @@
     <Content Include="Utilities\Update\Scripts\2-new-total-fields-tbl-question.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\Scripts\3-new-table-questionValuation.sql" />
+    <Content Include="Utilities\Update\Scripts\3-new-table-questionValuation.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Utilities\Update\Scripts\6-new-column-solutiontype.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -30,6 +30,15 @@
                         <%: Html.Password("Password") %> &nbsp; (grOß kLEinScHReiBunG beachten!)
                     </div>
                  </div>
+                 
+                <div class="control-group">
+                    
+                    <div class="controls">
+                        <label class="checkbox" style="white-space:nowrap;">
+                            <%: Html.CheckBoxFor(model => model.PersistentLogin) %> Angemeldet bleiben
+                        </label>
+                    </div>
+                 </div>
 
                  <div class="form-actions">
                      <input type="submit" value="Anmelden" class="btn btn-primary" /> 

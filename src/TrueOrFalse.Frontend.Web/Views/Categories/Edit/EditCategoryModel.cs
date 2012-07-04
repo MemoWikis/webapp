@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Frontend.Web.Models;
 using Message = TrueOrFalse.Core.Web.Message;
@@ -22,9 +19,12 @@ public class EditCategoryModel : ModelBase
 
     public string ImageUrl { get; set; }
 
-    public EditCategoryModel(){}
+    public EditCategoryModel()
+    {
+        ImageUrl = "";
+    }
 
-    public EditCategoryModel(Category category)
+    public EditCategoryModel(Category category) : this()
     {
         Name = category.Name;
         RelatedCategories = (from cat in category.RelatedCategories select cat.Name).ToList();

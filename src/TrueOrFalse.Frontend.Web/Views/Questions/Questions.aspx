@@ -15,16 +15,36 @@ div.question-row{border-top:1px solid silver; margin-bottom:20px;}
 .column { display: inline-block;}
 div.question-row div.header { margin-bottom: 3px;border-bottom: 1px solid beige ;}
 div.column-1 { width: 160px;float: left; padding-top: 5px;}
-div.column-2 { width: 500px;float: left; padding-top: 5px;}
-div.column-3 { width: 140px;float: left; padding-top: 5px;}
-div.question-row div.answersTotal{ width: 75px;}
-div.question-row div.truePercentage{ width: 37px;}
-div.question-row div.falsePercentage{ width: 35px;float: right;}
+div.column-2 { width: 530px;float: left; padding-top: 5px;}
+div.column-3 { width: 105px;float: left; padding-top: 5px;}
+div.question-row div.answersTotal{ width: 40px;}
+div.question-row div.percentageBar{ width: 65px;float: right;}
+
 
 </style>
 
 <script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>
 <script src="/Views/Questions/Questions.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function () {
+        console.log($(this));
+
+        $(".pieTotals").each(function() {
+            var me = $(this);
+            var values = $(this).attr("data-percentage").split('-');
+            me.sparkline([values[0], values[1]], {
+                type: 'pie',
+                sliceColors: ['#1BE022', 'red']
+            });
+        });
+
+//        $(".tristateHistory").sparkline([1, 1, 0, 1, -1, -1, 1, -1, 0], {
+//            type: 'tristate',
+//            barWidth: 3
+//        });
+    });
+</script>
 
 </asp:Content>
 

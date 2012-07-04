@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using NHibernate;
 
@@ -9,12 +7,15 @@ namespace TrueOrFalse.Core
     public class UpdateQuestionTotals : IRegisterAsInstancePerLifetime
     {
         private readonly QuestionValuationRepository _questionValuationRepository;
+        private readonly CreateQuestionValue_IfNotExists _createQuestionValueIfNotExists;
         private readonly ISession _session;
 
-        public UpdateQuestionTotals(QuestionValuationRepository questionValuationRepository, 
+        public UpdateQuestionTotals(QuestionValuationRepository questionValuationRepository,
+                                    CreateQuestionValue_IfNotExists createQuestionValue_IfNotExists,
                                     ISession session)
         {
             _questionValuationRepository = questionValuationRepository;
+            _createQuestionValueIfNotExists = createQuestionValue_IfNotExists;
             _session = session;
         }
 
@@ -34,10 +35,9 @@ namespace TrueOrFalse.Core
             _session.Flush();
         }
         
-        public void UpdateQuality(int questionId, int userId)
+        public void UpdateQuality(int questionId, int userId, int quality)
         {
-            var questionValuation = _questionValuationRepository.GetBy(questionId, 99);
-
+            _createQuestionValueIfNotExists.Run(questionId, userId, quality:quality);
             _session.CreateSQLQuery(GenerateQualityQuery(questionId, userId)).ExecuteUpdate();
             _session.Flush();
         }

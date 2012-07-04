@@ -4,10 +4,10 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
-using Gibraltar.Agent;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
+using TrueOrFalse.Core.Web.Context;
 using TrueOrFalse.Core.Web.JavascriptView;
 using TrueOrFalse.Updates;
 
@@ -88,6 +88,13 @@ namespace TrueOrFalse.Frontend.Web
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+
+        protected void Session_Start()
+        {
+            if(!Sl.Resolve<SessionUser>().IsLoggedIn)
+                Sl.Resolve<LoginFromCookie>().Run();
+
         }
     }
 }

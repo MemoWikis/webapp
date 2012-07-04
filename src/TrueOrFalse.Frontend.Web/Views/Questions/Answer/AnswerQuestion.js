@@ -35,7 +35,8 @@ $(function () {
     });
     $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
     $("#buttons-edit-answer").click(function () {
-        clearAnswer();
+        newAnswer();
+        animateNeutral();
     });
     InitFeedbackSliders();
 
@@ -119,7 +120,7 @@ function ajaxGetAnswer(onSuccessAction) {
         url: window.ajaxUrl_GetAnswer,
         cache: false,
         success: function (result) {
-            onSuccessAction(result.correctAnswer);
+            onSuccessAction(result);
         }
     });
 }
@@ -142,13 +143,19 @@ $.fn.setCursorPosition = function (pos) {
 
 function animateWrongAnswer() {
     $("#buttons-edit-answer").show();
-    $("#txtAnswer").keypress(function (event) {
+    $("#txtAnswer").animate({ backgroundColor: "#FFB6C1" }, 1000);
+}
+
+function animateNeutral() {
+    $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
+}
+
+function answerChanged() {
+    if ($("#buttons-edit-answer").is(":visible")) {
         $("#buttons-edit-answer").hide();
         $("#buttons-answer-again").show();
-        $(this).animate({ backgroundColor: "white" }, 200);
-        $(this).unbind(event);
-    });
-    $("#txtAnswer").animate({ backgroundColor: "#FFB6C1" }, 1000);
+        animateNeutral();
+    }
 }
 
 function showMsgErrorWithRandomText() {
@@ -215,12 +222,11 @@ function showCorrectAnswer() {
     showNextAnswer();
     $("#divWrongAnswer").hide();
     $("#divCorrectAnswer").show();
-
-    if (answerResult != null)
-        $("#spanCorrectAnswer").html(answerResult.correctAnswer);
-
-    ajaxGetAnswer(function(correctAnswer) {
-        $("#spanCorrectAnswer").html(correctAnswer);
+    
+    ajaxGetAnswer(function (result) {
+        $("#spanCorrectAnswer").html(result.correctAnswer);
+        $("#spanAnswerDescription").html(result.correctAnswerDesc);
+        
     });
 }
 

@@ -19,6 +19,8 @@
 <% } %>
 
 <script src="/Scripts/lib.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.sparkline.min.js" type="text/javascript"></script>
+
 
 <link rel="stylesheet" href="/style/bootstrap.css">
 <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>

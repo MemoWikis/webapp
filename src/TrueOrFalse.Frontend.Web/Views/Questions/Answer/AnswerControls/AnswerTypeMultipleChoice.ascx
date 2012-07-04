@@ -8,13 +8,17 @@
 <% } %>
 
 <script type="text/javascript">
+    $('input:radio[name=answer]').change(function () {
+        answerChanged();
+    });
     function getAnswerText() {
-        return $('input:radio[name=answer]:checked').val();
+        var selected = $('input:radio[name=answer]:checked');
+        return selected.length ? selected.val() : "";
     }
     function getAnswerData() {
         return { answer: $('input:radio[name=answer]:checked').val() };
     }
-    function clearAnswer() {
-        $('input:radio[name=answer]:checked').removeProp('checked');
+    function newAnswer() {
+        $('input:radio[name=answer]:checked').prop('checked', false);
     }
 </script>

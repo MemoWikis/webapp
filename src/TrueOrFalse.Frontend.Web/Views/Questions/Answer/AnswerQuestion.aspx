@@ -19,6 +19,15 @@
     </style>
     
     <script type="text/javascript">
+        var questionId = "<%= Model.QuestionId %>";
+        var qualityAvg = "<%= Model.TotalQualityAvg %>";
+        var qualityEntries = "<%= Model.TotalQualityEntries %>";
+        
+        var relevancePeronalAvg = "<%= Model.TotalRelevancePersonalAvg %>";
+        var relevancePersonalEntries = "<%= Model.TotalRelevancePersonalEntries %>";
+        var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
+        var relevanceForAlleEntries = "<%= Model.TotalRelevanceForAllEntries %>";
+        
         var ajaxUrl_SendAnswer = "<%= Model.AjaxUrl_SendAnswer(Url) %>";
         var ajaxUrl_GetAnswer = "<%= Model.AjaxUrl_GetAnswer(Url) %>";
     </script>
@@ -37,9 +46,13 @@
             
             <h3 class="questionBlockWidth row" style="padding-bottom:12px;"><%= Model.QuestionText %></h3>
             
-            <div class="row alert alert-info" id="divCorrectAnswer" style="display: none; margin-top:5px; width: 360px;">
-                <b>Richtige Antwort:</b>
+            <div class="row alert alert-info" id="divCorrectAnswer" style="display: none; margin-top:5px; width: 360px; background-color: white; color:black;">
+                <b>Antwort:</b>
                 <span id="spanCorrectAnswer"></span>
+                <p style="padding-top:10px;">
+                    <b>Erklärung:</b>
+                    <span id="spanAnswerDescription"></span>
+                </p>
             </div>
             
             <div class="row alert alert-error" id="divWrongAnswer" style="display: none; margin-top:5px; width: 360px;">

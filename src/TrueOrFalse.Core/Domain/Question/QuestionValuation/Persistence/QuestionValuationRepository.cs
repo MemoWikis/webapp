@@ -11,7 +11,7 @@ namespace TrueOrFalse.Core
     {
         public QuestionValuationRepository(ISession session) : base(session){}
 
-        public QuestionValuation GetBy(int userId, int questionId)
+        public QuestionValuation GetBy(int questionId, int userId)
         {
             return _session.QueryOver<QuestionValuation>()
                            .Where(q => q.UserId == userId && q.QuestionId == questionId)

@@ -67,14 +67,17 @@ public class AnswerQuestionController : Controller
     {
         var question = _questionRepository.GetById(id);
         var solution = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
-        return new JsonResult {Data = new {correctAnswer = solution.CorrectAnswer()}};
+        return new JsonResult {Data = new
+                                          {
+                                              correctAnswer = solution.CorrectAnswer(),
+                                              correctAnswerDesc = question.Description
+                                          }};
     }
 
     [HttpPost]
     public JsonResult SaveQuality(int id, int newValue)
     {
-        Sl.Resolve<UpdateQuestionTotals>()
-            .UpdateQuality(id, _sessionUser.User.Id);
+        Sl.Resolve<UpdateQuestionTotals>().UpdateQuality(id, _sessionUser.User.Id, newValue);
         return new JsonResult {Data = new {totalValuations = 1000, totalAverage = 10}};
     }
 
@@ -91,4 +94,3 @@ public class AnswerQuestionController : Controller
     }
 
 }
-
