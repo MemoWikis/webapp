@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
 using TrueOrFalse.Core.Web;
@@ -28,7 +29,7 @@ public class EditQuestionController : Controller
 
     public ViewResult Edit(int id)
     {
-        var model = new EditQuestionModel(_questionRepository.GetById(id));
+        var model = new EditQuestionModel(_questionRepository.GetById(id)) {IsEditing = true};
         model.SetToUpdateModel();
         if (TempData["createQuestionsMsg"] != null)
         {
@@ -39,7 +40,7 @@ public class EditQuestionController : Controller
     }
 
     [HttpPost]
-    public ActionResult Edit(int id, EditQuestionModel model)
+    public ActionResult Edit(int id, EditQuestionModel model, HttpPostedFileBase file)
     {
         model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
@@ -48,13 +49,14 @@ public class EditQuestionController : Controller
                                                                                                   _questionRepository.
                                                                                                       GetById(id),
                                                                                                   Request.Form));
+        UpdateImage(file, id);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);
     }
 
     [HttpPost]
-    public ActionResult Create(EditQuestionModel model)
+    public ActionResult Create(EditQuestionModel model, HttpPostedFileBase file)
     {
         model.FillCategoriesFromPostData(Request.Form);
         var resultModel = new EditQuestionModel(new Question());
@@ -67,6 +69,7 @@ public class EditQuestionController : Controller
 
             question.Creator = _sessionUser.User;
             _questionRepository.Create(question);
+            UpdateImage(file, question.Id);
             resultModel.Message =
                 new SuccessMessage(
                     string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Nun wird eine <b>neue</b> Frage erstellt.",
@@ -106,4 +109,11 @@ public class EditQuestionController : Controller
 
         return View(string.Format(_viewLocationBody, type), model);
     }
+
+    private void UpdateImage(HttpPostedFileBase file, int categoryId)
+    {
+        if (file == null) return;
+        new StoreImages().Run(file.InputStream, Server.MapPath("/Images/Questions/" + categoryId));
+    }
+
 }

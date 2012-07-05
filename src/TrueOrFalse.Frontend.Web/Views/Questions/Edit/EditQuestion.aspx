@@ -15,7 +15,8 @@
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <% using (Html.BeginForm()){ %>
+    <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+       { %>
     
     <div class="form-horizontal" style="padding-top:10px;">
         
@@ -85,6 +86,13 @@
                 <input type="text" id="char3" />
 		    </div>
         </div>--%>
+        
+        <div class="control-group">
+            <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" />
+            <label for="file">Bild:</label>
+            <input type="file" name="file" id="file" />
+        </div>
+
             
         <div class="control-group">
             <%= Html.LabelFor(m => m.SolutionType, new { @class = "control-label" }) %>

@@ -44,6 +44,8 @@ public class EditQuestionModel : ModelBase
     
     public string PageTitle;
     public bool ShowSaveAndNewButton;
+    public string ImageUrl;
+    public bool IsEditing;
 
     public IEnumerable<SelectListItem> VisibilityData { get {
             return new List<SelectListItem> {
@@ -78,6 +80,7 @@ public class EditQuestionModel : ModelBase
 
     public EditQuestionModel()
     {
+        ImageUrl = "";
     }
 
     public EditQuestionModel(Question question)
@@ -88,7 +91,7 @@ public class EditQuestionModel : ModelBase
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
         Categories = (from cat in question.Categories select cat.Name).ToList();
-        
+        ImageUrl = new GetQuestionImageUrl().Run(question);
     }
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
@@ -109,4 +112,3 @@ public class EditQuestionModel : ModelBase
     }
 
 }
-

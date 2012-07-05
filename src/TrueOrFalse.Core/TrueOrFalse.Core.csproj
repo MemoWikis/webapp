@@ -105,6 +105,7 @@
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategorySearch.cs" />
+    <Compile Include="Domain\Images\GetQuestionImageUrl.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalsPerUserExt.cs" />
     <Compile Include="Domain\Images\GetCategoryImageUrl.cs" />

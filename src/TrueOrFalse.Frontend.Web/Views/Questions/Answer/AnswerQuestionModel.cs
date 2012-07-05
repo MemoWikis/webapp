@@ -46,6 +46,8 @@ public class AnswerQuestionModel : ModelBase
 
         AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
+
+        ImageUrl = new GetQuestionImageUrl().Run(question);
     }
 
     public string QuestionId;
@@ -63,6 +65,12 @@ public class AnswerQuestionModel : ModelBase
     public string TotalRelevancePersonalEntries;
     public string SolutionType;
     public object SolutionModel;
+    public string ImageUrl;
+
+    public bool HasImage
+    {
+        get { return !string.IsNullOrEmpty(ImageUrl); }
+    }
 
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }

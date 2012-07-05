@@ -46,6 +46,10 @@
             
             <h3 class="questionBlockWidth row" style="padding-bottom:12px;"><%= Model.QuestionText %></h3>
             
+            <% if (Model.HasImage) { %>
+                <img src="<%:String.Format(Model.ImageUrl, 500) %>"/>
+            <% } %>
+
             <div class="row alert alert-info" id="divCorrectAnswer" style="display: none; margin-top:5px; width: 360px; background-color: white; color:black;">
                 <b>Antwort:</b>
                 <span id="spanCorrectAnswer"></span>
