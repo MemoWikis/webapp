@@ -28,21 +28,25 @@
 
     <div class="column-3">
        <div class="row header">
-           <div class="column answersTotal ">Antwort</div>
-           <div class="column truePercentage" style="color:green">richtig</div>
-           <div class="column last falsePercentage" style="color:red">falsch</div>
+           <div class="column answersTotal">Antwort</div>
+           <div></div>
        </div>
 
        <div class="row">
-           <div class="column answersTotal ">Alle: <%=Model.AnswerCountTotal%></div>
-           <div class="column truePercentage"><%= Model.AnswerPercentageTrue %>%</div>
-           <div class="column last falsePercentage"><%= Model.AnswerPercentageFalse %>%</div>
+           <div class="column answersTotal">Alle: <%=Model.AnswerCountTotal%>
+           </div>
+           <div class="column percentageBar">
+               <span class="pieTotals" data-percentage="<%= Model.AnswerPercentageTrue %>-<%= Model.AnswerPercentageFalse %>"></span>
+               <span class="tristateHistory" data-history=""></span>
+           </div>
        </div>
 
        <div class="row">
            <div class="column answersTotal">Ich: <%= Model.AnswerCountMe%></div>
-           <div class="column truePercentage">48%</div> 
-           <div class="column last falsePercentage">52%</div>       
+           <div class="column percentageBar">
+               <span class="pieTotals" data-percentage="10-15"></span>
+               <span class="tristateHistory" data-history=""></span>
+           </div>
        </div>
 
     </div>

@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
-using Gibraltar.Agent;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
@@ -94,9 +93,7 @@ namespace TrueOrFalse.Frontend.Web
         protected void Session_Start()
         {
             if(!Sl.Resolve<SessionUser>().IsLoggedIn)
-            {
-                
-            }
+                Sl.Resolve<LoginFromCookie>().Run();
 
         }
     }
