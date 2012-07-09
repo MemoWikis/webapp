@@ -39,10 +39,10 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
             });
         });
 
-//        $(".tristateHistory").sparkline([1, 1, 0, 1, -1, -1, 1, -1, 0], {
-//            type: 'tristate',
-//            barWidth: 3
-//        });
+        $(".tristateHistory").sparkline([1, 1, 0, 1, -1, -1, 1, -1, 0], {
+            type: 'tristate',
+            barWidth: 2
+        });
     });
 </script>
 

@@ -36,7 +36,7 @@ namespace TrueOrFalse.Frontend.Web
             routes.MapRoute("Question_GetAnswer", "Questions/GetAnswer/{id}", new { controller = "AnswerQuestion", action = "GetAnswer" });
             routes.MapRoute("Question_SaveQuality", "Questions/SaveQuality/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveQuality" });
             routes.MapRoute("Question_SaveRelevancePersonal", "Questions/SaveRelevancePersonal/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevancePersonal" });
-            routes.MapRoute("Question_SaveRelevanceAll", "Questions/SaveRelevanceAll/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevanceAll" });
+            routes.MapRoute("Question_SaveRelevanceForAll", "Questions/SaveRelevanceForAll/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevanceForAll" });
 
             routes.MapRoute("Categories", "Categories", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_Create", "Categories/Create", new { controller = "EditCategory", action = "Create" });

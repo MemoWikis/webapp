@@ -29,12 +29,11 @@
     <div class="column-3">
        <div class="row header">
            <div class="column answersTotal">Antwort</div>
-           <div></div>
+           <div class="column percentageBar"><span style="color: green" >richtig</span>/<span style="color: red">falsch</span></div>
        </div>
 
        <div class="row">
-           <div class="column answersTotal">Alle: <%=Model.AnswerCountTotal%>
-           </div>
+           <div class="column answersTotal">Alle: <%=Model.AnswerCountTotal%></div>
            <div class="column percentageBar">
                <span class="pieTotals" data-percentage="<%= Model.AnswerPercentageTrue %>-<%= Model.AnswerPercentageFalse %>"></span>
                <span class="tristateHistory" data-history=""></span>

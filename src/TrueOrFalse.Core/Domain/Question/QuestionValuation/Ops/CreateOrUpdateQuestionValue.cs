@@ -1,10 +1,10 @@
 ﻿namespace TrueOrFalse.Core
 {
-    public class CreateQuestionValue_IfNotExists : IRegisterAsInstancePerLifetime
+    public class CreateOrUpdateQuestionValue : IRegisterAsInstancePerLifetime
     {
         private readonly QuestionValuationRepository _questionValuationRepository;
 
-        public CreateQuestionValue_IfNotExists(QuestionValuationRepository questionValuationRepository)
+        public CreateOrUpdateQuestionValue(QuestionValuationRepository questionValuationRepository)
         {
             _questionValuationRepository = questionValuationRepository;
         }
@@ -29,6 +29,14 @@
                                          };
 
                 _questionValuationRepository.Create(newQuestionVal);
+            }
+            else
+            {
+                if (quality != -1) questionValuation.Quality = quality;
+                if (relevancePeronal != -1) questionValuation.RelevancePersonal = relevancePeronal;
+                if (relevanceForAll != -1) questionValuation.RelevanceForAll = relevanceForAll;
+
+                _questionValuationRepository.Create(questionValuation);                
             }
         }
     }

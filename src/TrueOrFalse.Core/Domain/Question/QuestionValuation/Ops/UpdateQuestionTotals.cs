@@ -7,15 +7,15 @@ namespace TrueOrFalse.Core
     public class UpdateQuestionTotals : IRegisterAsInstancePerLifetime
     {
         private readonly QuestionValuationRepository _questionValuationRepository;
-        private readonly CreateQuestionValue_IfNotExists _createQuestionValueIfNotExists;
+        private readonly CreateOrUpdateQuestionValue _createOrUpdateQuestionValue;
         private readonly ISession _session;
 
         public UpdateQuestionTotals(QuestionValuationRepository questionValuationRepository,
-                                    CreateQuestionValue_IfNotExists createQuestionValue_IfNotExists,
+                                    CreateOrUpdateQuestionValue createOrUpdateQuestionValue,
                                     ISession session)
         {
             _questionValuationRepository = questionValuationRepository;
-            _createQuestionValueIfNotExists = createQuestionValue_IfNotExists;
+            _createOrUpdateQuestionValue = createOrUpdateQuestionValue;
             _session = session;
         }
 
@@ -37,9 +37,23 @@ namespace TrueOrFalse.Core
         
         public void UpdateQuality(int questionId, int userId, int quality)
         {
-            _createQuestionValueIfNotExists.Run(questionId, userId, quality:quality);
+            _createOrUpdateQuestionValue.Run(questionId, userId, quality:quality);
             _session.CreateSQLQuery(GenerateQualityQuery(questionId, userId)).ExecuteUpdate();
             _session.Flush();
+        }
+
+        public void UpdateRelevancePersonal(int questionId, int userId, int relevance)
+        {
+            _createOrUpdateQuestionValue.Run(questionId, userId, relevancePeronal: relevance);
+            _session.CreateSQLQuery(GenerateRelevancePersonal(questionId, userId)).ExecuteUpdate();
+            _session.Flush();            
+        }
+
+        public void UpdateRelevanceAll(int questionId, int userId, int relevance)
+        {
+            _createOrUpdateQuestionValue.Run(questionId, userId, relevanceForAll: relevance);
+            _session.CreateSQLQuery(GenerateRelevanceAllQuery(questionId, userId)).ExecuteUpdate();
+            _session.Flush();            
         }
 
         private string GenerateQualityQuery(int questionId, int userId)
@@ -47,6 +61,13 @@ namespace TrueOrFalse.Core
             return 
              GenerateAvgQuery("TotalQualityAvg", "Quality", questionId, userId) + " " +
              GenerateEntriesQuery("TotalQualityEntries", "Quality", questionId, userId);
+        }
+
+        private string GenerateRelevancePersonal(int questionId, int userId)
+        {
+            return
+                GenerateAvgQuery("TotalRelevancePersonalAvg", "RelevancePersonal", questionId, userId) + " " +
+                GenerateEntriesQuery("TotalRelevancePersonalEntries", "RelevancePersonal", questionId, userId);
         }
 
         private string GenerateRelevanceAllQuery(int questionId, int userId)

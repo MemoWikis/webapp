@@ -69,7 +69,7 @@ function InitFeedbackSlider(sliderName) {
         change: function (event, ui) {
             $.ajax({
                 type: 'POST',
-                url: "/Questions/SaveQuality/32/23",
+                url: "/Questions/Save" + sliderName + "/" + window.questionId + "/" + ui.value,
                 cache: false,
                 success: function (result) {
                     console.log(result);

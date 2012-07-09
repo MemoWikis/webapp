@@ -14,9 +14,9 @@ public class AnswerQuestionController : Controller
 
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
-    public AnswerQuestionController(QuestionRepository questionRepository, 
+    public AnswerQuestionController(QuestionRepository questionRepository,
                                     AnswerQuestion answerQuestion,
-                                    SessionUser sessionUser, 
+                                    SessionUser sessionUser,
                                     SessionUiData sessionUiData)
     {
         _questionRepository = questionRepository;
@@ -55,11 +55,14 @@ public class AnswerQuestionController : Controller
     {
         var result = _answerQuestion.Run(id, answer, _sessionUser.User.Id);
 
-        return new JsonResult {Data = new
-                                          {
-                                              correct = result.IsCorrect, 
-                                              correctAnswer = result.CorrectAnswer
-                                          }};
+        return new JsonResult
+                   {
+                       Data = new
+                                  {
+                                      correct = result.IsCorrect,
+                                      correctAnswer = result.CorrectAnswer
+                                  }
+                   };
     }
 
     [HttpPost]
@@ -67,30 +70,37 @@ public class AnswerQuestionController : Controller
     {
         var question = _questionRepository.GetById(id);
         var solution = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
-        return new JsonResult {Data = new
-                                          {
-                                              correctAnswer = solution.CorrectAnswer(),
-                                              correctAnswerDesc = question.Description
-                                          }};
+        return new JsonResult
+                   {
+                       Data = new
+                                  {
+                                      correctAnswer = solution.CorrectAnswer(),
+                                      correctAnswerDesc = question.Description
+                                  }
+                   };
     }
 
     [HttpPost]
     public JsonResult SaveQuality(int id, int newValue)
     {
         Sl.Resolve<UpdateQuestionTotals>().UpdateQuality(id, _sessionUser.User.Id, newValue);
-        return new JsonResult {Data = new {totalValuations = 1000, totalAverage = 10}};
+        var totals = Sl.Resolve<GetQuestionTotal>().RunForQuality(id);
+        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = totals.Avg} };
     }
 
     [HttpPost]
     public JsonResult SaveRelevancePersonal(int id, int newValue)
     {
-        return new JsonResult { Data = new { totalValuations = 2000, totalAverage = 5 } };
+        Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
+        var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);
+        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = totals.Avg } };
     }
 
     [HttpPost]
-    public JsonResult SaveRelevanceAll(int id, int newValue)
+    public JsonResult SaveRelevanceForAll(int id, int newValue)
     {
-        return new JsonResult { Data = new { totalValuations = 3000, totalAverage = 1 } };
+        Sl.Resolve<UpdateQuestionTotals>().UpdateRelevanceAll(id, _sessionUser.User.Id, newValue);
+        var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevanceForAll(id);
+        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = totals.Avg } };
     }
-
 }
