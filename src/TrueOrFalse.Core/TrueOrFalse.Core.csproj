@@ -121,7 +121,10 @@
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSoulutionExact.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
-    <Compile Include="Domain\Question\QuestionValuation\Ops\CreateQuestionValue_IfNotExists.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\NotNull.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\CreateOrUpdateQuestionValue.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotalResult.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotal.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\UpdateQuestionTotals.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepository.cs" />
     <Compile Include="Domain\Question\QuestionValuation\QuestionValuation.cs" />

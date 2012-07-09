@@ -50,10 +50,11 @@ function InitFeedbackSliders() {
 }
 
 function InitFeedbackSlider(sliderName) {
-    
+
     $("#remove" + sliderName + "Value").click(function () {
         $("#div" + sliderName + "Slider").hide();
         $("#div" + sliderName + "Add").show();
+        SendSilderValue(sliderName, -1);
     });
 
     $("#select" + sliderName + "Value").click(function () {
@@ -61,25 +62,35 @@ function InitFeedbackSlider(sliderName) {
         $("#div" + sliderName + "Add").hide();
     });
 
+    var sliderValue = $("#slider" + sliderName + "Value").text();
+    SetUiSliderSpan(sliderName, sliderValue);
+    
     $("#slider" + sliderName).slider({
         range: "min",
         max: 100,
-        value: 30,
-        slide: function (event, ui) { $("#slider" + sliderName + "Value").text(ui.value / 10); },
-        change: function (event, ui) {
-            $.ajax({
-                type: 'POST',
-                url: "/Questions/SaveQuality/32/23",
-                cache: false,
-                success: function (result) {
-                    console.log(result);
-                    $("#span" + sliderName + "Count").text(result.totalValuations.toString());
-                    $("#span" + sliderName + "Average").text(result.totalAverage.toString());
-                }
-            });
-        }
+        value: sliderValue,
+        slide: function (event, ui) { SetUiSliderSpan(sliderName, ui.value); },
+        change: function (event, ui) { SendSilderValue(sliderName, ui.value); }
     });
 }
+
+function SetUiSliderSpan(sliderName, uiValue) {
+    var text = uiValue != -1 ? uiValue / 10 : "";
+    $("#slider" + sliderName + "Value").text(text);
+}
+
+function SendSilderValue(sliderName, value) {
+    $.ajax({
+        type: 'POST',
+        url: "/Questions/Save" + sliderName + "/" + window.questionId + "/" + value,
+        cache: false,
+        success: function (result) {
+            $("#span" + sliderName + "Count").text(result.totalValuations.toString());
+            $("#span" + sliderName + "Average").text(result.totalAverage.toString());
+        }
+    });    
+}
+
 
 function validateAnswer() {
 

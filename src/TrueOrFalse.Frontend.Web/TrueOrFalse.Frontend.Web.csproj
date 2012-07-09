@@ -147,6 +147,7 @@
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
+    <Compile Include="Views\Questions\Answer\FeedbackRowModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
@@ -263,6 +264,9 @@
     <Content Include="Images\menu-icon-person.png" />
     <Content Include="Images\menu-icon-person.png.licence.txt" />
     <Content Include="Images\no-profile-picture-128.png" />
+    <Content Include="Images\Questions\include-folder.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\RowHeaderBackground.png" />
     <Content Include="Images\star.png" />
     <Content Include="Images\toflogo.png" />

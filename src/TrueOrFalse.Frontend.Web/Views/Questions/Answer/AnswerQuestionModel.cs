@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Core;
@@ -10,7 +11,10 @@ public class AnswerQuestionModel : ModelBase
 {
     public AnswerQuestionModel(){}
 
-    public AnswerQuestionModel(Question question, QuestionSearchSpec questionSearchSpec, int elementOnPage = -1) : this()
+    public AnswerQuestionModel(Question question, 
+                               QuestionValuation questionValuationForUser,
+                               QuestionSearchSpec questionSearchSpec, 
+                               int elementOnPage = -1) : this()
     {
         CreatorId = question.Creator.Id.ToString();
         CreatorName = question.Creator.Name;
@@ -48,6 +52,32 @@ public class AnswerQuestionModel : ModelBase
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
 
         ImageUrl = new GetQuestionImageUrl().Run(question);
+
+        FeedbackRows = new List<FeedbackRowModel>();
+        FeedbackRows.Add(new FeedbackRowModel{
+            Key = "Quality",
+            Title = "Qualität",
+            FeedbackAverage = Math.Round(question.TotalQualityAvg / 10d, 1).ToString(),
+            FeedbackCount = question.TotalQualityEntries.ToString(),
+            HasUserValue = questionValuationForUser.IsSetQuality(),
+            UserValue = questionValuationForUser.Quality.ToString()
+        });
+        FeedbackRows.Add(new FeedbackRowModel{
+            Key = "RelevancePersonal",
+            Title = "Relevanz für mich",
+            FeedbackAverage = Math.Round(question.TotalRelevancePersonalAvg / 10d, 1).ToString(),
+            FeedbackCount = question.TotalRelevancePersonalEntries.ToString(),
+            HasUserValue = questionValuationForUser.IsSetRelevancePersonal(),
+            UserValue = questionValuationForUser.RelevancePersonal.ToString()
+        });
+        FeedbackRows.Add(new FeedbackRowModel{
+            Key = "RelevanceForAll",
+            Title = "Sollte jeder wissen",
+            FeedbackAverage = Math.Round(question.TotalRelevanceForAllAvg / 10d, 1).ToString(),
+            FeedbackCount = question.TotalRelevanceForAllEntries.ToString(),
+            HasUserValue = questionValuationForUser.IsSetRelevanceForAll(),
+            UserValue = questionValuationForUser.RelevanceForAll.ToString()
+        });
     }
 
     public string QuestionId;
@@ -66,6 +96,7 @@ public class AnswerQuestionModel : ModelBase
     public string SolutionType;
     public object SolutionModel;
     public string ImageUrl;
+    public IList<FeedbackRowModel> FeedbackRows;
 
     public bool HasImage
     {

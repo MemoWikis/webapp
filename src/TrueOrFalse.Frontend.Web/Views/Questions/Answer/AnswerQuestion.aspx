@@ -117,68 +117,24 @@
                     </div>
                 </div>
                 
-                <script language="c#" runat="server">
-                    public class FeedbackRow
-                    {
-                        public string Key;
-                        public string Title;
-                        public string FeedbackCount;
-                        public string FeedbackAverage;
-
-                        public bool HasUserValue;
-                        public string UserValue;
-                    }
-                </script>
-                <%
-                    var feebackRows = new List<FeedbackRow>();
-                    feebackRows.Add(new FeedbackRow
-                    {
-                        Key = "Quality",
-                        Title = "Qualität", 
-                        FeedbackAverage = "7,6",
-                        FeedbackCount = "3216",
-                        HasUserValue = true,
-                        UserValue = "6"
-                    });
-
-                    feebackRows.Add(new FeedbackRow
-                    {
-                        Key = "RelevancePersonal",
-                        Title = "Relevanz für mich",
-                        FeedbackAverage = "2,5",
-                        FeedbackCount = "430",
-                        HasUserValue = true,
-                        UserValue = "25"
-                    });
-                    
-                    feebackRows.Add(new FeedbackRow
-                    {
-                        Key = "RelevanceForAll",
-                        Title = "Sollte jeder wissen",
-                        FeedbackAverage = "9,8",
-                        FeedbackCount = "417",
-                        HasUserValue = false,
-                        UserValue = "71"
-                    });                    
-                 %>
-                
-                <% foreach (var row in feebackRows){ %>
+                <% foreach (var row in Model.FeedbackRows){ %>
                     <div class="valRow row">
                         <div class="valColumn1 span3">
                             <%= row.Title %>: <i class="icon-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
                         </div>
-                        <div id="div<%= row.Key%>Slider" class="valColumn2 span2">
+                        
+                        <div id="div<%= row.Key%>Slider" class="valColumn2 span2" <% if(!row.HasUserValue){ %> style="display:none"  <% } %> >
                             <div id="slider<%= row.Key %>" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
                                 <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                                 <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
                             </div>                        
                             <a href="#" id="remove<%= row.Key %>Value"><img src="/Images/delete.png" class="imgDelete"></a>
-                            <span id="slider<%= row.Key %>Value" class="valMine">4.9</span>
+                            <span id="slider<%= row.Key %>Value" class="valMine"><%= row.UserValue%></span>
                         </div>
-                    
-                        <div id="div<%= row.Key %>Add" class="valColumn2 span2" style="display: none">
+                        <div id="div<%= row.Key %>Add" class="valColumn2 span2" <% if(row.HasUserValue){ %> style="display:none"  <% } %>>
                             <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="icon-plus"></i> ---</a>
                         </div>
+
                     </div>
                 <%} %>
 
