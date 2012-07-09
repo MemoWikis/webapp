@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Infrastructure;
@@ -40,7 +41,7 @@ public class EditQuestionController : Controller
     }
 
     [HttpPost]
-    public ActionResult Edit(int id, EditQuestionModel model, HttpPostedFileBase file)
+    public ActionResult Edit(int id, EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
     {
         model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
@@ -49,14 +50,15 @@ public class EditQuestionController : Controller
                                                                                                   _questionRepository.
                                                                                                       GetById(id),
                                                                                                   Request.Form));
-        UpdateImage(file, id);
+        UpdateImage(imagefile, id);
+        UpdateSound(soundfile, id);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
         return View(_viewLocation, model);
     }
 
     [HttpPost]
-    public ActionResult Create(EditQuestionModel model, HttpPostedFileBase file)
+    public ActionResult Create(EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
     {
         model.FillCategoriesFromPostData(Request.Form);
         var resultModel = new EditQuestionModel(new Question());
@@ -69,7 +71,8 @@ public class EditQuestionController : Controller
 
             question.Creator = _sessionUser.User;
             _questionRepository.Create(question);
-            UpdateImage(file, question.Id);
+            UpdateImage(imagefile, question.Id);
+            UpdateSound(soundfile, question.Id);
             resultModel.Message =
                 new SuccessMessage(
                     string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Nun wird eine <b>neue</b> Frage erstellt.",
@@ -110,10 +113,38 @@ public class EditQuestionController : Controller
         return View(string.Format(_viewLocationBody, type), model);
     }
 
-    private void UpdateImage(HttpPostedFileBase file, int categoryId)
+    private void UpdateImage(HttpPostedFileBase imagefile, int questionId)
     {
-        if (file == null) return;
-        new StoreImages().Run(file.InputStream, Server.MapPath("/Images/Questions/" + categoryId));
+        if (imagefile == null) return;
+        new StoreImages().Run(imagefile.InputStream, Server.MapPath("/Images/Questions/" + questionId));
     }
 
+    private void UpdateSound(HttpPostedFileBase soundfile, int questionId)
+    {
+        if (soundfile == null) return;
+        string extension;
+        switch (soundfile.ContentType)
+        {
+            case "audio/mpeg":
+                extension = ".mp3";
+                break;
+            case "audio/ogg":
+                extension = ".ogg";
+                break;
+            default:
+                return;
+
+        }
+
+        var storagePath = Server.MapPath("/Sounds/Questions/");
+        foreach (var file in Directory.GetFiles(storagePath, questionId + ".*"))
+        {
+            System.IO.File.Delete(file);
+        }
+
+        using (var savedFile = System.IO.File.Create(Path.Combine(storagePath, questionId + extension)))
+         {
+             soundfile.InputStream.CopyTo(savedFile);
+         }
+    }
 }

@@ -45,6 +45,7 @@ public class EditQuestionModel : ModelBase
     public string PageTitle;
     public bool ShowSaveAndNewButton;
     public string ImageUrl;
+    public string SoundUrl;
     public bool IsEditing;
 
     public IEnumerable<SelectListItem> VisibilityData { get {
