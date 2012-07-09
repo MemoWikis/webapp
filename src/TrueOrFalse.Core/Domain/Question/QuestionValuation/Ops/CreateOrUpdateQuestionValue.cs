@@ -11,9 +11,9 @@
 
         public void Run(int questionId, 
                         int userId, 
-                        int quality = -1, 
-                        int relevancePeronal = -1, 
-                        int relevanceForAll = -1)
+                        int quality = -2, 
+                        int relevancePeronal = -2, 
+                        int relevanceForAll = -2)
         {
             var questionValuation = _questionValuationRepository.GetBy(questionId, userId);
 
@@ -32,12 +32,16 @@
             }
             else
             {
-                if (quality != -1) questionValuation.Quality = quality;
-                if (relevancePeronal != -1) questionValuation.RelevancePersonal = relevancePeronal;
-                if (relevanceForAll != -1) questionValuation.RelevanceForAll = relevanceForAll;
+                if (quality != -2) questionValuation.Quality = quality;
+                if (relevancePeronal != -2) questionValuation.RelevancePersonal = relevancePeronal;
+                if (relevanceForAll != -2) questionValuation.RelevanceForAll = relevanceForAll;
 
                 _questionValuationRepository.Create(questionValuation);                
             }
+            _questionValuationRepository.Flush();
         }
+
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;
@@ -8,6 +9,7 @@ using TrueOrFalse.Core.Web.Context;
 public class AnswerQuestionController : Controller
 {
     private readonly QuestionRepository _questionRepository;
+    private readonly QuestionValuationRepository _questionValuation;
     private readonly AnswerQuestion _answerQuestion;
     private readonly SessionUser _sessionUser;
     private readonly SessionUiData _sessionUiData;
@@ -15,11 +17,13 @@ public class AnswerQuestionController : Controller
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
     public AnswerQuestionController(QuestionRepository questionRepository,
+                                    QuestionValuationRepository questionValuation,
                                     AnswerQuestion answerQuestion,
                                     SessionUser sessionUser,
                                     SessionUiData sessionUiData)
     {
         _questionRepository = questionRepository;
+        _questionValuation = questionValuation;
         _answerQuestion = answerQuestion;
         _sessionUser = sessionUser;
         _sessionUiData = sessionUiData;
@@ -28,8 +32,15 @@ public class AnswerQuestionController : Controller
     public ActionResult Answer(string text, int id, int elementOnPage)
     {
         var question = _questionRepository.GetById(id);
+        var questionValuation = _questionValuation.GetBy(id, _sessionUser.User.Id);
 
-        return View(_viewLocation, new AnswerQuestionModel(question, _sessionUiData.QuestionSearchSpec, elementOnPage));
+        return View(_viewLocation, 
+            new AnswerQuestionModel(
+                question,
+                NotNull.Run(questionValuation), 
+                _sessionUiData.QuestionSearchSpec, 
+                elementOnPage)
+        );
     }
 
     public ActionResult Next()
@@ -47,7 +58,13 @@ public class AnswerQuestionController : Controller
     private ActionResult GetViewByCurrentSearchSpec()
     {
         var question = _questionRepository.GetBy(_sessionUiData.QuestionSearchSpec).Single();
-        return View(_viewLocation, new AnswerQuestionModel(question, _sessionUiData.QuestionSearchSpec));
+        var questionValuation = _questionValuation.GetBy(question.Id, _sessionUser.User.Id);
+        return View(_viewLocation, 
+            new AnswerQuestionModel(
+                question,
+                NotNull.Run(questionValuation), 
+                _sessionUiData.QuestionSearchSpec)
+        );
     }
 
     [HttpPost]
@@ -85,7 +102,7 @@ public class AnswerQuestionController : Controller
     {
         Sl.Resolve<UpdateQuestionTotals>().UpdateQuality(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForQuality(id);
-        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = totals.Avg} };
+        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
     }
 
     [HttpPost]
@@ -93,7 +110,7 @@ public class AnswerQuestionController : Controller
     {
         Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);
-        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = totals.Avg } };
+        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
     }
 
     [HttpPost]
@@ -101,6 +118,6 @@ public class AnswerQuestionController : Controller
     {
         Sl.Resolve<UpdateQuestionTotals>().UpdateRelevanceAll(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevanceForAll(id);
-        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = totals.Avg } };
+        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
     }
 }
