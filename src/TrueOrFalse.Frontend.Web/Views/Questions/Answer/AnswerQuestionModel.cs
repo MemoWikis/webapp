@@ -64,7 +64,7 @@ public class AnswerQuestionModel : ModelBase
         });
         FeedbackRows.Add(new FeedbackRowModel{
             Key = "RelevancePersonal",
-            Title = "Relevanz für mich",
+            Title = "Merken. [UhrIcon]",
             FeedbackAverage = Math.Round(question.TotalRelevancePersonalAvg / 10d, 1).ToString(),
             FeedbackCount = question.TotalRelevancePersonalEntries.ToString(),
             HasUserValue = questionValuationForUser.IsSetRelevancePersonal(),
