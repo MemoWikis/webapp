@@ -1,6 +1,6 @@
 ﻿$.fn.defaultText = function (defaultText) {
 
-    if ($(this).val().trim() == "") {
+    if ($(this).val() == "") {
         $(this).val(defaultText);
     }
 
@@ -18,7 +18,7 @@
 
     $(this).blur(function () {
 
-        if ($(this).val().trim() == "") {
+        if ($(this).val() == "") {
             $(this).val(defaultText);
 
             $(this).animate({
