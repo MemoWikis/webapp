@@ -29,9 +29,12 @@ h3.form-sub-title
     font-size: 1.3em;
 }
 
-.added-cat {
-    float: left;
-    margin-right: 1em;
+
+.added-cat { float: left; margin-right: 1em; line-height: 28px }
+
+.added-cat a img {
+    padding-left: 4px;
+    margin-top: -4px;
 }
 
 .added-usr {
