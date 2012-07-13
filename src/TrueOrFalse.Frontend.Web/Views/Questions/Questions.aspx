@@ -28,8 +28,6 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
 
 <script type="text/javascript">
     $(function () {
-        console.log($(this));
-
         $(".pieTotals").each(function() {
             var me = $(this);
             var values = $(this).attr("data-percentage").split('-');

@@ -6,14 +6,13 @@
     <div class="column-1" >
         <%--<div>Gemerkt: <img src="/Images/star.png"/> </div>--%>
         <%--<img src="/Images/group_40x40.png" style="width: 21px; display: inline; line-height: 30px; margin-top:-7px;"/>--%>
-        
-        
-        <div style="padding-bottom:2px; padding-top:5px; height:  width: 160px;">
-            <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 100px; margin-left:5px; float: left; "> 
+
+        <div style="padding-bottom:2px; padding-top:5px; width: 160px;">
+            <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 100px; margin-left:5px; float: left; "> 
                 <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                 <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
             </div>
-            &nbsp;<a href="#">10</a>
+            &nbsp;<a href="#"><span class="sliderValue">4</span></a>
         </div>
         
         <div><a href="">Gemerkt: 

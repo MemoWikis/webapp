@@ -66,4 +66,42 @@ function deleteQuestion(questionId) {
 
 /*** SLIDER ****/
 
+$(function () {
+
+    //    $("#remove" + sliderName + "Value").click(function () {
+    //        $("#div" + sliderName + "Slider").hide();
+    //        $("#div" + sliderName + "Add").show();
+    //        SendSilderValue(sliderName, -1);
+    //    });
+
+    //    $("#select" + sliderName + "Value").click(function () {
+    //        $("#div" + sliderName + "Slider").show();
+    //        $("#div" + sliderName + "Add").hide();
+    //    });
+
+
+    $(".column-1").each(function () {
+        var sliderValue = $(this).find(".sliderValue").text();
+
+        $(this).find(".slider").slider({
+            range: "min",
+            max: 100,
+            value: sliderValue,
+            slide: function (event, ui) { SetUiSliderSpan($(this), ui.value); },
+            change: function (event, ui) { SendSilderValue(ui.value); }
+        });
+
+    });
+
+    function SetUiSliderSpan(divSlider, sliderValueParam) {
+        var text = sliderValueParam != -1 ? sliderValueParam / 10 : "";
+        $("#sliderValue").text(text);
+    }
+
+    function SendSilderValue() {
+
+    }
+
+});
+
 
