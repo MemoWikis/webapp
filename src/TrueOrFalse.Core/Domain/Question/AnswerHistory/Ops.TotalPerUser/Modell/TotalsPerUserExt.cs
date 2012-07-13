@@ -7,7 +7,7 @@ namespace TrueOrFalse.Core
     {
         public static TotalPerUser ByQuestionId(this IEnumerable<TotalPerUser> totalsPerUser, int questionId)
         {
-            return totalsPerUser.First(item => item.QuestionId == questionId);
+            return totalsPerUser.FirstOrDefault(item => item.QuestionId == questionId);
         }
     }
 }

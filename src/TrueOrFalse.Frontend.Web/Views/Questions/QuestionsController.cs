@@ -7,16 +7,19 @@ using TrueOrFalse.Core.Web.Context;
 public class QuestionsController : Controller
 {
     private readonly QuestionRepository _questionRepository;
+    private readonly TotalsPersUserLoader _totalsPerUserLoader;
     private readonly UserRepository _userRepository;
     private readonly SessionUiData _sessionUiData;
     private readonly SessionUser _sessionUser;
 
     public QuestionsController (QuestionRepository questionRepository,
+                                TotalsPersUserLoader totalsPerUserLoader, 
                                 UserRepository userRepository, 
                                 SessionUiData sessionUiData, 
                                 SessionUser sessionUser)
     {
         _questionRepository = questionRepository;
+        _totalsPerUserLoader = totalsPerUserLoader;
         _userRepository = userRepository;
         _sessionUiData = sessionUiData;
         _sessionUser = sessionUser;
@@ -32,8 +35,13 @@ public class QuestionsController : Controller
         _sessionUiData.QuestionSearchSpec.DelFilterByUser(model.DelFilterUser);
         
         if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
+
+        var questions = _questionRepository.GetBy(_sessionUiData.QuestionSearchSpec);
+
+        var totalsForUser = _totalsPerUserLoader.Run(_sessionUser.User.Id, questions);
+
         return View("Questions",
-                    new QuestionsModel(_questionRepository.GetBy(_sessionUiData.QuestionSearchSpec), _sessionUiData.QuestionSearchSpec, _sessionUser.User.Id)
+                    new QuestionsModel(questions, totalsForUser, _sessionUiData.QuestionSearchSpec, _sessionUser.User.Id)
                     {Pager = new PagerModel(_sessionUiData.QuestionSearchSpec),
                      FilterByMe = _sessionUiData.QuestionSearchSpec.FilterByMe,
                      FilterByAll = _sessionUiData.QuestionSearchSpec.FilterByAll,

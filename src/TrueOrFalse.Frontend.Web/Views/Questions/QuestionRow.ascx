@@ -51,17 +51,17 @@
        </div>
 
        <div class="row">
-           <div class="column answersTotal">Alle: <%=Model.AnswerCountTotal%></div>
+           <div class="column answersTotal">Alle: <%=Model.AnswersAllCount%></div>
            <div class="column percentageBar">
-               <span class="pieTotals" data-percentage="<%= Model.AnswerPercentageTrue %>-<%= Model.AnswerPercentageFalse %>"></span>
+               <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
                <span class="tristateHistory" data-history=""></span>
            </div>
        </div>
 
        <div class="row">
-           <div class="column answersTotal">Ich: <%= Model.AnswerCountMe%></div>
+           <div class="column answersTotal">Ich: <%= Model.AnswerMeCount%></div>
            <div class="column percentageBar">
-               <span class="pieTotals" data-percentage="10-15"></span>
+               <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>
                <span class="tristateHistory" data-history=""></span>
            </div>
        </div>

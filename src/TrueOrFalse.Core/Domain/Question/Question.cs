@@ -44,13 +44,13 @@ namespace TrueOrFalse.Core
         {
             if (TotalAnswers() == 0) return 0;
             if (TotalTrueAnswers == 0) return 0;
-            return Convert.ToInt32(((decimal)TotalTrueAnswers / (decimal)TotalAnswers()) * 100);
+            return Convert.ToInt32(((decimal)TotalTrueAnswers / TotalAnswers()) * 100);
         }
         public virtual int TotalFalseAnswerPercentage()
         {
             if (TotalAnswers() == 0) return 0;
             if (TotalFalseAnswers == 0) return 0;
-            return Convert.ToInt32(((decimal)TotalFalseAnswers / (decimal)TotalAnswers()) * 100);
+            return Convert.ToInt32(((decimal)TotalFalseAnswers / TotalAnswers()) * 100);
         }
 
         public virtual int TotalQualityAvg { get; set; }

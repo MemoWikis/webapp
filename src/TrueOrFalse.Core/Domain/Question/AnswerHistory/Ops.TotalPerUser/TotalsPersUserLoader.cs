@@ -15,10 +15,15 @@ namespace TrueOrFalse.Core
             _session = session;
         }
 
+        public IList<TotalPerUser> Run(int userId, IList<Question> questions)
+        {
+            return Run(userId, questions.GetIds());
+        }
+
         public IList<TotalPerUser> Run(int userId, IEnumerable<int> questionIds)
         {
             if (!questionIds.Any())
-                throw new Exception("at least one question Id is expected");
+                return new TotalPerUser[]{};
 
             var sbQuestionIdRestriction = new StringBuilder();
 

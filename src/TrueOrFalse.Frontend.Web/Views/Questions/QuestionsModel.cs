@@ -14,12 +14,16 @@ public class QuestionsModel : ModelBase
         FilterByUsers = new Dictionary<int, string>();
     }
 
-    public QuestionsModel(IEnumerable<Question> questions, QuestionSearchSpec questionSearchSpec, int currentUserId)
+    public QuestionsModel(IEnumerable<Question> questions, 
+                          IEnumerable<TotalPerUser> totalsForUser,
+                          QuestionSearchSpec questionSearchSpec, 
+                          int currentUserId)
     {
         int counter = 0; 
         QuestionRows = from question in questions
                        select new QuestionRowModel(
-                                    question, 
+                                    question,
+                                    totalsForUser.ByQuestionId(question.Id),
                                     ((questionSearchSpec.CurrentPage - 1) * questionSearchSpec.PageSize) + ++counter, 
                                     currentUserId
                                   );

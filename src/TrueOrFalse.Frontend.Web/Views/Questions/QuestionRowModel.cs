@@ -6,10 +6,36 @@ using TrueOrFalse.Core;
 
 public class QuestionRowModel
 {
-    public int AnswerPercentageTrue;
-    public int AnswerPercentageFalse;
 
-    public QuestionRowModel(Question question, int indexInResultSet, int currentUserid) 
+    public string CreatorName { get; private set; }
+
+    public string QuestionShort { get; private set; }
+    public int QuestionId { get; private set; }
+    public int IndexInresulSet { get; private set; }
+
+    public string CreatorUrlName { get; private set; }
+    public int CreatorId { get; private set; }
+
+    public int AnswersAllCount { get; private set; }
+    public int AnswersAllPercentageTrue;
+    public int AnswersAllPercentageFalse;
+
+    public int AnswerMeCount { get; private set; }
+    public int AnswerMePercentageTrue;
+    public int AnswerMePercentageFalse;
+
+    public bool IsOwner;
+    public string TotalRelevancePersonalEntries;
+    public string TotalRelevancePersonalAvg;
+
+    public string TotalQualityEntries;
+    public string TotalQualityAvg;
+
+    public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
+
+
+
+    public QuestionRowModel(Question question, TotalPerUser totalForUser, int indexInResultSet, int currentUserid) 
     {
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;
@@ -20,10 +46,17 @@ public class QuestionRowModel
 
         AnswerQuestionLink = url => Links.AnswerQuestion(url, question, indexInResultSet);
 
-        AnswerCountTotal = question.TotalAnswers();
-        AnswerPercentageTrue = question.TotalTrueAnswersPercentage();
-        AnswerPercentageFalse = question.TotalFalseAnswerPercentage();
-        AnswerCountMe = 0;
+        AnswersAllCount = question.TotalAnswers();
+        AnswersAllPercentageTrue = question.TotalTrueAnswersPercentage();
+        AnswersAllPercentageFalse = question.TotalFalseAnswerPercentage();
+
+        if(totalForUser == null)
+            totalForUser = new TotalPerUser();
+
+        AnswerMeCount = totalForUser.Total();
+        AnswerMePercentageTrue = totalForUser.PercentageTrue();
+        AnswerMePercentageFalse = totalForUser.PercentageFalse();
+        
         IndexInresulSet = indexInResultSet;
 
         IsOwner = currentUserid == CreatorId;
@@ -34,25 +67,6 @@ public class QuestionRowModel
         TotalQualityEntries = question.TotalQualityEntries.ToString();
         TotalQualityAvg = (question.TotalQualityAvg / 10d).ToString();
 
+
     }
-    public string CreatorName {get; private set;}
-
-    public string QuestionShort { get; private set; }
-    public int QuestionId { get; private set; }
-    public int IndexInresulSet { get; private set; }
-   
-    public string CreatorUrlName { get; private set; }
-    public int CreatorId { get; private set; }
-
-    public int AnswerCountTotal { get; private set; }
-    public int AnswerCountMe { get; private set; }
-
-    public bool IsOwner;
-    public string TotalRelevancePersonalEntries;
-    public string TotalRelevancePersonalAvg;
-    
-    public string TotalQualityEntries;
-    public string TotalQualityAvg;
-
-    public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
 }
