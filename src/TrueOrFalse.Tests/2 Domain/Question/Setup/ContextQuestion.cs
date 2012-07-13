@@ -28,6 +28,7 @@ namespace TrueOrFalse.Tests
             var question = new Question();
             question.Text = questionText;
             question.Solution = solutionText;
+            question.SolutionType = QuestionSolutionType.Exact;
             Questions.Add(question);
             return this;
         }
