@@ -94,7 +94,6 @@ namespace TrueOrFalse.Frontend.Web
         {
             if(!Sl.Resolve<SessionUser>().IsLoggedIn)
                 Sl.Resolve<LoginFromCookie>().Run();
-
         }
     }
 }

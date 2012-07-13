@@ -88,15 +88,20 @@
         </div>--%>
         
         <div class="control-group">
-            <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" />
-            <label for="imagefile">Bild:</label>
-            <input type="file" name="imagefile" id="imagefile" />
+            <% if (!String.IsNullOrEmpty(Model.ImageUrl)) {%> 
+                <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" />
+            <%} %>
+            <label for="imagefile" class="control-label">Bild:</label>
+            &nbsp;&nbsp;<input type="file" name="imagefile" id="imagefile" />
         </div>
         
         <div class="control-group">
-            <label for="soundfile">Ton:</label>
+            <% if (!String.IsNullOrEmpty(Model.SoundUrl)) {%> 
+                <a href="<%=Model.SoundUrl%>"></a> 
+            <%} %>
+            <label for="soundfile" class="control-label">Ton:</label>
+            &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
             
-            <input type="file" name="soundfile" id="soundfile" />
         </div>
            
         <div class="control-group">

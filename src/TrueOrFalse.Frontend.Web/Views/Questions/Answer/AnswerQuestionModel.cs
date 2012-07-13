@@ -55,20 +55,20 @@ public class AnswerQuestionModel : ModelBase
 
         FeedbackRows = new List<FeedbackRowModel>();
         FeedbackRows.Add(new FeedbackRowModel{
+            Key = "RelevancePersonal",
+            Title = "Merken. [UhrIcon]",
+            FeedbackAverage = Math.Round(question.TotalRelevancePersonalAvg / 10d, 1).ToString(),
+            FeedbackCount = question.TotalRelevancePersonalEntries.ToString(),
+            HasUserValue = questionValuationForUser.IsSetRelevancePersonal(),
+            UserValue = questionValuationForUser.RelevancePersonal.ToString()
+        });
+        FeedbackRows.Add(new FeedbackRowModel{
             Key = "Quality",
             Title = "Qualität",
             FeedbackAverage = Math.Round(question.TotalQualityAvg / 10d, 1).ToString(),
             FeedbackCount = question.TotalQualityEntries.ToString(),
             HasUserValue = questionValuationForUser.IsSetQuality(),
             UserValue = questionValuationForUser.Quality.ToString()
-        });
-        FeedbackRows.Add(new FeedbackRowModel{
-            Key = "RelevancePersonal",
-            Title = "Relevanz für mich",
-            FeedbackAverage = Math.Round(question.TotalRelevancePersonalAvg / 10d, 1).ToString(),
-            FeedbackCount = question.TotalRelevancePersonalEntries.ToString(),
-            HasUserValue = questionValuationForUser.IsSetRelevancePersonal(),
-            UserValue = questionValuationForUser.RelevancePersonal.ToString()
         });
         FeedbackRows.Add(new FeedbackRowModel{
             Key = "RelevanceForAll",

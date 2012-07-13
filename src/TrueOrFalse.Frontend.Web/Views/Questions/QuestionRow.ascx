@@ -4,9 +4,27 @@
 
 <div class="row question-row">
     <div class="column-1" >
-        <div>Gemerkt: <img src="/Images/star.png"/> </div>
-        <div>Relevanz: 4 (&#216;   4,2)</div>
-        <div>Qualtität: 3 (&#216;   4,6)</div>        
+        <%--<div>Gemerkt: <img src="/Images/star.png"/> </div>--%>
+        <%--<img src="/Images/group_40x40.png" style="width: 21px; display: inline; line-height: 30px; margin-top:-7px;"/>--%>
+
+        <div style="padding-bottom:2px; padding-top:5px; width: 160px;">
+            <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 100px; margin-left:5px; float: left; "> 
+                <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+                <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+            </div>
+            &nbsp;<a href="#"><span class="sliderValue">4</span></a>
+        </div>
+        
+        <div><a href="">Gemerkt: 
+            <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
+                <%= Model.TotalRelevancePersonalEntries %> (&#216;   <%= Model.TotalRelevancePersonalAvg %>)
+            <%}else{ %> ------------- <% } %></a>
+        </div>
+        <div><a href="">Qualtität: 
+            <%if(Model.TotalQualityEntries != "0"){ %>
+                <%= Model.TotalQualityEntries%> (&#216;   <%= Model.TotalQualityAvg%>)
+            <%}else{ %> ------------ <% } %></a>
+        </div>        
     </div>
 
     <div class="column-2">
@@ -28,8 +46,8 @@
 
     <div class="column-3">
        <div class="row header">
-           <div class="column answersTotal">Antwort</div>
-           <div class="column percentageBar"><span style="color: green" >richtig</span>/<span style="color: red">falsch</span></div>
+           <div class="column answersTotal">Antworten</div>
+           <div class="column percentageBar"><span style="color: green" >&nbsp;richt</span>/<span style="color: red">falsch</span></div>
        </div>
 
        <div class="row">

@@ -28,6 +28,12 @@ public class QuestionRowModel
 
         IsOwner = currentUserid == CreatorId;
 
+        TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries.ToString();
+        TotalRelevancePersonalAvg = (question.TotalRelevancePersonalAvg / 10d).ToString();
+
+        TotalQualityEntries = question.TotalQualityEntries.ToString();
+        TotalQualityAvg = (question.TotalQualityAvg / 10d).ToString();
+
     }
     public string CreatorName {get; private set;}
 
@@ -42,6 +48,11 @@ public class QuestionRowModel
     public int AnswerCountMe { get; private set; }
 
     public bool IsOwner;
+    public string TotalRelevancePersonalEntries;
+    public string TotalRelevancePersonalAvg;
+    
+    public string TotalQualityEntries;
+    public string TotalQualityAvg;
 
     public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
 }
