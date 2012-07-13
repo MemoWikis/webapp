@@ -261,6 +261,7 @@
     <Content Include="Images\delete.png.licence.txt" />
     <Content Include="Images\edit.png" />
     <Content Include="Images\edit.png.licence.txt" />
+    <Content Include="Images\group_40x40.png" />
     <Content Include="Images\menu-icon-person.png" />
     <Content Include="Images\menu-icon-person.png.licence.txt" />
     <Content Include="Images\no-profile-picture-128.png" />

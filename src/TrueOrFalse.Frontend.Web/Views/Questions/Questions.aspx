@@ -62,32 +62,13 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
     <div class="row form-horizontal well" style="padding-bottom: 0px; padding-top: 14px; margin-bottom: 0px;">
         <% using (Html.BeginForm()) { %>
         <div class="control-group" style="margin-bottom: 8px;">
-            <label><b>Fragen erstellt von</b>:</label>            
+            <label><b>Fragen erstellt von</b>:</label>
             <div class="btn-group" style="display: inline">
              <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
              <button class="btn btn-filterByAll">von anderen</button>
              <%: Html.HiddenFor(model => model.FilterByMe)%>
              <%: Html.HiddenFor(model => model.FilterByAll)%>
             </div>
-            <script type="text/javascript">
-                $(function () {
-                    $('.btn-filterByMe').click(function () {
-                        $(this).toggleClass('active');
-                        $('#FilterByMe').val($(this).hasClass('active'));
-                    });
-                    if ($('#FilterByMe').val().toLowerCase() == "true") {
-                        $('.btn-filterByMe').addClass('active');
-                    }
-
-                    $('.btn-filterByAll').click(function () {
-                        $(this).toggleClass('active');
-                        $('#FilterByAll').val($(this).hasClass('active'));
-                    });
-                    if ($('#FilterByAll').val().toLowerCase() == "true") {
-                        $('.btn-filterByAll').addClass('active');
-                    }
-                })
-            </script>
             <span class="help-inline">und</span>&nbsp;
             <% foreach (var filterByUser in Model.FilterByUsers)
                { %>
@@ -102,12 +83,6 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
              <% } %>
             <%: Html.HiddenFor(m => m.AddFilterUser, new {id="addFilterUserId"}) %>
             <%: Html.HiddenFor(m => m.DelFilterUser, new {id="delFilterUserId"}) %>
-            <script>
-                $(function () {
-                    $("#addFilterUserId").val("");
-                    $("#delFilterUserId").val("");
-                });
-            </script>
             <input type="text" class="span2" id="txtAddUserFilter"/>
             <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
         </div>

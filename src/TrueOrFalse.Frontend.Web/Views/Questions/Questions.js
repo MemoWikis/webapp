@@ -1,6 +1,29 @@
-﻿
-var questionIdToDelete;
+﻿/*** FILTER ****/
+$(function () {
+    $("#addFilterUserId").val("");
+    $("#delFilterUserId").val("");
+});
 
+$(function () {
+    $('.btn-filterByMe').click(function () {
+        $(this).toggleClass('active');
+        $('#FilterByMe').val($(this).hasClass('active'));
+    });
+    if ($('#FilterByMe').val().toLowerCase() == "true") {
+        $('.btn-filterByMe').addClass('active');
+    }
+
+    $('.btn-filterByAll').click(function () {
+        $(this).toggleClass('active');
+        $('#FilterByAll').val($(this).hasClass('active'));
+    });
+    if ($('#FilterByAll').val().toLowerCase() == "true") {
+        $('.btn-filterByAll').addClass('active');
+    }
+});
+
+/*** DELETE QUESTION ****/
+var questionIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
         questionIdToDelete = $(this).attr("data-questionId");
@@ -15,7 +38,6 @@ $(function () {
         deleteQuestion(questionIdToDelete);
         $("#modalDelete").modal('hide');
     });
-
 });
 
 function populateDeleteQuestionId(questionId) {
@@ -39,6 +61,9 @@ function deleteQuestion(questionId) {
         cache: false,
         success:function (){window.location.reload();},
         error: function (result) { alert("Ein Fehler ist aufgetreten"); }
-    });    
-    
+    });
 }
+
+/*** SLIDER ****/
+
+

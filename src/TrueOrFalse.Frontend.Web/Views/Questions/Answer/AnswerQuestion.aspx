@@ -127,7 +127,7 @@
                             <div id="slider<%= row.Key %>" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
                                 <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                                 <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-                            </div>                        
+                            </div>
                             <a href="#" id="remove<%= row.Key %>Value"><img src="/Images/delete.png" class="imgDelete"></a>
                             <span id="slider<%= row.Key %>Value" class="valMine"><%= row.UserValue%></span>
                         </div>
