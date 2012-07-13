@@ -82,6 +82,7 @@ public class EditQuestionModel : ModelBase
     public EditQuestionModel()
     {
         ImageUrl = "";
+        SoundUrl = "";
     }
 
     public EditQuestionModel(Question question)
@@ -93,6 +94,7 @@ public class EditQuestionModel : ModelBase
         Description = question.Description;
         Categories = (from cat in question.Categories select cat.Name).ToList();
         ImageUrl = new GetQuestionImageUrl().Run(question);
+        SoundUrl = new GetQuestionSoundUrl().Run(question);
     }
 
     public void FillCategoriesFromPostData(NameValueCollection postData)

@@ -10,7 +10,7 @@
     <style type="text/css">
         div.classification  input {width: 75px; background-color: beige;}
     </style>
-
+    <script type="text/javascript" src="/Scripts/jquery.jplayer.min.js"></script>
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -94,11 +94,11 @@
         </div>
         
         <div class="control-group">
-            <a href="<%=Model.SoundUrl%>">
-            <label for="soundfile">Ton:</label></a>
+            <label for="soundfile">Ton:</label>
+            
             <input type="file" name="soundfile" id="soundfile" />
         </div>
-            
+           
         <div class="control-group">
             <%= Html.LabelFor(m => m.SolutionType, new { @class = "control-label" }) %>
             <div class="controls">
