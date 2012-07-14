@@ -4,26 +4,36 @@
 
 <div class="row question-row">
     <div class="column-1" >
-        <%--<div>Gemerkt: <img src="/Images/star.png"/> </div>--%>
-        <%--<img src="/Images/group_40x40.png" style="width: 21px; display: inline; line-height: 30px; margin-top:-7px;"/>--%>
-
-        <div style="padding-bottom:2px; padding-top:5px; width: 160px;">
-            <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 100px; margin-left:5px; float: left; "> 
+        
+        
+        <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
+            <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left; "> 
                 <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                 <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
             </div>
-            &nbsp;<a href="#"><span class="sliderValue">4</span></a>
+            <div style="float:left; margin-top: -2px">
+                <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="icon-minus"></i></a>
+            </div>
         </div>
         
-        <div><a href="">Gemerkt: 
-            <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
-                <%= Model.TotalRelevancePersonalEntries %> (&#216;   <%= Model.TotalRelevancePersonalAvg %>)
-            <%}else{ %> ------------- <% } %></a>
-        </div>
-        <div><a href="">Qualtität: 
-            <%if(Model.TotalQualityEntries != "0"){ %>
-                <%= Model.TotalQualityEntries%> (&#216;   <%= Model.TotalQualityAvg%>)
-            <%}else{ %> ------------ <% } %></a>
+        <a href="#" class="addRelevance" style="<% if(Model.RelevancePersonal != -1){ %>display:none;<% } %>" ><i class="icon-plus-sign "></i> merken</a>
+        
+        <div style="clear:both;"></div>
+
+        <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
+            <div>
+                <%= Model.TotalRelevancePersonalEntries %> x 
+                <a href="">Merken (&#216;   <%= Model.TotalRelevancePersonalAvg %>)</a>
+            </div>
+        <%} %>
+        <%if(Model.TotalQualityEntries != "0"){ %>
+            <div>
+                <%= Model.TotalQualityEntries%> x <a href="">Qualtität (&#216; <%= Model.TotalQualityAvg%>)</a>
+            </div>        
+        <%} %>
+        <div>
+            <%= Model.Views %>
+            <a href="">x gesehen</a>
         </div>        
     </div>
 

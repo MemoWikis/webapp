@@ -121,7 +121,7 @@
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSoulutionExact.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
-    <Compile Include="Domain\Question\QuestionValuation\Ops\NotNull.cs" />
+    <Compile Include="Domain\NotNull.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\CreateOrUpdateQuestionValue.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotalResult.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotal.cs" />
@@ -129,6 +129,7 @@
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepository.cs" />
     <Compile Include="Domain\Question\QuestionValuation\QuestionValuation.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationMap.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\QuestionValuationExt.cs" />
     <Compile Include="Domain\User\Persistence\UserSearch.cs" />
     <Compile Include="Domain\Import\Importer.cs" />
     <Compile Include="Domain\Import\ImporterResult.cs" />

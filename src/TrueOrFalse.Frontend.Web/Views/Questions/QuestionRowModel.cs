@@ -30,12 +30,17 @@ public class QuestionRowModel
 
     public string TotalQualityEntries;
     public string TotalQualityAvg;
+    public int RelevancePersonal;
+    public int Views;
 
     public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
 
 
-
-    public QuestionRowModel(Question question, TotalPerUser totalForUser, int indexInResultSet, int currentUserid) 
+    public QuestionRowModel(Question question, 
+                            TotalPerUser totalForUser, 
+                            QuestionValuation questionValuation,
+                            int indexInResultSet, 
+                            int currentUserid) 
     {
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;
@@ -56,6 +61,8 @@ public class QuestionRowModel
         AnswerMeCount = totalForUser.Total();
         AnswerMePercentageTrue = totalForUser.PercentageTrue();
         AnswerMePercentageFalse = totalForUser.PercentageFalse();
+
+        RelevancePersonal = questionValuation.RelevancePersonal;
         
         IndexInresulSet = indexInResultSet;
 
@@ -67,6 +74,6 @@ public class QuestionRowModel
         TotalQualityEntries = question.TotalQualityEntries.ToString();
         TotalQualityAvg = (question.TotalQualityAvg / 10d).ToString();
 
-
+        Views = 3210;
     }
 }

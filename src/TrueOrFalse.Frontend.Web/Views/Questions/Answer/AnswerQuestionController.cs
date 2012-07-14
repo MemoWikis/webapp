@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;
 
-
 [HandleError]
 public class AnswerQuestionController : Controller
 {

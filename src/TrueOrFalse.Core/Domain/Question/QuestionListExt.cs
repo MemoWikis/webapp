@@ -10,9 +10,9 @@ namespace TrueOrFalse.Core
             return questions.Find(question => question.Id == id);
         }
 
-        public static IEnumerable<int> GetIds(this IEnumerable<Question> questions)
+        public static IList<int> GetIds(this IEnumerable<Question> questions)
         {
-            return questions.Select(q => q.Id);
+            return questions.Select(q => q.Id).ToList();
         }
     }
 }

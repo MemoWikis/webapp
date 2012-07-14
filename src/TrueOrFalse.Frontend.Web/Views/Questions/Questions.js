@@ -68,20 +68,20 @@ function deleteQuestion(questionId) {
 
 $(function () {
 
-    //    $("#remove" + sliderName + "Value").click(function () {
-    //        $("#div" + sliderName + "Slider").hide();
-    //        $("#div" + sliderName + "Add").show();
-    //        SendSilderValue(sliderName, -1);
-    //    });
+    $(".addRelevance").click(function() {
+        $(this).parent().find(".sliderContainer").show();
+    });
 
-    //    $("#select" + sliderName + "Value").click(function () {
-    //        $("#div" + sliderName + "Slider").show();
-    //        $("#div" + sliderName + "Add").hide();
-    //    });
-
+    $(".addRelevance").click(function () {
+        $(this).parent().find(".sliderContainer").show();
+        $(this).hide();
+        var slider = $(this).parent().find(".slider");
+        SetUiSliderSpan(slider, 0);
+    });
 
     $(".column-1").each(function () {
         var sliderValue = $(this).find(".sliderValue").text();
+        $(this).find(".sliderValue").text(sliderValue / 10);
 
         $(this).find(".slider").slider({
             range: "min",
@@ -95,7 +95,7 @@ $(function () {
 
     function SetUiSliderSpan(divSlider, sliderValueParam) {
         var text = sliderValueParam != -1 ? sliderValueParam / 10 : "";
-        $("#sliderValue").text(text);
+        divSlider.parent().find(".sliderValue").text(text);
     }
 
     function SendSilderValue() {

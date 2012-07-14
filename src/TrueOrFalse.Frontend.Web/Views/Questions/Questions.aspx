@@ -11,15 +11,16 @@ div.column-2 {background-color: seashell; }
 div.column-3 { background-color: yellowgreen;}
 div.question-row{background-color:silver;}--%>
 
-div.question-row{border-top:1px solid silver; margin-bottom:20px;}
+div.question-row{border-top:1px solid silver;height: 93px;}
 .column { display: inline-block;}
 div.question-row div.header { margin-bottom: 3px;border-bottom: 1px solid beige ;}
-div.column-1 { width: 160px;float: left; padding-top: 5px;}
+div.column-1 { width: 160px;float: left; padding-top: 5px; }
 div.column-2 { width: 530px;float: left; padding-top: 5px;}
 div.column-3 { width: 105px;float: left; padding-top: 5px;}
 div.question-row div.answersTotal{ width: 40px;}
 div.question-row div.percentageBar{ width: 65px;float: right;}
 
+.sliderValue{ margin-left: 10px;}
 
 </style>
 

@@ -7,18 +7,21 @@ using TrueOrFalse.Core.Web.Context;
 public class QuestionsController : Controller
 {
     private readonly QuestionRepository _questionRepository;
+    private readonly QuestionValuationRepository _questionValuationRepository;
     private readonly TotalsPersUserLoader _totalsPerUserLoader;
     private readonly UserRepository _userRepository;
     private readonly SessionUiData _sessionUiData;
     private readonly SessionUser _sessionUser;
 
     public QuestionsController (QuestionRepository questionRepository,
+                                QuestionValuationRepository questionValuationRepository,
                                 TotalsPersUserLoader totalsPerUserLoader, 
                                 UserRepository userRepository, 
                                 SessionUiData sessionUiData, 
                                 SessionUser sessionUser)
     {
         _questionRepository = questionRepository;
+        _questionValuationRepository = questionValuationRepository;
         _totalsPerUserLoader = totalsPerUserLoader;
         _userRepository = userRepository;
         _sessionUiData = sessionUiData;
@@ -38,10 +41,16 @@ public class QuestionsController : Controller
 
         var questions = _questionRepository.GetBy(_sessionUiData.QuestionSearchSpec);
 
-        var totalsForUser = _totalsPerUserLoader.Run(_sessionUser.User.Id, questions);
+        var totalsForCurrentUser = _totalsPerUserLoader.Run(_sessionUser.User.Id, questions);
+        var questionValutionsForCurrentUser = _questionValuationRepository.GetBy(questions.GetIds(), _sessionUser.User.Id);
 
         return View("Questions",
-                    new QuestionsModel(questions, totalsForUser, _sessionUiData.QuestionSearchSpec, _sessionUser.User.Id)
+                    new QuestionsModel(
+                        questions, 
+                        totalsForCurrentUser, 
+                        questionValutionsForCurrentUser,
+                        _sessionUiData.QuestionSearchSpec, 
+                        _sessionUser.User.Id)
                     {Pager = new PagerModel(_sessionUiData.QuestionSearchSpec),
                      FilterByMe = _sessionUiData.QuestionSearchSpec.FilterByMe,
                      FilterByAll = _sessionUiData.QuestionSearchSpec.FilterByAll,
