@@ -27,24 +27,6 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
 <script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>
 <script src="/Views/Questions/Questions.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-    $(function () {
-        $(".pieTotals").each(function() {
-            var me = $(this);
-            var values = $(this).attr("data-percentage").split('-');
-            me.sparkline([values[0], values[1]], {
-                type: 'pie',
-                sliceColors: ['#1BE022', 'red']
-            });
-        });
-
-        $(".tristateHistory").sparkline([1, 1, 0, 1, -1, -1, 1, -1, 0], {
-            type: 'tristate',
-            barWidth: 2
-        });
-    });
-</script>
-
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

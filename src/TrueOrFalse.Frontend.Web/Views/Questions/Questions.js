@@ -1,4 +1,5 @@
-﻿/*** FILTER ****/
+﻿/************************/
+/******* FILTER *********/
 $(function () {
     $("#addFilterUserId").val("");
     $("#delFilterUserId").val("");
@@ -22,6 +23,7 @@ $(function () {
     }
 });
 
+/************************/
 /*** DELETE QUESTION ****/
 var questionIdToDelete;
 $(function () {
@@ -64,8 +66,8 @@ function deleteQuestion(questionId) {
     });
 }
 
-/*** SLIDER ****/
-
+/************************/
+/******* SLIDER *********/
 $(function () {
 
     $(".removeRelevance").click(function () {
@@ -121,4 +123,25 @@ $(function () {
     }
 });
 
+/************************/
+/******* Charts *********/
+
+$(function () {
+    $(".pieTotals").each(function () {
+        var me = $(this);
+        var values = $(this).attr("data-percentage").split('-');
+        me.sparkline([values[0], values[1]], {
+            type: 'pie',
+            sliceColors: ['#1BE022', 'red']
+        });
+    });
+
+    $(".tristateHistory").sparkline([1, 1, 0, 1, -1, -1, 1, -1, 0], {
+        type: 'tristate',
+        barWidth: 2,
+        posBarColor: '#05c105',
+        negBarColor: '#ce1212',
+        tooltipValueLookups: { map: { '-1': 'Falsch', '0': 'Versuch und Antwort gezeigt', '1': 'Richtig' } }
+    });
+});
 
