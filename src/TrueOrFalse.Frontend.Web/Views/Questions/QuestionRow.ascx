@@ -7,11 +7,11 @@
         
         
         <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
-            <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left; "> 
+            <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
                 <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                 <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
             </div>
-            <div style="float:left; margin-top: -2px">
+            <div style="float:left; margin-top: -2px" class="sliderAnotation">
                 <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="icon-minus"></i></a>
             </div>
         </div>
@@ -22,8 +22,8 @@
 
         <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
             <div>
-                <%= Model.TotalRelevancePersonalEntries %> x 
-                <a href="">Merken (&#216;   <%= Model.TotalRelevancePersonalAvg %>)</a>
+                <span class="totalRelevanceEntries"><%= Model.TotalRelevancePersonalEntries %></span> x 
+                <a href="">Merken (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span>)</a>
             </div>
         <%} %>
         <%if(Model.TotalQualityEntries != "0"){ %>

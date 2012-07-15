@@ -43,7 +43,7 @@ $(function () {
 function populateDeleteQuestionId(questionId) {
     $.ajax({
         type: 'POST',
-        url: "/Questions/DeleteDetails/" + questionId,
+        url: "/Questions/SaveRelevancePersonal/" + questionId,
         cache: false,
         success: function (result) {
             $("#spanQuestionTitle").html(result.questionTitle.toString());
@@ -68,40 +68,57 @@ function deleteQuestion(questionId) {
 
 $(function () {
 
-    $(".addRelevance").click(function() {
-        $(this).parent().find(".sliderContainer").show();
+    $(".removeRelevance").click(function () {
+        var sliderContainer = $(this).parentsUntil(".column-1");
+        sliderContainer.hide();
+        sliderContainer.parent().find(".addRelevance").show();
+        SendSilderValue(sliderContainer.find(".slider"), -1);
+
     });
 
     $(".addRelevance").click(function () {
-        $(this).parent().find(".sliderContainer").show();
         $(this).hide();
+        $(this).parent().find(".sliderContainer").show();
+        $(this).parent().parent().find(".sliderAnotation").show();
         var slider = $(this).parent().find(".slider");
         SetUiSliderSpan(slider, 0);
+        InitSlider(slider.parent().parent());
     });
 
     $(".column-1").each(function () {
-        var sliderValue = $(this).find(".sliderValue").text();
-        $(this).find(".sliderValue").text(sliderValue / 10);
+        InitSlider($(this));
+    });
 
-        $(this).find(".slider").slider({
+    function InitSlider(divColumn1) {
+        var sliderValue = divColumn1.find(".sliderValue").text();
+        divColumn1.find(".sliderValue").text(sliderValue / 10);
+
+        divColumn1.find(".slider").slider({
             range: "min",
             max: 100,
             value: sliderValue,
             slide: function (event, ui) { SetUiSliderSpan($(this), ui.value); },
-            change: function (event, ui) { SendSilderValue(ui.value); }
+            change: function (event, ui) { SendSilderValue($(this), ui.value); }
         });
-
-    });
+    }
 
     function SetUiSliderSpan(divSlider, sliderValueParam) {
         var text = sliderValueParam != -1 ? sliderValueParam / 10 : "";
         divSlider.parent().find(".sliderValue").text(text);
     }
 
-    function SendSilderValue() {
-
+    function SendSilderValue(divSlider, sliderValueParam) {
+        $.ajax({
+            type: 'POST',
+            url: "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam,
+            cache: false,
+            success: function (result) {
+                console.log(result);
+                divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());
+                divSlider.parent().parent().find(".totalRelevanceAvg").text(result.totalAverage.toString());
+            }
+        });
     }
-
 });
 
 
