@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Core;
@@ -122,29 +123,9 @@ public class EditQuestionController : Controller
     private void UpdateSound(HttpPostedFileBase soundfile, int questionId)
     {
         if (soundfile == null) return;
-        string extension;
-        switch (soundfile.ContentType)
-        {
-            case "audio/mpeg":
-                extension = ".mp3";
-                break;
-            case "audio/ogg":
-                extension = ".ogg";
-                break;
-            default:
-                return;
-
-        }
-
-        var storagePath = Server.MapPath("/Sounds/Questions/");
-        foreach (var file in Directory.GetFiles(storagePath, questionId + ".*"))
-        {
-            System.IO.File.Delete(file);
-        }
-
-        using (var savedFile = System.IO.File.Create(Path.Combine(storagePath, questionId + extension)))
-         {
-             soundfile.InputStream.CopyTo(savedFile);
-         }
+        
+        new StoreSound().Run(soundfile.InputStream, Path.Combine(Server.MapPath("/Sounds/Questions/"), questionId + ".aac"));
     }
+
+
 }
