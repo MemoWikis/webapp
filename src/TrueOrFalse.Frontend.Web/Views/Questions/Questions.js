@@ -141,7 +141,7 @@ $(function () {
         barWidth: 2,
         posBarColor: '#05c105',
         negBarColor: '#ce1212',
-        tooltipValueLookups: { map: { '-1': 'Falsch', '0': 'Versuch und Antwort gezeigt', '1': 'Richtig' } }
+        tooltipValueLookups: { map: { '-1': 'Falsch', '0': 'Versuch und Antwort gezeigt', '1': 'Richtig'} }
     });
 });
 

@@ -28,6 +28,7 @@ namespace TrueOrFalse.Core
             
             Map(x => x.TotalRelevancePersonalAvg);
             Map(x => x.TotalRelevancePersonalEntries);
+            Map(x => x.TotalViews);
             
             Map(x => x.DateCreated);
             Map(x => x.DateModified);

@@ -61,5 +61,7 @@ namespace TrueOrFalse.Core
 
         public virtual int TotalRelevancePersonalAvg { get; set; }
         public virtual int TotalRelevancePersonalEntries { get; set; }
+
+        public virtual int TotalViews { get; set; }
     }
 }
