@@ -21,6 +21,7 @@ div.question-row div.answersTotal{ width: 40px;}
 div.question-row div.percentageBar{ width: 65px;float: right;}
 
 .sliderValue{ margin-left: 10px;}
+.piePersonalRelevanceTotal{ display:none; margin-top: 10px;}
 
 </style>
 

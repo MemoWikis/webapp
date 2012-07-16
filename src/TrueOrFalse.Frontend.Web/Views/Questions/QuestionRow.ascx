@@ -5,7 +5,6 @@
 <div class="row question-row">
     <div class="column-1" >
         
-        
         <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
                 <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
@@ -23,7 +22,7 @@
         <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
             <div>
                 <span class="totalRelevanceEntries"><%= Model.TotalRelevancePersonalEntries %></span> x 
-                <a href="">Merken (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span>)</a>
+                <a href="">Merken (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span></a> <span class="piePersonalRelevanceTotal" data-avg="<%= Model.TotalRelevancePersonalAvg  %>"></span> )
             </div>
         <%} %>
         <%if(Model.TotalQualityEntries != "0"){ %>

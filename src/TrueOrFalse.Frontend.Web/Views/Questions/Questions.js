@@ -136,6 +136,22 @@ $(function () {
         });
     });
 
+    $(".piePersonalRelevanceTotal").each(function () {
+
+
+        var value = parseFloat($(this).attr("data-avg"));
+        var height = (value * parseFloat(0.9)) + 5;
+
+        console.log(height);
+
+        $(this).sparkline([Math.round(value)], {
+            type: 'pie',
+            sliceColors: ['#ABC0FF'],
+            height: Math.round(height),
+            disableTooltips: 'true'
+        });
+    });
+
     $(".tristateHistory").sparkline([1, 1, 0, 1, -1, -1, 1, -1, 0], {
         type: 'tristate',
         barWidth: 2,
