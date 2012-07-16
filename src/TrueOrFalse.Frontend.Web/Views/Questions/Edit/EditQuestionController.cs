@@ -124,7 +124,7 @@ public class EditQuestionController : Controller
     {
         if (soundfile == null) return;
         
-        new StoreSound().Run(soundfile.InputStream, Path.Combine(Server.MapPath("/Sounds/Questions/"), questionId + ".aac"));
+        new StoreSound().Run(soundfile.InputStream, Path.Combine(Server.MapPath("/Sounds/Questions/"), questionId + ".m4a"));
     }
 
 

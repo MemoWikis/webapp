@@ -131,6 +131,10 @@
   <ItemGroup>
     <Compile Include="Code\ModelBase\ModelBase.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.video.play.png" />
     <Content Include="Images\Categories\include-folder.txt">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -341,6 +345,8 @@
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
+    <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
+    <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
