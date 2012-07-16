@@ -16,6 +16,9 @@
         div.headerLinks i { margin-top: 2px;}
         
         .questionBlockWidth { width: 400px;}
+        
+        #sparklineTrueOrFalseTotals{ position: relative;top: 1px; }
+        #sparklineTrueOrFalseUser{ position: relative;top: 1px; }
     </style>
     
     <script type="text/javascript">
@@ -167,14 +170,17 @@
             von: <a href="#"><%= Model.CreatorName %></a><br />
             vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             <br />
-
-            <%= Model.TimesAnswered %> beantwortet<br />
-            <%= Model.TimesAnsweredCorrect %> richtig<br />
-            <%= Model.TimesAnsweredWrong %>x falsche<br />
-            <%= Model.TimesJumpedOver %> übersprungen<br />
-            druchschn. Antwortzeit <%= Model.AverageAnswerTime %><br />            
+            
+            <b style="color: darkgray">Alle</b> <br/>
+            <%= Model.TotalViews %> x gesehen<br />
+            <%= Model.TimesAnsweredTotal %> x beantwortet <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span><br/>
             <br/>
             
+            <b style="color: darkgray">Ich</b> <br/>
+            <%= Model.TimesAnsweredUser %> x beantwortet <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span><br/>
+            
+
+            <br/>
             Feedback: 
             <a href="#">4x <i class="icon-repeat"></i></a>
             <a href="#">2x <i class="icon-fire"></i></a>

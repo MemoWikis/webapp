@@ -137,8 +137,7 @@ $(function () {
     });
 
     $(".piePersonalRelevanceTotal").each(function () {
-
-
+        
         var value = parseFloat($(this).attr("data-avg"));
         var height = (value * parseFloat(0.9)) + 5;
 

@@ -9,7 +9,9 @@ public class AnswerQuestionController : Controller
 {
     private readonly QuestionRepository _questionRepository;
     private readonly QuestionValuationRepository _questionValuation;
+    private readonly TotalsPersUserLoader _totalsPerUserLoader;
     private readonly AnswerQuestion _answerQuestion;
+    private readonly SaveQuestionView _saveQuestionView;
     private readonly SessionUser _sessionUser;
     private readonly SessionUiData _sessionUiData;
 
@@ -17,13 +19,17 @@ public class AnswerQuestionController : Controller
 
     public AnswerQuestionController(QuestionRepository questionRepository,
                                     QuestionValuationRepository questionValuation,
+                                    TotalsPersUserLoader totalsPerUserLoader,
                                     AnswerQuestion answerQuestion,
+                                    SaveQuestionView saveQuestionView, 
                                     SessionUser sessionUser,
                                     SessionUiData sessionUiData)
     {
         _questionRepository = questionRepository;
         _questionValuation = questionValuation;
+        _totalsPerUserLoader = totalsPerUserLoader;
         _answerQuestion = answerQuestion;
+        _saveQuestionView = saveQuestionView;
         _sessionUser = sessionUser;
         _sessionUiData = sessionUiData;
     }
@@ -33,9 +39,12 @@ public class AnswerQuestionController : Controller
         var question = _questionRepository.GetById(id);
         var questionValuation = _questionValuation.GetBy(id, _sessionUser.User.Id);
 
+        _saveQuestionView.Run(id, _sessionUser.User.Id);
+
         return View(_viewLocation, 
             new AnswerQuestionModel(
                 question,
+                _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
                 NotNull.Run(questionValuation), 
                 _sessionUiData.QuestionSearchSpec, 
                 elementOnPage)
@@ -58,9 +67,13 @@ public class AnswerQuestionController : Controller
     {
         var question = _questionRepository.GetBy(_sessionUiData.QuestionSearchSpec).Single();
         var questionValuation = _questionValuation.GetBy(question.Id, _sessionUser.User.Id);
+
+        _saveQuestionView.Run(question.Id, _sessionUser.User.Id);
+
         return View(_viewLocation, 
             new AnswerQuestionModel(
-                question,
+                question, 
+                _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
                 NotNull.Run(questionValuation), 
                 _sessionUiData.QuestionSearchSpec)
         );
