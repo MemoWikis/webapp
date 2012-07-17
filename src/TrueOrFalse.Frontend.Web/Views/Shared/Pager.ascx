@@ -16,20 +16,21 @@
             <% } else { %>
                 <li class="disabled"><a href="#">«</a></li>
             <% } %>
-
             
-            <li <% if (1 == Model.CurrentPage) { %> class="active" <% } %>>
-                <%= Html.ActionLink(1.ToString(CultureInfo.InvariantCulture),
-                    ViewContext.RouteData.Values["action"].ToString(), 
-                    ViewContext.RouteData.Values["controller"].ToString(), 
-                    new { page = 1 }, null)%>
-            </li>
+            <% if (Model.LastPage > 1 ){ %>
+                <li <% if (1 == Model.CurrentPage) { %> class="active" <% } %>>
+                    <%= Html.ActionLink(1.ToString(CultureInfo.InvariantCulture),
+                        ViewContext.RouteData.Values["action"].ToString(), 
+                        ViewContext.RouteData.Values["controller"].ToString(), 
+                        new { page = 1 }, null)%>
+                </li>
+            <%} %>
             
             <% if (Model.SkippedLeft) { %>
                 <li class="disabled"><a href="#">...</a></li>
             <% } %>
             
-            <% if (Model.Length > 0)  foreach (var i in Enumerable.Range(Model.Start, Model.Length)) { %>
+            <% if (Model.PageCountWithoutLastAndFirst > 0)  foreach (var i in Enumerable.Range(Model.Start, Model.PageCountWithoutLastAndFirst)) { %>
                 <li <% if (i == Model.CurrentPage) { %> class="active" <% } %>>
                     <%= Html.ActionLink(i.ToString(CultureInfo.InvariantCulture),
                         ViewContext.RouteData.Values["action"].ToString(), 
