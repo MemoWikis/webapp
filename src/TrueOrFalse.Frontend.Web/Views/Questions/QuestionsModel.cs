@@ -28,7 +28,7 @@ public class QuestionsModel : ModelBase
                                   );
 
         FilterByUsers = new Dictionary<int, string>();
-        TotalQuestions = questionSearchSpec.TotalItems;
+        TotalQuestionsInResult = questionSearchSpec.TotalItems;
     }
 
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
@@ -41,5 +41,6 @@ public class QuestionsModel : ModelBase
     public int? DelFilterUser { get; set; }
     public Dictionary<int, string> FilterByUsers { get; set; }
 
-    public int TotalQuestions;
+    public int TotalQuestionsInResult;
+    public int TotalQuestionsInSystem;
 }

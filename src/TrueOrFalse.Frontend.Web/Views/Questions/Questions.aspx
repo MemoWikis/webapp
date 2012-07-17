@@ -11,7 +11,7 @@ div.column-2 {background-color: seashell; }
 div.column-3 { background-color: yellowgreen;}
 div.question-row{background-color:silver;}--%>
 
-div.question-row{border-top:1px solid silver;height: 93px;}
+div.question-row{border-top:1px solid #DDD;;height: 93px;}
 .column { display: inline-block;}
 div.question-row div.header { margin-bottom: 3px;border-bottom: 1px solid beige ;}
 div.column-1 { width: 160px;float: left; padding-top: 5px; }
@@ -33,19 +33,20 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
     <div class="row" >
-        <div style="float: right;">
+
+    </div>
+    
+        <% using (Html.BeginForm()) { %>
+        <ul class="nav nav-tabs" style="padding-top: 14px;  ">
+          <li class="active"><a href="#home" >Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a></li>
+          <li><a href="#profile">Mein Wunschwissen (123) <i class="icon-question-sign" id="tabInfoMyKnowledge"></i></a> </li>
+        </ul>
+        <div style="float: right; margin-top: -55px;">
             <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="width: 120px" class="btn">
                 <i class="icon-plus-sign"></i>
                 Frage erstellen
             </a>
         </div>
-    </div>
-    
-        <% using (Html.BeginForm()) { %>
-        <ul class="nav nav-tabs" style="padding-top: 14px;  ">
-          <li class="active"><a href="#home" >Alle Fragen (179)</a></li>
-          <li><a href="#profile">Mein Wunschwissen (123) <i class="icon-question-sign" id="tabInfoMyKnowledge"></i></a> </li>
-        </ul>
         <div class="row form-horizontal " style="background-color: white; padding-top:15px; margin-top: -20px; margin-bottom: 0px; padding-bottom: 0px; border: 1px solid #DDD;">
             <div class="control-group" style="margin-bottom: 8px; background-color: white;" >
                 <label><b>Fragen erstellt von</b>:</label>
@@ -94,7 +95,26 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
 
 
     <div class="row" style="padding-top:5px; padding-bottom: 3px;">
-        <div class="pull-right"><%= Model.TotalQuestions %> Fragen</div>
+        
+        <ul class=" nav pull-right" style="padding-left: 5px; margin: 0px;">
+            <li class="dropdown" id="menu1">
+            <a class="dropdown-toggle btn btn-mini" data-toggle="dropdown" href="#menu1">
+                Sortieren nach: Erstellungsdatum
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Merken</a></li>
+                <li><a href="#">Qualität</a></li>
+                <li><a href="#">Erstellungsdatum</a></li>
+                <li><a href="#">Ansichten</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Empfehlungen</a></li>
+            </ul>
+            </li>
+        </ul>
+        
+        <div class="pull-right" style="font-size: 10px; margin-top:3px;"><%= Model.TotalQuestionsInResult %> Fragen</div>
+       
     </div>
 
     <% foreach (var row in Model.QuestionRows)
@@ -130,7 +150,7 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
             <h3>Hilfe: Tab - Mein Wunschwissen</h3>
         </div>
         <div class="modal-body">
-            Es wird nur das gewählte Wunschwissen gezeigt.
+            Es werden nur die Fragen gezeigt, die Sie zu Ihrem (Wunsch-)Wissen hinzugefügt haben. 
         </div>
         <div class="modal-footer">
             <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh ok, nun gut.</a>

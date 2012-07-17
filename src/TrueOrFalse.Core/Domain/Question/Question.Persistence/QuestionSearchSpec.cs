@@ -78,6 +78,7 @@ namespace TrueOrFalse.Core
         {
             FilterByUsers = new ReadOnlyCollection<int>(new List<int>());
             FilterByMe = true;
+            FilterByAll = true;
             UpdateFilter();
         }
 
