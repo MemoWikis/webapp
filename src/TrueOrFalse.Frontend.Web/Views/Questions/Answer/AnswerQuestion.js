@@ -13,7 +13,6 @@ var answerHistory = [];
 var amountOfTries = 0;
 
 $(function () {
-
     $("#txtAnswer").keypress(function (e) {
         if (e.keyCode == 13) {
             if (isAnswerPossible()) {
@@ -39,6 +38,18 @@ $(function () {
         animateNeutral();
     });
     InitFeedbackSliders();
+
+    var spanSparkLineTotals = $("#sparklineTrueOrFalseTotals");
+    spanSparkLineTotals.sparkline([parseInt(spanSparkLineTotals.attr("data-answersTrue")), parseInt(spanSparkLineTotals.attr("data-answersFalse"))], {
+        type: 'pie',
+        sliceColors: ['#1BE022', 'red']
+    });
+
+    var spanSparkLineUser = $("#sparklineTrueOrFalseUser");
+    spanSparkLineUser.sparkline([parseInt(spanSparkLineUser.attr("data-answersTrue")), parseInt(spanSparkLineUser.attr("data-answersFalse"))], {
+        type: 'pie',
+        sliceColors: ['#1BE022', 'red']
+    });
 
 });
 

@@ -15,6 +15,15 @@ namespace TrueOrFalse.Core
             _session = session;
         }
 
+        public TotalPerUser Run(int userId, int questionId)
+        {
+            var result = Run(userId, new List<int> {questionId});
+            if(!result.Any())
+                return new TotalPerUser();
+
+            return result[0];
+        }
+
         public IList<TotalPerUser> Run(int userId, IList<Question> questions)
         {
             return Run(userId, questions.GetIds());

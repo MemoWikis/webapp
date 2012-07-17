@@ -1,5 +1,4 @@
-﻿using System;
-using NHibernate;
+﻿using NHibernate;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core

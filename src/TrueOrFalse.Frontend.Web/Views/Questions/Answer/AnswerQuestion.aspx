@@ -1,35 +1,24 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
-    Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Core.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <script src="/Views/Questions/Answer/AnswerQuestion.js" type="text/javascript"></script>
+    
     <style type="text/css">
-        .selectorShowAnswer
-        {
-            /* marker class */
-        }
         
-        .btnRight
-        {
-            float: right;
-            margin-right: -10px;
-        }
+        .selectorShowAnswer{/* marker class */}
         
-        div.headerLinks
-        {
-        }
-        div.headerLinks i
-        {
-            margin-top: 2px;
-        }
+        .btnRight{float: right; margin-right: -10px;}
         
-        .questionBlockWidth
-        {
-            width: 400px;
-        }
+        div.headerLinks {}
+        div.headerLinks i { margin-top: 2px;}
+        
+        .questionBlockWidth { width: 400px;}
+        
+        #sparklineTrueOrFalseTotals{ position: relative;top: 1px; }
+        #sparklineTrueOrFalseUser{ position: relative;top: 1px; }
     </style>
     <script type="text/javascript">
         var questionId = "<%= Model.QuestionId %>";
@@ -173,44 +162,44 @@
                         <i class="icon-arrow-right"></i></a>
             </div>
         </div>
+        
         <div class="span2" style="padding-left: 20px;">
-            <div style="padding-top: 12px;">
-                <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-th-list">
-                </i>zur Übersicht</a><br style="line-height: 10px;" />
-                <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>">
-                    <i class="icon-pencil"></i>bearbeiten</a>
-            </div>
-            <div style="padding-top: 20px;" />
-            von: <a href="#">
-                <%= Model.CreatorName %></a><br />
-            vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">
-                <%= Model.CreationDateNiceText%></a>
+            <div style="padding-top:12px;">
+                <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-th-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
+                <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>                                        
+            </div>            
+            
+            <div style="padding-top: 20px;"/>
+
+            von: <a href="#"><%= Model.CreatorName %></a><br />
+            vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             <br />
-            <br />
-            <%= Model.TimesAnswered %>
-            beantwortet<br />
-            <%= Model.TimesAnsweredCorrect %>
-            richtig<br />
-            <%= Model.TimesAnsweredWrong %>x falsche<br />
-            <%= Model.TimesJumpedOver %>
-            übersprungen<br />
-            druchschn. Antwortzeit
-            <%= Model.AverageAnswerTime %><br />
-            <br />
-            Feedback: <a href="#">4x <i class="icon-repeat"></i></a><a href="#">2x <i class="icon-fire">
-            </i></a>
+            
+            <b style="color: darkgray">Alle</b> <br/>
+            <%= Model.TotalViews %> x gesehen<br />
+            <%= Model.TimesAnsweredTotal %> x beantwortet <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span><br/>
+            <br/>
+            
+            <b style="color: darkgray">Ich</b> <br/>
+            <%= Model.TimesAnsweredUser %> x beantwortet <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span><br/>
+            
+
+            <br/>
+            Feedback: 
+            <a href="#">4x <i class="icon-repeat"></i></a>
+            <a href="#">2x <i class="icon-fire"></i></a>
         </div>
+        
     </div>
+    
     <%--MODAL IMPROVE--%>
     <div id="modalImprove" class="modal hide fade">
         <div class="modal-header">
-            <button class="close" data-dismiss="modal">
-                ×</button>
-            <h3>
-                Dies Frage verbessern</h3>
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Dies Frage verbessern</h3>
         </div>
         <div class="modal-body">
-            <div>
+            <div >
                 <p>
                     Ich bitte darum, dass diese Frage verbessert wird weil:
                 </p>

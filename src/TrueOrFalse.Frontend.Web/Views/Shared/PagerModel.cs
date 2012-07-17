@@ -27,7 +27,7 @@ public class PagerModel
     public int Stop;
 
     /// <summary> The number of page buttons except the buttons for the first and last page.</summary>
-    public int Length;
+    public int PageCountWithoutLastAndFirst;
 
     public PagerModel(IPager pager)
     {
@@ -39,7 +39,7 @@ public class PagerModel
         SkippedLeft = (Start > 2);
         Stop = Math.Min(CurrentPage + Size, LastPage - 1);
         SkippedRight = (Stop < LastPage - 1);
-        Length = Stop - Start + 1;
+        PageCountWithoutLastAndFirst = Stop - Start + 1;
     }
 
 }

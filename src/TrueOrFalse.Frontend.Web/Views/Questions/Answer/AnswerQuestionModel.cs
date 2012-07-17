@@ -12,7 +12,8 @@ public class AnswerQuestionModel : ModelBase
     public AnswerQuestionModel(){}
 
     public AnswerQuestionModel(Question question, 
-                               QuestionValuation questionValuationForUser,
+                               TotalPerUser valuationForUser, 
+                               QuestionValuation questionValuationForUser, 
                                QuestionSearchSpec questionSearchSpec, 
                                int elementOnPage = -1) : this()
     {
@@ -26,11 +27,17 @@ public class AnswerQuestionModel : ModelBase
         SolutionType = question.SolutionType.ToString();
         SolutionModel = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
 
-        TimesAnswered = "0";
-        PercenctageCorrectAnswers = "34";
-        TimesAnsweredCorrect = "0";
-        TimesAnsweredWrong = "";
-        TimesJumpedOver = "";
+        TimesAnsweredTotal = question.TotalAnswers();
+        PercenctageCorrectAnswers = 34;
+        TimesAnsweredCorrect = question.TotalTrueAnswers;
+        TimesAnsweredWrongTotal = question.TotalFalseAnswers;
+        TimesJumpedOver = 0;
+
+        TimesAnsweredUser = valuationForUser.Total();
+        TimesAnsweredUserTrue = valuationForUser.TotalTrue;
+        TimesAnsweredUserWrong = valuationForUser.TotalFalse;
+
+        TotalViews = question.TotalViews;
 
         TotalQualityAvg = question.TotalQualityAvg.ToString();
         TotalQualityEntries = question.TotalQualityEntries.ToString();
@@ -99,6 +106,11 @@ public class AnswerQuestionModel : ModelBase
     public string ImageUrl;
     public string SoundUrl;
     public IList<FeedbackRowModel> FeedbackRows;
+    public int TotalViews;
+    
+    public int TimesAnsweredUser;
+    public int TimesAnsweredUserTrue;
+    public int TimesAnsweredUserWrong;
 
     public bool HasImage
     {
@@ -113,11 +125,11 @@ public class AnswerQuestionModel : ModelBase
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }
 
-    public string TimesAnswered { get; private set; }
-    public string PercenctageCorrectAnswers { get; private set; }
-    public string TimesAnsweredCorrect { get; private set; }
-    public string TimesAnsweredWrong { get; private set; }
-    public string TimesJumpedOver { get; private set; }
+    public int TimesAnsweredTotal { get; private set; }
+    public int PercenctageCorrectAnswers { get; private set; }
+    public int TimesAnsweredCorrect { get; private set; }
+    public int TimesAnsweredWrongTotal { get; private set; }
+    public int TimesJumpedOver { get; private set; }
 
     public string AverageAnswerTime { get; private set; }
 

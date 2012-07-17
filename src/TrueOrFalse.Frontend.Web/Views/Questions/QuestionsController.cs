@@ -52,11 +52,14 @@ public class QuestionsController : Controller
                         questionValutionsForCurrentUser,
                         _sessionUiData.QuestionSearchSpec, 
                         _sessionUser.User.Id)
-                    {Pager = new PagerModel(_sessionUiData.QuestionSearchSpec),
-                     FilterByMe = _sessionUiData.QuestionSearchSpec.FilterByMe,
-                     FilterByAll = _sessionUiData.QuestionSearchSpec.FilterByAll,
-                     FilterByUsers =  _userRepository.GetByIds(_sessionUiData.QuestionSearchSpec.FilterByUsers.ToArray())
-                                        .ToDictionary(user => user.Id, user => user.Name)});
+                    {
+                        Pager = new PagerModel(_sessionUiData.QuestionSearchSpec),
+                        FilterByMe = _sessionUiData.QuestionSearchSpec.FilterByMe,
+                        FilterByAll = _sessionUiData.QuestionSearchSpec.FilterByAll,
+                        FilterByUsers =  _userRepository.GetByIds(_sessionUiData.QuestionSearchSpec.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name),
+                        TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run()
+                    }
+            );
     }
 
     [HttpPost]

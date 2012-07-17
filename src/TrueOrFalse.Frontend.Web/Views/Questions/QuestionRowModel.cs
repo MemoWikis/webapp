@@ -74,6 +74,6 @@ public class QuestionRowModel
         TotalQualityEntries = question.TotalQualityEntries.ToString();
         TotalQualityAvg = (question.TotalQualityAvg / 10d).ToString();
 
-        Views = 3210;
+        Views = question.TotalViews;
     }
 }
