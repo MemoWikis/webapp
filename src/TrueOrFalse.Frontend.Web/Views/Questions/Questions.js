@@ -160,3 +160,9 @@ $(function () {
     });
 });
 
+/************************/
+$(function () {
+    $('#tabInfoMyKnowledge').click(function () {
+        $("#modalTabInfoMyKnowledge").modal('show');
+    });
+});

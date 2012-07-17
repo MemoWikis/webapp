@@ -31,8 +31,8 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    
     <div class="row" >
-        <h2 style="float: left;">Fragen</h2>
         <div style="float: right;">
             <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="width: 120px" class="btn">
                 <i class="icon-plus-sign"></i>
@@ -41,51 +41,56 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
         </div>
     </div>
     
-    <div class="row form-horizontal well" style="padding-bottom: 0px; padding-top: 14px; margin-bottom: 0px;">
         <% using (Html.BeginForm()) { %>
-        <div class="control-group" style="margin-bottom: 8px;">
-            <label><b>Fragen erstellt von</b>:</label>
-            <div class="btn-group" style="display: inline">
-             <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
-             <button class="btn btn-filterByAll">von anderen</button>
-             <%: Html.HiddenFor(model => model.FilterByMe)%>
-             <%: Html.HiddenFor(model => model.FilterByAll)%>
-            </div>
-            <span class="help-inline">und</span>&nbsp;
-            <% foreach (var filterByUser in Model.FilterByUsers)
-               { %>
-                  <span class="added-usr"><%: filterByUser.Value %><button id="del-usr-<%:filterByUser.Key%>"><i class="icon-remove"></i></button></span>
-                  <script type="text/javascript">
-                      $(function() {
-                          $("#del-usr-<%:filterByUser.Key%>").click(function() {
-                              $("#delFilterUserId").val("<%:filterByUser.Key%>");
+        <ul class="nav nav-tabs" style="padding-top: 14px;  ">
+          <li class="active"><a href="#home" >Alle Fragen (179)</a></li>
+          <li><a href="#profile">Mein Wunschwissen (123) <i class="icon-question-sign" id="tabInfoMyKnowledge"></i></a> </li>
+        </ul>
+        <div class="row form-horizontal " style="background-color: white; padding-top:15px; margin-top: -20px; margin-bottom: 0px; padding-bottom: 0px; border: 1px solid #DDD;">
+            <div class="control-group" style="margin-bottom: 8px; background-color: white;" >
+                <label><b>Fragen erstellt von</b>:</label>
+                <div class="btn-group" style="display: inline">
+                 <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
+                 <button class="btn btn-filterByAll">von anderen</button>
+                 <%: Html.HiddenFor(model => model.FilterByMe)%>
+                 <%: Html.HiddenFor(model => model.FilterByAll)%>
+                </div>
+                <span class="help-inline">und</span>&nbsp;
+                <% foreach (var filterByUser in Model.FilterByUsers)
+                   { %>
+                      <span class="added-usr"><%: filterByUser.Value %><button id="del-usr-<%:filterByUser.Key%>"><i class="icon-remove"></i></button></span>
+                      <script type="text/javascript">
+                          $(function() {
+                              $("#del-usr-<%:filterByUser.Key%>").click(function() {
+                                  $("#delFilterUserId").val("<%:filterByUser.Key%>");
+                              });
                           });
-                      });
-                  </script>
-             <% } %>
-            <%: Html.HiddenFor(m => m.AddFilterUser, new {id="addFilterUserId"}) %>
-            <%: Html.HiddenFor(m => m.DelFilterUser, new {id="delFilterUserId"}) %>
-            <input type="text" class="span2" id="txtAddUserFilter"/>
-            <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
-        </div>
-        <div class="control-group" style="margin-bottom: 8px;">
-            <label><b>Kategorien Filter</b>:</label>
-            <input type="text" class="span2" />
-        </div>
-        <div class="control-group" style="margin-bottom: 8px;">
-            <label><b>Mindestens</b>:</label>
+                      </script>
+                 <% } %>
+                <%: Html.HiddenFor(m => m.AddFilterUser, new {id="addFilterUserId"}) %>
+                <%: Html.HiddenFor(m => m.DelFilterUser, new {id="delFilterUserId"}) %>
+                <input type="text" class="span2" id="txtAddUserFilter"/>
+                <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
+            </div>
+            <div class="control-group" style="margin-bottom: 8px;">
+                <label><b>Kategorien Filter</b>:</label>
+                <input type="text" class="span2" />
+            </div>
+            <div class="control-group" style="margin-bottom: 8px;">
+                <label><b>Mindestens</b>:</label>
             
-            <span class="help-inline">Relevanz von </span>
-            <input class="span1"/>
+                <span class="help-inline">Relevanz von </span>
+                <input class="span1"/>
                 
-            <span class="help-inline">Qualität von: </span>
-            <input class="span1"/>
-        </div>
-        <div class="control-group" style="margin-bottom: 8px;">
-            <label></label>
+                <span class="help-inline">Qualität von: </span>
+                <input class="span1"/>
+            </div>
+            <div class="control-group" style="margin-bottom: 8px;">
+                <label></label>
+            </div>
         </div>
         <% } %>
-    </div>
+    
 
 
     <div class="row" style="padding-top:5px; padding-bottom: 3px;">
@@ -100,6 +105,7 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
      <% Html.RenderPartial("Pager", Model.Pager); %>
      
      
+     <% /* MODAL-DELETE****************************************************************/ %>
     <div id="modalDelete" class="modal hide fade">
         <div class="modal-header">
             <button class="close" data-dismiss="modal">×</button>
@@ -113,6 +119,22 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
         <div class="modal-footer">
             <a href="#" class="btn" id="btnCloseQuestionDelete">Schliessen</a>
             <a href="#" class="btn btn-primary btn-danger" id="confirmQuestionDelete">Löschen</a>
+        </div>
+    </div>
+    
+    <% /* MODAL-TAB-INFO-MyKnowledge****************************************************************/ %>
+    
+    <div id="modalTabInfoMyKnowledge" class="modal hide fade">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Hilfe: Tab - Mein Wunschwissen</h3>
+        </div>
+        <div class="modal-body">
+            Es wird nur das gewählte Wunschwissen gezeigt.
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh ok, nun gut.</a>
+            <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
         </div>
     </div>
 
