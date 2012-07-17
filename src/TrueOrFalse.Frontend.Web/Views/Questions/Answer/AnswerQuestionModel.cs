@@ -52,6 +52,7 @@ public class AnswerQuestionModel : ModelBase
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
 
         ImageUrl = new GetQuestionImageUrl().Run(question);
+        SoundUrl = new GetQuestionSoundUrl().Run(question);
 
         FeedbackRows = new List<FeedbackRowModel>();
         FeedbackRows.Add(new FeedbackRowModel{
@@ -96,11 +97,17 @@ public class AnswerQuestionModel : ModelBase
     public string SolutionType;
     public object SolutionModel;
     public string ImageUrl;
+    public string SoundUrl;
     public IList<FeedbackRowModel> FeedbackRows;
 
     public bool HasImage
     {
         get { return !string.IsNullOrEmpty(ImageUrl); }
+    }
+
+    public bool HasSound
+    {
+        get { return !string.IsNullOrEmpty(SoundUrl); }
     }
 
     public string CreationDateNiceText { get; private set; }

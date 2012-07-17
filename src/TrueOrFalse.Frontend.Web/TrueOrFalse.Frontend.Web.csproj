@@ -342,6 +342,7 @@
     <Content Include="Views\Questions\Questions.js" />
     <Content Include="Views\Questions\SelectUsers.js" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
+    <Content Include="Views\Shared\AudioPlayer.ascx" />
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
