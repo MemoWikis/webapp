@@ -29,6 +29,26 @@ public class QuestionsController : Controller
         _sessionUser = sessionUser;
     }
 
+    public ActionResult OrderByPersonalRelevance(int? page, QuestionsModel model){
+        _sessionUiData.QuestionSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+        return Questions(page, model);
+    }
+
+    public ActionResult OrderByQuality(int? page, QuestionsModel model){
+        _sessionUiData.QuestionSearchSpec.OrderBy.OrderByQuality.Desc();
+        return Questions(page, model);
+    }
+
+    public ActionResult OrderByCreationDate(int? page, QuestionsModel model){
+        _sessionUiData.QuestionSearchSpec.OrderBy.OrderByCreationDate.Desc();
+        return Questions(page, model);
+    }
+
+    public ActionResult OrderByViews(int? page, QuestionsModel model){
+        _sessionUiData.QuestionSearchSpec.OrderBy.OrderByViews.Desc();
+        return Questions(page, model);
+    }
+
     public ActionResult Questions(int? page, QuestionsModel model)
     {
         _sessionUiData.QuestionSearchSpec.PageSize = 10;
@@ -37,6 +57,9 @@ public class QuestionsController : Controller
         _sessionUiData.QuestionSearchSpec.SetFilterByAll(model.FilterByAll);
         _sessionUiData.QuestionSearchSpec.AddFilterByUser(model.AddFilterUser);
         _sessionUiData.QuestionSearchSpec.DelFilterByUser(model.DelFilterUser);
+
+        if (!_sessionUiData.QuestionSearchSpec.OrderBy.IsSet())
+            _sessionUiData.QuestionSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
         
         if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
 
