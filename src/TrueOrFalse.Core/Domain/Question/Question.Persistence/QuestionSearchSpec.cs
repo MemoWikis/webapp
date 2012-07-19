@@ -89,5 +89,37 @@ namespace TrueOrFalse.Core
 
     }
 
-    public class QuestionOrderBy : SpecOrderByBase { }
+    public class QuestionOrderBy : SpecOrderByBase
+    {
+        public OrderBy OrderByPersonalRelevance;
+        public OrderBy OrderByQuality;
+        public OrderBy OrderByViews;
+
+        public OrderBy OrderByCreationDate;
+
+        public QuestionOrderBy()
+        {
+            OrderByPersonalRelevance = new OrderBy("TotalRelevancePersonalAvg", this);
+            OrderByQuality = new OrderBy("TotalQualityAvg", this);
+            OrderByViews = new OrderBy("TotalViews", this);
+            OrderByCreationDate = new OrderBy("DateCreated", this);
+        }
+
+        public string ToText()
+        {
+            if (OrderByPersonalRelevance.IsCurrent())
+                return "Merken";
+
+            if (OrderByQuality.IsCurrent())
+                return "Qualität";
+
+            if (OrderByViews.IsCurrent())
+                return "Ansichten";
+
+            if (OrderByCreationDate.IsCurrent())
+                return "Erstellungsdatum";
+
+            return "";
+        }
+    }
 }

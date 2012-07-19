@@ -29,6 +29,9 @@ public class QuestionsModel : ModelBase
 
         FilterByUsers = new Dictionary<int, string>();
         TotalQuestionsInResult = questionSearchSpec.TotalItems;
+
+        OrderBy = questionSearchSpec.OrderBy;
+        OrderByLabel = questionSearchSpec.OrderBy.ToText();
     }
 
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
@@ -43,4 +46,6 @@ public class QuestionsModel : ModelBase
 
     public int TotalQuestionsInResult;
     public int TotalQuestionsInSystem;
+    public string OrderByLabel;
+    public QuestionOrderBy OrderBy;
 }

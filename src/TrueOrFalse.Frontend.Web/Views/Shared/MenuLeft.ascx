@@ -4,14 +4,16 @@
 
 <div class="menu">
 
-    <div class="main"><%= Html.ActionLink("Neues", Links.News, Links.NewsController)%></div>
-    
-    <div class="main" style="margin-top:12px;"><%= Html.ActionLink("Wissen", Links.Knowledge, Links.KnowledgeController)%></div>
+    <div class="main" ><%= Html.ActionLink("Wissen (175)", Links.Knowledge, Links.KnowledgeController)%></div>
     <div><%= Html.ActionLink("Fragen", Links.Questions, Links.QuestionsController)%></div>
     <div><%= Html.ActionLink("Fragensätze", Links.Questions, Links.QuestionsController)%></div>
     <div><%= Html.ActionLink("Kurse", Links.Questions, Links.QuestionsController)%></div>
-    <div class="no-hover">-------------</div>
-    <div><%= Html.ActionLink("Kategorisierung", Links.Categories, Links.CategoriesController)%></div>
+    
+    <div style="margin-top: 13px;"><%= Html.ActionLink("Kategorisierung", Links.Categories, Links.CategoriesController)%></div>
+    
+    <div class="main" style="margin-top:12px;"><a href="#">Neues <span class="badge badge-info" style="display:inline-block; position: relative; top: -2px;">21</span></a>
+        
+    </div>
 
     <div class="main" style="margin-top:12px;"><a href="#" >Netzwerk<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> </div>
 

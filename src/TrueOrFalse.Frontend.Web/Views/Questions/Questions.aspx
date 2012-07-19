@@ -11,7 +11,7 @@ div.column-2 {background-color: seashell; }
 div.column-3 { background-color: yellowgreen;}
 div.question-row{background-color:silver;}--%>
 
-div.question-row{border-top:1px solid #DDD;;height: 93px;}
+div.question-row{border-top:1px solid #ebebeb;height: 93px;}
 .column { display: inline-block;}
 div.question-row div.header { margin-bottom: 3px;border-bottom: 1px solid beige ;}
 div.column-1 { width: 160px;float: left; padding-top: 5px; }
@@ -47,9 +47,16 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
                 Frage erstellen
             </a>
         </div>
-        <div class="row form-horizontal " style="background-color: white; padding-top:15px; margin-top: -20px; margin-bottom: 0px; padding-bottom: 0px; border: 1px solid #DDD;">
+        <div class="row form-horizontal " style="background-color: white; padding-top:15px; margin-top: -19px; margin-bottom: 0px; padding-bottom: 0px; border: 1px solid #ebebeb; border-bottom: none;">
+            
+            <div class="control-group" style="margin-bottom: 8px;">
+                <label style="line-height: 18px; padding-top: 5px;"><b>Suche</b>:</label>
+                <input type="text" style="width:297px;" />
+                <button id="Button1"  class="btn" style="height: 28px;"><img alt="" src="/Images/Buttons/tick.png"></button>
+            </div>
+
             <div class="control-group" style="margin-bottom: 8px; background-color: white;" >
-                <label><b>Fragen erstellt von</b>:</label>
+                <label style="line-height: 18px; padding-top: 5px;"><b>Erstellt</b>:</label>
                 <div class="btn-group" style="display: inline">
                  <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
                  <button class="btn btn-filterByAll">von anderen</button>
@@ -73,40 +80,26 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
                 <input type="text" class="span2" id="txtAddUserFilter"/>
                 <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
             </div>
-            <div class="control-group" style="margin-bottom: 8px;">
-                <label><b>Kategorien Filter</b>:</label>
+<%--            <div class="control-group" style="margin-bottom: 8px;">
+                <label style="line-height: 18px; padding-top: 5px;"><b>Kategorien</b>:</label>
                 <input type="text" class="span2" />
-            </div>
-            <div class="control-group" style="margin-bottom: 8px;">
-                <label><b>Mindestens</b>:</label>
-            
-                <span class="help-inline">Relevanz von </span>
-                <input class="span1"/>
-                
-                <span class="help-inline">Qualität von: </span>
-                <input class="span1"/>
-            </div>
-            <div class="control-group" style="margin-bottom: 8px;">
-                <label></label>
-            </div>
+            </div>--%>
         </div>
         <% } %>
-    
 
-
-    <div class="row" style="padding-top:5px; padding-bottom: 3px;">
+    <div class="row" style="padding-bottom: 3px; margin-top: -8px;">
         
         <ul class=" nav pull-right" style="padding-left: 5px; margin: 0px;">
             <li class="dropdown" id="menu1">
             <a class="dropdown-toggle btn btn-mini" data-toggle="dropdown" href="#menu1">
-                Sortieren nach: Erstellungsdatum
+                Sortieren nach: <%=Model.OrderByLabel %>
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="#">Merken</a></li>
-                <li><a href="#">Qualität</a></li>
-                <li><a href="#">Erstellungsdatum</a></li>
-                <li><a href="#">Ansichten</a></li>
+                <li><a href="<%= Url.Action("OrderByPersonalRelevance", "Questions") %>"><% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){%><i class="icon-ok"></i> <%}%>Merken</a></li>
+                <li><a href="<%= Url.Action("OrderByQuality", "Questions") %>"><% if (Model.OrderBy.OrderByQuality.IsCurrent()){%><i class="icon-ok"></i> <%}%>Qualität</a></li>
+                <li><a href="<%= Url.Action("OrderByCreationDate", "Questions") %>"><% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){%><i class="icon-ok"></i> <%}%>Erstellungsdatum</a></li>
+                <li><a href="<%= Url.Action("OrderByViews", "Questions") %>"><% if (Model.OrderBy.OrderByViews.IsCurrent()){%><i class="icon-ok"></i> <%}%>Ansichten</a></li>
                 <li class="divider"></li>
                 <li><a href="#">Empfehlungen</a></li>
             </ul>
