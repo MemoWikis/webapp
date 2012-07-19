@@ -80,7 +80,7 @@ public class AnswerQuestionModel : ModelBase
         });
         FeedbackRows.Add(new FeedbackRowModel{
             Key = "RelevanceForAll",
-            Title = "Sollte jeder wissen",
+            Title = "Allgemeinwissen?",
             FeedbackAverage = Math.Round(question.TotalRelevanceForAllAvg / 10d, 1).ToString(),
             FeedbackCount = question.TotalRelevanceForAllEntries.ToString(),
             HasUserValue = questionValuationForUser.IsSetRelevanceForAll(),

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate;
+using NHibernate.Criterion;
 using Seedworks.Lib;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;
@@ -63,7 +65,10 @@ public class QuestionsController : Controller
         
         if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
 
-        var questions = _questionRepository.GetBy(_sessionUiData.QuestionSearchSpec);
+        var session = ServiceLocator.Resolve<ISession>();
+        session.CreateCriteria<Category>();
+        
+        var questions = _questionRepository.GetBy(_sessionUiData.QuestionSearchSpec, c => c.SetFetchMode("Categories", FetchMode.Eager));
 
         var totalsForCurrentUser = _totalsPerUserLoader.Run(_sessionUser.User.Id, questions);
         var questionValutionsForCurrentUser = _questionValuationRepository.GetBy(questions.GetIds(), _sessionUser.User.Id);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using NHibernate;
 using NUnit.Framework;
 using SharpTestsEx;
 using TrueOrFalse.Core;
@@ -16,12 +17,14 @@ namespace TrueOrFalse.Tests.Persistence
         [Test]
         public void Questions_should_be_persisted()
         {
-            ContextQuestion.New().AddQuestion("What is BDD", "Another name for writing acceptance tests")
+            var context = ContextQuestion.New().AddQuestion("What is BDD", "Another name for writing acceptance tests")
                                     .AddCategory("A")
                                     .AddCategory("B")
                                     .AddCategory("C")
                                  .AddQuestion("Another Question", "Some answer")
                                     .Persist();
+            
+            Resolve<ISession>().Evict(context.Questions[0]);
 
             var questions = Resolve<QuestionRepository>().GetAll();
             questions.Count.Should().Be.EqualTo(2);
@@ -30,7 +33,8 @@ namespace TrueOrFalse.Tests.Persistence
             questions[0].Categories[2].Name.Should().Be.EqualTo("C");
             questions[0].Solution.StartsWith("Another").Should().Be.True();
             questions[1].Solution.StartsWith("Some").Should().Be.True();
-        }
 
+            var searchSpec = new QuestionSearchSpec();
+        }
     }
 }
