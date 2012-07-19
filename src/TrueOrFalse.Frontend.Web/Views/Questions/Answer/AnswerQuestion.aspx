@@ -1,4 +1,4 @@
-﻿﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Core.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -158,39 +158,47 @@
 
         </div>
         
-        <div class="span2">
-            <div class="pull-right headerLinks" style="margin-top:8px; line-height: 25px;">
+        <div class="span2" style="padding-left: 20px;">
+            <div class="headerLinks" style="margin-top:8px; line-height: 25px;">
                 <a href="<%= Url.Action("Previous", Links.AnswerQuestionController) %>" ><i class="icon-arrow-left"></i></a>
                 <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
                 <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>" ><i class="icon-arrow-right"></i> </a>
             </div>            
+            
+            
+            <p style="padding-top: 0px;">
+                von: <a href="#"><%= Model.CreatorName %></a><br />
+                vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
+            </p>
+            
+            <p style="padding-top:12px;">
+                Feedback: 
+                <a href="#">4x <i class="icon-repeat"></i></a>
+                <a href="#">2x <i class="icon-fire"></i></a>
+            </p>
+            
+            <p style="width: 150px;">
+                <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend" data-font="arial"></div>
+            </p>
+
         </div>
         
-        <div class="span2" style="padding-left: 20px;">
+        <div class="span2" style="padding-left: 20px; height: 400px;">
             <div style="padding-top:12px;">
                 <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-th-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
                 <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>                                        
             </div>            
             
-            <div style="padding-top: 20px;"/>
-
-            von: <a href="#"><%= Model.CreatorName %></a><br />
-            vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
-            <br />
+            <p style="padding-top: 43px;">
+                <b style="color: darkgray">Ich</b> <br/>
+                <%= Model.TimesAnsweredUser %> x beantwortet <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span>
+            </p>            
             
-            <b style="color: darkgray">Alle</b> <br/>
-            <%= Model.TotalViews %> x gesehen<br />
-            <%= Model.TimesAnsweredTotal %> x beantwortet <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span><br/>
-            <br/>
-            
-            <b style="color: darkgray">Ich</b> <br/>
-            <%= Model.TimesAnsweredUser %> x beantwortet <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span><br/>
-            
-
-            <br/>
-            Feedback: 
-            <a href="#">4x <i class="icon-repeat"></i></a>
-            <a href="#">2x <i class="icon-fire"></i></a>
+            <p>
+                <b style="color: darkgray">Alle</b> <br/>
+                <%= Model.TotalViews %> x gesehen<br />
+                <%= Model.TimesAnsweredTotal %> x beantwortet <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span><br/>
+            </p>           
         </div>
         
     </div>
