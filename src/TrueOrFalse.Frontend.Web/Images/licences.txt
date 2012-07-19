@@ -1,1 +1,2 @@
-- "group_40x40.png" "Free for commercial use" -  http://www.iconfinder.com/icondetails/62866/40/forum_group_reload_icon
+- "group_40x40.png" - "Free for commercial use" - http://www.iconfinder.com/icondetails/62866/40/forum_group_reload_icon
+- "textfield-*.png", "date-*.png", "numerical_stepper-*.png" - Creative Commons (Attribution 3.0 United States) by FatCow Web Hosting - http://www.iconfinder.com/icondetails/64874/32/textfield_icon
