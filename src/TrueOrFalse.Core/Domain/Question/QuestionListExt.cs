@@ -14,5 +14,10 @@ namespace TrueOrFalse.Core
         {
             return questions.Select(q => q.Id).ToList();
         }
+
+        public static IList<Category> GetAllCategories(this IEnumerable<Question> questions)
+        {
+            return questions.SelectMany(q => q.Categories).ToList();
+        }
     }
 }

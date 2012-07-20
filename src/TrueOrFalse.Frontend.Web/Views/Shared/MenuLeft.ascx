@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<dynamic>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<MenuModel>" %>
 <%@ Import Namespace="TrueOrFalse.Core.Web.Context" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -21,5 +21,13 @@
        { %>
        <div><a href="<%= Url.Action(Links.UserProfile, Links.UserProfileController, new {name= user.UrlName, id = user.Id}, null) %>"><%=user.Name%></a></div>
      <%  } %>
-
+         
+     <% if(Model.Categories.Any()){ %>
+         <p class="categories">Kategorien</p>
+         <div class="category">
+             <% foreach(var category in Model.Categories){ %>
+                <a href="#" style="margin-bottom: 3px;"><span><%=category.OnPageCount %> x <%=category.Category.Name %> </span></a>
+            <% } %>
+         </div>
+     <% } %>
 </div>

@@ -33,8 +33,6 @@ namespace TrueOrFalse.Tests.Persistence
             questions[0].Categories[2].Name.Should().Be.EqualTo("C");
             questions[0].Solution.StartsWith("Another").Should().Be.True();
             questions[1].Solution.StartsWith("Some").Should().Be.True();
-
-            var searchSpec = new QuestionSearchSpec();
         }
     }
 }

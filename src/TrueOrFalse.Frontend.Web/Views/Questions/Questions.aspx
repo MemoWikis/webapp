@@ -23,6 +23,9 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
 .sliderValue{ margin-left: 10px;}
 .piePersonalRelevanceTotal{ display:none; margin-top: 10px;}
 
+.menu p.categories { padding-top: 10px; font-weight: bold; }
+.menu div.category { border-top: 1px  #EBEBEB solid; margin-top: -10px; margin-right: 5px; padding-top: 5px; padding-left: 0px; padding-bottom: 5px;font-size: 13px;}
+
 </style>
 
 <script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>

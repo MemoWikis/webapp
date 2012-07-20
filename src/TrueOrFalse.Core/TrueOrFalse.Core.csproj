@@ -137,10 +137,10 @@
     <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewPersistence.cs" />
     <Compile Include="Domain\Question\QuestionView\QuestionView.cs" />
     <Compile Include="Domain\User\Persistence\UserSearch.cs" />
-    <Compile Include="Domain\Import\Importer.cs" />
-    <Compile Include="Domain\Import\ImporterResult.cs" />
-    <Compile Include="Domain\Message\Message.cs" />
-    <Compile Include="Domain\Message\Persistence\MessageMap.cs" />
+    <Compile Include="Utilities\Import\Importer.cs" />
+    <Compile Include="Utilities\Import\ImporterResult.cs" />
+    <Compile Include="Domain\Social\Message\Message.cs" />
+    <Compile Include="Domain\Social\Message\Persistence\MessageMap.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerHistory.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerHistoryLog.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Persistence\AnswerHistoryMap.cs" />
@@ -283,7 +283,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Domain\Knowledge\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Utilities\Update\Scripts\1-create-setting-tbl.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

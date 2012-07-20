@@ -32,6 +32,12 @@ public class QuestionsModel : ModelBase
 
         OrderBy = questionSearchSpec.OrderBy;
         OrderByLabel = questionSearchSpec.OrderBy.ToText();
+
+        MenuModel.Categories = questions.GetAllCategories()
+                                    .GroupBy(c => c.Name)
+                                    .OrderBy(g => g.Count())
+                                    .Select(g =>  new MenuModelCategoryItem{Category = g.First(), OnPageCount = g.Count()})
+                                    .ToList();
     }
 
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
