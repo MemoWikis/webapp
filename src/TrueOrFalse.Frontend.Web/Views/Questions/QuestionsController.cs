@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using NHibernate;
-using NHibernate.Criterion;
 using Seedworks.Lib;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Web.Context;

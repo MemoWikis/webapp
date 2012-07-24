@@ -121,15 +121,9 @@
                 $.ajax({
                     url: '<%=Url.Action("SolutionEditBody") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
                     type: 'GET',
-                    beforeSend: function () {
-                        //some loading indicator
-                    },
-                    success: function (data) {
-                        $("#question-body").html(data);
-                    },
-                    error: function (data) {
-                        //handle error
-                    }
+                    beforeSend: function () { /* some loading indicator */ },
+                    success: function (data) { $("#question-body").html(data);},
+                    error: function (data) { /* handle error */ }
                 });
             }
             $("#ddlAnswerType").change(updateSolutionBody);

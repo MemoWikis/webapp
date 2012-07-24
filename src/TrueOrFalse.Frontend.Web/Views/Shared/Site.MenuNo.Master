@@ -18,11 +18,9 @@
         
         <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
         
-                <%-- FOOTER--%>
+        <%-- FOOTER--%>
         <div id="footer" class="span12 row">
-            <%// ReSharper disable Asp.NotResolved
-               Html.RenderPartial(UserControls.WelcomeFooter); 
-              // ReSharper restore Asp.NotResolved%>
+            <% Html.RenderPartial(UserControls.WelcomeFooter); %>
         </div>
         
     </div>
