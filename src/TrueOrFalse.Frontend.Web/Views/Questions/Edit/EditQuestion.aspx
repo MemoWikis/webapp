@@ -77,7 +77,8 @@
                 </script>
                 <input id="txtNewRelatedCategory" />
                 <a href="#" id="addRelatedCategory" style="display: none">
-                    <img alt="" src='/Images/Buttons/add.png' /></a>
+                    <img alt="" src='/Images/Buttons/add.png' />
+                </a>
             </div>
         </div>
         <%--            <div class="control-group">
@@ -91,20 +92,14 @@
         </div>--%>
         <div class="control-group">
             <% if (!String.IsNullOrEmpty(Model.ImageUrl))
-               {%>
-            <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" />
-            <%} %>
-            <label for="imagefile" class="control-label">
-                Bild:</label>
+               {%> <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" /> <%} %>
+            <label for="imagefile" class="control-label">Bild:</label>
             &nbsp;&nbsp;<input type="file" name="imagefile" id="imagefile" />
         </div>
         <div class="control-group">
-            <% if (!String.IsNullOrEmpty(Model.SoundUrl))
-               {
-                   Html.RenderPartial("AudioPlayer", Model.SoundUrl);
-                   } %>
-            <label for="soundfile" class="control-label">
-                Ton:</label>
+            <% if (!String.IsNullOrEmpty(Model.SoundUrl)){
+                   Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
+            <label for="soundfile" class="control-label">Ton:</label>
             &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
         </div>
         <div class="control-group">
@@ -142,9 +137,8 @@
         </div>
         <div class="form-actions">
             <input type="submit" value="Speichern" class="btn" name="btnSave <% if(!Model.ShowSaveAndNewButton){%>btn-primary<% } %>" />&nbsp;&nbsp;&nbsp;
-            <% if (Model.ShowSaveAndNewButton)
-               { %>
-            <input type="submit" value="Speichern & Neu" class="btn btn-primary" name="btnSaveAndNew" />&nbsp;
+            <% if (Model.ShowSaveAndNewButton){ %>
+                <input type="submit" value="Speichern & Neu" class="btn btn-primary" name="btnSaveAndNew" />&nbsp;
             <% } %>
         </div>
     </div>
