@@ -9,7 +9,7 @@ public class GetQuestionSolution
         var serializer = new JavaScriptSerializer();
         switch (type)
         {
-            case QuestionSolutionType.Exact:
+            case QuestionSolutionType.Text:
                 return new QuestionSoulutionExact {Text = solution};
 
             case QuestionSolutionType.Sequence:

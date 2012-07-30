@@ -31,7 +31,7 @@ public class EditCategoryController : Controller
         var model = new EditCategoryModel(category)
                         {
                             IsEditing = true,
-                            ImageUrl = new GetCategoryImageUrl().Run(category)
+                            ImageUrl = new GetCategoryImageUrl().Run(category).Url
                         };
         return View(_viewPath, model);
     }

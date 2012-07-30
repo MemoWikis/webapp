@@ -26,7 +26,7 @@
          <p class="categories">Kategorien</p>
          <div class="category">
              <% foreach(var category in Model.Categories){ %>
-                <a href="#" style="margin-bottom: 3px;"><span><%=category.OnPageCount %> x <%=category.Category.Name %> </span></a>
+                <a href="#" style="margin-bottom: 3px;"><%=category.Category.Name %> (<span><%=category.OnPageCount %>x) </span></a>
             <% } %>
          </div>
      <% } %>

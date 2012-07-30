@@ -24,10 +24,13 @@ public class UserProfileController : Controller
     {
         var user = _userRepository.GetById(id);
         _sessionUiData.LastVisitedProfiles.Add(new UserNavigationModel(user));
+
+        var getUserImageUrlResult = new GetUserImageUrl().Run(user);
         return View(_viewLocation, new UserProfileModel(user)
                                        {
                                            IsCurrentUserProfile = _sessionUser.User == user,
-                                           ImageUrl = new GetUserImageUrl().Run(user)
+                                           ImageUrl = getUserImageUrlResult.Url, 
+                                           ImageIsCustom = getUserImageUrlResult.HasUploadedImage
                                        });
     }
 

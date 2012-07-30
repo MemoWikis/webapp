@@ -78,7 +78,7 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
                           });
                       </script>
                  <% } %>
-                <%: Html.HiddenFor(m => m.AddFilterUser, new {id="addFilterUserId"}) %>
+                <%: Html.HiddenFor(m => m.AddFilterUser, new     {id="addFilterUserId"}) %>
                 <%: Html.HiddenFor(m => m.DelFilterUser, new {id="delFilterUserId"}) %>
                 <input type="text" class="span2" id="txtAddUserFilter"/>
                 <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
@@ -153,6 +153,6 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
             <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
         </div>
     </div>
-
+    
 </asp:Content>
 

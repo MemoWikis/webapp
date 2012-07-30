@@ -22,7 +22,7 @@ namespace TrueOrFalse.View.Web.Views.Api
                         select new {
                             name = c.Name,
                             numberOfQuestions = "?",
-                            imageUrl = string.Format(new GetCategoryImageUrl().Run(c), 50)
+                            imageUrl = string.Format(new GetCategoryImageUrl().Run(c).Url, 50)
                         }, JsonRequestBehavior.AllowGet); 
         }
 

@@ -15,29 +15,8 @@ namespace TrueOrFalse.Core
         public virtual QuestionSolutionType SolutionType { get; set; }
         public virtual User Creator { get; set; }
 
-        private int _totalTrueAnswers;
-        public virtual int TotalTrueAnswers
-        {
-            get { return _totalTrueAnswers; }
-            set { _totalTrueAnswers = value; }
-        }
-
-        private int _totalFalseAnswers;
-        public virtual int TotalFalseAnswers
-        {
-            get { return _totalFalseAnswers; }
-            set { _totalFalseAnswers = value; }
-        }
-
-        public Question()
-        {
-            Categories = new List<Category>();
-        }
-
-        public virtual string GetShortTitle()
-        {
-            return Text.TruncateAtWord(96);
-        }
+        public virtual int TotalTrueAnswers { get; set; }
+        public virtual int TotalFalseAnswers { get; set; }
 
         public virtual int TotalAnswers() { return TotalFalseAnswers + TotalTrueAnswers; }
         public virtual int TotalTrueAnswersPercentage()
@@ -63,5 +42,15 @@ namespace TrueOrFalse.Core
         public virtual int TotalRelevancePersonalEntries { get; set; }
 
         public virtual int TotalViews { get; set; }
+
+        public Question()
+        {
+            Categories = new List<Category>();
+        }
+
+        public virtual string GetShortTitle()
+        {
+            return Text.TruncateAtWord(96);
+        }
     }
 }

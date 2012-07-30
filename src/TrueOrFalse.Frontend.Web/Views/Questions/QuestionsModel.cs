@@ -35,7 +35,7 @@ public class QuestionsModel : ModelBase
 
         MenuModel.Categories = questions.GetAllCategories()
                                     .GroupBy(c => c.Name)
-                                    .OrderBy(g => g.Count())
+                                    .OrderByDescending(g => g.Count())
                                     .Select(g =>  new MenuModelCategoryItem{Category = g.First(), OnPageCount = g.Count()})
                                     .ToList();
     }

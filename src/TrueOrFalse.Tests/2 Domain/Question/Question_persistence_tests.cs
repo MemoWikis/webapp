@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using NHibernate;
+﻿using NHibernate;
 using NUnit.Framework;
 using SharpTestsEx;
 using TrueOrFalse.Core;
-
 
 namespace TrueOrFalse.Tests.Persistence
 {

@@ -33,7 +33,7 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         var serializer = new JavaScriptSerializer();
         switch (question.SolutionType)
         {
-                case QuestionSolutionType.Exact:
+                case QuestionSolutionType.Text:
                 var solutionModel0 = new QuestionSoulutionExact();
                 solutionModel0.FillFromPostData(postData);
                 question.Solution = solutionModel0.Text;

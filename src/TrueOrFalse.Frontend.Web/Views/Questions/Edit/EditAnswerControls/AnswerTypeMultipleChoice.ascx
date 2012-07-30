@@ -1,10 +1,12 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMultipleChoice>" %>
 
-<div id="choices">
-    
-</div>
 
-<button id="addChoice">Antwort hinzufügen</button>
+<div class="control-group">
+    <div class="controls">
+        <div id="choices"></div>
+        <button id="addChoice">Antwort hinzufügen</button>
+    </div>
+</div>
 
 <script type="text/javascript">
     var addingChoiceId = 1;

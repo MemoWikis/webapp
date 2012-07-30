@@ -1,10 +1,12 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionSequence>" %>
 
-<div id="rows">
-    
-</div>
 
-<button id="addRow">Zeile hinzufügen</button>
+<div class="control-group">
+    <div class="controls">
+        <div id="rows"></div>        
+        <button id="addRow">Zeile hinzufügen</button>
+    </div>
+</div>
 
 <script type="text/javascript">
     var addingRowId = 1;

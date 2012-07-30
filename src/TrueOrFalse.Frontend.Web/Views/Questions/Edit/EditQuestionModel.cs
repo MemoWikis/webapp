@@ -60,10 +60,10 @@ public class EditQuestionModel : ModelBase
     public IEnumerable<SelectListItem> AnswerTypeData{ get {
             return new List<SelectListItem>
                         {
-                            new SelectListItem {Text = "Exakt", Value = QuestionSolutionType.Exact.ToString()},
-                            new SelectListItem {Text = "Annäherung", Value = QuestionSolutionType.Approximation.ToString()},
+                            new SelectListItem {Text = "Text", Value = QuestionSolutionType.Text.ToString()},
+                            new SelectListItem {Text = "Numerisch", Value = QuestionSolutionType.Numeric.ToString()},
+                            new SelectListItem {Text = "Datum", Value = QuestionSolutionType.Date.ToString()},
                             new SelectListItem {Text = "Multiple Choice", Value = QuestionSolutionType.MultipleChoice.ToString()},
-                            new SelectListItem {Text = "Vokable", Value = QuestionSolutionType.Vocable.ToString()},
                             new SelectListItem {Text = "Sequenz", Value = QuestionSolutionType.Sequence.ToString()},
                         };
         }
@@ -93,7 +93,7 @@ public class EditQuestionModel : ModelBase
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
         Categories = (from cat in question.Categories select cat.Name).ToList();
-        ImageUrl = new GetQuestionImageUrl().Run(question);
+        ImageUrl = new GetQuestionImageUrl().Run(question).Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
     }
 

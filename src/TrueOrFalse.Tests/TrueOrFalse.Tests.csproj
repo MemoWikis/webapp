@@ -128,6 +128,7 @@
     <Compile Include="2 Domain\Question\History\History_totals_per_user_tests.cs" />
     <Compile Include="2 Domain\Question\QuestionValuation\QuestionValuation_add_totals_test.cs" />
     <Compile Include="2 Domain\Question\QuestionValuation\QuestionValuation_persistence_tests.cs" />
+    <Compile Include="2 Domain\Question\Question_persist_and_load_answer_type.cs" />
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\User\Setup\ContextUser.cs" />
     <Compile Include="2 Domain\User\Spec_get_users_by_name.cs" />

@@ -21,7 +21,17 @@ $(function () {
     if ($('#FilterByAll').val().toLowerCase() == "true") {
         $('.btn-filterByAll').addClass('active');
     }
+
+    $('.userPopover').popover({
+        content: getPopupOverContent
+    });
+    function getPopupOverContent() {
+        return "123, <b>456</b>";  
+    }
+    
 });
+
+
 
 /************************/
 /*** DELETE QUESTION ****/
@@ -140,8 +150,6 @@ $(function () {
         
         var value = parseFloat($(this).attr("data-avg"));
         var height = (value * parseFloat(0.9)) + 5;
-
-        console.log(height);
 
         $(this).sparkline([Math.round(value)], {
             type: 'pie',

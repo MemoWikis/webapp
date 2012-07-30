@@ -58,7 +58,7 @@ public class AnswerQuestionModel : ModelBase
         AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
 
-        ImageUrl = new GetQuestionImageUrl().Run(question);
+        ImageUrl = new GetQuestionImageUrl().Run(question).Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
 
         FeedbackRows = new List<FeedbackRowModel>();

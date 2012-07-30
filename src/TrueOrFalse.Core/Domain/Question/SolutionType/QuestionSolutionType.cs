@@ -7,10 +7,10 @@ namespace TrueOrFalse.Core
 {
     public enum QuestionSolutionType
     {
-        Exact = 1,
-        Approximation = 2,
+        Text = 1,
+        Numeric = 4,
+        Date = 6,
         MultipleChoice = 3,
-        Vocable = 4,
         Sequence = 5
     }
 }
