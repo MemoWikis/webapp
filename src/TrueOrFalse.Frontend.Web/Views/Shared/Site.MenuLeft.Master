@@ -17,7 +17,7 @@
         <% Html.RenderPartial("Site.Resources.Title", new TitleModel { TitleText = "Riofa" }); %>    
         <div class="row">
             <div class="span2" >
-                <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuModel); %>
+                <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
             </div>
                 
             <div class="span10">

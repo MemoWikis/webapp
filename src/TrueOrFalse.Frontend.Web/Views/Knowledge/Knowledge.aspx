@@ -23,9 +23,7 @@
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#1BE022', 'red'] });
             $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
             
-
             $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
-            
         });
 
     </script>
@@ -49,20 +47,20 @@
 
 <div id="container" style=""></div>
 <div>
-    <div style="float: left; margin-right: 25px;">
-        <span id="totalKnowledge"><span id=""style="padding-top:2px; display: inline-block">Wunschwissen: <span>175</span></span> <span id="totalKnowledgeSpark"></span></span><br/>
+    <div style="float: left; margin-right: 25px; ">
+        <span id="totalKnowledge"><span id=""style="padding-top:2px; display: inline-block">Wunschwissen: <span><%= Model.WishKnowledgeCount %></span></span> <span id="totalKnowledgeSpark"></span></span><br/>
         <span id="totalKnowledgeOverTime">Entwicklung über Zeit: <span id="totalKnowledgeOverTimeSpark"></span></span>
     </div>
 
     <div style="float: left;">
         <div id="headerAnswered">Beantwortet:</div>
         <div class="answerHistoryRow">    
-            <div>Diese Woche <span class="answerAmount">71</span> <span id="answeredThisWeekSparkle"></span></div> 
-            <div>Diesen Monat <span class="answerAmount">151</span> <span id="answeredThisMonthSparkle"></span></div>
+            <div>Diese Woche <span class="answerAmount"><%= Model.TotalAnswerThisWeek %></span> <span id="answeredThisWeekSparkle"></span></div> 
+            <div>Diesen Monat <span class="answerAmount"><%= Model.TotalAnswerThisMonth %></span> <span id="answeredThisMonthSparkle"></span></div>
         </div>
         <div class="answerHistoryRow">
-            <div>Letzte Woche <span class="answerAmount">58</span> <span id="answeredLastWeekSparkle"></span></div> 
-            <div>Letzten Monat <span class="answerAmount">151</span> <span id="answeredLastMonthSparkle"></span></div> 
+            <div>Letzte Woche <span class="answerAmount"><%= Model.TotalAnswerPreviousWeek %></span> <span id="answeredLastWeekSparkle"></span></div> 
+            <div>Letzten Monat <span class="answerAmount"><%= Model.TotalAnswerLastMonth %></span> <span id="answeredLastMonthSparkle"></span></div> 
         </div>
     </div>
     <div style="clear:both;"></div>
@@ -101,5 +99,3 @@
 </div>
 
 </asp:Content>
-
-

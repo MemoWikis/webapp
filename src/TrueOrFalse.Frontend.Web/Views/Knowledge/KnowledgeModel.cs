@@ -8,35 +8,17 @@ public class KnowledgeModel : ModelBase
 {
     private readonly SessionUser _sessionUser;
 
+    public string UserName { get { return _sessionUser.User.Name; } }
+
+    public int TotalAnswerThisWeek;
+    public int TotalAnswerThisMonth;
+    public int TotalAnswerPreviousWeek;
+    public int TotalAnswerLastMonth;
+
+    public int WishKnowledgeCount;
+
     public KnowledgeModel(SessionUser sessionUser)
     {
         _sessionUser = sessionUser;
     }
-
-    public string UserName { get { return _sessionUser.User.Name; } }
-
-    public IEnumerable<SelectListItem> KenDevelopmentTypes
-    {
-        get
-        {
-            return new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Fragen"},
-                            new SelectListItem {Text = "Kurse"}
-                        };
-        }
-    }
-
-    public IEnumerable<SelectListItem> KenDevelopmentPeriod
-    {
-        get
-        {
-            return new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "4 Wochen"},
-                            new SelectListItem {Text = "6 Monate"}
-                        };
-        }
-    }
-
 }

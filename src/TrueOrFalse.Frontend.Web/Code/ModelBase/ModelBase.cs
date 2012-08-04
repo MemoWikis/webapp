@@ -2,6 +2,6 @@
 {
     public class ModelBase
     {
-        public MenuModel MenuModel = new MenuModel();
+        public MenuLeftModel MenuLeftModel = new MenuLeftModel();
     }
 }

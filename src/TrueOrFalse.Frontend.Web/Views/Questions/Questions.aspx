@@ -41,8 +41,12 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
     
         <% using (Html.BeginForm()) { %>
         <ul class="nav nav-tabs" style="padding-top: 14px;  ">
-          <li class="active"><a href="#home" >Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a></li>
-          <li><a href="#profile">Mein Wunschwissen (123) <i class="icon-question-sign" id="tabInfoMyKnowledge"></i></a> </li>
+            <li class="active"><a href="#home" >Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a></li>
+            <li>
+                <a href="#profile">
+                    Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalWishKnowledge %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
+                </a>
+            </li>
         </ul>
         <div style="float: right; margin-top: -55px;">
             <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="width: 120px" class="btn">

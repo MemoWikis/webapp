@@ -33,7 +33,7 @@ public class QuestionsModel : ModelBase
         OrderBy = questionSearchSpec.OrderBy;
         OrderByLabel = questionSearchSpec.OrderBy.ToText();
 
-        MenuModel.Categories = questions.GetAllCategories()
+        MenuLeftModel.Categories = questions.GetAllCategories()
                                     .GroupBy(c => c.Name)
                                     .OrderByDescending(g => g.Count())
                                     .Select(g =>  new MenuModelCategoryItem{Category = g.First(), OnPageCount = g.Count()})
@@ -50,6 +50,7 @@ public class QuestionsModel : ModelBase
     public int? DelFilterUser { get; set; }
     public Dictionary<int, string> FilterByUsers { get; set; }
 
+    public int TotalWishKnowledge;
     public int TotalQuestionsInResult;
     public int TotalQuestionsInSystem;
     public string OrderByLabel;

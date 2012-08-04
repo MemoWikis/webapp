@@ -83,7 +83,8 @@ public class QuestionsController : Controller
                         FilterByMe = _sessionUiData.QuestionSearchSpec.FilterByMe,
                         FilterByAll = _sessionUiData.QuestionSearchSpec.FilterByAll,
                         FilterByUsers =  _userRepository.GetByIds(_sessionUiData.QuestionSearchSpec.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name),
-                        TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run()
+                        TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run(),
+                        TotalWishKnowledge = Sl.Resolve<GetWishKnowledgeCount>().Run(_sessionUser.User.Id)
                     }
             );
     }

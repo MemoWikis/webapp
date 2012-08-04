@@ -27,3 +27,11 @@
         }
     });
 };
+
+/*** NAVI CHANGES ***/
+function SetMenuWishKnowledge(newAmount) {
+    $("#menuWishKnowledgeCount")
+        .text(newAmount)
+        .animate({ opacity: 0.25 }, 100)
+        .animate({ opacity: 1.00 }, 500);
+}

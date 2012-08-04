@@ -167,7 +167,7 @@
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
-    <Compile Include="Views\Shared\MenuModel.cs" />
+    <Compile Include="Views\Shared\MenuLeftModel.cs" />
     <Compile Include="Views\Shared\MenuModelCategoryItem.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Shared\Site.Resources.TitleModel.cs" />

@@ -125,9 +125,15 @@ $(function () {
             url: "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam,
             cache: false,
             success: function (result) {
-                console.log(result);
                 divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());
                 divSlider.parent().parent().find(".totalRelevanceAvg").text(result.totalAverage.toString());
+
+                if (result.totalWishKnowledgeCountChange) {
+                    SetMenuWishKnowledge(result.totalWishKnowledgeCount);
+                    $("#tabWishKnowledgeCount").text(result.totalWishKnowledgeCount)
+                    .animate({ opacity: 0.25 }, 100)
+                    .animate({ opacity: 1.00 }, 500);                    
+                }
             }
         });
     }

@@ -120,9 +120,20 @@ public class AnswerQuestionController : Controller
     [HttpPost]
     public JsonResult SaveRelevancePersonal(int id, int newValue)
     {
+        var oldKnowledgeCount = Sl.Resolve<GetWishKnowledgeCount>().Run(_sessionUser.User.Id, forceReload: true);
+        
         Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);
-        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
+
+        var newKnowledgeCount = Sl.Resolve<GetWishKnowledgeCount>().Run(_sessionUser.User.Id, forceReload: true);
+
+        return new JsonResult { Data = new
+            {
+                totalValuations = totals.Count, 
+                totalAverage = Math.Round(totals.Avg / 10d, 1),
+                totalWishKnowledgeCount = Sl.Resolve<GetWishKnowledgeCount>().Run(_sessionUser.User.Id, forceReload:true),
+                totalWishKnowledgeCountChange = oldKnowledgeCount != newKnowledgeCount
+            }};
     }
 
     [HttpPost]

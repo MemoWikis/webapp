@@ -17,7 +17,7 @@ namespace System.Web.Mvc
 
             var userSession = new SessionUser();
             if (!userSession.IsLoggedIn)
-                filterContext.HttpContext.Response.Redirect("/Welcome/Login");
+                filterContext.HttpContext.Response.Redirect("/Welcome/Login", true);
 
             base.OnActionExecuting(filterContext);
         }
