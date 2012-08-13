@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Collections.Generic;
+using NHibernate;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core
@@ -13,6 +14,13 @@ namespace TrueOrFalse.Core
         {
             Session.CreateSQLQuery("DELETE FROM AnswerHistory ah WHERE ah.QuestionId = :questionId")
                    .SetParameter("questionId", questionId);
+        }
+
+        public IList<AnswerHistory> GetBy(int questionId, int userId)
+        {
+            return Session.QueryOver<AnswerHistory>()
+                          .Where(i => i.QuestionId == questionId && i.UserId == userId)
+                          .List<AnswerHistory>();
         }
     }
 }

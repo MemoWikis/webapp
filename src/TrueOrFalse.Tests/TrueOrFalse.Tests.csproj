@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
+    <Compile Include="2 Domain\Knowledge\CorrectnessProbabilityCalculatorTests.cs" />
     <Compile Include="2 Domain\Question\History\History_totals_per_user_tests.cs" />
     <Compile Include="2 Domain\Question\QuestionValuation\QuestionValuation_add_totals_test.cs" />
     <Compile Include="2 Domain\Question\QuestionValuation\QuestionValuation_persistence_tests.cs" />
@@ -132,7 +133,7 @@
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\User\Setup\ContextUser.cs" />
     <Compile Include="2 Domain\User\Spec_get_users_by_name.cs" />
-    <Compile Include="2 Domain\Question\Answer\AnswerQuestionTests.cs" />
+    <Compile Include="2 Domain\Question\Answer\When_answering_question.cs" />
     <Compile Include="2 Domain\Question\History\History_persistence_tests.cs" />
     <Compile Include="2 Domain\Question\Setup\ContextQuestion.cs" />
     <Compile Include="2 Domain\Category\Setup\ArrangeCategory.cs" />
