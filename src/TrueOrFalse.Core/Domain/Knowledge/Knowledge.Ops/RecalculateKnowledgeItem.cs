@@ -1,14 +1,14 @@
 ﻿namespace TrueOrFalse.Core
 {
-    public class SaveKnowledgeItem : IRegisterAsInstancePerLifetime
+    public class RecalculateKnowledgeItem : IRegisterAsInstancePerLifetime
     {
         private readonly AnswerHistoryRepository _answerHistoryRepository;
         private readonly KnowledgeItemRepository _knowledgeItemRepository;
         private readonly CorrectnessProbabilityCalculator _correctnessProbabilityCalculator;
 
-        public SaveKnowledgeItem(AnswerHistoryRepository answerHistoryRepository,
-                                 KnowledgeItemRepository knowledgeItemRepository,
-                                 CorrectnessProbabilityCalculator correctnessProbabilityCalculator)
+        public RecalculateKnowledgeItem(AnswerHistoryRepository answerHistoryRepository,
+                                        KnowledgeItemRepository knowledgeItemRepository,
+                                        CorrectnessProbabilityCalculator correctnessProbabilityCalculator)
         {
             _answerHistoryRepository = answerHistoryRepository;
             _knowledgeItemRepository = knowledgeItemRepository;
