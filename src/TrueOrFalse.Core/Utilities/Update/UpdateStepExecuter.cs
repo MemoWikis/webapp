@@ -28,7 +28,7 @@ namespace TrueOrFalse.Updates
         public void Run()
         {
             if(!_doesTableExist.Run("Setting")){
-                UpdateToVs1InitialStep.Run();
+                UpdateToVs001InitialStep.Run();
             }
                 
             var dbSettings = _dbSettingsRepository.Get();

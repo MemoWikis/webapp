@@ -3,12 +3,12 @@ using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs9
+    public class UpdateToVs008
     {
         public static void Run()
         {
             ServiceLocator.Resolve<ExecuteSqlFile>().Run(
-                ScriptPath.Get("9-create-tbl-questionView-and-field-questionView.sql"));
+                ScriptPath.Get("008-create-tbl-persistentLogin.sql"));
         }
 
     }

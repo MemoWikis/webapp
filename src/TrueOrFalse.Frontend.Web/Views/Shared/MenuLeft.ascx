@@ -19,11 +19,13 @@
         <a href="#">Neues <span class="badge badge-info" style="display:inline-block; position: relative; top: -2px;">21</span></a>
     </div>
 
-    <div class="main" style="margin-top:12px;"><a href="#" >Netzwerk<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> </div>
-
+    <div class="main" style="margin-top:12px;"><a href="#">Netzwerk<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> </div>
+    
     <% foreach (var user in new SessionUiData().LastVisitedProfiles){ %>
        <div><a href="<%= Url.Action(Links.UserProfile, Links.UserProfileController, new {name= user.UrlName, id = user.Id}, null) %>"><%=user.Name%></a></div>
     <% } %>
+    
+    <div class="main" style="margin-top:12px;"><a href="#">Adminstrativ</a> </div>
          
     <% if(Model.Categories.Any()){ %>
         <p class="categories">Kategorien</p>

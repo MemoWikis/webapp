@@ -17,9 +17,8 @@ namespace TrueOrFalse.Core
         public virtual string Name { get; set; }
 
         public virtual Boolean IsEmailConfirmed { get; set;  }
+        public virtual Boolean IsInstallationAdmin { get; set; }
 
         public virtual DateTime? Birthday { get; set; }
-
-
     }
 }

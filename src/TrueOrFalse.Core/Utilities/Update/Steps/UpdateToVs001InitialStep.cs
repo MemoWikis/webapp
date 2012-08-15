@@ -4,11 +4,11 @@ using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs1InitialStep
+    public class UpdateToVs001InitialStep
     {
         public static void Run()
         {
-            ServiceLocator.Resolve<ExecuteSqlFile>().Run(ScriptPath.Get("1-create-setting-tbl.sql"));
+            ServiceLocator.Resolve<ExecuteSqlFile>().Run(ScriptPath.Get("001-create-setting-tbl.sql"));
             CreateInitialRecord();
         }
 

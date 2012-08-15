@@ -16,6 +16,7 @@ namespace TrueOrFalse.Core
             Map(x => x.EmailAddress);
             Map(x => x.Name);
             Map(x => x.IsEmailConfirmed);
+            Map(x => x.IsInstallationAdmin);
             Map(x => x.Birthday);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);            

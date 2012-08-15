@@ -1,10 +1,9 @@
 ﻿using NHibernate;
 using TrueOrFalse.Core;
-using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs7
+    public class UpdateToVs007
     {
         public static void Run()
         {

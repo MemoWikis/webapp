@@ -3,12 +3,12 @@ using TrueOrFalse.Core.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs3
+    public class UpdateToVs005
     {
         public static void Run()
         {
             ServiceLocator.Resolve<ExecuteSqlFile>().Run(
-              ScriptPath.Get("3-new-table-questionValuation.sql"));
+              ScriptPath.Get("005-new-total-field-tbl-question.sql"));
         }
     }
 }

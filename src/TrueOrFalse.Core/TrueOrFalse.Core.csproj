@@ -233,19 +233,20 @@
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
-    <Content Include="Utilities\Update\Scripts\5-new-total-field-tbl-question.sql">
+    <Content Include="Utilities\Update\Scripts\005-new-total-field-tbl-question.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs6.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs5.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs7.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs8.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs9.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs006.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs005.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs007.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs008.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs009.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs010.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs3.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs2.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs1InitialStep.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs003.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs002.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs001InitialStep.cs" />
     <Compile Include="Utilities\Update\Update.cs" />
     <Compile Include="Web\Context\Data\UserNavigationModel.cs" />
     <Compile Include="Web\Context\Data\UserNavigationModelList.cs" />
@@ -269,10 +270,13 @@
     <Compile Include="Web\Uris\UriSanitizer.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
-    <Content Include="Utilities\Update\Scripts\8-create-tbl-persistentLogin.sql">
+    <Content Include="Utilities\Update\Scripts\008-create-tbl-persistentLogin.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\Scripts\9-create-tbl-questionView-and-field-questionView.sql">
+    <Content Include="Utilities\Update\Scripts\009-create-tbl-questionView-and-field-questionView.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\Scripts\010-new-column-isAdmin-in-tbl-user.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -301,16 +305,16 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Utilities\Update\Scripts\1-create-setting-tbl.sql">
+    <Content Include="Utilities\Update\Scripts\001-create-setting-tbl.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\Scripts\2-new-total-fields-tbl-question.sql">
+    <Content Include="Utilities\Update\Scripts\002-new-total-fields-tbl-question.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\Scripts\3-new-table-questionValuation.sql">
+    <Content Include="Utilities\Update\Scripts\003-new-table-questionValuation.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\Scripts\6-new-column-solutiontype.sql">
+    <Content Include="Utilities\Update\Scripts\006-new-column-solutiontype.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
