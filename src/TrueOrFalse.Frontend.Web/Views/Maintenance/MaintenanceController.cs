@@ -11,11 +11,20 @@ public class MaintenanceController : Controller
         _updateQuestionAnswerCounts = updateQuestionAnswerCounts;
     }
 
+    [AccessOnlyLocalAttribute]
     public ActionResult Maintenance()
     {
         return View(new MaintenanceModel());
     }
 
+    [AccessOnlyLocalAttribute]
+    public ActionResult RecalculateAllKnowledgeItems()
+    {
+        Sl.Resolve<RecalculateAllKnowledgeItems>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Antwortwahrscheinlichkeiten wurden neu berechnet.") });
+    }
+
+    [AccessOnlyLocalAttribute]
     public ActionResult CalcAggregatedValues()
     {
         _updateQuestionAnswerCounts.Run();

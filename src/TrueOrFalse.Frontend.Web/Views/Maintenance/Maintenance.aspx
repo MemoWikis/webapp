@@ -8,7 +8,9 @@
     
     <% Html.Message(Model.Message); %>
     
-    <a class="btn btn-large" href="/Maintenance/CalcAggregatedValues">Aggregierte Zahlen für Fragen aktualisieren</a>
+    <a class="btn btn-primary" href="<%= Url.Action("RecalculateAllKnowledgeItems", "Maintenance") %>">Alle Antwortwahrscheinlichkeiten neu berechnen</a><br/><br/>
+    <a class="btn btn-primary" href="<%= Url.Action("CalcAggregatedValues", "Maintenance") %>">Aggregierte Zahlen für Fragen aktualisieren</a>
+
 
 </asp:Content>
 
