@@ -125,7 +125,8 @@
   <ItemGroup>
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
-    <Compile Include="2 Domain\Knowledge\CorrectnessProbabilityCalculatorTests.cs" />
+    <Compile Include="2 Domain\Knowledge\Should_calculate_correctness_probability.cs" />
+    <Compile Include="2 Domain\Knowledge\Should_calculate_wish_knowledge_count.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_stats_in_time_period.cs" />
     <Compile Include="2 Domain\Question\History\History_totals_per_user_tests.cs" />
     <Compile Include="2 Domain\Question\QuestionValuation\QuestionValuation_add_totals_test.cs" />

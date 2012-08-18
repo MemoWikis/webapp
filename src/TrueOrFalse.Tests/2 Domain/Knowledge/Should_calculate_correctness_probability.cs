@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using TrueOrFalse.Core;
 
 namespace TrueOrFalse.Tests
 {
-    public class CorrectnessProbabilityCalculatorTests : BaseTest
+    public class Should_calculate_correctness_probability : BaseTest
     {
         [Test]
         public void Should_calculate_correctness()

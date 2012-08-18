@@ -1,10 +1,9 @@
-﻿using System.Web;
+﻿using System;
 using NHibernate;
-using TrueOrFalse.Core.Web.Context;
 
 namespace TrueOrFalse.Core
 {
-    public class GetWishKnowledgeCount : IRegisterAsInstancePerLifetime 
+    public class GetWishKnowledgeCount : IRegisterAsInstancePerLifetime
     {
         private readonly ISession _session;
 
@@ -12,19 +11,12 @@ namespace TrueOrFalse.Core
             _session = session;
         }
 
-        public int Run(int userId, bool forceReload = false)
+        public int Run(int userId)
         {
-            if(!forceReload)
-                if (HttpContext.Current.Items[ContextItemKeys.WishKnowledgeCount] != null)
-                    return (int)HttpContext.Current.Items[ContextItemKeys.WishKnowledgeCount];
-
-            var result = _session.CreateSQLQuery("SELECT count(*) FROM QuestionValuation " +
-                                                 "WHERE UserId = " + userId +
-                                                 "AND RelevancePersonal > -1 ")
-                                 .UniqueResult<int>();
-
-            HttpContext.Current.Items[ContextItemKeys.WishKnowledgeCount] = result;
-            return result;
+            return (int)_session.CreateQuery("SELECT count(qv) FROM QuestionValuation qv " +
+                                             "WHERE UserId = " + userId +
+                                             "AND RelevancePersonal > -1 ")
+                                .UniqueResult<Int64>();
         }
     }
 }

@@ -33,6 +33,7 @@ namespace TrueOrFalse.Tests
 
             var questionTotals = Resolve<UpdateQuestionTotals>();
             questionTotals.Run(questionVal1);
+            questionTotals.Run(questionVal2);
 
             Resolve<ISession>().Evict(contextQuestion.Questions.First());
 

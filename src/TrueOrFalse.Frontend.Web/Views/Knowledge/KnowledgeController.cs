@@ -6,12 +6,12 @@ public class KnowledgeController : Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly GetAnswerStatsInPeriod _getAnswerStatsInPeriod;
-    private readonly GetWishKnowledgeCount _getWishKnowledgeCount;
+    private readonly GetWishKnowledgeCountCached _getWishKnowledgeCount;
 
     public KnowledgeController(
         SessionUser sessionUser, 
         GetAnswerStatsInPeriod getAnswerStatsInPeriod,
-        GetWishKnowledgeCount getWishKnowledgeCount)
+        GetWishKnowledgeCountCached getWishKnowledgeCount)
     {
         _sessionUser = sessionUser;
         _getAnswerStatsInPeriod = getAnswerStatsInPeriod;

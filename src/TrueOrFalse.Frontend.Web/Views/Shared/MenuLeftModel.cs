@@ -11,7 +11,7 @@ public class MenuLeftModel
     {
         var userSession = Sl.Resolve<SessionUser>();
         if (userSession.User != null)
-            WishKnowledgeCount = Sl.Resolve<GetWishKnowledgeCount>().Run(userSession.User.Id);
+            WishKnowledgeCount = Sl.Resolve<GetWishKnowledgeCountCached>().Run(userSession.User.Id);
     }
     
 }
