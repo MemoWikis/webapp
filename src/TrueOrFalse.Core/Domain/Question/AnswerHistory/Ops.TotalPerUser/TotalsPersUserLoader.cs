@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NHibernate;
-using NHibernate.Transform;
 
 namespace TrueOrFalse.Core
 {
@@ -49,16 +48,22 @@ namespace TrueOrFalse.Core
             var query = String.Format(
                 @"SELECT 
 	                  QuestionId, 
-	                  COUNT(QuestionId) -SUM(CAST(AnswerredCorrectly as Integer)) as TotalFalse, 
-	                  SUM(CAST(AnswerredCorrectly as Integer)) as TotalTrue
+	                  CAST(SUM(AnswerredCorrectly)AS signed INTEGER) as TotalTrue,
+	                  CAST(COUNT(QuestionId) - SUM(AnswerredCorrectly) AS signed INTEGER) as TotalFalse
                   FROM AnswerHistory
                   GROUP BY QuestionId, UserId
                   HAVING UserId = {0} 
                   {1}", userId, sbQuestionIdRestriction);
 
-            return _session.CreateSQLQuery(query).
-                            SetResultTransformer(Transformers.AliasToBean(typeof(TotalPerUser))).
-                            List<TotalPerUser>();
+            return _session.CreateSQLQuery(query)
+                           .List<object>()
+                           .Select(item => new TotalPerUser
+                               {
+                                   QuestionId = Convert.ToInt32(((object[])item)[0]),
+                                   TotalTrue = Convert.ToInt32(((object[])item)[1]),
+                                   TotalFalse = Convert.ToInt32(((object[])item)[2]),
+                               })
+                           .ToList();
         }
     }
 }

@@ -18,10 +18,15 @@ namespace TrueOrFalse.Core.Infrastructure.Persistence
 
             var result =
                 _session.CreateSQLQuery(
-                    String.Format("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{0}'", tableName))
-                    .UniqueResult<int>();
+                    String.Format(@"SELECT COUNT(table_name)
+                                    FROM information_schema.tables
+                                    WHERE table_schema = '{0}'
+                                    AND table_name = '{1}'", 
+                                    _session.Connection.Database, 
+                                    tableName))
+                    .UniqueResult<object>();
 
-            return result == 1;
+            return Convert.ToInt32(result) == 1;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace TrueOrFalse.Core
         {
             return Fluently.Configure()
               .Database(
-                MsSqlConfiguration.MsSql2008
+                MySQLConfiguration.Standard
                   .ConnectionString(GetConnectionString.Run())
               )
               .Mappings(m =>

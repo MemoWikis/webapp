@@ -30,14 +30,14 @@ namespace TrueOrFalse.Core
         public GetAnswerStatsInPeriodResult Run(int userId, DateTime from, DateTime to)
         {
             var query = "SELECT " +
-                        " COUNT(*) as total," +
-                        " SUM(CAST(AnswerredCorrectly AS Int)) as totalCorrect " +
-                        "FROM AnswerHistory " +
+                        " COUNT(ah) as total," +
+                        " SUM(AnswerredCorrectly) as totalCorrect " +
+                        "FROM AnswerHistory ah " +
                         "WHERE UserId = " + userId + " " +
                         "AND DateCreated >= '" + from.ToString("yyy-MM-dd HH:mm:ss") + "' " +
                         "AND DateCreated < '" + to.ToString("yyy-MM-dd HH:mm:ss") + "'";
 
-            var result = (object[])_session.CreateSQLQuery(query).UniqueResult();
+            var result = (object[])_session.CreateQuery(query).UniqueResult();
 
             return new GetAnswerStatsInPeriodResult{
                     TotalAnswers = Convert.ToInt32(result[0]),
