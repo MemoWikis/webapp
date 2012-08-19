@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System;
+using NHibernate;
 
 namespace TrueOrFalse.Core
 {
@@ -12,7 +13,7 @@ namespace TrueOrFalse.Core
 
         public int Run()
         {
-            return _session.CreateSQLQuery("SELECT Count(Id) FROM Question").UniqueResult<int>();
+            return (int)_session.CreateQuery("SELECT Count(Id) FROM Question").UniqueResult<Int64>();
         }
     }
 }

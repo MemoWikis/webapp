@@ -19,17 +19,19 @@ namespace TrueOrFalse.Core
             _session.CreateSQLQuery("UPDATE Question SET TotalTrueAnswers = 0 WHERE TotalTrueAnswers is null").ExecuteUpdate();
             _session.CreateSQLQuery("UPDATE Question SET TotalFalseAnswers = 0 WHERE TotalFalseAnswers is null ").ExecuteUpdate();
 
-            _session.CreateSQLQuery(@"UPDATE Question 
+            _session.CreateSQLQuery(@"UPDATE 
+	                                      Question q,
+	                                      ( SELECT agg.CorrectAnswers, agg.WrongAnswers, q.Id as aggQuestionId
+	                                      FROM Question AS q INNER JOIN(
+	                                        SELECT QuestionId, COUNT(QuestionId) -SUM(AnswerredCorrectly) AS WrongAnswers,
+	                                        SUM(AnswerredCorrectly) as CorrectAnswers
+	                                        FROM AnswerHistory
+	                                        GROUP BY QuestionId, AnswerredCorrectly
+	                                      ) AS agg ) as agg
                                       SET 
-                                       TotalTrueAnswers = agg.CorrectAnswers, 
-                                       TotalFalseAnswers = agg.WrongAnswers
-                                      FROM Question INNER JOIN(
-	                                      SELECT QuestionId, Count(QuestionId) -Sum(Cast(AnswerredCorrectly as Integer)) as WrongAnswers , 
-	                                      sum(Cast(AnswerredCorrectly as Integer)) as CorrectAnswers
-	                                      FROM AnswerHistory
-	                                      GROUP BY QuestionId, AnswerredCorrectly
-                                      ) as agg
-                                      ON agg.QuestionId = Question.Id").ExecuteUpdate();
+	                                      TotalTrueAnswers = agg.CorrectAnswers, 
+	                                      TotalFalseAnswers = agg.WrongAnswers
+                                      WHERE q.Id = aggQuestionId").ExecuteUpdate();
         }
     }
 }
