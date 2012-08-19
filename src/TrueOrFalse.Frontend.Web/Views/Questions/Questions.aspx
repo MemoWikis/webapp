@@ -65,10 +65,10 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
             <div class="control-group" style="margin-bottom: 8px; background-color: white;" >
                 <label style="line-height: 18px; padding-top: 5px;"><b>Erstellt</b>:</label>
                 <div class="btn-group" style="display: inline">
-                 <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
-                 <button class="btn btn-filterByAll">von anderen</button>
-                 <%: Html.HiddenFor(model => model.FilterByMe)%>
-                 <%: Html.HiddenFor(model => model.FilterByAll)%>
+                    <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
+                    <button class="btn btn-filterByAll">von anderen</button>
+                    <%: Html.HiddenFor(model => model.FilterByMe)%>
+                    <%: Html.HiddenFor(model => model.FilterByAll)%>
                 </div>
                 <span class="help-inline">und</span>&nbsp;
                 <% foreach (var filterByUser in Model.FilterByUsers)
