@@ -10,6 +10,8 @@ namespace TrueOrFalse.Core
         /// <returns>CorrectnessProbability as Percentage</returns>
         public int Run(IEnumerable<AnswerHistory> answerHistoryItems)
         {
+            if (!answerHistoryItems.Any())
+                return -1;
 
             var totalWeightedItems = 0d;
             var totalWeightedValue = 0d;

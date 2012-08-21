@@ -20,6 +20,9 @@
             int correctnessProbability = _correctnessProbabilityCalculator.Run(
                                             _answerHistoryRepository.GetBy(questionId, userId));
 
+            if (correctnessProbability == -1)
+                return;
+
             _knowledgeItemRepository.CreateOrUpdate(
                 new KnowledgeItem
                 {

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 
 namespace TrueOrFalse.Core
 {
@@ -17,6 +16,9 @@ namespace TrueOrFalse.Core
 
         public void Run()
         {
+            _session.CreateSQLQuery("DELETE FROM knowledgeitem")
+                    .ExecuteUpdate();
+
             var questionValuationRecords =
                 _session.QueryOver<QuestionValuation>()
                     .Where(qv => qv.RelevancePersonal > 0)

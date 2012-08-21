@@ -13,6 +13,8 @@ namespace TrueOrFalse.Tests
 		/// </summary>
 		public const string Programmer = "ProgrammersTest";
 
+        public const string Integration = "Integration";
+
 		/// <summary>
 		/// Tests small decoupled, portions of the code
 		/// </summary>
