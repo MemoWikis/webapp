@@ -21,7 +21,7 @@ namespace TrueOrFalse.Core
 
             var questionValuationRecords =
                 _session.QueryOver<QuestionValuation>()
-                    .Where(qv => qv.RelevancePersonal > 0)
+                    .Where(qv => qv.RelevancePersonal >= 0)
                     .Select(
                         qv => qv.QuestionId,
                         qv => qv.UserId)

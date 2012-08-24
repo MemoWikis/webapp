@@ -116,6 +116,7 @@
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishKnowledgeCountCached.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\KnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishKnowledgeCount.cs" />
+    <Compile Include="Domain\Knowledge\KnowledgeHistory\Ops\CreateKnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryItemMap.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryRepository.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeItem.cs" />
