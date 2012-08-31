@@ -16,9 +16,6 @@ namespace TrueOrFalse.Core
 
         public void Run()
         {
-            _session.CreateSQLQuery("DELETE FROM knowledgeitem")
-                    .ExecuteUpdate();
-
             var questionValuationRecords =
                 _session.QueryOver<QuestionValuation>()
                     .Where(qv => qv.RelevancePersonal >= 0)
@@ -28,8 +25,7 @@ namespace TrueOrFalse.Core
                     .List<object[]>();
 
             foreach (var item in questionValuationRecords)
-                _recalculateKnowledgeItem.Run((int) item[0], (int) item[1]);
-            
+                _recalculateKnowledgeItem.Run((int) item[0], (int) item[1]);   
         }
     }
 }

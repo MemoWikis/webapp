@@ -111,15 +111,12 @@
     <Compile Include="Domain\Knowledge\CorrectnessProbability\CorrectnessProbabilityCalculator.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalculateAllKnowledgeItems.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalculateKnowledgeItem.cs" />
-    <Compile Include="Domain\Knowledge\Knowledge.Persistence\KnowledgeItemMap.cs" />
-    <Compile Include="Domain\Knowledge\Knowledge.Persistence\KnowledgeItemRepository.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishKnowledgeCountCached.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\KnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishKnowledgeCount.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Ops\CreateKnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryItemMap.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryRepository.cs" />
-    <Compile Include="Domain\Knowledge\KnowledgeItem.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />

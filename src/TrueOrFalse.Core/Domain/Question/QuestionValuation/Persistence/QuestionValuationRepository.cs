@@ -39,6 +39,5 @@ namespace TrueOrFalse.Core
                            .SetResultTransformer(Transformers.AliasToBean(typeof(QuestionValuation)))
                            .List<QuestionValuation>();
         }
-
     }
 }

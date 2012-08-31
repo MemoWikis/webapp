@@ -3,15 +3,15 @@
     public class RecalculateKnowledgeItem : IRegisterAsInstancePerLifetime
     {
         private readonly AnswerHistoryRepository _answerHistoryRepository;
-        private readonly KnowledgeItemRepository _knowledgeItemRepository;
+        private readonly QuestionValuationRepository _questionValuationRepository;
         private readonly CorrectnessProbabilityCalculator _correctnessProbabilityCalculator;
 
         public RecalculateKnowledgeItem(AnswerHistoryRepository answerHistoryRepository,
-                                        KnowledgeItemRepository knowledgeItemRepository,
+                                        QuestionValuationRepository questionValuationRepository,
                                         CorrectnessProbabilityCalculator correctnessProbabilityCalculator)
         {
             _answerHistoryRepository = answerHistoryRepository;
-            _knowledgeItemRepository = knowledgeItemRepository;
+            _questionValuationRepository = questionValuationRepository;
             _correctnessProbabilityCalculator = correctnessProbabilityCalculator;
         }
 
@@ -20,13 +20,14 @@
             int correctnessProbability = _correctnessProbabilityCalculator.Run(
                                             _answerHistoryRepository.GetBy(questionId, userId));
 
-            _knowledgeItemRepository.CreateOrUpdate(
-                new KnowledgeItem
-                {
-                    CorrectnessProbability = correctnessProbability,
-                    QuestionId = questionId,
-                    UserId = userId
-                });            
+            var questionValuation = 
+                _questionValuationRepository.GetBy(questionId, userId) ?? new QuestionValuation();
+
+            questionValuation.QuestionId = questionId;
+            questionValuation.UserId = userId;
+            questionValuation.CorrectnessProbability = correctnessProbability;
+
+            _questionValuationRepository.CreateOrUpdate(questionValuation);
         }
     }
 }

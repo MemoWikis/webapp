@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NHibernate;
 using NUnit.Framework;
 using TrueOrFalse.Core;
 
@@ -10,16 +11,13 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Run()
         {
-            var contextQuestion = ContextQuestion.New()
-                .AddQuestion("QuestionA", "AnswerA").AddCategory("A")
-                .Persist();
-
-            var questionId = contextQuestion.Questions.First().Id;
             var updateTotals = Resolve<UpdateQuestionTotals>();
 
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, QuestionId = questionId, UserId = 2 });
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, QuestionId = questionId, UserId = 2 });
-            updateTotals.Run(new QuestionValuation { QuestionId = questionId, UserId = 2 });
+            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, QuestionId = 1, UserId = 2 });
+            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, QuestionId = 2, UserId = 2 });
+            updateTotals.Run(new QuestionValuation { QuestionId = 3, UserId = 2 });
+
+            Resolve<ISession>().Flush();
 
             Resolve<RecalculateAllKnowledgeItems>().Run();
             Assert.That(Resolve<GetWishKnowledgeCount>().Run(userId: 2), Is.EqualTo(2));
