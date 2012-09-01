@@ -40,10 +40,10 @@ namespace TrueOrFalse.Tests
             var question = Resolve<QuestionRepository>().GetById(contextQuestion.Questions.First().Id);
             Assert.That(question.TotalQualityEntries, Is.EqualTo(0));
             Assert.That(question.TotalQualityAvg, Is.EqualTo(0));
-            Assert.That(question.TotalRelevanceForAllAvg, Is.EqualTo(50));
-            Assert.That(question.TotalRelevanceForAllEntries, Is.EqualTo(1));
-            Assert.That(question.TotalRelevancePersonalAvg, Is.EqualTo(100));
-            Assert.That(question.TotalRelevancePersonalEntries, Is.EqualTo(1));
+            Assert.That(question.TotalRelevanceForAllAvg, Is.EqualTo(30));
+            Assert.That(question.TotalRelevanceForAllEntries, Is.EqualTo(2));
+            Assert.That(question.TotalRelevancePersonalAvg, Is.EqualTo(90));
+            Assert.That(question.TotalRelevancePersonalEntries, Is.EqualTo(2));
         }
     }
 }
