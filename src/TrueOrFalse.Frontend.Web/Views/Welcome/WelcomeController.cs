@@ -1,9 +1,9 @@
 ﻿using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Registration;
+using TrueOrFalse.Core.Web;
 using TrueOrFalse.Core.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Frontend.Web.Models;
 
 [HandleError]
 public class WelcomeController : Controller
@@ -75,5 +75,24 @@ public class WelcomeController : Controller
         loginModel.SetToWrongCredentials();
 
         return View(loginModel);
-    }            
+    }
+
+    public ActionResult PasswordRecovery()
+    {
+        return View(new PasswordRecoveryModel());
+    }
+
+    [HttpPost]
+    public ActionResult PasswordRecovery(PasswordRecoveryModel model)
+    {
+        var result = Sl.Resolve<PasswordRecovery>().Run(model.Email);
+        if (result.TheEmailDoesNotExist)
+            model.Message = new ErrorMessage("Diese Email-Adresse ist uns unbekannt.");
+        else if (result.Success)
+            model.Message = new SuccessMessage("Der Link wurde an " + model.Email + " verschickt.");
+
+        return View(model);
+    }
+
+
 }

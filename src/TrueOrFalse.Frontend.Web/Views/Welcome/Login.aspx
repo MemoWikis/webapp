@@ -42,7 +42,7 @@
 
                  <div class="form-actions">
                      <input type="submit" value="Anmelden" class="btn btn-primary" /> 
-                     <%: Html.ActionLink("Passwort vergessen?", Links.NotDoneYet, Links.VariousController, new {@style="vertical-align:bottom; margin-left:20px;"} )  %>
+                     <%: Html.ActionLink("Passwort vergessen?", "PasswordRecovery", Links.VariousController, new {@style="vertical-align:bottom; margin-left:20px;"} )  %>
                  </div>
                  
                  <div class="form-actions" style="border-top:0px; background-color:white;">

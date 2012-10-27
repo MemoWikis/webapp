@@ -150,6 +150,15 @@
     <Compile Include="Domain\Question\QuestionView\QuestionView.cs" />
     <Compile Include="Domain\Question\SolutionType\StandardInputSettingsText.cs" />
     <Compile Include="Domain\User\Persistence\UserSearch.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecovery.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecoveryResult.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordReset.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordResetPrepare.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordResetPrepareResult.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryToken.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenMap.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenRepository.cs" />
+    <Compile Include="Infrastructure\Regexes.cs" />
     <Compile Include="Utilities\DateTimeUtils.cs" />
     <Compile Include="Utilities\Import\Importer.cs" />
     <Compile Include="Utilities\Import\ImporterResult.cs" />
@@ -169,19 +178,19 @@
     <Compile Include="Domain\Question\QuestionCharacter.cs" />
     <Compile Include="Domain\Question\QuestionVisibility.cs" />
     <Compile Include="Domain\Question\SolutionType\QuestionSolutionType.cs" />
-    <Compile Include="Domain\User\Registration.Login\CredentialsAreValid.cs" />
-    <Compile Include="Domain\User\Registration.Confirmation\CreateConfirmationLink.cs" />
-    <Compile Include="Domain\User\Registration.Confirmation\SetUserEmailAsConfirmed.cs" />
-    <Compile Include="Domain\User\Registration.Confirmation\ValidateConfirmationKey.cs" />
-    <Compile Include="Domain\User\Registration.Flow\_ RegisterUser.cs" />
-    <Compile Include="Domain\User\Registration.Flow\1 IsUserNameAvailable.cs" />
-    <Compile Include="Domain\User\Registration.Flow\2 SendRegistrationEmail.cs" />
+    <Compile Include="Domain\User\Registration\Login\CredentialsAreValid.cs" />
+    <Compile Include="Domain\User\Registration\Confirmation\CreateConfirmationLink.cs" />
+    <Compile Include="Domain\User\Registration\Confirmation\SetUserEmailAsConfirmed.cs" />
+    <Compile Include="Domain\User\Registration\Confirmation\ValidateConfirmationKey.cs" />
+    <Compile Include="Domain\User\Registration\Flow\_ RegisterUser.cs" />
+    <Compile Include="Domain\User\Registration\Flow\1 IsUserNameAvailable.cs" />
+    <Compile Include="Domain\User\Registration\Flow\2 SendRegistrationEmail.cs" />
     <Compile Include="Domain\User\Persistence\UserMap.cs" />
     <Compile Include="Domain\User\Persistence\UserRepository.cs" />
     <Compile Include="Domain\User\Persistence\UserSearchSpec.cs" />
-    <Compile Include="Domain\User\Registration.Password\HashPassword.cs" />
-    <Compile Include="Domain\User\Registration.Password\SetUserPassword.cs" />
-    <Compile Include="Domain\User\Registration.Password\IsValdidPassword.cs" />
+    <Compile Include="Domain\User\Registration\Password\HashPassword.cs" />
+    <Compile Include="Domain\User\Registration\Password\SetUserPassword.cs" />
+    <Compile Include="Domain\User\Registration\Password\IsValdidPassword.cs" />
     <Compile Include="Infrastructure\Email\SendEmail.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -232,21 +241,9 @@
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
-    <Content Include="Utilities\Update\Scripts\005-new-total-field-tbl-question.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs011.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs006.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs005.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs007.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs008.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs009.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs010.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs012.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs003.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs002.cs" />
-    <Compile Include="Utilities\Update\Steps\UpdateToVs001InitialStep.cs" />
     <Compile Include="Utilities\Update\Update.cs" />
     <Compile Include="Web\Context\Data\UserNavigationModel.cs" />
     <Compile Include="Web\Context\Data\UserNavigationModelList.cs" />
@@ -270,16 +267,7 @@
     <Compile Include="Web\Uris\UriSanitizer.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
-    <Content Include="Utilities\Update\Scripts\008-create-tbl-persistentLogin.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Update\Scripts\009-create-tbl-questionView-and-field-questionView.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Update\Scripts\010-new-column-isAdmin-in-tbl-user.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Update\Scripts\011-new-tbl-knowledgeItem.sql">
+    <Content Include="Utilities\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -307,20 +295,6 @@
     </None>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="Utilities\Update\Scripts\001-create-setting-tbl.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Update\Scripts\002-new-total-fields-tbl-question.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Update\Scripts\003-new-table-questionValuation.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Utilities\Update\Scripts\006-new-column-solutiontype.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 using Autofac;
 using NHibernate;
 using TrueOrFalse.Core.Infrastructure.Persistence;
-using Module = Autofac.Module;
 
 namespace TrueOrFalse.Core.Infrastructure
 {
-    public class AutofacCoreModule : Module
+    public class AutofacCoreModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)
         {

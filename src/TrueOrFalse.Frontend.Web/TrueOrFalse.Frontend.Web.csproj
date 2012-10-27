@@ -183,6 +183,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Welcome\LoginModel.cs" />
+    <Compile Include="Views\Welcome\PasswordRecoveryModel.cs" />
     <Compile Include="Views\Welcome\RegisterModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -386,6 +387,8 @@
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
+    <Content Include="Views\Welcome\PasswordReset.aspx" />
+    <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Login.aspx" />
     <Content Include="Views\Welcome\Register.aspx" />
     <Content Include="Views\Welcome\RegisterSuccess.aspx" />
