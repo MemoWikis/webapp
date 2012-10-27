@@ -20,7 +20,6 @@ namespace TrueOrFalse.Core.Registration
 
 
             return stringBuilder.ToString();
-
         }
     }
 }

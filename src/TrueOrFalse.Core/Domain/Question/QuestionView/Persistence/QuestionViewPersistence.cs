@@ -4,7 +4,7 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Core
 {
-    public class QuestionViewRepository : RepositoryDb<QuestionView> 
+    public class QuestionViewRepository : RepositoryDb<QuestionView>
     {
         public QuestionViewRepository(ISession session) : base(session) { }
 

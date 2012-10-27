@@ -69,7 +69,7 @@ public class WelcomeController : Controller
             
             _sessionUser.Login(_credentialsAreValid.User);
 
-            return RedirectToAction(Links.Knowledge, Links.KnowledgeController );
+            return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
         }
 
         loginModel.SetToWrongCredentials();
