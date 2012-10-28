@@ -1,19 +1,52 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<PasswordResetModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="TrueOrFalse.Core.Web" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-	<h2>Registrierung Erfolgreich!</h2>
+<% using (Html.BeginForm()) { %>
+    
+    <div class="row" style="padding-top:30px;">
+        <div class="span2" style="padding-top:7px;">
+            <i class="icon-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
+        </div>
+        <div class="form-horizontal span8">
+            <fieldset>
+                <legend>Setze Dein neues Passwort</legend>
 
-	<p>Sie sind nun vollständig registriert.</p>
-	
-	<p>Um Ihre E-Mail Adresse zu verifizieren, erhalten Sie bald von uns eine Nachricht.</p>
+                <% Html.ValidationSummary(true, "Bitte überprüfe Deine Eingaben");  %>
+                                                
+                <% Html.Message(Model.Message); %>
+                
+                <% if(Model.TokenFound){ %> 
+                
+                    <%: Html.HiddenFor(x => x.Token) %>
 
-	<p>Schauen Sie sich ein wenig um: </p>
-	<ul>
-		<li><a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>">Definieren Sie was sie wissen möchten</a></li>
-		<li>Erweitern Sie Ihr Profil</li>
-		<li>Finden Sie interessante Kontake.</li>
-	</ul>
+                    <div class="control-group">
+                        <%: Html.LabelFor(model => model.NewPassword1, new { @class = "control-label" }) %>
+                        <div class="controls">
+                            <%: Html.PasswordFor(model => model.NewPassword1) %>
+                            <%: Html.ValidationMessageFor(model => model.NewPassword1) %>
+                        </div>
+                    </div>
+                
+                    <div class="control-group">
+                        <%: Html.LabelFor(model => model.NewPassword2, new { @class = "control-label" }) %>
+                        <div class="controls">
+                            <%: Html.PasswordFor(model => model.NewPassword2) %>
+                            <%: Html.ValidationMessageFor(model => model.NewPassword2) %>
+                        </div>
+                    </div>
+                
+                    <div class="form-actions">
+                        <input type="submit" value="Speichern" class="btn btn-primary" />&nbsp;
+                    </div>
+
+                <%} %>
+
+            </fieldset>            
+        </div>
+    </div>
+<% } %>
 
 </asp:Content>

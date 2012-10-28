@@ -7,13 +7,6 @@ namespace TrueOrFalse.Core
     {
         public UserRepository(ISession session): base(session){}
 
-        public User GetByEmailAddress(string emailAddress)
-        {
-            var userSearchSpec = new UserSearchSpec();
-            userSearchSpec.Filter.EmailAddress.EqualTo(emailAddress);
-            return GetByUnique(userSearchSpec);
-        }
-
         public User GetByEmail(string emailAddress)
         {
             return _session.QueryOver<User>()

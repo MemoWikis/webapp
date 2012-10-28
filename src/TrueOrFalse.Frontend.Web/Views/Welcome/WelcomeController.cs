@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using TrueOrFalse.Core;
 using TrueOrFalse.Core.Registration;
 using TrueOrFalse.Core.Web;
@@ -26,10 +27,7 @@ public class WelcomeController : Controller
 
     public ActionResult Welcome()
     {
-        ViewData["Message"] = "Sind Sie sicher?";
-
-        var model = new WelcomeModel {};
-
+        var model = new WelcomeModel();
         return View(model);
     }
 
@@ -94,5 +92,47 @@ public class WelcomeController : Controller
         return View(model);
     }
 
+    [HttpGet]
+    public ActionResult PasswordReset(string id)
+    {
+        var result = Sl.Resolve<PasswordResetPrepare>().Run(id);
+        var model = new PasswordResetModel { TokenFound = result.Success, Token = id };
 
+        if (result.TokenOlderThan72h)
+        {
+            model.Message = new ErrorMessage("Der Link ist abgelaufen.");
+            return View(model);
+        }
+
+        if (!result.Success)
+            model.Message = new ErrorMessage("Der Link ist leider ungültig.");
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public ActionResult PasswordReset(PasswordResetModel model)
+    {
+        if(!ModelState.IsValid)
+        {
+            model.TokenFound = true;
+            model.Message = new ErrorMessage("Bitte prüfe Deine Eingabe.");
+            return View(model);
+        }
+
+        var result = Sl.Resolve<PasswordResetPrepare>().Run(model.Token);
+
+        var userRepo = Sl.Resolve<UserRepository>();
+        var user = userRepo.GetByEmail(result.Email);
+
+        if(user == null)
+            throw new Exception();
+
+        SetUserPassword.Run(model.NewPassword1, user);
+        userRepo.Update(user);
+
+        Sl.Resolve<SessionUser>().Login(user);
+
+        return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
+    }
 }

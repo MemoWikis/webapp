@@ -6,16 +6,16 @@ using TrueOrFalse.Core.Infrastructure;
 
 namespace TrueOrFalse.Core.Registration
 {
-    public class IsEmailAddressNotInUse : IRegisterAsInstancePerLifetime
+    public class IsEmailAddressAvailable : IRegisterAsInstancePerLifetime
     {
         private readonly UserRepository _userRepository;
 
-        public IsEmailAddressNotInUse(UserRepository userRepository){
+        public IsEmailAddressAvailable(UserRepository userRepository){
             _userRepository = userRepository;
         }
 
         public bool Yes(string emailAddress){
-            return _userRepository.GetByEmailAddress(emailAddress) == null;
+            return _userRepository.GetByEmail(emailAddress) == null;
         }
     }
 }

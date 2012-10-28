@@ -10,17 +10,17 @@ namespace TrueOrFalse.Core.Registration
 {
     public class RegisterUser : IRegisterAsInstancePerLifetime
     {
-        private readonly IsEmailAddressNotInUse _isEmailAddressNotInUse;
+        private readonly IsEmailAddressAvailable _isEmailAddressAvailable;
         private readonly UserRepository _userRepository;
         private readonly SendRegistrationEmail _sendRegistrationEmail;
         private readonly ISession _session;
 
-        public RegisterUser(IsEmailAddressNotInUse isEmailAddressNotInUse, 
+        public RegisterUser(IsEmailAddressAvailable isEmailAddressAvailable, 
                             UserRepository  userRepository,
                             SendRegistrationEmail sendRegistrationEmail,
                             ISession session)
         {
-            _isEmailAddressNotInUse = isEmailAddressNotInUse;
+            _isEmailAddressAvailable = isEmailAddressAvailable;
             _userRepository = userRepository;
             _sendRegistrationEmail = sendRegistrationEmail;
             _session = session;
@@ -30,7 +30,7 @@ namespace TrueOrFalse.Core.Registration
         {
             using(var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
-                if (!_isEmailAddressNotInUse.Yes(user.EmailAddress))
+                if (!_isEmailAddressAvailable.Yes(user.EmailAddress))
                     throw new Exception("There is already a user with that email address.");
 
                 _userRepository.Create(user);

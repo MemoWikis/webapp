@@ -6,26 +6,26 @@ namespace TrueOrFalse.Core.Registration
 {
     public class PasswordRecovery : IRegisterAsInstancePerLifetime
     {
-        private readonly IsEmailAddressNotInUse _emailAddressInUse;
+        private readonly IsEmailAddressAvailable _emailAddressIsAvailable;
         private readonly SendEmail _sendMailMessage;
         private readonly PasswordRecoveryTokenRepository _tokenRepository;
 
-        public PasswordRecovery(IsEmailAddressNotInUse emailAddressInUse, 
+        public PasswordRecovery(IsEmailAddressAvailable emailAddressIsAvailable, 
                                 SendEmail sendMailMessage,
                                 PasswordRecoveryTokenRepository tokenRepository)
         {
-            _emailAddressInUse = emailAddressInUse;
+            _emailAddressIsAvailable = emailAddressIsAvailable;
             _sendMailMessage = sendMailMessage;
             _tokenRepository = tokenRepository;
         }
 
         public PasswordRecoveryResult Run(string email)
         {
-            if (!_emailAddressInUse.Yes(email))
+            if (_emailAddressIsAvailable.Yes(email))
                 return new PasswordRecoveryResult { TheEmailDoesNotExist = true, Success = false };
 
             var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
-            var passwortResetUrl = "http://bewerbung.apollo-online.de/home/passwort_reset/" + token;
+            var passwortResetUrl = "http://richtig-oder-falsch.de/Welcome/PasswordReset/" + token;
 
             _tokenRepository.Create(new PasswordRecoveryToken{ Email = email, Token = token });
             _sendMailMessage.Run(GetMailMessage(email, passwortResetUrl));

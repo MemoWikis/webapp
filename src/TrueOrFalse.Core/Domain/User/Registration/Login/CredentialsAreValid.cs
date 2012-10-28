@@ -27,7 +27,7 @@ namespace TrueOrFalse.Core.Registration
                 return false;
 
             User = null;
-            var user = _userRepository.GetByEmailAddress(emailAdress.Trim());
+            var user = _userRepository.GetByEmail(emailAdress.Trim());
 
             if (user == null)
                 return false;

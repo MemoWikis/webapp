@@ -34,7 +34,7 @@ public class PersonaController : Controller
 
     private ActionResult LoginUser(string emailAddress)
     {
-        var robertM = _userRepository.GetByEmailAddress(emailAddress);
+        var robertM = _userRepository.GetByEmail(emailAddress);
         _sessionUser.Login(robertM);
 
         if (Request["target-url"] != null)
