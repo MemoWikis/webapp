@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using SharpTestsEx;
-using TrueOrFalse.Core;
+using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {

@@ -2,9 +2,9 @@
     Inherits="ViewPage<EditQuestionModel>" %>
 
 <%@ Import Namespace="System.Web.Mvc.Html" %>
-<%@ Import Namespace="TrueOrFalse.Core.Web" %>
+<%@ Import Namespace="TrueOrFalse.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="TrueOrFalse.Core" %>
+<%@ Import Namespace="TrueOrFalse" %>
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
     <script src="/Views/Questions/Edit/EditQuestion.js" type="text/javascript"></script>

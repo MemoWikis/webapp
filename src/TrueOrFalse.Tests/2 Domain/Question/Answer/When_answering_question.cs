@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using TrueOrFalse.Core;
+using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {

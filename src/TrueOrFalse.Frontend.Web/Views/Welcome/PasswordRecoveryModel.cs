@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using TrueOrFalse;
-using TrueOrFalse.Core.Web;
+using TrueOrFalse.Web;
 
 public class PasswordRecoveryModel
 {

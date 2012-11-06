@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Web.Mvc;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Registration;
-using TrueOrFalse.Core.Web;
-using TrueOrFalse.Core.Web.Context;
+using TrueOrFalse;
+using TrueOrFalse.Registration;
+using TrueOrFalse.Web;
+using TrueOrFalse.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
 
 [HandleError]

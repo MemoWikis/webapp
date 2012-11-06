@@ -412,13 +412,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TrueOrFalse.Core\TrueOrFalse.Core.csproj">
-      <Project>{0AA2472F-E001-45C0-AD00-2E49B1566739}</Project>
-      <Name>TrueOrFalse.Core</Name>
-    </ProjectReference>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj">
+      <Project>{0aa2472f-e001-45c0-ad00-2e49b1566739}</Project>
+      <Name>TrueOrFalse</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

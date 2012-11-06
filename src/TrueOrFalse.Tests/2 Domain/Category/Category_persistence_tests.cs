@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using TrueOrFalse.Core;
+using TrueOrFalse;
 
 namespace TrueOrFalse.Tests.Persistence
 {

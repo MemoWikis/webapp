@@ -2,10 +2,10 @@
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Infrastructure;
-using TrueOrFalse.Core.Web;
-using TrueOrFalse.Core.Web.Context;
+using TrueOrFalse;
+using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Web;
+using TrueOrFalse.Web.Context;
 
 [HandleError]
 public class EditQuestionController : Controller

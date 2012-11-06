@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using TrueOrFalse.Core.Infrastructure;
+using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Tests;
 using TrueOrFalse.Updates;
 

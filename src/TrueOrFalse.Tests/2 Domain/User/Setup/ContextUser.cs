@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using TrueOrFalse.Core;
+using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {

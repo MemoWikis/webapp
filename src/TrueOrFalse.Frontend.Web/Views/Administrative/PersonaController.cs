@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Web.Context;
+using TrueOrFalse;
+using TrueOrFalse.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
 
 

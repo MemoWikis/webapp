@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using TrueOrFalse.Core.Web;
+using TrueOrFalse.Web;
 using TrueOrFalse.Frontend.Web.Models;
 
 public class LoginModel : ModelBase

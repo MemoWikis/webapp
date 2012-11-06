@@ -1,4 +1,4 @@
-﻿using TrueOrFalse.Core;
+﻿using TrueOrFalse;
 
 public class MenuModelCategoryItem
 {

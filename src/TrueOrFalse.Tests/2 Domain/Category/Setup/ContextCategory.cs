@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Infrastructure;
+using TrueOrFalse;
+using TrueOrFalse.Infrastructure;
 
 namespace TrueOrFalse.Tests
 {

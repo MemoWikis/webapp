@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-namespace TrueOrFalse.Core.Web
+namespace TrueOrFalse.Web
 {
     [TestFixture]
     public class UriSanitizer_Tests

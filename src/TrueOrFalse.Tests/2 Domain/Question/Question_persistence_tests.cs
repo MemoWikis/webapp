@@ -1,7 +1,7 @@
 ﻿using NHibernate;
 using NUnit.Framework;
 using SharpTestsEx;
-using TrueOrFalse.Core;
+using TrueOrFalse;
 
 namespace TrueOrFalse.Tests.Persistence
 {

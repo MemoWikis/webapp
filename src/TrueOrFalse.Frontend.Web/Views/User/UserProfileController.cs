@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Web.Context;
+using TrueOrFalse;
+using TrueOrFalse.Web.Context;
 
 public class UserProfileController : Controller
 {

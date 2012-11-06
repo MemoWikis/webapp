@@ -2,8 +2,8 @@
 using System.Web.Mvc;
 using NHibernate;
 using Seedworks.Lib;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Web.Context;
+using TrueOrFalse;
+using TrueOrFalse.Web.Context;
 
 public class QuestionsController : Controller
 {

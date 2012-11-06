@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using TrueOrFalse.Core;
+using TrueOrFalse;
 
 public class EditCategoryModel_Category_Exists : IRegisterAsInstancePerLifetime
 {

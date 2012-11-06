@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Web.Context;
+using TrueOrFalse;
+using TrueOrFalse.Web.Context;
 
 [HandleError]
 public class AnswerQuestionController : Controller

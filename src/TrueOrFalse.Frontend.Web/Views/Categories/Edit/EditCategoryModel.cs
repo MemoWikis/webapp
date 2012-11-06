@@ -2,9 +2,9 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using TrueOrFalse.Core;
+using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
-using Message = TrueOrFalse.Core.Web.Message;
+using Message = TrueOrFalse.Web.Message;
 
 public class EditCategoryModel : ModelBase
 {

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Web;
+using TrueOrFalse;
+using TrueOrFalse.Web;
 
 public class MaintenanceController : Controller
 {

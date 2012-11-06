@@ -1,0 +1,19 @@
+using System.Collections.Generic;
+using Seedworks.Web.State;
+using TrueOrFalse.Infrastructure;
+
+namespace TrueOrFalse.Web.Context
+{
+    public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
+    {
+        public UserNavigationModelList LastVisitedProfiles
+        {
+            get { return Data.Get("lastVisitedProfiles", new UserNavigationModelList()); }
+        } 
+
+        public QuestionSearchSpec QuestionSearchSpec
+        {
+            get { return Data.Get("questionSearchSpec", new QuestionSearchSpec{PageSize = 5}); }
+        }
+    }
+}

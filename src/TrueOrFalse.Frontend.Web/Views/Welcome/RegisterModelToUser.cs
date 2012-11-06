@@ -1,5 +1,5 @@
-﻿using TrueOrFalse.Core;
-using TrueOrFalse.Core.Registration;
+﻿using TrueOrFalse;
+using TrueOrFalse.Registration;
 using TrueOrFalse.Frontend.Web.Models;
 
 public class RegisterModelToUser : ModelBase

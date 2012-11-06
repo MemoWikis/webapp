@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TrueOrFalse.Core.Web;
-using TrueOrFalse.Core;
+using TrueOrFalse.Web;
+using TrueOrFalse;
 
 public class EditCategoryController : Controller
 {

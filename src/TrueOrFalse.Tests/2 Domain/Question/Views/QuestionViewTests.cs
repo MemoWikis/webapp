@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using NUnit.Framework;
-using TrueOrFalse.Core;
+using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {

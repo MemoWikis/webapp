@@ -5,10 +5,10 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Infrastructure;
-using TrueOrFalse.Core.Web.Context;
-using TrueOrFalse.Core.Web.JavascriptView;
+using TrueOrFalse;
+using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Web.Context;
+using TrueOrFalse.Web.JavascriptView;
 using TrueOrFalse.Updates;
 
 namespace TrueOrFalse.Frontend.Web

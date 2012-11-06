@@ -4,11 +4,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Infrastructure;
+using TrueOrFalse;
+using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Frontend.Web.Models;
 using System.Linq;
-using Message = TrueOrFalse.Core.Web.Message;
+using Message = TrueOrFalse.Web.Message;
 
 public class EditQuestionModel : ModelBase
 {

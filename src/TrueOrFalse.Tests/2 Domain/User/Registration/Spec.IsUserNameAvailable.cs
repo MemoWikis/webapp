@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using TrueOrFalse.Core.Registration;
+using TrueOrFalse.Registration;
 using IContextDescription = BDDish.Model.IContextDescription;
 
 

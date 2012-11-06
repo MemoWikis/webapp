@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using TrueOrFalse.Core;
-using TrueOrFalse.Core.Web.Context;
+using TrueOrFalse;
+using TrueOrFalse.Web.Context;
 
 public class MenuLeftModel
 {

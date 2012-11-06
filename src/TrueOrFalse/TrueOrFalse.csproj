@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0AA2472F-E001-45C0-AD00-2E49B1566739}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TrueOrFalse</RootNamespace>
+    <AssemblyName>TrueOrFalse</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=2.5.2.830, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc3.2.5.2.830\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=1.3.0.727, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentNHibernate.1.3.0.727\lib\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Gibraltar.Agent">
+      <HintPath>..\packages\Gibraltar.Agent.2.5.2.815\lib\Gibraltar.Agent.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.3.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.3.3.0.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Seedworks.Lib, Version=0.8.2.5396, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Seedworks.Persistence.0.8.2.14\lib\Seedworks.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Seedworks.Persistence.0.8.2.14\lib\Seedworks.Lib.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="Seedworks.Web.Lib.Persistence">
+      <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="SolrNet">
+      <HintPath>..\libs\SolrNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
+    <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
+    <Compile Include="Domain\Classification\Category\Persistence\CategoryMap.cs" />
+    <Compile Include="Domain\Classification\Category\Category.cs" />
+    <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />
+    <Compile Include="Domain\Classification\Category\Persistence\CategorySearch.cs" />
+    <Compile Include="Domain\Images\GetImageUrlResult.cs" />
+    <Compile Include="Domain\Images\Types\GetQuestionImageUrl.cs" />
+    <Compile Include="Domain\Images\StoreSound.cs" />
+    <Compile Include="Domain\Knowledge\CorrectnessProbability\CorrectnessProbabilityCalculator.cs" />
+    <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalculateAllKnowledgeItems.cs" />
+    <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalculateKnowledgeItem.cs" />
+    <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishKnowledgeCountCached.cs" />
+    <Compile Include="Domain\Knowledge\KnowledgeHistory\KnowledgeHistoryItem.cs" />
+    <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishKnowledgeCount.cs" />
+    <Compile Include="Domain\Knowledge\KnowledgeHistory\Ops\CreateKnowledgeHistoryItem.cs" />
+    <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryItemMap.cs" />
+    <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryRepository.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalsPerUserExt.cs" />
+    <Compile Include="Domain\Images\Types\GetCategoryImageUrl.cs" />
+    <Compile Include="Domain\Images\GetImageUrl.cs" />
+    <Compile Include="Domain\Images\Types\GetUserImageUrl.cs" />
+    <Compile Include="Domain\Images\StoreImages.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
+    <Compile Include="Domain\Question\Answer\GetQuestionSolution.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSoulutionExact.cs" />
+    <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
+    <Compile Include="Domain\NotNull.cs" />
+    <Compile Include="Domain\Question\Question.Ops\GetTotalQuestionCount.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\CreateOrUpdateQuestionValue.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotalResult.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotal.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\UpdateQuestionTotals.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepository.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\QuestionValuation.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationMap.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\QuestionValuationExt.cs" />
+    <Compile Include="Domain\Question\QuestionView\Ops\SaveQuestionView.cs" />
+    <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewMap.cs" />
+    <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewPersistence.cs" />
+    <Compile Include="Domain\Question\QuestionView\QuestionView.cs" />
+    <Compile Include="Domain\Question\SolutionType\StandardInputSettingsText.cs" />
+    <Compile Include="Domain\User\Persistence\UserSearch.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecovery.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecoveryResult.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordReset.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordResetPrepare.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordResetPrepareResult.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryToken.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenMap.cs" />
+    <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenRepository.cs" />
+    <Compile Include="Infrastructure\Regexes.cs" />
+    <Compile Include="Search\Question\SearchQuestions.cs" />
+    <Compile Include="Search\Question\SearchQuestionsResult.cs" />
+    <Compile Include="Utilities\DateTimeUtils.cs" />
+    <Compile Include="Utilities\Import\Importer.cs" />
+    <Compile Include="Utilities\Import\ImporterResult.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\AnswerHistory.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\AnswerHistoryLog.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Persistence\AnswerHistoryMap.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Persistence\AnswerHistoryRepository.cs" />
+    <Compile Include="Domain\Question\Answer\AnswerQuestion.cs" />
+    <Compile Include="Domain\Question\Answer\AnswerQuestionResult.cs" />
+    <Compile Include="Domain\Question\Question.Persistence\QuestionSearchSpec.cs" />
+    <Compile Include="Domain\Question\Question.cs" />
+    <Compile Include="Domain\Question\QuestionListExt.cs" />
+    <Compile Include="Domain\Question\Question.Persistence\QuestionMap.cs" />
+    <Compile Include="Domain\Question\Question.Persistence\QuestionRepository.cs" />
+    <Compile Include="Domain\Question\QuestionCharacter.cs" />
+    <Compile Include="Domain\Question\QuestionVisibility.cs" />
+    <Compile Include="Domain\Question\SolutionType\QuestionSolutionType.cs" />
+    <Compile Include="Domain\User\Registration\Login\CredentialsAreValid.cs" />
+    <Compile Include="Domain\User\Registration\Confirmation\CreateConfirmationLink.cs" />
+    <Compile Include="Domain\User\Registration\Confirmation\SetUserEmailAsConfirmed.cs" />
+    <Compile Include="Domain\User\Registration\Confirmation\ValidateConfirmationKey.cs" />
+    <Compile Include="Domain\User\Registration\Flow\_ RegisterUser.cs" />
+    <Compile Include="Domain\User\Registration\Flow\1 IsUserNameAvailable.cs" />
+    <Compile Include="Domain\User\Registration\Flow\2 SendRegistrationEmail.cs" />
+    <Compile Include="Domain\User\Persistence\UserMap.cs" />
+    <Compile Include="Domain\User\Persistence\UserRepository.cs" />
+    <Compile Include="Domain\User\Persistence\UserSearchSpec.cs" />
+    <Compile Include="Domain\User\Registration\Password\HashPassword.cs" />
+    <Compile Include="Domain\User\Registration\Password\SetUserPassword.cs" />
+    <Compile Include="Domain\User\Registration\Password\IsValdidPassword.cs" />
+    <Compile Include="Infrastructure\Email\SendEmail.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\IoC\AutofacCoreModule.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\IoC\IRegisterAsInstancePerLifetime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\IoC\ServiceLocator.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\GetPersistentLoginCookieValues.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\GetPersistentLoginCookieValuesResult.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\RemovePersistentLoginFromCookie.cs" />
+    <Compile Include="Infrastructure\Login\Cookie\WritePersistentLoginToCookie.cs" />
+    <Compile Include="Infrastructure\Login\Model\Ops\CreatePersistentLogin.cs" />
+    <Compile Include="Infrastructure\Login\Model\Ops\LoginFromCookie.cs" />
+    <Compile Include="Infrastructure\Login\Model\PersistentLogin.cs" />
+    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginMap.cs" />
+    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepository.cs" />
+    <Compile Include="Infrastructure\Persistence\Constants.cs" />
+    <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
+    <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />
+    <Compile Include="Infrastructure\Persistence\Session\EnumConvention.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Persistence\Schema\DoesTableExist.cs" />
+    <Compile Include="Infrastructure\Persistence\Session\SessionFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Persistence\Session\SessionManager.cs" />
+    <Compile Include="Infrastructure\Persistence\Spec\SpecFilterBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Persistence\Spec\SpecOrderByBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\Settings\ConnectionString\GetConnectionString.cs" />
+    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionString.cs" />
+    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionStringResult.cs" />
+    <Compile Include="Infrastructure\Settings\DbSetting\DbSettingLoader.cs" />
+    <Compile Include="Infrastructure\Settings\DbSetting\DbSettings.cs" />
+    <Compile Include="Infrastructure\Settings\DbSetting\DbSettingsMap.cs" />
+    <Compile Include="Infrastructure\Settings\WebConfigSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Infrastructure\StringExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Domain\User\User.cs" />
+    <Compile Include="SampleData\SampleData.cs" />
+    <Compile Include="Utilities\TimeElapsedAsText.cs" />
+    <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs012.cs" />
+    <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
+    <Compile Include="Utilities\Update\Update.cs" />
+    <Compile Include="Web\Context\Data\UserNavigationModel.cs" />
+    <Compile Include="Web\Context\Data\UserNavigationModelList.cs" />
+    <Compile Include="Web\Context\ContextItemKeys.cs" />
+    <Compile Include="Web\Context\SessionUiData.cs" />
+    <Compile Include="Web\Context\SessionUser.cs" />
+    <Compile Include="Web\Controls\ButtonIcon.cs" />
+    <Compile Include="Web\Controls\Buttons.cs" />
+    <Compile Include="Web\Controls\UserMessage\MessageHtml.cs" />
+    <Compile Include="Web\Controls\UserMessage\MessageType.cs" />
+    <Compile Include="Web\Controls\UserMessage\Message.cs" />
+    <Compile Include="Web\Filters\AccessOnlyLocalAttribute.cs" />
+    <Compile Include="Web\Filters\GlobalAuthorizationAttribute.cs" />
+    <Compile Include="Web\HtmlLabelExtensions.cs" />
+    <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
+    <Compile Include="Web\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
+    <Compile Include="Web\JavascriptViewEngine\JavascriptActionInvoker.cs" />
+    <Compile Include="Web\JavascriptViewEngine\JavascriptView.cs" />
+    <Compile Include="Web\JavascriptViewEngine\JavascriptViewEngine.cs" />
+    <Compile Include="Web\Uris\Links.cs" />
+    <Compile Include="Web\Uris\UriSanitizer.cs" />
+    <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
+    <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
+    <Content Include="Utilities\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Search\Category\" />
+    <Folder Include="Search\User\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web.Mvc;
-using TrueOrFalse.Core.Web.Uris;
+using TrueOrFalse.Web.Uris;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Core;
+using TrueOrFalse;
 
 public class QuestionRowModel
 {
