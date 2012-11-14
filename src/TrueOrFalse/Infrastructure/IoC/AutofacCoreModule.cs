@@ -12,7 +12,7 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
                    .AssignableTo<IRegisterAsInstancePerLifetime>();
             
-            var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse.Core");
+            var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).Where(a => a.Name.EndsWith("Repository"));
 

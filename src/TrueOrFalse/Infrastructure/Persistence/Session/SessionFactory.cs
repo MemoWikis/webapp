@@ -35,7 +35,6 @@ namespace TrueOrFalse
         public static void BuildSchema()
         {
             DropAllTables();
-            DropAllTables();//twice, because FK reference tableds wont't be delete on the first run.
             new SchemaExport(_configuration)
                 .Create(script: false, export: true);
         }

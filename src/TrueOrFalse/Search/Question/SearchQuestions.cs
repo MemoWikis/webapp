@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrueOrFalse.Search.Question
+namespace TrueOrFalse.Search
 {
-    class SearchQuestions
+    public class SearchQuestions
     {
+        public SearchQuestionsResult Run()
+        {
+            return new SearchQuestionsResult();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AutofacContrib.SolrNet;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NUnit.Framework;
 using TrueOrFalse;
@@ -30,6 +31,7 @@ namespace TrueOrFalse.Tests
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacCoreModule>();
             builder.RegisterModule<AutofacTestModule>();
+            builder.RegisterModule(new SolrNetModule("http://localhost:8080/solr/trueOrFalseTest"));
             _container = builder.Build();
             ServiceLocator.Init(_container);
             SessionFactory.BuildSchema();

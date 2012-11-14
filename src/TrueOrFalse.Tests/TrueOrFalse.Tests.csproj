@@ -104,6 +104,9 @@
     <Reference Include="SharpTestsEx.Mvc">
       <HintPath>..\packages\SharpTestsEx.1.1.1\lib\SharpTestsEx.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="SolrNet">
+      <HintPath>..\libs\SolrNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -151,8 +154,9 @@
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
-    <Compile Include="4 Utiltities\TimeElapsedAsTextTests.cs" />
-    <Compile Include="5 Web\UriSanitizer_Tests.cs" />
+    <Compile Include="4 Search\Question\QuestionSearchTests.cs" />
+    <Compile Include="5 Utiltities\TimeElapsedAsTextTests.cs" />
+    <Compile Include="6 Web\UriSanitizer_Tests.cs" />
     <Compile Include="a Test MetaData\Features\Features.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.LoggedInUser.cs" />

@@ -162,6 +162,7 @@
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenMap.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenRepository.cs" />
     <Compile Include="Infrastructure\Regexes.cs" />
+    <Compile Include="Search\Question\Model\QuestionSolrMap.cs" />
     <Compile Include="Search\Question\SearchQuestions.cs" />
     <Compile Include="Search\Question\SearchQuestionsResult.cs" />
     <Compile Include="Utilities\DateTimeUtils.cs" />
