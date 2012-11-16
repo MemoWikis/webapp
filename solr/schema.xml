@@ -66,16 +66,16 @@
         <field name="Id" type="int" indexed="true" stored="true" required="true" multiValued="false" />
         <field name="CreatorId" type="int" indexed="true" stored="false" required="true" multiValued="false" />
 
-        <!-- Contains (Title, Description, Solution) -->
+        <!-- Contains (Text, Description, Solution) -->
         <field name="FullText" type="text_general" indexed="true" stored="false" multiValued="true"/>
 
-        <field name="Title" type="text_general" indexed="false" stored="false" multiValued="false" />
+        <field name="Text" type="text_general" indexed="false" stored="false" multiValued="false" />
         <field name="Description" type="text_general" indexed="false" stored="false" multiValued="false" />
         <field name="Solution" type="text_general" indexed="true" stored="false" multiValued="false" />
 
         <field name="SolutionType" type="int" indexed="true" stored="false" multiValued="false" />
 
-        <field name="Categories" type="text_general" indexed="true" stored="true" multiValued="true"/>
+        <field name="Categories" type="text_general" indexed="true" stored="false" multiValued="true"/>
 
         <field name="Quality" type="int" indexed="true" stored="false" multiValued="false" />
         <field name="Views" type="int" indexed="true" stored="false" multiValued="false"/>
@@ -93,7 +93,7 @@
     -->
     <uniqueKey>Id</uniqueKey>
 
-    <copyField source="Title" dest="FullText"/>
+    <copyField source="Text" dest="FullText"/>
     <copyField source="Description" dest="FullText"/>
     <copyField source="Solution" dest="FullText"/>
 

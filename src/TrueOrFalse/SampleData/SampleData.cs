@@ -10,7 +10,11 @@ namespace TrueOrFalse
         private readonly CategoryRepository _categoryRepository;
         private readonly Importer _importer;
 
-        public SampleData(RegisterUser registerUser, QuestionRepository questionRepository, CategoryRepository categoryRepository, Importer importer)
+        public SampleData(
+            RegisterUser registerUser, 
+            QuestionRepository questionRepository, 
+            CategoryRepository categoryRepository, 
+            Importer importer)
         {
             _registerUser = registerUser;
             _questionRepository = questionRepository;

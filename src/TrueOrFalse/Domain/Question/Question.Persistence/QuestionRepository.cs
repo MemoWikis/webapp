@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System;
+using NHibernate;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
@@ -17,6 +18,9 @@ namespace TrueOrFalse
 
         public override void Create(Question question)
         {
+            if(question.Creator == null)
+                throw new Exception("no creator");
+
             base.Create(question);
             Flush();
         }

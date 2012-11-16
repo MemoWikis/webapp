@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using SolrNet.Attributes;
 
 namespace TrueOrFalse.Search
@@ -15,8 +13,8 @@ namespace TrueOrFalse.Search
         [SolrField("CreatorId")]
         public int CreatorId { get; set; }
 
-        [SolrField("Title")]
-        public string Title { get; set; }
+        [SolrField("Text")]
+        public string Text { get; set; }
 
         [SolrField("Description")]
         public string Description { get; set; }
@@ -31,7 +29,7 @@ namespace TrueOrFalse.Search
         public ICollection<string> Categories { get; set; }
 
         [SolrField("Quality")]
-        public int Quality { get; set; }
+        public int AvgQuality { get; set; }
         
         [SolrField("Views")]
         public int Views { get; set; }

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using AutofacContrib.SolrNet;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
@@ -85,6 +86,7 @@ namespace TrueOrFalse.Frontend.Web
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModule<AutofacCoreModule>();
+            builder.RegisterModule(new SolrNetModule("http://localhost:8080/solr/trueOrFalse"));
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

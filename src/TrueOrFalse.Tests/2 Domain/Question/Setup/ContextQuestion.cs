@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {
     public class ContextQuestion : IRegisterAsInstancePerLifetime
     {
+        private readonly ContextUser _contextUser;
         private readonly QuestionRepository _questionRepository;
         private readonly CategoryRepository _categoryRepository;
         
@@ -16,9 +16,12 @@ namespace TrueOrFalse.Tests
             return BaseTest.Resolve<ContextQuestion>();
         }
 
-        public ContextQuestion(QuestionRepository questionRepository, 
+        public ContextQuestion(ContextUser contextUser,
+                               QuestionRepository questionRepository, 
                                CategoryRepository categoryRepository)
         {
+            _contextUser = contextUser;
+            _contextUser.Add("Some User").Persist();
             _questionRepository = questionRepository;
             _categoryRepository = categoryRepository;
         }
@@ -29,6 +32,7 @@ namespace TrueOrFalse.Tests
             question.Text = questionText;
             question.Solution = solutionText;
             question.SolutionType = QuestionSolutionType.Text;
+            question.Creator = _contextUser.AllUsers.First();
             Questions.Add(question);
             return this;
         }
