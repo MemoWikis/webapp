@@ -19,6 +19,7 @@ div.column-2 { width: 530px;float: left; padding-top: 5px;}
 div.column-3 { width: 105px;float: left; padding-top: 5px;}
 div.question-row div.answersTotal{ width: 40px;}
 div.question-row div.percentageBar{ width: 65px;float: right;}
+div.row-viewHistory{ padding-top: 3px;}
 
 .sliderValue{ margin-left: 10px;}
 .piePersonalRelevanceTotal{ display:none; margin-top: 10px;}

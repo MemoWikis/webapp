@@ -76,6 +76,8 @@
                <span class="tristateHistory" data-history=""></span>
            </div>
        </div>
-
+        <div class="row row-viewHistory">
+            Gesehen:<span class="viewsHistory">8,4,0,0,0,0,1,4,4,10,10,10,10,0,0,0,4,6,5,9,10</span>
+        </div>
     </div>
 </div>

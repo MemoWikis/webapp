@@ -172,6 +172,10 @@ $(function () {
         negBarColor: '#ce1212',
         tooltipValueLookups: { map: { '-1': 'Falsch', '0': 'Versuch und Antwort gezeigt', '1': 'Richtig'} }
     });
+    
+    $('.viewsHistory').sparkline('html', { fillColor: false });
+    $('.viewsHistory').sparkline([4, 1, 5, 7, 9, 9, 8, 7, 6, 6, 4, 7, 8, 4, 3, 2, 2, 5, 6, 7],
+        { composite: true, fillColor: false, lineColor: 'red' });
 });
 
 /************************/
