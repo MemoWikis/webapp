@@ -1,5 +1,10 @@
 ﻿/* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
+
+body {
+    font-size: 13px;
+}
+
 #header
 {
     position: relative;

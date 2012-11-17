@@ -1,9 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
-<link href="/Style/site.css" rel="stylesheet" type="text/css" />
-<link href="/Style/menu.css" rel="stylesheet" type="text/css" />
-<link href="/Style/form.css" rel="stylesheet" type="text/css" />
-
 <% if(Request.IsLocal){ %>        
     <link href="/Style/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
     <script src="/Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
@@ -23,6 +19,10 @@
 
 
 <link rel="stylesheet" href="/style/bootstrap.css">
+<link href="/Style/site.css" rel="stylesheet" type="text/css" />
+<link href="/Style/menu.css" rel="stylesheet" type="text/css" />
+<link href="/Style/form.css" rel="stylesheet" type="text/css" />
+
 <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 
 <script src="/Scripts/highcharts.js" type="text/javascript"></script>
