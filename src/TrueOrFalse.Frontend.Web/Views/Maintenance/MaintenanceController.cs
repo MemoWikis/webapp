@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 
 public class MaintenanceController : Controller
@@ -11,23 +12,30 @@ public class MaintenanceController : Controller
         _updateQuestionAnswerCounts = updateQuestionAnswerCounts;
     }
 
-    [AccessOnlyLocalAttribute]
+    [AccessOnlyAsAdminAndLocal]
     public ActionResult Maintenance()
     {
         return View(new MaintenanceModel());
     }
 
-    [AccessOnlyLocalAttribute]
+    [AccessOnlyAsAdminAndLocal]
     public ActionResult RecalculateAllKnowledgeItems()
     {
         Sl.Resolve<RecalculateAllKnowledgeItems>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Antwortwahrscheinlichkeiten wurden neu berechnet.") });
     }
 
-    [AccessOnlyLocalAttribute]
+    [AccessOnlyAsAdminAndLocal]
     public ActionResult CalcAggregatedValues()
     {
         _updateQuestionAnswerCounts.Run();
         return View("Maintenance", new MaintenanceModel{Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
+    }
+
+    [AccessOnlyAsAdminAndLocal]
+    public ActionResult ReIndexAllQuestions()
+    {
+        Sl.Resolve<ReIndexAllQuestions>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
     }
 }

@@ -25,7 +25,7 @@ public class ExportController : Controller
         var model = new ExportModel(_questionRepository.GetAll(), _categoryRepository.GetAll());
         return View(viewLocation, model);
     }
-    [AccessOnlyLocalAttribute]
+    [AccessOnlyAsAdminAndLocal]
     public ActionResult AllToLocalFile()
     {
         ExportToFile("Export", Server.MapPath("~/SampleData/Export.xml"));

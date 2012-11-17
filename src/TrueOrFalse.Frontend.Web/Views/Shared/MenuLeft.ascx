@@ -25,9 +25,11 @@
        <div><a href="<%= Url.Action(Links.UserProfile, Links.UserProfileController, new {name= user.UrlName, id = user.Id}, null) %>"><%=user.Name%></a></div>
     <% } %>
     
-    <div class="main" style="margin-top:12px;">
-        <a href="<%= Url.Action("Maintenance", "Maintenance") %>">Adminstrativ</a> 
-    </div>
+    <% if (Request.IsLocal && Model.IsInstallationAdmin){ %>
+        <div class="main" style="margin-top:12px;">
+            <a href="<%= Url.Action("Maintenance", "Maintenance") %>">Adminstrativ</a> 
+        </div>
+    <% } %>
          
     <% if(Model.Categories.Any()){ %>
         <p class="categories">Kategorien</p>

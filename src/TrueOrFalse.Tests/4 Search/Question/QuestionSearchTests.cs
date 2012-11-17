@@ -53,8 +53,6 @@ namespace TrueOrFalse.Tests
             var solrOperations = Resolve<ISolrOperations<QuestionSolrMap>>();
             var result = solrOperations.Query("FullText:Question1");
             Assert.That(result.Count, Is.EqualTo(1));
-
-
         }
     }
 }
