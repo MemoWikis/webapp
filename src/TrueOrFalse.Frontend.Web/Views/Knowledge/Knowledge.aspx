@@ -48,7 +48,7 @@
 <div id="container" style=""></div>
 <div>
     <div style="float: left; margin-right: 25px; ">
-        <span id="totalKnowledge"><span id=""style="padding-top:2px; display: inline-block">Wunschwissen: <span><%= Model.WishKnowledgeCount %></span></span> <span id="totalKnowledgeSpark"></span></span><br/>
+        <span id="totalKnowledge"><span style="padding-top:2px; display: inline-block">Wunschwissen: <span><%= Model.WishKnowledgeCount %></span></span> <span id="totalKnowledgeSpark"></span></span><br/>
         <span id="totalKnowledgeOverTime">Entwicklung über Zeit: <span id="totalKnowledgeOverTimeSpark"></span></span>
     </div>
 

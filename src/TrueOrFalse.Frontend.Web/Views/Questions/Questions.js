@@ -28,7 +28,10 @@ $(function () {
     function getPopupOverContent() {
         return "123, <b>456</b>";  
     }
-    
+
+    $('#btnSearch').click(function () {
+        window.location = "/questions/search/" + $('#txtSearch').val();
+    });
 });
 
 

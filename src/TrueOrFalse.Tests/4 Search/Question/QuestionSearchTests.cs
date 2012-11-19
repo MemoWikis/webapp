@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Seedworks.Lib.Persistence;
 using SolrNet;
 using TrueOrFalse.Search;
 
@@ -46,13 +49,30 @@ namespace TrueOrFalse.Tests
             ContextQuestion.New()
                 .AddQuestion("Question1", "Answer2").AddCategory("A").Persist()
                 .AddQuestion("Question2", "Answer3").AddCategory("B").Persist()
-                .AddQuestion("Question3", "Answer3").AddCategory("B").Persist();
+                .AddQuestion("Juliane", "Answer3").AddCategory("B").Persist();
 
             Resolve<ReIndexAllQuestions>().Run();
 
-            var solrOperations = Resolve<ISolrOperations<QuestionSolrMap>>();
-            var result = solrOperations.Query("FullText:Question1");
-            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager()).Count, Is.EqualTo(1)); ;
+            Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager()).QuestionIds.Count, Is.EqualTo(1)); ;
+            Assert.That(Resolve<SearchQuestions>().Run("Question2", new Pager()).Count, Is.EqualTo(1)); ;
+        }
+
+        [Test]
+        public void Should_get_paged_result()
+        {
+            var context = ContextQuestion.New();
+            Enumerable.Range(1, 50).ToList().ForEach(x => context.AddQuestion("Question" + x, "Answer" + x).AddCategory("Question"));
+            context.Persist();
+
+            Resolve<ReIndexAllQuestions>().Run();
+
+            Assert.That(Resolve<SearchQuestions>().Run("Question35", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
+            Assert.That(Resolve<SearchQuestions>().Run("Answer35", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
+
+            var result = Resolve<SearchQuestions>().Run("Question", new Pager { PageSize = 10 });
+            Assert.That(result.Count, Is.EqualTo(50));//Category
+            Assert.That(result.QuestionIds.Count, Is.EqualTo(10));//Result is always paged
         }
     }
 }

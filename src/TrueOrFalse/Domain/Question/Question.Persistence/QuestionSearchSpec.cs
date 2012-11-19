@@ -8,6 +8,8 @@ namespace TrueOrFalse
 {
     public class QuestionSearchSpec : SearchSpecificationBase<QuestionFilter, QuestionOrderBy>
     {
+        public string SearchTearm;
+
         public bool FilterByMe { get; private set; }
         public bool FilterByAll { get; private set; }
         public ReadOnlyCollection<int> FilterByUsers { get; private set; }

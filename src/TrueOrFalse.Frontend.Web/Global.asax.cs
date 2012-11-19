@@ -26,6 +26,7 @@ namespace TrueOrFalse.Frontend.Web
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
             
             routes.MapRoute("Questions", "Questions", new { controller = "Questions", action = "Questions" });
+            routes.MapRoute("Questions_SearchTerm", "Questions/Search/{searchTerm}", new { controller = "Questions", action = "QuestionSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
             routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });
             routes.MapRoute("Question_Create", "Questions/Create/", new { controller = "EditQuestion", action = "Create" });
@@ -51,7 +52,6 @@ namespace TrueOrFalse.Frontend.Web
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("News", "News/{action}", new { controller = "News", action = "News" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
-            
             
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action="Export" });
             routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi"});

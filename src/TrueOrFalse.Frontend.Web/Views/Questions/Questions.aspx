@@ -39,7 +39,6 @@ div.row-viewHistory{ padding-top: 3px;}
     <div class="row" >
 
     </div>
-    
         <% using (Html.BeginForm()) { %>
         <ul class="nav nav-tabs" style="padding-top: 14px;  ">
             <li class="active"><a href="#home" >Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a></li>
@@ -59,8 +58,8 @@ div.row-viewHistory{ padding-top: 3px;}
             
             <div class="control-group" style="margin-bottom: 8px;">
                 <label style="line-height: 18px; padding-top: 5px;"><b>Suche</b>:</label>
-                <input type="text" style="width:297px;" />
-                <button id="Button1"  class="btn" style="height: 28px;"><img alt="" src="/Images/Buttons/tick.png"></button>
+                <%: Html.TextBoxFor(model => model.SearchTerm, new {style="width:297px;", id="txtSearch"}) %>
+                <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
             </div>
 
             <div class="control-group" style="margin-bottom: 8px; background-color: white;" >
@@ -88,10 +87,6 @@ div.row-viewHistory{ padding-top: 3px;}
                 <input type="text" class="span2" id="txtAddUserFilter"/>
                 <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
             </div>
-<%--            <div class="control-group" style="margin-bottom: 8px;">
-                <label style="line-height: 18px; padding-top: 5px;"><b>Kategorien</b>:</label>
-                <input type="text" class="span2" />
-            </div>--%>
         </div>
         <% } %>
 
@@ -114,7 +109,7 @@ div.row-viewHistory{ padding-top: 3px;}
             </li>
         </ul>
         
-        <div class="pull-right" style="font-size: 10px; margin-top:3px;"><%= Model.TotalQuestionsInResult %> Fragen</div>
+        <div class="pull-right" style="font-size: 14px; margin-top:3px; margin-right: 7px;"><%= Model.TotalQuestionsInResult %> Fragen</div>
        
     </div>
 

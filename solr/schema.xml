@@ -67,23 +67,21 @@
         <field name="CreatorId" type="int" indexed="true" stored="false" required="true" multiValued="false" />
 
         <!-- Contains (Text, Description, Solution) -->
-        <field name="FullText" type="text_general" indexed="true" stored="false" multiValued="true"/>
+		<field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true"/>
+        <field name="FullTextStemmed" type="textStemmed" indexed="true" stored="false" multiValued="true"/>
 
-        <field name="Text" type="text_general" indexed="false" stored="false" multiValued="false" />
-        <field name="Description" type="text_general" indexed="false" stored="false" multiValued="false" />
-        <field name="Solution" type="text_general" indexed="true" stored="false" multiValued="false" />
+        <field name="Text" type="string" indexed="false" stored="false" multiValued="false" />
+        <field name="Description" type="string" indexed="false" stored="false" multiValued="false" />
+        <field name="Solution" type="string" indexed="false" stored="false" multiValued="false" />
 
         <field name="SolutionType" type="int" indexed="true" stored="false" multiValued="false" />
 
-        <field name="Categories" type="text_general" indexed="true" stored="false" multiValued="true"/>
+        <field name="Categories" type="textExact" indexed="true" stored="false" multiValued="true"/>
 
         <field name="Quality" type="int" indexed="true" stored="false" multiValued="false" />
         <field name="Views" type="int" indexed="true" stored="false" multiValued="false"/>
         <field name="DateCreated" type="date" indexed="true" stored="false" multiValued="false"/>
 
-        <!-- catchall field, containing all other searchable text fields (implemented
-        via copyField further on in this schema  -->
-        <field name="text" type="text_general" indexed="true" stored="false" multiValued="false"/>
         <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
     </fields>
 
@@ -93,9 +91,13 @@
     -->
     <uniqueKey>Id</uniqueKey>
 
-    <copyField source="Text" dest="FullText"/>
-    <copyField source="Description" dest="FullText"/>
-    <copyField source="Solution" dest="FullText"/>
+    <copyField source="Text" dest="FullTextStemmed"/>
+    <copyField source="Description" dest="FullTextStemmed"/>
+    <copyField source="Solution" dest="FullTextStemmed"/>
+	
+    <copyField source="Text" dest="FullTextExact"/>
+    <copyField source="Description" dest="FullTextExact"/>
+    <copyField source="Solution" dest="FullTextExact"/>	
 
     <types>
 
@@ -163,12 +165,7 @@
             </analyzer>
         </fieldType>
 
-        <!-- A general text field that has reasonable, generic
-             cross-language defaults: it tokenizes with StandardTokenizer,
-	         removes stop words from case-insensitive "stopwords.txt"
-	         (empty by default), and down cases.  At query time only, it
-	         also applies synonyms. -->
-        <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+        <fieldType name="textStemmed" class="solr.TextField" positionIncrementGap="100">
             <analyzer type="index">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" format="snowball" enablePositionIncrements="true"/>
@@ -181,10 +178,24 @@
             <analyzer type="query">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
-                <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
                 <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
         </fieldType>
+		
+        <fieldType name="textExact" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" format="snowball" enablePositionIncrements="true"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <!-- less aggressive: <filter class="solr.GermanMinimalStemFilterFactory"/> -->
+                <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="German2"/> -->
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+        </fieldType>		
 
         <fieldtype name="phonetic" stored="false" indexed="true" class="solr.TextField" >
             <analyzer>

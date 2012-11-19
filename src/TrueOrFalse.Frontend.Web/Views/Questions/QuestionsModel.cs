@@ -32,6 +32,7 @@ public class QuestionsModel : ModelBase
 
         OrderBy = questionSearchSpec.OrderBy;
         OrderByLabel = questionSearchSpec.OrderBy.ToText();
+        SearchTerm = questionSearchSpec.SearchTearm;
 
         MenuLeftModel.Categories = questions.GetAllCategories()
                                     .GroupBy(c => c.Name)
@@ -49,6 +50,7 @@ public class QuestionsModel : ModelBase
     public int? AddFilterUser { get; set; }
     public int? DelFilterUser { get; set; }
     public Dictionary<int, string> FilterByUsers { get; set; }
+    public string SearchTerm { get; set; }
 
     public int TotalWishKnowledge;
     public int TotalQuestionsInResult;

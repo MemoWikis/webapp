@@ -169,6 +169,7 @@
     <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
     <Compile Include="Views\Questions\QuestionRowModel.cs" />
     <Compile Include="Views\Questions\QuestionsController.cs" />
+    <Compile Include="Views\Questions\QuestionsControllerSearch.cs" />
     <Compile Include="Views\Questions\QuestionsModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />

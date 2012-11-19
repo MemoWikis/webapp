@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
-using NHibernate;
 using Seedworks.Lib;
 using TrueOrFalse;
 using TrueOrFalse.Web.Context;
@@ -9,6 +9,7 @@ public class QuestionsController : Controller
 {
     private readonly QuestionRepository _questionRepository;
     private readonly QuestionValuationRepository _questionValuationRepository;
+    private readonly QuestionsControllerSearch _questionSearchPage;
     private readonly TotalsPersUserLoader _totalsPerUserLoader;
     private readonly UserRepository _userRepository;
     private readonly SessionUiData _sessionUiData;
@@ -16,6 +17,7 @@ public class QuestionsController : Controller
 
     public QuestionsController (QuestionRepository questionRepository,
                                 QuestionValuationRepository questionValuationRepository,
+                                QuestionsControllerSearch questionSearchPage,
                                 TotalsPersUserLoader totalsPerUserLoader, 
                                 UserRepository userRepository, 
                                 SessionUiData sessionUiData, 
@@ -23,6 +25,7 @@ public class QuestionsController : Controller
     {
         _questionRepository = questionRepository;
         _questionValuationRepository = questionValuationRepository;
+        _questionSearchPage = questionSearchPage;
         _totalsPerUserLoader = totalsPerUserLoader;
         _userRepository = userRepository;
         _sessionUiData = sessionUiData;
@@ -49,6 +52,12 @@ public class QuestionsController : Controller
         return Questions(page, model);
     }
 
+    public ActionResult QuestionSearch(string searchTerm, QuestionsModel model)
+    {
+        _sessionUiData.QuestionSearchSpec.SearchTearm = model.SearchTerm = searchTerm;
+        return Questions(null, model);
+    }
+
     public ActionResult Questions(int? page, QuestionsModel model)
     {
         _sessionUiData.QuestionSearchSpec.PageSize = 10;
@@ -60,33 +69,29 @@ public class QuestionsController : Controller
 
         if (!_sessionUiData.QuestionSearchSpec.OrderBy.IsSet())
             _sessionUiData.QuestionSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
-        
+
         if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
 
-        var session = ServiceLocator.Resolve<ISession>();
-        session.CreateCriteria<Category>();
-        
-        var questions = _questionRepository.GetBy(_sessionUiData.QuestionSearchSpec, c => c.SetFetchMode("Categories", FetchMode.Eager));
-
+        var questions = _questionSearchPage.Run();
         var totalsForCurrentUser = _totalsPerUserLoader.Run(_sessionUser.User.Id, questions);
         var questionValutionsForCurrentUser = _questionValuationRepository.GetBy(questions.GetIds(), _sessionUser.User.Id);
 
         return View("Questions",
                     new QuestionsModel(
-                        questions, 
-                        totalsForCurrentUser, 
+                        questions,
+                        totalsForCurrentUser,
                         questionValutionsForCurrentUser,
-                        _sessionUiData.QuestionSearchSpec, 
+                        _sessionUiData.QuestionSearchSpec,
                         _sessionUser.User.Id)
                     {
                         Pager = new PagerModel(_sessionUiData.QuestionSearchSpec),
                         FilterByMe = _sessionUiData.QuestionSearchSpec.FilterByMe,
                         FilterByAll = _sessionUiData.QuestionSearchSpec.FilterByAll,
-                        FilterByUsers =  _userRepository.GetByIds(_sessionUiData.QuestionSearchSpec.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name),
+                        FilterByUsers = _userRepository.GetByIds(_sessionUiData.QuestionSearchSpec.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name),
                         TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run(),
                         TotalWishKnowledge = Sl.Resolve<GetWishKnowledgeCountCached>().Run(_sessionUser.User.Id)
                     }
-            );
+            );        
     }
 
     [HttpPost]
@@ -109,5 +114,4 @@ public class QuestionsController : Controller
         Sl.Resolve<QuestionDeleter>().Run(questionId);
         return new EmptyResult();
     }
-
 }
