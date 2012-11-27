@@ -366,6 +366,7 @@
     <Content Include="Views\Shared\Site.MenuNo.Master" />
     <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
+    <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

@@ -1,0 +1,10 @@
+<mockup version="1.0" skin="sketch" measuredW="1365" measuredH="783" mockupW="628" mockupH="271">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::StickyNote" x="737" y="512" w="628" h="271" measuredW="109" measuredH="123" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>60</size>
+        <text>unaktuell%21</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
