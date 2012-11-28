@@ -81,15 +81,6 @@
                 </a>
             </div>
         </div>
-        <%--            <div class="control-group">
-		    <%= Html.LabelFor(m => m.Character) %>
-		    <div class="classification">
-			    <%= Html.DropDownListFor(m => Model.Character, Model.CharacterData, new {@style = "width:120px;"} )%>  &nbsp;&nbsp;
-			    <input type="text" id="char1" />
-                <input type="text" id="char2" />
-                <input type="text" id="char3" />
-		    </div>
-        </div>--%>
         <div class="control-group">
             <% if (!String.IsNullOrEmpty(Model.ImageUrl))
                {%> <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" /> <%} %>

@@ -47,10 +47,9 @@ a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;
 
 /* HEADINGS
 ----------------------------------------------------------*/
-
 legend, h2 a { font-size: 14px;margin-left: 15px; }
 legend, h2 a i {font-size: 14px;}
 
-/* FORMS
+/* VARIOUS
 ----------------------------------------------------------*/
-.help-text{ padding-left: 160px; padding-bottom: 7px;}
+.cursor-hand{ cursor: pointer; }

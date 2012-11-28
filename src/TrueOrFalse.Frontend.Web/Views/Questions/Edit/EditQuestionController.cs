@@ -13,7 +13,7 @@ public class EditQuestionController : Controller
     private readonly QuestionRepository _questionRepository;
     private readonly SessionUser _sessionUser;
     private const string _viewLocation = "~/Views/Questions/Edit/EditQuestion.aspx";
-    private const string _viewLocationBody = "~/Views/Questions/Edit/EditAnswerControls/AnswerType{0}.ascx";
+    private const string _viewLocationBody = "~/Views/Questions/Edit/EditSolutionControls/SolutionType{0}.ascx";
 
     public EditQuestionController(QuestionRepository questionRepository,
                                   SessionUser sessionUser)
@@ -101,7 +101,7 @@ public class EditQuestionController : Controller
         return View(_viewLocation, resultModel);
     }
 
-    public ActionResult SolutionEditBody(int? questionId, QuestionSolutionType type)
+    public ActionResult SolutionEditBody(int? questionId, SolutionType type)
     {
         object model = null;
 

@@ -3,7 +3,7 @@ using TrueOrFalse.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs011
+    public class UpdateToVs012
     {
         public static void Run()
         {

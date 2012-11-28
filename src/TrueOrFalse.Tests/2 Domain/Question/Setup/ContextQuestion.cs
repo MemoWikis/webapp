@@ -31,7 +31,8 @@ namespace TrueOrFalse.Tests
             var question = new Question();
             question.Text = questionText;
             question.Solution = solutionText;
-            question.SolutionType = QuestionSolutionType.Text;
+            question.SolutionType = SolutionType.Text;
+            question.SolutionMetadata = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false};
             question.Creator = _contextUser.AllUsers.First();
             Questions.Add(question);
             return this;

@@ -68,6 +68,9 @@
     <Reference Include="Gibraltar.Agent">
       <HintPath>..\packages\Gibraltar.Agent.2.5.2.815\lib\Gibraltar.Agent.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=3.3.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NHibernate.3.3.0.4000\lib\Net35\NHibernate.dll</HintPath>
@@ -151,7 +154,10 @@
     <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewMap.cs" />
     <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewPersistence.cs" />
     <Compile Include="Domain\Question\QuestionView\QuestionView.cs" />
-    <Compile Include="Domain\Question\SolutionType\StandardInputSettingsText.cs" />
+    <Compile Include="Domain\Question\SolutionType\SolutionMetadata.cs" />
+    <Compile Include="Domain\Question\SolutionType\SolutionMetadataDate.cs" />
+    <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />
+    <Compile Include="Domain\Question\SolutionType\SolutionMetadataText.cs" />
     <Compile Include="Domain\User\Persistence\UserSearch.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecovery.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecoveryResult.cs" />
@@ -183,7 +189,7 @@
     <Compile Include="Domain\Question\Question.Persistence\QuestionRepository.cs" />
     <Compile Include="Domain\Question\QuestionCharacter.cs" />
     <Compile Include="Domain\Question\QuestionVisibility.cs" />
-    <Compile Include="Domain\Question\SolutionType\QuestionSolutionType.cs" />
+    <Compile Include="Domain\Question\SolutionType\SolutionType.cs" />
     <Compile Include="Domain\User\Registration\Login\CredentialsAreValid.cs" />
     <Compile Include="Domain\User\Registration\Confirmation\CreateConfirmationLink.cs" />
     <Compile Include="Domain\User\Registration\Confirmation\SetUserEmailAsConfirmed.cs" />
@@ -248,6 +254,7 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs013.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs012.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
     <Compile Include="Utilities\Update\Update.cs" />
