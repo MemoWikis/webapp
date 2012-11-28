@@ -11,10 +11,8 @@
 <body>
     <div class="container">
         
-        <div class="row">
-            <%--HEADER--%>
-            <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>
-        </div>
+        <%--HEADER--%>
+        <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>
         
         <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
         
