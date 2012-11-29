@@ -1,8 +1,13 @@
 ﻿/* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
 
+a {
+    color: #275ABD;
+}
+
 body {
     font-size: 13px;
+    color: #2E487B;
 }
 
 #header
