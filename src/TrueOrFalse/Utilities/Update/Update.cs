@@ -13,7 +13,8 @@ namespace TrueOrFalse.Updates
         public void Run()
         {
             _updateStepExecuter
-                .Add(12, UpdateToVs011.Run)
+                .Add(12, UpdateToVs012.Run)
+                .Add(13, UpdateToVs013.Run)
                 .Run();
         }
 

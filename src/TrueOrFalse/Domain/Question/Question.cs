@@ -10,9 +10,12 @@ namespace TrueOrFalse
         public virtual string Text { get; set; }
         public virtual string Description { get; set; }
         public virtual string Solution { get; set; }
+        public virtual SolutionType SolutionType { get; set; }
+        public virtual SolutionMetadata SolutionMetadata { get; set; }
+
         public virtual IList<Category> Categories { get; set; }
         public virtual QuestionVisibility Visibility { get; set; }
-        public virtual QuestionSolutionType SolutionType { get; set; }
+
         public virtual User Creator { get; set; }
 
         public virtual int TotalTrueAnswers { get; set; }

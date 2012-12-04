@@ -78,6 +78,9 @@
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=3.3.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NHibernate.3.3.0.4000\lib\Net35\NHibernate.dll</HintPath>
@@ -136,6 +139,7 @@
     <Compile Include="2 Domain\Question\QuestionValuation\QuestionValuation_add_totals_test.cs" />
     <Compile Include="2 Domain\Question\QuestionValuation\QuestionValuation_persistence_tests.cs" />
     <Compile Include="2 Domain\Question\Question_persist_and_load_answer_type.cs" />
+    <Compile Include="2 Domain\Question\Serialize_and_init_solutionMetadata.cs" />
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\User\Setup\ContextUser.cs" />
     <Compile Include="2 Domain\User\Spec_get_users_by_name.cs" />

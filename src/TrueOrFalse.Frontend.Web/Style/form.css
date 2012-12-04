@@ -1,5 +1,6 @@
 ﻿label
 {
+    font-size: 13px;
     width: 90px;
     display:block;
     float:left;
@@ -39,4 +40,6 @@ h3.form-sub-title
 .added-usr {
     display: inline-block;
     margin-right: 1em;
-}      
+}   
+
+.help-text{ padding-left: 180px; padding-bottom: 7px;}   

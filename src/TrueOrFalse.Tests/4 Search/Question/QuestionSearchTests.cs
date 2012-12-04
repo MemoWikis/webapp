@@ -39,7 +39,7 @@ namespace TrueOrFalse.Tests
             solrOperations.Add(solrQuestionMap);
             solrOperations.Commit();
 
-            var result = solrOperations.Query(new SolrQueryByField("Solution", "Solution"));
+            var result = solrOperations.Query(new SolrQueryByField("FullTextExact", "Solution"));
             Assert.That(result.Count, Is.EqualTo(1));
         }
         

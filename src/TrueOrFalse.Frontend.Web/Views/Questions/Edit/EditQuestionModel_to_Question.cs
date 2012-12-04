@@ -28,24 +28,24 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         }
 
         question.Solution = model.Solution;
-        question.SolutionType = (QuestionSolutionType) Enum.Parse(typeof(QuestionSolutionType), model.SolutionType);
+        question.SolutionType = (SolutionType) Enum.Parse(typeof(SolutionType), model.SolutionType);
 
         var serializer = new JavaScriptSerializer();
         switch (question.SolutionType)
         {
-                case QuestionSolutionType.Text:
+                case SolutionType.Text:
                 var solutionModel0 = new QuestionSoulutionExact();
                 solutionModel0.FillFromPostData(postData);
                 question.Solution = solutionModel0.Text;
                 break;
 
-            case QuestionSolutionType.Sequence:
+            case SolutionType.Sequence:
                 var solutionModel1 = new QuestionSolutionSequence();
                 solutionModel1.FillFromPostData(postData);
                 question.Solution = serializer.Serialize(solutionModel1);
                 break;
 
-            case QuestionSolutionType.MultipleChoice:
+            case SolutionType.MultipleChoice:
                 var solutionModel2 = new QuestionSolutionMultipleChoice();
                 solutionModel2.FillFromPostData(postData);
                 question.Solution = serializer.Serialize(solutionModel2);

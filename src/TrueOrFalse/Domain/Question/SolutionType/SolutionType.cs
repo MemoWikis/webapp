@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrueOrFalse
 {
-    public enum QuestionSolutionType
+    public enum SolutionType
     {
         Text = 1,
         Numeric = 4,

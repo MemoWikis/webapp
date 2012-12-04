@@ -4,18 +4,18 @@ using TrueOrFalse;
 
 public class GetQuestionSolution
 {
-    public QuestionSolution Run(QuestionSolutionType type, string solution)
+    public QuestionSolution Run(SolutionType type, string solution)
     {
         var serializer = new JavaScriptSerializer();
         switch (type)
         {
-            case QuestionSolutionType.Text:
+            case SolutionType.Text:
                 return new QuestionSoulutionExact {Text = solution};
 
-            case QuestionSolutionType.Sequence:
+            case SolutionType.Sequence:
                 return serializer.Deserialize<QuestionSolutionSequence>(solution);
 
-            case QuestionSolutionType.MultipleChoice:
+            case SolutionType.MultipleChoice:
                 return serializer.Deserialize<QuestionSolutionMultipleChoice>(solution);
         }
 
