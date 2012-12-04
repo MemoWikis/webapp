@@ -1,0 +1,8 @@
+E99A00 gelb
+499B33 grün
+2E487B blau (Grundfarbe Schrift)
+B13A48 rot
+
+
+blau für Link-Schrift:
+#275ABD

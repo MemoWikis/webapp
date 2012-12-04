@@ -5,8 +5,8 @@
     <h2><%= Model.Name %></h2>
     
     <div class="row">
-        <div style="background-color: crimson" class="span2">
-        <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" /><br/>
+        <div class="span2">
+        <img alt="" style="border: 2px solid #2E487B;" src="<%=string.Format(Model.ImageUrl, 128) %>" /><br/>
         <% if (Model.IsCurrentUserProfile){ %>  
             <script type="text/javascript">
             $(function () {
@@ -28,7 +28,7 @@
             <%} %>
         <% } %> 
     </div>
-        <div class="span6" style="background-color: cyan">asdf</div>
-        <div class="span2" style="background-color: coral">asdf</div>
+        <div class="span6" style="background-color: #E99A00">asdf</div>
+        <div class="span2" style="background-color: #499B33">asdf</div>
     </div>
 </asp:Content>
