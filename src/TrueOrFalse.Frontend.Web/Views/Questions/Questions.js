@@ -58,7 +58,7 @@ $(function () {
 function populateDeleteQuestionId(questionId) {
     $.ajax({
         type: 'POST',
-        url: "/Questions/SaveRelevancePersonal/" + questionId,
+        url: "/Questions/DeleteDetails/" + questionId,
         cache: false,
         success: function (result) {
             $("#spanQuestionTitle").html(result.questionTitle.toString());
@@ -70,7 +70,7 @@ function populateDeleteQuestionId(questionId) {
 }
 
 function deleteQuestion(questionId) {
-    $.ajax({
+        $.ajax({
         type: 'POST',
         url: "/Questions/Delete/" + questionId,
         cache: false,

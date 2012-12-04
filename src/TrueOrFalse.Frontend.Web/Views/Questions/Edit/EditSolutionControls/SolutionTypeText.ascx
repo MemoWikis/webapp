@@ -3,14 +3,14 @@
 
 <script language="javascript" type="text/javascript">
     $(function() {
-        $('#Answer').defaultText("Antwort eingeben.");
+        $('#Answer').defaultText();
     });
 </script>
 
 <div class="control-group">
     <%= Html.LabelFor(m => m.Text, new { @class = "control-label" })%>
     <div class="controls">
-        <%= Html.TextAreaFor(m => m.Text, new { @id = "Answer", @style = "height:18px; width:210px;" })%>
+        <%= Html.TextAreaFor(m => m.Text, new { @id = "Answer", @style = "height:18px; width:210px;", placeholder = "Antwort eingeben." })%>
         
         <a href="#" class="btn" style="padding: 3px 4px; display: none"><img src="/Images/textfield-16.png" alt="Text"/></a>
         

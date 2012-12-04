@@ -1,4 +1,8 @@
-﻿$.fn.defaultText = function (defaultText) {
+﻿$.fn.defaultText = function () {
+
+    //here ist he place to change the behaviour
+    //whene placeholder attribute is not support (currently in IE)
+    var defaultText = "";
 
     if ($(this).val() == "") {
         $(this).val(defaultText);
@@ -22,7 +26,7 @@
             $(this).val(defaultText);
 
             $(this).animate({
-                backgroundColor: "#ffffff"
+                backgroundColor: "#ffdede"
             }, 400);
         }
     });
