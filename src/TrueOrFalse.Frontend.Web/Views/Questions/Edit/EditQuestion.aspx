@@ -1,4 +1,4 @@
-﻿<%@ Page Title="About Us" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
+﻿<%@ Page Title="Frage erstellen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="ViewPage<EditQuestionModel>" %>
 
 <%@ Import Namespace="System.Web.Mvc.Html" %>
@@ -19,23 +19,24 @@
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
-    <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-       { %>
-    <div class="form-horizontal" style="padding-top: 10px;">
-        <legend style="background-color: "><span>
-            <%=Model.PageTitle %>
-        </span>
+    
+<div class="row" >
+    <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
+    
+    <div class="form-horizontal " style="padding-top: 0px;">
+        <legend
+            <span style="font-size: 16px; font-weight: bold;"><%=Model.PageTitle %></span>
+            
             <div class="pull-right" style="vertical-align: bottom;">
                 <div style="background-color: white; line-height: 12px">
                     <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" style="font-size: 12px;
                         margin: 0px;"><i class="icon-th-list"></i>zur Übersicht</a><br />
                 </div>
-                <% if (!Model.ShowSaveAndNewButton)
-                   { %>
-                <div style="line-height: 12px">
-                    <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px;
-                        margin: 0px;"><i class="icon-plus-sign"></i>Frage erstellen</a>
-                </div>
+                <% if (!Model.ShowSaveAndNewButton){ %>
+                    <div style="line-height: 12px">
+                        <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px;
+                            margin: 0px;"><i class="icon-plus-sign"></i>Frage erstellen</a>
+                    </div>
                 <%} %>
             </div>
         </legend>
@@ -56,7 +57,7 @@
         <div class="control-group">
             <%= Html.LabelFor(m => m.Question, new { @class = "control-label" })%>
             <div class="controls">
-                <%= Html.TextAreaFor(m => m.Question, new { @style = "height:50px; width:435px;" })%><br />
+                <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte geben Sie eine Frage ein" })%><br />
             </div>
         </div>
         <p class="help-block help-text">
@@ -123,7 +124,7 @@
         <div class="control-group">
             <%= Html.LabelFor(m => m.Description, new { @class = "control-label" })%>
             <div class="controls">
-                <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;" })%>
+                <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
             </div>
         </div>
         <div class="form-actions">
@@ -133,5 +134,8 @@
             <% } %>
         </div>
     </div>
+    
     <% } %>
+    
+</div>
 </asp:Content>

@@ -60,9 +60,7 @@ public class EditQuestionModel : ModelBase
     public IEnumerable<SelectListItem> AnswerTypeData{ get {
             return new List<SelectListItem>
                         {
-                            new SelectListItem {Text = "Text", Value = TrueOrFalse.SolutionType.Text.ToString()},
-                            new SelectListItem {Text = "Numerisch", Value = TrueOrFalse.SolutionType.Numeric.ToString()},
-                            new SelectListItem {Text = "Datum", Value = TrueOrFalse.SolutionType.Date.ToString()},
+                            new SelectListItem {Text = "Standard", Value = TrueOrFalse.SolutionType.Text.ToString()},
                             new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.SolutionType.MultipleChoice.ToString()},
                             new SelectListItem {Text = "Sequenz", Value = TrueOrFalse.SolutionType.Sequence.ToString()},
                         };

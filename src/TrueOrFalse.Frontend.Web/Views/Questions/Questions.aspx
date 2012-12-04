@@ -54,7 +54,7 @@ div.row-viewHistory{ padding-top: 3px;}
                 Frage erstellen
             </a>
         </div>
-        <div class="row form-horizontal " style="background-color: white; padding-top:15px; margin-top: -19px; margin-bottom: 0px; padding-bottom: 0px; border: 1px solid #ebebeb; border-bottom: none;">
+        <div class="row form-horizontal " style="background-color: white; padding-top:15px; margin-top: -21px; margin-bottom: 0px; padding-bottom: 0px; border: 1px solid #ebebeb; border-bottom: none;">
             
             <div class="control-group" style="margin-bottom: 8px;">
                 <label style="line-height: 18px; padding-top: 5px;"><b>Suche</b>:</label>

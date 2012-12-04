@@ -82,7 +82,7 @@
                 </div>
             </div>
         
-           <%Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/AnswerType" + Model.SolutionType +".ascx", Model.SolutionModel); %>
+           <%Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/SolutionType" + Model.SolutionType +".ascx", Model.SolutionModel); %>
             
             <div class="row" >
                 <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>

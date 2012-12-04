@@ -356,7 +356,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeNumeric.ascx" />
     <Content Include="Views\Questions\Questions.js" />
     <Content Include="Views\Questions\SelectUsers.js" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
@@ -377,7 +376,6 @@
     <Content Include="Views\News\News.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.js" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeDate.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\Edit\EditQuestion.js" />
     <Content Include="Views\Questions\QuestionRow.ascx" />

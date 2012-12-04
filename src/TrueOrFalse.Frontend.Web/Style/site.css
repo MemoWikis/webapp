@@ -36,9 +36,9 @@ body {
 /* VALIDATION
 ----------------------------------------------------------*/
 
-.input-validation-error { border: 1px solid #f00 }
+.input-validation-error { border: 1px solid #f00; background-color: #ffdede }
 .input-validation-valid  { /* Optional: you can set whatever style you want */ }
-.field-validation-error { color: #f00 }
+.field-validation-error { color: #f00; background-color: #ffdede }
 .field-validation-valid { display: none }
 .validation-summary-errors { font-weight: bold; color: #f00 }
 .validation-summary-valid { display: none }
@@ -50,10 +50,6 @@ div.button {margin: 15px 0 10px 0}
 a.button {padding: .3em 1em .4em 20px;text-decoration: none;position: relative; }
 a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
 
-/* HEADINGS
-----------------------------------------------------------*/
-legend, h2 a { font-size: 14px;margin-left: 15px; }
-legend, h2 a i {font-size: 14px;}
 
 /* VARIOUS
 ----------------------------------------------------------*/
