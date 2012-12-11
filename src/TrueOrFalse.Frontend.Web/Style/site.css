@@ -54,3 +54,9 @@ a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;
 /* VARIOUS
 ----------------------------------------------------------*/
 .cursor-hand{ cursor: pointer; }
+
+/* Labels
+----------------------------------------------------------*/
+.label-category {
+    background-color: #275ABD;
+}

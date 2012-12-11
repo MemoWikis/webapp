@@ -2,8 +2,8 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="row question-row">
-    <div class="column-1" >
+<div class="row question-row selected-row" style="background-color: #E7ECF6;">
+    <div class="column-1" style="line-height: 15px; font-size: 90%;">
         
         <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
@@ -20,20 +20,25 @@
         <div style="clear:both;"></div>
 
         <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
-            <div>
+            <div style="margin-top: 2px;">
                 <span class="totalRelevanceEntries"><%= Model.TotalRelevancePersonalEntries %></span> x 
                 <a href="">Merken (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span></a> <span class="piePersonalRelevanceTotal" data-avg="<%= Model.TotalRelevancePersonalAvg  %>"></span> )
             </div>
         <%} %>
         <%if(Model.TotalQualityEntries != "0"){ %>
             <div>
-                <%= Model.TotalQualityEntries%> x <a href="">Qualtität (&#216; <%= Model.TotalQualityAvg%>)</a>
+                <%= Model.TotalQualityEntries%> x <a href="">Qualität (&#216; <%= Model.TotalQualityAvg%>)</a>
             </div>        
         <%} %>
         <div>
             <%= Model.Views %>
             <a href="">x gesehen</a>
-        </div>        
+        </div>  
+        <div>
+                <label class="checkbox" style="font-size: 12px">
+                    <input type="checkbox"> <a>Frage auswählen</a>
+                </label>
+        </div>      
     </div>
 
     <div class="column-2">
@@ -44,13 +49,13 @@
            
         </div>   
         <div>
-            <a><span class="label label-info">Kategorie 1</span></a>
-            <span class="label label-info">Kategorie 2</span>
-            <span class="label label-info">Kategorie 3</span>
+            <a><span class="label label-category">Kategorie 1</span></a>
+            <span class="label label-category">Kategorie 2</span>
+            <span class="label label-category">Kategorie 3</span>
         </div>
         
 
-        <div style="height: 50px; vertical-align:bottom;">
+        <div>
             <% if (Model.IsOwner){%>
             <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
@@ -58,6 +63,8 @@
                 <img src="/Images/edit.png"/> 
             </a>
             <% } %>
+        </div>
+        <div>
             
             von <a href="<%= Model.UserProfileLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%=Model.CreatorName %>
