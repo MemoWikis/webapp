@@ -45,8 +45,6 @@
         
         <div style="height: 100%; font-weight:normal; font-size:large;">
             <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
-            
-           
         </div>   
         <div>
             <a><span class="label label-category">Kategorie 1</span></a>
@@ -54,8 +52,7 @@
             <span class="label label-category">Kategorie 3</span>
         </div>
         
-
-        <div>
+        <div style="height: 20px; vertical-align:bottom; overflow: no-content">
             <% if (Model.IsOwner){%>
             <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
