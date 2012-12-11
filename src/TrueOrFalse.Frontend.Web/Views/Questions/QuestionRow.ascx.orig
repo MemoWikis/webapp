@@ -52,7 +52,12 @@
             <span class="label label-category">Kategorie 3</span>
         </div>
         
-        <div style="height: 20px; vertical-align:bottom; overflow: no-content; width: 165px; float: left;">
+<<<<<<< HEAD
+
+        <div>
+=======
+        <div style="height: 20px; vertical-align:bottom; overflow: no-content">
+>>>>>>> e29c3b4d480eb8abcb1a3effed33802048165844
             <% if (Model.IsOwner){%>
             <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
@@ -61,7 +66,7 @@
             </a>
             <% } %>
         </div>
-        <div style="text-align: right">
+        <div>
             
             von <a href="<%= Model.UserProfileLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%=Model.CreatorName %>

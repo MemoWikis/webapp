@@ -4,31 +4,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
 
-<style type="text/css">
-
-<%--div.column-1 { background-color: green; }
-div.column-2 {background-color: seashell; }
-div.column-3 { background-color: yellowgreen;}
-div.question-row{background-color:silver;}--%>
-
-div.question-row{border-top:1px solid #ebebeb;height: 93px;}
-.column { display: inline-block;}
-div.question-row div.header { margin-bottom: 3px;border-bottom: 1px solid beige ;}
-div.column-1 { width: 160px;float: left; padding-top: 5px; }
-div.column-2 { width: 530px;float: left; padding-top: 5px;}
-div.column-3 { width: 105px;float: left; padding-top: 5px;}
-div.question-row div.answersTotal{ width: 40px;}
-div.question-row div.percentageBar{ width: 65px;float: right;}
-div.row-viewHistory{ padding-top: 3px;}
-
-.sliderValue{ margin-left: 10px;}
-.piePersonalRelevanceTotal{ display:none; margin-top: 10px;}
-
-.menu p.categories { padding-top: 10px; font-weight: bold; }
-.menu div.category { border-top: 1px  #EBEBEB solid; margin-top: -10px; margin-right: 5px; padding-top: 5px; padding-left: 0px; padding-bottom: 5px;font-size: 13px;}
-
-</style>
-
+   
+<link href="/Views/Questions/Questions.css" rel="stylesheet" />
 <script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>
 <script src="/Views/Questions/Questions.js" type="text/javascript"></script>
 
