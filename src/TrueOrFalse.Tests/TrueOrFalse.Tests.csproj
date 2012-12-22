@@ -134,6 +134,7 @@
     <Compile Include="2 Domain\Knowledge\Should_calculate_correctness_probability.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_wish_knowledge_count.cs" />
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />
+    <Compile Include="2 Domain\QuestionSet\QuestionSet_persistence.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_stats_in_time_period.cs" />
     <Compile Include="2 Domain\Question\History\History_totals_per_user_tests.cs" />
     <Compile Include="2 Domain\Question\QuestionValuation\QuestionValuation_add_totals_test.cs" />
@@ -167,7 +168,7 @@
     <Compile Include="a Test MetaData\Personas\Persona.UserWhoWantsToRegister.cs" />
     <Compile Include="_ code\AutofacTestModule.cs" />
     <Compile Include="_ code\BaseTest.cs" />
-    <Compile Include="2 Domain\Question\Question_persistence_tests.cs" />
+    <Compile Include="2 Domain\Question\Question_persistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="a Test MetaData\TestCategories.cs" />
     <Compile Include="2 Domain\User\Registration\Spec.RegisterUser.cs" />

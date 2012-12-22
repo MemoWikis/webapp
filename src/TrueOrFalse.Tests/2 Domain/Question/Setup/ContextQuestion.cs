@@ -32,7 +32,7 @@ namespace TrueOrFalse.Tests
             question.Text = questionText;
             question.Solution = solutionText;
             question.SolutionType = SolutionType.Text;
-            question.SolutionMetadata = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false};
+            question.SolutionMetadataJson = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false}.Json;
             question.Creator = _contextUser.AllUsers.First();
             Questions.Add(question);
             return this;

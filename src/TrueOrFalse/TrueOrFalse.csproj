@@ -123,6 +123,9 @@
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Ops\CreateKnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryItemMap.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryRepository.cs" />
+    <Compile Include="Domain\QuestionSet\QuestionSet.cs" />
+    <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\QuestionSetMap.cs" />
+    <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\QuestionSetRepository.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
@@ -254,6 +257,7 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs014.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs013.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs012.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />

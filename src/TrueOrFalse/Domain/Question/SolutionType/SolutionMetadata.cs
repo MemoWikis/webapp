@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace TrueOrFalse
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class SolutionMetadata
+    public class SolutionMetadata
     {
         public string Json
         {
@@ -15,6 +15,8 @@ namespace TrueOrFalse
             set { InitFromJson(value); }
         }
 
-        protected abstract void InitFromJson(string json);
+        protected virtual void InitFromJson(string json){
+            throw new Exception("invalid use"); //NHibernate does not allow abstract classes
+        }
     }
 }

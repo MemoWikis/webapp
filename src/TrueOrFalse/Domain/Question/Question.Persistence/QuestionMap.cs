@@ -35,7 +35,7 @@ namespace TrueOrFalse
             
             Map(x => x.Solution);
             Map(x => x.SolutionType);
-            Component(x => x.SolutionMetadata, x => x.Map(y => y.Json, "SolutionMetadata"));
+            Map(x => x.SolutionMetadataJson);
             HasManyToMany(x => x.Categories).Table("CategoriesToQuestions").Cascade.All();
         }
     }

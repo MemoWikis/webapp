@@ -1,12 +1,11 @@
 ﻿using NHibernate;
 using NUnit.Framework;
 using SharpTestsEx;
-using TrueOrFalse;
 
 namespace TrueOrFalse.Tests.Persistence
 {
     [Category(TestCategories.Programmer)]
-    public class Question_persistence_tests : BaseTest
+    public class Question_persistence : BaseTest
     {
         [Test]
         public void Questions_should_be_persisted()

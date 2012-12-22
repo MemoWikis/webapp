@@ -15,6 +15,7 @@ namespace TrueOrFalse.Updates
             _updateStepExecuter
                 .Add(12, UpdateToVs012.Run)
                 .Add(13, UpdateToVs013.Run)
+                .Add(14, UpdateToVs014.Run)
                 .Run();
         }
 

@@ -11,7 +11,7 @@ namespace TrueOrFalse
         public virtual string Description { get; set; }
         public virtual string Solution { get; set; }
         public virtual SolutionType SolutionType { get; set; }
-        public virtual SolutionMetadata SolutionMetadata { get; set; }
+        public virtual string SolutionMetadataJson { get; set; }
 
         public virtual IList<Category> Categories { get; set; }
         public virtual QuestionVisibility Visibility { get; set; }
