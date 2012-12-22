@@ -4,6 +4,7 @@ div.column-3 { background-color: yellowgreen;}
 div.question-row{background-color:silver;}*/
 
 div.question-row{border-top:1px solid #A6BADE;}
+div.question-row:hover{ background-color: #f3f5f8; }
 .column { display: inline-block;}
 div.question-row div.header { margin-bottom: 3px;border-bottom: 1px solid beige ;}
 div.column-1 { width: 160px;float: left; padding-top: 5px; padding-left: 5px;}
@@ -23,7 +24,5 @@ div.column-3 div.row {
     margin-left: 0px;
 }
 
-div.selected-row {
-    background-color: #E7ECF6;
-}
-
+div.selected-row { background-color: #E7ECF6;}
+div.selected-row:hover { background-color: #d6e0f4;}

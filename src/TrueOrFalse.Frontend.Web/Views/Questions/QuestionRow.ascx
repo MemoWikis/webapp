@@ -2,8 +2,8 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="row question-row selected-row" style="background-color: #E7ECF6;">
-    <div class="column-1" style="line-height: 15px; font-size: 90%;">
+<div class="row question-row">
+    <div class="column-1" style="line-height: 15px; font-size: 90%;" data-questionId="<%= Model.QuestionId %>">
         
         <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
@@ -35,9 +35,9 @@
             <a href="">x gesehen</a>
         </div>  
         <div>
-                <label class="checkbox" style="font-size: 12px">
-                    <input type="checkbox"> <a>Frage auswählen</a>
-                </label>
+            <label class="checkbox selectQuestion" style="font-size: 12px">
+                <input type="checkbox"> <a>Frage auswählen</a>
+            </label>
         </div>      
     </div>
 
