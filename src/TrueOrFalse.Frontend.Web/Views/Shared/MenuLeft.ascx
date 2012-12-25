@@ -10,7 +10,7 @@
         </a>
     </div>
     <div><%= Html.ActionLink("Fragen", Links.Questions, Links.QuestionsController)%></div>
-    <div><%= Html.ActionLink("Fragensätze", Links.Questions, Links.QuestionsController)%></div>
+    <div><%= Html.ActionLink("Fragesätze", "QuestionSets", "QuestionSets")%></div>
     <div><%= Html.ActionLink("Lerngruppen", Links.Questions, Links.QuestionsController)%></div>
     
     <div style="margin-top: 13px;"><%= Html.ActionLink("Kategorisierung", Links.Categories, Links.CategoriesController)%></div>

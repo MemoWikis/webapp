@@ -3,20 +3,14 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-
-   
-<link href="/Views/Questions/Questions.css" rel="stylesheet" />
-<script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>
-<script src="/Views/Questions/Questions.js" type="text/javascript"></script>
-
+    <link href="/Views/Questions/Questions.css" rel="stylesheet" />
+    <script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>
+    <script src="/Views/Questions/Questions.js" type="text/javascript"></script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div class="row" >
-
-    </div>
-        <% using (Html.BeginForm()) { %>
+    <% using (Html.BeginForm()) { %>
         <ul class="nav nav-tabs" style="padding-top: 14px;  ">
             <li class="active"><a href="#home" >Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a></li>
             <li>
@@ -65,7 +59,7 @@
                 <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
             </div>
         </div>
-        <% } %>
+    <% } %>
 
     <div class="row" style="padding-bottom: 3px; margin-top: -8px;">
         

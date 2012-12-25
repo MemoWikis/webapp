@@ -157,6 +157,10 @@
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
+    <Compile Include="Views\QuestionSets\Edit\EditQuestionSetController.cs" />
+    <Compile Include="Views\QuestionSets\Edit\EditQuestionSetModel.cs" />
+    <Compile Include="Views\QuestionSets\QuestionSetsController.cs" />
+    <Compile Include="Views\QuestionSets\QuestionSetsModel.cs" />
     <Compile Include="Views\Questions\Answer\FeedbackRowModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
@@ -350,11 +354,15 @@
     <Content Include="Style\smoothness\images\ui-icons_888888_256x240.png" />
     <Content Include="Style\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Style\smoothness\jquery-ui.css" />
+    <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
+    <Content Include="Views\QuestionSets\QuestionSets.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
+    <Content Include="Views\QuestionSets\QuestionSets.css" />
+    <Content Include="Views\QuestionSets\QuestionSets.js" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
     <Content Include="Views\Questions\Questions.js" />
     <Content Include="Views\Questions\SelectUsers.js" />
