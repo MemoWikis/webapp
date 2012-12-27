@@ -2,7 +2,7 @@
 using TrueOrFalse.Web;
 using TrueOrFalse.Frontend.Web.Models;
 
-public class LoginModel : ModelBase
+public class LoginModel : BaseModel
 {
     public Message Message;
 

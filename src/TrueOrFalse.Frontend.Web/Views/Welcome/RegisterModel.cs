@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 
-public class RegisterModel : ModelBase
+public class RegisterModel : BaseModel
 {
     [Required(ErrorMessage="Wir benötigen Deinen Benutzernamen.")]
         

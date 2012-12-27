@@ -36,7 +36,7 @@ body {
 /* VALIDATION
 ----------------------------------------------------------*/
 
-.input-validation-error { border: 1px solid #f00; background-color: #ffdede }
+textarea.input-validation-error, input.input-validation-error { border: 1px solid #f00; background-color: #ffdede }
 .input-validation-valid  { /* Optional: you can set whatever style you want */ }
 .field-validation-error { color: #f00; background-color: #ffdede }
 .field-validation-valid { display: none }

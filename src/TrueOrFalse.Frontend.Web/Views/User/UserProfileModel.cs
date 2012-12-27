@@ -5,7 +5,7 @@ using System.Web;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 
-public class UserProfileModel : ModelBase
+public class UserProfileModel : BaseModel
 {
     public UserProfileModel(User user)
     {

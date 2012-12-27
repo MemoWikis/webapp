@@ -5,7 +5,7 @@ using System.Web;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 
-public class CategoriesModel : ModelBase
+public class CategoriesModel : BaseModel
 {
 
     public IEnumerable<CategoryRowModel> CategoryRows { get; set; } 

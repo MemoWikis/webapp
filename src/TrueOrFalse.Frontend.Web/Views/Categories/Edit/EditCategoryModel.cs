@@ -6,7 +6,7 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 using Message = TrueOrFalse.Web.Message;
 
-public class EditCategoryModel : ModelBase
+public class EditCategoryModel : BaseModel
 {
     [DisplayName("Name")]
     public string Name { get; set; }

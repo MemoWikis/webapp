@@ -2,7 +2,7 @@
 using TrueOrFalse.Registration;
 using TrueOrFalse.Frontend.Web.Models;
 
-public class RegisterModelToUser : ModelBase
+public class RegisterModelToUser : BaseModel
 {
     public static User Run(RegisterModel registerModel)
     {

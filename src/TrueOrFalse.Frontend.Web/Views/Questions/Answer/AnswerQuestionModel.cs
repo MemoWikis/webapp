@@ -6,7 +6,7 @@ using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
 
 
-public class AnswerQuestionModel : ModelBase
+public class AnswerQuestionModel : BaseModel
 {
     public AnswerQuestionModel(){}
 

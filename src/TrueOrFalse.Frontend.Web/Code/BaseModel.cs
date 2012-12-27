@@ -1,6 +1,6 @@
 ﻿namespace TrueOrFalse.Frontend.Web.Models
 {
-    public class ModelBase
+    public class BaseModel
     {
         public MenuLeftModel MenuLeftModel = new MenuLeftModel();
     }

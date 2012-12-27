@@ -3,7 +3,7 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 
 
-public class WelcomeModel : ModelBase
+public class WelcomeModel : BaseModel
 {
     public IList<Question> MostPopular;
 

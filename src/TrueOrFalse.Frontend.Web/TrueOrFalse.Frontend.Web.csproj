@@ -135,7 +135,8 @@
     <Reference Include="System.Web.Helpers" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\ModelBase\ModelBase.cs" />
+    <Compile Include="Code\BaseController.cs" />
+    <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />

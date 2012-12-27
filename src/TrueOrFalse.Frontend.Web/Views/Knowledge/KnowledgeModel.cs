@@ -4,7 +4,7 @@ using TrueOrFalse.Web.Context;
 using TrueOrFalse.Frontend.Web.Models;
 
 
-public class KnowledgeModel : ModelBase
+public class KnowledgeModel : BaseModel
 {
     private readonly SessionUser _sessionUser;
 

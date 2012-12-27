@@ -26,7 +26,7 @@ public class AccountController : Controller
     {
         _removePersistentLoginFromCookie.Run();
         _sessionUser.Logout();
-        return View(new ModelBase());
+        return View(new BaseModel());
     }
 
 }

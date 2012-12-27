@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse;
 
-public class QuestionsModel : ModelBase
+public class QuestionsModel : BaseModel
 {
     public QuestionsModel()
     {

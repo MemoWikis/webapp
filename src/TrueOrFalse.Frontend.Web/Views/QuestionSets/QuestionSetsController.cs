@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 
 
-public class QuestionSetsController : Controller
+public class QuestionSetsController : BaseController
 {
     public ActionResult QuestionSets()
     {

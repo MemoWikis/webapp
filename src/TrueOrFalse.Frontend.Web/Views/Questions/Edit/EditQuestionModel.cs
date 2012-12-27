@@ -10,7 +10,7 @@ using TrueOrFalse.Frontend.Web.Models;
 using System.Linq;
 using Message = TrueOrFalse.Web.Message;
 
-public class EditQuestionModel : ModelBase
+public class EditQuestionModel : BaseModel
 {
     public Message Message;
 
@@ -34,9 +34,6 @@ public class EditQuestionModel : ModelBase
     [DataType(DataType.MultilineText)]
     [DisplayName("Erklärung")]
     public string Description { get; set; }
-
-    [DisplayName("Charakter")]
-    public string Character { get; set; }
 
     public int? Id;
 
