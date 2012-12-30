@@ -8,7 +8,7 @@ namespace TrueOrFalse
         public virtual string Name { get; set; }
         public virtual User Creator { get; set; }
         public virtual IList<Category> RelatedCategories { get; set; }
-        public virtual IList<Question> Questions { get; set; }
+        public virtual int QuestionCount { get; set;  }
 
         public Category(){
             RelatedCategories = new List<Category>();

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using NHibernate;
-using NHibernate.Criterion;
+﻿using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -17,9 +11,12 @@ public class CategoriesController : BaseController
         _categoryRepository = categoryRepository;
     }
 
-    public ActionResult Categories()
-    {
-        var categories = Resolve<ISession>().QueryOver<Category>().Fetch(c => c.Questions).Eager().List<Category>();
-        return View(new CategoriesModel(categories));
+    public ActionResult Categories(){
+        return View(new CategoriesModel(_categoryRepository.GetAll()));
+    }
+
+    public ActionResult Delete(int id){
+        _categoryRepository.Delete(id);
+        return View(Links.Categories, new CategoriesModel(_categoryRepository.GetAll()));
     }
 }

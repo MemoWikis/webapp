@@ -6,7 +6,7 @@ public class CategoryRowModel
     {
         CategoryId = category.Id;
         CategoryName = category.Name;
-        QuestionCount = category.Questions.Count;
+        QuestionCount = category.QuestionCount;
     }
 
     public int QuestionCount { get; set; }

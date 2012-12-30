@@ -3,15 +3,8 @@ using TrueOrFalse;
 using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 
-public class MaintenanceController : Controller
+public class MaintenanceController : BaseController
 {
-    private readonly UpdateQuestionAnswerCounts _updateQuestionAnswerCounts;
-
-    public MaintenanceController(UpdateQuestionAnswerCounts updateQuestionAnswerCounts)
-    {
-        _updateQuestionAnswerCounts = updateQuestionAnswerCounts;
-    }
-
     [AccessOnlyAsAdminAndLocal]
     public ActionResult Maintenance()
     {
@@ -21,21 +14,28 @@ public class MaintenanceController : Controller
     [AccessOnlyAsAdminAndLocal]
     public ActionResult RecalculateAllKnowledgeItems()
     {
-        Sl.Resolve<RecalculateAllKnowledgeItems>().Run();
+        Resolve<RecalculateAllKnowledgeItems>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Antwortwahrscheinlichkeiten wurden neu berechnet.") });
     }
 
     [AccessOnlyAsAdminAndLocal]
     public ActionResult CalcAggregatedValues()
     {
-        _updateQuestionAnswerCounts.Run();
+        Resolve<UpdateQuestionAnswerCounts>().Run();
         return View("Maintenance", new MaintenanceModel{Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
+    }
+
+    [AccessOnlyAsAdminAndLocal]
+    public ActionResult UpdateFieldQuestionCountForCategories()
+    {
+        Resolve<UpdateQuestionCountForAllCategories>();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Feld: AnzahlFragen für Kategorien wurde aktualisiert.") });
     }
 
     [AccessOnlyAsAdminAndLocal]
     public ActionResult ReIndexAllQuestions()
     {
-        Sl.Resolve<ReIndexAllQuestions>().Run();
+        Resolve<ReIndexAllQuestions>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
     }
 }

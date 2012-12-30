@@ -13,7 +13,8 @@ namespace TrueOrFalse
         public override void Update(Question question)
         {
             base.Update(question);
-            Flush();            
+            Flush();
+            Sl.Resolve<UpdateQuestionCountForCategory>().Run(question.Id);
         }
 
         public override void Create(Question question)
