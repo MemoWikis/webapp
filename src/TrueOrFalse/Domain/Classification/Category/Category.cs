@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
@@ -11,14 +8,13 @@ namespace TrueOrFalse
         public virtual string Name { get; set; }
         public virtual User Creator { get; set; }
         public virtual IList<Category> RelatedCategories { get; set; }
+        public virtual IList<Question> Questions { get; set; }
 
-        public Category()
-        {
+        public Category(){
             RelatedCategories = new List<Category>();
         }
 
-        public Category(string name) : this()
-        {
+        public Category(string name) : this(){
             Name = name;
         }
     }
