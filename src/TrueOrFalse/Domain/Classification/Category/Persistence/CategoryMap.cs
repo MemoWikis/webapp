@@ -16,7 +16,7 @@ namespace TrueOrFalse
             Map(x => x.QuestionCount);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
-            HasManyToMany(x => x.RelatedCategories).ChildKeyColumn("Related_Id").Cascade.All();
+            HasManyToMany(x => x.RelatedCategories).ChildKeyColumn("Related_Id").Cascade.DeleteOrphan();
         }
     }
 }
