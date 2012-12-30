@@ -14,7 +14,7 @@ namespace TrueOrFalse
         {
             base.Update(question);
             Flush();
-            Sl.Resolve<UpdateQuestionCountForCategory>().Run(question.Id);
+            Sl.Resolve<UpdateQuestionCountForCategory>().Run(question.Categories);
         }
 
         public override void Create(Question question)
@@ -24,6 +24,7 @@ namespace TrueOrFalse
 
             base.Create(question);
             Flush();
+            Sl.Resolve<UpdateQuestionCountForCategory>().Run(question.Categories);
         }
     }
 }

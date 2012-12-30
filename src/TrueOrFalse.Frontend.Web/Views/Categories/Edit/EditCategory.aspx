@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditCategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="TrueOrFalse.Web" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
 <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
@@ -15,40 +16,56 @@
 </h2>
 
 
-<% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, FormMethod.Post, new { enctype = "multipart/form-data" })){%>
+<% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
+       FormMethod.Post, new { enctype = "multipart/form-data" })){%>
 
-    <% Html.Message(Model.Message); %>
+    <div class="form-horizontal">
+        
+        <% Html.Message(Model.Message); %>
     
-    <div class="control-group">
-        <%= Html.LabelFor(m => m.Name ) %>
-        <%= Html.TextBoxFor(m => m.Name ) %>
-    </div>
+        <div class="control-group">
+            <%= Html.LabelFor(m => m.Name, new {@class="control-label"} ) %>
+            <div class="controls">
+                <%= Html.TextBoxFor(m => m.Name ) %>    
+            </div>
+        
+        </div>
     
-    <div class="control-group">
-        <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" />
-        <label for="file">Bild:</label>
-        <input type="file" name="file" id="file" />
+        <div class="control-group">
+            <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" />
+            <label for="file" class="control-label">Bild:</label>
+            <input type="file" name="file" id="file" />
+        </div>
+        
+        <p class="help-block help-text">
+            Übergeordnete Kategorien: (Beispielsweise: Person > Politker, Bundesland > Bundeshauptstad, Kanzler > Minister.)
+        </p>
+
+        <div id="relatedCategories" class="control-group">
+            <label class="control-label">In Beziehung zu:</label>
+            <div class="controls">
+                <script type="text/javascript">
+                    $(function () {
+                        <%foreach (var category in Model.RelatedCategories) { %>
+                        $("#txtNewRelatedCategory").val('<%=category %>');
+                        $("#addRelatedCategory").click();
+                        <% } %>
+                    });
+                </script>
+                <input id="txtNewRelatedCategory" type="text" />
+                <a href="#" id="addRelatedCategory" style="display:none"><img alt="" src='/Images/Buttons/add.png' /></a>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
+            <input type="submit" value="Speichern & Neu" class="btn" name="btnSave btn" />&nbsp;&nbsp;&nbsp;
+            <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="icon-trash"></i> Löschen</a>
+
+        </div>
+
     </div>
 
-    <h3>Steht in enger Beziehung zu den Kategorien (ausgehend)</h3>
-    <div id="relatedCategories">
-        <script type="text/javascript">
-            $(function() {
-                <%foreach (var category in Model.RelatedCategories) { %>
-                    $("#txtNewRelatedCategory").val('<%=category %>');
-                    $("#addRelatedCategory").click();
-                <% } %>
-            });
-        </script>
-        <input id="txtNewRelatedCategory" />
-        <a href="#" id="addRelatedCategory" style="display:none"><img alt="" src='/Images/Buttons/add.png' /></a>
-    </div>
-
-    <br/><br/><br/>
-    <label>&nbsp;</label>
-    <%= Buttons.Submit("Speichern", inline:true)%>
-    <%= Buttons.Submit("Speichern & Neu", inline: true)%>
-    <%= Buttons.Link("Löschen", inline: true, actionName: Links.DeleteCategory, controllerName: Links.CategoriesController, buttonIcon: ButtonIcon.Delete)%>
 
 <% } %>
 

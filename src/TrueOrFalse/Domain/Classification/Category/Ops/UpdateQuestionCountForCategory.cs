@@ -14,14 +14,17 @@ namespace TrueOrFalse
             _session = session;
         }
 
-        public void Run(int questionId)
+        public void Run(IList<Category> categories )
         {
-            var query =
-                "UPDATE category SET QuestionCount = " +
-                "(SELECT COUNT(*) FROM categoriestoquestions WHERE Category_id = category.Id " +
-                " AND Question_id = " + questionId + " )";
+            foreach (var category in categories)
+            {
+                var query =
+                    "UPDATE category SET QuestionCount = " +
+                    "(SELECT COUNT(*) FROM categoriestoquestions WHERE Category_id = category.Id )" +
+                    "WHERE Id = " + category.Id;
 
-            _session.CreateSQLQuery(query).ExecuteUpdate();
+                _session.CreateSQLQuery(query).ExecuteUpdate();                
+            }
         }
     }
 }

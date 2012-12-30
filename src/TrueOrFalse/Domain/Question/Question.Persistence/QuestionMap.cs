@@ -36,7 +36,7 @@ namespace TrueOrFalse
             Map(x => x.Solution);
             Map(x => x.SolutionType);
             Map(x => x.SolutionMetadataJson);
-            HasManyToMany(x => x.Categories).Table("CategoriesToQuestions").Cascade.All();
+            HasManyToMany(x => x.Categories).Table("CategoriesToQuestions").Cascade.SaveUpdate();
         }
     }
 }

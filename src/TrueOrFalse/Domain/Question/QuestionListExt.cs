@@ -17,7 +17,7 @@ namespace TrueOrFalse
 
         public static IList<Category> GetAllCategories(this IEnumerable<Question> questions)
         {
-            return questions.SelectMany(q => q.Categories).ToList();
+            return questions.SelectMany(q => q.Categories).Where(c => c != null).ToList();
         }
     }
 }

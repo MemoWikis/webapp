@@ -23,7 +23,7 @@
 <div class="row" >
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
     
-    <div class="form-horizontal " style="padding-top: 0px;">
+    <div class="form-horizontal" style="padding-top: 0px;">
         <legend>
             <span style="font-size: 16px; font-weight: bold;"><%=Model.PageTitle %></span>
             

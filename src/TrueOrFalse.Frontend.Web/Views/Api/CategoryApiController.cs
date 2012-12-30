@@ -21,7 +21,7 @@ namespace TrueOrFalse.View.Web.Views.Api
             return Json(from c in _categorySearch.Run(term) 
                         select new {
                             name = c.Name,
-                            numberOfQuestions = "?",
+                            numberOfQuestions = c.QuestionCount,
                             imageUrl = string.Format(new GetCategoryImageUrl().Run(c).Url, 50)
                         }, JsonRequestBehavior.AllowGet); 
         }

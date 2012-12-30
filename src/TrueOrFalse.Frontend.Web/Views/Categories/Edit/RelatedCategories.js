@@ -22,7 +22,8 @@ $(function () {
 		.data("autocomplete")._renderItem = function (ul, item) {
 		    return $("<li></li>")
 				.data("item.autocomplete", item)
-				.append("<a><img src='" + item.imageUrl + "'/><span class='cat-name'>" + item.name + "</span><br><i>" + item.numberOfQuestions + " Fragen</i></a>")
+				.append("<a><img src='" + item.imageUrl + "'/><span class='cat-name'>"
+				    + item.name + "</span><br><i>" + item.numberOfQuestions + " Fragen</i></a>")
 				.appendTo(ul);
 		};
 
