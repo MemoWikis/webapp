@@ -41,9 +41,8 @@
         </div>      
     </div>
 
-    <div class="column-2">
-        
-        <div style="height: 100%; font-weight:normal; font-size:large;">
+    <div class="column-2" style="height: 87px; position: relative;">
+        <div style="font-weight:normal; font-size:large;">
             <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
         </div>   
         <div>
@@ -52,7 +51,7 @@
             <span class="label label-category">Kategorie 3</span>
         </div>
         
-        <div style="height: 20px; vertical-align:bottom; overflow: no-content; width: 165px; float: left;">
+        <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
             <% if (Model.IsOwner){%>
             <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
@@ -61,8 +60,7 @@
             </a>
             <% } %>
         </div>
-        <div style="text-align: right">
-            
+        <div style="text-align: right; width: 150px; position: absolute; bottom:0px; right: 10px;">
             von <a href="<%= Model.UserProfileLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%=Model.CreatorName %>
                 </a>
