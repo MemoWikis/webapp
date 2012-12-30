@@ -1,35 +1,27 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse;
-using TrueOrFalse.Web.Context;
 
-public class QuestionsController : Controller
+public class QuestionsController : BaseController
 {
     private readonly QuestionRepository _questionRepository;
     private readonly QuestionValuationRepository _questionValuationRepository;
     private readonly QuestionsControllerSearch _questionSearchPage;
     private readonly TotalsPersUserLoader _totalsPerUserLoader;
     private readonly UserRepository _userRepository;
-    private readonly SessionUiData _sessionUiData;
-    private readonly SessionUser _sessionUser;
 
     public QuestionsController (QuestionRepository questionRepository,
                                 QuestionValuationRepository questionValuationRepository,
                                 QuestionsControllerSearch questionSearchPage,
                                 TotalsPersUserLoader totalsPerUserLoader, 
-                                UserRepository userRepository, 
-                                SessionUiData sessionUiData, 
-                                SessionUser sessionUser)
+                                UserRepository userRepository)
     {
         _questionRepository = questionRepository;
         _questionValuationRepository = questionValuationRepository;
         _questionSearchPage = questionSearchPage;
         _totalsPerUserLoader = totalsPerUserLoader;
         _userRepository = userRepository;
-        _sessionUiData = sessionUiData;
-        _sessionUser = sessionUser;
     }
 
     public ActionResult OrderByPersonalRelevance(int? page, QuestionsModel model){

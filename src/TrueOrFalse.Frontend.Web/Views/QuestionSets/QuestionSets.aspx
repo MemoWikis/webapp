@@ -43,5 +43,8 @@
             </div>
         </div>
     <% } %>
-
+    
+    <% foreach(var row in Model.Rows){
+        Html.RenderPartial("QuestionSetRow", row);
+    } %>
 </asp:Content>

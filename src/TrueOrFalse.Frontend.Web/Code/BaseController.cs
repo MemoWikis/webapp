@@ -10,6 +10,7 @@ using TrueOrFalse.Web.Context;
 public class BaseController : Controller
 {
     protected SessionUser _sessionUser{ get { return Resolve<SessionUser>(); } }
+    protected SessionUiData _sessionUiData { get { return Resolve<SessionUiData>(); } }
 
     protected T Resolve<T>()
     {

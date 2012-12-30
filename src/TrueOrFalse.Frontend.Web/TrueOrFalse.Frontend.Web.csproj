@@ -160,6 +160,7 @@
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
     <Compile Include="Views\QuestionSets\Edit\EditQuestionSetController.cs" />
     <Compile Include="Views\QuestionSets\Edit\EditQuestionSetModel.cs" />
+    <Compile Include="Views\QuestionSets\QuestionSetRowModel.cs" />
     <Compile Include="Views\QuestionSets\QuestionSetsController.cs" />
     <Compile Include="Views\QuestionSets\QuestionSetsModel.cs" />
     <Compile Include="Views\Questions\Answer\FeedbackRowModel.cs" />
@@ -356,6 +357,7 @@
     <Content Include="Style\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Style\smoothness\jquery-ui.css" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
+    <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />
     <Content Include="Views\QuestionSets\QuestionSets.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />

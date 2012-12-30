@@ -10,6 +10,11 @@ public class EditQuestionSetController : BaseController
 {
     private const string _viewLocation = "~/Views/QuestionSets/Edit/EditQuestionSet.aspx";
 
+    public ActionResult Create(){
+        return View(_viewLocation, new EditQuestionSetModel());
+    }
+
+    [HttpPost]
     public ActionResult Create(EditQuestionSetModel model)
     {
         if (ModelState.IsValid)
@@ -20,7 +25,7 @@ public class EditQuestionSetController : BaseController
             model.Message = new SuccessMessage("Fragesatz wurde gespeichert");
         }
 
-        return View(_viewLocation, new EditQuestionSetModel());
+        return View(_viewLocation, model);
     }
 
     public ActionResult Update()

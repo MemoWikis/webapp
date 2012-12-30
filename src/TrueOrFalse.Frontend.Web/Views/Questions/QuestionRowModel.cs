@@ -6,12 +6,11 @@ using TrueOrFalse;
 
 public class QuestionRowModel
 {
-
     public string CreatorName { get; private set; }
 
     public string QuestionShort { get; private set; }
     public int QuestionId { get; private set; }
-    public int IndexInresulSet { get; private set; }
+    public int IndexInResulSet { get; private set; }
 
     public string CreatorUrlName { get; private set; }
     public int CreatorId { get; private set; }
@@ -49,8 +48,8 @@ public class QuestionRowModel
         CreatorUrlName = UriSegmentFriendlyUser.Run(question.Creator.Name);
         CreatorId = question.Creator.Id;
 
-        AnswerQuestionLink = url => Links.AnswerQuestion(url, question, indexInResultSet);
-        UserProfileLink = url => Links.Profile(url, question.Creator.Name, question.Creator.Id);
+        AnswerQuestionLink = urlHelper => Links.AnswerQuestion(urlHelper, question, indexInResultSet);
+        UserProfileLink = urlHelper => Links.Profile(urlHelper, question.Creator.Name, question.Creator.Id);
 
         AnswersAllCount = question.TotalAnswers();
         AnswersAllPercentageTrue = question.TotalTrueAnswersPercentage();
@@ -65,7 +64,7 @@ public class QuestionRowModel
 
         RelevancePersonal = questionValuation.RelevancePersonal;
         
-        IndexInresulSet = indexInResultSet;
+        IndexInResulSet = indexInResultSet;
 
         IsOwner = currentUserid == CreatorId;
 

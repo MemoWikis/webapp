@@ -126,6 +126,7 @@
     <Compile Include="Domain\QuestionSet\QuestionSet.cs" />
     <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\QuestionSetMap.cs" />
     <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\QuestionSetRepository.cs" />
+    <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\QuestionSetSearchSpec.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
