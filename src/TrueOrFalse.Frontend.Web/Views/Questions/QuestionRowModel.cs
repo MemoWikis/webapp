@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using TrueOrFalse.Web.Uris;
 using TrueOrFalse.Frontend.Web.Code;
@@ -34,6 +35,8 @@ public class QuestionRowModel
 
     public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
     public Func<UrlHelper, string> UserProfileLink { get; private set;  }
+
+    public IList<Category> Categories; 
 
     public QuestionRowModel(Question question, 
                             TotalPerUser totalForUser, 
@@ -75,5 +78,7 @@ public class QuestionRowModel
         TotalQualityAvg = (question.TotalQualityAvg / 10d).ToString();
 
         Views = question.TotalViews;
+
+        Categories = question.Categories;
     }
 }

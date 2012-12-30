@@ -46,9 +46,9 @@
             <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
         </div>   
         <div>
-            <a><span class="label label-category">Kategorie 1</span></a>
-            <span class="label label-category">Kategorie 2</span>
-            <span class="label label-category">Kategorie 3</span>
+            <% foreach (var category in Model.Categories){ %>
+                <a><span class="label label-category"><%= category.Name %></span></a>    
+            <% } %>
         </div>
         
         <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">

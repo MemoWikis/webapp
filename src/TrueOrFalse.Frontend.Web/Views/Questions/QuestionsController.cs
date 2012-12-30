@@ -11,11 +11,11 @@ public class QuestionsController : BaseController
     private readonly TotalsPersUserLoader _totalsPerUserLoader;
     private readonly UserRepository _userRepository;
 
-    public QuestionsController (QuestionRepository questionRepository,
-                                QuestionValuationRepository questionValuationRepository,
-                                QuestionsControllerSearch questionSearchPage,
-                                TotalsPersUserLoader totalsPerUserLoader, 
-                                UserRepository userRepository)
+    public QuestionsController(QuestionRepository questionRepository,
+                               QuestionValuationRepository questionValuationRepository,
+                               QuestionsControllerSearch questionSearchPage,
+                               TotalsPersUserLoader totalsPerUserLoader, 
+                               UserRepository userRepository)
     {
         _questionRepository = questionRepository;
         _questionValuationRepository = questionValuationRepository;
