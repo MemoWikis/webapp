@@ -93,7 +93,10 @@ function deleteQuestion(questionId) {
         url: "/Questions/Delete/" + questionId,
         cache: false,
         success:function (){window.location.reload();},
-        error: function (result) { alert("Ein Fehler ist aufgetreten"); }
+        error: function (result) {
+            console.log(result);
+            alert("Ein Fehler ist aufgetreten");
+        }
     });
 }
 

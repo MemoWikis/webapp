@@ -24,6 +24,7 @@ public class CategoriesController : BaseController
 
         var categoriesModel = new CategoriesModel(_categoryRepository.GetAll());
         categoriesModel.Message = new SuccessMessage("Die Kategorie '" + category.Name + "' wurde gelöscht");
+        
         return View(Links.Categories, categoriesModel);
     }
 }

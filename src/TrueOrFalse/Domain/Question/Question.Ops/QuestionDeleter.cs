@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Linq;
+using NHibernate;
 
 namespace TrueOrFalse
 {
@@ -24,8 +25,9 @@ namespace TrueOrFalse
         public void Run(int questionId)
         {
             var question = _questionRepository.GetById(questionId);
+            var categoriesToDelete = question.Categories.ToList();
             _questionRepository.Delete(questionId);
-            _updateQuestionCountForCategory.Run(question.Categories);
+            _updateQuestionCountForCategory.Run(categoriesToDelete);
             _answerHistory.DeleteFor(questionId);
 
             _session
