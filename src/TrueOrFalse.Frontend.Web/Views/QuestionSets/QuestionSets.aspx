@@ -1,11 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionSetsModel>" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <link href="/Views/QuestionSets/QuestionSets.css" rel="stylesheet" />
-    <script src="/Views/QuestionSets/QuestionSets.js" type="text/javascript"></script>
+    <%= Scripts.Render("~/Views/QuestionSets/QuestionSets.js") %>
+    <%= Styles.Render("~/Views/QuestionSets/QuestionSets.css") %>
 </asp:Content>
-
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     

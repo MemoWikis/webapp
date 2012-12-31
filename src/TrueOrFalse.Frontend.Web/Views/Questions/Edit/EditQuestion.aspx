@@ -2,7 +2,6 @@
     Inherits="ViewPage<EditQuestionModel>" %>
 
 <%@ Import Namespace="System.Web.Mvc.Html" %>
-<%@ Import Namespace="TrueOrFalse.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">

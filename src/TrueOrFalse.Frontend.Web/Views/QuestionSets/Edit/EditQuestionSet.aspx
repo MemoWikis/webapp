@@ -1,6 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditQuestionSetModel>" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
-<%@ Import Namespace="TrueOrFalse.Web" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/QuestionSets/QuestionSets.css" rel="stylesheet" />

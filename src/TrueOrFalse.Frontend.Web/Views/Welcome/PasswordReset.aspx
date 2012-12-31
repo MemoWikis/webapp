@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<PasswordResetModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="TrueOrFalse.Web" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 

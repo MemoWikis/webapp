@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditCategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="TrueOrFalse.Web" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
 <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>

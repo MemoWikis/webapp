@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSoulutionExact>" %>
-<%@ Import Namespace="TrueOrFalse.Web" %>
 
 <script language="javascript" type="text/javascript">
     $(function() {
