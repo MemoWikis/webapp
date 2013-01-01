@@ -127,9 +127,9 @@
             </div>
         </div>
         <div class="form-actions">
-            <input type="submit" value="Speichern" class="btn" name="btnSave <% if(!Model.ShowSaveAndNewButton){%>btn-primary<% } %>" />&nbsp;&nbsp;&nbsp;
+            <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
             <% if (Model.ShowSaveAndNewButton){ %>
-                <input type="submit" value="Speichern & Neu" class="btn btn-primary" name="btnSaveAndNew" />&nbsp;
+                <button type="submit" class="btn" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
             <% } %>
         </div>
     </div>

@@ -109,4 +109,12 @@ public class EditQuestionModel : BaseModel
         ShowSaveAndNewButton = false;
     }
 
+    public void Reset()
+    {
+        Id = -1;
+        Question = "";
+        Solution = "";
+        Description = "";
+        Categories = new string[]{};
+    }
 }

@@ -24,6 +24,10 @@ public class EditQuestionController : Controller
     public ActionResult Create()
     {
         var model = new EditQuestionModel();
+        
+        if (TempData["createQuestionsMsg"] != null)
+            model.Message = (SuccessMessage)TempData["createQuestionsMsg"];
+
         model.SetToCreateModel();
         return View(_viewLocation, model);
     }
@@ -32,8 +36,7 @@ public class EditQuestionController : Controller
     {
         var model = new EditQuestionModel(_questionRepository.GetById(id)) {IsEditing = true};
         model.SetToUpdateModel();
-        if (TempData["createQuestionsMsg"] != null)
-        {
+        if (TempData["createQuestionsMsg"] != null){
             model.Message = (SuccessMessage) TempData["createQuestionsMsg"];
         }
 
@@ -46,6 +49,7 @@ public class EditQuestionController : Controller
         model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
         model.SetToUpdateModel();
+        model.IsEditing = true;
         _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model,
                                                                                                   _questionRepository.
                                                                                                       GetById(id),
@@ -61,43 +65,44 @@ public class EditQuestionController : Controller
     public ActionResult Create(EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
     {
         model.FillCategoriesFromPostData(Request.Form);
-        var resultModel = new EditQuestionModel(new Question());
-        resultModel.SetToCreateModel();
-
+        
         var editQuestionModelCategoriesExist = ServiceLocator.Resolve<EditQuestionModel_Categories_Exist>();
-        if (editQuestionModelCategoriesExist.Yes(model))
-        {
-            var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
-
-            question.Creator = _sessionUser.User;
-            _questionRepository.Create(question);
-            UpdateImage(imagefile, question.Id);
-            UpdateSound(soundfile, question.Id);
-            resultModel.Message =
-                new SuccessMessage(
-                    string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Nun wird eine <b>neue</b> Frage erstellt.",
-                                  question.Text.TruncateAtWord(30)));
-
-            if (Request["btnSave"] != null)
-            {
-                TempData["createQuestionsMsg"] =
-                    new SuccessMessage(
-                        string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Du kannst Sie nun weiter bearbeiten.",
-                                      question.Text.TruncateAtWord(30)));
-                return Redirect("Edit/" + question.Id);
-            }
-        }
-        else
+        
+        if (editQuestionModelCategoriesExist.No(model))
         {
             var missingCategory = editQuestionModelCategoriesExist.MissingCategory;
-            resultModel.Message = new ErrorMessage(
+            model.Message = new ErrorMessage(
                 string.Format("Die Kategorie <strong>'{0}'</strong> existiert nicht. " +
                               "Klicke <a href=\"{1}\">hier</a>, um Kategorien anzulegen.",
                               missingCategory,
-                              Url.Action("Create", "EditCategory", new {name = missingCategory})));
+                              Url.Action("Create", "EditCategory", new { name = missingCategory })));
+
+            return View(_viewLocation, model);
         }
 
-        return View(_viewLocation, resultModel);
+        var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
+
+        question.Creator = _sessionUser.User;
+        _questionRepository.Create(question);
+        UpdateImage(imagefile, question.Id);
+        UpdateSound(soundfile, question.Id);
+
+        if (Request["btnSave"] == "saveAndNew")
+        {
+            model.Reset();
+            model.SetToCreateModel();
+            TempData["createQuestionsMsg"] = new SuccessMessage(
+                string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Nun wird eine <b>neue</b> Frage erstellt.",
+                                question.Text.TruncateAtWord(30)));
+
+            return Redirect("Create/");
+        }
+        
+        TempData["createQuestionsMsg"] = new SuccessMessage(
+            string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Du kannst Sie nun weiter bearbeiten.",
+                          question.Text.TruncateAtWord(30)));
+
+        return Redirect("Edit/" + question.Id);
     }
 
     public ActionResult SolutionEditBody(int? questionId, SolutionType type)

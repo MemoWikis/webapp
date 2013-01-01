@@ -17,4 +17,8 @@ public class EditQuestionModel_Categories_Exist : IRegisterAsInstancePerLifetime
         return MissingCategory == null;
     }
 
+    public bool No(EditQuestionModel model)
+    {
+        return !Yes(model);
+    }
 }
