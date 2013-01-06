@@ -360,6 +360,7 @@
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.17.js" />
     <Content Include="Scripts\jquery-ui-1.8.17.min.js" />
+    <Content Include="Scripts\jquery.d.ts" />
     <Content Include="Scripts\jquery.jplayer.min.js" />
     <Content Include="Scripts\jquery.sparkline.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
@@ -406,6 +407,13 @@
     <Content Include="Views\QuestionSets\QuestionSets.js" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
     <Content Include="Views\Questions\Questions.js" />
+    <TypeScriptCompile Include="Views\Questions\QuestionsTs.ts" />
+    <Content Include="Views\Questions\QuestionsTs.js">
+      <DependentUpon>QuestionsTs.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\QuestionsTs.min.js">
+      <DependentUpon>QuestionsTs.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\SelectUsers.js" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
     <Content Include="Views\Questions\Questions.css" />

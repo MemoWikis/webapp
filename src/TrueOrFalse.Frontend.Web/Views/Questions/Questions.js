@@ -33,26 +33,8 @@ $(function () {
         window.location = "/questions/search/" + $('#txtSearch').val();
     });
 
-    var selectedQuestions = new Array();
-    $('.selectQuestion').click(function() {
-        var parentRow = $(this).closest(".question-row");
-        var questionId = parentRow.attr("data-questionId");
 
-        if ($($(this).children()[0]).is(':checked')) {
-            selectedQuestions.push(questionId);
-            parentRow.addClass("selected-row");
-        } else {
-            selectedQuestions = jQuery.grep(selectedQuestions, function (value) {
-                return value != questionId;
-            });
-            parentRow.removeClass("selected-row");
-        }
-
-    });
 });
-
-
-
 
 /************************/
 /*** DELETE QUESTION ****/

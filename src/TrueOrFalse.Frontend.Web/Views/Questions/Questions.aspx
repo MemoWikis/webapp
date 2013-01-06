@@ -6,6 +6,7 @@
     <link href="/Views/Questions/Questions.css" rel="stylesheet" />
     <script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>
     <script src="/Views/Questions/Questions.js" type="text/javascript"></script>
+    <script src="/Views/Questions/QuestionsTs.js" type="text/javascript"></script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -63,20 +64,38 @@
 
     <div class="row" style="padding-bottom: 3px; margin-top: -8px;">
         
-        <ul class=" nav pull-right" style="padding-left: 5px; margin: 0px;">
+        <ul class="nav pull-left" style="padding-left: 5px; margin: 0px;">
+            <li class="dropdown" id="menu2">
+                <a class="dropdown-toggle btn btn-mini" data-toggle="dropdown" href="#menu2">
+                    <i class="icon-check"></i>
+                    Auswahl <span id="selectionCount"></span>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a id="selectAll">Alle</a></li>
+                    <li><a id="selectNone">Keine</a></li>
+                    <li><a id="selectMemorizedByMe">Von mir gemerkte</a></li>
+                    <li><a id="selectCreatedByMe">Von mir erstellte</a></li>
+                    <li><a id="selectedNotMemorizedByMe">Nicht von mir gemerkte</a></li>
+                    <li><a id="selectNotCraetedByMe">Nicht von mir erstellt</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul class="nav pull-right" style="padding-left: 5px; margin: 0px;">
             <li class="dropdown" id="menu1">
-            <a class="dropdown-toggle btn btn-mini" data-toggle="dropdown" href="#menu1">
-                Sortieren nach: <%=Model.OrderByLabel %>
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="<%= Url.Action("OrderByPersonalRelevance", "Questions") %>"><% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){%><i class="icon-ok"></i> <%}%>Merken</a></li>
-                <li><a href="<%= Url.Action("OrderByQuality", "Questions") %>"><% if (Model.OrderBy.OrderByQuality.IsCurrent()){%><i class="icon-ok"></i> <%}%>Qualität</a></li>
-                <li><a href="<%= Url.Action("OrderByCreationDate", "Questions") %>"><% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){%><i class="icon-ok"></i> <%}%>Erstellungsdatum</a></li>
-                <li><a href="<%= Url.Action("OrderByViews", "Questions") %>"><% if (Model.OrderBy.OrderByViews.IsCurrent()){%><i class="icon-ok"></i> <%}%>Ansichten</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Empfehlungen</a></li>
-            </ul>
+                <a class="dropdown-toggle btn btn-mini" data-toggle="dropdown" href="#menu1">
+                    Sortieren nach: <%=Model.OrderByLabel %>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="<%= Url.Action("OrderByPersonalRelevance", "Questions") %>"><% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){%><i class="icon-ok"></i> <%}%>Merken</a></li>
+                    <li><a href="<%= Url.Action("OrderByQuality", "Questions") %>"><% if (Model.OrderBy.OrderByQuality.IsCurrent()){%><i class="icon-ok"></i> <%}%>Qualität</a></li>
+                    <li><a href="<%= Url.Action("OrderByCreationDate", "Questions") %>"><% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){%><i class="icon-ok"></i> <%}%>Erstellungsdatum</a></li>
+                    <li><a href="<%= Url.Action("OrderByViews", "Questions") %>"><% if (Model.OrderBy.OrderByViews.IsCurrent()){%><i class="icon-ok"></i> <%}%>Ansichten</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Empfehlungen</a></li>
+                </ul>
             </li>
         </ul>
         
@@ -117,10 +136,10 @@
             <h3>Hilfe: Tab - Mein Wunschwissen</h3>
         </div>
         <div class="modal-body">
-            Es werden nur die Fragen gezeigt, die Sie zu Ihrem (Wunsch-)Wissen hinzugefügt haben. 
+            Es werden nur die Fragen gezeigt, die Du Dir <b>merken</b> möchtest, also Fragen deren Antworten zu Deinem Wunschwissen gehören. 
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh ok, nun gut.</a>
+            <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh, nicht ganz klar.</a>
             <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
         </div>
     </div>
