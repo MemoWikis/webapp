@@ -60,3 +60,9 @@ a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;
 .label-category {
     background-color: #275ABD;
 }
+
+/*FORMS
+---------------------------------------------------------*/
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, textarea, select {
+    color: #2E487B;
+}

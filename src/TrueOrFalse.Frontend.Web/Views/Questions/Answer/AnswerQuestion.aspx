@@ -60,7 +60,7 @@
                 Html.RenderPartial("AudioPlayer", Model.SoundUrl);
             } %>
 
-            <div class="row alert alert-info" id="divCorrectAnswer" style="display: none; margin-top:5px; width: 360px; background-color: white; color:black;">
+            <div class="row alert alert-info" id="divCorrectAnswer" style="display: none; margin-top:5px; width: 360px; background-color: white; color:#2E487B;">
                 <b>Antwort:</b>
                 <span id="spanCorrectAnswer"></span>
                 <p style="padding-top:10px;">

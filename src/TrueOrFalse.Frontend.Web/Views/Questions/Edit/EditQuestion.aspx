@@ -45,12 +45,18 @@
         <div class="control-group">
             <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>
             <div class="controls">
-                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All )%>
+                <label class="radio inline">
+                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
                 Alle &nbsp;&nbsp;
+                </label>
+                <label class="radio inline">
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
                 Nur ich &nbsp;&nbsp;
+                </label>
+                <label class="radio inline">
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
                 Ich und meine Freunde
+                </label>
             </div>
         </div>
         <div class="control-group">
