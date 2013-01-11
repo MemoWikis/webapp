@@ -74,10 +74,10 @@
                 <ul class="dropdown-menu">
                     <li><a id="selectAll">Alle</a></li>
                     <li><a id="selectNone">Keine</a></li>
-                    <li><a id="selectMemorizedByMe">Von mir gemerkte</a></li>
-                    <li><a id="selectCreatedByMe">Von mir erstellte</a></li>
-                    <li><a id="selectedNotMemorizedByMe">Nicht von mir gemerkte</a></li>
-                    <li><a id="selectNotCraetedByMe">Nicht von mir erstellt</a></li>
+                    <li><a id="selectMemorizedByMe">+ von mir gemerkte</a></li>
+                    <li><a id="selectCreatedByMe">+ von mir erstellte</a></li>
+                    <li><a id="selectedNotMemorizedByMe">+ <i>nicht</i> von mir gemerkte</a></li>
+                    <li><a id="selectNotCraetedByMe">+ <i>nicht</i> von mir erstellt</a></li>
                 </ul>
             </li>
         </ul>
