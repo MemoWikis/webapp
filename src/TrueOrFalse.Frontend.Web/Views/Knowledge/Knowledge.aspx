@@ -32,7 +32,7 @@
         #totalKnowledge{font-size: 30px; margin-top: 20px; display: inline-block; color: darkgray;font-weight: bolder;}
         #totalKnowledgeOverTime{font-size: 18px; line-height:27px ;color: rgb(170, 170, 170);padding-top: 5px;display: inline-block;}
         #totalKnowledgeOverTimeSpark{ display: inline-block;}
-        #headerAnswered{font-size: 30px; line-height: 30x; margin-top: 20px; display: inline-block; color: darkgray;font-weight: bolder;padding-bottom: 4px;}
+        #headerAnswered{font-size: 30px; line-height: 30px; margin-top: 20px; display: inline-block; color: darkgray;font-weight: bolder;padding-bottom: 4px;}
         div.answerHistoryRow div{ display: inline;font-size: 17px; color: rgb(170, 170, 170)}
         div.answerHistoryRow .answerAmount{ color:blue; font-weight: bolder;}
         
