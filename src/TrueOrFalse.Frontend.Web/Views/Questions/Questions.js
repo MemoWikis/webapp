@@ -6,6 +6,10 @@ $(function () {
 });
 
 $(function () {
+
+    $('#btnSelectionToSet').tooltip();
+    $('#btnSelectionDelete').tooltip();
+
     $('.btn-filterByMe').click(function () {
         $(this).toggleClass('active');
         $('#FilterByMe').val($(this).hasClass('active'));

@@ -36,7 +36,7 @@
         </div>  
         <div>
             <label class="checkbox selectQuestion" style="font-size: 12px">
-                <input type="checkbox"> <a>Frage auswählen</a>
+                <input type="checkbox"> <a>auswählen</a>
             </label>
         </div>      
     </div>

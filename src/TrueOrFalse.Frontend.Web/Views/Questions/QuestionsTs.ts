@@ -82,9 +82,22 @@ class RowSelector{
     UpdateToolbar() {
         if (this.Count() > 0) {
             $("#selectionCount").html("(" + this.Count() + ")");
+            $("#btnSelectionToSet").show();
+            if (this.SelectionContainsWhereIAmOwner()) {
+                $("#btnSelectionDelete").show();
+            }
         } else { 
-            $("#selectionCount").html("");
+            $("#btnSelectionToSet").hide();
+            $("#btnSelectionDelete").hide();
         }
+    }
+
+    SelectionContainsWhereIAmOwner() {
+        for (var i = 0; i < this.Rows.length; i++) { 
+            if((<QuestionRow>this.Rows[i]).IsUserOwner())
+                return true;
+        }
+        return false;
     }
 
     SelectAll() {

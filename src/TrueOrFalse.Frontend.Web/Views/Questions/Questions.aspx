@@ -81,6 +81,13 @@
                 </ul>
             </li>
         </ul>
+        &nbsp;
+        <a href="#" class="btn btn-mini hide" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
+            <i class="icon-folder-open"></i> 
+        </a>&nbsp;
+        <a href="#" class="btn btn-mini hide" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
+            <i class="icon-trash"></i> 
+        </a>
 
         <ul class="nav pull-right" style="padding-left: 5px; margin: 0px;">
             <li class="dropdown" id="menu1">
