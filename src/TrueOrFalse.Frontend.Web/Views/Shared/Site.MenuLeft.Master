@@ -6,7 +6,7 @@
 <head runat="server">
     
     <title>Richtig oder Falsch</title>
-    <% Html.RenderPartial("Site.Resources.Head"); %>
+    <% Html.RenderPartial("Site.Resources.Head"); %> 
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
 

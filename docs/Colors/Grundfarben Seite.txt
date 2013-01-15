@@ -3,6 +3,13 @@ E99A00 gelb
 2E487B blau (Grundfarbe Schrift)
 B13A48 rot
 
+Hintergrund blau (von heller nach dunkler)
+f3f5f8
+E7ECF6
+d6e0f4
 
-blau für Link-Schrift:
-#275ABD
+
+blau für Link-Schrift: 275ABD)
+(Vorschlag für stärkeren Kontrast: 2A64D0)
+
+

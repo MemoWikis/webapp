@@ -5,8 +5,9 @@
 
 <html>
 <head runat="server">
-    <title><asp:ContentPlaceHolder ID="Head" runat="server" /></title>
+    <title></title>
     <% Html.RenderPartial("Site.Resources.Head"); %>
+    <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
 <body>
     <div class="container">
