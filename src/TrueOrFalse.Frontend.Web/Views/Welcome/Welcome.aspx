@@ -1,13 +1,141 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" 
 	Inherits="ViewPage<WelcomeModel>"
-    Title="Willkommen bei True Or False" %>
+    Title="Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen. bei True Or False" %>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
+    
+    <div class="row-fluid"">
+        <div class="span8 temp4">
+            <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
+            
+               
+        </div>
+        <div class="span4 temp6">
+            <div>
+                <input type="text" placeholder="Email-Adresse">
+                <input type="text" placeholder="Passwort">
+            </div>
+            <div>
+                <a class="zocial icon facebook"></a>
+                <a class="zocial icon google"></a>
+                <a class="zocial icon twitter"></a>
+            </div>
+        </div>
+    </div>
+    
+     <div style="height: 100px;"></div> 
+
+    <div class="row-fluid"">
+        <div class="span8 temp4">
+            <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
+            
+               
+        </div>
+        <div class="span4 temp3">
+            <div>
+                <input type="text" placeholder="Email-Adresse">
+                <input type="text" placeholder="Passwort">
+            </div>
+            <div>
+                <a class="zocial icon facebook"></a>
+                <a class="zocial icon google"></a>
+                <a class="zocial icon twitter"></a>
+            </div>
+        </div>
+    </div>
+    
+     <div style="height: 100px;"></div> 
+    
+     
+    
+    <div class="row-fluid">
+        <div class="span8 temp5">
+            <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
+            
+               
+        </div>
+        <div class="span4 temp5">
+            <div>
+                <input type="text" placeholder="Email-Adresse">
+                <input type="text" placeholder="Passwort">
+            </div>
+            <div>
+                <a class="zocial icon facebook"></a>
+                <a class="zocial icon google"></a>
+                <a class="zocial icon twitter"></a>
+            </div>
+        </div>
+    </div>
+    
+     <div style="height: 100px;"></div> 
+
+    <div class="row-fluid"">
+        <div class="span8 temp3">
+            <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
+            
+               
+        </div>
+        <div class="span4 temp3">
+            <div>
+                <input type="text" placeholder="Email-Adresse">
+                <input type="text" placeholder="Passwort">
+            </div>
+            <div>
+                <a class="zocial icon facebook"></a>
+                <a class="zocial icon google"></a>
+                <a class="zocial icon twitter"></a>
+            </div>
+        </div>
+    </div>
+    
+     <div style="height: 100px;"></div>   
+
+    <div class="row-fluid"">
+        <div class="span8 temp2">
+            <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
+            
+               
+        </div>
+        <div class="span4 temp2">
+            <div>
+                <input type="text" placeholder="Email-Adresse">
+                <input type="text" placeholder="Passwort">
+            </div>
+            <div>
+                <a class="zocial icon facebook"></a>
+                <a class="zocial icon google"></a>
+                <a class="zocial icon twitter"></a>
+            </div>
+        </div>
+    </div>
+    
+    <div style="height: 100px;"></div>   
+
+    <div class="row-fluid"">
+        <div class="span8 temp1">
+            <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
+            
+               
+        </div>
+        <div class="span4 temp1">
+            <div>
+                <input type="text" placeholder="Email-Adresse">
+                <input type="text" placeholder="Passwort">
+            </div>
+            <div>
+                <a class="zocial icon facebook"></a>
+                <a class="zocial icon google"></a>
+                <a class="zocial icon twitter"></a>
+            </div>
+        </div>
+    </div>
+    
+    <div style="height: 200px;"></div>   
                       
     <div class="hero-unit row" style="padding: 50px 50px 30px 50px; margin-top: -20px;" >
-        <h1 style="font-size:50px;">Willkommen</h1>
-        <p>Schön, dass Du da bist. Entscheide, was Dir wichtig ist und merke es Dir - für immer!</p>
-        <p><a class="btn primary large">Mehr Erfahren &raquo;</a></p>
+        <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
+        
+        
     </div>
     
     <div class="row" style="padding-left:50px; padding-top: 0px;">

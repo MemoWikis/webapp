@@ -1,0 +1,10 @@
+﻿div.menu {
+    font-size: 15px;
+    padding-top: 8px;
+}
+
+div.menu a{ text-decoration: none; width: 110px;display: block;}
+div.menu div.main a{ color: #B13A48; font-weight:700; }
+div.menu a:hover{ background-color: rgb(244, 244, 254); }
+div.menu div.main:hover{ background-color: rgb(244, 244, 254); }
+div.menu div.no-hover:hover{ background-color: transparent; }

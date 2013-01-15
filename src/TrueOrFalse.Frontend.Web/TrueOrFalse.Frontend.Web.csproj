@@ -394,6 +394,9 @@
     <Content Include="Style\smoothness\images\ui-icons_888888_256x240.png" />
     <Content Include="Style\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Style\smoothness\jquery-ui.css" />
+    <Content Include="Style\zocial\css\zocial-regular-webfont.svg" />
+    <Content Include="Style\zocial\css\zocial.css" />
+    <Content Include="Style\zocial\sample.html" />
     <Content Include="Views\Categories\Categories.css" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
     <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />
@@ -423,6 +426,10 @@
     <Content Include="Views\Shared\Site.MenuNo.Master" />
     <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
+    <Content Include="Style\zocial\css\zocial-regular-webfont.eot" />
+    <Content Include="Style\zocial\css\zocial-regular-webfont.ttf" />
+    <Content Include="Style\zocial\css\zocial-regular-webfont.woff" />
+    <Content Include="Style\zocial\README.md" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />
@@ -450,6 +457,7 @@
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
+    <Content Include="Views\Welcome\Color schemes Welcome.htm" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Login.aspx" />

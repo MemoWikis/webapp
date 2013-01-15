@@ -29,7 +29,7 @@ body {
     font-family: 'Pacifico', cursive;
     background: url('/images/toflogo.png') no-repeat right;
     padding-right: 72px;
-    color: #6C940C;
+    color: rgb(101, 101, 101);
 }
 
 
@@ -94,32 +94,4 @@ input[type="text"], input[type="password"], input[type="datetime"], input[type="
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
-}
-
-.temp4 {
-    padding: 15px;
-    color: #E7ECF6;
-    background-color: #2E487B;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-}
-
-.temp5 {
-    padding: 15px;
-    background-color: #E7ECF6;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    border-color: #2E487B;
-    border-style: solid;
-    border-width: 1px;
-}
-
-.temp6 {
-    padding: 15px;
-    background-color: #D3E7A1;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    
 }

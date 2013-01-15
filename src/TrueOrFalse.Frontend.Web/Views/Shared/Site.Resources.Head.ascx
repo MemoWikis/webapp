@@ -22,6 +22,8 @@
 <link href="/Style/site.css" rel="stylesheet" type="text/css" />
 <link href="/Style/menu.css" rel="stylesheet" type="text/css" />
 <link href="/Style/form.css" rel="stylesheet" type="text/css" />
+<link href="/Style/zocial/css/zocial.css" rel="stylesheet" type="text/css" /> <!--buttons for social login-->
+
 
 <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 

@@ -1,0 +1,43 @@
+﻿label
+{
+    font-size: 13px;
+    display:block;
+    float:left;
+    padding-right:10px;
+    line-height:20px;
+            
+}
+        
+textarea
+{
+    width: 400px;    
+    height: 80px;
+}
+
+h2.form-title 
+{   
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+h3.form-sub-title 
+{
+    padding-left:100px;
+    padding-top: 30px;
+    font-size: 1.3em;
+}
+
+
+.added-cat { float: left; margin-right: 1em; line-height: 28px }
+
+.added-cat a img {
+    padding-left: 4px;
+    margin-top: -4px;
+}
+
+.added-usr {
+    display: inline-block;
+    margin-right: 1em;
+}   
+
+.help-text{ padding-left: 180px; padding-bottom: 7px;}   
