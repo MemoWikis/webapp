@@ -20,5 +20,3 @@ src/TrueOrFalse.Frontend.Web/Web.overwritten.config
 src/TrueOrFalse.Tests/App.overwritten.config
 docs/diagrams-enterprise-architect.ldb
 src/TrueOrFalse.Frontend.Web/Images/Categories/
-src/TrueOrFalse.Frontend.Web/Views/Questions/QuestionsTs.min.js
-src/TrueOrFalse.Frontend.Web/Views/Questions/QuestionsTs.js
