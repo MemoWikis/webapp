@@ -25,10 +25,12 @@ public class WelcomeController : Controller
         _sessionUser = sessionUser;
     }
 
-    public ActionResult Welcome()
-    {
-        var model = new WelcomeModel();
-        return View(model);
+    public ActionResult Welcome(){
+        return View(new WelcomeModel());
+    }
+
+    public ActionResult Welcome2(){
+        return View(new WelcomeModel());
     }
 
     public ActionResult Register(){ return View(new RegisterModel()); }
