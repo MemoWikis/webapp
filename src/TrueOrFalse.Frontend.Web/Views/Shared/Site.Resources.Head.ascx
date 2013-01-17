@@ -23,7 +23,7 @@
 <link href="/Style/menu.css" rel="stylesheet" type="text/css" />
 <link href="/Style/form.css" rel="stylesheet" type="text/css" />
 <link href="/Style/zocial/css/zocial.css" rel="stylesheet" type="text/css" /> <!--buttons for social login-->
-
+<link href="/Style/font-awesome.min.css" rel="stylesheet" type="text/css" /> <%--http://fortawesome.github.com/Font-Awesome/--%>
 
 <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 

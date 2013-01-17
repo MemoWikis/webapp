@@ -44,7 +44,7 @@
         <text>1%2C%202%2C%203%2C%20%3E</text>
       </controlProperties>
     </control>
-    <control controlID="16" controlTypeID="com.balsamiq.mockups::CallOut" x="43" y="23" w="-1" h="-1" measuredW="73" measuredH="40" zOrder="11" locked="false" isInGroup="-1">
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::CallOut" x="43" y="23" w="-1" h="-1" measuredW="73" measuredH="43" zOrder="11" locked="false" isInGroup="-1">
       <controlProperties>
         <text>1%3A%20Initial</text>
       </controlProperties>

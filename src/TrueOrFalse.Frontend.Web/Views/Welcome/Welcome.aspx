@@ -8,6 +8,10 @@
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
     
+    <div class="well well-large well-transparent lead">
+        <i class="icon-spinner icon-spin icon-2x pull-left"></i> Spinner icon when loading content...
+      </div>
+    
     <div class="row-fluid">
         <div class="span8">
             <div class="teaser">

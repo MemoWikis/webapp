@@ -376,6 +376,8 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
     <Content Include="Style\bootstrap.css" />
+    <Content Include="Style\font-awesome.min.css" />
+    <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
     <Content Include="Style\fonts\OFL.txt" />
     <Content Include="Style\form.css" />
     <Content Include="Style\menu.css" />
@@ -430,6 +432,10 @@
     <Content Include="Style\zocial\css\zocial-regular-webfont.ttf" />
     <Content Include="Style\zocial\css\zocial-regular-webfont.woff" />
     <Content Include="Style\zocial\README.md" />
+    <Content Include="Style\fonts-awesome\fontawesome-webfont.eot" />
+    <Content Include="Style\fonts-awesome\fontawesome-webfont.ttf" />
+    <Content Include="Style\fonts-awesome\fontawesome-webfont.woff" />
+    <Content Include="Style\fonts-awesome\FontAwesome.otf" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />
