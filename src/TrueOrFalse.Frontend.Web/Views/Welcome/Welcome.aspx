@@ -7,21 +7,14 @@
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    
-    <div class="well well-large well-transparent lead">
-        <i class="icon-spinner icon-spin icon-2x pull-left"></i> Spinner icon when loading content...
-      </div>
-    
     <div class="row-fluid">
         <div class="span8">
             <div class="teaser">
-                <h1>Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
-                <a href="#">Mehr erfahren</a>
+                <h1>Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen. <a href="#"><i class="icon-circle-arrow-right" style="color: white;" ></i></a></h1>
             </div>
             <div class="teaser">
                 <h1 style="font-size:25px;">Wikipedia-Prinzip:</h1>
-                <h2>Open-Source, gemeinfreie Lizenz für Fragen und Inhalte</h2>
-                <a href="#">Mehr erfahren</a>
+                <h2>Open-Source, gemeinfreie Lizenz für Fragen und Inhalte <a href="#"><i class="icon-circle-arrow-right" style="color: white;" ></i></a></h2>
             </div>
             <div class="teaser">
                 <div class="question-short-row">
@@ -49,10 +42,7 @@
         </div>
     </div>
     
-    
-
-    
-     <div style="height: 100px;"></div> 
+    <div style="height: 100px;"></div> 
 
     <div class="row" style="padding-left:50px; padding-top: 0px;">
         <h3>
