@@ -1,0 +1,20 @@
+<configuration>
+  <system.web>
+    <healthMonitoring enabled="true" heartbeatInterval="0">
+      <profiles>
+        <add name="GibraltarProfile" minInstances="1" maxLimit="Infinite" minInterval="00:00:00"/>
+      </profiles>
+      <providers>
+        <add name="Gibraltar" type="Gibraltar.Agent.Web.GibraltarEventProvider, Gibraltar.Agent.Web"/>
+      </providers>
+      <rules>
+        <add name="Gibraltar Event Provider" eventName="All Events" provider="Gibraltar" profile="GibraltarProfile"/>
+      </rules>
+    </healthMonitoring>
+  </system.web>
+  <system.webServer>
+    <modules>
+      <add name="RequestTrackingModule" type="Gibraltar.Agent.Web.RequestTrackingModule, Gibraltar.Agent.Web"/>
+    </modules>
+  </system.webServer>
+</configuration>

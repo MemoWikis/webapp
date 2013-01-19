@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Glimpse.Mvc3</id>
+    <version>0.87</version>
+    <title>Glimpse for ASP.NET MVC3 (Beta)</title>
+    <authors>nmolnar, avanderhoorn</authors>
+    <owners>nmolnar, avanderhoorn</owners>
+    <licenseUrl>http://www.opensource.org/licenses/apache2.0</licenseUrl>
+    <projectUrl>http://getglimpse.com/</projectUrl>
+    <iconUrl>http://getglimpse.com/content/glimpse100.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ASP.NET MVC3 plugins for Glimpse. This package adds tabs for Routing, Binding, Views, Execution and Metadata diagnostics. (Beta)</description>
+    <summary>Glimpse plugin pack providing features useful for working with MVC3 applications.</summary>
+    <releaseNotes>Updated dependency to Glimpse 0.87</releaseNotes>
+    <tags>MVC MVC3 ASP.NET Web</tags>
+    <dependencies>
+      <dependency id="Glimpse" version="[0.87]" />
+    </dependencies>
+    <references>
+      <reference file="Glimpse.Mvc3.dll" />
+    </references>
+  </metadata>
+</package>

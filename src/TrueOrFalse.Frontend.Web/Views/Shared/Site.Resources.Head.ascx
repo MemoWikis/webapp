@@ -2,7 +2,7 @@
 
 <% if(Request.IsLocal){ %>        
     <link href="/Style/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
-    <script src="/Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery-1.8.3.min.js" type="text/javascript"></script>
     <script src="/Scripts/jquery-ui-1.8.17.min.js" type="text/javascript"></script>
     <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
     <script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>

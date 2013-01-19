@@ -110,14 +110,15 @@
        
     </div>
 
-    <% foreach (var row in Model.QuestionRows)
-        {
+    <% foreach (var row in Model.QuestionRows){
             Html.RenderPartial("QuestionRow", row);
-        } %>
+    } %>
     
      <% Html.RenderPartial("Pager", Model.Pager); %>
-     
-     
+    
+    
+    <% Html.RenderPartial("Modals/ToQuestionSet"); %>
+
      <% /* MODAL-DELETE****************************************************************/ %>
     <div id="modalDelete" class="modal hide fade">
         <div class="modal-header">

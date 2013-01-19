@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Glimpse</id>
+    <version>0.87</version>
+    <title>Glimpse for ASP.NET (Beta)</title>
+    <authors>nmolnar, avanderhoorn</authors>
+    <owners>nmolnar, avanderhoorn</owners>
+    <licenseUrl>http://www.opensource.org/licenses/apache2.0</licenseUrl>
+    <projectUrl>http://getglimpse.com/</projectUrl>
+    <iconUrl>http://getglimpse.com/content/glimpse100.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Glimpse is a web debugging and diagnostics tool used to gain a better understanding of whats happening inside of your ASP.NET 4.0 application. For ASP.NET MVC3 support, please NuGet Glimpse.MVC3. (Beta)</description>
+    <summary>ASP.NET 4.0 web debugging and diagnostics tool.</summary>
+    <releaseNotes>Bug fixes for duplicate and blank output.</releaseNotes>
+    <tags>ASP.NET Web WebForms</tags>
+    <references>
+      <reference file="Glimpse.Core.dll" />
+    </references>
+  </metadata>
+</package>
