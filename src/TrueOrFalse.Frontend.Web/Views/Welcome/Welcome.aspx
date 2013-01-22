@@ -10,13 +10,18 @@
     <div class="row-fluid">
         <div class="span8">
             <div class="teaser">
-                <h1>Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen. <a href="#"><i class="icon-circle-arrow-right" style="color: white;" ></i></a></h1>
+                <h1>
+                    <a href="#teaser1">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen. <i class="icon-circle-arrow-right" style="color: white;" ></i></a>
+                </h1>
             </div>
             <div class="teaser">
-                <h1 style="font-size:25px;">Wikipedia-Prinzip:</h1>
-                <h2>Open-Source, gemeinfreie Lizenz für Fragen und Inhalte <a href="#"><i class="icon-circle-arrow-right" style="color: white;" ></i></a></h2>
+                <h1>
+                    <a href="#teaser2">Wikipedia-Prinzip:<br />
+                    Open-Source, gemeinfreie Lizenz für Fragen und Inhalte <i class="icon-circle-arrow-right" style="color: white;" ></i></a>
+                </h1>
             </div>
             <div class="teaser">
+                <h2>Das sollte jeder wissen:</h2>
                 <div class="question-short-row">
                     <a class="question-short">"Wenn ich über die steuer- und erbrechtliche 
                         Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren." Wer hat das gesagt?
@@ -28,81 +33,99 @@
                     </a>
                 </div>
             </div>
-        </div>
-        <div class="span4 teaser">
-            <div>
-                <input type="text" placeholder="Email-Adresse">
-                <input type="text" placeholder="Passwort">
+
+            <div class="teaser">
+                <h2>Das könnte Ihr Leben retten:</h2>
+                <div class="question-short-row">
+                    <a class="question-short">"Wenn ich über die steuer- und erbrechtliche 
+                        Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren." Wer hat das gesagt?
+                    </a>
+                </div>
+                <div class="question-short-row">
+                    <a class="question-short">
+                        Wieviele Mitarbeiter arbeiten bei der Deutschen Bahn?
+                    </a>
+                </div>
             </div>
-            <div>
-                <a class="zocial icon facebook"></a>
-                <a class="zocial icon google"></a>
-                <a class="zocial icon twitter"></a>
+            
+            <div class="teaser">
+                <h2>Die schwierigsten Fragen: (am häufigsten falsch)</h2>
+                <div class="question-short-row">
+                    <a class="question-short">"Wenn ich über die steuer- und erbrechtliche 
+                        Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren." Wer hat das gesagt?
+                    </a>
+                </div>
+                <div class="question-short-row">
+                    <a class="question-short">
+                        Wieviele Mitarbeiter arbeiten bei der Deutschen Bahn?
+                    </a>
+                </div>
+            </div>
+            <div class="teaser box1">
+                <h2>Box-Template 1</h2>
+                    <div class="box-content" style="height:40px;"></div>
+            </div>
+            <div class="teaser box2">
+                <h2>Box-Template 2</h2>
+                    <div class="box-content" style="height:40px;"></div>
+            </div>
+            <div class="teaser box2">
+                <h2>Box-Template 3</h2>
+                    <div class="box-content box3" style="height:40px;"></div>
+            </div>
+            <div class="teaser box2">
+                <h2>Box-Template 4</h2>
+                    <div class="box-content box4" style="height:40px;"></div>
+            </div>
+            <div class="teaser box2">
+                <h2>Box-Template 5</h2>
+                    <div class="box-content box5" style="height:40px;"></div>
+            </div>
+            <div class="teaser box1">
+                <h2>Box-Template 6</h2>
+                    <div class="box-content box4" style="height:40px;"></div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="teaser">                
+                <div>
+                    <input type="text" placeholder="Email-Adresse">
+                    <input type="text" placeholder="Passwort">
+                </div>
+                <div>
+                    <a class="zocial icon facebook"></a>
+                    <a class="zocial icon google"></a>
+                    <a class="zocial icon twitter"></a>
+                </div>
+            </div>
+            
+            <div class="teaser">
+                <h2>Top Fragesätze</h2>
+                <div class="question-short-row">
+                    <a class="question-short">"Wenn ich über die steuer- und erbrechtliche 
+                        Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren." Wer hat das gesagt?
+                    </a>
+                </div>
+            </div>
+            <div class="teaser">
+                <h2>Top Kategorien</h2>
+                <div class="question-short-row">
+                    <a class="question-short">"Wenn ich über die steuer- und erbrechtliche 
+                        Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren." Wer hat das gesagt?
+                    </a>
+                </div>
             </div>
         </div>
     </div>
     
-    <div style="height: 100px;"></div> 
-
-    <div class="row" style="padding-left:50px; padding-top: 0px;">
-        <h3>
-            "Wenn ich über die steuer- und erbrechtliche 
-            Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren."<br/>
-        </h3>
-        Wer hat das gesagt: 
-        <span class="label label-success">Jörg Heider</span>
-        <span class="label label-success">Helmut Kohl</span>
-        <span class="label label-success">Edmund Stoiber</span>
-    </div>
+    <h1><a name="teaser1">Über Richtig-oder-Falsch</a></h1>
+    <p>
+        djlköasdf
+        adfads
+        fasdfasdfasdfasdkjfölk
+    </p>
+    <h1><a name="teaser2">Wikipedia Prinzip</a></h1>
     
-    <div class="row" style="padding-left:50px; padding-top:30px;">
-        <h3>
-            Welches Auto ist in der Grundausstattung teurer:
-        </h3>
-        
-        <span class="label label-info">BMW 318i</span> oder 
-        <span class="label label-info">Golf GTI</span> ?
-    </div>
-    
-    <div class="row" style="padding-left:50px; padding-top:30px;">
-        <h3>
-            Wieviele Mitarbeiter arbeiten bei der Deutschen-Bahn?
-        </h3>
-        
-        <form class="form-search">
-            <div class="control-group">
-                Deine Antwort:
-                <input type="text" class="input-medium" style="width: 50px;">
-                <button class="btn">Antworten</button> (bis zu 20% Abweichung zugelassen)
-             </div>
-         </form>        
-    </div>
-    
-    <div class="row" style="padding-left:50px; padding-top:30px;">
-        <h3>
-            Welcher Politiker hat die 1. deutsche Autobahn eingeweiht?
-        </h3>
-        
-        <span class="label label-important">Adolf Hitler</span>, 
-        <span class="label label-important">Konrad Adenauer</span> oder
-        <span class="label label-important">Helmut Ebron</span> ?
-    </div>
-
-
-<%--    <div class="row">
-        <h3>Spannende Fragen 1</h3>  
-
-		<%foreach(var question in Model.MostPopular){ %>
-			<div><%= question.Text %></div>
-		<%} %>
-    </div>
-
-    <div class="row">
-        <h3>Spannende Fragen 2</h3>  
-		<%foreach(var question in Model.MostPopular){ %>
-			<div><%= question.Text %></div>
-		<%} %>        
-    </div>  --%>
-
+    <div style="height: 100px;"></div>
 
 </asp:Content>
