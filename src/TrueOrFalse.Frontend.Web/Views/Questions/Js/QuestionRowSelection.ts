@@ -1,4 +1,4 @@
-/// <reference path="../../Scripts/jquery.d.ts" />
+/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
 class QuestionRow 
 {

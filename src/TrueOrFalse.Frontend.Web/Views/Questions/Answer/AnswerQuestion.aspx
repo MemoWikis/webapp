@@ -43,20 +43,13 @@
 
     <div class="row" style="min-height: 400px;">
         <div class="span5 ">
-            
-            <div class="row" style="padding-bottom: 20px;">
-                <div style="float:left"><h2>Frage beantworten</h2></div>                
-                <br style="line-height: 10px;"/>
-            </div>
-            
-            <h3 class="questionBlockWidth row" style="padding-bottom:12px;"><%= Model.QuestionText %></h3>
+            <p class="questionBlockWidth row" style="padding-bottom:12px; margin-top:10px; font-size: 22px;"><%= Model.QuestionText %></p>
             
             <% if (Model.HasImage) { %>
                 <img src="<%:String.Format(Model.ImageUrl, 500) %>"/>
             <% } %>
             
-            <% if (Model.HasSound)
-            {
+            <% if (Model.HasSound){
                 Html.RenderPartial("AudioPlayer", Model.SoundUrl);
             } %>
 

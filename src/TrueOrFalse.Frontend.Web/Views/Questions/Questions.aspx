@@ -4,9 +4,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Questions/Questions.css" rel="stylesheet" />
-    <script src="/Views/Questions/SelectUsers.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Questions.js" type="text/javascript"></script>
-    <script src="/Views/Questions/QuestionsTs.js" type="text/javascript"></script>
+    <script src="/Views/Questions/Js/SelectUsers.js" type="text/javascript"></script>
+    <script src="/Views/Questions/Js/Questions.js" type="text/javascript"></script>
+    <script src="/Views/Questions/Js/QuestionRowDelete.min.js" type="text/javascript"></script>
+    <script src="/Views/Questions/Js/QuestionRowSelection.min.js" type="text/javascript"></script>
+    <script src="/Views/Questions/Js/ToQuestionSet.min.js" type="text/javascript"></script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -118,23 +120,7 @@
     
     
     <% Html.RenderPartial("Modals/ToQuestionSet"); %>
-
-     <% /* MODAL-DELETE****************************************************************/ %>
-    <div id="modalDelete" class="modal hide fade">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">×</button>
-            <h3>Frage löschen</h3>
-        </div>
-        <div class="modal-body">
-            <div class="alert alert-error">
-                Die Frage <b>'<span id="spanQuestionTitle"></span>'</b> wird unwiederbringlich gelöscht. Alle damit verknüpften Daten werden entfernt! 
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" id="btnCloseQuestionDelete">Schliessen</a>
-            <a href="#" class="btn btn-primary btn-danger" id="confirmQuestionDelete">Löschen</a>
-        </div>
-    </div>
+    <% Html.RenderPartial("Modals/DeleteQuestion"); %>
     
     <% /* MODAL-TAB-INFO-MyKnowledge****************************************************************/ %>
     
