@@ -73,3 +73,43 @@ input[type="text"], input[type="password"], input[type="datetime"], input[type="
     color: #2E487B;
 }
 
+
+/*Boxes
+---------------------------------------------------------*/
+
+.box {
+    background-color: #E7ECF6;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+.box h1, .box h2 {
+    margin: 0px;
+}
+
+.box h1 {
+    font-size: 20px;
+    line-height: 140%;
+}
+
+.box h2 {
+    font-size: 14px;
+}
+
+div.box h2 {
+    line-height: 180%;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+div.box-content {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin: -3px;
+    margin-top: 0px;
+    background-color: white;
+    padding: 5px;
+    }
