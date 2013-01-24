@@ -6,8 +6,7 @@ namespace TrueOrFalse
     public class QuestionSetRepository : RepositoryDb<QuestionSet>
     {
         public QuestionSetRepository(ISession session)
-            : base(session)
-        {
-        }
+            : base(session){}
+
     }
 }

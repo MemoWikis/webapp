@@ -8,12 +8,13 @@
     <script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
 <% }else{ %>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js" type="text/javascript"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
 <% } %>
 
+<script src="/Scripts/underscore-1.4.3.min.js" type="text/javascript"></script>
 <script src="/Scripts/lib.js" type="text/javascript"></script>
 <script src="/Scripts/jquery.sparkline.min.js" type="text/javascript"></script>
 

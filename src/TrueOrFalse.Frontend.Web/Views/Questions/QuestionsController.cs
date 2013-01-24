@@ -92,18 +92,30 @@ public class QuestionsController : BaseController
         var question = _questionRepository.GetById(questionId);
 
         return new JsonResult{
-            Data = new
-                       {
-                           questionTitle = question.Text.WordWrap(50),
-                           totalAnswers = question.TotalAnswers()
-                       }
+            Data = new{
+                questionTitle = question.Text.WordWrap(50),
+                totalAnswers = question.TotalAnswers()
+            }
         };
     }
 
-    [HttpPost] 
+    [HttpPost]
     public EmptyResult Delete(int questionId)
     {
         Sl.Resolve<QuestionDeleter>().Run(questionId);
         return new EmptyResult();
+    }
+
+    [HttpPost]
+    public JsonResult GetQuestionSets()
+    {
+        var searchSpec = new QuestionSetSearchSpec{PageSize = 7};
+        var questionSets = Resolve<QuestionSetRepository>().GetBy(searchSpec);
+
+        return new JsonResult{
+            Data = new{
+               Sets = questionSets.Select(s => new{Id = s.Id, Name = s.Name})
+            }
+        };
     }
 }

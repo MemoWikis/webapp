@@ -27,10 +27,6 @@ div.column-3 div.row {
 div.selected-row { background-color: #E7ECF6;}
 div.selected-row:hover { background-color: #d6e0f4;}
 
-.modal.fade {
-    -webkit-transition: none;
-    -moz-transition: none;
-    -ms-transition: none;
-    -o-transition: none;
-    transition: none;
-}
+.modal.fade {-webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none; transition: none}
+
+.tsqRow:hover{ background-color: #f3f5f8;cursor: pointer;}

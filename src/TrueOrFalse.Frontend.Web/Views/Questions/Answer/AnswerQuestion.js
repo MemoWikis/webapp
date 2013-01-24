@@ -107,7 +107,7 @@ function SendSilderValue(sliderName, value) {
             $("#span" + sliderName + "Count").text(result.totalValuations.toString());
             $("#span" + sliderName + "Average").text(result.totalAverage.toString());
         }
-    });    
+    });
 }
 
 

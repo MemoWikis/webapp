@@ -9,7 +9,7 @@
     <script src="/Views/Questions/Js/Page.min.js" type="text/javascript"></script>
     <script src="/Views/Questions/Js/QuestionRowDelete.min.js" type="text/javascript"></script>
     <script src="/Views/Questions/Js/QuestionRowSelection.min.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/ToQuestionSet.min.js" type="text/javascript"></script>
+    <script src="/Views/Questions/Js/ToQuestionSet.js" type="text/javascript"></script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

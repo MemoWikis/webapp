@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
+    [DebuggerDisplay("Id={Id} Name={Name}")]
     public class QuestionSet : DomainEntity
     {
         public virtual string Name { get; set; }

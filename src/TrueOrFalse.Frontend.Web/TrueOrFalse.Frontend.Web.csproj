@@ -247,6 +247,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\underscore-1.4.3.min.js" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
@@ -496,7 +497,6 @@
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
-    <Content Include="Views\Welcome\Color schemes Welcome.htm" />
     <Content Include="Views\Welcome\Welcome.css" />
     <Content Include="Views\Welcome\Welcome2.aspx" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
