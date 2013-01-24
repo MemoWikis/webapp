@@ -6,6 +6,7 @@
     <link href="/Views/Questions/Questions.css" rel="stylesheet" />
     <script src="/Views/Questions/Js/SelectUsers.js" type="text/javascript"></script>
     <script src="/Views/Questions/Js/Questions.js" type="text/javascript"></script>
+    <script src="/Views/Questions/Js/Page.min.js" type="text/javascript"></script>
     <script src="/Views/Questions/Js/QuestionRowDelete.min.js" type="text/javascript"></script>
     <script src="/Views/Questions/Js/QuestionRowSelection.min.js" type="text/javascript"></script>
     <script src="/Views/Questions/Js/ToQuestionSet.min.js" type="text/javascript"></script>

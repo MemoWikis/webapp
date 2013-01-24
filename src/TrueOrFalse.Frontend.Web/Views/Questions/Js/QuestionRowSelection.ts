@@ -1,4 +1,7 @@
+/// <reference path="Page.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+
+declare var rowSelector: RowSelector;
 
 class QuestionRow 
 {
@@ -59,7 +62,7 @@ class Checkbox extends QuestionRow
 
 class RowSelector{
     
-    Rows= new Array();
+    Rows = new Array();
 
     Count() { 
         return this.Rows.length;
@@ -172,18 +175,14 @@ class RowSelector{
         }
         return false;
     }
-
 }
 
 $(function () {
-    
-    var rs = new RowSelector();
-    
-    $('.selectQuestion').change(function(){rs.Toggle(new Checkbox($(this)));});
-    $('#selectAll').click(function () { rs.SelectAll(); });
-    $('#selectNone').click(function () { rs.DeselecttAll(); });
-    $('#selectMemorizedByMe').click(function () { rs.SelectAllMemorizedByMe(); });
-    $('#selectCreatedByMe').click(function () { rs.SelectAllWhereIAmOwner(); });
+    $('.selectQuestion').change(function(){_page.RowSelector.Toggle(new Checkbox($(this)));});
+    $('#selectAll').click(function () { _page.RowSelector.SelectAll(); });
+    $('#selectNone').click(function () { _page.RowSelector.DeselecttAll(); });
+    $('#selectMemorizedByMe').click(function () { _page.RowSelector.SelectAllMemorizedByMe(); });
+    $('#selectCreatedByMe').click(function () { _page.RowSelector.SelectAllWhereIAmOwner(); });
     $('#selectedNotMemorizedByMe').click(function () { });
-    $('#selectNotCraetedByMe').click(function () { rs.SelectAllWhereIAmNotOwner(); });
+    $('#selectNotCraetedByMe').click(function () { _page.RowSelector.SelectAllWhereIAmNotOwner(); });
 });

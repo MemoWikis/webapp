@@ -422,6 +422,13 @@
     <Content Include="Views\QuestionSets\QuestionSets.js" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowDelete.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
+    <Content Include="Views\Questions\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\Page.min.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Js\QuestionRowDelete.js">
       <DependentUpon>QuestionRowDelete.ts</DependentUpon>
     </Content>

@@ -146,25 +146,24 @@ var RowSelector = (function () {
     return RowSelector;
 })();
 $(function () {
-    var rs = new RowSelector();
     $('.selectQuestion').change(function () {
-        rs.Toggle(new Checkbox($(this)));
+        _page.RowSelector.Toggle(new Checkbox($(this)));
     });
     $('#selectAll').click(function () {
-        rs.SelectAll();
+        _page.RowSelector.SelectAll();
     });
     $('#selectNone').click(function () {
-        rs.DeselecttAll();
+        _page.RowSelector.DeselecttAll();
     });
     $('#selectMemorizedByMe').click(function () {
-        rs.SelectAllMemorizedByMe();
+        _page.RowSelector.SelectAllMemorizedByMe();
     });
     $('#selectCreatedByMe').click(function () {
-        rs.SelectAllWhereIAmOwner();
+        _page.RowSelector.SelectAllWhereIAmOwner();
     });
     $('#selectedNotMemorizedByMe').click(function () {
     });
     $('#selectNotCraetedByMe').click(function () {
-        rs.SelectAllWhereIAmNotOwner();
+        _page.RowSelector.SelectAllWhereIAmNotOwner();
     });
 });
