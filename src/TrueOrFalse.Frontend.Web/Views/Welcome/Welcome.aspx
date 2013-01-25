@@ -52,30 +52,7 @@
                     <% } %>
                 </div>
             </div>
-            <div class="teaser box1">
-                <h2>Box-Template 1</h2>
-                    <div class="box-content1" style="height:40px;"></div>
-            </div>
-            <div class="teaser box2">
-                <h2>Box-Template 2</h2>
-                    <div class="box-content1" style="height:40px;"></div>
-            </div>
-            <div class="teaser box2">
-                <h2>Box-Template 3</h2>
-                    <div class="box-content1 box3" style="height:40px;"></div>
-            </div>
-            <div class="teaser box2">
-                <h2>Box-Template 4</h2>
-                    <div class="box-content1 box4" style="height:40px;"></div>
-            </div>
-            <div class="teaser box2">
-                <h2>Box-Template 5</h2>
-                    <div class="box-content1 box5" style="height:40px;"></div>
-            </div>
-            <div class="teaser box1">
-                <h2>Box-Template 6</h2>
-                    <div class="box-content1 box4" style="height:40px;"></div>
-            </div>
+         
         </div>
         <div class="span4">
             <div class="box">

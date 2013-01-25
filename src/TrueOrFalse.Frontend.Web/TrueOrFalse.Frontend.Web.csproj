@@ -248,6 +248,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\underscore-1.4.3.min.js" />
+    <Compile Include="Views\Drafts\DraftsController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
@@ -411,6 +412,8 @@
     <Content Include="Style\zocial\css\zocial.css" />
     <Content Include="Style\zocial\sample.html" />
     <Content Include="Views\Categories\Categories.css" />
+    <Content Include="Views\Drafts\Boxes.aspx" />
+    <Content Include="Views\Drafts\Boxes.css" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
     <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />
     <Content Include="Views\QuestionSets\QuestionSets.aspx" />
