@@ -3,9 +3,6 @@
         $('#btnSelectionToSet').click(function () {
             _page.ToQuestionSetModal.Show();
         });
-        $('#tsqBtnConfirm').click(function () {
-            _page.ToQuestionSetModal.Show();
-        });
     }
     ToQuestionSetModal.prototype.Show = function () {
         this.Populate();
@@ -15,6 +12,8 @@
         $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufügen");
         var setResult = GetQuestionSetsForUser.Run();
         this.Sets = setResult.Sets;
+        $("#tqsSuccess").hide();
+        $("#tqsSuccessFooter").hide();
         if(setResult.TotalSets == 0) {
             $("#tqsBody").hide();
             $("#tqsNoSetsBody").show(200);
@@ -24,16 +23,14 @@
             $("#tqsNoSetsFooter").hide();
             $("#tqsBody").show(200);
             $("#tqsTextSelectSet").show();
-            $("#tsqBtnConfirm").hide();
             var template = $("#tsqRowTemplate");
             $("[data-questionSetId]").remove();
             for(var i = 0; i < setResult.Sets.length; i++) {
                 var newRow = template.clone().removeAttr("id").removeClass("hide");
                 newRow.attr("data-questionSetId", setResult.Sets[i].Id);
                 newRow.html(newRow.html().replace("{Name}", setResult.Sets[i].Name));
-                var outerScope = this;
                 newRow.click(function () {
-                    outerScope.SelectQuestion($(this));
+                    _page.ToQuestionSetModal.SelectQuestion($(this));
                 });
                 $("#tsqRowContainer").append(newRow);
             }
@@ -45,13 +42,9 @@
             return pSet.Id == id;
         });
         var text = _page.RowSelector.Rows.length + " Fragen zu '" + questionSet[0].Name + "' hinzufügen";
-        $("#tqsTextSelectSet").hide();
-        $("#tsqBtnConfirm").html(text);
-        $("#tsqBtnConfirm").attr("data-questionSetId", id.toString());
-        $("#tsqBtnConfirm").show();
-    };
-    ToQuestionSetModal.prototype.AddToQuestionSet = function (bntAddToQuestionSet) {
-        alert();
+        $("#tqsSuccess").show();
+        $("#tqsSuccessFooter").show();
+        $("#tqsBody").hide();
     };
     return ToQuestionSetModal;
 })();

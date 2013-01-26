@@ -247,6 +247,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\underscore-1.4.3.min.js" />
     <Compile Include="Views\Drafts\DraftsController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
@@ -361,7 +362,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\google-code-prettify\prettify.css" />
     <Content Include="Scripts\google-code-prettify\prettify.js" />
-    <Content Include="Scripts\highcharts.js" />
     <Content Include="Scripts\Jplayer.swf" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.3.js" />

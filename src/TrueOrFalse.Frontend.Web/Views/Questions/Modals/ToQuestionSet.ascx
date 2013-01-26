@@ -12,20 +12,22 @@
         </div>
     </div>
     <div class="modal-body hide" id="tqsBody">
-        <div id="tqsTextSelectSet" class="alert-info">
+        <div id="tqsTextSelectSet" class="alert-info" style="padding: 5px;">
           <strong>Bitte wählen Sie einen Fragesatz</strong> 
         </div>
-        <a href="#" id="tsqBtnConfirm" class="btn hide">4 Fragen zu "X Fragen zur Tageschau, alles was Sie wissen wollten" hinzufügen</a>
-
         <div style="padding-top: 7px;" id="tsqRowContainer">
             <div id="tsqRowTemplate" class="tsqRow hide">{Name}</div>
         </div>
     </div>
     <div class="modal-body hide" id="tqsSuccess">
-        <div class="alert-success">
-          <strong>2 Fragen wurden zum Fragesatz "asdfasdf"</strong>
-        </div>        
+        <div class="alert-success" style="padding: 5px;">
+          <strong>2 Fragen wurden zum Fragesatz "asdfasdf" hinzugefügt</strong>
+        </div>
     </div> 
+    <div class="modal-footer hide" id="tqsSuccessFooter">
+        <a href="#" class="btn" data-dismiss="modal">Schließen</a>
+    </div>    
+
     <div class="modal-body hide" id="tqsNoSetsBody">
         <div class="alert">
           <strong>Noch keine Fragesätze angelegt.</strong> 
