@@ -1,27 +1,30 @@
-var ToQuestionSetModal = (function () {
+﻿var ToQuestionSetModal = (function () {
     function ToQuestionSetModal() {
         $('#btnSelectionToSet').click(function () {
             _page.ToQuestionSetModal.Show();
         });
-        this.Populate();
+        $('#tsqBtnConfirm').click(function () {
+            _page.ToQuestionSetModal.Show();
+        });
     }
     ToQuestionSetModal.prototype.Show = function () {
         this.Populate();
         $('#modalToQuestionSet').modal('show');
     };
     ToQuestionSetModal.prototype.Populate = function () {
+        $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufügen");
         var setResult = GetQuestionSetsForUser.Run();
         this.Sets = setResult.Sets;
         if(setResult.TotalSets == 0) {
             $("#tqsBody").hide();
-            $("#tqsFooter").hide();
             $("#tqsNoSetsBody").show(200);
             $("#tqsNoSetsFooter").show(200);
         } else {
             $("#tqsNoSetsBody").hide();
             $("#tqsNoSetsFooter").hide();
             $("#tqsBody").show(200);
-            $("#tqsFooter").show(200);
+            $("#tqsTextSelectSet").show();
+            $("#tsqBtnConfirm").hide();
             var template = $("#tsqRowTemplate");
             $("[data-questionSetId]").remove();
             for(var i = 0; i < setResult.Sets.length; i++) {
@@ -37,9 +40,18 @@ var ToQuestionSetModal = (function () {
         }
     };
     ToQuestionSetModal.prototype.SelectQuestion = function (questionSetRow) {
-        var id = questionSetRow.attr("data-questionSetId");
-        this.Sets.map;
-        alert(id.toString());
+        var id = parseInt(questionSetRow.attr("data-questionSetId"));
+        var questionSet = _.filter(this.Sets, function (pSet) {
+            return pSet.Id == id;
+        });
+        var text = _page.RowSelector.Rows.length + " Fragen zu '" + questionSet[0].Name + "' hinzufügen";
+        $("#tqsTextSelectSet").hide();
+        $("#tsqBtnConfirm").html(text);
+        $("#tsqBtnConfirm").attr("data-questionSetId", id.toString());
+        $("#tsqBtnConfirm").show();
+    };
+    ToQuestionSetModal.prototype.AddToQuestionSet = function (bntAddToQuestionSet) {
+        alert();
     };
     return ToQuestionSetModal;
 })();
@@ -72,7 +84,6 @@ var GetQuestionSetsForUser = (function () {
             },
             success: function (r) {
                 for(var i = 0; i < r.Sets.length; i++) {
-                    console.log(r.Sets[i]);
                     result.TotalSets = r.Total;
                     result.CurrentPage = r.Total;
                     result.Sets.push(new QuestionSet(r.Sets[i].Id, r.Sets[i].Name));

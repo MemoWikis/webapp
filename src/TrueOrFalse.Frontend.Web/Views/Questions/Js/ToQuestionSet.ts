@@ -8,10 +8,8 @@ class ToQuestionSetModal {
     Sets: QuestionSet[];
 
     constructor() { 
-        $('#btnSelectionToSet').click(function () {
-            _page.ToQuestionSetModal.Show();
-        });
-        this.Populate();
+        $('#btnSelectionToSet').click(function () {_page.ToQuestionSetModal.Show();});
+        $('#tsqBtnConfirm').click(function () { _page.ToQuestionSetModal.Show(); });
     }
 
     Show() {
@@ -20,18 +18,20 @@ class ToQuestionSetModal {
     }
 
     Populate() { 
+        $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufügen");
+        
         var setResult = GetQuestionSetsForUser.Run();
         this.Sets = setResult.Sets;
         if (setResult.TotalSets == 0) {
             $("#tqsBody").hide();
-            $("#tqsFooter").hide();
             $("#tqsNoSetsBody").show(200);
             $("#tqsNoSetsFooter").show(200);
         } else {
             $("#tqsNoSetsBody").hide();
             $("#tqsNoSetsFooter").hide();
             $("#tqsBody").show(200);
-            $("#tqsFooter").show(200);
+            $("#tqsTextSelectSet").show();
+            $("#tsqBtnConfirm").hide()
 
             var template = $("#tsqRowTemplate");
 
@@ -49,10 +49,21 @@ class ToQuestionSetModal {
     }
 
     SelectQuestion(questionSetRow: JQuery) {
-        var id = questionSetRow.attr("data-questionSetId");
+        var id = parseInt(questionSetRow.attr("data-questionSetId"));
 
-        this.Sets.map
-        alert(id.toString())
+        var questionSet = _.filter(this.Sets, 
+            function(pSet) { return pSet.Id == id; });
+
+        var text =  _page.RowSelector.Rows.length + " Fragen zu '" + questionSet[0].Name + "' hinzufügen";
+
+        $("#tqsTextSelectSet").hide();
+        $("#tsqBtnConfirm").html(text);
+        $("#tsqBtnConfirm").attr("data-questionSetId", id.toString());
+        $("#tsqBtnConfirm").show();
+    }
+
+    AddToQuestionSet(bntAddToQuestionSet: JQuery) { 
+        alert();
     }
 }
 
@@ -81,7 +92,6 @@ class GetQuestionSetsForUser {
             error: function (error) { console.log(error) },
             success: function (r) {
                 for (var i = 0; i < r.Sets.length; i++) { 
-                    console.log(r.Sets[i])
                     result.TotalSets = r.Total;
                     result.CurrentPage = r.Total;
                     result.Sets.push(

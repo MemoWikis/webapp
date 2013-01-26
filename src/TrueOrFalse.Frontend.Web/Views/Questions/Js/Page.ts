@@ -11,9 +11,6 @@ class Page
     Init() {
         this.RowSelector = new RowSelector();
         this.ToQuestionSetModal = new ToQuestionSetModal();
-        $('#modalToQuestionSet').modal({
-            show: true
-        });
     }
   
 }

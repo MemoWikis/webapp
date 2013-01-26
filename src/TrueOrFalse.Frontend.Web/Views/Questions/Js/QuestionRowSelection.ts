@@ -1,8 +1,6 @@
 /// <reference path="Page.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
-declare var rowSelector: RowSelector;
-
 class QuestionRow 
 {
     Row: JQuery;
