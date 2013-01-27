@@ -11,7 +11,7 @@
         <div class="span8">
             <div class="box">
                 <h1>
-                    <a href="#teaser1">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen. <i class="icon-circle-arrow-right" style="color: white;" ></i></a>
+                    <a href="#teaser1">Richtig-oder-Falsch ist eine Lern- und Wissensplattform. Sammle Wissen und teile es mit anderen. <i class="icon-circle-arrow-right" style="color: white;" ></i></a>
                 </h1>
             </div>
             <div class="box">
@@ -94,9 +94,10 @@
     
     <h1><a name="teaser1">Über Richtig-oder-Falsch</a></h1>
     <p>
-        djlköasdf
-        adfads
-        fasdfasdfasdfasdkjfölk
+        <ul>
+            <li>Effizientes Lernen</li>
+            <li>Persönliches Wissensmanagement</li>
+        </ul>
     </p>
     <h1><a name="teaser2">Wikipedia Prinzip</a></h1>
     
