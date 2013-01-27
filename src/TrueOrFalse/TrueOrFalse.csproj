@@ -133,6 +133,8 @@
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Ops\CreateKnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryItemMap.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryRepository.cs" />
+    <Compile Include="Domain\QuestionSet\Ops\AddToQuestionSetResult.cs" />
+    <Compile Include="Domain\QuestionSet\Ops\AddToQuestionSet.cs" />
     <Compile Include="Domain\QuestionSet\QuestionSet.cs" />
     <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\QuestionSetMap.cs" />
     <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\QuestionSetRepository.cs" />

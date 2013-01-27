@@ -42,13 +42,13 @@ class ToQuestionSetModal {
                 var newRow = template.clone().removeAttr("id").removeClass("hide");
                 newRow.attr("data-questionSetId", setResult.Sets[i].Id);
                 newRow.html(newRow.html().replace("{Name}", setResult.Sets[i].Name));
-                newRow.click(function () { _page.ToQuestionSetModal.SelectQuestion($(this)) });
+                newRow.click(function () { _page.ToQuestionSetModal.AddToSet($(this)) });
                 $("#tsqRowContainer").append(newRow);
             }
         }
     }
 
-    SelectQuestion(questionSetRow: JQuery) {
+    AddToSet(questionSetRow: JQuery) {
         var id = parseInt(questionSetRow.attr("data-questionSetId"));
 
         var questionSet = _.filter(this.Sets, 
@@ -56,6 +56,8 @@ class ToQuestionSetModal {
 
         var text =  _page.RowSelector.Rows.length + " Fragen zu '" + 
             questionSet[0].Name + "' hinzufügen";
+
+        SendQuestionsToAdd.Run();
 
         $("#tqsSuccess").show();
         $("#tqsSuccessFooter").show();
@@ -98,5 +100,25 @@ class GetQuestionSetsForUser {
             }
         });
         return result;
+    }
+}
+
+class SendQuestionsToAddResult {
+    TotalSets = 0;
+    CurrentPage = 1;
+    Sets: QuestionSet[] = new QuestionSet[];
+}
+
+class SendQuestionsToAdd { 
+    static Run() { 
+        $.ajax({
+            type: 'POST', async: false, cache: false,
+            url: "/Questions/AddToQuestionSet/",
+            data: "{ name: 'John', time: '2pm' }",
+            error: function (error) { console.log(error) },
+            success: function (r) { }
+        });
+
+        return new SendQuestionsToAddResult();
     }
 }

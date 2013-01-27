@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Seedworks.Lib;
 using TrueOrFalse;
 
@@ -117,5 +118,15 @@ public class QuestionsController : BaseController
                Sets = questionSets.Select(s => new{Id = s.Id, Name = s.Name})
             }
         };
+    }
+
+    [HttpPost]
+    public JsonResult AddToQuestionSet()
+    {
+        //Resolve<AddToQuestionSet>().Run()
+
+        var obj = new JavaScriptSerializer().DeserializeObject(Request.Form[0]);
+
+        return new JsonResult();
     }
 }
