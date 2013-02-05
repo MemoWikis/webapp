@@ -3,7 +3,7 @@
 
 
 <div class="row question-row" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
-    <div class="column-1" style="line-height: 15px; font-size: 90%;"  data-questionId="<%= Model.QuestionId %>" >
+    <div class="column-1" style="line-height: 15px; font-size: 90%;" data-questionId="<%= Model.QuestionId %>" >
         
         <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
@@ -53,11 +53,11 @@
         
         <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
             <% if (Model.IsOwner){%>
-            <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
+                <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
-            <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}) %>">
-                <img src="/Images/edit.png"/> 
-            </a>
+                <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}) %>">
+                    <img src="/Images/edit.png"/> 
+                </a>
             <% } %>
         </div>
         <div style="text-align: right; width: 150px; position: absolute; bottom:0px; right: 10px;">

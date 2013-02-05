@@ -9,7 +9,7 @@ namespace TrueOrFalse
     public class AddToQuestionSetResult
     {
         public QuestionSet Set;
-        public int AmountAddQuestions;
+        public int AmountAddedQuestions;
         public int AmountOfQuestionsAlreadyInSet; 
     }
 }

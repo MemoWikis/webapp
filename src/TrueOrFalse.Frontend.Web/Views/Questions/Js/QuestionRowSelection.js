@@ -6,7 +6,7 @@ var __extends = this.__extends || function (d, b) {
 var QuestionRow = (function () {
     function QuestionRow(divRow) {
         this.Row = divRow;
-        this.QuestionId = ~this.Row.attr("data-questionId");
+        this.QuestionId = parseInt(this.Row.attr("data-questionId"));
     }
     QuestionRow.prototype.SetCssClassSelected = function () {
         this.Row.addClass("selected-row");
@@ -72,6 +72,7 @@ var RowSelector = (function () {
                 $("#btnSelectionDelete").show();
             }
         } else {
+            $("#selectionCount").html("");
             $("#btnSelectionToSet").hide();
             $("#btnSelectionDelete").hide();
         }

@@ -19,8 +19,6 @@ public class QuestionSetsController : BaseController
     {
         var questionSets = _questionSetRepo.GetBy(_sessionUiData.QuestionSetSearchSpec);
 
-
-
         return View(new QuestionSetsModel(questionSets, _sessionUser));
     }       
 }

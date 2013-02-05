@@ -8,7 +8,7 @@ class QuestionRow
      
     constructor (divRow: JQuery) {
         this.Row = divRow;
-        this.QuestionId = ~this.Row.attr("data-questionId");
+        this.QuestionId = parseInt(this.Row.attr("data-questionId"));
 	}
 
     SetCssClassSelected() { 
@@ -88,6 +88,7 @@ class RowSelector{
                 $("#btnSelectionDelete").show();
             }
         } else { 
+            $("#selectionCount").html("");
             $("#btnSelectionToSet").hide();
             $("#btnSelectionDelete").hide();
         }

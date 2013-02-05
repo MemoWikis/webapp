@@ -57,7 +57,7 @@ class ToQuestionSetModal {
         var text =  _page.RowSelector.Rows.length + " Fragen zu '" + 
             questionSet[0].Name + "' hinzufügen";
 
-        SendQuestionsToAdd.Run();
+        SendQuestionsToAdd.Run(id);
 
         $("#tqsSuccess").show();
         $("#tqsSuccessFooter").show();
@@ -110,13 +110,21 @@ class SendQuestionsToAddResult {
 }
 
 class SendQuestionsToAdd { 
-    static Run() { 
+    static Run(questionSetId) { 
+
+        var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr, a) { 
+            if (aggr.length == 0) 
+                return a.QuestionId
+
+            return aggr + "," + a.QuestionId; }, ""
+        );
+
         $.ajax({
             type: 'POST', async: false, cache: false,
             url: "/Questions/AddToQuestionSet/",
-            data: "{ name: 'John', time: '2pm' }",
+            data: questionIds + ":" + questionSetId,
             error: function (error) { console.log(error) },
-            success: function (r) { }
+            success: function (result) { console.log(result) }
         });
 
         return new SendQuestionsToAddResult();

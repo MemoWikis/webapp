@@ -24,7 +24,6 @@ public class EditQuestionSetModel : BaseModel
     [DisplayName("Beschreibung")]
     public string Text { get; set; }
 
-
     public QuestionSet ToQuestionSet()
     {
         var questionSet = new QuestionSet();
@@ -33,4 +32,11 @@ public class EditQuestionSetModel : BaseModel
         return questionSet;
     }
 
+    public EditQuestionSetModel(){}
+
+    public EditQuestionSetModel(QuestionSet set)
+    {
+        Title = set.Name;
+        Text = set.Text;
+    }
 }
