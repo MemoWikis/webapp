@@ -28,6 +28,18 @@ public class EditQuestionSetController : BaseController
         return View(_viewLocation, model);
     }
 
+    public ViewResult Edit(int id)
+    {
+        var set = Resolve<QuestionSetRepository>().GetById(id);
+        return View(_viewLocation, new EditQuestionSetModel(set));
+    }
+
+    [HttpPost]
+    public ViewResult Edit(int id, EditQuestionSetModel setModel)
+    {
+        return View(_viewLocation, setModel);
+    }
+
     public ActionResult Update()
     {
         return View(_viewLocation, new EditQuestionSetModel());

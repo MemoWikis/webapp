@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Seedworks.Lib;
@@ -123,10 +124,15 @@ public class QuestionsController : BaseController
     [HttpPost]
     public JsonResult AddToQuestionSet()
     {
-        //Resolve<AddToQuestionSet>().Run()
-
-        var obj = new JavaScriptSerializer().DeserializeObject(Request.Form[0]);
-
-        return new JsonResult();
+        var parts = Request.Form[0].Split(':');
+        var questionIds = parts[0].Split(',').Select(id => Convert.ToInt32(id)).ToArray();
+        var questionSetId = Convert.ToInt32(parts[1]);
+        
+        var result = Resolve<AddToQuestionSet>().Run(questionIds, questionSetId);
+        
+        return new JsonResult{ Data = new{
+            QuestionsAddedCount = result.AmountAddedQuestions,
+            QuestionAlreadyInSet = result.AmountOfQuestionsAlreadyInSet
+        }};
     }
 }

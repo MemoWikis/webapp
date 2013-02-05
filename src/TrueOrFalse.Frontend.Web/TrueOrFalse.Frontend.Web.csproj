@@ -273,6 +273,8 @@
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
+    <Compile Include="Views\QuestionSets\Detail\QuestionSetController.cs" />
+    <Compile Include="Views\QuestionSets\Detail\QuestionSetModel.cs" />
     <Compile Include="Views\QuestionSets\Edit\EditQuestionSetController.cs" />
     <Compile Include="Views\QuestionSets\Edit\EditQuestionSetModel.cs" />
     <Compile Include="Views\QuestionSets\QuestionSetRowModel.cs" />
@@ -421,6 +423,8 @@
     <Content Include="Views\Categories\Categories.css" />
     <Content Include="Views\Drafts\Boxes.aspx" />
     <Content Include="Views\Drafts\Boxes.css" />
+    <Content Include="Views\QuestionSets\Detail\QuestionSet.aspx" />
+    <Content Include="Views\QuestionSets\Detail\QuestionSet.css" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
     <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />
     <Content Include="Views\QuestionSets\QuestionSets.aspx" />

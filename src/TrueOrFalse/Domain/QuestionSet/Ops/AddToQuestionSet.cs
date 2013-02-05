@@ -7,7 +7,7 @@ using NHibernate;
 
 namespace TrueOrFalse
 {
-    public class AddToQuestionSet
+    public class AddToQuestionSet : IRegisterAsInstancePerLifetime
     {
         private readonly QuestionSetRepository _questionSetRepo;
         private readonly QuestionRepository _questionRepo;
@@ -39,7 +39,7 @@ namespace TrueOrFalse
 
             return new AddToQuestionSetResult
                 {
-                    AmountAddQuestions = questions.Count() - nonAddedQuestions.Count(),
+                    AmountAddedQuestions = questions.Count() - nonAddedQuestions.Count(),
                     AmountOfQuestionsAlreadyInSet = nonAddedQuestions.Count(),
                     Set = questionSet
                 };

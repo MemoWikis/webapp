@@ -23,16 +23,18 @@ namespace TrueOrFalse
             routes.MapRoute("Question_Edit", "Questions/Edit/{id}", new { controller = "EditQuestion", action = "Edit" });
             routes.MapRoute("Question_Delete", "Questions/Delete/{id}", new { controller = "Questions", action = "Delete" });
 
-            routes.MapRoute("QuestionSets", "QuestionSets", new { controller = "QuestionSets", action = "QuestionSets" });
-            routes.MapRoute("QuestionSets_Create", "QuestionSet/Create", new { controller = "EditQuestionSet", action = "Create" });
-            routes.MapRoute("QuestionSets_Edit", "QuestionSet/Edit/{id}", new { controller = "EditQuestionSet", action = "Edit" });
-
             routes.MapRoute("Question_Answer", "Questions/Answer/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer" });
             routes.MapRoute("Question_SendAnswer", "Questions/SendAnswer/{id}", new { controller = "AnswerQuestion", action = "SendAnswer" });
             routes.MapRoute("Question_GetAnswer", "Questions/GetAnswer/{id}", new { controller = "AnswerQuestion", action = "GetAnswer" });
             routes.MapRoute("Question_SaveQuality", "Questions/SaveQuality/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveQuality" });
             routes.MapRoute("Question_SaveRelevancePersonal", "Questions/SaveRelevancePersonal/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevancePersonal" });
             routes.MapRoute("Question_SaveRelevanceForAll", "Questions/SaveRelevanceForAll/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevanceForAll" });
+
+            routes.MapRoute("QuestionSets", "QuestionSets", new { controller = "QuestionSets", action = "QuestionSets" });
+            routes.MapRoute("QuestionSets_Create", "QuestionSet/Create", new { controller = "EditQuestionSet", action = "Create" });
+            routes.MapRoute("QuestionSets_Edit", "QuestionSet/Edit/{id}", new { controller = "EditQuestionSet", action = "Edit" });
+
+            routes.MapRoute("QuestionSet_Detail", "QuestionSet/{text}/{id}/{elementOnPage}", new { controller = "QuestionSet", action = "QuestionSet" });
 
             routes.MapRoute("Categories", "Categories", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_Create", "Categories/Create", new { controller = "EditCategory", action = "Create" });
