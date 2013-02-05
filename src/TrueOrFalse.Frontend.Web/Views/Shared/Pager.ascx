@@ -3,7 +3,7 @@
 
 <% const int size = 3; %>
 
-<div class="row" style="margin-top:-20px;">
+<div class="row">
     <div class="pagination" style="text-align:center;" >
         <ul>
             <% if (Model.HasPreviousPage) { %>

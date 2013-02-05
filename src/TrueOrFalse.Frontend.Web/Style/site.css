@@ -113,3 +113,41 @@ div.box-content {
     background-color: white;
     padding: 5px;
     }
+
+div.box_darkblue {
+    background-color: #2E487B;
+}
+
+div.box_darkblue a {
+    color: #9EDCF9;
+}
+
+div.box_green {
+    background-color: #D1EBA7;
+}
+
+.green {
+    background-color: #D1EBA7;
+}
+
+.darkblue {
+    background-color: #2E487B;
+    color: white;
+}
+
+.darkblue a {
+    color: #9EDCF9;
+}
+
+.box-head {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.box-head h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px;
+}

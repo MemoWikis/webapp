@@ -4,11 +4,12 @@ div.column-3 { background-color: yellowgreen;}
 div.question-row{background-color:silver;}*/
 
 div.question-row{border-top:1px solid #A6BADE;}
+div.question-row:first-child {border-top: none;}
 div.question-row:hover{ background-color: #f3f5f8; }
 .column { display: inline-block;}
 div.question-row div.header { margin-bottom: 3px;border-bottom: 1px solid beige ;}
 div.column-1 { width: 160px;float: left; padding-top: 5px; padding-left: 5px;}
-div.column-2 { width: 495px;padding-right: 10px; float: left; padding-top: 5px;}
+div.column-2 { width: 455px;padding-right: 10px; float: left; padding-top: 5px;}
 div.column-3 { width: 125px;float: left; padding-top: 5px;}
 div.question-row div.answersTotal{ width: 40px;}
 div.question-row div.percentageBar{ width: 65px;float: right;}
@@ -18,7 +19,11 @@ div.row-viewHistory{ padding-top: 3px;}
 .piePersonalRelevanceTotal{ display:none; margin-top: 10px;}
 
 .menu p.categories { padding-top: 10px; font-weight: bold; }
-.menu div.category { border-top: 1px  #EBEBEB solid; margin-top: -10px; margin-right: 5px; padding-top: 5px; padding-left: 0px; padding-bottom: 5px;font-size: 13px;}
+.menu div.category { border-top: 1px  #EBEBEB solid; margin-top: -10px; margin-right: 5px; margin-left: 10px; padding-top: 5px; padding-left: 0px; font-size: 13px;}
+
+div.row {
+    margin-left: 0px;
+}
 
 div.column-3 div.row {
     margin-left: 0px;
@@ -30,3 +35,22 @@ div.selected-row:hover { background-color: #d6e0f4;}
 .modal.fade {-webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none; transition: none}
 
 .tsqRow:hover{ background-color: #f3f5f8;cursor: pointer;}
+
+div.span2 {
+    margin-left: 0px;
+}
+
+div.pagination {
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+ul.nav-tabs li.active a,
+ul.nav-tabs li.active a:hover {
+    background-color: #E7ECF6;
+    background-color: #D1EBA7;
+}
+
+ul.nav-tabs li a {
+    border: none;
+}

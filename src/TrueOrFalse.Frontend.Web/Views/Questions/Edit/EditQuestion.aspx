@@ -7,6 +7,7 @@
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
     <script src="/Views/Questions/Edit/EditQuestion.js" type="text/javascript"></script>
+    <link href="/Views/Questions/Edit/EditQuestion.css" rel="stylesheet" />
     <style type="text/css">
         div.classification input
         {
@@ -19,128 +20,412 @@
 </asp:Content>
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
     
-<div class="row" >
+
+
+<!-- Beginn Variante 1-->
+
+<div>
+    
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
     
-    <div class="form-horizontal" style="padding-top: 0px;">
-        <legend>
-            <span style="font-size: 16px; font-weight: bold;"><%=Model.PageTitle %></span>
+
+        <div class="form-horizontal" style="padding-top: 0px;">
             
-            <div class="pull-right" style="vertical-align: bottom;">
-                <div style="background-color: white; line-height: 12px">
-                    <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" style="font-size: 12px;
-                        margin: 0px;"><i class="icon-th-list"></i>zur Übersicht</a><br />
-                </div>
-                <% if (!Model.ShowSaveAndNewButton){ %>
-                    <div style="line-height: 12px">
-                        <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px;
-                            margin: 0px;"><i class="icon-plus-sign"></i>Frage erstellen</a>
+                <h2><%=Model.PageTitle %></h2>
+
+            <div class="box">
+            
+                <div class="pull-right" style="vertical-align: bottom;">
+                    <div style="background-color: white; line-height: 12px">
+                        <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" style="font-size: 12px;
+                            margin: 0px;"><i class="icon-th-list"></i>zur Übersicht</a><br />
                     </div>
-                <%} %>
+                    <% if (!Model.ShowSaveAndNewButton){ %>
+                        <div style="line-height: 12px">
+                            <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px;
+                                margin: 0px;"><i class="icon-plus-sign"></i>Frage erstellen</a>
+                        </div>
+                    <%} %>
+                </div>
+            <div>
+            <div style="margin-top: -5px; padding-left: 14px; margin-right: -15px;">
+                <% Html.Message(Model.Message); %>
             </div>
-        </legend>
-        <div style="margin-top: -5px; padding-left: 14px; margin-right: -15px;">
-            <% Html.Message(Model.Message); %>
-        </div>
-        <div class="control-group">
-            <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>
-            <div class="controls">
-                <label class="radio inline">
-                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
-                Alle &nbsp;&nbsp;
-                </label>
-                <label class="radio inline">
-                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                Nur ich &nbsp;&nbsp;
-                </label>
-                <label class="radio inline">
-                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
-                Ich und meine Freunde
-                </label>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>
+                <div class="controls">
+                    <label class="radio inline">
+                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
+                    Alle &nbsp;&nbsp;
+                    </label>
+                    <label class="radio inline">
+                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
+                    Nur ich &nbsp;&nbsp;
+                    </label>
+                    <label class="radio inline">
+                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
+                    Ich und meine Freunde
+                    </label>
+                </div>
             </div>
-        </div>
-        <div class="control-group">
-            <%= Html.LabelFor(m => m.Question, new { @class = "control-label" })%>
-            <div class="controls">
-                <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte geben Sie eine Frage ein" })%><br />
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.Question, new { @class = "control-label" })%>
+                <div class="controls">
+                    <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte geben Sie eine Frage ein" })%><br />
+                </div>
             </div>
-        </div>
-        <p class="help-block help-text">
-            Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen
-            <br />
-            die Fragen wiederzufinden.
-        </p>
-        <div class="control-group">
-            <%= Html.Label("Kategorien", new { @class = "control-label" })%>
-            <div id="relatedCategories" class="controls">
-                <script type="text/javascript">
-                    $(function() {
-                        <%foreach (var category in Model.Categories) { %>
-                        $("#txtNewRelatedCategory").val('<%=category %>');
-                        $("#addRelatedCategory").click();
-                        <% } %>
+            <p class="help-block help-text">
+                Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen
+                <br />
+                die Fragen wiederzufinden.
+            </p>
+            <div class="control-group">
+                <%= Html.Label("Kategorien", new { @class = "control-label" })%>
+                <div id="Div1" class="controls">
+                    <script type="text/javascript">
+                        $(function () {
+                            <%foreach (var category in Model.Categories) { %>
+                            $("#txtNewRelatedCategory").val('<%=category %>');
+                            $("#addRelatedCategory").click();
+                            <% } %>
+                        });
+                    </script>
+                    <input id="Text1" />
+                    <a href="#" id="a1" style="display: none">
+                        <img alt="" src='/Images/Buttons/add.png' />
+                    </a>
+                </div>
+            </div>
+            <div class="control-group">
+                <% if (!String.IsNullOrEmpty(Model.ImageUrl))
+                   {%> <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" /> <%} %>
+                <label for="imagefile" class="control-label">Bild:</label>
+                &nbsp;&nbsp;<input type="file" name="imagefile" id="File1" />
+            </div>
+            <div class="control-group">
+                <% if (!String.IsNullOrEmpty(Model.SoundUrl)){
+                       Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
+                <label for="soundfile" class="control-label">Ton:</label>
+                &nbsp;&nbsp;<input type="file" name="soundfile" id="File2" />
+            </div>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.SolutionType, new { @class = "control-label" }) %>
+                <div class="controls">
+                    <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%>
+                </div>
+            </div>
+            <div id="Div2">
+            </div>
+            <script type="text/javascript">
+                function updateSolutionBody() {
+                    var selectedValue = $("#ddlAnswerType").val();
+                    $.ajax({
+                        url: '<%=Url.Action("SolutionEditBody") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
+                        type: 'GET',
+                        beforeSend: function () { /* some loading indicator */ },
+                        success: function (data) { $("#question-body").html(data); },
+                        error: function (data) { /* handle error */ }
                     });
-                </script>
-                <input id="txtNewRelatedCategory" />
-                <a href="#" id="addRelatedCategory" style="display: none">
-                    <img alt="" src='/Images/Buttons/add.png' />
-                </a>
+                }
+                $("#ddlAnswerType").change(updateSolutionBody);
+                updateSolutionBody();
+            </script>
+            <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>
+            <p class="help-block help-text">
+                Je ausführlicher die Erklärung, desto besser!<br />
+                Verwende Links u. Bilder aber achte auf die Urheberrechte.
+            </p>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.Description, new { @class = "control-label" })%>
+                <div class="controls">
+                    <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
+                </div>
             </div>
         </div>
-        <div class="control-group">
-            <% if (!String.IsNullOrEmpty(Model.ImageUrl))
-               {%> <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" /> <%} %>
-            <label for="imagefile" class="control-label">Bild:</label>
-            &nbsp;&nbsp;<input type="file" name="imagefile" id="imagefile" />
-        </div>
-        <div class="control-group">
-            <% if (!String.IsNullOrEmpty(Model.SoundUrl)){
-                   Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
-            <label for="soundfile" class="control-label">Ton:</label>
-            &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
-        </div>
-        <div class="control-group">
-            <%= Html.LabelFor(m => m.SolutionType, new { @class = "control-label" }) %>
-            <div class="controls">
-                <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
+                <% if (Model.ShowSaveAndNewButton){ %>
+                    <button type="submit" class="btn" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
+                <% } %>
             </div>
-        </div>
-        <div id="question-body">
-        </div>
-        <script type="text/javascript">
-            function updateSolutionBody() {
-                var selectedValue = $("#ddlAnswerType").val();
-                $.ajax({
-                    url: '<%=Url.Action("SolutionEditBody") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
-                    type: 'GET',
-                    beforeSend: function () { /* some loading indicator */ },
-                    success: function (data) { $("#question-body").html(data);},
-                    error: function (data) { /* handle error */ }
-                });
-            }
-            $("#ddlAnswerType").change(updateSolutionBody);
-            updateSolutionBody();
-        </script>
-        <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>
-        <p class="help-block help-text">
-            Je ausführlicher die Erklärung, desto besser!<br />
-            Verwende Links u. Bilder aber achte auf die Urheberrechte.
-        </p>
-        <div class="control-group">
-            <%= Html.LabelFor(m => m.Description, new { @class = "control-label" })%>
-            <div class="controls">
-                <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
-            </div>
-        </div>
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
-            <% if (Model.ShowSaveAndNewButton){ %>
-                <button type="submit" class="btn" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
-            <% } %>
         </div>
     </div>
-    
     <% } %>
     
 </div>
+    
+<!-- Ende Variante 1-->
+    
+<!-- Beginn Variante 2-->
+    
+<div>
+    
+    <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
+    
+
+        <div class="form-horizontal" style="padding-top: 0px;">
+            <div class="box">
+                <h2><%=Model.PageTitle %></h2>
+            
+                <div class="pull-right" style="vertical-align: bottom;">
+                    <div style="background-color: white; line-height: 12px">
+                        <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" style="font-size: 12px;
+                            margin: 0px;"><i class="icon-th-list"></i>zur Übersicht</a><br />
+                    </div>
+                    <% if (!Model.ShowSaveAndNewButton){ %>
+                        <div style="line-height: 12px">
+                            <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px;
+                                margin: 0px;"><i class="icon-plus-sign"></i>Frage erstellen</a>
+                        </div>
+                    <%} %>
+                </div>
+            <div class="box-content">
+            <div style="margin-top: -5px; padding-left: 14px; margin-right: -15px;">
+                <% Html.Message(Model.Message); %>
+            </div>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>
+                <div class="controls">
+                    <label class="radio inline">
+                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
+                    Alle &nbsp;&nbsp;
+                    </label>
+                    <label class="radio inline">
+                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
+                    Nur ich &nbsp;&nbsp;
+                    </label>
+                    <label class="radio inline">
+                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
+                    Ich und meine Freunde
+                    </label>
+                </div>
+            </div>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.Question, new { @class = "control-label" })%>
+                <div class="controls">
+                    <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte geben Sie eine Frage ein" })%><br />
+                </div>
+            </div>
+            <p class="help-block help-text">
+                Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen
+                <br />
+                die Fragen wiederzufinden.
+            </p>
+            <div class="control-group">
+                <%= Html.Label("Kategorien", new { @class = "control-label" })%>
+                <div id="relatedCategories" class="controls">
+                    <script type="text/javascript">
+                        $(function () {
+                            <%foreach (var category in Model.Categories) { %>
+                            $("#txtNewRelatedCategory").val('<%=category %>');
+                            $("#addRelatedCategory").click();
+                            <% } %>
+                        });
+                    </script>
+                    <input id="txtNewRelatedCategory" />
+                    <a href="#" id="addRelatedCategory" style="display: none">
+                        <img alt="" src='/Images/Buttons/add.png' />
+                    </a>
+                </div>
+            </div>
+            <div class="control-group">
+                <% if (!String.IsNullOrEmpty(Model.ImageUrl))
+                   {%> <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" /> <%} %>
+                <label for="imagefile" class="control-label">Bild:</label>
+                &nbsp;&nbsp;<input type="file" name="imagefile" id="imagefile" />
+            </div>
+            <div class="control-group">
+                <% if (!String.IsNullOrEmpty(Model.SoundUrl)){
+                       Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
+                <label for="soundfile" class="control-label">Ton:</label>
+                &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
+            </div>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.SolutionType, new { @class = "control-label" }) %>
+                <div class="controls">
+                    <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%>
+                </div>
+            </div>
+            <div id="question-body">
+            </div>
+            <script type="text/javascript">
+                function updateSolutionBody() {
+                    var selectedValue = $("#ddlAnswerType").val();
+                    $.ajax({
+                        url: '<%=Url.Action("SolutionEditBody") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
+                        type: 'GET',
+                        beforeSend: function () { /* some loading indicator */ },
+                        success: function (data) { $("#question-body").html(data); },
+                        error: function (data) { /* handle error */ }
+                    });
+                }
+                $("#ddlAnswerType").change(updateSolutionBody);
+                updateSolutionBody();
+            </script>
+            <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>
+            <p class="help-block help-text">
+                Je ausführlicher die Erklärung, desto besser!<br />
+                Verwende Links u. Bilder aber achte auf die Urheberrechte.
+            </p>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.Description, new { @class = "control-label" })%>
+                <div class="controls">
+                    <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
+                </div>
+            </div>
+        </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
+                <% if (Model.ShowSaveAndNewButton){ %>
+                    <button type="submit" class="btn" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    
+</div>
+    
+<!--End Variante 2-->
+    
+<!-- Beginn Variante 3-->
+
+<div>
+    
+    <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
+    
+
+        <div class="form-horizontal" style="padding-top: 0px;">
+            
+                
+
+            <div class="box-head darkblue" style="margin-bottom: -5px; position: absolute; z-index: 1;">
+                
+                <h2><%=Model.PageTitle %></h2>
+
+            </div>
+            
+            <div class="box" style="position: absolute; z-index: 0;">
+            
+                <div class="pull-right" style="vertical-align: bottom;">
+                    <div style="background-color: white; line-height: 12px">
+                        <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" style="font-size: 12px;
+                            margin: 0px;"><i class="icon-th-list"></i>zur Übersicht</a><br />
+                    </div>
+                    <% if (!Model.ShowSaveAndNewButton){ %>
+                        <div style="line-height: 12px">
+                            <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px;
+                                margin: 0px;"><i class="icon-plus-sign"></i>Frage erstellen</a>
+                        </div>
+                    <%} %>
+                </div>
+            <div>
+            <div style="margin-top: -5px; padding-left: 14px; margin-right: -15px;">
+                <% Html.Message(Model.Message); %>
+            </div>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>
+                <div class="controls">
+                    <label class="radio inline">
+                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
+                    Alle &nbsp;&nbsp;
+                    </label>
+                    <label class="radio inline">
+                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
+                    Nur ich &nbsp;&nbsp;
+                    </label>
+                    <label class="radio inline">
+                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
+                    Ich und meine Freunde
+                    </label>
+                </div>
+            </div>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.Question, new { @class = "control-label" })%>
+                <div class="controls">
+                    <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte geben Sie eine Frage ein" })%><br />
+                </div>
+            </div>
+            <p class="help-block help-text">
+                Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen
+                <br />
+                die Fragen wiederzufinden.
+            </p>
+            <div class="control-group">
+                <%= Html.Label("Kategorien", new { @class = "control-label" })%>
+                <div id="Div3" class="controls">
+                    <script type="text/javascript">
+                        $(function () {
+                            <%foreach (var category in Model.Categories) { %>
+                            $("#txtNewRelatedCategory").val('<%=category %>');
+                            $("#addRelatedCategory").click();
+                            <% } %>
+                        });
+                    </script>
+                    <input id="Text2" />
+                    <a href="#" id="a2" style="display: none">
+                        <img alt="" src='/Images/Buttons/add.png' />
+                    </a>
+                </div>
+            </div>
+            <div class="control-group">
+                <% if (!String.IsNullOrEmpty(Model.ImageUrl))
+                   {%> <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" /> <%} %>
+                <label for="imagefile" class="control-label">Bild:</label>
+                &nbsp;&nbsp;<input type="file" name="imagefile" id="File3" />
+            </div>
+            <div class="control-group">
+                <% if (!String.IsNullOrEmpty(Model.SoundUrl)){
+                       Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
+                <label for="soundfile" class="control-label">Ton:</label>
+                &nbsp;&nbsp;<input type="file" name="soundfile" id="File4" />
+            </div>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.SolutionType, new { @class = "control-label" }) %>
+                <div class="controls">
+                    <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%>
+                </div>
+            </div>
+            <div id="Div4">
+            </div>
+            <script type="text/javascript">
+                function updateSolutionBody() {
+                    var selectedValue = $("#ddlAnswerType").val();
+                    $.ajax({
+                        url: '<%=Url.Action("SolutionEditBody") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
+                        type: 'GET',
+                        beforeSend: function () { /* some loading indicator */ },
+                        success: function (data) { $("#question-body").html(data); },
+                        error: function (data) { /* handle error */ }
+                    });
+                }
+                $("#ddlAnswerType").change(updateSolutionBody);
+                updateSolutionBody();
+            </script>
+            <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>
+            <p class="help-block help-text">
+                Je ausführlicher die Erklärung, desto besser!<br />
+                Verwende Links u. Bilder aber achte auf die Urheberrechte.
+            </p>
+            <div class="control-group">
+                <%= Html.LabelFor(m => m.Description, new { @class = "control-label" })%>
+                <div class="controls">
+                    <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
+                </div>
+            </div>
+        </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
+                <% if (Model.ShowSaveAndNewButton){ %>
+                    <button type="submit" class="btn" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    
+</div>
+    
+<!-- Ende Variante 3-->
+
 </asp:Content>

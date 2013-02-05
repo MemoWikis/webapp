@@ -9,12 +9,12 @@
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row-fluid">
         <div class="span8">
-            <div class="box">
+            <div class="box box_darkblue">
                 <h1>
                     <a href="#teaser1">Richtig-oder-Falsch ist eine Lern- und Wissensplattform. Sammle Wissen und teile es mit anderen. <i class="icon-circle-arrow-right" style="color: white;" ></i></a>
                 </h1>
             </div>
-            <div class="box">
+            <div class="box box_darkblue">
                 <h1>
                     <a href="#teaser2">Wikipedia-Prinzip:<br />
                     Open-Source, gemeinfreie Lizenz für Fragen und Inhalte <i class="icon-circle-arrow-right" style="color: white;" ></i></a>
@@ -68,7 +68,7 @@
                 </div>
             </div>
             
-            <div class="box">
+            <div class="box box_green">
                 <h2>Top Fragesätze</h2>
                 <div class="box-content">
                     <div class="question-short-row">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box">
+            <div class="box box_green">
                 <h2>Top Kategorien</h2>
                 
                 <div class="box-content">
