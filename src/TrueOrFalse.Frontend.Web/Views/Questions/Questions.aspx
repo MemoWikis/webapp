@@ -32,7 +32,7 @@
         </div>
     <div class="box box_green" style="padding-top: 20px;">
         
-            <div class="row form-horizontal " style="margin-bottom: 0px; padding-bottom: 0px;">
+            <div class="form-horizontal " style="margin-bottom: 0px; padding-bottom: 0px;">
             
                 <div class="control-group" style="margin-bottom: 8px;">
                     <label style="line-height: 18px; padding-top: 5px;"><b>Suche</b>:</label>
@@ -70,7 +70,7 @@
         
         
 
-        <div class="row" style="padding-bottom: 5px;">
+        <div style="padding-bottom: 5px;">
         
             <ul class="nav pull-left" style="margin: 0px; margin-left: -3px;">
                 <li class="dropdown" id="menu2">

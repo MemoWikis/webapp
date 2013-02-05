@@ -2,11 +2,72 @@
     font-size: 15px;
 }
 
-div.menu a{ text-decoration: none; width: 110px;display: block;}
-div.menu div.main a{ color: #B13A48; font-weight:700; }
-div.menu a:hover{/* background-color: rgb(244, 244, 254); */
-    color: #2E487B;
-    text-decoration: underline;
+
+div.menu a {text-decoration: none; 
+            display: block;
+            padding-left: 5px;
+            padding-right: 10px;
 }
-div.menu div.main:hover{ background-color: rgb(244, 244, 254); }
+div.menu div.main {
+    font-weight:700;
+}
+
+div.menu a:hover,
+div.menu a.active:hover {
+    background-color: #2E487B;
+    color: white;
+}
+div.menu div.main a:hover,
+div.menu div.main a.active:hover {
+    background-color: #2E487B;
+    color: white;
+}
 div.menu div.no-hover:hover{ background-color: transparent; }
+
+div.menu a.active,
+div.menu div.main a.active {
+    color: #B13A48;
+}
+
+/*a i.icon-caret-right {
+    color: #E7ECF6;
+}
+
+a:hover i.icon-caret-right {
+    color: #2E487B;
+} */
+
+/*a.active i.icon-caret-right {
+    color: #B13A48;
+}*/
+
+/*a.active:hover i.icon-caret-right {
+    color: white;
+}*/
+
+div.menu i.icon-caret-right {
+    visibility: hidden;
+}
+
+div.menu a.active i.icon-caret-right {
+    visibility: visible;
+}
+
+div.menu div.sub a {
+    padding-left: 15px;
+    font-size: 13px;
+}
+
+div.menu div.no-link {
+    padding-left: 5px;
+}
+
+div.menu div a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+ 
+}
+
+

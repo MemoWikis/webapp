@@ -18,12 +18,15 @@ div.row-viewHistory{ padding-top: 3px;}
 .sliderValue{ margin-left: 10px;}
 .piePersonalRelevanceTotal{ display:none; margin-top: 10px;}
 
-.menu p.categories { padding-top: 10px; font-weight: bold; }
-.menu div.category { border-top: 1px  #EBEBEB solid; margin-top: -10px; margin-right: 5px; margin-left: 10px; padding-top: 5px; padding-left: 0px; font-size: 13px;}
+.menu p.categories { padding-top: 10px; font-weight: bold;margin-bottom: 5px;}
+.menu div.category {font-size: 13px;}
 
-div.row {
-    margin-left: 0px;
+.menu div.category a {
+    padding-left: 25px;
 }
+
+
+
 
 div.column-3 div.row {
     margin-left: 0px;
@@ -36,9 +39,7 @@ div.selected-row:hover { background-color: #d6e0f4;}
 
 .tsqRow:hover{ background-color: #f3f5f8;cursor: pointer;}
 
-div.span2 {
-    margin-left: 0px;
-}
+
 
 div.pagination {
     margin-top: 15px;

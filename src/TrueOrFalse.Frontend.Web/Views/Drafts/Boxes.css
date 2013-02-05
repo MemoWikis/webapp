@@ -68,3 +68,11 @@ div.box5 {
     border-right: none;
     border-bottom: none;
     }
+
+div.form-actions {
+    background-color: transparent;
+    border: none;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-bottom: 5px;
+}
