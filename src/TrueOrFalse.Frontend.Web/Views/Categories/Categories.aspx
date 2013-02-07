@@ -9,7 +9,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="row">
+    <div>
         <h2 style="float: left; width: 200px; " >Kategorien</h2>
         <div style="float: right; padding-top: 13px;">
             <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn" style="display: inline;"><i class="icon-plus-sign"></i> Kategorie erstellen</a>
