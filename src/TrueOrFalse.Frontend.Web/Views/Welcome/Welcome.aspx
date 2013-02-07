@@ -55,16 +55,30 @@
          
         </div>
         <div class="span4">
-            <div class="box">
-                <h2>Login</h2>                
-                <div>
+            <div class="box" style="padding: 20px; height: 180px;">
+                <!--<h2>Login</h2>-->           
+                <div  style="margin-bottom: 5px;">
                     <input type="text" placeholder="Email-Adresse">
-                    <input type="text" placeholder="Passwort">
+                    <input type="text" placeholder="Passwort" style="margin-bottom: 0;">
+                    <br/><a>Passwort vergessen?</a>
                 </div>
-                <div>
+                
+                <div style="height: 40px; border-bottom: solid 1px #A6BADE;">
+                    <label class="checkbox" style="width: 120px; margin-top: 3px;">
+                        <input type="checkbox"> angemeldet bleiben
+                    </label>
+                
+                <div style="float: right">
+                    <button class="btn btn-primary">Anmelden</button>
+                </div>
+                </div>
+                <div style="clear: both; margin-top: 10px;">
+                    <div style="padding-top: 3px; margin-right: 5px; float: left;">Oder:</div> 
+                    <div style="padding-top: 5px;">
                     <a class="zocial icon facebook"></a>
                     <a class="zocial icon google"></a>
                     <a class="zocial icon twitter"></a>
+                    </div>
                 </div>
             </div>
             
