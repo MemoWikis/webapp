@@ -18,10 +18,9 @@ $(function () {
             $("#txtNewRelatedCategory").val(ui.item.name);
             return false;
         }
-    })
-		.data("autocomplete")._renderItem = function (ul, item) {
+    }).data("ui-autocomplete")._renderItem = function (ul, item) {
 		    return $("<li></li>")
-				.data("item.autocomplete", item)
+				.data("ui-autocomplete-item", item)
 				.append("<a><img src='" + item.imageUrl + "'/><span class='cat-name'>"
 				    + item.name + "</span><br><i>" + item.numberOfQuestions + " Fragen</i></a>")
 				.appendTo(ul);
