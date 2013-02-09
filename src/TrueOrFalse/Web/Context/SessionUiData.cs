@@ -6,18 +6,17 @@ namespace TrueOrFalse.Web.Context
 {
     public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
     {
-        public UserNavigationModelList LastVisitedProfiles
-        {
+        public Menu Menu { get { return Data.Get("menu", new Menu()); } }
+
+        public UserNavigationModelList LastVisitedProfiles{
             get { return Data.Get("lastVisitedProfiles", new UserNavigationModelList()); }
         } 
 
-        public QuestionSearchSpec QuestionSearchSpec
-        {
+        public QuestionSearchSpec QuestionSearchSpec{
             get { return Data.Get("questionSearchSpec", new QuestionSearchSpec{PageSize = 5}); }
         }
 
-        public QuestionSetSearchSpec QuestionSetSearchSpec
-        {
+        public QuestionSetSearchSpec QuestionSetSearchSpec{
             get { return Data.Get("questionSetSearchSpec", new QuestionSetSearchSpec { PageSize = 10 }); }
         }
     }

@@ -12,7 +12,9 @@ public class MenuLeftModel
     public MenuLeftModel()
     {
         var userSession = Sl.Resolve<SessionUser>();
-        Menu = userSession.Menu;
+        var sessionUiData= Sl.Resolve<SessionUiData>();
+
+        Menu = sessionUiData.Menu;
         if (userSession.User != null)
         {
             WishKnowledgeCount = Sl.Resolve<GetWishKnowledgeCountCached>().Run(userSession.User.Id);

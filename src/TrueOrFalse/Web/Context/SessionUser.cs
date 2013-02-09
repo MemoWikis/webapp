@@ -21,8 +21,6 @@ namespace TrueOrFalse.Web.Context
             private set { Data["user"] = value; }
         } 
 
-        public Menu Menu{ get { return Data.Get("menu", new Menu()); } }
-
         public void Login(User user)
         {
             IsLoggedIn = true;

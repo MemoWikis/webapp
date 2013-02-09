@@ -4,7 +4,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="box" style="padding-left: 0px; padding-right: 0;">
-    <div class="menu">
+    <div class="menu" >
 
         <div class="main">
             <a class="<%= Model.Active(MenuEntry.Knowledge) %>" href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>"> <i class="icon-caret-right"></i>

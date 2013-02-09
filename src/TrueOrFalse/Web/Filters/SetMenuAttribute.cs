@@ -18,7 +18,7 @@ namespace System.Web.Mvc
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var userSession = new SessionUser();
+            var userSession = new SessionUiData();
             userSession.Menu.Current = _menuEntry;
 
             base.OnActionExecuting(filterContext);
