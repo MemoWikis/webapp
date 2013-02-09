@@ -280,6 +280,7 @@
     <Compile Include="Web\Context\Data\UserNavigationModel.cs" />
     <Compile Include="Web\Context\Data\UserNavigationModelList.cs" />
     <Compile Include="Web\Context\ContextItemKeys.cs" />
+    <Compile Include="Web\Context\Menu\Menu.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
     <Compile Include="Web\Controls\ButtonIcon.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="Web\Controls\UserMessage\Message.cs" />
     <Compile Include="Web\Filters\AccessOnlyAsAdminAndLocalAttribute.cs" />
     <Compile Include="Web\Filters\GlobalAuthorizationAttribute.cs" />
+    <Compile Include="Web\Filters\SetMenuAttribute.cs" />
     <Compile Include="Web\HtmlLabelExtensions.cs" />
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptActionDescriptor.cs" />

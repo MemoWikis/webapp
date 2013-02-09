@@ -12,6 +12,7 @@ public class CategoriesController : BaseController
         _categoryRepository = categoryRepository;
     }
 
+    [SetMenu(MenuEntry.Categories)]
     public ActionResult Categories(){
         return View(new CategoriesModel(_categoryRepository.GetAll()));
     }

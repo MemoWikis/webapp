@@ -18,6 +18,8 @@ public class KnowledgeController : Controller
         _getWishKnowledgeCount = getWishKnowledgeCount;
     }
 
+
+    [SetMenu(MenuEntry.Knowledge)]
     public ActionResult Knowledge()
     {
         var answersThisWeek = _getAnswerStatsInPeriod.RunForThisWeek(_sessionUser.User.Id);

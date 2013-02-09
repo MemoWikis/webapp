@@ -15,6 +15,7 @@ public class QuestionSetsController : BaseController
         _questionSetRepo = questionSetRepo;
     }
 
+    [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult QuestionSets()
     {
         var questionSets = _questionSetRepo.GetBy(_sessionUiData.QuestionSetSearchSpec);

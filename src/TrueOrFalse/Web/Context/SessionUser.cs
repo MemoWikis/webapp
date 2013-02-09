@@ -11,7 +11,7 @@ namespace TrueOrFalse.Web.Context
     {
         public bool IsLoggedIn
         {
-            get { return Data.Get<bool>("isLoggedIn", false); }
+            get { return Data.Get("isLoggedIn", false); }
             private set { Data["isLoggedIn"] = value; }
         }
 
@@ -20,6 +20,8 @@ namespace TrueOrFalse.Web.Context
             get { return Data.Get<User>("user"); }
             private set { Data["user"] = value; }
         } 
+
+        public Menu Menu{ get { return Data.Get("menu", new Menu()); } }
 
         public void Login(User user)
         {

@@ -52,8 +52,11 @@ public class QuestionsController : BaseController
         return Questions(null, model);
     }
 
+    [SetMenu(MenuEntry.Questions)]
     public ActionResult Questions(int? page, QuestionsModel model)
     {
+        _sessionUser.Menu.Current = MenuEntry.Questions;
+
         _sessionUiData.QuestionSearchSpec.PageSize = 10;
 
         _sessionUiData.QuestionSearchSpec.SetFilterByMe(model.FilterByMe);

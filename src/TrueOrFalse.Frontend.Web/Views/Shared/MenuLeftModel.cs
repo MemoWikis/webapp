@@ -7,15 +7,21 @@ public class MenuLeftModel
     public IList<MenuModelCategoryItem> Categories = new List<MenuModelCategoryItem>();
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
+    public Menu Menu;
 
     public MenuLeftModel()
     {
         var userSession = Sl.Resolve<SessionUser>();
+        Menu = userSession.Menu;
         if (userSession.User != null)
         {
             WishKnowledgeCount = Sl.Resolve<GetWishKnowledgeCountCached>().Run(userSession.User.Id);
             IsInstallationAdmin = userSession.User.IsInstallationAdmin;
         }
     }
-    
+
+    public string Active(MenuEntry menuEntry)
+    {
+        return Menu.Active(menuEntry);
+    }
 }
