@@ -40,18 +40,14 @@
     
 </div>
 
-<div class="box" style="padding-left: 0px; padding-right: 0;">
-
-    <div class="menu">
-         
-        <% if(Model.Categories.Any()){ %>
+<% if(Model.Categories.Any()){ %>
+    <div class="box" style="padding-left: 0px; padding-right: 0;">
+        <div class="menu">
             <div class="main no-link"><i class="icon-caret-right"></i> Kategorien</div>
             
-                <% foreach(var category in Model.Categories){ %>
-                    <div class="sub"><a href="#"><i class="icon-caret-right"></i> <%=category.Category.Name %> (<span><%=category.OnPageCount %>x) </span></a></div>
-                <% } %>
-            
-        <% } %>
+            <% foreach(var category in Model.Categories){ %>
+                <div class="sub"><a href="#"><i class="icon-caret-right"></i> <%=category.Category.Name %> (<span><%=category.OnPageCount %>x) </span></a></div>
+            <% } %>
+        </div>
     </div>
-    
-</div>
+<% } %>
