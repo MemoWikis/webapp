@@ -86,7 +86,7 @@ public class QuestionsController : BaseController
                         TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run(),
                         TotalWishKnowledge = Sl.Resolve<GetWishKnowledgeCountCached>().Run(_sessionUser.User.Id)
                     }
-            );        
+            );
     }
 
     [HttpPost]

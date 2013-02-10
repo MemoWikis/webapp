@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<MenuLeftModel>" %>
+<%@ Import Namespace="Seedworks.Lib" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Web.Context" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -12,7 +13,24 @@
             </a>
         </div>
         <div><a class="<%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>"><i class="icon-caret-right"></i> Fragen</a></div>
+        <% var index = 0; foreach (var question in new SessionUiData().LastQuestions) { index++ ;%>
+               <div class="sub">
+                   <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionDetail); } %>
+                   <a href="<%= Links.AnswerQuestion(Url, question.Text, question.Id) %>" class="show-tooltip <%=activeClass %>" title="Frage: <%=question.Text %>" data-placement="right">
+                       <i class="icon-caret-right"></i> <%=question.Text.Truncate(100)%>
+                   </a>
+               </div>
+        <% } %>
+
         <div><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("QuestionSets", "QuestionSets") %>"><i class="icon-caret-right"></i> Fragesätze</a></div>
+        <% index = 0; foreach (var set in new SessionUiData().LastQuestionSets){ index++ ; %>
+               <div class="sub">
+                   <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
+                   <a href="<%= Links.QuestionSetDetail(Url, set.Name, set.Id) %>" class="show-tooltip <%= activeClass %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
+                       <i class="icon-caret-right"></i> <%=set.Name%>
+                   </a>
+               </div>
+        <% } %>
         <div><a href="#"><i class="icon-caret-right"></i> Lerngruppen</a></div>
 
     
@@ -27,7 +45,7 @@
         <div class="main" style="margin-top:12px;"><a href="#"><i class="icon-caret-right"></i> Netzwerk<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> </div>
     
         <% foreach (var user in new SessionUiData().LastVisitedProfiles){ %>
-           <div class="sub"><a href="<%= Url.Action(Links.UserProfile, Links.UserProfileController, new {name= user.UrlName, id = user.Id}, null) %>"><i class="icon-caret-right"></i> <%=user.Name%></a></div>
+               <div class="sub"><a href="<%= Links.Profile(Url, user.Name, user.Id) %>"><i class="icon-caret-right"></i> <%=user.Name%></a></div>
         <% } %>
     
         <% if (Request.IsLocal && Model.IsInstallationAdmin){ %>

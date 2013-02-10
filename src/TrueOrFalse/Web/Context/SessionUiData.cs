@@ -8,9 +8,17 @@ namespace TrueOrFalse.Web.Context
     {
         public Menu Menu { get { return Data.Get("menu", new Menu()); } }
 
-        public UserNavigationModelList LastVisitedProfiles{
-            get { return Data.Get("lastVisitedProfiles", new UserNavigationModelList()); }
-        } 
+        public QuestionHistory LastQuestions{
+            get { return Data.Get("lastVisitedQuestions", new QuestionHistory()); }
+        }
+
+        public QuestionSetHistory LastQuestionSets{
+            get { return Data.Get("lastVisitedQuestionSets", new QuestionSetHistory()); }
+        }
+
+        public UserHistory LastVisitedProfiles{
+            get { return Data.Get("lastVisitedProfiles", new UserHistory()); }
+        }
 
         public QuestionSearchSpec QuestionSearchSpec{
             get { return Data.Get("questionSearchSpec", new QuestionSearchSpec{PageSize = 5}); }

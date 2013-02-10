@@ -19,8 +19,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string QuestionsController = "Questions";
 
         public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage){
-            return url.Action("Answer", AnswerQuestionController, 
-                new { text = UriSegmentFriendlyQuestion.Run(question.Text), id = question.Id, elementOnPage = paramElementOnPage}, null);
+            return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage);
+        }
+
+        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1){
+            return url.Action("Answer", AnswerQuestionController,
+                new { text = UriSegmentFriendlyQuestion.Run(questionText), id = questionId, elementOnPage = paramElementOnPage }, null);
         }
 
         public static string Profile(UrlHelper url, string userName, int userId){
@@ -37,8 +41,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string QuestionSetDetail(UrlHelper url, QuestionSet set, int elementOnPage){
-            return url.Action("QuestionSet", "QuestionSet", 
-                new { text = UriSanitizer.Run(set.Name), id = set.Id, elementOnPage = elementOnPage }, null);
+            return QuestionSetDetail(url, set.Name, set.Id, elementOnPage);
+        }
+
+        public static string QuestionSetDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
+            return url.Action("QuestionSet", "QuestionSet",
+                new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage}, null);            
         }
 
         public const string EditQuestionController = "EditQuestion"; 
