@@ -20,6 +20,7 @@ public class UserProfileController : Controller
         _sessionUser = sessionUser;
     }
 
+    [SetMenu(MenuEntry.ProfilDetail)]
     public ViewResult Profile(string userName, int id)
     {
         var user = _userRepository.GetById(id);

@@ -35,7 +35,7 @@ public class EditCategoryModel : BaseModel
     {
         var category = new Category(Name) {RelatedCategories = new List<Category>()};
         foreach (var name in RelatedCategories)
-            category.RelatedCategories.Add(ServiceLocator.Resolve<CategoryRepository>().GetByName(name));
+            category.RelatedCategories.Add(Resolve<CategoryRepository>().GetByName(name));
         return category;
     }
 
@@ -44,7 +44,7 @@ public class EditCategoryModel : BaseModel
         category.Name = Name;
         category.RelatedCategories = new List<Category>();
         foreach (var name in RelatedCategories)
-            category.RelatedCategories.Add(ServiceLocator.Resolve<CategoryRepository>().GetByName(name));
+            category.RelatedCategories.Add(Resolve<CategoryRepository>().GetByName(name));
     }
     
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)

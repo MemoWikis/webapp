@@ -27,6 +27,10 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSegmentFriendlyQuestion.Run(questionText), id = questionId, elementOnPage = paramElementOnPage }, null);
         }
 
+        public static string Profile(UrlHelper url, User user){
+            return Profile(url, user.Name, user.Id);
+        }
+
         public static string Profile(UrlHelper url, string userName, int userId){
             return url.Action(UserProfile, UserProfileController, 
                 new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
@@ -47,6 +51,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string QuestionSetDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
             return url.Action("QuestionSet", "QuestionSet",
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage}, null);            
+        }
+
+        public static string QuestionSetEdit(UrlHelper url, int questionSetId)
+        {
+            return url.Action("Edit", "QuestionSet", new {id = questionSetId});
+            ;
         }
 
         public const string EditQuestionController = "EditQuestion"; 
@@ -78,6 +88,5 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string AccountController = "Account";
         public const string Logout = "Logout";
-
     }
 }

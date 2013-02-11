@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSetRowModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="row set-row" data-questionSetId="<%= Model.Id %>">
     <div class="column-1" style="line-height: 15px; font-size: 90%;">
@@ -15,7 +16,7 @@
             <% if (Model.IsOwner){%>
                 <a data-toggle="modal" data-questionId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
-                <a href="<%= Url.Action("Edit", "QuestionSet", new {id = Model.Id}) %>">
+                <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>">
                     <img src="/Images/edit.png"/> 
                 </a>
             <% } %>

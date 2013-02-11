@@ -5,7 +5,6 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <%--<%= Scripts.Render("~/Views/QuestionSets/QuestionSets.js") %>--%>
     <%= Styles.Render("~/Views/QuestionSets/QuestionSet.css") %>
 </asp:Content>
 
@@ -16,9 +15,17 @@
         <div class="span8">
         
             <div class="box box-main" >
-                <h2><%= Model.Name %></h2>
+                <h2 class="pull-left"><%= Model.Name %></h2>
+                <div class="pull-right">
+                    <div>
+                        <a href="/QuestionSets" style="font-size: 12px; margin: 0px;"><i class="icon-list"></i>&nbsp;zur Übersicht</a><br/>
+                        <% if(Model.IsOwner){ %>
+                            <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="icon-pencil"></i>&nbsp;bearbeiten</a> 
+                        <% } %>
+                    </div>
+                </div>
         
-                <div class="box-content" style="min-height: 200px;">
+                <div class="box-content" style="min-height: 200px; clear: both; padding-top: 10px;">
                     <% var index = 0; foreach(var question in Model.Questions){ index++; %>
                         <div>
                             <%= index %> <a href="<%= Links.AnswerQuestion(Url, question, 0) %>"><%=question.Text %></a>
@@ -32,8 +39,8 @@
         <div class="span4">
             <div class="box">
                 <div class="box-content">
-                    Ersteller: Robert Mischke <br/>
-                    Am: 22.04.2012
+                    von: <a href="<%= Links.Profile(Url, Model.Creator) %>"> <%= Model.CreatorName %> </a> <br/>
+                    vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
                 </div>
             </div>
             

@@ -23,7 +23,7 @@
         <% } %>
 
         <div><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("QuestionSets", "QuestionSets") %>"><i class="icon-caret-right"></i> Fragesätze</a></div>
-        <% index = 0; foreach (var set in new SessionUiData().LastQuestionSets){ index++ ; %>
+        <% index = 0; foreach (var set in new SessionUiData().LastQuestionSets){ index++; %>
                <div class="sub">
                    <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
                    <a href="<%= Links.QuestionSetDetail(Url, set.Name, set.Id) %>" class="show-tooltip <%= activeClass %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
@@ -31,7 +31,7 @@
                    </a>
                </div>
         <% } %>
-        <div><a href="#"><i class="icon-caret-right"></i> Lerngruppen</a></div>
+        <%--<div><a href="#"><i class="icon-caret-right"></i> Lerngruppen</a></div>--%>
 
     
         <div style="margin-top: 13px;">
@@ -44,8 +44,13 @@
 
         <div class="main" style="margin-top:12px;"><a href="#"><i class="icon-caret-right"></i> Netzwerk<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> </div>
     
-        <% foreach (var user in new SessionUiData().LastVisitedProfiles){ %>
-               <div class="sub"><a href="<%= Links.Profile(Url, user.Name, user.Id) %>"><i class="icon-caret-right"></i> <%=user.Name%></a></div>
+        <% index = 0; foreach (var user in new SessionUiData().LastVisitedProfiles){ index++;  %>
+               <div class="sub">
+                   <% var activeClass = ""; if (index == 1) { activeClass = Model.Active(MenuEntry.ProfilDetail); } %>
+                   <a href="<%= Links.Profile(Url, user.Name, user.Id) %>" class="<%= activeClass %>">
+                       <i class="icon-caret-right"></i> <%=user.Name%>
+                   </a>
+               </div>
         <% } %>
     
         <% if (Request.IsLocal && Model.IsInstallationAdmin){ %>

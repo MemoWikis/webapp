@@ -8,7 +8,11 @@ namespace TrueOrFalse
 {
     public enum MenuEntry
     {
-        None, Knowledge, Questions, QuestionDetail, QuestionSet, QuestionSetDetail, Categories, News, Network
+        None, Knowledge, 
+        Questions, QuestionDetail, 
+        QuestionSet, QuestionSetDetail,
+        Network, ProfilDetail,
+        Categories, News
     }
 
     [Serializable]

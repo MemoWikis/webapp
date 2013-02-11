@@ -21,6 +21,14 @@ namespace TrueOrFalse.Web.Context
             private set { Data["user"] = value; }
         } 
 
+        public bool IsOwner(int userId)
+        {
+            if (!IsLoggedIn)
+                return false;
+
+            return userId == User.Id;
+        }
+
         public void Login(User user)
         {
             IsLoggedIn = true;

@@ -7,18 +7,14 @@ using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 
 [HandleError]
-public class EditQuestionController : Controller
+public class EditQuestionController : BaseController
 {
     private readonly QuestionRepository _questionRepository;
-    private readonly SessionUser _sessionUser;
     private const string _viewLocation = "~/Views/Questions/Edit/EditQuestion.aspx";
     private const string _viewLocationBody = "~/Views/Questions/Edit/EditSolutionControls/SolutionType{0}.ascx";
 
-    public EditQuestionController(QuestionRepository questionRepository,
-                                  SessionUser sessionUser)
-    {
+    public EditQuestionController(QuestionRepository questionRepository){
         _questionRepository = questionRepository;
-        _sessionUser = sessionUser;
     }
 
     public ActionResult Create()
@@ -50,7 +46,7 @@ public class EditQuestionController : Controller
         model.FillCategoriesFromPostData(Request.Form);
         model.SetToUpdateModel();
         model.IsEditing = true;
-        _questionRepository.Update(ServiceLocator.Resolve<EditQuestionModel_to_Question>().Update(model,
+        _questionRepository.Update(Resolve<EditQuestionModel_to_Question>().Update(model,
                                                                                                   _questionRepository.
                                                                                                       GetById(id),
                                                                                                   Request.Form));
@@ -66,7 +62,7 @@ public class EditQuestionController : Controller
     {
         model.FillCategoriesFromPostData(Request.Form);
         
-        var editQuestionModelCategoriesExist = ServiceLocator.Resolve<EditQuestionModel_Categories_Exist>();
+        var editQuestionModelCategoriesExist = Resolve<EditQuestionModel_Categories_Exist>();
         
         if (editQuestionModelCategoriesExist.No(model))
         {
@@ -80,7 +76,7 @@ public class EditQuestionController : Controller
             return View(_viewLocation, model);
         }
 
-        var question = ServiceLocator.Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
+        var question = Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
 
         question.Creator = _sessionUser.User;
         _questionRepository.Create(question);
