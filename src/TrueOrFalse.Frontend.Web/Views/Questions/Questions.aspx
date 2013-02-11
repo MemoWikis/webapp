@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
+﻿
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -30,7 +31,8 @@
                 Frage erstellen
             </a>
         </div>
-    <div class="box box_green" style="padding-top: 20px;">
+        
+        <div class="box box_green" style="padding-top: 20px;">
         
             <div class="form-horizontal " style="margin-bottom: 0px; padding-bottom: 0px;">
             
