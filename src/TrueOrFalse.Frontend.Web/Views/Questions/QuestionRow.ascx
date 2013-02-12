@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="row question-row" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>" style=" margin-left: 0px;">
+<div class="rowBase question-row" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
     <div class="column-1" style="line-height: 15px; font-size: 90%;" data-questionId="<%= Model.QuestionId %>" >
         
         <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">

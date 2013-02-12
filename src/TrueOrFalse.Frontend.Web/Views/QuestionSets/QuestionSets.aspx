@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionSetsModel>" %>
+﻿<%@ Page Title="Fragesätze" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionSetsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -7,43 +7,53 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="span10">
+        <% using (Html.BeginForm()) { %>
     
-    <% using (Html.BeginForm()) { %>
-        <ul class="nav nav-tabs" style="padding-top: 14px;  ">
-            <li class="active"><a href="#home" >Alle  (<%= Model.TotalQuestionSets %>)</a></li>
-            <li>
-                <a href="#profile">
-                    Meine Fragesätze <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
+            <div style="float: right;">
+                <a href="<%= Url.Action("Create", "EditQuestionSet") %>" style="width: 140px" class="btn">
+                    <i class="icon-plus-sign"></i>
+                    Fragesatz erstellen
                 </a>
-            </li>
-        </ul>
-        <div style="float: right; margin-top: -55px;">
-            <a href="<%= Url.Action("Create", "EditQuestionSet") %>" style="width: 140px" class="btn">
-                <i class="icon-plus-sign"></i>
-                Fragesatz erstellen
-            </a>
-        </div>
-        <div class="row form-horizontal " style="background-color: white; padding-top:15px; margin-top: -21px; margin-bottom: 0px; padding-bottom: 0px; border: 1px solid #ebebeb; border-bottom: none;">
-            
-            <div class="control-group" style="margin-bottom: 8px;">
-                <label style="line-height: 18px; padding-top: 5px;"><nb>Suche</nb>:</label>
-                <%: Html.TextBoxFor(model => model.SearchTerm, new {style="width:297px;", id="txtSearch"}) %>
-                <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
             </div>
-
-            <div class="control-group" style="margin-bottom: 8px; background-color: white;" >
-                <label style="line-height: 18px; padding-top: 5px;"><b>Erstellt</b>:</label>
-                <div class="btn-group" style="display: inline">
-                    <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
-                    <button class="btn btn-filterByAll">von anderen</button>
-                    <%: Html.HiddenFor(model => model.FilterByMe)%>
-                    <%: Html.HiddenFor(model => model.FilterByAll)%>
+        <div class="box-with-tabs">
+            <div class="green">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#home" >Alle Fragesätze (<%= Model.TotalQuestionSets %>)</a></li>
+                    <li>
+                        <a href="#profile">
+                            Meine Fragesätze <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        
+            <div class="box box-green">
+                <div class="form-horizontal">
+                    <div class="control-group" style="margin-bottom: 8px;">
+                        <label style="line-height: 18px; padding-top: 5px;"><nb>Suche</nb>:</label>
+                        <%: Html.TextBoxFor(model => model.SearchTerm, new {style="width:297px;", id="txtSearch"}) %>
+                        <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
+                    </div>
+                    <div class="control-group" style="margin-bottom: 8px;">
+                        <label style="line-height: 18px; padding-top: 5px;"><b>Erstellt</b>:</label>
+                        <div class="btn-group" style="display: inline">
+                            <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
+                            <button class="btn btn-filterByAll">von anderen</button>
+                            <%: Html.HiddenFor(model => model.FilterByMe)%>
+                            <%: Html.HiddenFor(model => model.FilterByAll)%>
+                        </div>
+                    </div>
+                </div>
+        
+        <% } %>
+                <div class="box-content">
+                    <% foreach(var row in Model.Rows){
+                        Html.RenderPartial("QuestionSetRow", row);
+                    } %>
+    
                 </div>
             </div>
         </div>
-    <% } %>
-    
-    <% foreach(var row in Model.Rows){
-        Html.RenderPartial("QuestionSetRow", row);
-    } %>
+    </div>
 </asp:Content>

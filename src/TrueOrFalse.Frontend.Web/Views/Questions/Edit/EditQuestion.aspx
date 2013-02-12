@@ -23,14 +23,14 @@
 
    
     
-<div>
+<div class="span10">
     
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
     
 
         <div class="form-horizontal" style="padding-top: 0px;">
             <div class="box box-main">
-                <h2 class="pull-left"><%=Model.PageTitle %></h2>
+                <h1 class="pull-left"><%=Model.PageTitle %></h1>
             
                 <div class="pull-right">
                     <div>
@@ -44,7 +44,7 @@
                         </div>
                     <%} %>
                 </div>
-            <div class="box-content" style="clear: both; padding-top: 10px;">
+            <div class="box-content" style="clear: both;">
             <div style="margin-top: -5px; padding-left: 14px; margin-right: -15px;">
                 <% Html.Message(Model.Message); %>
             </div>

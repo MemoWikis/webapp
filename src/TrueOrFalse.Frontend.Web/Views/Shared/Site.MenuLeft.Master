@@ -20,10 +20,8 @@
                 <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
             </div>
                 
-            <div class="span10">
-                <%-- MAIN CONTENT--%>
-                <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
-            </div>
+            <%-- MAIN CONTENT--%>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
         </div>
         
         <%-- FOOTER--%>

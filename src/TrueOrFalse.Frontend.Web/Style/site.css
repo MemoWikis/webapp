@@ -1,6 +1,10 @@
 ﻿/* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
 
+html {
+     overflow: scroll;
+} /*always show scrollbar*/
+
 a {
     color: #275ABD;
 }
@@ -109,7 +113,7 @@ div.box-content {
     -moz-border-radius: 3px;
     border-radius: 3px;
     margin: -3px;
-    margin-top: 0px;
+    
     background-color: white;
     padding: 5px;
     }
@@ -122,7 +126,7 @@ div.box_darkblue a {
     color: #9EDCF9;
 }
 
-div.box_green {
+div.box-green {
     background-color: #D1EBA7;
 }
 
@@ -152,7 +156,87 @@ div.box_green {
     margin: 0px;
 }
 
+div.box-main h1,
 div.box-main h2 {
     padding-top: 10px;
     padding-bottom: 20px;
+}
+
+div.box-main .box-content {
+    padding-top: 15px;
+}
+
+.box-with-tabs ul.nav-tabs li.active a,
+.box-with-tabs ul.nav-tabs li.active a:hover {
+    border: none;
+    padding-bottom: 12px;
+    margin-bottom: -4px;
+    background-color: #E7ECF6;
+}
+
+.green ul.nav-tabs li.active a,
+.green ul.nav-tabs li.active a:hover {
+    background-color: #D1EBA7;
+}
+
+.box-with-tabs ul.nav-tabs li a {
+    border: none;
+}
+
+
+.box-with-tabs ul.nav-tabs {
+    margin-bottom: 0px;
+    border: none;
+}
+
+ul.nav-tabs {
+    background-color: white;
+}
+
+.box div.pagination {
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.box div.pagination ul {
+    background-color: white;
+}
+
+.box-with-tabs .box {
+    padding-top: 20px;
+}
+
+.box div.form-actions {
+    background-color: transparent;
+    border: none;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-bottom: 5px;
+}
+
+/*Rows
+---------------------------------------------------------*/
+
+.rowBase:after {
+  clear: both;
+}
+
+.rowBase {
+  *zoom: 1;
+}
+
+
+.rowBase:before,
+.rowBase:after {
+  display: table;
+  content: "";
+}
+
+
+div.rowBase {
+    border-top:1px solid #A6BADE;
+}
+
+div.rowBase:first-child {
+    border-top: none;
 }

@@ -82,7 +82,7 @@
                 </div>
             </div>
             
-            <div class="box box_green">
+            <div class="box box-green">
                 <h2>Top Fragesätze</h2>
                 <div class="box-content">
                     <div class="question-short-row">
@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box box_green">
+            <div class="box box-green">
                 <h2>Top Kategorien</h2>
                 
                 <div class="box-content">

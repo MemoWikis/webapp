@@ -2,8 +2,11 @@
     Inherits="System.Web.Mvc.ViewPage<UserProfileModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%= Model.Name %></h2>
     
+    <div class="span10">
+        <h2><%= Model.Name %></h2>
+    </div>
+
     <div class="row">
         <div class="span2">
             <img alt="" style="border: 2px solid #2E487B;" src="<%=string.Format(Model.ImageUrl, 128) %>" /><br/>

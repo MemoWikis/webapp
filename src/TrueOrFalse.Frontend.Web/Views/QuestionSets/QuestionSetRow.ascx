@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSetRowModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="row set-row" data-questionSetId="<%= Model.Id %>">
+<div class="rowBase set-row" data-questionSetId="<%= Model.Id %>">
     <div class="column-1" style="line-height: 15px; font-size: 90%;">
         &nbsp;
     </div>

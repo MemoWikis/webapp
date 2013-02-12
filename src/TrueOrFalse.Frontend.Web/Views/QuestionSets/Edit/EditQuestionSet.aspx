@@ -9,7 +9,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
 
-<div class="row">
+<div class="span10">
     
     <h4 style="border-bottom: 1px solid lavender; margin-bottom: 20px;">Fragensatz erstellen</h4>
 

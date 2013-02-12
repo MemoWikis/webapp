@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
-<textarea id="txtAnswer" class="questionBlockWidth row" style="height: 30px;"></textarea>    
+<textarea id="txtAnswer" class="questionBlockWidth" style="height: 30px;"></textarea>    
 
 <script type="text/javascript">
     $("#txtAnswer").keypress(function () {

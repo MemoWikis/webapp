@@ -9,17 +9,21 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div>
-        <h2 style="float: left; width: 200px; " >Kategorien</h2>
-        <div style="float: right; padding-top: 13px;">
-            <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn" style="display: inline;"><i class="icon-plus-sign"></i> Kategorie erstellen</a>
+    <div class="span10">
+        <div class="box">
+        <div>
+            <h1 style="float: left; width: 200px; padding-bottom: 10px;" >Kategorien</h1>
+            <div style="float: right; padding-top: 5px; padding-bottom: 15px;">
+                <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn" style="display: inline;"><i class="icon-plus-sign"></i> Kategorie erstellen</a>
+            </div>
+        </div>
+
+        <div class="box-content" style="clear: both;">
+            <% foreach (var row in Model.CategoryRows){
+                Html.RenderPartial("CategoryRow", row);
+            } %>
+        </div>
         </div>
     </div>
-
-    <div style="clear: both;">
-        <% foreach (var row in Model.CategoryRows){
-            Html.RenderPartial("CategoryRow", row);
-        } %>
-    </div> 
 
 </asp:Content>
