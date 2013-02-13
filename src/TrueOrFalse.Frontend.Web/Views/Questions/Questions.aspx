@@ -17,16 +17,14 @@
     
     
 <div class="span10">
-            <% using (Html.BeginForm())
-                    { %>
-        
-        
-        <div style="float: right;">
-            <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="width: 120px" class="btn">
-                <i class="icon-plus-sign"></i>
-                Frage erstellen
-            </a>
-        </div>
+    <% using (Html.BeginForm()){ %>
+            
+    <div style="float: right;">
+        <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="width: 120px" class="btn">
+            <i class="icon-plus-sign"></i>
+            Frage erstellen
+        </a>
+    </div>
     
     <div class="box-with-tabs">
         

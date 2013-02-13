@@ -33,11 +33,21 @@ $(function () {
         return "123, <b>456</b>";  
     }
 
-    $('#btnSearch').click(function () {
+    function SubmitSearch() {
         window.location = "/questions/search/" + $('#txtSearch').val();
+    }
+
+    $('#btnSearch').click(function () { SubmitSearch(); });
+    
+    $(function () {
+        $("#txtSearch").keypress(function (e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code === 13) {
+                SubmitSearch();
+                e.preventDefault();
+            }
+        });
     });
-
-
 });
     
 /************************/
