@@ -37,7 +37,7 @@ public class AnswerQuestionModel : BaseModel
         TimesAnsweredUserTrue = valuationForUser.TotalTrue;
         TimesAnsweredUserWrong = valuationForUser.TotalFalse;
 
-        TotalViews = question.TotalViews;
+        TotalViews = question.TotalViews + 1;
 
         TotalQualityAvg = question.TotalQualityAvg.ToString();
         TotalQualityEntries = question.TotalQualityEntries.ToString();
@@ -143,6 +143,4 @@ public class AnswerQuestionModel : BaseModel
 
     public bool HasPreviousPage;
     public bool HasNextPage;
-
-
 }
