@@ -5,33 +5,26 @@ using TrueOrFalse;
 using TrueOrFalse.Web.Context;
 
 [HandleError]
-public class AnswerQuestionController : Controller
+public class AnswerQuestionController : BaseController
 {
     private readonly QuestionRepository _questionRepository;
     private readonly QuestionValuationRepository _questionValuation;
     private readonly TotalsPersUserLoader _totalsPerUserLoader;
     private readonly AnswerQuestion _answerQuestion;
     private readonly SaveQuestionView _saveQuestionView;
-    private readonly SessionUser _sessionUser;
-    private readonly SessionUiData _sessionUiData;
-
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
     public AnswerQuestionController(QuestionRepository questionRepository,
                                     QuestionValuationRepository questionValuation,
                                     TotalsPersUserLoader totalsPerUserLoader,
                                     AnswerQuestion answerQuestion,
-                                    SaveQuestionView saveQuestionView, 
-                                    SessionUser sessionUser,
-                                    SessionUiData sessionUiData)
+                                    SaveQuestionView saveQuestionView)
     {
         _questionRepository = questionRepository;
         _questionValuation = questionValuation;
         _totalsPerUserLoader = totalsPerUserLoader;
         _answerQuestion = answerQuestion;
         _saveQuestionView = saveQuestionView;
-        _sessionUser = sessionUser;
-        _sessionUiData = sessionUiData;
     }
 
     [SetMenu(MenuEntry.QuestionDetail)]
@@ -68,7 +61,7 @@ public class AnswerQuestionController : Controller
 
     private ActionResult GetViewByCurrentSearchSpec()
     {
-        var question = _questionRepository.GetBy(_sessionUiData.QuestionSearchSpec).Single();
+        var question = Resolve<AnswerQuestionControllerSearch>().Run();
         var questionValuation = _questionValuation.GetBy(question.Id, _sessionUser.User.Id);
 
         _saveQuestionView.Run(question.Id, _sessionUser.User.Id);
