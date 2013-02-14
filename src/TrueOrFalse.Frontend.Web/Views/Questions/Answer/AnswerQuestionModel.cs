@@ -52,6 +52,8 @@ public class AnswerQuestionModel : BaseModel
 
         PageCurrent = questionSearchSpec.CurrentPage.ToString();
         PagesTotal = questionSearchSpec.PageCount.ToString();
+        HasPreviousPage = questionSearchSpec.HasPreviousPage();
+        HasNextPage = questionSearchSpec.HasNextPage();
 
         AverageAnswerTime = "";
 
@@ -138,4 +140,9 @@ public class AnswerQuestionModel : BaseModel
 
     public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
+
+    public bool HasPreviousPage;
+    public bool HasNextPage;
+
+
 }

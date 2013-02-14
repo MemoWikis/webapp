@@ -152,9 +152,13 @@
         
     <div class="span2">
         <div class="headerLinks" style="margin-top:8px; line-height: 25px;">
-            <a href="<%= Url.Action("Previous", Links.AnswerQuestionController) %>" ><i class="icon-arrow-left"></i></a>
+            <% if(Model.HasPreviousPage){ %> 
+                <a href="<%= Url.Action("Previous", Links.AnswerQuestionController) %>"><i class="icon-arrow-left"></i></a>
+            <% } %>
             <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
-            <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>" ><i class="icon-arrow-right"></i> </a>
+            <% if (Model.HasNextPage) { %>
+                <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>"><i class="icon-arrow-right"></i> </a>
+            <% } %>
         </div>            
 
         <p style="padding-top: 0px;">
