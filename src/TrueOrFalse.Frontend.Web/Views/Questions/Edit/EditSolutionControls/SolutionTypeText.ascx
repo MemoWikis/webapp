@@ -7,50 +7,59 @@
         
         <a href="#" class="btn" style="padding: 3px 4px; display: none"><img src="/Images/textfield-16.png" alt="Text"/></a>
         
-        <div  style="display: inline-block; border: 5px solid white; border-top: none; position: absolute; border-radius: 6px">
-            <div class="btn-group">
+        <div  style="display: inline-block; position: absolute;">
+            <div class="btn-group" style="position: relative; left: 10px;">
                 <a class="btn active" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
                 <a class="btn" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
                 <a class="btn" style="padding: 3px 4px; border-bottom-right-radius: 0" id="btnMenuItemDate"><img src="/Images/date-16.png" /></a>    
             </div>
             
             <%-- MenuItemText --%>
-            <div class="well contextMenu hide" id="divMenuItemText">
-                <%--<a class="close" href="#" style="margin: -5px -4px 0 0">&times;</a>--%>
-                <div style="margin-bottom: 5px">Großschreibung:</div>
-                <div class="btn-group">
-                    <a class="btn active">Ignorieren</a>
-                    <a class="btn">Beachten</a>
+            <div class="contextMenuOuter hide" id="divMenuItemText" style="position: relative; left: 5px;">
+                <div class="well contextMenu">
+                    <%--<a class="close" href="#" style="margin: -5px -4px 0 0">&times;</a>--%>
+                    <div style="margin-bottom: 5px">Großschreibung:</div>
+                    <div class="btn-group">
+                        <a class="btn active">Ignorieren</a>
+                        <a class="btn">Beachten</a>
+                    </div>
+                    <div style="margin-top:10px; height: 20px;">
+                        <label class="checkbox" style="width: auto">
+                            <input type="checkbox">Exakte Schreibweise
+                        </label>
+                        <i class="icon-question-sign cursor-hand" id="help"></i>
+                    </div>
+                    <div style="clear: both"></div>
                 </div>
-                <div style="margin-top:10px; height: 20px;">
-                    <label class="checkbox" style="width: auto">
-                        <input type="checkbox">Exakte Schreibweise
-                    </label>
-                    <i class="icon-question-sign cursor-hand" id="help"></i>
-                </div>
-                <div style="clear: both"></div>
             </div>
             
             <%-- MenuItemNumber --%>
-            <div class="well contextMenu hide" id="divMenuItemNumber" style="position: relative; left: 25px;">
-                <div style="margin-bottom: 5px">Abweichung:</div>
-                <div style="width: 150px;">
-                    <input id="numberAccuracy" value="0" style="width: 10px;" />%    
+            <div class="contextMenuOuter hide" id="divMenuItemNumber" style="position: relative; left: 30px; width: 160px;">
+                <div class="well contextMenu">
+                    <div style="margin-bottom: 5px">
+                        Abweichung:
+                        <input id="numberAccuracy" value="0" style="width: 20px;" />%    
+                    </div>
+                    <div>
+                        Einheit: 
+                        <input type="text" style="width: 100px;" />
+                    </div>
                 </div>
-                
             </div>
             
             <%-- MenuItemDate --%>
-            <div class="well contextMenu hide" id="divMenuItemDate" style="position: relative; left: 50px;">
-                <%--<a class="close" href="#" style="margin: -5px -4px 0 0">&times;</a>--%>
-                <div style="margin-bottom: 5px">Genau auf:</div>   
+            <div class="contextMenuOuter hide" id="divMenuItemDate" style="position: relative; left: 55px;">
+                <div class="well contextMenu">
+                    <%--<a class="close" href="#" style="margin: -5px -4px 0 0">&times;</a>--%>
+                    <div style="margin-bottom: 5px">Genau auf:</div>   
           
-                <span id="spanSliderValue"></span>      
-                <div id="sliderDate" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 120px; margin-left:5px;"> 
-                    <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-                    <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+                    <span id="spanSliderValue"></span>      
+                    <div id="sliderDate" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 120px; margin-left:5px;"> 
+                        <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+                        <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+                    </div>
+                    <div style="clear: both"></div>
                 </div>
-                <div style="clear: both"></div>
             </div>
         </div>
     </div>

@@ -2,7 +2,6 @@
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
-
 class SolutionMetaDataMenu {
 
     _divMenu: JQuery;
@@ -11,12 +10,12 @@ class SolutionMetaDataMenu {
     _divMenuItemDate: JQuery;
 
     _sliderDate: SliderDate;
-    _spinnerNumberAccuracy: SpinnerNumberAccuracy;
+    _numberAccuracy: NumberAccuracy;
 
     constructor () {
 
         this._sliderDate = new SliderDate();
-        this._spinnerNumberAccuracy = new SpinnerNumberAccuracy();
+        this._numberAccuracy = new NumberAccuracy();
 
         $("#btnMenuItemText").click(this.SelectText);
         $("#btnMenuItemText, #divMenuItemText").hover(
@@ -77,15 +76,13 @@ class SliderDate
     }
 }
 
-class SpinnerNumberAccuracy
+class NumberAccuracy
 { 
     constructor() {     
-        $("#numberAccuracy").spinner({
-          min: 0,
-          max: 100,
-          step: 1,
-          start: 0
-        });
+        $("#numberAccuracy").change(function () { 
+            var newVal = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(newVal)
+        })       
     }
 }
 

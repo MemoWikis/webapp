@@ -1,7 +1,7 @@
 var SolutionMetaDataMenu = (function () {
     function SolutionMetaDataMenu() {
         this._sliderDate = new SliderDate();
-        this._spinnerNumberAccuracy = new SpinnerNumberAccuracy();
+        this._numberAccuracy = new NumberAccuracy();
         $("#btnMenuItemText").click(this.SelectText);
         $("#btnMenuItemText, #divMenuItemText").hover(function () {
             $("#divMenuItemText").show();
@@ -58,16 +58,14 @@ var SliderDate = (function () {
     };
     return SliderDate;
 })();
-var SpinnerNumberAccuracy = (function () {
-    function SpinnerNumberAccuracy() {
-        $("#numberAccuracy").spinner({
-            min: 0,
-            max: 100,
-            step: 1,
-            start: 0
+var NumberAccuracy = (function () {
+    function NumberAccuracy() {
+        $("#numberAccuracy").change(function () {
+            var newVal = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(newVal);
         });
     }
-    return SpinnerNumberAccuracy;
+    return NumberAccuracy;
 })();
 var solutionMetaData = new SolutionMetaDataMenu();
 $('#help').click(function () {
