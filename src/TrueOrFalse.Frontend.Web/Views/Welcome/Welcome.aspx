@@ -56,7 +56,7 @@
         </div>
         <div class="span4">
             <div class="box" style="padding: 20px; height: 180px;">
-                <div style="width: 222px; margin-left: auto; margin-right: auto;">
+                <div style="width: 222px; margin-left: auto; margin-right: auto;" >
                     <!--<h2>Login</h2>-->           
                     <div  style="margin-bottom: 5px; text-align: center;">
                         <input type="text" placeholder="Email-Adresse">

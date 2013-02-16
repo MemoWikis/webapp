@@ -21,8 +21,6 @@
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
     
 
-   
-    
 <div class="span10">
     
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>

@@ -259,6 +259,8 @@
     <Content Include="Scripts\jquery-ui-1.10.0.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
+    <Content Include="Scripts\typescript.defs\underscore-typed.d.ts" />
     <Content Include="Scripts\underscore-1.4.3.min.js" />
     <Compile Include="Views\Drafts\DraftsController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
@@ -378,9 +380,6 @@
     <Content Include="Scripts\google-code-prettify\prettify.js" />
     <Content Include="Scripts\Jplayer.swf" />
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
-    <Content Include="Scripts\typescript.defs\bootstrap.d.js">
-      <DependentUpon>bootstrap.d.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\jquery.jplayer.min.js" />
     <Content Include="Scripts\jquery.sparkline.min.js" />
@@ -440,6 +439,13 @@
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowDelete.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
     <Content Include="Views\Questions\Edit\EditQuestion.css" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.min.js">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>

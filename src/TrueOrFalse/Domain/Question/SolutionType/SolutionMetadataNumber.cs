@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace TrueOrFalse
 {
     public class SolutionMetadataNumber : SolutionMetadata
     {
+        [JsonProperty("Currency")]
+        public string Currency;
+
         protected override void InitFromJson(string json)
         {
             

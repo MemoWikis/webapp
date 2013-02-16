@@ -4,7 +4,7 @@
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
 
-/// <reference path="../jquery/jquery.d.ts"/>
+/// <reference path="jquery.d.ts"/>
 
 interface ModalOptions {
     backdrop?: bool;
@@ -83,8 +83,8 @@ interface JQuery {
     alert(): JQuery;
     alert(command: string): JQuery;
 
-    button(): JQuery;
-    button(command: string): JQuery;
+    //button(): JQuery;
+    //button(command: string): JQuery;
 
     collapse(options?: CollapseOptions): JQuery;
     collapse(command: string): JQuery;
