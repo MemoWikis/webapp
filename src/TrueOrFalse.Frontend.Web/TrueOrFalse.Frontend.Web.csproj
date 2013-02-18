@@ -426,6 +426,7 @@
     <Content Include="Views\QuestionSets\Detail\QuestionSet.aspx" />
     <Content Include="Views\QuestionSets\Detail\QuestionSet.css" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
+    <Content Include="Views\QuestionSets\Edit\EditQuestionSet.css" />
     <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />
     <Content Include="Views\QuestionSets\QuestionSets.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
@@ -479,6 +480,7 @@
     <Content Include="Views\Maintenance\Maintenance.aspx" />
     <Content Include="Views\Questions\Questions.css" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />
+    <Content Include="Views\Shared\ImageUpload.ascx" />
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />

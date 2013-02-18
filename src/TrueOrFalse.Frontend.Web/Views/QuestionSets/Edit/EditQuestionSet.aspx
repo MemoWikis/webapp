@@ -1,9 +1,11 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditQuestionSetModel>" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
+<%@ Register Src="~/Views/Shared/ImageUpload.ascx" TagPrefix="uc1" TagName="ImageUpload" %>
+
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <title><%=Model.PageTitle %></title>
-    <link href="/Views/QuestionSets/QuestionSets.css" rel="stylesheet" />
+    <link href="/Views/QuestionSets/Edit/EditQuestionSet.css" rel="stylesheet" />
     <script src="/Views/QuestionSets/QuestionSets.js" type="text/javascript"></script>
 </asp:Content>
 
@@ -21,22 +23,29 @@
         <div class="form-horizontal">
             <div class="box box-main">
                 <h1 class="pull-left"><%=Model.FormTitle %></h1>
-                
-                <div class="box-content" style="clear: both;">
-                    <div class="control-group">
-                        <%= Html.LabelFor(m => m.Title, new { @class = "control-label" })%>
-                        <div class="controls">
-                            <%= Html.TextBoxFor(m => m.Title, new { placeholder = "Titel" }) %>
+
+                <div class="box-content" style="clear: both;">    
+                    <div class="row">
+                        <div class="span6 green">
+                            <div class="control-group">
+                                <%= Html.LabelFor(m => m.Title, new { @class = "control-label" })%>
+                                <div class="controls">
+                                    <%= Html.TextBoxFor(m => m.Title, new { placeholder = "Titel" }) %>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <%= Html.LabelFor(m => m.Text, new { @class = "control-label" })%>
+                                <div class="controls">
+                                    <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px; width:300px;", placeholder = "Beschreibung" }) %>
+                                </div>
+                            </div>                        
+                        </div>
+                        <div class="span3" style="background-color: orange">
+                            asdfsdf
                         </div>
                     </div>
-                    <div class="control-group">
-                        <%= Html.LabelFor(m => m.Text, new { @class = "control-label" })%>
-                        <div class="controls">
-                            <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px; width:435px;", placeholder = "Beschreibung" }) %>
-                        </div>
-                    </div>    
     
-                    <div style="margin-left: 180px;">
+                    <div class="info">
                         Um Fragen hinzuzufügen, wählen Sie Fragen auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions") %> aus. 
                     </div>
                 </div>
@@ -50,4 +59,7 @@
     
     <% } %>
 </div>
+    
+<% Html.RenderPartial("../Shared/ImageUpload"); %>
+
 </asp:Content>

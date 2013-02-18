@@ -137,16 +137,12 @@
                    } %>
             </div>
     
-            <% Html.RenderPartial("Pager", Model.Pager); %>
-    
-        
+            <% Html.RenderPartial("Pager", Model.Pager); %>        
     
             <% Html.RenderPartial("Modals/ToQuestionSet"); %>
             <% Html.RenderPartial("Modals/DeleteQuestion"); %>
     
             <% /* MODAL-TAB-INFO-MyKnowledge****************************************************************/ %>
-            
-      
     
             <div id="modalTabInfoMyKnowledge" class="modal hide fade">
                 <div class="modal-header">
@@ -166,5 +162,5 @@
     </div>
 </div>
     
-   
+  
 </asp:Content>
