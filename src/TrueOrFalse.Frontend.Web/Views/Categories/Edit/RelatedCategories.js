@@ -30,8 +30,8 @@ $(function () {
     function checkText() {
         var text = $("#txtNewRelatedCategory").val();
         var matched = $(".ui-autocomplete li .cat-name:textEquals('" + text + "')");
-        var existing = $(".added-cat:textEquals('" + text + "')");
-        if (matched.size() == 0 || existing.size() != 0) {
+        var alreadAddedCategory = $(".added-cat:textEquals('" + text + "')");
+        if (matched.size() == 0 || alreadAddedCategory.size() != 0) {
             $("#addRelatedCategory").hide();
         } else {
             $("#addRelatedCategory").show();
@@ -39,9 +39,9 @@ $(function () {
                 $("#txtNewRelatedCategory").val(matched.text());
             }
         }
-        if (!animating && existing.size() != 0) {
+        if (!animating && alreadAddedCategory.size() != 0) {
             animating = true;
-            existing.effect('bounce', null, 'fast', function () { animating = false; });
+            alreadAddedCategory.effect('bounce', null, 'fast', function () { animating = false; });
         }
         setTimeout(checkText, 250);
     }

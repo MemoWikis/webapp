@@ -2,6 +2,18 @@
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
+enum SolutionMetaDataType
+{ 
+    Text,
+    Number,
+    Date
+}
+
+interface SolutionMetaData 
+{
+    Name;
+}
+
 class SolutionMetaDataMenu {
 
     _divMenu: JQuery;
@@ -38,6 +50,8 @@ class SolutionMetaDataMenu {
 
     SelectText() 
     { 
+        var obj = <SolutionMetaData>jQuery.parseJSON('{"name":"John"}');
+        alert(obj.Name)
         $("#btnMenuItemText").addClass("active")
         $("#btnMenuItemNumber").removeClass("active")
         $("#btnMenuItemDate").removeClass("active")

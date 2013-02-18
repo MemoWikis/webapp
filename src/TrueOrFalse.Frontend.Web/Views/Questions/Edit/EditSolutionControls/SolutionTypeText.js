@@ -1,3 +1,13 @@
+var SolutionMetaDataType;
+(function (SolutionMetaDataType) {
+    SolutionMetaDataType._map = [];
+    SolutionMetaDataType._map[0] = "Text";
+    SolutionMetaDataType.Text = 0;
+    SolutionMetaDataType._map[1] = "Number";
+    SolutionMetaDataType.Number = 1;
+    SolutionMetaDataType._map[2] = "Date";
+    SolutionMetaDataType.Date = 2;
+})(SolutionMetaDataType || (SolutionMetaDataType = {}));
 var SolutionMetaDataMenu = (function () {
     function SolutionMetaDataMenu() {
         this._sliderDate = new SliderDate();
@@ -22,6 +32,8 @@ var SolutionMetaDataMenu = (function () {
         });
     }
     SolutionMetaDataMenu.prototype.SelectText = function () {
+        var obj = jQuery.parseJSON('{"name":"John"}');
+        alert(obj.Name);
         $("#btnMenuItemText").addClass("active");
         $("#btnMenuItemNumber").removeClass("active");
         $("#btnMenuItemDate").removeClass("active");

@@ -17,7 +17,6 @@
             <%-- MenuItemText --%>
             <div class="contextMenuOuter hide" id="divMenuItemText" style="position: relative; left: 5px;">
                 <div class="well contextMenu">
-                    <%--<a class="close" href="#" style="margin: -5px -4px 0 0">&times;</a>--%>
                     <div style="margin-bottom: 5px">Großschreibung:</div>
                     <div class="btn-group">
                         <a class="btn active">Ignorieren</a>
@@ -50,7 +49,6 @@
             <%-- MenuItemDate --%>
             <div class="contextMenuOuter hide" id="divMenuItemDate" style="position: relative; left: 55px;">
                 <div class="well contextMenu">
-                    <%--<a class="close" href="#" style="margin: -5px -4px 0 0">&times;</a>--%>
                     <div style="margin-bottom: 5px">Genau auf:</div>   
           
                     <span id="spanSliderValue"></span>      
