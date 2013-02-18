@@ -1,8 +1,8 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" 
-	Inherits="ViewPage<WelcomeModel>"
-    Title="Richtig-oder-Falsch" %>
+	Inherits="ViewPage<WelcomeModel>"%>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
+    <title>Richtig-oder-Falsch</title>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
 </asp:Content>
 

@@ -10,8 +10,11 @@ public class EditQuestionSetController : BaseController
 {
     private const string _viewLocation = "~/Views/QuestionSets/Edit/EditQuestionSet.aspx";
 
-    public ActionResult Create(){
-        return View(_viewLocation, new EditQuestionSetModel());
+    public ActionResult Create()
+    {
+        var model = new EditQuestionSetModel();
+        model.SetToCreateModel();
+        return View(_viewLocation, model);
     }
 
     [HttpPost]
@@ -22,22 +25,37 @@ public class EditQuestionSetController : BaseController
             var questionSet = model.ToQuestionSet();
             questionSet.Creator = _sessionUser.User;
             Resolve<QuestionSetRepository>().Create(questionSet);
-            model.Message = new SuccessMessage("Fragesatz wurde gespeichert");
-        }
 
+            model = new EditQuestionSetModel();
+            model .SetToCreateModel();
+            model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert, " +
+                                               "nun kannst Du einen neuen Fragesatz erstellen.");
+
+            return View(_viewLocation, model);
+        }
         return View(_viewLocation, model);
     }
 
     public ViewResult Edit(int id)
     {
         var set = Resolve<QuestionSetRepository>().GetById(id);
-        return View(_viewLocation, new EditQuestionSetModel(set));
+        var model = new EditQuestionSetModel(set);
+        model.SetToUpdateModel();
+        return View(_viewLocation, model);
     }
 
     [HttpPost]
-    public ViewResult Edit(int id, EditQuestionSetModel setModel)
+    public ViewResult Edit(int id, EditQuestionSetModel model)
     {
-        return View(_viewLocation, setModel);
+        var questionSetRepo = Resolve<QuestionSetRepository>();
+        var questionSet = questionSetRepo.GetById(id);
+        model.Fill(questionSet);
+        model.SetToUpdateModel();
+        questionSetRepo.Update(questionSet);
+
+        model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert");
+        
+        return View(_viewLocation, model);
     }
 
     public ActionResult Update()

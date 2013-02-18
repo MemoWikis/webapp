@@ -34,8 +34,6 @@
 <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
-
-
 <script type="text/javascript">
     $(function () {
         $('a.button').hover(

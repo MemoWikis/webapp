@@ -30,7 +30,7 @@ public class EditQuestionController : BaseController
 
     public ViewResult Edit(int id)
     {
-        var model = new EditQuestionModel(_questionRepository.GetById(id)) {IsEditing = true};
+        var model = new EditQuestionModel(_questionRepository.GetById(id));
         model.SetToUpdateModel();
         if (TempData["createQuestionsMsg"] != null){
             model.Message = (SuccessMessage) TempData["createQuestionsMsg"];
@@ -45,11 +45,10 @@ public class EditQuestionController : BaseController
         model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
         model.SetToUpdateModel();
-        model.IsEditing = true;
-        _questionRepository.Update(Resolve<EditQuestionModel_to_Question>().Update(model,
-                                                                                                  _questionRepository.
-                                                                                                      GetById(id),
-                                                                                                  Request.Form));
+        _questionRepository.Update(
+            Resolve<EditQuestionModel_to_Question>()
+                .Update(model, _questionRepository.GetById(id), Request.Form)
+        );
         UpdateImage(imagefile, id);
         UpdateSound(soundfile, id);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
@@ -88,7 +87,7 @@ public class EditQuestionController : BaseController
             model.Reset();
             model.SetToCreateModel();
             TempData["createQuestionsMsg"] = new SuccessMessage(
-                string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Nun wird eine <b>neue</b> Frage erstellt.",
+                string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Du kannst nun eine <b>neue</b> Frage erstellen.",
                                 question.Text.TruncateAtWord(30)));
 
             return Redirect("Create/");

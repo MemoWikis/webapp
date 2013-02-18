@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Seedworks.Lib;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Frontend.Web.Models;
@@ -38,8 +39,9 @@ public class EditQuestionModel : BaseModel
     public int? Id;
 
     public IEnumerable<String> Categories = new List<string>();
-    
+
     public string PageTitle;
+    public string FormTitle;
     public bool ShowSaveAndNewButton;
     public string ImageUrl;
     public string SoundUrl;
@@ -99,13 +101,16 @@ public class EditQuestionModel : BaseModel
 
     public void SetToCreateModel()
     {
-        PageTitle = "Frage erstellen";
+        IsEditing = false;
+        PageTitle = FormTitle = "Frage erstellen";
         ShowSaveAndNewButton = true;
     }
 
     public void SetToUpdateModel()
     {
-        PageTitle = string.Format("Frage '{0}' bearbeiten", Question.TruncateAtWord(20));
+        PageTitle = "Frage bearbeiten ("+ Question.Truncate(30, "...") + ")";
+        FormTitle = string.Format("Frage '{0}' bearbeiten", Question.TruncateAtWord(30));
+        IsEditing = true;
         ShowSaveAndNewButton = false;
     }
 

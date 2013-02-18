@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
+﻿<%@ Page Title="Mein Wissensstand" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">

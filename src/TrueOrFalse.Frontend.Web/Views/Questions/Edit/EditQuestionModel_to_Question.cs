@@ -15,7 +15,6 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         return Update(model, question, postData);
     }
 
-
     public Question Update(EditQuestionModel model, Question question, NameValueCollection postData)
     {
         question.Text = model.Question;

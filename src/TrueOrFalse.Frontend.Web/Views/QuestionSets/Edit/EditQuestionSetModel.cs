@@ -4,10 +4,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Seedworks.Lib;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
+using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
-
 
 public class EditQuestionSetModel : BaseModel
 {
@@ -24,19 +25,37 @@ public class EditQuestionSetModel : BaseModel
     [DisplayName("Beschreibung")]
     public string Text { get; set; }
 
-    public QuestionSet ToQuestionSet()
-    {
-        var questionSet = new QuestionSet();
-        questionSet.Name = Title;
-        questionSet.Text = Text;
-        return questionSet;
-    }
+    public string PageTitle;
+    public string FormTitle;
 
     public EditQuestionSetModel(){}
 
-    public EditQuestionSetModel(QuestionSet set)
-    {
+    public EditQuestionSetModel(QuestionSet set){
         Title = set.Name;
         Text = set.Text;
+    }
+
+    public QuestionSet ToQuestionSet(){
+        return Fill(new QuestionSet());
+    }
+
+    public QuestionSet Fill(QuestionSet questionSet){
+        questionSet.Name = Title;
+        questionSet.Text = Text;
+
+        return questionSet;
+    }
+
+    public void SetToCreateModel()
+    {
+        IsEditing = false;
+        PageTitle = FormTitle = "Fragesatz erstellen";
+    }
+
+    public void SetToUpdateModel()
+    {
+        PageTitle = "Fragesatz bearbeiten (" + Title.Truncate(30, "...") +")";
+        FormTitle = string.Format("Fragesatz '{0}' bearbeiten", Title.TruncateAtWord(30)); ;
+        IsEditing = true;
     }
 }
