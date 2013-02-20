@@ -26,19 +26,19 @@ public class UserProfileController : Controller
         var user = _userRepository.GetById(id);
         _sessionUiData.LastVisitedProfiles.Add(new UserHistoryItem(user));
 
-        var getUserImageUrlResult = new GetUserImageUrl().Run(user);
+        var imageResult = new ProfileImageSettings(user.Id).GetUrl_128px(user.EmailAddress);
         return View(_viewLocation, new UserProfileModel(user)
                                        {
                                            IsCurrentUserProfile = _sessionUser.User == user,
-                                           ImageUrl = getUserImageUrlResult.Url, 
-                                           ImageIsCustom = getUserImageUrlResult.HasUploadedImage
+                                           ImageUrl_128 = imageResult.Url,
+                                           ImageIsCustom = imageResult.HasUploadedImage
                                        });
     }
 
     [HttpPost]
     public ViewResult UploadProfilePicture(HttpPostedFileBase file)
     {
-        new StoreImages().Run(file.InputStream, Server.MapPath("/Images/Users/" + _sessionUser.User.Id));
+        ProfileImageStore.Run(file, _sessionUser.User.Id);
         return Profile(_sessionUser.User.Name, _sessionUser.User.Id);
     }
 }

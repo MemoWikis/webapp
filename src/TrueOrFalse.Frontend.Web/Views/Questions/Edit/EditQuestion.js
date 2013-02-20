@@ -2,7 +2,3 @@
     $('#Question').defaultText();
     $('#Description').defaultText();
 });
-
-
-
-    

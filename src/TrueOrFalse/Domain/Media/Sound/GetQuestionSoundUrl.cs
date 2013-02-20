@@ -1,22 +1,7 @@
-using System;
 using System.IO;
 using System.Linq;
 using System.Web;
 using TrueOrFalse;
-
-public class GetQuestionImageUrl : GetImageUrl<Question>
-{
-    protected override string RelativePath
-    {
-        get { return "/Images/Questions/"; }
-    }
-
-    protected override string GetFallbackImage(Question entity)
-    {
-        return "";
-    }
-}
-
 
 public class GetQuestionSoundUrl
 {

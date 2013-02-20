@@ -32,10 +32,12 @@ namespace TrueOrFalse
 
             routes.MapRoute("QuestionSets", "QuestionSets", new { controller = "QuestionSets", action = "QuestionSets" });
             routes.MapRoute("QuestionSets_Create", "QuestionSet/Create", new { controller = "EditQuestionSet", action = "Create" });
+            
             routes.MapRoute("QuestionSets_Edit", "QuestionSet/Edit/{id}", new { controller = "EditQuestionSet", action = "Edit" });
+            routes.MapRoute("QuestionSet_ImageUpload", "QuestionSet/UploadImage/{id}", new { controller = "EditQuestionSet", action = "UploadImage" });
 
             routes.MapRoute("QuestionSet_Detail", "QuestionSet/{text}/{id}/{elementOnPage}", new { controller = "QuestionSet", action = "QuestionSet" });
-
+            
             routes.MapRoute("Categories", "Categories", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_Create", "Categories/Create", new { controller = "EditCategory", action = "Create" });
             routes.MapRoute("Categories_Edit", "Categories/Edit/{id}", new { controller = "EditCategory", action = "Edit" });

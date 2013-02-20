@@ -28,11 +28,11 @@ public class EditCategoryController : Controller
     public ViewResult Edit(int id)
     {
         var category = _categoryRepository.GetById(id);
-        var model = new EditCategoryModel(category)
-                        {
+        var model = new EditCategoryModel(category){
                             IsEditing = true,
-                            ImageUrl = new GetCategoryImageUrl().Run(category).Url
-                        };
+                            ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px().Url
+                    };
+
         return View(_viewPath, model);
     }
 
@@ -53,7 +53,7 @@ public class EditCategoryController : Controller
             model.UpdateCategory(category);
             _categoryRepository.Update(category);
         }
-        UpdateImage(file, id);
+        CategoryImageStore.Run(file, id);
         return View(_viewPath, model);
     }
 
@@ -73,16 +73,9 @@ public class EditCategoryController : Controller
             model.FillReleatedCategoriesFromPostData(Request.Form);
             var category = model.ConvertToCategory();
             _categoryRepository.Create(category);
-            UpdateImage(file, category.Id);
+            CategoryImageStore.Run(file, category.Id);
             model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));
         }
         return View(_viewPath, model);
     }
-
-    private void  UpdateImage(HttpPostedFileBase file, int categoryId)
-    {
-        if (file == null) return;
-        new StoreImages().Run(file.InputStream, Server.MapPath("/Images/Categories/" + categoryId));
-    }
-
 }

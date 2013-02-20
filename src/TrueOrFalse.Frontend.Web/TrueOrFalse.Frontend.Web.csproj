@@ -254,6 +254,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
+    <Content Include="Images\no-category-picture-128.png" />
+    <Content Include="Images\no-category-picture-50.png" />
+    <Content Include="Images\no-profile-picture-50.png" />
+    <Content Include="Images\no-question-set-206.png" />
     <Content Include="Scripts\file-uploader\button.js" />
     <Content Include="Scripts\file-uploader\dnd.js" />
     <Content Include="Scripts\file-uploader\handler.base.js" />
@@ -269,6 +273,7 @@
     <Content Include="Scripts\jquery-ui-1.10.0.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore-typed.d.ts" />
     <Content Include="Scripts\underscore-1.4.3.min.js" />

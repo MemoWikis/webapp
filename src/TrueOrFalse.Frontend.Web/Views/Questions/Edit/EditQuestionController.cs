@@ -49,7 +49,7 @@ public class EditQuestionController : BaseController
             Resolve<EditQuestionModel_to_Question>()
                 .Update(model, _questionRepository.GetById(id), Request.Form)
         );
-        UpdateImage(imagefile, id);
+        QuestionImageStore.Run(imagefile, id);
         UpdateSound(soundfile, id);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
@@ -79,7 +79,7 @@ public class EditQuestionController : BaseController
 
         question.Creator = _sessionUser.User;
         _questionRepository.Create(question);
-        UpdateImage(imagefile, question.Id);
+        QuestionImageStore.Run(imagefile, question.Id);
         UpdateSound(soundfile, question.Id);
 
         if (Request["btnSave"] == "saveAndNew")
@@ -111,12 +111,6 @@ public class EditQuestionController : BaseController
         }
 
         return View(string.Format(_viewLocationBody, type), model);
-    }
-
-    private void UpdateImage(HttpPostedFileBase imagefile, int questionId)
-    {
-        if (imagefile == null) return;
-        new StoreImages().Run(imagefile.InputStream, Server.MapPath("/Images/Questions/" + questionId));
     }
 
     private void UpdateSound(HttpPostedFileBase soundfile, int questionId)

@@ -5,13 +5,11 @@ using System.IO;
 
 public class StoreImages
 {
-    public void Run(Stream inputStream, string basePath)
+    public void Run(Stream inputStream, IImageSettings imageSettings)
     {
-        var sizesSquare = new[] {512, 128, 50, 20};
-        var sizesFixedWidth = new[] {100, 500};
         using (var image = Image.FromStream(inputStream))
         {
-            foreach (var size in sizesSquare)
+            foreach (var size in imageSettings.SizesSquare)
             {
                 using (var resized = new Bitmap(size, size))
                 {
@@ -32,10 +30,10 @@ public class StoreImages
                             graphics.DrawImage(image, 0, -(image.Height*scale - size)/2, size, image.Height*scale);
                         }
                     }
-                    resized.Save(basePath + "_" + size + ".jpg", ImageFormat.Jpeg);
+                    resized.Save(imageSettings.BasePathAndId() + "_" + size + ".jpg", ImageFormat.Jpeg);
                 }
             }
-            foreach (var size in sizesFixedWidth)
+            foreach (var size in imageSettings.SizesFixedWidth)
             {
                 var scale = (float)size / image.Width;
                 var height = (int) (image.Height * scale);
@@ -49,7 +47,7 @@ public class StoreImages
                         graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                         graphics.DrawImage(image, 0, 0, size, height);
                     }
-                    resized.Save(basePath + "_" + size + ".jpg", ImageFormat.Jpeg);
+                    resized.Save(imageSettings.BasePathAndId() + "_" + size + ".jpg", ImageFormat.Jpeg);
                 }
             }
         }

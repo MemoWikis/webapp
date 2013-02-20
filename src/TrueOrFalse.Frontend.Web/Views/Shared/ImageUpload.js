@@ -11,4 +11,9 @@ $(function () {
             $("#divWikimedia").hide();
         }
     });
+    $('#jquery-wrapped-fine-uploader').fineUploader({
+        request: {
+            endpoint: '/QuestionSet/UploadImage/'
+        }
+    });
 });

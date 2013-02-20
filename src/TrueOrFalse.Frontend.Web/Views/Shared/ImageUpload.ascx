@@ -24,7 +24,7 @@
         <div style="clear: both;"></div>
         
         <%-- Wikimedia --%>
-        <div id="divWikimedia">
+        <div id="divWikimedia" class="hide">
             <div style="margin-top:10px;">
                 In Wikipedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. 
                 Auf <a href="http://commons.wikimedia.org/wiki/Hauptseite?uselang=de">Wiki-Commons</a> kann gezielt nach Inhalten gesucht werden. 
@@ -37,10 +37,9 @@
             </div>            
         </div>
         
-        <div id="divUpload" class="hide">
+        <div id="divUpload" class="">
             <div style="margin-top:10px;">
-                
-
+                <div id="jquery-wrapped-fine-uploader" data-id=""></div>
             </div>
         </div>
 
