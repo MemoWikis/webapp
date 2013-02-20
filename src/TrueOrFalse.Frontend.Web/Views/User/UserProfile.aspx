@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="span2">
-            <img alt="" style="border: 2px solid #2E487B;" src="<%=string.Format(Model.ImageUrl, 128) %>" /><br/>
+            <img alt="" style="border: 2px solid #2E487B;" src="<%=Model.ImageUrl_128 %>" /><br/>
             <% if (Model.IsCurrentUserProfile){ %>  
                 <script type="text/javascript">
                 $(function () {

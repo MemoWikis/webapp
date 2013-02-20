@@ -60,7 +60,8 @@ public class AnswerQuestionModel : BaseModel
         AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
 
-        ImageUrl = new GetQuestionImageUrl().Run(question).Url;
+
+        ImageUrl_500px = new QuestionImageSettings(question.Id).GetUrl_128px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
 
         FeedbackRows = new List<FeedbackRowModel>();
@@ -106,7 +107,7 @@ public class AnswerQuestionModel : BaseModel
     public string TotalRelevancePersonalEntries;
     public string SolutionType;
     public object SolutionModel;
-    public string ImageUrl;
+    public string ImageUrl_500px;
     public string SoundUrl;
     public IList<FeedbackRowModel> FeedbackRows;
     public int TotalViews;
@@ -117,7 +118,7 @@ public class AnswerQuestionModel : BaseModel
 
     public bool HasImage
     {
-        get { return !string.IsNullOrEmpty(ImageUrl); }
+        get { return !string.IsNullOrEmpty(ImageUrl_500px); }
     }
 
     public bool HasSound

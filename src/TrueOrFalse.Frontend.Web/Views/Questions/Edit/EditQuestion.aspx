@@ -90,8 +90,8 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <% if (!String.IsNullOrEmpty(Model.ImageUrl))
-                           {%> <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" /> <%} %>
+                        <% if (!String.IsNullOrEmpty(Model.ImageUrl_128))
+                           {%> <img alt="" src="<%= Model.ImageUrl_128 %>" /> <%} %>
                         <label for="imagefile" class="control-label">Bild:</label>
                         &nbsp;&nbsp;<input type="file" name="imagefile" id="imagefile" />
                     </div>

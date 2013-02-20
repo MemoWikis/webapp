@@ -43,7 +43,7 @@ public class EditQuestionModel : BaseModel
     public string PageTitle;
     public string FormTitle;
     public bool ShowSaveAndNewButton;
-    public string ImageUrl;
+    public string ImageUrl_128;
     public string SoundUrl;
     public bool IsEditing;
 
@@ -78,7 +78,7 @@ public class EditQuestionModel : BaseModel
 
     public EditQuestionModel()
     {
-        ImageUrl = "";
+        ImageUrl_128 = "";
         SoundUrl = "";
     }
 
@@ -90,7 +90,7 @@ public class EditQuestionModel : BaseModel
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
         Categories = (from cat in question.Categories select cat.Name).ToList();
-        ImageUrl = new GetQuestionImageUrl().Run(question).Url;
+        ImageUrl_128 = new QuestionImageSettings(question.Id).GetUrl_500px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
     }
 

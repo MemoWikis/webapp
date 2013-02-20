@@ -34,7 +34,7 @@
                         </div>
     
                         <div class="control-group">
-                            <img alt="" src="<%=string.Format(Model.ImageUrl, 128) %>" />
+                            <img alt="" src="<%= Model.ImageUrl %>" />
                             <label for="file" class="control-label">Bild:</label>
                             <input type="file" name="file" id="file" />
                         </div>

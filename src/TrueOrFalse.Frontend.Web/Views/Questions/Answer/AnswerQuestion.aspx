@@ -45,7 +45,7 @@
         <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:10px; font-size: 22px;"><%= Model.QuestionText %></p>
             
         <% if (Model.HasImage) { %>
-            <img src="<%:String.Format(Model.ImageUrl, 500) %>"/>
+            <img src="<%:Model.ImageUrl_500px %>"/>
         <% } %>
             
         <% if (Model.HasSound){

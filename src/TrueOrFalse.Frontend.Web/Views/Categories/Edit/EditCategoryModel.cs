@@ -19,8 +19,7 @@ public class EditCategoryModel : BaseModel
 
     public string ImageUrl { get; set; }
 
-    public EditCategoryModel()
-    {
+    public EditCategoryModel(){
         ImageUrl = "";
     }
 
@@ -28,7 +27,7 @@ public class EditCategoryModel : BaseModel
     {
         Name = category.Name;
         RelatedCategories = (from cat in category.RelatedCategories select cat.Name).ToList();
-        ImageUrl = new GetCategoryImageUrl().Run(category).Url;
+        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px().Url;
     }
 
     public Category ConvertToCategory()

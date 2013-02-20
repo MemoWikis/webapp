@@ -22,9 +22,8 @@ namespace TrueOrFalse.View.Web.Views.Api
                         select new {
                             name = c.Name,
                             numberOfQuestions = c.QuestionCount,
-                            imageUrl = string.Format(new GetCategoryImageUrl().Run(c).Url, 50)
+                            imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
                         }, JsonRequestBehavior.AllowGet); 
         }
-
     }
 }

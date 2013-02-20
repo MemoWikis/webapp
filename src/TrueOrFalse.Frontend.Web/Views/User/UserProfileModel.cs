@@ -14,7 +14,7 @@ public class UserProfileModel : BaseModel
 
     public string Name { get; private set; }
 
-    public string ImageUrl;
+    public string ImageUrl_128;
     public bool ImageIsCustom;
 
     public bool IsCurrentUserProfile;
