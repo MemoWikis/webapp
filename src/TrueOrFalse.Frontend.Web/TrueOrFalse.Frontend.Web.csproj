@@ -254,6 +254,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
+    <Content Include="Scripts\file-uploader\button.js" />
+    <Content Include="Scripts\file-uploader\dnd.js" />
+    <Content Include="Scripts\file-uploader\handler.base.js" />
+    <Content Include="Scripts\file-uploader\handler.form.js" />
+    <Content Include="Scripts\file-uploader\handler.xhr.js" />
+    <Content Include="Scripts\file-uploader\header.js" />
+    <Content Include="Scripts\file-uploader\jquery-plugin.js" />
+    <Content Include="Scripts\file-uploader\uploader.basic.js" />
+    <Content Include="Scripts\file-uploader\uploader.js" />
+    <Content Include="Scripts\file-uploader\util.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.js" />
@@ -481,6 +491,13 @@
     <Content Include="Views\Questions\Questions.css" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />
     <Content Include="Views\Shared\ImageUpload.ascx" />
+    <TypeScriptCompile Include="Views\Shared\ImageUpload.ts" />
+    <Content Include="Views\Shared\ImageUpload.js">
+      <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\ImageUpload.min.js">
+      <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
@@ -494,6 +511,9 @@
     <Content Include="Style\fonts-awesome\fontawesome-webfont.ttf" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.woff" />
     <Content Include="Style\fonts-awesome\FontAwesome.otf" />
+    <Content Include="Views\Shared\ImageUpload.min.js.map">
+      <DependentUpon>ImageUpload.js</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />

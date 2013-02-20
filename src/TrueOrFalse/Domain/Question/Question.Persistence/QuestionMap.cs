@@ -29,14 +29,14 @@ namespace TrueOrFalse
             Map(x => x.TotalRelevancePersonalAvg);
             Map(x => x.TotalRelevancePersonalEntries);
             Map(x => x.TotalViews);
-            
-            Map(x => x.DateCreated);
-            Map(x => x.DateModified);
-            
+                        
             Map(x => x.Solution);
             Map(x => x.SolutionType);
             Map(x => x.SolutionMetadataJson);
             HasManyToMany(x => x.Categories).Table("CategoriesToQuestions").Cascade.SaveUpdate();
+
+            Map(x => x.DateCreated);
+            Map(x => x.DateModified);
         }
     }
 }

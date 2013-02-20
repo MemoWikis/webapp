@@ -1,12 +1,13 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditQuestionSetModel>" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
-<%@ Register Src="~/Views/Shared/ImageUpload.ascx" TagPrefix="uc1" TagName="ImageUpload" %>
-
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <title><%=Model.PageTitle %></title>
-    <link href="/Views/QuestionSets/Edit/EditQuestionSet.css" rel="stylesheet" />
-    <script src="/Views/QuestionSets/QuestionSets.js" type="text/javascript"></script>
+    <%= Styles.Render("~/Views/QuestionSets/Edit/EditQuestionSet.css") %>
+    <%= Scripts.Render("~/Views/QuestionSets/QuestionSets.js") %>
+    <%= Scripts.Render("~/Views/Shared/ImageUpload.js") %>
+    <%= Scripts.Render("~/bundles/fileUploader") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
