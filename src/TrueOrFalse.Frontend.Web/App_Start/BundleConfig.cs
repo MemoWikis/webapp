@@ -8,8 +8,17 @@ namespace TrueOrFalse.View
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/Views/QuestionSets").Include("~/Views/QuestionSets/QuestionSets.js"));
-            bundles.Add(new StyleBundle("~/Views/QuestionSets").Include("~/Views/QuestionSets/QuestionSets.css"));
+            bundles.Add(new ScriptBundle("~/bundles/shared")
+                .Include("~/Scripts/jquery-1.9.0.min.js")
+                .Include("~/Scripts/jquery-ui-1.10.0.min.js")
+                .Include("~/Scripts/jquery.validate.min.js")
+                .Include("~/Scripts/jquery.validate.unobtrusive.min.js")
+                .Include("~/Scripts/underscore-1.4.3.min.js")
+                .Include("~/Scripts/lib.js")
+                .Include("~/Scripts/jquery.sparkline.min.js")
+                .Include("~/Scripts/modernizr-2.6.2.js")
+                .Include("~/Scripts/google-code-prettify/prettify.js")
+                .Include("~/Scripts/bootstrap.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/file-uploader/header.js")
@@ -22,6 +31,13 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/file-uploader/dnd.js")
                 .Include("~/Scripts/file-uploader/uploader.js")
                 .Include("~/Scripts/file-uploader/jquery-plugin.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/questionSet")
+                .Include("~/Views/QuestionSets/QuestionSets.js")
+                .Include("~/Views/Shared/ImageUpload.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/questionSetCss")
+                .Include("~/Views/QuestionSets/QuestionSets.css"));
 
             BundleTable.EnableOptimizations = true;
         }

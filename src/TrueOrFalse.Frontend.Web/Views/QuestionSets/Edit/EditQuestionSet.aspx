@@ -4,10 +4,9 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <title><%=Model.PageTitle %></title>
-    <%= Styles.Render("~/Views/QuestionSets/Edit/EditQuestionSet.css") %>
-    <%= Scripts.Render("~/Views/QuestionSets/QuestionSets.js") %>
-    <%= Scripts.Render("~/Views/Shared/ImageUpload.js") %>
     <%= Scripts.Render("~/bundles/fileUploader") %>
+    <%= Scripts.Render("~/bundles/questionSet") %>
+    <%= Styles.Render("~/bundles/questionSetCss") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
