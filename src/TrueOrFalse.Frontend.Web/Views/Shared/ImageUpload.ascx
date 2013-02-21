@@ -39,9 +39,12 @@
         
         <div id="divUpload" class="">
             <div style="margin-top:10px;">
-                <div id="jquery-wrapped-fine-uploader" data-id=""></div>
+                <div id="fileUpload" class="btn btn-success" data-endpoint="">
+                    <i class="icon-upload icon-white"></i> Bild upload (klicke oder verwende drag und drop)
+                </div>
             </div>
         </div>
+        <div id="divUploadProgress" style="margin-top:8px;"></div>
 
     </div>
     <div class="modal-footer">

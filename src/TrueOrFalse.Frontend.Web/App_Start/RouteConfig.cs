@@ -34,7 +34,7 @@ namespace TrueOrFalse
             routes.MapRoute("QuestionSets_Create", "QuestionSet/Create", new { controller = "EditQuestionSet", action = "Create" });
             
             routes.MapRoute("QuestionSets_Edit", "QuestionSet/Edit/{id}", new { controller = "EditQuestionSet", action = "Edit" });
-            routes.MapRoute("QuestionSet_ImageUpload", "QuestionSet/UploadImage/{id}", new { controller = "EditQuestionSet", action = "UploadImage" });
+            routes.MapRoute("QuestionSet_ImageUpload", "QuestionSet/UploadImage/{id}", new { controller = "EditQuestionSet", action = "UploadImage", id = UrlParameter.Optional });
 
             routes.MapRoute("QuestionSet_Detail", "QuestionSet/{text}/{id}/{elementOnPage}", new { controller = "QuestionSet", action = "QuestionSet" });
             

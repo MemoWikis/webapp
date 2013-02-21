@@ -273,6 +273,7 @@
     <Content Include="Scripts\jquery-ui-1.10.0.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\typescript.defs\lib.d.ts" />
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore-typed.d.ts" />
@@ -440,8 +441,15 @@
     <Content Include="Views\Drafts\Boxes.css" />
     <Content Include="Views\QuestionSets\Detail\QuestionSet.aspx" />
     <Content Include="Views\QuestionSets\Detail\QuestionSet.css" />
+    <TypeScriptCompile Include="Views\QuestionSets\Edit\EditQuestionSet.ts" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.css" />
+    <Content Include="Views\QuestionSets\Edit\EditQuestionSet.js">
+      <DependentUpon>EditQuestionSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\QuestionSets\Edit\EditQuestionSet.min.js">
+      <DependentUpon>EditQuestionSet.ts</DependentUpon>
+    </Content>
     <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />
     <Content Include="Views\QuestionSets\QuestionSets.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />

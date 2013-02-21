@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
+using System.Threading;
 using System.Web.Mvc;
+using System.Web.UI;
 using FineUploader;
 using TrueOrFalse;
 using TrueOrFalse.Web;
@@ -60,22 +59,26 @@ public class EditQuestionSetController : BaseController
         return View(_viewLocation, model);
     }
 
-    public ActionResult Update()
-    {
+    public ActionResult Update(){
         return View(_viewLocation, new EditQuestionSetModel());
     }
-
-    //public FineUploaderResult UploadImage(FineUpload upload, string extraParam1, int extraParam2)
+    
     [HttpPost]
-    public FineUploaderResult UploadImage(int id, FineUpload upload)
+    public FineUploaderResult UploadImage(int? id, FineUpload upload)
     {
-        // asp.net mvc will set extraParam1 and extraParam2 from the params object passed by Fine-Uploader
+        Thread.Sleep(2000);
+        if (id == null)
+        {
+            //Create TempImage
+            return new FineUploaderResult(true, new { filePath = 12345 });
+        }
+        
         var dir = @"c:\upload\path";
         var filePath = Path.Combine(dir, upload.Filename);
         try { upload.SaveAs(filePath); }
         catch (Exception ex){return new FineUploaderResult(false, error: ex.Message);}
 
         // the anonymous object in the result below will be convert to json and set back to the browser
-        return new FineUploaderResult(true, new { extraInformation = 12345 });
+        return new FineUploaderResult(true, new { filePath = 12345 });
     }
 }

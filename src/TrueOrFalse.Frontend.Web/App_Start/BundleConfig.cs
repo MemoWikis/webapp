@@ -32,8 +32,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/file-uploader/uploader.js")
                 .Include("~/Scripts/file-uploader/jquery-plugin.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/questionSet")
-                .Include("~/Views/QuestionSets/QuestionSets.js")
+            bundles.Add(new ScriptBundle("~/bundles/questionSetEdit")
+                .Include("~/Views/QuestionSets/Edit/EditQuestionSet.js")
                 .Include("~/Views/Shared/ImageUpload.js"));
 
             bundles.Add(new StyleBundle("~/bundles/questionSetCss")

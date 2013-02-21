@@ -5,8 +5,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <title><%=Model.PageTitle %></title>
     <%= Scripts.Render("~/bundles/fileUploader") %>
-    <%= Scripts.Render("~/bundles/questionSet") %>
+    <%= Scripts.Render("~/bundles/questionSetEdit") %>
     <%= Styles.Render("~/bundles/questionSetCss") %>
+    
+    <script type="text/javascript">
+        var isEditMode = <%= Model.IsEditing ? "true" : "false" %>;
+        var questionSetId = "<%= Model.Id %>";
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -51,9 +56,9 @@
                 </div>
     
                 <div class="form-actions">
-                        <input type="submit" class="btn btn-primary" value="Speichern" />
-                        <input type="button" class="btn" value="Cancel">
-                    </div>
+                    <input type="submit" class="btn btn-primary" value="Speichern" />
+                    <input type="button" class="btn" value="Cancel">
+                </div>
             </div>
         </div>
     

@@ -14,6 +14,7 @@ public class EditQuestionSetModel : BaseModel
 {
     public Message Message;
 
+    public int Id { get; set; }
     public bool IsEditing { get; set; }
 
     [Required]
@@ -31,6 +32,7 @@ public class EditQuestionSetModel : BaseModel
     public EditQuestionSetModel(){}
 
     public EditQuestionSetModel(QuestionSet set){
+        Id = set.Id;
         Title = set.Name;
         Text = set.Text;
     }
