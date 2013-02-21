@@ -66,11 +66,9 @@ public class EditQuestionSetController : BaseController
     [HttpPost]
     public FineUploaderResult UploadImage(int? id, FineUpload upload)
     {
-        Thread.Sleep(2000);
-        if (id == null)
-        {
-            //Create TempImage
-            return new FineUploaderResult(true, new { filePath = 12345 });
+        if (id == null){
+            var tmpImage = new TmpImageStore().Add(upload.InputStream, 200);
+            return new FineUploaderResult(true, new { filePath = tmpImage.PathPreview});
         }
         
         var dir = @"c:\upload\path";

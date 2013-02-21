@@ -272,7 +272,10 @@
     <Content Include="Scripts\jquery-1.9.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
+    <Content Include="Scripts\jquery.scrollTo-1.4.3.1-min.js" />
+    <Content Include="Scripts\jquery.scrollTo-1.4.3.1.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\typescript.defs\jquery.scrollTo.d.ts" />
     <Content Include="Scripts\typescript.defs\lib.d.ts" />
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
@@ -316,6 +319,7 @@
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
+    <Compile Include="Views\Shared\ImageUpload\ImageUploadController.cs" />
     <Compile Include="Views\Shared\MenuLeftModel.cs" />
     <Compile Include="Views\Shared\MenuModelCategoryItem.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
@@ -443,7 +447,6 @@
     <Content Include="Views\QuestionSets\Detail\QuestionSet.css" />
     <TypeScriptCompile Include="Views\QuestionSets\Edit\EditQuestionSet.ts" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
-    <Content Include="Views\QuestionSets\Edit\EditQuestionSet.css" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.js">
       <DependentUpon>EditQuestionSet.ts</DependentUpon>
     </Content>
@@ -503,12 +506,12 @@
     <Content Include="Views\Maintenance\Maintenance.aspx" />
     <Content Include="Views\Questions\Questions.css" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />
-    <Content Include="Views\Shared\ImageUpload.ascx" />
-    <TypeScriptCompile Include="Views\Shared\ImageUpload.ts" />
-    <Content Include="Views\Shared\ImageUpload.js">
+    <Content Include="Views\Shared\ImageUpload\ImageUpload.ascx" />
+    <TypeScriptCompile Include="Views\Shared\ImageUpload\ImageUpload.ts" />
+    <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\ImageUpload.min.js">
+    <Content Include="Views\Shared\ImageUpload\ImageUpload.min.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
@@ -524,7 +527,7 @@
     <Content Include="Style\fonts-awesome\fontawesome-webfont.ttf" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.woff" />
     <Content Include="Style\fonts-awesome\FontAwesome.otf" />
-    <Content Include="Views\Shared\ImageUpload.min.js.map">
+    <Content Include="Views\Shared\ImageUpload\ImageUpload.min.js.map">
       <DependentUpon>ImageUpload.js</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config" />

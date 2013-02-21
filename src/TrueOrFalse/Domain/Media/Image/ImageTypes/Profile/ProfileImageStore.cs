@@ -12,9 +12,9 @@ public class ProfileImageStore
         if (imagefile == null)
             return;
 
-        new StoreImages().Run(
-                imagefile.InputStream,
-                new ProfileImageSettings(userId)
+        StoreImages.Run(
+            imagefile.InputStream,
+            new ProfileImageSettings(userId)
         );
     }
 }

@@ -9,6 +9,7 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
+using TrueOrFalse.Web.Context;
 
 public class EditQuestionSetModel : BaseModel
 {
@@ -26,10 +27,14 @@ public class EditQuestionSetModel : BaseModel
     [DisplayName("Beschreibung")]
     public string Text { get; set; }
 
+    public string Username;
+
     public string PageTitle;
     public string FormTitle;
 
-    public EditQuestionSetModel(){}
+    public EditQuestionSetModel(){
+        Username = new SessionUser().User.Name;
+    }
 
     public EditQuestionSetModel(QuestionSet set){
         Id = set.Id;

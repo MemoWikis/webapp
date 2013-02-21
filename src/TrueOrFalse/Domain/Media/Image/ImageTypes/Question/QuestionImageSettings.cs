@@ -9,7 +9,7 @@ public class QuestionImageSettings : IImageSettings
 {
     private readonly int _questionId;
 
-    public IEnumerable<int> SizesSquare{ get { return new[] { 512, 128, 50, 20 }; } }
+    public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 50, 20 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 100, 500 }; } }
 
     public string BasePath { get { return "/Images/Questions/"; } }

@@ -133,6 +133,8 @@
     <Compile Include="Domain\Media\Image\ImageTypes\Profile\ProfileImageStore.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\ImageUrl.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\QuestionSet\GetQuestionSetImageUrl.cs" />
+    <Compile Include="Domain\Media\Image\TmpImage\TmpImage.cs" />
+    <Compile Include="Domain\Media\Image\TmpImage\TmpImageStore.cs" />
     <Compile Include="Domain\Media\Sound\GetQuestionSoundUrl.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMap.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataRepository.cs" />
@@ -349,7 +351,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Domain\Media\Image\Ops\" />
     <Folder Include="Search\Category\" />
     <Folder Include="Search\User\" />
   </ItemGroup>

@@ -7,9 +7,9 @@ public class QuestionImageStore
         if (imagefile == null) 
             return;
 
-        new StoreImages().Run(
-                imagefile.InputStream,
-                new QuestionImageSettings(questionId)
+        StoreImages.Run(
+            imagefile.InputStream,
+            new QuestionImageSettings(questionId)
         );
     }
 }

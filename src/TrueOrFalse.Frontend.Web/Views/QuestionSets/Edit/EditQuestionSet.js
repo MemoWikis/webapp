@@ -10,6 +10,10 @@ var InitQuestionSetUploader = (function () {
 })();
 $(function () {
     new InitQuestionSetUploader(isEditMode, questionSetId);
+    $("#aImageUpload").click(function () {
+        $("#modalImageUpload").modal('show');
+    });
+    $("#txtLicenceOwner").val("Robert Mischke");
     $('#Title').defaultText();
     $('#Text').defaultText();
 });

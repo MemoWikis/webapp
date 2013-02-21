@@ -34,12 +34,10 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/questionSetEdit")
                 .Include("~/Views/QuestionSets/Edit/EditQuestionSet.js")
-                .Include("~/Views/Shared/ImageUpload.js"));
+                .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
+                .Include("~/Scripts/jquery.scrollTo-1.4.3.1.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/questionSetCss")
-                .Include("~/Views/QuestionSets/QuestionSets.css"));
-
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
         }
     }
 }

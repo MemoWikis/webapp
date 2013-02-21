@@ -12,9 +12,9 @@ public class CategoryImageStore
         if (imagefile == null)
             return;
 
-        new StoreImages().Run(
-                imagefile.InputStream,
-                new CategoryImageSettings(userId)
+        StoreImages.Run(
+            imagefile.InputStream,
+            new CategoryImageSettings(userId)
         );
     }
 }

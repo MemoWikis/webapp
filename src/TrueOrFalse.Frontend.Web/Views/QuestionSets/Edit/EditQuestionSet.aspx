@@ -6,15 +6,22 @@
     <title><%=Model.PageTitle %></title>
     <%= Scripts.Render("~/bundles/fileUploader") %>
     <%= Scripts.Render("~/bundles/questionSetEdit") %>
-    <%= Styles.Render("~/bundles/questionSetCss") %>
-    
     <script type="text/javascript">
         var isEditMode = <%= Model.IsEditing ? "true" : "false" %>;
         var questionSetId = "<%= Model.Id %>";
+        var userName = "<%= Model.Username %>";
     </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    
+<style type="text/css">
+    .form-horizontal .control-group label.control-label{ width: 120px; }
+    .form-horizontal .control-group .controls{ margin-left: 120px; }
+    .form-horizontal .info{ margin-left: 130px;}
+    .form-horizontal .form-actions { padding-left: 130px; }
+</style>
+
 <div class="span10">
     
     <div style="margin-bottom: -10px;">
@@ -31,7 +38,7 @@
 
                 <div class="box-content" style="clear: both;">    
                     <div class="row">
-                        <div class="span6 green">
+                        <div class="span6">
                             <div class="control-group">
                                 <%= Html.LabelFor(m => m.Title, new { @class = "control-label" })%>
                                 <div class="controls">
@@ -43,15 +50,19 @@
                                 <div class="controls">
                                     <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px; width:300px;", placeholder = "Beschreibung" }) %>
                                 </div>
-                            </div>                        
+                            </div>
+                            <div class="info">
+                                <b>Keine Fragen im Fragesatz.</b>
+                                Um Fragen hinzuzufügen, wählen Sie Fragen 
+                                auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions") %> aus. 
+                            </div>
                         </div>
-                        <div class="span3" style="background-color: orange">
-                            asdfsdf
+                        <div class="span3" style="width: 205px; position: relative; left: 25px;">
+                            <div class="box">
+                                <img src="/Images/no-question-set-206.png" />
+                            </div>
+                            <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
                         </div>
-                    </div>
-    
-                    <div class="info">
-                        Um Fragen hinzuzufügen, wählen Sie Fragen auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions") %> aus. 
                     </div>
                 </div>
     
@@ -65,6 +76,6 @@
     <% } %>
 </div>
     
-<% Html.RenderPartial("../Shared/ImageUpload"); %>
+<% Html.RenderPartial("../Shared/ImageUpload/ImageUpload"); %>
 
 </asp:Content>

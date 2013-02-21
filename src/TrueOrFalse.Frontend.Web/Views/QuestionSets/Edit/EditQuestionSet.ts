@@ -1,4 +1,5 @@
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+/// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/lib.d.ts" />
 
 declare var isEditMode: bool;
@@ -17,6 +18,12 @@ class InitQuestionSetUploader
 
 $(function () {
     new InitQuestionSetUploader(isEditMode, questionSetId);
+
+    $("#aImageUpload").click(function () { 
+        $("#modalImageUpload").modal('show');
+    }); 
+
+    $("#txtLicenceOwner").val("Robert Mischke");
 
     $('#Title').defaultText();
     $('#Text').defaultText();
