@@ -1,15 +1,16 @@
-var InitQuestionSetUploader = (function () {
-    function InitQuestionSetUploader(isEditMode, questionSetId) {
+var ImageUploadModalInit = (function () {
+    function ImageUploadModalInit(isEditMode, questionSetId) {
         if(isEditMode) {
-            $("#fileUpload").attr("data-endpoint", "/QuestionSet/UploadImage/" + questionSetId);
+            $("#modalImageUpload").attr("data-endpoint", "/QuestionSet/UploadImage/" + questionSetId);
         } else {
-            $("#fileUpload").attr("data-endpoint", "/QuestionSet/UploadImage/");
+            $("#modalImageUpload").attr("data-endpoint", "/QuestionSet/UploadImage/");
         }
     }
-    return InitQuestionSetUploader;
+    return ImageUploadModalInit;
 })();
 $(function () {
-    new InitQuestionSetUploader(isEditMode, questionSetId);
+    new ImageUploadModalInit(isEditMode, questionSetId);
+    var imageUploadModal = new ImageUploadModal();
     $("#aImageUpload").click(function () {
         $("#modalImageUpload").modal('show');
     });

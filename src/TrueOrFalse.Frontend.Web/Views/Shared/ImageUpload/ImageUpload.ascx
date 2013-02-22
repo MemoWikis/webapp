@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
-<div id="modalImageUpload" class="modal">
+<div id="modalImageUpload" class="modal hide" data-endpoint="">
     <div class="modal-header">
         <button class="close" data-dismiss="modal">×</button>
         <h3>Kategoriebild hochladen</h3>
@@ -22,24 +22,24 @@
             </label>
         </div>
         <div style="clear: both;"></div>
-        
+
         <%-- Wikimedia --%>
-        <div id="divWikimedia" class="hide">
+        <div id="divWikimedia">
             <div style="margin-top:10px;">
                 In Wikipedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. 
                 Auf <a href="http://commons.wikimedia.org/wiki/Hauptseite?uselang=de">Wiki-Commons</a> kann gezielt nach Inhalten gesucht werden. 
-                Wenn Du auf Wikipedia auf ein Bild klickst, gelangst Du auf die Bild-Detailseite. Gib die URL der Detailseite hier an: 
+                Oder: Wenn Du auf Wikipedia auf ein Bild klickst, gelangst Du auf die Bild-Detailseite. Gib die URL der Detailseite hier an: 
             </div>
         
             <div style="margin-top: 10px;">
                 <label style="position: relative; top: 5px;">Wikipedia URL:</label>
-                <input class="span2" id="prependedInput" type="text" placeholder="http://" style="width: 250px;">      
+                <input class="span2" id="txtWikimediaUrl" type="text" placeholder="http://" style="width: 250px;">
             </div>            
         </div>
         
-        <div id="divUpload">
+        <div id="divUpload" class="hide">
             <div style="margin-top:10px;">
-                <div id="fileUpload" class="btn btn-success" data-endpoint="">
+                <div id="fileUpload" class="btn btn-success">
                     <i class="icon-upload icon-white"></i> Bild upload (klicke oder verwende drag und drop)
                 </div>
             </div>

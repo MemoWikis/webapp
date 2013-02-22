@@ -6,6 +6,10 @@
     ImageUploadModalMode._map[1] = "Upload";
     ImageUploadModalMode.Upload = 1;
 })(ImageUploadModalMode || (ImageUploadModalMode = {}));
+var WikimediaPreview = (function () {
+    function WikimediaPreview() { }
+    return WikimediaPreview;
+})();
 var ImageUploadModal = (function () {
     function ImageUploadModal() {
         this._mode = ImageUploadModalMode.Wikimedia;
@@ -16,13 +20,15 @@ var ImageUploadModal = (function () {
         $("#aSaveImage").click(function () {
             self.SaveImage();
         });
+        $("#txtWikimediaUrl").change(function () {
+        });
     }
     ImageUploadModal.prototype.InitUploader = function () {
         $('#fileUpload').fineUploader({
             uploaderType: 'basic',
             button: $('#fileUpload')[0],
             request: {
-                endpoint: $('#fileUpload').attr("data-endpoint")
+                endpoint: $('#modalImageUpload').attr("data-endpoint")
             },
             multiple: false,
             debug: false,
@@ -96,6 +102,3 @@ var ImageUploadModal = (function () {
     };
     return ImageUploadModal;
 })();
-$(function () {
-    var imageUploadModal = new ImageUploadModal();
-});

@@ -11,7 +11,7 @@ public class StoreImages
     {
         using (var image = Image.FromStream(inputStream)){
             
-            image.Save(imageSettings.BasePathAndId() + ".jpg", ImageFormat.Jpeg);
+            image.Save(imageSettings.BasePathAndId() + ".png", ImageFormat.Png);
 
             foreach (var size in imageSettings.SizesSquare){
                 using (var resized = new Bitmap(size, size)){
@@ -57,7 +57,7 @@ public class StoreImages
     {
         using (var image = Image.FromStream(inputStream)){
 
-            image.Save(HttpContext.Current.Server.MapPath(tmpImage.Path), ImageFormat.Jpeg);
+            image.Save(HttpContext.Current.Server.MapPath(tmpImage.Path), ImageFormat.Png);
 
             var scale = (float)tmpImage.PreviewWidth / image.Width;
             var height = (int)(image.Height * scale);

@@ -11,7 +11,7 @@ public class TmpImage
     {
         string deleteTime = DateTime.Now.AddHours(1).ToString("yyyy-mm-dd_hh-MM");
         Guid = System.Guid.NewGuid().ToString();
-        Path = "/Images/Tmp/" + Guid + "-DEL-" + deleteTime + ".jpg";
+        Path = "/Images/Tmp/" + Guid + "-DEL-" + deleteTime + ".png";
         PathPreview = "/Images/Tmp/" + Guid + "-" + previewWidth + "-DEL-" + deleteTime + ".jpg";
         PreviewWidth = previewWidth;
     }

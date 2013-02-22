@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ObjectDumper</id>
+    <version>1.0.0.12</version>
+    <title>ObjectDumper</title>
+    <authors>Lasse V. Karlsen</authors>
+    <owners>Lasse V. Karlsen</owners>
+    <licenseUrl>http://objectdumper.codeplex.com/license</licenseUrl>
+    <projectUrl>http://objectdumper.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Utility methods to easily dump object contents to a file/stream, for debug purposes.</description>
+    <summary>Implements a simple utility class that can dump the contents of an object and all its properties, recursively, to a file or a stream, for debug purposes.</summary>
+    <tags>.net debug object-dumping</tags>
+    <references>
+      <reference file="ObjectDumper.dll" />
+    </references>
+  </metadata>
+</package>
