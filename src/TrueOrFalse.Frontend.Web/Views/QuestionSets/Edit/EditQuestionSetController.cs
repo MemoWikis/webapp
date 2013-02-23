@@ -28,9 +28,18 @@ public class EditQuestionSetController : BaseController
             Resolve<QuestionSetRepository>().Create(questionSet);
 
             model = new EditQuestionSetModel();
-            model .SetToCreateModel();
+            model.SetToCreateModel();
             model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert, " +
                                                "nun kannst Du einen neuen Fragesatz erstellen.");
+
+            if (Request["ImageIsNew"] == "true"){
+                if (Request["ImageSource"] == "wikimedia"){
+                    Resolve<QuestionSetImageStore>().RunWikimedia(Request["ImageWikiFileName"], questionSet.Id);
+                }if (model.ImageSource == "upload"){
+
+                }
+            }
+
 
             return View(_viewLocation, model);
         }

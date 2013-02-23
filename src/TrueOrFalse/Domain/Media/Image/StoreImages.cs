@@ -11,7 +11,7 @@ public class StoreImages
     {
         using (var image = Image.FromStream(inputStream)){
             
-            image.Save(imageSettings.BasePathAndId() + ".png", ImageFormat.Png);
+            image.Save(imageSettings.BasePathAndId() + ".jpg", ImageFormat.Jpeg);
 
             foreach (var size in imageSettings.SizesSquare){
                 using (var resized = new Bitmap(size, size)){

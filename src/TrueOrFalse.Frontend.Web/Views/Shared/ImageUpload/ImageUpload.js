@@ -37,6 +37,7 @@ var WikimediaPreview = (function () {
                 self.SuccessfullyLoadedImageUrl = url;
                 self.SuccessfullyLoaded = true;
                 self.ImageThumbUrl = responseJSON.ImageThumbUrl;
+                self.ImageName = url;
                 $("#previewWikimediaImage").html('<b>Bildvorschau:</b><br/><img src="' + responseJSON.ImageThumbUrl + '"> ');
                 $("#previewWikimediaImage").show();
                 $("#modalBody").stop().scrollTo('100%', 800);
@@ -48,7 +49,7 @@ var WikimediaPreview = (function () {
 var ImageUploadModal = (function () {
     function ImageUploadModal() {
         this.WikimediaPreview = new WikimediaPreview();
-        this._mode = ImageUploadModalMode.Wikimedia;
+        this.Mode = ImageUploadModalMode.Wikimedia;
         this.InitUploader();
         this.InitTypeRadios();
         this.InitLicenceRadio();
@@ -99,14 +100,14 @@ var ImageUploadModal = (function () {
             if($(this).is(':checked')) {
                 $("#divUpload").hide();
                 $("#divWikimedia").show();
-                self._mode = ImageUploadModalMode.Wikimedia;
+                self.Mode = ImageUploadModalMode.Wikimedia;
             }
         });
         $("#rdoImageUpload").change(function () {
             if($(this).is(':checked')) {
                 $("#divUpload").show();
                 $("#divWikimedia").hide();
-                self._mode = ImageUploadModalMode.Upload;
+                self.Mode = ImageUploadModalMode.Upload;
             }
         });
     };
@@ -125,10 +126,10 @@ var ImageUploadModal = (function () {
         });
     };
     ImageUploadModal.prototype.SaveImage = function () {
-        if(this._mode == ImageUploadModalMode.Wikimedia) {
+        if(this.Mode == ImageUploadModalMode.Wikimedia) {
             this.SaveWikimediaImage();
         }
-        if(this._mode == ImageUploadModalMode.Upload) {
+        if(this.Mode == ImageUploadModalMode.Upload) {
             this.SaveUploadedImage();
         }
     };
@@ -136,7 +137,6 @@ var ImageUploadModal = (function () {
         if(!this.WikimediaPreview.SuccessfullyLoaded) {
             alert("Bitte lade ein Bild über eine Wikipedia URL.");
         } else {
-            console.log(this.WikimediaPreview);
             this._onSave(this.WikimediaPreview.ImageThumbUrl);
         }
     };

@@ -13,6 +13,7 @@ class WikimediaPreview
     SuccessfullyLoadedImageUrl: string;
 
     ImageThumbUrl: string;
+    ImageName: string;
 
     Load() {
         $("#divWikimediaSpinner").show();
@@ -40,6 +41,7 @@ class WikimediaPreview
                 self.SuccessfullyLoadedImageUrl = url;
                 self.SuccessfullyLoaded = true;
                 self.ImageThumbUrl = responseJSON.ImageThumbUrl;
+                self.ImageName = url;
 
                 $("#previewWikimediaImage").html('<b>Bildvorschau:</b><br/><img src="' + responseJSON.ImageThumbUrl + '"> ');
                 $("#previewWikimediaImage").show();
@@ -52,13 +54,13 @@ class WikimediaPreview
 
 class ImageUploadModal
 {
-    _mode: ImageUploadModalMode;
+    Mode: ImageUploadModalMode;
     WikimediaPreview: WikimediaPreview = new WikimediaPreview();
 
     ImageThumbUrl: string;
 
     constructor() {
-        this._mode = ImageUploadModalMode.Wikimedia;
+        this.Mode = ImageUploadModalMode.Wikimedia;
         this.InitUploader();
         this.InitTypeRadios();
         this.InitLicenceRadio();
@@ -106,7 +108,7 @@ class ImageUploadModal
             if ($(this).is(':checked')) {
                 $("#divUpload").hide();
                 $("#divWikimedia").show();
-                self._mode = ImageUploadModalMode.Wikimedia;
+                self.Mode = ImageUploadModalMode.Wikimedia;
             }
         });
 
@@ -114,7 +116,7 @@ class ImageUploadModal
             if ($(this).is(':checked')) {
                 $("#divUpload").show();
                 $("#divWikimedia").hide();
-                self._mode = ImageUploadModalMode.Upload;
+                self.Mode = ImageUploadModalMode.Upload;
             }
         });
     }
@@ -137,11 +139,11 @@ class ImageUploadModal
 
     SaveImage() {
 
-        if (this._mode == ImageUploadModalMode.Wikimedia) {
+        if (this.Mode == ImageUploadModalMode.Wikimedia) {
             this.SaveWikimediaImage();
         }
 
-        if (this._mode == ImageUploadModalMode.Upload) {
+        if (this.Mode == ImageUploadModalMode.Upload) {
             this.SaveUploadedImage();
         }
     }
@@ -150,7 +152,6 @@ class ImageUploadModal
         if (!this.WikimediaPreview.SuccessfullyLoaded) {
             alert("Bitte lade ein Bild über eine Wikipedia URL.");
         } else { 
-            console.log(this.WikimediaPreview);
             this._onSave(this.WikimediaPreview.ImageThumbUrl);
         }
     }

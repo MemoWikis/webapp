@@ -32,6 +32,11 @@
                 "EditQuestionSet", null, FormMethod.Post,
                 new { enctype = "multipart/form-data", style = "margin:0px;"})){ %>
     
+        <%: Html.HiddenFor(m => m.ImageIsNew) %>
+        <%: Html.HiddenFor(m => m.ImageSource) %>
+        <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
+        <%: Html.HiddenFor(m => m.ImageUploadedGuid) %>
+
         <div class="form-horizontal">
             <div class="box box-main">
                 <h1 class="pull-left"><%=Model.FormTitle %></h1>

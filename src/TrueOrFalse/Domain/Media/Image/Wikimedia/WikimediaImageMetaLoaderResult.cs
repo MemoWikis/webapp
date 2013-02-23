@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse
 {
-    public class WikimediaImageLoaderResult
+    public class WikimediaImageMetaLoaderResult
     {
         public bool ImageNotFound;
 

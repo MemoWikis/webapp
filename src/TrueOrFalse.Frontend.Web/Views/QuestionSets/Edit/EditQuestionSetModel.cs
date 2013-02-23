@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
@@ -14,6 +11,11 @@ using TrueOrFalse.Web.Context;
 public class EditQuestionSetModel : BaseModel
 {
     public Message Message;
+
+    public string ImageIsNew { get; set; }
+    public string ImageSource { get; set; }
+    public string ImageWikiFileName { get; set; }
+    public string ImageUploadedGuid { get; set; }
 
     public int Id { get; set; }
     public bool IsEditing { get; set; }
@@ -36,7 +38,8 @@ public class EditQuestionSetModel : BaseModel
         Username = new SessionUser().User.Name;
     }
 
-    public EditQuestionSetModel(QuestionSet set){
+    public EditQuestionSetModel(QuestionSet set) : this()
+    {
         Id = set.Id;
         Title = set.Name;
         Text = set.Text;
