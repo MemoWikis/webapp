@@ -6,7 +6,7 @@
         <h3>Kategoriebild hochladen</h3>
     </div>
 
-    <div class="modal-body">
+    <div class="modal-body" id="modalBody">
         <div class="alert">
             <strong>Achtung:</strong> Bildrechte sind ein sensibles Thema. 
             Bitte lade nur Bilder hoch die gemeinfrei sind oder Bilder die Du stelbst erstellt hast. 
@@ -33,7 +33,16 @@
         
             <div style="margin-top: 10px;">
                 <label style="position: relative; top: 5px;">Wikipedia URL:</label>
-                <input class="span2" id="txtWikimediaUrl" type="text" placeholder="http://" style="width: 250px;">
+                <input class="span2" id="txtWikimediaUrl" type="text" placeholder="http://" style="width: 350px;">
+
+                <div class="hide" style="padding-left:101px; margin-top: 5px;" id="divWikimediaSpinner">
+                    <i class="icon-spinner icon-spin icon-2x pull-left"></i><span style="position: relative; top: 1px;">Vorschau wird geladen</span>
+                </div>
+                <div class="hide" style="padding-left:101px; margin-top: 5px;" id="divWikimediaError">
+                    <i class="icon-warning-sign" style="color:orange"></i> Das Bild konnte nicht geladen werden.
+                </div>
+                
+                <div id="previewWikimediaImage" class="hide" style="padding-left:101px; margin-top:8px;"></div>
             </div>            
         </div>
         

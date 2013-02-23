@@ -10,10 +10,12 @@ namespace TrueOrFalse
 {
     public class WikimediaImageLoader : IRegisterAsInstancePerLifetime
     {
-        public WikimediaImageLoaderResult Run(string filePath, int thumbUrlWidth = 1024)
+        public WikimediaImageLoaderResult Run(string fileNameOrUrl, int thumbUrlWidth = 1024)
         {
-            var fileName = ParseFileName(filePath);
+            if(String.IsNullOrEmpty(fileNameOrUrl))
+                return new WikimediaImageLoaderResult { ImageNotFound = true };
 
+            var fileName = ParseFileName(fileNameOrUrl);
             var url =
                 "http://commons.wikimedia.org/w/api.php?action=query" +
                 "&prop=imageinfo" +

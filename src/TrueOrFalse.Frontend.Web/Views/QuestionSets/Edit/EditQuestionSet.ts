@@ -20,6 +20,9 @@ class ImageUploadModalInit
 $(function () {
     new ImageUploadModalInit(isEditMode, questionSetId);
     var imageUploadModal = new ImageUploadModal();
+    imageUploadModal.OnSave(function (url: string) { 
+        $("#questionSetImg").attr("src", url);
+    });
 
     $("#aImageUpload").click(function () { 
         $("#modalImageUpload").modal('show');

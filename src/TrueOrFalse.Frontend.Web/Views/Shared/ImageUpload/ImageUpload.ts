@@ -9,11 +9,53 @@ enum ImageUploadModalMode{
 
 class WikimediaPreview
 {
+    SuccessfullyLoaded: bool = false;
+    SuccessfullyLoadedImageUrl: string;
+
+    ImageThumbUrl: string;
+
+    Load() {
+        $("#divWikimediaSpinner").show();
+        $("#divWikimediaError").hide()
+        $("#previewWikimediaImage").hide()
+
+        var url = $("#txtWikimediaUrl").val();
+        var self = this;
+
+        $.ajax({
+            type: 'POST', true: false, cache: false,
+            url: "/ImageUpload/FromWikimedia/",
+            data: "url=" + url,
+            error: function (error) { console.log(error); alert("Ein Fehler ist aufgetreten.") },
+            success: function (responseJSON) {
+                $("#divWikimediaSpinner").hide()
+
+                if (responseJSON.ImageNotFound) {
+                    $("#divWikimediaError").show();
+                    self.SuccessfullyLoadedImageUrl = "";
+                    self.SuccessfullyLoaded = false;
+                    return;
+                }
+
+                self.SuccessfullyLoadedImageUrl = url;
+                self.SuccessfullyLoaded = true;
+                self.ImageThumbUrl = responseJSON.ImageThumbUrl;
+
+                $("#previewWikimediaImage").html('<b>Bildvorschau:</b><br/><img src="' + responseJSON.ImageThumbUrl + '"> ');
+                $("#previewWikimediaImage").show();
+
+                $("#modalBody").stop().scrollTo('100%', 800);
+            }
+        });
+    }
 }
 
 class ImageUploadModal
 {
     _mode: ImageUploadModalMode;
+    WikimediaPreview: WikimediaPreview = new WikimediaPreview();
+
+    ImageThumbUrl: string;
 
     constructor() {
         this._mode = ImageUploadModalMode.Wikimedia;
@@ -22,12 +64,12 @@ class ImageUploadModal
         this.InitLicenceRadio();
 
         var self = this;
-        $("#aSaveImage").click(function () { self.SaveImage(); });
-        $("#txtWikimediaUrl").change(function () { })
+        $("#txtWikimediaUrl").change(function () { self.WikimediaPreview.Load(); })
+        $("#aSaveImage").click(function () {  self.SaveImage();  });
     }
 
     InitUploader() {
-
+        var self = this;
         $('#fileUpload').fineUploader({
             uploaderType: 'basic',
             button: $('#fileUpload')[0],
@@ -47,6 +89,8 @@ class ImageUploadModal
             $("#previewImage").html('<b>Bildvorschau:</b><br/><img src="' + responseJSON.filePath + '"> ');
             $("#previewImage").show();
             $("#divLegalInfo").show();
+            $("#modalBody").stop().scrollTo('100%', 800 );
+            self.ImageThumbUrl = responseJSON.filePath;
         })
         .on('progress', function (event, id, filename, uploadedBytes: number, totalBytes: number) {
             $("#previewImage").hide();
@@ -56,11 +100,13 @@ class ImageUploadModal
     }
 
     InitTypeRadios() {
+        var self = this;
+
         $("#rdoImageWikimedia").change(function () {
             if ($(this).is(':checked')) {
                 $("#divUpload").hide();
                 $("#divWikimedia").show();
-                this._mode = ImageUploadModalMode.Wikimedia;
+                self._mode = ImageUploadModalMode.Wikimedia;
             }
         });
 
@@ -68,7 +114,7 @@ class ImageUploadModal
             if ($(this).is(':checked')) {
                 $("#divUpload").show();
                 $("#divWikimedia").hide();
-                this._mode = ImageUploadModalMode.Upload;
+                self._mode = ImageUploadModalMode.Upload;
             }
         });
     }
@@ -90,25 +136,49 @@ class ImageUploadModal
     }
 
     SaveImage() {
-        if (this._mode = ImageUploadModalMode.Wikimedia) {
-            alert("save wikimedia")
-        }
-        if (this._mode = ImageUploadModalMode.Upload) {
-            if ($("#rdoLicenceForeign").is(':checked')) {
-                alert("Bitte wählen Sie eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.")
-            }
 
-            if ($("#rdoLicenceByUloader").is(':checked')) {
-                var licenceOwner = $("#txtLicenceOwner").val();
-                if (licenceOwner.trim() == "") {
-                    alert("Bitte gib Deinen Namen als Lizenzgeber an.")
-                }
+        if (this._mode == ImageUploadModalMode.Wikimedia) {
+            this.SaveWikimediaImage();
+        }
+
+        if (this._mode == ImageUploadModalMode.Upload) {
+            this.SaveUploadedImage();
+        }
+    }
+
+    SaveWikimediaImage() { 
+        if (!this.WikimediaPreview.SuccessfullyLoaded) {
+            alert("Bitte lade ein Bild über eine Wikipedia URL.");
+        } else { 
+            console.log(this.WikimediaPreview);
+            this._onSave(this.WikimediaPreview.ImageThumbUrl);
+        }
+    }
+
+    SaveUploadedImage() { 
+
+        if (!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) { 
+            alert("Bitte wähle eine andere Lizenz");
+        }
+
+        if ($("#rdoLicenceForeign").is(':checked')) {
+            alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.")
+        }
+
+        if ($("#rdoLicenceByUloader").is(':checked')) {
+            var licenceOwner = $("#txtLicenceOwner").val();
+            if (licenceOwner.trim() == "") {
+                alert("Bitte gib Deinen Namen als Lizenzgeber an.")
             }
 
             //get GUID
-            //send licenceType and licenceOwner 
+            //send licenceType and licenceOwner
+            this._onSave(this.ImageThumbUrl);
+        }    
+    }
 
-            alert("save upload")
-        }
+    _onSave: Function;
+    OnSave(func: Function) { 
+        this._onSave = func;
     }
 }

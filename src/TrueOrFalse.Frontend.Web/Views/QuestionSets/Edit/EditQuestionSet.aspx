@@ -57,9 +57,9 @@
                                 auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions") %> aus. 
                             </div>
                         </div>
-                        <div class="span3" style="width: 205px; position: relative; left: 25px;">
+                        <div class="span3" style="position: relative; left: 25px;">
                             <div class="box">
-                                <img src="/Images/no-question-set-206.png" />
+                                <img id="questionSetImg" src="/Images/no-question-set-206.png" />
                             </div>
                             <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
                         </div>
