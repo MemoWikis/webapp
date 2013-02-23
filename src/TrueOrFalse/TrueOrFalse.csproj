@@ -141,15 +141,14 @@
     <Compile Include="Domain\Media\Image\ImageTypes\QuestionSet\QuestionSetImageStore.cs" />
     <Compile Include="Domain\Media\Image\TmpImage\TmpImage.cs" />
     <Compile Include="Domain\Media\Image\TmpImage\TmpImageStore.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\WikiMediaImageLoader.cs" />
     <Compile Include="Domain\Media\Sound\GetQuestionSoundUrl.cs" />
-    <Compile Include="Domain\Media\Image\Persistence\ImageMap.cs" />
+    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataMap.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataRepository.cs" />
     <Compile Include="Domain\Media\Sound\StoreSound.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\Question\QuestionImageSettings.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\Question\QuestionImageStore.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\WikimediaImageMetaLoader.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\WikimediaImageMetaLoaderResult.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMetaLoader.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMeta.cs" />
     <Compile Include="Domain\Knowledge\CorrectnessProbability\CorrectnessProbabilityCalculator.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalculateAllKnowledgeItems.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalculateKnowledgeItem.cs" />
@@ -293,6 +292,8 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs018.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs017.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs016.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs015.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs014.cs" />
@@ -331,6 +332,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Update\Scripts\015-new-tbl-questionSet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\Scripts\017-new-tbl-imageMetaData.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

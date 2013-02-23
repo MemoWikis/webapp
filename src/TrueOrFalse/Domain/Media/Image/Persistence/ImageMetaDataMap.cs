@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentNHibernate.Mapping;
+using TrueOrFalse.Infrastructure.Persistence;
 
 namespace TrueOrFalse
 {
-    public class ImageMap : ClassMap<ImageMetaData>
+    public class ImageMetaDataMap : ClassMap<ImageMetaData>
     {
-        public ImageMap()
+        public ImageMetaDataMap()
         {
             Id(x => x.Id);
 
@@ -21,7 +22,7 @@ namespace TrueOrFalse
             Map(x => x.Source);
             Map(x => x.SourceUrl);
 
-            Map(x => x.LicenceInfo);
+            Map(x => x.LicenceInfo).Length(Constants.VarCharMaxLength);
 
             Map(x => x.DateCreated);
             Map(x => x.DateModified);

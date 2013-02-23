@@ -18,6 +18,8 @@ namespace TrueOrFalse.Updates
                 .Add(14, UpdateToVs014.Run)
                 .Add(15, UpdateToVs015.Run)
                 .Add(16, UpdateToVs016.Run)
+                .Add(17, UpdateToVs017.Run)
+                .Add(18, UpdateToVs018.Run)
                 .Run();
         }
 

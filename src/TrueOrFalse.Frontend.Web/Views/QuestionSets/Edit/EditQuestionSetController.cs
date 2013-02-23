@@ -34,7 +34,8 @@ public class EditQuestionSetController : BaseController
 
             if (Request["ImageIsNew"] == "true"){
                 if (Request["ImageSource"] == "wikimedia"){
-                    Resolve<QuestionSetImageStore>().RunWikimedia(Request["ImageWikiFileName"], questionSet.Id);
+                    Resolve<QuestionSetImageStore>().RunWikimedia(
+                        Request["ImageWikiFileName"], questionSet.Id, _sessionUser.User.Id);
                 }if (model.ImageSource == "upload"){
 
                 }

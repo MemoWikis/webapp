@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TrueOrFalse
 {
-    public class WikimediaImageMetaLoaderResult
+    public class WikiImageMeta
     {
         public bool ImageNotFound;
 
@@ -29,5 +31,15 @@ namespace TrueOrFalse
         public int ImageThumbWidth;
         public int ImageThumbHeight;
         public string ImageThumbUrl;
+
+        public string JSonResult;
+
+        public Stream GetStream()
+        {
+            var request = (HttpWebRequest)WebRequest.Create(ImageThumbUrl);
+            var response = (HttpWebResponse)request.GetResponse();
+
+            return response.GetResponseStream();
+        }
     }
 }

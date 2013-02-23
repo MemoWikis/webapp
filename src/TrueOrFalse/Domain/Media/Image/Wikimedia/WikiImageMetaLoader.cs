@@ -8,12 +8,12 @@ using System.Web.Helpers;
 
 namespace TrueOrFalse
 {
-    public class WikimediaImageMetaLoader : IRegisterAsInstancePerLifetime
+    public class WikiImageMetaLoader : IRegisterAsInstancePerLifetime
     {
-        public WikimediaImageMetaLoaderResult Run(string fileNameOrUrl, int thumbUrlWidth = 1024)
+        public WikiImageMeta Run(string fileNameOrUrl, int thumbUrlWidth = 1024)
         {
             if(String.IsNullOrEmpty(fileNameOrUrl))
-                return new WikimediaImageMetaLoaderResult { ImageNotFound = true };
+                return new WikiImageMeta { ImageNotFound = true };
 
             var fileName = ParseFileName(fileNameOrUrl);
             var url =
@@ -41,9 +41,9 @@ namespace TrueOrFalse
             var pageName = ((ICollection<string>)page.GetDynamicMemberNames()).First();
 
             if (((ICollection<string>) page[pageName].GetDynamicMemberNames()).All(x => x != "imageinfo"))
-                return new WikimediaImageMetaLoaderResult{ImageNotFound = true};
+                return new WikiImageMeta{ImageNotFound = true};
 
-            return new WikimediaImageMetaLoaderResult
+            return new WikiImageMeta
                 {
                     PageId = page[pageName].pageid,
                     PageNamespace = page[pageName].ns,
@@ -56,7 +56,8 @@ namespace TrueOrFalse
                     ImageUrlDescription = page[pageName].imageinfo[0].descriptionurl,
                     ImageThumbWidth = page[pageName].imageinfo[0].thumbwidth,
                     ImageThumbHeight = page[pageName].imageinfo[0].thumbheight,
-                    ImageThumbUrl = page[pageName].imageinfo[0].thumburl
+                    ImageThumbUrl = page[pageName].imageinfo[0].thumburl,
+                    JSonResult = resultString
                 };
         }
 
