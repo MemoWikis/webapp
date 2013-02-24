@@ -15,8 +15,10 @@ public class ImageUrl
         Func<int, string> getFallBackImage)
     {
         var serverPath = HttpContext.Current.Server.MapPath(basePath);
-        if (Directory.GetFiles(serverPath, string.Format("{0}_*.jpg", id)).Any())
-            return new ImageUrl { Url = basePath + id + "_" + width + ".jpg", HasUploadedImage = true };
+
+        if(id != -1)
+            if (Directory.GetFiles(serverPath, string.Format("{0}_*.jpg", id)).Any())
+                return new ImageUrl { Url = basePath + id + "_" + width + ".jpg", HasUploadedImage = true };
 
         return new ImageUrl { Url = getFallBackImage(width), HasUploadedImage = false };
     }

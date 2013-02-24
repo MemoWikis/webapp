@@ -31,18 +31,23 @@ public class EditQuestionSetModel : BaseModel
 
     public string Username;
 
+    public string ImageUrl_206px;
+
     public string PageTitle;
     public string FormTitle;
 
     public EditQuestionSetModel(){
         Username = new SessionUser().User.Name;
+        ImageUrl_206px = new QuestionSetImageSettings(-1).GetUrl_206px().Url;
     }
 
-    public EditQuestionSetModel(QuestionSet set) : this()
+    public EditQuestionSetModel(QuestionSet set)
     {
         Id = set.Id;
         Title = set.Name;
         Text = set.Text;
+        ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px().Url;
+        Username = new SessionUser().User.Name;
     }
 
     public QuestionSet ToQuestionSet(){

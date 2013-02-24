@@ -64,7 +64,7 @@
                         </div>
                         <div class="span3" style="position: relative; left: 25px;">
                             <div class="box">
-                                <img id="questionSetImg" src="/Images/no-question-set-206.png" />
+                                <img id="questionSetImg" src="<%= Model.ImageUrl_206px %>" />
                             </div>
                             <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
                         </div>
