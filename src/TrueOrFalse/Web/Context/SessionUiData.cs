@@ -24,7 +24,7 @@ namespace TrueOrFalse.Web.Context
             get { return Data.Get("questionSearchSpec", new QuestionSearchSpec{PageSize = 5}); }
         }
 
-        public QuestionSetSearchSpec QuestionSetSearchSpec{
+        public QuestionSetSearchSpec SetSearchSpec{
             get { return Data.Get("questionSetSearchSpec", new QuestionSetSearchSpec { PageSize = 10 }); }
         }
     }

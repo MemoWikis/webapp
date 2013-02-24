@@ -53,6 +53,7 @@
                     } %>
     
                 </div>
+                <% Html.RenderPartial("Pager", Model.Pager); %>
             </div>
         </div>
     </div>

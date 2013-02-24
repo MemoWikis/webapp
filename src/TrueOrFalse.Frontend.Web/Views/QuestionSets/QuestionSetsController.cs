@@ -8,17 +8,20 @@ using TrueOrFalse;
 
 public class QuestionSetsController : BaseController
 {
-    private readonly QuestionSetRepository _questionSetRepo;
+    private readonly QuestionSetRepository _setRepo;
 
-    public QuestionSetsController(QuestionSetRepository questionSetRepo)
+    public QuestionSetsController(QuestionSetRepository setRepo)
     {
-        _questionSetRepo = questionSetRepo;
+        _setRepo = setRepo;
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
-    public ActionResult QuestionSets()
+    public ActionResult QuestionSets(int? page)
     {
-        var questionSets = _questionSetRepo.GetBy(_sessionUiData.QuestionSetSearchSpec);
+        _sessionUiData.SetSearchSpec.PageSize = 10;
+        if (page.HasValue) _sessionUiData.SetSearchSpec.CurrentPage = page.Value;
+
+        var questionSets = _setRepo.GetBy(_sessionUiData.SetSearchSpec);
 
         return View(new QuestionSetsModel(questionSets, _sessionUser));
     }       

@@ -20,6 +20,8 @@ public class QuestionSetsModel : BaseModel
     public bool FilterByMe { get; set; }
     public bool FilterByAll { get; set; }
 
+    public PagerModel Pager { get; set; }
+
     public IEnumerable<QuestionSetRowModel> Rows;
 
     public QuestionSetsModel(IEnumerable<QuestionSet> questionSets, SessionUser sessionUser)
@@ -28,5 +30,7 @@ public class QuestionSetsModel : BaseModel
         Rows = questionSets.Select(qs => new QuestionSetRowModel(qs, counter++, sessionUser.User.Id));
 
         TotalQuestionSets = Resolve<GetTotalQuestionSetCount>().Run();
+
+        Pager = new PagerModel(_sessionUiData.SetSearchSpec);
     }
 }

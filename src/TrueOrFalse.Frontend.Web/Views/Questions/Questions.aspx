@@ -137,7 +137,7 @@
                    } %>
             </div>
     
-            <% Html.RenderPartial("Pager", Model.Pager); %>        
+            <% Html.RenderPartial("Pager", Model.Pager); %>
     
             <% Html.RenderPartial("Modals/ToQuestionSet"); %>
             <% Html.RenderPartial("Modals/DeleteQuestion"); %>
