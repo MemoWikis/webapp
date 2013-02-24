@@ -41,8 +41,11 @@ public class QuestionSetImageStore : IRegisterAsInstancePerLifetime
             );
         }else{
             imageMeta.SourceUrl = wikiMetaData.ImageUrl;
+            imageMeta.Source = ImageSource.WikiMedia;
             imageMeta.LicenceInfo = wikiMetaData.JSonResult;
             imageMeta.UserId = userId;
+            
+            _imgMetaRepo.Update(imageMeta);
         }
         
     }

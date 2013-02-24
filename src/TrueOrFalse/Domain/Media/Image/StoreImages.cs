@@ -46,7 +46,8 @@ public class StoreImages
                         graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                         graphics.DrawImage(image, 0, 0, width, height);
                     }
-                    resized.Save(imageSettings.BasePathAndId() + "_" + width + ".jpg", ImageFormat.Jpeg);
+                    resized.Save(imageSettings.BasePathAndId() + "_" + width 
+                        + ImageUrl.SquareSuffix(true) + ".jpg", ImageFormat.Jpeg);
                 }
             }
         }

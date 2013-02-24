@@ -32,15 +32,7 @@ public class EditQuestionSetController : BaseController
             model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert, " +
                                                "nun kannst Du einen neuen Fragesatz erstellen.");
 
-            if (Request["ImageIsNew"] == "true"){
-                if (Request["ImageSource"] == "wikimedia"){
-                    Resolve<QuestionSetImageStore>().RunWikimedia(
-                        Request["ImageWikiFileName"], questionSet.Id, _sessionUser.User.Id);
-                }if (model.ImageSource == "upload"){
-
-                }
-            }
-
+            StoreImage(questionSet.Id);
 
             return View(_viewLocation, model);
         }
@@ -60,6 +52,7 @@ public class EditQuestionSetController : BaseController
     {
         var questionSetRepo = Resolve<QuestionSetRepository>();
         var questionSet = questionSetRepo.GetById(id);
+        StoreImage(questionSet.Id);
         model.Fill(questionSet);
         model.SetToUpdateModel();
         questionSetRepo.Update(questionSet);
@@ -69,24 +62,18 @@ public class EditQuestionSetController : BaseController
         return View(_viewLocation, model);
     }
 
-    public ActionResult Update(){
-        return View(_viewLocation, new EditQuestionSetModel());
-    }
-    
-    [HttpPost]
-    public FineUploaderResult UploadImage(int? id, FineUpload upload)
+    private void StoreImage(int questionId)
     {
-        if (id == null){
-            var tmpImage = new TmpImageStore().Add(upload.InputStream, 200);
-            return new FineUploaderResult(true, new { filePath = tmpImage.PathPreview});
+        if (Request["ImageIsNew"] == "true")
+        {
+            if (Request["ImageSource"] == "wikimedia")
+            {
+                Resolve<QuestionSetImageStore>().RunWikimedia(
+                    Request["ImageWikiFileName"], questionId, _sessionUser.User.Id);
+            }
+            if (Request["ImageSource"] == "upload")
+            {
+            }
         }
-        
-        var dir = @"c:\upload\path";
-        var filePath = Path.Combine(dir, upload.Filename);
-        try { upload.SaveAs(filePath); }
-        catch (Exception ex){return new FineUploaderResult(false, error: ex.Message);}
-
-        // the anonymous object in the result below will be convert to json and set back to the browser
-        return new FineUploaderResult(true, new { filePath = 12345 });
     }
 }

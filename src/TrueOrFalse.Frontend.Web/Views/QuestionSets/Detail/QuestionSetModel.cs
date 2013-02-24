@@ -17,19 +17,23 @@ public class QuestionSetModel : BaseModel
     public string CreationDate;
     public string CreationDateNiceText;
 
+    public string ImageUrl_206px;
+
     public bool IsOwner;
 
-    public QuestionSetModel(QuestionSet questionSet)
+    public QuestionSetModel(QuestionSet set)
     {
-        Id = questionSet.Id;
-        Name = questionSet.Name;
-        Questions = questionSet.Questions;
+        Id = set.Id;
+        Name = set.Name;
+        Questions = set.Questions;
 
-        IsOwner = _sessionUser.IsOwner(questionSet.Creator.Id);
+        IsOwner = _sessionUser.IsOwner(set.Creator.Id);
 
-        Creator = questionSet.Creator;
-        CreatorName = questionSet.Creator.Name;
-        CreationDate = questionSet.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
-        CreationDateNiceText = TimeElapsedAsText.Run(questionSet.DateCreated);
+        Creator = set.Creator;
+        CreatorName = set.Creator.Name;
+        CreationDate = set.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
+        CreationDateNiceText = TimeElapsedAsText.Run(set.DateCreated);
+
+        ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px_square().Url;
     }
 }

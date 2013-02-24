@@ -34,9 +34,8 @@
     
     <div class="span3">
         <div>
-            
             <div class="box">
-                <img src="/Images/no-question-set-206.png"/>
+                <img src="<%= Model.ImageUrl_206px %>"/>
             </div>
 
             <div class="box">

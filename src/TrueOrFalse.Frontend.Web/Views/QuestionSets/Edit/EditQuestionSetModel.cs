@@ -38,7 +38,7 @@ public class EditQuestionSetModel : BaseModel
 
     public EditQuestionSetModel(){
         Username = new SessionUser().User.Name;
-        ImageUrl_206px = new QuestionSetImageSettings(-1).GetUrl_206px().Url;
+        ImageUrl_206px = new QuestionSetImageSettings(-1).GetUrl_206px_square().Url;    
     }
 
     public EditQuestionSetModel(QuestionSet set)
@@ -46,7 +46,7 @@ public class EditQuestionSetModel : BaseModel
         Id = set.Id;
         Title = set.Name;
         Text = set.Text;
-        ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px().Url;
+        ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px_square().Url;
         Username = new SessionUser().User.Name;
     }
 
@@ -54,11 +54,12 @@ public class EditQuestionSetModel : BaseModel
         return Fill(new QuestionSet());
     }
 
-    public QuestionSet Fill(QuestionSet questionSet){
-        questionSet.Name = Title;
-        questionSet.Text = Text;
+    public QuestionSet Fill(QuestionSet set){
+        set.Name = Title;
+        set.Text = Text;
+        ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px_square().Url;
 
-        return questionSet;
+        return set;
     }
 
     public void SetToCreateModel()
