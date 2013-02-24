@@ -3,7 +3,7 @@
 
 <div class="rowBase set-row" data-questionSetId="<%= Model.Id %>">
     <div class="column-1" style="line-height: 15px; font-size: 90%;">
-        &nbsp;
+        <img src="<%= Model.ImageUrl%>" width="85"/>
     </div>
     
     <div class="column-2" style="height: 87px; position: relative;">

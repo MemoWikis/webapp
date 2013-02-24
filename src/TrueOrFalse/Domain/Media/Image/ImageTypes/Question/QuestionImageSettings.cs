@@ -26,7 +26,7 @@ public class QuestionImageSettings : IImageSettings
     public ImageUrl GetUrl_500px() { return GetUrl(500); }
 
     private ImageUrl GetUrl(int width){
-        return ImageUrl.Get(_questionId, width, BasePath, arg => "");
+        return ImageUrl.Get(_questionId, width, false, BasePath, arg => "");
     }
 
     

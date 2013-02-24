@@ -20,6 +20,8 @@ public class QuestionSetRowModel
     public Func<UrlHelper, string> DetailLink { get; private set; }
     public Func<UrlHelper, string> UserProfileLink { get; private set; }
 
+    public string ImageUrl;
+
     public string CreatorName;
     public int CreatorId;
     public bool IsOwner;
@@ -39,6 +41,8 @@ public class QuestionSetRowModel
 
         DetailLink = urlHelper => Links.QuestionSetDetail(urlHelper, questionSet, indexInResultSet);
         UserProfileLink = urlHelper => Links.Profile(urlHelper, questionSet.Creator.Name, questionSet.Creator.Id);
+
+        ImageUrl = new QuestionSetImageSettings(questionSet.Id).GetUrl_206px_square().Url;
     }
 
 }

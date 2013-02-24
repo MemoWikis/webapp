@@ -30,7 +30,7 @@ public class ProfileImageSettings : IImageSettings
     }
 
     private ImageUrl GetUrl(string emailAddress, int width){
-        return ImageUrl.Get(_profileId, width, BasePath, arg => GetFallbackImage(emailAddress,arg));
+        return ImageUrl.Get(_profileId, width, false, BasePath, arg => GetFallbackImage(emailAddress, arg));
     }
 
     protected string GetFallbackImage(string emailAddress, int width)

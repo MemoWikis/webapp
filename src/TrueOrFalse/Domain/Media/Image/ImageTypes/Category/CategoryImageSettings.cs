@@ -22,7 +22,7 @@ public class CategoryImageSettings : IImageSettings
     public ImageUrl GetUrl_128px() { return GetUrl(128); }
 
     private ImageUrl GetUrl(int width){
-        return ImageUrl.Get(_categoryId, width, BasePath, GetFallbackImage);
+        return ImageUrl.Get(_categoryId, width, false, BasePath, GetFallbackImage);
     }
 
     private string GetFallbackImage(int width){

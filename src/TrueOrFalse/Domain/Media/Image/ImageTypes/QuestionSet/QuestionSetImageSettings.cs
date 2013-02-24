@@ -21,13 +21,13 @@ public class QuestionSetImageSettings : IImageSettings
 
     private ImageUrl GetUrl(int width, bool isSquare = false)
     {
-
         var imageMetaRepo = ServiceLocator.Resolve<ImageMetaDataRepository>();
         var imageMeta = imageMetaRepo.GetBy(_questionSetId, ImageType.QuestionSet);
 
         return ImageUrl.Get(
             _questionSetId, 
             width, 
+            isSquare,
             BasePath,
             arg => "/Images/no-question-set-" + width + ImageUrl.SquareSuffix(isSquare) + ".png"
         ).SetSuffix(imageMeta);

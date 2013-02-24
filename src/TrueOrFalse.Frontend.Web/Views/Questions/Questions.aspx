@@ -131,10 +131,9 @@
         
             <div class="box-content">
 
-                <% foreach (var row in Model.QuestionRows)
-                   {
+                <% foreach (var row in Model.QuestionRows){
                        Html.RenderPartial("QuestionRow", row);
-                   } %>
+                } %>
             </div>
     
             <% Html.RenderPartial("Pager", Model.Pager); %>

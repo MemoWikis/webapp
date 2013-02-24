@@ -12,6 +12,7 @@ public class ImageUrl
     public static ImageUrl Get(
         int id, 
         int width,
+        bool isSquare,
         string basePath,
         Func<int, string> getFallBackImage)
     {
@@ -19,7 +20,8 @@ public class ImageUrl
 
         if(id != -1)
             if (Directory.GetFiles(serverPath, string.Format("{0}_*.jpg", id)).Any())
-                return new ImageUrl { Url = basePath + id + "_" + width + ".jpg", HasUploadedImage = true };
+                return new ImageUrl { Url = basePath + id + "_" + width + 
+                    SquareSuffix(isSquare) + ".jpg", HasUploadedImage = true };
 
         return new ImageUrl { Url = getFallBackImage(width), HasUploadedImage = false};
     }
