@@ -257,7 +257,8 @@
     <Content Include="Images\no-category-picture-128.png" />
     <Content Include="Images\no-category-picture-50.png" />
     <Content Include="Images\no-profile-picture-50.png" />
-    <Content Include="Images\no-question-set-206.png" />
+    <Content Include="Images\no-question-50.png" />
+    <Content Include="Images\no-question-set-206s.png" />
     <Content Include="Scripts\file-uploader\button.js" />
     <Content Include="Scripts\file-uploader\dnd.js" />
     <Content Include="Scripts\file-uploader\handler.base.js" />

@@ -22,12 +22,26 @@
                 </div>
             </div>
         
-            <div class="box-content" style="min-height: 200px; clear: both; padding-top: 10px;">
+            <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
                 <% var index = 0; foreach(var question in Model.Questions){ index++; %>
-                    <div>
-                        <%= index %> <a href="<%= Links.AnswerQuestion(Url, question, 0) %>"><%=question.Text %></a>
+                    <div style="margin-bottom: 5px;">
+                        <img src="/Images/no-question-50.png" width="32" style="vertical-align: top;" />
+                        <div style="display: inline-block; width: 385px; line-height: 15px; height: 32px; overflow:hidden;">
+                            <%= index %> <a href="<%= Links.AnswerQuestion(Url, question, 0) %>"><%=question.Text %></a>    
+                        </div>
+                        <div class="show-tooltip active" data-placement="right" data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest." 
+                            style="display: inline-block; width: 80px; background-color:beige; height: 32px;vertical-align: top;">
+                            <span style="font-size: 25px; color: green; position: relative; top: 7px; left: 14px;">72%</span>
+                        </div>
+                        
                     </div>
-                <% } %>            
+                <% } %>
+
+                <div style="margin-top: 10px; margin-right: 10px; height: 40px;" class="pull-right">
+                    <a class="btn btn-info" href="#"> Jetzt üben</a>
+                    <a class="btn btn-primary" href="#"><i class="icon-lightbulb"></i> Jetzt testen</a>
+                </div>
+                <div style="clear: both"></div>
             </div>
         </div>
     </div>
@@ -47,7 +61,14 @@
             
             <div class="box">
                 <div class="box-content">
-                    Followers: 837  (Rang: 7)<br/>          
+                    <b style="color: darkgray">Alle</b><br/>
+                    gemerkt: 837x  (Rang: 7)<br/>          
+                    gesehen: 20x (Rang: 71)<br/>
+                    
+                    <b style="color: darkgray; margin-top:7px; display: block">Ich</b>
+                    gesehen: 2x<br/>
+                    merken: 
+                    
                 </div>
             </div>
         </div>

@@ -30,23 +30,14 @@
         
             <div class="box box-green">
                 <div class="form-horizontal">
-                    <div class="control-group" style="margin-bottom: 8px;">
+                    <div class="control-group" style="margin-bottom: 15px; margin-top: -7px; ">
                         <label style="line-height: 18px; padding-top: 5px;"><nb>Suche</nb>:</label>
                         <%: Html.TextBoxFor(model => model.SearchTerm, new {style="width:297px;", id="txtSearch"}) %>
                         <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
                     </div>
-                    <div class="control-group" style="margin-bottom: 8px;">
-                        <label style="line-height: 18px; padding-top: 5px;"><b>Erstellt</b>:</label>
-                        <div class="btn-group" style="display: inline">
-                            <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
-                            <button class="btn btn-filterByAll">von anderen</button>
-                            <%: Html.HiddenFor(model => model.FilterByMe)%>
-                            <%: Html.HiddenFor(model => model.FilterByAll)%>
-                        </div>
-                    </div>
+                    <div style="clear:both;"></div>
                 </div>
         
-        <% } %>
                 <div class="box-content">
                     <% foreach(var row in Model.Rows){
                         Html.RenderPartial("QuestionSetRow", row);
@@ -56,5 +47,6 @@
                 <% Html.RenderPartial("Pager", Model.Pager); %>
             </div>
         </div>
+    <% } %>
     </div>
 </asp:Content>

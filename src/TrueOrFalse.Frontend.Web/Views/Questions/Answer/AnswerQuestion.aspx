@@ -10,7 +10,10 @@
         
         .selectorShowAnswer{/* marker class */}
         
-        .btnRight{float: right;}
+        .btnRight {
+            float: right;
+            position: relative;right: 43px;
+        }
         
         div.headerLinks {}
         div.headerLinks i { margin-top: 2px;}
@@ -118,9 +121,11 @@
                     <h4>Meine Einschätzung</h4>
                 </div>
             </div>
-                
+            
+            <div style="clear: both;"></div>
+            
             <% foreach (var row in Model.FeedbackRows){ %>
-                <div class="valRow row">
+                <div class="valRow">
                     <div class="valColumn1 span3">
                         <%= row.Title %>: <i class="icon-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
                     </div>
@@ -139,10 +144,11 @@
 
                 </div>
             <%} %>
-
         </div>
+        
+        <div style="clear: both;"></div>
             
-        <div class="row" style="margin-top: 17px; width: 400px;">
+        <div class="" style="margin-top: 20px; width: 400px;">
             Die Frage bitte: &nbsp;
             <a href="#modalImprove" data-toggle="modal"><i class="icon-repeat"></i> verbessern!</a>&nbsp; / 
             <a href="#modalDelete" data-toggle="modal"><i class="icon-fire"></i> entfernen!</a>

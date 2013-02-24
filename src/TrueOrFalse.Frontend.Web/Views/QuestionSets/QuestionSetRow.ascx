@@ -9,8 +9,10 @@
     <div class="column-2" style="height: 87px; position: relative;">
         <div style="font-size:large;">
             <a href="<%= Model.DetailLink(Url) %>"><%= Model.Name %></a>
+            <span style="font-size: small;">(<%= Model.QuestionCount %> Fragen)</span>
         </div>
-        Fragen: <%= Model.QuestionCount %>
+        
+        <%= Model.DescriptionShort %>
         
         <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
             <% if (Model.IsOwner){%>
