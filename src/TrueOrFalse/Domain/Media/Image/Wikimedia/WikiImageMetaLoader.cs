@@ -23,7 +23,6 @@ namespace TrueOrFalse
                 "&iiprop=timestamp%7Cuser%7Cuserid%7Curl%7Csize" +
                 "&iilimit=1" +
                 "&iiurlwidth=" + thumbUrlWidth +
-                "&iiend=20071231235959" +
                 "&titles=File%3A" + HttpUtility.UrlEncode(fileName);
 
             var webRequest = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
