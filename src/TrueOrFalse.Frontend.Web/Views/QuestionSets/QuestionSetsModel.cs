@@ -26,5 +26,7 @@ public class QuestionSetsModel : BaseModel
     {
         var counter = 0;
         Rows = questionSets.Select(qs => new QuestionSetRowModel(qs, counter++, sessionUser.User.Id));
+
+        TotalQuestionSets = Resolve<GetTotalQuestionSetCount>().Run();
     }
 }

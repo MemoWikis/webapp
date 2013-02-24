@@ -11,8 +11,7 @@ namespace TrueOrFalse
             _session = session;
         }
 
-        public int Run()
-        {
+        public int Run(){
             return (int)_session.CreateQuery("SELECT Count(Id) FROM Question").UniqueResult<Int64>();
         }
     }
