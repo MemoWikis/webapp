@@ -29,7 +29,8 @@
                         <div style="display: inline-block; width: 385px; line-height: 15px; height: 32px; overflow:hidden;">
                             <%= index %> <a href="<%= Links.AnswerQuestion(Url, question, 0) %>"><%=question.Text %></a>    
                         </div>
-                        <div class="show-tooltip active" data-placement="right" data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest." 
+                        <div class="show-tooltip active" data-placement="right" 
+                                data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest. Schnitt: 71% "
                             style="display: inline-block; width: 80px; background-color:beige; height: 32px;vertical-align: top;">
                             <span style="font-size: 25px; color: green; position: relative; top: 7px; left: 14px;">72%</span>
                         </div>

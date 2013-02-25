@@ -15,7 +15,8 @@ public class KnowledgeModel : BaseModel
     public int TotalAnswerPreviousWeek;
     public int TotalAnswerLastMonth;
 
-    public int WishKnowledgeCount;
+    public int QuestionsCount;
+    public int QuestionsSetCount;
 
     public KnowledgeModel(SessionUser sessionUser)
     {

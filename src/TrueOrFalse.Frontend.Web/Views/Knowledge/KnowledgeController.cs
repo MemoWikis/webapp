@@ -30,7 +30,7 @@ public class KnowledgeController : Controller
         return View(
             new KnowledgeModel(_sessionUser)
                 {
-                    WishKnowledgeCount = _getWishKnowledgeCount.Run(_sessionUser.User.Id),
+                    QuestionsCount = _getWishKnowledgeCount.Run(_sessionUser.User.Id),
                     TotalAnswerThisWeek = answersThisWeek.TotalAnswers,
                     TotalAnswerThisMonth = answersThisMonth.TotalAnswers,
                     TotalAnswerPreviousWeek = answersPreviousWeek.TotalAnswers,
