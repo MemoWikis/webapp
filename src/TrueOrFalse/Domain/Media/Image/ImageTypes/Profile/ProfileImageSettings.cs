@@ -22,15 +22,15 @@ public class ProfileImageSettings : IImageSettings
     }
 
     public ImageUrl GetUrl_128px(string emailAddress){
-        return GetUrl(emailAddress, 128);
+        return GetUrl(emailAddress, 128, isSquare: true);
     }
 
     public ImageUrl GetUrl_50px(string emailAddress){
         return GetUrl(emailAddress, 50);
     }
 
-    private ImageUrl GetUrl(string emailAddress, int width){
-        return ImageUrl.Get(_profileId, width, false, BasePath, arg => GetFallbackImage(emailAddress, arg));
+    private ImageUrl GetUrl(string emailAddress, int width, bool isSquare = false){
+        return ImageUrl.Get(_profileId, width, isSquare, BasePath, arg => GetFallbackImage(emailAddress, arg));
     }
 
     protected string GetFallbackImage(string emailAddress, int width)
