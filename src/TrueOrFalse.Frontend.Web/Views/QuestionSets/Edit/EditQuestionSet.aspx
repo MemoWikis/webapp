@@ -56,11 +56,19 @@
                                     <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px; width:300px;", placeholder = "Beschreibung" }) %>
                                 </div>
                             </div>
-                            <div class="info">
-                                <b>Keine Fragen im Fragesatz.</b>
-                                Um Fragen hinzuzufügen, wählen Sie Fragen 
-                                auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions") %> aus. 
-                            </div>
+                            <%  if(Model.QuestionsInSet.Count == 0) { %>
+                                <div class="info">
+                                    <b>Keine Fragen im Fragesatz.</b>
+                                        Um Fragen hinzuzufügen, wählen Sie Fragen 
+                                    auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions") %> aus. 
+                                </div>
+                            <% }else{ %>
+                                <ul id="sortable">
+                                    <%foreach(var question in Model.QuestionsInSet){%>
+                                        <li class="ui-state-default">Item 1</li>  
+                                    <%} %>
+                                </ul>
+                            <% } %>
                         </div>
                         <div class="span3" style="position: relative; left: 25px;">
                             <div class="box">

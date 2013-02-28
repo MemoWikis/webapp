@@ -161,6 +161,9 @@
     <Compile Include="Domain\QuestionSet\Ops\AddToQuestionSetResult.cs" />
     <Compile Include="Domain\QuestionSet\Ops\AddToQuestionSet.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetTotalQuestionSetCount.cs" />
+    <Compile Include="Domain\QuestionSet\QuestionInSet\Persistence\QuestionInSetRepo.cs" />
+    <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSet.cs" />
+    <Compile Include="Domain\QuestionSet\QuestionInSet\Persistence\QuestionInSetMap.cs" />
     <Compile Include="Domain\QuestionSet\QuestionSet.cs" />
     <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\QuestionSetMap.cs" />
     <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\QuestionSetRepository.cs" />

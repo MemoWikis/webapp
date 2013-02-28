@@ -454,6 +454,7 @@
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.min.js">
       <DependentUpon>EditQuestionSet.ts</DependentUpon>
     </Content>
+    <Content Include="Views\QuestionSets\Edit\QuestionRow.ascx" />
     <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />
     <Content Include="Views\QuestionSets\QuestionSets.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />

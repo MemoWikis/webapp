@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using Seedworks.Lib;
@@ -36,6 +37,8 @@ public class EditQuestionSetModel : BaseModel
     public string PageTitle;
     public string FormTitle;
 
+    public IList<QuestionInSet> QuestionsInSet = new List<QuestionInSet>();
+
     public EditQuestionSetModel(){
         Username = new SessionUser().User.Name;
         ImageUrl_206px = new QuestionSetImageSettings(-1).GetUrl_206px_square().Url;    
@@ -48,6 +51,7 @@ public class EditQuestionSetModel : BaseModel
         Text = set.Text;
         ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px_square().Url;
         Username = new SessionUser().User.Name;
+        QuestionsInSet = set.QuestionsInSet;
     }
 
     public QuestionSet ToQuestionSet(){

@@ -34,7 +34,7 @@ public class QuestionSetRowModel
 
         DescriptionShort = questionSet.Text.Wrap(150);
         
-        QuestionCount = questionSet.Questions.Count;
+        QuestionCount = questionSet.QuestionsInSet.Count;
         CreatorName = questionSet.Creator.Name;
         IsOwner = currentUserid == questionSet.Creator.Id;
         IndexInResult = indexInResultSet;

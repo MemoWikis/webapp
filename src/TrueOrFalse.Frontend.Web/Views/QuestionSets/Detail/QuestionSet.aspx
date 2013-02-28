@@ -23,11 +23,11 @@
             </div>
         
             <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
-                <% var index = 0; foreach(var question in Model.Questions){ index++; %>
+                <% var index = 0; foreach(var questionInSet in Model.QuestionsInSet){ index++; %>
                     <div style="margin-bottom: 5px;">
                         <img src="/Images/no-question-50.png" width="32" style="vertical-align: top;" />
                         <div style="display: inline-block; width: 385px; line-height: 15px; height: 32px; overflow:hidden;">
-                            <%= index %> <a href="<%= Links.AnswerQuestion(Url, question, 0) %>"><%=question.Text %></a>    
+                            <%= index %> <a href="<%= Links.AnswerQuestion(Url, questionInSet.Question, 0) %>"><%=questionInSet.Question.Text %></a>    
                         </div>
                         <div class="show-tooltip active" data-placement="right" 
                                 data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest. Schnitt: 71% "

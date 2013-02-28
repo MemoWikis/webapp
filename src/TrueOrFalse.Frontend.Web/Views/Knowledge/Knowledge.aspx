@@ -124,7 +124,7 @@
                         <td><span id="inCategoeryOverTime-1"></span></td>
                     </tr>
                 </table>
-            </div
+            </div>
         </div>
 
     </div>

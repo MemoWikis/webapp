@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
@@ -13,16 +10,34 @@ namespace TrueOrFalse
         public virtual string Name { get; set; }
         public virtual string Text { get; set; }
 
-        public virtual IList<Question> Questions{ get; set;}
+        public virtual IList<QuestionInSet> QuestionsInSet{ get; set;}
         public virtual User Creator { get; set; }
 
+        public virtual void Add(Question question){
+            QuestionsInSet.Add(
+                new QuestionInSet{
+                        Set = this,
+                        Question = question,
+                        Index = QuestionsInSet.Count + 1
+                }
+            );
+        }
+
         public virtual void Add(IList<Question> questions){
-            foreach (var question in questions)
-                Questions.Add(question);
+            foreach (var question in questions){
+                Add(question);
+            }
+        }
+
+        public virtual void Add(IList<QuestionInSet> questionsInSet){
+            foreach (var questionInSet in questionsInSet){
+                questionInSet.Index = QuestionsInSet.Count + 1;
+                QuestionsInSet.Add(questionInSet);
+            }
         }
 
         public QuestionSet(){
-            Questions = new List<Question>();
+            QuestionsInSet = new List<QuestionInSet>();
         }
     }
 }

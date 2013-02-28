@@ -9,6 +9,7 @@ namespace TrueOrFalse.Tests
     public class User_creation_spec : BaseTest
     {
         [Test]
+        [Ignore("BDDish is outdated")]
         public void Test()
         {
             Features.Registration

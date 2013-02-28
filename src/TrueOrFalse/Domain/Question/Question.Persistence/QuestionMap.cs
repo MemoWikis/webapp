@@ -33,7 +33,9 @@ namespace TrueOrFalse
             Map(x => x.Solution);
             Map(x => x.SolutionType);
             Map(x => x.SolutionMetadataJson);
-            HasManyToMany(x => x.Categories).Table("CategoriesToQuestions").Cascade.SaveUpdate();
+            HasManyToMany(x => x.Categories)
+                .Table("CategoriesToQuestions")
+                .Cascade.SaveUpdate();
 
             Map(x => x.DateCreated);
             Map(x => x.DateModified);

@@ -10,7 +10,7 @@ public class QuestionSetModel : BaseModel
 {
     public int Id;
     public string Name;
-    public IList<Question> Questions;
+    public IList<QuestionInSet> QuestionsInSet;
 
     public User Creator;
     public string CreatorName;
@@ -25,7 +25,7 @@ public class QuestionSetModel : BaseModel
     {
         Id = set.Id;
         Name = set.Name;
-        Questions = set.Questions;
+        QuestionsInSet = set.QuestionsInSet;
 
         IsOwner = _sessionUser.IsOwner(set.Creator.Id);
 

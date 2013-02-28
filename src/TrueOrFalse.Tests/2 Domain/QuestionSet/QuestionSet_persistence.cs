@@ -25,7 +25,7 @@ namespace TrueOrFalse.Tests.Persistence
             Resolve<QuestionSetRepository>().Create(questionSet);
 
             var questionSetFromDb = Resolve<QuestionSetRepository>().GetAll()[0];
-            Assert.That(questionSetFromDb.Questions.Count, Is.EqualTo(4));
+            Assert.That(questionSetFromDb.QuestionsInSet.Count, Is.EqualTo(4));
         }
     }
 }

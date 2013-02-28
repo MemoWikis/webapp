@@ -29,10 +29,10 @@ namespace TrueOrFalse
             var nonAddedQuestions = new List<Question>();
             foreach (var question in questions)
             {
-                if(questionSet.Questions.Any(q => q.Id == question.Id))
+                if(questionSet.QuestionsInSet.Any(q => q.Question.Id == question.Id))
                     nonAddedQuestions.Add(question);
                 else
-                    questionSet.Questions.Add(question);
+                    questionSet.Add(question);
             }
 
             _questionSetRepo.Update(questionSet);

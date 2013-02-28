@@ -15,12 +15,11 @@ namespace TrueOrFalse
             Map(x => x.Name).Length(100);
             Map(x => x.Text).Length(Constants.VarCharMaxLength);
 
-            HasManyToMany(x => x.Questions).Table("QuestionSet_to_Question").Cascade.All();
+            HasMany(x => x.QuestionsInSet).Cascade.All().Inverse();
             References(x => x.Creator);
 
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
         }
-
     }
 }
