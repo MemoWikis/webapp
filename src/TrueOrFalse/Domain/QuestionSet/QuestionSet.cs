@@ -16,9 +16,9 @@ namespace TrueOrFalse
         public virtual void Add(Question question){
             QuestionsInSet.Add(
                 new QuestionInSet{
-                        Set = this,
+                        QuestionSet = this,
                         Question = question,
-                        Index = QuestionsInSet.Count + 1
+                        Sort = QuestionsInSet.Count + 1
                 }
             );
         }
@@ -26,13 +26,6 @@ namespace TrueOrFalse
         public virtual void Add(IList<Question> questions){
             foreach (var question in questions){
                 Add(question);
-            }
-        }
-
-        public virtual void Add(IList<QuestionInSet> questionsInSet){
-            foreach (var questionInSet in questionsInSet){
-                questionInSet.Index = QuestionsInSet.Count + 1;
-                QuestionsInSet.Add(questionInSet);
             }
         }
 

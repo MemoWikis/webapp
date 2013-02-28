@@ -13,10 +13,10 @@ namespace TrueOrFalse
         {
             Table("questionInSet");
             Id(x => x.Id);
-            References(x => x.Question).Not.Nullable().Cascade.SaveUpdate();
-            References(x => x.Set).Not.Nullable().Cascade.SaveUpdate();
-            //Map(x => x.Index);
-
+            
+            References(x => x.Question).Cascade.None();
+            References(x => x.QuestionSet).Cascade.None();
+            
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
         }

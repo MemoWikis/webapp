@@ -296,6 +296,8 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs020.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs019.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs018.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs017.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs016.cs" />

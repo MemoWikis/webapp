@@ -64,8 +64,8 @@
                                 </div>
                             <% }else{ %>
                                 <ul id="sortable">
-                                    <%foreach(var question in Model.QuestionsInSet){%>
-                                        <li class="ui-state-default">Item 1</li>  
+                                    <%foreach(var questionInSet in Model.QuestionsInSet){%>
+                                        <li class="ui-state-default"><%= questionInSet.Question.Text %></li>  
                                     <%} %>
                                 </ul>
                             <% } %>

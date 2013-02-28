@@ -11,11 +11,16 @@ namespace TrueOrFalse
     {
         private readonly QuestionSetRepository _questionSetRepo;
         private readonly QuestionRepository _questionRepo;
+        private readonly QuestionInSetRepo _questionInSetRepo;
 
-        public AddToQuestionSet(QuestionSetRepository questionSetRepo, QuestionRepository questionRepo){
+        public AddToQuestionSet(
+                QuestionSetRepository questionSetRepo, 
+                QuestionRepository questionRepo,
+                QuestionInSetRepo questionInSetRepo){
             _questionSetRepo = questionSetRepo;
             _questionRepo = questionRepo;
-        }
+            _questionInSetRepo = questionInSetRepo;
+                }
 
         public AddToQuestionSetResult Run(int[] questionIds, int questionSet)
         {
@@ -29,13 +34,17 @@ namespace TrueOrFalse
             var nonAddedQuestions = new List<Question>();
             foreach (var question in questions)
             {
-                if(questionSet.QuestionsInSet.Any(q => q.Question.Id == question.Id))
+                if (questionSet.QuestionsInSet.Any(q => q.Question.Id == question.Id))
                     nonAddedQuestions.Add(question);
                 else
-                    questionSet.Add(question);
+                {
+                    var questionInSet = new QuestionInSet();
+                    questionInSet.Question = question;
+                    questionInSet.QuestionSet = questionSet;
+                    _questionInSetRepo.Create(questionInSet);
+                }
+                    
             }
-
-            _questionSetRepo.Update(questionSet);
 
             return new AddToQuestionSetResult
                 {

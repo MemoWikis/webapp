@@ -15,7 +15,7 @@ namespace TrueOrFalse.Tests
             Features.Registration
                 .Requirement("A user should be able to register")
                 .Customer(Persona.UserWhoWantsToRegister).
-                    AceptanceCriterion("correct behaviour").
+                    AceptanceCriterion("").
                         When(the_user_registers).
                         Then(an_email_should_be_send).
                         Then(he_should_be_able_to_login).

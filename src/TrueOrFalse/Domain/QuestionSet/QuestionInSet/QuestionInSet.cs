@@ -13,9 +13,9 @@ namespace TrueOrFalse
     /// </summary>
     public class QuestionInSet : DomainEntity
     {
-        public virtual QuestionSet Set { get; set; }
+        public virtual QuestionSet QuestionSet { get; set; }
         public virtual Question Question { get; set; }
-        public virtual long Index { get; set; }
+        public virtual int Sort { get; set; }
 
     }
 }

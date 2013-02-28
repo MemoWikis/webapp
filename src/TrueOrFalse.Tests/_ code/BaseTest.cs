@@ -26,15 +26,25 @@ namespace TrueOrFalse.Tests
             InitializeContainer();
         }
 
+        public void RecycleContainer()
+        {
+            BuildContainer();
+        }
+
         private static void InitializeContainer()
+        {
+            BuildContainer();
+            ServiceLocator.Init(_container);
+            SessionFactory.BuildSchema();
+        }
+
+        private static void BuildContainer()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacCoreModule>();
             builder.RegisterModule<AutofacTestModule>();
             builder.RegisterModule(new SolrNetModule("http://localhost:8080/solr/trueOrFalseTest"));
             _container = builder.Build();
-            ServiceLocator.Init(_container);
-            SessionFactory.BuildSchema();
         }
 
         public static T Resolve<T>()

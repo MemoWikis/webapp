@@ -14,7 +14,8 @@ namespace TrueOrFalse.Infrastructure
             
             var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
-            builder.RegisterAssemblyTypes(assemblyTrueOrFalse).Where(a => a.Name.EndsWith("Repository"));
+            builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
+                .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"));
 
             builder.RegisterInstance(SessionFactory.CreateSessionFactory());
             builder.Register(context => new SessionManager(context.Resolve<ISessionFactory>().OpenSession())).InstancePerLifetimeScope();
