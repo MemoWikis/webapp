@@ -446,13 +446,20 @@
     <Content Include="Views\Drafts\Boxes.css" />
     <Content Include="Views\QuestionSets\Detail\QuestionSet.aspx" />
     <Content Include="Views\QuestionSets\Detail\QuestionSet.css" />
-    <TypeScriptCompile Include="Views\QuestionSets\Edit\EditQuestionSet.ts" />
+    <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\EditQuestionSetImageUpload.ts" />
     <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
-    <Content Include="Views\QuestionSets\Edit\EditQuestionSet.js">
-      <DependentUpon>EditQuestionSet.ts</DependentUpon>
+    <Content Include="Views\QuestionSets\Edit\Js\EditQuestionSetImageUpload.js">
+      <DependentUpon>EditQuestionSetImageUpload.ts</DependentUpon>
     </Content>
-    <Content Include="Views\QuestionSets\Edit\EditQuestionSet.min.js">
-      <DependentUpon>EditQuestionSet.ts</DependentUpon>
+    <Content Include="Views\QuestionSets\Edit\Js\EditQuestionSetImageUpload.min.js">
+      <DependentUpon>EditQuestionSetImageUpload.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\EditQuestionSetSortable.ts" />
+    <Content Include="Views\QuestionSets\Edit\Js\EditQuestionSetSortable.js">
+      <DependentUpon>EditQuestionSetSortable.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\QuestionSets\Edit\Js\EditQuestionSetSortable.min.js">
+      <DependentUpon>EditQuestionSetSortable.ts</DependentUpon>
     </Content>
     <Content Include="Views\QuestionSets\Edit\QuestionRow.ascx" />
     <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />

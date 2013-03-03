@@ -11,6 +11,30 @@
         var questionSetId = "<%= Model.Id %>";
         var userName = "<%= Model.Username %>";
     </script>
+    
+  <style>
+      #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+      #sortable li {
+           margin: 0 5px 5px 5px; padding: 5px; font-size: 1.0em; line-height: 1.2em; 
+           height: 30px; background: none;
+      }
+
+      .deleteButton {color: red; position: relative; right: 0px; float:right; cursor: pointer}
+      
+      .ui-state-highlight { height: 1.5em; line-height: 1.2em;}
+  </style>
+  <script>
+      $(function() {
+          $(".deleteButton").click(function() {
+              $(this).parent().hide(800);
+              $("#revertAction").show();
+          });
+
+          $("#revertAction").click(function() {
+              $("#modalRevertAction").modal();
+          });
+      });
+  </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -58,14 +82,24 @@
                             </div>
                             <%  if(Model.QuestionsInSet.Count == 0) { %>
                                 <div class="info">
-                                    <b>Keine Fragen im Fragesatz.</b>
-                                        Um Fragen hinzuzufügen, wählen Sie Fragen 
+                                    <b>Keine Fragen im Fragesatz.</b> Um Fragen hinzuzufügen, wählen Sie Fragen 
                                     auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions") %> aus. 
                                 </div>
                             <% }else{ %>
+                                <h4 style="padding-left:5px;">Fragen bearbeiten 
+                                    <span style="font-size: 11px;">(Sortiere per Drag'n'Drop)</span>
+                                    <span id="revertAction" class="pull-right hide" style="font-size: 11px; font-weight: normal; position: relative; top: 7px; right: 7px; cursor: pointer">
+                                        [Rückgängig]
+                                    </span>
+                                </h4>
                                 <ul id="sortable">
                                     <%foreach(var questionInSet in Model.QuestionsInSet){%>
-                                        <li class="ui-state-default"><%= questionInSet.Question.Text %></li>  
+                                        <li class="ui-state-default" data-id="<%=questionInSet.Id %>">
+                                            <i class="icon-trash icon deleteButton"></i>
+                                            <div>
+                                                <%= questionInSet.Question.Text %>
+                                            </div>
+                                        </li>  
                                     <%} %>
                                 </ul>
                             <% } %>
@@ -90,5 +124,21 @@
 </div>
     
 <% Html.RenderPartial("../Shared/ImageUpload/ImageUpload"); %>
+    
+<div id="modalRevertAction" class="modal hide">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Letztes Löschen rückgängig machen</h3>
+    </div>
+    <div class="modal-body">
+        <p>NOCH NICHT UMGESETZT</p>
+    </div>
+    <div class="modal-footer" id="tqsNoSetsFooter">
+        <a href="#" class="btn" data-dismiss="modal">Schließen</a>
+        <a href="#" class="btn btn-primary">Jetzt rückgängig machen</a>
+    </div>
+</div>
+
+
 
 </asp:Content>

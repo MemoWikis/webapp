@@ -33,7 +33,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/file-uploader/jquery-plugin.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questionSetEdit")
-                .Include("~/Views/QuestionSets/Edit/EditQuestionSet.js")
+                .Include("~/Views/QuestionSets/Edit/Js/EditQuestionSetImageUpload.js")
+                .Include("~/Views/QuestionSets/Edit/Js/EditQuestionSetSortable.js")
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/jquery.scrollTo-1.4.3.1.js"));
 

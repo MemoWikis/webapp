@@ -1,7 +1,7 @@
-/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
-/// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
-/// <reference path="../../../Scripts/typescript.defs/lib.d.ts" />
-/// <reference path="../../Shared/ImageUpload/ImageUpload.ts" />
+/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
+/// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
+/// <reference path="../../../../Scripts/typescript.defs/lib.d.ts" />
+/// <reference path="../../../Shared/ImageUpload/ImageUpload.ts" />
 
 declare var isEditMode: bool;
 declare var questionSetId: number;
