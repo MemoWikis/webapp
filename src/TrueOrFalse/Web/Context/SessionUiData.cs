@@ -27,5 +27,7 @@ namespace TrueOrFalse.Web.Context
         public QuestionSetSearchSpec SetSearchSpec{
             get { return Data.Get("questionSetSearchSpec", new QuestionSetSearchSpec { PageSize = 10 }); }
         }
+
+        public TmpImageStore TmpImagesStore { get { return Data.Get("tmpImageStore", new TmpImageStore()); } }
     }
 }

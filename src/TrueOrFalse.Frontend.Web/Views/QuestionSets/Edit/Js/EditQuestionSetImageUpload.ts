@@ -6,19 +6,8 @@
 declare var isEditMode: bool;
 declare var questionSetId: number;
 
-class ImageUploadModalInit
-{
-    constructor(isEditMode : bool, questionSetId : number) {
-        if (isEditMode) {
-            $("#modalImageUpload").attr("data-endpoint", "/QuestionSet/UploadImage/" + questionSetId);
-        } else {
-            $("#modalImageUpload").attr("data-endpoint", "/QuestionSet/UploadImage/");
-        }
-    }
-}
 
 $(function () {
-    new ImageUploadModalInit(isEditMode, questionSetId);
     var imageUploadModal = new ImageUploadModal();
     imageUploadModal.OnSave(function (url: string) {
         $("#questionSetImg").attr("src", url);

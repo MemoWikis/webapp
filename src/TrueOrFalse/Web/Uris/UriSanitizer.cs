@@ -16,7 +16,7 @@ namespace TrueOrFalse.Web
 
         private static bool IsValidChar(char chr)
         {
-            if (Regex.IsMatch(chr.ToString(), "[a-zA-Z0-9-_ ÄäÜüÖö]", RegexOptions.Compiled))
+            if (Regex.IsMatch(chr.ToString(), "[a-zA-Z0-9-_ ÄäÜüÖöß]", RegexOptions.Compiled))
                 return true;
             
             return false;
@@ -25,11 +25,12 @@ namespace TrueOrFalse.Web
         private static char[] Transform(char chr)
         {
             if (chr == 'ä') return new[] { 'a', 'e'};
-            if (chr == 'Ä') return new[] { 'A', 'E' };
+            if (chr == 'Ä') return new[] { 'A', 'e' };
             if (chr == 'ü') return new[] { 'u', 'e' };
-            if (chr == 'Ü') return new[] { 'U', 'E' };
+            if (chr == 'Ü') return new[] { 'U', 'e' };
             if (chr == 'ö') return new[] { 'o', 'e' };
-            if (chr == 'Ö') return new[] { 'O', 'E' };
+            if (chr == 'Ö') return new[] { 'O', 'e' };
+            if (chr == 'ß') return new[] { 's', 's' };
 
             if (chr == ' ')
                 return new[] { '_' };

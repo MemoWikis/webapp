@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.UI;
 using FineUploader;
 using TrueOrFalse;
 using TrueOrFalse.Web;
+using Newtonsoft.Json;
 
 public class EditQuestionSetController : BaseController
 {
@@ -73,7 +75,16 @@ public class EditQuestionSetController : BaseController
             }
             if (Request["ImageSource"] == "upload")
             {
+                var imageGuid = Request["ImageGuid"];
             }
         }
     }
+
+    public EmptyResult UpdateQuestionsOrder(int questionSetId, string newIndicies)
+    {
+        //dynamic foo = new {};
+        //var bla = JsonConvert.DeserializeAnonymousType(newIndicies, foo);
+        return new EmptyResult();
+    }
+
 }

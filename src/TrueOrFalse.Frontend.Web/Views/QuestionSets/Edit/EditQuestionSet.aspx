@@ -13,8 +13,8 @@
     </script>
     
   <style>
-      #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
-      #sortable li {
+      #ulQuestions { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+      #ulQuestions li {
            margin: 0 5px 5px 5px; padding: 5px; font-size: 1.0em; line-height: 1.2em; 
            height: 30px; background: none;
       }
@@ -44,9 +44,11 @@
     .form-horizontal .control-group .controls{ margin-left: 120px; }
     .form-horizontal .info{ margin-left: 130px;}
     .form-horizontal .form-actions { padding-left: 130px; }
+
+    .draggable-panel { height: 30px;width: 30px;background-color: gainsboro;cursor: move;margin-right: 5px; }
 </style>
 
-<div class="span10">
+<div class="span10" id="questionSetContainer" data-id="<%: Model.Id %>">
     
     <div style="margin-bottom: -10px;">
         <% Html.Message(Model.Message); %>
@@ -56,6 +58,7 @@
                 "EditQuestionSet", null, FormMethod.Post,
                 new { enctype = "multipart/form-data", style = "margin:0px;"})){ %>
     
+            
         <%: Html.HiddenFor(m => m.ImageIsNew) %>
         <%: Html.HiddenFor(m => m.ImageSource) %>
         <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
@@ -86,19 +89,21 @@
                                     auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions") %> aus. 
                                 </div>
                             <% }else{ %>
-                                <h4 style="padding-left:5px;">Fragen bearbeiten 
-                                    <span style="font-size: 11px;">(Sortiere per Drag'n'Drop)</span>
+                                <h4 style="padding-left:5px;">Fragen Reihenfolge
+                                    <span style="font-size: 11px;">(per Drag'n'Drop)</span>
                                     <span id="revertAction" class="pull-right hide" style="font-size: 11px; font-weight: normal; position: relative; top: 7px; right: 7px; cursor: pointer">
                                         [Rückgängig]
                                     </span>
                                 </h4>
-                                <ul id="sortable">
+                                <ul id="ulQuestions">
                                     <%foreach(var questionInSet in Model.QuestionsInSet){%>
                                         <li class="ui-state-default" data-id="<%=questionInSet.Id %>">
                                             <i class="icon-trash icon deleteButton"></i>
+                                            <div class="draggable-panel" style="float: left;">&nbsp;</div>
                                             <div>
                                                 <%= questionInSet.Question.Text %>
                                             </div>
+                                            
                                         </li>  
                                     <%} %>
                                 </ul>

@@ -18,7 +18,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/jquery.sparkline.min.js")
                 .Include("~/Scripts/modernizr-2.6.2.js")
                 .Include("~/Scripts/google-code-prettify/prettify.js")
-                .Include("~/Scripts/bootstrap.js"));
+                .Include("~/Scripts/bootstrap.js")
+                .Include("~/Scripts/json2.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/file-uploader/header.js")

@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
-<div id="modalImageUpload" class="modal hide" data-endpoint="">
+<div id="modalImageUpload" class="modal hide">
     <div class="modal-header">
         <button class="close" data-dismiss="modal">×</button>
         <h3>Kategoriebild hochladen</h3>

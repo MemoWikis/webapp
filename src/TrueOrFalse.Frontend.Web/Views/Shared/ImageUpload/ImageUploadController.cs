@@ -19,20 +19,9 @@ public class ImageUploadController : BaseController
     }
 
     [HttpPost]
-    public FineUploaderResult UploadImage(int? id, FineUpload upload)
+    public FineUploaderResult UploadImage(FineUpload upload)
     {
-        if (id == null)
-        {
-            var tmpImage = new TmpImageStore().Add(upload.InputStream, 200);
-            return new FineUploaderResult(true, new { filePath = tmpImage.PathPreview });
-        }
-
-        var dir = @"c:\upload\path";
-        var filePath = Path.Combine(dir, upload.Filename);
-        try { upload.SaveAs(filePath); }
-        catch (Exception ex) { return new FineUploaderResult(false, error: ex.Message); }
-
-        // the anonymous object in the result below will be convert to json and set back to the browser
-        return new FineUploaderResult(true, new { filePath = 12345 });
+        var tmpImage = _sessionUiData.TmpImagesStore.Add(upload.InputStream, 200);
+        return new FineUploaderResult(true, new { filePath = tmpImage.Path });
     }
 }
