@@ -9,7 +9,6 @@ class QuestionSortable
     _questionSetId: number;
 
     constructor() {
-
         this._ulQuestions = $("#ulQuestions");
         this._questionSetId = parseInt($("#questionSetContainer").attr("data-id"));
 

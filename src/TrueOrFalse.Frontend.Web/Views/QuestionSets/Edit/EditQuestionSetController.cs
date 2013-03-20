@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Web.Helpers;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using System.Web.UI;
-using FineUploader;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 using Newtonsoft.Json;
@@ -88,6 +82,13 @@ public class EditQuestionSetController : BaseController
             JsonConvert.DeserializeObject<IEnumerable<NewQuestionIndex>>(newIndicies)
         );
         
+        return new EmptyResult();
+    }
+
+    [HttpPost]
+    public EmptyResult RemoveQuestionFromSet(int questionInSetId)
+    {
+        Resolve<QuestionInSetRepo>().Delete(questionInSetId);
         return new EmptyResult();
     }
 

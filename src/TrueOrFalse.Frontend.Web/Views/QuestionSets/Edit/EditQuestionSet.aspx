@@ -13,43 +13,34 @@
         var userName = "<%= Model.Username %>";
     </script>
     
-  <style>
-      #ulQuestions { list-style-type: none; margin: 0; padding: 0; width: 100%; }
-      #ulQuestions li {
-           margin: 0 5px 5px 5px; padding: 5px; font-size: 1.0em; line-height: 1.2em; 
-           height: 30px; background: none;
-      }
+    <style>
+        #ulQuestions { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+        #ulQuestions li {
+            margin: 0 5px 5px 5px; padding: 5px; font-size: 1.0em; line-height: 1.2em; 
+            height: 30px; background: none;
+        }
 
-      .questionTools {position: relative; right: 0px; float:right;height: 30px;margin-left: 5px; }
-      .deleteButton {color: red; cursor: pointer}
-      .editButton {color: blue; cursor: pointer}
+        .questionTools {position: relative; right: 0px; float:right;height: 30px;margin-left: 5px; }
+        .deleteButton {color: red; cursor: pointer}
+        .editButton {color: blue; cursor: pointer}
       
-      .ui-state-highlight { height: 1.5em; line-height: 1.2em;}
-  </style>
-  <script>
-      $(function() {
-          $(".deleteButton").click(function() {
-              $(this).parent().parent().hide(800);
-              $("#revertAction").show();
-          });
+        .ui-state-highlight { height: 1.5em; line-height: 1.2em;}
 
-          $("#revertAction").click(function() {
-              $("#modalRevertAction").modal();
-          });
-      });
-  </script>
+        .form-horizontal .control-group label.control-label{ width: 120px; }
+        .form-horizontal .control-group .controls{ margin-left: 120px; }
+        .form-horizontal .info{ margin-left: 130px;}
+        .form-horizontal .form-actions { padding-left: 130px; }
+
+        .draggable-panel { height: 30px;width: 30px;background-color: gainsboro;cursor: move;margin-right: 5px; }
+        div.questionText {height: 30px;width: 380px; overflow: hidden;  }
+    </style>
+
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
 <style type="text/css">
-    .form-horizontal .control-group label.control-label{ width: 120px; }
-    .form-horizontal .control-group .controls{ margin-left: 120px; }
-    .form-horizontal .info{ margin-left: 130px;}
-    .form-horizontal .form-actions { padding-left: 130px; }
 
-    .draggable-panel { height: 30px;width: 30px;background-color: gainsboro;cursor: move;margin-right: 5px; }
-    div.questionText {height: 30px;width: 380px; overflow: hidden;  }
 </style>
 
 <div class="span10" id="questionSetContainer" data-id="<%: Model.Id %>">
