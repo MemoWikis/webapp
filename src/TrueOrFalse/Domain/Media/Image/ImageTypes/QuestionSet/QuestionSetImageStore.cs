@@ -27,26 +27,16 @@ public class QuestionSetImageStore : IRegisterAsInstancePerLifetime
             StoreImages.Run(stream, new QuestionSetImageSettings(questionSetId));
         }
 
-        var imageMeta = _imgMetaRepo.GetBy(questionSetId, ImageType.QuestionSet);
-        if (imageMeta == null){
-            _imgMetaRepo.Create(
-                new ImageMetaData{
-                    TypeId = questionSetId,
-                    Type = ImageType.QuestionSet,
-                    Source = ImageSource.WikiMedia,
-                    SourceUrl = wikiMetaData.ImageUrl,
-                    LicenceInfo = wikiMetaData.JSonResult,
-                    UserId = userId
-                }
-            );
-        }else{
-            imageMeta.SourceUrl = wikiMetaData.ImageUrl;
-            imageMeta.Source = ImageSource.WikiMedia;
-            imageMeta.LicenceInfo = wikiMetaData.JSonResult;
-            imageMeta.UserId = userId;
-            
-            _imgMetaRepo.Update(imageMeta);
-        }
-        
+        _imgMetaRepo.StoreSetWiki(questionSetId, userId, wikiMetaData);
     }
+
+    public void RunUploaded(TmpImage tmpImage, int questionSetId, int userId, string licenceGiverName)
+    {
+        using (var stream = tmpImage.GetStream()){
+            StoreImages.Run(stream, new QuestionSetImageSettings(questionSetId));    
+        }
+
+        _imgMetaRepo.StoreSetUploaded(questionSetId, userId, licenceGiverName);
+    }
+
 }

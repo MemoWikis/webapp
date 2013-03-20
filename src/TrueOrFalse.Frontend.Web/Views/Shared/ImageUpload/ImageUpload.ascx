@@ -90,8 +90,8 @@
         </div>
     </div>
 
-    <div class="modal-footer">
+    <div class="modal-footer" id="modalFooter">
         <a href="#" class="btn" data-dismiss="modal">Abbrechen.</a>
-        <a href="#" class="btn btn-primary" data-dismiss="modal" id="aSaveImage">Bild speichern</a>
+        <a href="#" class="btn btn-primary" id="aSaveImage">Bild speichern</a>
     </div>
 </div>

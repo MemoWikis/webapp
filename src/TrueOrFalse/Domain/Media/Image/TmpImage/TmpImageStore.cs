@@ -23,4 +23,9 @@ public class TmpImageStore
 
         return tmpImage;
     }
+
+    public TmpImage ByGuid(string guid)
+    {
+        return _tmpImages.Find(x => x.Guid == guid);
+    }
 }

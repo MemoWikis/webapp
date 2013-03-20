@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 public class TmpImage
 {
@@ -24,11 +25,17 @@ public class TmpImage
 
     ~TmpImage()
     {
-        if (File.Exists(Path)) 
-            File.Delete(Path);
+        if (File.Exists(HttpContext.Current.Server.MapPath(Path)))
+            File.Delete(HttpContext.Current.Server.MapPath(Path));
 
-        if (File.Exists(PathPreview))
-            File.Delete(PathPreview);
+        if (File.Exists(HttpContext.Current.Server.MapPath(PathPreview)))
+            File.Delete(HttpContext.Current.Server.MapPath(PathPreview));
     }
+
+    public Stream GetStream()
+    {
+        return File.OpenRead(HttpContext.Current.Server.MapPath(Path));
+    }
+
 }
 

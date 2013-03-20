@@ -67,7 +67,7 @@ var ImageUploadModal = (function () {
             uploaderType: 'basic',
             button: $('#fileUpload')[0],
             request: {
-                endpoint: $('#modalImageUpload').attr("data-endpoint")
+                endpoint: '/ImageUpload/File'
             },
             multiple: false,
             debug: false,
@@ -80,14 +80,17 @@ var ImageUploadModal = (function () {
                 sizeLimit: 2097152
             }
         }).on('error', function (event, id, filename, reason) {
+            console.log(event + " " + id + " " + filename + " " + reason);
             alert("Ein Fehler ist aufgetreten");
         }).on('complete', function (event, id, filename, responseJSON) {
             $("#divUploadProgress").hide();
-            $("#previewImage").html('<b>Bildvorschau:</b><br/><img src="' + responseJSON.filePath + '"> ');
+            $("#previewImage").html('<b>Bildvorschau:</b><br/><img src="' + responseJSON.FilePath + '"> ');
             $("#previewImage").show();
             $("#divLegalInfo").show();
             $("#modalBody").stop().scrollTo('100%', 800);
-            self.ImageThumbUrl = responseJSON.filePath;
+            self.ImageThumbUrl = responseJSON.FilePath;
+            self.ImageGuid = responseJSON.Guid;
+            self.LicenceOwner = $("#txtLicenceOwner").val();
         }).on('progress', function (event, id, filename, uploadedBytes, totalBytes) {
             $("#previewImage").hide();
             $("#divUploadProgress").show();
@@ -138,21 +141,26 @@ var ImageUploadModal = (function () {
             alert("Bitte lade ein Bild über eine Wikipedia URL.");
         } else {
             this._onSave(this.WikimediaPreview.ImageThumbUrl);
+            $("#modalImageUpload").modal("hide");
         }
     };
     ImageUploadModal.prototype.SaveUploadedImage = function () {
         if(!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) {
             alert("Bitte wähle eine andere Lizenz");
+            return;
         }
         if($("#rdoLicenceForeign").is(':checked')) {
             alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
+            return;
         }
         if($("#rdoLicenceByUloader").is(':checked')) {
             var licenceOwner = $("#txtLicenceOwner").val();
             if(licenceOwner.trim() == "") {
                 alert("Bitte gib Deinen Namen als Lizenzgeber an.");
+                return;
             }
             this._onSave(this.ImageThumbUrl);
+            $("#modalImageUpload").modal("hide");
         }
     };
     ImageUploadModal.prototype.OnSave = function (func) {

@@ -457,14 +457,8 @@
     <Content Include="Views\QuestionSets\Edit\Js\EditQuestionSetImageUpload.js">
       <DependentUpon>EditQuestionSetImageUpload.ts</DependentUpon>
     </Content>
-    <Content Include="Views\QuestionSets\Edit\Js\EditQuestionSetImageUpload.min.js">
-      <DependentUpon>EditQuestionSetImageUpload.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\EditQuestionSetSortable.ts" />
     <Content Include="Views\QuestionSets\Edit\Js\EditQuestionSetSortable.js">
-      <DependentUpon>EditQuestionSetSortable.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\QuestionSets\Edit\Js\EditQuestionSetSortable.min.js">
       <DependentUpon>EditQuestionSetSortable.ts</DependentUpon>
     </Content>
     <Content Include="Views\QuestionSets\Edit\QuestionRow.ascx" />
@@ -524,9 +518,6 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Shared\ImageUpload\ImageUpload.ts" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
-      <DependentUpon>ImageUpload.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Shared\ImageUpload\ImageUpload.min.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />

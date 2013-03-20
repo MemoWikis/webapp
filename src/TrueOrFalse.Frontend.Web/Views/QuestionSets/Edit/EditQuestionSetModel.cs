@@ -16,7 +16,8 @@ public class EditQuestionSetModel : BaseModel
     public string ImageIsNew { get; set; }
     public string ImageSource { get; set; }
     public string ImageWikiFileName { get; set; }
-    public string ImageUploadedGuid { get; set; }
+    public string ImageGuid { get; set; }
+    public string ImageLicenceOwner { get; set; }
 
     public int Id { get; set; }
     public bool IsEditing { get; set; }

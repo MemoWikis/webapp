@@ -19,9 +19,12 @@ public class ImageUploadController : BaseController
     }
 
     [HttpPost]
-    public FineUploaderResult UploadImage(FineUpload upload)
+    public FineUploaderResult File(FineUpload upload)
     {
-        var tmpImage = _sessionUiData.TmpImagesStore.Add(upload.InputStream, 200);
-        return new FineUploaderResult(true, new { filePath = tmpImage.Path });
+        using (var inputStream = upload.InputStream)
+        {
+            var tmpImage = _sessionUiData.TmpImagesStore.Add(inputStream, 200);
+            return new FineUploaderResult(true, new { FilePath = tmpImage.PathPreview, Guid = tmpImage.Guid });
+        }        
     }
 }

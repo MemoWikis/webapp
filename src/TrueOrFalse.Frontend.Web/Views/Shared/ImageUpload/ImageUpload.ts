@@ -1,4 +1,5 @@
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+/// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.scrollTo.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/fineUploader.d.ts" />
 
@@ -14,6 +15,7 @@ class WikimediaPreview
 
     ImageThumbUrl: string;
     ImageName: string;
+
 
     Load() {
         $("#divWikimediaSpinner").show();
@@ -58,6 +60,8 @@ class ImageUploadModal
     WikimediaPreview: WikimediaPreview = new WikimediaPreview();
 
     ImageThumbUrl: string;
+    ImageGuid: string;
+    LicenceOwner: string;
 
     constructor() {
         this.Mode = ImageUploadModalMode.Wikimedia;
@@ -75,7 +79,7 @@ class ImageUploadModal
         $('#fileUpload').fineUploader({
             uploaderType: 'basic',
             button: $('#fileUpload')[0],
-            request: { endpoint: $('#modalImageUpload').attr("data-endpoint") },
+            request: { endpoint: '/ImageUpload/File' },
             multiple: false,
             debug: false,
             validation: {
@@ -84,15 +88,20 @@ class ImageUploadModal
             }
         })
         .on('error', function (event, id, filename, reason) {
+            console.log(event + " " + id + " " + filename + " " + reason);
             alert("Ein Fehler ist aufgetreten");
         })
         .on('complete', function (event, id, filename, responseJSON) {
             $("#divUploadProgress").hide();
-            $("#previewImage").html('<b>Bildvorschau:</b><br/><img src="' + responseJSON.filePath + '"> ');
+            $("#previewImage").html('<b>Bildvorschau:</b><br/><img src="' + responseJSON.FilePath + '"> ');
             $("#previewImage").show();
             $("#divLegalInfo").show();
-            $("#modalBody").stop().scrollTo('100%', 800 );
-            self.ImageThumbUrl = responseJSON.filePath;
+            $("#modalBody").stop().scrollTo('100%', 800);
+
+            self.ImageThumbUrl = responseJSON.FilePath;
+            self.ImageGuid = responseJSON.Guid;
+            self.LicenceOwner = $("#txtLicenceOwner").val();
+
         })
         .on('progress', function (event, id, filename, uploadedBytes: number, totalBytes: number) {
             $("#previewImage").hide();
@@ -153,6 +162,7 @@ class ImageUploadModal
             alert("Bitte lade ein Bild über eine Wikipedia URL.");
         } else { 
             this._onSave(this.WikimediaPreview.ImageThumbUrl);
+            $("#modalImageUpload").modal("hide");
         }
     }
 
@@ -160,21 +170,23 @@ class ImageUploadModal
 
         if (!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) { 
             alert("Bitte wähle eine andere Lizenz");
+            return;
         }
 
         if ($("#rdoLicenceForeign").is(':checked')) {
             alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.")
+            return;
         }
 
         if ($("#rdoLicenceByUloader").is(':checked')) {
             var licenceOwner = $("#txtLicenceOwner").val();
             if (licenceOwner.trim() == "") {
                 alert("Bitte gib Deinen Namen als Lizenzgeber an.")
+                return;
             }
 
-            //get GUID
-            //send licenceType and licenceOwner
             this._onSave(this.ImageThumbUrl);
+            $("#modalImageUpload").modal("hide");
         }    
     }
 

@@ -21,7 +21,8 @@ $(function () {
         if (imageUploadModal.Mode == ImageUploadModalMode.Upload) {
             $("#ImageIsNew").val("true")
             $("#ImageSource").val("upload")
-            $("#ImageUploadedGuid").val("--")
+            $("#ImageGuid").val(imageUploadModal.ImageGuid);
+            $("#ImageLicenceOwner").val(imageUploadModal.LicenceOwner);
         }
     });
 

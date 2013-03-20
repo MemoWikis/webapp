@@ -75,7 +75,8 @@ public class EditQuestionSetController : BaseController
             }
             if (Request["ImageSource"] == "upload")
             {
-                var imageGuid = Request["ImageGuid"];
+                Resolve<QuestionSetImageStore>().RunUploaded(
+                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id,Request["ImageLicenceOwner"]);
             }
         }
     }
