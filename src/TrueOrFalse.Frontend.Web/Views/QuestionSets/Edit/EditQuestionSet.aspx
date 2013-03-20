@@ -29,7 +29,7 @@
   <script>
       $(function() {
           $(".deleteButton").click(function() {
-              $(this).parent().hide(800);
+              $(this).parent().parent().hide(800);
               $("#revertAction").show();
           });
 

@@ -63,6 +63,7 @@ public class EditQuestionSetModel : BaseModel
         set.Name = Title;
         set.Text = Text;
         ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px_square().Url;
+        QuestionsInSet = set.QuestionsInSet;
 
         return set;
     }
