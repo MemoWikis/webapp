@@ -19,6 +19,13 @@
             $("#answeredThisMonthSparkle").sparkline([4, 8], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
             $("#answeredLastWeekSparkle").sparkline([4, 6], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
             $("#answeredLastMonthSparkle").sparkline([5, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            
+            $("#examSparkle1").sparkline([1, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            $("#examSparkle2").sparkline([15, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            $("#examSparkle3").sparkline([71, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            $("#examSparkle4").sparkline([1, 17], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            $("#examSparkle5").sparkline([10, 0], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            
 
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#1BE022', 'red'] });
             $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
@@ -45,7 +52,28 @@
     <div class="span10">
         <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;">Hallo <span style="color: #2E487B"><%= Model.UserName %></span>, Dein Wissen:</h2>
         
-        <p style="margin-bottom: 0px;">Hier erhälst Du eine Übersicht über Dein Wunschwissen und Deinen Wissensstand.</p>
+        <p style="margin-bottom: 10px;">Hier erhälst Du eine Übersicht über Dein Wunschwissen und Deinen Wissensstand.</p>
+        
+        <div class="alert" style="margin-bottom: 0px;">
+          <strong>Kommende Prüfungen!</strong> 
+          <ul>
+              <li>14.09.2013: Führerschein (78 Fragen ) <span id="examSparkle3" style="position: relative; top: 3px; left: 10px"></span></li>
+              <li>14.09.2013: BIO-Leistungskurs (12 Fragen )<span id="examSparkle2" style="position: relative; top: 3px; left: 10px"></span></li>
+              <li>15.09.2013: Phyisk-Leistungskurs (171 Fragen ) <span id="examSparkle1" style="position: relative; top: 3px; left: 10px"></span></li>
+          </ul>
+          <strong>Kommende Termine!</strong> 
+          <ul>
+              <li>14.09.2013: Bewerbungsgespräch Fa. Meyer (12 Fragen ) <span id="examSparkle4" style="position: relative; top: 3px; left: 10px"></span>
+              </li>
+              <li>
+                  14.09.2013: Date mit Mona (18 Fragen )
+                  <span id="examSparkle5" style="position: relative; top: 3px; left: 10px"></span>
+                  &nbsp;&nbsp;<i class="icon-thumbs-up" style="color: green;"></i>
+                  
+              </li>
+          </ul>
+        </div>
+
         <div class="column">
             <h3>Wunschwissen</h3>
             <div class="answerHistoryRow">
@@ -65,8 +93,8 @@
             <h3>Wissenstand</h3>
             <div style="padding-bottom: 10px;">Dein Wissenstand entspricht ca. 83% Deines Wunschwissens.</div>
             <div>Gewusst: 70% (217 Fragen) </div>
-            <div>Nicht gewusst 12% (xx Fragen) </div>
-            <div>Unbekannt 18% (xx Fragen) </div>
+            <div>Nicht gewusst 12% (xx Fragen)  </div>
+            <div>Unbekannt 18% (xx Fragen)</div>
         </div>
 
         <div class="column">

@@ -31,6 +31,8 @@
                    </a>
                </div>
         <% } %>
+        
+        <div><a href="#"><i class="icon-caret-right"></i> Termine</a></div>
         <%--<div><a href="#"><i class="icon-caret-right"></i> Lerngruppen</a></div>--%>
 
     
