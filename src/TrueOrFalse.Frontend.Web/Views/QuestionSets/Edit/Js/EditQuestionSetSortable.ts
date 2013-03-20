@@ -26,9 +26,11 @@ class QuestionSortable
         var lisItems = $("#ulQuestions li");
         var cmdItems = [];
         for (var i = 0; i < lisItems.length; i++) {
-            var questionId = $(lisItems[i]).attr("data-id");
-            cmdItems.push({ "QuestionId": questionId, "NewIndex": i})
+            var id = $(lisItems[i]).attr("data-id");
+            cmdItems.push({ "Id": id, "NewIndex": i})
         }
+
+        console.log(cmdItems)
 
         $.post("/QuestionSet/UpdateQuestionsOrder/", 
             { "questionSetId":this._questionSetId, 

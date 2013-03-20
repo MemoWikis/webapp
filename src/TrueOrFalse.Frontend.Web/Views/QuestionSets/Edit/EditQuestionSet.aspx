@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditQuestionSetModel>" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <title><%=Model.PageTitle %></title>
@@ -19,7 +20,9 @@
            height: 30px; background: none;
       }
 
-      .deleteButton {color: red; position: relative; right: 0px; float:right; cursor: pointer}
+      .questionTools {position: relative; right: 0px; float:right;height: 30px;margin-left: 5px; }
+      .deleteButton {color: red; cursor: pointer}
+      .editButton {color: blue; cursor: pointer}
       
       .ui-state-highlight { height: 1.5em; line-height: 1.2em;}
   </style>
@@ -46,6 +49,7 @@
     .form-horizontal .form-actions { padding-left: 130px; }
 
     .draggable-panel { height: 30px;width: 30px;background-color: gainsboro;cursor: move;margin-right: 5px; }
+    div.questionText {height: 30px;width: 380px; overflow: hidden;  }
 </style>
 
 <div class="span10" id="questionSetContainer" data-id="<%: Model.Id %>">
@@ -99,9 +103,17 @@
                                 <ul id="ulQuestions">
                                     <%foreach(var questionInSet in Model.QuestionsInSet){%>
                                         <li class="ui-state-default" data-id="<%=questionInSet.Id %>">
-                                            <i class="icon-trash icon deleteButton"></i>
+                                            <div class="questionTools">
+                                                <i class="icon-trash icon deleteButton"></i><br/>
+                                                <% if (Model.IsOwner(questionInSet.Question.Creator.Id)){%>
+                                                    <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = questionInSet.Question.Id}) %>">
+                                                        <img src="/Images/edit.png"/> 
+                                                    </a>
+                                                <% } %>
+                                            </div>
+
                                             <div class="draggable-panel" style="float: left;">&nbsp;</div>
-                                            <div>
+                                            <div class="questionText">
                                                 <%= questionInSet.Question.Text %>
                                             </div>
                                             

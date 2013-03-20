@@ -6,11 +6,24 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse
 {
-    public class UpdateQuestionsOrder
+    public class UpdateQuestionsOrder : IRegisterAsInstancePerLifetime
     {
-        public void Run(List<NewQuestionIndex> newIndex)
+        private readonly QuestionInSetRepo _questionInSetRepo;
+
+        public UpdateQuestionsOrder(QuestionInSetRepo questionInSetRepo){
+            _questionInSetRepo = questionInSetRepo;
+        }
+
+        public void Run(IEnumerable<NewQuestionIndex> newIndicies)
         {
-            
+            foreach (var newQuestionIndex in newIndicies)
+            {
+                var questionInSet = _questionInSetRepo.Query.Where(
+                    x => x.Id == newQuestionIndex.Id).SingleOrDefault();
+
+                questionInSet.Sort = newQuestionIndex.NewIndex;
+                _questionInSetRepo.Update(questionInSet);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Web.Helpers;
@@ -83,8 +84,10 @@ public class EditQuestionSetController : BaseController
 
     public EmptyResult UpdateQuestionsOrder(int questionSetId, string newIndicies)
     {
-        //dynamic foo = new {};
-        //var bla = JsonConvert.DeserializeAnonymousType(newIndicies, foo);
+        Resolve<UpdateQuestionsOrder>().Run(
+            JsonConvert.DeserializeObject<IEnumerable<NewQuestionIndex>>(newIndicies)
+        );
+        
         return new EmptyResult();
     }
 

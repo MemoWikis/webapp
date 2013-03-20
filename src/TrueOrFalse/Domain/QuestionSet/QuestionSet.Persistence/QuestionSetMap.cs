@@ -15,7 +15,7 @@ namespace TrueOrFalse
             Map(x => x.Name).Length(100);
             Map(x => x.Text).Length(Constants.VarCharMaxLength);
 
-            HasMany(x => x.QuestionsInSet).Table("questionInSet").Cascade.None();
+            HasMany(x => x.QuestionsInSet).Table("questionInSet").Cascade.None().OrderBy("Sort");
                 
             References(x => x.Creator);
 

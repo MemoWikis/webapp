@@ -79,4 +79,9 @@ public class EditQuestionSetModel : BaseModel
         FormTitle = string.Format("Fragesatz '{0}' bearbeiten", Title.TruncateAtWord(30)); ;
         IsEditing = true;
     }
+
+    public bool IsOwner(int userId)
+    {
+        return _sessionUser.IsOwner(userId);
+    }
 }

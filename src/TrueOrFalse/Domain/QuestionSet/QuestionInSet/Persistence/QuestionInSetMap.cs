@@ -16,6 +16,8 @@ namespace TrueOrFalse
             
             References(x => x.Question).Cascade.None();
             References(x => x.QuestionSet).Cascade.None();
+
+            Map(x => x.Sort);
             
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
