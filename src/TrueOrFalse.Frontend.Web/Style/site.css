@@ -239,3 +239,15 @@ div.rowBase {
 div.rowBase:first-child {
     border-top: none;
 }
+
+/*temp
+---------------------------------------------------------*/
+
+div.todo-temp {
+    background-color: #FFDF22;
+    position: absolute;
+    top: 0px;
+    right: 100px;
+    width: 100px;
+    height: 100px;
+}

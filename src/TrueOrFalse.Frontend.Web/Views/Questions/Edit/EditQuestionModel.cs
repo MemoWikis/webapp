@@ -24,16 +24,16 @@ public class EditQuestionModel : BaseModel
     public string Question { get; set; }
 
     [Required]
-    [DisplayName("Antwort")]
+    [DisplayName("Fragetyp")]
     public string SolutionType { get; set; }
 
     [Required]
     [DataType(DataType.MultilineText)]
-    [DisplayName("Antwort")]
+    [DisplayName("Fragetyp")]
     public string Solution { get; set; }
 
     [DataType(DataType.MultilineText)]
-    [DisplayName("Erklärung")]
+    [DisplayName("Erklärungen")]
     public string Description { get; set; }
 
     public int? Id;

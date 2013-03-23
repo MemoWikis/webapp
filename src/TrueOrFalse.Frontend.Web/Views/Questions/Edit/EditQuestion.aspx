@@ -20,9 +20,12 @@
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
+    
+<div class="todo-temp"></div>
+
 <div class="span10">
     
-    <div style="margin-bottom: -10px;">
+    <div>
         <% Html.Message(Model.Message); %>
     </div>
 
@@ -49,31 +52,28 @@
                         <div class="controls">
                             <label class="radio inline">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
-                            Alle &nbsp;&nbsp;
+                            Alle<br/>(öffentliche Frage) &nbsp;&nbsp;
                             </label>
                             <label class="radio inline">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                            Nur ich &nbsp;&nbsp;
+                            Mich<br/>(private Frage <i class="icon-trophy"></i>) &nbsp;&nbsp;
                             </label>
                             <label class="radio inline" style="width: 175px;">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
-                            Ich und meine Freunde
+                            Mich und meine Freunde (private Frage <i class="icon-trophy"></i>)
                             </label>
                         </div>
                     </div>
                     <div class="control-group">
                         <%= Html.LabelFor(m => m.Question, new { @class = "control-label" })%>
                         <div class="controls">
-                            <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte geben Sie eine Frage ein" })%><br />
+                            <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte gib den Fragetext ein" })%><br />
                         </div>
                     </div>
-                    <p class="help-block help-text">
-                        Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen
-                        <br />
-                        die Fragen wiederzufinden.
-                    </p>
                     <div class="control-group">
-                        <%= Html.Label("Kategorien", new { @class = "control-label" })%>
+                        
+                        <div class ="control-label"><span class="show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">Kategorien</span></div> 
+
                         <div id="relatedCategories" class="controls">
                             <script type="text/javascript">
                                 $(function () {
@@ -124,12 +124,9 @@
                         updateSolutionBody();
                     </script>
                     <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>
-                    <p class="help-block help-text">
-                        Je ausführlicher die Erklärung, desto besser!<br />
-                        Verwende Links u. Bilder aber achte auf die Urheberrechte.
-                    </p>
+                    
                     <div class="control-group">
-                        <%= Html.LabelFor(m => m.Description, new { @class = "control-label" })%>
+                        <div class="control-label"><span class="show-tooltip" title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">Erklärungen</span></div>
                         <div class="controls">
                             <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
                         </div>
