@@ -264,6 +264,7 @@
     <Content Include="Images\no-profile-picture-50.png" />
     <Content Include="Images\no-question-50.png" />
     <Content Include="Images\no-question-set-206s.png" />
+    <Content Include="img\wmd-buttons.png" />
     <Content Include="Scripts\file-uploader\button.js" />
     <Content Include="Scripts\file-uploader\dnd.js" />
     <Content Include="Scripts\file-uploader\handler.base.js" />
@@ -281,6 +282,9 @@
     <Content Include="Scripts\jquery.scrollTo-1.4.3.1-min.js" />
     <Content Include="Scripts\jquery.scrollTo-1.4.3.1.js" />
     <Content Include="Scripts\json2.js" />
+    <Content Include="Scripts\Markdown.Converter.js" />
+    <Content Include="Scripts\Markdown.Editor.js" />
+    <Content Include="Scripts\Markdown.Sanitizer.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\typescript.defs\jquery.scrollTo.d.ts" />
     <Content Include="Scripts\typescript.defs\lib.d.ts" />
@@ -428,6 +432,7 @@
     <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
     <Content Include="Style\fonts\OFL.txt" />
     <Content Include="Style\form.css" />
+    <Content Include="Style\markdown-editor.css" />
     <Content Include="Style\menu.css" />
     <Content Include="Style\site.css" />
     <Content Include="Style\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -475,6 +480,10 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
     <Content Include="Views\QuestionSets\QuestionSets.css" />
     <Content Include="Views\QuestionSets\QuestionSets.js" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditQuestion.ts" />
+    <Content Include="Views\Questions\Edit\EditQuestion.js">
+      <DependentUpon>EditQuestion.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowDelete.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
@@ -552,7 +561,6 @@
     <Content Include="Views\Questions\Answer\AnswerQuestion.js" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
-    <Content Include="Views\Questions\Edit\EditQuestion.js" />
     <Content Include="Views\Questions\QuestionRow.ascx" />
     <Content Include="Views\Questions\Questions.aspx" />
     <Content Include="Scripts\lib.js" />

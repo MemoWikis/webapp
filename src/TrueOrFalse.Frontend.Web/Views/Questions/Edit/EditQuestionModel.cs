@@ -23,6 +23,10 @@ public class EditQuestionModel : BaseModel
     [DisplayName("Frage")]
     public string Question { get; set; }
 
+    [DataType(DataType.MultilineText)]
+    [DisplayName("Frage erweitert")]
+    public object QuestionExtended { get; set; }
+
     [Required]
     [DisplayName("Fragetyp")]
     public string SolutionType { get; set; }
@@ -75,6 +79,7 @@ public class EditQuestionModel : BaseModel
                         };
         }
     }
+
 
     public EditQuestionModel()
     {

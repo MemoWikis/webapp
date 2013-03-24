@@ -34,7 +34,6 @@
         .draggable-panel { height: 30px;width: 30px;background-color: gainsboro;cursor: move;margin-right: 5px; }
         div.questionText {height: 30px;width: 380px; overflow: hidden;  }
     </style>
-
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

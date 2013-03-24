@@ -40,6 +40,14 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/jquery.scrollTo-1.4.3.1.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/markdown")
+                .Include("~/Scripts/Markdown.Converter.js",
+                         "~/Scripts/Markdown.Sanitizer.js", 
+                         "~/Scripts/Markdown.Editor.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/markdownCss")
+                .Include("~/Style/markdown-editor.css"));
+
             BundleTable.EnableOptimizations = false;
         }
     }
