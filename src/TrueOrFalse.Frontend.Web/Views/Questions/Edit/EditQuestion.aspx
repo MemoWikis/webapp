@@ -64,15 +64,15 @@
                         <div class="controls">
                             <label class="radio inline">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
-                            Alle<br/>(öffentliche Frage) &nbsp;&nbsp;
+                            für alle<br/>(öffentliche Frage) &nbsp;&nbsp;
                             </label>
                             <label class="radio inline">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                            Mich<br/>(private Frage <i class="icon-trophy"></i>) &nbsp;&nbsp;
+                            für mich<br/>(private Frage <i class="icon-trophy"></i>) &nbsp;&nbsp;
                             </label>
                             <label class="radio inline" style="width: 175px;">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
-                            Mich und meine Freunde (private Frage <i class="icon-trophy"></i>)
+                            für mich und meine Freunde (private Frage <i class="icon-trophy"></i>)
                             </label>
                         </div>
                     </div>
