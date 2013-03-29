@@ -76,3 +76,17 @@ div.form-actions {
     margin-top: 0px;
     padding-bottom: 5px;
 }
+
+div.content-unit {
+    border-top: 6px #2E487B solid;
+    border-bottom: 4px #2E487B solid;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 20px;
+}
+
+div.content-unit h3 {
+    margin-top: 0px;
+    border-bottom: 4px #2E487B solid;
+}
