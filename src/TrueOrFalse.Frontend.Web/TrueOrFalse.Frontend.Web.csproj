@@ -286,6 +286,7 @@
     <Content Include="Scripts\Markdown.Editor.js" />
     <Content Include="Scripts\Markdown.Sanitizer.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\typescript.defs\markdown.d.ts" />
     <Content Include="Scripts\typescript.defs\jquery.scrollTo.d.ts" />
     <Content Include="Scripts\typescript.defs\lib.d.ts" />
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
@@ -480,8 +481,8 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
     <Content Include="Views\QuestionSets\QuestionSets.css" />
     <Content Include="Views\QuestionSets\QuestionSets.js" />
-    <TypeScriptCompile Include="Views\Questions\Edit\EditQuestion.ts" />
-    <Content Include="Views\Questions\Edit\EditQuestion.js">
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
+    <Content Include="Views\Questions\Edit\Js\EditQuestion.js">
       <DependentUpon>EditQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
@@ -494,6 +495,10 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.min.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownEditor.ts" />
+    <Content Include="Views\Questions\Edit\Js\MarkdownEditor.js">
+      <DependentUpon>MarkdownEditor.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>

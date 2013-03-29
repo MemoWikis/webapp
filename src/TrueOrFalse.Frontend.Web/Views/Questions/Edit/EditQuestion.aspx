@@ -13,22 +13,7 @@
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
     <%= Styles.Render("~/bundles/markdownCss") %>
     <%= Scripts.Render("~/bundles/markdown") %>
-    
-    <script type="text/javascript">
-        $(function () {
-            var converter1 = Markdown.getSanitizingConverter();
-
-            converter1.hooks.chain("preBlockGamut", function (text, rbg) {
-                return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
-                    return "<blockquote>" + rbg(inner) + "</blockquote>\n";
-                });
-            });
-
-            var editor1 = new Markdown.Editor(converter1);
-
-            editor1.run();
-        })();
-    </script>
+    <%= Scripts.Render("~/bundles/questionEdit") %>
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -80,21 +65,17 @@
                     <div class="control-group">
                         <%= Html.LabelFor(m => m.Question, new { @class = "control-label" })%>
                         <div class="controls">
-                            <div class="wmd-panel">
-                                <div id="Div1"></div>
                                 <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte gib den Fragetext ein" })%><br />
-                            </div>
-                            <div><i class="icon-plus-sign" style="color: blue;"></i> <a href="#">Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</a> </div>    
+                            <div style="padding-top: 4px;">
+                                <a href="#" id="openExtendedQuestion"><i class="icon-plus-sign" style="color: blue;"></i> Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</a> 
+                            </div>    
                         </div>
-                        
                     </div>
                     
-                    
-
-                    <div class="control-group" style="display: none">
-                        <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "control-label" })%>
+                    <div class="control-group" style="display: none" id="extendedQuestion">
+                        <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "control-label", style="position:relative; top: 6px;" })%>
                         <div class="controls">
-                            <div class="wmd-panel">
+                            <div class="wmd-panel" id="questionExtendEditor">
                                 <div id="wmd-button-bar"></div>
                                 <%= Html.TextAreaFor(m => m.QuestionExtended, new 
                                     { @class= "wmd-input", id="wmd-input", style = "height:150px; width:435px;", placeholder = "Erweiterte Beschreibung" })%><br />
