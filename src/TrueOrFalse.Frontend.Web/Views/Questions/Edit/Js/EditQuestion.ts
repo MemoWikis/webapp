@@ -1,4 +1,5 @@
-/// <reference path="MarkdownEditor.ts" />
+/// <reference path="MarkdownQuestionExt.ts" />
+/// <reference path="MarkdownDescription.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
@@ -9,5 +10,6 @@ $(function () {
     $('#Question').defaultText();
     $('#Description').defaultText();
 
-    var markdown = new MarkDownEditor();
+    var editorQuestion = new MarkdownQuestionExt();
+    var editorDescription = new MarkdownDescription();
 });

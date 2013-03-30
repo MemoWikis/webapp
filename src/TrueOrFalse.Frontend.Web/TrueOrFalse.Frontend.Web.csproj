@@ -496,9 +496,19 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.min.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownEditor.ts" />
-    <Content Include="Views\Questions\Edit\Js\MarkdownEditor.js">
-      <DependentUpon>MarkdownEditor.ts</DependentUpon>
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkDownQuestionExt.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkDownDescription.ts" />
+    <Content Include="Views\Questions\Edit\Js\MarkDownDescription.js">
+      <DependentUpon>MarkDownDescription.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkdownEditors.js">
+      <DependentUpon>MarkDownQuestionExt.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkDownQuestionExt.js">
+      <DependentUpon>MarkDownQuestionExt.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkDownQuestionExtend.js">
+      <DependentUpon>MarkDownQuestionExt.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>

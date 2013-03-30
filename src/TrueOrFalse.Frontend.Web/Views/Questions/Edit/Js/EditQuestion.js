@@ -1,5 +1,6 @@
 $(function () {
     $('#Question').defaultText();
     $('#Description').defaultText();
-    var markdown = new MarkDownEditor();
+    var editorQuestion = new MarkdownQuestionExt();
+    var editorDescription = new MarkdownDescription();
 });

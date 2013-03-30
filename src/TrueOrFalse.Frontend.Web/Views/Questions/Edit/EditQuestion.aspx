@@ -75,14 +75,12 @@
                     <div class="control-group" style="display: none" id="extendedQuestion">
                         <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "control-label", style="position:relative; top: 6px;" })%>
                         <div class="controls">
-                            <div class="wmd-panel" id="questionExtendEditor">
-                                <div id="wmd-button-bar"></div>
+                            <div class="wmd-panel">
+                                <div id="wmd-button-bar-1"></div>
                                 <%= Html.TextAreaFor(m => m.QuestionExtended, new 
-                                    { @class= "wmd-input", id="wmd-input", style = "height:150px; width:435px;", placeholder = "Erweiterte Beschreibung" })%><br />
-                            </div>
-                            
-                            <div id="wmd-preview" class="wmd-panel wmd-preview" style="width:435px;"></div>
-
+                                    { @class= "wmd-input", id="wmd-input-1", style = "height:150px; width:435px;", placeholder = "Erweiterte Beschreibung" })%><br />
+                            </div>                            
+                            <div id="wmd-preview-1" class="wmd-panel wmd-preview" style="width:435px;"></div>
                         </div>
                     </div>
 
@@ -145,7 +143,12 @@
                     <div class="control-group">
                         <div class="control-label"><span class="show-tooltip" title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">Erklärungen</span></div>
                         <div class="controls">
-                            <%= Html.TextAreaFor(m => m.Description, new { @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
+                            <div class="wmd-panel">
+                                <div id="wmd-button-bar-2"></div>
+                                <%= Html.TextAreaFor(m => m.Description, new 
+                                    { @class= "wmd-input", id="wmd-input-2", @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
+                            </div>
+                            <div id="wmd-preview-2" class="wmd-panel wmd-preview" style="width:435px;"></div>
                         </div>
                     </div>
                 </div>

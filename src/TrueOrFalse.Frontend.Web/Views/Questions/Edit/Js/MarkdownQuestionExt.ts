@@ -1,9 +1,8 @@
 /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
-/// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/markdown.d.ts" />
 
-class MarkDownEditor 
+class MarkdownQuestionExt
 { 
     _isOpen: bool;
 
@@ -27,7 +26,7 @@ class MarkDownEditor
             });
         });
 
-        var editor1 = new Markdown.Editor(converter1);
+        var editor1 = new Markdown.Editor(converter1, "-1");
         editor1.run();
         this._isOpen = true;
     }
