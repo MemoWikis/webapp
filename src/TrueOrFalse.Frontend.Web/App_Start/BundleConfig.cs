@@ -8,7 +8,20 @@ namespace TrueOrFalse.View
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
+
+            /* css */
+
+            bundles.Add(new StyleBundle("~/bundles/css").Include(
+                  "~/Style/*.css", 
+                  "~/Style/smoothness/jquery-ui.css", 
+                  "~/Style/zocial/css/zocial.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/markdownCss")
+                .Include("~/Style/markdown-editor.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/shared")
+                .Include("~/Scripts/html5shiv.js")
+                .Include("~/Scripts/jquery-1.9.0.min.js")
                 .Include("~/Scripts/jquery-1.9.0.min.js")
                 .Include("~/Scripts/jquery-ui-1.10.0.min.js")
                 .Include("~/Scripts/jquery.validate.min.js")
@@ -47,9 +60,6 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/Markdown.Converter.js",
                          "~/Scripts/Markdown.Sanitizer.js", 
                          "~/Scripts/Markdown.Editor.js"));
-
-            bundles.Add(new StyleBundle("~/bundles/markdownCss")
-                .Include("~/Style/markdown-editor.css"));
 
             BundleTable.EnableOptimizations = false;
         }

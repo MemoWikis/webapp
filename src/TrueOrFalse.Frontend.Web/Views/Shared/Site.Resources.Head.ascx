@@ -13,13 +13,7 @@
 <script src="/Scripts/google-code-prettify/prettify.js" type="text/javascript"></script>
 <script src="/Scripts/bootstrap.js" type="text/javascript"></script>
 
-<link href="/Style/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="/style/bootstrap.css" rel="stylesheet" >
-<link href="/Style/site.css" rel="stylesheet" type="text/css" />
-<link href="/Style/menu.css" rel="stylesheet" type="text/css" />
-<link href="/Style/form.css" rel="stylesheet" type="text/css" />
-<link href="/Style/zocial/css/zocial.css" rel="stylesheet" type="text/css" /> <!--buttons for social login-->
-<link href="/Style/font-awesome.min.css" rel="stylesheet" type="text/css" /> <%--http://fortawesome.github.com/Font-Awesome/--%>
+<%= Styles.Render("~/bundles/css") %>
 
 <% if(true){ %>
 <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>

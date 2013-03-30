@@ -275,6 +275,7 @@
     <Content Include="Scripts\file-uploader\uploader.basic.js" />
     <Content Include="Scripts\file-uploader\uploader.js" />
     <Content Include="Scripts\file-uploader\util.js" />
+    <Content Include="Scripts\html5shiv.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.js" />
@@ -429,10 +430,12 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
     <Content Include="Style\bootstrap.css" />
-    <Content Include="Style\font-awesome.min.css" />
+    <Content Include="Style\font-awesome.css" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
     <Content Include="Style\fonts\OFL.txt" />
-    <Content Include="Style\form.css" />
+    <Content Include="Style\form.css">
+      <DependentUpon>form.less</DependentUpon>
+    </Content>
     <Content Include="Style\markdown-editor.css" />
     <Content Include="Style\menu.css" />
     <Content Include="Style\site.css" />
@@ -482,13 +485,15 @@
     <Content Include="Views\QuestionSets\QuestionSets.css" />
     <Content Include="Views\QuestionSets\QuestionSets.js" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
+    <Content Include="Views\Questions\Edit\EditQuestion.css">
+      <DependentUpon>EditQuestion.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Edit\Js\EditQuestion.js">
       <DependentUpon>EditQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowDelete.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
-    <Content Include="Views\Questions\Edit\EditQuestion.css" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
@@ -496,19 +501,19 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.min.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkDownQuestionExt.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkDownDescription.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownQuestionExt.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <Content Include="Views\Questions\Edit\Js\MarkDownDescription.js">
-      <DependentUpon>MarkDownDescription.ts</DependentUpon>
+      <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\Js\MarkdownEditors.js">
-      <DependentUpon>MarkDownQuestionExt.ts</DependentUpon>
+      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\Js\MarkDownQuestionExt.js">
-      <DependentUpon>MarkDownQuestionExt.ts</DependentUpon>
+      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\Js\MarkDownQuestionExtend.js">
-      <DependentUpon>MarkDownQuestionExt.ts</DependentUpon>
+      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -564,6 +569,8 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.min.js.map">
       <DependentUpon>ImageUpload.js</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Edit\EditQuestion.less" />
+    <Content Include="Style\form.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />

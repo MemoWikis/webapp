@@ -11,7 +11,6 @@
     <link href="/Views/Questions/Edit/EditQuestion.css" rel="stylesheet" />
     <script type="text/javascript" src="/Scripts/jquery.jplayer.min.js"></script>
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
-    <%= Styles.Render("~/bundles/markdownCss") %>
     <%= Scripts.Render("~/bundles/markdown") %>
     <%= Scripts.Render("~/bundles/questionEdit") %>
 </asp:Content>
@@ -72,8 +71,8 @@
                         </div>
                     </div>
                     
-                    <div class="control-group" style="display: none" id="extendedQuestion">
-                        <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "control-label", style="position:relative; top: 6px;" })%>
+                    <div class="control-group markdown" style="display: none" id="extendedQuestion">
+                        <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "control-label" })%>
                         <div class="controls">
                             <div class="wmd-panel">
                                 <div id="wmd-button-bar-1"></div>
@@ -122,7 +121,11 @@
                     
                     <div class="control-group">
                         
-                        <div class ="control-label"><span class="show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">Kategorien</span></div> 
+                        <div class ="control-label">
+                            <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">
+                                Kategorien
+                            </span>
+                        </div> 
 
                         <div id="relatedCategories" class="controls">
                             <script type="text/javascript">
@@ -133,15 +136,19 @@
                                     <% } %>
                                 });
                             </script>
-                            <input id="txtNewRelatedCategory" />
+                            <input id="txtNewRelatedCategory" type="text" placeholder="Wähle eine Kategorie" />
                             <a href="#" id="addRelatedCategory" style="display: none">
                                 <img alt="" src='/Images/Buttons/add.png' />
                             </a>
                         </div>
                     </div>
                     
-                    <div class="control-group">
-                        <div class="control-label"><span class="show-tooltip" title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">Erklärungen</span></div>
+                    <div class="control-group markdown">
+                        <label class="control-label">
+                            <span class="show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">
+                                Erklärungen
+                            </span>
+                        </label>
                         <div class="controls">
                             <div class="wmd-panel">
                                 <div id="wmd-button-bar-2"></div>
@@ -151,9 +158,20 @@
                             <div id="wmd-preview-2" class="wmd-panel wmd-preview" style="width:435px;"></div>
                         </div>
                     </div>
+                    
+                    <div class="control-group">
+                        <label class="control-label">Quellen</label>
+                        <div class="controls">
+                            <input type="text" />
+                            <select>
+                                <option>asfasd</option>
+                                <option>asfasd</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>&nbsp;&nbsp;&nbsp;
                     <% if (Model.ShowSaveAndNewButton){ %>
                         <button type="submit" class="btn" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
                     <% } %>
