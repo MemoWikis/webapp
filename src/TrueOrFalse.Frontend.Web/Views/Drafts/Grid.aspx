@@ -1,0 +1,40 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<WelcomeModel>" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
+    
+    <link href="/Style/site.css" rel="stylesheet" type="text/css" />
+    <link href="/Views/Drafts/Boxes.css" rel="stylesheet" />
+
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    
+    <div class="span10">
+    
+        <div class="row">
+
+            <div class="span7">
+                <div class="box" style="min-height: 400px;"></div>
+            </div>
+            
+            <div class="span3">
+                <div class="box" style="min-height: 200px;"></div>
+            </div>
+    
+        </div>
+        
+        <div class="row">
+
+            <div class="span8">
+                <div class="box" style="min-height: 400px;"></div>
+            </div>
+            
+            <div class="span2">
+                <div class="box" style="min-height: 200px;"></div>
+            </div>
+    
+        </div>
+        
+    </div>
+
+</asp:Content>
