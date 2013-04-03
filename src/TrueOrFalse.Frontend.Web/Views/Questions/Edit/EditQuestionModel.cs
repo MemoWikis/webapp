@@ -65,7 +65,7 @@ public class EditQuestionModel : BaseModel
                         {
                             new SelectListItem {Text = "Standard", Value = TrueOrFalse.SolutionType.Text.ToString()},
                             new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.SolutionType.MultipleChoice.ToString()},
-                            new SelectListItem {Text = "Sequenz", Value = TrueOrFalse.SolutionType.Sequence.ToString()},
+                            new SelectListItem {Text = "Sequenz (Liste)", Value = TrueOrFalse.SolutionType.Sequence.ToString()},
                         };
         }
     }

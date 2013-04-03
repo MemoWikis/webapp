@@ -36,11 +36,15 @@ body {
     color: #2E487B;
 }
 
+
 /*Fonts*/
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
 }
 
+span.smaller {
+    font-size: 90%;
+}
 
 
 /* VALIDATION
@@ -239,6 +243,8 @@ div.rowBase {
 div.rowBase:first-child {
     border-top: none;
 }
+
+
 
 /*temp
 ---------------------------------------------------------*/

@@ -459,6 +459,7 @@
     <Content Include="Views\Categories\Categories.css" />
     <Content Include="Views\Drafts\Boxes.aspx" />
     <Content Include="Views\Drafts\Boxes.css" />
+    <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\QuestionSets\Detail\QuestionSet.aspx" />
     <Content Include="Views\QuestionSets\Detail\QuestionSet.css" />
     <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\ImageUpload.ts" />
