@@ -8,16 +8,20 @@ namespace TrueOrFalse.Web.Context
     {
         public Menu Menu { get { return Data.Get("menu", new Menu()); } }
 
-        public QuestionHistory LastQuestions{
+        public QuestionHistory VisitedQuestions{
             get { return Data.Get("lastVisitedQuestions", new QuestionHistory()); }
         }
 
-        public QuestionSetHistory LastQuestionSets{
+        public QuestionSetHistory VisitedQuestionSets{
             get { return Data.Get("lastVisitedQuestionSets", new QuestionSetHistory()); }
         }
 
-        public UserHistory LastVisitedProfiles{
+        public UserHistory VisitedProfiles{
             get { return Data.Get("lastVisitedProfiles", new UserHistory()); }
+        }
+
+        public CategoryHistory VisitedCategories{
+            get { return Data.Get("lastVisitedCategories", new CategoryHistory()); }
         }
 
         public QuestionSearchSpec QuestionSearchSpec{

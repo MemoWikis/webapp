@@ -12,7 +12,8 @@ namespace TrueOrFalse
         Questions, QuestionDetail, 
         QuestionSet, QuestionSetDetail,
         Network, ProfilDetail,
-        Categories, News
+        Categories, CategoryDetail,
+        News
     }
 
     [Serializable]

@@ -8,17 +8,19 @@ namespace TrueOrFalse.View
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-
-            /* css */
-
+            /* CSS */
             bundles.Add(new StyleBundle("~/bundles/css").Include(
-                  "~/Style/*.css", 
+                  "~/Style/*.css",
                   "~/Style/smoothness/jquery-ui.css", 
                   "~/Style/zocial/css/zocial.css"));
 
             bundles.Add(new StyleBundle("~/bundles/markdownCss")
                 .Include("~/Style/markdown-editor.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/category")
+                .Include("~/Views/Categories/Detail/*.css"));
+
+            /* JS */
             bundles.Add(new ScriptBundle("~/bundles/shared")
                 .Include("~/Scripts/html5shiv.js")
                 .Include("~/Scripts/jquery-1.9.0.min.js")
@@ -61,7 +63,7 @@ namespace TrueOrFalse.View
                          "~/Scripts/Markdown.Sanitizer.js", 
                          "~/Scripts/Markdown.Editor.js"));
 
-            BundleTable.EnableOptimizations = false;
+            //BundleTable.EnableOptimizations = false;
         }
     }
 }

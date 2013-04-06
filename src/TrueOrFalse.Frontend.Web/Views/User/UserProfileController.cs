@@ -24,7 +24,7 @@ public class UserProfileController : Controller
     public ViewResult Profile(string userName, int id)
     {
         var user = _userRepository.GetById(id);
-        _sessionUiData.LastVisitedProfiles.Add(new UserHistoryItem(user));
+        _sessionUiData.VisitedProfiles.Add(new UserHistoryItem(user));
 
         var imageResult = new ProfileImageSettings(user.Id).GetUrl_128px(user.EmailAddress);
         return View(_viewLocation, new UserProfileModel(user)
