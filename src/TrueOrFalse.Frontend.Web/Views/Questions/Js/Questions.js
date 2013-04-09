@@ -80,6 +80,7 @@ $(function () {
         divColumn1.find(".sliderValue").text(sliderValue / 10);
 
         divColumn1.find(".slider").slider({
+            handle: "#myhandle",
             range: "min",
             max: 100,
             value: sliderValue,
