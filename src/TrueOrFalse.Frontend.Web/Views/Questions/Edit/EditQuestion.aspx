@@ -7,7 +7,6 @@
 <%@ Import Namespace="TrueOrFalse" %>
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Edit/EditQuestion.js" type="text/javascript"></script>
     <link href="/Views/Questions/Edit/EditQuestion.css" rel="stylesheet" />
     <script type="text/javascript" src="/Scripts/jquery.jplayer.min.js"></script>
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />

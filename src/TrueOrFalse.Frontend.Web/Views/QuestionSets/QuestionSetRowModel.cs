@@ -17,8 +17,8 @@ public class QuestionSetRowModel
 
     public int QuestionCount;
 
-    public Func<UrlHelper, string> DetailLink { get; private set; }
-    public Func<UrlHelper, string> UserProfileLink { get; private set; }
+    public Func<UrlHelper, string> DetailLink;
+    public Func<UrlHelper, string> UserProfileLink;
 
     public string ImageUrl;
 

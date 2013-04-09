@@ -53,10 +53,17 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage}, null);            
         }
 
-        public static string QuestionSetEdit(UrlHelper url, int questionSetId)
-        {
+        public static string CategoryDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
+            return url.Action("Category", "Category",
+                new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage }, null);
+        }
+
+        public static object CategoryEdit(UrlHelper url, int id){
+            return url.Action("Edit", "EditCategory", new { id });
+        }
+
+        public static string QuestionSetEdit(UrlHelper url, int questionSetId){
             return url.Action("Edit", "QuestionSet", new {id = questionSetId});
-            ;
         }
 
         public const string EditQuestionController = "EditQuestion"; 

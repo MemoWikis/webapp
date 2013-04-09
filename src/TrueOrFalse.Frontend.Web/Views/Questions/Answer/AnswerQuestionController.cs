@@ -33,7 +33,7 @@ public class AnswerQuestionController : BaseController
         var question = _questionRepository.GetById(id);
         var questionValuation = _questionValuation.GetBy(id, _sessionUser.User.Id);
 
-        _sessionUiData.LastQuestions.Add(new QuestionHistoryItem(question));
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question));
 
         _saveQuestionView.Run(id, _sessionUser.User.Id);
 

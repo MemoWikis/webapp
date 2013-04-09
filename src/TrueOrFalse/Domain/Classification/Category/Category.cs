@@ -5,6 +5,7 @@ namespace TrueOrFalse
 {
     public class Category : DomainEntity
     {
+        public virtual string Description { get; set; }
         public virtual string Name { get; set; }
         public virtual User Creator { get; set; }
         public virtual IList<Category> RelatedCategories { get; set; }

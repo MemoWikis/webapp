@@ -1,0 +1,12 @@
+﻿.debug {
+  background-color: aliceblue;
+  border: 1px dotted silver;
+}
+.debug h1,
+.debug h2,
+.debug h3,
+.debug h4,
+.debug h5 {
+  background-color: aquamarine;
+  border: 1px dashed #d3d3d3;
+}

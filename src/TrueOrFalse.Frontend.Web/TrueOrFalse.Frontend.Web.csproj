@@ -294,6 +294,8 @@
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore-typed.d.ts" />
     <Content Include="Scripts\underscore-1.4.3.min.js" />
+    <Compile Include="Views\Categories\Detail\CategoryController.cs" />
+    <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
     <Compile Include="Views\Drafts\DraftsController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
@@ -438,6 +440,9 @@
     </Content>
     <Content Include="Style\markdown-editor.css" />
     <Content Include="Style\menu.css" />
+    <Content Include="Style\site-debug.css">
+      <DependentUpon>site-debug.less</DependentUpon>
+    </Content>
     <Content Include="Style\site.css" />
     <Content Include="Style\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Style\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -456,7 +461,13 @@
     <Content Include="Style\zocial\css\zocial-regular-webfont.svg" />
     <Content Include="Style\zocial\css\zocial.css" />
     <Content Include="Style\zocial\sample.html" />
-    <Content Include="Views\Categories\Categories.css" />
+    <Content Include="Views\Categories\Categories.css">
+      <DependentUpon>Categories.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Category.aspx" />
+    <Content Include="Views\Categories\Detail\Category.css">
+      <DependentUpon>Category.less</DependentUpon>
+    </Content>
     <Content Include="Views\Drafts\Boxes.aspx" />
     <Content Include="Views\Drafts\Boxes.css" />
     <Content Include="Views\Drafts\ContentUnits.aspx" />
@@ -576,6 +587,9 @@
     </Content>
     <Content Include="Views\Questions\Edit\EditQuestion.less" />
     <Content Include="Style\form.less" />
+    <Content Include="Views\Categories\Categories.less" />
+    <Content Include="Views\Categories\Detail\Category.less" />
+    <None Include="Style\site-debug.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />

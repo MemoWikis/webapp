@@ -21,6 +21,8 @@ public class QuestionSetModel : BaseModel
 
     public bool IsOwner;
 
+    public Func<UrlHelper, string> DetailLink;
+
     public QuestionSetModel(QuestionSet set)
     {
         Id = set.Id;
