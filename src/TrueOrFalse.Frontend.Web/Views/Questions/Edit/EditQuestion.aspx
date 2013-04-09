@@ -21,6 +21,9 @@
 
 <div class="span10">
     
+<div class="row">
+
+<div class="span10">
     <div>
         <% Html.Message(Model.Message); %>
     </div>
@@ -178,6 +181,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     <% } %>
 </div>
 </asp:Content>

@@ -7,7 +7,9 @@
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="row-fluid">
+    <div class="row">
+    <div class="span12">
+    <div class="row">
         <div class="span8">
             <div class="box box_darkblue">
                 <h1>
@@ -114,6 +116,7 @@
         </div>
     </div>
     
+    
     <h1><a name="teaser1">Über Richtig-oder-Falsch</a></h1>
     <p>
         <ul>
@@ -124,5 +127,7 @@
     <h1><a name="teaser2">Wikipedia Prinzip</a></h1>
     
     <div style="height: 100px;"></div>
+    </div>
+    </div>
 
 </asp:Content>
