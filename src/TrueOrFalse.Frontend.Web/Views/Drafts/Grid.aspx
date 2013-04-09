@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     
     <link href="/Style/site.css" rel="stylesheet" type="text/css" />
-    <link href="/Views/Drafts/Boxes.css" rel="stylesheet" />
+    <link href="/Views/Drafts/grid.css" rel="stylesheet" />
 
 </asp:Content>
 
