@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Gibraltar.Agent</id>
+    <version>3.5.2.1521</version>
+    <title>Gibraltar Loupe Agent</title>
+    <authors>Gibraltar Software</authors>
+    <owners>Gibraltar Software</owners>
+    <licenseUrl>http://www.gibraltarsoftware.com/Support/Documentation.aspx?Page=Reference_GibraltarAgentLicense.html</licenseUrl>
+    <projectUrl>http://www.gibraltarsoftware.com/</projectUrl>
+    <iconUrl>http://www.gibraltarsoftware.com/loupe.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The core Loupe Agent - a black box for recording diagnostic information for your .NET application.  Download additional agent extensions for extended integration with different .NET subsystems and third party libraries</description>
+    <tags>Loupe Logging</tags>
+  </metadata>
+</package>

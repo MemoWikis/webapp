@@ -15,8 +15,8 @@
    height="70.866142"
    id="svg12089"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="Katgoriebild2.svg"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="platzhalter-kategoriebild.png"
    inkscape:export-filename="/home/katrin/TrueOrFalse/docs/Graphics/Katgoriebild2.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -1667,18 +1667,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="13.645444"
-     inkscape:cx="35.433068"
-     inkscape:cy="35.432957"
+     inkscape:zoom="6.822722"
+     inkscape:cx="-6.0338847"
+     inkscape:cy="10.432574"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="mm"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1847"
+     inkscape:window-width="1650"
      inkscape:window-height="1146"
-     inkscape:window-x="1433"
-     inkscape:window-y="24"
+     inkscape:window-x="1596"
+     inkscape:window-y="22"
      inkscape:window-maximized="0">
     <sodipodi:guide
        orientation="1,0"
@@ -1708,7 +1708,9 @@
        height="70.221069"
        width="70.221062"
        id="rect6607"
-       style="fill:#b7bec8;stroke:#b7bec8;stroke-width:0.64507413;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:#b7bec8;stroke:#b7bec8;stroke-width:0.64507413;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <g
        transform="translate(-153.18668,384.5494)"
        clip-path="url(#clipPath4604)"

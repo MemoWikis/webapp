@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Gibraltar.Agent.Web</id>
+    <version>3.5.2.1521</version>
+    <title>Gibraltar Loupe Agent for ASP.NET WebForms</title>
+    <authors>Gibraltar Software</authors>
+    <owners>Gibraltar Software</owners>
+    <licenseUrl>http://www.gibraltarsoftware.com/Support/Documentation.aspx?Page=Reference_GibraltarAgentLicense.html</licenseUrl>
+    <projectUrl>http://www.gibraltarsoftware.com/</projectUrl>
+    <iconUrl>http://www.gibraltarsoftware.com/loupe.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Records diagnostic information about your ASP.NET web site in the background while it runs.  Designed for use in a production environment, it extends the Loupe Agent with features specific to ASP.NET WebForms.</description>
+    <tags>Loupe Logging ASP.NET</tags>
+    <dependencies>
+      <dependency id="Gibraltar.Agent" version="[3.5.2.1521]" />
+    </dependencies>
+  </metadata>
+</package>
