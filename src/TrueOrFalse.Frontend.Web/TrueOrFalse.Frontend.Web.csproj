@@ -128,7 +128,7 @@
     </Reference>
     <Reference Include="SolrNet, Version=0.4.0.2002, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\TrueOrFalse.Tests\bin\Debug\SolrNet.dll</HintPath>
+      <HintPath>..\libs\SolrNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
