@@ -675,4 +675,5 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\OctoPack.2.0.20\targets\OctoPack.targets" />
 </Project>
