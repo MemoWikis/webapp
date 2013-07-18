@@ -3,11 +3,10 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-
 <div class="row">
     <div style="float:left; padding-left: 0px;">
-        <a href="http://teamcity.richtig-oder-falsch.de:8080/viewType.html?buildTypeId=TrueOrFalse_Default&guest=1"></a>
-        Version: <%= Assembly.GetExecutingAssembly().GetName().Version %>    
+        <a href="http://teamcity.richtig-oder-falsch.de:8080/viewType.html?buildTypeId=TrueOrFalse_Default&guest=1">
+            Build: <%= Assembly.Load("TrueOrFalse").GetName().Version.Major %> </a>
     </div>
 
 
@@ -25,4 +24,5 @@
         <li><a href="http://teamcity.richtig-oder-falsch.de:8080/viewType.html?buildTypeId=TrueOrFalse_Default&guest=1">Teamcity</a></li>
         <li><a href="https://github.com/TrueOrFalse/TrueOrFalse">Github</a></li>
     </ul>
+    
 </div>
