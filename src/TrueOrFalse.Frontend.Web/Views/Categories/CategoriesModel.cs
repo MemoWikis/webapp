@@ -25,7 +25,7 @@ public class CategoriesModel : BaseModel
 
         Pager = new PagerModel(_sessionUi.SearchSpecCategory);
 
-        TotalCategories = 0;
+        TotalCategories = Resolve<GetTotalCategories>().Run(); ;
         TotalMine = 0;
     }
 }

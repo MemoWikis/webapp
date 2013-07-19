@@ -153,6 +153,7 @@
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
+    <Compile Include="Domain\Classification\Category\Ops\GetTotalCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategory.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryMap.cs" />
