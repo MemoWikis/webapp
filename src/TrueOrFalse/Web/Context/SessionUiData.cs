@@ -33,7 +33,7 @@ namespace TrueOrFalse.Web.Context
         }
 
         public CategorySearchSpec SearchSpecCategory{
-            get { return Data.Get("searchSpecSet", new CategorySearchSpec { PageSize = 10 }); }
+            get { return Data.Get("searchSpecCategory", new CategorySearchSpec { PageSize = 10 }); }
         }
 
         public TmpImageStore TmpImagesStore { get { return Data.Get("tmpImageStore", new TmpImageStore()); } }
