@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
-    Inherits="System.Web.Mvc.ViewPage<UserProfileModel>" %>
+    Inherits="System.Web.Mvc.ViewPage<UserModel>" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
     <style>
@@ -51,7 +51,7 @@
     <div class="span3" >
         <div class="box">
             <img alt="" style="width: 200px;" src="<%=Model.ImageUrl_128 %>" />
-            <% if (Model.IsCurrentUserProfile){ %>  
+            <% if (Model.IsCurrentUser){ %>  
                 <script type="text/javascript">
                     $(function () {
                         $("#imageUploadLink").click(function () {
@@ -61,7 +61,7 @@
                 </script>
                 <a id="imageUploadLink" href="#">aendern</a>
                 <div id="imageUpload" style="display: none">
-                    <% using (Html.BeginForm("UploadProfilePicture", "UserProfile", null, FormMethod.Post, new { enctype = "multipart/form-data" })){ %>
+                    <% using (Html.BeginForm("UploadPicture", "User", null, FormMethod.Post, new { enctype = "multipart/form-data" })){ %>
                         <input type="file" accept="image/*" name="file" id="file" />
                         <input class="cancel" type="submit" value="Hochladen" />
                     <% } %>

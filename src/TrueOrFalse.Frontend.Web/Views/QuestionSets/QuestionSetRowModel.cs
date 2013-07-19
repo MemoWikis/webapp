@@ -18,7 +18,7 @@ public class QuestionSetRowModel
     public int QuestionCount;
 
     public Func<UrlHelper, string> DetailLink;
-    public Func<UrlHelper, string> UserProfileLink;
+    public Func<UrlHelper, string> UserLink;
 
     public string ImageUrl;
 
@@ -40,7 +40,7 @@ public class QuestionSetRowModel
         IndexInResult = indexInResultSet;
 
         DetailLink = urlHelper => Links.QuestionSetDetail(urlHelper, questionSet, indexInResultSet);
-        UserProfileLink = urlHelper => Links.Profile(urlHelper, questionSet.Creator.Name, questionSet.Creator.Id);
+        UserLink = urlHelper => Links.UserDetail(urlHelper, questionSet.Creator.Name, questionSet.Creator.Id);
 
         ImageUrl = new QuestionSetImageSettings(questionSet.Id).GetUrl_206px_square().Url;
     }

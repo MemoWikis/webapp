@@ -167,8 +167,8 @@
     <Compile Include="Domain\Media\Image\ImageTypes\IImageSettings.cs" />
     <Compile Include="Domain\Media\Image\ImageSource.cs" />
     <Compile Include="Domain\Media\Image\ImageType.cs" />
-    <Compile Include="Domain\Media\Image\ImageTypes\Profile\ProfileImageSettings.cs" />
-    <Compile Include="Domain\Media\Image\ImageTypes\Profile\ProfileImageStore.cs" />
+    <Compile Include="Domain\Media\Image\ImageTypes\User\UserImageSettings.cs" />
+    <Compile Include="Domain\Media\Image\ImageTypes\User\UserImageStore.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\ImageUrl.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\QuestionSet\QuestionSetImageSettings.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\QuestionSet\QuestionSetImageStore.cs" />

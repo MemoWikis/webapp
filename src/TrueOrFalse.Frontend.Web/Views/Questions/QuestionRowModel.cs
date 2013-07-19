@@ -34,7 +34,7 @@ public class QuestionRowModel
     public int Views;
 
     public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
-    public Func<UrlHelper, string> UserProfileLink { get; private set;  }
+    public Func<UrlHelper, string> UserLink { get; private set;  }
 
     public IList<Category> Categories; 
 
@@ -52,7 +52,7 @@ public class QuestionRowModel
         CreatorId = question.Creator.Id;
 
         AnswerQuestionLink = urlHelper => Links.AnswerQuestion(urlHelper, question, indexInResultSet);
-        UserProfileLink = urlHelper => Links.Profile(urlHelper, question.Creator.Name, question.Creator.Id);
+        UserLink = urlHelper => Links.UserDetail(urlHelper, question.Creator.Name, question.Creator.Id);
 
         AnswersAllCount = question.TotalAnswers();
         AnswersAllPercentageTrue = question.TotalTrueAnswersPercentage();

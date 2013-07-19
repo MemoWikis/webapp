@@ -5,9 +5,9 @@ using System.Web;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 
-public class UserProfileModel : BaseModel
+public class UserModel : BaseModel
 {
-    public UserProfileModel(User user)
+    public UserModel(User user)
     {
         Name = user.Name;
     }
@@ -17,5 +17,5 @@ public class UserProfileModel : BaseModel
     public string ImageUrl_128;
     public bool ImageIsCustom;
 
-    public bool IsCurrentUserProfile;
+    public bool IsCurrentUser;
 }

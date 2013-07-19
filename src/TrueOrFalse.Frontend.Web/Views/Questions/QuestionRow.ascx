@@ -61,7 +61,7 @@
             <% } %>
         </div>
         <div style="text-align: right; width: 150px; position: absolute; bottom:0px; right: 10px;">
-            von <a href="<%= Model.UserProfileLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
+            von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%=Model.CreatorName %>
                 </a>
         </div>

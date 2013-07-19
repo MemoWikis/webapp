@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-public class ProfileImageStore
+public class UserImageStore
 {
     public static void Run(HttpPostedFileBase imagefile, int userId)
     {
@@ -14,7 +14,7 @@ public class ProfileImageStore
 
         StoreImages.Run(
             imagefile.InputStream,
-            new ProfileImageSettings(userId)
+            new UserImageSettings(userId)
         );
     }
 }

@@ -57,7 +57,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("ImageUpload", "ImageUpload/{action}", new { controller = "ImageUpload" });
 
-            routes.MapRoute("User", "User/{name}/{id}/{action}", new { controller = "UserProfile", action = "Profile" });
+            routes.MapRoute("User", "User/{name}/{id}/{action}", new { controller = "User", action = "User" });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
         }

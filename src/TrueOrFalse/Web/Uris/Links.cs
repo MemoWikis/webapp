@@ -11,8 +11,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 {
     public static class Links
     {
-        public const string UserProfileController = "UserProfile";
-        public const string UserProfile = "Profile";
+        /*Users*/
+        public const string UserController = "User";
+        public const string User = "User";
 
         /*Question*/
         public const string Questions = "Questions";
@@ -27,12 +28,12 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSegmentFriendlyQuestion.Run(questionText), id = questionId, elementOnPage = paramElementOnPage }, null);
         }
 
-        public static string Profile(UrlHelper url, User user){
-            return Profile(url, user.Name, user.Id);
+        public static string UserDetail(UrlHelper url, User user){
+            return UserDetail(url, user.Name, user.Id);
         }
 
-        public static string Profile(UrlHelper url, string userName, int userId){
-            return url.Action(UserProfile, UserProfileController, 
+        public static string UserDetail(UrlHelper url, string userName, int userId){
+            return url.Action(User, UserController, 
                 new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
         }
 

@@ -11,7 +11,7 @@ namespace TrueOrFalse
         Question = 1, 
         QuestionSet = 2,
 
-        Profile = 3,
+        User = 3,
         Category = 4
     }
 }

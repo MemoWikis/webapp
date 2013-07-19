@@ -11,7 +11,7 @@ namespace TrueOrFalse
         None, Knowledge, 
         Questions, QuestionDetail, 
         QuestionSet, QuestionSetDetail,
-        Network, ProfilDetail,
+        Network, UserDetail,
         Categories, CategoryDetail,
         News
     }

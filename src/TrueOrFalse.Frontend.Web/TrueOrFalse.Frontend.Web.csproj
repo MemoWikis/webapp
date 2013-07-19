@@ -347,8 +347,8 @@
     <Compile Include="Views\Shared\MenuModelCategoryItem.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Shared\Site.Resources.TitleModel.cs" />
-    <Compile Include="Views\User\UserProfileController.cs" />
-    <Compile Include="Views\User\UserProfileModel.cs" />
+    <Compile Include="Views\User\Detail\UserController.cs" />
+    <Compile Include="Views\User\Detail\UserModel.cs" />
     <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
@@ -612,7 +612,7 @@
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
-    <Content Include="Views\User\UserProfile.aspx" />
+    <Content Include="Views\User\Detail\User.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\LoginUc.ascx" />

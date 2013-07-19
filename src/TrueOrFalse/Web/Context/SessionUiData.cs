@@ -16,8 +16,8 @@ namespace TrueOrFalse.Web.Context
             get { return Data.Get("lastVisitedQuestionSets", new QuestionSetHistory()); }
         }
 
-        public UserHistory VisitedProfiles{
-            get { return Data.Get("lastVisitedProfiles", new UserHistory()); }
+        public UserHistory VisitedUserDetails{
+            get { return Data.Get("lastVisitedUsers", new UserHistory()); }
         }
 
         public CategoryHistory VisitedCategories{

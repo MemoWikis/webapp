@@ -4,21 +4,21 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-public class ProfileImageSettings : IImageSettings
+public class UserImageSettings : IImageSettings
 {
-    private readonly int _profileId;
+    private readonly int _userId;
 
     public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 50, 20 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 100, 500 }; } }
 
     public string BasePath { get { return "/Images/Users/"; } }
 
-    public ProfileImageSettings(int profileId){
-        _profileId = profileId;
+    public UserImageSettings(int userId){
+        _userId = userId;
     }
 
     public string BasePathAndId(){
-        return HttpContext.Current.Server.MapPath("/Images/Users/" + _profileId);
+        return HttpContext.Current.Server.MapPath("/Images/Users/" + _userId);
     }
 
     public ImageUrl GetUrl_128px(string emailAddress){
@@ -30,7 +30,7 @@ public class ProfileImageSettings : IImageSettings
     }
 
     private ImageUrl GetUrl(string emailAddress, int width, bool isSquare = false){
-        return ImageUrl.Get(_profileId, width, isSquare, BasePath, arg => GetFallbackImage(emailAddress, arg));
+        return ImageUrl.Get(_userId, width, isSquare, BasePath, arg => GetFallbackImage(emailAddress, arg));
     }
 
     protected string GetFallbackImage(string emailAddress, int width)
