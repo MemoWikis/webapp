@@ -42,20 +42,20 @@ public class AnswerQuestionController : BaseController
                 question,
                 _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
                 NotNull.Run(questionValuation), 
-                _sessionUiData.QuestionSearchSpec, 
+                _sessionUiData.SearchSpecQuestion, 
                 elementOnPage)
         );
     }
 
     public ActionResult Next()
     {
-        _sessionUiData.QuestionSearchSpec.NextPage(1);
+        _sessionUiData.SearchSpecQuestion.NextPage(1);
         return GetViewByCurrentSearchSpec();
     }
 
     public ActionResult Previous()
     {
-        _sessionUiData.QuestionSearchSpec.PreviousPage(1);
+        _sessionUiData.SearchSpecQuestion.PreviousPage(1);
         return GetViewByCurrentSearchSpec();
     }
 
@@ -71,7 +71,7 @@ public class AnswerQuestionController : BaseController
                 question, 
                 _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
                 NotNull.Run(questionValuation), 
-                _sessionUiData.QuestionSearchSpec)
+                _sessionUiData.SearchSpecQuestion)
         );
     }
 

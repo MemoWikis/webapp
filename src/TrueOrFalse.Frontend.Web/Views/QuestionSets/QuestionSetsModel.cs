@@ -31,6 +31,6 @@ public class QuestionSetsModel : BaseModel
 
         TotalQuestionSets = Resolve<GetTotalQuestionSetCount>().Run();
 
-        Pager = new PagerModel(_sessionUiData.SetSearchSpec);
+        Pager = new PagerModel(_sessionUiData.SearchSpecSet);
     }
 }

@@ -22,7 +22,7 @@ public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
 
     public IList<Question> Run()
     {
-        if (string.IsNullOrEmpty(_sessionUiData.QuestionSearchSpec.SearchTearm))
+        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecQuestion.SearchTearm))
             return SearchFromSqlServer();
         
         return SearchFromSOLR();
@@ -31,8 +31,8 @@ public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
     private IList<Question> SearchFromSOLR()
     {
         var solrResult = _searchQuestions.Run(
-            _sessionUiData.QuestionSearchSpec.SearchTearm, 
-            _sessionUiData.QuestionSearchSpec);
+            _sessionUiData.SearchSpecQuestion.SearchTearm, 
+            _sessionUiData.SearchSpecQuestion);
 
         return _questionRepository.GetByIds(
             solrResult.QuestionIds.ToArray());
@@ -44,7 +44,7 @@ public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
         session.CreateCriteria<Category>();
 
         return _questionRepository.GetBy(
-            _sessionUiData.QuestionSearchSpec,
+            _sessionUiData.SearchSpecQuestion,
             c => c.SetFetchMode("Categories", FetchMode.Eager
         ));
     }

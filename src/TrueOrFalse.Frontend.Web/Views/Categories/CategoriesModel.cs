@@ -5,6 +5,7 @@ using System.Web;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web;
+using TrueOrFalse.Web.Context;
 
 public class CategoriesModel : BaseModel
 {
@@ -15,10 +16,14 @@ public class CategoriesModel : BaseModel
     public int TotalMine;
     public string SearchTerm;
 
-    public CategoriesModel(IEnumerable<Category> categories)
+    public PagerModel Pager { get; set; }
+
+    public CategoriesModel(IEnumerable<Category> categories, SessionUiData _sessionUi)
     {
         var index = 0;
         CategoryRows = from category in categories select new CategoryRowModel(category, index++);
+
+        Pager = new PagerModel(_sessionUi.SearchSpecCategory);
 
         TotalCategories = 0;
         TotalMine = 0;

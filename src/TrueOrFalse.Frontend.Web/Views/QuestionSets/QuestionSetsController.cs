@@ -18,10 +18,10 @@ public class QuestionSetsController : BaseController
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult QuestionSets(int? page)
     {
-        _sessionUiData.SetSearchSpec.PageSize = 10;
-        if (page.HasValue) _sessionUiData.SetSearchSpec.CurrentPage = page.Value;
+        _sessionUiData.SearchSpecSet.PageSize = 10;
+        if (page.HasValue) _sessionUiData.SearchSpecSet.CurrentPage = page.Value;
 
-        var questionSets = _setRepo.GetBy(_sessionUiData.SetSearchSpec);
+        var questionSets = _setRepo.GetBy(_sessionUiData.SearchSpecSet);
 
         return View(new QuestionSetsModel(questionSets, _sessionUser));
     }       

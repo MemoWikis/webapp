@@ -24,12 +24,16 @@ namespace TrueOrFalse.Web.Context
             get { return Data.Get("lastVisitedCategories", new CategoryHistory()); }
         }
 
-        public QuestionSearchSpec QuestionSearchSpec{
-            get { return Data.Get("questionSearchSpec", new QuestionSearchSpec{PageSize = 5}); }
+        public QuestionSearchSpec SearchSpecQuestion{
+            get { return Data.Get("searchSpecQuestion", new QuestionSearchSpec { PageSize = 5 }); }
         }
 
-        public QuestionSetSearchSpec SetSearchSpec{
-            get { return Data.Get("questionSetSearchSpec", new QuestionSetSearchSpec { PageSize = 10 }); }
+        public QuestionSetSearchSpec SearchSpecSet{
+            get { return Data.Get("searchSpecSet", new QuestionSetSearchSpec { PageSize = 10 }); }
+        }
+
+        public CategorySearchSpec SearchSpecCategory{
+            get { return Data.Get("searchSpecSet", new CategorySearchSpec { PageSize = 10 }); }
         }
 
         public TmpImageStore TmpImagesStore { get { return Data.Get("tmpImageStore", new TmpImageStore()); } }

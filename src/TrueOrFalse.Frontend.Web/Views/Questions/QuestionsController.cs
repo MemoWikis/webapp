@@ -26,45 +26,45 @@ public class QuestionsController : BaseController
     }
 
     public ActionResult OrderByPersonalRelevance(int? page, QuestionsModel model){
-        _sessionUiData.QuestionSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+        _sessionUiData.SearchSpecQuestion.OrderBy.OrderByPersonalRelevance.Desc();
         return Questions(page, model);
     }
 
     public ActionResult OrderByQuality(int? page, QuestionsModel model){
-        _sessionUiData.QuestionSearchSpec.OrderBy.OrderByQuality.Desc();
+        _sessionUiData.SearchSpecQuestion.OrderBy.OrderByQuality.Desc();
         return Questions(page, model);
     }
 
     public ActionResult OrderByCreationDate(int? page, QuestionsModel model){
-        _sessionUiData.QuestionSearchSpec.OrderBy.OrderByCreationDate.Desc();
+        _sessionUiData.SearchSpecQuestion.OrderBy.OrderByCreationDate.Desc();
         return Questions(page, model);
     }
 
     public ActionResult OrderByViews(int? page, QuestionsModel model){
-        _sessionUiData.QuestionSearchSpec.OrderBy.OrderByViews.Desc();
+        _sessionUiData.SearchSpecQuestion.OrderBy.OrderByViews.Desc();
         return Questions(page, model);
     }
 
     public ActionResult QuestionSearch(string searchTerm, QuestionsModel model)
     {
-        _sessionUiData.QuestionSearchSpec.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecQuestion.SearchTearm = model.SearchTerm = searchTerm;
         return Questions(null, model);
     }
 
     [SetMenu(MenuEntry.Questions)]
     public ActionResult Questions(int? page, QuestionsModel model)
     {
-        _sessionUiData.QuestionSearchSpec.PageSize = 10;
+        _sessionUiData.SearchSpecQuestion.PageSize = 10;
 
-        _sessionUiData.QuestionSearchSpec.SetFilterByMe(model.FilterByMe);
-        _sessionUiData.QuestionSearchSpec.SetFilterByAll(model.FilterByAll);
-        _sessionUiData.QuestionSearchSpec.AddFilterByUser(model.AddFilterUser);
-        _sessionUiData.QuestionSearchSpec.DelFilterByUser(model.DelFilterUser);
+        _sessionUiData.SearchSpecQuestion.SetFilterByMe(model.FilterByMe);
+        _sessionUiData.SearchSpecQuestion.SetFilterByAll(model.FilterByAll);
+        _sessionUiData.SearchSpecQuestion.AddFilterByUser(model.AddFilterUser);
+        _sessionUiData.SearchSpecQuestion.DelFilterByUser(model.DelFilterUser);
 
-        if (!_sessionUiData.QuestionSearchSpec.OrderBy.IsSet())
-            _sessionUiData.QuestionSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+        if (!_sessionUiData.SearchSpecQuestion.OrderBy.IsSet())
+            _sessionUiData.SearchSpecQuestion.OrderBy.OrderByPersonalRelevance.Desc();
 
-        if (page.HasValue) _sessionUiData.QuestionSearchSpec.CurrentPage = page.Value;
+        if (page.HasValue) _sessionUiData.SearchSpecQuestion.CurrentPage = page.Value;
 
         var questions = _questionSearchPage.Run();
         var totalsForCurrentUser = _totalsPerUserLoader.Run(_sessionUser.User.Id, questions);
@@ -75,13 +75,13 @@ public class QuestionsController : BaseController
                         questions,
                         totalsForCurrentUser,
                         questionValutionsForCurrentUser,
-                        _sessionUiData.QuestionSearchSpec,
+                        _sessionUiData.SearchSpecQuestion,
                         _sessionUser.User.Id)
                     {
-                        Pager = new PagerModel(_sessionUiData.QuestionSearchSpec),
-                        FilterByMe = _sessionUiData.QuestionSearchSpec.FilterByMe,
-                        FilterByAll = _sessionUiData.QuestionSearchSpec.FilterByAll,
-                        FilterByUsers = _userRepository.GetByIds(_sessionUiData.QuestionSearchSpec.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name),
+                        Pager = new PagerModel(_sessionUiData.SearchSpecQuestion),
+                        FilterByMe = _sessionUiData.SearchSpecQuestion.FilterByMe,
+                        FilterByAll = _sessionUiData.SearchSpecQuestion.FilterByAll,
+                        FilterByUsers = _userRepository.GetByIds(_sessionUiData.SearchSpecQuestion.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name),
                         TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run(),
                         TotalWishKnowledge = Sl.Resolve<GetWishKnowledgeCountCached>().Run(_sessionUser.User.Id)
                     }

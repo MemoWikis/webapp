@@ -45,6 +45,7 @@
                             Html.RenderPartial("CategoryRow", row);
                         } %>
                     </div>
+                    <% Html.RenderPartial("Pager", Model.Pager); %>
                 </div>
             </div>
             

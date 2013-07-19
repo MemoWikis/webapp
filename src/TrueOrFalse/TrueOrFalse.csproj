@@ -159,6 +159,7 @@
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategorySearch.cs" />
+    <Compile Include="Domain\Classification\Category\Persistence\CategorySearchSpec.cs" />
     <Compile Include="Domain\Media\Image\FineUploader\FineUploader.cs" />
     <Compile Include="Domain\Media\Image\FineUploader\FineUploaderResult.cs" />
     <Compile Include="Domain\Media\Image\ImageMetaData.cs" />
