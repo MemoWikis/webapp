@@ -64,7 +64,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string QuestionSetEdit(UrlHelper url, int questionSetId){
-            return url.Action("Edit", "QuestionSet", new {id = questionSetId});
+            return url.Action("Edit", "EditQuestionSet", new {id = questionSetId});
         }
 
         public const string EditQuestionController = "EditQuestion"; 
