@@ -1,34 +1,34 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MaintenanceModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
-    <h2>Maintenance</h2>
     
-    <br/><br/>
+    <div class="span10">
+        <h2>Maintenance</h2>
+        
+        <% Html.Message(Model.Message); %>
     
-    <% Html.Message(Model.Message); %>
+        <h2>Fragen</h2>
+        <a class="btn" href="<%= Url.Action("RecalculateAllKnowledgeItems", "Maintenance") %>">
+            <i class="icon-retweet"></i>
+            Alle Antwortwahrscheinlichkeiten neu berechnen
+        </a><br/><br/>
+        <a class="btn" href="<%= Url.Action("CalcAggregatedValues", "Maintenance") %>">
+            <i class="icon-retweet"></i>
+            Aggregierte Zahlen für Fragen aktualisieren
+        </a>
     
-    <h2>Fragen</h2>
-    <a class="btn" href="<%= Url.Action("RecalculateAllKnowledgeItems", "Maintenance") %>">
-        <i class="icon-retweet"></i>
-        Alle Antwortwahrscheinlichkeiten neu berechnen
-    </a><br/><br/>
-    <a class="btn" href="<%= Url.Action("CalcAggregatedValues", "Maintenance") %>">
-        <i class="icon-retweet"></i>
-        Aggregierte Zahlen für Fragen aktualisieren
-    </a>
+        <h2>Kategorien</h2>
+        <a class="btn" href="<%= Url.Action("UpdateFieldQuestionCountForCategories", "Maintenance") %>">
+            <i class="icon-retweet"></i>
+            Feld: AnzahlFragen pro Kategorie aktualisieren
+        </a>
     
-    <h2>Kategorien</h2>
-    <a class="btn" href="<%= Url.Action("UpdateFieldQuestionCountForCategories", "Maintenance") %>">
-        <i class="icon-retweet"></i>
-        Feld: AnzahlFragen pro Kategorie aktualisieren
-    </a>
-    
-    <h2>Suche</h2>
-    <a class="btn" href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>">
-        <i class="icon-retweet"></i>
-        Alle Fragen für Suche neu indizieren
-    </a><br/><br/>
+        <h2>Suche</h2>
+        <a class="btn" href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>">
+            <i class="icon-retweet"></i>
+            Alle Fragen für Suche neu indizieren
+        </a><br/><br/>
+    </div>
 
 </asp:Content>
 

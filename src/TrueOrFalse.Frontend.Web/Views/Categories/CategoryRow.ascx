@@ -10,7 +10,7 @@
     <div class="column-2" style="height: 87px; position: relative;">
         <div style="font-size:large;">
             <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName%></a> 
-            <span style="font-size: small;">(<%= Model.QuestionCount %> Fragen)</span>
+            <span style="font-size: small;">(<b><%= Model.QuestionCount %> Fragen</b>)</span>
         </div>
         
         <%= Model.DescriptionShort %>
