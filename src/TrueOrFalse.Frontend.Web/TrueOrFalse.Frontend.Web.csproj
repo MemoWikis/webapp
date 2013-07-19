@@ -645,7 +645,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj">
       <Project>{0aa2472f-e001-45c0-ad00-2e49b1566739}</Project>

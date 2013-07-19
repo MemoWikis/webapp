@@ -3,7 +3,9 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="row">
+<div class="row" style="border-top: 1px solid #e5e5e5; margin-top: 60px;">
+    <div class="clearfix" style="margin-bottom: 10px;"></div>
+
     <div style="float:left; padding-left: 0px;">
         <a href="http://teamcity.richtig-oder-falsch.de:8080/viewType.html?buildTypeId=TrueOrFalse_Default&guest=1">
             Build: <%= Assembly.Load("TrueOrFalse").GetName().Version.Major %> </a>

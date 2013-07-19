@@ -52,7 +52,7 @@
             <a href="#" class="<%= Model.Active(MenuEntry.News) %>" ><i class="icon-caret-right"></i> Neues <span class="badge badge-info" style="display:inline-block; position: relative; top: -2px;">21</span></a>
         </div>
 
-        <div class="main" style="margin-top:12px;"><a href="#"><i class="icon-caret-right"></i> Netzwerk<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> </div>
+        <div class="main" style="margin-top:12px;"><a href="#"><i class="icon-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> </div>
     
         <% index = 0; foreach (var user in new SessionUiData().VisitedProfiles){ index++;  %>
                <div class="sub">
@@ -64,6 +64,7 @@
         <% } %>
     
         <% if (Request.IsLocal && Model.IsInstallationAdmin){ %>
+
             <div class="main" style="margin-top:12px;">
                 <a href="<%= Url.Action("Maintenance", "Maintenance") %>"><i class="icon-caret-right"></i> Adminstrativ</a> 
             </div>
