@@ -15,6 +15,9 @@ public class CategoriesModel : BaseModel
     public int TotalCategories;
     public int TotalMine;
     public string SearchTerm;
+    
+    public string OrderByLabel;
+    public int TotalCategoriesInResult;
 
     public PagerModel Pager { get; set; }
 
@@ -27,5 +30,8 @@ public class CategoriesModel : BaseModel
 
         TotalCategories = Resolve<GetTotalCategories>().Run(); ;
         TotalMine = 0;
+
+        TotalCategoriesInResult = _sessionUi.SearchSpecCategory.TotalItems;
+        OrderByLabel = "..";
     }
 }
