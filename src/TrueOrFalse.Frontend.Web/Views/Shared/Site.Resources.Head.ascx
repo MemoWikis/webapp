@@ -2,7 +2,7 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <%--<%= Scripts.Render("~/bundles/shared") %>--%>
-<script src="/Scripts/jquery-2.0.2.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery-2.0.3.min.js" type="text/javascript"></script>
 <script src="/Scripts/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
 <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
 <script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
