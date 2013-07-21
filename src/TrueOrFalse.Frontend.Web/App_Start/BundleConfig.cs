@@ -48,6 +48,9 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/file-uploader/uploader.js")
                 .Include("~/Scripts/file-uploader/jquery-plugin.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/questions")
+                .IncludeDirectory("~/Views/Questions/Js/", "*.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
 
@@ -63,7 +66,7 @@ namespace TrueOrFalse.View
                          "~/Scripts/Markdown.Sanitizer.js", 
                          "~/Scripts/Markdown.Editor.js"));
 
-            //BundleTable.EnableOptimizations = false;
+            //BundleTable.EnableOptimizations = true;
         }
     }
 }

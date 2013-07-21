@@ -1,16 +1,12 @@
 ﻿
 <%@ Page Title="Fragen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
 <%@ Import Namespace="System.Globalization" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Questions/Questions.css" rel="stylesheet" />
-    <script src="/Views/Questions/Js/SelectUsers.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/Questions.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/Page.min.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/QuestionRowDelete.min.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/QuestionRowSelection.min.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/ToQuestionSet.js" type="text/javascript"></script>
+    <%= Scripts.Render("~/bundles/questions") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
