@@ -34,7 +34,7 @@ $(function () {
     }
 
     function SubmitSearch() {
-        window.location = "/questions/search/" + $('#txtSearch').val();
+        window.location = "/Fragen/Suche/" + $('#txtSearch').val();
     }
 
     $('#btnSearch').click(function () { SubmitSearch(); });
