@@ -43,7 +43,7 @@ namespace TrueOrFalse.Tests
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacCoreModule>();
             builder.RegisterModule<AutofacTestModule>();
-            builder.RegisterModule(new SolrNetModule("http://localhost:8080/solr/trueOrFalseTest"));
+            builder.RegisterModule(new SolrNetModule("http://localhost:8080/solr/tofQuestion"));
             _container = builder.Build();
         }
 
