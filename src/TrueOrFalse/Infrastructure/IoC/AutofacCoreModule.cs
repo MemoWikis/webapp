@@ -34,6 +34,8 @@ namespace TrueOrFalse.Infrastructure
                 {
                     if (innerException is ReflectionTypeLoadException)
                         break;
+
+                    innerException = innerException.InnerException;
                 }
 
                 if (innerException == null)
