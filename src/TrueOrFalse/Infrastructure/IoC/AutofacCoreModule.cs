@@ -25,10 +25,10 @@ namespace TrueOrFalse.Infrastructure
             {
                 builder.RegisterInstance(SessionFactory.CreateSessionFactory());
             }
-            catch (ReflectionTypeLoadException ex)
+            catch (Exception ex)
             {
                 var sb = new StringBuilder();
-                foreach (Exception exSub in ex.LoaderExceptions)
+                foreach (Exception exSub in ((ReflectionTypeLoadException)ex.InnerException).LoaderExceptions)
                 {
                     sb.AppendLine(exSub.Message);
                     if (exSub is FileNotFoundException)
