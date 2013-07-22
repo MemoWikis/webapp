@@ -28,7 +28,18 @@ namespace TrueOrFalse.Infrastructure
             catch (Exception ex)
             {
                 var sb = new StringBuilder();
-                foreach (Exception exSub in ((ReflectionTypeLoadException)ex.InnerException).LoaderExceptions)
+
+                var innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    if (innerException is ReflectionTypeLoadException)
+                        break;
+                }
+
+                if (innerException == null)
+                    throw;
+
+                foreach (Exception exSub in ((ReflectionTypeLoadException)innerException).LoaderExceptions)
                 {
                     sb.AppendLine(exSub.Message);
                     if (exSub is FileNotFoundException)
