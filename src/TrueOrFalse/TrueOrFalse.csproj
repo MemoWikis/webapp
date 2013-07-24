@@ -318,8 +318,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\Settings\ConnectionString\GetConnectionString.cs" />
-    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionString.cs" />
-    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConnectionStringResult.cs" />
+    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConfig.cs" />
+    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConfigValueResult.cs" />
     <Compile Include="Infrastructure\Settings\DbSetting\DbSettingLoader.cs" />
     <Compile Include="Infrastructure\Settings\DbSetting\DbSettings.cs" />
     <Compile Include="Infrastructure\Settings\DbSetting\DbSettingsMap.cs" />

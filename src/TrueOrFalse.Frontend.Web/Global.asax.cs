@@ -46,7 +46,7 @@ namespace TrueOrFalse.Frontend.Web
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModule<AutofacCoreModule>();
-            builder.RegisterModule(new SolrNetModule("http://localhost:8080/solr/tofQuestion"));
+            builder.RegisterModule(new SolrNetModule(WebConfigSettings.SolrUrl + "tofQuestion"));
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

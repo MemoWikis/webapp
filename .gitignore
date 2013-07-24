@@ -21,3 +21,4 @@ src/TrueOrFalse.Tests/A
 src/TrueOrFalse.Frontend.Web/Images/Categories/
 src/packages
 docs/diagrams-enterprise-architect.ldb
+src/TrueOrFalse.Tests/App.overwritten.config

@@ -1,8 +1,8 @@
 namespace TrueOrFalse.Infrastructure
 {
-    public class ReadOverwrittenConnectionStringResult
+    public class ReadOverwrittenConfigValueResult
     {
-        public ReadOverwrittenConnectionStringResult(bool hasValue, string value)
+        public ReadOverwrittenConfigValueResult(bool hasValue, string value)
         {
             HasValue = hasValue;
             Value = value;

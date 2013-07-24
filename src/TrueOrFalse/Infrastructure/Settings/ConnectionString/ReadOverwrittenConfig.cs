@@ -7,23 +7,33 @@ using Seedworks.Web.State;
 
 namespace TrueOrFalse.Infrastructure
 {
-    public static class ReadOverwrittenConnectionString
+    public static class ReadOverwrittenConfig
     {
-        public static ReadOverwrittenConnectionStringResult Run()
+        public static ReadOverwrittenConfigValueResult ConnectionString()
         {
-            string filePath; 
+            return Value("connectionString");
+        }
+
+        public static ReadOverwrittenConfigValueResult SolrUrl()
+        {
+            return Value("sorlUrl");
+        }
+
+        private static ReadOverwrittenConfigValueResult Value(string itemName)
+        {
+            string filePath;
             if (ContextUtil.IsWebContext)
                 filePath = HttpContext.Current.Server.MapPath(@"~/Web.overwritten.config");
             else
-                filePath = Path.Combine(AssemblyDirectory, "App.overwritten.config");
-            
+                filePath = Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.Parent.FullName, "App.overwritten.config");
+
             if (!File.Exists(filePath))
-                return new ReadOverwrittenConnectionStringResult(false, null);
+                return new ReadOverwrittenConfigValueResult(false, null);
 
             var xDoc = XDocument.Load(filePath);
-            var value = xDoc.Root.Element("connectionString").Value;
+            var value = xDoc.Root.Element(itemName).Value;
 
-            return new ReadOverwrittenConnectionStringResult(true, value);
+            return new ReadOverwrittenConfigValueResult(true, value);
         }
 
         static private string AssemblyDirectory

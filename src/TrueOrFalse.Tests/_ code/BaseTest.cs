@@ -43,7 +43,13 @@ namespace TrueOrFalse.Tests
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacCoreModule>();
             builder.RegisterModule<AutofacTestModule>();
-            builder.RegisterModule(new SolrNetModule("http://localhost:8080/solr/tofQuestion"));
+
+            var solrUrl = WebConfigSettings.SolrUrl;
+            var solrOverwritten = ReadOverwrittenConfig.SolrUrl();
+            if(solrOverwritten.HasValue)
+                solrUrl = solrOverwritten.Value;
+
+            builder.RegisterModule(new SolrNetModule(solrUrl + "tofQuestion"));
             _container = builder.Build();
         }
 

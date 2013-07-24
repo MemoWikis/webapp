@@ -6,7 +6,7 @@ namespace TrueOrFalse.Infrastructure
     {
         public static string Run()
         {
-            var result = ReadOverwrittenConnectionString.Run();
+            var result = ReadOverwrittenConfig.ConnectionString();
             if (result.HasValue)
                 return result.Value;
 
