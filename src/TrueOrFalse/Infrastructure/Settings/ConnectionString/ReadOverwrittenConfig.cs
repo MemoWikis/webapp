@@ -31,6 +31,10 @@ namespace TrueOrFalse.Infrastructure
                 return new ReadOverwrittenConfigValueResult(false, null);
 
             var xDoc = XDocument.Load(filePath);
+            
+            if(xDoc.Root.Element(itemName) == null)
+                return new ReadOverwrittenConfigValueResult(false, null);
+
             var value = xDoc.Root.Element(itemName).Value;
 
             return new ReadOverwrittenConfigValueResult(true, value);
