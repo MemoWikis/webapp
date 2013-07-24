@@ -279,6 +279,7 @@
     <Content Include="Images\no-category-picture-50.png" />
     <Content Include="Images\no-category-picture-85.png" />
     <Content Include="Images\no-profile-picture-50.png" />
+    <Content Include="Images\QuestionSets\include-folder.txt" />
     <Content Include="img\wmd-buttons.png" />
     <Content Include="Scripts\file-uploader\button.js" />
     <Content Include="Scripts\file-uploader\dnd.js" />
