@@ -1,9 +1,13 @@
 ﻿using Autofac;
 using AutofacContrib.SolrNet;
+using AutofacContrib.SolrNet.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NUnit.Framework;
+using SolrNet;
+using SolrNet.Impl;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Search;
 
 namespace TrueOrFalse.Tests
 {
@@ -38,18 +42,36 @@ namespace TrueOrFalse.Tests
             SessionFactory.BuildSchema();
         }
 
+        public class Foo
+        {
+            
+        }
+
         private static void BuildContainer()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<AutofacCoreModule>();
-            builder.RegisterModule<AutofacTestModule>();
+            //builder.RegisterModule<AutofacCoreModule>();
+            //builder.RegisterModule<AutofacTestModule>();
 
             var solrUrl = WebConfigSettings.SolrUrl;
             var solrOverwritten = ReadOverwrittenConfig.SolrUrl();
             if(solrOverwritten.HasValue)
                 solrUrl = solrOverwritten.Value;
 
-            builder.RegisterModule(new SolrNetModule(solrUrl + "tofQuestion"));
+            var cores = new SolrServers {
+                                new SolrServerElement {
+                                        Id = "question",
+                                        DocumentType = typeof (Foo).AssemblyQualifiedName,
+                                        Url = solrUrl + "tofQuestionTest"
+                                    },
+                                //new SolrServerElement {   
+                                //        Id = "set",
+                                //        DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
+                                //        Url = solrUrl + "tofSetTest"
+                                //    }
+                            };
+
+            builder.RegisterModule(new SolrNetModule(cores));
             _container = builder.Build();
         }
 

@@ -246,6 +246,8 @@
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenMap.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenRepository.cs" />
     <Compile Include="Infrastructure\Regexes.cs" />
+    <Compile Include="Search\QuestionSet\Model\SetSolrMap.cs" />
+    <Compile Include="Search\QuestionSet\Model\ToSetSolrMap.cs" />
     <Compile Include="Search\Question\Model\QuestionSolrMap.cs" />
     <Compile Include="Search\Question\IndexOperations\ReIndexAllQuestions.cs" />
     <Compile Include="Search\Question\Model\ToQuestionSolrMap.cs" />
@@ -407,6 +409,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Search\Category\" />
+    <Folder Include="Search\QuestionSet\IndexOperations\" />
     <Folder Include="Search\User\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

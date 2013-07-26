@@ -29,8 +29,6 @@ namespace TrueOrFalse.Tests
                     AvgQuality = 70,
                     Views = 23424
                 };
-            solrQuestionMap.Categories.Add("Cat1");
-            solrQuestionMap.Categories.Add("Cat2");
 
             var solrOperations = Resolve<ISolrOperations<QuestionSolrMap>>();
             solrOperations.Delete(new SolrQuery("*:*"));

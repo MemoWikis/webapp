@@ -203,7 +203,8 @@
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
-    <Compile Include="4 Search\Question\QuestionSearchTests.cs" />
+    <Compile Include="4 Search\QuestionSearchTests.cs" />
+    <Compile Include="4 Search\SetSearchTests.cs" />
     <Compile Include="5 Utiltities\TimeElapsedAsTextTests.cs" />
     <Compile Include="6 Web\UriSanitizer_Tests.cs" />
     <Compile Include="a Test MetaData\Features\Features.cs" />
