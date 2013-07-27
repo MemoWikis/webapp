@@ -42,16 +42,11 @@ namespace TrueOrFalse.Tests
             SessionFactory.BuildSchema();
         }
 
-        public class Foo
-        {
-            
-        }
-
         private static void BuildContainer()
         {
             var builder = new ContainerBuilder();
-            //builder.RegisterModule<AutofacCoreModule>();
-            //builder.RegisterModule<AutofacTestModule>();
+            builder.RegisterModule<AutofacCoreModule>();
+            builder.RegisterModule<AutofacTestModule>();
 
             var solrUrl = WebConfigSettings.SolrUrl;
             var solrOverwritten = ReadOverwrittenConfig.SolrUrl();
@@ -61,14 +56,14 @@ namespace TrueOrFalse.Tests
             var cores = new SolrServers {
                                 new SolrServerElement {
                                         Id = "question",
-                                        DocumentType = typeof (Foo).AssemblyQualifiedName,
+                                        DocumentType = typeof (QuestionSolrMap).AssemblyQualifiedName,
                                         Url = solrUrl + "tofQuestionTest"
                                     },
-                                //new SolrServerElement {   
-                                //        Id = "set",
-                                //        DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
-                                //        Url = solrUrl + "tofSetTest"
-                                //    }
+                                new SolrServerElement {   
+                                        Id = "set",
+                                        DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
+                                        Url = solrUrl + "tofSetTest"
+                                    }
                             };
 
             builder.RegisterModule(new SolrNetModule(cores));
