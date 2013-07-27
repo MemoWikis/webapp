@@ -57,7 +57,7 @@ namespace TrueOrFalse.Tests
         {
             foreach (var question in Questions)
                 _questionRepository.Create(question);
-            
+
             return this;
         }
 

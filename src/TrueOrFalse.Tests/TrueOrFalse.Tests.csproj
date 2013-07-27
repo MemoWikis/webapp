@@ -185,6 +185,7 @@
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />
     <Compile Include="2 Domain\QuestionSet\QuestionSet_add_question.cs" />
     <Compile Include="2 Domain\QuestionSet\QuestionSet_persistence.cs" />
+    <Compile Include="2 Domain\QuestionSet\Setup\ContextSet.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_stats_in_time_period.cs" />
     <Compile Include="2 Domain\Question\History\History_totals_per_user_tests.cs" />
     <Compile Include="2 Domain\Question\QuestionValuation\QuestionValuation_add_totals_test.cs" />

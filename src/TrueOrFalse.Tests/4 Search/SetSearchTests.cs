@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Seedworks.Lib.Persistence;
 using SolrNet;
 using TrueOrFalse.Search;
 
@@ -34,6 +35,20 @@ namespace TrueOrFalse.Tests
 
             var result = solrOperations.Query(new SolrQueryByField("FullTextExact", "Foo"));
             Assert.That(result.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Should_search_sets()
+        {
+            ContextSet.New()
+                .AddSet("Set1")
+                .AddSet("Set2")
+                .Persist();
+
+            Resolve<ReIndexAllSets>().Run();
+
+            Assert.That(Resolve<SearchSet>().Run("Set1", new Pager()).Count, Is.EqualTo(1)); ;
+            Assert.That(Resolve<SearchSet>().Run("Set2", new Pager()).SetIds.Count, Is.EqualTo(1)); ;
         }
     }
 }
