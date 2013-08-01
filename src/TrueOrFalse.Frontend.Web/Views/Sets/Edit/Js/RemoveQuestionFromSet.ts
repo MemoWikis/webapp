@@ -9,7 +9,7 @@ class RemoveQuestionFromSet
         $(".deleteButton").click(function() {
             var parentLi = $(this).parent().parent();
             parentLi.hide(800);
-            $.post("/EditQuestionSet/RemoveQuestionFromSet", {"questionInSetId" : parentLi.attr("data-id")});
+            $.post("/EditSet/RemoveQuestionFromSet", {"questionInSetId" : parentLi.attr("data-id")});
             $("#revertAction").show();
         });
 

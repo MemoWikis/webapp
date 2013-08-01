@@ -9,7 +9,7 @@ using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 
-public class EditQuestionSetModel : BaseModel
+public class EditSetModel : BaseModel
 {
     public Message Message;
 
@@ -40,12 +40,12 @@ public class EditQuestionSetModel : BaseModel
 
     public IList<QuestionInSet> QuestionsInSet = new List<QuestionInSet>();
 
-    public EditQuestionSetModel(){
+    public EditSetModel(){
         Username = new SessionUser().User.Name;
         ImageUrl_206px = new QuestionSetImageSettings(-1).GetUrl_206px_square().Url;    
     }
 
-    public EditQuestionSetModel(QuestionSet set)
+    public EditSetModel(QuestionSet set)
     {
         Id = set.Id;
         Title = set.Name;

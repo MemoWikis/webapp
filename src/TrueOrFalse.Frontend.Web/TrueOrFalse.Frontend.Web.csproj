@@ -337,13 +337,14 @@
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
-    <Compile Include="Views\QuestionSets\Detail\QuestionSetController.cs" />
-    <Compile Include="Views\QuestionSets\Detail\QuestionSetModel.cs" />
-    <Compile Include="Views\QuestionSets\Edit\EditQuestionSetController.cs" />
-    <Compile Include="Views\QuestionSets\Edit\EditQuestionSetModel.cs" />
-    <Compile Include="Views\QuestionSets\QuestionSetRowModel.cs" />
-    <Compile Include="Views\QuestionSets\QuestionSetsController.cs" />
-    <Compile Include="Views\QuestionSets\QuestionSetsModel.cs" />
+    <Compile Include="Views\Sets\Detail\SetController.cs" />
+    <Compile Include="Views\Sets\Detail\SetModel.cs" />
+    <Compile Include="Views\Sets\Edit\EditSetController.cs" />
+    <Compile Include="Views\Sets\Edit\EditSetModel.cs" />
+    <Compile Include="Views\Sets\SetsControllerSearch.cs" />
+    <Compile Include="Views\Sets\SetRowModel.cs" />
+    <Compile Include="Views\Sets\SetsController.cs" />
+    <Compile Include="Views\Sets\SetsModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
     <Compile Include="Views\Questions\Answer\FeedbackRowModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
@@ -499,31 +500,33 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
-    <Content Include="Views\QuestionSets\Detail\QuestionSet.aspx" />
-    <Content Include="Views\QuestionSets\Detail\QuestionSet.css" />
-    <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\ImageUpload.ts" />
-    <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
-    <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\SetSortable.ts" />
-    <Content Include="Views\QuestionSets\Edit\Js\ImageUpload.js">
+    <Content Include="Views\Sets\Detail\Set.aspx" />
+    <Content Include="Views\Sets\Detail\Set.css" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
+    <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
+    <Content Include="Views\Sets\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\RemoveQuestionFromSet.ts" />
-    <Content Include="Views\QuestionSets\Edit\Js\RemoveQuestionFromSet.js">
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.ts" />
+    <Content Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.js">
       <DependentUpon>RemoveQuestionFromSet.ts</DependentUpon>
     </Content>
-    <Content Include="Views\QuestionSets\Edit\Js\SetSortable.js">
+    <Content Include="Views\Sets\Edit\Js\SetSortable.js">
       <DependentUpon>SetSortable.ts</DependentUpon>
     </Content>
-    <Content Include="Views\QuestionSets\Edit\QuestionRow.ascx" />
-    <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />
-    <Content Include="Views\QuestionSets\QuestionSets.aspx" />
+    <TypeScriptCompile Include="Views\Sets\Js\questionSets.ts" />
+    <Content Include="Views\Sets\Js\questionSets.js">
+      <DependentUpon>questionSets.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\SetRow.ascx" />
+    <Content Include="Views\Sets\Sets.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
-    <Content Include="Views\QuestionSets\QuestionSets.css" />
-    <Content Include="Views\QuestionSets\QuestionSets.js" />
+    <Content Include="Views\Sets\Sets.css" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
     <Content Include="Views\Questions\Edit\EditQuestion.css">
       <DependentUpon>EditQuestion.less</DependentUpon>

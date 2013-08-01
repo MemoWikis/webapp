@@ -22,7 +22,7 @@
                </div>
         <% } %>
 
-        <div><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("QuestionSets", "QuestionSets") %>"><i class="icon-caret-right"></i> Fragesätze</a></div>
+        <div><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets") %>"><i class="icon-caret-right"></i> Fragesätze</a></div>
         <% index = 0; foreach (var set in new SessionUiData().VisitedQuestionSets){ index++; %>
                <div class="sub">
                    <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>

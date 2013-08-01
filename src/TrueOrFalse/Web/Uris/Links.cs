@@ -50,7 +50,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string QuestionSetDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
-            return url.Action("QuestionSet", "QuestionSet",
+            return url.Action("QuestionSet", "Set",
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage}, null);            
         }
 
@@ -64,7 +64,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string QuestionSetEdit(UrlHelper url, int questionSetId){
-            return url.Action("Edit", "EditQuestionSet", new {id = questionSetId});
+            return url.Action("Edit", "EditSet", new {id = questionSetId});
         }
 
         public const string EditQuestionController = "EditQuestion"; 

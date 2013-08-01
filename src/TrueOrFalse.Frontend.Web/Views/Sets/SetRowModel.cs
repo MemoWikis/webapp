@@ -7,7 +7,7 @@ using Seedworks.Lib;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class QuestionSetRowModel
+public class SetRowModel
 {
     public int Id;
     public string Name;
@@ -26,7 +26,7 @@ public class QuestionSetRowModel
     public int CreatorId;
     public bool IsOwner;
 
-    public QuestionSetRowModel(QuestionSet questionSet, int indexInResultSet, int currentUserid)
+    public SetRowModel(QuestionSet questionSet, int indexInResultSet, int currentUserid)
     {
         Id = questionSet.Id;
         Name = questionSet.Name;

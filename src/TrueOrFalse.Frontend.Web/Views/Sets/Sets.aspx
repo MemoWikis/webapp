@@ -1,9 +1,9 @@
-﻿<%@ Page Title="Fragesätze" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionSetsModel>" %>
+﻿<%@ Page Title="Fragesätze" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<SetsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Scripts.Render("~/Views/QuestionSets/QuestionSets.js") %>
-    <%= Styles.Render("~/Views/QuestionSets/QuestionSets.css") %>
+    <%= Styles.Render("~/Views/Sets/Sets.css") %>
+    <%= Scripts.Render("~/bundles/Sets") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -11,7 +11,7 @@
         <% using (Html.BeginForm()) { %>
     
             <div style="float: right;">
-                <a href="<%= Url.Action("Create", "EditQuestionSet") %>" style="width: 140px" class="btn">
+                <a href="<%= Url.Action("Create", "EditSet") %>" style="width: 140px" class="btn">
                     <i class="icon-plus-sign"></i> Fragesatz erstellen
                 </a>
             </div>
@@ -39,7 +39,7 @@
         
                     <div class="box-content">
                         <% foreach(var row in Model.Rows){
-                            Html.RenderPartial("QuestionSetRow", row);
+                            Html.RenderPartial("SetRow", row);
                         } %>
     
                     </div>

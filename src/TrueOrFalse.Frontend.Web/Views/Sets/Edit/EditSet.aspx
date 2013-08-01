@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditQuestionSetModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditSetModel>" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -49,7 +49,7 @@
     </div>
 
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", 
-                "EditQuestionSet", null, FormMethod.Post,
+                "EditSet", null, FormMethod.Post,
                 new { enctype = "multipart/form-data", style = "margin:0px;"})){ %>
     
             
@@ -146,7 +146,5 @@
         <a href="#" class="btn btn-primary">Jetzt rückgängig machen</a>
     </div>
 </div>
-
-
 
 </asp:Content>

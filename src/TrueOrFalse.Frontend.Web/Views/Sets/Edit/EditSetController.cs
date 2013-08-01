@@ -4,19 +4,19 @@ using TrueOrFalse;
 using TrueOrFalse.Web;
 using Newtonsoft.Json;
 
-public class EditQuestionSetController : BaseController
+public class EditSetController : BaseController
 {
-    private const string _viewLocation = "~/Views/QuestionSets/Edit/EditQuestionSet.aspx";
+    private const string _viewLocation = "~/Views/Sets/Edit/EditSet.aspx";
 
     public ActionResult Create()
     {
-        var model = new EditQuestionSetModel();
+        var model = new EditSetModel();
         model.SetToCreateModel();
         return View(_viewLocation, model);
     }
 
     [HttpPost]
-    public ActionResult Create(EditQuestionSetModel model)
+    public ActionResult Create(EditSetModel model)
     {
         if (ModelState.IsValid)
         {
@@ -24,7 +24,7 @@ public class EditQuestionSetController : BaseController
             questionSet.Creator = _sessionUser.User;
             Resolve<QuestionSetRepository>().Create(questionSet);
 
-            model = new EditQuestionSetModel();
+            model = new EditSetModel();
             model.SetToCreateModel();
             model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert, " +
                                                "nun kannst Du einen neuen Fragesatz erstellen.");
@@ -39,13 +39,13 @@ public class EditQuestionSetController : BaseController
     public ViewResult Edit(int id)
     {
         var set = Resolve<QuestionSetRepository>().GetById(id);
-        var model = new EditQuestionSetModel(set);
+        var model = new EditSetModel(set);
         model.SetToUpdateModel();
         return View(_viewLocation, model);
     }
 
     [HttpPost]
-    public ViewResult Edit(int id, EditQuestionSetModel model)
+    public ViewResult Edit(int id, EditSetModel model)
     {
         var questionSetRepo = Resolve<QuestionSetRepository>();
         var questionSet = questionSetRepo.GetById(id);

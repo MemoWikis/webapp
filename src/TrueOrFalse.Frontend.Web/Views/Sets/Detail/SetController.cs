@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 
-public class QuestionSetController : BaseController
+public class SetController : BaseController
 {
-    private const string _viewLocation = "~/Views/QuestionSets/Detail/QuestionSet.aspx";
+    private const string _viewLocation = "~/Views/Sets/Detail/Set.aspx";
 
     [SetMenu(MenuEntry.QuestionSetDetail)]
     public ActionResult QuestionSet(string text, int id, int elementOnPage)
@@ -15,7 +15,7 @@ public class QuestionSetController : BaseController
         var set = Resolve<QuestionSetRepository>().GetById(id);
         _sessionUiData.VisitedQuestionSets.Add(new QuestionSetHistoryItem(set));
 
-        return View(_viewLocation, new QuestionSetModel(set));
+        return View(_viewLocation, new SetModel(set));
     }
 }
 

@@ -7,8 +7,7 @@ using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 
-
-public class QuestionSetsModel : BaseModel
+public class SetsModel : BaseModel
 {
     public Message Message;
 
@@ -22,12 +21,15 @@ public class QuestionSetsModel : BaseModel
 
     public PagerModel Pager { get; set; }
 
-    public IEnumerable<QuestionSetRowModel> Rows;
+    public IEnumerable<SetRowModel> Rows;
 
-    public QuestionSetsModel(IEnumerable<QuestionSet> questionSets, SessionUser sessionUser)
+    public SetsModel(){
+    }
+
+    public SetsModel(IEnumerable<QuestionSet> questionSets, SessionUser sessionUser)
     {
         var counter = 0;
-        Rows = questionSets.Select(qs => new QuestionSetRowModel(qs, counter++, sessionUser.User.Id));
+        Rows = questionSets.Select(qs => new SetRowModel(qs, counter++, sessionUser.User.Id));
 
         TotalQuestionSets = Resolve<GetTotalQuestionSetCount>().Run();
 

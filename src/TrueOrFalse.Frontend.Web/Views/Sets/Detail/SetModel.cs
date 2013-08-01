@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 
-public class QuestionSetModel : BaseModel
+public class SetModel : BaseModel
 {
     public int Id;
     public string Name;
@@ -23,7 +23,7 @@ public class QuestionSetModel : BaseModel
 
     public Func<UrlHelper, string> DetailLink;
 
-    public QuestionSetModel(QuestionSet set)
+    public SetModel(QuestionSet set)
     {
         Id = set.Id;
         Name = set.Name;

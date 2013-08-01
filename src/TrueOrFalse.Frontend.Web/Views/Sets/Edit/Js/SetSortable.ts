@@ -31,14 +31,13 @@ class QuestionSortable
 
         console.log(cmdItems)
 
-        $.post("/QuestionSet/UpdateQuestionsOrder/", 
+        $.post("/Set/UpdateQuestionsOrder/", 
             { "questionSetId":this._questionSetId, 
               "newIndicies": JSON.stringify(cmdItems) });
     }
 }
 
 $(function () {
-
     var questionSortable = new QuestionSortable();
     $("#ulQuestions").disableSelection();
 });

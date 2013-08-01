@@ -17,8 +17,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Questions", "Fragen", new { controller = "Questions", action = "Questions" });
             routes.MapRoute("Questions_SearchTerm", "Fragen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionSearch", searchTerm = UrlParameter.Optional });
-            
-            
+
             routes.MapRoute("Question_Create", "Fragen/Erstelle/", new { controller = "EditQuestion", action = "Create" });
             routes.MapRoute("Question_Edit", "Fragen/Bearbeite/{id}", new { controller = "EditQuestion", action = "Edit" });
             routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Questions", action = "Delete" });
@@ -33,11 +32,13 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Question_SaveRelevancePersonal", "Questions/SaveRelevancePersonal/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevancePersonal" });
             /* API */ routes.MapRoute("Question_SaveRelevanceForAll", "Questions/SaveRelevanceForAll/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevanceForAll" });
 
-            routes.MapRoute("QuestionSets", "FrageSaetze/{action}", new { controller = "QuestionSets", action = "QuestionSets" });
-            routes.MapRoute("QuestionSet_Detail", "FrageSaetze/{text}/{id}/{elementOnPage}", new { controller = "QuestionSet", action = "QuestionSet" });
-            routes.MapRoute("QuestionSets_Edit", "FrageSaetze/Bearbeite/{id}", new { controller = "EditQuestionSet", action = "Edit" });
-            /* API */ routes.MapRoute("QuestionSet_ChangeIndicies", "QuestionSet/UpdateQuestionsOrder", new { controller = "EditQuestionSet", action = "UpdateQuestionsOrder" });
-            /* API */ routes.MapRoute("QuestionSet_ImageUpload", "QuestionSet/UploadImage/{id}", new { controller = "EditQuestionSet", action = "UploadImage", id = UrlParameter.Optional });
+            routes.MapRoute("Sets", "FrageSaetze/{action}", new { controller = "Sets", action = "Sets" });
+            routes.MapRoute("Sets_SearchTerm", "FrageSaetze/Suche/{searchTerm}", new { controller = "Sets", action = "Search", searchTerm = UrlParameter.Optional });
+            
+            routes.MapRoute("Set_Detail", "FrageSaetze/{text}/{id}/{elementOnPage}", new { controller = "Set", action = "QuestionSet" });
+            routes.MapRoute("Sets_Edit", "FrageSaetze/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });
+            /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });
+            /* API */ routes.MapRoute("Set_ImageUpload", "Set/UploadImage/{id}", new { controller = "EditSet", action = "UploadImage", id = UrlParameter.Optional });
 
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_Create", "Kategorien/Erstelle", new { controller = "EditCategory", action = "Create" });
@@ -47,7 +48,6 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Categories_AddSubCategoryRow", "Categories/AddSubCategoryRow", new { controller = "EditCategory", action = "AddSubCategoryRow" });
             /* API */ routes.MapRoute("Categories_EditSubCategoryItems", "Categories/EditSubCategoryItems/{id}", new { controller = "EditSubCategoryItems", action = "Edit" });
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });
-            
 
             routes.MapRoute("Knowledge", "Wissen/{action}", new { controller = "Knowledge", action = "Knowledge" });
 
@@ -61,6 +61,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("ImageUpload", "ImageUpload/{action}", new { controller = "ImageUpload" });
 
+            routes.MapRoute("Users", "Nutzer", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("User", "Nutzer/{name}/{id}/{action}", new { controller = "User", action = "User" });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });

@@ -1,11 +1,11 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
-    Inherits="System.Web.Mvc.ViewPage<QuestionSetModel>" Title="Fragesatz" %>
+    Inherits="System.Web.Mvc.ViewPage<SetModel>" Title="Fragesatz" %>
 
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/Views/QuestionSets/QuestionSet.css") %>
+    <%= Styles.Render("~/Views/Sets/Set.css") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

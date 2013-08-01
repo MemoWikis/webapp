@@ -54,10 +54,13 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Sets")
+                .IncludeDirectory("~/Views/Sets/Js/", "*.js"));            
+
             bundles.Add(new ScriptBundle("~/bundles/questionSetEdit")
-                .Include("~/Views/QuestionSets/Edit/Js/ImageUpload.js")
-                .Include("~/Views/QuestionSets/Edit/Js/RemoveQuestionFromSet.js")
-                .Include("~/Views/QuestionSets/Edit/Js/SetSortable.js")
+                .Include("~/Views/Sets/Edit/Js/ImageUpload.js")
+                .Include("~/Views/Sets/Edit/Js/RemoveQuestionFromSet.js")
+                .Include("~/Views/Sets/Edit/Js/SetSortable.js")
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/jquery.scrollTo-1.4.3.1.js"));
 
