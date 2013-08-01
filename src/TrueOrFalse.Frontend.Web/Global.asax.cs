@@ -6,9 +6,11 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
 using AutofacContrib.SolrNet;
+using AutofacContrib.SolrNet.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Search;
 using TrueOrFalse.View;
 using TrueOrFalse.Web.Context;
 using TrueOrFalse.Web.JavascriptView;
@@ -46,7 +48,21 @@ namespace TrueOrFalse.Frontend.Web
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModule<AutofacCoreModule>();
-            builder.RegisterModule(new SolrNetModule(WebConfigSettings.SolrUrl + "tofQuestion"));
+
+            var cores = new SolrServers {
+                                new SolrServerElement {
+                                        Id = "question",
+                                        DocumentType = typeof (QuestionSolrMap).AssemblyQualifiedName,
+                                        Url = WebConfigSettings.SolrUrl + "tofQuestion"
+                                    },
+                                new SolrServerElement {   
+                                        Id = "set",
+                                        DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
+                                        Url = WebConfigSettings.SolrUrl + "tofSet"
+                                    }
+                            };
+
+            builder.RegisterModule(new SolrNetModule(cores));
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

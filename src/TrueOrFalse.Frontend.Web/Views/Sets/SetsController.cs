@@ -10,15 +10,19 @@ public class SetsController : BaseController
     private const string _viewLocation = "~/Views/Sets/Sets.aspx";
 
     private readonly SetRepository _setRepo;
+    private readonly SetsControllerSearch _setsControllerSearch;
 
-    public SetsController(SetRepository setRepo)
+    public SetsController(
+        SetRepository setRepo, 
+        SetsControllerSearch setsControllerSearch)
     {
         _setRepo = setRepo;
+        _setsControllerSearch = setsControllerSearch;
     }
 
     public ActionResult Search(string searchTerm, SetsModel model)
     {
-        _sessionUiData.SearchSpecQuestion.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecSet.SearchTearm = model.SearchTerm = searchTerm;
         return Sets(null, model);
     }
 
@@ -28,7 +32,7 @@ public class SetsController : BaseController
         _sessionUiData.SearchSpecSet.PageSize = 10;
         if (page.HasValue) _sessionUiData.SearchSpecSet.CurrentPage = page.Value;
 
-        var questionSets = _setRepo.GetBy(_sessionUiData.SearchSpecSet);
+        var questionSets = _setsControllerSearch.Run();
 
         return View(_viewLocation, new SetsModel(questionSets, _sessionUser));
     }       

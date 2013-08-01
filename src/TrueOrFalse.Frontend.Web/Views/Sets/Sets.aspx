@@ -18,7 +18,7 @@
             <div class="box-with-tabs">
                 <div class="green">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#home" >Alle Fragesätze (<%= Model.TotalQuestionSets %>)</a></li>
+                        <li class="active"><a href="#home" >Alle Fragesätze (<%= Model.TotalSets %>)</a></li>
                         <li>
                             <a href="#profile">
                                 Meine Fragesätze <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>

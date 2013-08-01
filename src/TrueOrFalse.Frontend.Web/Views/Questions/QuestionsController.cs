@@ -8,19 +8,19 @@ public class QuestionsController : BaseController
 {
     private readonly QuestionRepository _questionRepository;
     private readonly QuestionValuationRepository _questionValuationRepository;
-    private readonly QuestionsControllerSearch _questionSearchPage;
+    private readonly QuestionsControllerSearch _questionsControllerSearch;
     private readonly TotalsPersUserLoader _totalsPerUserLoader;
     private readonly UserRepository _userRepository;
 
     public QuestionsController(QuestionRepository questionRepository,
                                QuestionValuationRepository questionValuationRepository,
-                               QuestionsControllerSearch questionSearchPage,
+                               QuestionsControllerSearch questionsControllerSearch,
                                TotalsPersUserLoader totalsPerUserLoader, 
                                UserRepository userRepository)
     {
         _questionRepository = questionRepository;
         _questionValuationRepository = questionValuationRepository;
-        _questionSearchPage = questionSearchPage;
+        _questionsControllerSearch = questionsControllerSearch;
         _totalsPerUserLoader = totalsPerUserLoader;
         _userRepository = userRepository;
     }
@@ -66,7 +66,7 @@ public class QuestionsController : BaseController
 
         if (page.HasValue) _sessionUiData.SearchSpecQuestion.CurrentPage = page.Value;
 
-        var questions = _questionSearchPage.Run();
+        var questions = _questionsControllerSearch.Run();
         var totalsForCurrentUser = _totalsPerUserLoader.Run(_sessionUser.User.Id, questions);
         var questionValutionsForCurrentUser = _questionValuationRepository.GetBy(questions.GetIds(), _sessionUser.User.Id);
 

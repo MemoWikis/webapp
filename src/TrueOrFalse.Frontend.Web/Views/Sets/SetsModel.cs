@@ -11,7 +11,7 @@ public class SetsModel : BaseModel
 {
     public Message Message;
 
-    public int TotalQuestionSets { get; set; }
+    public int TotalSets { get; set; }
     public int TotalMine { get; set; }
 
     public string SearchTerm { get; set;  }
@@ -31,7 +31,7 @@ public class SetsModel : BaseModel
         var counter = 0;
         Rows = questionSets.Select(qs => new SetRowModel(qs, counter++, sessionUser.User.Id));
 
-        TotalQuestionSets = Resolve<GetTotalSetCount>().Run();
+        TotalSets = Resolve<GetTotalSetCount>().Run();
 
         Pager = new PagerModel(_sessionUiData.SearchSpecSet);
     }
