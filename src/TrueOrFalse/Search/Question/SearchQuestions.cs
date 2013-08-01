@@ -19,10 +19,10 @@ namespace TrueOrFalse.Search
 
         public SearchQuestionsResult Run(string searchTearm, Pager pager)
         {
-            var searchExpression = 
-                "FullTextStemmed:\"" + searchTearm.Trim() + "\" " + 
-                "FullTextExact:\"" + searchTearm.Trim() + "\" " + 
-                "Categories:\"" + searchTearm.Trim() + "\"";
+            var searchExpression =
+                "FullTextStemmed:" + InputToSearchExpression.Run(searchTearm) + " " +
+                "FullTextExact:" + InputToSearchExpression.Run(searchTearm) + " " +
+                "Categories:" + InputToSearchExpression.Run(searchTearm);
 
             var queryResult = _searchOperations.Query(searchExpression,
                                                       new QueryOptions

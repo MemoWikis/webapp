@@ -256,6 +256,7 @@
     <Compile Include="Search\Question\Model\ToQuestionSolrMap.cs" />
     <Compile Include="Search\Question\SearchQuestions.cs" />
     <Compile Include="Search\Question\SearchQuestionsResult.cs" />
+    <Compile Include="Search\InputToSearchExpression.cs" />
     <Compile Include="Utilities\DateTimeUtils.cs" />
     <Compile Include="Utilities\Import\Importer.cs" />
     <Compile Include="Utilities\Import\ImporterResult.cs" />
