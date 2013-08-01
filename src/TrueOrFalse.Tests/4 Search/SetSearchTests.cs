@@ -41,14 +41,14 @@ namespace TrueOrFalse.Tests
         public void Should_search_sets()
         {
             ContextSet.New()
-                .AddSet("Set1")
-                .AddSet("Set2")
+                .AddSet("Set1 A")
+                .AddSet("Set2 B")
                 .Persist();
 
             Resolve<ReIndexAllSets>().Run();
 
             Assert.That(Resolve<SearchSet>().Run("Set1", new Pager()).Count, Is.EqualTo(1)); ;
-            Assert.That(Resolve<SearchSet>().Run("Set2", new Pager()).SetIds.Count, Is.EqualTo(1)); ;
+            Assert.That(Resolve<SearchSet>().Run("Set2 B", new Pager()).SetIds.Count, Is.EqualTo(1)); ;
         }
     }
 }

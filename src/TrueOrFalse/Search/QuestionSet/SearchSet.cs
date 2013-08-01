@@ -1,4 +1,5 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using System.Collections.Generic;
+using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;
 
@@ -18,14 +19,13 @@ namespace TrueOrFalse.Search
 
         public SearchSetResult Run(string searchTearm, Pager pager)
         {
-            var queryResult = _searchOperations.Query("FullTextStemmed:" + searchTearm.Trim() + " " +
-                                                      "FullTextExact:" + searchTearm.Trim() +
+            var searchExpression = "FullTextStemmed:\"" + searchTearm.Trim() + "\" " + "FullTextExact:\"" + searchTearm.Trim() + "\"";
+            var queryResult = _searchOperations.Query(searchExpression,                            
                                                       new QueryOptions
                                                       {
                                                             Start = pager.LowerBound - 1,
                                                             Rows = pager.PageSize,
-                                                            SpellCheck = new SpellCheckingParameters{ Collate = true},
-                                                            
+                                                            SpellCheck = new SpellCheckingParameters{ Collate = true}
                                                       });
 
             var result = new SearchSetResult();

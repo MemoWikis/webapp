@@ -47,12 +47,12 @@ namespace TrueOrFalse.Tests
             ContextQuestion.New()
                 .AddQuestion("Question1", "Answer2").AddCategory("A").Persist()
                 .AddQuestion("Question2", "Answer3").AddCategory("B").Persist()
-                .AddQuestion("Juliane", "Answer3").AddCategory("B").Persist();
+                .AddQuestion("Juliane Misdom", "Answer3").AddCategory("B").Persist();
 
             Resolve<ReIndexAllQuestions>().Run();
 
-            Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager()).Count, Is.EqualTo(1)); ;
-            Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager()).QuestionIds.Count, Is.EqualTo(1)); ;
+            Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager()).Count, Is.EqualTo(1));
+            Assert.That(Resolve<SearchQuestions>().Run("Juliane Misdom", new Pager()).QuestionIds.Count, Is.EqualTo(1)); ;
             Assert.That(Resolve<SearchQuestions>().Run("Question2", new Pager()).Count, Is.EqualTo(1)); ;
         }
 
