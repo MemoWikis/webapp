@@ -210,6 +210,7 @@
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
+    <Compile Include="4 Search\CategorySearchTests.cs" />
     <Compile Include="4 Search\QuestionSearchTests.cs" />
     <Compile Include="4 Search\SetSearchTests.cs" />
     <Compile Include="4 Search\UserInputToSearchExpressionTest.cs" />
