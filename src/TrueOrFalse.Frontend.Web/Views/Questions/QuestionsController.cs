@@ -111,8 +111,8 @@ public class QuestionsController : BaseController
     [HttpPost]
     public JsonResult GetQuestionSets()
     {
-        var searchSpec = new QuestionSetSearchSpec{PageSize = 7};
-        var questionSets = Resolve<QuestionSetRepository>().GetBy(searchSpec);
+        var searchSpec = new SetSearchSpec{PageSize = 7};
+        var questionSets = Resolve<SetRepository>().GetBy(searchSpec);
 
         return new JsonResult{
             Data = new{
@@ -128,7 +128,7 @@ public class QuestionsController : BaseController
         var questionIds = parts[0].Split(',').Select(id => Convert.ToInt32(id)).ToArray();
         var questionSetId = Convert.ToInt32(parts[1]);
         
-        var result = Resolve<AddToQuestionSet>().Run(questionIds, questionSetId);
+        var result = Resolve<AddToSet>().Run(questionIds, questionSetId);
         
         return new JsonResult{ Data = new{
             QuestionsAddedCount = result.AmountAddedQuestions,

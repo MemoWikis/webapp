@@ -28,8 +28,8 @@ namespace TrueOrFalse.Web.Context
             get { return Data.Get("searchSpecQuestion", new QuestionSearchSpec { PageSize = 5 }); }
         }
 
-        public QuestionSetSearchSpec SearchSpecSet{
-            get { return Data.Get("searchSpecSet", new QuestionSetSearchSpec { PageSize = 10 }); }
+        public SetSearchSpec SearchSpecSet{
+            get { return Data.Get("searchSpecSet", new SetSearchSpec { PageSize = 10 }); }
         }
 
         public CategorySearchSpec SearchSpecCategory{

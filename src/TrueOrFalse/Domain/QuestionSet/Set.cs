@@ -5,7 +5,7 @@ using Seedworks.Lib.Persistence;
 namespace TrueOrFalse
 {
     [DebuggerDisplay("Id={Id} Name={Name}")]
-    public class QuestionSet : DomainEntity
+    public class Set : DomainEntity
     {
         public virtual string Name { get; set; }
         public virtual string Text { get; set; }
@@ -16,7 +16,7 @@ namespace TrueOrFalse
         public virtual void Add(Question question){
             QuestionsInSet.Add(
                 new QuestionInSet{
-                        QuestionSet = this,
+                        Set = this,
                         Question = question,
                         Sort = QuestionsInSet.Count + 1
                 }
@@ -29,7 +29,7 @@ namespace TrueOrFalse
             }
         }
 
-        public QuestionSet(){
+        public Set(){
             QuestionsInSet = new List<QuestionInSet>();
         }
     }

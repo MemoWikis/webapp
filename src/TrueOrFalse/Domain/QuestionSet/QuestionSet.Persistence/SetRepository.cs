@@ -3,9 +3,9 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
-    public class QuestionSetRepository : RepositoryDb<QuestionSet>
+    public class SetRepository : RepositoryDb<Set>
     {
-        public QuestionSetRepository(ISession session)
+        public SetRepository(ISession session)
             : base(session){}
 
     }

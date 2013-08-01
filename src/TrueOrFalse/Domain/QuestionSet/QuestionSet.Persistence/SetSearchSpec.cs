@@ -8,7 +8,7 @@ using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
-    public class QuestionSetSearchSpec : SearchSpecificationBase<QuestionSetFilter, QuestionSetOrderBy>
+    public class SetSearchSpec : SearchSpecificationBase<QuestionSetFilter, QuestionSetOrderBy>
     {
         public string SearchTearm;
 
@@ -16,7 +16,7 @@ namespace TrueOrFalse
         public bool FilterByAll { get; private set; }
         public ReadOnlyCollection<int> FilterByUsers { get; private set; }
 
-        public QuestionSetSearchSpec()
+        public SetSearchSpec()
         {
             FilterByUsers = new ReadOnlyCollection<int>(new List<int>());
             FilterByMe = true;

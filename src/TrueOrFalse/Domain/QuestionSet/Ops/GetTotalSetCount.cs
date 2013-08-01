@@ -7,16 +7,16 @@ using NHibernate;
 
 namespace TrueOrFalse
 {
-    public class GetTotalCategories : IRegisterAsInstancePerLifetime
+    public class GetTotalSetCount : IRegisterAsInstancePerLifetime
     {
         private readonly ISession _session;
 
-        public GetTotalCategories(ISession session){
+        public GetTotalSetCount(ISession session){
             _session = session;
         }
 
         public int Run(){
-            return (int)_session.CreateQuery("SELECT Count(Id) FROM Category").UniqueResult<Int64>();
+            return (int)_session.CreateQuery("SELECT Count(Id) FROM Set").UniqueResult<Int64>();
         }
     }
 }

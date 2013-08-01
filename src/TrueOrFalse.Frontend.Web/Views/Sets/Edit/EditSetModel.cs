@@ -45,7 +45,7 @@ public class EditSetModel : BaseModel
         ImageUrl_206px = new QuestionSetImageSettings(-1).GetUrl_206px_square().Url;    
     }
 
-    public EditSetModel(QuestionSet set)
+    public EditSetModel(Set set)
     {
         Id = set.Id;
         Title = set.Name;
@@ -55,11 +55,11 @@ public class EditSetModel : BaseModel
         QuestionsInSet = set.QuestionsInSet;
     }
 
-    public QuestionSet ToQuestionSet(){
-        return Fill(new QuestionSet());
+    public Set ToQuestionSet(){
+        return Fill(new Set());
     }
 
-    public QuestionSet Fill(QuestionSet set){
+    public Set Fill(Set set){
         set.Name = Title;
         set.Text = Text;
         ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px_square().Url;

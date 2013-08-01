@@ -22,7 +22,7 @@ public class EditSetController : BaseController
         {
             var questionSet = model.ToQuestionSet();
             questionSet.Creator = _sessionUser.User;
-            Resolve<QuestionSetRepository>().Create(questionSet);
+            Resolve<SetRepository>().Create(questionSet);
 
             model = new EditSetModel();
             model.SetToCreateModel();
@@ -38,7 +38,7 @@ public class EditSetController : BaseController
 
     public ViewResult Edit(int id)
     {
-        var set = Resolve<QuestionSetRepository>().GetById(id);
+        var set = Resolve<SetRepository>().GetById(id);
         var model = new EditSetModel(set);
         model.SetToUpdateModel();
         return View(_viewLocation, model);
@@ -47,7 +47,7 @@ public class EditSetController : BaseController
     [HttpPost]
     public ViewResult Edit(int id, EditSetModel model)
     {
-        var questionSetRepo = Resolve<QuestionSetRepository>();
+        var questionSetRepo = Resolve<SetRepository>();
         var questionSet = questionSetRepo.GetById(id);
         StoreImage(questionSet.Id);
         model.Fill(questionSet);

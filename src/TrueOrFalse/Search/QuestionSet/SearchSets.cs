@@ -5,19 +5,19 @@ using SolrNet.Commands.Parameters;
 
 namespace TrueOrFalse.Search
 {
-    public class SearchSet : IRegisterAsInstancePerLifetime
+    public class SearchSets : IRegisterAsInstancePerLifetime
     {
         private readonly ISolrOperations<SetSolrMap> _searchOperations;
 
-        public SearchSet(ISolrOperations<SetSolrMap> searchOperations){
+        public SearchSets(ISolrOperations<SetSolrMap> searchOperations){
             _searchOperations = searchOperations;
         }
 
-        public SearchSetResult Run(string searchTearm){
+        public SearchSetsResult Run(string searchTearm){
             return Run(searchTearm, new Pager());
         }
 
-        public SearchSetResult Run(string searchTearm, Pager pager)
+        public SearchSetsResult Run(string searchTearm, Pager pager)
         {
             var searchExpression = "FullTextStemmed:\"" + searchTearm.Trim() + "\" " + "FullTextExact:\"" + searchTearm.Trim() + "\"";
             var queryResult = _searchOperations.Query(searchExpression,                            
@@ -28,7 +28,7 @@ namespace TrueOrFalse.Search
                                                             SpellCheck = new SpellCheckingParameters{ Collate = true}
                                                       });
 
-            var result = new SearchSetResult();
+            var result = new SearchSetsResult();
             result.QueryTime = queryResult.Header.QTime;
             result.Count = queryResult.NumFound;
             result.SpellChecking = queryResult.SpellChecking;

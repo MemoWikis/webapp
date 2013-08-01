@@ -8,7 +8,7 @@ namespace TrueOrFalse.Search
 {
     public class ToSetSolrMap
     {
-        public static SetSolrMap Run(QuestionSet set)
+        public static SetSolrMap Run(Set set)
         {
             var result = new SetSolrMap();
             result.Id = set.Id;

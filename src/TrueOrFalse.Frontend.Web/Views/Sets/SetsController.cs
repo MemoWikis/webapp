@@ -9,9 +9,9 @@ public class SetsController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Sets.aspx";
 
-    private readonly QuestionSetRepository _setRepo;
+    private readonly SetRepository _setRepo;
 
-    public SetsController(QuestionSetRepository setRepo)
+    public SetsController(SetRepository setRepo)
     {
         _setRepo = setRepo;
     }

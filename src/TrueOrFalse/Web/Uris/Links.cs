@@ -45,7 +45,7 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("GetAnswer", AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string QuestionSetDetail(UrlHelper url, QuestionSet set, int elementOnPage){
+        public static string QuestionSetDetail(UrlHelper url, Set set, int elementOnPage){
             return QuestionSetDetail(url, set.Name, set.Id, elementOnPage);
         }
 

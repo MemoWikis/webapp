@@ -14,7 +14,7 @@ public class CategoryModel : BaseModel
     public IList<Category> RelatedCategoriesOut;
     public IList<Category> RelatedCategoriesIn;
 
-    public IList<QuestionSet> TopSets;
+    public IList<Set> TopSets;
     public IList<Question> TopQuestions;
     public IList<User> TopCreaters;
 

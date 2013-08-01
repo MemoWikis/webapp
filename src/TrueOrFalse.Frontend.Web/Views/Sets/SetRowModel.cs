@@ -26,23 +26,23 @@ public class SetRowModel
     public int CreatorId;
     public bool IsOwner;
 
-    public SetRowModel(QuestionSet questionSet, int indexInResultSet, int currentUserid)
+    public SetRowModel(Set set, int indexInResultSet, int currentUserid)
     {
-        Id = questionSet.Id;
-        Name = questionSet.Name;
-        CreatorId = questionSet.Creator.Id;
+        Id = set.Id;
+        Name = set.Name;
+        CreatorId = set.Creator.Id;
 
-        DescriptionShort = questionSet.Text.Wrap(150);
+        DescriptionShort = set.Text.Wrap(150);
         
-        QuestionCount = questionSet.QuestionsInSet.Count;
-        CreatorName = questionSet.Creator.Name;
-        IsOwner = currentUserid == questionSet.Creator.Id;
+        QuestionCount = set.QuestionsInSet.Count;
+        CreatorName = set.Creator.Name;
+        IsOwner = currentUserid == set.Creator.Id;
         IndexInResult = indexInResultSet;
 
-        DetailLink = urlHelper => Links.QuestionSetDetail(urlHelper, questionSet, indexInResultSet);
-        UserLink = urlHelper => Links.UserDetail(urlHelper, questionSet.Creator.Name, questionSet.Creator.Id);
+        DetailLink = urlHelper => Links.QuestionSetDetail(urlHelper, set, indexInResultSet);
+        UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);
 
-        ImageUrl = new QuestionSetImageSettings(questionSet.Id).GetUrl_206px_square().Url;
+        ImageUrl = new QuestionSetImageSettings(set.Id).GetUrl_206px_square().Url;
     }
 
 }

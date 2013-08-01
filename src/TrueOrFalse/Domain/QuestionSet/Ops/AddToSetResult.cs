@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse
 {
-    public class AddToQuestionSetResult
+    public class AddToSetResult
     {
-        public QuestionSet Set;
+        public Set Set;
         public int AmountAddedQuestions;
         public int AmountOfQuestionsAlreadyInSet; 
     }

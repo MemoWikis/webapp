@@ -15,7 +15,7 @@ namespace TrueOrFalse
             Id(x => x.Id);
             
             References(x => x.Question).Cascade.None();
-            References(x => x.QuestionSet).Cascade.None();
+            References(x => x.Set).Cascade.None();
 
             Map(x => x.Sort);
             

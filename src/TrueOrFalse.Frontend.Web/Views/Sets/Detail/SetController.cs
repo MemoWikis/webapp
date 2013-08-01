@@ -12,7 +12,7 @@ public class SetController : BaseController
     [SetMenu(MenuEntry.QuestionSetDetail)]
     public ActionResult QuestionSet(string text, int id, int elementOnPage)
     {
-        var set = Resolve<QuestionSetRepository>().GetById(id);
+        var set = Resolve<SetRepository>().GetById(id);
         _sessionUiData.VisitedQuestionSets.Add(new QuestionSetHistoryItem(set));
 
         return View(_viewLocation, new SetModel(set));

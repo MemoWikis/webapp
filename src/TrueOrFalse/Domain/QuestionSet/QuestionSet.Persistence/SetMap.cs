@@ -7,10 +7,11 @@ using TrueOrFalse.Infrastructure.Persistence;
 
 namespace TrueOrFalse
 {
-    public class QuestionSetMap : ClassMap<QuestionSet>
+    public class SetMap : ClassMap<Set>
     {
-        public QuestionSetMap()
+        public SetMap()
         {
+            Table("QuestionSet");
             Id(x => x.Id);
             Map(x => x.Name).Length(100);
             Map(x => x.Text).Length(Constants.VarCharMaxLength);

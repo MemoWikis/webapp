@@ -17,10 +17,10 @@ namespace TrueOrFalse
         public string Name { get; private set; }
         public HistoryItemType Type { get; set; }
 
-        public QuestionSetHistoryItem(QuestionSet questionSet, HistoryItemType type = HistoryItemType.Any)
+        public QuestionSetHistoryItem(Set set, HistoryItemType type = HistoryItemType.Any)
         {
-            Id = questionSet.Id;
-            Name = questionSet.Name;
+            Id = set.Id;
+            Name = set.Name;
             Type = type;
         }
     }

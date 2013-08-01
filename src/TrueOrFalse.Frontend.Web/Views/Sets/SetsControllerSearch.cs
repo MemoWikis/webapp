@@ -6,21 +6,21 @@ using TrueOrFalse.Web.Context;
 
 public class SetsControllerSearch : IRegisterAsInstancePerLifetime
 {
-    private readonly QuestionRepository _questionRepository;
+    private readonly SetRepository _setRepo;
     private readonly SessionUiData _sessionUiData;
-    private readonly SearchQuestions _searchQuestions;
+    private readonly SearchSets _searchQuestions;
 
     public SetsControllerSearch(
-        QuestionRepository questionRepository, 
+        SetRepository setRepo, 
         SessionUiData sessionUiData, 
-        SearchQuestions searchQuestions)
+        SearchSets searchQuestions)
     {
-        _questionRepository = questionRepository;
+        _setRepo = setRepo;
         _sessionUiData = sessionUiData;
         _searchQuestions = searchQuestions;
     }
 
-    public IList<Question> Run()
+    public IList<Set> Run()
     {
         if (string.IsNullOrEmpty(_sessionUiData.SearchSpecQuestion.SearchTearm))
             return SearchFromSqlServer();
@@ -28,24 +28,20 @@ public class SetsControllerSearch : IRegisterAsInstancePerLifetime
         return SearchFromSOLR();
     }
 
-    private IList<Question> SearchFromSOLR()
+    private IList<Set> SearchFromSOLR()
     {
         var solrResult = _searchQuestions.Run(
             _sessionUiData.SearchSpecQuestion.SearchTearm, 
             _sessionUiData.SearchSpecQuestion);
 
-        return _questionRepository.GetByIds(
-            solrResult.QuestionIds.ToArray());
+        return _setRepo.GetByIds(solrResult.SetIds.ToArray());
     }
 
-    private IList<Question> SearchFromSqlServer()
+    private IList<Set> SearchFromSqlServer()
     {
         var session = ServiceLocator.Resolve<ISession>();
         session.CreateCriteria<Category>();
 
-        return _questionRepository.GetBy(
-            _sessionUiData.SearchSpecQuestion,
-            c => c.SetFetchMode("Categories", FetchMode.Eager
-        ));
+        return _setRepo.GetBy(_sessionUiData.SearchSpecQuestion);
     }
 }

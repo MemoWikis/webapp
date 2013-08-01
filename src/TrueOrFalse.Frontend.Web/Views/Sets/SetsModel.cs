@@ -26,12 +26,12 @@ public class SetsModel : BaseModel
     public SetsModel(){
     }
 
-    public SetsModel(IEnumerable<QuestionSet> questionSets, SessionUser sessionUser)
+    public SetsModel(IEnumerable<Set> questionSets, SessionUser sessionUser)
     {
         var counter = 0;
         Rows = questionSets.Select(qs => new SetRowModel(qs, counter++, sessionUser.User.Id));
 
-        TotalQuestionSets = Resolve<GetTotalQuestionSetCount>().Run();
+        TotalQuestionSets = Resolve<GetTotalSetCount>().Run();
 
         Pager = new PagerModel(_sessionUiData.SearchSpecSet);
     }

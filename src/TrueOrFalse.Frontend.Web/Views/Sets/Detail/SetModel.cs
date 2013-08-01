@@ -23,7 +23,7 @@ public class SetModel : BaseModel
 
     public Func<UrlHelper, string> DetailLink;
 
-    public SetModel(QuestionSet set)
+    public SetModel(Set set)
     {
         Id = set.Id;
         Name = set.Name;

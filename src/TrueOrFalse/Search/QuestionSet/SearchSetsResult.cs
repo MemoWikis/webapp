@@ -7,7 +7,7 @@ using SolrNet.Impl;
 
 namespace TrueOrFalse.Search
 {
-    public class SearchSetResult
+    public class SearchSetsResult
     {
         /// <summary>In milliseconds</summary>
         public int QueryTime;

@@ -10,12 +10,12 @@ namespace TrueOrFalse.Tests
     {
         private readonly ContextQuestion _contextQuestion;
         private readonly ContextUser _contextUser;
-        private QuestionSetRepository _setRepository;
+        private SetRepository _setRepository;
 
-        public List<QuestionSet> Sets = new List<QuestionSet>();
+        public List<Set> Sets = new List<Set>();
         
         public ContextSet(ContextUser contextUser,
-                          QuestionSetRepository setRepository)
+                          SetRepository setRepository)
         {
             _contextUser = contextUser;
             _contextUser.Add("Some User").Persist();
@@ -29,7 +29,7 @@ namespace TrueOrFalse.Tests
 
         public ContextSet AddSet(string name, string text = "")
         {
-            var set = new QuestionSet();
+            var set = new Set();
             set.Name = name;
             set.Text = text;
             set.Creator = _contextUser.AllUsers.First();

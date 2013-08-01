@@ -4,11 +4,11 @@ namespace TrueOrFalse.Search
 {
     public class ReIndexAllSets : IRegisterAsInstancePerLifetime
     {
-        private readonly QuestionSetRepository _setRepository;
+        private readonly SetRepository _setRepository;
         private readonly ISolrOperations<SetSolrMap> _solrOperations;
 
         public ReIndexAllSets(
-            QuestionSetRepository setRepository, 
+            SetRepository setRepository, 
             ISolrOperations<SetSolrMap> solrOperations)
         {
             _setRepository = setRepository;

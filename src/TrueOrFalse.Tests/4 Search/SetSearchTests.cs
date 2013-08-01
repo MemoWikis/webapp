@@ -47,8 +47,8 @@ namespace TrueOrFalse.Tests
 
             Resolve<ReIndexAllSets>().Run();
 
-            Assert.That(Resolve<SearchSet>().Run("Set1", new Pager()).Count, Is.EqualTo(1)); ;
-            Assert.That(Resolve<SearchSet>().Run("Set2 B", new Pager()).SetIds.Count, Is.EqualTo(1)); ;
+            Assert.That(Resolve<SearchSets>().Run("Set1", new Pager()).Count, Is.EqualTo(1)); ;
+            Assert.That(Resolve<SearchSets>().Run("Set2 B", new Pager()).SetIds.Count, Is.EqualTo(1)); ;
         }
     }
 }

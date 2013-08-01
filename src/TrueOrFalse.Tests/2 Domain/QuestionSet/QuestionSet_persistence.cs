@@ -15,12 +15,12 @@ namespace TrueOrFalse.Tests.Persistence
                             .AddQuestion("Q4", "A4").AddCategory("B")
                             .Persist();
 
-            var questionSet = new QuestionSet();
+            var questionSet = new Set();
             questionSet.Add(context.Questions);
 
-            Resolve<QuestionSetRepository>().Create(questionSet);
+            Resolve<SetRepository>().Create(questionSet);
 
-            var questionSetFromDb = Resolve<QuestionSetRepository>().GetAll()[0];
+            var questionSetFromDb = Resolve<SetRepository>().GetAll()[0];
             Assert.That(questionSetFromDb.QuestionsInSet.Count, Is.EqualTo(4));
         }
     }

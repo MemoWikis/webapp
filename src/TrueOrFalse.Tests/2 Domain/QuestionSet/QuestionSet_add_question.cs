@@ -18,20 +18,20 @@ namespace TrueOrFalse.Tests
                 .AddQuestion("Q2", "A2").AddCategory("A")
                 .Persist();
 
-            var questionSetRepo = Resolve<QuestionSetRepository>();
-            var questionSet = new QuestionSet {Name = "QS1"};
+            var questionSetRepo = Resolve<SetRepository>();
+            var questionSet = new Set {Name = "QS1"};
             questionSetRepo.Create(questionSet);
 
-            Resolve<AddToQuestionSet>().Run(context.Questions.GetIds().ToArray(), questionSet.Id);
+            Resolve<AddToSet>().Run(context.Questions.GetIds().ToArray(), questionSet.Id);
 
             base.RecycleContainer();
-            var questionSetFromDb = Resolve<QuestionSetRepository>().GetById(questionSet.Id);
-            var questionSetFromDb2 = Resolve<ISession>().QueryOver<QuestionSet>().SingleOrDefault();
+            var questionSetFromDb = Resolve<SetRepository>().GetById(questionSet.Id);
+            var questionSetFromDb2 = Resolve<ISession>().QueryOver<Set>().SingleOrDefault();
 
             Assert.That(questionSetFromDb2.QuestionsInSet.Count, Is.EqualTo(2));
             Assert.That(questionSetFromDb.QuestionsInSet.Count, Is.EqualTo(2));
             Assert.That(Resolve<QuestionInSetRepo>().GetAll().Count(), Is.EqualTo(2));
-            Assert.That(Resolve<QuestionInSetRepo>().GetAll().First().QuestionSet.Id, Is.EqualTo(1));
+            Assert.That(Resolve<QuestionInSetRepo>().GetAll().First().Set.Id, Is.EqualTo(1));
         }
     }
 }
