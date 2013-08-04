@@ -12,26 +12,31 @@ public class CategoriesModel : BaseModel
     public Message Message;
     public IEnumerable<CategoryRowModel> CategoryRows { get; set; }
 
-    public int TotalCategories;
-    public int TotalMine;
-    public string SearchTerm;
+    public int TotalCategories { get; set; }
+    public int TotalMine  { get; set; }
+    public string SearchTerm  { get; set; }
     
-    public string OrderByLabel;
-    public int TotalCategoriesInResult;
+    public string OrderByLabel  { get; set; }
+    public int TotalCategoriesInResult { get; set; }
 
     public PagerModel Pager { get; set; }
 
-    public CategoriesModel(IEnumerable<Category> categories, SessionUiData _sessionUi)
+    public void Init(IEnumerable<Category> categories, SessionUiData _sessionUi)
     {
-        var index = 0;
-        CategoryRows = from category in categories select new CategoryRowModel(category, index++);
-
+        SetCategories(categories);
         Pager = new PagerModel(_sessionUi.SearchSpecCategory);
 
         TotalCategories = Resolve<GetTotalCategories>().Run(); ;
         TotalMine = 0;
 
         TotalCategoriesInResult = _sessionUi.SearchSpecCategory.TotalItems;
-        OrderByLabel = "..";
+        OrderByLabel = "..";        
     }
+
+    public void SetCategories(IEnumerable<Category> categories)
+    {
+        var index = 0;
+        CategoryRows = from category in categories select new CategoryRowModel(category, index++);
+    }
+
 }

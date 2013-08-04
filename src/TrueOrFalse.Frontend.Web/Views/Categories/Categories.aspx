@@ -3,13 +3,18 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Scripts.Render("~/Views/Categories/Categories.js") %>
     <%= Styles.Render("~/Views/Categories/Categories.css") %>
+    <%= Scripts.Render("~/bundles/Categories") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="span10">
+        
+        <div style="margin-bottom: -10px;">
+            <% Html.Message(Model.Message); %>
+        </div>
+
         <% using (Html.BeginForm()) { %>
         
             <div style="float: right;">

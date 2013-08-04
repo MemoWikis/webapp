@@ -7,36 +7,49 @@ using TrueOrFalse.Web;
 public class CategoriesController : BaseController
 {
     private readonly CategoryRepository _categoryRepo;
+    private readonly CategoriesControllerSearch _categorySearch;
+    private const string _viewLocation = "~/Views/Categories/Categories.aspx";
 
-    public CategoriesController(CategoryRepository categoryRepo)
+    public CategoriesController(
+        CategoryRepository categoryRepo,
+        CategoriesControllerSearch categorySearch)
     {
         _categoryRepo = categoryRepo;
+        _categorySearch = categorySearch;
     }
 
-    [SetMenu(MenuEntry.Categories)]
-    public ActionResult Categories(int? page)
+    public ActionResult Search(string searchTerm, CategoriesModel model)
     {
-        return View(new CategoriesModel(GetCurrentPage(page), _sessionUiData));
+        _sessionUiData.SearchSpecCategory.SearchTearm = model.SearchTerm = searchTerm;
+        return Categories(null, model);
+    }
+
+
+    [SetMenu(MenuEntry.Categories)]
+    public ActionResult Categories(int? page, CategoriesModel model)
+    {
+        _sessionUiData.SearchSpecCategory.PageSize = 10;
+        if (page.HasValue) 
+            _sessionUiData.SearchSpecCategory.CurrentPage = page.Value;
+
+        model.Init(_categorySearch.Run(), _sessionUiData);
+
+        return View(_viewLocation, model);
     }
 
     public ActionResult Delete(int id)
     {
         var category = _categoryRepo.GetById(id);
 
+        if (category == null)
+            return Categories(null, new CategoriesModel {Message = new ErrorMessage("Die Kategorie existiert nicht mehr.")});
+
         Resolve<CategoryDeleter>().Run(category);
 
-        var categoriesModel = new CategoriesModel(GetCurrentPage(_sessionUiData.SearchSpecCategory.CurrentPage), _sessionUiData);
-
-        categoriesModel.Message = new SuccessMessage("Die Kategorie '" + category.Name + "' wurde gelöscht");
+        var model = new CategoriesModel{
+            Message = new SuccessMessage("Die Kategorie '" + category.Name + "' wurde gelöscht")
+        };
         
-        return View(Links.Categories, categoriesModel);
+        return Categories(null, model);
     }    
-    
-    private IEnumerable<Category> GetCurrentPage(int? page)
-    {
-        _sessionUiData.SearchSpecCategory.PageSize = 10;
-        if (page.HasValue) _sessionUiData.SearchSpecCategory.CurrentPage = page.Value;
-
-        return _categoryRepo.GetBy(_sessionUiData.SearchSpecCategory);
-    }
 }

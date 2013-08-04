@@ -30,6 +30,9 @@
         </a> /
         <a class="btn" href="<%= Url.Action("ReIndexAllSets", "Maintenance") %>">
             <i class="icon-retweet"></i>Fragesätze
+        </a> /
+        <a class="btn" href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>">
+            <i class="icon-retweet"></i>Kategorien
         </a>
         für Suche neu indizieren
         <br/><br/>

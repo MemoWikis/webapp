@@ -16,10 +16,13 @@ namespace TrueOrFalse
 
         public void Run(Category category)
         {
-            _session.Delete(category);
-            _session
-                .CreateSQLQuery("DELETE FROM categoriestoquestions where Category_id = " + category.Id)
-                .ExecuteUpdate();
+            if (category == null)
+                return;
+
+            _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
+            _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();
+            _session.CreateSQLQuery("DELETE FROM categoriestoquestions where Category_id = " + category.Id).ExecuteUpdate();
+            _session.CreateSQLQuery("DELETE FROM category WHERE Id = " + category.Id).ExecuteUpdate();   
         }
     }
 }

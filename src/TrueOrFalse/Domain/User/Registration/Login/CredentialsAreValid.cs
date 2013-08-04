@@ -22,8 +22,7 @@ namespace TrueOrFalse.Registration
 
         public bool Yes(string emailAdress, string password)
         {
-
-            if (emailAdress.Trim().Length == 0 || password.Trim().Length == 0)
+            if(String.IsNullOrEmpty(emailAdress) || String.IsNullOrEmpty(password))
                 return false;
 
             User = null;

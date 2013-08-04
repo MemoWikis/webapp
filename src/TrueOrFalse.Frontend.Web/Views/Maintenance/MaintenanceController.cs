@@ -45,4 +45,11 @@ public class MaintenanceController : BaseController
         Resolve<ReIndexAllSets>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragesätze wurden neu indiziert.") });
     }
+
+    [AccessOnlyAsAdminAndLocal]
+    public ActionResult ReIndexAllCategories()
+    {
+        Resolve<ReIndexAllCategories>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Kategorien wurden neu indiziert.") });
+    }
 }

@@ -1,7 +1,7 @@
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
 function SubmitSearch() {
-    window.location.href = "/FrageSaetze/Suche/" + $('#txtSearch').val();
+    window.location.href = "/Kategorien/Suche/" + $('#txtSearch').val();
 }
 
 $(function () {

@@ -324,10 +324,10 @@
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
+    <Compile Include="Views\Categories\CategoriesControllerSearch.cs" />
     <Compile Include="Views\Drafts\DraftsController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
-    <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\ExportController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\ExportModel.cs" />
@@ -492,6 +492,10 @@
     <Content Include="Views\Categories\Detail\Category.aspx" />
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Views\Categories\Js\categories.ts" />
+    <Content Include="Views\Categories\Js\Categories.js">
+      <DependentUpon>categories.ts</DependentUpon>
     </Content>
     <Content Include="Views\Drafts\Boxes.aspx" />
     <Content Include="Views\Drafts\Boxes.css" />

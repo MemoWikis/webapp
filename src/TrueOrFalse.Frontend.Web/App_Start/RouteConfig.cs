@@ -40,6 +40,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });
             /* API */ routes.MapRoute("Set_ImageUpload", "Set/UploadImage/{id}", new { controller = "EditSet", action = "UploadImage", id = UrlParameter.Optional });
 
+            routes.MapRoute("Categories_SearchTerm", "Kategorien/Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_Create", "Kategorien/Erstelle", new { controller = "EditCategory", action = "Create" });
             routes.MapRoute("Categories_Edit", "Kategorien/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
