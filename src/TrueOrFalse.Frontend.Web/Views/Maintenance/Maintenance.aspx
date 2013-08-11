@@ -33,7 +33,10 @@
         </a> /
         <a class="btn" href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>">
             <i class="icon-retweet"></i>Kategorien
-        </a>
+        </a> /
+        <a class="btn" href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>">
+            <i class="icon-retweet"></i>Nutzer
+        </a>        
         für Suche neu indizieren
         <br/><br/>
         

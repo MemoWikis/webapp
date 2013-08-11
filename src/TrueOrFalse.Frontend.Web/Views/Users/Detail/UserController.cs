@@ -7,7 +7,7 @@ using TrueOrFalse.Web.Context;
 
 public class UserController : Controller
 {
-    private const string _viewLocation = "~/Views/User/Detail/User.aspx";
+    private const string _viewLocation = "~/Views/Users/Detail/User.aspx";
 
     private readonly UserRepository _userRepository;
     private readonly SessionUiData _sessionUiData;

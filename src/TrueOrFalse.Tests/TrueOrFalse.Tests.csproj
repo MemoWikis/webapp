@@ -194,7 +194,6 @@
     <Compile Include="2 Domain\Question\Serialize_and_init_solutionMetadata.cs" />
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\User\Setup\ContextUser.cs" />
-    <Compile Include="2 Domain\User\Spec_get_users_by_name.cs" />
     <Compile Include="2 Domain\Question\Answer\When_answering_question.cs" />
     <Compile Include="2 Domain\Question\History\History_persistence_tests.cs" />
     <Compile Include="2 Domain\Question\Setup\ContextQuestion.cs" />
@@ -210,9 +209,10 @@
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
     <Compile Include="4 Search\CategorySearchTests.cs" />
+    <Compile Include="4 Search\UserSearchTests.cs" />
     <Compile Include="4 Search\QuestionSearchTests.cs" />
     <Compile Include="4 Search\SetSearchTests.cs" />
-    <Compile Include="4 Search\UserInputToSearchExpressionTest.cs" />
+    <Compile Include="4 Search\Support\UserInputToSearchExpressionTest.cs" />
     <Compile Include="5 Utiltities\TimeElapsedAsTextTests.cs" />
     <Compile Include="6 Web\UriSanitizer_Tests.cs" />
     <Compile Include="a Test MetaData\Features\Features.cs" />

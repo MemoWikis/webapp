@@ -2,7 +2,10 @@
 
 namespace TrueOrFalse
 {
-    public class UserSearchSpec : SearchSpecificationBase<UserFilter, UserOrderBy>{}
+    public class UserSearchSpec : SearchSpecificationBase<UserFilter, UserOrderBy>
+    {
+        public string SearchTearm;   
+    }
 
     public class UserFilter : ConditionContainer
     {

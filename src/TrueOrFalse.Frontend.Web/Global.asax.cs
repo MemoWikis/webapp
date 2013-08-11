@@ -64,6 +64,11 @@ namespace TrueOrFalse.Frontend.Web
                                         Id = "category",
                                         DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
                                         Url = WebConfigSettings.SolrUrl + "tofCategory"
+                                    },
+                                new SolrServerElement {   
+                                        Id = "users",
+                                        DocumentType = typeof (UserSolrMap).AssemblyQualifiedName,
+                                        Url = WebConfigSettings.SolrUrl + "tofUser"
                                     }
                             };
 

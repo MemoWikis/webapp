@@ -22,7 +22,7 @@
                </div>
         <% } %>
 
-        <div><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets") %>"><i class="icon-caret-right"></i> Fragesätze</a></div>
+        <div><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets")%>"><i class="icon-caret-right"></i> Fragesätze</a></div>
         <% index = 0; foreach (var set in new SessionUiData().VisitedQuestionSets){ index++; %>
                <div class="sub">
                    <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
@@ -34,7 +34,6 @@
         
         <div><a href="#"><i class="icon-caret-right"></i> Termine</a></div>
         <%--<div><a href="#"><i class="icon-caret-right"></i> Lerngruppen</a></div>--%>
-
     
         <div style="margin-top: 13px;">
             <a class="<%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>"><i class="icon-caret-right"></i> Kategorisierung </a>
@@ -53,7 +52,7 @@
         </div>
 
         <div class="main" style="margin-top:12px;">
-            <a href="#"><i class="icon-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> 
+            <a class="<%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>"><i class="icon-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> 
         </div>
     
         <% index = 0; foreach (var user in new SessionUiData().VisitedUserDetails){ index++;  %>

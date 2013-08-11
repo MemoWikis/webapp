@@ -52,4 +52,10 @@ public class MaintenanceController : BaseController
         Resolve<ReIndexAllCategories>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Kategorien wurden neu indiziert.") });
     }
+
+    [AccessOnlyAsAdminAndLocal]
+    public ActionResult ReIndexAllUsers(){
+        Resolve<ReIndexAllUsers>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
+    }
 }

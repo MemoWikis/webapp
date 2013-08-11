@@ -68,6 +68,11 @@ namespace TrueOrFalse.Tests
                                         Id = "category",
                                         DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
                                         Url = solrUrl + "tofCategoryTest"
+                                    },
+                                new SolrServerElement {   
+                                        Id = "users",
+                                        DocumentType = typeof (UserSolrMap).AssemblyQualifiedName,
+                                        Url = solrUrl + "tofUserTest"
                                     }
                             };
 

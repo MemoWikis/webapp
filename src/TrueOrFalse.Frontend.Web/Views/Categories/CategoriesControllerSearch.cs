@@ -39,6 +39,6 @@ public class CategoriesControllerSearch : IRegisterAsInstancePerLifetime
 
     private IList<Category> SearchFromSqlServer()
     {
-        return _categoryRepo.GetBy(_sessionUiData.SearchSpecSet);
+        return _categoryRepo.GetBy(_sessionUiData.SearchSpecCategory);
     }
 }

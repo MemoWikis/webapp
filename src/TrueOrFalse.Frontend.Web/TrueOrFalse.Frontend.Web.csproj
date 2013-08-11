@@ -332,7 +332,6 @@
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\ExportModel.cs" />
     <Compile Include="Views\Api\Intern\ValidationController.cs" />
-    <Compile Include="Views\Api\UserApiController.cs" />
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
@@ -368,8 +367,12 @@
     <Compile Include="Views\Shared\MenuModelCategoryItem.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Shared\Site.Resources.TitleModel.cs" />
-    <Compile Include="Views\User\Detail\UserController.cs" />
-    <Compile Include="Views\User\Detail\UserModel.cs" />
+    <Compile Include="Views\Users\Detail\UserController.cs" />
+    <Compile Include="Views\Users\Detail\UserModel.cs" />
+    <Compile Include="Views\Users\UserRowModel.cs" />
+    <Compile Include="Views\Users\UsersController.cs" />
+    <Compile Include="Views\Users\UsersControllerSearch.cs" />
+    <Compile Include="Views\Users\UsersModel.cs" />
     <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
@@ -639,7 +642,14 @@
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
-    <Content Include="Views\User\Detail\User.aspx" />
+    <Content Include="Views\Users\Detail\User.aspx" />
+    <TypeScriptCompile Include="Views\Users\Js\users.ts" />
+    <Content Include="Views\Users\Js\users.js">
+      <DependentUpon>users.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\UserRow.ascx" />
+    <Content Include="Views\Users\Users.css" />
+    <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\LoginUc.ascx" />

@@ -15,7 +15,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_insert_and_query_document()
         {
-            var solrQuestionMap = new SetSolrMap
+            var solrSetMap = new SetSolrMap
             {
                 Id = 1,
                 DateCreated = DateTime.Now,
@@ -30,7 +30,7 @@ namespace TrueOrFalse.Tests
             solrOperations.Delete(new SolrQuery("*:*"));
             solrOperations.Commit();
 
-            solrOperations.Add(solrQuestionMap);
+            solrOperations.Add(solrSetMap);
             solrOperations.Commit();
 
             var result = solrOperations.Query(new SolrQueryByField("FullTextExact", "Foo"));

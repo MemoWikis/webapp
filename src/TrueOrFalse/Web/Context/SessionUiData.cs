@@ -36,6 +36,10 @@ namespace TrueOrFalse.Web.Context
             get { return Data.Get("searchSpecCategory", new CategorySearchSpec { PageSize = 10 }); }
         }
 
+        public UserSearchSpec SearchSpecUser{
+            get { return Data.Get("searchSpecUser", new UserSearchSpec { PageSize = 10 }); }
+        }
+
         public TmpImageStore TmpImagesStore { get { return Data.Get("tmpImageStore", new TmpImageStore()); } }
     }
 }
