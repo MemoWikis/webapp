@@ -33,5 +33,17 @@ namespace TrueOrFalse.Tests
             Assert.That(result.Count, Is.EqualTo(1));
         }
 
+        [Test]
+        public void Should_reindex_all_users()
+        {
+            ContextUser.New()
+                .Add("Juliane Misdom")
+                .Add("Robert Mischke")
+                .Persist();
+
+            Resolve<ReIndexAllUsers>().Run();
+
+            Assert.That(Resolve<SearchUsers>().Run("Juliane Misdom", new Pager()).Count, Is.EqualTo(1));
+        }
     }
 }

@@ -64,7 +64,7 @@
              trailing underscores (e.g. _version_) are reserved.
            -->
         <field name="Id" type="int" indexed="true" stored="true" required="true" multiValued="false" />
-        <field name="Name" type="string" indexed="true" stored="false" multiValued="false" />
+        <field name="Name" type="textExact" indexed="true" stored="false" multiValued="false" />
 	
         <field name="DateCreated" type="date" indexed="true" stored="false" multiValued="false"/>
 
