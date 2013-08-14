@@ -34,6 +34,6 @@ public class SetsController : BaseController
 
         var questionSets = _setsControllerSearch.Run();
 
-        return View(_viewLocation, new SetsModel(questionSets, _sessionUser));
+        return View(_viewLocation, new SetsModel(questionSets));
     }       
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Fragesätze" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<UsersModel>" %>
+﻿<%@ Page Title="Nutzer" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<UsersModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -18,10 +18,10 @@
             <div class="box-with-tabs">
                 <div class="green">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#home" >Alle Fragesätze (<%= Model.TotalSets %>)</a></li>
+                        <li class="active"><a href="#home" >Alle Nutzer (<%= Model.TotalSets %>)</a></li>
                         <li>
                             <a href="#profile">
-                                Meine Fragesätze <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
+                                Mein Netzwerk <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
                             </a>
                         </li>
                     </ul>

@@ -29,6 +29,6 @@ public class UsersController : BaseController
 
         var users = _usersControllerSearch.Run();
 
-        return View(_viewLocation, new UsersModel(users, _sessionUser));
+        return View(_viewLocation, new UsersModel(users));
     }       
 }

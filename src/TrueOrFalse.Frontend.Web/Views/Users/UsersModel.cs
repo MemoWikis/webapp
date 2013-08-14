@@ -26,13 +26,15 @@ public class UsersModel : BaseModel
     public UsersModel(){
     }
 
-    public UsersModel(IEnumerable<User> users, SessionUser sessionUser)
+    public UsersModel(IEnumerable<User> users)
     {
         var counter = 0;
-        Rows = users.Select(qs => new UserRowModel(qs, counter++, sessionUser.User.Id));
+        Rows = users.Select(qs => new UserRowModel(qs, counter++, _sessionUser.User.Id));
+
+        SearchTerm = _sessionUiData.SearchSpecUser.SearchTearm;
 
         TotalSets = Resolve<GetTotalSetCount>().Run();
 
-        Pager = new PagerModel(_sessionUiData.SearchSpecSet);
+        Pager = new PagerModel(_sessionUiData.SearchSpecUser);
     }
 }

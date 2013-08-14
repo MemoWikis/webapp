@@ -24,12 +24,13 @@ public class UserRowModel
 
     public string CreatorName;
     public int CreatorId;
-    public bool IsOwner;
+    public bool IsCurrentUser;
 
     public UserRowModel(User user, int indexInResultSet, int currentUserid)
     {
         Id = user.Id;
         Name = user.Name;
+        IsCurrentUser = Id == currentUserid;
 
         DescriptionShort = "";
 
