@@ -63,6 +63,7 @@ public class AnswerQuestionController : BaseController
     {
         var question = Resolve<AnswerQuestionControllerSearch>().Run();
         var questionValuation = _questionValuation.GetBy(question.Id, _sessionUser.User.Id);
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question));
 
         _saveQuestionView.Run(question.Id, _sessionUser.User.Id);
 
