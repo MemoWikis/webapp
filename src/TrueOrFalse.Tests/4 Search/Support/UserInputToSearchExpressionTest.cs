@@ -15,6 +15,9 @@ namespace TrueOrFalse.Tests
         {
             Assert.That(InputToSearchExpression.Run(""), Is.EqualTo(""));
             Assert.That(InputToSearchExpression.Run("Juliane"), Is.EqualTo("(Juliane~)"));
+            Assert.That(InputToSearchExpression.Run("\"Juliane\""), Is.EqualTo("(Juliane)"));
+            Assert.That(InputToSearchExpression.Run("\"Juliane Misdom\""), Is.EqualTo("(Juliane Misdom)"));
+            Assert.That(InputToSearchExpression.Run("\"Juliane Misdom\" \"Robert\""), Is.EqualTo("(Juliane Misdom Robert)"));
             Assert.That(InputToSearchExpression.Run("Juliane Misdom"), Is.EqualTo("(Juliane~ Misdom~)"));
             Assert.That(InputToSearchExpression.Run("   Juliane    Misdom   "), Is.EqualTo("(Juliane~ Misdom~)"));
             Assert.That(InputToSearchExpression.Run("Juliane Misdom \"Berlin Calling\""), Is.EqualTo("(Juliane~ Misdom~ Berlin Calling)"));

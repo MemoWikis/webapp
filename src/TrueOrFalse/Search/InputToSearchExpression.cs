@@ -22,10 +22,22 @@ namespace TrueOrFalse.Search
                     userInput = userInput.Replace(capture.Value, "");
             }
 
-            var userInputParts = userInput.Split(new []{" "}, StringSplitOptions.RemoveEmptyEntries);
-            userInputParts[userInputParts.Count()-1] = userInputParts[userInputParts.Count()-1] + "~";
+            
+            //exact search
+            if (String.IsNullOrEmpty(userInput))
+            {
+                var result1 = "()";
+                foreach (Match capture in multiWordTermsResult.Captures)
+                    result1 = result1.Insert(result1.Length - 1, capture.Value.Replace("\"", ""));
 
-            var result = "(" + userInputParts.Aggregate((a,b) => a + "~ " + b ) + ")";
+                return result1;
+            }
+
+
+            var userInputParts = userInput.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+            userInputParts[userInputParts.Count() - 1] = userInputParts[userInputParts.Count() - 1] + "~";
+
+            var result = "(" + userInputParts.Aggregate((a, b) => a + "~ " + b) + ")";                
 
             foreach (Match capture in multiWordTermsResult.Captures)
                 result = result.Insert(result.Length - 1, " " + capture.Value.Replace("\"",""));

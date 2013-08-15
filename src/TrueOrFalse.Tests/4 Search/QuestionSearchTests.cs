@@ -53,7 +53,7 @@ namespace TrueOrFalse.Tests
 
             Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager()).Count, Is.EqualTo(1));
             Assert.That(Resolve<SearchQuestions>().Run("Juliane Misdom", new Pager()).QuestionIds.Count, Is.EqualTo(1)); ;
-            Assert.That(Resolve<SearchQuestions>().Run("Question2", new Pager()).Count, Is.EqualTo(1)); ;
+            Assert.That(Resolve<SearchQuestions>().Run("Question2", new Pager()).Count, Is.EqualTo(2)); ;
         }
 
         [Test]
@@ -65,8 +65,8 @@ namespace TrueOrFalse.Tests
 
             Resolve<ReIndexAllQuestions>().Run();
 
-            Assert.That(Resolve<SearchQuestions>().Run("Question35", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
-            Assert.That(Resolve<SearchQuestions>().Run("Answer35", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
+            Assert.That(Resolve<SearchQuestions>().Run("\"Question35\"", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
+            Assert.That(Resolve<SearchQuestions>().Run("\"Answer35\"", new Pager { PageSize = 10 }).Count, Is.EqualTo(1));//Title
 
             var result = Resolve<SearchQuestions>().Run("Question", new Pager { PageSize = 10 });
             Assert.That(result.Count, Is.EqualTo(50));//Category
