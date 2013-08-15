@@ -24,6 +24,7 @@ public class UserImageSettings : IImageSettings
     public ImageUrl GetUrl_128px(string emailAddress){ return GetUrl(emailAddress, 128, isSquare: true);}
     public ImageUrl GetUrl_85px_square(string emailAddress) { return GetUrl(emailAddress, 85, isSquare: true); }
     public ImageUrl GetUrl_50px(string emailAddress){ return GetUrl(emailAddress, 50);}
+    public ImageUrl GetUrl_200px(string emailAddress) { return GetUrl(emailAddress, 200); }
 
     private ImageUrl GetUrl(string emailAddress, int width, bool isSquare = false){
         return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(emailAddress, arg));
@@ -39,5 +40,7 @@ public class UserImageSettings : IImageSettings
                                      HttpContext.Current.Request.Url.Host +
                                      HttpContext.Current.Request.ApplicationPath + "Images/no-profile-picture-") + width + ".png";
     }
+
+
 }
 

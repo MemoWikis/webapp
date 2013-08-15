@@ -50,7 +50,7 @@
 
     <div class="span3" >
         <div class="box">
-            <img alt="" style="width: 200px;" src="<%=Model.ImageUrl_128 %>" />
+            <img alt="" style="width: 200px;" src="<%=Model.ImageUrl_200 %>" />
             <% if (Model.IsCurrentUser){ %>  
                 <script type="text/javascript">
                     $(function () {
