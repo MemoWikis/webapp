@@ -21,13 +21,8 @@ public class ImageUrl
 
         if (imageSettings.Id != -1)
         {
-            var resultWhenImageExists = new ImageUrl{
-                Url = imageSettings.BasePath + imageSettings.Id +"_" + width + SquareSuffix(isSquare) + ".jpg",
-                HasUploadedImage = true
-            };
-
             if (File.Exists(requestedImagePath))
-                return resultWhenImageExists;
+                return GetResult(imageSettings, width, isSquare);
 
             //we guess the biggest file has a width of 512
             var biggestAvailableImage = string.Format("{0}_512.jpg", imageSettings.ServerPathAndId());
@@ -35,7 +30,7 @@ public class ImageUrl
                 using(var image = Image.FromFile(biggestAvailableImage)){
                     ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare);
                 }
-                return resultWhenImageExists;    
+                return GetResult(imageSettings, width, isSquare);
             }
 
             //we search for the biggest file
@@ -45,12 +40,22 @@ public class ImageUrl
                 using (var image = Image.FromFile(string.Format("{0}_{1}.jpg", imageSettings.ServerPathAndId(), maxFileWidth))){
                     ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare);
                 }
-                return resultWhenImageExists;    
+                return GetResult(imageSettings, width, isSquare);
             }
-            
         }
 
         return new ImageUrl { Url = getFallBackImage(width), HasUploadedImage = false};
+    }
+
+    private static ImageUrl GetResult(IImageSettings imageSettings, int width, bool isSquare)
+    {
+        var url = imageSettings.BasePath + imageSettings.Id + "_" + width + SquareSuffix(isSquare) + ".jpg";
+        
+        return new ImageUrl
+        {
+            Url = url + "?t=" + File.GetLastWriteTime(HttpContext.Current.Server.MapPath(url)).ToString("yyyyMMddhhmmss"),
+            HasUploadedImage = true
+        };
     }
 
     public static string SquareSuffix(bool isSquare){
