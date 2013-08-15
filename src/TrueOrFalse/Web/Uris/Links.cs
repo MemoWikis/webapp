@@ -15,6 +15,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string UserController = "User";
         public const string User = "User";
 
+        public const string UserSettings = "UserSettings";
+        public const string UserSettingsController = "UserSettings";
+
         /*Question*/
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";

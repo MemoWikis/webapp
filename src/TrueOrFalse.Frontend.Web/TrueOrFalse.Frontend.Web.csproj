@@ -370,6 +370,8 @@
     <Compile Include="Views\Shared\Site.Resources.TitleModel.cs" />
     <Compile Include="Views\Users\Detail\UserController.cs" />
     <Compile Include="Views\Users\Detail\UserModel.cs" />
+    <Compile Include="Views\Users\Settings\UserSettingsController.cs" />
+    <Compile Include="Views\Users\Settings\UserSettingsModel.cs" />
     <Compile Include="Views\Users\UserRowModel.cs" />
     <Compile Include="Views\Users\UsersController.cs" />
     <Compile Include="Views\Users\UsersControllerSearch.cs" />
@@ -648,6 +650,7 @@
     <Content Include="Views\Users\Js\users.js">
       <DependentUpon>users.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Settings\UserSettings.aspx" />
     <Content Include="Views\Users\UserRow.ascx" />
     <Content Include="Views\Users\Users.css" />
     <Content Include="Views\Users\Users.aspx" />

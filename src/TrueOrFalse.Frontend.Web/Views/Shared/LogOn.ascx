@@ -17,8 +17,8 @@
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">            
                 <li><a href="<%=Url.Action(Links.User, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>">Dein Profil</a></li>
-                <li><a href="#"><i class="icon-wrench" title="Einstellungen"></i> Einstellungen</a></li>
-                 <li class="divider"></li>
+                <li><a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>"><i class="icon-wrench" title="Einstellungen"></i> Einstellungen</a></li>
+                <li class="divider"></li>
                 <li><a href="<%= Url.Action(Links.Logout, Links.AccountController) %>"><i class="icon-off" title="Abmelden"></i> Abmelden</a>  </li>
             </ul>
         </div>
