@@ -6,6 +6,7 @@ using System.Web;
 
 public class UserImageSettings : IImageSettings
 {
+    
     public  int Id { get; private set; }
 
     public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 85, 50, 20 }; } }
@@ -21,7 +22,11 @@ public class UserImageSettings : IImageSettings
         return HttpContext.Current.Server.MapPath("/Images/Users/" + Id);
     }
 
-    public ImageUrl GetUrl_128px(string emailAddress){ return GetUrl(emailAddress, 128, isSquare: true);}
+    public ImageUrl GetUrl_20px_square(string emailAddress)
+    {
+        return GetUrl(emailAddress, 20, isSquare: true);
+    }
+    public ImageUrl GetUrl_128px_square(string emailAddress){ return GetUrl(emailAddress, 128, isSquare: true);}
     public ImageUrl GetUrl_85px_square(string emailAddress) { return GetUrl(emailAddress, 85, isSquare: true); }
     public ImageUrl GetUrl_50px(string emailAddress){ return GetUrl(emailAddress, 50);}
     public ImageUrl GetUrl_200px(string emailAddress) { return GetUrl(emailAddress, 200); }
