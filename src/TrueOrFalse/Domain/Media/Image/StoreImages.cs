@@ -11,48 +11,19 @@ public class StoreImages
     {
         using (var image = Image.FromStream(inputStream)){
             
-            image.Save(imageSettings.BasePathAndId() + ".jpg", ImageFormat.Jpeg);
+            image.Save(imageSettings.ServerPathAndId() + ".jpg", ImageFormat.Jpeg);
 
             foreach (var size in imageSettings.SizesSquare){
-                using (var resized = new Bitmap(size, size)){
-                    using (var graphics = Graphics.FromImage(resized)){
-                        graphics.Clear(Color.White);
-                        graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        if (image.Width > image.Height)
-                        {
-                            var scale = (float) size/image.Height;
-                            graphics.DrawImage(image, -(image.Width*scale - size)/2, 0, image.Width*scale, size);
-                        }
-                        else
-                        {
-                            var scale = (float) size/image.Width;
-                            graphics.DrawImage(image, 0, -(image.Height*scale - size)/2, size, image.Height*scale);
-                        }
-                    }
-                    resized.Save(imageSettings.BasePathAndId() + "_" 
-                        + size + ImageUrl.SquareSuffix(true) + ".jpg", ImageFormat.Jpeg);
-                }
+                ResizeImage.Run(image, imageSettings.ServerPathAndId(), size, isSquare: true);
             }
 
             foreach (var width in imageSettings.SizesFixedWidth){
-                var scale = (float)width / image.Width;
-                var height = (int) (image.Height * scale);
-                using (var resized = new Bitmap(width, height)){
-                    using (var graphics = Graphics.FromImage(resized)){
-                        graphics.Clear(Color.White);
-                        graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                        graphics.DrawImage(image, 0, 0, width, height);
-                    }
-                    resized.Save(imageSettings.BasePathAndId() + "_" + width + ".jpg", ImageFormat.Jpeg);
-                }
+                ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare: false);
             }
         }
     }
 
+ 
     /// <summary>store temp images</summary>
     public static void Run(Stream inputStream, TmpImage tmpImage)
     {

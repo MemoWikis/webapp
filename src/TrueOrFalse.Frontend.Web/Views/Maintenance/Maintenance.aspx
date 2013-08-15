@@ -39,8 +39,6 @@
         </a>        
         für Suche neu indizieren
         <br/><br/>
-        
-
     </div>
 
 </asp:Content>

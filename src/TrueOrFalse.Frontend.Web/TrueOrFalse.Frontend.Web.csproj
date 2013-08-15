@@ -281,6 +281,7 @@
     </Content>
     <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Properties\PublishProfiles\toFileSytem.pubxml" />
+    <Content Include="Images\no-profile-picture-85.png" />
     <Content Include="Images\no-category-picture-128.png" />
     <Content Include="Images\no-category-picture-50.png" />
     <Content Include="Images\no-category-picture-85.png" />

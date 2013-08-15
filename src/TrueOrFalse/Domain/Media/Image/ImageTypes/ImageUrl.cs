@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
+using FluentNHibernate.Conventions.AcceptanceCriteria;
 using TrueOrFalse;
 
 public class ImageUrl
@@ -10,18 +12,29 @@ public class ImageUrl
     public string Url;
 
     public static ImageUrl Get(
-        int id, 
+        IImageSettings imageSettings,
         int width,
         bool isSquare,
-        string basePath,
         Func<int, string> getFallBackImage)
     {
-        var serverPath = HttpContext.Current.Server.MapPath(basePath);
+        var requestedImagePath = imageSettings.ServerPathAndId() + "_" + width + SquareSuffix(isSquare) + ".jpg";
 
-        if(id != -1)
-            if (Directory.GetFiles(serverPath, string.Format("{0}_*.jpg", id)).Any())
-                return new ImageUrl { Url = basePath + id + "_" + width + 
-                    SquareSuffix(isSquare) + ".jpg", HasUploadedImage = true };
+        if (imageSettings.Id != -1)
+        {
+            var resultWhenImageExists = new ImageUrl{
+                Url = imageSettings.BasePath + imageSettings.Id +"_" + width + SquareSuffix(isSquare) + ".jpg",
+                HasUploadedImage = true
+            };
+
+            if (File.Exists(requestedImagePath))
+                return resultWhenImageExists;
+
+            var biggestAvailableImage = string.Format("{0}_512.jpg", imageSettings.ServerPathAndId());
+            if (File.Exists(biggestAvailableImage)){
+                ResizeImage.Run(Image.FromFile(biggestAvailableImage), imageSettings.ServerPathAndId(), width, isSquare);
+                return resultWhenImageExists;
+            }
+        }
 
         return new ImageUrl { Url = getFallBackImage(width), HasUploadedImage = false};
     }

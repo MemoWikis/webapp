@@ -36,6 +36,12 @@
         $(".alert-message").alert();
         $('.show-tooltip').tooltip();
         $('.show-popover').popover();
+
+        $('#showUserOptions').click(function () {
+            alert("hello");
+            $('#userOptions').dropdown();
+        });
+        
     });
 </script>
 

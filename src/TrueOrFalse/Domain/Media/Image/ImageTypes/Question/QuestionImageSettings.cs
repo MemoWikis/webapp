@@ -7,7 +7,7 @@ using System.Web;
 
 public class QuestionImageSettings : IImageSettings
 {
-    private readonly int _questionId;
+    public int Id { get; private set; }
 
     public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 50, 20 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 100, 500 }; } }
@@ -15,18 +15,18 @@ public class QuestionImageSettings : IImageSettings
     public string BasePath { get { return "/Images/Questions/"; } }
 
     public QuestionImageSettings(int questionId){
-        _questionId = questionId;
+        Id = questionId;
     }
 
-    public string BasePathAndId(){
-        return HttpContext.Current.Server.MapPath("/Images/Questions/" + _questionId);
+    public string ServerPathAndId(){
+        return HttpContext.Current.Server.MapPath("/Images/Questions/" + Id);
     }
 
     public ImageUrl GetUrl_128px() { return GetUrl(128); }
     public ImageUrl GetUrl_500px() { return GetUrl(500); }
 
     private ImageUrl GetUrl(int width){
-        return ImageUrl.Get(_questionId, width, false, BasePath, arg => "");
+        return ImageUrl.Get(this, width, false, arg => "");
     }
 
     

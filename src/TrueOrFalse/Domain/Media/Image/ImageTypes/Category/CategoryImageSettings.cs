@@ -3,7 +3,7 @@ using System.Web;
 
 public class CategoryImageSettings : IImageSettings
 {
-    private readonly int _categoryId;
+    public int Id { get; private set; }
 
     public IEnumerable<int> SizesSquare{ get { return new[] { 206, 50 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500 }; } }
@@ -11,11 +11,11 @@ public class CategoryImageSettings : IImageSettings
     public string BasePath { get { return "/Images/Categories/"; } }
 
     public CategoryImageSettings(int categoryId){
-        _categoryId = categoryId;
+        Id = categoryId;
     }
 
-    public string BasePathAndId(){
-        return HttpContext.Current.Server.MapPath(BasePath + _categoryId);
+    public string ServerPathAndId(){
+        return HttpContext.Current.Server.MapPath(BasePath + Id);
     }
 
     public ImageUrl GetUrl_50px() { return GetUrl(50); }
@@ -26,7 +26,7 @@ public class CategoryImageSettings : IImageSettings
 
     private ImageUrl GetUrl(int width, bool isSquare = false)
     {
-        return ImageUrl.Get(_categoryId, width, isSquare, BasePath, GetFallbackImage);
+        return ImageUrl.Get(this, width, isSquare, GetFallbackImage);
     }
 
     private string GetFallbackImage(int width){
