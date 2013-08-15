@@ -375,7 +375,7 @@
     <Compile Include="Web\Controls\UserMessage\MessageHtml.cs" />
     <Compile Include="Web\Controls\UserMessage\MessageType.cs" />
     <Compile Include="Web\Controls\UserMessage\Message.cs" />
-    <Compile Include="Web\Filters\AccessOnlyAsAdminAndLocalAttribute.cs" />
+    <Compile Include="Web\Filters\AccessOnlyAsAdmin.cs" />
     <Compile Include="Web\Filters\GlobalAuthorizationAttribute.cs" />
     <Compile Include="Web\Filters\SetMenuAttribute.cs" />
     <Compile Include="Web\HtmlLabelExtensions.cs" />

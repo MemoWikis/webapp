@@ -64,7 +64,7 @@
                </div>
         <% } %>
     
-        <% if (Request.IsLocal && Model.IsInstallationAdmin){ %>
+        <% if (Model.IsInstallationAdmin){ %>
 
             <div class="main" style="margin-top:12px;">
                 <a href="<%= Url.Action("Maintenance", "Maintenance") %>"><i class="icon-caret-right"></i> Adminstrativ</a> 
