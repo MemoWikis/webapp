@@ -26,10 +26,10 @@ public class UsersModel : BaseModel
     public UsersModel(){
     }
 
-    public UsersModel(IEnumerable<User> users)
+    public void Init(IEnumerable<User> users)
     {
         var counter = 0;
-        Rows = users.Select(qs => new UserRowModel(qs, counter++, _sessionUser.User.Id));
+        Rows = users.Select(qs => new UserRowModel(qs, counter++, _sessionUser));
 
         SearchTerm = _sessionUiData.SearchSpecUser.SearchTearm;
 

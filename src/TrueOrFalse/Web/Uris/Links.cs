@@ -18,6 +18,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string UserSettings = "UserSettings";
         public const string UserSettingsController = "UserSettings";
 
+        public static string UserLoginAs(UrlHelper url, int userId){
+            return url.Action("LoginAs", "Users", new {userId = userId});
+        }
+
         /*Question*/
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";

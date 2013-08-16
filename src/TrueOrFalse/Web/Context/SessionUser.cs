@@ -15,6 +15,12 @@ namespace TrueOrFalse.Web.Context
             private set { Data["isLoggedIn"] = value; }
         }
 
+        public bool IsInstallationAdmin
+        {
+            get { return Data.Get("isAdministrativeLogin", false); }
+            set { Data["isAdministrativeLogin"] = value; }
+        } 
+
         public User User
         {
             get { return Data.Get<User>("user"); }
@@ -33,6 +39,9 @@ namespace TrueOrFalse.Web.Context
         {
             IsLoggedIn = true;
             User = user;
+
+            if (user.IsInstallationAdmin)
+                IsInstallationAdmin = true;
         }
 
         public void Logout()

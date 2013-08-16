@@ -36,8 +36,13 @@
                         </div>
                         <div style="clear:both;"></div>
                     </div>
-        
+
                     <div class="box-content">
+                        
+                        <div>
+                            <% Html.Message(Model.Message); %>
+                        </div>
+
                         <% foreach(var row in Model.Rows){
                             Html.RenderPartial("UserRow", row);
                         } %>

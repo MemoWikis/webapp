@@ -7,7 +7,7 @@ namespace System.Web.Mvc
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var userSession = new SessionUser();
-            if (!userSession.User.IsInstallationAdmin)
+            if (!userSession.IsInstallationAdmin)
                 throw new Exception("only local access is allowed");
 
             base.OnActionExecuting(filterContext);

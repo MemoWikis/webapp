@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web.Context;
 
 public class UserRowModel
 {
@@ -24,13 +25,19 @@ public class UserRowModel
 
     public string CreatorName;
     public int CreatorId;
-    public bool IsCurrentUser;
 
-    public UserRowModel(User user, int indexInResultSet, int currentUserid)
+    public bool IsInstallationLogin;
+    public bool IsCurrentUser;
+    public bool AllowsSupportiveLogin;
+
+    public UserRowModel(User user, int indexInResultSet, SessionUser sessionUser)
     {
         Id = user.Id;
         Name = user.Name;
-        IsCurrentUser = Id == currentUserid;
+
+        IsCurrentUser = Id == sessionUser.User.Id;
+        IsInstallationLogin = sessionUser.IsInstallationAdmin;
+        AllowsSupportiveLogin = user.AllowsSupportiveLogin;
 
         DescriptionShort = "";
 

@@ -16,14 +16,16 @@
         
         <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
             
-            <a data-toggle="modal" data-questionId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
-
-            <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>">
-                <img src="/Images/edit.png"/> 
-            </a>
+            <%--<a data-toggle="modal" data-questionId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>--%>
+            
+            <% if(Model.IsCurrentUser){ %>
+                <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>" class="show-tooltip" title="Einstellungen bearbeiten">
+                    <img src="/Images/edit.png"/> 
+                </a>
+            <% } %>
         
-            <% if(!Model.IsCurrentUser){ %>
-                <a href=""> <i class=" icon-share-alt"></i> </a>
+            <% if(!Model.IsCurrentUser && Model.AllowsSupportiveLogin && Model.IsInstallationLogin){ %>
+                <a href="<%= Links.UserLoginAs(Url, Model.Id) %>" class="show-tooltip" title="Anmelden als dieser Nutzer"> <i class=" icon-share-alt"></i> </a>
             <%} %>
             
         </div>        

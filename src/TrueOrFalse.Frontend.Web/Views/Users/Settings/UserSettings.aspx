@@ -44,7 +44,7 @@
                                 <label for="AllowsSupportiveLogin">
                                     Erlaube Mitarbeiten von RIOFA zur Fehlerbehebung oder zu Deiner Unterstützung, 
                                     sich in Deinem Nutzerkonto anzumelden. Das ist nur nach Rücksprache nötig. 
-                                    (<a href="<%= Url.Action("DatenSicherheit","Help") %>">Mehr zu Datensicherheit</a>)
+                                    (<a href="<%= Url.Action("DatenSicherheit","Help") %>">Mehr zur Datensicherheit</a>)
                                 </label>
                             </label>
                         </div>
