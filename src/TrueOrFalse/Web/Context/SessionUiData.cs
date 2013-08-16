@@ -8,6 +8,7 @@ namespace TrueOrFalse.Web.Context
     {
         public Menu Menu { get { return Data.Get("menu", new Menu()); } }
 
+        /* History **************/
         public QuestionHistory VisitedQuestions{
             get { return Data.Get("lastVisitedQuestions", new QuestionHistory()); }
         }
@@ -24,6 +25,11 @@ namespace TrueOrFalse.Web.Context
             get { return Data.Get("lastVisitedCategories", new CategoryHistory()); }
         }
 
+        public HelpHistory VisitedHelpPages{
+            get { return Data.Get("lastVisitedHelpPages", new HelpHistory()); }
+        }
+
+        /* SearchSpecs *************/
         public QuestionSearchSpec SearchSpecQuestion{
             get { return Data.Get("searchSpecQuestion", new QuestionSearchSpec { PageSize = 5 }); }
         }

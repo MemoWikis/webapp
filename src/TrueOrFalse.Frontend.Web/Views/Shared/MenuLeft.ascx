@@ -4,6 +4,25 @@
 <%@ Import Namespace="TrueOrFalse.Web.Context" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<% if (Url.RequestContext.RouteData.Values["controller"].ToString() == Links.HelpController) { %>
+    <div class="box" style="padding-left: 0px; padding-right: 0;">
+        <div class="menu">
+            <a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">
+                <div class="main no-link"><i class="icon-caret-right"></i>  Hilfe</div>
+            </a>
+            
+            <% var idx = 0; foreach (var helpPage in new SessionUiData().VisitedHelpPages) { idx++ ;%>
+               <div class="sub">
+                   <% var activeClass = ""; if (idx == 1) { activeClass = Model.Active(MenuEntry.Help); } %>
+                   <a href="<%= Url.Action(helpPage.Text, Links.HelpController) %>" class="show-tooltip <%=activeClass %>" title="" data-placement="right">
+                       <i class="icon-caret-right"></i> <%=helpPage.Text.Truncate(100)%>
+                   </a>
+               </div>
+            <% } %>
+        </div>
+    </div>
+<% } %>
+
 <div class="box" style="padding-left: 0px; padding-right: 0;">
     <div class="menu" >
 

@@ -13,7 +13,8 @@ namespace TrueOrFalse
         QuestionSet, QuestionSetDetail,
         Users, UserDetail,
         Categories, CategoryDetail,
-        News
+        News,
+        Help
     }
 
     [Serializable]

@@ -361,6 +361,7 @@
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
     <Compile Include="Utilities\Update\Update.cs" />
     <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />
+    <Compile Include="Web\Context\MenuHistory\HelpHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\HistoryBase.cs" />
     <Compile Include="Web\Context\MenuHistory\HistoryItemBase.cs" />
     <Compile Include="Web\Context\MenuHistory\QuestionHistory.cs" />
