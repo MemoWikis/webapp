@@ -7,19 +7,14 @@ using TrueOrFalse;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 
-public class UserSettingsController : Controller
+public class UserSettingsController : BaseController
 {
     private const string _viewLocation = "~/Views/Users/Settings/UserSettings.aspx";
 
     private readonly UserRepository _userRepo;
-    private readonly SessionUiData _sessionUiData;
-    private readonly SessionUser _sessionUser;
 
-    public UserSettingsController(UserRepository userRepo, SessionUiData sessionUiData, SessionUser sessionUser)
-    {
+    public UserSettingsController(UserRepository userRepo){
         _userRepo = userRepo;
-        _sessionUiData = sessionUiData;
-        _sessionUser = sessionUser;
     }
 
     [HttpGet]
@@ -45,6 +40,7 @@ public class UserSettingsController : Controller
 
         _sessionUser.User.EmailAddress = model.Email;
         _sessionUser.User.Name = model.Name;
+        _sessionUser.User.AllowsSupportiveLogin = model.AllowsSupportiveLogin;
 
         _userRepo.Update(_sessionUser.User);
 

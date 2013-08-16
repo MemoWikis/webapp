@@ -40,9 +40,12 @@
                         <div class="controls">
                             <label class="checkbox">
                                 <input type="checkbox">
-                                Erlaube Mitarbeiten von RIOFA zur Fehlerbehebung oder zu Deiner Unterstützung, 
-                                sich in Deinem Nutzerkonto anzumelden. Das ist nur nach Rücksprache nötig. 
-                                (<a href="<%= Url.Action("DatenSicherheit","Help") %>">Mehr zu Datensicherheit</a>)
+                                <%= Html.CheckBoxFor(m => m.AllowsSupportiveLogin)%>
+                                <label for="AllowsSupportiveLogin">
+                                    Erlaube Mitarbeiten von RIOFA zur Fehlerbehebung oder zu Deiner Unterstützung, 
+                                    sich in Deinem Nutzerkonto anzumelden. Das ist nur nach Rücksprache nötig. 
+                                    (<a href="<%= Url.Action("DatenSicherheit","Help") %>">Mehr zu Datensicherheit</a>)
+                                </label>
                             </label>
                         </div>
                     </div>

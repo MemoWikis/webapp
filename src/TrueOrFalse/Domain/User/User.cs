@@ -18,6 +18,7 @@ namespace TrueOrFalse
 
         public virtual Boolean IsEmailConfirmed { get; set;  }
         public virtual Boolean IsInstallationAdmin { get; set; }
+        public virtual Boolean AllowsSupportiveLogin { get; set; }
 
         public virtual DateTime? Birthday { get; set; }
     }

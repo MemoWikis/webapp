@@ -21,6 +21,8 @@ public class UserSettingsModel : BaseModel
     [DisplayName("Email")]
     public string Email { get; set; }
 
+    public bool AllowsSupportiveLogin { get; set; }
+
     public string ImageUrl_200;
     public bool ImageIsCustom;
 
@@ -30,5 +32,6 @@ public class UserSettingsModel : BaseModel
     {
         Name = user.Name;
         Email = user.EmailAddress;
+        AllowsSupportiveLogin = user.AllowsSupportiveLogin;
     }
 }
