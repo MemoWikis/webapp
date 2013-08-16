@@ -19,7 +19,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("UsersSearch", "Nutzer/Suche/{searchTerm}", new { controller = "Users", action = "Search", searchTerm = UrlParameter.Optional });
             routes.MapRoute("UserSettings", "Nutzer/Einstellungen", new { controller = "UserSettings", action = "UserSettings" });
-                        routes.MapRoute("UserLoginAs", "Nutzer/{action}/{userId}", new { controller = "Users" });
+            routes.MapRoute("UserLoginAs", "Nutzer/LoginAs/{userId}", new { controller = "Users", action= "LoginAs" });
             routes.MapRoute("User", "Nutzer/{name}/{id}/{action}", new { controller = "User", action = "User" });
             routes.MapRoute("Users", "Nutzer", new { controller = "Users", action = "Users", page = UrlParameter.Optional });
 
