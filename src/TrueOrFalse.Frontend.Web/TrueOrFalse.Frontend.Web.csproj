@@ -209,6 +209,7 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Views\Help\HelpController.cs" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
@@ -279,6 +280,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Help\Reputation.aspx" />
+    <Content Include="Views\Help\DatenSicherheit.aspx" />
+    <Content Include="Views\Help\Willkommen.aspx" />
     <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Properties\PublishProfiles\toFileSytem.pubxml" />
     <Content Include="Images\no-profile-picture-85.png" />
@@ -327,6 +331,7 @@
     <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
     <Compile Include="Views\Categories\CategoriesControllerSearch.cs" />
     <Compile Include="Views\Drafts\DraftsController.cs" />
+    <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\ExportController.cs" />

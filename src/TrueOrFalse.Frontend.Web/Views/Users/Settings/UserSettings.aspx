@@ -7,7 +7,6 @@
     </style>
 </asp:Content>
 
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
     <div class="span7" style="">
@@ -17,11 +16,43 @@
                 <%= Model.Name %> <i class="icon-wrench show-tooltip" title="Hier kannst Du Deine Einstellungen bearbeiten"></i>
             </h2>
             <span class="pull-right" style="display: inline-block; font-size: 20px; font-weight: normal; position: relative; top: 13px;">Reputation: 7821 (Platz 7)</span>
+            
+            <form class="form-horizontal" method="POST">
+                <div class="box-content" style="min-height: 120px; clear: both; padding-top: 20px;">
+                    
+                    <div>
+                        <% Html.Message(Model.Message); %>
+                    </div>
 
-            <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
-   
-            </div>
-             
+                    <div class="control-group">
+                        <%= Html.LabelFor(m => m.Name, new { @class = "control-label" })%>
+                        <div class="controls">  
+                            <%= Html.TextBoxFor(m => m.Name)%>
+                        </div>
+                    </div>                    
+                    <div class="control-group">
+                        <%= Html.LabelFor(m => m.Email, new { @class = "control-label" })%>
+                        <div class="controls">
+                            <%= Html.TextBoxFor(m => m.Email)%>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox">
+                                Erlaube Mitarbeiten von RIOFA zur Fehlerbehebung oder zu Deiner Unterstützung, 
+                                sich in Deinem Nutzerkonto anzumelden. Das ist nur nach Rücksprache nötig. 
+                                (<a href="<%= Url.Action("DatenSicherheit","Help") %>">Mehr zu Datensicherheit</a>)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>&nbsp;&nbsp;&nbsp;
+                </div>
+
+            </form>
         </div>
     </div>
 

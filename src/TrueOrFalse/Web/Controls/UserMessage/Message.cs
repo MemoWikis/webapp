@@ -1,4 +1,9 @@
-﻿namespace TrueOrFalse.Web
+﻿using System.Linq;
+using System.Web.Mvc;
+using System;
+using System.Collections.Generic;
+
+namespace TrueOrFalse.Web
 {
     public class SuccessMessage : Message
     {
@@ -8,6 +13,11 @@
     public class ErrorMessage : Message
     {
         public ErrorMessage(string text) : base(MessageType.IsError, text){}
+
+        public ErrorMessage(ModelStateDictionary modelState) :
+            this(modelState.SelectMany(x => x.Value.Errors).ToList().Select(x => x.ErrorMessage).Aggregate((a,b) => a + "<br>" + b))
+        {
+        }
     }
 
     public class Message
