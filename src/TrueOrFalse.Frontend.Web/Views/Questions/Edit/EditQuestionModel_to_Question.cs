@@ -18,6 +18,8 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
     public Question Update(EditQuestionModel model, Question question, NameValueCollection postData)
     {
         question.Text = model.Question;
+        question.TextExtended = model.QuestionExtended;
+
         question.Description = model.Description;
         question.Categories.Clear();
 

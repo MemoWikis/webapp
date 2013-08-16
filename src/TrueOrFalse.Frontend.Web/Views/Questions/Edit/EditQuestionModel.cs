@@ -25,7 +25,7 @@ public class EditQuestionModel : BaseModel
 
     [DataType(DataType.MultilineText)]
     [DisplayName("Frage erweitert")]
-    public object QuestionExtended { get; set; }
+    public string QuestionExtended { get; set; }
 
     [Required]
     [DisplayName("Fragetyp")]
@@ -91,6 +91,7 @@ public class EditQuestionModel : BaseModel
     {
         Id = question.Id;
         Question = question.Text;
+        QuestionExtended = question.TextExtended;
         Solution = question.Solution;
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
