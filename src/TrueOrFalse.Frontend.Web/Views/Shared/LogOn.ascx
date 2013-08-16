@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Web.Context" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<a href="<%= Url.Action("Willkommen", "Help") %>" style="vertical-align: middle; margin-right: 10px; "><i class="icon-question-sign" id="tabInfoMyKnowledge"></i> Hilfe & Mehr </a> 
+<a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>" style="vertical-align: middle; margin-right: 10px; "><i class="icon-question-sign" id="tabInfoMyKnowledge"></i> Hilfe & Mehr </a> 
 <%
     var userSession = new SessionUser();
     

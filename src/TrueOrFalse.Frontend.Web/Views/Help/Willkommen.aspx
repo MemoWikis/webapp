@@ -4,7 +4,7 @@
 
 <div class="span10" style="">
     <div class="box box-main">
-        <h2>Hilfe - Willkommen</h2>
+        <h2>Hilfe</h2>
         <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
             <h5>Themen</h5>
             <ul>

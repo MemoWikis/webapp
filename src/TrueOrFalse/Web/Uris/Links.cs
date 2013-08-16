@@ -97,6 +97,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string KnowledgeController = "Knowledge";
         public const string Knowledge = "Knowledge";
 
+        public const string HelpController = "Help";
+        public const string HelpWillkommen = "Willkommen";
+
         public const string AccountController = "Account";
         public const string Logout = "Logout";
     }
