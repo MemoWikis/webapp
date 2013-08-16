@@ -186,7 +186,7 @@
         
     <div class="span2" style="height: 400px;">
         <div style="padding-top:12px;">
-            <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-th-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
+            <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
             <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>                                        
         </div>            
             
