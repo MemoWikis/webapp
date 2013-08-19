@@ -15,7 +15,7 @@
             <h2 class="pull-left"><%= Model.Name %></h2>
             <div class="pull-right">
                 <div>
-                    <a href="/QuestionSets" style="font-size: 12px; margin: 0px;"><i class="icon-list"></i>&nbsp;zur Übersicht</a><br/>
+                    <a href="<%= Links.Sets(Url) %>" style="font-size: 12px; margin: 0px;"><i class="icon-list"></i>&nbsp;zur Übersicht</a><br/>
                     <% if(Model.IsOwner){ %>
                         <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="icon-pencil"></i>&nbsp;bearbeiten</a> 
                     <% } %>
