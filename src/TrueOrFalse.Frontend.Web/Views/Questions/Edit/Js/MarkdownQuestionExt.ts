@@ -6,7 +6,7 @@ class MarkdownQuestionExt
 { 
     _isOpen: bool;
 
-    constructor() { 
+    constructor() {
         $("#openExtendedQuestion").click((e) => { 
             e.preventDefault();
             $("#extendedQuestion").toggle();
@@ -14,6 +14,11 @@ class MarkdownQuestionExt
             if(!this._isOpen)
                 this.InitEditor();
         });
+
+        if ($("#wmd-input-1").html().trim().length > 0) {
+            $("#extendedQuestion").show();
+            this.InitEditor();
+        }
     }
 
     InitEditor() 

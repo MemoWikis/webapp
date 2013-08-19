@@ -8,6 +8,10 @@ var MarkdownQuestionExt = (function () {
                 _this.InitEditor();
             }
         });
+        if($("#wmd-input-1").html().trim().length > 0) {
+            $("#extendedQuestion").show();
+            this.InitEditor();
+        }
     }
     MarkdownQuestionExt.prototype.InitEditor = function () {
         var converter1 = Markdown.getSanitizingConverter();
