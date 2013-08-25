@@ -172,7 +172,7 @@
     <Compile Include="Domain\Media\Image\ImageTypes\User\UserImageStore.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\ImageUrl.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\QuestionSet\QuestionSetImageSettings.cs" />
-    <Compile Include="Domain\Media\Image\ImageTypes\QuestionSet\QuestionSetImageStore.cs" />
+    <Compile Include="Domain\Media\Image\ImageStore.cs" />
     <Compile Include="Domain\Media\Image\TmpImage\TmpImage.cs" />
     <Compile Include="Domain\Media\Image\TmpImage\TmpImageStore.cs" />
     <Compile Include="Domain\Media\Sound\GetQuestionSoundUrl.cs" />
@@ -180,7 +180,6 @@
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataRepository.cs" />
     <Compile Include="Domain\Media\Sound\StoreSound.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\Question\QuestionImageSettings.cs" />
-    <Compile Include="Domain\Media\Image\ImageTypes\Question\QuestionImageStore.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMetaLoader.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMeta.cs" />
     <Compile Include="Domain\Knowledge\CorrectnessProbability\CorrectnessProbabilityCalculator.cs" />

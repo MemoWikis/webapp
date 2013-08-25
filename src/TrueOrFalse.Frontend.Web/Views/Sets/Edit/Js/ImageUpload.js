@@ -17,7 +17,7 @@ $(function () {
     $("#aImageUpload").click(function () {
         $("#modalImageUpload").modal('show');
     });
-    $("#txtLicenceOwner").val("Robert Mischke");
+    $("#txtLicenceOwner").val("Vorname Nachname");
     $('#Title').defaultText();
     $('#Text').defaultText();
 });

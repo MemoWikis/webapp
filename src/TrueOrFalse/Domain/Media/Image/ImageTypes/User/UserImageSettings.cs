@@ -6,7 +6,6 @@ using System.Web;
 
 public class UserImageSettings : IImageSettings
 {
-    
     public  int Id { get; private set; }
 
     public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 85, 50, 20 }; } }
@@ -20,6 +19,11 @@ public class UserImageSettings : IImageSettings
 
     public string ServerPathAndId(){
         return HttpContext.Current.Server.MapPath("/Images/Users/" + Id);
+    }
+
+    public void Init(int typeId)
+    {
+        throw new NotImplementedException();
     }
 
     public ImageUrl GetUrl_20px_square(string emailAddress)

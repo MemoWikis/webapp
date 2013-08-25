@@ -14,7 +14,15 @@ public class QuestionSetImageSettings : IImageSettings
         return HttpContext.Current.Server.MapPath(BasePath + Id);
     }
 
-    public QuestionSetImageSettings(int questionSetId){
+    public static QuestionSetImageSettings Create(int questionSetId)
+    {
+        var result =  new QuestionSetImageSettings();
+        result.Init(questionSetId);
+        return result;
+    }
+
+    public void Init(int questionSetId)
+    {
         Id = questionSetId;
     }
 

@@ -61,7 +61,7 @@ public class AnswerQuestionModel : BaseModel
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
 
 
-        ImageUrl_500px = new QuestionImageSettings(question.Id).GetUrl_128px().Url;
+        ImageUrl_500px = QuestionImageSettings.Create(question.Id).GetUrl_128px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
 
         FeedbackRows = new List<FeedbackRowModel>();

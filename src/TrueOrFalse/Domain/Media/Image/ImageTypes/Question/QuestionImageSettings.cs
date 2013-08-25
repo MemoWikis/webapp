@@ -14,12 +14,12 @@ public class QuestionImageSettings : IImageSettings
 
     public string BasePath { get { return "/Images/Questions/"; } }
 
-    public QuestionImageSettings(int questionId){
-        Id = questionId;
-    }
-
     public string ServerPathAndId(){
         return HttpContext.Current.Server.MapPath("/Images/Questions/" + Id);
+    }
+
+    public void Init(int questionId){
+        Id = questionId;
     }
 
     public ImageUrl GetUrl_128px() { return GetUrl(128); }
@@ -29,5 +29,11 @@ public class QuestionImageSettings : IImageSettings
         return ImageUrl.Get(this, width, false, arg => "");
     }
 
-    
+
+    public static QuestionImageSettings Create(int questionId)
+    {
+        var result = new QuestionImageSettings();
+        result.Init(questionId);
+        return result;
+    }
 }

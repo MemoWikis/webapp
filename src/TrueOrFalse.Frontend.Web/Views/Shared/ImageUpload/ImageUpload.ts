@@ -16,11 +16,10 @@ class WikimediaPreview
     ImageThumbUrl: string;
     ImageName: string;
 
-
     Load() {
         $("#divWikimediaSpinner").show();
-        $("#divWikimediaError").hide()
-        $("#previewWikimediaImage").hide()
+        $("#divWikimediaError").hide();
+        $("#previewWikimediaImage").hide();
 
         var url = $("#txtWikimediaUrl").val();
         var self = this;
@@ -29,9 +28,9 @@ class WikimediaPreview
             type: 'POST', true: false, cache: false,
             url: "/ImageUpload/FromWikimedia/",
             data: "url=" + url,
-            error: function (error) { console.log(error); alert("Ein Fehler ist aufgetreten.") },
+            error: function (error) { console.log(error); alert("Ein Fehler ist aufgetreten."); },
             success: function (responseJSON) {
-                $("#divWikimediaSpinner").hide()
+                $("#divWikimediaSpinner").hide();
 
                 if (responseJSON.ImageNotFound) {
                     $("#divWikimediaError").show();
@@ -70,7 +69,7 @@ class ImageUploadModal
         this.InitLicenceRadio();
 
         var self = this;
-        $("#txtWikimediaUrl").change(function () { self.WikimediaPreview.Load(); })
+        $("#txtWikimediaUrl").change(function () { self.WikimediaPreview.Load(); });
         $("#aSaveImage").click(function () {  self.SaveImage();  });
     }
 
@@ -147,51 +146,56 @@ class ImageUploadModal
     }
 
     SaveImage() {
-
         if (this.Mode == ImageUploadModalMode.Wikimedia) {
-            this.SaveWikimediaImage();
+            SaveWikipediaImage.Run(this.WikimediaPreview, this._onSave);
         }
 
         if (this.Mode == ImageUploadModalMode.Upload) {
-            this.SaveUploadedImage();
+            SaveUploadedImage.Run(this.ImageThumbUrl, this._onSave);
         }
     }
 
-    SaveWikimediaImage() { 
-        if (!this.WikimediaPreview.SuccessfullyLoaded) {
+    _onSave: Function;
+    OnSave(func: Function) { 
+        this._onSave = func;
+    }
+}
+
+class SaveWikipediaImage
+{
+    static Run(wikiMediaPreview: WikimediaPreview, fnOnSave: Function) {
+        if (!wikiMediaPreview.SuccessfullyLoaded) {
             alert("Bitte lade ein Bild über eine Wikipedia URL.");
-        } else { 
-            this._onSave(this.WikimediaPreview.ImageThumbUrl);
+        } else {
+            fnOnSave(wikiMediaPreview.ImageThumbUrl);
             $("#modalImageUpload").modal("hide");
         }
     }
+}
 
-    SaveUploadedImage() { 
+class SaveUploadedImage
+{
+    static Run(imageThumbUrl : string, fnOnSave: Function) {
 
-        if (!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) { 
+        if (!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) {
             alert("Bitte wähle eine andere Lizenz");
             return;
         }
 
         if ($("#rdoLicenceForeign").is(':checked')) {
-            alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.")
+            alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
             return;
         }
 
         if ($("#rdoLicenceByUloader").is(':checked')) {
             var licenceOwner = $("#txtLicenceOwner").val();
             if (licenceOwner.trim() == "") {
-                alert("Bitte gib Deinen Namen als Lizenzgeber an.")
+                alert("Bitte gib Deinen Namen als Lizenzgeber an.");
                 return;
             }
 
-            this._onSave(this.ImageThumbUrl);
+            fnOnSave(imageThumbUrl);
             $("#modalImageUpload").modal("hide");
-        }    
-    }
-
-    _onSave: Function;
-    OnSave(func: Function) { 
-        this._onSave = func;
+        }
     }
 }

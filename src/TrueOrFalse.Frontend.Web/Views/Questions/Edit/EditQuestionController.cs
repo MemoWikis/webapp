@@ -49,7 +49,6 @@ public class EditQuestionController : BaseController
             Resolve<EditQuestionModel_to_Question>()
                 .Update(model, _questionRepository.GetById(id), Request.Form)
         );
-        QuestionImageStore.Run(imagefile, id);
         UpdateSound(soundfile, id);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
@@ -57,7 +56,7 @@ public class EditQuestionController : BaseController
     }
 
     [HttpPost]
-    public ActionResult Create(EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
+    public ActionResult Create(EditQuestionModel model, HttpPostedFileBase soundfile)
     {
         model.FillCategoriesFromPostData(Request.Form);
         
@@ -79,7 +78,7 @@ public class EditQuestionController : BaseController
 
         question.Creator = _sessionUser.User;
         _questionRepository.Create(question);
-        QuestionImageStore.Run(imagefile, question.Id);
+        
         UpdateSound(soundfile, question.Id);
 
         if (Request["btnSave"] == "saveAndNew")
@@ -99,6 +98,30 @@ public class EditQuestionController : BaseController
 
         return Redirect("Edit/" + question.Id);
     }
+
+    public JsonResult StoreImage(
+        string imageSource,
+        int questionId,
+        string wikiFileName,
+        string uploadImageGuid,
+        string uploadImageLicenceOwner
+        )
+    {
+        if (imageSource == "wikimedia")
+        {
+            Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
+                wikiFileName, questionId, _sessionUser.User.Id);
+        }
+        if (imageSource == "upload")
+        {
+            Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
+                _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id, uploadImageLicenceOwner);
+        }
+
+        //QuestionImageStore.Run(imagefile, question.Id);
+        return new JsonResult();
+    }
+    
 
     public ActionResult SolutionEditBody(int? questionId, SolutionType type)
     {

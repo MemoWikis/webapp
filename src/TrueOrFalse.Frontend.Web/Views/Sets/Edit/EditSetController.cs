@@ -59,19 +59,19 @@ public class EditSetController : BaseController
         return View(_viewLocation, model);
     }
 
-    private void StoreImage(int questionId)
+    private void StoreImage(int setId)
     {
         if (Request["ImageIsNew"] == "true")
         {
             if (Request["ImageSource"] == "wikimedia")
             {
-                Resolve<QuestionSetImageStore>().RunWikimedia(
-                    Request["ImageWikiFileName"], questionId, _sessionUser.User.Id);
+                Resolve<ImageStore>().RunWikimedia<QuestionSetImageSettings>(
+                    Request["ImageWikiFileName"], setId, _sessionUser.User.Id);
             }
             if (Request["ImageSource"] == "upload")
             {
-                Resolve<QuestionSetImageStore>().RunUploaded(
-                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id,Request["ImageLicenceOwner"]);
+                Resolve<ImageStore>().RunUploaded<QuestionSetImageSettings>(
+                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), setId, _sessionUser.User.Id,Request["ImageLicenceOwner"]);
             }
         }
     }

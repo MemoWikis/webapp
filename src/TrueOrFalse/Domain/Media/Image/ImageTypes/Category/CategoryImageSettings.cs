@@ -18,6 +18,11 @@ public class CategoryImageSettings : IImageSettings
         return HttpContext.Current.Server.MapPath(BasePath + Id);
     }
 
+    public void Init(int typeId)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public ImageUrl GetUrl_50px() { return GetUrl(50); }
     public ImageUrl GetUrl_128px() { return GetUrl(128); }
     public ImageUrl GetUrl_85px_square() { return GetUrl(85, isSquare: true); }

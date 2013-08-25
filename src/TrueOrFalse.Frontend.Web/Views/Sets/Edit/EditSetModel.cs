@@ -42,7 +42,7 @@ public class EditSetModel : BaseModel
 
     public EditSetModel(){
         Username = new SessionUser().User.Name;
-        ImageUrl_206px = new QuestionSetImageSettings(-1).GetUrl_206px_square().Url;    
+        ImageUrl_206px = QuestionSetImageSettings.Create(-1).GetUrl_206px_square().Url;    
     }
 
     public EditSetModel(Set set)
@@ -50,7 +50,7 @@ public class EditSetModel : BaseModel
         Id = set.Id;
         Title = set.Name;
         Text = set.Text;
-        ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px_square().Url;
+        ImageUrl_206px = QuestionSetImageSettings.Create(set.Id).GetUrl_206px_square().Url;
         Username = new SessionUser().User.Name;
         QuestionsInSet = set.QuestionsInSet;
     }
@@ -62,7 +62,7 @@ public class EditSetModel : BaseModel
     public Set Fill(Set set){
         set.Name = Title;
         set.Text = Text;
-        ImageUrl_206px = new QuestionSetImageSettings(set.Id).GetUrl_206px_square().Url;
+        ImageUrl_206px = QuestionSetImageSettings.Create(set.Id).GetUrl_206px_square().Url;
         QuestionsInSet = set.QuestionsInSet;
 
         return set;

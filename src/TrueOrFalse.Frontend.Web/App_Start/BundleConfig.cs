@@ -52,8 +52,10 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
+                .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
+                .Include("~/Scripts/jquery.scrollTo-1.4.3.1.js")
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
-
+            
             bundles.Add(new ScriptBundle("~/bundles/Sets")
                 .IncludeDirectory("~/Views/Sets/Js/", "*.js"));
 

@@ -7,4 +7,6 @@ public interface IImageSettings
     IEnumerable<int> SizesFixedWidth { get; }
     string BasePath { get; }
     string ServerPathAndId();
+
+    void Init(int typeId);
 }

@@ -12,6 +12,7 @@
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/markdown") %>
     <%= Scripts.Render("~/bundles/questionEdit") %>
+    <%= Scripts.Render("~/bundles/fileUploader") %>
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -28,6 +29,7 @@
     </div>
 
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
+
         <div class="form-horizontal">
             <div class="box box-main">
                 <h1 class="pull-left"><%=Model.FormTitle %></h1>
@@ -191,4 +193,7 @@
     </div>
     <% } %>
 </div>
+    
+<% Html.RenderPartial("../Shared/ImageUpload/ImageUpload"); %>
+
 </asp:Content>
