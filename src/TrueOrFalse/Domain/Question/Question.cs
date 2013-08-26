@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Infrastructure;
 
 namespace TrueOrFalse
 {
+    [DebuggerDisplay("Id={Id} Name={Text}")]
     public class Question : DomainEntity
     {
         public virtual string Text { get; set; }

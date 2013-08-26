@@ -45,7 +45,7 @@ public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
 
         return _questionRepository.GetBy(
             _sessionUiData.SearchSpecQuestion,
-            c => c.SetFetchMode("Categories", FetchMode.Eager
+            c => c.SetFetchMode("Categories", FetchMode.Select
         ));
     }
 }
