@@ -121,7 +121,7 @@
                         function updateSolutionBody() {
                             var selectedValue = $("#ddlAnswerType").val();
                             $.ajax({
-                                url: '<%=Url.Action("SolutionEditBody") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
+                                url: '<%=Url.Action("SolutionEditBody", "EditQuestion") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
                                 type: 'GET',
                                 beforeSend: function () { /* some loading indicator */ },
                                 success: function (data) { $("#question-body").html(data); },
