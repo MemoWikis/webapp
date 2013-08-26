@@ -28,7 +28,7 @@ public class CategoriesController : BaseController
     [SetMenu(MenuEntry.Categories)]
     public ActionResult Categories(int? page, CategoriesModel model)
     {
-        _sessionUiData.SearchSpecCategory.PageSize = 10;
+        _sessionUiData.SearchSpecCategory.PageSize = 30;
         if (page.HasValue) 
             _sessionUiData.SearchSpecCategory.CurrentPage = page.Value;
 

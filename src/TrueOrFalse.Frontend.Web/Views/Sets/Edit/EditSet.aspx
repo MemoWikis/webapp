@@ -7,10 +7,15 @@
     <title><%=Model.PageTitle %></title>
     <%= Scripts.Render("~/bundles/fileUploader") %>
     <%= Scripts.Render("~/bundles/questionSetEdit") %>
+    <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
     <script type="text/javascript">
         var isEditMode = <%= Model.IsEditing ? "true" : "false" %>;
         var questionSetId = "<%= Model.Id %>";
         var userName = "<%= Model.Username %>";
+
+        $(function() {
+            $('.control-label .show-tooltip').append($("<i class='icon-info-sign'></i>"));
+        });
     </script>
     
     <style>
@@ -79,11 +84,13 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <div class ="control-label">
-                                    <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen Fragesätze wiederzufinden." data-placement = "left">
+                                
+                                <label class="control-label">
+                                    <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung des Fragesatzes u. ermöglichen Dir und anderen Fragesätze wiederzufinden." data-placement = "left">
                                         Kategorien
                                     </span>
-                                </div> 
+                                </label>        
+                                
                                 <div id="relatedCategories" class="controls">
                                     <script type="text/javascript">
                                         $(function () {
