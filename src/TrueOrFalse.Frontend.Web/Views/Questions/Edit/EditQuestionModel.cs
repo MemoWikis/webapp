@@ -42,7 +42,7 @@ public class EditQuestionModel : BaseModel
 
     public int? Id;
 
-    public IEnumerable<String> Categories = new List<string>();
+    public IEnumerable<string> Categories = new List<string>();
 
     public string PageTitle;
     public string FormTitle;

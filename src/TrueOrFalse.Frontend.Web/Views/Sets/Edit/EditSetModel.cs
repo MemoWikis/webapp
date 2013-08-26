@@ -31,6 +31,8 @@ public class EditSetModel : BaseModel
     [DisplayName("Beschreibung")]
     public string Text { get; set; }
 
+    public IEnumerable<string> Categories = new List<string>(); 
+
     public string Username;
 
     public string ImageUrl_206px;

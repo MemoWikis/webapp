@@ -17,6 +17,7 @@ namespace TrueOrFalse
             Map(x => x.Text).Length(Constants.VarCharMaxLength);
 
             HasMany(x => x.QuestionsInSet).Table("questionInSet").Cascade.None().OrderBy("Sort");
+            HasManyToMany(x => x.Categories).Table("categories_to_sets").Cascade.SaveUpdate();
                 
             References(x => x.Creator);
 

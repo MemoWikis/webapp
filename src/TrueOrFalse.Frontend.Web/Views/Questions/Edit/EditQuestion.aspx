@@ -145,8 +145,8 @@
                             <script type="text/javascript">
                                 $(function () {
                                     <%foreach (var category in Model.Categories) { %>
-                                    $("#txtNewRelatedCategory").val('<%=category %>');
-                                    $("#addRelatedCategory").click();
+                                        $("#txtNewRelatedCategory").val('<%=category %>');
+                                        $("#addRelatedCategory").click();
                                     <% } %>
                                 });
                             </script>

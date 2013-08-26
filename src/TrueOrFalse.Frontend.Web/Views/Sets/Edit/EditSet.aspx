@@ -78,6 +78,28 @@
                                     <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px; width:300px;", placeholder = "Beschreibung" }) %>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <div class ="control-label">
+                                    <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen Fragesätze wiederzufinden." data-placement = "left">
+                                        Kategorien
+                                    </span>
+                                </div> 
+                                <div id="relatedCategories" class="controls">
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            <%foreach (var category in Model.Categories) { %>
+                                                $("#txtNewRelatedCategory").val('<%=category %>');
+                                                $("#addRelatedCategory").click();
+                                            <% } %>
+                                        });
+                                    </script>
+                                    <input id="txtNewRelatedCategory" type="text" placeholder="Wähle eine Kategorie" />
+                                    <a href="#" id="addRelatedCategory" style="display: none">
+                                        <img alt="" src='/Images/Buttons/add.png' />
+                                    </a>
+                                </div>                                
+                            </div>
+
                             <%  if(Model.QuestionsInSet.Count == 0) { %>
                                 <div class="info">
                                     <b>Keine Fragen im Fragesatz.</b> Um Fragen hinzuzufügen, wählen Sie Fragen 

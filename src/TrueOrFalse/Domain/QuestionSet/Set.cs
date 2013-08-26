@@ -13,6 +13,8 @@ namespace TrueOrFalse
         public virtual IList<QuestionInSet> QuestionsInSet{ get; set;}
         public virtual User Creator { get; set; }
 
+        public virtual IList<Category> Categories { get; set; }
+
         public virtual void Add(Question question){
             QuestionsInSet.Add(
                 new QuestionInSet{
@@ -31,6 +33,7 @@ namespace TrueOrFalse
 
         public Set(){
             QuestionsInSet = new List<QuestionInSet>();
+            Categories = new List<Category>();
         }
     }
 }

@@ -61,9 +61,9 @@ public class EditQuestionController : BaseController
     {
         model.FillCategoriesFromPostData(Request.Form);
         
-        var editQuestionModelCategoriesExist = Resolve<EditQuestionModel_Categories_Exist>();
+        var editQuestionModelCategoriesExist = Resolve<CategoryNamesExist>();
         
-        if (editQuestionModelCategoriesExist.No(model))
+        if (editQuestionModelCategoriesExist.No(model.Categories))
         {
             var missingCategory = editQuestionModelCategoriesExist.MissingCategory;
             model.Message = new ErrorMessage(

@@ -4,21 +4,21 @@ using System.Linq;
 using System.Web;
 using TrueOrFalse;
 
-public class EditQuestionModel_Categories_Exist : IRegisterAsInstancePerLifetime
+public class CategoryNamesExist : IRegisterAsInstancePerLifetime
 {
     public string MissingCategory { get; private set; }
 
-    public bool Yes(EditQuestionModel model)
+    public bool Yes(IEnumerable<string> categoryNames)
     {
-        MissingCategory = model.Categories
+        MissingCategory = categoryNames
             .FirstOrDefault(categoryName =>
                             ServiceLocator.Resolve<CategoryRepository>()
                                 .GetByName(categoryName) == null);
         return MissingCategory == null;
     }
 
-    public bool No(EditQuestionModel model)
+    public bool No(IEnumerable<string> categoryNames)
     {
-        return !Yes(model);
+        return !Yes(categoryNames);
     }
 }
