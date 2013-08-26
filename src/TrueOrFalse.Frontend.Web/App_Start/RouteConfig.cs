@@ -25,10 +25,11 @@ namespace TrueOrFalse
 
             routes.MapRoute("Questions", "Fragen", new { controller = "Questions", action = "Questions" });
             routes.MapRoute("Questions_SearchTerm", "Fragen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionSearch", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Questions", action = "Delete" });
 
             routes.MapRoute("Question_Create", "Fragen/Erstelle/", new { controller = "EditQuestion", action = "Create" });
+            routes.MapRoute("Question_StoreImage", "Fragen/Bearbeite/StoreImage", new { controller = "EditQuestion", action = "StoreImage" });
             routes.MapRoute("Question_Edit", "Fragen/Bearbeite/{id}", new { controller = "EditQuestion", action = "Edit" });
-            routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Questions", action = "Delete" });
 
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer" });
 

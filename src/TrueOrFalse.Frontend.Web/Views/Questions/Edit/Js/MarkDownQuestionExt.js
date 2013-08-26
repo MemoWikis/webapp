@@ -24,12 +24,17 @@ var MarkdownQuestionExt = (function () {
         editor.hooks.set("insertImageDialog", function (callback) {
             var imageUploadModal = new ImageUploadModal();
             imageUploadModal.OnSave(function (url) {
-                if(imageUploadModal.Mode == ImageUploadModalMode.Wikimedia) {
-                    callback(imageUploadModal.WikimediaPreview.ImageThumbUrl);
-                }
-                if(imageUploadModal.Mode == ImageUploadModalMode.Upload) {
-                    callback(url);
-                }
+                var sourceString = imageUploadModal.Mode == ImageUploadModalMode.Wikimedia ? "wikimedia" : "upload";
+                $.post("/Fragen/Bearbeite/StoreImage", {
+                    "imageSource": sourceString,
+                    "questionId": $("#questionId").val(),
+                    "wikiFileName": imageUploadModal.WikimediaPreview.ImageName,
+                    "uploadImageGuid": imageUploadModal.ImageGuid,
+                    "uploadImageLicenceOwner": imageUploadModal.LicenceOwner,
+                    "markupEditor": ""
+                }, function (result) {
+                    callback(result.PreviewUrl);
+                });
             });
             $("#modalImageUpload").modal('show');
             return true;

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
@@ -99,12 +100,14 @@ public class EditQuestionController : BaseController
         return Redirect("Edit/" + question.Id);
     }
 
+    [HttpPost]
     public JsonResult StoreImage(
         string imageSource,
         int questionId,
         string wikiFileName,
         string uploadImageGuid,
-        string uploadImageLicenceOwner
+        string uploadImageLicenceOwner,
+        string markupEditor
         )
     {
         if (imageSource == "wikimedia")
@@ -118,10 +121,14 @@ public class EditQuestionController : BaseController
                 _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id, uploadImageLicenceOwner);
         }
 
-        //QuestionImageStore.Run(imagefile, question.Id);
-        return new JsonResult();
+        var imageSettings = new QuestionImageSettings(questionId);
+
+        return new JsonResult{
+            Data = new{
+                PreviewUrl = imageSettings.GetUrl_435px().UrlWithoutTime(),
+            }
+        };
     }
-    
 
     public ActionResult SolutionEditBody(int? questionId, SolutionType type)
     {

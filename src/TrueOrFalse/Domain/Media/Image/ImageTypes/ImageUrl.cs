@@ -11,6 +11,11 @@ public class ImageUrl
     public bool HasUploadedImage;
     public string Url;
 
+    public string UrlWithoutTime()
+    {
+        return Url.Split('?').First();
+    }
+
     public static ImageUrl Get(
         IImageSettings imageSettings,
         int width,

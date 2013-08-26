@@ -515,6 +515,9 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js">
+      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Set.aspx" />
     <Content Include="Views\Sets\Detail\Set.css" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
@@ -563,15 +566,6 @@
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <Content Include="Views\Questions\Edit\Js\MarkDownDescription.js">
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkdownEditors.js">
-      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkDownQuestionExt.js">
-      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkDownQuestionExtend.js">
-      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>

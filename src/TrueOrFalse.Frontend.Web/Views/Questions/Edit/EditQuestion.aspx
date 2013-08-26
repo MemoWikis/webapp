@@ -17,7 +17,10 @@
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
     
-<div class="todo-temp"></div>
+<input type="hidden" id="questionId" value="<%= Model.Id %>"/>
+    
+<div class="todo-temp">
+</div>
 
 <div class="span10">
     

@@ -10,7 +10,7 @@ public class QuestionImageSettings : IImageSettings
     public int Id { get; private set; }
 
     public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 50, 20 }; } }
-    public IEnumerable<int> SizesFixedWidth { get { return new[] { 100, 500 }; } }
+    public IEnumerable<int> SizesFixedWidth { get { return new[] { 500, 435, 100 }; } }
 
     public string BasePath { get { return "/Images/Questions/"; } }
 
@@ -18,17 +18,23 @@ public class QuestionImageSettings : IImageSettings
         return HttpContext.Current.Server.MapPath("/Images/Questions/" + Id);
     }
 
+    public QuestionImageSettings(){}
+
+    public QuestionImageSettings(int questionId){
+        Init(questionId);
+    }
+
     public void Init(int questionId){
         Id = questionId;
     }
 
     public ImageUrl GetUrl_128px() { return GetUrl(128); }
+    public ImageUrl GetUrl_435px() { return GetUrl(435); }
     public ImageUrl GetUrl_500px() { return GetUrl(500); }
 
     private ImageUrl GetUrl(int width){
         return ImageUrl.Get(this, width, false, arg => "");
     }
-
 
     public static QuestionImageSettings Create(int questionId)
     {
