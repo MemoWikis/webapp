@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Seedworks.Lib;
 using TrueOrFalse;
 
 public class SetsController : BaseController
@@ -35,5 +36,24 @@ public class SetsController : BaseController
         var questionSets = _setsControllerSearch.Run();
 
         return View(_viewLocation, new SetsModel(questionSets));
-    }       
+    }
+
+    [HttpPost]
+    public JsonResult DeleteDetails(int setId)
+    {
+        var question = _setRepo.GetById(setId);
+
+        return new JsonResult{
+            Data = new{
+                questionTitle = question.Text.WordWrap(50),
+            }
+        };
+    }
+
+    [HttpPost]
+    public EmptyResult Delete(int setId)
+    {
+        Sl.Resolve<SetDeleter>().Run(setId);
+        return new EmptyResult();
+    }
 }

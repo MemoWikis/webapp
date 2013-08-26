@@ -16,7 +16,7 @@
         
         <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
             <% if (Model.IsOwner){%>
-                <a data-toggle="modal" data-questionId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
+                <a data-toggle="modal" data-SetId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
                 <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>">
                     <img src="/Images/edit.png"/> 

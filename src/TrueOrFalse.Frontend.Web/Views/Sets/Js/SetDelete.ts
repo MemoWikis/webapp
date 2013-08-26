@@ -1,11 +1,11 @@
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
-var questionIdToDelete;
+var setIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
-        questionIdToDelete = $(this).attr("data-questionId");
-        populateDeleteQuestionId(questionIdToDelete);
+        setIdToDelete = $(this).attr("data-setId");
+        populateDeleteSet(setIdToDelete);
     });
 
     $('#btnCloseQuestionDelete').click(function () {
@@ -13,32 +13,33 @@ $(function () {
     });
 
     $('#confirmQuestionDelete').click(function () {
-        deleteQuestion(questionIdToDelete);
+        deleteSet(setIdToDelete);
         $('#modalDelete').modal('hide');
     });
 });
 
-function populateDeleteQuestionId(questionId) {
+function populateDeleteSet(setId) {
     $.ajax({
         type: 'POST',
-        url: "/Questions/DeleteDetails/" + questionId,
+        url: "/Questions/DeleteDetails/" + setId,
         cache: false,
         success: function (result) {
             $("#spanQuestionTitle").html(result.questionTitle.toString());
         },
         error: function () {
-             alert("Ein Fehler ist aufgetreten");
+            alert("Ein Fehler ist aufgetreten");
         }
     });
 }
 
-function deleteQuestion(questionId) {
-        $.ajax({
+function deleteSet(setId) {
+    $.ajax({
         type: 'POST',
-        url: "/Questions/Delete/" + questionId,
+        url: "/Questions/Delete/" + setId,
         cache: false,
-        success:function (){window.location.reload();},
+        success: function () { window.location.reload(); },
         error: function (result) {
+            console.log(result);
             alert("Ein Fehler ist aufgetreten");
         }
     });

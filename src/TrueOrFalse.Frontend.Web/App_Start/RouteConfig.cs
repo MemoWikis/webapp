@@ -43,6 +43,8 @@ namespace TrueOrFalse
 
             routes.MapRoute("Sets_SearchTerm", "FrageSaetze/Suche/{searchTerm}", new { controller = "Sets", action = "Search", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets", "FrageSaetze/{action}", new { controller = "Sets", action = "Sets" });
+            /* API */ routes.MapRoute("Sets_DeleteDetails", "Sets/DeleteDetails/{setId}", new { controller = "Sets", action = "DeleteDetails" });
+            /* API */ routes.MapRoute("Sets_Delete", "Sets/Delete/{setId}", new { controller = "Sets", action = "Delete" });
 
             routes.MapRoute("Set_Detail", "FrageSaetze/{text}/{id}/{elementOnPage}", new { controller = "Set", action = "QuestionSet" });
             routes.MapRoute("Sets_Edit", "FrageSaetze/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });

@@ -537,10 +537,15 @@
     <Content Include="Views\Sets\Edit\Js\SetSortable.js">
       <DependentUpon>SetSortable.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Views\Sets\Js\questionSets.ts" />
-    <Content Include="Views\Sets\Js\questionSets.js">
-      <DependentUpon>questionSets.ts</DependentUpon>
+    <TypeScriptCompile Include="Views\Sets\Js\Sets.ts" />
+    <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
+    <Content Include="Views\Sets\Js\SetDelete.js">
+      <DependentUpon>SetDelete.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Sets\Js\Sets.js">
+      <DependentUpon>Sets.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Modals\DeleteSet.ascx" />
     <Content Include="Views\Sets\SetRow.ascx" />
     <Content Include="Views\Sets\Sets.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />

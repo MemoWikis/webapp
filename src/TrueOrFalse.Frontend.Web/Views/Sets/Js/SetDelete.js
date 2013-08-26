@@ -1,39 +1,40 @@
-var questionIdToDelete;
+var setIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
-        questionIdToDelete = $(this).attr("data-questionId");
-        populateDeleteQuestionId(questionIdToDelete);
+        setIdToDelete = $(this).attr("data-setId");
+        populateDeleteSet(setIdToDelete);
     });
-    $('#btnCloseQuestionDelete').click(function () {
+    $('#btnCloseSetDelete').click(function () {
         $('#modalDelete').modal('hide');
     });
-    $('#confirmQuestionDelete').click(function () {
-        deleteQuestion(questionIdToDelete);
+    $('#confirmSetDelete').click(function () {
+        deleteSet(setIdToDelete);
         $('#modalDelete').modal('hide');
     });
 });
-function populateDeleteQuestionId(questionId) {
+function populateDeleteSet(setId) {
     $.ajax({
         type: 'POST',
-        url: "/Questions/DeleteDetails/" + questionId,
+        url: "/Sets/DeleteDetails/" + setId,
         cache: false,
         success: function (result) {
-            $("#spanQuestionTitle").html(result.questionTitle.toString());
+            $("#spanSetTitle").html(result.questionTitle.toString());
         },
         error: function () {
             alert("Ein Fehler ist aufgetreten");
         }
     });
 }
-function deleteQuestion(questionId) {
+function deleteSet(setId) {
     $.ajax({
         type: 'POST',
-        url: "/Questions/Delete/" + questionId,
+        url: "/Sets/Delete/" + setId,
         cache: false,
         success: function () {
             window.location.reload();
         },
         error: function (result) {
+            console.log(result);
             alert("Ein Fehler ist aufgetreten");
         }
     });
