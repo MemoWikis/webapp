@@ -68,6 +68,10 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage }, null);
         }
 
+        public static string CategoryDetail(UrlHelper url, Category category){
+            return CategoryDetail(url, category.Name, category.Id);
+        }
+
         public static object CategoryEdit(UrlHelper url, int id){
             return url.Action("Edit", "EditCategory", new { id });
         }
