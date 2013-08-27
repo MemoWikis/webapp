@@ -27,6 +27,7 @@ public class SetRowModel
     public int CreatorId;
     public bool IsOwner;
 
+
     public SetRowModel(Set set, int indexInResultSet, int currentUserid)
     {
         Id = set.Id;
