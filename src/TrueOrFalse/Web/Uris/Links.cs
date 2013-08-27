@@ -54,11 +54,11 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string Sets(UrlHelper url){ return url.Action("Sets", "Sets"); }
 
-        public static string QuestionSetDetail(UrlHelper url, Set set, int elementOnPage){
-            return QuestionSetDetail(url, set.Name, set.Id, elementOnPage);
+        public static string SetDetail(UrlHelper url, Set set, int elementOnPage = 1){
+            return SetDetail(url, set.Name, set.Id, elementOnPage);
         }
 
-        public static string QuestionSetDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
+        public static string SetDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
             return url.Action("QuestionSet", "Set",
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage}, null);            
         }

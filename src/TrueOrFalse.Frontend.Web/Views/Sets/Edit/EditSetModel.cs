@@ -46,6 +46,8 @@ public class EditSetModel : BaseModel
 
     public IList<QuestionInSet> QuestionsInSet = new List<QuestionInSet>();
 
+    public Set Set;
+
     public EditSetModel(){
         Username = new SessionUser().User.Name;
         ImageUrl_206px = QuestionSetImageSettings.Create(-1).GetUrl_206px_square().Url;    
@@ -60,6 +62,7 @@ public class EditSetModel : BaseModel
         Username = new SessionUser().User.Name;
         QuestionsInSet = set.QuestionsInSet;
         Categories = (from cat in set.Categories select cat.Name).ToList();
+        Set = set;
     }
 
     public Set ToQuestionSet(){

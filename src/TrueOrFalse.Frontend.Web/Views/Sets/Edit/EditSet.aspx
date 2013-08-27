@@ -67,6 +67,14 @@
         <div class="form-horizontal">
             <div class="box box-main">
                 <h1 class="pull-left"><%=Model.FormTitle %></h1>
+                <div class="pull-right">
+                    <div>
+                        <a href="<%= Links.Sets(Url) %>" style="font-size: 12px; margin: 0px;"><i class="icon-list"></i>&nbsp;zur Übersicht</a><br/>
+                        <% if(Model.Set != null){ %>
+                            <a href="<%= Links.SetDetail(Url, Model.Set) %>" style="font-size: 12px; margin: 0px;"><i class="icon-eye-open"></i>&nbsp;Detailansicht</a> 
+                        <% } %>
+                    </div>
+                </div>
 
                 <div class="box-content" style="clear: both;">    
                     <div class="row">

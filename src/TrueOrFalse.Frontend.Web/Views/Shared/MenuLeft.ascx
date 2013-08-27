@@ -45,7 +45,7 @@
         <% index = 0; foreach (var set in new SessionUiData().VisitedQuestionSets){ index++; %>
                <div class="sub">
                    <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
-                   <a href="<%= Links.QuestionSetDetail(Url, set.Name, set.Id) %>" class="show-tooltip <%= activeClass %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
+                   <a href="<%= Links.SetDetail(Url, set.Name, set.Id) %>" class="show-tooltip <%= activeClass %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
                        <i class="icon-caret-right"></i> <%=set.Name%>
                    </a>
                </div>

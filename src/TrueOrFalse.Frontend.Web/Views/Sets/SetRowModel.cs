@@ -41,7 +41,7 @@ public class SetRowModel
         IsOwner = currentUserid == set.Creator.Id;
         IndexInResult = indexInResultSet;
 
-        DetailLink = urlHelper => Links.QuestionSetDetail(urlHelper, set, indexInResultSet);
+        DetailLink = urlHelper => Links.SetDetail(urlHelper, set, indexInResultSet);
         UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);
 
         ImageUrl = QuestionSetImageSettings.Create(set.Id).GetUrl_128px_square().Url;
