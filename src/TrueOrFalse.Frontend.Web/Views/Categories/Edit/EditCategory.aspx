@@ -21,8 +21,6 @@
                 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
                        FormMethod.Post, new { enctype = "multipart/form-data" })){%>
 
-            
-        
                         <% Html.Message(Model.Message); %>
     
                         <div class="control-group">

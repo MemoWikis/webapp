@@ -8,10 +8,7 @@
         <ul>
             <% if (Model.HasPreviousPage) { %>
                 <li>
-                    <%= Html.ActionLink("«",
-                        ViewContext.RouteData.Values["action"].ToString(), 
-                        ViewContext.RouteData.Values["controller"].ToString(),
-                        new { page = Model.CurrentPage - 1}, null)%>
+                    <%= Html.ActionLink("«", Model.Controller, Model.Action, new { page = Model.CurrentPage - 1}, null)%>
                 </li>
             <% } else { %>
                 <li class="disabled"><a href="#">«</a></li>
@@ -20,8 +17,7 @@
             <% if (Model.LastPage > 1 ){ %>
                 <li <% if (1 == Model.CurrentPage) { %> class="active" <% } %>>
                     <%= Html.ActionLink(1.ToString(CultureInfo.InvariantCulture),
-                        ViewContext.RouteData.Values["action"].ToString(), 
-                        ViewContext.RouteData.Values["controller"].ToString(), 
+                        Model.Controller, Model.Action,
                         new { page = 1 }, null)%>
                 </li>
             <%} %>
@@ -33,8 +29,7 @@
             <% if (Model.PageCountWithoutLastAndFirst > 0)  foreach (var i in Enumerable.Range(Model.Start, Model.PageCountWithoutLastAndFirst)) { %>
                 <li <% if (i == Model.CurrentPage) { %> class="active" <% } %>>
                     <%= Html.ActionLink(i.ToString(CultureInfo.InvariantCulture),
-                        ViewContext.RouteData.Values["action"].ToString(), 
-                        ViewContext.RouteData.Values["controller"].ToString(),
+                        Model.Controller, Model.Action,
                         new { page = i }, null)%>
                 </li>   
             <% } %>
@@ -45,17 +40,13 @@
 
             <li <% if (Model.LastPage == Model.CurrentPage) { %> class="active" <% } %>>
                 <%= Html.ActionLink(Model.LastPage.ToString(CultureInfo.InvariantCulture),
-                    ViewContext.RouteData.Values["action"].ToString(), 
-                    ViewContext.RouteData.Values["controller"].ToString(), 
+                    Model.Controller, Model.Action,
                     new { page = Model.LastPage }, null)%>
             </li>
 
             <% if (Model.HasNextPage) { %>
                 <li>
-                    <%= Html.ActionLink("»",
-                        ViewContext.RouteData.Values["action"].ToString(), 
-                        ViewContext.RouteData.Values["controller"].ToString(),
-                        new { page = Model.CurrentPage + 1}, null)%>
+                    <%= Html.ActionLink("»", Model.Controller, Model.Action, new { page = Model.CurrentPage + 1}, null)%>
                 </li>
             <% } else { %>
                 <li class="disabled"><a href="#">»</a></li>

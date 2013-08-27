@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
@@ -24,10 +25,15 @@ public class CategoriesModel : BaseModel
     public void Init(IEnumerable<Category> categories, SessionUiData _sessionUi)
     {
         SetCategories(categories);
-        Pager = new PagerModel(_sessionUi.SearchSpecCategory);
+        Pager = new PagerModel(_sessionUi.SearchSpecCategory){
+            Controller = Links.CategoriesController,
+            Action = Links.Categories
+        };
 
         TotalCategories = Resolve<GetTotalCategories>().Run(); ;
         TotalMine = 0;
+
+        SearchTerm = _sessionUi.SearchSpecCategory.SearchTearm;
 
         TotalCategoriesInResult = _sessionUi.SearchSpecCategory.TotalItems;
         OrderByLabel = "..";        

@@ -2,14 +2,18 @@
 using System.Linq;
 using NHibernate;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse.Search;
 
 namespace TrueOrFalse
 {
     public class CategoryRepository : RepositoryDb<Category>
     {
-        public CategoryRepository(ISession session)
+        private readonly SaveCategoryToIndex _saveCategoryToIndex;
+
+        public CategoryRepository(ISession session, SaveCategoryToIndex saveCategoryToIndex)
             : base(session)
         {
+            _saveCategoryToIndex = saveCategoryToIndex;
         }
 
         public override void Create(Category category)
@@ -18,10 +22,12 @@ namespace TrueOrFalse
                 related.DateModified = related.DateCreated = DateTime.Now;
             base.Create(category);
             Flush();
+            _saveCategoryToIndex.Run(category);
         }
 
         public override void Update(Category category)
         {
+            _saveCategoryToIndex.Run(category);
             base.Update(category);
             Flush();
         }
