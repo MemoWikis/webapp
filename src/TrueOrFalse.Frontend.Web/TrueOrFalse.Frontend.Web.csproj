@@ -285,6 +285,14 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
+    <Content Include="Views\Categories\Js\CategoriesDelete.js">
+      <DependentUpon>CategoriesDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Js\SetDelete.js">
+      <DependentUpon>CategoriesDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />
     <Content Include="Views\Help\Willkommen.aspx" />
@@ -508,9 +516,9 @@
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Views\Categories\Js\categories.ts" />
+    <TypeScriptCompile Include="Views\Categories\Js\Categories.ts" />
     <Content Include="Views\Categories\Js\Categories.js">
-      <DependentUpon>categories.ts</DependentUpon>
+      <DependentUpon>Categories.ts</DependentUpon>
     </Content>
     <Content Include="Views\Drafts\Boxes.aspx" />
     <Content Include="Views\Drafts\Boxes.css" />

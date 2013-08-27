@@ -18,7 +18,7 @@ namespace TrueOrFalse.Tests
                                  .AddQuestion("Another Question", "Some answer")
                                     .Persist();
 
-            var question = context.Questions[0];
+            var question = context.All[0];
         }
     }
 }

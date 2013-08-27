@@ -13,7 +13,7 @@ namespace TrueOrFalse.Tests
                 .AddQuestion("QuestionA", "AnswerA").AddCategory("A")
                 .Persist();
 
-            var questionId = contextQuestion.Questions.First().Id;
+            var questionId = contextQuestion.All.First().Id;
             var updateTotals = Resolve<UpdateQuestionTotals>();
 
             updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, QuestionId = questionId, UserId = 2 });

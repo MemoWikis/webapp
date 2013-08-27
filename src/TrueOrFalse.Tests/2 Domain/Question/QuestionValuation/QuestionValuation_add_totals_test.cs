@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tests
                                     {
                                         RelevanceForAll = 50,
                                         RelevancePersonal = 100,
-                                        QuestionId = contextQuestion.Questions.First().Id,
+                                        QuestionId = contextQuestion.All.First().Id,
                                         UserId = 2
                                     };
 
@@ -27,7 +27,7 @@ namespace TrueOrFalse.Tests
                                    {
                                        RelevanceForAll = 10,
                                        RelevancePersonal = 80,
-                                       QuestionId = contextQuestion.Questions.First().Id,
+                                       QuestionId = contextQuestion.All.First().Id,
                                        UserId = 3
                                    };
 
@@ -35,9 +35,9 @@ namespace TrueOrFalse.Tests
             questionTotals.Run(questionVal1);
             questionTotals.Run(questionVal2);
 
-            Resolve<ISession>().Evict(contextQuestion.Questions.First());
+            Resolve<ISession>().Evict(contextQuestion.All.First());
 
-            var question = Resolve<QuestionRepository>().GetById(contextQuestion.Questions.First().Id);
+            var question = Resolve<QuestionRepository>().GetById(contextQuestion.All.First().Id);
             Assert.That(question.TotalQualityEntries, Is.EqualTo(0));
             Assert.That(question.TotalQualityAvg, Is.EqualTo(0));
             Assert.That(question.TotalRelevanceForAllAvg, Is.EqualTo(30));

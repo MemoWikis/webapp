@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tests
                                        .AddCategory("C")
                                      .Persist();
 
-            var question = questionContext.Questions[0];
+            var question = questionContext.All[0];
             var categoryA = question.Categories.ByName("A");
             var categoryB = question.Categories.ByName("B");
 

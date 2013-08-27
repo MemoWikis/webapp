@@ -5,25 +5,24 @@ namespace TrueOrFalse.Tests
 {
     public class ContextQuestion : IRegisterAsInstancePerLifetime
     {
-        private readonly ContextUser _contextUser;
+        private readonly ContextUser _contextUser = ContextUser.New();
+        private readonly ContextCategory _contextCategory = ContextCategory.New();
+
         private readonly QuestionRepository _questionRepository;
-        private readonly CategoryRepository _categoryRepository;
         
-        public List<Question> Questions = new List<Question>();
+
+        public List<Question> All = new List<Question>();
 
         public static ContextQuestion New()
         {
             return BaseTest.Resolve<ContextQuestion>();
         }
 
-        public ContextQuestion(ContextUser contextUser,
-                               QuestionRepository questionRepository, 
-                               CategoryRepository categoryRepository)
+        public ContextQuestion(QuestionRepository questionRepository)
         {
-            _contextUser = contextUser;
             _contextUser.Add("Some User").Persist();
+            _contextUser.Add("Context Question").Persist();
             _questionRepository = questionRepository;
-            _categoryRepository = categoryRepository;
         }
 
         public ContextQuestion AddQuestion(string questionText, string solutionText)
@@ -33,29 +32,21 @@ namespace TrueOrFalse.Tests
             question.Solution = solutionText;
             question.SolutionType = SolutionType.Text;
             question.SolutionMetadataJson = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false}.Json;
-            question.Creator = _contextUser.AllUsers.First();
-            Questions.Add(question);
+            question.Creator = _contextUser.All.First();
+            All.Add(question);
             return this;
         }
 
         public ContextQuestion AddCategory(string categoryName)
         {
-            Category category;
-            if (_categoryRepository.Exists(categoryName))
-                category = _categoryRepository.GetByName(categoryName);
-            else
-            {
-                category = new Category(categoryName);
-                _categoryRepository.Create(category);
-            }
-
-            Questions.Last().Categories.Add(category);
+            _contextCategory.Add(categoryName);
+            All.Last().Categories.Add(_contextCategory.All.Last());
             return this;
         }
 
         public ContextQuestion Persist()
         {
-            foreach (var question in Questions)
+            foreach (var question in All)
                 _questionRepository.Create(question);
 
             return this;

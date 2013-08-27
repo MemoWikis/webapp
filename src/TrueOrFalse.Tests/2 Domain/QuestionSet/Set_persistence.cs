@@ -3,7 +3,7 @@
 namespace TrueOrFalse.Tests.Persistence
 {
     [Category(TestCategories.Programmer)]
-    public class QuestionSet_persistence : BaseTest
+    public class Set_persistence : BaseTest
     {
         [Test]
         public void QuestionSet_should_be_persisted()
@@ -16,7 +16,7 @@ namespace TrueOrFalse.Tests.Persistence
                             .Persist();
 
             var questionSet = new Set();
-            questionSet.Add(context.Questions);
+            questionSet.Add(context.All);
 
             Resolve<SetRepository>().Create(questionSet);
 

@@ -21,7 +21,7 @@ $(function () {
 function populateDeleteSet(setId) {
     $.ajax({
         type: 'POST',
-        url: "/Sets/DeleteDetails/" + setId,
+        url: "/Questions/DeleteDetails/" + setId,
         cache: false,
         success: function (result) {
             $("#spanQuestionTitle").html(result.questionTitle.toString());
@@ -35,7 +35,7 @@ function populateDeleteSet(setId) {
 function deleteSet(setId) {
     $.ajax({
         type: 'POST',
-        url: "/Sets/Delete/" + setId,
+        url: "/Questions/Delete/" + setId,
         cache: false,
         success: function () { window.location.reload(); },
         error: function (result) {
