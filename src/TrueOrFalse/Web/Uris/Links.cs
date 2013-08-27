@@ -52,7 +52,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("GetAnswer", AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string Sets(UrlHelper url){ return url.Action("Sets", "Sets"); }
+        /*Set*/
+        public const string SetsController = "Sets";
+        public const string SetsAction = "Sets";
+        public static string Sets(UrlHelper url) { return url.Action(SetsController, SetsAction); }
 
         public static string SetDetail(UrlHelper url, Set set, int elementOnPage = 1){
             return SetDetail(url, set.Name, set.Id, elementOnPage);

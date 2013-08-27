@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
@@ -35,5 +37,7 @@ public class SetsModel : BaseModel
         SearchTerm = _sessionUiData.SearchSpecSet.SearchTearm;
 
         Pager = new PagerModel(_sessionUiData.SearchSpecSet);
+        Pager.Controller = Links.SetsController;
+        Pager.Action = Links.SetsAction;
     }
 }

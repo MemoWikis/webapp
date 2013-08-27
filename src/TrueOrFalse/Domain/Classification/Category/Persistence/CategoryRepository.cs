@@ -11,8 +11,7 @@ namespace TrueOrFalse
         private readonly SaveCategoryToIndex _saveCategoryToIndex;
 
         public CategoryRepository(ISession session, SaveCategoryToIndex saveCategoryToIndex)
-            : base(session)
-        {
+            : base(session){
             _saveCategoryToIndex = saveCategoryToIndex;
         }
 
