@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 
 namespace TrueOrFalse.Tests.Persistence
 {
@@ -15,7 +16,7 @@ namespace TrueOrFalse.Tests.Persistence
                             .AddQuestion("Q4", "A4").AddCategory("B")
                             .Persist();
 
-            var questionSet = new Set();
+            var questionSet = new Set {Creator = ContextUser.New().Add("some body").Persist().All.Last()};
             questionSet.Add(context.All);
 
             Resolve<SetRepository>().Create(questionSet);

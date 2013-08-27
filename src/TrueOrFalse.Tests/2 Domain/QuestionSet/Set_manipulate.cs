@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tests
                 .Persist();
 
             var questionSetRepo = Resolve<SetRepository>();
-            var questionSet = new Set {Name = "QS1"};
+            var questionSet = new Set {Name = "QS1", Creator = ContextUser.New().Add("some user").Persist().All.Last()};
             questionSetRepo.Create(questionSet);
 
             Resolve<AddToSet>().Run(context.All.GetIds().ToArray(), questionSet.Id);
