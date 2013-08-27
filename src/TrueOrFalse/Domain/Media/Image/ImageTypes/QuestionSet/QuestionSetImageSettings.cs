@@ -26,6 +26,7 @@ public class QuestionSetImageSettings : IImageSettings
         Id = questionSetId;
     }
 
+    public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
     public ImageUrl GetUrl_206px_square() { return GetUrl(206, isSquare:true); }
 
     private ImageUrl GetUrl(int width, bool isSquare = false)
@@ -37,7 +38,7 @@ public class QuestionSetImageSettings : IImageSettings
             this,
             width, 
             isSquare,
-            arg => "/Images/no-question-set-" + width + ImageUrl.SquareSuffix(isSquare) + ".png"
+            arg => "/Images/no-set-" + width + ".png"
         ).SetSuffix(imageMeta);
     }
 }
