@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NHibernate;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
@@ -36,6 +37,14 @@ namespace TrueOrFalse
         {
             _searchIndexQuestion.Delete(question);
             base.Delete(question.Id);
+        }
+
+        public IList<Question> GetForCategory(int categoryId)
+        {
+            return _session.QueryOver<Question>()
+                .JoinQueryOver<Category>(q => q.Categories)
+                .Where(c => c.Id == categoryId)
+                .List<Question>();
         }
     }
 }

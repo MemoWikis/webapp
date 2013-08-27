@@ -19,7 +19,7 @@ namespace TrueOrFalse
             foreach (var category in categories)
             {
                 var query =
-                    "UPDATE category SET QuestionCount = " +
+                    "UPDATE category SET CountQuestions = " +
                     "(SELECT COUNT(*) FROM categoriestoquestions WHERE Category_id = category.Id )" +
                     "WHERE Id = " + category.Id;
 

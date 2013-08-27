@@ -153,6 +153,7 @@
     <Compile Include="Domain\Classification\Category\CategoryNamesExist.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
+    <Compile Include="Domain\Classification\Category\Ops\UpdateSetCountForCategory.cs" />
     <Compile Include="Domain\Media\Image\ResizeImage.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategories.cs" />
@@ -352,6 +353,7 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs026.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs025.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs024.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs023.cs" />

@@ -21,7 +21,7 @@ public class CategoryRowModel : BaseModel
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";
-        QuestionCount = category.QuestionCount;
+        QuestionCount = category.CountQuestions;
 
         UserCanEdit = _sessionUser.IsInstallationAdmin;
 

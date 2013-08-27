@@ -79,7 +79,7 @@ namespace TrueOrFalse
         public CategorySetOrderBy()
         {
             CreationDate = new OrderBy("DateCreated", this);
-            QuestionCount = new OrderBy("QuestionCount", this);
+            QuestionCount = new OrderBy("CountQuestions", this);
         }
     }
 }

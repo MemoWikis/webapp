@@ -9,7 +9,7 @@ namespace TrueOrFalse.Updates
         public static void Run()
         {
             ServiceLocator.Resolve<ISession>()
-                .CreateSQLQuery(@"ALTER TABLE `trueorfalse`.`question` ADD COLUMN `TextExtended` TEXT NULL  AFTER `Text`;").ExecuteUpdate();
+                .CreateSQLQuery(@"ALTER TABLE `question` ADD COLUMN `TextExtended` TEXT NULL  AFTER `Text`;").ExecuteUpdate();
         }
     }
 }

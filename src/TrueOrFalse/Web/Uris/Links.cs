@@ -26,7 +26,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
 
-        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage){
+        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1){
             return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage);
         }
 

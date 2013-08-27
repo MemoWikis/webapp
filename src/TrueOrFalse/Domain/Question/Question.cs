@@ -54,9 +54,9 @@ namespace TrueOrFalse
             Categories = new List<Category>();
         }
 
-        public virtual string GetShortTitle()
+        public virtual string GetShortTitle(int length = 96) 
         {
-            return Text.TruncateAtWord(96);
+            return Text.TruncateAtWord(length);
         }
     }
 }
