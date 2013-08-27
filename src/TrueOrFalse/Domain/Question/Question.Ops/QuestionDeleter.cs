@@ -26,7 +26,7 @@ namespace TrueOrFalse
         {
             var question = _questionRepository.GetById(questionId);
             var categoriesToDelete = question.Categories.ToList();
-            _questionRepository.Delete(questionId);
+            _questionRepository.Delete(question);
             _updateQuestionCountForCategory.Run(categoriesToDelete);
             _answerHistory.DeleteFor(questionId);
 
