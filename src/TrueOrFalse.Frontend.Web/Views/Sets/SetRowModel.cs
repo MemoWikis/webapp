@@ -16,6 +16,7 @@ public class SetRowModel
     public int IndexInResult;
 
     public int QuestionCount;
+    public IList<Category> Categories; 
 
     public Func<UrlHelper, string> DetailLink;
     public Func<UrlHelper, string> UserLink;
@@ -43,6 +44,7 @@ public class SetRowModel
         UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);
 
         ImageUrl = QuestionSetImageSettings.Create(set.Id).GetUrl_206px_square().Url;
+        Categories = set.Categories;
     }
 
 }

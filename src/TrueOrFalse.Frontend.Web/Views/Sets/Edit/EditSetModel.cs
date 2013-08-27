@@ -74,6 +74,7 @@ public class EditSetModel : BaseModel
 
         FillCategoriesFromPostData(HttpContext.Current.Request.Form);
 
+        set.Categories.Clear();
         foreach (var categoryName in Categories)
             AddCategory(set, categoryName);
 

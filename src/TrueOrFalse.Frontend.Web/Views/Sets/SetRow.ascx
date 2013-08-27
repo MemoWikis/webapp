@@ -12,6 +12,12 @@
             <span style="font-size: small;">(<%= Model.QuestionCount %> Fragen)</span>
         </div>
         
+        <div>
+            <% foreach (var category in Model.Categories){ %>
+                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+            <% } %>
+        </div>
+        
         <%= Model.DescriptionShort %>
         
         <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
