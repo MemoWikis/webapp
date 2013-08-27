@@ -15,11 +15,13 @@
         </div>
         
         <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
+            <% if(Model.UserCanEdit){ %>
             <a data-toggle="modal" data-SetId="<%= Model.CategoryId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
             <a href="<%= Links.CategoryEdit(Url, Model.CategoryId) %>">
                 <img src="/Images/edit.png"/> 
             </a>
+            <% } %>
         </div>
         
         <%= Model.DescriptionShort %>

@@ -2,8 +2,9 @@ using System;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Frontend.Web.Models;
 
-public class CategoryRowModel
+public class CategoryRowModel : BaseModel
 {
     public string ImageUrl;
     public int QuestionCount;
@@ -12,6 +13,7 @@ public class CategoryRowModel
     public object DescriptionShort;
 
     public Func<UrlHelper, string> DetailLink;
+    public bool UserCanEdit;
 
     public CategoryRowModel(Category category, int indexInResultSet)
     {
@@ -20,6 +22,8 @@ public class CategoryRowModel
         CategoryName = category.Name;
         DescriptionShort = "";
         QuestionCount = category.QuestionCount;
+
+        UserCanEdit = _sessionUser.IsInstallationAdmin;
 
         DetailLink = urlHelper => Links.CategoryDetail(urlHelper, category.Name, category.Id, indexInResultSet);
     }
