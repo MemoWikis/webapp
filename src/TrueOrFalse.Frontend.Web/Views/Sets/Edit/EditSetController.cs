@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Web;
@@ -18,21 +19,28 @@ public class EditSetController : BaseController
     [HttpPost]
     public ActionResult Create(EditSetModel model)
     {
-        if (ModelState.IsValid)
-        {
-            var questionSet = model.ToQuestionSet();
-            questionSet.Creator = _sessionUser.User;
-            Resolve<SetRepository>().Create(questionSet);
-
-            model = new EditSetModel();
-            model.SetToCreateModel();
-            model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert, " +
-                                               "nun kannst Du einen neuen Fragesatz erstellen.");
-
-            StoreImage(questionSet.Id);
-
+        if (!ModelState.IsValid){
+            model.Message = new ErrorMessage(ModelState);
             return View(_viewLocation, model);
         }
+
+        var categoriesExist = Resolve<CategoryNamesExist>();
+        if (categoriesExist.No(model.Categories)){
+            model.Message = categoriesExist.GetErrorMsg(Url);
+            return View(_viewLocation, model);
+        }
+
+        var questionSet = model.ToQuestionSet();
+        questionSet.Creator = _sessionUser.User;
+        Resolve<SetRepository>().Create(questionSet);
+
+        model = new EditSetModel();
+        model.SetToCreateModel();
+        model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert, " +
+                                           "nun kannst Du einen neuen Fragesatz erstellen.");
+
+        StoreImage(questionSet.Id);
+
         return View(_viewLocation, model);
     }
 
@@ -91,5 +99,4 @@ public class EditSetController : BaseController
         Resolve<QuestionInSetRepo>().Delete(questionInSetId);
         return new EmptyResult();
     }
-
 }

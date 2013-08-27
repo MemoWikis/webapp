@@ -61,17 +61,9 @@ public class EditQuestionController : BaseController
     {
         model.FillCategoriesFromPostData(Request.Form);
         
-        var editQuestionModelCategoriesExist = Resolve<CategoryNamesExist>();
-        
-        if (editQuestionModelCategoriesExist.No(model.Categories))
-        {
-            var missingCategory = editQuestionModelCategoriesExist.MissingCategory;
-            model.Message = new ErrorMessage(
-                string.Format("Die Kategorie <strong>'{0}'</strong> existiert nicht. " +
-                              "Klicke <a href=\"{1}\">hier</a>, um Kategorien anzulegen.",
-                              missingCategory,
-                              Url.Action("Create", "EditCategory", new { name = missingCategory })));
-
+        var categoriesExist = Resolve<CategoryNamesExist>();
+        if (categoriesExist.No(model.Categories)){
+            model.Message = categoriesExist.GetErrorMsg(Url);
             return View(_viewLocation, model);
         }
 

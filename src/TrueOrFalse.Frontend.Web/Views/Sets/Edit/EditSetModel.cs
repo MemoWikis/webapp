@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse;
@@ -55,6 +59,7 @@ public class EditSetModel : BaseModel
         ImageUrl_206px = QuestionSetImageSettings.Create(set.Id).GetUrl_206px_square().Url;
         Username = new SessionUser().User.Name;
         QuestionsInSet = set.QuestionsInSet;
+        Categories = (from cat in set.Categories select cat.Name).ToList();
     }
 
     public Set ToQuestionSet(){
@@ -66,6 +71,11 @@ public class EditSetModel : BaseModel
         set.Text = Text;
         ImageUrl_206px = QuestionSetImageSettings.Create(set.Id).GetUrl_206px_square().Url;
         QuestionsInSet = set.QuestionsInSet;
+
+        FillCategoriesFromPostData(HttpContext.Current.Request.Form);
+
+        foreach (var categoryName in Categories)
+            AddCategory(set, categoryName);
 
         return set;
     }
@@ -86,5 +96,20 @@ public class EditSetModel : BaseModel
     public bool IsOwner(int userId)
     {
         return _sessionUser.IsOwner(userId);
+    }
+
+    private void FillCategoriesFromPostData(NameValueCollection postData)
+    {
+        Categories = (from key in postData.AllKeys where key.StartsWith("cat") select postData[key]).ToList();
+    }
+
+    private void AddCategory(Set set, string categoryName)
+    {
+        var category = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
+
+        if (category == null)
+            throw new InvalidDataException();
+
+        set.Categories.Add(category);
     }
 }

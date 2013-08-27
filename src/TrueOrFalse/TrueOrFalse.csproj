@@ -350,6 +350,7 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs025.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs024.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs023.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs022.cs" />
@@ -401,6 +402,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Utilities\Update\Scripts\017-new-tbl-imageMetaData.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\Scripts\025-new-tbl-categories_to_sets.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
