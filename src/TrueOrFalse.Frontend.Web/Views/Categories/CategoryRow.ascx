@@ -11,15 +11,18 @@
         <div style="font-size:large;">
             <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName%></a> 
             <span style="font-size: small;">(<b><%= Model.QuestionCount %> Fragen</b>)</span>
+            <button class="btn btn-mini" type="button">Folgen</button>
+        </div>
+        
+        <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
+            <a data-toggle="modal" data-SetId="<%= Model.CategoryId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
+
+            <a href="<%= Links.CategoryEdit(Url, Model.CategoryId) %>">
+                <img src="/Images/edit.png"/> 
+            </a>
         </div>
         
         <%= Model.DescriptionShort %>
-      
-        <div style="text-align: right; width: 150px; position: absolute; bottom:0px; right: 10px;">
-            <span style="float: right"><%= Html.ActionLink("Bearbeiten", Links.EditCategory, Links.EditCategoryController, new {id = Model.CategoryId}, null)%></span>
-        </div>  
-        
+
     </div>
-
-
 </div>

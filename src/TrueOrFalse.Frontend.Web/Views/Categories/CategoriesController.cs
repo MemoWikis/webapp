@@ -34,6 +34,8 @@ public class CategoriesController : BaseController
 
         model.Init(_categorySearch.Run(), _sessionUiData);
 
+        _sessionUiData.SearchSpecCategory.OrderBy.QuestionCount.Desc();
+
         return View(_viewLocation, model);
     }
 

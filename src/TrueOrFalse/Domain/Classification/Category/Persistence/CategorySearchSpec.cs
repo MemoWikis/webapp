@@ -73,11 +73,13 @@ namespace TrueOrFalse
 
     public class CategorySetOrderBy : OrderByCriteria
     {
-        public OrderBy OrderByCreationDate;
+        public OrderBy CreationDate;
+        public OrderBy QuestionCount;
 
         public CategorySetOrderBy()
         {
-            OrderByCreationDate = new OrderBy("DateCreated", this);
+            CreationDate = new OrderBy("DateCreated", this);
+            QuestionCount = new OrderBy("QuestionCount", this);
         }
     }
 }

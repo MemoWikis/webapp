@@ -22,7 +22,7 @@
                     <img src="/Images/edit.png"/> 
                 </a>
             <% } %>
-        </div>        
+        </div>
 
         <div style="text-align: right; width: 150px; position: absolute; bottom:0px; right: 10px;">
             von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">

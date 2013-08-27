@@ -45,7 +45,7 @@
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="divider"></li>
+                                    <li><a href="#">Anzahl Fragen</a></li>
                                     <li><a href="#">Empfehlungen</a></li>
                                 </ul>
                             </li>
