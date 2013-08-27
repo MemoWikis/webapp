@@ -7,11 +7,11 @@ using SolrNet;
 
 namespace TrueOrFalse.Search
 {
-    public class SetIndex : IRegisterAsInstancePerLifetime
+    public class SearchIndexSet : IRegisterAsInstancePerLifetime
     {
         private readonly ISolrOperations<SetSolrMap> _solrOperations;
 
-        public SetIndex(ISolrOperations<SetSolrMap> solrOperations){
+        public SearchIndexSet(ISolrOperations<SetSolrMap> solrOperations){
             _solrOperations = solrOperations;
         }
 

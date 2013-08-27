@@ -6,30 +6,30 @@ namespace TrueOrFalse
 {
     public class SetRepository : RepositoryDb<Set>
     {
-        private readonly SetIndex _setIndex;
+        private readonly SearchIndexSet _searchIndexSet;
 
-        public SetRepository(ISession session, SetIndex setIndex)
+        public SetRepository(ISession session, SearchIndexSet searchIndexSet)
             : base(session)
         {
-            _setIndex = setIndex;
+            _searchIndexSet = searchIndexSet;
         }
 
         public override void Update(Set set)
         {
-            _setIndex.Update(set);
+            _searchIndexSet.Update(set);
             base.Update(set);
         }
 
         public override void Create(Set set)
         {
             base.Create(set);
-            _setIndex.Update(set);
+            _searchIndexSet.Update(set);
         }
 
         public override void Delete(int id)
         {
             var set = GetById(id);
-            _setIndex.Delete(set);
+            _searchIndexSet.Delete(set);
             base.Delete(id);
         }
     }
