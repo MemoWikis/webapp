@@ -10,14 +10,14 @@ namespace TrueOrFalse
     public class CategoryDeleter : IRegisterAsInstancePerLifetime
     {
         private readonly ISession _session;
-        private readonly RemoveCategoryFromIndex _removeCategoryFromIndex;
+        private readonly SearchIndexCategory _searchIndexCategory;
 
         public CategoryDeleter(
-            ISession session, 
-            RemoveCategoryFromIndex removeCategoryFromIndex)
+            ISession session,
+            SearchIndexCategory searchIndexCategory)
         {
             _session = session;
-            _removeCategoryFromIndex = removeCategoryFromIndex;
+            _searchIndexCategory = searchIndexCategory;
         }
 
         public void Run(Category category)
@@ -25,7 +25,7 @@ namespace TrueOrFalse
             if (category == null)
                 return;
 
-            _removeCategoryFromIndex.Run(category);
+            _searchIndexCategory.Delete(category);
 
             _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
             _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();

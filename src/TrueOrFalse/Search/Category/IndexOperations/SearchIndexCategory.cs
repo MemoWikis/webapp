@@ -7,15 +7,21 @@ using SolrNet;
 
 namespace TrueOrFalse.Search
 {
-    public class RemoveCategoryFromIndex : IRegisterAsInstancePerLifetime
+    public class SearchIndexCategory : IRegisterAsInstancePerLifetime
     {
         private readonly ISolrOperations<CategorySolrMap> _solrOperations;
 
-        public RemoveCategoryFromIndex(ISolrOperations<CategorySolrMap> solrOperations){
+        public SearchIndexCategory(ISolrOperations<CategorySolrMap> solrOperations){
             _solrOperations = solrOperations;
         }
 
-        public void Run(Category category)
+        public void Update(Category category)
+        {
+            _solrOperations.Add(ToCategorytSolrMap.Run(category));
+            _solrOperations.Commit();
+        }
+
+        public void Delete(Category category)
         {
             _solrOperations.Delete(ToCategorytSolrMap.Run(category));
             _solrOperations.Commit();
