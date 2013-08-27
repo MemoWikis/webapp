@@ -34,7 +34,7 @@ namespace TrueOrFalse
 
         public override void Delete(Question question)
         {
-            _searchIndexQuestion.Delete(set);
+            _searchIndexQuestion.Delete(question);
             base.Delete(question.Id);
         }
     }
