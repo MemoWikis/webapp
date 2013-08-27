@@ -37,12 +37,22 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_add_categories_to_set()
         {
-            ContextSet.New()
+            var context = ContextSet.New()
                 .AddSet("Some question set")
+                    .AddQuestion("some question 1", "some solution 1")
+                    .AddQuestion("some question 2", "some solution 2")
                     .AddCategory("category 1")
                     .AddCategory("category 2")
-                    .AddQuestion("some question 1", "some solution 1")
-                    .AddQuestion("some question 2", "some solution 2");
+                .Persist();
+
+            RecycleContainer();
+
+            var setRepo = Resolve<SetRepository>();
+            var setFromDb = setRepo.GetById(context.All.Last().Id);
+
+            Assert.That(setFromDb.QuestionsInSet.Count, Is.EqualTo(2));
+            Assert.That(setFromDb.Categories.Count, Is.EqualTo(2));
+            Assert.That(setFromDb.Categories[0].Name, Is.EqualTo("category 1"));
         }
     }
 }

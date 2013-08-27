@@ -12,13 +12,17 @@ namespace TrueOrFalse.Tests
         private readonly ContextUser _contextUser = ContextUser.New();
         private readonly ContextCategory _contextCategory = ContextCategory.New();
         private readonly SetRepository _setRepository;
+        private readonly QuestionInSetRepo _questionInSetRepo;
 
         public List<Set> All = new List<Set>();
         
-        public ContextSet(SetRepository setRepository)
+        public ContextSet(
+            SetRepository setRepository,
+            QuestionInSetRepo questionInSetRepo)
         {
             _contextUser.Add("Context Set").Persist();
             _setRepository = setRepository;
+            _questionInSetRepo = questionInSetRepo;
         }
 
         public static ContextSet New()
@@ -28,31 +32,46 @@ namespace TrueOrFalse.Tests
 
         public ContextSet AddSet(string name, string text = "")
         {
-            var set = new Set();
-            set.Name = name;
-            set.Text = text;
-            set.Creator = _contextUser.All.First();
+            var set = new Set{
+                Name = name, 
+                Text = text, 
+                Creator = _contextUser.All.First()
+            };
+
             All.Add(set);
 
+            _contextUser.Persist();
             return this;
         }
 
         public ContextSet AddCategory(string name)
         {
             var category = _contextCategory.Add(name).Persist().All.Last();
+            _contextCategory.Persist();
+            
             All.Last().Categories.Add(category);
             return this;
         }
 
         public ContextSet AddQuestion(string question, string solution)
         {
-            var addedQuestion = _contextQuestion.AddQuestion(question, solution).All.Last();
+            _contextQuestion.AddQuestion(question, solution).Persist();
+            var addedQuestion = _contextQuestion.All.Last();
+            
             var set = All.Last();
-            var newQuestionInSet = new QuestionInSet{
+            this.Persist();
+
+            var newQuestionInSet = new QuestionInSet
+            {
                 Question = addedQuestion,
                 Set = set
             };
+            _questionInSetRepo.Create(newQuestionInSet);
+            _questionInSetRepo.Flush();
+
             set.QuestionsInSet.Add(newQuestionInSet);
+            
+
             return this;
         }
 
@@ -65,7 +84,5 @@ namespace TrueOrFalse.Tests
 
             return this;
         }
-
-
     }
 }
