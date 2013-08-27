@@ -26,24 +26,15 @@ namespace TrueOrFalse.Tests
             question.Categories.Clear();
             question.Categories.Add(categoryA);
             question.Categories.Add(categoryB);
-            question.Categories.Add(GetCategoryX());
 
             var categeoryRepository = Resolve<QuestionRepository>();
             categeoryRepository.Update(question);
 
             var questionFromDb = categeoryRepository.GetAll()[0];
-            Assert.That(questionFromDb.Categories.Count, Is.EqualTo(3));
+            Assert.That(questionFromDb.Categories.Count, Is.EqualTo(2));
             Assert.That(questionFromDb.Categories[0].Name, Is.EqualTo("A"));
             Assert.That(questionFromDb.Categories[1].Name, Is.EqualTo("B"));
-            Assert.That(questionFromDb.Categories[2].Name, Is.EqualTo("X"));
         }
 
-        private static Category GetCategoryX()
-        {
-            var categoryRepository = Resolve<CategoryRepository>();
-            var categoryX = new Category("X");
-            categoryRepository.Create(categoryX);
-            return categoryX;
-        }
     }
 }
