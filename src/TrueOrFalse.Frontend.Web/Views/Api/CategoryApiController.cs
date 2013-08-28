@@ -26,6 +26,7 @@ namespace TrueOrFalse.View.Web.Views.Api
 
             return Json(from c in categories
                         select new {
+                            id = c.Id,
                             name = c.Name,
                             numberOfQuestions = c.CountQuestions,
                             imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 

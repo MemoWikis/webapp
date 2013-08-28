@@ -1,7 +1,6 @@
 ﻿$.fn.defaultText = function () {
-
-    //here ist he place to change the behaviour
-    //whene placeholder attribute is not support (currently in IE)
+ 
+    //placeholder attribute for IE
     var defaultText = "";
 
     if ($(this).val() == "") {
