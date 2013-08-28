@@ -28,15 +28,19 @@
             <div class="span7">    
                 <div style="height: 200px; ">
                     
-                    <h4>Fragen (<%=Model.CountQuestions %>)</h4>
-                    
+                    <h4>Fragen (<%=Model.CountQuestions %>)</h4>                    
                         <% foreach(var question in Model.TopQuestions){ %>
                             <div>
                                 - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(80) %></a>
                             </div>
                         <% } %>
-                    
                     <h4>Fragesätze (<%=Model.CountSets %>)</h4>
+                    <% foreach(var set in Model.TopSets){ %>
+                        <div>
+                            - <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
+                        </div>
+                    <% } %>
+
                     <h4 >Ersteller (<%=Model.CountCreators %>)</h4>
                     
                 </div>

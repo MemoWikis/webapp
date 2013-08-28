@@ -45,5 +45,6 @@ public class CategoryModel : BaseModel
         CountCreators = category.CountCreators;
 
         TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id);
+        TopSets = Resolve<SetRepository>().GetForCategory(category.Id);
     }
 }

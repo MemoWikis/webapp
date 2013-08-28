@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using NHibernate;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
@@ -17,16 +18,16 @@ namespace TrueOrFalse
 
         public override void Update(Set set)
         {
+            _searchIndexSet.Update(set);
+            base.Update(set);
+
             var categoriesToUpdate =
                 _session.CreateSQLQuery("SELECT Category_id FROM categories_to_sets WHERE Set_id =" + set.Id)
                 .List<int>().ToList();
 
             categoriesToUpdate.AddRange(set.Categories.Select(x => x.Id).ToList());
             categoriesToUpdate = categoriesToUpdate.GroupBy(x => x).Select(x => x.First()).ToList();
-
-            _searchIndexSet.Update(set);
             Sl.Resolve<UpdateSetCountForCategory>().Run(categoriesToUpdate);
-            base.Update(set);
         }
 
         public override void Create(Set set)
@@ -42,5 +43,14 @@ namespace TrueOrFalse
             _searchIndexSet.Delete(set);
             base.Delete(id);
         }
+
+        public IList<Set>GetForCategory(int categoryId)
+        {
+            return _session.QueryOver<Set>()
+                .JoinQueryOver<Category>(q => q.Categories)
+                .Where(c => c.Id == categoryId)
+                .List<Set>();
+        }
+
     }
 }
