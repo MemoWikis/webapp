@@ -41,9 +41,13 @@
                     <label style="line-height: 18px; padding-top: 5px;"><b>Suche</b>:</label>
                     <%: Html.TextBoxFor(model => model.SearchTerm, new {style = "width:297px;", id = "txtSearch"}) %>
                     <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
+                    
+                    <div style="float:right">
+                        <a href="#" id="toggleExtendSearch">erweitert <i class="icon-caret-down"></i></a>
+                    </div>
                 </div>
 
-                <div class="control-group" style="margin-bottom: 8px;">
+                <div class="control-group" id="extendedSearch" style="margin-bottom: 8px; display: none">
                     <label style="line-height: 18px; padding-top: 5px;"><b>Erstellt</b>:</label>
                     <div class="btn-group" style="display: inline">
                         <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
@@ -70,8 +74,6 @@
                 </div>
             </div>
             <% } %>
-        
-        
 
             <div style="padding-bottom: 12px;">
         

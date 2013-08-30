@@ -26,9 +26,11 @@ $(function () {
         $('.btn-filterByAll').addClass('active');
     }
 
-    $('.userPopover').popover({
-        content: getPopupOverContent
-    });
+    $("#toggleExtendSearch").click(function() {
+        $("#extendedSearch").toggle();
+    });
+
+    $('.userPopover').popover({ content: getPopupOverContent });
     function getPopupOverContent() {
         return "123, <b>456</b>";  
     }
