@@ -78,6 +78,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Gibraltar.Agent.3.5.2.1521\lib\4.0\Gibraltar.Packager.NET40.exe</HintPath>
     </Reference>
+    <Reference Include="MarkdownSharp">
+      <HintPath>..\libs\MarkdownSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -395,6 +398,7 @@
     <Compile Include="Web\JavascriptViewEngine\JavascriptActionInvoker.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptView.cs" />
     <Compile Include="Web\JavascriptViewEngine\JavascriptViewEngine.cs" />
+    <Compile Include="Web\MardownInit.cs" />
     <Compile Include="Web\Uris\Links.cs" />
     <Compile Include="Web\Uris\UriSanitizer.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />

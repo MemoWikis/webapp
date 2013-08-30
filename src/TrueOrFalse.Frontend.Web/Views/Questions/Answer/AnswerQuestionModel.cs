@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using MarkdownSharp;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
+using TrueOrFalse.Web;
 
 
 public class AnswerQuestionModel : BaseModel
@@ -16,6 +18,8 @@ public class AnswerQuestionModel : BaseModel
                                QuestionSearchSpec questionSearchSpec, 
                                int elementOnPage = -1) : this()
     {
+        
+
         Creator = question.Creator;
         CreatorId = question.Creator.Id.ToString();
         CreatorName = question.Creator.Name;
@@ -24,6 +28,7 @@ public class AnswerQuestionModel : BaseModel
 
         QuestionId = question.Id.ToString();
         QuestionText = question.Text;
+        QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
         SolutionType = question.SolutionType.ToString();
         SolutionModel = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
 
@@ -138,10 +143,12 @@ public class AnswerQuestionModel : BaseModel
     public string AverageAnswerTime { get; private set; }
 
     public string QuestionText { get; private set; }
+    public string QuestionTextMarkdown { get; private set; }
 
     public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
 
     public bool HasPreviousPage;
     public bool HasNextPage;
+    
 }

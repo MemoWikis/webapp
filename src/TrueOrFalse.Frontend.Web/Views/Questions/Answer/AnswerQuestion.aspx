@@ -45,15 +45,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="span6">
-        <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:10px; font-size: 22px;"><%= Model.QuestionText %></p>
+        <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:10px; font-size: 22px;">
+            <%= Model.QuestionText %>
+        </p>
             
-        <% if (Model.HasImage) { %>
-            <img src="<%:Model.ImageUrl_500px %>"/>
-        <% } %>
+        <p><%= Model.QuestionTextMarkdown %></p>
             
-        <% if (Model.HasSound){
-               Html.RenderPartial("AudioPlayer", Model.SoundUrl);
-           } %>
+        <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
 
         <div class="alert alert-info" id="divCorrectAnswer" style="display: none; margin-top:5px; width: 360px; background-color: white; color:#2E487B;">
             <b>Antwort:</b>

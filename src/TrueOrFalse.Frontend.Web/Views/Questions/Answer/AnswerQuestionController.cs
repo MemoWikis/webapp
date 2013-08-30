@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 
 [HandleError]
@@ -101,7 +102,7 @@ public class AnswerQuestionController : BaseController
                        Data = new
                                   {
                                       correctAnswer = solution.CorrectAnswer(),
-                                      correctAnswerDesc = question.Description
+                                      correctAnswerDesc = MardownInit.Run().Transform(question.Description)
                                   }
                    };
     }
