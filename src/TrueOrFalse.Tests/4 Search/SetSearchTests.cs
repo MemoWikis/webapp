@@ -47,8 +47,23 @@ namespace TrueOrFalse.Tests
 
             Resolve<ReIndexAllSets>().Run();
 
-            Assert.That(Resolve<SearchSets>().Run("Set", new Pager()).Count, Is.EqualTo(2)); ;
-            Assert.That(Resolve<SearchSets>().Run("\"Set2 B\"", new Pager()).SetIds.Count, Is.EqualTo(1)); ;
+            Assert.That(Resolve<SearchSets>().Run("Set").Count, Is.EqualTo(2)); ;
+            Assert.That(Resolve<SearchSets>().Run("\"Set2 B\"").SetIds.Count, Is.EqualTo(1)); ;
+        }
+
+        [Test]
+        public void Should_search_sets_and_filter_by_creator()
+        {
+            var userContext = ContextUser.New().Add("user 1").Add("user 2").Persist();
+            var user1 = userContext.All.First();
+
+            ContextSet.New()
+                .AddSet("Set1 A", creator: user1)
+                .AddSet("Set2 B", creator: user1)
+                .AddSet("Set3 B")
+                .Persist();
+            
+            Assert.That(Resolve<SearchSets>().Run("Set", user1).Count, Is.EqualTo(2)); ;
         }
     }
 }

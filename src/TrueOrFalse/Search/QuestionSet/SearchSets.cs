@@ -13,15 +13,19 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
-        public SearchSetsResult Run(string searchTearm){
-            return Run(searchTearm, new Pager());
+        public SearchSetsResult Run(string searchTearm, User creator = null){
+            return Run(searchTearm, new Pager(), creator);
         }
 
-        public SearchSetsResult Run(string searchTearm, Pager pager)
+        public SearchSetsResult Run(string searchTearm, Pager pager, User creator = null)
         {
             var sqb = new SearchQueryBuilder()
                 .Add("FullTextStemmed", searchTearm)
-                .Add("FullTextExact", searchTearm);
+                .Add("FullTextExact", searchTearm)
+                .Add("CreatorId", 
+                    creator != null ? creator.Id.ToString() : null, 
+                    operator_: "AND",
+                    exact: true);
 
             var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions

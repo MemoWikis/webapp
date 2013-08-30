@@ -30,12 +30,12 @@ namespace TrueOrFalse.Tests
             return BaseTest.Resolve<ContextSet>();
         }
 
-        public ContextSet AddSet(string name, string text = "")
+        public ContextSet AddSet(string name, string text = "", User creator = null)
         {
             var set = new Set{
                 Name = name, 
                 Text = text, 
-                Creator = _contextUser.All.First()
+                Creator =  creator ?? _contextUser.All.First()
             };
 
             All.Add(set);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -7,6 +8,7 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
+    [DebuggerDisplay("Id={Id} Name={Name}")]
     public class User : DomainEntity
     {
         public virtual string PasswordHashedAndSalted { get; set; }
