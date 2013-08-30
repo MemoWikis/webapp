@@ -14,18 +14,13 @@
                 <div class="box box_darkblue">
                     <div class="box-content">
                         <h1>
-                            <a href="#teaser1">
-                                Richtig-oder-Falsch ist eine Lern- und Wissensplattform. 
-                                Sammle Wissen und teile es mit anderen. <i class="icon-circle-arrow-right" style="" ></i>
-                            </a>
-                        </h1>
-                    </div>
-                </div>
-                <div class="box box_darkblue">
-                    <div class="box-content">
-                        <h1>
-                            <a href="#teaser2">Wikipedia-Prinzip:<br />
-                            Open-Source, gemeinfreie Lizenz für Fragen und Inhalte <i class="icon-circle-arrow-right" style="" ></i></a>
+                            <a href="#teaser1">Richtig-oder-Falsch ist eine Lern- und Wissensplattform. </a>
+
+                            <ul style="margin-top: 10px;">
+                                <li><a href="#teaser1" style="font-size: 16px;">Wie hilft Dir Richtig-oder-Falsch? <i class="icon-circle-arrow-right" style="" ></i></a></li>
+                                <li><a href="#teaser2" style="font-size: 16px;">Wikipedia Prinzip und mehr (prinzipielles) <i class="icon-circle-arrow-right" style="" ></i></a></li>
+                                <li><a href="#teaser3" style="font-size: 16px;">Wer sind wir? <i class="icon-circle-arrow-right" style="" ></i></a></li>
+                            </ul>
                         </h1>
                     </div>
                 </div>
@@ -70,15 +65,21 @@
                         <li>
                             <b>Schneller zu lernen:</b>
                             <p>
-                                RIOFA analyisert Dein Lernverhalten und 
+                                RIOFA analysiert Dein Lernverhalten und 
                                 versucht den optimalen Zeitpunkt, für eine 
                                 benötigte Wiederholung von Wissen zu ermitteln. 
                                 So kannst Du schneller lernen.
+                            </p>
+                            <p>
+                                (Die Analyse von Lernverhalten funktioniert nur, wenn wir viele Daten sammeln: 
+                                Zu diesem Thema mehr hier: <a href="/Hilfe/DatenSicherheit">Hilfe Datenansicht</a>)
                             </p>
                         </li>
                         <li>
                             <b>Zu überblicken Was Du weist und was Du wissen möchtest.</b>
                             <p>
+                                Du möchtest Dir 50, 500, 5000 (oder mehr) Fakten merken. 
+                                Wir helfen Dir dabei den Überblick zu behalten. 
                             </p>
                         </li>
                         <li>
@@ -94,22 +95,21 @@
                             </p> 
                             <p>
                                 RIOFA erinnert Dich an Termine und 
-                                informiert Dich darüber was es noch zu lernen gibt. 
+                                informiert Dich darüber, was es noch zu lernen gibt. 
                             </p>
-                        </li>
-                        <li>
-                            <b></b>
                         </li>
                     </ul>
                 </p>
-                <h3><a name="teaser2"></a></h3>
+
                 <h3><a name="teaser2">Unsere Prinzipien</a></h3>
                 <ul>
                     <li>
                         <b>Wikipedia Prinzip</b>
                         <p>
-                            Öffentlichen Inhalte unterliegen, wie zum Beispiel Artikel bei Wikipedia, unter einer
-                            Creative Commons Lizenz. Öffentliche Inhalten können also von jedermann 
+                            In RIOFA unterliegen Öffentlichen Inhalte einer
+                            Creative Commons Lizenz. Genau wie die Einträge bei Wikipedia.
+                            
+                            Öffentliche RIOFA-Inhalte können also von jedermann 
                             kostenfrei und ohne Einschränkungen verwendet werden. 
                 
                             <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.de">Zum Lizenztext: 
@@ -118,11 +118,11 @@
                         </p>
                     </li>
                     <li>
-                        <b>Gemeinwohlorientierung</b>
-                    </li>
-                    <li>
                         <b>Wir werden Deine Daten niemals verkaufen.</b>
                         <p>Wir Nutzen Daten dafür, um Richtig-oder-Falsch besser zu machen.</p>
+                    </li>
+                    <li>
+                        <b>Gemeinwohlorientierung</b>
                     </li>
                     <li>
                         <b>Transparenz!</b>
@@ -136,6 +136,33 @@
                     </li>        
                 </ul>
                 <div style="height: 10px;"></div>        
+                
+                <h3><a name="teaser3">Team</a></h3>
+                <div style="width: 280px;">
+                    
+                
+                    <div style="width: 128px; float: left; margin: 0px 20px 0 0px; ">
+                        <img src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=128"/>
+                         <br/> <b>Robert</b> (Gründer) <br/>
+
+                    </div>
+                
+                    <div style="width: 128px; float: left; ">
+                        <img src="/Images/no-profile-picture-128.png"/>  
+                        <br/> <b>Jule </b>(Gründerin) <br/> 
+                    </div>
+                    <div style="clear:both"></div>
+                    <div style="margin-top: 10px;">
+                        <p>
+                            Eine spannende Reise: Wir möchte nicht nur <a href="#teaser1">das Lernen von Faktenwissen vereinfachen</a>, 
+                            sondern auch ein stabiles <a href="#teaser2">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
+                        </p>
+                        <p>
+                            Wir konzepieren, programmieren und gestalten.
+                        </p>
+                    </div>
+                </div>
+                
             </div>
             
             <div class="span4">
