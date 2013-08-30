@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse;
+using TrueOrFalse.Search;
 
 public class QuestionsController : BaseController
 {
@@ -112,7 +113,8 @@ public class QuestionsController : BaseController
     public JsonResult GetQuestionSets(string filter)
     {
         var searchSpec = new SetSearchSpec{PageSize = 12};
-        var questionSets = Resolve<SetRepository>().GetBy(searchSpec);
+        var questionSets = Resolve<SetRepository>()
+            .GetByIds(Resolve<SearchSets>().Run(filter, _sessionUser.User).SetIds.ToArray());
 
         return new JsonResult{
             Data = new{

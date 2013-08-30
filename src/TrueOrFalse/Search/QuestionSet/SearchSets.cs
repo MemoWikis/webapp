@@ -24,7 +24,7 @@ namespace TrueOrFalse.Search
                 .Add("FullTextExact", searchTearm)
                 .Add("CreatorId", 
                     creator != null ? creator.Id.ToString() : null, 
-                    operator_: "AND",
+                    isMustHave: true,
                     exact: true);
 
             var queryResult = _searchOperations.Query(sqb.ToString(),

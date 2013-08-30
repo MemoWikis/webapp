@@ -30,7 +30,17 @@ namespace TrueOrFalse.Tests
                 .Add("fieldName", "2")
                 .Add("fieldName", "3");
 
-            Assert.That(sqb.ToString(), Is.EqualTo("fieldName: (1~) fieldName: (2~) fieldName: (3~)"));
+            Assert.That(sqb.ToString(), Is.EqualTo("fieldName:(1~) fieldName:(2~) fieldName:(3~)"));
+
+            sqb = new SearchQueryBuilder()
+                .Add("fieldName", "1")
+                .Add("fieldName", "2", isMustHave: true)
+                .Add("fieldName", "3");
+
+            Assert.That(sqb.ToString(), Is.EqualTo("(fieldName:(1~) fieldName:(3~)) AND fieldName:(2~)"));
+
+            sqb = new SearchQueryBuilder().Add("fieldName", "1", isMustHave: true);
+            Assert.That(sqb.ToString(), Is.EqualTo("fieldName:(1~)"));
         }
     }
 }
