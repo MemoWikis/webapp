@@ -19,10 +19,10 @@ namespace TrueOrFalse.Search
 
         public SearchUsersResult Run(string searchTearm, Pager pager)
         {
-            var searchExpression =
-                "Name:" + InputToSearchExpression.Run(searchTearm);
+            var sqb = new SearchQueryBuilder()
+                .Add("Name", searchTearm);
 
-            var queryResult = _searchOperations.Query(searchExpression,                            
+            var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions
                                                       {
                                                             Start = pager.LowerBound - 1,

@@ -22,7 +22,6 @@ namespace TrueOrFalse.Search
                     userInput = userInput.Replace(capture.Value, "");
             }
 
-            
             //exact search
             if (String.IsNullOrEmpty(userInput))
             {
@@ -32,7 +31,6 @@ namespace TrueOrFalse.Search
 
                 return result1;
             }
-
 
             var userInputParts = userInput.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
             userInputParts[userInputParts.Count() - 1] = userInputParts[userInputParts.Count() - 1] + "~";
@@ -46,4 +44,3 @@ namespace TrueOrFalse.Search
         }
     }
 }
-    

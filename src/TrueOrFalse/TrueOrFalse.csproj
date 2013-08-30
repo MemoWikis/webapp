@@ -269,6 +269,7 @@
     <Compile Include="Search\Question\SearchQuestions.cs" />
     <Compile Include="Search\Question\SearchQuestionsResult.cs" />
     <Compile Include="Search\InputToSearchExpression.cs" />
+    <Compile Include="Search\SearchQueryBuilder.cs" />
     <Compile Include="Search\User\IndexOperations\ReIndexAllUsers.cs" />
     <Compile Include="Search\User\IndexOperations\SearchIndexUser.cs" />
     <Compile Include="Search\User\Model\UserSolrMap.cs" />

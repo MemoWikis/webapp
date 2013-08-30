@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using TrueOrFalse.Search;
@@ -21,8 +20,17 @@ namespace TrueOrFalse.Tests
             Assert.That(InputToSearchExpression.Run("Juliane Misdom"), Is.EqualTo("(Juliane~ Misdom~)"));
             Assert.That(InputToSearchExpression.Run("   Juliane    Misdom   "), Is.EqualTo("(Juliane~ Misdom~)"));
             Assert.That(InputToSearchExpression.Run("Juliane Misdom \"Berlin Calling\""), Is.EqualTo("(Juliane~ Misdom~ Berlin Calling)"));
+        }
 
-            
+        [Test]
+        public void Should_build_search_expression()
+        {
+            var sqb = new SearchQueryBuilder()
+                .Add("fieldName", "1")
+                .Add("fieldName", "2")
+                .Add("fieldName", "3");
+
+            Assert.That(sqb.ToString(), Is.EqualTo("fieldName: (1~) fieldName: (2~) fieldName: (3~)"));
         }
     }
 }
