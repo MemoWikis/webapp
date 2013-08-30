@@ -13,15 +13,15 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
-        public SearchCategoriesResult Run(string searchTearm){
-            return Run(searchTearm, new Pager());
+        public SearchCategoriesResult Run(string searchTearm, bool searchStartingWith = false){
+            return Run(searchTearm, new Pager(), searchStartingWith);
         }
 
-        public SearchCategoriesResult Run(string searchTearm, Pager pager)
+        public SearchCategoriesResult Run(string searchTearm, Pager pager, bool searchStartingWith = false)
         {
             var sqb = new SearchQueryBuilder()
-                .Add("FullTextStemmed", searchTearm)
-                .Add("FullTextExact", searchTearm);
+                .Add("FullTextStemmed", searchTearm, searchStartingWith)
+                .Add("FullTextExact", searchTearm, searchStartingWith);
 
             var queryResult = _searchOperations.Query(sqb.ToString(),                            
                                                       new QueryOptions

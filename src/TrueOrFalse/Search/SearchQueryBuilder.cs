@@ -10,7 +10,12 @@ namespace TrueOrFalse.Search
 
         public SearchQueryBuilder Add(string fieldName, string seachTerm, bool startsWith = false)
         {
-            if (!String.IsNullOrEmpty(seachTerm))
+            if (String.IsNullOrEmpty(seachTerm))
+                return this;
+
+            if(startsWith)
+                _sb.Append(fieldName + ":(" + seachTerm + "* OR " + seachTerm + "~ )");
+            else
                 _sb.Append(fieldName + ": " + InputToSearchExpression.Run(seachTerm) + " ");
 
             return this;

@@ -22,7 +22,8 @@ namespace TrueOrFalse.View.Web.Views.Api
 
         public JsonResult ByName(string term)
         {
-            var categories = _categoryRepo.GetByIds(_searchCategories.Run(term).CategoryIds.Take(5).ToArray());
+            var categoryIds = _searchCategories.Run(term, searchStartingWith: true).CategoryIds.Take(5);
+            var categories = _categoryRepo.GetByIds(categoryIds.ToArray());
 
             return Json(from c in categories
                         select new {

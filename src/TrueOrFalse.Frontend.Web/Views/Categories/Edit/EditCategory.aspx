@@ -47,7 +47,7 @@
                                 <script type="text/javascript">
                                     $(function () {
                                         <%foreach (var category in Model.RelatedCategories) { %>
-                                            $("#txtNewRelatedCategory").val('<%=category %>').data("category-id", <%=category. %>);
+                                            $("#txtNewRelatedCategory").val('<%=category %>');
                                             $("#addRelatedCategory").click();
                                         <% } %>
                                     });
