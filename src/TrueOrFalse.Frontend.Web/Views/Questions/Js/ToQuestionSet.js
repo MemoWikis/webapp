@@ -10,7 +10,7 @@
     };
     ToQuestionSetModal.prototype.Populate = function () {
         $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufügen");
-        var setResult = GetQuestionSetsForUser.Run();
+        var setResult = GetSetsForUser.Run();
         this.Sets = setResult.Sets;
         $("#tqsSuccess").hide();
         $("#tqsSuccessFooter").hide();
@@ -56,18 +56,18 @@ var QuestionSet = (function () {
     }
     return QuestionSet;
 })();
-var GetQuestionSetsForUserResult = (function () {
-    function GetQuestionSetsForUserResult() {
+var GetSetsForUserResult = (function () {
+    function GetSetsForUserResult() {
         this.TotalSets = 0;
         this.CurrentPage = 1;
         this.Sets = new Array();
     }
-    return GetQuestionSetsForUserResult;
+    return GetSetsForUserResult;
 })();
-var GetQuestionSetsForUser = (function () {
-    function GetQuestionSetsForUser() { }
-    GetQuestionSetsForUser.Run = function Run() {
-        var result = new GetQuestionSetsForUserResult();
+var GetSetsForUser = (function () {
+    function GetSetsForUser() { }
+    GetSetsForUser.Run = function Run() {
+        var result = new GetSetsForUserResult();
         $.ajax({
             type: 'POST',
             async: false,
@@ -85,8 +85,8 @@ var GetQuestionSetsForUser = (function () {
             }
         });
         return result;
-    }
-    return GetQuestionSetsForUser;
+    };
+    return GetSetsForUser;
 })();
 var SendQuestionsToAddResult = (function () {
     function SendQuestionsToAddResult() {
@@ -119,6 +119,6 @@ var SendQuestionsToAdd = (function () {
             }
         });
         return new SendQuestionsToAddResult();
-    }
+    };
     return SendQuestionsToAdd;
 })();

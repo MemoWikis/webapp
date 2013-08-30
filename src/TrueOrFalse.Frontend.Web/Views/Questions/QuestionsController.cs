@@ -109,9 +109,10 @@ public class QuestionsController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetQuestionSets()
+    public JsonResult GetQuestionSets(string filter)
     {
-        var searchSpec = new SetSearchSpec{PageSize = 7};
+        var searchSpec = new SetSearchSpec{PageSize = 12};
+        searchSpec.FilterByUsers
         var questionSets = Resolve<SetRepository>().GetBy(searchSpec);
 
         return new JsonResult{

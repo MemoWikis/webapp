@@ -13,7 +13,7 @@
     </div>
     <div class="modal-body hide" id="tqsBody">
         <div id="tqsTextSelectSet" class="alert-info" style="padding: 5px;">
-          <strong>Bitte wählen Sie einen Fragesatz</strong> 
+          <strong>Bitte wähle einen Fragesatz</strong> 
         </div>
         <div style="padding-top: 7px;" id="tsqRowContainer">
             <div id="tsqRowTemplate" class="tsqRow hide">{Name}</div>
