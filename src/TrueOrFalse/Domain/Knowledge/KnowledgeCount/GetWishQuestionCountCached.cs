@@ -7,12 +7,12 @@ using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
-    public class GetWishKnowledgeCountCached : IRegisterAsInstancePerLifetime
+    public class GetWishQuestionCountCached : IRegisterAsInstancePerLifetime
     {
-        private readonly GetWishKnowledgeCount _getWishKnowledgeCount;
+        private readonly GetWishQuestionCount _getWishQuestionCount;
 
-        public GetWishKnowledgeCountCached(GetWishKnowledgeCount getWishKnowledgeCount){
-            _getWishKnowledgeCount = getWishKnowledgeCount;
+        public GetWishQuestionCountCached(GetWishQuestionCount getWishQuestionCount){
+            _getWishQuestionCount = getWishQuestionCount;
         }
 
         public int Run(int userId, bool forceReload = false)
@@ -21,7 +21,7 @@ namespace TrueOrFalse
                 if (HttpContext.Current.Items[ContextItemKeys.WishKnowledgeCount] != null)
                     return (int)HttpContext.Current.Items[ContextItemKeys.WishKnowledgeCount];
 
-            var result = _getWishKnowledgeCount.Run(userId);
+            var result = _getWishQuestionCount.Run(userId);
 
             HttpContext.Current.Items[ContextItemKeys.WishKnowledgeCount] = result;
             return result;

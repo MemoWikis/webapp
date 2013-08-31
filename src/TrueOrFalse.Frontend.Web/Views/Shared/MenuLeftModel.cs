@@ -17,7 +17,7 @@ public class MenuLeftModel
         Menu = sessionUiData.Menu;
         if (userSession.User != null)
         {
-            WishKnowledgeCount = Sl.Resolve<GetWishKnowledgeCountCached>().Run(userSession.User.Id);
+            WishKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(userSession.User.Id);
             IsInstallationAdmin = userSession.IsInstallationAdmin;
         }
     }

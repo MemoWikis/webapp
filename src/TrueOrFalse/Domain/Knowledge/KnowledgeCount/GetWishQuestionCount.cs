@@ -3,11 +3,11 @@ using NHibernate;
 
 namespace TrueOrFalse
 {
-    public class GetWishKnowledgeCount : IRegisterAsInstancePerLifetime
+    public class GetWishQuestionCount : IRegisterAsInstancePerLifetime
     {
         private readonly ISession _session;
 
-        public GetWishKnowledgeCount(ISession session){
+        public GetWishQuestionCount(ISession session){
             _session = session;
         }
 

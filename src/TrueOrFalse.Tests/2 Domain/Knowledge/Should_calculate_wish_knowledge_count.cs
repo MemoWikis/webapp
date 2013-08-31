@@ -20,7 +20,7 @@ namespace TrueOrFalse.Tests
             updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, QuestionId = questionId, UserId = 2 });
             updateTotals.Run(new QuestionValuation { QuestionId = questionId, UserId = 2 });
 
-            Assert.That(Resolve<GetWishKnowledgeCount>().Run(userId:2), Is.EqualTo(2));
+            Assert.That(Resolve<GetWishQuestionCount>().Run(userId:2), Is.EqualTo(2));
         }
     }
 }

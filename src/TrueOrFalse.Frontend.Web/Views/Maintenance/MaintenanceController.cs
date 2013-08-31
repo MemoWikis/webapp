@@ -14,7 +14,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult RecalculateAllKnowledgeItems()
     {
-        Resolve<RecalculateAllKnowledgeItems>().Run();
+        Resolve<RecalcAllQuestionWishItems>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Antwortwahrscheinlichkeiten wurden neu berechnet.") });
     }
 

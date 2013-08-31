@@ -6,16 +6,16 @@ public class KnowledgeController : Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly GetAnswerStatsInPeriod _getAnswerStatsInPeriod;
-    private readonly GetWishKnowledgeCountCached _getWishKnowledgeCount;
+    private readonly GetWishQuestionCountCached _getWishQuestionCount;
 
     public KnowledgeController(
         SessionUser sessionUser, 
         GetAnswerStatsInPeriod getAnswerStatsInPeriod,
-        GetWishKnowledgeCountCached getWishKnowledgeCount)
+        GetWishQuestionCountCached getWishQuestionCount)
     {
         _sessionUser = sessionUser;
         _getAnswerStatsInPeriod = getAnswerStatsInPeriod;
-        _getWishKnowledgeCount = getWishKnowledgeCount;
+        _getWishQuestionCount = getWishQuestionCount;
     }
 
 
@@ -30,7 +30,7 @@ public class KnowledgeController : Controller
         return View(
             new KnowledgeModel(_sessionUser)
                 {
-                    QuestionsCount = _getWishKnowledgeCount.Run(_sessionUser.User.Id),
+                    QuestionsCount = _getWishQuestionCount.Run(_sessionUser.User.Id),
                     TotalAnswerThisWeek = answersThisWeek.TotalAnswers,
                     TotalAnswerThisMonth = answersThisMonth.TotalAnswers,
                     TotalAnswerPreviousWeek = answersPreviousWeek.TotalAnswers,

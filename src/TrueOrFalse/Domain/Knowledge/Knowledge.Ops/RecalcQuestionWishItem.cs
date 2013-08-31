@@ -1,12 +1,12 @@
 ﻿namespace TrueOrFalse
 {
-    public class RecalculateKnowledgeItem : IRegisterAsInstancePerLifetime
+    public class RecalcQuestionWishItem : IRegisterAsInstancePerLifetime
     {
         private readonly AnswerHistoryRepository _answerHistoryRepository;
         private readonly QuestionValuationRepository _questionValuationRepository;
         private readonly CorrectnessProbabilityCalculator _correctnessProbabilityCalculator;
 
-        public RecalculateKnowledgeItem(AnswerHistoryRepository answerHistoryRepository,
+        public RecalcQuestionWishItem(AnswerHistoryRepository answerHistoryRepository,
                                         QuestionValuationRepository questionValuationRepository,
                                         CorrectnessProbabilityCalculator correctnessProbabilityCalculator)
         {

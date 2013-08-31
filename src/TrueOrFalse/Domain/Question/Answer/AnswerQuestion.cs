@@ -10,17 +10,17 @@ namespace TrueOrFalse
         private readonly QuestionRepository _questionRepository;
         private readonly AnswerHistoryLog _answerHistoryLog;
         private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
-        private readonly RecalculateKnowledgeItem _recalculateKnowledgeItem;
+        private readonly RecalcQuestionWishItem _recalcQuestionWishItem;
 
         public AnswerQuestion(QuestionRepository questionRepository, 
                               AnswerHistoryLog answerHistoryLog, 
                               UpdateQuestionAnswerCount updateQuestionAnswerCount, 
-                              RecalculateKnowledgeItem recalculateKnowledgeItem)
+                              RecalcQuestionWishItem recalcQuestionWishItem)
         {
             _questionRepository = questionRepository;
             _answerHistoryLog = answerHistoryLog;
             _updateQuestionAnswerCount = updateQuestionAnswerCount;
-            _recalculateKnowledgeItem = recalculateKnowledgeItem;
+            _recalcQuestionWishItem = recalcQuestionWishItem;
         }
 
         public AnswerQuestionResult Run(int questionId, string answer, int userId)
@@ -35,7 +35,7 @@ namespace TrueOrFalse
 
             _answerHistoryLog.Run(question, result, userId);
             _updateQuestionAnswerCount.Run(questionId, result.IsCorrect);
-            _recalculateKnowledgeItem.Run(questionId, userId);
+            _recalcQuestionWishItem.Run(questionId, userId);
 
             return result;
         }

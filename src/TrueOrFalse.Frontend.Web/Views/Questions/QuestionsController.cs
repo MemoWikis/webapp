@@ -84,7 +84,7 @@ public class QuestionsController : BaseController
                         FilterByAll = _sessionUiData.SearchSpecQuestion.FilterByAll,
                         FilterByUsers = _userRepository.GetByIds(_sessionUiData.SearchSpecQuestion.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name),
                         TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run(),
-                        TotalWishKnowledge = Sl.Resolve<GetWishKnowledgeCountCached>().Run(_sessionUser.User.Id)
+                        TotalWishKnowledge = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id)
                     }
             );
     }

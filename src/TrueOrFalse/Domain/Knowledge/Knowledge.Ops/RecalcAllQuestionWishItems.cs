@@ -2,16 +2,16 @@
 
 namespace TrueOrFalse
 {
-    public class RecalculateAllKnowledgeItems : IRegisterAsInstancePerLifetime
+    public class RecalcAllQuestionWishItems : IRegisterAsInstancePerLifetime
     {
         private readonly ISession _session;
-        private readonly RecalculateKnowledgeItem _recalculateKnowledgeItem;
+        private readonly RecalcQuestionWishItem _recalcQuestionWishItem;
 
-        public RecalculateAllKnowledgeItems(ISession session, 
-                                            RecalculateKnowledgeItem recalculateKnowledgeItem)
+        public RecalcAllQuestionWishItems(ISession session, 
+                                            RecalcQuestionWishItem recalcQuestionWishItem)
         {
             _session = session;
-            _recalculateKnowledgeItem = recalculateKnowledgeItem;
+            _recalcQuestionWishItem = recalcQuestionWishItem;
         }
 
         public void Run()
@@ -25,7 +25,7 @@ namespace TrueOrFalse
                     .List<object[]>();
 
             foreach (var item in questionValuationRecords)
-                _recalculateKnowledgeItem.Run((int) item[0], (int) item[1]);   
+                _recalcQuestionWishItem.Run((int) item[0], (int) item[1]);   
         }
     }
 }
