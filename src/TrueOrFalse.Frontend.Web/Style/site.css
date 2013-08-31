@@ -184,7 +184,9 @@ div.box-main .box-content {
 }
 
 .box-with-tabs ul.nav-tabs li a {
-    border: none;
+    border: solid 1px;
+    border-bottom: none;
+    border-color: rgb(209, 208, 208);
 }
 
 

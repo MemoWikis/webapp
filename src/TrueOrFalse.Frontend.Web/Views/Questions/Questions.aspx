@@ -29,7 +29,15 @@
                 <li class="active"><a href="#home">Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a></li>
                 <li>
                     <a href="#profile">
-                        Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalWishKnowledge %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
+                        Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalWishKnowledge %>)</span> 
+                        <i class="icon-question-sign show-tooltip" id="tabInfoMyKnowledge" 
+                           title="Wissen das Du jederzeit aktiv nutzen möchtest ist."></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Meine Fragen (0)
+                        <i class="icon-question-sign show-tooltip" title="Wissen das von Dir erstellt wurde."></i>
                     </a>
                 </li>
             </ul>

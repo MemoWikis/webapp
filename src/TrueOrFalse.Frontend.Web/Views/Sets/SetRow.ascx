@@ -8,8 +8,12 @@
     
     <div class="column-2" style="height: 87px; position: relative;">
         <div style="font-size:large;">
-            <a href="<%= Model.DetailLink(Url) %>"><%= Model.Name %></a>
-            <span style="font-size: small;">(<%= Model.QuestionCount %> Fragen)</span>
+            <% if(Model.QuestionCount != 0){ %>
+                (<%= Model.QuestionCount %>)
+            <% }else{ %>
+                <span style="color: darkgray">(0)</span>
+            <% } %>            
+            <a href="<%= Model.DetailLink(Url) %>"><%= Model.Name %></a>            
         </div>
         
         <div>
