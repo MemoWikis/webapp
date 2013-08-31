@@ -13,8 +13,13 @@ public class SetsModel : BaseModel
 {
     public Message Message;
 
+    public bool ActiveTabAll;
+    public bool ActiveTabMine;
+    public bool ActiveTabWish;
+
     public int TotalSets { get; set; }
     public int TotalMine { get; set; }
+    public int TotalWish { get; set; }
 
     public string SearchTerm { get; set;  }
 
@@ -25,8 +30,7 @@ public class SetsModel : BaseModel
 
     public IEnumerable<SetRowModel> Rows;
 
-    public SetsModel(){
-    }
+    public SetsModel(){}
 
     public SetsModel(IEnumerable<Set> questionSets)
     {
@@ -34,6 +38,7 @@ public class SetsModel : BaseModel
         Rows = questionSets.Select(qs => new SetRowModel(qs, counter++, _sessionUser.User.Id));
 
         TotalSets = Resolve<GetTotalSetCount>().Run();
+        TotalMine = 
         SearchTerm = _sessionUiData.SearchSpecSet.SearchTearm;
 
         Pager = new PagerModel(_sessionUiData.SearchSpecSet);

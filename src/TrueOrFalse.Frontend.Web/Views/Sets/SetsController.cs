@@ -27,15 +27,31 @@ public class SetsController : BaseController
         return Sets(null, model);
     }
 
+
+    [SetMenu(MenuEntry.QuestionSet)]
+    public ActionResult SetsWish(int? page, SetsModel model)
+    {
+        var questionSets = _setsControllerSearch.Run();
+        return View(_viewLocation, new SetsModel(questionSets) { ActiveTabWish = true});
+    }
+
+    [SetMenu(MenuEntry.QuestionSet)]
+    public ActionResult SetsMine(int? page, SetsModel model)
+    {
+        var questionSets = _setsControllerSearch.Run();
+        return View(_viewLocation, new SetsModel(questionSets) { ActiveTabMine = true });
+    }
+
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult Sets(int? page, SetsModel model)
     {
         _sessionUiData.SearchSpecSet.PageSize = 10;
-        if (page.HasValue) _sessionUiData.SearchSpecSet.CurrentPage = page.Value;
+        if (page.HasValue) 
+            _sessionUiData.SearchSpecSet.CurrentPage = page.Value;
 
         var questionSets = _setsControllerSearch.Run();
 
-        return View(_viewLocation, new SetsModel(questionSets));
+        return View(_viewLocation, new SetsModel(questionSets) { ActiveTabAll = true });
     }
 
     [HttpPost]

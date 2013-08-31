@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Fragesätze" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<SetsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/Views/Sets/Sets.css") %>
@@ -18,10 +19,14 @@
             <div class="box-with-tabs">
                 <div class="green">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#home" >Alle Fragesätze (<%= Model.TotalSets %>)</a></li>
-                        <li><a href="#">Mein Wunschwissen (0)</a></li>
-                        <li>
-                            <a href="#profile">
+                        <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
+                            <a href="<%= Links.Sets(Url) %>" >Alle Fragesätze (<%= Model.TotalSets %>)</a>
+                        </li>
+                        <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
+                            <a href="<%= Links.SetsSetsWish(Url) %>">Mein Wunschwissen (0)</a>
+                        </li>
+                        <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
+                            <a href="<%= Links.SetsSetsMine(Url) %>">
                                 Meine Fragesätze <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
                             </a>
                         </li>

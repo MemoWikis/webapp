@@ -55,7 +55,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         /*Set*/
         public const string SetsController = "Sets";
         public const string SetsAction = "Sets";
-        public static string Sets(UrlHelper url) { return url.Action(SetsController, SetsAction); }
+        public const string SetsWishAction = "SetsWish";
+        public const string SetsMineAction = "SetsMine";
+        public static string Sets(UrlHelper url) { return url.Action(SetsAction, SetsController); }
+        public static string SetsSetsWish(UrlHelper url) { return url.Action(SetsWishAction, SetsController); }
+        public static string SetsSetsMine(UrlHelper url) { return url.Action(SetsMineAction, SetsController); }
 
         public static string SetDetail(UrlHelper url, Set set, int elementOnPage = 1){
             return SetDetail(url, set.Name, set.Id, elementOnPage);
