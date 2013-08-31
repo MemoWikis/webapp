@@ -82,9 +82,7 @@ public class QuestionsController : BaseController
                         Pager = new PagerModel(_sessionUiData.SearchSpecQuestion),
                         FilterByMe = _sessionUiData.SearchSpecQuestion.FilterByMe,
                         FilterByAll = _sessionUiData.SearchSpecQuestion.FilterByAll,
-                        FilterByUsers = _userRepository.GetByIds(_sessionUiData.SearchSpecQuestion.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name),
-                        TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run(),
-                        TotalWishKnowledge = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id)
+                        FilterByUsers = _userRepository.GetByIds(_sessionUiData.SearchSpecQuestion.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name)
                     }
             );
     }

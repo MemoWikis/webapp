@@ -27,6 +27,9 @@ public class QuestionsModel : BaseModel
                                     currentUserId
                                   );
 
+        TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run();
+        TotalWishKnowledge = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id);
+
         FilterByUsers = new Dictionary<int, string>();
         TotalQuestionsInResult = questionSearchSpec.TotalItems;
 

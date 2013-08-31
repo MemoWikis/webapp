@@ -38,7 +38,7 @@ public class SetsModel : BaseModel
         Rows = questionSets.Select(qs => new SetRowModel(qs, counter++, _sessionUser.User.Id));
 
         TotalSets = Resolve<GetTotalSetCount>().Run();
-        TotalMine = 
+        TotalMine = Resolve<GetTotalSetCount>().Run(_sessionUser.User.Id);
         SearchTerm = _sessionUiData.SearchSpecSet.SearchTearm;
 
         Pager = new PagerModel(_sessionUiData.SearchSpecSet);

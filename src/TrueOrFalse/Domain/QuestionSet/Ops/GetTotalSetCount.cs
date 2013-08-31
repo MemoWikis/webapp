@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NHibernate;
+using NHibernate.Criterion;
 
 namespace TrueOrFalse
 {
@@ -17,6 +18,15 @@ namespace TrueOrFalse
 
         public int Run(){
             return (int)_session.CreateQuery("SELECT Count(Id) FROM Set").UniqueResult<Int64>();
+        }
+
+        public int Run(int creatorId)
+        {
+            return _session.QueryOver<Set>()
+                .Where(s => s.Creator.Id == creatorId)
+                .Select(Projections.RowCount())
+                .FutureValue<int>()
+                .Value;
         }
     }
 }
