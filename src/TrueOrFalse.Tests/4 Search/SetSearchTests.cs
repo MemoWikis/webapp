@@ -63,7 +63,7 @@ namespace TrueOrFalse.Tests
                 .AddSet("Set3 B")
                 .Persist();
             
-            Assert.That(Resolve<SearchSets>().Run("Set", user1).Count, Is.EqualTo(2)); ;
+            Assert.That(Resolve<SearchSets>().Run("Set", user1.Id).Count, Is.EqualTo(2)); ;
         }
     }
 }

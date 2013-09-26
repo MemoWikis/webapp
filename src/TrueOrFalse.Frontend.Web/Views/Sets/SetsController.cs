@@ -21,37 +21,55 @@ public class SetsController : BaseController
         _setsControllerSearch = setsControllerSearch;
     }
 
-    public ActionResult Search(string searchTerm, SetsModel model)
+    public ActionResult SetsWishSearch(string searchTerm, SetsModel model)
     {
-        _sessionUiData.SearchSpecSet.SearchTearm = model.SearchTerm = searchTerm;
-        return Sets(null, model);
+        _sessionUiData.SearchSpecSetWish.SearchTearm = model.SearchTerm = searchTerm;
+        return SetsWish(null, model);
     }
-
 
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult SetsWish(int? page, SetsModel model)
     {
-        var questionSets = _setsControllerSearch.Run();
-        return View(_viewLocation, new SetsModel(questionSets) { ActiveTabWish = true});
+        if (page.HasValue)
+            _sessionUiData.SearchSpecSetWish.CurrentPage = page.Value;
+
+        var questionSets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetWish);
+        return View(_viewLocation, new SetsModel(questionSets, _sessionUiData.SearchSpecSetAll, isTabWishActice:true));
+    }
+
+    public ActionResult SetsMineSearch(string searchTerm, SetsModel model)
+    {
+        _sessionUiData.SearchSpecSetMine.SearchTearm = model.SearchTerm = searchTerm;
+        return SetsMine(null, model);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult SetsMine(int? page, SetsModel model)
     {
-        var questionSets = _setsControllerSearch.Run();
-        return View(_viewLocation, new SetsModel(questionSets) { ActiveTabMine = true });
+        if (page.HasValue)
+            _sessionUiData.SearchSpecSetMine.CurrentPage = page.Value;
+
+        _sessionUiData.SearchSpecSetMine.Filter.CreatorId.EqualTo(_sessionUser.User.Id);
+
+        var questionSets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetMine);
+        return View(_viewLocation, new SetsModel(questionSets, _sessionUiData.SearchSpecSetMine, isTabMineActive:true));
+    }
+
+    public ActionResult SetsSearch(string searchTerm, SetsModel model)
+    {
+        _sessionUiData.SearchSpecSetAll.SearchTearm = model.SearchTerm = searchTerm;
+        return Sets(null, model);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult Sets(int? page, SetsModel model)
     {
-        _sessionUiData.SearchSpecSet.PageSize = 10;
         if (page.HasValue) 
-            _sessionUiData.SearchSpecSet.CurrentPage = page.Value;
+            _sessionUiData.SearchSpecSetAll.CurrentPage = page.Value;
 
-        var questionSets = _setsControllerSearch.Run();
+        var questionSets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetAll);
 
-        return View(_viewLocation, new SetsModel(questionSets) { ActiveTabAll = true });
+        return View(_viewLocation, new SetsModel(questionSets, _sessionUiData.SearchSpecSetAll, isTabAllActive:true));
     }
 
     [HttpPost]

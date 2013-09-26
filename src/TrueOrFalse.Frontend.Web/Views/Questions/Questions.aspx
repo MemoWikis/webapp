@@ -10,8 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
-    
+
 <div class="span10">
     <% using (Html.BeginForm()){ %>
             
@@ -37,7 +36,7 @@
                 <li>
                     <a href="#">
                         Meine Fragen (0)
-                        <i class="icon-question-sign show-tooltip" title="Wissen das von Dir erstellt wurde."></i>
+                        <i class="icon-question-sign show-tooltip" title="Fragen die von Dir erstellt wurden."></i>
                     </a>
                 </li>
             </ul>

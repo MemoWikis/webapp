@@ -27,7 +27,8 @@
                         </li>
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
                             <a href="<%= Links.SetsSetsMine(Url) %>">
-                                Meine Fragesätze <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
+                                Meine Fragesätze <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> 
+                                <i class="icon-question-sign show-tooltip" title="Fragesätze die von Dir erstellt wurden"></i>
                             </a>
                         </li>
                     </ul>
@@ -37,7 +38,7 @@
                     <div class="form-horizontal">
                         <div class="control-group" style="margin-bottom: 15px; margin-top: -7px; ">
                             <label style="line-height: 18px; padding-top: 5px;"><nb>Suche</nb>:</label>
-                            <%: Html.TextBoxFor(model => model.SearchTerm, new {style="width:297px;", id="txtSearch"}) %>
+                            <%: Html.TextBoxFor(model => model.SearchTerm, new {style="width:297px;", id="txtSearch", formUrl=Model.SearchUrl}) %>
                             <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
                         </div>
                         <div style="clear:both;"></div>

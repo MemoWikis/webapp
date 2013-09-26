@@ -42,9 +42,11 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Question_SaveRelevancePersonal", "Questions/SaveRelevancePersonal/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevancePersonal" });
             /* API */ routes.MapRoute("Question_SaveRelevanceForAll", "Questions/SaveRelevanceForAll/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevanceForAll" });
 
-            routes.MapRoute("Sets_SearchTerm", "FrageSaetze/Suche/{searchTerm}", new { controller = "Sets", action = "Search", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Sets_MineSearch", "FrageSaetze/Meine/Suche/{searchTerm}", new { controller = "Sets", action = "SetsMineSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets_Mine", "FrageSaetze/Meine", new { controller = "Sets", action = "SetsMine" });
+            routes.MapRoute("Sets_WishSearch", "FrageSaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Sets", action = "SetsWish", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets_Wish", "FrageSaetze/Wunschwissen", new { controller = "Sets", action = "SetsWish" });
+            routes.MapRoute("Sets_Search", "FrageSaetze/Suche/{searchTerm}", new { controller = "Sets", action = "SetsSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets", "FrageSaetze/{action}", new { controller = "Sets", action = "Sets" });
             /* API */ routes.MapRoute("Sets_DeleteDetails", "Sets/DeleteDetails/{setId}", new { controller = "Sets", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Sets_Delete", "Sets/Delete/{setId}", new { controller = "Sets", action = "Delete" });

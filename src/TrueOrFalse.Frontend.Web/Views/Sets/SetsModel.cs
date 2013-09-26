@@ -17,11 +17,12 @@ public class SetsModel : BaseModel
     public bool ActiveTabMine;
     public bool ActiveTabWish;
 
-    public int TotalSets { get; set; }
-    public int TotalMine { get; set; }
-    public int TotalWish { get; set; }
+    public int TotalSets { get; private set; }
+    public int TotalMine { get; private set; }
+    public int TotalWish { get; private set; }
 
     public string SearchTerm { get; set;  }
+    public string SearchUrl { get; set; }
 
     public bool FilterByMe { get; set; }
     public bool FilterByAll { get; set; }
@@ -29,20 +30,39 @@ public class SetsModel : BaseModel
     public PagerModel Pager { get; set; }
 
     public IEnumerable<SetRowModel> Rows;
-
+    
     public SetsModel(){}
 
-    public SetsModel(IEnumerable<Set> questionSets)
+    public SetsModel(
+        IEnumerable<Set> questionSets, 
+        SetSearchSpec searchSpec,
+        bool isTabAllActive = false, 
+        bool isTabWishActice = false,
+        bool isTabMineActive = false
+    )
     {
+        ActiveTabAll = isTabAllActive;
+        ActiveTabMine = isTabMineActive;
+        ActiveTabWish = isTabWishActice;
+
         var counter = 0;
         Rows = questionSets.Select(qs => new SetRowModel(qs, counter++, _sessionUser.User.Id));
 
         TotalSets = Resolve<GetTotalSetCount>().Run();
         TotalMine = Resolve<GetTotalSetCount>().Run(_sessionUser.User.Id);
-        SearchTerm = _sessionUiData.SearchSpecSet.SearchTearm;
+        
+        SearchTerm = searchSpec.SearchTearm;
+        Pager = new PagerModel(searchSpec) {Controller = Links.SetsController};
 
-        Pager = new PagerModel(_sessionUiData.SearchSpecSet);
-        Pager.Controller = Links.SetsController;
-        Pager.Action = Links.SetsAction;
+        if (ActiveTabAll){
+            Pager.Action = Links.SetsAction;
+            SearchUrl = "/FrageSaetze/Suche/";
+        }else if (ActiveTabWish){
+            Pager.Action = Links.SetsWishAction;
+            SearchUrl = "/FrageSaetze/Wunschwissen/Suche/";
+        }else if (ActiveTabMine){
+            Pager.Action = Links.SetsMineAction;
+            SearchUrl = "/FrageSaetze/Meine/Suche/";
+        }
     }
 }

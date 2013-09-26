@@ -27,6 +27,8 @@ public class SetRowModel
     public int CreatorId;
     public bool IsOwner;
 
+    public int RelevancePersonal;
+
 
     public SetRowModel(Set set, int indexInResultSet, int currentUserid)
     {

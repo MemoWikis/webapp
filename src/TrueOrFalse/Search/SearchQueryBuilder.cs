@@ -42,6 +42,11 @@ namespace TrueOrFalse.Search
 
         private void BuildExpression()
         {
+            _buildedExpression = "*:*";
+
+            if (!_orConditions.Any() && !_andConditions.Any())
+                return;
+
             string stringOrConditions = null;
             if(_orConditions.Any())
                 stringOrConditions = _orConditions.Aggregate((a, b) => a + " " + b);

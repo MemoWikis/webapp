@@ -112,7 +112,7 @@ public class QuestionsController : BaseController
     {
         var searchSpec = new SetSearchSpec{PageSize = 12};
         var questionSets = Resolve<SetRepository>()
-            .GetByIds(Resolve<SearchSets>().Run(filter, _sessionUser.User).SetIds.ToArray());
+            .GetByIds(Resolve<SearchSets>().Run(filter, searchSpec, _sessionUser.User.Id).SetIds.ToArray());
 
         return new JsonResult{
             Data = new{

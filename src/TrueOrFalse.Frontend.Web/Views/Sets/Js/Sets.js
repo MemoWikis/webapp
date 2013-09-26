@@ -1,5 +1,5 @@
 function SubmitSearch() {
-    window.location.href = "/FrageSaetze/Suche/" + $('#txtSearch').val();
+    window.location.href = $('#txtSearch').attr("formUrl") + $('#txtSearch').val();
 }
 $(function () {
     $('#btnSearch').click(function () {

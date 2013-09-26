@@ -34,9 +34,9 @@ namespace TrueOrFalse.Web.Context
             get { return Data.Get("searchSpecQuestion", new QuestionSearchSpec { PageSize = 5 }); }
         }
 
-        public SetSearchSpec SearchSpecSet{
-            get { return Data.Get("searchSpecSet", new SetSearchSpec { PageSize = 10 }); }
-        }
+        public SetSearchSpec SearchSpecSetAll{ get { return Data.Get("searchSpecSetAll", new SetSearchSpec { PageSize = 10 }); } }
+        public SetSearchSpec SearchSpecSetMine { get { return Data.Get("searchSpecSetMine", new SetSearchSpec { PageSize = 10 }); } }
+        public SetSearchSpec SearchSpecSetWish { get { return Data.Get("searchSpecSetWish", new SetSearchSpec { PageSize = 10 }); } }
 
         public CategorySearchSpec SearchSpecCategory{
             get { return Data.Get("searchSpecCategory", new CategorySearchSpec { PageSize = 10 }); }

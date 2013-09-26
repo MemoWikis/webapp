@@ -7,15 +7,28 @@
     </div>
     
     <div class="column-2" style="height: 87px; position: relative;">
-        <div style="font-size:large;">
+        <div style="font-size:large; float:left;">
             <% if(Model.QuestionCount != 0){ %>
                 (<%= Model.QuestionCount %>)
             <% }else{ %>
                 <span style="color: darkgray">(0)</span>
             <% } %>            
-            <a href="<%= Model.DetailLink(Url) %>"><%= Model.Name %></a>            
+            <a href="<%= Model.DetailLink(Url) %>"><%= Model.Name %></a>
         </div>
         
+        <div style="float: right; position:relative; right: -35px;" >
+            <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
+                <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.Id %>"> 
+                    <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+                    <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+                </div>
+                <div style="float:left; margin-top: -2px" class="sliderAnotation">
+                    <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="icon-minus"></i></a>
+                </div>
+            </div>
+        </div>  
+        
+        <div class="clearfix"></div>
         <div>
             <% foreach (var category in Model.Categories){ %>
                 <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>    

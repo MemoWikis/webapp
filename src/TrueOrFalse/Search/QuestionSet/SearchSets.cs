@@ -13,17 +13,17 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
-        public SearchSetsResult Run(string searchTearm, User creator = null){
-            return Run(searchTearm, new Pager(), creator);
+        public SearchSetsResult Run(string searchTearm, int creatorId = -1){
+            return Run(searchTearm, new Pager(), creatorId);
         }
 
-        public SearchSetsResult Run(string searchTearm, Pager pager, User creator = null)
+        public SearchSetsResult Run(string searchTearm, Pager pager, int creatorId = -1)
         {
             var sqb = new SearchQueryBuilder()
                 .Add("FullTextStemmed", searchTearm)
                 .Add("FullTextExact", searchTearm)
                 .Add("CreatorId", 
-                    creator != null ? creator.Id.ToString() : null, 
+                    creatorId != -1 ? creatorId.ToString() : null, 
                     isMustHave: true,
                     exact: true);
 
