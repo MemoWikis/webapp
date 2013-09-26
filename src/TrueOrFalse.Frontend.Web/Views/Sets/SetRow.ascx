@@ -26,8 +26,9 @@
                     <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="icon-minus"></i></a>
                 </div>
             </div>
-        </div>  
-        
+        </div>
+        <a href="#" class="addRelevance" style="<% if(Model.RelevancePersonal != -1){ %>display:none;<% } %>; float: right;" ><i class="icon-plus-sign "></i> merken</a>
+       
         <div class="clearfix"></div>
         <div>
             <% foreach (var category in Model.Categories){ %>

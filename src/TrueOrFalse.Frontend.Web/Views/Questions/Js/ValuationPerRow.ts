@@ -4,7 +4,7 @@
 
 class ValuationPerRow
 {
-    constructor() {
+    constructor(parentDiv : string) {
 
         var self = this;
         $(".removeRelevance").click(function() {
@@ -24,16 +24,16 @@ class ValuationPerRow
             self.InitSlider(slider.parent().parent());
         });
 
-        $(".column-1").each(function () {
+        $(parentDiv).each(function () {
             self.InitSlider($(this));
         });        
     }
-
+    
     InitSlider(divColumn1) {
+
         var self = this;
         var sliderValue = divColumn1.find(".sliderValue").text();
         divColumn1.find(".sliderValue").text(sliderValue / 10);
-        
         divColumn1.find(".slider").slider({
             handle: "#myhandle",
             range: "min",
@@ -75,7 +75,3 @@ class ValuationPerRow
             .animate({ opacity: 1.00 }, 500);
     }
 }
-
-$(function () {
-    new ValuationPerRow();
-});

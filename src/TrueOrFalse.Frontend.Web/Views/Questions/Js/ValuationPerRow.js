@@ -1,5 +1,5 @@
 var ValuationPerRow = (function () {
-    function ValuationPerRow() {
+    function ValuationPerRow(parentDiv) {
         var self = this;
         $(".removeRelevance").click(function () {
             var sliderContainer = $(this).parentsUntil(".column-1");
@@ -15,7 +15,7 @@ var ValuationPerRow = (function () {
             self.SetUiSliderSpan(slider, 0);
             self.InitSlider(slider.parent().parent());
         });
-        $(".column-1").each(function () {
+        $(parentDiv).each(function () {
             self.InitSlider($(this));
         });
     }
@@ -68,6 +68,3 @@ var ValuationPerRow = (function () {
     };
     return ValuationPerRow;
 })();
-$(function () {
-    new ValuationPerRow();
-});

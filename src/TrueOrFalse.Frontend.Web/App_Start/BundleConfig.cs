@@ -57,7 +57,8 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
             
             bundles.Add(new ScriptBundle("~/bundles/Sets")
-                .IncludeDirectory("~/Views/Sets/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Sets/Js/", "*.js")
+                .Include("~/Views/Questions/Js/ValuationPerRow.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Categories")
                 .IncludeDirectory("~/Views/Categories/Js/", "*.js"));

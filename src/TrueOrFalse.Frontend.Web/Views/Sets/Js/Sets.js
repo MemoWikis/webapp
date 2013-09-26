@@ -14,4 +14,5 @@ $(function () {
             }
         });
     });
+    new ValuationPerRow(".column-2");
 });

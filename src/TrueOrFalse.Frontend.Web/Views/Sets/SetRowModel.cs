@@ -29,7 +29,6 @@ public class SetRowModel
 
     public int RelevancePersonal;
 
-
     public SetRowModel(Set set, int indexInResultSet, int currentUserid)
     {
         Id = set.Id;
@@ -42,6 +41,8 @@ public class SetRowModel
         CreatorName = set.Creator.Name;
         IsOwner = currentUserid == set.Creator.Id;
         IndexInResult = indexInResultSet;
+
+        RelevancePersonal = -1;
 
         DetailLink = urlHelper => Links.SetDetail(urlHelper, set, indexInResultSet);
         UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);

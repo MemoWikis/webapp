@@ -90,4 +90,26 @@ public class SetsController : BaseController
         Sl.Resolve<SetDeleter>().Run(setId);
         return new EmptyResult();
     }
+
+    [HttpPost]
+    public JsonResult SaveRelevancePersonal(int id, int newValue)
+    {
+        var oldKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
+
+        Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
+        var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);
+
+        var newKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                totalValuations = totals.Count,
+                totalAverage = Math.Round(totals.Avg / 10d, 1),
+                totalWishKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true),
+                totalWishKnowledgeCountChange = oldKnowledgeCount != newKnowledgeCount
+            }
+        };
+    }
 }
