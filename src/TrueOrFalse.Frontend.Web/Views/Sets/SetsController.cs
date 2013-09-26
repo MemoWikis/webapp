@@ -94,7 +94,7 @@ public class SetsController : BaseController
     [HttpPost]
     public JsonResult SaveRelevancePersonal(int id, int newValue)
     {
-        var oldKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
+        var oldKnowledgeCount = Sl.Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
 
         Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);

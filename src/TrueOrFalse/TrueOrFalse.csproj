@@ -207,9 +207,12 @@
     <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSet.cs" />
     <Compile Include="Domain\QuestionSet\QuestionInSet\Persistence\QuestionInSetMap.cs" />
     <Compile Include="Domain\QuestionSet\Set.cs" />
-    <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\SetMap.cs" />
-    <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\SetRepository.cs" />
-    <Compile Include="Domain\QuestionSet\QuestionSet.Persistence\SetSearchSpec.cs" />
+    <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
+    <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepository.cs" />
+    <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationRepository.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationMap.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\SetValuation.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriod.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
@@ -358,6 +361,7 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs027.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs026.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs025.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs024.cs" />
@@ -417,6 +421,9 @@
     <Content Include="Utilities\Update\Scripts\025-new-tbl-categories_to_sets.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Utilities\Update\Scripts\027-new-tbl-setValuations.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -441,7 +448,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Domain\QuestionSet\SetValuation\Ops\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
