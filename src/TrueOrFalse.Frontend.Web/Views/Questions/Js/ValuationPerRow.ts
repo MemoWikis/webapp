@@ -6,39 +6,41 @@ class ValuationPerRow
 {
     constructor() {
 
-        $(".removeRelevance").click(() => {
+        var self = this;
+        $(".removeRelevance").click(function() {
             var sliderContainer = $(this).parentsUntil(".column-1");
             sliderContainer.hide();
             sliderContainer.parent().find(".addRelevance").show();
-            this.SendSilderValue(sliderContainer.find(".slider"), -1);
+            self.SendSilderValue(sliderContainer.find(".slider"), -1);
 
         });
 
-        $(".addRelevance").click(() => {
+        $(".addRelevance").click(function () {
             $(this).hide();
             $(this).parent().find(".sliderContainer").show();
             $(this).parent().parent().find(".sliderAnotation").show();
             var slider = $(this).parent().find(".slider");
-            this.SetUiSliderSpan(slider, 0);
-            this.InitSlider(slider.parent().parent());
+            self.SetUiSliderSpan(slider, 0);
+            self.InitSlider(slider.parent().parent());
         });
 
-        $(".column-1").each(() => {
-            this.InitSlider($(this));
-        });
+        $(".column-1").each(function () {
+            self.InitSlider($(this));
+        });        
     }
 
     InitSlider(divColumn1) {
+        var self = this;
         var sliderValue = divColumn1.find(".sliderValue").text();
         divColumn1.find(".sliderValue").text(sliderValue / 10);
-        console.log(sliderValue);
+        
         divColumn1.find(".slider").slider({
             handle: "#myhandle",
             range: "min",
             max: 100,
             value: sliderValue,
-            //slide: (event, ui) => { this.SetUiSliderSpan($(this), ui.value); },
-            //change: (event, ui) => { this.SendSilderValue($(this), ui.value); }
+            slide: function(event, ui){ self.SetUiSliderSpan($(this), ui.value); },
+            change: function(event, ui){ self.SendSilderValue($(this), ui.value); }
         });
     }
 
