@@ -96,7 +96,7 @@ public class SetsController : BaseController
     {
         var oldKnowledgeCount = Sl.Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
 
-        Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
+        Sl.Resolve<UpdateSetsTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);
 
         var newKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);

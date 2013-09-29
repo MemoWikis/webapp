@@ -210,6 +210,8 @@
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepository.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Ops\CreateOrUpdateQuestionValue.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Ops\UpdateSetsTotals.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationRepository.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationMap.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\SetValuation.cs" />
@@ -361,6 +363,7 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs028.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs027.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs026.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs025.cs" />
@@ -448,9 +451,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\QuestionSet\SetValuation\Ops\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

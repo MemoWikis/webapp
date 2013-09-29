@@ -28,6 +28,8 @@ public class SetRowModel
     public bool IsOwner;
 
     public int RelevancePersonal;
+    public string TotalRelevancePersonalEntries;
+    public string TotalRelevancePersonalAvg;
 
     public SetRowModel(Set set, int indexInResultSet, int currentUserid)
     {
@@ -43,6 +45,9 @@ public class SetRowModel
         IndexInResult = indexInResultSet;
 
         RelevancePersonal = -1;
+
+        TotalRelevancePersonalEntries = "10";
+        TotalRelevancePersonalAvg = "3.7";
 
         DetailLink = urlHelper => Links.SetDetail(urlHelper, set, indexInResultSet);
         UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);

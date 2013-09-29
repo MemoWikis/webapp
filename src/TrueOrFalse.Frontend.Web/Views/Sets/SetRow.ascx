@@ -28,8 +28,16 @@
             </div>
         </div>
         <a href="#" class="addRelevance" style="<% if(Model.RelevancePersonal != -1){ %>display:none;<% } %>; float: right;" ><i class="icon-plus-sign "></i> merken</a>
+        
+        <br />
+        <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
+            <div style="margin-top: 2px; float:right; width: 150px; text-align: right;">
+                <span class="totalRelevanceEntries"><%= Model.TotalRelevancePersonalEntries %></span> x 
+                <a href="">gemerkt (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span></a> <span class="piePersonalRelevanceTotal" data-avg="<%= Model.TotalRelevancePersonalAvg  %>"></span> )
+            </div>
+        <%} %>
        
-        <div class="clearfix"></div>
+        
         <div>
             <% foreach (var category in Model.Categories){ %>
                 <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>    
