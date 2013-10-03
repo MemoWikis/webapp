@@ -36,6 +36,7 @@ public class SetsModel : BaseModel
     public SetsModel(
         IEnumerable<Set> questionSets, 
         SetSearchSpec searchSpec,
+        IEnumerable<SetValuation> setValutionsForCurrentUser,
         bool isTabAllActive = false, 
         bool isTabWishActice = false,
         bool isTabMineActive = false
@@ -46,7 +47,13 @@ public class SetsModel : BaseModel
         ActiveTabWish = isTabWishActice;
 
         var counter = 0;
-        Rows = questionSets.Select(qs => new SetRowModel(qs, counter++, _sessionUser.User.Id));
+        Rows = questionSets.Select(set => 
+            new SetRowModel(
+                set,
+                NotNull.Run(setValutionsForCurrentUser.BySetId(set.Id)),
+                counter++, 
+                _sessionUser.User.Id
+            ));
 
         TotalSets = Resolve<GetTotalSetCount>().Run();
         TotalMine = Resolve<GetTotalSetCount>().Run(_sessionUser.User.Id);

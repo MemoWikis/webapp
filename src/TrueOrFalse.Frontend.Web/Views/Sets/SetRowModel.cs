@@ -31,7 +31,11 @@ public class SetRowModel
     public string TotalRelevancePersonalEntries;
     public string TotalRelevancePersonalAvg;
 
-    public SetRowModel(Set set, int indexInResultSet, int currentUserid)
+    public SetRowModel(
+        Set set, 
+        SetValuation setValuation,
+        int indexInResultSet, 
+        int currentUserid)
     {
         Id = set.Id;
         Name = set.Name;
@@ -44,7 +48,7 @@ public class SetRowModel
         IsOwner = currentUserid == set.Creator.Id;
         IndexInResult = indexInResultSet;
 
-        RelevancePersonal = -1;
+        RelevancePersonal = setValuation.RelevancePersonal;
 
         TotalRelevancePersonalEntries = "10";
         TotalRelevancePersonalAvg = "3.7";

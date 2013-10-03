@@ -10,20 +10,41 @@ namespace TrueOrFalse
     public class UpdateSetsTotals : IRegisterAsInstancePerLifetime
     {
         private readonly ISession _session;
-        private readonly SetValuationRepository _setValuationRepo;
+        private readonly CreateOrUpdateSetValue _createOrUpdateSetValue;
 
-        public UpdateSetsTotals(ISession session, SetValuationRepository setValuationRepo){
+        public UpdateSetsTotals(ISession session,CreateOrUpdateSetValue _createOrUpdateSetValue){
             _session = session;
-            _setValuationRepo = setValuationRepo;
+            this._createOrUpdateSetValue = _createOrUpdateSetValue;
         }
 
-        public void Run(SetValuation setValuation)
+        public void UpdateRelevancePersonal(int setId, int userId, int relevance)
         {
-            
+            _createOrUpdateSetValue.Run(setId, userId, relevancePeronal: relevance);
+            _session.CreateSQLQuery(GenerateRelevancePersonal(setId)).ExecuteUpdate();
+            _session.Flush();
         }
 
-        public void UpdateRelevancePersonal(int id, int i, int newValue)
+        private string GenerateRelevancePersonal(int setId)
         {
+            return
+                GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", setId) + " " +
+                GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", setId);
+        }
+
+        private string GenerateAvgQuery(string fieldToSet, string fieldSource, int setId)
+        {
+            return "UPDATE QuestionSet SET " + fieldToSet + "Avg = " +
+                       "ROUND((SELECT SUM(" + fieldSource + ") FROM SetValuation " +
+                       " WHERE SetId = " + setId + " AND " + fieldSource + " != -1)/ " + fieldToSet + "Entries) " +
+                   "WHERE Id = " + setId + ";";
+        }
+
+        private string GenerateEntriesQuery(string fieldToSet, string fieldSource, int setId)
+        {
+            return "UPDATE QuestionSet SET " + fieldToSet + "Entries = " +
+                       "(SELECT COUNT(Id) FROM SetValuation " +
+                       "WHERE SetId = " + setId + " AND " + fieldSource + " != -1) " +
+                   "WHERE Id = " + setId + ";";
         }
     }
 }

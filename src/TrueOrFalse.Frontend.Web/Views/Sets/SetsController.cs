@@ -11,13 +11,16 @@ public class SetsController : BaseController
     private const string _viewLocation = "~/Views/Sets/Sets.aspx";
 
     private readonly SetRepository _setRepo;
+    private readonly SetValuationRepository _setValuationRepository;
     private readonly SetsControllerSearch _setsControllerSearch;
 
     public SetsController(
         SetRepository setRepo, 
+        SetValuationRepository setValuationRepository,
         SetsControllerSearch setsControllerSearch)
     {
         _setRepo = setRepo;
+        _setValuationRepository = setValuationRepository;
         _setsControllerSearch = setsControllerSearch;
     }
 
@@ -33,8 +36,8 @@ public class SetsController : BaseController
         if (page.HasValue)
             _sessionUiData.SearchSpecSetWish.CurrentPage = page.Value;
 
-        var questionSets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetWish);
-        return View(_viewLocation, new SetsModel(questionSets, _sessionUiData.SearchSpecSetAll, isTabWishActice:true));
+        var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetWish);
+        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetAll, GetValuations(sets), isTabWishActice: true));
     }
 
     public ActionResult SetsMineSearch(string searchTerm, SetsModel model)
@@ -51,8 +54,8 @@ public class SetsController : BaseController
 
         _sessionUiData.SearchSpecSetMine.Filter.CreatorId.EqualTo(_sessionUser.User.Id);
 
-        var questionSets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetMine);
-        return View(_viewLocation, new SetsModel(questionSets, _sessionUiData.SearchSpecSetMine, isTabMineActive:true));
+        var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetMine);
+        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetMine, GetValuations(sets), isTabMineActive: true));
     }
 
     public ActionResult SetsSearch(string searchTerm, SetsModel model)
@@ -67,9 +70,8 @@ public class SetsController : BaseController
         if (page.HasValue) 
             _sessionUiData.SearchSpecSetAll.CurrentPage = page.Value;
 
-        var questionSets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetAll);
-
-        return View(_viewLocation, new SetsModel(questionSets, _sessionUiData.SearchSpecSetAll, isTabAllActive:true));
+        var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetAll);
+        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetAll, GetValuations(sets), isTabAllActive: true));
     }
 
     [HttpPost]
@@ -97,7 +99,7 @@ public class SetsController : BaseController
         var oldKnowledgeCount = Sl.Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
 
         Sl.Resolve<UpdateSetsTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
-        var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);
+        var totals = Sl.Resolve<GetSetTotal>().RunForRelevancePersonal(id);
 
         var newKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
 
@@ -111,5 +113,10 @@ public class SetsController : BaseController
                 totalWishKnowledgeCountChange = oldKnowledgeCount != newKnowledgeCount
             }
         };
+    }
+
+    public IList<SetValuation> GetValuations(IEnumerable<Set> sets)
+    {
+        return _setValuationRepository.GetBy(sets.GetIds(), _sessionUser.User.Id);
     }
 }

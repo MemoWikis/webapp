@@ -18,7 +18,7 @@
         
         <div style="float: right; position:relative; right: -35px;" >
             <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
-                <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.Id %>"> 
+                <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-setId="<%= Model.Id %>"> 
                     <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                     <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
                 </div>

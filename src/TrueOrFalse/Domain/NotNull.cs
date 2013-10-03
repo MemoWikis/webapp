@@ -9,5 +9,13 @@
 
             return questionValuation;
         }
+
+        public static SetValuation Run(SetValuation setValuation)
+        {
+            if (setValuation == null)
+                return new SetValuation();
+
+            return setValuation;
+        }
     }
 }

@@ -1,5 +1,14 @@
+var ValuationPerRowMode;
+(function (ValuationPerRowMode) {
+    ValuationPerRowMode._map = [];
+    ValuationPerRowMode._map[0] = "Question";
+    ValuationPerRowMode.Question = 0;
+    ValuationPerRowMode._map[1] = "Set";
+    ValuationPerRowMode.Set = 1;
+})(ValuationPerRowMode || (ValuationPerRowMode = {}));
 var ValuationPerRow = (function () {
-    function ValuationPerRow(parentDiv) {
+    function ValuationPerRow(parentDiv, mode) {
+        this._mode = mode;
         var self = this;
         $(".removeRelevance").click(function () {
             var sliderContainer = $(this).parentsUntil(".column-1");
@@ -43,7 +52,7 @@ var ValuationPerRow = (function () {
     ValuationPerRow.prototype.SendSilderValue = function (divSlider, sliderValueParam) {
         $.ajax({
             type: 'POST',
-            url: "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam,
+            url: this._mode == ValuationPerRowMode.Question ? "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam : "/Sets/SaveRelevancePersonal/" + divSlider.attr("data-setId") + "/" + sliderValueParam,
             cache: false,
             success: function (result) {
                 divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());

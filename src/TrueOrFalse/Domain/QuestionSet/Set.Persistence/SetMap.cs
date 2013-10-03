@@ -16,6 +16,9 @@ namespace TrueOrFalse
             Map(x => x.Name).Length(100);
             Map(x => x.Text).Length(Constants.VarCharMaxLength);
 
+            Map(x => x.TotalRelevancePersonalAvg);
+            Map(x => x.TotalRelevancePersonalEntries);
+
             HasMany(x => x.QuestionsInSet).Table("questionInSet").Cascade.None().OrderBy("Sort");
             HasManyToMany(x => x.Categories).Table("categories_to_sets").Cascade.SaveUpdate();
                 

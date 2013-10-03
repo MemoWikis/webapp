@@ -50,6 +50,7 @@ namespace TrueOrFalse
             routes.MapRoute("Sets", "FrageSaetze/{action}", new { controller = "Sets", action = "Sets" });
             /* API */ routes.MapRoute("Sets_DeleteDetails", "Sets/DeleteDetails/{setId}", new { controller = "Sets", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Sets_Delete", "Sets/Delete/{setId}", new { controller = "Sets", action = "Delete" });
+            /* API */ routes.MapRoute("Sets_SaveRelevancePersonal", "Sets/SaveRelevancePersonal/{id}/{newValue}", new { controller = "Sets", action = "SaveRelevancePersonal" });
 
             routes.MapRoute("Set_Detail", "FrageSaetze/{text}/{id}/{elementOnPage}", new { controller = "Set", action = "QuestionSet" });
             routes.MapRoute("Sets_Edit", "FrageSaetze/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });

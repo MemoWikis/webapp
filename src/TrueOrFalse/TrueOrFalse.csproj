@@ -210,7 +210,11 @@
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepository.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\CreateOrUpdateQuestionValue.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Ops\CreateOrUpdateSetValue.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotalResult.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotal.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\SetListExt.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\SetValuationExt.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\UpdateSetsTotals.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationRepository.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationMap.cs" />

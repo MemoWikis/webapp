@@ -38,11 +38,12 @@ public class QuestionRowModel
 
     public IList<Category> Categories; 
 
-    public QuestionRowModel(Question question, 
-                            TotalPerUser totalForUser, 
-                            QuestionValuation questionValuation,
-                            int indexInResultSet, 
-                            int currentUserid) 
+    public QuestionRowModel(
+        Question question, 
+        TotalPerUser totalForUser, 
+        QuestionValuation questionValuation,
+        int indexInResultSet, 
+        int currentUserid) 
     {
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;

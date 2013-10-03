@@ -1,10 +1,19 @@
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
+enum ValuationPerRowMode
+{
+    Question,
+    Set
+}
 
 class ValuationPerRow
 {
-    constructor(parentDiv : string) {
+    private _mode: ValuationPerRowMode;
+
+    constructor(parentDiv: string, mode: ValuationPerRowMode)
+    {
+        this._mode = mode;
 
         var self = this;
         $(".removeRelevance").click(function() {
@@ -52,7 +61,10 @@ class ValuationPerRow
     SendSilderValue(divSlider, sliderValueParam) {
         $.ajax({
             type: 'POST',
-            url: "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam,
+            url:
+                this._mode ==  ValuationPerRowMode.Question ? 
+                    "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" +sliderValueParam:
+                    "/Sets/SaveRelevancePersonal/" + divSlider.attr("data-setId") + "/" + sliderValueParam,
             cache: false,
             success: function (result) {
                 divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());

@@ -9,7 +9,9 @@ namespace TrueOrFalse.Updates
         public static void Run()
         {
             ServiceLocator.Resolve<ISession>().CreateSQLQuery(
-                "ALTER TABLE `questionset` ADD COLUMN `TotalRelevancePersonalAvg` INT NULL  AFTER `Text` , ADD COLUMN `TotalRelevancePersonalEntries` INT NULL  AFTER `TotalRelevancePersonalAvg`");
+                "ALTER TABLE `questionset` " +
+                    "ADD COLUMN `TotalRelevancePersonalAvg` INT NULL  AFTER `Text` , " +
+                    "ADD COLUMN `TotalRelevancePersonalEntries` INT NULL  AFTER `TotalRelevancePersonalAvg`").ExecuteUpdate();
         }
     }
 }
