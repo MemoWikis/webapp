@@ -65,5 +65,23 @@ namespace TrueOrFalse.Tests
             
             Assert.That(Resolve<SearchSets>().Run("Set", user1.Id).Count, Is.EqualTo(2)); ;
         }
+
+        [Test]
+        public void Should_search_sets_part_of_active_knowledge()
+        {
+            var userContext = ContextUser.New().Add("user 1").Add("user 2").Persist();
+            var user1 = userContext.All.First();
+
+            var context = ContextSet.New()
+                .AddSet("Set1 A", creator: user1)
+                .AddSet("Set2 B", creator: user1)
+                .AddSet("Set3 B")
+                .Persist();
+
+            var setValuation2 = new SetValuation { SetId = context.All[1].Id, UserId = user1.Id, RelevancePersonal = 7 };
+            Resolve<SetValuationRepository>().Create(new List<SetValuation> { setValuation2 });
+
+            Assert.That(Resolve<SearchSets>().Run("Set", valuatorId: user1.Id).Count, Is.EqualTo(1)); ;            
+        }
     }
 }

@@ -8,10 +8,11 @@ namespace TrueOrFalse.Search
 {
     public class ToSetSolrMap
     {
-        public static SetSolrMap Run(Set set)
+        public static SetSolrMap Run(Set set, IEnumerable<SetValuation> valuations)
         {
             var result = new SetSolrMap();
             result.Id = set.Id;
+            result.ValuatorIds = valuations.Select(x => x.UserId).ToList();
             result.Text = set.Text;
             result.Name = set.Name;
             result.CreatorId = set.Creator.Id;

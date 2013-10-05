@@ -5,17 +5,34 @@ using System.Text;
 using NHibernate;
 using NHibernate.Transform;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse.Search;
 
 namespace TrueOrFalse
 {
     public class SetValuationRepository : RepositoryDb<SetValuation> 
     {
-        public SetValuationRepository(ISession session) : base(session){}
+        private readonly SearchIndexSet _searchIndexSet;
+        private readonly SetRepository _setRepository;
 
-        public SetValuation GetBy(int questionId, int userId)
+        public SetValuationRepository(
+            ISession session, 
+            SearchIndexSet searchIndexSet,
+            SetRepository setRepository) : base(session)
+        {
+            _searchIndexSet = searchIndexSet;
+            _setRepository = setRepository;
+        }
+
+        public IList<SetValuation> GetBy(int setId)
         {
             return _session.QueryOver<SetValuation>()
-                           .Where(q => q.UserId == userId && q.SetId == questionId)
+                           .Where(s => s.SetId == setId).List<SetValuation>();
+        }
+
+        public SetValuation GetBy(int setId, int userId)
+        {
+            return _session.QueryOver<SetValuation>()
+                           .Where(q => q.UserId == userId && q.SetId == setId)
                            .SingleOrDefault();
         }
 
@@ -38,6 +55,29 @@ namespace TrueOrFalse
             return _session.CreateSQLQuery(sb.ToString())
                            .SetResultTransformer(Transformers.AliasToBean(typeof(SetValuation)))
                            .List<SetValuation>();
+        }
+
+        public override void Create(IList<SetValuation> sets)
+        {
+            base.Create(sets);
+            _searchIndexSet.Update(_setRepository.GetByIds(sets.SetIds().ToArray()));
+        }
+
+        public override void Create(SetValuation setValuation)
+        {
+            base.Create(setValuation);
+            _searchIndexSet.Update(_setRepository.GetById(setValuation.Id));
+        }
+
+        public override void CreateOrUpdate(SetValuation set)
+        {
+            base.CreateOrUpdate(set);
+            _searchIndexSet.Update(_setRepository.GetById(set.Id));
+        }
+
+        public override void Update(SetValuation set)
+        {
+            base.Update(set);
         }
     }
 }

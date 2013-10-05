@@ -13,5 +13,10 @@ namespace TrueOrFalse
         public virtual int SetId { get; set; }
 
         public virtual int RelevancePersonal { get; set; }
+
+        public SetValuation()
+        {
+            RelevancePersonal = -1;
+        }
     }
 }

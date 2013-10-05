@@ -266,7 +266,7 @@
     <Compile Include="Search\Category\Model\ToCategorytSolrMap.cs" />
     <Compile Include="Search\Category\SearchCategories.cs" />
     <Compile Include="Search\Category\SearchCategoriesResult.cs" />
-    <Compile Include="Search\QuestionSet\IndexOperations\ReIndexAllQuestions.cs" />
+    <Compile Include="Search\QuestionSet\IndexOperations\ReIndexAllSets.cs" />
     <Compile Include="Search\QuestionSet\IndexOperations\SearchIndexSet.cs" />
     <Compile Include="Search\QuestionSet\Model\SetSolrMap.cs" />
     <Compile Include="Search\QuestionSet\Model\ToSetSolrMap.cs" />
