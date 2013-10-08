@@ -36,8 +36,10 @@ public class SetsController : BaseController
         if (page.HasValue)
             _sessionUiData.SearchSpecSetWish.CurrentPage = page.Value;
 
+        _sessionUiData.SearchSpecSetWish.Filter.ValuatorId = _sessionUser.User.Id;
+
         var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetWish);
-        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetAll, GetValuations(sets), isTabWishActice: true));
+        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetWish, GetValuations(sets), isTabWishActice: true));
     }
 
     public ActionResult SetsMineSearch(string searchTerm, SetsModel model)

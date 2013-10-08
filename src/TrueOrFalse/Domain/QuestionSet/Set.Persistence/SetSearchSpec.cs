@@ -17,6 +17,7 @@ namespace TrueOrFalse
     public class QuestionSetFilter : ConditionContainer
     {
         public ConditionInteger CreatorId;
+        public int ValuatorId = -1;
 
         public QuestionSetFilter(){
             CreatorId = new ConditionInteger(this, "Creator.Id");

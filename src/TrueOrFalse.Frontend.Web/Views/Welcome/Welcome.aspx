@@ -66,7 +66,7 @@
                             <b>Schneller zu lernen:</b>
                             <p>
                                 RIOFA analysiert Dein Lernverhalten und 
-                                versucht den optimalen Zeitpunkt, für eine 
+                                versucht den optimalen Zeitpunkt für eine 
                                 benötigte Wiederholung von Wissen zu ermitteln. 
                                 So kannst Du schneller lernen.
                             </p>

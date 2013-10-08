@@ -25,7 +25,8 @@ public class SetsControllerSearch : IRegisterAsInstancePerLifetime
             searchSpecSetMine,
             searchSpecSetMine.Filter.CreatorId.IsActive() ? 
                 Convert.ToInt32(searchSpecSetMine.Filter.CreatorId.GetValue()) : 
-                -1);
+                -1, 
+            searchSpecSetMine.Filter.ValuatorId);
 
         return _setRepo.GetByIds(solrResult.SetIds.ToArray());
     }
