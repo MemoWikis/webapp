@@ -15,9 +15,9 @@ namespace TrueOrFalse
             _session = session;
         }
 
-        public GetSetTotalResult RunForRelevancePersonal(int questionId)
+        public GetSetTotalResult RunForRelevancePersonal(int setId)
         {
-            return _session.CreateSQLQuery(GetQuery("TotalRelevancePersonalEntries", "TotalRelevancePersonalAvg", questionId))
+            return _session.CreateSQLQuery(GetQuery("TotalRelevancePersonalEntries", "TotalRelevancePersonalAvg", setId))
                             .SetResultTransformer(Transformers.AliasToBean(typeof(GetSetTotalResult)))
                             .UniqueResult<GetSetTotalResult>();
         }

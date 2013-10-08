@@ -23,10 +23,10 @@
                             <a href="<%= Links.Sets(Url) %>" >Alle Fragesätze (<%= Model.TotalSets %>)</a>
                         </li>
                         <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
-                            <a href="<%= Links.SetsSetsWish(Url) %>">Mein Wunschwissen (0)</a>
+                            <a href="<%= Links.SetsWish(Url) %>">Mein Wunschwissen (<%= Model.TotalWish %>)</a>
                         </li>
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
-                            <a href="<%= Links.SetsSetsMine(Url) %>">
+                            <a href="<%= Links.SetsMine(Url) %>">
                                 Meine Fragesätze <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> 
                                 <i class="icon-question-sign show-tooltip" title="Fragesätze die von Dir erstellt wurden"></i>
                             </a>
