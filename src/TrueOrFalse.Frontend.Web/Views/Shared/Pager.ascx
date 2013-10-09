@@ -44,5 +44,5 @@
                 <li class="disabled"><a href="#">»</a></li>
             <% } %>
         </ul>
-    </div>        
+    </div>
 </div>
