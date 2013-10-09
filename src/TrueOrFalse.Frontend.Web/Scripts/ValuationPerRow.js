@@ -50,6 +50,7 @@ var ValuationPerRow = (function () {
         divSlider.parent().find(".sliderValue").text(text);
     };
     ValuationPerRow.prototype.SendSilderValue = function (divSlider, sliderValueParam) {
+        var _this = this;
         $.ajax({
             type: 'POST',
             url: this._mode == ValuationPerRowMode.Question ? "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam : "/Sets/SaveRelevancePersonal/" + divSlider.attr("data-setId") + "/" + sliderValueParam,
@@ -58,7 +59,7 @@ var ValuationPerRow = (function () {
                 divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());
                 divSlider.parent().parent().find(".totalRelevanceAvg").text(result.totalAverage.toString());
                 if(result.totalWishKnowledgeCountChange) {
-                    this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
+                    _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
                     $("#tabWishKnowledgeCount").text(result.totalWishKnowledgeCount).animate({
                         opacity: 0.25
                     }, 100).animate({

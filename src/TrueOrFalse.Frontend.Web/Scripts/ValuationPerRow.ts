@@ -59,6 +59,7 @@ class ValuationPerRow
     }
 
     SendSilderValue(divSlider, sliderValueParam) {
+        var _this = this;
         $.ajax({
             type: 'POST',
             url:
@@ -70,8 +71,9 @@ class ValuationPerRow
                 divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());
                 divSlider.parent().parent().find(".totalRelevanceAvg").text(result.totalAverage.toString());
 
+
                 if (result.totalWishKnowledgeCountChange) {
-                    this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
+                    _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
                     $("#tabWishKnowledgeCount").text(result.totalWishKnowledgeCount)
                     .animate({ opacity: 0.25 }, 100)
                     .animate({ opacity: 1.00 }, 500);
