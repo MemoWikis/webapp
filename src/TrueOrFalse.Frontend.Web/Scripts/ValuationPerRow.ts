@@ -71,20 +71,23 @@ class ValuationPerRow
                 divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());
                 divSlider.parent().parent().find(".totalRelevanceAvg").text(result.totalAverage.toString());
 
-
                 if (result.totalWishKnowledgeCountChange) {
-                    _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
-                    $("#tabWishKnowledgeCount").text(result.totalWishKnowledgeCount)
-                    .animate({ opacity: 0.25 }, 100)
-                    .animate({ opacity: 1.00 }, 500);
+                    if (this._mode == ValuationPerRowMode.Question) {
+                        _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
+                    }
+                    _this.SetElementValue("#tabWishKnowledgeCount", result.totalWishKnowledgeCount);
                 }
             }
         });
     }
 
     SetMenuWishKnowledge(newAmount) {
-        $("#menuWishKnowledgeCount")
-            .text(newAmount)
+        this.SetElementValue("#menuWishKnowledgeCount", newAmount);
+    }
+
+    SetElementValue(selector: string, newValue : string) {
+        $(selector)
+            .text(newValue)
             .animate({ opacity: 0.25 }, 100)
             .animate({ opacity: 1.00 }, 500);
     }

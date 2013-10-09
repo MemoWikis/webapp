@@ -103,7 +103,7 @@ public class SetsController : BaseController
         Sl.Resolve<UpdateSetsTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetSetTotal>().RunForRelevancePersonal(id);
 
-        var newKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
+        var newKnowledgeCount = Sl.Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
 
         return new JsonResult
         {
@@ -111,7 +111,7 @@ public class SetsController : BaseController
             {
                 totalValuations = totals.Count,
                 totalAverage = Math.Round(totals.Avg / 10d, 1),
-                totalWishKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true),
+                totalWishKnowledgeCount = newKnowledgeCount,
                 totalWishKnowledgeCountChange = oldKnowledgeCount != newKnowledgeCount
             }
         };

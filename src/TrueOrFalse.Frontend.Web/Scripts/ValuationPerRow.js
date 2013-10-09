@@ -59,18 +59,19 @@ var ValuationPerRow = (function () {
                 divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());
                 divSlider.parent().parent().find(".totalRelevanceAvg").text(result.totalAverage.toString());
                 if(result.totalWishKnowledgeCountChange) {
-                    _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
-                    $("#tabWishKnowledgeCount").text(result.totalWishKnowledgeCount).animate({
-                        opacity: 0.25
-                    }, 100).animate({
-                        opacity: 1.00
-                    }, 500);
+                    if(this._mode == ValuationPerRowMode.Question) {
+                        _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
+                    }
+                    _this.SetElementValue("#tabWishKnowledgeCount", result.totalWishKnowledgeCount);
                 }
             }
         });
     };
     ValuationPerRow.prototype.SetMenuWishKnowledge = function (newAmount) {
-        $("#menuWishKnowledgeCount").text(newAmount).animate({
+        this.SetElementValue("#menuWishKnowledgeCount", newAmount);
+    };
+    ValuationPerRow.prototype.SetElementValue = function (selector, newValue) {
+        $(selector).text(newValue).animate({
             opacity: 0.25
         }, 100).animate({
             opacity: 1.00
