@@ -1,5 +1,5 @@
-/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
-/// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
+/// <reference path="typescript.defs/jquery.d.ts" />
+/// <reference path="typescript.defs/bootstrap.d.ts" />
 
 enum ValuationPerRowMode
 {

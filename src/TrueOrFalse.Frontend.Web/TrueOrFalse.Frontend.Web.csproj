@@ -537,8 +537,8 @@
     <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js">
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Views\Questions\Js\ValuationPerRow.ts" />
-    <Content Include="Views\Questions\Js\ValuationPerRow.js">
+    <TypeScriptCompile Include="Scripts\ValuationPerRow.ts" />
+    <Content Include="Scripts\ValuationPerRow.js">
       <DependentUpon>ValuationPerRow.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Set.aspx" />

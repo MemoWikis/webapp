@@ -49,7 +49,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/file-uploader/jquery-plugin.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questions")
-                .IncludeDirectory("~/Views/Questions/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Questions/Js/", "*.js")
+                .Include("~/Scripts/ValuationPerRow.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
@@ -58,7 +59,7 @@ namespace TrueOrFalse.View
             
             bundles.Add(new ScriptBundle("~/bundles/Sets")
                 .IncludeDirectory("~/Views/Sets/Js/", "*.js")
-                .Include("~/Views/Questions/Js/ValuationPerRow.js"));
+                .Include("~/Scripts/ValuationPerRow.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Categories")
                 .IncludeDirectory("~/Views/Categories/Js/", "*.js"));

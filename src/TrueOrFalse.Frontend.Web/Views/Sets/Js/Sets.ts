@@ -1,4 +1,4 @@
-/// <reference path="../../Questions/Js/ValuationPerRow.ts" />
+/// <reference path="../../../Scripts/ValuationPerRow.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
 function SubmitSearch() {
