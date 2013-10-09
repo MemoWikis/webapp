@@ -8,6 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    
     <div class="span10">
         <% using (Html.BeginForm()) { %>
     
