@@ -66,7 +66,7 @@ namespace TrueOrFalse
         public override void Create(SetValuation setValuation)
         {
             base.Create(setValuation);
-            _searchIndexSet.Update(_setRepository.GetById(setValuation.Id));
+            _searchIndexSet.Update(_setRepository.GetById(setValuation.SetId));
         }
 
         public override void CreateOrUpdate(SetValuation set)

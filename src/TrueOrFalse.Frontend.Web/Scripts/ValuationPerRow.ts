@@ -17,7 +17,7 @@ class ValuationPerRow
 
         var self = this;
         $(".removeRelevance").click(function() {
-            var sliderContainer = $(this).parentsUntil(".column-1");
+            var sliderContainer = $(this).parentsUntil(parentDiv);
             sliderContainer.hide();
             sliderContainer.parent().find(".addRelevance").show();
             self.SendSilderValue(sliderContainer.find(".slider"), -1);
