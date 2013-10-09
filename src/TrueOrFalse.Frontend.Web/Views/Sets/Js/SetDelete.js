@@ -18,7 +18,7 @@ function populateDeleteSet(setId) {
         url: "/Sets/DeleteDetails/" + setId,
         cache: false,
         success: function (result) {
-            $("#spanQuestionTitle").html(result.questionTitle.toString());
+            $("#spanSetTitle").html(result.setTitle);
         },
         error: function () {
             alert("Ein Fehler ist aufgetreten");

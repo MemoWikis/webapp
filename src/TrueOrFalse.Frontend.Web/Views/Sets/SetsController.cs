@@ -79,11 +79,11 @@ public class SetsController : BaseController
     [HttpPost]
     public JsonResult DeleteDetails(int setId)
     {
-        var question = _setRepo.GetById(setId);
+        var set = _setRepo.GetById(setId);
 
         return new JsonResult{
             Data = new{
-                questionTitle = question.Text.WordWrap(50),
+                setTitle = set.Name.WordWrap(50),
             }
         };
     }

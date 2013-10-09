@@ -296,9 +296,6 @@
     <Content Include="Views\Categories\Js\CategoriesDelete.js">
       <DependentUpon>CategoriesDelete.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Js\SetDelete.js">
-      <DependentUpon>CategoriesDelete.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />
