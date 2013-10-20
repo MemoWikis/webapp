@@ -33,6 +33,9 @@ var MarkdownQuestionExt = (function () {
                     "uploadImageLicenceOwner": imageUploadModal.LicenceOwner,
                     "markupEditor": ""
                 }, function (result) {
+                    if(result.NewQuestionId != -1) {
+                        $("questionId").val(result.NewQuestionId);
+                    }
                     callback(result.PreviewUrl);
                 });
             });

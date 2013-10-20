@@ -30,16 +30,16 @@ public class EditSetController : BaseController
             return View(_viewLocation, model);
         }
 
-        var questionSet = model.ToQuestionSet();
-        questionSet.Creator = _sessionUser.User;
-        Resolve<SetRepository>().Create(questionSet);
+        var set = model.ToQuestionSet();
+        set.Creator = _sessionUser.User;
+        Resolve<SetRepository>().Create(set);
 
         model = new EditSetModel();
         model.SetToCreateModel();
         model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert, " +
                                            "nun kannst Du einen neuen Fragesatz erstellen.");
 
-        StoreImage(questionSet.Id);
+        StoreImage(set.Id);
 
         return View(_viewLocation, model);
     }
@@ -56,11 +56,11 @@ public class EditSetController : BaseController
     public ViewResult Edit(int id, EditSetModel model)
     {
         var questionSetRepo = Resolve<SetRepository>();
-        var questionSet = questionSetRepo.GetById(id);
-        StoreImage(questionSet.Id);
-        model.Fill(questionSet);
+        var set = questionSetRepo.GetById(id);
+        StoreImage(set.Id);
+        model.Fill(set);
         model.SetToUpdateModel();
-        questionSetRepo.Update(questionSet);
+        questionSetRepo.Update(set);
 
         model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert");
         

@@ -34,20 +34,25 @@ class MarkdownQuestionExt
         var editor = new Markdown.Editor(converter, "-1");
         editor.hooks.set("insertImageDialog", function (callback) {
 
-                var imageUploadModal = new ImageUploadModal();
-                imageUploadModal.OnSave(function (url: string) {
+            var imageUploadModal = new ImageUploadModal();
+            imageUploadModal.OnSave(function (url: string) {
 
                 var sourceString = imageUploadModal.Mode == ImageUploadModalMode.Wikimedia ? "wikimedia" : "upload";
-                //imageUploadModal.WikimediaPreview.
 
-                $.post("/Fragen/Bearbeite/StoreImage",{
+                $.post("/Fragen/Bearbeite/StoreImage",
+                {
                     "imageSource": sourceString,
                     "questionId": $("#questionId").val(),
                     "wikiFileName": imageUploadModal.WikimediaPreview.ImageName,
                     "uploadImageGuid": imageUploadModal.ImageGuid,
                     "uploadImageLicenceOwner": imageUploadModal.LicenceOwner,
                     "markupEditor" : ""
-                },function (result) {
+                },
+                    function (result) {
+                        if (result.NewQuestionId != -1) {
+                            $("questionId").val(result.NewQuestionId);
+                        }   
+
                         callback(result.PreviewUrl);
                     });
                 });

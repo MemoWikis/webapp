@@ -40,7 +40,7 @@ public class EditQuestionModel : BaseModel
     [DisplayName("Erklärungen")]
     public string Description { get; set; }
 
-    public int? Id;
+    public int Id = -1;
 
     public IEnumerable<string> Categories = new List<string>();
 

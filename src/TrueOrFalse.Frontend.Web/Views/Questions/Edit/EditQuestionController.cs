@@ -89,7 +89,7 @@ public class EditQuestionController : BaseController
             string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Du kannst Sie nun weiter bearbeiten.",
                           question.Text.TruncateAtWord(30)));
 
-        return Redirect("Edit/" + question.Id);
+        return Redirect("Bearbeite/" + question.Id);
     }
 
     [HttpPost]
@@ -102,13 +102,23 @@ public class EditQuestionController : BaseController
         string markupEditor
         )
     {
-        if (imageSource == "wikimedia")
-        {
+
+        int newQuestionId = -1;
+        if (questionId == -1){
+            var question = new Question();
+            question.Text = Request["Question"];
+            question.Creator = _sessionUser.User;
+            _questionRepository.Create(question);
+
+            newQuestionId = questionId = question.Id;
+        }
+
+        if (imageSource == "wikimedia"){
             Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
                 wikiFileName, questionId, _sessionUser.User.Id);
         }
-        if (imageSource == "upload")
-        {
+        
+        if (imageSource == "upload"){
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
                 _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id, uploadImageLicenceOwner);
         }
@@ -118,6 +128,7 @@ public class EditQuestionController : BaseController
         return new JsonResult{
             Data = new{
                 PreviewUrl = imageSettings.GetUrl_435px().UrlWithoutTime(),
+                NewQuestionId = newQuestionId
             }
         };
     }

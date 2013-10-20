@@ -651,7 +651,9 @@
     <Content Include="Views\Categories\Categories.less" />
     <Content Include="Views\Categories\Detail\Category.less" />
     <None Include="Style\site-debug.less" />
-    <None Include="Web.overwritten.config" />
+    <None Include="Web.overwritten.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
