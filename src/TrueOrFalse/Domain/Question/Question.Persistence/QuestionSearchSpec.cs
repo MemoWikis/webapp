@@ -89,6 +89,8 @@ namespace TrueOrFalse
 
     public class QuestionFilter : ConditionContainer
     {
+        public int CreatorId = -1;
+        public int ValuatorId = -1;
     }
 
     public class QuestionOrderBy : SpecOrderByBase

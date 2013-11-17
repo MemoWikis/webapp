@@ -30,9 +30,8 @@ namespace TrueOrFalse.Web.Context
         }
 
         /* SearchSpecs *************/
-        public QuestionSearchSpec SearchSpecQuestion{
-            get { return Data.Get("searchSpecQuestion", new QuestionSearchSpec { PageSize = 5 }); }
-        }
+        public QuestionSearchSpec SearchSpecQuestionAll{ get { return Data.Get("searchSpecQuestionAll", new QuestionSearchSpec { PageSize = 5 }); } }
+        public QuestionSearchSpec SearchSpecQuestionMine { get { return Data.Get("searchSpecQuestionMine", new QuestionSearchSpec { PageSize = 5 }); } }
 
         public SetSearchSpec SearchSpecSetAll{ get { return Data.Get("searchSpecSetAll", new SetSearchSpec { PageSize = 10 }); } }
         public SetSearchSpec SearchSpecSetMine { get { return Data.Get("searchSpecSetMine", new SetSearchSpec { PageSize = 10 }); } }

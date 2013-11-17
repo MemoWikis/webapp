@@ -8,83 +8,77 @@ using TrueOrFalse.Search;
 public class QuestionsController : BaseController
 {
     private readonly QuestionRepository _questionRepository;
-    private readonly QuestionValuationRepository _questionValuationRepository;
     private readonly QuestionsControllerSearch _questionsControllerSearch;
-    private readonly TotalsPersUserLoader _totalsPerUserLoader;
-    private readonly UserRepository _userRepository;
 
     public QuestionsController(QuestionRepository questionRepository,
-                               QuestionValuationRepository questionValuationRepository,
-                               QuestionsControllerSearch questionsControllerSearch,
-                               TotalsPersUserLoader totalsPerUserLoader, 
-                               UserRepository userRepository)
+                               QuestionsControllerSearch questionsControllerSearch)
     {
         _questionRepository = questionRepository;
-        _questionValuationRepository = questionValuationRepository;
         _questionsControllerSearch = questionsControllerSearch;
-        _totalsPerUserLoader = totalsPerUserLoader;
-        _userRepository = userRepository;
     }
 
     public ActionResult OrderByPersonalRelevance(int? page, QuestionsModel model){
-        _sessionUiData.SearchSpecQuestion.OrderBy.OrderByPersonalRelevance.Desc();
+        _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByPersonalRelevance.Desc();
         return Questions(page, model);
     }
 
     public ActionResult OrderByQuality(int? page, QuestionsModel model){
-        _sessionUiData.SearchSpecQuestion.OrderBy.OrderByQuality.Desc();
+        _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByQuality.Desc();
         return Questions(page, model);
     }
 
     public ActionResult OrderByCreationDate(int? page, QuestionsModel model){
-        _sessionUiData.SearchSpecQuestion.OrderBy.OrderByCreationDate.Desc();
+        _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByCreationDate.Desc();
         return Questions(page, model);
     }
 
     public ActionResult OrderByViews(int? page, QuestionsModel model){
-        _sessionUiData.SearchSpecQuestion.OrderBy.OrderByViews.Desc();
+        _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByViews.Desc();
         return Questions(page, model);
     }
 
     public ActionResult QuestionSearch(string searchTerm, QuestionsModel model)
     {
-        _sessionUiData.SearchSpecQuestion.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecQuestionAll.SearchTearm = model.SearchTerm = searchTerm;
         return Questions(null, model);
     }
 
     [SetMenu(MenuEntry.Questions)]
     public ActionResult Questions(int? page, QuestionsModel model)
     {
-        _sessionUiData.SearchSpecQuestion.PageSize = 10;
+        _sessionUiData.SearchSpecQuestionAll.PageSize = 10;
 
-        _sessionUiData.SearchSpecQuestion.SetFilterByMe(model.FilterByMe);
-        _sessionUiData.SearchSpecQuestion.SetFilterByAll(model.FilterByAll);
-        _sessionUiData.SearchSpecQuestion.AddFilterByUser(model.AddFilterUser);
-        _sessionUiData.SearchSpecQuestion.DelFilterByUser(model.DelFilterUser);
-
-        if (!_sessionUiData.SearchSpecQuestion.OrderBy.IsSet())
-            _sessionUiData.SearchSpecQuestion.OrderBy.OrderByPersonalRelevance.Desc();
-
-        if (page.HasValue) _sessionUiData.SearchSpecQuestion.CurrentPage = page.Value;
-
-        var questions = _questionsControllerSearch.Run();
-        var totalsForCurrentUser = _totalsPerUserLoader.Run(_sessionUser.User.Id, questions);
-        var questionValutionsForCurrentUser = _questionValuationRepository.GetBy(questions.GetIds(), _sessionUser.User.Id);
+        if (page.HasValue) 
+            _sessionUiData.SearchSpecQuestionAll.CurrentPage = page.Value;
 
         return View("Questions",
-                    new QuestionsModel(
-                        questions,
-                        totalsForCurrentUser,
-                        questionValutionsForCurrentUser,
-                        _sessionUiData.SearchSpecQuestion,
-                        _sessionUser.User.Id)
-                    {
-                        Pager = new PagerModel(_sessionUiData.SearchSpecQuestion),
-                        FilterByMe = _sessionUiData.SearchSpecQuestion.FilterByMe,
-                        FilterByAll = _sessionUiData.SearchSpecQuestion.FilterByAll,
-                        FilterByUsers = _userRepository.GetByIds(_sessionUiData.SearchSpecQuestion.FilterByUsers.ToArray()).ToDictionary(user => user.Id, user => user.Name)
-                    }
-            );
+            new QuestionsModel(
+                _questionsControllerSearch.Run(model), 
+                _sessionUiData.SearchSpecQuestionAll, 
+                _sessionUser.User.Id,
+                isTabAllActive: true));
+    }
+
+    public ActionResult QuestionsMineSearch(string searchTerm, QuestionsModel model)
+    {
+        _sessionUiData.SearchSpecSetMine.SearchTearm = model.SearchTerm = searchTerm;
+        return QuestionsMine(null, model);
+    }
+
+    [SetMenu(MenuEntry.Questions)]
+    public ActionResult QuestionsMine(int? page, QuestionsModel model)
+    {
+        if (page.HasValue)
+            _sessionUiData.SearchSpecQuestionMine.CurrentPage = page.Value;
+
+        _sessionUiData.SearchSpecQuestionMine.Filter.CreatorId = _sessionUser.User.Id;
+
+        return View("Questions",
+            new QuestionsModel(
+                _questionsControllerSearch.Run(model), 
+                _sessionUiData.SearchSpecQuestionAll, 
+                _sessionUser.User.Id,
+                isTabMineActive: true));
     }
 
     [HttpPost]

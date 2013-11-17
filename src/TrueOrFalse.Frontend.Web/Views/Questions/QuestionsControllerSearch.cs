@@ -20,32 +20,21 @@ public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
         _searchQuestions = searchQuestions;
     }
 
-    public IList<Question> Run()
+    public IList<Question> Run(QuestionsModel model)
     {
-        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecQuestion.SearchTearm))
-            return SearchFromSqlServer();
-        
-        return SearchFromSOLR();
-    }
+        _sessionUiData.SearchSpecQuestionAll.SetFilterByMe(model.FilterByMe);
+        _sessionUiData.SearchSpecQuestionAll.SetFilterByAll(model.FilterByAll);
+        _sessionUiData.SearchSpecQuestionAll.AddFilterByUser(model.AddFilterUser);
+        _sessionUiData.SearchSpecQuestionAll.DelFilterByUser(model.DelFilterUser);
 
-    private IList<Question> SearchFromSOLR()
-    {
+        if (!_sessionUiData.SearchSpecQuestionAll.OrderBy.IsSet())
+            _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByPersonalRelevance.Desc();
+
         var solrResult = _searchQuestions.Run(
-            _sessionUiData.SearchSpecQuestion.SearchTearm, 
-            _sessionUiData.SearchSpecQuestion);
-
+            _sessionUiData.SearchSpecQuestionAll.SearchTearm,
+            _sessionUiData.SearchSpecQuestionAll);
+            
         return _questionRepository.GetByIds(
             solrResult.QuestionIds.ToArray());
-    }
-
-    private IList<Question> SearchFromSqlServer()
-    {
-        var session = ServiceLocator.Resolve<ISession>();
-        session.CreateCriteria<Category>();
-
-        return _questionRepository.GetBy(
-            _sessionUiData.SearchSpecQuestion,
-            c => c.SetFetchMode("Categories", FetchMode.Select
-        ));
     }
 }

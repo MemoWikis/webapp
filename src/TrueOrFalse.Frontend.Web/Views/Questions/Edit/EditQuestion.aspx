@@ -59,7 +59,7 @@
                 <div class="box-content" style="clear: both;">
                     <div class="control-group">
                         <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>
-                        <div class="controls">
+                        <div class="controls">z
                             <label class="radio inline">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
                             für alle<br/><span class="smaller">(öffentliche Frage)</span> &nbsp;&nbsp;

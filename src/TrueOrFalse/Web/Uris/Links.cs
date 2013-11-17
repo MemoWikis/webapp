@@ -25,6 +25,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         /*Question*/
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
+        public const string QuestionsMineAction = "QuestionsMine";
+
+        public static string QuestiosAll(UrlHelper url) { return url.Action(Questions, QuestionsController); }
+        public static string QuestiosMine(UrlHelper url) { return url.Action(QuestionsMineAction, QuestionsController); }
 
         public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1){
             return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage);

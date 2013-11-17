@@ -154,7 +154,7 @@
                     <div style="clear:both"></div>
                     <div style="margin-top: 10px;">
                         <p>
-                            Eine spannende Reise: Wir möchte nicht nur <a href="#teaser1">das Lernen von Faktenwissen vereinfachen</a>, 
+                            Eine spannende Reise: Wir möchten nicht nur <a href="#teaser1">das Lernen von Faktenwissen vereinfachen</a>, 
                             sondern auch ein stabiles <a href="#teaser2">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
                         </p>
                         <p>
