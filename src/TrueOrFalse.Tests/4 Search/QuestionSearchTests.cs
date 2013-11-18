@@ -57,6 +57,30 @@ namespace TrueOrFalse.Tests
         }
 
         [Test]
+        public void Should_filter_by_creator_id()
+        {
+            
+        }
+
+        [Test]
+        public void Should_filter_by_valuator_id()
+        {
+            var context = ContextQuestion.New()
+                .AddQuestion("Question1", "Answer2").AddCategory("A")
+                .AddQuestion("Question2", "Answer3").AddCategory("B")
+                .AddQuestion("Juliane Misdom", "Answer3").AddCategory("B")
+                .Persist();
+
+            Resolve<QuestionValuationRepository>().Create(new List<QuestionValuation>{
+                new QuestionValuation { RelevancePersonal = 70, QuestionId = context.All[0].Id, UserId = 2 },
+                new QuestionValuation { RelevancePersonal = 15, QuestionId = context.All[1].Id, UserId = 2 }
+            });
+
+            Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager(), valuatorId:2).Count, Is.EqualTo(0));
+            Assert.That(Resolve<SearchQuestions>().Run("", new Pager(), valuatorId: 2).Count, Is.EqualTo(2));
+        }
+
+        [Test]
         public void Should_get_paged_result()
         {
             var context = ContextQuestion.New();

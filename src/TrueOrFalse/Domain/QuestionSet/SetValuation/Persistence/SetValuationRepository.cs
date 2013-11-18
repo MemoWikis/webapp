@@ -57,10 +57,10 @@ namespace TrueOrFalse
                            .List<SetValuation>();
         }
 
-        public override void Create(IList<SetValuation> sets)
+        public override void Create(IList<SetValuation> setValuations)
         {
-            base.Create(sets);
-            _searchIndexSet.Update(_setRepository.GetByIds(sets.SetIds().ToArray()));
+            base.Create(setValuations);
+            _searchIndexSet.Update(_setRepository.GetByIds(setValuations.SetIds().ToArray()));
         }
 
         public override void Create(SetValuation setValuation)
@@ -69,15 +69,16 @@ namespace TrueOrFalse
             _searchIndexSet.Update(_setRepository.GetById(setValuation.SetId));
         }
 
-        public override void CreateOrUpdate(SetValuation set)
+        public override void CreateOrUpdate(SetValuation setValuation)
         {
-            base.CreateOrUpdate(set);
-            _searchIndexSet.Update(_setRepository.GetById(set.Id));
+            base.CreateOrUpdate(setValuation);
+            _searchIndexSet.Update(_setRepository.GetById(setValuation.Id));
         }
 
-        public override void Update(SetValuation set)
+        public override void Update(SetValuation setValuation)
         {
-            base.Update(set);
+            base.Update(setValuation);
+            _searchIndexSet.Update(_setRepository.GetById(setValuation.Id));
         }
     }
 }

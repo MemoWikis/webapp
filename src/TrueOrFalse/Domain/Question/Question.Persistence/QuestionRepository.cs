@@ -10,7 +10,8 @@ namespace TrueOrFalse
     {
         private readonly SearchIndexQuestion _searchIndexQuestion;
 
-        public QuestionRepository(ISession session, SearchIndexQuestion searchIndexQuestion) : base(session){
+        public QuestionRepository(ISession session, SearchIndexQuestion searchIndexQuestion) : base(session)
+        {
             _searchIndexQuestion = searchIndexQuestion;
         }
 

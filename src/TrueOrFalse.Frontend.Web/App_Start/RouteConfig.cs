@@ -25,6 +25,8 @@ namespace TrueOrFalse
 
             routes.MapRoute("Questions_MineSearch", "Fragen/Meine/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsMineSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Questions_Mine", "Fragen/Meine", new { controller = "Questions", action = "QuestionsMine" });
+            routes.MapRoute("Questions_WishSearch", "Fragen/Wunschwissen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsWish", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Questions_Wish", "Fragen/Wunschwissen", new { controller = "Questions", action = "QuestionsWish" });
             routes.MapRoute("Questions", "Fragen", new { controller = "Questions", action = "Questions" });
             routes.MapRoute("Questions_SearchTerm", "Fragen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Question_Delete", "Fragen/Loesche/{id}", new { controller = "Questions", action = "Delete" });

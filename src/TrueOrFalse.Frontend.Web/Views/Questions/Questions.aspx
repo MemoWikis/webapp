@@ -26,17 +26,17 @@
         <div class="green">
             <ul class="nav nav-tabs" >
                 <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
-                    <a href="<%= Links.QuestiosAll(Url) %>">Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a>
+                    <a href="<%= Links.QuestionsAll(Url) %>">Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a>
                 </li>
-                <li>
-                    <a href="#profile">
+                <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
+                    <a href="<%= Links.QuestionsWish(Url) %>">
                         Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalWishKnowledge %>)</span> 
                         <i class="icon-question-sign show-tooltip" id="tabInfoMyKnowledge" 
                            title="Wissen das Du jederzeit aktiv nutzen möchtest ist."></i>
                     </a>
                 </li>
                 <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
-                    <a href="<%= Links.QuestiosMine(Url) %>">
+                    <a href="<%= Links.QuestionsMine(Url) %>">
                         Meine Fragen (0)
                         <i class="icon-question-sign show-tooltip" title="Fragen die von Dir erstellt wurden."></i>
                     </a>

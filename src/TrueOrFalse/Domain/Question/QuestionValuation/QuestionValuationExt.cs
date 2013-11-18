@@ -11,5 +11,10 @@ namespace TrueOrFalse
         {
             return questionValuations.FirstOrDefault(x =>  x.QuestionId == questionId);
         }
+
+        public static IList<int> QuestionIds(this IEnumerable<QuestionValuation> setValuations)
+        {
+            return setValuations.Select(x => x.QuestionId).ToList();
+        }
     }
 }

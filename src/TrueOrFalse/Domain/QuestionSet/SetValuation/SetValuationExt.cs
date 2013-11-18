@@ -16,6 +16,5 @@ namespace TrueOrFalse
         {
             return setValuations.Select(x => x.SetId).ToList();
         }
-
     }
 }

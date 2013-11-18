@@ -67,7 +67,7 @@ namespace TrueOrFalse.Tests
         }
 
         [Test]
-        public void Should_search_sets_part_of_active_knowledge()
+        public void Should_search_sets_part_of_wish_knowledge()
         {
             var userContext = ContextUser.New().Add("user 1").Add("user 2").Persist();
             var user1 = userContext.All.First();

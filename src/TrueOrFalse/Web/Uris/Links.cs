@@ -26,9 +26,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
         public const string QuestionsMineAction = "QuestionsMine";
+        public const string QuestionsWishAction = "QuestionsWish";
 
-        public static string QuestiosAll(UrlHelper url) { return url.Action(Questions, QuestionsController); }
-        public static string QuestiosMine(UrlHelper url) { return url.Action(QuestionsMineAction, QuestionsController); }
+        public static string QuestionsAll(UrlHelper url) { return url.Action(Questions, QuestionsController); }
+        public static string QuestionsMine(UrlHelper url) { return url.Action(QuestionsMineAction, QuestionsController); }
+        public static string QuestionsWish(UrlHelper url) { return url.Action(QuestionsWishAction, QuestionsController); }
 
         public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1){
             return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage);

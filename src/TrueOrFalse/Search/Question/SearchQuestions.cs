@@ -17,12 +17,18 @@ namespace TrueOrFalse.Search
             return Run(searchTearm, new Pager());
         }
 
-        public SearchQuestionsResult Run(string searchTearm, Pager pager)
+        public SearchQuestionsResult Run(
+            string searchTearm, 
+            Pager pager,
+            int creatorId = -1, 
+            int valuatorId = -1)
         {
             var sqb = new SearchQueryBuilder()
                 .Add("FullTextStemmed", searchTearm)
                 .Add("FullTextExact", searchTearm)
-                .Add("Categories", searchTearm);
+                .Add("Categories", searchTearm)
+                .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
+                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
 
             var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions

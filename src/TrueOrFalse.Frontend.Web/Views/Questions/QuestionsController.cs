@@ -75,10 +75,32 @@ public class QuestionsController : BaseController
 
         return View("Questions",
             new QuestionsModel(
-                _questionsControllerSearch.Run(model), 
-                _sessionUiData.SearchSpecQuestionAll, 
+                _questionsControllerSearch.Run(model),
+                _sessionUiData.SearchSpecQuestionMine, 
                 _sessionUser.User.Id,
                 isTabMineActive: true));
+    }
+
+    public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model)
+    {
+        _sessionUiData.SearchSpecQuestionWish.SearchTearm = model.SearchTerm = searchTerm;
+        return QuestionsWish(null, model);
+    }
+
+    [SetMenu(MenuEntry.Questions)]
+    public ActionResult QuestionsWish(int? page, QuestionsModel model)
+    {
+        if (page.HasValue)
+            _sessionUiData.SearchSpecQuestionWish.CurrentPage = page.Value;
+
+        _sessionUiData.SearchSpecQuestionWish.Filter.ValuatorId = _sessionUser.User.Id;
+
+        return View("Questions",
+            new QuestionsModel(
+                _questionsControllerSearch.Run(model),
+                _sessionUiData.SearchSpecQuestionWish,
+                _sessionUser.User.Id,
+                isTabWishActice: true));
     }
 
     [HttpPost]

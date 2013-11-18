@@ -28,14 +28,14 @@ namespace TrueOrFalse.Search
 
         public void Update(Set set)
         {
-            _solrOperations.Add(ToSetSolrMap.Run(set, _setValuationRepo.GetBy(set.Id).Where(s => s.RelevancePersonal != -1)));
+            _solrOperations.Add(ToSetSolrMap.Run(set, _setValuationRepo.GetBy(set.Id)));
             _solrOperations.Commit();
         }
 
         public void Update(IEnumerable<Set> sets)
         {
             foreach(var set in sets)
-                _solrOperations.Add(ToSetSolrMap.Run(set, _setValuationRepo.GetBy(set.Id).Where(s => s.RelevancePersonal != -1)));
+                _solrOperations.Add(ToSetSolrMap.Run(set, _setValuationRepo.GetBy(set.Id)));
 
             _solrOperations.Commit();
         }

@@ -12,7 +12,7 @@ namespace TrueOrFalse.Search
         {
             var result = new SetSolrMap();
             result.Id = set.Id;
-            result.ValuatorIds = valuations.Select(x => x.UserId).ToList();
+            result.ValuatorIds = valuations.Where(v => v.RelevancePersonal != -1).Select(x => x.UserId).ToList();
             result.Text = set.Text;
             result.Name = set.Name;
             result.CreatorId = set.Creator.Id;

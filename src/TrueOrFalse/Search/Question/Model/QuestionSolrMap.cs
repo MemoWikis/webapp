@@ -13,6 +13,9 @@ namespace TrueOrFalse.Search
         [SolrField("CreatorId")]
         public int CreatorId { get; set; }
 
+        [SolrField("ValuatorIds")]
+        public ICollection<int> ValuatorIds { get; set; }
+
         [SolrField("Text")]
         public string Text { get; set; }
 
