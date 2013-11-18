@@ -11,11 +11,16 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Run()
         {
-            var updateTotals = Resolve<UpdateQuestionTotals>();
+            var context = ContextQuestion.New()
+                .AddQuestion("1", "")
+                .AddQuestion("2", "")
+                .AddQuestion("3", "")
+                .Persist();
 
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, QuestionId = 1, UserId = 2 });
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, QuestionId = 2, UserId = 2 });
-            updateTotals.Run(new QuestionValuation { QuestionId = 3, UserId = 2 });
+            var updateTotals = Resolve<UpdateQuestionTotals>();
+            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, QuestionId = context.All[0].Id, UserId = 2 });
+            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, QuestionId = context.All[1].Id, UserId = 2 });
+            updateTotals.Run(new QuestionValuation { QuestionId = context.All[2].Id, UserId = 2 });
 
             Resolve<ISession>().Flush();
 

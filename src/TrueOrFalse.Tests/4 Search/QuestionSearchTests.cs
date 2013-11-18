@@ -71,6 +71,8 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_filter_by_valuator_id()
         {
+            Resolve<ISession>().Delete("FROM QuestionValuation");
+
             var context = ContextQuestion.New()
                 .AddQuestion("Question1", "Answer2").AddCategory("A")
                 .AddQuestion("Question2", "Answer3").AddCategory("B")
