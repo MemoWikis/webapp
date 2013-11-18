@@ -49,26 +49,31 @@ namespace TrueOrFalse.Frontend.Web
             builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
             builder.RegisterModule<AutofacCoreModule>();
 
+            var solrUrl = WebConfigSettings.SolrUrl;
+            var solrOverwritten = ReadOverwrittenConfig.SolrUrl();
+            if (solrOverwritten.HasValue)
+                solrUrl = solrOverwritten.Value;
+
             var cores = new SolrServers {
                                 new SolrServerElement {
                                         Id = "question",
                                         DocumentType = typeof (QuestionSolrMap).AssemblyQualifiedName,
-                                        Url = WebConfigSettings.SolrUrl + "tofQuestion"
+                                        Url = solrUrl + "tofQuestion"
                                     },
                                 new SolrServerElement {   
                                         Id = "set",
                                         DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
-                                        Url = WebConfigSettings.SolrUrl + "tofSet"
+                                        Url = solrUrl + "tofSet"
                                     },
                                 new SolrServerElement {   
                                         Id = "category",
                                         DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
-                                        Url = WebConfigSettings.SolrUrl + "tofCategory"
+                                        Url = solrUrl + "tofCategory"
                                     },
                                 new SolrServerElement {   
                                         Id = "users",
                                         DocumentType = typeof (UserSolrMap).AssemblyQualifiedName,
-                                        Url = WebConfigSettings.SolrUrl + "tofUser"
+                                        Url = solrUrl + "tofUser"
                                     }
                             };
 
