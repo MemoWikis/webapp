@@ -18,14 +18,14 @@ namespace TrueOrFalse.Tests
             var questionVal1 = new QuestionValuation{
                                         RelevanceForAll = 50,
                                         RelevancePersonal = 100,
-                                        QuestionId = contextQuestion.All.First().Id,
+                                        QuestionId = contextQuestion.All[0].Id,
                                         UserId = 2
                                     };
 
             var questionVal2 = new QuestionValuation{
                                        RelevanceForAll = 10,
                                        RelevancePersonal = 80,
-                                       QuestionId = contextQuestion.All.First().Id,
+                                       QuestionId = contextQuestion.All[0].Id,
                                        UserId = 3
                                    };
 

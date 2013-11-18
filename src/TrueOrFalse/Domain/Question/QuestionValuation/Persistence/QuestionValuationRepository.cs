@@ -75,13 +75,13 @@ namespace TrueOrFalse
         public override void CreateOrUpdate(QuestionValuation questionValuation)
         {
             base.CreateOrUpdate(questionValuation);
-            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.Id));
+            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.QuestionId));
         }
 
         public override void Update(QuestionValuation questionValuation)
         {
             base.Update(questionValuation);
-            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.Id));
+            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.QuestionId));
         }
 
 

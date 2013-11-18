@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using NHibernate;
 using NUnit.Framework;
 using Seedworks.Lib.Persistence;
 using SolrNet;
@@ -44,6 +45,8 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_reindex_all_questions()
         {
+            Resolve<ISession>().Delete("FROM QuestionValuation");
+
             var context = ContextQuestion.New()
                 .AddQuestion("Question1", "Answer2").AddCategory("A").Persist()
                 .AddQuestion("Question2", "Answer3").AddCategory("B").Persist()
@@ -63,6 +66,7 @@ namespace TrueOrFalse.Tests
             Assert.That(Resolve<SearchQuestions>().Run(
                 "", new Pager(), creatorId: contextQuestion.Creator.Id).Count, Is.EqualTo(3));
         }
+
 
         [Test]
         public void Should_filter_by_valuator_id()
