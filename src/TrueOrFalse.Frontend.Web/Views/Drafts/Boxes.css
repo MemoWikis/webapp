@@ -128,3 +128,88 @@ div.content-unit5 h3 {
     margin-top: 0px;
     border-bottom: 4px #2E487B solid;
 }
+
+
+
+
+
+
+
+
+
+
+
+.thumbnail-video {
+    width: 282px;
+    height: 159px;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    z-index: 1;
+}
+        
+           .thumbnail-video img {
+                width: 101%;
+                position: absolute;
+                left: 0;
+                display: block;
+                top: -27.4375px;
+            }
+
+           .playbutton-container {
+            position: absolute;
+            display: block;
+	        width: 282px;
+	        height: 159px;
+           }
+
+           .playbutton {
+            position: absolute;
+            display: block;
+            background: url('/Images/Drafts/layout-sprite.png') no-repeat 0 -301px;
+	        width: 56px;
+	        height: 38px;
+           	right: 113px;
+            margin-top: 60.5px;
+           }
+
+           
+
+           .red {
+                background: url('/Images/Drafts/layout-sprite.png') no-repeat -58px -301px;
+               width: 57px;
+               visibility: hidden;
+
+           }
+
+           .playbutton-container:hover .basic {
+               visibility: hidden;
+           }
+           
+           .playbutton-container:hover .red {
+               visibility: visible;
+           }
+         
+
+span.default {
+    background: url('../../images/layout-sprite.png') no-repeat -18px -151px;
+	width: 7px;
+	height: 7px;
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    margin-bottom: 3px;
+}
+
+a:hover span.default {
+    background: url('../../images/layout-sprite.png') no-repeat -78px -151px;
+    
+}
+
+span.hover {
+    background: url('../../images/layout-sprite.png') no-repeat -78px -151px;
+	width: 7px;
+	height: 7px;
+    display: inline-block;
+}
+

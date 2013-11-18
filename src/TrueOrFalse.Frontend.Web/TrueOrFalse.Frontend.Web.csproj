@@ -259,6 +259,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
+    <Content Include="Images\Drafts\layout-sprite.png" />
+    <Content Include="Images\layout-sprite.png" />
     <Content Include="Images\no-category-picture-128.png" />
     <Content Include="Images\no-category-picture-50.png" />
     <Content Include="Images\no-profile-picture-50.png" />

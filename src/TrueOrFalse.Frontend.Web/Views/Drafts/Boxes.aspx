@@ -9,6 +9,19 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
+<div style="clear: both;"><p style="position: relative"><a>Read more <span class="default"></span><span class="hover"></span></a></p></div>
+
+
+<a href="#">
+                    <div class="thumbnail-video">
+                        <img src="http://img.youtube.com/vi/xEhaVhta7sI/0.jpg" alt="Video.Title">
+                        <span class="playbutton-container basic">
+                            <span class="playbutton basic"></span>
+                            <span class="playbutton red"></span>
+                        </span>
+                    </div>
+            </a>
+    
     
     <h2>Boxes</h2>
     
