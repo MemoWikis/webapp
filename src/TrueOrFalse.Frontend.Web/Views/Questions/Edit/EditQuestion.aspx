@@ -12,11 +12,15 @@
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/markdown") %>
     <%= Scripts.Render("~/bundles/questionEdit") %>
+    <%= Scripts.Render("~/bundles/fileUploader") %>
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
     
-<div class="todo-temp"></div>
+<input type="hidden" id="questionId" value="<%= Model.Id %>"/>
+    
+<div class="todo-temp">
+</div>
 
 <div class="span10">
     
@@ -28,6 +32,7 @@
     </div>
 
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
+
         <div class="form-horizontal">
             <div class="box box-main">
                 <h1 class="pull-left"><%=Model.FormTitle %></h1>
@@ -40,14 +45,21 @@
                     <% if (!Model.ShowSaveAndNewButton){ %>
                         <div style="line-height: 12px">
                             <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px;
-                                margin: 0px;"><i class="icon-plus-sign"></i>Frage erstellen</a>
+                                margin: 0px;"><i class="icon-plus-sign"></i> Frage erstellen</a>
                         </div>
                     <%} %>
+                    
+                    <% if(Model.IsEditing){ %>
+                        <div style="line-height: 12px; padding-top: 3px;">
+                            <a href="<%= Links.AnswerQuestion(Url, Model.Question, (int)Model.Id) %>" style="font-size: 12px;
+                                margin: 0px;"><i class="icon-check-sign"></i> Frage beantworten</a>
+                        </div>                    
+                    <% } %>
                 </div>
                 <div class="box-content" style="clear: both;">
                     <div class="control-group">
                         <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>
-                        <div class="controls">
+                        <div class="controls">z
                             <label class="radio inline">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
                             für alle<br/><span class="smaller">(öffentliche Frage)</span> &nbsp;&nbsp;
@@ -109,7 +121,7 @@
                         function updateSolutionBody() {
                             var selectedValue = $("#ddlAnswerType").val();
                             $.ajax({
-                                url: '<%=Url.Action("SolutionEditBody") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
+                                url: '<%=Url.Action("SolutionEditBody", "EditQuestion") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
                                 type: 'GET',
                                 beforeSend: function () { /* some loading indicator */ },
                                 success: function (data) { $("#question-body").html(data); },
@@ -133,8 +145,8 @@
                             <script type="text/javascript">
                                 $(function () {
                                     <%foreach (var category in Model.Categories) { %>
-                                    $("#txtNewRelatedCategory").val('<%=category %>');
-                                    $("#addRelatedCategory").click();
+                                        $("#txtNewRelatedCategory").val('<%=category %>');
+                                        $("#addRelatedCategory").click();
                                     <% } %>
                                 });
                             </script>
@@ -184,4 +196,7 @@
     </div>
     <% } %>
 </div>
+    
+<% Html.RenderPartial("../Shared/ImageUpload/ImageUpload"); %>
+
 </asp:Content>

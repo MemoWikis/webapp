@@ -3,25 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TrueOrFalse.Tests;
+using TrueOrFalse.Search;
 
 namespace TrueOrFalse.View.Web.Views.Api
 {
     public class CategoryApiController : Controller
     {
-        private readonly CategorySearch _categorySearch;
+        private readonly SearchCategories _searchCategories;
+        private readonly CategoryRepository _categoryRepo;
 
-        public CategoryApiController(CategorySearch categorySearch)
+        public CategoryApiController(
+            SearchCategories searchCategories,
+            CategoryRepository categoryRepo)
         {
-            _categorySearch = categorySearch;
+            _searchCategories = searchCategories;
+            _categoryRepo = categoryRepo;
         }
 
         public JsonResult ByName(string term)
         {
-            return Json(from c in _categorySearch.Run(term) 
+            var categoryIds = _searchCategories.Run(term, searchStartingWith: true).CategoryIds.Take(5);
+            var categories = _categoryRepo.GetByIds(categoryIds.ToArray());
+
+            return Json(from c in categories
                         select new {
+                            id = c.Id,
                             name = c.Name,
-                            numberOfQuestions = c.QuestionCount,
+                            numberOfQuestions = c.CountQuestions,
                             imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
                         }, JsonRequestBehavior.AllowGet); 
         }

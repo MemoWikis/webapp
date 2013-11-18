@@ -1,31 +1,57 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 public class CategoriesController : BaseController
 {
-    private readonly CategoryRepository _categoryRepository;
+    private readonly CategoryRepository _categoryRepo;
+    private readonly CategoriesControllerSearch _categorySearch;
+    private const string _viewLocation = "~/Views/Categories/Categories.aspx";
 
-    public CategoriesController(CategoryRepository categoryRepository)
+    public CategoriesController(
+        CategoryRepository categoryRepo,
+        CategoriesControllerSearch categorySearch)
     {
-        _categoryRepository = categoryRepository;
+        _categoryRepo = categoryRepo;
+        _categorySearch = categorySearch;
     }
 
+    public ActionResult Search(string searchTerm, CategoriesModel model)
+    {
+        _sessionUiData.SearchSpecCategory.SearchTearm = model.SearchTerm = searchTerm;
+        return Categories(null, model);
+    }
+
+
     [SetMenu(MenuEntry.Categories)]
-    public ActionResult Categories(){
-        return View(new CategoriesModel(_categoryRepository.GetAll()));
+    public ActionResult Categories(int? page, CategoriesModel model)
+    {
+        _sessionUiData.SearchSpecCategory.PageSize = 30;
+        if (page.HasValue) 
+            _sessionUiData.SearchSpecCategory.CurrentPage = page.Value;
+
+        model.Init(_categorySearch.Run(), _sessionUiData);
+
+        _sessionUiData.SearchSpecCategory.OrderBy.QuestionCount.Desc();
+
+        return View(_viewLocation, model);
     }
 
     public ActionResult Delete(int id)
     {
-        var category = _categoryRepository.GetById(id);
+        var category = _categoryRepo.GetById(id);
+
+        if (category == null)
+            return Categories(null, new CategoriesModel {Message = new ErrorMessage("Die Kategorie existiert nicht mehr.")});
 
         Resolve<CategoryDeleter>().Run(category);
 
-        var categoriesModel = new CategoriesModel(_categoryRepository.GetAll());
-        categoriesModel.Message = new SuccessMessage("Die Kategorie '" + category.Name + "' wurde gelöscht");
+        var model = new CategoriesModel{
+            Message = new SuccessMessage("Die Kategorie '" + category.Name + "' wurde gelöscht")
+        };
         
-        return View(Links.Categories, categoriesModel);
-    }
+        return Categories(null, model);
+    }    
 }

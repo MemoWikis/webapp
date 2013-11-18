@@ -40,8 +40,5 @@
             }
             _questionValuationRepository.Flush();
         }
-
-
-
     }
 }

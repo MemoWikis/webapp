@@ -3,13 +3,18 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Scripts.Render("~/Views/Categories/Categories.js") %>
     <%= Styles.Render("~/Views/Categories/Categories.css") %>
+    <%= Scripts.Render("~/bundles/Categories") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="span10">
+        
+        <div style="margin-bottom: -10px;">
+            <% Html.Message(Model.Message); %>
+        </div>
+
         <% using (Html.BeginForm()) { %>
         
             <div style="float: right;">
@@ -31,13 +36,28 @@
                 </div>
                 
                 <div class="box box-green">
-                    <div class="form-horizontal">
-                        <div class="control-group" style="margin-bottom: 15px; margin-top: -7px; ">
+                    
+                    <div class="">
+                        <ul class="nav pull-right" style="padding-left: 5px; margin-top: -1px; margin-right: -3px;">
+                            <li class="dropdown" id="menu1">
+                                <a class="dropdown-toggle btn btn-mini" data-toggle="dropdown" href="#menu1">
+                                    Sortieren nach: <%= Model.OrderByLabel %>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Anzahl Fragen</a></li>
+                                    <li><a href="#">Empfehlungen</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+        
+                        <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;"><%= Model.TotalCategoriesInResult %> Treffer</div>
+                        
+                        <div class="pull-left control-group" style="margin-top: -7px; ">
                             <label style="line-height: 18px; padding-top: 5px;"><nb>Suche</nb>:</label>
                             <%: Html.TextBoxFor(model => model.SearchTerm, new {style="width:297px;", id="txtSearch"}) %>
-                            <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
+                            <a class="btn" style="height: 18px; position: relative; top: -5px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
                         </div>
-                        <div style="clear:both;"></div>
                     </div>
 
                     <div class="box-content" style="clear: both;">
@@ -45,6 +65,7 @@
                             Html.RenderPartial("CategoryRow", row);
                         } %>
                     </div>
+                    <% Html.RenderPartial("Pager", Model.Pager); %>
                 </div>
             </div>
             

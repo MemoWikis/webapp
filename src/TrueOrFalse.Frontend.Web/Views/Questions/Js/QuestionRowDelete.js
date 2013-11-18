@@ -34,7 +34,6 @@ function deleteQuestion(questionId) {
             window.location.reload();
         },
         error: function (result) {
-            console.log(result);
             alert("Ein Fehler ist aufgetreten");
         }
     });

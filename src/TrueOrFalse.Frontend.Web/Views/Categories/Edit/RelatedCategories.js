@@ -11,10 +11,12 @@ $(function () {
         minLength: 0,
         source: '/Api/Category/ByName',
         focus: function (event, ui) {
+            $("#txtNewRelatedCategory").data("category-id", ui.item.id);
             $("#txtNewRelatedCategory").val(ui.item.name);
             return false;
         },
         select: function (event, ui) {
+            $("#txtNewRelatedCategory").data("category-id", ui.item.id);
             $("#txtNewRelatedCategory").val(ui.item.name);
             return false;
         }
@@ -52,11 +54,13 @@ $(function () {
         var catId = nextCatId;
         nextCatId++;
         var catText = $("#txtNewRelatedCategory").val();
+        console.log($("#txtNewRelatedCategory").data("category-id"));
         $("#txtNewRelatedCategory").before(
-            "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + catText +
+            "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
+                "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
                 "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" +
-                    "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
-                        "</div> ");
+                "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
+            "</div> ");
         $("#txtNewRelatedCategory").val('');
         $("#delete-cat-" + catId).click(function () {
             animating = true;

@@ -4,7 +4,7 @@ using TrueOrFalse.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
 
 
-[AccessOnlyAsAdminAndLocal]
+[AccessOnlyAsAdmin]
 public class PersonaController : Controller
 {
     private readonly SessionUser _sessionUser;

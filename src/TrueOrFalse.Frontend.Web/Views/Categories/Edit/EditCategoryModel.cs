@@ -41,7 +41,7 @@ public class EditCategoryModel : BaseModel
     public void UpdateCategory(Category category)
     {
         category.Name = Name;
-        category.RelatedCategories = new List<Category>();
+        category.RelatedCategories.Clear();
         foreach (var name in RelatedCategories)
             category.RelatedCategories.Add(Resolve<CategoryRepository>().GetByName(name));
     }

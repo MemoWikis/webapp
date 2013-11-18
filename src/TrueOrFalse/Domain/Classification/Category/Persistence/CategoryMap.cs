@@ -13,7 +13,11 @@ namespace TrueOrFalse
             Id(x => x.Id);
             Map(x => x.Name);
             References(x => x.Creator);
-            Map(x => x.QuestionCount);
+            
+            Map(x => x.CountQuestions);
+            Map(x => x.CountSets);
+            Map(x => x.CountCreators);
+
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
             HasManyToMany(x => x.RelatedCategories).ChildKeyColumn("Related_Id").Cascade.DeleteOrphan();

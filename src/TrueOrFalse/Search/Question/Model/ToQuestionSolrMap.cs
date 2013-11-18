@@ -7,12 +7,13 @@ namespace TrueOrFalse.Search
 {
     public class ToQuestionSolrMap
     {
-        public static QuestionSolrMap Run(Question question)
+        public static QuestionSolrMap Run(Question question, IEnumerable<QuestionValuation> valuations)
         {
             var result = new QuestionSolrMap
                 {
                     Id = question.Id,
                     CreatorId = question.Creator.Id,
+                    ValuatorIds = valuations.Where(v => v.RelevancePersonal != -1).Select(x => x.UserId).ToList(),
                     Text = question.Text,
                     Description = question.Description,
                     Solution = question.Solution,

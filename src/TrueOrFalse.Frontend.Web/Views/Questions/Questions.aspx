@@ -1,21 +1,16 @@
 ﻿
 <%@ Page Title="Fragen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
 <%@ Import Namespace="System.Globalization" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Questions/Questions.css" rel="stylesheet" />
-    <script src="/Views/Questions/Js/SelectUsers.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/Questions.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/Page.min.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/QuestionRowDelete.min.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/QuestionRowSelection.min.js" type="text/javascript"></script>
-    <script src="/Views/Questions/Js/ToQuestionSet.js" type="text/javascript"></script>
+    <%= Scripts.Render("~/bundles/questions") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
-    
+
 <div class="span10">
     <% using (Html.BeginForm()){ %>
             
@@ -30,10 +25,20 @@
         
         <div class="green">
             <ul class="nav nav-tabs" >
-                <li class="active"><a href="#home">Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a></li>
-                <li>
-                    <a href="#profile">
-                        Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalWishKnowledge %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
+                <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
+                    <a href="<%= Links.QuestionsAll(Url) %>">Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a>
+                </li>
+                <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
+                    <a href="<%= Links.QuestionsWish(Url) %>">
+                        Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalWishKnowledge %>)</span> 
+                        <i class="icon-question-sign show-tooltip" id="tabInfoMyKnowledge" 
+                           title="Wissen das Du jederzeit aktiv nutzen möchtest ist."></i>
+                    </a>
+                </li>
+                <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
+                    <a href="<%= Links.QuestionsMine(Url) %>">
+                        Meine Fragen (0)
+                        <i class="icon-question-sign show-tooltip" title="Fragen die von Dir erstellt wurden."></i>
                     </a>
                 </li>
             </ul>
@@ -46,38 +51,10 @@
                     <%: Html.TextBoxFor(model => model.SearchTerm, new {style = "width:297px;", id = "txtSearch"}) %>
                     <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
                 </div>
-
-                <div class="control-group" style="margin-bottom: 8px;">
-                    <label style="line-height: 18px; padding-top: 5px;"><b>Erstellt</b>:</label>
-                    <div class="btn-group" style="display: inline">
-                        <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
-                        <button class="btn btn-filterByAll">von anderen</button>
-                        <%: Html.HiddenFor(model => model.FilterByMe) %>
-                        <%: Html.HiddenFor(model => model.FilterByAll) %>
-                    </div>
-                    <span class="help-inline">und</span>&nbsp;
-                    <% foreach (var filterByUser in Model.FilterByUsers)
-                       { %>
-                        <span class="added-usr"><%: filterByUser.Value %><button id="del-usr-<%: filterByUser.Key %>"><i class="icon-remove"></i></button></span>
-                        <script type="text/javascript">
-                            $(function() {
-                                $("#del-usr-<%: filterByUser.Key %>").click(function() {
-                                    $("#delFilterUserId").val("<%: filterByUser.Key %>");
-                                });
-                            });
-                        </script>
-                    <% } %>
-                    <%: Html.HiddenFor(m => m.AddFilterUser, new {id = "addFilterUserId"}) %>
-                    <%: Html.HiddenFor(m => m.DelFilterUser, new {id = "delFilterUserId"}) %>
-                    <input type="text" class="span2" id="txtAddUserFilter"/>
-                    <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
-                </div>
             </div>
             <% } %>
-        
-        
 
-            <div style="padding-bottom: 5px;">
+            <div style="padding-bottom: 12px;">
         
                 <ul class="nav pull-left" style="margin: 0px; margin-left: -3px;">
                     <li class="dropdown" id="menu2">

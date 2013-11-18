@@ -2,8 +2,8 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <%--<%= Scripts.Render("~/bundles/shared") %>--%>
-<script src="/Scripts/jquery-1.9.0.min.js" type="text/javascript"></script>
-<script src="/Scripts/jquery-ui-1.10.0.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery-2.0.3.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
 <script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
 <script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
 <script src="/Scripts/underscore-1.4.3.min.js" type="text/javascript"></script>
@@ -36,6 +36,12 @@
         $(".alert-message").alert();
         $('.show-tooltip').tooltip();
         $('.show-popover').popover();
+
+        $('#showUserOptions').click(function () {
+            alert("hello");
+            $('#userOptions').dropdown();
+        });
+        
     });
 </script>
 

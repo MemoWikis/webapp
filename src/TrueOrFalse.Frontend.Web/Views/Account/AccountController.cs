@@ -29,4 +29,15 @@ public class AccountController : Controller
         return View(new BaseModel());
     }
 
+    [AccessOnlyAsAdmin]
+    public ActionResult RemoveAdminRights()
+    {
+        _sessionUser.IsInstallationAdmin = false;
+
+        if (Request.UrlReferrer == null)
+            Redirect("/");
+
+        return Redirect(Request.UrlReferrer.AbsolutePath);
+    }
+
 }

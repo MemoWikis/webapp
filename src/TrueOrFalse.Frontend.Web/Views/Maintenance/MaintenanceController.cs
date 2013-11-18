@@ -5,37 +5,57 @@ using TrueOrFalse.Web;
 
 public class MaintenanceController : BaseController
 {
-    [AccessOnlyAsAdminAndLocal]
+    [AccessOnlyAsAdmin]
     public ActionResult Maintenance()
     {
         return View(new MaintenanceModel());
     }
 
-    [AccessOnlyAsAdminAndLocal]
+    [AccessOnlyAsAdmin]
     public ActionResult RecalculateAllKnowledgeItems()
     {
-        Resolve<RecalculateAllKnowledgeItems>().Run();
+        Resolve<RecalcAllQuestionWishItems>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Antwortwahrscheinlichkeiten wurden neu berechnet.") });
     }
 
-    [AccessOnlyAsAdminAndLocal]
+    [AccessOnlyAsAdmin]
     public ActionResult CalcAggregatedValues()
     {
         Resolve<UpdateQuestionAnswerCounts>().Run();
         return View("Maintenance", new MaintenanceModel{Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
     }
 
-    [AccessOnlyAsAdminAndLocal]
+    [AccessOnlyAsAdmin]
     public ActionResult UpdateFieldQuestionCountForCategories()
     {
-        Resolve<UpdateQuestionCountForAllCategories>();
+        Resolve<UpdateQuestionCountForAllCategories>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Feld: AnzahlFragen für Kategorien wurde aktualisiert.") });
     }
 
-    [AccessOnlyAsAdminAndLocal]
+    [AccessOnlyAsAdmin]
     public ActionResult ReIndexAllQuestions()
     {
         Resolve<ReIndexAllQuestions>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult ReIndexAllSets()
+    {
+        Resolve<ReIndexAllSets>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragesätze wurden neu indiziert.") });
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult ReIndexAllCategories()
+    {
+        Resolve<ReIndexAllCategories>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Kategorien wurden neu indiziert.") });
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult ReIndexAllUsers(){
+        Resolve<ReIndexAllUsers>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
     }
 }

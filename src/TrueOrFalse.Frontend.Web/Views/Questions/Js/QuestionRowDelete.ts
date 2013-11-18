@@ -39,7 +39,6 @@ function deleteQuestion(questionId) {
         cache: false,
         success:function (){window.location.reload();},
         error: function (result) {
-            console.log(result);
             alert("Ein Fehler ist aufgetreten");
         }
     });

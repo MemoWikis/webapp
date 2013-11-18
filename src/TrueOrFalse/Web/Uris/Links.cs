@@ -11,14 +11,28 @@ namespace TrueOrFalse.Frontend.Web.Code
 {
     public static class Links
     {
-        public const string UserProfileController = "UserProfile";
-        public const string UserProfile = "Profile";
+        /*Users*/
+        public const string UserController = "User";
+        public const string User = "User";
+
+        public const string UserSettings = "UserSettings";
+        public const string UserSettingsController = "UserSettings";
+
+        public static string UserLoginAs(UrlHelper url, int userId){
+            return url.Action("LoginAs", "Users", new {userId = userId});
+        }
 
         /*Question*/
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
+        public const string QuestionsMineAction = "QuestionsMine";
+        public const string QuestionsWishAction = "QuestionsWish";
 
-        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage){
+        public static string QuestionsAll(UrlHelper url) { return url.Action(Questions, QuestionsController); }
+        public static string QuestionsMine(UrlHelper url) { return url.Action(QuestionsMineAction, QuestionsController); }
+        public static string QuestionsWish(UrlHelper url) { return url.Action(QuestionsWishAction, QuestionsController); }
+
+        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1){
             return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage);
         }
 
@@ -27,12 +41,12 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSegmentFriendlyQuestion.Run(questionText), id = questionId, elementOnPage = paramElementOnPage }, null);
         }
 
-        public static string Profile(UrlHelper url, User user){
-            return Profile(url, user.Name, user.Id);
+        public static string UserDetail(UrlHelper url, User user){
+            return UserDetail(url, user.Name, user.Id);
         }
 
-        public static string Profile(UrlHelper url, string userName, int userId){
-            return url.Action(UserProfile, UserProfileController, 
+        public static string UserDetail(UrlHelper url, string userName, int userId){
+            return url.Action(User, UserController, 
                 new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
         }
 
@@ -44,12 +58,21 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("GetAnswer", AnswerQuestionController, new { id = question.Id }, null);
         }
 
-        public static string QuestionSetDetail(UrlHelper url, QuestionSet set, int elementOnPage){
-            return QuestionSetDetail(url, set.Name, set.Id, elementOnPage);
+        /*Set*/
+        public const string SetsController = "Sets";
+        public const string SetsAction = "Sets";
+        public const string SetsWishAction = "SetsWish";
+        public const string SetsMineAction = "SetsMine";
+        public static string Sets(UrlHelper url) { return url.Action(SetsAction, SetsController); }
+        public static string SetsWish(UrlHelper url) { return url.Action(SetsWishAction, SetsController); }
+        public static string SetsMine(UrlHelper url) { return url.Action(SetsMineAction, SetsController); }
+
+        public static string SetDetail(UrlHelper url, Set set, int elementOnPage = 1){
+            return SetDetail(url, set.Name, set.Id, elementOnPage);
         }
 
-        public static string QuestionSetDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
-            return url.Action("QuestionSet", "QuestionSet",
+        public static string SetDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
+            return url.Action("QuestionSet", "Set",
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage}, null);            
         }
 
@@ -58,12 +81,16 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage }, null);
         }
 
+        public static string CategoryDetail(UrlHelper url, Category category){
+            return CategoryDetail(url, category.Name, category.Id);
+        }
+
         public static object CategoryEdit(UrlHelper url, int id){
             return url.Action("Edit", "EditCategory", new { id });
         }
 
         public static string QuestionSetEdit(UrlHelper url, int questionSetId){
-            return url.Action("Edit", "QuestionSet", new {id = questionSetId});
+            return url.Action("Edit", "EditSet", new {id = questionSetId});
         }
 
         public const string EditQuestionController = "EditQuestion"; 
@@ -92,6 +119,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string KnowledgeController = "Knowledge";
         public const string Knowledge = "Knowledge";
+
+        public const string HelpController = "Help";
+        public const string HelpWillkommen = "Willkommen";
 
         public const string AccountController = "Account";
         public const string Logout = "Logout";

@@ -14,8 +14,8 @@ public class CategoryModel : BaseModel
     public IList<Category> RelatedCategoriesOut;
     public IList<Category> RelatedCategoriesIn;
 
-    public IList<QuestionSet> TopSets;
-    public IList<Question> TopQuestions;
+    public IList<Set> TopSets;
+    public IList<Question> TopQuestions = new List<Question>();
     public IList<User> TopCreaters;
 
     public User Creator;
@@ -27,6 +27,10 @@ public class CategoryModel : BaseModel
 
     public bool IsOwner;
 
+    public int CountQuestions;
+    public int CountSets;
+    public int CountCreators;
+
     public CategoryModel(Category category)
     {
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_200px_square().Url;
@@ -35,6 +39,12 @@ public class CategoryModel : BaseModel
         Name = category.Name;
         Description = category.Description;
         IsOwner = _sessionUser.IsOwner(category.Creator.Id);
-    }
 
+        CountQuestions = category.CountQuestions;
+        CountSets = category.CountSets;
+        CountCreators = category.CountCreators;
+
+        TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id);
+        TopSets = Resolve<SetRepository>().GetForCategory(category.Id);
+    }
 }

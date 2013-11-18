@@ -25,7 +25,7 @@ public class EditQuestionModel : BaseModel
 
     [DataType(DataType.MultilineText)]
     [DisplayName("Frage erweitert")]
-    public object QuestionExtended { get; set; }
+    public string QuestionExtended { get; set; }
 
     [Required]
     [DisplayName("Fragetyp")]
@@ -40,9 +40,9 @@ public class EditQuestionModel : BaseModel
     [DisplayName("Erklärungen")]
     public string Description { get; set; }
 
-    public int? Id;
+    public int Id = -1;
 
-    public IEnumerable<String> Categories = new List<string>();
+    public IEnumerable<string> Categories = new List<string>();
 
     public string PageTitle;
     public string FormTitle;
@@ -91,11 +91,12 @@ public class EditQuestionModel : BaseModel
     {
         Id = question.Id;
         Question = question.Text;
+        QuestionExtended = question.TextExtended;
         Solution = question.Solution;
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
         Categories = (from cat in question.Categories select cat.Name).ToList();
-        ImageUrl_128 = new QuestionImageSettings(question.Id).GetUrl_500px().Url;
+        ImageUrl_128 = QuestionImageSettings.Create(question.Id).GetUrl_500px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
     }
 

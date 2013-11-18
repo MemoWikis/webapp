@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Infrastructure;
 
 namespace TrueOrFalse
 {
+    [DebuggerDisplay("Id={Id} Name={Text}")]
     public class Question : DomainEntity
     {
         public virtual string Text { get; set; }
+        public virtual string TextExtended { get; set; }
         public virtual string Description { get; set; }
         public virtual string Solution { get; set; }
         public virtual SolutionType SolutionType { get; set; }
@@ -51,9 +54,9 @@ namespace TrueOrFalse
             Categories = new List<Category>();
         }
 
-        public virtual string GetShortTitle()
+        public virtual string GetShortTitle(int length = 96) 
         {
-            return Text.TruncateAtWord(96);
+            return Text.TruncateAtWord(length);
         }
     }
 }

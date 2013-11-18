@@ -1,4 +1,5 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using System.Collections.Generic;
+using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;
 
@@ -16,16 +17,26 @@ namespace TrueOrFalse.Search
             return Run(searchTearm, new Pager());
         }
 
-        public SearchQuestionsResult Run(string searchTearm, Pager pager)
+        public SearchQuestionsResult Run(
+            string searchTearm, 
+            Pager pager,
+            int creatorId = -1, 
+            int valuatorId = -1)
         {
-            var queryResult = _searchOperations.Query("FullTextStemmed:" + searchTearm + " " +
-                                                      "FullTextExact:" + searchTearm + " " +
-                                                      "Categories:" + searchTearm, 
+            var sqb = new SearchQueryBuilder()
+                .Add("FullTextStemmed", searchTearm)
+                .Add("FullTextExact", searchTearm)
+                .Add("Categories", searchTearm)
+                .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
+                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
+
+            var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions
                                                       {
                                                             Start = pager.LowerBound - 1,
                                                             Rows = pager.PageSize,
-                                                            SpellCheck = new SpellCheckingParameters{ Collate = true }
+                                                            SpellCheck = new SpellCheckingParameters{ Collate = true},
+                                                            ExtraParams = new Dictionary<string, string> { { "qt", "dismax" } }
                                                       });
 
             var result = new SearchQuestionsResult();

@@ -18,8 +18,8 @@ namespace TrueOrFalse.Tests
                 .AddQuestion("QuestionB", "QuestionB").AddCategory("A").
                 Persist();
 
-            var createdQuestion1 = contextQuestion.Questions[0];
-            var createdQuestion2 = contextQuestion.Questions[1];
+            var createdQuestion1 = contextQuestion.All[0];
+            var createdQuestion2 = contextQuestion.All[1];
             var user1 = contextUsers.Users[0];
             
             Resolve<AnswerQuestion>().Run(createdQuestion1.Id, "Some answer 1", user1.Id);

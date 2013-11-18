@@ -22,18 +22,18 @@
         <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
             <div style="margin-top: 2px;">
                 <span class="totalRelevanceEntries"><%= Model.TotalRelevancePersonalEntries %></span> x 
-                <a href="">Merken (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span></a> <span class="piePersonalRelevanceTotal" data-avg="<%= Model.TotalRelevancePersonalAvg  %>"></span> )
+                <a href="">gemerkt (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span></a> <span class="piePersonalRelevanceTotal" data-avg="<%= Model.TotalRelevancePersonalAvg  %>"></span> )
             </div>
         <%} %>
+        <div>
+            <%= Model.Views %>
+            <a href="">x gesehen</a>
+        </div>
         <%if(Model.TotalQualityEntries != "0"){ %>
             <div>
                 <%= Model.TotalQualityEntries%> x <a href="">Qualität (&#216; <%= Model.TotalQualityAvg%>)</a>
             </div>        
         <%} %>
-        <div>
-            <%= Model.Views %>
-            <a href="">x gesehen</a>
-        </div>  
         <div>
             <label class="checkbox selectQuestion" style="font-size: 12px">
                 <input type="checkbox"> <a>auswählen</a>
@@ -47,7 +47,7 @@
         </div>   
         <div>
             <% foreach (var category in Model.Categories){ %>
-                <a><span class="label label-category"><%= category.Name %></span></a>    
+                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>    
             <% } %>
         </div>
         
@@ -61,7 +61,7 @@
             <% } %>
         </div>
         <div style="text-align: right; width: 150px; position: absolute; bottom:0px; right: 10px;">
-            von <a href="<%= Model.UserProfileLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
+            von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%=Model.CreatorName %>
                 </a>
         </div>

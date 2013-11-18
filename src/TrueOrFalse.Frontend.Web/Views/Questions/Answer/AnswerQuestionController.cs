@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 
 [HandleError]
@@ -42,20 +43,20 @@ public class AnswerQuestionController : BaseController
                 question,
                 _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
                 NotNull.Run(questionValuation), 
-                _sessionUiData.QuestionSearchSpec, 
+                _sessionUiData.SearchSpecQuestionAll, 
                 elementOnPage)
         );
     }
 
     public ActionResult Next()
     {
-        _sessionUiData.QuestionSearchSpec.NextPage(1);
+        _sessionUiData.SearchSpecQuestionAll.NextPage(1);
         return GetViewByCurrentSearchSpec();
     }
 
     public ActionResult Previous()
     {
-        _sessionUiData.QuestionSearchSpec.PreviousPage(1);
+        _sessionUiData.SearchSpecQuestionAll.PreviousPage(1);
         return GetViewByCurrentSearchSpec();
     }
 
@@ -63,6 +64,7 @@ public class AnswerQuestionController : BaseController
     {
         var question = Resolve<AnswerQuestionControllerSearch>().Run();
         var questionValuation = _questionValuation.GetBy(question.Id, _sessionUser.User.Id);
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question));
 
         _saveQuestionView.Run(question.Id, _sessionUser.User.Id);
 
@@ -71,7 +73,7 @@ public class AnswerQuestionController : BaseController
                 question, 
                 _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
                 NotNull.Run(questionValuation), 
-                _sessionUiData.QuestionSearchSpec)
+                _sessionUiData.SearchSpecQuestionAll)
         );
     }
 
@@ -100,7 +102,7 @@ public class AnswerQuestionController : BaseController
                        Data = new
                                   {
                                       correctAnswer = solution.CorrectAnswer(),
-                                      correctAnswerDesc = question.Description
+                                      correctAnswerDesc = MardownInit.Run().Transform(question.Description)
                                   }
                    };
     }
@@ -116,18 +118,18 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult SaveRelevancePersonal(int id, int newValue)
     {
-        var oldKnowledgeCount = Sl.Resolve<GetWishKnowledgeCountCached>().Run(_sessionUser.User.Id, forceReload: true);
+        var oldKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
         
         Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);
 
-        var newKnowledgeCount = Sl.Resolve<GetWishKnowledgeCountCached>().Run(_sessionUser.User.Id, forceReload: true);
+        var newKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
 
         return new JsonResult { Data = new
             {
                 totalValuations = totals.Count, 
                 totalAverage = Math.Round(totals.Avg / 10d, 1),
-                totalWishKnowledgeCount = Sl.Resolve<GetWishKnowledgeCountCached>().Run(_sessionUser.User.Id, forceReload:true),
+                totalWishKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload:true),
                 totalWishKnowledgeCountChange = oldKnowledgeCount != newKnowledgeCount
             }};
     }

@@ -13,13 +13,15 @@ namespace TrueOrFalse.Tests.Persistence
         [Test]
         public void Category_should_be_persisted()
         {
-            var categoryRepository = Resolve<CategoryRepository>();
+            var categoryRepo = Resolve<CategoryRepository>();
 
-            var category = new Category("Sports");
+            var user = new User {Name = "Some user"};
+            Resolve<UserRepository>().Create(user);
+            
+            var category = new Category("Sports") {Creator = user};
+            categoryRepo.Create(category);
 
-            categoryRepository.Create(category);
-
-            var categoryFromDb = categoryRepository.GetAll().First();
+            var categoryFromDb = categoryRepo.GetAll().First();
             Assert.That(categoryFromDb.Name, Is.EqualTo("Sports"));
         }
 

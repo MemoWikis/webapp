@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using Autofac;
 using NHibernate;
 using TrueOrFalse.Infrastructure.Persistence;
@@ -17,7 +20,45 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
                 .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"));
 
-            builder.RegisterInstance(SessionFactory.CreateSessionFactory());
+
+            try
+            {
+                builder.RegisterInstance(SessionFactory.CreateSessionFactory());
+            }
+            catch (Exception ex)
+            {
+                var sb = new StringBuilder();
+
+                var innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    if (innerException is ReflectionTypeLoadException)
+                        break;
+
+                    innerException = innerException.InnerException;
+                }
+
+                if (innerException == null)
+                    throw;
+
+                foreach (Exception exSub in ((ReflectionTypeLoadException)innerException).LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    if (exSub is FileNotFoundException)
+                    {
+                        var exFileNotFound = exSub as FileNotFoundException;
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+
+                throw new Exception(sb.ToString());
+            }
+
             builder.Register(context => new SessionManager(context.Resolve<ISessionFactory>().OpenSession())).InstancePerLifetimeScope();
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
         }

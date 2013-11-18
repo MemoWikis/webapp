@@ -48,13 +48,32 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/file-uploader/uploader.js")
                 .Include("~/Scripts/file-uploader/jquery-plugin.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/questions")
+                .IncludeDirectory("~/Views/Questions/Js/", "*.js")
+                .Include("~/Scripts/ValuationPerRow.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
+                .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
+                .Include("~/Scripts/jquery.scrollTo-1.4.3.1.js")
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/Sets")
+                .IncludeDirectory("~/Views/Sets/Js/", "*.js")
+                .Include("~/Scripts/ValuationPerRow.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Categories")
+                .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Categories")
+                .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Users")
+                .IncludeDirectory("~/Views/Users/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questionSetEdit")
-                .Include("~/Views/QuestionSets/Edit/Js/ImageUpload.js")
-                .Include("~/Views/QuestionSets/Edit/Js/RemoveQuestionFromSet.js")
-                .Include("~/Views/QuestionSets/Edit/Js/SetSortable.js")
+                .Include("~/Views/Sets/Edit/Js/ImageUpload.js")
+                .Include("~/Views/Sets/Edit/Js/RemoveQuestionFromSet.js")
+                .Include("~/Views/Sets/Edit/Js/SetSortable.js")
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/jquery.scrollTo-1.4.3.1.js"));
 
@@ -63,7 +82,7 @@ namespace TrueOrFalse.View
                          "~/Scripts/Markdown.Sanitizer.js", 
                          "~/Scripts/Markdown.Editor.js"));
 
-            //BundleTable.EnableOptimizations = false;
+            //BundleTable.EnableOptimizations = true;
         }
     }
 }

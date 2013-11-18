@@ -17,7 +17,7 @@ namespace TrueOrFalse.Tests.Persistence
                                  .AddQuestion("Another Question", "Some answer")
                                     .Persist();
             
-            Resolve<ISession>().Evict(context.Questions[0]);
+            Resolve<ISession>().Evict(context.All[0]);
 
             var questions = Resolve<QuestionRepository>().GetAll();
             questions.Count.Should().Be.EqualTo(2);

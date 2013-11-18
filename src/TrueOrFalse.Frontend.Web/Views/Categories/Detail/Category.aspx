@@ -9,20 +9,12 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
-    <div class="span2">
-        <div>
-            <div class="box">
-                <img src="<%= Model.ImageUrl %>"/>
-            </div>
-        </div>
-    </div>
             
     <div class="span7 category">
         <h2 class="pull-left"><%= Model.Name %></h2>
         <div class="pull-right">
             <div>
-                <a href="/Categories" style="font-size: 12px; margin: 0px;"><i class="icon-list"></i>&nbsp;zur Übersicht</a><br/>
+                <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0px;"><i class="icon-list"></i>&nbsp;zur Übersicht</a><br/>
                 <% if(Model.IsOwner){ %>
                     <a href="<%= Links.CategoryEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="icon-pencil"></i>&nbsp;bearbeiten</a> 
                 <% } %>
@@ -31,39 +23,39 @@
         <div style="clear: both;">
             <%= Model.Description %>
         </div>
-    </div>
-    
-    <div class="span10">    
-        <div style="height: 200px; ">
-            <div class="column">
-                <h3>Fragen (175)</h3>
-                <table>
-                    <tr>
-                        <td>Wann wurde xy geboren </td> 
-                        <td>14x <span id="question-1"></span> </td>
-                    </tr>
-                </table>
-            </div>
-        
-            <div class="column">
-                <h3>Fragesätze (14)</h3>
-                <div>
-                    <span>Noch keine Fragesätze</span>
+       
+        <div class="row">
+            <div class="span7">    
+                <div style="height: 200px; ">
+                    
+                    <h4>Fragen (<%=Model.CountQuestions %>)</h4>                    
+                        <% foreach(var question in Model.TopQuestions){ %>
+                            <div>
+                                - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(80) %></a>
+                            </div>
+                        <% } %>
+                    <h4>Fragesätze (<%=Model.CountSets %>)</h4>
+                    <% foreach(var set in Model.TopSets){ %>
+                        <div>
+                            - <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
+                        </div>
+                    <% } %>
+
+                    <h4 >Ersteller (<%=Model.CountCreators %>)</h4>
+                    
                 </div>
-            </div>
- 
-            <div class="column">
-                <h3>Ersteller (14)</h3>
-                <table>
-                    <tr>
-                        <td>Musik</td> 
-                        <td>72</td> 
-                        <td><span id="inCategory-1"></span></td>
-                        <td><span id="inCategoeryOverTime-1"></span></td>
-                    </tr>
-                </table>
+            </div>         
+        </div>
+
+    </div>
+    <div class="span3">
+        <div>
+            <div class="box">
+                <img src="<%= Model.ImageUrl %>"/>
             </div>
         </div>
     </div>
+    
+    
 
 </asp:Content>

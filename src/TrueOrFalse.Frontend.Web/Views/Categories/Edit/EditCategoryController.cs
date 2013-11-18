@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using TrueOrFalse.Web;
 using TrueOrFalse;
 
-public class EditCategoryController : Controller
+public class EditCategoryController : BaseController
 {
     private readonly CategoryRepository _categoryRepository;
     private const string _viewPath = "~/Views/Categories/Edit/EditCategory.aspx";
@@ -20,7 +20,7 @@ public class EditCategoryController : Controller
     public ViewResult Create(string name)
     {
         var model = new EditCategoryModel();
-        model.Name= name ?? "Some name";
+        model.Name = name ?? "";
         return View(_viewPath, model);
     }
 
@@ -72,6 +72,7 @@ public class EditCategoryController : Controller
         {
             model.FillReleatedCategoriesFromPostData(Request.Form);
             var category = model.ConvertToCategory();
+            category.Creator = _sessionUser.User;
             _categoryRepository.Create(category);
             CategoryImageStore.Run(file, category.Id);
             model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));

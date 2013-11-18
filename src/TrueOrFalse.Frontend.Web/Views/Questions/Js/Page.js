@@ -9,4 +9,5 @@ var Page = (function () {
 $(function () {
     _page = new Page();
     _page.Init();
+    new ValuationPerRow(".column-1", ValuationPerRowMode.Question);
 });

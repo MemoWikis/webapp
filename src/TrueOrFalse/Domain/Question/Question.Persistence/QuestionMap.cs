@@ -13,6 +13,7 @@ namespace TrueOrFalse
         {
             Id(x => x.Id);
             Map(x => x.Text).Length(Constants.VarCharMaxLength);
+            Map(x => x.TextExtended).Length(Constants.VarCharMaxLength);
             Map(x => x.Description).Length(Constants.VarCharMaxLength);
             Map(x => x.Visibility);
             References(x => x.Creator);

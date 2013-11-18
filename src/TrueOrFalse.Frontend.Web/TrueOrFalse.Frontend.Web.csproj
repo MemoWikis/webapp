@@ -21,6 +21,9 @@
     </UpgradeBackupLocation>
     <TargetFrameworkProfile />
     <UseIISExpress>true</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +37,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -46,21 +50,23 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=2.5.2.830, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Configuration, Version=2.5.2.830, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac.Integration.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.Configuration.dll</HintPath>
+      <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.Mvc, Version=2.5.2.830, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.Mvc3.2.5.2.830\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
+    <Reference Include="AutofacContrib.SolrNet">
+      <HintPath>..\libs\AutofacContrib.SolrNet.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate, Version=1.3.0.733, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -68,26 +74,33 @@
     </Reference>
     <Reference Include="Gibraltar.Agent, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ca42a1ee8d2e42d3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Gibraltar.Agent.3.0.3.1173\lib\4.0\Gibraltar.Agent.dll</HintPath>
+      <HintPath>..\packages\Gibraltar.Agent.3.5.2.1521\lib\4.0\Gibraltar.Agent.dll</HintPath>
     </Reference>
     <Reference Include="Gibraltar.Agent.Web, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ca42a1ee8d2e42d3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Gibraltar.Agent.Web.3.0.3.1173\lib\Gibraltar.Agent.Web.dll</HintPath>
+      <HintPath>..\packages\Gibraltar.Agent.Web.3.5.2.1521\lib\Gibraltar.Agent.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Gibraltar.Packager.NET40">
-      <HintPath>..\packages\Gibraltar.Agent.3.0.3.1173\lib\4.0\Gibraltar.Packager.NET40.exe</HintPath>
-    </Reference>
-    <Reference Include="Glimpse.Core, Version=0.87.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Gibraltar.Packager.NET40, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ca42a1ee8d2e42d3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Glimpse.0.87\lib\net40\Glimpse.Core.dll</HintPath>
+      <HintPath>..\packages\Gibraltar.Agent.3.5.2.1521\lib\4.0\Gibraltar.Packager.NET40.exe</HintPath>
     </Reference>
-    <Reference Include="Glimpse.Mvc3, Version=0.87.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Glimpse.Mvc3.0.87\lib\net40\Glimpse.Mvc3.dll</HintPath>
+    <Reference Include="Glimpse.AspNet">
+      <HintPath>..\packages\Glimpse.AspNet.1.3.1\lib\net45\Glimpse.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Appender.v4.0, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
+    <Reference Include="Glimpse.Core, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NHibernateProfiler\HibernatingRhinos.Profiler.Appender.v4.0.dll</HintPath>
+      <HintPath>..\packages\Glimpse.1.5.0\lib\net45\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Mvc3, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Glimpse.Mvc3.1.3.2\lib\net40\Glimpse.Mvc3.dll</HintPath>
+    </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpWebAdapters">
+      <HintPath>..\libs\HttpWebAdapters.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
@@ -96,36 +109,52 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MarkdownSharp">
+      <HintPath>..\libs\MarkdownSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Data.Schema, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="Microsoft.Data.Schema.UnitTesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\MySql.Data.Entity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\MySql.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.32275, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Seedworks.Lib, Version=0.8.2.17096, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.19\lib\Seedworks.Lib.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Persistence.0.8.2.20\lib\Seedworks.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.19\lib\Seedworks.Lib.Persistence.dll</HintPath>
+      <HintPath>..\packages\Seedworks.Persistence.0.8.2.20\lib\Seedworks.Lib.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Web.Lib.Persistence">
       <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="SolrNet, Version=0.4.0.2002, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\TrueOrFalse.Tests\bin\Debug\SolrNet.dll</HintPath>
+      <HintPath>..\libs\SolrNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
@@ -134,40 +163,42 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.0\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -175,9 +206,12 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebGrease, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -186,8 +220,8 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
-    <Content Include="App_Readme\glimpse.mvc3.readme.txt" />
-    <Content Include="App_Readme\glimpse.readme.txt" />
+    <Compile Include="Views\Api\CategoryApiController.cs" />
+    <Compile Include="Views\Help\HelpController.cs" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
@@ -258,14 +292,22 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Scripts\jquery-1.9.0.intellisense.js" />
+    <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
     <Content Include="Images\Drafts\layout-sprite.png" />
     <Content Include="Images\layout-sprite.png" />
+    </Content>
+    <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
+    <Content Include="Views\Help\Reputation.aspx" />
+    <Content Include="Views\Help\DatenSicherheit.aspx" />
+    <Content Include="Views\Help\Willkommen.aspx" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
+    <None Include="Properties\PublishProfiles\toFileSytem.pubxml" />
+    <Content Include="Images\no-profile-picture-85.png" />
     <Content Include="Images\no-category-picture-128.png" />
     <Content Include="Images\no-category-picture-50.png" />
+    <Content Include="Images\no-category-picture-85.png" />
     <Content Include="Images\no-profile-picture-50.png" />
-    <Content Include="Images\no-question-50.png" />
-    <Content Include="Images\no-question-set-206s.png" />
+    <Content Include="Images\QuestionSets\include-folder.txt" />
     <Content Include="img\wmd-buttons.png" />
     <Content Include="Scripts\file-uploader\button.js" />
     <Content Include="Scripts\file-uploader\dnd.js" />
@@ -278,12 +320,17 @@
     <Content Include="Scripts\file-uploader\uploader.js" />
     <Content Include="Scripts\file-uploader\util.js" />
     <Content Include="Scripts\html5shiv.js" />
-    <Content Include="Scripts\jquery-1.9.0.js" />
-    <Content Include="Scripts\jquery-1.9.0.min.js" />
-    <Content Include="Scripts\jquery-ui-1.10.0.js" />
-    <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
+    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.0.3.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\jquery-ui-1.10.3.js" />
+    <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\jquery.scrollTo-1.4.3.1-min.js" />
     <Content Include="Scripts\jquery.scrollTo-1.4.3.1.js" />
+    <Content Include="Scripts\jquery-2.0.3.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\Markdown.Converter.js" />
     <Content Include="Scripts\Markdown.Editor.js" />
@@ -296,31 +343,32 @@
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore-typed.d.ts" />
     <Content Include="Scripts\underscore-1.4.3.min.js" />
+    <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
+    <Compile Include="Views\Categories\CategoriesControllerSearch.cs" />
     <Compile Include="Views\Drafts\DraftsController.cs" />
+    <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
-    <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\ExportController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\ExportModel.cs" />
     <Compile Include="Views\Api\Intern\ValidationController.cs" />
-    <Compile Include="Views\Api\UserApiController.cs" />
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
-    <Compile Include="Views\QuestionSets\Detail\QuestionSetController.cs" />
-    <Compile Include="Views\QuestionSets\Detail\QuestionSetModel.cs" />
-    <Compile Include="Views\QuestionSets\Edit\EditQuestionSetController.cs" />
-    <Compile Include="Views\QuestionSets\Edit\EditQuestionSetModel.cs" />
-    <Compile Include="Views\QuestionSets\QuestionSetRowModel.cs" />
-    <Compile Include="Views\QuestionSets\QuestionSetsController.cs" />
-    <Compile Include="Views\QuestionSets\QuestionSetsModel.cs" />
+    <Compile Include="Views\Sets\Detail\SetController.cs" />
+    <Compile Include="Views\Sets\Detail\SetModel.cs" />
+    <Compile Include="Views\Sets\Edit\EditSetController.cs" />
+    <Compile Include="Views\Sets\Edit\EditSetModel.cs" />
+    <Compile Include="Views\Sets\SetsControllerSearch.cs" />
+    <Compile Include="Views\Sets\SetRowModel.cs" />
+    <Compile Include="Views\Sets\SetsController.cs" />
+    <Compile Include="Views\Sets\SetsModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
     <Compile Include="Views\Questions\Answer\FeedbackRowModel.cs" />
-    <Compile Include="Views\Questions\Edit\EditQuestionModel_Categories_Exist.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
     <Compile Include="Views\News\NewsController.cs" />
@@ -341,8 +389,14 @@
     <Compile Include="Views\Shared\MenuModelCategoryItem.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Shared\Site.Resources.TitleModel.cs" />
-    <Compile Include="Views\User\UserProfileController.cs" />
-    <Compile Include="Views\User\UserProfileModel.cs" />
+    <Compile Include="Views\Users\Detail\UserController.cs" />
+    <Compile Include="Views\Users\Detail\UserModel.cs" />
+    <Compile Include="Views\Users\Settings\UserSettingsController.cs" />
+    <Compile Include="Views\Users\Settings\UserSettingsModel.cs" />
+    <Compile Include="Views\Users\UserRowModel.cs" />
+    <Compile Include="Views\Users\UsersController.cs" />
+    <Compile Include="Views\Users\UsersControllerSearch.cs" />
+    <Compile Include="Views\Users\UsersModel.cs" />
     <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
     <Compile Include="Views\Shared\ShowLeftMenu.cs" />
@@ -420,10 +474,6 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\jquery.jplayer.min.js" />
     <Content Include="Scripts\jquery.sparkline.min.js" />
-    <Content Include="Scripts\jquery-1.9.0.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
@@ -470,6 +520,10 @@
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Views\Categories\Js\Categories.ts" />
+    <Content Include="Views\Categories\Js\Categories.js">
+      <DependentUpon>Categories.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Drafts\Boxes.aspx" />
     <Content Include="Views\Drafts\Boxes.css" />
     <Content Include="Views\Drafts\ContentUnits.aspx" />
@@ -477,31 +531,45 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
-    <Content Include="Views\QuestionSets\Detail\QuestionSet.aspx" />
-    <Content Include="Views\QuestionSets\Detail\QuestionSet.css" />
-    <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\ImageUpload.ts" />
-    <Content Include="Views\QuestionSets\Edit\EditQuestionSet.aspx" />
-    <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\SetSortable.ts" />
-    <Content Include="Views\QuestionSets\Edit\Js\ImageUpload.js">
+    <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js">
+      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Scripts\ValuationPerRow.ts" />
+    <Content Include="Scripts\ValuationPerRow.js">
+      <DependentUpon>ValuationPerRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Set.aspx" />
+    <Content Include="Views\Sets\Detail\Set.css" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
+    <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
+    <Content Include="Views\Sets\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Views\QuestionSets\Edit\Js\RemoveQuestionFromSet.ts" />
-    <Content Include="Views\QuestionSets\Edit\Js\RemoveQuestionFromSet.js">
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.ts" />
+    <Content Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.js">
       <DependentUpon>RemoveQuestionFromSet.ts</DependentUpon>
     </Content>
-    <Content Include="Views\QuestionSets\Edit\Js\SetSortable.js">
+    <Content Include="Views\Sets\Edit\Js\SetSortable.js">
       <DependentUpon>SetSortable.ts</DependentUpon>
     </Content>
-    <Content Include="Views\QuestionSets\Edit\QuestionRow.ascx" />
-    <Content Include="Views\QuestionSets\QuestionSetRow.ascx" />
-    <Content Include="Views\QuestionSets\QuestionSets.aspx" />
+    <TypeScriptCompile Include="Views\Sets\Js\Sets.ts" />
+    <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
+    <Content Include="Views\Sets\Js\SetDelete.js">
+      <DependentUpon>SetDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Js\Sets.js">
+      <DependentUpon>Sets.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Modals\DeleteSet.ascx" />
+    <Content Include="Views\Sets\SetRow.ascx" />
+    <Content Include="Views\Sets\Sets.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
-    <Content Include="Views\QuestionSets\QuestionSets.css" />
-    <Content Include="Views\QuestionSets\QuestionSets.js" />
+    <Content Include="Views\Sets\Sets.css" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
     <Content Include="Views\Questions\Edit\EditQuestion.css">
       <DependentUpon>EditQuestion.less</DependentUpon>
@@ -523,15 +591,6 @@
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <Content Include="Views\Questions\Edit\Js\MarkDownDescription.js">
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkdownEditors.js">
-      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkDownQuestionExt.js">
-      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkDownQuestionExtend.js">
-      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -562,7 +621,6 @@
     <Content Include="Views\Questions\Modals\ToQuestionSet.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
-    <Content Include="Views\Questions\Js\SelectUsers.js" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
     <Content Include="Views\Questions\Questions.css" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />
@@ -592,7 +650,9 @@
     <Content Include="Views\Categories\Categories.less" />
     <Content Include="Views\Categories\Detail\Category.less" />
     <None Include="Style\site-debug.less" />
-    <None Include="Web.overwritten.config" />
+    <None Include="Web.overwritten.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Account\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
@@ -610,7 +670,15 @@
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
-    <Content Include="Views\User\UserProfile.aspx" />
+    <Content Include="Views\Users\Detail\User.aspx" />
+    <TypeScriptCompile Include="Views\Users\Js\users.ts" />
+    <Content Include="Views\Users\Js\users.js">
+      <DependentUpon>users.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Settings\UserSettings.aspx" />
+    <Content Include="Views\Users\UserRow.ascx" />
+    <Content Include="Views\Users\Users.css" />
+    <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
     <Content Include="Views\Shared\LoginUc.ascx" />
@@ -643,7 +711,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj">
       <Project>{0aa2472f-e001-45c0-ad00-2e49b1566739}</Project>
@@ -673,4 +740,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
 </Project>

@@ -45,15 +45,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="span6">
-        <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:10px; font-size: 22px;"><%= Model.QuestionText %></p>
+        <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:10px; font-size: 22px;">
+            <%= Model.QuestionText %>
+        </p>
             
-        <% if (Model.HasImage) { %>
-            <img src="<%:Model.ImageUrl_500px %>"/>
-        <% } %>
+        <p><%= Model.QuestionTextMarkdown %></p>
             
-        <% if (Model.HasSound){
-               Html.RenderPartial("AudioPlayer", Model.SoundUrl);
-           } %>
+        <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
 
         <div class="alert alert-info" id="divCorrectAnswer" style="display: none; margin-top:5px; width: 360px; background-color: white; color:#2E487B;">
             <b>Antwort:</b>
@@ -168,7 +166,7 @@
         </div>            
 
         <p style="padding-top: 0px;">
-            von: <a href="<%= Links.Profile(Url, Model.Creator) %>"><%= Model.CreatorName %></a><br />
+            von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><br />
             vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
         </p>
             
@@ -186,7 +184,7 @@
         
     <div class="span2" style="height: 400px;">
         <div style="padding-top:12px;">
-            <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-th-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
+            <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>"><i class="icon-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
             <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>                                        
         </div>            
             

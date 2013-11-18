@@ -2,8 +2,11 @@
 
 public interface IImageSettings
 {
+    int Id { get; }
     IEnumerable<int> SizesSquare { get; }
     IEnumerable<int> SizesFixedWidth { get; }
     string BasePath { get; }
-    string BasePathAndId();
+    string ServerPathAndId();
+
+    void Init(int typeId);
 }

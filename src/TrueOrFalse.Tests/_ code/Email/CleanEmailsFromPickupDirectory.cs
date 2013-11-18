@@ -14,9 +14,9 @@ namespace TrueOrFalse.Tests
         {
             var files = GetEmailsFromPickupDirectory.Run();
 
-            foreach(var file in files){
+            foreach(var file in files.Where(x => x != "keepFolder.txt"))
                 File.Delete(file);
-            }
+
         }
     }
 }

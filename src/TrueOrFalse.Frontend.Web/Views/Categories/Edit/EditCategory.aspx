@@ -21,8 +21,6 @@
                 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
                        FormMethod.Post, new { enctype = "multipart/form-data" })){%>
 
-            
-        
                         <% Html.Message(Model.Message); %>
     
                         <div class="control-group">
@@ -49,8 +47,8 @@
                                 <script type="text/javascript">
                                     $(function () {
                                         <%foreach (var category in Model.RelatedCategories) { %>
-                                        $("#txtNewRelatedCategory").val('<%=category %>');
-                                        $("#addRelatedCategory").click();
+                                            $("#txtNewRelatedCategory").val('<%=category %>');
+                                            $("#addRelatedCategory").click();
                                         <% } %>
                                     });
                                 </script>

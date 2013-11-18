@@ -1,7 +1,6 @@
 ﻿$.fn.defaultText = function () {
-
-    //here ist he place to change the behaviour
-    //whene placeholder attribute is not support (currently in IE)
+ 
+    //placeholder attribute for IE
     var defaultText = "";
 
     if ($(this).val() == "") {
@@ -9,7 +8,6 @@
     }
 
     $(this).focus(function () {
-
         $(this).animate({
             backgroundColor: "#ECFFE1"
         }, 400);
@@ -17,7 +15,6 @@
         if ($(this).val() == defaultText) {
             $(this).val("");
         }
-
     });
 
     $(this).blur(function () {
@@ -31,11 +28,3 @@
         }
     });
 };
-
-/*** NAVI CHANGES ***/
-function SetMenuWishKnowledge(newAmount) {
-    $("#menuWishKnowledgeCount")
-        .text(newAmount)
-        .animate({ opacity: 0.25 }, 100)
-        .animate({ opacity: 1.00 }, 500);
-}

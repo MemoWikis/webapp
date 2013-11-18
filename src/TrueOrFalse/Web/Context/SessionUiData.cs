@@ -8,6 +8,7 @@ namespace TrueOrFalse.Web.Context
     {
         public Menu Menu { get { return Data.Get("menu", new Menu()); } }
 
+        /* History **************/
         public QuestionHistory VisitedQuestions{
             get { return Data.Get("lastVisitedQuestions", new QuestionHistory()); }
         }
@@ -16,20 +17,33 @@ namespace TrueOrFalse.Web.Context
             get { return Data.Get("lastVisitedQuestionSets", new QuestionSetHistory()); }
         }
 
-        public UserHistory VisitedProfiles{
-            get { return Data.Get("lastVisitedProfiles", new UserHistory()); }
+        public UserHistory VisitedUserDetails{
+            get { return Data.Get("lastVisitedUsers", new UserHistory()); }
         }
 
         public CategoryHistory VisitedCategories{
             get { return Data.Get("lastVisitedCategories", new CategoryHistory()); }
         }
 
-        public QuestionSearchSpec QuestionSearchSpec{
-            get { return Data.Get("questionSearchSpec", new QuestionSearchSpec{PageSize = 5}); }
+        public HelpHistory VisitedHelpPages{
+            get { return Data.Get("lastVisitedHelpPages", new HelpHistory()); }
         }
 
-        public QuestionSetSearchSpec SetSearchSpec{
-            get { return Data.Get("questionSetSearchSpec", new QuestionSetSearchSpec { PageSize = 10 }); }
+        /* SearchSpecs *************/
+        public QuestionSearchSpec SearchSpecQuestionAll{ get { return Data.Get("searchSpecQuestionAll", new QuestionSearchSpec { PageSize = 10 }); } }
+        public QuestionSearchSpec SearchSpecQuestionMine { get { return Data.Get("searchSpecQuestionMine", new QuestionSearchSpec { PageSize = 10 }); } }
+        public QuestionSearchSpec SearchSpecQuestionWish { get { return Data.Get("searchSpecQuestionWish", new QuestionSearchSpec { PageSize = 10 }); } }
+
+        public SetSearchSpec SearchSpecSetAll{ get { return Data.Get("searchSpecSetAll", new SetSearchSpec { PageSize = 10 }); } }
+        public SetSearchSpec SearchSpecSetMine { get { return Data.Get("searchSpecSetMine", new SetSearchSpec { PageSize = 10 }); } }
+        public SetSearchSpec SearchSpecSetWish { get { return Data.Get("searchSpecSetWish", new SetSearchSpec { PageSize = 10 }); } }
+
+        public CategorySearchSpec SearchSpecCategory{
+            get { return Data.Get("searchSpecCategory", new CategorySearchSpec { PageSize = 10 }); }
+        }
+
+        public UserSearchSpec SearchSpecUser{
+            get { return Data.Get("searchSpecUser", new UserSearchSpec { PageSize = 10 }); }
         }
 
         public TmpImageStore TmpImagesStore { get { return Data.Get("tmpImageStore", new TmpImageStore()); } }

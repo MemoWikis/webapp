@@ -16,7 +16,7 @@
    id="svg12089"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="platzhalter-set.svg"
+   sodipodi:docname="platzhalter-set.png"
    inkscape:export-filename="/home/katrin/TrueOrFalse/docs/Graphics/Katgoriebild2.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -1674,16 +1674,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="6.822722"
-     inkscape:cx="77.200738"
-     inkscape:cy="20.827641"
+     inkscape:zoom="3.411361"
+     inkscape:cx="-29.268146"
+     inkscape:cy="17.505342"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="mm"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1138"
+     inkscape:window-height="1177"
      inkscape:window-x="1592"
      inkscape:window-y="-8"
      inkscape:window-maximized="1">
@@ -1700,7 +1700,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1710,12 +1710,12 @@
      id="layer1"
      transform="translate(0,-981.49638)">
     <rect
-       y="981.81903"
-       x="0.32253706"
-       height="70.221069"
-       width="70.221062"
+       y="953.51215"
+       x="-27.984358"
+       height="126.83487"
+       width="126.83485"
        id="rect6607"
-       style="fill:#b7bec8;stroke:#b7bec8;stroke-width:0.64507413;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:#b7bec8;stroke:#b7bec8;stroke-width:1.1651473;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     <g
        transform="translate(-153.18668,384.5494)"
        clip-path="url(#clipPath4604)"
@@ -2065,20 +2065,19 @@
        sodipodi:cy="18.94622"
        sodipodi:rx="7.5472565"
        sodipodi:ry="7.3303814"
-       d="m 29.321526,18.94622 c 0,4.048458 -3.379022,7.330382 -7.547257,7.330382 -4.168235,0 -7.547256,-3.281924 -7.547256,-7.330382 0,-4.048457 3.379021,-7.330381 7.547256,-7.330381 4.168235,0 7.547257,3.281924 7.547257,7.330381 z"
-       transform="matrix(3.9906038,0,0,4.1086691,-51.459413,939.08582)"
+       d="m 29.321526,18.94622 a 7.5472565,7.3303814 0 1 1 -15.094513,0 7.5472565,7.3303814 0 1 1 15.094513,0 z"
+       transform="matrix(7.2079179,0,0,7.42117,-121.51408,876.32645)"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none"
        id="rect15738"
-       width="7.2002563"
-       height="9.5425081"
-       x="28.540775"
-       y="29.052605"
-       transform="translate(0,981.49638)" />
+       width="13.005264"
+       height="17.235891"
+       x="22.984055"
+       y="1005.4048" />
     <g
-       transform="matrix(0.24247561,0,0,0.24247561,-49.107911,939.02474)"
+       transform="matrix(0.43796487,0,0,0.43796487,-117.26674,876.21613)"
        id="layer1-7"
        inkscape:label="Calque 1">
       <path

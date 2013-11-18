@@ -13,7 +13,7 @@ namespace TrueOrFalse
     /// </summary>
     public class QuestionInSet : DomainEntity
     {
-        public virtual QuestionSet QuestionSet { get; set; }
+        public virtual Set Set { get; set; }
         public virtual Question Question { get; set; }
         public virtual int Sort { get; set; }
 

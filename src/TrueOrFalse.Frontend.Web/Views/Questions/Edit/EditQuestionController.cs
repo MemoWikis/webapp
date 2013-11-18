@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
@@ -49,7 +50,6 @@ public class EditQuestionController : BaseController
             Resolve<EditQuestionModel_to_Question>()
                 .Update(model, _questionRepository.GetById(id), Request.Form)
         );
-        QuestionImageStore.Run(imagefile, id);
         UpdateSound(soundfile, id);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");
 
@@ -57,21 +57,13 @@ public class EditQuestionController : BaseController
     }
 
     [HttpPost]
-    public ActionResult Create(EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
+    public ActionResult Create(EditQuestionModel model, HttpPostedFileBase soundfile)
     {
         model.FillCategoriesFromPostData(Request.Form);
         
-        var editQuestionModelCategoriesExist = Resolve<EditQuestionModel_Categories_Exist>();
-        
-        if (editQuestionModelCategoriesExist.No(model))
-        {
-            var missingCategory = editQuestionModelCategoriesExist.MissingCategory;
-            model.Message = new ErrorMessage(
-                string.Format("Die Kategorie <strong>'{0}'</strong> existiert nicht. " +
-                              "Klicke <a href=\"{1}\">hier</a>, um Kategorien anzulegen.",
-                              missingCategory,
-                              Url.Action("Create", "EditCategory", new { name = missingCategory })));
-
+        var categoriesExist = Resolve<CategoryNamesExist>();
+        if (categoriesExist.No(model.Categories)){
+            model.Message = categoriesExist.GetErrorMsg(Url);
             return View(_viewLocation, model);
         }
 
@@ -79,7 +71,7 @@ public class EditQuestionController : BaseController
 
         question.Creator = _sessionUser.User;
         _questionRepository.Create(question);
-        QuestionImageStore.Run(imagefile, question.Id);
+        
         UpdateSound(soundfile, question.Id);
 
         if (Request["btnSave"] == "saveAndNew")
@@ -97,7 +89,48 @@ public class EditQuestionController : BaseController
             string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Du kannst Sie nun weiter bearbeiten.",
                           question.Text.TruncateAtWord(30)));
 
-        return Redirect("Edit/" + question.Id);
+        return Redirect("Bearbeite/" + question.Id);
+    }
+
+    [HttpPost]
+    public JsonResult StoreImage(
+        string imageSource,
+        int questionId,
+        string wikiFileName,
+        string uploadImageGuid,
+        string uploadImageLicenceOwner,
+        string markupEditor
+        )
+    {
+
+        int newQuestionId = -1;
+        if (questionId == -1){
+            var question = new Question();
+            question.Text = Request["Question"];
+            question.Creator = _sessionUser.User;
+            _questionRepository.Create(question);
+
+            newQuestionId = questionId = question.Id;
+        }
+
+        if (imageSource == "wikimedia"){
+            Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
+                wikiFileName, questionId, _sessionUser.User.Id);
+        }
+        
+        if (imageSource == "upload"){
+            Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
+                _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id, uploadImageLicenceOwner);
+        }
+
+        var imageSettings = new QuestionImageSettings(questionId);
+
+        return new JsonResult{
+            Data = new{
+                PreviewUrl = imageSettings.GetUrl_435px().UrlWithoutTime(),
+                NewQuestionId = newQuestionId
+            }
+        };
     }
 
     public ActionResult SolutionEditBody(int? questionId, SolutionType type)

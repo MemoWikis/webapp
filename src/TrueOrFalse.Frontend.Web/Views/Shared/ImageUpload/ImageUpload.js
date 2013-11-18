@@ -130,21 +130,32 @@ var ImageUploadModal = (function () {
     };
     ImageUploadModal.prototype.SaveImage = function () {
         if(this.Mode == ImageUploadModalMode.Wikimedia) {
-            this.SaveWikimediaImage();
+            SaveWikipediaImage.Run(this.WikimediaPreview, this._onSave);
         }
         if(this.Mode == ImageUploadModalMode.Upload) {
-            this.SaveUploadedImage();
+            SaveUploadedImage.Run(this.ImageThumbUrl, this._onSave);
         }
     };
-    ImageUploadModal.prototype.SaveWikimediaImage = function () {
-        if(!this.WikimediaPreview.SuccessfullyLoaded) {
+    ImageUploadModal.prototype.OnSave = function (func) {
+        this._onSave = func;
+    };
+    return ImageUploadModal;
+})();
+var SaveWikipediaImage = (function () {
+    function SaveWikipediaImage() { }
+    SaveWikipediaImage.Run = function Run(wikiMediaPreview, fnOnSave) {
+        if(!wikiMediaPreview.SuccessfullyLoaded) {
             alert("Bitte lade ein Bild über eine Wikipedia URL.");
         } else {
-            this._onSave(this.WikimediaPreview.ImageThumbUrl);
+            fnOnSave(wikiMediaPreview.ImageThumbUrl);
             $("#modalImageUpload").modal("hide");
         }
     };
-    ImageUploadModal.prototype.SaveUploadedImage = function () {
+    return SaveWikipediaImage;
+})();
+var SaveUploadedImage = (function () {
+    function SaveUploadedImage() { }
+    SaveUploadedImage.Run = function Run(imageThumbUrl, fnOnSave) {
         if(!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) {
             alert("Bitte wähle eine andere Lizenz");
             return;
@@ -159,12 +170,9 @@ var ImageUploadModal = (function () {
                 alert("Bitte gib Deinen Namen als Lizenzgeber an.");
                 return;
             }
-            this._onSave(this.ImageThumbUrl);
+            fnOnSave(imageThumbUrl);
             $("#modalImageUpload").modal("hide");
         }
     };
-    ImageUploadModal.prototype.OnSave = function (func) {
-        this._onSave = func;
-    };
-    return ImageUploadModal;
+    return SaveUploadedImage;
 })();

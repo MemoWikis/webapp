@@ -19,7 +19,7 @@ class ToQuestionSetModal {
     Populate() { 
         $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufügen");
         
-        var setResult = GetQuestionSetsForUser.Run();
+        var setResult = GetSetsForUser.Run();
         this.Sets = setResult.Sets;
 
         $("#tqsSuccess").hide();
@@ -42,7 +42,7 @@ class ToQuestionSetModal {
                 var newRow = template.clone().removeAttr("id").removeClass("hide");
                 newRow.attr("data-questionSetId", setResult.Sets[i].Id);
                 newRow.html(newRow.html().replace("{Name}", setResult.Sets[i].Name));
-                newRow.click(function () { _page.ToQuestionSetModal.AddToSet($(this)) });
+                newRow.click(function () { _page.ToQuestionSetModal.AddToSet($(this)); });
                 $("#tsqRowContainer").append(newRow);
             }
         }
@@ -74,20 +74,20 @@ class QuestionSet {
     Name : string;
 }
 
-class GetQuestionSetsForUserResult {
+class GetSetsForUserResult {
     TotalSets = 0;
     CurrentPage = 1;
     Sets: QuestionSet[] = new QuestionSet[];
 }
 
-class GetQuestionSetsForUser {
+class GetSetsForUser {
     static Run() {
-        var result = new GetQuestionSetsForUserResult();
+        var result = new GetSetsForUserResult();
 
         $.ajax({
             type: 'POST', async: false, cache: false,
             url: "/Questions/GetQuestionSets/",
-            error: function (error) { console.log(error) },
+            error: function (error) { console.log(error); },
             success: function (r) {
                 for (var i = 0; i < r.Sets.length; i++) { 
                     result.TotalSets = r.Total;
@@ -95,7 +95,7 @@ class GetQuestionSetsForUser {
                     result.Sets.push(
                         new QuestionSet(
                             r.Sets[i].Id,
-                            r.Sets[i].Name))
+                            r.Sets[i].Name));
                 }
             }
         });
@@ -113,8 +113,8 @@ class SendQuestionsToAdd {
     static Run(questionSetId) { 
 
         var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr, a) { 
-            if (aggr.length == 0) 
-                return a.QuestionId
+            if (aggr.length == 0)
+                return a.QuestionId;
 
             return aggr + "," + a.QuestionId; }, ""
         );
@@ -123,8 +123,8 @@ class SendQuestionsToAdd {
             type: 'POST', async: false, cache: false,
             url: "/Questions/AddToQuestionSet/",
             data: questionIds + ":" + questionSetId,
-            error: function (error) { console.log(error) },
-            success: function (result) { console.log(result) }
+            error: function (error) { console.log(error); },
+            success: function (result) { console.log(result); }
         });
 
         return new SendQuestionsToAddResult();

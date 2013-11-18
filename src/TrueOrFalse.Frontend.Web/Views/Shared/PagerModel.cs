@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Seedworks.Lib.Persistence;
 
 public class PagerModel
@@ -29,6 +30,9 @@ public class PagerModel
     /// <summary> The number of page buttons except the buttons for the first and last page.</summary>
     public int PageCountWithoutLastAndFirst;
 
+    public string Controller;
+    public string Action;
+
     public PagerModel(IPager pager)
     {
         CurrentPage = pager.CurrentPage;
@@ -40,6 +44,9 @@ public class PagerModel
         Stop = Math.Min(CurrentPage + Size, LastPage - 1);
         SkippedRight = (Stop < LastPage - 1);
         PageCountWithoutLastAndFirst = Stop - Start + 1;
+
+        Controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+        Action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
     }
 
 }

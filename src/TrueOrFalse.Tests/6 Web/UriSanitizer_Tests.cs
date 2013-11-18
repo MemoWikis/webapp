@@ -15,7 +15,7 @@ namespace TrueOrFalse.Web
             Assert.That(UriSanitizer.Run("Question!"), Is.EqualTo("Question"));
             Assert.That(UriSanitizer.Run("What?-_.,"), Is.EqualTo("What-_"));
             Assert.That(UriSanitizer.Run("What why who?"), Is.EqualTo("What_why_who"));
-            Assert.That(UriSanitizer.Run("Ä-Ö-Ü?"), Is.EqualTo("AE-OE-UE"));
+            Assert.That(UriSanitizer.Run("Ä-Ö-Ü?"), Is.EqualTo("Ae-Oe-Ue"));
         }
     }
 }

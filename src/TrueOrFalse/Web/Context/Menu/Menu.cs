@@ -11,9 +11,10 @@ namespace TrueOrFalse
         None, Knowledge, 
         Questions, QuestionDetail, 
         QuestionSet, QuestionSetDetail,
-        Network, ProfilDetail,
+        Users, UserDetail,
         Categories, CategoryDetail,
-        News
+        News,
+        Help
     }
 
     [Serializable]

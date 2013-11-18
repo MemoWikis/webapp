@@ -7,7 +7,7 @@ namespace TrueOrFalse.Tests
     {
         private readonly UserRepository _userRepository;
 
-        public List<User> AllUsers = new List<User>();
+        public List<User> All = new List<User>();
 
         public ContextUser(UserRepository userRepository)
         {
@@ -21,13 +21,13 @@ namespace TrueOrFalse.Tests
 
         public ContextUser Add(string userName)
         {
-            AllUsers.Add(new User {Name = userName});
+            All.Add(new User {Name = userName});
             return this;
         }
 
         public ContextUser Persist()
         {
-            foreach (var usr in AllUsers)
+            foreach (var usr in All)
                 _userRepository.Create(usr);
 
             return this;

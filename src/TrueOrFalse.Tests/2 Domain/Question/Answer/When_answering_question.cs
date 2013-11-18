@@ -15,7 +15,7 @@ namespace TrueOrFalse.Tests
                     .AddCategory("A").
                 Persist();
 
-            var createdQuestion = contextQuestion.Questions[0];
+            var createdQuestion = contextQuestion.All[0];
             var user = contextUsers.Users[0];
             Resolve<AnswerQuestion>().Run(createdQuestion.Id, "Some answer", user.Id);
 

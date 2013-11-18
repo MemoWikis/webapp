@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
+using FluentNHibernate.Conventions.AcceptanceCriteria;
 using TrueOrFalse;
 
 public class ImageUrl
@@ -9,21 +11,56 @@ public class ImageUrl
     public bool HasUploadedImage;
     public string Url;
 
+    public string UrlWithoutTime()
+    {
+        return Url.Split('?').First();
+    }
+
     public static ImageUrl Get(
-        int id, 
+        IImageSettings imageSettings,
         int width,
         bool isSquare,
-        string basePath,
         Func<int, string> getFallBackImage)
     {
-        var serverPath = HttpContext.Current.Server.MapPath(basePath);
+        var requestedImagePath = imageSettings.ServerPathAndId() + "_" + width + SquareSuffix(isSquare) + ".jpg";
 
-        if(id != -1)
-            if (Directory.GetFiles(serverPath, string.Format("{0}_*.jpg", id)).Any())
-                return new ImageUrl { Url = basePath + id + "_" + width + 
-                    SquareSuffix(isSquare) + ".jpg", HasUploadedImage = true };
+        if (imageSettings.Id != -1)
+        {
+            if (File.Exists(requestedImagePath))
+                return GetResult(imageSettings, width, isSquare);
+
+            //we guess the biggest file has a width of 512
+            var biggestAvailableImage = string.Format("{0}_512.jpg", imageSettings.ServerPathAndId());
+            if (File.Exists(biggestAvailableImage)){
+                using(var image = Image.FromFile(biggestAvailableImage)){
+                    ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare);
+                }
+                return GetResult(imageSettings, width, isSquare);
+            }
+
+            //we search for the biggest file
+            var files = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), string.Format("{0}_*.jpg", imageSettings.Id));
+            if (files.Any()){
+                var maxFileWidth = files.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('_').Last().Replace(".jpg", ""))).OrderByDescending(x => x).First();
+                using (var image = Image.FromFile(string.Format("{0}_{1}.jpg", imageSettings.ServerPathAndId(), maxFileWidth))){
+                    ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare);
+                }
+                return GetResult(imageSettings, width, isSquare);
+            }
+        }
 
         return new ImageUrl { Url = getFallBackImage(width), HasUploadedImage = false};
+    }
+
+    private static ImageUrl GetResult(IImageSettings imageSettings, int width, bool isSquare)
+    {
+        var url = imageSettings.BasePath + imageSettings.Id + "_" + width + SquareSuffix(isSquare) + ".jpg";
+        
+        return new ImageUrl
+        {
+            Url = url + "?t=" + File.GetLastWriteTime(HttpContext.Current.Server.MapPath(url)).ToString("yyyyMMddhhmmss"),
+            HasUploadedImage = true
+        };
     }
 
     public static string SquareSuffix(bool isSquare){

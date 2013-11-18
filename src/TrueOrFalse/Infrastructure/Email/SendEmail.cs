@@ -11,9 +11,7 @@ namespace TrueOrFalse.Infrastructure
     {
         public void Run(MailMessage mail)
         {
-            var smtpClient = new SmtpClient(WebConfigSettings.SmtpServer);
-
-            smtpClient.Credentials = new NetworkCredential(WebConfigSettings.SmtpUser, WebConfigSettings.SmtpPass);
+            var smtpClient = new SmtpClient();
             smtpClient.Send(mail);
         }
     }
