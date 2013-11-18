@@ -621,7 +621,6 @@
     <Content Include="Views\Questions\Modals\ToQuestionSet.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
-    <Content Include="Views\Questions\Js\SelectUsers.js" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
     <Content Include="Views\Questions\Questions.css" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />

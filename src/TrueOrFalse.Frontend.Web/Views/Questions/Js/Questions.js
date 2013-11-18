@@ -1,34 +1,7 @@
-﻿/************************/
-/******* FILTER *********/
-$(function () {
-    $("#addFilterUserId").val("");
-    $("#delFilterUserId").val("");
-});
-
-$(function () {
+﻿$(function () {
 
     $('#btnSelectionToSet').tooltip();
     $('#btnSelectionDelete').tooltip();
-
-    $('.btn-filterByMe').click(function () {
-        $(this).toggleClass('active');
-        $('#FilterByMe').val($(this).hasClass('active'));
-    });
-    if ($('#FilterByMe').val().toLowerCase() == "true") {
-        $('.btn-filterByMe').addClass('active');
-    }
-
-    $('.btn-filterByAll').click(function () {
-        $(this).toggleClass('active');
-        $('#FilterByAll').val($(this).hasClass('active'));
-    });
-    if ($('#FilterByAll').val().toLowerCase() == "true") {
-        $('.btn-filterByAll').addClass('active');
-    }
-
-    $("#toggleExtendSearch").click(function() {
-        $("#extendedSearch").toggle();
-    });
 
     $('.userPopover').popover({ content: getPopupOverContent });
     function getPopupOverContent() {

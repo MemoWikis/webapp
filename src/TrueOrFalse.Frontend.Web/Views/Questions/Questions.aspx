@@ -50,36 +50,6 @@
                     <label style="line-height: 18px; padding-top: 5px;"><b>Suche</b>:</label>
                     <%: Html.TextBoxFor(model => model.SearchTerm, new {style = "width:297px;", id = "txtSearch"}) %>
                     <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
-                    
-                    <div style="float:right">
-                        <a href="#" id="toggleExtendSearch">erweitert <i class="icon-caret-down"></i></a>
-                    </div>
-                </div>
-
-                <div class="control-group" id="extendedSearch" style="margin-bottom: 8px; display: none">
-                    <label style="line-height: 18px; padding-top: 5px;"><b>Erstellt</b>:</label>
-                    <div class="btn-group" style="display: inline">
-                        <button class="btn btn-filterByMe"><i class="icon-user"></i>&nbsp;von mir</button>
-                        <button class="btn btn-filterByAll">von anderen</button>
-                        <%: Html.HiddenFor(model => model.FilterByMe) %>
-                        <%: Html.HiddenFor(model => model.FilterByAll) %>
-                    </div>
-                    <span class="help-inline">und</span>&nbsp;
-                    <% foreach (var filterByUser in Model.FilterByUsers)
-                       { %>
-                        <span class="added-usr"><%: filterByUser.Value %><button id="del-usr-<%: filterByUser.Key %>"><i class="icon-remove"></i></button></span>
-                        <script type="text/javascript">
-                            $(function() {
-                                $("#del-usr-<%: filterByUser.Key %>").click(function() {
-                                    $("#delFilterUserId").val("<%: filterByUser.Key %>");
-                                });
-                            });
-                        </script>
-                    <% } %>
-                    <%: Html.HiddenFor(m => m.AddFilterUser, new {id = "addFilterUserId"}) %>
-                    <%: Html.HiddenFor(m => m.DelFilterUser, new {id = "delFilterUserId"}) %>
-                    <input type="text" class="span2" id="txtAddUserFilter"/>
-                    <button id="addUserFilter"><img alt="" src='/Images/Buttons/tick.png' /></button>
                 </div>
             </div>
             <% } %>

@@ -39,7 +39,7 @@ public class QuestionsController : BaseController
 
     public ActionResult QuestionSearch(string searchTerm, QuestionsModel model)
     {
-        _sessionUiData.SearchSpecQuestionAll.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecQuestionAll.Filter.SearchTearm = model.SearchTerm = searchTerm;
         return Questions(null, model);
     }
 
@@ -53,7 +53,7 @@ public class QuestionsController : BaseController
 
         return View("Questions",
             new QuestionsModel(
-                _questionsControllerSearch.Run(model), 
+                _questionsControllerSearch.Run(model, _sessionUiData.SearchSpecQuestionAll), 
                 _sessionUiData.SearchSpecQuestionAll, 
                 _sessionUser.User.Id,
                 isTabAllActive: true));
@@ -75,7 +75,7 @@ public class QuestionsController : BaseController
 
         return View("Questions",
             new QuestionsModel(
-                _questionsControllerSearch.Run(model),
+                _questionsControllerSearch.Run(model, _sessionUiData.SearchSpecQuestionMine),
                 _sessionUiData.SearchSpecQuestionMine, 
                 _sessionUser.User.Id,
                 isTabMineActive: true));
@@ -83,7 +83,7 @@ public class QuestionsController : BaseController
 
     public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model)
     {
-        _sessionUiData.SearchSpecQuestionWish.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecQuestionWish.Filter.SearchTearm = model.SearchTerm = searchTerm;
         return QuestionsWish(null, model);
     }
 
@@ -97,7 +97,7 @@ public class QuestionsController : BaseController
 
         return View("Questions",
             new QuestionsModel(
-                _questionsControllerSearch.Run(model),
+                _questionsControllerSearch.Run(model, _sessionUiData.SearchSpecQuestionWish),
                 _sessionUiData.SearchSpecQuestionWish,
                 _sessionUser.User.Id,
                 isTabWishActice: true));

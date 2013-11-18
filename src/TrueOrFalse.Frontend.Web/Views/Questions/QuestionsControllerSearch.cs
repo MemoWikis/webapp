@@ -20,19 +20,17 @@ public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
         _searchQuestions = searchQuestions;
     }
 
-    public IList<Question> Run(QuestionsModel model)
+    public IList<Question> Run(QuestionsModel model, QuestionSearchSpec searchSpec)
     {
-        _sessionUiData.SearchSpecQuestionAll.SetFilterByMe(model.FilterByMe);
-        _sessionUiData.SearchSpecQuestionAll.SetFilterByAll(model.FilterByAll);
-        _sessionUiData.SearchSpecQuestionAll.AddFilterByUser(model.AddFilterUser);
-        _sessionUiData.SearchSpecQuestionAll.DelFilterByUser(model.DelFilterUser);
-
-        if (!_sessionUiData.SearchSpecQuestionAll.OrderBy.IsSet())
-            _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByPersonalRelevance.Desc();
+        //if (!_sessionUiData.SearchSpecQuestionAll.OrderBy.IsSet())
+        //    _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByPersonalRelevance.Desc();
 
         var solrResult = _searchQuestions.Run(
-            _sessionUiData.SearchSpecQuestionAll.SearchTearm,
-            _sessionUiData.SearchSpecQuestionAll);
+            searchSpec.Filter.SearchTearm,
+            searchSpec,
+            searchSpec.Filter.CreatorId,
+            searchSpec.Filter.ValuatorId
+        );
             
         return _questionRepository.GetByIds(
             solrResult.QuestionIds.ToArray());

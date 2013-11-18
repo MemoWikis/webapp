@@ -9,11 +9,6 @@ public class QuestionsModel : BaseModel
 
     public PagerModel Pager { get; set; }
 
-    public bool? FilterByMe { get; set; }
-    public bool? FilterByAll { get; set; }
-    public int? AddFilterUser { get; set; }
-    public int? DelFilterUser { get; set; }
-    public Dictionary<int, string> FilterByUsers { get; set; }
     public string SearchTerm { get; set; }
 
     public int TotalWishKnowledge;
@@ -26,10 +21,8 @@ public class QuestionsModel : BaseModel
     public bool ActiveTabMine;
     public bool ActiveTabWish;
 
-    public QuestionsModel()
-    {
+    public QuestionsModel(){
         QuestionRows = Enumerable.Empty<QuestionRowModel>();
-        FilterByUsers = new Dictionary<int, string>();
     }
 
     public QuestionsModel(
@@ -50,12 +43,6 @@ public class QuestionsModel : BaseModel
 
         Pager = new PagerModel(questionSearchSpec);
 
-        FilterByMe = _sessionUiData.SearchSpecQuestionAll.FilterByMe;
-        FilterByAll = _sessionUiData.SearchSpecQuestionAll.FilterByAll;
-        FilterByUsers =
-            Resolve<UserRepository>().GetByIds(_sessionUiData.SearchSpecQuestionAll.FilterByUsers.ToArray())
-                .ToDictionary(user => user.Id, user => user.Name);
-
         int counter = 0; 
         QuestionRows = from question in questions
                        select new QuestionRowModel(
@@ -69,12 +56,11 @@ public class QuestionsModel : BaseModel
         TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run();
         TotalWishKnowledge = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id);
 
-        FilterByUsers = new Dictionary<int, string>();
         TotalQuestionsInResult = questionSearchSpec.TotalItems;
 
         OrderBy = questionSearchSpec.OrderBy;
         OrderByLabel = questionSearchSpec.OrderBy.ToText();
-        SearchTerm = questionSearchSpec.SearchTearm;
+        SearchTerm = questionSearchSpec.Filter.SearchTearm;
 
         MenuLeftModel.Categories = questions.GetAllCategories()
                                     .GroupBy(c => c.Name)
