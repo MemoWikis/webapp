@@ -44,7 +44,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_reindex_all_questions()
         {
-            ContextQuestion.New()
+            var context = ContextQuestion.New()
                 .AddQuestion("Question1", "Answer2").AddCategory("A").Persist()
                 .AddQuestion("Question2", "Answer3").AddCategory("B").Persist()
                 .AddQuestion("Juliane Misdom", "Answer3").AddCategory("B").Persist();
@@ -54,12 +54,14 @@ namespace TrueOrFalse.Tests
             Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager()).Count, Is.EqualTo(1));
             Assert.That(Resolve<SearchQuestions>().Run("Juliane Misdom", new Pager()).QuestionIds.Count, Is.EqualTo(1)); ;
             Assert.That(Resolve<SearchQuestions>().Run("Question2", new Pager()).Count, Is.EqualTo(2)); ;
+
+            Should_filter_by_creator_id(context);
         }
 
-        [Test]
-        public void Should_filter_by_creator_id()
+        public void Should_filter_by_creator_id(ContextQuestion contextQuestion)
         {
-            
+            Assert.That(Resolve<SearchQuestions>().Run(
+                "", new Pager(), creatorId: contextQuestion.Creator.Id).Count, Is.EqualTo(3));
         }
 
         [Test]

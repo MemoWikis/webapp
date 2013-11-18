@@ -9,9 +9,9 @@ namespace TrueOrFalse.Tests
         private readonly ContextCategory _contextCategory = ContextCategory.New();
 
         private readonly QuestionRepository _questionRepository;
-        
 
         public List<Question> All = new List<Question>();
+        public User Creator { get { return _contextUser.All[0]; }}
 
         public static ContextQuestion New()
         {
