@@ -10,7 +10,7 @@ namespace TrueOrFalse
 {
     public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, CategorySetOrderBy>
     {
-        public string SearchTearm;
+        public string SearchTerm;
 
         public bool FilterByMe { get; private set; }
         public bool FilterByAll { get; private set; }

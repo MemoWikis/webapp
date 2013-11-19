@@ -10,7 +10,7 @@ namespace TrueOrFalse
 
     public class QuestionFilter : ConditionContainer
     {
-        public string SearchTearm;
+        public string SearchTerm;
         public int CreatorId = -1;
         public int ValuatorId = -1;
     }
@@ -18,7 +18,7 @@ namespace TrueOrFalse
     public class QuestionOrderBy : SpecOrderByBase
     {
         public OrderBy OrderByPersonalRelevance;
-        public OrderBy OrderByQuality;
+           public OrderBy OrderByQuality;
         public OrderBy OrderByViews;
 
         public OrderBy OrderByCreationDate;

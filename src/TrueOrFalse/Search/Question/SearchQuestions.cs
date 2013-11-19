@@ -13,20 +13,20 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
-        public SearchQuestionsResult Run(string searchTearm){
-            return Run(searchTearm, new Pager());
+        public SearchQuestionsResult Run(string searchTerm){
+            return Run(searchTerm, new Pager());
         }
 
         public SearchQuestionsResult Run(
-            string searchTearm, 
+            string searchTerm, 
             Pager pager,
             int creatorId = -1, 
             int valuatorId = -1)
         {
             var sqb = new SearchQueryBuilder()
-                .Add("FullTextStemmed", searchTearm)
-                .Add("FullTextExact", searchTearm)
-                .Add("Categories", searchTearm)
+                .Add("FullTextStemmed", searchTerm)
+                .Add("FullTextExact", searchTerm)
+                .Add("Categories", searchTerm)
                 .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
                 .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
 

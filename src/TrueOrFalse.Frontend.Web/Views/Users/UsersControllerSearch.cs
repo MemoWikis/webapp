@@ -22,7 +22,7 @@ public class UsersControllerSearch : IRegisterAsInstancePerLifetime
 
     public IList<User> Run()
     {
-        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecUser.SearchTearm))
+        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecUser.SearchTerm))
             return SearchFromSqlServer();
         
         return SearchFromSOLR();
@@ -31,7 +31,7 @@ public class UsersControllerSearch : IRegisterAsInstancePerLifetime
     private IList<User> SearchFromSOLR()
     {
         var solrResult = _searchUsers.Run(
-            _sessionUiData.SearchSpecUser.SearchTearm,
+            _sessionUiData.SearchSpecUser.SearchTerm,
             _sessionUiData.SearchSpecUser);
 
         return _usersRepo.GetByIds(solrResult.UserIds.ToArray());

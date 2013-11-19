@@ -26,7 +26,7 @@ public class SetsController : BaseController
 
     public ActionResult SetsWishSearch(string searchTerm, SetsModel model)
     {
-        _sessionUiData.SearchSpecSetWish.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecSetWish.SearchTerm = model.SearchTerm = searchTerm;
         return SetsWish(null, model);
     }
 
@@ -44,7 +44,7 @@ public class SetsController : BaseController
 
     public ActionResult SetsMineSearch(string searchTerm, SetsModel model)
     {
-        _sessionUiData.SearchSpecSetMine.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecSetMine.SearchTerm = model.SearchTerm = searchTerm;
         return SetsMine(null, model);
     }
 
@@ -62,7 +62,7 @@ public class SetsController : BaseController
 
     public ActionResult SetsSearch(string searchTerm, SetsModel model)
     {
-        _sessionUiData.SearchSpecSetAll.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecSetAll.SearchTerm = model.SearchTerm = searchTerm;
         return Sets(null, model);
     }
 

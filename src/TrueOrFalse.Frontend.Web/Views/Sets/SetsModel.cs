@@ -59,7 +59,7 @@ public class SetsModel : BaseModel
         TotalMine = Resolve<GetTotalSetCount>().Run(_sessionUser.User.Id);
         TotalWish = Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
         
-        SearchTerm = searchSpec.SearchTearm;
+        SearchTerm = searchSpec.SearchTerm;
         Pager = new PagerModel(searchSpec) {Controller = Links.SetsController};
 
         if (ActiveTabAll){

@@ -20,7 +20,7 @@ public class CategoriesController : BaseController
 
     public ActionResult Search(string searchTerm, CategoriesModel model)
     {
-        _sessionUiData.SearchSpecCategory.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecCategory.SearchTerm = model.SearchTerm = searchTerm;
         return Categories(null, model);
     }
 

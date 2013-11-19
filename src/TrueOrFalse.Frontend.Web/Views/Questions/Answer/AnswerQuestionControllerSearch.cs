@@ -22,7 +22,7 @@ public class AnswerQuestionControllerSearch : IRegisterAsInstancePerLifetime
 
     public Question Run()
     {
-        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecQuestionAll.Filter.SearchTearm))
+        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecQuestionAll.Filter.SearchTerm))
             return _questionRepository.GetBy(_sessionUiData.SearchSpecQuestionAll).Single();
 
         return SearchFromSOLR();
@@ -31,7 +31,7 @@ public class AnswerQuestionControllerSearch : IRegisterAsInstancePerLifetime
     public Question SearchFromSOLR()
     {
         var questionIds = _searchQuestions.Run(
-            _sessionUiData.SearchSpecQuestionAll.Filter.SearchTearm, _sessionUiData.SearchSpecQuestionAll).QuestionIds;
+            _sessionUiData.SearchSpecQuestionAll.Filter.SearchTerm, _sessionUiData.SearchSpecQuestionAll).QuestionIds;
 
         return _questionRepository.GetById(questionIds[0]);
     }

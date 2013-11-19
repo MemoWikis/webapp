@@ -4,7 +4,7 @@ namespace TrueOrFalse
 {
     public class UserSearchSpec : SearchSpecificationBase<UserFilter, UserOrderBy>
     {
-        public string SearchTearm;   
+        public string SearchTerm;   
     }
 
     public class UserFilter : ConditionContainer

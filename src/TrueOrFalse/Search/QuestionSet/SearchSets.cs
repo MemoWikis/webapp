@@ -14,21 +14,21 @@ namespace TrueOrFalse.Search
         }
 
         public SearchSetsResult Run(
-            string searchTearm, 
+            string searchTerm, 
             int creatorId = -1,
             int valuatorId = -1){
-                return Run(searchTearm, new Pager(), creatorId, valuatorId);
+                return Run(searchTerm, new Pager(), creatorId, valuatorId);
         }
 
         public SearchSetsResult Run(
-            string searchTearm, 
+            string searchTerm, 
             Pager pager, 
             int creatorId = -1, 
             int valuatorId = -1)
         {
             var sqb = new SearchQueryBuilder()
-                .Add("FullTextStemmed", searchTearm)
-                .Add("FullTextExact", searchTearm)
+                .Add("FullTextStemmed", searchTerm)
+                .Add("FullTextExact", searchTerm)
                 .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
                 .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
 
