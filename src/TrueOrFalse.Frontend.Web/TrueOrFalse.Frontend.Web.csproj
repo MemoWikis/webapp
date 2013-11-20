@@ -287,15 +287,14 @@
     <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />    
+    <Content Include="Images\Drafts\layout-sprite.png" />
+    <Content Include="Images\layout-sprite.png" />
     <Content Include="Images\Categories\include-folder.txt">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
-    <Content Include="Images\Drafts\layout-sprite.png" />
-    <Content Include="Images\layout-sprite.png" />
-    </Content>
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />
