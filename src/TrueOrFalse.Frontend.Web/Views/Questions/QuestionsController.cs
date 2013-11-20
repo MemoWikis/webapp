@@ -37,10 +37,13 @@ public class QuestionsController : BaseController
         return Questions(page, model);
     }
 
-    public ActionResult QuestionSearch(string searchTerm, QuestionsModel model)
+    public ActionResult QuestionSearch(string searchTerm, QuestionsModel model, int? page)
     {
-        _sessionUiData.SearchSpecQuestionAll.Filter.SearchTearm = model.SearchTerm = searchTerm;
-        return Questions(null, model);
+        if (_sessionUiData.SearchSpecQuestionAll.Filter.SearchTerm != searchTerm) 
+            _sessionUiData.SearchSpecQuestionAll.CurrentPage = 1;
+        
+        _sessionUiData.SearchSpecQuestionAll.Filter.SearchTerm = model.SearchTerm = searchTerm;
+        return Questions(page, model);
     }
 
     [SetMenu(MenuEntry.Questions)]
@@ -59,10 +62,13 @@ public class QuestionsController : BaseController
                 isTabAllActive: true));
     }
 
-    public ActionResult QuestionsMineSearch(string searchTerm, QuestionsModel model)
+    public ActionResult QuestionsMineSearch(string searchTerm, QuestionsModel model, int? page)
     {
-        _sessionUiData.SearchSpecSetMine.SearchTearm = model.SearchTerm = searchTerm;
-        return QuestionsMine(null, model);
+        if (_sessionUiData.SearchSpecQuestionMine.Filter.SearchTerm != searchTerm)
+            _sessionUiData.SearchSpecQuestionMine.CurrentPage = 1;
+
+        _sessionUiData.SearchSpecQuestionMine.Filter.SearchTerm = model.SearchTerm = searchTerm;
+        return QuestionsMine(page, model);
     }
 
     [SetMenu(MenuEntry.Questions)]
@@ -81,10 +87,13 @@ public class QuestionsController : BaseController
                 isTabMineActive: true));
     }
 
-    public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model)
+    public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel    model, int? page)
     {
-        _sessionUiData.SearchSpecQuestionWish.Filter.SearchTearm = model.SearchTerm = searchTerm;
-        return QuestionsWish(null, model);
+        if (_sessionUiData.SearchSpecQuestionWish.Filter.SearchTerm != searchTerm) 
+            _sessionUiData.SearchSpecQuestionWish.CurrentPage = 1;
+
+        _sessionUiData.SearchSpecQuestionWish.Filter.SearchTerm = model.SearchTerm = searchTerm;
+        return QuestionsWish(page, model);
     }
 
     [SetMenu(MenuEntry.Questions)]

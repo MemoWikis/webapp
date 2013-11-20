@@ -11,7 +11,7 @@ namespace TrueOrFalse
 {
     public class SetSearchSpec : SearchSpecificationBase<QuestionSetFilter, QuestionSetOrderBy>
     {
-        public string SearchTearm;
+        public string SearchTerm;
     }
 
     public class QuestionSetFilter : ConditionContainer

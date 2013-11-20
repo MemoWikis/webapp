@@ -33,7 +33,7 @@ public class CategoriesModel : BaseModel
         TotalCategories = Resolve<GetTotalCategories>().Run(); ;
         TotalMine = 0;
 
-        SearchTerm = _sessionUi.SearchSpecCategory.SearchTearm;
+        SearchTerm = _sessionUi.SearchSpecCategory.SearchTerm;
 
         TotalCategoriesInResult = _sessionUi.SearchSpecCategory.TotalItems;
         OrderByLabel = "..";        

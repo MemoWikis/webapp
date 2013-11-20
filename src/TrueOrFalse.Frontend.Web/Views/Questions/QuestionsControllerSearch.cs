@@ -26,7 +26,7 @@ public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
         //    _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByPersonalRelevance.Desc();
 
         var solrResult = _searchQuestions.Run(
-            searchSpec.Filter.SearchTearm,
+            searchSpec.Filter.SearchTerm,
             searchSpec,
             searchSpec.Filter.CreatorId,
             searchSpec.Filter.ValuatorId

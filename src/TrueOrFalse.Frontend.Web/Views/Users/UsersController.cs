@@ -18,7 +18,7 @@ public class UsersController : BaseController
 
     public ActionResult Search(string searchTerm, UsersModel model)
     {
-        _sessionUiData.SearchSpecUser.SearchTearm = model.SearchTerm = searchTerm;
+        _sessionUiData.SearchSpecUser.SearchTerm = model.SearchTerm = searchTerm;
         return Users(null, model);
     }
 

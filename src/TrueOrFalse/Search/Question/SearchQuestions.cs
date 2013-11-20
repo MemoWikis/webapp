@@ -13,22 +13,33 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
-        public SearchQuestionsResult Run(string searchTearm){
-            return Run(searchTearm, new Pager());
+        public SearchQuestionsResult Run(string searchTerm){
+            return Run(searchTerm, new Pager());
         }
 
         public SearchQuestionsResult Run(
-            string searchTearm, 
+            string searchTerm, 
             Pager pager,
             int creatorId = -1, 
-            int valuatorId = -1)
+            int valuatorId = -1,
+            SearchQuestionsOrderBy orderBy = SearchQuestionsOrderBy.None)
         {
             var sqb = new SearchQueryBuilder()
-                .Add("FullTextStemmed", searchTearm)
-                .Add("FullTextExact", searchTearm)
-                .Add("Categories", searchTearm)
+                .Add("FullTextStemmed", searchTerm)
+                .Add("FullTextExact", searchTerm)
+                .Add("Categories", searchTerm)
                 .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
                 .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
+
+            var orderby = new List<SortOrder>();
+            if (orderBy == SearchQuestionsOrderBy.Quality)
+                orderby.Add(new SortOrder("Quality", Order.DESC));
+            else if(orderBy == SearchQuestionsOrderBy.Views)
+                orderby.Add(new SortOrder("Views", Order.DESC));
+            else if(orderBy == SearchQuestionsOrderBy.Valuation)
+                orderby.Add(new SortOrder("Valuation", Order.DESC));
+            else if (orderBy == SearchQuestionsOrderBy.DateCreated)
+                orderby.Add(new SortOrder("DateCreated", Order.DESC));
 
             var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions
@@ -36,7 +47,8 @@ namespace TrueOrFalse.Search
                                                             Start = pager.LowerBound - 1,
                                                             Rows = pager.PageSize,
                                                             SpellCheck = new SpellCheckingParameters{ Collate = true},
-                                                            ExtraParams = new Dictionary<string, string> { { "qt", "dismax" } }
+                                                            ExtraParams = new Dictionary<string, string> { { "qt", "dismax" } },
+                                                            OrderBy = orderby
                                                       });
 
             var result = new SearchQuestionsResult();

@@ -20,6 +20,7 @@ namespace TrueOrFalse.Search
                     SolutionType = (int) question.SolutionType,
                     Categories = question.Categories.Select(c => c.Name).ToArray(),
                     AvgQuality = question.TotalQualityAvg,
+                    AvgValuation = question.TotalRelevancePersonalAvg,
                     Views = question.TotalViews,
                     DateCreated = question.DateCreated
                 };

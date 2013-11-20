@@ -48,7 +48,7 @@
             <div class="form-horizontal">
                 <div class="control-group" style="margin-bottom: 8px;">
                     <label style="line-height: 18px; padding-top: 5px;"><b>Suche</b>:</label>
-                    <%: Html.TextBoxFor(model => model.SearchTerm, new {style = "width:297px;", id = "txtSearch"}) %>
+                    <%: Html.TextBoxFor(model => model.SearchTerm, new {style = "width:297px;", id = "txtSearch", formUrl=Model.SearchUrl}) %>
                     <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
                 </div>
             </div>

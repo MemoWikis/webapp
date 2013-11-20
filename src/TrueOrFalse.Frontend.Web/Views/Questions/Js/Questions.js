@@ -9,7 +9,7 @@
     }
 
     function SubmitSearch() {
-        window.location = "/Fragen/Suche/" + $('#txtSearch').val();
+        window.location.href = $('#txtSearch').attr("formUrl") + $('#txtSearch').val();
     }
 
     $('#btnSearch').click(function () { SubmitSearch(); });

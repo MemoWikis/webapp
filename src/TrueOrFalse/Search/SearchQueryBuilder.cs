@@ -11,8 +11,8 @@ namespace TrueOrFalse.Search
     {
         private string _buildedExpression;
 
-        public IList<string> _orConditions = new List<string>();
-        public IList<string> _andConditions = new List<string>();
+        private readonly IList<string> _orConditions = new List<string>();
+        private readonly IList<string> _andConditions = new List<string>();
 
         public SearchQueryBuilder Add(
             string fieldName, 

@@ -71,6 +71,9 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_filter_by_valuator_id()
         {
+            Resolve<ISession>().Delete("FROM QuestionValuation");
+            Resolve<ISession>().Delete("FROM Question");
+
             var context = ContextQuestion.New()
                 .AddQuestion("Question1", "Answer2").AddCategory("A")
                 .AddQuestion("Question2", "Answer3").AddCategory("B")
@@ -101,6 +104,33 @@ namespace TrueOrFalse.Tests
             var result = Resolve<SearchQuestions>().Run("Question", new Pager { PageSize = 10 });
             Assert.That(result.Count, Is.EqualTo(50));//Category
             Assert.That(result.QuestionIds.Count, Is.EqualTo(10));//Result is always paged
+        }
+
+        [Test]
+        public void Should_order_search_result()
+        {
+            var context = ContextQuestion.New()
+                .AddQuestion("Question1", "Answer1").TotalQualityAvg(10).TotalValuationAvg(50)
+                .AddQuestion("Question2", "Answer2").TotalQualityAvg(50).TotalValuationAvg(1)
+                .AddQuestion("Question3", "Answer3").TotalValuationAvg(99)
+                .Persist();
+
+            var result = Resolve<SearchQuestions>().Run("Question", 
+                new Pager { PageSize = 10 }, orderBy: SearchQuestionsOrderBy.Quality);
+            var questions = Resolve<QuestionRepository>().GetByIds(result.QuestionIds);
+
+            Assert.That(questions.Count, Is.EqualTo(3));
+            Assert.That(questions[0].Text, Is.EqualTo("Question2"));
+            Assert.That(questions[1].Text, Is.EqualTo("Question1"));
+            Assert.That(questions[2].Text, Is.EqualTo("Question3"));
+
+            result = Resolve<SearchQuestions>().Run("Question",
+                new Pager { PageSize = 10 }, orderBy: SearchQuestionsOrderBy.Valuation);
+            questions = Resolve<QuestionRepository>().GetByIds(result.QuestionIds);
+            
+            Assert.That(questions[0].Text, Is.EqualTo("Question3"));
+            Assert.That(questions[1].Text, Is.EqualTo("Question1"));
+            Assert.That(questions[2].Text, Is.EqualTo("Question2"));
         }
     }
 }

@@ -13,14 +13,14 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
-        public SearchUsersResult Run(string searchTearm){
-            return Run(searchTearm, new Pager());
+        public SearchUsersResult Run(string searchTerm){
+            return Run(searchTerm, new Pager());
         }
 
-        public SearchUsersResult Run(string searchTearm, Pager pager)
+        public SearchUsersResult Run(string searchTerm, Pager pager)
         {
             var sqb = new SearchQueryBuilder()
-                .Add("Name", searchTearm);
+                .Add("Name", searchTerm);
 
             var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions

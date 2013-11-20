@@ -22,7 +22,7 @@ public class CategoriesControllerSearch : IRegisterAsInstancePerLifetime
 
     public IList<Category> Run()
     {
-        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecCategory.SearchTearm))
+        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecCategory.SearchTerm))
             return SearchFromSqlServer();
         
         return SearchFromSOLR();
@@ -31,7 +31,7 @@ public class CategoriesControllerSearch : IRegisterAsInstancePerLifetime
     private IList<Category> SearchFromSOLR()
     {
         var solrResult = _searchCategories.Run(
-            _sessionUiData.SearchSpecCategory.SearchTearm,
+            _sessionUiData.SearchSpecCategory.SearchTerm,
             _sessionUiData.SearchSpecCategory);
 
         return _categoryRepo.GetByIds(solrResult.CategoryIds.ToArray());

@@ -24,10 +24,13 @@ public class SetsController : BaseController
         _setsControllerSearch = setsControllerSearch;
     }
 
-    public ActionResult SetsWishSearch(string searchTerm, SetsModel model)
+    public ActionResult SetsWishSearch(string searchTerm, SetsModel model, int? page)
     {
-        _sessionUiData.SearchSpecSetWish.SearchTearm = model.SearchTerm = searchTerm;
-        return SetsWish(null, model);
+        if (_sessionUiData.SearchSpecSetWish.SearchTerm != searchTerm)
+            _sessionUiData.SearchSpecSetWish.CurrentPage = 1;
+
+        _sessionUiData.SearchSpecSetWish.SearchTerm = model.SearchTerm = searchTerm;
+        return SetsWish(page, model);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
@@ -42,10 +45,13 @@ public class SetsController : BaseController
         return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetWish, GetValuations(sets), isTabWishActice: true));
     }
 
-    public ActionResult SetsMineSearch(string searchTerm, SetsModel model)
+    public ActionResult SetsMineSearch(string searchTerm, SetsModel model, int? page)
     {
-        _sessionUiData.SearchSpecSetMine.SearchTearm = model.SearchTerm = searchTerm;
-        return SetsMine(null, model);
+        if (_sessionUiData.SearchSpecSetMine.SearchTerm != searchTerm)
+            _sessionUiData.SearchSpecSetMine.CurrentPage = 1;
+
+        _sessionUiData.SearchSpecSetMine.SearchTerm = model.SearchTerm = searchTerm;
+        return SetsMine(page, model);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
@@ -60,10 +66,13 @@ public class SetsController : BaseController
         return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetMine, GetValuations(sets), isTabMineActive: true));
     }
 
-    public ActionResult SetsSearch(string searchTerm, SetsModel model)
+    public ActionResult SetsSearch(string searchTerm, SetsModel model, int? page)
     {
-        _sessionUiData.SearchSpecSetAll.SearchTearm = model.SearchTerm = searchTerm;
-        return Sets(null, model);
+        if (_sessionUiData.SearchSpecSetAll.SearchTerm != searchTerm)
+            _sessionUiData.SearchSpecSetAll.CurrentPage = 1;
+
+        _sessionUiData.SearchSpecSetAll.SearchTerm = model.SearchTerm = searchTerm;
+        return Sets(page, model);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]

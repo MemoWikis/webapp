@@ -21,7 +21,7 @@ public class SetsControllerSearch : IRegisterAsInstancePerLifetime
     public IList<Set> Run(SetSearchSpec searchSpecSet)
     {
         var solrResult = _searchSets.Run(
-            searchSpecSet.SearchTearm,
+            searchSpecSet.SearchTerm,
             searchSpecSet,
             searchSpecSet.Filter.CreatorId.IsActive() ? 
                 Convert.ToInt32(searchSpecSet.Filter.CreatorId.GetValue()) : 

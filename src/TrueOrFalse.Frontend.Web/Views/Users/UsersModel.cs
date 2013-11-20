@@ -31,7 +31,7 @@ public class UsersModel : BaseModel
         var counter = 0;
         Rows = users.Select(qs => new UserRowModel(qs, counter++, _sessionUser));
 
-        SearchTerm = _sessionUiData.SearchSpecUser.SearchTearm;
+        SearchTerm = _sessionUiData.SearchSpecUser.SearchTerm;
 
         TotalSets = Resolve<GetTotalSetCount>().Run();
 

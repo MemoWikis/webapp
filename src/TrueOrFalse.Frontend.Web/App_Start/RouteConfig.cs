@@ -25,7 +25,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Questions_MineSearch", "Fragen/Meine/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsMineSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Questions_Mine", "Fragen/Meine", new { controller = "Questions", action = "QuestionsMine" });
-            routes.MapRoute("Questions_WishSearch", "Fragen/Wunschwissen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsWish", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Questions_WishSearch", "Fragen/Wunschwissen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsWishSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Questions_Wish", "Fragen/Wunschwissen", new { controller = "Questions", action = "QuestionsWish" });
             routes.MapRoute("Questions", "Fragen", new { controller = "Questions", action = "Questions" });
             routes.MapRoute("Questions_SearchTerm", "Fragen/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionSearch", searchTerm = UrlParameter.Optional });
@@ -48,7 +48,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Sets_MineSearch", "FrageSaetze/Meine/Suche/{searchTerm}", new { controller = "Sets", action = "SetsMineSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets_Mine", "FrageSaetze/Meine", new { controller = "Sets", action = "SetsMine" });
-            routes.MapRoute("Sets_WishSearch", "FrageSaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Sets", action = "SetsWish", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Sets_WishSearch", "FrageSaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Sets", action = "SetsWishSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets_Wish", "FrageSaetze/Wunschwissen", new { controller = "Sets", action = "SetsWish" });
             routes.MapRoute("Sets_Search", "FrageSaetze/Suche/{searchTerm}", new { controller = "Sets", action = "SetsSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets", "FrageSaetze/{action}", new { controller = "Sets", action = "Sets" });
