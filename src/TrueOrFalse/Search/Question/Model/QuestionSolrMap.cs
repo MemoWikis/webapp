@@ -33,6 +33,9 @@ namespace TrueOrFalse.Search
 
         [SolrField("Quality")]
         public int AvgQuality { get; set; }
+
+        [SolrField("Valuation")]
+        public int AvgValuation { get; set; }
         
         [SolrField("Views")]
         public int Views { get; set; }

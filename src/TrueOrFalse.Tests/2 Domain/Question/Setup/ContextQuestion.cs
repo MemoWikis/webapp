@@ -37,6 +37,10 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
+        public ContextQuestion TotalQualityEntries(int totalQualityEntries){ All.Last().TotalQualityEntries = totalQualityEntries; return this;}
+        public ContextQuestion TotalQualityAvg(int totalQualityAvg) { All.Last().TotalQualityAvg = totalQualityAvg; return this; }
+        public ContextQuestion TotalValuationAvg(int totalValuationAvg) { All.Last().TotalRelevancePersonalAvg = totalValuationAvg; return this; }
+
         public ContextQuestion AddCategory(string categoryName)
         {
             _contextCategory.Add(categoryName);

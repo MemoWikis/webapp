@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NHibernate;
+using Remotion.Linq.Clauses.ResultOperators;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
@@ -47,5 +49,22 @@ namespace TrueOrFalse
                 .Where(c => c.Id == categoryId)
                 .List<Question>();
         }
+
+        public IList<Question> GetByIds(List<int> questionIds)
+        {
+            return GetByIds(questionIds.ToArray());
+        }
+
+        public override IList<Question> GetByIds(params int[] questionIds)
+        {
+            var tmpResult = base.GetByIds(questionIds);
+            
+            var result = new List<Question>();
+            for (int i = 0; i < questionIds.Length; i++)
+                result.Add(tmpResult.First(q => q.Id == questionIds[i]));
+
+            return result;
+        }
+
     }
 }

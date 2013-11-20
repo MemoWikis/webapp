@@ -80,8 +80,10 @@
         <field name="Categories" type="textExact" indexed="true" stored="false" multiValued="true"/>
 
         <field name="Quality" type="int" indexed="true" stored="false" multiValued="false" />
+		<field name="Valuation" type="int" indexed="true" stored="false" multiValued="false" />
         <field name="Views" type="int" indexed="true" stored="false" multiValued="false"/>
-        <field name="DateCreated" type="date" indexed="true" stored="false" multiValued="false"/>
+        
+		<field name="DateCreated" type="date" indexed="true" stored="false" multiValued="false"/>
 
         <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
     </fields>
