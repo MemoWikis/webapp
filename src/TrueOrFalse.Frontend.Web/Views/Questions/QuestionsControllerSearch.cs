@@ -7,16 +7,13 @@ using TrueOrFalse.Web.Context;
 public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionRepository _questionRepository;
-    private readonly SessionUiData _sessionUiData;
     private readonly SearchQuestions _searchQuestions;
 
     public QuestionsControllerSearch(
         QuestionRepository questionRepository, 
-        SessionUiData sessionUiData, 
         SearchQuestions searchQuestions)
     {
         _questionRepository = questionRepository;
-        _sessionUiData = sessionUiData;
         _searchQuestions = searchQuestions;
     }
 
