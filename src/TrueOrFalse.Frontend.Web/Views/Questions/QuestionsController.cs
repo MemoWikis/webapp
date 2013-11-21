@@ -48,6 +48,7 @@ public class QuestionsController : BaseController
     public ActionResult QuestionsMine(int? page, QuestionsModel model, string orderBy)
     {
         SetSearchSpecVars(_sessionUiData.SearchSpecQuestionMine, page, model, orderBy);
+        _sessionUiData.SearchSpecQuestionMine.Filter.CreatorId = _sessionUser.User.Id;
 
         return View("Questions",
             new QuestionsModel(
@@ -67,6 +68,7 @@ public class QuestionsController : BaseController
     public ActionResult QuestionsWish(int? page, QuestionsModel model, string orderBy)
     {
         SetSearchSpecVars(_sessionUiData.SearchSpecQuestionWish, page, model, orderBy);
+        _sessionUiData.SearchSpecQuestionWish.Filter.ValuatorId = _sessionUser.User.Id;
 
         return View("Questions",
             new QuestionsModel(

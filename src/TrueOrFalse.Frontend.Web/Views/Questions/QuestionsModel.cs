@@ -16,6 +16,8 @@ public class QuestionsModel : BaseModel
     public int TotalWishKnowledge;
     public int TotalQuestionsInResult;
     public int TotalQuestionsInSystem;
+    public int TotalQuestionsMine;
+
     public string OrderByLabel;
     public QuestionOrderBy OrderBy;
 
@@ -57,8 +59,9 @@ public class QuestionsModel : BaseModel
                                     currentUserId
                                   );
 
-        TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run();
-        TotalWishKnowledge = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id);
+        TotalQuestionsInSystem = Resolve<GetTotalQuestionCount>().Run();
+        TotalQuestionsMine = Resolve<GetTotalQuestionCount>().Run(_sessionUser.User.Id);
+        TotalWishKnowledge = Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id);
 
         TotalQuestionsInResult = questionSearchSpec.TotalItems;
 

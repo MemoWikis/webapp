@@ -36,7 +36,7 @@
                 </li>
                 <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsMine(Url) %>">
-                        Meine Fragen (0)
+                        Meine Fragen (<%= Model.TotalQuestionsMine %>)
                         <i class="icon-question-sign show-tooltip" title="Fragen die von Dir erstellt wurden."></i>
                     </a>
                 </li>
