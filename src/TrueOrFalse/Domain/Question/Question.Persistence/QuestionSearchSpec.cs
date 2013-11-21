@@ -18,7 +18,7 @@ namespace TrueOrFalse
     public class QuestionOrderBy : SpecOrderByBase
     {
         public OrderBy OrderByPersonalRelevance;
-           public OrderBy OrderByQuality;
+        public OrderBy OrderByQuality;
         public OrderBy OrderByViews;
 
         public OrderBy OrderByCreationDate;

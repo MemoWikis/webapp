@@ -36,10 +36,19 @@ namespace TrueOrFalse.Search
                     question, _questionValuationRepo.GetBy(question.Id)));
         }
 
-        public void Update(Question question)
+        public void Update(Question question, bool commitDelayed = false)
         {
-            _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));
-            _solrOperations.Commit();
+            if (!commitDelayed)
+            {
+                _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));
+                _solrOperations.Commit();
+            }
+            else
+            {
+                _solrOperations.Add(
+                    ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)),
+                    new AddParameters { CommitWithin = 10000 });
+            }
         }
 
         public void Delete(Question question)

@@ -7,29 +7,30 @@ using TrueOrFalse.Web.Context;
 public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionRepository _questionRepository;
-    private readonly SessionUiData _sessionUiData;
     private readonly SearchQuestions _searchQuestions;
 
     public QuestionsControllerSearch(
         QuestionRepository questionRepository, 
-        SessionUiData sessionUiData, 
         SearchQuestions searchQuestions)
     {
         _questionRepository = questionRepository;
-        _sessionUiData = sessionUiData;
         _searchQuestions = searchQuestions;
     }
 
     public IList<Question> Run(QuestionsModel model, QuestionSearchSpec searchSpec)
     {
-        //if (!_sessionUiData.SearchSpecQuestionAll.OrderBy.IsSet())
-        //    _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByPersonalRelevance.Desc();
+        var orderBy = SearchQuestionsOrderBy.None;
+        if (searchSpec.OrderBy.OrderByQuality.IsCurrent()) orderBy = SearchQuestionsOrderBy.Quality;
+        else if (searchSpec.OrderBy.OrderByViews.IsCurrent()) orderBy = SearchQuestionsOrderBy.Views;
+        else if (searchSpec.OrderBy.OrderByCreationDate.IsCurrent()) orderBy = SearchQuestionsOrderBy.DateCreated;
+        else if (searchSpec.OrderBy.OrderByPersonalRelevance.IsCurrent()) orderBy = SearchQuestionsOrderBy.Valuation;
 
         var solrResult = _searchQuestions.Run(
             searchSpec.Filter.SearchTerm,
             searchSpec,
             searchSpec.Filter.CreatorId,
-            searchSpec.Filter.ValuatorId
+            searchSpec.Filter.ValuatorId,
+            orderBy: orderBy
         );
             
         return _questionRepository.GetByIds(

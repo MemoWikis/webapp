@@ -36,7 +36,7 @@ public class AnswerQuestionController : BaseController
 
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question));
 
-        _saveQuestionView.Run(id, _sessionUser.User.Id);
+        _saveQuestionView.Run(question, _sessionUser.User.Id);
 
         return View(_viewLocation, 
             new AnswerQuestionModel(
@@ -66,7 +66,7 @@ public class AnswerQuestionController : BaseController
         var questionValuation = _questionValuation.GetBy(question.Id, _sessionUser.User.Id);
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question));
 
-        _saveQuestionView.Run(question.Id, _sessionUser.User.Id);
+        _saveQuestionView.Run(question, _sessionUser.User.Id);
 
         return View(_viewLocation, 
             new AnswerQuestionModel(

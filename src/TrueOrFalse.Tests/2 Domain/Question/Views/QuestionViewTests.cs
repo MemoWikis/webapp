@@ -31,12 +31,12 @@ namespace TrueOrFalse.Tests
                     .AddQuestion("QuestionA", "AnswerA").AddCategory("A")
                     .Persist();
 
-            var questionId = contextQuestion.All[0].Id;
-            Resolve<SaveQuestionView>().Run(questionId, 2);
-            Resolve<SaveQuestionView>().Run(questionId, 2);
+            var question = contextQuestion.All[0];
+            Resolve<SaveQuestionView>().Run(question, 2);
+            Resolve<SaveQuestionView>().Run(question, 2);
             Resolve<ISession>().Evict(contextQuestion.All[0]);
 
-            Assert.That(Resolve<QuestionRepository>().GetById(questionId).TotalViews, Is.EqualTo(2));
+            Assert.That(Resolve<QuestionRepository>().GetById(question.Id).TotalViews, Is.EqualTo(2));
         }
     }
 }
