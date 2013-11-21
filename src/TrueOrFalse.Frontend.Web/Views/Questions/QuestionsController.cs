@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate.Criterion;
 using Seedworks.Lib;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Search;
 
@@ -17,42 +19,16 @@ public class QuestionsController : BaseController
         _questionsControllerSearch = questionsControllerSearch;
     }
 
-    public ActionResult OrderByPersonalRelevance(int? page, QuestionsModel model){
-        _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByPersonalRelevance.Desc();
-        return Questions(page, model);
-    }
-
-    public ActionResult OrderByQuality(int? page, QuestionsModel model){
-        _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByQuality.Desc();
-        return Questions(page, model);
-    }
-
-    public ActionResult OrderByCreationDate(int? page, QuestionsModel model){
-        _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByCreationDate.Desc();
-        return Questions(page, model);
-    }
-
-    public ActionResult OrderByViews(int? page, QuestionsModel model){
-        _sessionUiData.SearchSpecQuestionAll.OrderBy.OrderByViews.Desc();
-        return Questions(page, model);
-    }
-
-    public ActionResult QuestionSearch(string searchTerm, QuestionsModel model, int? page)
+    public ActionResult QuestionSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
     {
-        if (_sessionUiData.SearchSpecQuestionAll.Filter.SearchTerm != searchTerm) 
-            _sessionUiData.SearchSpecQuestionAll.CurrentPage = 1;
-        
-        _sessionUiData.SearchSpecQuestionAll.Filter.SearchTerm = model.SearchTerm = searchTerm;
-        return Questions(page, model);
+        SetSearchSearchTerm(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
+        return Questions(page, model, orderBy);
     }
 
     [SetMenu(MenuEntry.Questions)]
-    public ActionResult Questions(int? page, QuestionsModel model)
+    public ActionResult Questions(int? page, QuestionsModel model, string orderBy)
     {
-        _sessionUiData.SearchSpecQuestionAll.PageSize = 10;
-
-        if (page.HasValue) 
-            _sessionUiData.SearchSpecQuestionAll.CurrentPage = page.Value;
+        SetSearchSpecVars(_sessionUiData.SearchSpecQuestionAll, page, model, orderBy);
 
         return View("Questions",
             new QuestionsModel(
@@ -62,22 +38,16 @@ public class QuestionsController : BaseController
                 isTabAllActive: true));
     }
 
-    public ActionResult QuestionsMineSearch(string searchTerm, QuestionsModel model, int? page)
+    public ActionResult QuestionsMineSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
     {
-        if (_sessionUiData.SearchSpecQuestionMine.Filter.SearchTerm != searchTerm)
-            _sessionUiData.SearchSpecQuestionMine.CurrentPage = 1;
-
-        _sessionUiData.SearchSpecQuestionMine.Filter.SearchTerm = model.SearchTerm = searchTerm;
-        return QuestionsMine(page, model);
+        SetSearchSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
+        return QuestionsMine(page, model, orderBy);
     }
 
     [SetMenu(MenuEntry.Questions)]
-    public ActionResult QuestionsMine(int? page, QuestionsModel model)
+    public ActionResult QuestionsMine(int? page, QuestionsModel model, string orderBy)
     {
-        if (page.HasValue)
-            _sessionUiData.SearchSpecQuestionMine.CurrentPage = page.Value;
-
-        _sessionUiData.SearchSpecQuestionMine.Filter.CreatorId = _sessionUser.User.Id;
+        SetSearchSpecVars(_sessionUiData.SearchSpecQuestionMine, page, model, orderBy);
 
         return View("Questions",
             new QuestionsModel(
@@ -87,22 +57,16 @@ public class QuestionsController : BaseController
                 isTabMineActive: true));
     }
 
-    public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel    model, int? page)
+    public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
     {
-        if (_sessionUiData.SearchSpecQuestionWish.Filter.SearchTerm != searchTerm) 
-            _sessionUiData.SearchSpecQuestionWish.CurrentPage = 1;
-
-        _sessionUiData.SearchSpecQuestionWish.Filter.SearchTerm = model.SearchTerm = searchTerm;
-        return QuestionsWish(page, model);
+        SetSearchSearchTerm(_sessionUiData.SearchSpecQuestionWish, model, searchTerm);
+        return QuestionsWish(page, model, orderBy);
     }
 
     [SetMenu(MenuEntry.Questions)]
-    public ActionResult QuestionsWish(int? page, QuestionsModel model)
+    public ActionResult QuestionsWish(int? page, QuestionsModel model, string orderBy)
     {
-        if (page.HasValue)
-            _sessionUiData.SearchSpecQuestionWish.CurrentPage = page.Value;
-
-        _sessionUiData.SearchSpecQuestionWish.Filter.ValuatorId = _sessionUser.User.Id;
+        SetSearchSpecVars(_sessionUiData.SearchSpecQuestionWish, page, model, orderBy);
 
         return View("Questions",
             new QuestionsModel(
@@ -159,5 +123,34 @@ public class QuestionsController : BaseController
             QuestionsAddedCount = result.AmountAddedQuestions,
             QuestionAlreadyInSet = result.AmountOfQuestionsAlreadyInSet
         }};
+    }
+
+    public void SetSearchSearchTerm(QuestionSearchSpec searchSpec, QuestionsModel model, string searchTerm)
+    {
+        if (searchSpec.Filter.SearchTerm != searchTerm)
+            searchSpec.CurrentPage = 1;
+
+        searchSpec.Filter.SearchTerm = model.SearchTerm = searchTerm;        
+    }
+
+    public void SetSearchSpecVars(QuestionSearchSpec searchSpec, int? page, QuestionsModel model, string orderBy, string defaultOrder = "byViews")
+    {
+        searchSpec.PageSize = 10;
+
+        if (page.HasValue)
+            searchSpec.CurrentPage = page.Value;
+
+        SetOrderBy(searchSpec, orderBy, defaultOrder);        
+    }
+
+    public void SetOrderBy(QuestionSearchSpec searchSpec, string orderByCommand, string defaultOrder)
+    {
+        if (searchSpec.OrderBy.Current == null && String.IsNullOrEmpty(orderByCommand))
+            orderByCommand = defaultOrder;
+
+        if (orderByCommand == "byRelevance") searchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+        else if (orderByCommand == "byQuality") searchSpec.OrderBy.OrderByQuality.Desc();
+        else if (orderByCommand == "byDateCreated") searchSpec.OrderBy.OrderByCreationDate.Desc();
+        else if (orderByCommand == "byViews") searchSpec.OrderBy.OrderByViews.Desc();
     }
 }

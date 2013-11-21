@@ -1,5 +1,4 @@
-﻿
-<%@ Page Title="Fragen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
+﻿<%@ Page Title="Fragen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -88,14 +87,26 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<%= Url.Action("OrderByPersonalRelevance", "Questions") %>"><% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent())
-                                                                                                        { %><i class="icon-ok"></i> <% } %>Merken</a></li>
-                            <li><a href="<%= Url.Action("OrderByQuality", "Questions") %>"><% if (Model.OrderBy.OrderByQuality.IsCurrent())
-                                                                                              { %><i class="icon-ok"></i> <% } %>Qualität</a></li>
-                            <li><a href="<%= Url.Action("OrderByCreationDate", "Questions") %>"><% if (Model.OrderBy.OrderByCreationDate.IsCurrent())
-                                                                                                   { %><i class="icon-ok"></i> <% } %>Erstellungsdatum</a></li>
-                            <li><a href="<%= Url.Action("OrderByViews", "Questions") %>"><% if (Model.OrderBy.OrderByViews.IsCurrent())
-                                                                                            { %><i class="icon-ok"></i> <% } %>Ansichten</a></li>
+                            <li>
+                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>">
+                                    <% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){ %><i class="icon-ok"></i> <% } %>Merken
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuality" %>">
+                                    <% if (Model.OrderBy.OrderByQuality.IsCurrent()){ %><i class="icon-ok"></i> <% } %>Qualität
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDateCreated" %>">
+                                    <% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){ %><i class="icon-ok"></i> <% } %>Erstellungsdatum
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byViews" %>">
+                                    <% if (Model.OrderBy.OrderByViews.IsCurrent()){ %><i class="icon-ok"></i> <% } %>Ansichten
+                                </a>
+                            </li>
                             <li class="divider"></li>
                             <li><a href="#">Empfehlungen</a></li>
                         </ul>
@@ -137,6 +148,5 @@
         </div>
     </div>
 </div>
-    
-  
+
 </asp:Content>
