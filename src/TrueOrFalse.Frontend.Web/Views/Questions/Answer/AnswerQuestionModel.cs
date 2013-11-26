@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using MarkdownSharp;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
@@ -56,6 +57,7 @@ public class AnswerQuestionModel : BaseModel
         PageCurrent = searchSpec.CurrentPage.ToString();
         PagesTotal = searchSpec.PageCount.ToString();
         PagerKey = searchSpec.Key;
+        PagerKeyOverviewPage = searchSpec.KeyOverviewPage;
         HasPreviousPage = searchSpec.HasPreviousPage();
         HasNextPage = searchSpec.HasNextPage();
 
@@ -103,6 +105,7 @@ public class AnswerQuestionModel : BaseModel
     public string PageCurrent;
     public string PagesTotal;
     public string PagerKey;
+    public string PagerKeyOverviewPage;
     
     public string TotalQualityAvg;
     public string TotalQualityEntries;

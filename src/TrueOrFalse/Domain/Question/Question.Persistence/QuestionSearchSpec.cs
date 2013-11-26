@@ -10,6 +10,7 @@ namespace TrueOrFalse
     public class QuestionSearchSpec : SearchSpecificationBase<QuestionFilter, QuestionOrderBy>
     {
         public string Key;
+        public string KeyOverviewPage;
     }
 
     [Serializable]
