@@ -32,7 +32,7 @@ public class QuestionsController : BaseController
 
         return View("Questions",
             new QuestionsModel(
-                _questionsControllerSearch.Run(model, _sessionUiData.SearchSpecQuestionAll), 
+                _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionAll), 
                 _sessionUiData.SearchSpecQuestionAll, 
                 _sessionUser.User.Id,
                 isTabAllActive: true));
@@ -52,7 +52,7 @@ public class QuestionsController : BaseController
 
         return View("Questions",
             new QuestionsModel(
-                _questionsControllerSearch.Run(model, _sessionUiData.SearchSpecQuestionMine),
+                _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionMine),
                 _sessionUiData.SearchSpecQuestionMine, 
                 _sessionUser.User.Id,
                 isTabMineActive: true));
@@ -72,7 +72,7 @@ public class QuestionsController : BaseController
 
         return View("Questions",
             new QuestionsModel(
-                _questionsControllerSearch.Run(model, _sessionUiData.SearchSpecQuestionWish),
+                _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionWish),
                 _sessionUiData.SearchSpecQuestionWish,
                 _sessionUser.User.Id,
                 isTabWishActice: true));

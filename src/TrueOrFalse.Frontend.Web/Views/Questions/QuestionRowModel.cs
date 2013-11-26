@@ -43,7 +43,8 @@ public class QuestionRowModel
         TotalPerUser totalForUser, 
         QuestionValuation questionValuation,
         int indexInResultSet, 
-        int currentUserid) 
+        int currentUserid,
+        string pagerKey) 
     {
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;
@@ -52,7 +53,7 @@ public class QuestionRowModel
         CreatorUrlName = UriSegmentFriendlyUser.Run(question.Creator.Name);
         CreatorId = question.Creator.Id;
 
-        AnswerQuestionLink = urlHelper => Links.AnswerQuestion(urlHelper, question, indexInResultSet);
+        AnswerQuestionLink = urlHelper => Links.AnswerQuestion(urlHelper, question, indexInResultSet, pagerKey);
         UserLink = urlHelper => Links.UserDetail(urlHelper, question.Creator.Name, question.Creator.Id);
 
         AnswersAllCount = question.TotalAnswers();

@@ -56,7 +56,8 @@ public class QuestionsModel : BaseModel
                                     totalsForCurrentUser.ByQuestionId(question.Id),
                                     NotNull.Run(questionValutionsForCurrentUser.ByQuestionId(question.Id)),
                                     ((questionSearchSpec.CurrentPage - 1) * questionSearchSpec.PageSize) + ++counter, 
-                                    currentUserId
+                                    currentUserId,
+                                    QuestionSearchSpecSession.GetKey(ActiveTabAll, ActiveTabMine, ActiveTabWish)
                                   );
 
         TotalQuestionsInSystem = Resolve<GetTotalQuestionCount>().Run();

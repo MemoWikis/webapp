@@ -7,33 +7,19 @@ using TrueOrFalse.Web.Context;
 public class AnswerQuestionControllerSearch : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionRepository _questionRepository;
-    private readonly SessionUiData _sessionUiData;
     private readonly SearchQuestions _searchQuestions;
 
     public AnswerQuestionControllerSearch(
         QuestionRepository questionRepository,
-        SessionUiData sessionUiData,
         SearchQuestions searchQuestions)
     {
         _questionRepository = questionRepository;
-        _sessionUiData = sessionUiData;
         _searchQuestions = searchQuestions;
     }
 
-    public Question Run()
+    public Question Run(QuestionSearchSpec searchSpec)
     {
-        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecQuestionAll.Filter.SearchTerm))
-            return _questionRepository.GetBy(_sessionUiData.SearchSpecQuestionAll).Single();
-
-        return SearchFromSOLR();
-    }
-
-    public Question SearchFromSOLR()
-    {
-        var questionIds = _searchQuestions.Run(
-            _sessionUiData.SearchSpecQuestionAll.Filter.SearchTerm, _sessionUiData.SearchSpecQuestionAll).QuestionIds;
-
+        var questionIds = _searchQuestions.Run(searchSpec).QuestionIds.ToArray();
         return _questionRepository.GetById(questionIds[0]);
     }
-
 }

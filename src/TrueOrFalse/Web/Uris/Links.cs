@@ -32,13 +32,13 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string QuestionsMine(UrlHelper url) { return url.Action(QuestionsMineAction, QuestionsController); }
         public static string QuestionsWish(UrlHelper url) { return url.Action(QuestionsWishAction, QuestionsController); }
 
-        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1){
-            return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage);
+        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = ""){
+            return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey);
         }
 
-        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1){
+        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = ""){
             return url.Action("Answer", AnswerQuestionController,
-                new { text = UriSegmentFriendlyQuestion.Run(questionText), id = questionId, elementOnPage = paramElementOnPage }, null);
+                new { text = UriSegmentFriendlyQuestion.Run(questionText), id = questionId, elementOnPage = paramElementOnPage, pager = pagerKey }, null);
         }
 
         public static string UserDetail(UrlHelper url, User user){

@@ -88,7 +88,7 @@
                 <div class="" id="divAnsweredCorrect" style="display: none; float:left; margin-top:5px; width: 250px;">
                     <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
                 </div>
-                <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>" id="btnNext" class="btn btn-success btnRight">N&auml;chste Frage</a>
+                <a href="<%= Url.Action("Next", Links.AnswerQuestionController, new {pager = Model.PagerKey}) %>" id="btnNext" class="btn btn-success btnRight">N&auml;chste Frage</a>
             </div>
             <div id="buttons-edit-answer" style="display: none;">
                 <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
@@ -157,11 +157,11 @@
     <div class="span2">
         <div class="headerLinks" style="margin-top:8px; line-height: 25px;">
             <% if(Model.HasPreviousPage){ %> 
-                <a href="<%= Url.Action("Previous", Links.AnswerQuestionController) %>"><i class="icon-arrow-left"></i></a>
+                <a href="<%= Url.Action("Previous", Links.AnswerQuestionController, new {pager = Model.PagerKey}) %>"><i class="icon-arrow-left"></i></a>
             <% } %>
             <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
-            <% if (Model.HasNextPage) { %>
-                <a href="<%= Url.Action("Next", Links.AnswerQuestionController) %>"><i class="icon-arrow-right"></i> </a>
+            <% if (Model.HasNextPage) { %>  
+                <a href="<%= Url.Action("Next", Links.AnswerQuestionController, new {pager = Model.PagerKey}) %>"><i class="icon-arrow-right"></i> </a>
             <% } %>
         </div>            
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using FluentNHibernate.Utils;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
@@ -29,12 +30,14 @@ public class AnswerQuestionController : BaseController
     }
 
     [SetMenu(MenuEntry.QuestionDetail)]
-    public ActionResult Answer(string text, int id, int elementOnPage)
+    public ActionResult Answer(string text, int id, int elementOnPage, string pager)
     {
         var question = _questionRepository.GetById(id);
         var questionValuation = _questionValuation.GetBy(id, _sessionUser.User.Id);
 
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question));
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
 
         _saveQuestionView.Run(question, _sessionUser.User.Id);
 
@@ -42,38 +45,39 @@ public class AnswerQuestionController : BaseController
             new AnswerQuestionModel(
                 question,
                 _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
-                NotNull.Run(questionValuation), 
-                _sessionUiData.SearchSpecQuestionAll, 
+                NotNull.Run(questionValuation),
+                activeSearchSpec,
                 elementOnPage)
         );
     }
 
-    public ActionResult Next()
+    public ActionResult Next(string pager)
     {
-        _sessionUiData.SearchSpecQuestionAll.NextPage(1);
-        return GetViewByCurrentSearchSpec();
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+        activeSearchSpec.NextPage(1);
+        return GetViewByCurrentSearchSpec(activeSearchSpec, pager);
     }
 
-    public ActionResult Previous()
+    public ActionResult Previous(string pager)
     {
-        _sessionUiData.SearchSpecQuestionAll.PreviousPage(1);
-        return GetViewByCurrentSearchSpec();
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+        activeSearchSpec.PreviousPage(1);
+        return GetViewByCurrentSearchSpec(activeSearchSpec, pager);
     }
 
-    private ActionResult GetViewByCurrentSearchSpec()
+    private ActionResult GetViewByCurrentSearchSpec(QuestionSearchSpec searchSpec, string pagerKey)
     {
-        var question = Resolve<AnswerQuestionControllerSearch>().Run();
+        var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
         var questionValuation = _questionValuation.GetBy(question.Id, _sessionUser.User.Id);
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question));
-
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question,searchSpec));
         _saveQuestionView.Run(question, _sessionUser.User.Id);
 
         return View(_viewLocation, 
             new AnswerQuestionModel(
                 question, 
                 _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
-                NotNull.Run(questionValuation), 
-                _sessionUiData.SearchSpecQuestionAll)
+                NotNull.Run(questionValuation),
+                searchSpec)
         );
     }
 

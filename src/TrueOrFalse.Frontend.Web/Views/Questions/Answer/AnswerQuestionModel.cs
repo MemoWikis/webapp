@@ -15,11 +15,9 @@ public class AnswerQuestionModel : BaseModel
     public AnswerQuestionModel(Question question, 
                                TotalPerUser valuationForUser, 
                                QuestionValuation questionValuationForUser, 
-                               QuestionSearchSpec questionSearchSpec, 
+                               QuestionSearchSpec searchSpec, 
                                int elementOnPage = -1) : this()
     {
-        
-
         Creator = question.Creator;
         CreatorId = question.Creator.Id.ToString();
         CreatorName = question.Creator.Name;
@@ -51,14 +49,15 @@ public class AnswerQuestionModel : BaseModel
         TotalRelevancePersonalAvg = question.TotalRelevancePersonalAvg.ToString();
         TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries.ToString();
 
-        questionSearchSpec.PageSize = 1;
+        searchSpec.PageSize = 1;
         if (elementOnPage != -1)
-            questionSearchSpec.CurrentPage = elementOnPage;
+            searchSpec.CurrentPage = elementOnPage;
 
-        PageCurrent = questionSearchSpec.CurrentPage.ToString();
-        PagesTotal = questionSearchSpec.PageCount.ToString();
-        HasPreviousPage = questionSearchSpec.HasPreviousPage();
-        HasNextPage = questionSearchSpec.HasNextPage();
+        PageCurrent = searchSpec.CurrentPage.ToString();
+        PagesTotal = searchSpec.PageCount.ToString();
+        PagerKey = searchSpec.Key;
+        HasPreviousPage = searchSpec.HasPreviousPage();
+        HasNextPage = searchSpec.HasNextPage();
 
         AverageAnswerTime = "";
 
@@ -103,6 +102,7 @@ public class AnswerQuestionModel : BaseModel
 
     public string PageCurrent;
     public string PagesTotal;
+    public string PagerKey;
     
     public string TotalQualityAvg;
     public string TotalQualityEntries;

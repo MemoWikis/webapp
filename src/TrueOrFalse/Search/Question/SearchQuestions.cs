@@ -13,6 +13,23 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
+        public SearchQuestionsResult Run(QuestionSearchSpec searchSpec)
+        {
+            var orderBy = SearchQuestionsOrderBy.None;
+            if (searchSpec.OrderBy.OrderByQuality.IsCurrent()) orderBy = SearchQuestionsOrderBy.Quality;
+            else if (searchSpec.OrderBy.OrderByViews.IsCurrent()) orderBy = SearchQuestionsOrderBy.Views;
+            else if (searchSpec.OrderBy.OrderByCreationDate.IsCurrent()) orderBy = SearchQuestionsOrderBy.DateCreated;
+            else if (searchSpec.OrderBy.OrderByPersonalRelevance.IsCurrent()) orderBy = SearchQuestionsOrderBy.Valuation;
+
+            return Run(
+                searchSpec.Filter.SearchTerm,
+                searchSpec,
+                searchSpec.Filter.CreatorId,
+                searchSpec.Filter.ValuatorId,
+                orderBy: orderBy
+            );
+        }
+
         public SearchQuestionsResult Run(string searchTerm){
             return Run(searchTerm, new Pager());
         }
