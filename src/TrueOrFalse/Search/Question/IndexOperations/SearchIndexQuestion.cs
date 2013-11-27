@@ -39,16 +39,13 @@ namespace TrueOrFalse.Search
         public void Update(Question question, bool commitDelayed = false)
         {
             if (!commitDelayed)
-            {
-                _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));
-                _solrOperations.Commit();
-            }
+                _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));    
             else
-            {
                 _solrOperations.Add(
                     ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)),
                     new AddParameters { CommitWithin = 10000 });
-            }
+
+            _solrOperations.Commit();
         }
 
         public void Delete(Question question)

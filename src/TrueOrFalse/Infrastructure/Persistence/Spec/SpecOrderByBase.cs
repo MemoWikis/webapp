@@ -6,6 +6,7 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class SpecOrderByBase : OrderByCriteria
     {
         public OrderBy Created;

@@ -16,12 +16,16 @@ public class QuestionsModel : BaseModel
     public int TotalWishKnowledge;
     public int TotalQuestionsInResult;
     public int TotalQuestionsInSystem;
+    public int TotalQuestionsMine;
+
     public string OrderByLabel;
     public QuestionOrderBy OrderBy;
 
     public bool ActiveTabAll;
     public bool ActiveTabMine;
     public bool ActiveTabWish;
+
+    public string Action;
 
     public QuestionsModel(){
         QuestionRows = Enumerable.Empty<QuestionRowModel>();
@@ -52,11 +56,13 @@ public class QuestionsModel : BaseModel
                                     totalsForCurrentUser.ByQuestionId(question.Id),
                                     NotNull.Run(questionValutionsForCurrentUser.ByQuestionId(question.Id)),
                                     ((questionSearchSpec.CurrentPage - 1) * questionSearchSpec.PageSize) + ++counter, 
-                                    currentUserId
+                                    currentUserId,
+                                    QuestionSearchSpecSession.GetKey(ActiveTabAll, ActiveTabMine, ActiveTabWish)
                                   );
 
-        TotalQuestionsInSystem = Sl.Resolve<GetTotalQuestionCount>().Run();
-        TotalWishKnowledge = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id);
+        TotalQuestionsInSystem = Resolve<GetTotalQuestionCount>().Run();
+        TotalQuestionsMine = Resolve<GetTotalQuestionCount>().Run(_sessionUser.User.Id);
+        TotalWishKnowledge = Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id);
 
         TotalQuestionsInResult = questionSearchSpec.TotalItems;
 
@@ -71,13 +77,13 @@ public class QuestionsModel : BaseModel
                                     .ToList();
 
         if (ActiveTabAll){
-            Pager.Action = Links.Questions;
+            Pager.Action = Action = Links.Questions;
             SearchUrl = "/Fragen/Suche/";
         }else if (ActiveTabWish){
-            Pager.Action = Links.QuestionsWishAction;
+            Pager.Action = Action = Links.QuestionsWishAction;
             SearchUrl = "/Fragen/Wunschwissen/Suche/";
         }else if (ActiveTabMine){
-            Pager.Action = Links.QuestionsMineAction;
+            Pager.Action = Action = Links.QuestionsMineAction;
             SearchUrl = "/Fragen/Meine/Suche/";
         }
     }

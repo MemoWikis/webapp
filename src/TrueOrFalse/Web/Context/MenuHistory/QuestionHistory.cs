@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentNHibernate.Utils;
 
 namespace TrueOrFalse
 {
@@ -15,9 +16,14 @@ namespace TrueOrFalse
         public int Id { get; private set; }
         public string Text { get; private set; }
         public HistoryItemType Type { get; set; }
+        public QuestionSearchSpec SearchSpec { get; set; }
 
-        public QuestionHistoryItem(Question question, HistoryItemType type = HistoryItemType.Any)
+        public QuestionHistoryItem(
+            Question question, 
+            QuestionSearchSpec seachSpec,
+            HistoryItemType type = HistoryItemType.Any)
         {
+            SearchSpec = seachSpec.DeepClone();
             Id = question.Id;
             Text = question.Text;
             Type = type;

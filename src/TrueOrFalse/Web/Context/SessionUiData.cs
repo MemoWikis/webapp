@@ -33,6 +33,7 @@ namespace TrueOrFalse.Web.Context
         public QuestionSearchSpec SearchSpecQuestionAll{ get { return Data.Get("searchSpecQuestionAll", new QuestionSearchSpec { PageSize = 10 }); } }
         public QuestionSearchSpec SearchSpecQuestionMine { get { return Data.Get("searchSpecQuestionMine", new QuestionSearchSpec { PageSize = 10 }); } }
         public QuestionSearchSpec SearchSpecQuestionWish { get { return Data.Get("searchSpecQuestionWish", new QuestionSearchSpec { PageSize = 10 }); } }
+        public List<QuestionSearchSpec> SearchSpecQuestions { get { return Data.Get("searchSpecQuestions", new List<QuestionSearchSpec>()); } } 
 
         public SetSearchSpec SearchSpecSetAll{ get { return Data.Get("searchSpecSetAll", new SetSearchSpec { PageSize = 10 }); } }
         public SetSearchSpec SearchSpecSetMine { get { return Data.Get("searchSpecSetMine", new SetSearchSpec { PageSize = 10 }); } }

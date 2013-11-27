@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Seedworks.Lib.Persistence;
-using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
-    public class QuestionSearchSpec : SearchSpecificationBase<QuestionFilter, QuestionOrderBy>{}
+    [Serializable]
+    public class QuestionSearchSpec : SearchSpecificationBase<QuestionFilter, QuestionOrderBy>
+    {
+        public string Key;
+        public string KeyOverviewPage;
+    }
 
+    [Serializable]
     public class QuestionFilter : ConditionContainer
     {
         public string SearchTerm;
@@ -15,6 +21,7 @@ namespace TrueOrFalse
         public int ValuatorId = -1;
     }
 
+    [Serializable]
     public class QuestionOrderBy : SpecOrderByBase
     {
         public OrderBy OrderByPersonalRelevance;
