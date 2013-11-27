@@ -25,7 +25,7 @@ namespace TrueOrFalse
             if (_sessionUiData.SearchSpecQuestions.Any(x => x.Key == key))
                 return _sessionUiData.SearchSpecQuestions.First(x => x.Key == key);
 
-            QuestionSearchSpec activeSearchSpec = null;                
+            QuestionSearchSpec activeSearchSpec;                
             if (key == "mine")
                 activeSearchSpec = _sessionUiData.SearchSpecQuestionMine;
             else if (key == "wish")
@@ -33,10 +33,16 @@ namespace TrueOrFalse
             else
                 activeSearchSpec = _sessionUiData.SearchSpecQuestionAll;
 
-            var result = activeSearchSpec.DeepClone();
+            activeSearchSpec.KeyOverviewPage = key;
+
+            return CloneAndAddToSession(activeSearchSpec);
+        }
+
+        public static QuestionSearchSpec CloneAndAddToSession(QuestionSearchSpec searchSpec)
+        {
+            var result = searchSpec.DeepClone();
             result.Key = Guid.NewGuid().ToString();
-            result.KeyOverviewPage = key;
-            _sessionUiData.SearchSpecQuestions.Add(result);
+            Sl.Resolve<SessionUiData>().SearchSpecQuestions.Add(result);
             return result;
         }
 

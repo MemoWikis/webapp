@@ -23,7 +23,7 @@ namespace TrueOrFalse
             QuestionSearchSpec seachSpec,
             HistoryItemType type = HistoryItemType.Any)
         {
-            SearchSpec = seachSpec.DeepClone();
+            SearchSpec = QuestionSearchSpecSession.CloneAndAddToSession(seachSpec);
             Id = question.Id;
             Text = question.Text;
             Type = type;

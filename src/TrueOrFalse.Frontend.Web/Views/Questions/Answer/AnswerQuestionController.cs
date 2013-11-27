@@ -29,13 +29,17 @@ public class AnswerQuestionController : BaseController
         _saveQuestionView = saveQuestionView;
     }
 
-    [SetMenu(MenuEntry.QuestionDetail)]
-    public ActionResult Answer(string text, int id, int elementOnPage, string pager)
-    {
-        var question = _questionRepository.GetById(id);
-        var questionValuation = _questionValuation.GetBy(id, _sessionUser.User.Id);
 
+    [SetMenu(MenuEntry.QuestionDetail)]
+    public ActionResult Answer(string text, int? id, int? elementOnPage, string pager)
+    {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+        
+        if(text == null && id == null && elementOnPage == null)
+            return GetViewBySearchSpec(activeSearchSpec, pager);
+
+        var question = _questionRepository.GetById((int)id);
+        var questionValuation = _questionValuation.GetBy((int)id, _sessionUser.User.Id);
 
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
 
@@ -47,7 +51,7 @@ public class AnswerQuestionController : BaseController
                 _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
                 NotNull.Run(questionValuation),
                 activeSearchSpec,
-                elementOnPage)
+                (int)elementOnPage)
         );
     }
 
@@ -55,17 +59,17 @@ public class AnswerQuestionController : BaseController
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.NextPage(1);
-        return GetViewByCurrentSearchSpec(activeSearchSpec, pager);
+        return GetViewBySearchSpec(activeSearchSpec, pager);
     }
 
     public ActionResult Previous(string pager)
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.PreviousPage(1);
-        return GetViewByCurrentSearchSpec(activeSearchSpec, pager);
+        return GetViewBySearchSpec(activeSearchSpec, pager);
     }
 
-    private ActionResult GetViewByCurrentSearchSpec(QuestionSearchSpec searchSpec, string pagerKey)
+    private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec, string pagerKey)
     {
         var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
         var questionValuation = _questionValuation.GetBy(question.Id, _sessionUser.User.Id);

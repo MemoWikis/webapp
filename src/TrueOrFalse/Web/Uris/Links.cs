@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
@@ -31,6 +32,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string QuestionsAll(UrlHelper url) { return url.Action(Questions, QuestionsController); }
         public static string QuestionsMine(UrlHelper url) { return url.Action(QuestionsMineAction, QuestionsController); }
         public static string QuestionsWish(UrlHelper url) { return url.Action(QuestionsWishAction, QuestionsController); }
+
+        public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec)
+        {
+            return url.Action("Answer", AnswerQuestionController, new {pager = searchSpec.Key});
+        }
 
         public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = ""){
             return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey);
