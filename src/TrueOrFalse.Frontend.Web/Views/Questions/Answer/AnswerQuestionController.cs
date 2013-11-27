@@ -38,8 +38,12 @@ public class AnswerQuestionController : BaseController
     {
         var set = Resolve<SetRepository>().GetById(setId);
         var question = _questionRepository.GetById(questionId);
+        return AnswerSet(set, question);
+    }
 
-        return View(_viewLocation, new AnswerQuestionModel( set, question));
+    public ActionResult AnswerSet(Set set, Question question )
+    {
+        return View(_viewLocation, new AnswerQuestionModel(set, question));
     }
 
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager)
@@ -57,15 +61,25 @@ public class AnswerQuestionController : BaseController
         return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec, (int)elementOnPage));
     }
 
-    public ActionResult Next(string pager)
+    public ActionResult Next(string pager, int? setId, int? questionId)
     {
+        if (setId != null && questionId != null){
+            var set = Resolve<SetRepository>().GetById((int)setId);
+            return AnswerSet(set, set.QuestionsInSet.GetNextTo((int) questionId).Question);
+        }
+
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.NextPage(1);
         return GetViewBySearchSpec(activeSearchSpec, pager);
     }
 
-    public ActionResult Previous(string pager)
+    public ActionResult Previous(string pager, int? setId, int? questionId)
     {
+        if (setId != null && questionId != null){
+            var set = Resolve<SetRepository>().GetById((int)setId);
+            return AnswerSet(set, set.QuestionsInSet.GetPreviousTo((int)questionId).Question);
+        }
+
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.PreviousPage(1);
         return GetViewBySearchSpec(activeSearchSpec, pager);

@@ -43,7 +43,7 @@ public class AnswerQuestionModel : BaseModel
         PageCurrent = pageCurrent.ToString();
         PagesTotal = pagesTotal.ToString();
 
-        HasPreviousPage = pageCurrent > 0;
+        HasPreviousPage = pageCurrent > 1;
         HasNextPage = pageCurrent < pagesTotal;
 
         NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });

@@ -22,5 +22,17 @@ namespace TrueOrFalse
 
             return result;
         }
+
+        public static QuestionInSet GetNextTo(this IEnumerable<QuestionInSet> questionsInSets, int questionId)
+        {
+            var index = questionsInSets.GetIndex(questionId);
+            return questionsInSets.ToList()[index + 1];
+        }
+
+        public static QuestionInSet GetPreviousTo(this IEnumerable<QuestionInSet> questionsInSets, int questionId)
+        {
+            var index = questionsInSets.GetIndex(questionId);
+            return questionsInSets.ToList()[index - 1];
+        }
     }
 }
