@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Policy;
 using System.Web.Mvc;
 using MarkdownSharp;
 using Seedworks.Lib.Persistence;
@@ -13,12 +14,49 @@ public class AnswerQuestionModel : BaseModel
 {
     public AnswerQuestionModel(){}
 
-    public AnswerQuestionModel(Question question, 
-                               TotalPerUser valuationForUser, 
-                               QuestionValuation questionValuationForUser, 
-                               QuestionSearchSpec searchSpec, 
-                               int elementOnPage = -1) : this()
+    public Func<UrlHelper, string> PreviousUrl;
+    public Func<UrlHelper, string> NextUrl;
+
+    public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec, int elementOnPage = -1) : this()
     {
+        searchSpec.PageSize = 1;
+        if (elementOnPage != -1)
+            searchSpec.CurrentPage = elementOnPage;
+
+        PageCurrent = searchSpec.CurrentPage.ToString();
+        PagesTotal = searchSpec.PageCount.ToString();
+        PagerKey = searchSpec.Key;
+        PagerKeyOverviewPage = searchSpec.KeyOverviewPage;
+        HasPreviousPage = searchSpec.HasPreviousPage();
+        HasNextPage = searchSpec.HasNextPage();
+
+        NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new {pager = PagerKey});
+        PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new {pager = PagerKey});
+
+        Populate(question);
+    }
+
+    public AnswerQuestionModel(Set set, Question question) : this()
+    {
+        int pageCurrent = set.QuestionsInSet.GetIndex(question.Id) + 1;
+        int pagesTotal = set.QuestionsInSet.Count;
+        PageCurrent = pageCurrent.ToString();
+        PagesTotal = pagesTotal.ToString();
+
+        HasPreviousPage = pageCurrent > 0;
+        HasNextPage = pageCurrent < pagesTotal;
+
+        NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
+        PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
+
+        Populate(question);
+    }
+
+    private void Populate(Question question)
+    {
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, _sessionUser.User.Id));
+        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.User.Id, question.Id);
+
         Creator = question.Creator;
         CreatorId = question.Creator.Id.ToString();
         CreatorName = question.Creator.Name;
@@ -50,22 +88,10 @@ public class AnswerQuestionModel : BaseModel
         TotalRelevancePersonalAvg = question.TotalRelevancePersonalAvg.ToString();
         TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries.ToString();
 
-        searchSpec.PageSize = 1;
-        if (elementOnPage != -1)
-            searchSpec.CurrentPage = elementOnPage;
-
-        PageCurrent = searchSpec.CurrentPage.ToString();
-        PagesTotal = searchSpec.PageCount.ToString();
-        PagerKey = searchSpec.Key;
-        PagerKeyOverviewPage = searchSpec.KeyOverviewPage;
-        HasPreviousPage = searchSpec.HasPreviousPage();
-        HasNextPage = searchSpec.HasNextPage();
-
         AverageAnswerTime = "";
 
         AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
-
 
         ImageUrl_500px = QuestionImageSettings.Create(question.Id).GetUrl_128px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
@@ -153,5 +179,4 @@ public class AnswerQuestionModel : BaseModel
 
     public bool HasPreviousPage;
     public bool HasNextPage;
-    
 }

@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
-    Inherits="System.Web.Mvc.ViewPage<SetModel>" Title="Fragesatz" %>
+    Inherits="ViewPage<SetModel>" Title="Fragesatz" %>
 
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -27,7 +27,7 @@
                     <div style="margin-bottom: 5px;">
                         <img src="/Images/no-question-50.png" width="32" style="vertical-align: top;" />
                         <div style="display: inline-block; width: 385px; line-height: 15px; height: 32px; overflow:hidden;">
-                            <%= index %> <a href="<%= Links.AnswerQuestion(Url, questionInSet.Question, 0) %>"><%=questionInSet.Question.Text %></a>    
+                            <%= index %> <a href="<%= Links.AnswerQuestion(Url, questionInSet.Question, Model.Set) %>"><%=questionInSet.Question.Text %></a>    
                         </div>
                         <div class="show-tooltip active" data-placement="right" 
                                 data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest. Schnitt: 71% "

@@ -10,49 +10,51 @@ using TrueOrFalse.Web.Context;
 public class AnswerQuestionController : BaseController
 {
     private readonly QuestionRepository _questionRepository;
-    private readonly QuestionValuationRepository _questionValuation;
-    private readonly TotalsPersUserLoader _totalsPerUserLoader;
+
     private readonly AnswerQuestion _answerQuestion;
     private readonly SaveQuestionView _saveQuestionView;
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
     public AnswerQuestionController(QuestionRepository questionRepository,
-                                    QuestionValuationRepository questionValuation,
-                                    TotalsPersUserLoader totalsPerUserLoader,
                                     AnswerQuestion answerQuestion,
                                     SaveQuestionView saveQuestionView)
     {
         _questionRepository = questionRepository;
-        _questionValuation = questionValuation;
-        _totalsPerUserLoader = totalsPerUserLoader;
         _answerQuestion = answerQuestion;
         _saveQuestionView = saveQuestionView;
     }
 
 
     [SetMenu(MenuEntry.QuestionDetail)]
-    public ActionResult Answer(string text, int? id, int? elementOnPage, string pager)
+    public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId)
+    {
+        if (setId != null && questionId != null)
+            return AnswerSet((int)setId, (int)questionId);
+
+        return AnswerQuestion(text, id, elementOnPage, pager);
+    }
+
+    public ActionResult AnswerSet(int setId, int questionId)
+    {
+        var set = Resolve<SetRepository>().GetById(setId);
+        var question = _questionRepository.GetById(questionId);
+
+        return View(_viewLocation, new AnswerQuestionModel( set, question));
+    }
+
+    public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager)
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        
-        if(text == null && id == null && elementOnPage == null)
+
+        if (text == null && id == null && elementOnPage == null)
             return GetViewBySearchSpec(activeSearchSpec, pager);
 
         var question = _questionRepository.GetById((int)id);
-        var questionValuation = _questionValuation.GetBy((int)id, _sessionUser.User.Id);
 
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
-
         _saveQuestionView.Run(question, _sessionUser.User.Id);
 
-        return View(_viewLocation, 
-            new AnswerQuestionModel(
-                question,
-                _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
-                NotNull.Run(questionValuation),
-                activeSearchSpec,
-                (int)elementOnPage)
-        );
+        return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec, (int)elementOnPage));
     }
 
     public ActionResult Next(string pager)
@@ -72,17 +74,10 @@ public class AnswerQuestionController : BaseController
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec, string pagerKey)
     {
         var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
-        var questionValuation = _questionValuation.GetBy(question.Id, _sessionUser.User.Id);
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question,searchSpec));
         _saveQuestionView.Run(question, _sessionUser.User.Id);
 
-        return View(_viewLocation, 
-            new AnswerQuestionModel(
-                question, 
-                _totalsPerUserLoader.Run(_sessionUser.User.Id, question.Id),
-                NotNull.Run(questionValuation),
-                searchSpec)
-        );
+        return View(_viewLocation, new AnswerQuestionModel(question, searchSpec));
     }
 
     [HttpPost]

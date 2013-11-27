@@ -16,6 +16,5 @@ namespace TrueOrFalse
         public virtual Set Set { get; set; }
         public virtual Question Question { get; set; }
         public virtual int Sort { get; set; }
-
     }
 }

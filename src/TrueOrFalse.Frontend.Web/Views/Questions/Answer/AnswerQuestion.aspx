@@ -88,7 +88,7 @@
                 <div class="" id="divAnsweredCorrect" style="display: none; float:left; margin-top:5px; width: 250px;">
                     <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
                 </div>
-                <a href="<%= Url.Action("Next", Links.AnswerQuestionController, new {pager = Model.PagerKey}) %>" id="btnNext" class="btn btn-success btnRight">N&auml;chste Frage</a>
+                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success btnRight">N&auml;chste Frage</a>
             </div>
             <div id="buttons-edit-answer" style="display: none;">
                 <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
@@ -106,7 +106,7 @@
             .val .valRow .valColumn2{ <%--background-color: red;--%> width: 190px; height: 20px;padding-top: 3px; }
             .val .valRow .valColumn2 .ui-slider{ width: 140px;float: left; }
             .val .valRow .valColumn2 .imgDelete{ margin-top: -2px;padding-left: 5px; float: left; }
-            .val .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0px;padding-left: 5px; float: left; }    
+            .val .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0px;padding-left: 5px; float: left; }
         </style>
 
         <div class=" val" style="padding-top:20px; width: 400px;">
@@ -153,17 +153,17 @@
         </div>
 
     </div>
-        
+
     <div class="span2">
         <div class="headerLinks" style="margin-top:8px; line-height: 25px;">
-            <% if(Model.HasPreviousPage){ %> 
-                <a href="<%= Url.Action("Previous", Links.AnswerQuestionController, new {pager = Model.PagerKey}) %>"><i class="icon-arrow-left"></i></a>
+            <% if(Model.HasPreviousPage){ %>
+                <a href="<%= Model.PreviousUrl(Url) %>"><i class="icon-arrow-left"></i></a>
             <% } %>
             <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
-            <% if (Model.HasNextPage) { %>  
-                <a href="<%= Url.Action("Next", Links.AnswerQuestionController, new {pager = Model.PagerKey}) %>"><i class="icon-arrow-right"></i> </a>
+            <% if (Model.HasNextPage) { %>
+                <a href="<%= Model.NextUrl(Url) %>"><i class="icon-arrow-right"></i> </a>
             <% } %>
-        </div>            
+        </div>
 
         <p style="padding-top: 0px;">
             von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><br />
@@ -185,7 +185,7 @@
     <div class="span2" style="height: 400px;">
         <div style="padding-top:12px;">
             <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>"><i class="icon-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
-            <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>                                        
+            <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>
         </div>            
             
         <p style="padding-top: 43px;">
