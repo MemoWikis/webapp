@@ -9,7 +9,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="span10">
+    <div class="col-md-10">
         
         <div style="margin-bottom: -10px;">
             <% Html.Message(Model.Message); %>

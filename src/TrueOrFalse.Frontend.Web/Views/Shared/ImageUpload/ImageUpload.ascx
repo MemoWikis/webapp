@@ -33,7 +33,7 @@
         
             <div style="margin-top: 10px;">
                 <label style="position: relative; top: 5px;">Wikipedia URL:</label>
-                <input class="span2" id="txtWikimediaUrl" type="text" placeholder="http://" style="width: 350px;">
+                <input class="col-md-2" id="txtWikimediaUrl" type="text" placeholder="http://" style="width: 350px;">
 
                 <div class="hide" style="padding-left:101px; margin-top: 5px;" id="divWikimediaSpinner">
                     <i class="icon-spinner icon-spin icon-2x pull-left"></i><span style="position: relative; top: 1px;">Vorschau wird geladen</span>

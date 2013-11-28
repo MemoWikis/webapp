@@ -68,12 +68,12 @@
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row-fluid">
-        <div class="span8 temp4">
+        <div class="col-md-8 temp4">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp6">
+        <div class="col-md-4 temp6">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -89,12 +89,12 @@
      <div style="height: 100px;"></div> 
 
     <div class="row-fluid">
-        <div class="span8 temp4">
+        <div class="col-md-8 temp4">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp3">
+        <div class="col-md-4 temp3">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -112,12 +112,12 @@
      
     
     <div class="row-fluid">
-        <div class="span8 temp5">
+        <div class="col-md-8 temp5">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp5">
+        <div class="col-md-4 temp5">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -133,12 +133,12 @@
      <div style="height: 100px;"></div> 
 
     <div class="row-fluid">
-        <div class="span8 temp3">
+        <div class="col-md-8 temp3">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp3">
+        <div class="col-md-4 temp3">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -154,12 +154,12 @@
      <div style="height: 100px;"></div>   
 
     <div class="row-fluid">
-        <div class="span8 temp2">
+        <div class="col-md-8 temp2">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp2">
+        <div class="col-md-4 temp2">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -175,12 +175,12 @@
     <div style="height: 100px;"></div>   
 
     <div class="row-fluid">
-        <div class="span8 temp1">
+        <div class="col-md-8 temp1">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp1">
+        <div class="col-md-4 temp1">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">

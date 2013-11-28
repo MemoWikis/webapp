@@ -44,7 +44,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="span6">
+    <div class="col-md-6">
         <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:10px; font-size: 22px;">
             <%= Model.QuestionText %>
         </p>
@@ -112,10 +112,10 @@
         <div class=" val" style="padding-top:20px; width: 400px;">
                 
             <div class="valRow" style="border-bottom: 1px solid silver; margin-bottom: 5px;">
-                <div class="valColumn1 span3">
+                <div class="valColumn1 col-md-3">
                     <h4>Allgemeine Einschätzung</h4>
                 </div>
-                <div class="valColumn2 span2">
+                <div class="valColumn2 col-md-2">
                     <h4>Meine Einschätzung</h4>
                 </div>
             </div>
@@ -124,11 +124,11 @@
             
             <% foreach (var row in Model.FeedbackRows){ %>
                 <div class="valRow">
-                    <div class="valColumn1 span3">
+                    <div class="valColumn1 col-md-3">
                         <%= row.Title %>: <i class="icon-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
                     </div>
                         
-                    <div id="div<%= row.Key%>Slider" class="valColumn2 span2" <% if(!row.HasUserValue){ %> style="display:none"  <% } %> >
+                    <div id="div<%= row.Key%>Slider" class="valColumn2 col-md-2" <% if(!row.HasUserValue){ %> style="display:none"  <% } %> >
                         <div id="slider<%= row.Key %>" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
                             <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                             <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
@@ -136,7 +136,7 @@
                         <a href="#" id="remove<%= row.Key %>Value"><img src="/Images/delete.png" class="imgDelete"></a>
                         <span id="slider<%= row.Key %>Value" class="valMine"><%= row.UserValue%></span>
                     </div>
-                    <div id="div<%= row.Key %>Add" class="valColumn2 span2" <% if(row.HasUserValue){ %> style="display:none"  <% } %>>
+                    <div id="div<%= row.Key %>Add" class="valColumn2 col-md-2" <% if(row.HasUserValue){ %> style="display:none"  <% } %>>
                         <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="icon-plus"></i> ---</a>
                     </div>
 
@@ -154,7 +154,7 @@
 
     </div>
         
-    <div class="span2">
+    <div class="col-md-2">
         <div class="headerLinks" style="margin-top:8px; line-height: 25px;">
             <% if(Model.HasPreviousPage){ %> 
                 <a href="<%= Url.Action("Previous", Links.AnswerQuestionController, new {pager = Model.PagerKey}) %>"><i class="icon-arrow-left"></i></a>
@@ -182,7 +182,7 @@
 
     </div>
         
-    <div class="span2" style="height: 400px;">
+    <div class="col-md-2" style="height: 400px;">
         <div style="padding-top:12px;">
             <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>"><i class="icon-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
             <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>                                        

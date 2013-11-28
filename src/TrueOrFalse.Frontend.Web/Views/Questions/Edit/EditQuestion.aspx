@@ -22,11 +22,11 @@
 <div class="todo-temp">
 </div>
 
-<div class="span10">
+<div class="col-md-10">
     
 <div class="row">
 
-<div class="span10">
+<div class="col-md-10">
     <div>
         <% Html.Message(Model.Message); %>
     </div>

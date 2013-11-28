@@ -10,7 +10,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div class="span7" style="">
+    <div class="col-md-7" style="">
         <div class="box box-main">
 
             <h2 class="pull-left" style="padding-top:3px; padding-bottom: 5px; padding-left: 0px; margin-left:0px;  font-size: 30px;"><%= Model.Name %></h2>
@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <div class="span3" >
+    <div class="col-md-3" >
         <div class="box">
             <img alt="" style="width: 200px;" src="<%=Model.ImageUrl_200 %>" />
             <% if (Model.IsCurrentUser){ %>  

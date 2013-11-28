@@ -4,10 +4,10 @@
     
     
 <div class="row" style="padding-top:30px;">
-    <div class="span2" style="padding-top:7px;">
+    <div class="col-md-2" style="padding-top:7px;">
         <i class="icon-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
     </div>
-    <div class="form-horizontal span10">
+    <div class="form-horizontal col-md-10">
         
         <div class="well">
             <h2>Unsere Unternehmung soll dem Gemeinwohl dienen. </h2>

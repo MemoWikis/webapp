@@ -8,9 +8,9 @@
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
 <div class="row">
-    <div class="span12">
+    <div class="col-md-12">
         <div class="row">
-            <div class="span8">
+            <div class="col-md-8">
                 <div class="box box_darkblue">
                     <div class="box-content">
                         <h1>
@@ -165,7 +165,7 @@
                 
             </div>
             
-            <div class="span4">
+            <div class="col-md-4">
                 <div class="box" style="padding: 20px; height: 180px;">
                     <div style="width: 222px; margin-left: auto; margin-right: auto;" >
                         <!--<h2>Login</h2>-->           

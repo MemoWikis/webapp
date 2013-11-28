@@ -47,7 +47,7 @@
 
 </style>
 
-<div class="span10" id="questionSetContainer" data-id="<%: Model.Id %>">
+<div class="col-md-10" id="questionSetContainer" data-id="<%: Model.Id %>">
     
     <div style="margin-bottom: -10px;">
         <% Html.Message(Model.Message); %>
@@ -78,7 +78,7 @@
 
                 <div class="box-content" style="clear: both;">    
                     <div class="row">
-                        <div class="span6">
+                        <div class="col-md-6">
                             <div class="control-group">
                                 <%= Html.LabelFor(m => m.Title, new { @class = "control-label" })%>
                                 <div class="controls">
@@ -149,7 +149,7 @@
                                 </ul>
                             <% } %>
                         </div>
-                        <div class="span3" style="position: relative; left: 25px;">
+                        <div class="col-md-3" style="position: relative; left: 25px;">
                             <div class="box">
                                 <img id="questionSetImg" src="<%= Model.ImageUrl_206px %>" />
                             </div>

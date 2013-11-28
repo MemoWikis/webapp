@@ -9,15 +9,15 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div class="span10">
+    <div class="col-md-10">
     
         <div class="row">
 
-            <div class="span7">
+            <div class="col-md-7">
                 <div class="box" style="min-height: 400px;"></div>
             </div>
             
-            <div class="span3">
+            <div class="col-md-3">
                 <div class="box" style="min-height: 200px;"></div>
             </div>
     
@@ -25,11 +25,11 @@
         
         <div class="row">
 
-            <div class="span8">
+            <div class="col-md-8">
                 <div class="box" style="min-height: 400px;"></div>
             </div>
             
-            <div class="span2">
+            <div class="col-md-2">
                 <div class="box" style="min-height: 200px;"></div>
             </div>
     
