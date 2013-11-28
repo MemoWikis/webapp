@@ -67,7 +67,7 @@
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-md-8 temp4">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
@@ -88,7 +88,7 @@
     
      <div style="height: 100px;"></div> 
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-md-8 temp4">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
@@ -111,7 +111,7 @@
     
      
     
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-md-8 temp5">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
@@ -132,7 +132,7 @@
     
      <div style="height: 100px;"></div> 
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-md-8 temp3">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
@@ -153,7 +153,7 @@
     
      <div style="height: 100px;"></div>   
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-md-8 temp2">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
@@ -174,7 +174,7 @@
     
     <div style="height: 100px;"></div>   
 
-    <div class="row-fluid">
+    <div class="row">
         <div class="col-md-8 temp1">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
