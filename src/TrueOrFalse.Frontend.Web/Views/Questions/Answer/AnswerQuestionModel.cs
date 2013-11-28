@@ -12,10 +12,75 @@ using TrueOrFalse.Web;
 
 public class AnswerQuestionModel : BaseModel
 {
-    public AnswerQuestionModel(){}
-
     public Func<UrlHelper, string> PreviousUrl;
     public Func<UrlHelper, string> NextUrl;
+
+    public string QuestionId;
+    public User Creator;
+    public string CreatorId { get; private set; }
+    public string CreatorName { get; private set; }
+
+    public string PageCurrent;
+    public string PagesTotal;
+    public string PagerKey;
+    public string PagerKeyOverviewPage;
+
+    public string TotalQualityAvg;
+    public string TotalQualityEntries;
+    public string TotalRelevanceForAllAvg;
+    public string TotalRelevanceForAllEntries;
+    public string TotalRelevancePersonalAvg;
+    public string TotalRelevancePersonalEntries;
+    public string SolutionType;
+    public object SolutionModel;
+    public string ImageUrl_500px;
+    public string SoundUrl;
+    public IList<FeedbackRowModel> FeedbackRows;
+    public int TotalViews;
+
+    public int TimesAnsweredUser;
+    public int TimesAnsweredUserTrue;
+    public int TimesAnsweredUserWrong;
+
+    public bool HasImage
+    {
+        get { return !string.IsNullOrEmpty(ImageUrl_500px); }
+    }
+
+    public bool HasSound
+    {
+        get { return !string.IsNullOrEmpty(SoundUrl); }
+    }
+
+    public string CreationDateNiceText { get; private set; }
+    public string CreationDate { get; private set; }
+
+    public int TimesAnsweredTotal { get; private set; }
+    public int PercenctageCorrectAnswers { get; private set; }
+    public int TimesAnsweredCorrect { get; private set; }
+    public int TimesAnsweredWrongTotal { get; private set; }
+    public int TimesJumpedOver { get; private set; }
+
+    public string AverageAnswerTime { get; private set; }
+
+    public string QuestionText { get; private set; }
+    public string QuestionTextMarkdown { get; private set; }
+
+    public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
+    public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
+
+    public bool HasPreviousPage;
+    public bool HasNextPage;
+
+    public bool SourceIsTabAll;
+    public bool SourceIsTabMine;
+    public bool SourceIsTabWish;
+
+    public bool SourceIsSet;
+
+    public Set Set;
+         
+    public AnswerQuestionModel() { }
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec, int elementOnPage = -1) : this()
     {
@@ -33,6 +98,10 @@ public class AnswerQuestionModel : BaseModel
         NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new {pager = PagerKey});
         PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new {pager = PagerKey});
 
+        SourceIsTabAll = QuestionSearchSpecSession.KeyPagerAll == searchSpec.KeyOverviewPage;
+        SourceIsTabMine = QuestionSearchSpecSession.KeyPagerMine == searchSpec.KeyOverviewPage;
+        SourceIsTabWish = QuestionSearchSpecSession.KeyPagerWish == searchSpec.KeyOverviewPage;
+
         Populate(question);
     }
 
@@ -48,6 +117,9 @@ public class AnswerQuestionModel : BaseModel
 
         NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
         PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
+
+        SourceIsSet = true;
+        Set = set;
 
         Populate(question);
     }
@@ -122,61 +194,4 @@ public class AnswerQuestionModel : BaseModel
             UserValue = questionValuationForUser.RelevanceForAll.ToString()
         });
     }
-
-    public string QuestionId;
-    public User Creator;
-    public string CreatorId { get; private set; }
-    public string CreatorName { get; private set; }
-
-    public string PageCurrent;
-    public string PagesTotal;
-    public string PagerKey;
-    public string PagerKeyOverviewPage;
-    
-    public string TotalQualityAvg;
-    public string TotalQualityEntries;
-    public string TotalRelevanceForAllAvg;
-    public string TotalRelevanceForAllEntries;
-    public string TotalRelevancePersonalAvg;
-    public string TotalRelevancePersonalEntries;
-    public string SolutionType;
-    public object SolutionModel;
-    public string ImageUrl_500px;
-    public string SoundUrl;
-    public IList<FeedbackRowModel> FeedbackRows;
-    public int TotalViews;
-    
-    public int TimesAnsweredUser;
-    public int TimesAnsweredUserTrue;
-    public int TimesAnsweredUserWrong;
-
-    public bool HasImage
-    {
-        get { return !string.IsNullOrEmpty(ImageUrl_500px); }
-    }
-
-    public bool HasSound
-    {
-        get { return !string.IsNullOrEmpty(SoundUrl); }
-    }
-
-    public string CreationDateNiceText { get; private set; }
-    public string CreationDate { get; private set; }
-
-    public int TimesAnsweredTotal { get; private set; }
-    public int PercenctageCorrectAnswers { get; private set; }
-    public int TimesAnsweredCorrect { get; private set; }
-    public int TimesAnsweredWrongTotal { get; private set; }
-    public int TimesJumpedOver { get; private set; }
-
-    public string AverageAnswerTime { get; private set; }
-
-    public string QuestionText { get; private set; }
-    public string QuestionTextMarkdown { get; private set; }
-
-    public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
-    public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
-
-    public bool HasPreviousPage;
-    public bool HasNextPage;
 }

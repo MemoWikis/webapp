@@ -163,6 +163,12 @@
             <% if (Model.HasNextPage) { %>
                 <a href="<%= Model.NextUrl(Url) %>"><i class="icon-arrow-right"></i> </a>
             <% } %>
+            
+            <% if (Model.SourceIsSet){ %>
+                <a href="<%= Links.SetDetail(Url, Model.Set) %>">
+                    <br/> "<%= Model.Set.Name %>"
+                </a>            
+            <% } %>
         </div>
 
         <p style="padding-top: 0px;">
@@ -184,7 +190,16 @@
         
     <div class="span2" style="height: 400px;">
         <div style="padding-top:12px;">
-            <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>"><i class="icon-list"></i> zur Übersicht</a><br style="line-height: 10px;"/>
+            <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
+                <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
+                    <i class="icon-list"></i> 
+                    <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>
+                    <% if(Model.SourceIsTabMine){ %> meine Fragen <%} %>
+                    <% if(Model.SourceIsTabAll){ %> alle Fragen <%} %>
+                </a>
+                <br style="line-height: 10px;"/>
+            <% } %>            
+            
             <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>
         </div>            
             
