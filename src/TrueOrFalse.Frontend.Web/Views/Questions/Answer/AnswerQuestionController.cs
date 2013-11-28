@@ -43,6 +43,7 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult AnswerSet(Set set, Question question )
     {
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(set, question));
         return View(_viewLocation, new AnswerQuestionModel(set, question));
     }
 

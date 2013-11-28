@@ -35,7 +35,7 @@
         <% var index = 0; foreach (var question in new SessionUiData().VisitedQuestions) { index++ ;%>
                <div class="sub">
                    <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionDetail); } %>
-                   <a href="<%= Links.AnswerQuestion(Url, question.SearchSpec) %>" class="show-tooltip <%=activeClass %>" title="Frage: <%=question.Text %>" data-placement="right">
+                   <a href="<%= question.Link(Url) %>" class="show-tooltip <%=activeClass %>" title="Frage: <%=question.Text %>" data-placement="right">
                        <i class="icon-caret-right"></i> <%=question.Text.Truncate(100)%>
                    </a>
                </div>
