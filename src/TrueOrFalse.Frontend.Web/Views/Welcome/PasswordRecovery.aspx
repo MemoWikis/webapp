@@ -16,7 +16,7 @@
                 <% Html.ValidationSummary(true, "Bitte überprüfen Sie Ihre eingaben");  %>
                                 
                 <div class="alert alert-info">
-                    Wir schicken einen Link an Deine Emailadresse. Folge dem Link und 
+                    Bitte gib Deine Emailadresse ein. Wir schicken einen Link an Deine Emailadresse. Folge dem Link und 
                     Du kannst Dir ein neues Passwort setzen. 
                 </div>
                 
