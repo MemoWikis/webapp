@@ -300,6 +300,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Style\bootstrap.css" />
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
+    <Content Include="Views\favicon.ico" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />
     <Content Include="Views\Help\Willkommen.aspx" />
