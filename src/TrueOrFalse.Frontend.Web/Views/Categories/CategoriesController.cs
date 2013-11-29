@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -18,23 +19,23 @@ public class CategoriesController : BaseController
         _categorySearch = categorySearch;
     }
 
-    public ActionResult Search(string searchTerm, CategoriesModel model)
+    public ActionResult Search(string searchTerm, CategoriesModel model, string orderBy = null)
     {
         _sessionUiData.SearchSpecCategory.SearchTerm = model.SearchTerm = searchTerm;
-        return Categories(null, model);
+        return Categories(null, model, orderBy);
     }
 
 
     [SetMenu(MenuEntry.Categories)]
-    public ActionResult Categories(int? page, CategoriesModel model)
+    public ActionResult Categories(int? page, CategoriesModel model, string orderBy = null)
     {
+        SetCategoriesOrderBy(orderBy);
+
         _sessionUiData.SearchSpecCategory.PageSize = 30;
         if (page.HasValue) 
             _sessionUiData.SearchSpecCategory.CurrentPage = page.Value;
 
-        model.Init(_categorySearch.Run(), _sessionUiData);
-
-        _sessionUiData.SearchSpecCategory.OrderBy.QuestionCount.Desc();
+        model.Init(_categorySearch.Run());
 
         return View(_viewLocation, model);
     }
@@ -53,5 +54,17 @@ public class CategoriesController : BaseController
         };
         
         return Categories(null, model);
-    }    
+    }
+
+    public void SetCategoriesOrderBy(string orderByCommand)
+    {
+        var searchSpec = _sessionUiData.SearchSpecCategory;
+
+        if (searchSpec.OrderBy.Current == null && String.IsNullOrEmpty(orderByCommand))
+            orderByCommand = "byQuestions";
+
+        if (orderByCommand == "byQuestions") searchSpec.OrderBy.QuestionCount.Desc();
+        else if (orderByCommand == "byDate") searchSpec.OrderBy.CreationDate.Desc();
+    }
+
 }

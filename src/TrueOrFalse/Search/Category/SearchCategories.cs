@@ -13,6 +13,15 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
+        public SearchCategoriesResult Run(CategorySearchSpec searchSpec)
+        {
+            var orderBy = SearchCategoriesOrderBy.None;
+            if (searchSpec.OrderBy.QuestionCount.IsCurrent()) orderBy = SearchCategoriesOrderBy.QuestionCount;
+            else if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchCategoriesOrderBy.DateCreated;
+
+            return Run(searchSpec.SearchTerm, searchSpec, orderBy: orderBy);
+        }
+
         public SearchCategoriesResult Run(
             string searchTerm, 
             bool searchStartingWith = false, 
@@ -58,6 +67,6 @@ namespace TrueOrFalse.Search
                 result.CategoryIds.Add(resultItem.Id);
 
             return result;
-        }
+        }       
     }
 }
