@@ -33,5 +33,25 @@ namespace TrueOrFalse.Tests
             var result = solrOperations.Query(new SolrQueryByField("FullTextExact", "Foo"));
             Assert.That(result.Count, Is.EqualTo(1));
         }
+
+        [Test]
+        public void Should_order_search_result()
+        {
+            R<ReIndexAllCategories>().Run();
+
+            var context = ContextCategory.New()
+                .Add("1").QuestionCount(10)
+                .Add("2").QuestionCount(50)
+                .Add("3").QuestionCount(1)
+                .Persist();
+
+            var categories = R<CategoryRepository>().GetByIds(
+                R<SearchCategories>().Run("", orderBy: SearchCategoriesOrderBy.QuestionCount).CategoryIds);
+            
+            Assert.That(categories.Count, Is.EqualTo(3));
+            Assert.That(categories[0].Name, Is.EqualTo("2"));
+            Assert.That(categories[1].Name, Is.EqualTo("1"));
+            Assert.That(categories[2].Name, Is.EqualTo("3"));
+        }
     }
 }

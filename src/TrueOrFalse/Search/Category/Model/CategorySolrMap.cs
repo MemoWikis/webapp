@@ -21,6 +21,9 @@ namespace TrueOrFalse.Search
         [SolrField("Description")]
         public string Description { get; set; }
 
+        [SolrField("QuestionCount")]
+        public int QuestionCount { get; set; }
+
         [SolrField("DateCreated")]
         public DateTime DateCreated { get; set; }
     }

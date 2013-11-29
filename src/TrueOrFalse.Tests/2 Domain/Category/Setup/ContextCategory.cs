@@ -40,6 +40,12 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
+        public ContextCategory QuestionCount(int questionCount)
+        {
+            All.Last().CountQuestions = questionCount;
+            return this;
+        }
+
         public ContextCategory Persist()
         {
             foreach(var cat in All)

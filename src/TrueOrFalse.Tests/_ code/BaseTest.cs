@@ -84,5 +84,10 @@ namespace TrueOrFalse.Tests
         {
             return _container.Resolve<T>();
         }
+
+        public static T R<T>()
+        {
+            return _container.Resolve<T>();
+        }
     }
 }
