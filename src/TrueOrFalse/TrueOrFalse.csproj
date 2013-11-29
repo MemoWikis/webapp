@@ -435,12 +435,24 @@
     <Content Include="Utilities\Update\Scripts\027-new-tbl-setValuations.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\schemaCategory.xml" />
-    <Content Include="Utilities\Update\SolrSchemas\schemaQuestion.xml" />
-    <Content Include="Utilities\Update\SolrSchemas\schemaSet.xml" />
-    <Content Include="Utilities\Update\SolrSchemas\schemaUser.xml" />
-    <Content Include="Utilities\Update\SolrSchemas\solr.xml" />
-    <Content Include="Utilities\Update\SolrSchemas\solrconfig.xml" />
+    <Content Include="Utilities\Update\SolrSchemas\schemaCategory.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\SolrSchemas\schemaQuestion.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\SolrSchemas\schemaSet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\SolrSchemas\schemaUser.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\SolrSchemas\solr.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\SolrSchemas\solrconfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
