@@ -201,63 +201,71 @@
     </div>
     
     <%--MODAL IMPROVE--%>
-    <div id="modalImprove" class="modal hide fade">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">×</button>
-            <h3>Dies Frage verbessern</h3>
-        </div>
-        <div class="modal-body">
-            <div >
-                <p>
-                    Ich bitte darum, dass diese Frage verbessert wird weil: 
-                </p>
-                <ul>
-                    <li><a href="#">Die Frage sollte privat sein.</a></li>
-                    <li><a href="#">Die Quellen sind falsch.</a></li>
-                    <li><a href="#">Die Quellen sind online nicht zu erreichen.</a></li>
-                    <li><a href="#">Die Antwort ist nicht eindeutig.</a></li>
-                    <li><a href="#">... ein anderer Grund.</a></li>
-                </ul>
-            </div>
-            <p>
-                Erläuterung zum Verbesserungsvorschlag (optional).
-            </p>
-            <textarea style="width: 500px;" rows="3"></textarea>
+    <div id="modalImprove" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Dies Frage verbessern</h3>
+                </div>
+                <div class="modal-body">
+                    <div >
+                        <p>
+                            Ich bitte darum, dass diese Frage verbessert wird weil: 
+                        </p>
+                        <ul>
+                            <li><a href="#">Die Frage sollte privat sein.</a></li>
+                            <li><a href="#">Die Quellen sind falsch.</a></li>
+                            <li><a href="#">Die Quellen sind online nicht zu erreichen.</a></li>
+                            <li><a href="#">Die Antwort ist nicht eindeutig.</a></li>
+                            <li><a href="#">... ein anderer Grund.</a></li>
+                        </ul>
+                    </div>
+                    <p>
+                        Erläuterung zum Verbesserungsvorschlag (optional).
+                    </p>
+                    <textarea style="width: 500px;" rows="3"></textarea>
             
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal" id="btnCloseQuestionDelete">Schliessen</a>
-            <a href="#" class="btn btn-primary btn-success" id="confirmQuestionDelete">Absenden</a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" id="btnCloseQuestionDelete">Schliessen</a>
+                    <a href="#" class="btn btn-primary btn-success" id="confirmQuestionDelete">Absenden</a>
+                </div>
+            </div>
         </div>
     </div>
     
     <%--MODAL DELETE--%>
-    <div id="modalDelete" class="modal hide fade">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">×</button>
-            <h3>Dies Frage bitte löschen</h3>
-        </div>
-        <div class="modal-body">
-            <div >
-                <p>
-                    Ich bitte darum, dass diese Frage gelöscht wird weil: 
-                </p>
-                <ul>
-                    <li><a href="#">Die Frage ist Beleidigend, abwertend oder rassistisch.</a></li>
-                    <li><a href="#">Urheberrechte werden verletzt.</a></li>
-                    <li><a href="#">Es handelt sich um Spam.</a></li>
-                    <li><a href="#">... ein anderer Grund.</a></li>
-                </ul>
-            </div>
-            <p>
-                Weiter Erläuterung (optional).
-            </p>
-            <textarea style="width: 500px;" rows="3"></textarea>
+    <div id="modalDelete" class="modal fade">
+         <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Dies Frage bitte löschen</h3>
+                </div>
+                <div class="modal-body">
+                    <div >
+                        <p>
+                            Ich bitte darum, dass diese Frage gelöscht wird weil: 
+                        </p>
+                        <ul>
+                            <li><a href="#">Die Frage ist Beleidigend, abwertend oder rassistisch.</a></li>
+                            <li><a href="#">Urheberrechte werden verletzt.</a></li>
+                            <li><a href="#">Es handelt sich um Spam.</a></li>
+                            <li><a href="#">... ein anderer Grund.</a></li>
+                        </ul>
+                    </div>
+                    <p>
+                        Weiter Erläuterung (optional).
+                    </p>
+                    <textarea style="width: 500px;" rows="3"></textarea>
             
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal" id="A1">Schliessen</a>
-            <a href="#" class="btn btn-primary btn-danger" id="A2">Absenden</a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" id="A1">Schliessen</a>
+                    <a href="#" class="btn btn-primary btn-danger" id="A2">Absenden</a>
+                </div>
+            </div>
         </div>
     </div>
 

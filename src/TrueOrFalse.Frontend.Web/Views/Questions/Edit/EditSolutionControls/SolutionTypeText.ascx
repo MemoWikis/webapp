@@ -66,24 +66,28 @@
 
 <% /* MODAL-TAB-INFO****************************************************************/ %>
     
-<div id="modalHelpSolutionType" class="modal hide fade">
-    <div class="modal-header">
-        <button class="close" data-dismiss="modal">×</button>
-        <h3>Erklärung Lösungseigenschaften</h3>
-    </div>
-    <div class="modal-body">
-        <h2>Groß- und Kleinschreibung</h2>
-        <p>
-            Wenn "ignorieren" gewählt, dann wird bei der Eingabe die Groß- und Kleinschreibung ignoriert.
-        </p>
-        <h2>Exakte Schreibweise</h2>
-        <p>
-            Ist "Exakte Schreibweise" gewählt, dann muss für eine korrekte Beantwortung die Eingabe exakt der Antwort entsprechen.
-        </p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh ok, nun gut.</a>
-        <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
+<div id="modalHelpSolutionType" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">×</button>
+                <h3>Erklärung Lösungseigenschaften</h3>
+            </div>
+            <div class="modal-body">
+                <h2>Groß- und Kleinschreibung</h2>
+                <p>
+                    Wenn "ignorieren" gewählt, dann wird bei der Eingabe die Groß- und Kleinschreibung ignoriert.
+                </p>
+                <h2>Exakte Schreibweise</h2>
+                <p>
+                    Ist "Exakte Schreibweise" gewählt, dann muss für eine korrekte Beantwortung die Eingabe exakt der Antwort entsprechen.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh ok, nun gut.</a>
+                <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
+            </div>
+        </div>
     </div>
 </div>
 

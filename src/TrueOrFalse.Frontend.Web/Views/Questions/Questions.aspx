@@ -131,17 +131,21 @@
     
             <% /* MODAL-TAB-INFO-MyKnowledge****************************************************************/ %>
     
-            <div id="modalTabInfoMyKnowledge" class="modal hide fade">
-                <div class="modal-header">
-                    <button class="close" data-dismiss="modal">×</button>
-                    <h3>Hilfe: Tab - Mein Wunschwissen</h3>
-                </div>
-                <div class="modal-body">
-                    Es werden nur die Fragen gezeigt, die Du Dir <b>merken</b> möchtest, also Fragen deren Antworten zu Deinem Wunschwissen gehören. 
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh, nicht ganz klar.</a>
-                    <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
+            <div id="modalTabInfoMyKnowledge" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal">×</button>
+                            <h3>Hilfe: Tab - Mein Wunschwissen</h3>
+                        </div>
+                        <div class="modal-body">
+                            Es werden nur die Fragen gezeigt, die Du Dir <b>merken</b> möchtest, also Fragen deren Antworten zu Deinem Wunschwissen gehören. 
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh, nicht ganz klar.</a>
+                            <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         
