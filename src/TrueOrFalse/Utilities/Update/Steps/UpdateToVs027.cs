@@ -9,7 +9,7 @@ namespace TrueOrFalse.Updates
         public static void Run()
         {
             ServiceLocator.Resolve<ExecuteSqlFile>().Run(
-                ScriptPath.Get("027-new-tbl-setValuations.sql"));
+                PathTo.Scrips("027-new-tbl-setValuations.sql"));
         }
     }
 }

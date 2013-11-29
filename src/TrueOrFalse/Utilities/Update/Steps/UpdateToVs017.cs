@@ -9,7 +9,7 @@ namespace TrueOrFalse.Updates
         public static void Run()
         {
             ServiceLocator.Resolve<ExecuteSqlFile>().Run(
-                ScriptPath.Get("017-new-tbl-imageMetaData.sql"));
+                PathTo.Scrips("017-new-tbl-imageMetaData.sql"));
         }
     }
 }

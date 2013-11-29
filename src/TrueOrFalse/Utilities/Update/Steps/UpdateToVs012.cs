@@ -8,7 +8,7 @@ namespace TrueOrFalse.Updates
         public static void Run()
         {
             ServiceLocator.Resolve<ExecuteSqlFile>().Run(
-                ScriptPath.Get("012-new-tbl-passwordRecoveryToken.sql"));
+                PathTo.Scrips("012-new-tbl-passwordRecoveryToken.sql"));
         }
     }
 }

@@ -9,14 +9,16 @@ namespace TrueOrFalse.Infrastructure
 {
     public static class ReadOverwrittenConfig
     {
-        public static ReadOverwrittenConfigValueResult ConnectionString()
-        {
+        public static ReadOverwrittenConfigValueResult ConnectionString(){
             return Value("connectionString");
         }
 
-        public static ReadOverwrittenConfigValueResult SolrUrl()
-        {
+        public static ReadOverwrittenConfigValueResult SolrUrl(){
             return Value("sorlUrl");
+        }
+
+        public static ReadOverwrittenConfigValueResult SolrPath(){
+            return Value("pathToSolr");
         }
 
         private static ReadOverwrittenConfigValueResult Value(string itemName)

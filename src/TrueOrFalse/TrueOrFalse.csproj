@@ -369,7 +369,8 @@
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
-    <Compile Include="Utilities\Update\Scripts\ScriptPath.cs" />
+    <Compile Include="Utilities\Update\Scripts\SolrCoreReload.cs" />
+    <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs028.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs027.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs026.cs" />
@@ -434,6 +435,12 @@
     <Content Include="Utilities\Update\Scripts\027-new-tbl-setValuations.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Utilities\Update\SolrSchemas\schemaCategory.xml" />
+    <Content Include="Utilities\Update\SolrSchemas\schemaQuestion.xml" />
+    <Content Include="Utilities\Update\SolrSchemas\schemaSet.xml" />
+    <Content Include="Utilities\Update\SolrSchemas\schemaUser.xml" />
+    <Content Include="Utilities\Update\SolrSchemas\solr.xml" />
+    <Content Include="Utilities\Update\SolrSchemas\solrconfig.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

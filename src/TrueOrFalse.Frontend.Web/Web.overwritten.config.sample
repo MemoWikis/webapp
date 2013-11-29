@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <connectionString>Server=WIN-CBLM93MS62S\SQLEXPRESS;Database=TrueOrFalse;uid=TrueOrFalse;pwd=jklaem34jkl3</connectionString>
-  <add key="SolrUrl" value="http://localhost:8081/solr/"/>
+  <sorlUrl>http://localhost:8080/solr/</sorlUrl>
+  <pathToSolr>C:/BitNami/apache-solr/solr</pathToSolr>
 </configuration>
