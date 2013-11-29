@@ -26,7 +26,7 @@
                         <label class="checkbox" style="width: auto">
                             <input type="checkbox">Exakte Schreibweise
                         </label>
-                        <i class="icon-question-sign cursor-hand" id="help"></i>
+                        <i class="fa fa-question-circle cursor-hand" id="help"></i>
                     </div>
                     <div style="clear: both"></div>
                 </div>

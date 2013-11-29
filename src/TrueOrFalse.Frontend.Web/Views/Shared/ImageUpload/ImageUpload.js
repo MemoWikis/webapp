@@ -150,7 +150,7 @@ var SaveWikipediaImage = (function () {
             fnOnSave(wikiMediaPreview.ImageThumbUrl);
             $("#modalImageUpload").modal("hide");
         }
-    };
+    }
     return SaveWikipediaImage;
 })();
 var SaveUploadedImage = (function () {
@@ -173,6 +173,6 @@ var SaveUploadedImage = (function () {
             fnOnSave(imageThumbUrl);
             $("#modalImageUpload").modal("hide");
         }
-    };
+    }
     return SaveUploadedImage;
 })();

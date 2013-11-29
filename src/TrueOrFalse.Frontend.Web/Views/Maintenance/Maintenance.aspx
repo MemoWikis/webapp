@@ -9,33 +9,33 @@
     
         <h4>Fragen</h4>
         <a class="btn btn-default" href="<%= Url.Action("RecalculateAllKnowledgeItems", "Maintenance") %>">
-            <i class="icon-retweet"></i>
+            <i class="fa fa-retweet"></i>
             Alle Antwortwahrscheinlichkeiten neu berechnen
         </a><br/><br/>
         <a class="btn btn-default" href="<%= Url.Action("CalcAggregatedValues", "Maintenance") %>">
-            <i class="icon-retweet"></i>
+            <i class="fa fa-retweet"></i>
             Aggregierte Zahlen für Fragen aktualisieren
         </a>
     
         <h4>Kategorien</h4>
         <a class="btn btn-default" href="<%= Url.Action("UpdateFieldQuestionCountForCategories", "Maintenance") %>">
-            <i class="icon-retweet"></i>
+            <i class="fa fa-retweet"></i>
             Feld: AnzahlFragen pro Kategorie aktualisieren
         </a>
     
         <h4>Suche</h4>
         Alle
         <a class="btn btn-default" href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>">
-            <i class="icon-retweet"></i>Fragen 
+            <i class="fa fa-retweet"></i>Fragen 
         </a> /
         <a class="btn btn-default" href="<%= Url.Action("ReIndexAllSets", "Maintenance") %>">
-            <i class="icon-retweet"></i>Fragesätze
+            <i class="fa fa-retweet"></i>Fragesätze
         </a> /
         <a class="btn btn-default" href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>">
-            <i class="icon-retweet"></i>Kategorien
+            <i class="fa fa-retweet"></i>Kategorien
         </a> /
         <a class="btn btn-default" href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>">
-            <i class="icon-retweet"></i>Nutzer
+            <i class="fa fa-retweet"></i>Nutzer
         </a>        
         für Suche neu indizieren
         <br/><br/>

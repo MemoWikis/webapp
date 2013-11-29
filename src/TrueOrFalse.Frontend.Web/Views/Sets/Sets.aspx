@@ -14,7 +14,7 @@
     
             <div style="float: right;">
                 <a href="<%= Url.Action("Create", "EditSet") %>" style="width: 140px" class="btn btn-default">
-                    <i class="icon-plus-sign"></i> Fragesatz erstellen
+                    <i class="fa fa-plus-circle"></i> Fragesatz erstellen
                 </a>
             </div>
             <div class="box-with-tabs">
@@ -29,7 +29,7 @@
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
                             <a href="<%= Links.SetsMine(Url) %>">
                                 Meine Fragesätze (<%= Model.TotalMine %>)
-                                <i class="icon-question-sign show-tooltip" title="Fragesätze die von Dir erstellt wurden"></i>
+                                <i class="fa fa-question-circle show-tooltip" title="Fragesätze die von Dir erstellt wurden"></i>
                             </a>
                         </li>
                     </ul>

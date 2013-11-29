@@ -25,7 +25,7 @@
             <% } %>
         
             <% if(!Model.IsCurrentUser && Model.AllowsSupportiveLogin && Model.IsInstallationLogin){ %>
-                <a href="<%= Links.UserLoginAs(Url, Model.Id) %>" class="show-tooltip" title="Anmelden als dieser Nutzer"> <i class=" icon-share-alt"></i> </a>
+                <a href="<%= Links.UserLoginAs(Url, Model.Id) %>" class="show-tooltip" title="Anmelden als dieser Nutzer"> <i class="fa fa-share"></i> </a>
             <%} %>
             
         </div>        

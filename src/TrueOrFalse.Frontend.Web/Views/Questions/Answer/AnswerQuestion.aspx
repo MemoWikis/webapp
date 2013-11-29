@@ -125,7 +125,7 @@
             <% foreach (var row in Model.FeedbackRows){ %>
                 <div class="valRow">
                     <div class="valColumn1 col-md-3">
-                        <%= row.Title %>: <i class="icon-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
+                        <%= row.Title %>: <i class="fa fa-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
                     </div>
                         
                     <div id="div<%= row.Key%>Slider" class="valColumn2 col-md-2" <% if(!row.HasUserValue){ %> style="display:none"  <% } %> >
@@ -137,7 +137,7 @@
                         <span id="slider<%= row.Key %>Value" class="valMine"><%= row.UserValue%></span>
                     </div>
                     <div id="div<%= row.Key %>Add" class="valColumn2 col-md-2" <% if(row.HasUserValue){ %> style="display:none"  <% } %>>
-                        <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="icon-plus"></i> ---</a>
+                        <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="fa fa-plus"></i> ---</a>
                     </div>
 
                 </div>
@@ -148,8 +148,8 @@
             
         <div class="" style="margin-top: 20px; width: 400px;">
             Die Frage bitte: &nbsp;
-            <a href="#modalImprove" data-toggle="modal"><i class="icon-repeat"></i> verbessern!</a>&nbsp; / 
-            <a href="#modalDelete" data-toggle="modal"><i class="icon-fire"></i> entfernen!</a>
+            <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
+            <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
         </div>
 
     </div>
@@ -157,11 +157,11 @@
     <div class="col-md-2">
         <div class="headerLinks" style="margin-top:8px; line-height: 25px;">
             <% if(Model.HasPreviousPage){ %>
-                <a href="<%= Model.PreviousUrl(Url) %>"><i class="icon-arrow-left"></i></a>
+                <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
             <% } %>
             <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
             <% if (Model.HasNextPage) { %>
-                <a href="<%= Model.NextUrl(Url) %>"><i class="icon-arrow-right"></i> </a>
+                <a href="<%= Model.NextUrl(Url) %>"><i class="fa fa-arrow-right"></i> </a>
             <% } %>
             
             <% if (Model.SourceIsSet){ %>
@@ -178,8 +178,8 @@
             
         <p style="padding-top:12px;">
             Feedback: 
-            <a href="#">4x <i class="icon-repeat"></i></a>
-            <a href="#">2x <i class="icon-fire"></i></a>
+            <a href="#">4x <i class="fa fa-repeat"></i></a>
+            <a href="#">2x <i class="fa fa-fire"></i></a>
         </p>
             
         <p style="width: 150px;">
@@ -192,7 +192,7 @@
         <div style="padding-top:12px;">
             <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
                 <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
-                    <i class="icon-list"></i> 
+                    <i class="fa fa-list"></i> 
                     <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>
                     <% if(Model.SourceIsTabMine){ %> meine Fragen <%} %>
                     <% if(Model.SourceIsTabAll){ %> alle Fragen <%} %>
@@ -200,7 +200,7 @@
                 <br style="line-height: 10px;"/>
             <% } %>            
             
-            <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="icon-pencil"></i> bearbeiten</a>
+            <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="fa fa-pencil"></i> bearbeiten</a>
         </div>            
             
         <p style="padding-top: 43px;">

@@ -15,7 +15,7 @@
             
     <div style="float: right;">
         <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="width: 120px" class="btn btn-default">
-            <i class="icon-plus-sign"></i>
+            <i class="fa fa-plus-circle"></i>
             Frage erstellen
         </a>
     </div>
@@ -30,14 +30,14 @@
                 <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsWish(Url) %>">
                         Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalWishKnowledge %>)</span> 
-                        <i class="icon-question-sign show-tooltip" id="tabInfoMyKnowledge" 
+                        <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
                            title="Wissen das Du jederzeit aktiv nutzen möchtest ist."></i>
                     </a>
                 </li>
                 <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsMine(Url) %>">
                         Meine Fragen (<%= Model.TotalQuestionsMine %>)
-                        <i class="icon-question-sign show-tooltip" title="Fragen die von Dir erstellt wurden."></i>
+                        <i class="fa fa-question-circle show-tooltip" title="Fragen die von Dir erstellt wurden."></i>
                     </a>
                 </li>
             </ul>
@@ -58,7 +58,7 @@
                 <ul class="nav pull-left" style="margin: 0px; margin-left: -3px;">
                     <li class="dropdown" id="menu2">
                         <a class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu2">
-                            <i class="icon-check"></i>
+                            <i class="fa fa-check-square-o"></i>
                             Auswahl <span id="selectionCount"></span>
                             <b class="caret"></b>
                         </a>
@@ -74,10 +74,10 @@
                 </ul>
                 &nbsp;
                 <a href="#" class="btn btn-default btn-xs hide" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
-                    <i class="icon-folder-open"></i> 
+                    <i class="fa fa-folder-open"></i> 
                 </a>&nbsp;
                 <a href="#" class="btn btn-default btn-xs hide" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
-                    <i class="icon-trash"></i> 
+                    <i class="fa fa-trash-o"></i> 
                 </a>
 
                 <ul class="nav pull-right" style="padding-left: 5px; margin: 0px; margin-right: -3px;">
@@ -89,22 +89,22 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>">
-                                    <% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){ %><i class="icon-ok"></i> <% } %>Merken
+                                    <% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Merken
                                 </a>
                             </li>
                             <li>
                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuality" %>">
-                                    <% if (Model.OrderBy.OrderByQuality.IsCurrent()){ %><i class="icon-ok"></i> <% } %>Qualität
+                                    <% if (Model.OrderBy.OrderByQuality.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Qualität
                                 </a>
                             </li>
                             <li>
                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDateCreated" %>">
-                                    <% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){ %><i class="icon-ok"></i> <% } %>Erstellungsdatum
+                                    <% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Erstellungsdatum
                                 </a>
                             </li>
                             <li>
                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byViews" %>">
-                                    <% if (Model.OrderBy.OrderByViews.IsCurrent()){ %><i class="icon-ok"></i> <% } %>Ansichten
+                                    <% if (Model.OrderBy.OrderByViews.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Ansichten
                                 </a>
                             </li>
                             <li class="divider"></li>

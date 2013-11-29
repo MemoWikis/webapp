@@ -37,6 +37,6 @@ label {
 div.control-group.markdown label {
   margin-top: 5px;
 }
-div.control-group span > i.icon-info-sign {
+div.control-group span > i.fa-info-circle {
   color: lightblue;
 }

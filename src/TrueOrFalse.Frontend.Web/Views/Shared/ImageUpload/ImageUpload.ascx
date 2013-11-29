@@ -38,10 +38,10 @@
                         <input class="col-md-2" id="txtWikimediaUrl" type="text" placeholder="http://" style="width: 350px;">
 
                         <div class="hide" style="padding-left:101px; margin-top: 5px;" id="divWikimediaSpinner">
-                            <i class="icon-spinner icon-spin icon-2x pull-left"></i><span style="position: relative; top: 1px;">Vorschau wird geladen</span>
+                            <i class="fa fa-spinner fa-spin fa-2x pull-left"></i><span style="position: relative; top: 1px;">Vorschau wird geladen</span>
                         </div>
                         <div class="hide" style="padding-left:101px; margin-top: 5px;" id="divWikimediaError">
-                            <i class="icon-warning-sign" style="color:orange"></i> Das Bild konnte nicht geladen werden.
+                            <i class="fa fa-warning" style="color:orange"></i> Das Bild konnte nicht geladen werden.
                         </div>
                 
                         <div id="previewWikimediaImage" class="hide" style="padding-left:101px; margin-top:8px;"></div>
@@ -51,7 +51,7 @@
                 <div id="divUpload" class="hide">
                     <div style="margin-top:10px;">
                         <div id="fileUpload" class="btn btn-success">
-                            <i class="icon-upload icon-white"></i> Bild upload (klicke oder verwende drag und drop)
+                            <i class="fa fa-arrow-circle-o-up"></i> Bild upload (klicke oder verwende drag und drop)
                         </div>
                     </div>
         

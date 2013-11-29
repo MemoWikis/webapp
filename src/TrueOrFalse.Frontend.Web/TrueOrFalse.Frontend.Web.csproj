@@ -299,6 +299,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Style\bootstrap.css" />
+    <Content Include="Style\font-awesome.css" />
+    <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\favicon.ico" />
     <Content Include="Views\Help\Reputation.aspx" />
@@ -488,8 +490,8 @@
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
-    <Content Include="Style\font-awesome.css" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
+    <Content Include="Style\font-awesome_old.css" />
+    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.svg" />
     <Content Include="Style\fonts\OFL.txt" />
     <Content Include="Style\form.css">
       <DependentUpon>form.less</DependentUpon>
@@ -642,10 +644,10 @@
     <Content Include="Style\zocial\css\zocial-regular-webfont.ttf" />
     <Content Include="Style\zocial\css\zocial-regular-webfont.woff" />
     <Content Include="Style\zocial\README.md" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.eot" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.ttf" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.woff" />
-    <Content Include="Style\fonts-awesome\FontAwesome.otf" />
+    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.eot" />
+    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.ttf" />
+    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.woff" />
+    <Content Include="Style\fonts-awesome_old_temp\FontAwesome.otf" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.min.js.map">
       <DependentUpon>ImageUpload.js</DependentUpon>
     </Content>
@@ -653,6 +655,10 @@
     <Content Include="Style\form.less" />
     <Content Include="Views\Categories\Categories.less" />
     <Content Include="Views\Categories\Detail\Category.less" />
+    <Content Include="Style\fonts-awesome\fontawesome-webfont.eot" />
+    <Content Include="Style\fonts-awesome\fontawesome-webfont.ttf" />
+    <Content Include="Style\fonts-awesome\fontawesome-webfont.woff" />
+    <Content Include="Style\fonts-awesome\FontAwesome.otf" />
     <None Include="Style\site-debug.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

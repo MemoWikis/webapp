@@ -68,7 +68,7 @@
               <li>
                   14.09.2013: Date mit Mona (18 Fragen )
                   <span id="examSparkle5" style="position: relative; top: 3px; left: 10px"></span>
-                  &nbsp;&nbsp;<i class="icon-thumbs-up" style="color: green;"></i>
+                  &nbsp;&nbsp;<i class="fa fa-thumbs-o-up" style="color: green;"></i>
                   
               </li>
           </ul>

@@ -14,7 +14,7 @@
         var userName = "<%= Model.Username %>";
 
         $(function() {
-            $('.control-label .show-tooltip').append($("<i class='icon-info-sign'></i>"));
+            $('.control-label .show-tooltip').append($("<i class='fa fa-info-circle'></i>"));
         });
     </script>
     
@@ -69,9 +69,9 @@
                 <h1 class="pull-left"><%=Model.FormTitle %></h1>
                 <div class="pull-right">
                     <div>
-                        <a href="<%= Links.Sets(Url) %>" style="font-size: 12px; margin: 0px;"><i class="icon-list"></i>&nbsp;zur Übersicht</a><br/>
+                        <a href="<%= Links.Sets(Url) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a><br/>
                         <% if(Model.Set != null){ %>
-                            <a href="<%= Links.SetDetail(Url, Model.Set) %>" style="font-size: 12px; margin: 0px;"><i class="icon-eye-open"></i>&nbsp;Detailansicht</a> 
+                            <a href="<%= Links.SetDetail(Url, Model.Set) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-eye"></i>&nbsp;Detailansicht</a> 
                         <% } %>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                                     <%foreach(var questionInSet in Model.QuestionsInSet){%>
                                         <li class="ui-state-default" data-id="<%=questionInSet.Id %>">
                                             <div class="questionTools">
-                                                <i class="icon-trash icon deleteButton"></i><br/>
+                                                <i class="fa fa-trash-o icon deleteButton"></i><br/>
                                                 <% if (Model.IsOwner(questionInSet.Question.Creator.Id)){%>
                                                     <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = questionInSet.Question.Id}) %>">
                                                         <img src="/Images/edit.png"/> 

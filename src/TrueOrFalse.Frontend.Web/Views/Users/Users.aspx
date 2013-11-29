@@ -12,7 +12,7 @@
     
             <div style="float: right;">
                 <a href="#" style="width: 140px" class="btn btn-default">
-                    <i class="icon-plus-sign"></i> Benutzer einladen 
+                    <i class="fa fa-plus-circle"></i> Benutzer einladen 
                 </a>
             </div>
             <div class="box-with-tabs">
@@ -21,7 +21,7 @@
                         <li class="active"><a href="#home" >Alle Nutzer (<%= Model.TotalSets %>)</a></li>
                         <li>
                             <a href="#profile">
-                                Mein Netzwerk <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
+                                Mein Netzwerk <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
                             </a>
                         </li>
                     </ul>

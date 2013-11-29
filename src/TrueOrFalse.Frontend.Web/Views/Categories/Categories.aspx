@@ -19,7 +19,7 @@
         
             <div style="float: right;">
                 <a href="<%= Url.Action("Create", "EditCategory") %>" style="width: 140px" class="btn btn-default">
-                    <i class="icon-plus-sign"></i>  Kategorie erstellen
+                    <i class="fa fa-plus-circle"></i>  Kategorie erstellen
                 </a>
             </div>
         
@@ -29,7 +29,7 @@
                         <li class="active"><a href="#home" >Alle Kategorien (<%= Model.TotalCategories %>)</a></li>
                         <li>
                             <a href="#profile">
-                                Meine Kategorien <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="icon-question-sign" id="tabInfoMyKnowledge"></i>
+                                Meine Kategorien <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
                             </a>
                         </li>
                     </ul>

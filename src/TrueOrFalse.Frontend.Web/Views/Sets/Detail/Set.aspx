@@ -15,9 +15,9 @@
             <h2 class="pull-left"><%= Model.Name %></h2>
             <div class="pull-right">
                 <div>
-                    <a href="<%= Links.Sets(Url) %>" style="font-size: 12px; margin: 0px;"><i class="icon-list"></i>&nbsp;zur Übersicht</a><br/>
+                    <a href="<%= Links.Sets(Url) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a><br/>
                     <% if(Model.IsOwner){ %>
-                        <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="icon-pencil"></i>&nbsp;bearbeiten</a> 
+                        <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                     <% } %>
                 </div>
             </div>
@@ -40,7 +40,7 @@
 
                 <div style="margin-top: 10px; margin-right: 10px; height: 40px;" class="pull-right">
                     <a class="btn btn-info" href="#"> Jetzt üben</a>
-                    <a class="btn btn-primary" href="#"><i class="icon-lightbulb"></i> Jetzt testen</a>
+                    <a class="btn btn-primary" href="#"><i class="fa fa-lightbulb-o"></i> Jetzt testen</a>
                 </div>
                 <div style="clear: both"></div>
             </div>

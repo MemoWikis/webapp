@@ -15,11 +15,11 @@
                     <div class="box-content">
                         <h1>
                             <a href="#teaser1">Richtig-oder-Falsch ist eine Lern- und Wissensplattform. </a>
-
                             <ul style="margin-top: 10px;">
-                                <li><a href="#teaser1" style="font-size: 16px;">Wie hilft Dir Richtig-oder-Falsch? <i class="icon-circle-arrow-right" style="" ></i></a></li>
-                                <li><a href="#teaser2" style="font-size: 16px;">Wikipedia Prinzip und mehr (prinzipielles) <i class="icon-circle-arrow-right" style="" ></i></a></li>
-                                <li><a href="#teaser3" style="font-size: 16px;">Wer sind wir? <i class="icon-circle-arrow-right" style="" ></i></a></li>
+                                
+                                <li><a href="#teaser1" style="font-size: 16px;">Wie hilft Dir Richtig-oder-Falsch? <i class="fa fa-arrow-circle-right" style="" ></i></a></li>
+                                <li><a href="#teaser2" style="font-size: 16px;">Wikipedia Prinzip und mehr (prinzipielles) <i class="fa fa-arrow-circle-right" style="" ></i></a></li>
+                                <li><a href="#teaser3" style="font-size: 16px;">Wer sind wir? <i class="fa fa-arrow-circle-right" style="" ></i></a></li>
                             </ul>
                         </h1>
                     </div>
@@ -131,7 +131,7 @@
                         <b>Open-Source</b>
                         <p>
                             Die Software unter der RIOFA läuft, steht unter einer Open Source Lizenz.
-                            Die Quelltexte findest Du auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="icon-github"></i> Github</a>. 
+                            Die Quelltexte findest Du auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
                         </p>
                     </li>        
                 </ul>

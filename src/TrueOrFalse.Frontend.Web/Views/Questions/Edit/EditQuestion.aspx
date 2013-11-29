@@ -40,19 +40,19 @@
                 <div class="pull-right">
                     <div>
                         <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" style="font-size: 12px;
-                            margin: 0px;"><i class="icon-list"></i> zur Übersicht</a>
+                            margin: 0px;"><i class="fa fa-list"></i> zur Übersicht</a>
                     </div>
                     <% if (!Model.ShowSaveAndNewButton){ %>
                         <div style="line-height: 12px">
                             <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px;
-                                margin: 0px;"><i class="icon-plus-sign"></i> Frage erstellen</a>
+                                margin: 0px;"><i class="fa fa-plus-circle"></i> Frage erstellen</a>
                         </div>
                     <%} %>
                     
                     <% if(Model.IsEditing){ %>
                         <div style="line-height: 12px; padding-top: 3px;">
                             <a href="<%= Links.AnswerQuestion(Url, Model.Question, (int)Model.Id) %>" style="font-size: 12px;
-                                margin: 0px;"><i class="icon-check-sign"></i> Frage beantworten</a>
+                                margin: 0px;"><i class="fa fa-check-square"></i> Frage beantworten</a>
                         </div>                    
                     <% } %>
                 </div>
@@ -66,11 +66,11 @@
                             </label>
                             <label class="radio inline">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                            für mich<br/><span class="smaller">(private Frage <i class="icon-trophy"></i>)</span> &nbsp;&nbsp;
+                            für mich<br/><span class="smaller">(private Frage <i class="fa fa-trophy"></i>)</span> &nbsp;&nbsp;
                             </label>
                             <label class="radio inline" style="width: 175px;">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
-                            für mich und meine Freunde<br/><span class="smaller">(private Frage <i class="icon-trophy"></i>)</span>
+                            für mich und meine Freunde<br/><span class="smaller">(private Frage <i class="fa fa-trophy"></i>)</span>
                             </label>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                         <div class="controls">
                                 <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte gib den Fragetext ein" })%><br />
                             <div style="padding-top: 4px;">
-                                <a href="#" id="openExtendedQuestion"><i class="icon-plus-sign" style="color: blue;"></i> Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</a> 
+                                <a href="#" id="openExtendedQuestion"><i class="fa fa-plus-circle" style="color: blue;"></i> Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</a> 
                             </div>    
                         </div>
                     </div>

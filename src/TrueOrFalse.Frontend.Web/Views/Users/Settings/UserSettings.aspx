@@ -13,7 +13,7 @@
         <div class="box box-main">
 
             <h2 class="pull-left" style="padding-top:3px; padding-bottom: 5px; padding-left: 0px; margin-left:0px;  font-size: 30px;">
-                <%= Model.Name %> <i class="icon-wrench show-tooltip" title="Hier kannst Du Deine Einstellungen bearbeiten"></i>
+                <%= Model.Name %> <i class="fa fa-wrench show-tooltip" title="Hier kannst Du Deine Einstellungen bearbeiten"></i>
             </h2>
             <span class="pull-right" style="display: inline-block; font-size: 20px; font-weight: normal; position: relative; top: 13px;">Reputation: 7821 (Platz 7)</span>
             

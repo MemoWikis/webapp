@@ -14,9 +14,9 @@
         <h2 class="pull-left"><%= Model.Name %></h2>
         <div class="pull-right">
             <div>
-                <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0px;"><i class="icon-list"></i>&nbsp;zur Übersicht</a><br/>
+                <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a><br/>
                 <% if(Model.IsOwner){ %>
-                    <a href="<%= Links.CategoryEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="icon-pencil"></i>&nbsp;bearbeiten</a> 
+                    <a href="<%= Links.CategoryEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                 <% } %>
             </div>
         </div>

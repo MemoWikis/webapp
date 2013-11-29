@@ -11,11 +11,11 @@
                 <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
             </div>
             <div style="float:left; margin-top: -2px" class="sliderAnotation">
-                <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="icon-minus"></i></a>
+                <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="fa fa-minus"></i></a>
             </div>
         </div>
         
-        <a href="#" class="addRelevance" style="<% if(Model.RelevancePersonal != -1){ %>display:none;<% } %>" ><i class="icon-plus-sign "></i> merken</a>
+        <a href="#" class="addRelevance" style="<% if(Model.RelevancePersonal != -1){ %>display:none;<% } %>" ><i class="fa fa-plus-circle "></i> merken</a>
         
         <div style="clear:both;"></div>
 

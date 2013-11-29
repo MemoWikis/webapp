@@ -7,7 +7,7 @@
 
     <div class="row" style="padding-top:30px;">
         <div class="col-md-2" style="padding-top:7px;">
-            <i class="icon-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
+            <i class="fa fa-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
         </div>
         <div class="form-horizontal col-md-8">
             <fieldset>

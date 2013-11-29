@@ -9,6 +9,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
+
 <div style="clear: both;"><p style="position: relative"><a>Read more <span class="default"></span><span class="hover"></span></a></p></div>
 
 
@@ -96,7 +97,7 @@
                 <div class="pull-right" style="vertical-align: bottom;">
                     <div style="background-color: white; line-height: 12px">
                         <a href="/Questions" style="font-size: 12px;
-                            margin: 0px;"><i class="icon-th-list"></i>zur Übersicht</a><br>
+                            margin: 0px;"><i class="fa fa-th-list"></i>zur Übersicht</a><br>
                     </div>
                     
                 </div>
