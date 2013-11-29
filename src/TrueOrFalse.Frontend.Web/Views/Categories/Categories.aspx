@@ -45,8 +45,16 @@
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Anzahl Fragen</a></li>
-                                    <li><a href="#">Empfehlungen</a></li>
+                                    <li>
+                                        <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuestions" %>">
+                                            <% if (Model.OrderBy.QuestionCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Anzahl Fragen
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDate" %>">
+                                            <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="icon-ok"></i> <% } %>  Datum erstellt
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

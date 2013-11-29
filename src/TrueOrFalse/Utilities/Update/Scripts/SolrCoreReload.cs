@@ -28,15 +28,16 @@ namespace TrueOrFalse.Updates
         {
             CopySchema(coreName);
 
-            var url = ReadOverwrittenConfig.SolrUrl() + "/admin/cores?wt=json&action=RELOAD&core=tof" + coreName;
+            var url = ReadOverwrittenConfig.SolrUrl().Value + "admin/cores?wt=json&action=RELOAD&core=tof" + coreName;
             WebRequest.Create(url).GetResponse();
         }
 
         private static void CopySchema(string coreName)
         {
             File.Copy(
-                PathTo.SolrSchema("schema" + coreName + ".xml"), 
-                ReadOverwrittenConfig.SolrPath() + "/tof" + coreName + "/" + "schema.xml"
+                PathTo.SolrSchema("schema" + coreName + ".xml"),
+                ReadOverwrittenConfig.SolrPath().Value + "/tof" + coreName + "/conf/" + "schema.xml",
+                overwrite:true
             );
         }
     }

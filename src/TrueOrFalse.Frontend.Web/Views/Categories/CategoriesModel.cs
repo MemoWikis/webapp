@@ -18,14 +18,16 @@ public class CategoriesModel : BaseModel
     public string SearchTerm  { get; set; }
     
     public string OrderByLabel  { get; set; }
+    public CategorytOrderBy OrderBy;
+
     public int TotalCategoriesInResult { get; set; }
 
     public PagerModel Pager { get; set; }
 
-    public void Init(IEnumerable<Category> categories, SessionUiData _sessionUi)
+    public void Init(IEnumerable<Category> categories)
     {
         SetCategories(categories);
-        Pager = new PagerModel(_sessionUi.SearchSpecCategory){
+        Pager = new PagerModel(_sessionUiData.SearchSpecCategory){
             Controller = Links.CategoriesController,
             Action = Links.Categories
         };
@@ -33,10 +35,12 @@ public class CategoriesModel : BaseModel
         TotalCategories = Resolve<GetTotalCategories>().Run(); ;
         TotalMine = 0;
 
-        SearchTerm = _sessionUi.SearchSpecCategory.SearchTerm;
+        SearchTerm = _sessionUiData.SearchSpecCategory.SearchTerm;
 
-        TotalCategoriesInResult = _sessionUi.SearchSpecCategory.TotalItems;
-        OrderByLabel = "..";        
+        TotalCategoriesInResult = _sessionUiData.SearchSpecCategory.TotalItems;
+
+        OrderByLabel = _sessionUiData.SearchSpecCategory.OrderBy.ToText();
+        OrderBy = _sessionUiData.SearchSpecCategory.OrderBy;
     }
 
     public void SetCategories(IEnumerable<Category> categories)

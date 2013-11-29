@@ -15,6 +15,8 @@ namespace TrueOrFalse.Search
             result.Name = category.Name;
             result.Description = category.Description;
             result.CreatorId = category.Creator.Id;
+            result.QuestionCount = category.CountQuestions;
+            result.DateCreated = category.DateCreated;
 
             return result;
         }

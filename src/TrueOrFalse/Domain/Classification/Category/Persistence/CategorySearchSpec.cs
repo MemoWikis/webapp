@@ -8,7 +8,7 @@ using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
-    public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, CategorySetOrderBy>
+    public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, CategorytOrderBy>
     {
         public string SearchTerm;
 
@@ -71,15 +71,26 @@ namespace TrueOrFalse
     {
     }
 
-    public class CategorySetOrderBy : OrderByCriteria
+    public class CategorytOrderBy : OrderByCriteria
     {
         public OrderBy CreationDate;
         public OrderBy QuestionCount;
 
-        public CategorySetOrderBy()
+        public CategorytOrderBy()
         {
             CreationDate = new OrderBy("DateCreated", this);
             QuestionCount = new OrderBy("CountQuestions", this);
+        }
+
+        public string ToText()
+        {
+            if (CreationDate.IsCurrent())
+                return "Datum erstellt";
+
+            if (QuestionCount.IsCurrent())
+                return "Anzahl Fragen";
+
+            return "";
         }
     }
 }

@@ -21,10 +21,8 @@ public class CategoriesControllerSearch : IRegisterAsInstancePerLifetime
     }
 
     public IList<Category> Run(){
-        var solrResult = _searchCategories.Run(
-            _sessionUiData.SearchSpecCategory.SearchTerm,
-            _sessionUiData.SearchSpecCategory);
-
+                    
+        var solrResult = _searchCategories.Run(_sessionUiData.SearchSpecCategory);
         return _categoryRepo.GetByIds(solrResult.CategoryIds.ToArray());
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using Seedworks.Lib.Persistence;
@@ -36,6 +37,17 @@ namespace TrueOrFalse
             return _session.CreateQuery("from Category as c where c.Name = :categoryName")
                            .SetString("categoryName", categoryName)
                            .UniqueResult<Category>();
+        }
+
+        public IList<Category> GetByIds(List<int> questionIds)
+        {
+            return GetByIds(questionIds.ToArray());
+        }
+
+        public override IList<Category> GetByIds(params int[] questionIds)
+        {
+            var questions = base.GetByIds(questionIds);
+            return questionIds.Select(t => questions.First(q => q.Id == t)).ToList();
         }
 
         public bool Exists(string categoryName)
