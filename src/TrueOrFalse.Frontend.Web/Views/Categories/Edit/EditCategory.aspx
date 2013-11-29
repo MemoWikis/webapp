@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="span10">
+    <div class="col-md-10">
         <div class="box box-main">
             <h1 class="form-title"><% if (Model.IsEditing) { %>
                                         Kategorie bearbeiten
@@ -59,7 +59,7 @@
                     </div>
                 <div class="form-actions">
                     <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                    <input type="submit" value="Speichern & Neu" class="btn" name="btnSave btn" />&nbsp;&nbsp;&nbsp;
+                    <input type="submit" value="Speichern & Neu" class="btn btn-default" name="btnSave btn" />&nbsp;&nbsp;&nbsp;
                     <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="icon-trash"></i> Löschen</a>
 
                 </div>

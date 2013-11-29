@@ -9,6 +9,19 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
+<div style="clear: both;"><p style="position: relative"><a>Read more <span class="default"></span><span class="hover"></span></a></p></div>
+
+
+<a href="#">
+                    <div class="thumbnail-video">
+                        <img src="http://img.youtube.com/vi/xEhaVhta7sI/0.jpg" alt="Video.Title">
+                        <span class="playbutton-container basic">
+                            <span class="playbutton basic"></span>
+                            <span class="playbutton red"></span>
+                        </span>
+                    </div>
+            </a>
+    
     
     <h2>Boxes</h2>
     
@@ -183,7 +196,7 @@
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
                 
-                    <button type="submit" class="btn" name="btnSave" value="saveAndNew">Speichern &amp; Neu</button>&nbsp;
+                    <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew">Speichern &amp; Neu</button>&nbsp;
                 
             </div>
         </div>

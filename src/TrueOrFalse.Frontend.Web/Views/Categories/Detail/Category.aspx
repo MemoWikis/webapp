@@ -10,7 +10,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
             
-    <div class="span7 category">
+    <div class="col-md-7 category">
         <h2 class="pull-left"><%= Model.Name %></h2>
         <div class="pull-right">
             <div>
@@ -25,7 +25,7 @@
         </div>
        
         <div class="row">
-            <div class="span7">    
+            <div class="col-md-7">    
                 <div style="height: 200px; ">
                     
                     <h4>Fragen (<%=Model.CountQuestions %>)</h4>                    
@@ -48,7 +48,7 @@
         </div>
 
     </div>
-    <div class="span3">
+    <div class="col-md-3">
         <div>
             <div class="box">
                 <img src="<%= Model.ImageUrl %>"/>

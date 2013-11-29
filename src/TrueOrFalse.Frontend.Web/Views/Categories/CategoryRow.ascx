@@ -11,7 +11,7 @@
         <div style="font-size:large;">
             <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName%></a> 
             <span style="font-size: small;">(<b><%= Model.QuestionCount %> Fragen</b>)</span>
-            <button class="btn btn-mini" type="button">Folgen</button>
+            <button class="btn btn-default btn-xs" type="button">Folgen</button>
         </div>
         
         <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">

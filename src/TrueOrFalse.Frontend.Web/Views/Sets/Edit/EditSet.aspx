@@ -47,7 +47,7 @@
 
 </style>
 
-<div class="span10" id="questionSetContainer" data-id="<%: Model.Id %>">
+<div class="col-md-10" id="questionSetContainer" data-id="<%: Model.Id %>">
     
     <div style="margin-bottom: -10px;">
         <% Html.Message(Model.Message); %>
@@ -78,7 +78,7 @@
 
                 <div class="box-content" style="clear: both;">    
                     <div class="row">
-                        <div class="span6">
+                        <div class="col-md-6">
                             <div class="control-group">
                                 <%= Html.LabelFor(m => m.Title, new { @class = "control-label" })%>
                                 <div class="controls">
@@ -149,7 +149,7 @@
                                 </ul>
                             <% } %>
                         </div>
-                        <div class="span3" style="position: relative; left: 25px;">
+                        <div class="col-md-3" style="position: relative; left: 25px;">
                             <div class="box">
                                 <img id="questionSetImg" src="<%= Model.ImageUrl_206px %>" />
                             </div>
@@ -160,7 +160,7 @@
     
                 <div class="form-actions">
                     <input type="submit" class="btn btn-primary" value="Speichern" />
-                    <input type="button" class="btn" value="Cancel">
+                    <input type="button" class="btn btn-default" value="Cancel">
                 </div>
             </div>
         </div>
@@ -170,17 +170,21 @@
     
 <% Html.RenderPartial("../Shared/ImageUpload/ImageUpload"); %>
     
-<div id="modalRevertAction" class="modal hide">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Letztes Löschen rückgängig machen</h3>
-    </div>
-    <div class="modal-body">
-        <p>NOCH NICHT UMGESETZT</p>
-    </div>
-    <div class="modal-footer" id="tqsNoSetsFooter">
-        <a href="#" class="btn" data-dismiss="modal">Schließen</a>
-        <a href="#" class="btn btn-primary">Jetzt rückgängig machen</a>
+<div id="modalRevertAction" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Letztes Löschen rückgängig machen</h3>
+            </div>
+            <div class="modal-body">
+                <p>NOCH NICHT UMGESETZT</p>
+            </div>
+            <div class="modal-footer" id="tqsNoSetsFooter">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
+                <a href="#" class="btn btn-primary">Jetzt rückgängig machen</a>
+            </div>
+        </div>
     </div>
 </div>
 

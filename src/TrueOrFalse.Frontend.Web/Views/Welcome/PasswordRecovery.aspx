@@ -6,17 +6,17 @@
 <% using (Html.BeginForm()) { %>
     
     <div class="row" style="padding-top:30px;">
-        <div class="span2" style="padding-top:7px;">
+        <div class="col-md-2" style="padding-top:7px;">
             <i class="icon-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
         </div>
-        <div class="form-horizontal span8">
+        <div class="form-horizontal col-md-8">
             <fieldset>
                 <legend>Ein neues Passwort setzen</legend>
 
                 <% Html.ValidationSummary(true, "Bitte überprüfen Sie Ihre eingaben");  %>
                                 
                 <div class="alert alert-info">
-                    Wir schicken einen Link an Deine Emailadresse. Folge dem Link und 
+                    Bitte gib Deine Emailadresse ein. Wir schicken einen Link an Deine Emailadresse. Folge dem Link und 
                     Du kannst Dir ein neues Passwort setzen. 
                 </div>
                 

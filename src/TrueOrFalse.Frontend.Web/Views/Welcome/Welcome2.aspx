@@ -67,13 +67,13 @@
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="row-fluid">
-        <div class="span8 temp4">
+    <div class="row">
+        <div class="col-md-8 temp4">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp6">
+        <div class="col-md-4 temp6">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -88,13 +88,13 @@
     
      <div style="height: 100px;"></div> 
 
-    <div class="row-fluid">
-        <div class="span8 temp4">
+    <div class="row">
+        <div class="col-md-8 temp4">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp3">
+        <div class="col-md-4 temp3">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -111,13 +111,13 @@
     
      
     
-    <div class="row-fluid">
-        <div class="span8 temp5">
+    <div class="row">
+        <div class="col-md-8 temp5">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp5">
+        <div class="col-md-4 temp5">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -132,13 +132,13 @@
     
      <div style="height: 100px;"></div> 
 
-    <div class="row-fluid">
-        <div class="span8 temp3">
+    <div class="row">
+        <div class="col-md-8 temp3">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp3">
+        <div class="col-md-4 temp3">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -153,13 +153,13 @@
     
      <div style="height: 100px;"></div>   
 
-    <div class="row-fluid">
-        <div class="span8 temp2">
+    <div class="row">
+        <div class="col-md-8 temp2">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp2">
+        <div class="col-md-4 temp2">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -174,13 +174,13 @@
     
     <div style="height: 100px;"></div>   
 
-    <div class="row-fluid">
-        <div class="span8 temp1">
+    <div class="row">
+        <div class="col-md-8 temp1">
             <h1 style="font-size:20px;">Richtig-oder-Falsch ist eine Lernplattform. Sammle Wissen und teile es mit anderen.</h1>
             
                
         </div>
-        <div class="span4 temp1">
+        <div class="col-md-4 temp1">
             <div>
                 <input type="text" placeholder="Email-Adresse">
                 <input type="text" placeholder="Passwort">
@@ -195,7 +195,7 @@
     
     <div style="height: 200px;"></div>   
 
-    <div class="hero-unit row" style="padding: 50px 50px 30px 50px; margin-top: -20px;" >
+    <div class="jumbotron row" style="padding: 50px 50px 30px 50px; margin-top: -20px;" >
         <h1 style="font-size:50px;">Willkommen</h1>
         <p>Schön, dass Du da bist. Entscheide, was Dir wichtig ist und merke es Dir - für immer!</p>
         <p><a class="btn primary large">Mehr Erfahren &raquo;</a></p>
@@ -230,7 +230,7 @@
             <div class="control-group">
                 Deine Antwort:
                 <input type="text" class="input-medium" style="width: 50px;">
-                <button class="btn">Antworten</button> (bis zu 20% Abweichung zugelassen)
+                <button class="btn btn-default">Antworten</button> (bis zu 20% Abweichung zugelassen)
              </div>
          </form>        
     </div>

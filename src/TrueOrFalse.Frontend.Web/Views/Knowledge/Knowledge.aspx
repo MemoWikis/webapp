@@ -49,7 +49,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="span10">
+    <div class="col-md-10">
         <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;">Hallo <span style="color: #2E487B"><%= Model.UserName %></span>, Dein Wissen:</h2>
         
         <p style="margin-bottom: 10px;">Hier erhälst Du eine Übersicht über Dein Wunschwissen und Deinen Wissensstand.</p>

@@ -9,12 +9,12 @@
 </head>
 
 <body>
-
+    
     <div class="container">
         
         <% Html.RenderPartial("Site.Resources.Title", new TitleModel { TitleText = "Riofa" }); %>    
         <div class="row">
-            <div class="span2" >
+            <div class="col-md-2" >
                 <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
             </div>
                 
@@ -23,7 +23,7 @@
         </div>
         
         <%-- FOOTER--%>
-        <div id="footer" class="span12 row">
+        <div id="footer" class="col-md-12 row">
             <%// ReSharper disable Asp.NotResolved
                 Html.RenderPartial(UserControls.WelcomeFooter); 
                 // ReSharper restore Asp.NotResolved%>

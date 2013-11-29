@@ -44,7 +44,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="span6">
+    <div class="col-md-6">
         <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:10px; font-size: 22px;">
             <%= Model.QuestionText %>
         </p>
@@ -112,10 +112,10 @@
         <div class=" val" style="padding-top:20px; width: 400px;">
                 
             <div class="valRow" style="border-bottom: 1px solid silver; margin-bottom: 5px;">
-                <div class="valColumn1 span3">
+                <div class="valColumn1 col-md-3">
                     <h4>Allgemeine Einschätzung</h4>
                 </div>
-                <div class="valColumn2 span2">
+                <div class="valColumn2 col-md-2">
                     <h4>Meine Einschätzung</h4>
                 </div>
             </div>
@@ -124,11 +124,11 @@
             
             <% foreach (var row in Model.FeedbackRows){ %>
                 <div class="valRow">
-                    <div class="valColumn1 span3">
+                    <div class="valColumn1 col-md-3">
                         <%= row.Title %>: <i class="icon-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
                     </div>
                         
-                    <div id="div<%= row.Key%>Slider" class="valColumn2 span2" <% if(!row.HasUserValue){ %> style="display:none"  <% } %> >
+                    <div id="div<%= row.Key%>Slider" class="valColumn2 col-md-2" <% if(!row.HasUserValue){ %> style="display:none"  <% } %> >
                         <div id="slider<%= row.Key %>" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
                             <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                             <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
@@ -136,7 +136,7 @@
                         <a href="#" id="remove<%= row.Key %>Value"><img src="/Images/delete.png" class="imgDelete"></a>
                         <span id="slider<%= row.Key %>Value" class="valMine"><%= row.UserValue%></span>
                     </div>
-                    <div id="div<%= row.Key %>Add" class="valColumn2 span2" <% if(row.HasUserValue){ %> style="display:none"  <% } %>>
+                    <div id="div<%= row.Key %>Add" class="valColumn2 col-md-2" <% if(row.HasUserValue){ %> style="display:none"  <% } %>>
                         <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="icon-plus"></i> ---</a>
                     </div>
 
@@ -154,7 +154,7 @@
 
     </div>
 
-    <div class="span2">
+    <div class="col-md-2">
         <div class="headerLinks" style="margin-top:8px; line-height: 25px;">
             <% if(Model.HasPreviousPage){ %>
                 <a href="<%= Model.PreviousUrl(Url) %>"><i class="icon-arrow-left"></i></a>
@@ -188,7 +188,7 @@
 
     </div>
         
-    <div class="span2" style="height: 400px;">
+    <div class="col-md-2" style="height: 400px;">
         <div style="padding-top:12px;">
             <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
                 <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
@@ -216,63 +216,71 @@
     </div>
     
     <%--MODAL IMPROVE--%>
-    <div id="modalImprove" class="modal hide fade">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">×</button>
-            <h3>Dies Frage verbessern</h3>
-        </div>
-        <div class="modal-body">
-            <div >
-                <p>
-                    Ich bitte darum, dass diese Frage verbessert wird weil: 
-                </p>
-                <ul>
-                    <li><a href="#">Die Frage sollte privat sein.</a></li>
-                    <li><a href="#">Die Quellen sind falsch.</a></li>
-                    <li><a href="#">Die Quellen sind online nicht zu erreichen.</a></li>
-                    <li><a href="#">Die Antwort ist nicht eindeutig.</a></li>
-                    <li><a href="#">... ein anderer Grund.</a></li>
-                </ul>
-            </div>
-            <p>
-                Erläuterung zum Verbesserungsvorschlag (optional).
-            </p>
-            <textarea style="width: 500px;" rows="3"></textarea>
+    <div id="modalImprove" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Dies Frage verbessern</h3>
+                </div>
+                <div class="modal-body">
+                    <div >
+                        <p>
+                            Ich bitte darum, dass diese Frage verbessert wird weil: 
+                        </p>
+                        <ul>
+                            <li><a href="#">Die Frage sollte privat sein.</a></li>
+                            <li><a href="#">Die Quellen sind falsch.</a></li>
+                            <li><a href="#">Die Quellen sind online nicht zu erreichen.</a></li>
+                            <li><a href="#">Die Antwort ist nicht eindeutig.</a></li>
+                            <li><a href="#">... ein anderer Grund.</a></li>
+                        </ul>
+                    </div>
+                    <p>
+                        Erläuterung zum Verbesserungsvorschlag (optional).
+                    </p>
+                    <textarea style="width: 500px;" rows="3"></textarea>
             
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal" id="btnCloseQuestionDelete">Schliessen</a>
-            <a href="#" class="btn btn-primary btn-success" id="confirmQuestionDelete">Absenden</a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" id="btnCloseQuestionDelete">Schliessen</a>
+                    <a href="#" class="btn btn-primary btn-success" id="confirmQuestionDelete">Absenden</a>
+                </div>
+            </div>
         </div>
     </div>
     
     <%--MODAL DELETE--%>
-    <div id="modalDelete" class="modal hide fade">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">×</button>
-            <h3>Dies Frage bitte löschen</h3>
-        </div>
-        <div class="modal-body">
-            <div >
-                <p>
-                    Ich bitte darum, dass diese Frage gelöscht wird weil: 
-                </p>
-                <ul>
-                    <li><a href="#">Die Frage ist Beleidigend, abwertend oder rassistisch.</a></li>
-                    <li><a href="#">Urheberrechte werden verletzt.</a></li>
-                    <li><a href="#">Es handelt sich um Spam.</a></li>
-                    <li><a href="#">... ein anderer Grund.</a></li>
-                </ul>
-            </div>
-            <p>
-                Weiter Erläuterung (optional).
-            </p>
-            <textarea style="width: 500px;" rows="3"></textarea>
+    <div id="modalDelete" class="modal fade">
+         <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Dies Frage bitte löschen</h3>
+                </div>
+                <div class="modal-body">
+                    <div >
+                        <p>
+                            Ich bitte darum, dass diese Frage gelöscht wird weil: 
+                        </p>
+                        <ul>
+                            <li><a href="#">Die Frage ist Beleidigend, abwertend oder rassistisch.</a></li>
+                            <li><a href="#">Urheberrechte werden verletzt.</a></li>
+                            <li><a href="#">Es handelt sich um Spam.</a></li>
+                            <li><a href="#">... ein anderer Grund.</a></li>
+                        </ul>
+                    </div>
+                    <p>
+                        Weiter Erläuterung (optional).
+                    </p>
+                    <textarea style="width: 500px;" rows="3"></textarea>
             
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal" id="A1">Schliessen</a>
-            <a href="#" class="btn btn-primary btn-danger" id="A2">Absenden</a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal" id="A1">Schliessen</a>
+                    <a href="#" class="btn btn-primary btn-danger" id="A2">Absenden</a>
+                </div>
+            </div>
         </div>
     </div>
 
