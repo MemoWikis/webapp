@@ -27,7 +27,7 @@
                 </div>
             </div> 
             <div class="modal-footer hide" id="tqsSuccessFooter">
-                <a href="#" class="btn" data-dismiss="modal">Schließen</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
             </div>    
 
             <div class="modal-body hide" id="tqsNoSetsBody">
@@ -37,7 +37,7 @@
                 </div>        
             </div>
             <div class="modal-footer hide" id="tqsNoSetsFooter">
-                <a href="#" class="btn" data-dismiss="modal">Schließen</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
                 <a href="/QuestionSet/Create" class="btn btn-primary">Jetzt Fragesatz erstellen</a>
             </div>
         </div>

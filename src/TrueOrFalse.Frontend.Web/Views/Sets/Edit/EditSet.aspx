@@ -160,7 +160,7 @@
     
                 <div class="form-actions">
                     <input type="submit" class="btn btn-primary" value="Speichern" />
-                    <input type="button" class="btn" value="Cancel">
+                    <input type="button" class="btn btn-default" value="Cancel">
                 </div>
             </div>
         </div>
@@ -181,7 +181,7 @@
                 <p>NOCH NICHT UMGESETZT</p>
             </div>
             <div class="modal-footer" id="tqsNoSetsFooter">
-                <a href="#" class="btn" data-dismiss="modal">Schließen</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
                 <a href="#" class="btn btn-primary">Jetzt rückgängig machen</a>
             </div>
         </div>

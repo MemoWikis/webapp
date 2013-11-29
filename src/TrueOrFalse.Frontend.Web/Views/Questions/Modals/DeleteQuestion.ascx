@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn" id="btnCloseQuestionDelete">Schliessen</a>
+                <a href="#" class="btn btn-default" id="btnCloseQuestionDelete">Schliessen</a>
                 <a href="#" class="btn btn-primary btn-danger" id="confirmQuestionDelete">Löschen</a>
             </div>
         </div>

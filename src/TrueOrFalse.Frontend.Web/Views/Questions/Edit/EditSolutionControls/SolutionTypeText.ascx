@@ -5,13 +5,13 @@
     <div class="controls">
         <%= Html.TextAreaFor(m => m.Text, new { @id = "Answer", @style = "height:18px; width:210px;", placeholder = "Antwort eingeben." })%>
         
-        <a href="#" class="btn" style="padding: 3px 4px; display: none"><img src="/Images/textfield-16.png" alt="Text"/></a>
+        <a href="#" class="btn btn-default" style="padding: 3px 4px; display: none"><img src="/Images/textfield-16.png" alt="Text"/></a>
         
         <div  style="display: inline-block; position: absolute;">
             <div class="btn-group" style="position: relative; left: 10px;">
                 <a class="btn active" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
-                <a class="btn" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
-                <a class="btn" style="padding: 3px 4px; border-bottom-right-radius: 0" id="btnMenuItemDate"><img src="/Images/date-16.png" /></a>    
+                <a class="btn btn-default" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
+                <a class="btn btn-default" style="padding: 3px 4px; border-bottom-right-radius: 0" id="btnMenuItemDate"><img src="/Images/date-16.png" /></a>    
             </div>
             
             <%-- MenuItemText --%>
@@ -20,7 +20,7 @@
                     <div style="margin-bottom: 5px">Großschreibung:</div>
                     <div class="btn-group">
                         <a class="btn active">Ignorieren</a>
-                        <a class="btn">Beachten</a>
+                        <a class="btn btn-default">Beachten</a>
                     </div>
                     <div style="margin-top:10px; height: 20px;">
                         <label class="checkbox" style="width: auto">

@@ -196,7 +196,7 @@
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
                 
-                    <button type="submit" class="btn" name="btnSave" value="saveAndNew">Speichern &amp; Neu</button>&nbsp;
+                    <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew">Speichern &amp; Neu</button>&nbsp;
                 
             </div>
         </div>

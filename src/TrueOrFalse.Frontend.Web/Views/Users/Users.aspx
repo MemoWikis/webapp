@@ -11,7 +11,7 @@
         <% using (Html.BeginForm()) { %>
     
             <div style="float: right;">
-                <a href="#" style="width: 140px" class="btn">
+                <a href="#" style="width: 140px" class="btn btn-default">
                     <i class="icon-plus-sign"></i> Benutzer einladen 
                 </a>
             </div>
@@ -32,7 +32,7 @@
                         <div class="control-group" style="margin-bottom: 15px; margin-top: -7px; ">
                             <label style="line-height: 18px; padding-top: 5px;"><nb>Suche</nb>:</label>
                             <%: Html.TextBoxFor(model => model.SearchTerm, new {style="width:297px;", id="txtSearch"}) %>
-                            <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
+                            <a class="btn btn-default" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
                         </div>
                         <div style="clear:both;"></div>
                     </div>

@@ -14,7 +14,7 @@
     <% using (Html.BeginForm()){ %>
             
     <div style="float: right;">
-        <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="width: 120px" class="btn">
+        <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="width: 120px" class="btn btn-default">
             <i class="icon-plus-sign"></i>
             Frage erstellen
         </a>
@@ -48,7 +48,7 @@
                 <div class="control-group" style="margin-bottom: 8px;">
                     <label style="line-height: 18px; padding-top: 5px;"><b>Suche</b>:</label>
                     <%: Html.TextBoxFor(model => model.SearchTerm, new {style = "width:297px;", id = "txtSearch", formUrl=Model.SearchUrl}) %>
-                    <a class="btn" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
+                    <a class="btn btn-default" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
                 </div>
             </div>
             <% } %>
@@ -57,7 +57,7 @@
         
                 <ul class="nav pull-left" style="margin: 0px; margin-left: -3px;">
                     <li class="dropdown" id="menu2">
-                        <a class="dropdown-toggle btn btn-mini" data-toggle="dropdown" href="#menu2">
+                        <a class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu2">
                             <i class="icon-check"></i>
                             Auswahl <span id="selectionCount"></span>
                             <b class="caret"></b>
@@ -73,16 +73,16 @@
                     </li>
                 </ul>
                 &nbsp;
-                <a href="#" class="btn btn-mini hide" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
+                <a href="#" class="btn btn-default btn-xs hide" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
                     <i class="icon-folder-open"></i> 
                 </a>&nbsp;
-                <a href="#" class="btn btn-mini hide" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
+                <a href="#" class="btn btn-default btn-xs hide" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
                     <i class="icon-trash"></i> 
                 </a>
 
                 <ul class="nav pull-right" style="padding-left: 5px; margin: 0px; margin-right: -3px;">
                     <li class="dropdown" id="menu1">
-                        <a class="dropdown-toggle btn btn-mini" data-toggle="dropdown" href="#menu1">
+                        <a class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
                             Sortieren nach: <%= Model.OrderByLabel %>
                             <b class="caret"></b>
                         </a>

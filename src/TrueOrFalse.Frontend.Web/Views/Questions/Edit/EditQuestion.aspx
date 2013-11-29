@@ -187,7 +187,7 @@
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>&nbsp;&nbsp;&nbsp;
                     <% if (Model.ShowSaveAndNewButton){ %>
-                        <button type="submit" class="btn" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
+                        <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
                     <% } %>
                 </div>
             </div>

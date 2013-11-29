@@ -262,7 +262,7 @@
             
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn" data-dismiss="modal" id="A1">Schliessen</a>
+                    <a href="#" class="btn btn-default" data-dismiss="modal" id="A1">Schliessen</a>
                     <a href="#" class="btn btn-primary btn-danger" id="A2">Absenden</a>
                 </div>
             </div>

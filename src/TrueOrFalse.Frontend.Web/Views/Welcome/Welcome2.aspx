@@ -195,7 +195,7 @@
     
     <div style="height: 200px;"></div>   
 
-    <div class="hero-unit row" style="padding: 50px 50px 30px 50px; margin-top: -20px;" >
+    <div class="jumbotron row" style="padding: 50px 50px 30px 50px; margin-top: -20px;" >
         <h1 style="font-size:50px;">Willkommen</h1>
         <p>Schön, dass Du da bist. Entscheide, was Dir wichtig ist und merke es Dir - für immer!</p>
         <p><a class="btn primary large">Mehr Erfahren &raquo;</a></p>
@@ -230,7 +230,7 @@
             <div class="control-group">
                 Deine Antwort:
                 <input type="text" class="input-medium" style="width: 50px;">
-                <button class="btn">Antworten</button> (bis zu 20% Abweichung zugelassen)
+                <button class="btn btn-default">Antworten</button> (bis zu 20% Abweichung zugelassen)
              </div>
          </form>        
     </div>

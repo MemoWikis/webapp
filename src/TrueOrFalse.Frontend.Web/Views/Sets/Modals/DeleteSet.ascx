@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn" id="btnCloseDelete">Schliessen</a>
+                <a href="#" class="btn btn-default" id="btnCloseDelete">Schliessen</a>
                 <a href="#" class="btn btn-primary btn-danger" id="confirmDelete">Löschen</a>
             </div>
          </div>

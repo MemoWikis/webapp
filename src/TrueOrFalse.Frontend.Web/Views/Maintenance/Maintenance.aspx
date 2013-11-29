@@ -8,33 +8,33 @@
         <% Html.Message(Model.Message); %>
     
         <h4>Fragen</h4>
-        <a class="btn" href="<%= Url.Action("RecalculateAllKnowledgeItems", "Maintenance") %>">
+        <a class="btn btn-default" href="<%= Url.Action("RecalculateAllKnowledgeItems", "Maintenance") %>">
             <i class="icon-retweet"></i>
             Alle Antwortwahrscheinlichkeiten neu berechnen
         </a><br/><br/>
-        <a class="btn" href="<%= Url.Action("CalcAggregatedValues", "Maintenance") %>">
+        <a class="btn btn-default" href="<%= Url.Action("CalcAggregatedValues", "Maintenance") %>">
             <i class="icon-retweet"></i>
             Aggregierte Zahlen für Fragen aktualisieren
         </a>
     
         <h4>Kategorien</h4>
-        <a class="btn" href="<%= Url.Action("UpdateFieldQuestionCountForCategories", "Maintenance") %>">
+        <a class="btn btn-default" href="<%= Url.Action("UpdateFieldQuestionCountForCategories", "Maintenance") %>">
             <i class="icon-retweet"></i>
             Feld: AnzahlFragen pro Kategorie aktualisieren
         </a>
     
         <h4>Suche</h4>
         Alle
-        <a class="btn" href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>">
+        <a class="btn btn-default" href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>">
             <i class="icon-retweet"></i>Fragen 
         </a> /
-        <a class="btn" href="<%= Url.Action("ReIndexAllSets", "Maintenance") %>">
+        <a class="btn btn-default" href="<%= Url.Action("ReIndexAllSets", "Maintenance") %>">
             <i class="icon-retweet"></i>Fragesätze
         </a> /
-        <a class="btn" href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>">
+        <a class="btn btn-default" href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>">
             <i class="icon-retweet"></i>Kategorien
         </a> /
-        <a class="btn" href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>">
+        <a class="btn btn-default" href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>">
             <i class="icon-retweet"></i>Nutzer
         </a>        
         für Suche neu indizieren
