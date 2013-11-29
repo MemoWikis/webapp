@@ -465,7 +465,6 @@
     <Content Include="img\icon-twitter.png" />
     <Content Include="Scripts\add-on\jplayer.playlist.min.js" />
     <Content Include="Scripts\add-on\jquery.jplayer.inspector.js" />
-    <Content Include="Scripts\application.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\google-code-prettify\prettify.css" />

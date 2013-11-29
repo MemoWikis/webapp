@@ -71,6 +71,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_filter_by_valuator_id()
         {
+            RecycleContainer();
             Resolve<ReIndexAllQuestions>();
 
             var context = ContextQuestion.New()
@@ -81,7 +82,7 @@ namespace TrueOrFalse.Tests
 
             Resolve<QuestionValuationRepository>().Create(new List<QuestionValuation>{
                 new QuestionValuation { RelevancePersonal = 70, QuestionId = context.All[0].Id, UserId = 2 },
-                new QuestionValuation { RelevancePersonal = 15, QuestionId = context.All[1].Id, UserId = 2 }
+                new QuestionValuation { RelevancePersonal = 15, QuestionId = context.All[1].Id, UserId = 2 },
             });
 
             Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager(), valuatorId:2).Count, Is.EqualTo(0));
