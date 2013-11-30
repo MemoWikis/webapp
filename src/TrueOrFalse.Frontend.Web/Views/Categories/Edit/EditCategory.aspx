@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="col-md-10">
+    <div class="col-md-9">
         <div class="box box-main">
             <h1 class="form-title"><% if (Model.IsEditing) { %>
                                         Kategorie bearbeiten

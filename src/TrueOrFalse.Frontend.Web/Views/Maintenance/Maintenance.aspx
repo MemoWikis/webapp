@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div class="col-md-10">
+    <div class="col-md-9">
         <h3>Maintenance</h3>
         
         <% Html.Message(Model.Message); %>

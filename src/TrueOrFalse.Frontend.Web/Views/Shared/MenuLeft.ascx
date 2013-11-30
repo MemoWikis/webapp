@@ -23,7 +23,7 @@
     </div>
 <% } %>
 
-<div class="box" style="padding-left: 0px; padding-right: 0;">
+<div class="box box-menu" style="padding-left: 0px; padding-right: 0;">
     <div class="menu" >
 
         <div class="main">

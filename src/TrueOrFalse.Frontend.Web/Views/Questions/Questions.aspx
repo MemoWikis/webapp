@@ -10,7 +10,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<div class="col-md-10">
+<div class="col-md-9">
     <% using (Html.BeginForm()){ %>
             
     <div style="float: right;">

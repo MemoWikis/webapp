@@ -302,6 +302,9 @@
     </Content>
     <Content Include="Style\font-awesome.css" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
+    <Content Include="Style\menu.css">
+      <DependentUpon>menu.less</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />
@@ -497,7 +500,6 @@
       <DependentUpon>form.less</DependentUpon>
     </Content>
     <Content Include="Style\markdown-editor.css" />
-    <Content Include="Style\menu.css" />
     <Content Include="Style\site-debug.css">
       <DependentUpon>site-debug.less</DependentUpon>
     </Content>
@@ -660,6 +662,7 @@
     <Content Include="Style\fonts-awesome\fontawesome-webfont.woff" />
     <Content Include="Style\fonts-awesome\FontAwesome.otf" />
     <Content Include="Style\components.less" />
+    <Content Include="Style\menu.less" />
     <None Include="Style\site-debug.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

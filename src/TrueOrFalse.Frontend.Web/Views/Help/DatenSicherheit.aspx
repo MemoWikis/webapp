@@ -3,7 +3,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<div class="col-md-10" style="">
+<div class="col-md-9" style="">
     <div class="box box-main">
         <h2><a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">Hilfe</a> - Datensicherheit & Datenschutz</h2>
         <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">

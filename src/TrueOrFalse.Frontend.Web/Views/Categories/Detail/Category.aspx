@@ -10,7 +10,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
             
-    <div class="col-md-7 category">
+    <div class="col-md-6 category">
         <h2 class="pull-left"><%= Model.Name %></h2>
         <div class="pull-right">
             <div>
@@ -25,8 +25,8 @@
         </div>
        
         <div class="row">
-            <div class="col-md-7">    
-                <div style="height: 200px; ">
+            <div class="col-md-12">    
+                
                     
                     <h4>Fragen (<%=Model.CountQuestions %>)</h4>                    
                         <% foreach(var question in Model.TopQuestions){ %>
@@ -43,7 +43,7 @@
 
                     <h4 >Ersteller (<%=Model.CountCreators %>)</h4>
                     
-                </div>
+                
             </div>         
         </div>
 

@@ -7,7 +7,7 @@
     <div class="col-md-2" style="padding-top:7px;">
         <i class="fa fa-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
     </div>
-    <div class="form-horizontal col-md-10">
+    <div class="form-horizontal col-md-9">
         
         <div class="well">
             <h2>Unsere Unternehmung soll dem Gemeinwohl dienen. </h2>

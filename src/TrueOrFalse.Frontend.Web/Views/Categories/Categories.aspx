@@ -9,12 +9,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="col-md-10">
+    <div class="col-md-9">
+       
+        <% Html.Message(Model.Message); %>
         
-        <div style="margin-bottom: -10px;">
-            <% Html.Message(Model.Message); %>
-        </div>
-
         <% using (Html.BeginForm()) { %>
         
             <div style="float: right;">

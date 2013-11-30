@@ -1,0 +1,71 @@
+﻿div.box-menu {
+    background-color:transparent !important;
+    border: 1px solid silver;
+}
+
+div.menu {
+    font-size: 15px;
+
+    a {
+        text-decoration: none; 
+        display: block;
+        padding-left: 5px;
+        padding-right: 10px;
+    }
+
+    a:hover,
+    a.active:hover {
+        background-color: #2E487B;
+        color: white;
+    }
+
+    div.main {
+        font-weight:700;
+
+        a:hover,
+        a.active:hover {
+            background-color: #2E487B;
+            color: white;
+        }
+    }
+
+    div.no-hover:hover{ background-color: transparent; }
+
+    a.active,
+    div.main a.active {
+        color: #B13A48;
+    }
+
+    i.fa-caret-right {
+        visibility: hidden;
+    }
+
+    a.active i.fa-caret-right {
+        visibility: visible;
+    }
+
+    div.sub a {
+        padding-left: 15px;
+        font-size: 13px;
+    }
+
+    div.no-link {
+        padding-left: 5px;
+    }
+
+    div a {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        white-space: nowrap;
+ 
+    }
+
+    .tooltip-inner {
+        min-width: 200px;
+        text-align: left;
+    }
+
+}
+
+

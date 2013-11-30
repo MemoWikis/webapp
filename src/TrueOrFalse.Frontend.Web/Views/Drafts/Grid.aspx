@@ -9,7 +9,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div class="col-md-10">
+    <div class="col-md-9">
     
         <div class="row">
 

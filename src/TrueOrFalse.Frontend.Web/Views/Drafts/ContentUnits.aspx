@@ -10,7 +10,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-9">
             <h2>Inhaltsabschnitte</h2>
         <div class="row">
             <div class="col-md-4">
