@@ -16,7 +16,7 @@
                 <% Html.Message(Model.Message); %>
 
                 <div class="control-group">
-                    <%: Html.LabelFor(model => model.EmailAddress, new { @class = "control-label" })%>
+                    <%: Html.LabelFor(model => model.EmailAddress, new { @class = "col-sm-2 control-label" })%>
                     <div class="controls">
                         <%: Html.EditorFor(model => model.EmailAddress)%> 
                     </div>
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="control-group">
-                    <%: Html.LabelFor(model => model.Password, new { @class = "control-label" })%>
+                    <%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2 control-label" })%>
                     <div class="controls">
                         <%: Html.Password("Password") %> &nbsp; (grOß kLEinScHReiBunG beachten!)
                     </div>

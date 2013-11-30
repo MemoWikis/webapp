@@ -80,20 +80,20 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="control-group">
-                                <%= Html.LabelFor(m => m.Title, new { @class = "control-label" })%>
+                                <%= Html.LabelFor(m => m.Title, new { @class = "col-sm-2 control-label" })%>
                                 <div class="controls">
                                     <%= Html.TextBoxFor(m => m.Title, new { placeholder = "Titel" }) %>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <%= Html.LabelFor(m => m.Text, new { @class = "control-label" })%>
+                                <%= Html.LabelFor(m => m.Text, new { @class = "col-sm-2 control-label" })%>
                                 <div class="controls">
                                     <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px; width:300px;", placeholder = "Beschreibung" }) %>
                                 </div>
                             </div>
                             <div class="control-group">
                                 
-                                <label class="control-label">
+                                <label class="col-sm-2 control-label">
                                     <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung des Fragesatzes u. ermöglichen Dir und anderen Fragesätze wiederzufinden." data-placement = "left">
                                         Kategorien
                                     </span>

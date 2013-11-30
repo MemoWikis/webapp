@@ -25,13 +25,13 @@
                     </div>
 
                     <div class="control-group">
-                        <%= Html.LabelFor(m => m.Name, new { @class = "control-label" })%>
+                        <%= Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })%>
                         <div class="controls">  
                             <%= Html.TextBoxFor(m => m.Name)%>
                         </div>
                     </div>                    
                     <div class="control-group">
-                        <%= Html.LabelFor(m => m.Email, new { @class = "control-label" })%>
+                        <%= Html.LabelFor(m => m.Email, new { @class = "col-sm-2 control-label" })%>
                         <div class="controls">
                             <%= Html.TextBoxFor(m => m.Email)%>
                         </div>

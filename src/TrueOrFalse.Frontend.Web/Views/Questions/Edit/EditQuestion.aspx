@@ -33,7 +33,7 @@
 
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
 
-        <div class="form-horizontal">
+        <div class="form-horizontal" role="form">
             <div class="box box-main">
                 <h1 class="pull-left"><%=Model.FormTitle %></h1>
             
@@ -57,9 +57,9 @@
                     <% } %>
                 </div>
                 <div class="box-content" style="clear: both;">
-                    <div class="control-group">
-                        <%= Html.LabelFor(m => m.Visibility, new { @class = "control-label" })%>
-                        <div class="controls">z
+                    <div class="form-group">
+                        <%= Html.LabelFor(m => m.Visibility, new { @class = "col-sm-2 control-label" })%>
+                        <div class="controls">
                             <label class="radio inline">
                             <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
                             für alle<br/><span class="smaller">(öffentliche Frage)</span> &nbsp;&nbsp;
@@ -75,44 +75,40 @@
                         </div>
                     </div>
                     
-                    <div class="control-group">
-                        <%= Html.LabelFor(m => m.Question, new { @class = "control-label" })%>
-                        <div class="controls">
-                                <%= Html.TextAreaFor(m => m.Question, new { style = "height:50px; width:435px;", placeholder = "Bitte gib den Fragetext ein" })%><br />
+                    <div class="form-group">
+                        <%= Html.LabelFor(m => m.Question, new { @class = "col-sm-2 control-label" })%>
+                        <div class="col-sm-10">
+                                <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", style = "height:50px; width:435px;", placeholder = "Bitte gib den Fragetext ein" })%><br />
                             <div style="padding-top: 4px;">
                                 <a href="#" id="openExtendedQuestion"><i class="fa fa-plus-circle" style="color: blue;"></i> Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</a> 
                             </div>    
                         </div>
                     </div>
                     
-                    <div class="control-group markdown" style="display: none" id="extendedQuestion">
-                        <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "control-label" })%>
-                        <div class="controls">
+                    <div class="form-group markdown" style="display: none" id="extendedQuestion">
+                        <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "col-sm-2 control-label" })%>
+                        <div class="col-sm-10">
                             <div class="wmd-panel">
                                 <div id="wmd-button-bar-1"></div>
                                 <%= Html.TextAreaFor(m => m.QuestionExtended, new 
-                                    { @class= "wmd-input", id="wmd-input-1", style = "height:150px; width:435px;", placeholder = "Erweiterte Beschreibung" })%><br />
+                                    { @class= "wmd-input form-control", id="wmd-input-1", style = "height:150px; width:435px;", placeholder = "Erweiterte Beschreibung" })%><br />
                             </div>                            
                             <div id="wmd-preview-1" class="wmd-panel wmd-preview" style="width:435px;"></div>
                         </div>
                     </div>
 
-<%--                    <div class="control-group">
-                        <% if (!String.IsNullOrEmpty(Model.ImageUrl_128))
-                           {%> <img alt="" src="<%= Model.ImageUrl_128 %>" /> <%} %>
-                        <label for="imagefile" class="control-label">Bild:</label>
-                        &nbsp;&nbsp;<input type="file" name="imagefile" id="imagefile" />
-                    </div>
-                    <div class="control-group">
+                    <%--
+                    <div class="form-group">
                         <% if (!String.IsNullOrEmpty(Model.SoundUrl)){
                                Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
                         <label for="soundfile" class="control-label">Ton:</label>
                         &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
                     </div>--%>
-                    <div class="control-group">
-                        <%= Html.LabelFor(m => m.SolutionType, new { @class = "control-label" }) %>
-                        <div class="controls">
-                            <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType"})%>
+
+                    <div class="form-group">
+                        <%= Html.LabelFor(m => m.SolutionType, new { @class = "col-sm-2 control-label" }) %>
+                        <div class="col-sm-3">
+                            <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType", @class="form-control"})%>
                         </div>
                     </div>
                     <div id="question-body">
@@ -133,15 +129,13 @@
                     </script>
                     <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>
                     
-                    <div class="control-group">
-                        
-                        <div class ="control-label">
-                            <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">
-                                Kategorien
-                            </span>
-                        </div> 
+                    
+                    <div class="form-group">    
+                        <label class="col-sm-2 control-label show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">
+                            Kategorien
+                        </label>
 
-                        <div id="relatedCategories" class="controls">
+                        <div id="relatedCategories" class="col-sm-10">
                             <script type="text/javascript">
                                 $(function () {
                                     <%foreach (var category in Model.Categories) { %>
@@ -150,45 +144,49 @@
                                     <% } %>
                                 });
                             </script>
-                            <input id="txtNewRelatedCategory" type="text" placeholder="Wähle eine Kategorie" />
+                            <input id="txtNewRelatedCategory" class="form-control" style="width: 190px;" type="text" placeholder="Wähle eine Kategorie" />
                             <a href="#" id="addRelatedCategory" style="display: none">
                                 <img alt="" src='/Images/Buttons/add.png' />
                             </a>
                         </div>
                     </div>
                     
-                    <div class="control-group markdown">
-                        <label class="control-label">
-                            <span class="show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">
-                                Erklärungen
-                            </span>
+                    <div class="form-group markdown">
+                        <label class="col-sm-2 control-label show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">
+                            Erklärungen
                         </label>
-                        <div class="controls">
+                        <div class="col-sm-10">
                             <div class="wmd-panel">
                                 <div id="wmd-button-bar-2"></div>
                                 <%= Html.TextAreaFor(m => m.Description, new 
-                                    { @class= "wmd-input", id="wmd-input-2", @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
+                                    { @class= "form-control wmd-input", id="wmd-input-2", @style = "height:50px; width:435px;", placeholder = "Erklärung der Antwort und Quellen." })%>
                             </div>
                             <div id="wmd-preview-2" class="wmd-panel wmd-preview" style="width:435px;"></div>
                         </div>
                     </div>
                     
-                    <div class="control-group">
-                        <label class="control-label">Quellen</label>
-                        <div class="controls">
-                            <input type="text" />
-                            <select>
-                                <option>asfasd</option>
-                                <option>asfasd</option>
-                            </select>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Quellen</label>
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <input class="form-control col-sm-2" type="text" />
+                            </div>
+                            <div class="col-xs-3">
+                                <select class="form-control ">
+                                    <option>asfasd</option>
+                                    <option>asfasd</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>&nbsp;&nbsp;&nbsp;
-                    <% if (Model.ShowSaveAndNewButton){ %>
-                        <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
-                    <% } %>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>&nbsp;&nbsp;&nbsp;
+                        <% if (Model.ShowSaveAndNewButton){ %>
+                            <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
+                        <% } %>                        
+                    </div>
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@
                     <%: Html.HiddenFor(x => x.Token) %>
 
                     <div class="control-group">
-                        <%: Html.LabelFor(model => model.NewPassword1, new { @class = "control-label" }) %>
+                        <%: Html.LabelFor(model => model.NewPassword1, new { @class = "col-sm-2 control-label" }) %>
                         <div class="controls">
                             <%: Html.PasswordFor(model => model.NewPassword1) %>
                             <%: Html.ValidationMessageFor(model => model.NewPassword1) %>
@@ -30,7 +30,7 @@
                     </div>
                 
                     <div class="control-group">
-                        <%: Html.LabelFor(model => model.NewPassword2, new { @class = "control-label" }) %>
+                        <%: Html.LabelFor(model => model.NewPassword2, new { @class = "col-sm-2 control-label" }) %>
                         <div class="controls">
                             <%: Html.PasswordFor(model => model.NewPassword2) %>
                             <%: Html.ValidationMessageFor(model => model.NewPassword2) %>

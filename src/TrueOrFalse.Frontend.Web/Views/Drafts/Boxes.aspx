@@ -106,7 +106,7 @@
                 
             </div>
             <div class="control-group">
-                <label class="control-label" for="Visibility">Sichtbar für</label>
+                <label class="col-sm-2 control-label" for="Visibility">Sichtbar für</label>
                 <div class="controls">
                     <label class="radio inline">
                     <input checked="checked" data-val="true" data-val-required="The Sichtbar für field is required." id="Visibility" name="Visibility" type="radio" value="All">
@@ -123,7 +123,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="Question">Frage</label>
+                <label class="col-sm-2 control-label" for="Question">Frage</label>
                 <div class="controls">
                     <textarea cols="20" data-val="true" data-val-required="The Frage field is required." id="Question" name="Question" placeholder="Bitte geben Sie eine Frage ein" rows="2" style="height:50px; width:435px;"></textarea><br>
                 </div>
@@ -134,7 +134,7 @@
                 die Fragen wiederzufinden.
             </p>
             <div class="control-group">
-                <label class="control-label" for="Kategorien">Kategorien</label>
+                <label class="col-sm-2 control-label" for="Kategorien">Kategorien</label>
                 <div id="Div1" class="controls">
                     <script type="text/javascript">
                         $(function () {
@@ -149,16 +149,16 @@
             </div>
             <div class="control-group">
                 
-                <label for="imagefile" class="control-label">Bild:</label>
+                <label for="imagefile" class="col-sm-2 control-label">Bild:</label>
                 &nbsp;&nbsp;<input type="file" name="imagefile" id="File1">
             </div>
             <div class="control-group">
                 
-                <label for="soundfile" class="control-label">Ton:</label>
+                <label for="soundfile" class="col-sm-2 control-label">Ton:</label>
                 &nbsp;&nbsp;<input type="file" name="soundfile" id="File2">
             </div>
             <div class="control-group">
-                <label class="control-label" for="SolutionType">Antwort</label>
+                <label class="col-sm-2 control-label" for="SolutionType">Antwort</label>
                 <div class="controls">
                     <select data-val="true" data-val-required="The Antwort field is required." id="ddlAnswerType" name="SolutionType"><option value="Text">Standard</option>
 <option value="MultipleChoice">Multiple Choice</option>
@@ -188,7 +188,7 @@
                 Verwende Links u. Bilder aber achte auf die Urheberrechte.
             </p>
             <div class="control-group">
-                <label class="control-label" for="Description">Erklärung</label>
+                <label class="col-sm-2 control-label" for="Description">Erklärung</label>
                 <div class="controls">
                     <textarea cols="20" id="Description" name="Description" placeholder="Erklärung der Antwort und Quellen." rows="2" style="height:50px; width:435px;"></textarea>
                 </div>

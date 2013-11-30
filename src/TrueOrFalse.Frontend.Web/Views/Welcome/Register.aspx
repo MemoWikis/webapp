@@ -21,7 +21,7 @@
                 </div>
        
                 <div class="control-group">
-                    <%: Html.LabelFor(model => model.Name, new { @class = "control-label" }) %>
+                    <%: Html.LabelFor(model => model.Name, new { @class = "col-sm-2 control-label" }) %>
                     <div class="controls">
                         <%: Html.EditorFor(model => model.Name) %>
                         <%: Html.ValidationMessageFor(model => model.Name) %>
@@ -29,7 +29,7 @@
                 </div>
                 
                 <div class="control-group">
-                    <%: Html.LabelFor(model => model.Email, new { @class = "control-label" }) %>
+                    <%: Html.LabelFor(model => model.Email, new { @class = "col-sm-2 control-label" }) %>
                     <div class="controls">
                         <%: Html.EditorFor(model => model.Email) %>
                         <%: Html.ValidationMessageFor(model => model.Email) %>
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="control-group">
-                    <%: Html.LabelFor(model => model.Password, new { @class = "control-label" }) %>
+                    <%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2 control-label" }) %>
                     <div class="controls">
                         <%: Html.Password("Password") %>
                         <%: Html.ValidationMessageFor(model => model.Password) %>
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="control-group">
-                    <%: Html.LabelFor(model => model.TermsAndConditionsApproved, new { @class = "control-label" }) %>
+                    <%: Html.LabelFor(model => model.TermsAndConditionsApproved, new { @class = "col-sm-2 control-label" }) %>
                     <div class="controls">
                         <%: Html.CheckBoxFor(model => model.TermsAndConditionsApproved) %>
                         <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
