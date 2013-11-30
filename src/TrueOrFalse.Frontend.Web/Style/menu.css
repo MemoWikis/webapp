@@ -29,27 +29,27 @@ div.menu div.main a.active {
     color: #B13A48;
 }
 
-/*a i.icon-caret-right {
+/*a i.fa-caret-right {
     color: #E7ECF6;
 }
 
-a:hover i.icon-caret-right {
+a:hover i.fa-caret-right {
     color: #2E487B;
 } */
 
-/*a.active i.icon-caret-right {
+/*a.active i.fa-caret-right {
     color: #B13A48;
 }*/
 
-/*a.active:hover i.icon-caret-right {
+/*a.active:hover i.fa-caret-right {
     color: white;
 }*/
 
-div.menu i.icon-caret-right {
+div.menu i.fa-caret-right {
     visibility: hidden;
 }
 
-div.menu a.active i.icon-caret-right {
+div.menu a.active i.fa-caret-right {
     visibility: visible;
 }
 
