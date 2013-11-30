@@ -18,7 +18,7 @@
         <% using (Html.BeginForm()) { %>
         
             <div style="float: right;">
-                <a href="<%= Url.Action("Create", "EditCategory") %>" style="width: 140px" class="btn btn-default">
+                <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn btn-default">
                     <i class="fa fa-plus-circle"></i>  Kategorie erstellen
                 </a>
             </div>
@@ -40,10 +40,10 @@
                     <div class="">
                         <ul class="nav pull-right" style="padding-left: 5px; margin-top: -1px; margin-right: -3px;">
                             <li class="dropdown" id="menu1">
-                                <a class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
+                                <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
                                     Sortieren nach: <%= Model.OrderByLabel %>
                                     <b class="caret"></b>
-                                </a>
+                                </button>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuestions" %>">
@@ -61,10 +61,10 @@
         
                         <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;"><%= Model.TotalCategoriesInResult %> Treffer</div>
                         
-                        <div class="pull-left control-group" style="margin-top: -7px; ">
-                            <label style="line-height: 18px; padding-top: 5px;"><nb>Suche</nb>:</label>
-                            <%: Html.TextBoxFor(model => model.SearchTerm, new {style="width:297px;", id="txtSearch"}) %>
-                            <a class="btn btn-default" style="height: 18px; position: relative; top: -5px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
+                        <div class="pull-left form-group search-container">
+                            <label>Suche:</label>
+                            <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch"}) %>
+                            <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png" /></button>
                         </div>
                     </div>
 

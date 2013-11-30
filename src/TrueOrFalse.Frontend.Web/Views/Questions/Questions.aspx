@@ -14,7 +14,7 @@
     <% using (Html.BeginForm()){ %>
             
     <div style="float: right;">
-        <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="width: 120px" class="btn btn-default">
+        <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" class="btn btn-default">
             <i class="fa fa-plus-circle"></i>
             Frage erstellen
         </a>
@@ -44,24 +44,21 @@
         </div>
             
         <div class="box box-green">
-            <div class="form-horizontal">
-                <div class="control-group" style="margin-bottom: 8px;">
-                    <label style="line-height: 18px; padding-top: 5px;"><b>Suche</b>:</label>
-                    <%: Html.TextBoxFor(model => model.SearchTerm, new {style = "width:297px;", id = "txtSearch", formUrl=Model.SearchUrl}) %>
-                    <a class="btn btn-default" style="height: 18px;" id="btnSearch"><img alt="" src="/Images/Buttons/tick.png" style="height: 18px;"/></a>
-                </div>
+            <div class="form-group search-container" style="margin-bottom: 8px;">
+                <label>Suche:</label>
+                <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id = "txtSearch", formUrl=Model.SearchUrl}) %>
+                <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png"/></button>
             </div>
             <% } %>
 
             <div style="padding-bottom: 12px;">
-        
                 <ul class="nav pull-left" style="margin: 0px; margin-left: -3px;">
                     <li class="dropdown" id="menu2">
-                        <a class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu2">
+                        <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu2">
                             <i class="fa fa-check-square-o"></i>
                             Auswahl <span id="selectionCount"></span>
                             <b class="caret"></b>
-                        </a>
+                        </button>
                         <ul class="dropdown-menu">
                             <li><a id="selectAll">Alle</a></li>
                             <li><a id="selectNone">Keine</a></li>
@@ -82,10 +79,10 @@
 
                 <ul class="nav pull-right" style="padding-left: 5px; margin: 0px; margin-right: -3px;">
                     <li class="dropdown" id="menu1">
-                        <a class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
+                        <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
                             Sortieren nach: <%= Model.OrderByLabel %>
                             <b class="caret"></b>
-                        </a>
+                        </button>
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>">

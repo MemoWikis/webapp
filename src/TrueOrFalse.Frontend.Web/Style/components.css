@@ -1,0 +1,14 @@
+﻿div.search-container {
+  margin-top: -7px;
+}
+div.search-container label {
+  padding-top: 6px;
+}
+div.search-container input[type=text] {
+  width: 297px;
+  float: left;
+  margin-right: 3px;
+}
+div.search-container button img {
+  height: 18px;
+}

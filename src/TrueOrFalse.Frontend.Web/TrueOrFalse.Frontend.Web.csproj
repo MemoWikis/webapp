@@ -297,6 +297,9 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Style\bootstrap.css" />
+    <Content Include="Style\components.css">
+      <DependentUpon>components.less</DependentUpon>
+    </Content>
     <Content Include="Style\font-awesome.css" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
@@ -656,6 +659,7 @@
     <Content Include="Style\fonts-awesome\fontawesome-webfont.ttf" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.woff" />
     <Content Include="Style\fonts-awesome\FontAwesome.otf" />
+    <Content Include="Style\components.less" />
     <None Include="Style\site-debug.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

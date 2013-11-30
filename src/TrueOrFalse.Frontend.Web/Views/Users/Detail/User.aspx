@@ -17,8 +17,6 @@
             <span class="pull-right" style="display: inline-block; font-size: 20px; font-weight: normal; position: relative; top: 13px;">Reputation: 7821 (Platz 7)</span>
 
             <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
-                    
-                    
                 <div class="column" >
                     <h4>Erstellte Inhalte</h4>
                     <div>220 Fragen erstellt</div>

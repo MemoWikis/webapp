@@ -70,4 +70,7 @@ div.menu div a {
  
 }
 
-
+div.menu .tooltip-inner {
+    min-width: 200px;
+    text-align: left;
+}
