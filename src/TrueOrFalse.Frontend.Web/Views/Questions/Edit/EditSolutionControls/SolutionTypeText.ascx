@@ -7,15 +7,15 @@
         
         <a href="#" class="btn btn-default" style="padding: 3px 4px; display: none"><img src="/Images/textfield-16.png" alt="Text"/></a>
         
-        <div  style="display: inline-block; position: absolute;">
-            <div class="btn-group" style="position: relative; top: 3px; left: 10px;">
+        <div  style="display: inline-block; position: absolute;;">
+            <div class="btn-group" style="position: relative; top: 3px; left: 10px; z-index: 5001;">
                 <a class="btn btn-default active" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
                 <a class="btn btn-default" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
                 <a class="btn btn-default" style="padding: 3px 4px; border-bottom-right-radius: 0" id="btnMenuItemDate"><img src="/Images/date-16.png" /></a>    
             </div>
             
             <%-- MenuItemText --%>
-            <div class="contextMenuOuter hide" id="divMenuItemText" style="position: relative; left: 5px;">
+            <div class="contextMenuOuter" id="divMenuItemText" style="z-index: 5000; position: relative; left: 5px; display: none">
                 <div class="well contextMenu">
                     <div style="margin-bottom: 5px">Großschreibung:</div>
                     <div class="btn-group">
@@ -33,7 +33,7 @@
             </div>
             
             <%-- MenuItemNumber --%>
-            <div class="contextMenuOuter hide" id="divMenuItemNumber" style="position: relative; left: 30px; width: 160px;">
+            <div class="contextMenuOuter" id="divMenuItemNumber" style="z-index: 5000; position: relative; left: 30px; width: 160px; display: none">
                 <div class="well contextMenu">
                     <div style="margin-bottom: 5px">
                         Abweichung:
@@ -47,7 +47,7 @@
             </div>
             
             <%-- MenuItemDate --%>
-            <div class="contextMenuOuter hide" id="divMenuItemDate" style="position: relative; left: 55px;">
+            <div class="contextMenuOuter" id="divMenuItemDate" style="z-index: 5000; position: relative; left: 55px; display: none">
                 <div class="well contextMenu">
                     <div style="margin-bottom: 5px">Genau auf:</div>   
           

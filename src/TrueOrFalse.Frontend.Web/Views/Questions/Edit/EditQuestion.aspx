@@ -173,8 +173,10 @@
                             </div>
                             <div class="col-xs-3">
                                 <select class="form-control ">
-                                    <option>asfasd</option>
-                                    <option>asfasd</option>
+                                    <option>Wikipedia</option>
+                                    <option>Webseite</option>
+                                    <option>Offline: Buch</option>
+                                    <option>Offline: Zeitung/Zeitschrift</option>
                                 </select>
                             </div>
                         </div>

@@ -37,45 +37,45 @@ class SolutionMetaDataMenu {
 
         $("#btnMenuItemNumber").click(this.SelectNumber);
         $("#btnMenuItemNumber, #divMenuItemNumber").hover(
-            function () { $("#divMenuItemNumber").show();}, 
-            function () { $("#divMenuItemNumber").hide();}
-        )
+            function () { $("#divMenuItemNumber").show(); },
+            function () { $("#divMenuItemNumber").hide(); }
+        );
 
         $("#btnMenuItemDate").click(this.SelectDate);
         $("#btnMenuItemDate, #divMenuItemDate").hover(
-            function () { $("#divMenuItemDate").show();}, 
-            function () { $("#divMenuItemDate").hide();}
-        )
+            function () { $("#divMenuItemDate").show(); },
+            function () { $("#divMenuItemDate").hide(); }
+        );
 	}
 
     SelectText() 
     { 
         var obj = <SolutionMetaData>jQuery.parseJSON('{"name":"John"}');
-        alert(obj.Name)
-        $("#btnMenuItemText").addClass("active")
-        $("#btnMenuItemNumber").removeClass("active")
-        $("#btnMenuItemDate").removeClass("active")
+        alert(obj.Name);
+        $("#btnMenuItemText").addClass("active");
+        $("#btnMenuItemNumber").removeClass("active");
+        $("#btnMenuItemDate").removeClass("active");
     }
     
     SelectNumber() 
     { 
-        $("#btnMenuItemText").removeClass("active")
-        $("#btnMenuItemNumber").addClass("active")
-        $("#btnMenuItemDate").removeClass("active")
+        $("#btnMenuItemText").removeClass("active");
+        $("#btnMenuItemNumber").addClass("active");
+        $("#btnMenuItemDate").removeClass("active");
     }
 
     SelectDate() 
     { 
-        $("#btnMenuItemText").removeClass("active")
-        $("#btnMenuItemNumber").removeClass("active")
-        $("#btnMenuItemDate").addClass("active")
+        $("#btnMenuItemText").removeClass("active");
+        $("#btnMenuItemNumber").removeClass("active");
+        $("#btnMenuItemDate").addClass("active");
     }
 }
 
 class SliderDate
 { 
     constructor() {
-        var _this = this
+        var _this = this;
         $("#sliderDate").slider({
             range: "min",
             max: 5,
@@ -86,17 +86,17 @@ class SliderDate
     }
 
     SetUiSlider(sliderValue) { 
-        $("#spanSliderValue").text(sliderValue)
+        $("#spanSliderValue").text(sliderValue);
     }
 }
 
 class NumberAccuracy
 { 
     constructor() {     
-        $("#numberAccuracy").change(function () { 
+        $("#numberAccuracy").change(function () {
             var newVal = $(this).val().replace(/[^0-9]/g, '');
-            $(this).val(newVal)
-        })       
+            $(this).val(newVal);
+        });
     }
 }
 

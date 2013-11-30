@@ -1,8 +1,10 @@
 using System.Collections.Specialized;
+using System.ComponentModel;
 
 public class QuestionSoulutionExact : QuestionSolution
 {
-    public string Text;
+    [DisplayName("Antwort")]
+    public string Text { get; set; }
 
     public override bool IsCorrect(string answer)
     {
