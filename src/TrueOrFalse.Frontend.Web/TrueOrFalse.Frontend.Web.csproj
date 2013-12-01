@@ -221,6 +221,8 @@
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
+    <Compile Include="Views\Dates\DatesController.cs" />
+    <Compile Include="Views\Dates\DatesModel.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
@@ -306,6 +308,7 @@
       <DependentUpon>menu.less</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
+    <Content Include="Views\Dates\Dates.aspx" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />
     <Content Include="Views\Help\Willkommen.aspx" />

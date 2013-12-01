@@ -103,6 +103,14 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", "EditSet", new {id = questionSetId});
         }
 
+        public static string News(UrlHelper url){
+            return url.Action("News","News");
+        }
+
+        public static string Dates(UrlHelper url){
+            return url.Action("Dates", "Dates");
+        }
+
         public const string EditQuestionController = "EditQuestion"; 
         public const string CreateQuestion = "Create";
         public const string EditQuestion = "Edit";

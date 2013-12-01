@@ -17,7 +17,7 @@
         <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
         
         <%-- FOOTER--%>
-        <div id="footer" class="col-md-12 row">
+        <div id="footer" class="row">
             <% Html.RenderPartial(UserControls.WelcomeFooter); %>
         </div>
         

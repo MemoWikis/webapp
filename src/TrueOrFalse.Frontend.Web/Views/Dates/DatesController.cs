@@ -5,12 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 
-public class NewsController : Controller
+public class DatesController : Controller
 {
-    [SetMenu(MenuEntry.News)]
-    public ActionResult News()
+    [SetMenu(MenuEntry.Dates)]
+    public ActionResult Dates()
     {
-        return View(new NewsModel());
-
+        return View(new DatesModel());
     }
 }

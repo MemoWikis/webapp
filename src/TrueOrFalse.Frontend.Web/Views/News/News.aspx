@@ -4,6 +4,9 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>Neues</h2>
+    
+    <div class="col-md-9">
+        <h2 style="margin-top: 0px;">Neues</h2>
+    </div>
 </asp:Content>
 

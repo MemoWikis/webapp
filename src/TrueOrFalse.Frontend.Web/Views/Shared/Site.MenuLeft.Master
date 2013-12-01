@@ -23,7 +23,7 @@
         </div>
         
         <%-- FOOTER--%>
-        <div id="footer" class="col-md-12 row">
+        <div id="footer" class="row">
             <%// ReSharper disable Asp.NotResolved
                 Html.RenderPartial(UserControls.WelcomeFooter); 
                 // ReSharper restore Asp.NotResolved%>

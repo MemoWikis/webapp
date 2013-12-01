@@ -51,7 +51,7 @@
                </div>
         <% } %>
         
-        <div><a href="#"><i class="fa fa-caret-right"></i> Termine</a></div>
+        <div><a href="<%= Links.Dates(Url) %>" class="<%= Model.Active(MenuEntry.Dates) %>"><i class="fa fa-caret-right"></i> Termine</a></div>
         <%--<div><a href="#"><i class="fa fa-caret-right"></i> Lerngruppen</a></div>--%>
     
         <div style="margin-top: 13px;">
@@ -67,12 +67,13 @@
         <% } %>
     
         <div class="main" style="margin-top:12px;">
-            <a href="#" class="<%= Model.Active(MenuEntry.News) %>" ><i class="fa fa-caret-right"></i> Neues <span class="badge badge-info" style="display:inline-block; position: relative; top: -2px;">21</span></a>
+            <a href="<%= Links.News(Url) %>" class="<%= Model.Active(MenuEntry.News) %>"><i class="fa fa-caret-right"></i> Neues <span class="badge badge-info" style="display:inline-block; position: relative; top: -2px;">21</span></a>
         </div>
 
         <div class="main" style="margin-top:12px;">
             <a class="<%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>"><i class="fa fa-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> 
         </div>
+        <div><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="#"><i class="fa fa-caret-right"></i> Spielen</a></div>
     
         <% index = 0; foreach (var user in new SessionUiData().VisitedUserDetails){ index++;  %>
                <div class="sub">

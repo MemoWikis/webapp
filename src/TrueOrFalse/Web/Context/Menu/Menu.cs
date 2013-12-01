@@ -14,7 +14,8 @@ namespace TrueOrFalse
         Users, UserDetail,
         Categories, CategoryDetail,
         News,
-        Help
+        Help,
+        Dates
     }
 
     [Serializable]
