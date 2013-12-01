@@ -10,7 +10,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div class="col-md-7">
+    <div class="col-md-6">
         <div class="box box-main" >
             <h2 class="pull-left"><%= Model.Name %></h2>
             <div class="pull-right">
