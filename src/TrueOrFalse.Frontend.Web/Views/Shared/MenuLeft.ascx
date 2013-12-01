@@ -101,7 +101,7 @@
             <div class="main no-link"><i class="fa fa-caret-right"></i> Kategorien</div>
             
             <% foreach(var category in Model.Categories){ %>
-                <div class="sub"><a href="#"><i class="fa fa-caret-right"></i> <%=category.Category.Name %> (<span><%=category.OnPageCount %>x) </span></a></div>
+                <div class="sub"><a href="<%= Links.CategoryDetail(Url, category.Category) %>"><i class="fa fa-caret-right"></i> <%=category.Category.Name %> (<span><%=category.OnPageCount %>x) </span></a></div>
             <% } %>
         </div>
     </div>
