@@ -156,8 +156,10 @@
             <% } %>
             
             <% if (Model.SourceIsSet){ %>
+                <br/>                
+                Fragesatz:
                 <a href="<%= Links.SetDetail(Url, Model.Set) %>">
-                    <br/> "<%= Model.Set.Name %>"
+                    "<%= Model.Set.Name %>"
                 </a>            
             <% } %>
         </div>
