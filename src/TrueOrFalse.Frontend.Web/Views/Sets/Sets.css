@@ -2,5 +2,5 @@
 .set-row:hover{ background-color: #f3f5f8; }
 
 div.column-1 { width: 98px;float: left; padding-top: 5px; padding-left: 5px;}
-div.column-2 { width: 720px; padding-right: 10px; float: left; padding-top: 5px;}
-div.column-3 { width: 125px;float: left; padding-top: 5px;}
+div.column-2 { width: 560px; padding-right: 10px; float: left; padding-top: 5px;}
+div.column-3 { width: 155px;float: left; padding-top: 5px; height: 100px;}

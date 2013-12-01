@@ -14,5 +14,5 @@ $(function () {
             }
         });
     });
-    new ValuationPerRow(".column-2", ValuationPerRowMode.Set);
+    new ValuationPerRow(".column-3", ValuationPerRowMode.Set);
 });
