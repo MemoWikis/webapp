@@ -78,28 +78,28 @@
 
                 <div class="box-content" style="clear: both;">    
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="control-group">
-                                <%= Html.LabelFor(m => m.Title, new { @class = "col-sm-2 control-label" })%>
-                                <div class="controls">
-                                    <%= Html.TextBoxFor(m => m.Title, new { placeholder = "Titel" }) %>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <%= Html.LabelFor(m => m.Title, new { @class = "col-sm-3 control-label" })%>
+                                <div class="col-sm-8">
+                                    <%= Html.TextBoxFor(m => m.Title, new { placeholder = "Titel", @class="form-control" }) %>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <%= Html.LabelFor(m => m.Text, new { @class = "col-sm-2 control-label" })%>
-                                <div class="controls">
-                                    <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px; width:300px;", placeholder = "Beschreibung" }) %>
+                            <div class="form-group">
+                                <%= Html.LabelFor(m => m.Text, new { @class = "col-sm-3 control-label" })%>
+                                <div class="col-sm-8">
+                                    <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px;", placeholder = "Beschreibung", @class="form-control" }) %>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="form-group">
                                 
-                                <label class="col-sm-2 control-label">
+                                <label class="col-sm-3 control-label">
                                     <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung des Fragesatzes u. ermöglichen Dir und anderen Fragesätze wiederzufinden." data-placement = "left">
                                         Kategorien
                                     </span>
                                 </label>        
                                 
-                                <div id="relatedCategories" class="controls">
+                                <div id="relatedCategories" class="col-sm-9">
                                     <script type="text/javascript">
                                         $(function () {
                                             <%foreach (var category in Model.Categories) { %>
@@ -108,7 +108,7 @@
                                             <% } %>
                                         });
                                     </script>
-                                    <input id="txtNewRelatedCategory" type="text" placeholder="Wähle eine Kategorie" />
+                                    <input id="txtNewRelatedCategory" type="text" placeholder="Wähle eine Kategorie" class="form-control" style="width: 190px;" />
                                     <a href="#" id="addRelatedCategory" style="display: none">
                                         <img alt="" src='/Images/Buttons/add.png' />
                                     </a>
@@ -149,8 +149,8 @@
                                 </ul>
                             <% } %>
                         </div>
-                        <div class="col-md-3" style="position: relative; left: 25px;">
-                            <div class="box">
+                        <div class="col-md-4" >
+                            <div class="box" style="margin-right: 25px;">
                                 <img id="questionSetImg" src="<%= Model.ImageUrl_206px %>" />
                             </div>
                             <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
