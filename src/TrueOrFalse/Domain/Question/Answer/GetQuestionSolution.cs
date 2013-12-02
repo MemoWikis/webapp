@@ -10,7 +10,7 @@ public class GetQuestionSolution
         switch (type)
         {
             case SolutionType.Text:
-                return new QuestionSoulutionExact {Text = solution};
+                return new QuestionSolutionExact {Text = solution};
 
             case SolutionType.Sequence:
                 return serializer.Deserialize<QuestionSolutionSequence>(solution);

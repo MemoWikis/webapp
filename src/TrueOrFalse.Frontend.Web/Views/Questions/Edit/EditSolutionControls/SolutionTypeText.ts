@@ -1,18 +1,7 @@
+/// <reference path="../../../../Scripts/SolutionMetaData.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
-
-enum SolutionMetaDataType
-{ 
-    Text,
-    Number,
-    Date
-}
-
-interface SolutionMetaData 
-{
-    Name;
-}
 
 class SolutionMetaDataMenu {
 
@@ -50,8 +39,8 @@ class SolutionMetaDataMenu {
 
     SelectText() 
     { 
-        var obj = <SolutionMetaData>jQuery.parseJSON('{"name":"John"}');
-        alert(obj.Name);
+        var obj = <SolutionMetaData>jQuery.parseJSON('{"Name":"John"}');
+        console.log(obj.Name);
         $("#btnMenuItemText").addClass("active");
         $("#btnMenuItemNumber").removeClass("active");
         $("#btnMenuItemDate").removeClass("active");
@@ -64,8 +53,8 @@ class SolutionMetaDataMenu {
         $("#btnMenuItemDate").removeClass("active");
     }
 
-    SelectDate() 
-    { 
+    SelectDate()
+    {
         $("#btnMenuItemText").removeClass("active");
         $("#btnMenuItemNumber").removeClass("active");
         $("#btnMenuItemDate").addClass("active");
@@ -78,15 +67,23 @@ class SliderDate
         var _this = this;
         $("#sliderDate").slider({
             range: "min",
-            max: 5,
-            value: 3,
+            max: 2,
+            value: 0,
             slide: function (event, ui) { _this.SetUiSlider(ui.value); },
             change: function (event, ui) { _this.SetUiSlider(ui.value); }
         });
     }
 
-    SetUiSlider(sliderValue) { 
-        $("#spanSliderValue").text(sliderValue);
+    SetUiSlider(sliderValue) {        
+        var text = "";
+        if (sliderValue == 0)
+            text = "Tag";
+        else if (sliderValue == 1)
+            text = "Monat";
+        else if (sliderValue == 2)
+            text = "Jahr";
+
+        $("#spanSliderValue").text(text);
     }
 }
 

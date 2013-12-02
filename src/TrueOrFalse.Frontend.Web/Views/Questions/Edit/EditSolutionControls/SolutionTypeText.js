@@ -1,13 +1,3 @@
-var SolutionMetaDataType;
-(function (SolutionMetaDataType) {
-    SolutionMetaDataType._map = [];
-    SolutionMetaDataType._map[0] = "Text";
-    SolutionMetaDataType.Text = 0;
-    SolutionMetaDataType._map[1] = "Number";
-    SolutionMetaDataType.Number = 1;
-    SolutionMetaDataType._map[2] = "Date";
-    SolutionMetaDataType.Date = 2;
-})(SolutionMetaDataType || (SolutionMetaDataType = {}));
 var SolutionMetaDataMenu = (function () {
     function SolutionMetaDataMenu() {
         this._sliderDate = new SliderDate();
@@ -32,8 +22,8 @@ var SolutionMetaDataMenu = (function () {
         });
     }
     SolutionMetaDataMenu.prototype.SelectText = function () {
-        var obj = jQuery.parseJSON('{"name":"John"}');
-        alert(obj.Name);
+        var obj = jQuery.parseJSON('{"Name":"John"}');
+        console.log(obj.Name);
         $("#btnMenuItemText").addClass("active");
         $("#btnMenuItemNumber").removeClass("active");
         $("#btnMenuItemDate").removeClass("active");
@@ -55,8 +45,8 @@ var SliderDate = (function () {
         var _this = this;
         $("#sliderDate").slider({
             range: "min",
-            max: 5,
-            value: 3,
+            max: 2,
+            value: 0,
             slide: function (event, ui) {
                 _this.SetUiSlider(ui.value);
             },
@@ -66,7 +56,15 @@ var SliderDate = (function () {
         });
     }
     SliderDate.prototype.SetUiSlider = function (sliderValue) {
-        $("#spanSliderValue").text(sliderValue);
+        var text = "";
+        if(sliderValue == 0) {
+            text = "Tag";
+        } else if(sliderValue == 1) {
+            text = "Monat";
+        } else if(sliderValue == 2) {
+            text = "Jahr";
+        }
+        $("#spanSliderValue").text(text);
     };
     return SliderDate;
 })();

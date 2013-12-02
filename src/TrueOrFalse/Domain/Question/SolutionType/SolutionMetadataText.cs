@@ -14,6 +14,11 @@ namespace TrueOrFalse
         [JsonProperty("IsExtracInput")]
         public bool IsExactInput;
 
+        public SolutionMetadataText()
+        {
+            IsText = true;
+        }
+
         protected override void InitFromJson(string json)
         {
             var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadataText>(json);

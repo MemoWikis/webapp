@@ -298,6 +298,10 @@
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
+    <Content Include="Scripts\SolutionMetaData.js">
+      <DependentUpon>SolutionMetaData.ts</DependentUpon>
+    </Content>
     <Content Include="Style\bootstrap.css" />
     <Content Include="Style\components.css">
       <DependentUpon>components.less</DependentUpon>
@@ -543,6 +547,9 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js">
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
@@ -593,12 +600,6 @@
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowDelete.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
-      <DependentUpon>SolutionTypeText.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.min.js">
-      <DependentUpon>SolutionTypeText.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownQuestionExt.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <Content Include="Views\Questions\Edit\Js\MarkDownDescription.js">

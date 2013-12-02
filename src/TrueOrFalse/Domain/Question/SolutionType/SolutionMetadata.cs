@@ -15,8 +15,15 @@ namespace TrueOrFalse
             set { InitFromJson(value); }
         }
 
+        public bool IsDate;
+        public bool IsNumber;
+        public bool IsText;
+
         protected virtual void InitFromJson(string json){
-            throw new Exception("invalid use"); //NHibernate does not allow abstract classes
+            var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadata>(json);
+            IsDate = tmp.Result.IsDate;
+            IsNumber = tmp.Result.IsNumber;
+            IsText = tmp.Result.IsNumber;
         }
     }
 }

@@ -125,7 +125,6 @@
                         $("#ddlAnswerType").change(updateSolutionBody);
                         updateSolutionBody();
                     </script>
-                    <%--<% Html.RenderPartial("~/Views/Questions/Edit/EditAnswerControls/AnswerTypeAccurate.ascx", Model); %>--%>
                     
                     
                     <div class="form-group">    

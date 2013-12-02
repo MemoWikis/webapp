@@ -232,7 +232,7 @@
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
-    <Compile Include="Domain\Question\Answer\QuestionSoulutionExact.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionExact.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
     <Compile Include="Domain\NotNull.cs" />
     <Compile Include="Domain\Question\Question.Ops\GetTotalQuestionCount.cs" />

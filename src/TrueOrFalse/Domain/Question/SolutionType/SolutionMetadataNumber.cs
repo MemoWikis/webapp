@@ -11,6 +11,11 @@ namespace TrueOrFalse
         [JsonProperty("Currency")]
         public string Currency;
 
+        public SolutionMetadataNumber()
+        {
+            IsNumber = true;
+        }
+
         protected override void InitFromJson(string json)
         {
             

@@ -1,10 +1,13 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
+using TrueOrFalse;
 
-public class QuestionSoulutionExact : QuestionSolution
+public class QuestionSolutionExact : QuestionSolution
 {
     [DisplayName("Antwort")]
     public string Text { get; set; }
+
+    public SolutionMetadata Metadata = new SolutionMetadata();
 
     public override bool IsCorrect(string answer)
     {

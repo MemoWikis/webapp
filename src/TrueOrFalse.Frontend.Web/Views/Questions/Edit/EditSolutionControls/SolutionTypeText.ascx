@@ -1,6 +1,14 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSoulutionExact>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionExact>" %>
+
 
 <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10" >
+        Format z.B.: DD.MM.JJJJ
+    </div>
+</div>
+
+<div class="form-group">
+    
     <%= Html.LabelFor(m => m.Text, new { @class = "col-sm-2 control-label" })%>
     <div class="col-sm-10">
         <%= Html.TextBoxFor(m => m.Text, new { @class="form-control", @id = "Answer", @style = "width:210px; float: left;", placeholder = "Antwort eingeben." })%>
@@ -8,14 +16,14 @@
         <a href="#" class="btn btn-default" style="padding: 3px 4px; display: none"><img src="/Images/textfield-16.png" alt="Text"/></a>
         
         <div  style="display: inline-block; position: absolute;;">
-            <div class="btn-group" style="position: relative; top: 3px; left: 10px; z-index: 5001;">
+            <div class="btn-group" style="position: relative; top: 3px; left: 10px; z-index: 11;">
                 <a class="btn btn-default active" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
                 <a class="btn btn-default" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
                 <a class="btn btn-default" style="padding: 3px 4px; border-bottom-right-radius: 0" id="btnMenuItemDate"><img src="/Images/date-16.png" /></a>    
             </div>
             
             <%-- MenuItemText --%>
-            <div class="contextMenuOuter" id="divMenuItemText" style="z-index: 5000; position: relative; left: 5px; display: none">
+            <div class="contextMenuOuter" id="divMenuItemText" style="left: 5px; ">
                 <div class="well contextMenu">
                     <div style="margin-bottom: 5px">Großschreibung:</div>
                     <div class="btn-group">
@@ -33,7 +41,7 @@
             </div>
             
             <%-- MenuItemNumber --%>
-            <div class="contextMenuOuter" id="divMenuItemNumber" style="z-index: 5000; position: relative; left: 30px; width: 160px; display: none">
+            <div class="contextMenuOuter" id="divMenuItemNumber" style="left: 30px; width: 160px;">
                 <div class="well contextMenu">
                     <div style="margin-bottom: 5px">
                         Abweichung:
@@ -47,11 +55,12 @@
             </div>
             
             <%-- MenuItemDate --%>
-            <div class="contextMenuOuter" id="divMenuItemDate" style="z-index: 5000; position: relative; left: 55px; display: none">
+            <div class="contextMenuOuter" id="divMenuItemDate" style="position: relative; left: 55px">
                 <div class="well contextMenu">
-                    <div style="margin-bottom: 5px">Genau auf:</div>   
-          
-                    <span id="spanSliderValue"></span>      
+                    <div style="margin-bottom: 5px">
+                        genau auf
+                        <span id="spanSliderValue"></span>
+                    </div>         
                     <div id="sliderDate" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 120px; margin-left:5px;"> 
                         <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                         <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
@@ -91,4 +100,4 @@
     </div>
 </div>
 
-<script src="/Views/Questions/Edit/EditSolutionControls/SolutionTypeText.min.js" type="text/javascript"></script>
+<script src="/Views/Questions/Edit/EditSolutionControls/SolutionTypeText.js" type="text/javascript"></script>

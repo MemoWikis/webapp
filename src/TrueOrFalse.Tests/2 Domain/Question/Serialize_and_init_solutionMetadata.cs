@@ -10,7 +10,7 @@ namespace TrueOrFalse.Tests
     public class Serialize_and_init_solutionMetadata : BaseTest
     {
         [Test]
-        public void Should_serialze_and_deserialize()
+        public void Should_serialze_and_deserialize_MetaDataText()
         {
             var solutionMeta = new SolutionMetadataText();
             solutionMeta.IsCaseSensitive = true; 
@@ -18,9 +18,17 @@ namespace TrueOrFalse.Tests
             var solutionToInit = new SolutionMetadataText();
             solutionToInit.Json = solutionMeta.Json;
 
+            Assert.That(solutionToInit.IsText, Is.True);
+            Assert.That(solutionToInit.IsNumber, Is.False);
             Assert.That(solutionMeta.IsCaseSensitive, Is.EqualTo(solutionToInit.IsCaseSensitive));
             Assert.That(solutionMeta.IsExactInput, Is.EqualTo(solutionToInit.IsExactInput));
             Assert.That(solutionMeta.Json, Is.EqualTo(solutionToInit.Json));
+        }
+
+        [Test]
+        public void Should_serialize_type()
+        {
+            
         }
     }
 }

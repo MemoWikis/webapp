@@ -14,6 +14,10 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f8f8f8', GradientType=0);
 }
 .contextMenuOuter {
+  display: none;
+  z-index: 10;
+  position: relative;
+  top: 3px;
   border-left: 5px solid white;
   border-top: none;
   border-radius: 6px;
