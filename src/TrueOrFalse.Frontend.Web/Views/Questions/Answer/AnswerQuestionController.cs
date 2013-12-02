@@ -89,7 +89,7 @@ public class AnswerQuestionController : BaseController
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
         var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question,searchSpec));
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, searchSpec));
         _saveQuestionView.Run(question, _sessionUser.User.Id);
 
         return View(_viewLocation, new AnswerQuestionModel(question, searchSpec));

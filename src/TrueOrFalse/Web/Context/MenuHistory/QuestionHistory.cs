@@ -22,23 +22,26 @@ namespace TrueOrFalse
         public int Id { get; private set; }
         public int SetId { get; private set; }
         public string Text { get; private set; }
+        public string Solution { get; private set; }
         public HistoryItemType Type { get; set; }
         
         public QuestionSearchSpec SearchSpec { get; set; }
 
         public Func<UrlHelper, string> Link;
 
+        public Question Question;
+        public Set Set;
+
         public QuestionHistoryItem(
             Set set,
             Question question,
             HistoryItemType type = HistoryItemType.Any)
         {
-            Id = question.Id;
+            Set = set;
             SetId = set.Id;
-            Text = question.Text;
             Type = type;
-
-            Link = url => Links.AnswerQuestion(url, question, set);
+            
+            FillQuestionFields(question);
         }
 
         public QuestionHistoryItem(
@@ -47,11 +50,17 @@ namespace TrueOrFalse
             HistoryItemType type = HistoryItemType.Any)
         {
             SearchSpec = QuestionSearchSpecSession.CloneAndAddToSession(seachSpec);
+            Type = type;
+            
+            FillQuestionFields(question);
+        }
+
+        private void FillQuestionFields(Question question)
+        {
+            Question = question;
             Id = question.Id;
             Text = question.Text;
-            Type = type;
-
-            Link = url => Links.AnswerQuestion(url, SearchSpec);
+            Solution = question.Solution;            
         }
     }
 }

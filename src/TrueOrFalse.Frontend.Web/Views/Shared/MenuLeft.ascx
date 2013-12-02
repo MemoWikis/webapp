@@ -34,8 +34,15 @@
         <div><a class="<%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>"><i class="fa fa-caret-right"></i> Fragen</a></div>
         <% var index = 0; foreach (var question in new SessionUiData().VisitedQuestions) { index++ ;%>
                <div class="sub">
-                   <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionDetail); } %>
-                   <a href="<%= question.Link(Url) %>" class="show-tooltip <%=activeClass %>" title="Frage: <%=question.Text %> <br><br> Antwort: <%=question.Solution %>" data-placement="right" data-html="true">
+                   <% 
+                       var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionDetail); }
+                       string url = "";
+                       if(question.Set != null)
+                           url = Links.AnswerQuestion(Url, question.Question, question.Set);
+                       else
+                           url = Links.AnswerQuestion(Url, question.SearchSpec);
+                    %>
+                   <a href="<%= url %>" class="show-tooltip <%=activeClass %>" title="Frage: <%=question.Text.Replace("\"","'") %> <br><br> Antwort: <%=question.Solution.Replace("\"","'") %>" data-placement="right" data-html="true">
                        <i class="fa fa-caret-right"></i> <%=question.Text.Truncate(100)%>
                    </a>
                </div>
