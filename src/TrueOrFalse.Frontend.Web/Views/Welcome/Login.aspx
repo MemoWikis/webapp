@@ -9,45 +9,61 @@
         <div class="col-md-2" style="padding-top:7px;">
             <i class="fa fa-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
         </div>
-        <div class="form-horizontal col-md-8">
+        <div class="form-horizontal col-md-8" role="form">
+            
             <fieldset>
                 <legend>Anmelden</legend>
-                
+            
                 <% Html.Message(Model.Message); %>
-
-                <div class="control-group">
-                    <%: Html.LabelFor(model => model.EmailAddress, new { @class = "col-sm-2 control-label" })%>
-                    <div class="controls">
-                        <%: Html.EditorFor(model => model.EmailAddress)%> 
+                
+                <div class="form-group">    
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a class="zocial icon facebook"></a>
+                        <a class="zocial icon google"></a>
+                        <a class="zocial icon twitter"></a>
+                        &nbsp;<span style="position: relative; top: -8px;">ODER MIT</span>
                     </div>
-                    <%: Html.ValidationMessageFor(model => model.EmailAddress)%>            
                 </div>
 
-                <div class="control-group">
+                <div class="form-group">
+                    <%: Html.LabelFor(model => model.EmailAddress, new { @class = "col-sm-2 control-label" })%>
+                    <div class="col-sm-3">
+                        <%= Html.TextBoxFor(m => m.EmailAddress, new { @class="form-control" })%> 
+                    </div>
+                    <%: Html.ValidationMessageFor(m => m.EmailAddress)%>            
+                </div>
+
+                <div class="form-group">
                     <%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2 control-label" })%>
-                    <div class="controls">
-                        <%: Html.Password("Password") %> &nbsp; (grOß kLEinScHReiBunG beachten!)
+                    <div class="col-sm-3">
+                        <%: Html.PasswordFor(m => m.Password, new { @class="form-control" }) %>
+                    </div>
+                    <div class="col-sm-4" style="padding-top: 8px;">
+                        (grOß kLEinScHReiBunG beachten!)
                     </div>
                  </div>
                  
-                <div class="control-group">
-                    
-                    <div class="controls">
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
                         <label class="checkbox" style="white-space:nowrap;">
                             <%: Html.CheckBoxFor(model => model.PersistentLogin) %> Angemeldet bleiben
                         </label>
                     </div>
                  </div>
-
-                 <div class="form-actions">
-                     <input type="submit" value="Anmelden" class="btn btn-primary" /> 
-                     <%: Html.ActionLink("Passwort vergessen?", "PasswordRecovery", Links.VariousController, new {@style="vertical-align:bottom; margin-left:20px;"} )  %>
-                 </div>
-                 
-                 <div class="form-actions" style="border-top:0px; background-color:white;">
-                    Noch kein Benutzer?&nbsp;
-                    <%: Html.ActionLink("Jetzt registrieren!", Links.Register) %><br/><br />
-                 </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" value="Anmelden" class="btn btn-primary" /> 
+                        <%: Html.ActionLink("Passwort vergessen?", "PasswordRecovery", Links.VariousController, new {@style="vertical-align:bottom; margin-left:20px;"} )  %>
+                    </div>
+                </div>
+                
+                <div class="form-group"> 
+                    <div class="col-sm-offset-2 col-sm-10" style="border-top:0px; background-color:white;">
+                        Noch kein Benutzer?&nbsp;
+                        <%: Html.ActionLink("Jetzt registrieren!", Links.Register) %><br/><br />
+                    </div>
+                </div>
 
              </fieldset>
         </div>        

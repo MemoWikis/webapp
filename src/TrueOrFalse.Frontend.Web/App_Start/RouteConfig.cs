@@ -16,6 +16,8 @@ namespace TrueOrFalse
 
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
 
+            routes.MapRoute("Login", "Anmelden", new { controller = "Welcome", action = "Login" });
+
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "Willkommen" });
 
             routes.MapRoute("UsersSearch", "Nutzer/Suche/{searchTerm}", new { controller = "Users", action = "Search", searchTerm = UrlParameter.Optional });
@@ -86,6 +88,7 @@ namespace TrueOrFalse
             routes.MapRoute("ImageUpload", "ImageUpload/{action}", new { controller = "ImageUpload" });
 
             
+
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
         }
     }

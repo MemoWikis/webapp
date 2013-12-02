@@ -8,8 +8,7 @@
     
     <div class="col-md-9">
         <h2 style="margin-top: 0px;">Neues</h2>
-        
-        
+
         <ul>
             <li>Willkommen auf Richtig-oder-Falsch</li>
             <li>Fragesatz: "..." wurde aktualisiert (Du folgst dem Fragesatz)</li>

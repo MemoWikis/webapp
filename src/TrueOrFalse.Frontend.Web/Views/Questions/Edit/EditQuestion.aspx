@@ -78,7 +78,7 @@
                     <div class="form-group">
                         <%= Html.LabelFor(m => m.Question, new { @class = "col-sm-2 control-label" })%>
                         <div class="col-sm-10">
-                                <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", style = "height:50px; width:435px;", placeholder = "Bitte gib den Fragetext ein" })%><br />
+                            <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", style = "height:50px; width:435px;", placeholder = "Bitte gib den Fragetext ein" })%><br />
                             <div style="padding-top: 4px;">
                                 <a href="#" id="openExtendedQuestion"><i class="fa fa-plus-circle" style="color: blue;"></i> Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</a> 
                             </div>    
