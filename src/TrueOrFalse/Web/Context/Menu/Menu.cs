@@ -15,7 +15,8 @@ namespace TrueOrFalse
         Categories, CategoryDetail,
         News,
         Help,
-        Dates
+        Dates,
+        Play
     }
 
     [Serializable]

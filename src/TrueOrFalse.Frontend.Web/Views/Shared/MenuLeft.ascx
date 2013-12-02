@@ -73,7 +73,7 @@
         <div class="main" style="margin-top:12px;">
             <a class="<%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>"><i class="fa fa-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> 
         </div>
-        <div><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="#"><i class="fa fa-caret-right"></i> Spielen</a></div>
+        <div><a class="<%= Model.Active(MenuEntry.Play) %>" href="#"><i class="fa fa-caret-right"></i> Spielen</a></div>
     
         <% index = 0; foreach (var user in new SessionUiData().VisitedUserDetails){ index++;  %>
                <div class="sub">

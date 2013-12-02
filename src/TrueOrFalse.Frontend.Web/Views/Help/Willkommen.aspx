@@ -8,7 +8,7 @@
         <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
             <h5>Themen</h5>
             <ul>
-                <li><a href="#">Wissen</a></li>
+                <li><a href="<%= Url.Action("Wissen", "Help") %>">Wissen</a></li>
                 <li><a href="<%= Url.Action("Reputation", "Help") %>">Reputation</a></li>
                 <li><a href="<%= Url.Action("DatenSicherheit", "Help") %>">Datensicherheit & Datenschutz</a></li>
             </ul>
@@ -31,9 +31,7 @@
             D-10999 Berlin<br/>
             Aufgang: Portal 3A, 4.OG<br/>
             <br/>
-            (Damit wirklich jemand da ist, bitte meldet ich bitte etwas vorher.)
-            
-            
+            (Bitte melde Dich vorher an.)
         </div>
     </div>
 </div>

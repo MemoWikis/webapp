@@ -309,6 +309,7 @@
     </Content>
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
+    <Content Include="Views\Help\Wissen.aspx" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />
     <Content Include="Views\Help\Willkommen.aspx" />

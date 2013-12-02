@@ -140,6 +140,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string HelpController = "Help";
         public const string HelpWillkommen = "Willkommen";
+        public const string HelpWunschwissen = "Willkommen";
 
         public const string AccountController = "Account";
         public const string Logout = "Logout";

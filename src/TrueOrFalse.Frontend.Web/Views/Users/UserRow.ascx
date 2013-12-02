@@ -10,6 +10,7 @@
         <div style="font-size:large;">
             <a href="<%= Model.UserLink(Url) %>"><%= Model.Name %></a>
             <span style="font-size: small;">(<%= Model.QuestionCount %> Fragen)</span>
+            <button class="btn btn-default btn-xs" type="button">Folgen</button>
         </div>
         
         <%= Model.DescriptionShort %>
