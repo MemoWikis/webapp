@@ -5,6 +5,7 @@ namespace TrueOrFalse
 {
     public class HistoryBase<T> : IEnumerable<T> where T : HistoryItemBase
     {
+        protected int _size = 3;
         private readonly List<T> _list = new List<T>();
 
         public void Add(T historyItem)
@@ -12,8 +13,8 @@ namespace TrueOrFalse
             _list.RemoveAll(x => x.Id == historyItem.Id && x.Type == historyItem.Type);
             _list.Insert(0, historyItem);
 
-            while (_list.Count > 3)
-                _list.RemoveAt(3);
+            while (_list.Count > _size)
+                _list.RemoveAt(_size);
         }
 
         public IEnumerator<T> GetEnumerator(){

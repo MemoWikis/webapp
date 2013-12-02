@@ -52,7 +52,7 @@ public class AnswerQuestionController : BaseController
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
 
         if (text == null && id == null && elementOnPage == null)
-            return GetViewBySearchSpec(activeSearchSpec, pager);
+            return GetViewBySearchSpec(activeSearchSpec);
 
         var question = _questionRepository.GetById((int)id);
 
@@ -71,7 +71,7 @@ public class AnswerQuestionController : BaseController
 
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.NextPage(1);
-        return GetViewBySearchSpec(activeSearchSpec, pager);
+        return GetViewBySearchSpec(activeSearchSpec);
     }
 
     public ActionResult Previous(string pager, int? setId, int? questionId)
@@ -83,10 +83,10 @@ public class AnswerQuestionController : BaseController
 
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.PreviousPage(1);
-        return GetViewBySearchSpec(activeSearchSpec, pager);
+        return GetViewBySearchSpec(activeSearchSpec);
     }
 
-    private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec, string pagerKey)
+    private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
         var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question,searchSpec));

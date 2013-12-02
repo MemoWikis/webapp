@@ -11,6 +11,10 @@ namespace TrueOrFalse
 {
     public class QuestionHistory : HistoryBase<QuestionHistoryItem>
     {
+        public QuestionHistory()
+        {
+            _size = 5;
+        }
     }
 
     public class QuestionHistoryItem : HistoryItemBase
@@ -47,7 +51,7 @@ namespace TrueOrFalse
             Text = question.Text;
             Type = type;
 
-            Link = url => Links.AnswerQuestion(url, seachSpec);
+            Link = url => Links.AnswerQuestion(url, SearchSpec);
         }
     }
 }
