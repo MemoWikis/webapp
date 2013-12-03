@@ -15,8 +15,7 @@ namespace TrueOrFalse
 
     public class SolutionMetadataDate : SolutionMetadata
     {
-        public SolutionMetadataDate()
-        {
+        public SolutionMetadataDate(){
             IsDate = true;
         }
 

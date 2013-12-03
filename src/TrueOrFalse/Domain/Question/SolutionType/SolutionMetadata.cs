@@ -15,8 +15,11 @@ namespace TrueOrFalse
             set { InitFromJson(value); }
         }
 
+        [JsonProperty("IsDate")]
         public bool IsDate;
+        [JsonProperty("IsNumber")]
         public bool IsNumber;
+        [JsonProperty("IsText")]
         public bool IsText;
 
         protected virtual void InitFromJson(string json){

@@ -12,11 +12,8 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_serialze_and_deserialize_MetaDataText()
         {
-            var solutionMeta = new SolutionMetadataText();
-            solutionMeta.IsCaseSensitive = true; 
-
-            var solutionToInit = new SolutionMetadataText();
-            solutionToInit.Json = solutionMeta.Json;
+            var solutionMeta = new SolutionMetadataText {IsCaseSensitive = true};
+            var solutionToInit = new SolutionMetadataText {Json = solutionMeta.Json};
 
             Assert.That(solutionToInit.IsText, Is.True);
             Assert.That(solutionToInit.IsNumber, Is.False);
@@ -28,6 +25,11 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_serialize_type()
         {
+            var solutionMeta = new SolutionMetadataDate{ Precision = DatePrecision.Month };
+            var solutionMetaNew = new SolutionMetadata { Json = solutionMeta.Json };
+
+            Console.WriteLine(solutionMetaNew.Json);
+            Assert.That(solutionMetaNew.IsDate, Is.True);
             
         }
     }
