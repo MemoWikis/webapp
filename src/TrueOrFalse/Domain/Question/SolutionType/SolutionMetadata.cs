@@ -9,10 +9,15 @@ namespace TrueOrFalse
     [JsonObject(MemberSerialization.OptIn)]
     public class SolutionMetadata
     {
+        private string _orginalJson;
         public string Json
         {
             get { return JsonConvert.SerializeObject(this); }
-            set { InitFromJson(value); }
+            set
+            {
+                _orginalJson = value;
+                InitFromJson(value);
+            }
         }
 
         [JsonProperty("IsDate")]
@@ -27,6 +32,18 @@ namespace TrueOrFalse
             IsDate = tmp.Result.IsDate;
             IsNumber = tmp.Result.IsNumber;
             IsText = tmp.Result.IsNumber;
+        }
+
+        public SolutionMetadataDate GetAsDate(){
+            return new SolutionMetadataDate { Json = _orginalJson };
+        }
+
+        public SolutionMetadataNumber GetAsNumber(){
+            return new SolutionMetadataNumber { Json = _orginalJson };
+        }
+
+        public SolutionMetadataText GetAsText(){
+            return new SolutionMetadataText { Json = _orginalJson };
         }
     }
 }

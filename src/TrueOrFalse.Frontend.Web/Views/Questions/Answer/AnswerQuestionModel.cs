@@ -139,7 +139,7 @@ public class AnswerQuestionModel : BaseModel
         QuestionText = question.Text;
         QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
         SolutionType = question.SolutionType.ToString();
-        SolutionModel = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
+        SolutionModel = new GetQuestionSolution().Run(question);
 
         TimesAnsweredTotal = question.TotalAnswers();
         PercenctageCorrectAnswers = 34;

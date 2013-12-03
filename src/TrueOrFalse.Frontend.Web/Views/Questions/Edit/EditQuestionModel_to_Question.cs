@@ -36,7 +36,7 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
                 var solutionModel = new QuestionSolutionExact();
                 solutionModel.FillFromPostData(postData);
                 question.Solution = solutionModel.Text;
-                question.SolutionMetadataJson = solutionModel.Metadata.Json;
+                question.SolutionMetadataJson = solutionModel.MetadataSolutionJson;
                 break;
 
             case SolutionType.Sequence:

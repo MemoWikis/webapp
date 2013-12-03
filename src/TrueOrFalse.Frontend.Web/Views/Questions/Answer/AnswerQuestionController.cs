@@ -114,7 +114,7 @@ public class AnswerQuestionController : BaseController
     public JsonResult GetAnswer(int id, string answer)
     {
         var question = _questionRepository.GetById(id);
-        var solution = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
+        var solution = new GetQuestionSolution().Run(question);
         return new JsonResult
                    {
                        Data = new

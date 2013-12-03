@@ -28,9 +28,9 @@ namespace TrueOrFalse.Tests
             var solutionMeta = new SolutionMetadataDate{ Precision = DatePrecision.Month };
             var solutionMetaNew = new SolutionMetadata { Json = solutionMeta.Json };
 
-            Console.WriteLine(solutionMetaNew.Json);
             Assert.That(solutionMetaNew.IsDate, Is.True);
-            
+            var solutionMetaDate = solutionMetaNew.GetAsDate();
+            Assert.That(solutionMetaDate.Precision, Is.EqualTo(DatePrecision.Month));
         }
     }
 }

@@ -13,52 +13,96 @@ class SolutionMetaDataMenu {
     _sliderDate: SliderDate;
     _numberAccuracy: NumberAccuracy;
 
+    _current: SolutionMetaData;
+
     constructor () {
 
         this._sliderDate = new SliderDate();
         this._numberAccuracy = new NumberAccuracy();
 
-        $("#btnMenuItemText").click(this.SelectText);
+        var jsonMetaData = this.GetJsonMetaData();
+        if (jsonMetaData != null) {
+            var solutionMetaData = <SolutionMetaData>jsonMetaData;
+            if (solutionMetaData.IsDate)
+                this.SelectDate();
+            else if (solutionMetaData.IsNumber)
+                this.SelectNumber();
+            else if (solutionMetaData.IsText)
+                this.SelectText();
+        } else {
+            this.SelectText();
+        }
+        
+        $("#btnMenuItemText").click(() => { this.SelectText(); $("#divMenuItemText").show(); });
         $("#btnMenuItemText, #divMenuItemText").hover(
-            function () { $("#divMenuItemText").show();},
-            function () { $("#divMenuItemText").hide();}
+            () => { if (this._current.IsText) $("#divMenuItemText").show(); },
+            () => { $("#divMenuItemText").hide();}
         );
 
-        $("#btnMenuItemNumber").click(this.SelectNumber);
+        $("#btnMenuItemNumber").click(() => { this.SelectNumber(); $("#divMenuItemNumber").show(); });
         $("#btnMenuItemNumber, #divMenuItemNumber").hover(
-            function () { $("#divMenuItemNumber").show(); },
-            function () { $("#divMenuItemNumber").hide(); }
+            () => { if (this._current.IsNumber) $("#divMenuItemNumber").show(); },
+            () => { $("#divMenuItemNumber").hide(); }
         );
 
-        $("#btnMenuItemDate").click(this.SelectDate);
+        $("#btnMenuItemDate").click(() => { this.SelectDate(); $("#divMenuItemDate").show(); });
         $("#btnMenuItemDate, #divMenuItemDate").hover(
-            function () { $("#divMenuItemDate").show(); },
-            function () { $("#divMenuItemDate").hide(); }
+            () => { if (this._current.IsDate) $("#divMenuItemDate").show(); },
+            () => { $("#divMenuItemDate").hide(); }
         );
 	}
 
     SelectText() 
-    { 
-        var obj = <SolutionMetaData>jQuery.parseJSON('{"Name":"John"}');
-        console.log(obj.Name);
+    {
+        this.ResetAll();
         $("#btnMenuItemText").addClass("active");
-        $("#btnMenuItemNumber").removeClass("active");
-        $("#btnMenuItemDate").removeClass("active");
+        this.SetJsonMetaData(new SolutionMetadataText());
     }
     
     SelectNumber() 
-    { 
-        $("#btnMenuItemText").removeClass("active");
+    {
+        this.ResetAll();
         $("#btnMenuItemNumber").addClass("active");
-        $("#btnMenuItemDate").removeClass("active");
+        this.SetJsonMetaData(new SolutionMetadataNumber());
     }
 
     SelectDate()
     {
+        this.ResetAll();
+        $("#infoMetaDate").show();
+        $("#btnMenuItemDate").addClass("active");
+
+        var metaData = this.GetJsonMetaData();
+        if (metaData != null && metaData.IsDate) {
+            metaData = <SolutionMetadataDate>metaData;
+            $("#sliderDate").val(metaData.Precision);
+            this.SetJsonMetaData(metaData);
+        } else {
+            this.SetJsonMetaData(new SolutionMetadataDate());
+        }
+    }
+
+    ResetAll() {
+        $("#infoMetaDate").hide();
+
         $("#btnMenuItemText").removeClass("active");
         $("#btnMenuItemNumber").removeClass("active");
-        $("#btnMenuItemDate").addClass("active");
+        $("#btnMenuItemDate").removeClass("active");
     }
+
+    GetJsonMetaData(): any{
+        var jsonVal = $("#MetadataSolutionJson").val();
+        if (jsonVal.length == 0)
+            return null;
+
+        return jQuery.parseJSON(jsonVal);
+    }
+
+    SetJsonMetaData(json: any) {
+        this._current = json;
+        $("#MetadataSolutionJson").val(JSON.stringify(json));
+    }
+
 }
 
 class SliderDate
@@ -67,8 +111,9 @@ class SliderDate
         var _this = this;
         $("#sliderDate").slider({
             range: "min",
-            max: 2,
-            value: 0,
+            value: 3,
+            min: 1,
+            max: 6,
             slide: function (event, ui) { _this.SetUiSlider(ui.value); },
             change: function (event, ui) { _this.SetUiSlider(ui.value); }
         });
@@ -76,12 +121,24 @@ class SliderDate
 
     SetUiSlider(sliderValue) {        
         var text = "";
-        if (sliderValue == 0)
+        if (sliderValue == 1) {
             text = "Tag";
-        else if (sliderValue == 1)
+        }
+        else if (sliderValue == 2){
             text = "Monat";
-        else if (sliderValue == 2)
+        }
+        else if (sliderValue == 3){
             text = "Jahr";
+        }
+        else if (sliderValue == 4){
+            text = "Jahrzent";
+        }
+        else if (sliderValue == 5){
+            text = "Jahrhundert";
+        }
+        else if (sliderValue == 6){
+            text = "Jahrtausend";
+        }
 
         $("#spanSliderValue").text(text);
     }
