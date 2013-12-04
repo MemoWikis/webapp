@@ -17,5 +17,10 @@ public class VariousPublicController : Controller
     {
         return View(new BaseModel());
     }
+
+    public ActionResult Qunit()
+    {
+        return View(new BaseModel());
+    }
 }
 

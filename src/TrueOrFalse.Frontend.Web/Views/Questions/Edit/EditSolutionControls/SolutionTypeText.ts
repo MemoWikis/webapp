@@ -55,6 +55,7 @@ class SolutionMetaDataMenu {
     SelectText() 
     {
         this.ResetAll();
+        $("#infoMetaText").show();
         $("#btnMenuItemText").addClass("active");
         this.SetJsonMetaData(new SolutionMetadataText());
     }
@@ -62,6 +63,7 @@ class SolutionMetaDataMenu {
     SelectNumber() 
     {
         this.ResetAll();
+        $("#infoMetaNumber").show();
         $("#btnMenuItemNumber").addClass("active");
         this.SetJsonMetaData(new SolutionMetadataNumber());
     }
@@ -84,6 +86,8 @@ class SolutionMetaDataMenu {
 
     ResetAll() {
         $("#infoMetaDate").hide();
+        $("#infoMetaText").hide();
+        $("#infoMetaNumber").hide();
 
         $("#btnMenuItemText").removeClass("active");
         $("#btnMenuItemNumber").removeClass("active");
@@ -119,7 +123,9 @@ class SliderDate
         });
     }
 
-    SetUiSlider(sliderValue) {        
+    SetUiSlider(sliderValue) {
+
+        //<this._current
         var text = "";
         if (sliderValue == 1) {
             text = "Tag";

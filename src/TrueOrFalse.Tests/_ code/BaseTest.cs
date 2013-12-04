@@ -35,7 +35,7 @@ namespace TrueOrFalse.Tests
             BuildContainer();
         }
 
-        private static void InitializeContainer()
+        public static void InitializeContainer()
         {
             BuildContainer();
             ServiceLocator.Init(_container);

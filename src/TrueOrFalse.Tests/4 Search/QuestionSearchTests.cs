@@ -71,7 +71,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_filter_by_valuator_id()
         {
-            RecycleContainer();
+            InitializeContainer();
             Resolve<ReIndexAllQuestions>();
 
             var context = ContextQuestion.New()

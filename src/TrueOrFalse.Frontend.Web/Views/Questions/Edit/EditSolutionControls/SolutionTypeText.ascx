@@ -8,6 +8,18 @@
     </div>
 </div>
 
+<div class="form-group" id="infoMetaText">
+    <div class="col-sm-offset-2 col-sm-10" >
+        Exakte Texteingabe
+    </div>
+</div>
+
+<div class="form-group" id="infoMetaNumber">
+    <div class="col-sm-offset-2 col-sm-10" >
+        Exakte Zahl
+    </div>
+</div>
+
 <div class="form-group">
     
     <%= Html.LabelFor(m => m.Text, new { @class = "col-sm-2 control-label" })%>

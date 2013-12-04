@@ -52,11 +52,13 @@ var SolutionMetaDataMenu = (function () {
     }
     SolutionMetaDataMenu.prototype.SelectText = function () {
         this.ResetAll();
+        $("#infoMetaText").show();
         $("#btnMenuItemText").addClass("active");
         this.SetJsonMetaData(new SolutionMetadataText());
     };
     SolutionMetaDataMenu.prototype.SelectNumber = function () {
         this.ResetAll();
+        $("#infoMetaNumber").show();
         $("#btnMenuItemNumber").addClass("active");
         this.SetJsonMetaData(new SolutionMetadataNumber());
     };
@@ -75,6 +77,8 @@ var SolutionMetaDataMenu = (function () {
     };
     SolutionMetaDataMenu.prototype.ResetAll = function () {
         $("#infoMetaDate").hide();
+        $("#infoMetaText").hide();
+        $("#infoMetaNumber").hide();
         $("#btnMenuItemText").removeClass("active");
         $("#btnMenuItemNumber").removeClass("active");
         $("#btnMenuItemDate").removeClass("active");

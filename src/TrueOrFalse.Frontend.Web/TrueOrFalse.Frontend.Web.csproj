@@ -302,6 +302,7 @@
     <Content Include="Scripts\SolutionMetaData.js">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Style\bootstrap.css" />
     <Content Include="Style\components.css">
       <DependentUpon>components.less</DependentUpon>
@@ -642,6 +643,7 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\VariousPublic\QUnit.aspx" />
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
