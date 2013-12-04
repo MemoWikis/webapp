@@ -1,0 +1,277 @@
+﻿@media temp {}
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+html {
+     overflow: scroll;
+} /*always show scrollbar*/
+
+a {
+    color: #275ABD;
+}
+
+body {
+    font-size: 13px;
+    color: #2E487B;
+}
+
+#header
+{
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    border-bottom: 1px solid;
+}
+
+#header h1
+{
+    font-weight: 800;
+    margin: 0px;
+    padding: 0px 0px 0px 0px;
+    border: none;
+    font-size: 2.0em;
+    font-family: 'Pacifico', cursive;
+    background: url('/images/toflogo.png') no-repeat right;
+    padding-right: 72px;
+    color: #2E487B;
+}
+
+
+/*Fonts*/
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif;
+}
+
+span.smaller {
+    font-size: 90%;
+}
+
+
+/* VALIDATION
+----------------------------------------------------------*/
+
+textarea.input-validation-error, input.input-validation-error { border: 1px solid #f00; background-color: #ffdede }
+.input-validation-valid  { /* Optional: you can set whatever style you want */ }
+.field-validation-error { color: #f00; background-color: #ffdede }
+.field-validation-valid { display: none }
+.validation-summary-errors { font-weight: bold; color: #f00 }
+.validation-summary-valid { display: none }
+
+/* BUTTONS
+----------------------------------------------------------*/
+
+div.button {margin: 15px 0 10px 0}
+a.button {padding: .3em 1em .4em 20px;text-decoration: none;position: relative; }
+a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+
+
+/* VARIOUS
+----------------------------------------------------------*/
+.cursor-hand{ cursor: pointer; }
+
+/* Labels
+----------------------------------------------------------*/
+.label-category {
+    background-color: #275ABD;
+}
+
+/*FORMS
+---------------------------------------------------------*/
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, textarea, select {
+    color: #2E487B;
+}
+
+
+/*Boxes
+---------------------------------------------------------*/
+
+.box {
+    background-color: #E7ECF6;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+.box h1, .box h2 {
+    margin: 0px;
+}
+
+.box h1 {
+    font-size: 20px;
+    line-height: 140%;
+}
+
+.box h2 {
+    font-size: 16px;
+}
+
+div.box h2 {
+    line-height: 100%;
+    padding-bottom: 10px;
+    padding-left: 5px;
+}
+
+div.box-content {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin: -1px;
+    
+    background-color: white;
+    padding: 5px;
+    }
+
+div.box_darkblue {
+    background-color: #f2f6ff;
+}
+
+div.box_darkblue a {
+    color: #00628f;
+}
+
+div.box-green {
+    background-color: white;
+}
+
+.green {
+    background-color: #D1EBA7;
+}
+
+
+.darkblue {
+    background-color: #2E487B;
+    color: white;
+}
+
+.darkblue a {
+    color: #9EDCF9;
+}
+
+.box-head {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.box-head h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px;
+}
+
+div.box-main h1,
+div.box-main h2 {
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+div.box-main .box-content {
+    padding-top: 15px;
+}
+
+.box-with-tabs ul.nav-tabs {
+
+    background-color: white;
+    border-bottom: solid 3px #D1EBA7;
+    margin-top: -5px;
+
+    li {
+    
+        border-bottom: 3px solid white;
+        top: 5px;
+
+        a {
+            border: 3px solid transparent;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom: none;
+        }
+
+         a:hover {
+            background-color: #D1EBA7;
+        }
+
+
+        &.active {
+            a {
+                border-style: solid;
+                border-width: 3px;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                border-color: #D1EBA7;
+                border-bottom: none;
+            }
+
+            a:hover{
+                background-color: white;
+            }
+        }
+    }
+}
+
+
+.box div.pagination {
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.box div.pagination ul {
+    background-color: white;
+}
+
+.box-with-tabs .box {
+    padding-top: 20px;
+}
+
+.box div.form-actions {
+    background-color: transparent;
+    border: none;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-bottom: 5px;
+}
+
+/*Rows
+---------------------------------------------------------*/
+
+.rowBase:after {
+  clear: both;
+}
+
+.rowBase {
+  *zoom: 1;
+}
+
+
+.rowBase:before,
+.rowBase:after {
+  display: table;
+  content: "";
+}
+
+div.rowBase {
+    border-top:1px solid #A6BADE;
+}
+
+div.rowBase:first-child {
+    border-top: none;
+}
+
+
+
+/*temp
+---------------------------------------------------------*/
+
+div.todo-temp {
+    background-color: #FFDF22;
+    position: absolute;
+    top: 0px;
+    right: 100px;
+    width: 100px;
+    height: 100px;
+}
+

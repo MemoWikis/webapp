@@ -306,10 +306,14 @@
     <Content Include="Style\components.css">
       <DependentUpon>components.less</DependentUpon>
     </Content>
+    <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
     <Content Include="Style\menu.css">
       <DependentUpon>menu.less</DependentUpon>
+    </Content>
+    <Content Include="Style\site.css">
+      <DependentUpon>site.less</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
@@ -511,7 +515,7 @@
     <Content Include="Style\site-debug.css">
       <DependentUpon>site-debug.less</DependentUpon>
     </Content>
-    <Content Include="Style\site.css" />
+    <Content Include="Style\site_old.css" />
     <Content Include="Style\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Style\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Style\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
