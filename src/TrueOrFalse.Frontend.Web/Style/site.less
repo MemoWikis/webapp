@@ -1,5 +1,8 @@
 ﻿@media temp {}
 
+
+@import 'includes/colors.less';
+
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
 
@@ -13,7 +16,7 @@ a {
 
 body {
     font-size: 13px;
-    color: #2E487B;
+    color: @dark-blue;
 }
 
 #header
@@ -35,7 +38,7 @@ body {
     font-family: 'Pacifico', cursive;
     background: url('/images/toflogo.png') no-repeat right;
     padding-right: 72px;
-    color: #2E487B;
+    color: @dark-blue;
 }
 
 
@@ -80,7 +83,7 @@ a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;
 /*FORMS
 ---------------------------------------------------------*/
 input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, textarea, select {
-    color: #2E487B;
+    color: @dark-blue;
 }
 
 
@@ -137,12 +140,12 @@ div.box-green {
 }
 
 .green {
-    background-color: #D1EBA7;
+    background-color: @light-green;
 }
 
 
 .darkblue {
-    background-color: #2E487B;
+    background-color: @dark-blue;
     color: white;
 }
 
@@ -176,7 +179,7 @@ div.box-main .box-content {
 .box-with-tabs ul.nav-tabs {
 
     background-color: white;
-    border-bottom: solid 3px #D1EBA7;
+    border-bottom: solid 3px @light-green;
     margin-top: -5px;
 
     li {
@@ -192,7 +195,7 @@ div.box-main .box-content {
         }
 
          a:hover {
-            background-color: #D1EBA7;
+            background-color: @light-green;
         }
 
 
@@ -202,7 +205,7 @@ div.box-main .box-content {
                 border-width: 3px;
                 border-top-left-radius: 4px;
                 border-top-right-radius: 4px;
-                border-color: #D1EBA7;
+                border-color: @light-green;
                 border-bottom: none;
             }
 
@@ -266,12 +269,12 @@ div.rowBase:first-child {
 /*temp
 ---------------------------------------------------------*/
 
-div.todo-temp {
+/*div.todo-temp {
     background-color: #FFDF22;
     position: absolute;
     top: 0px;
     right: 100px;
     width: 100px;
     height: 100px;
-}
+}*/
 

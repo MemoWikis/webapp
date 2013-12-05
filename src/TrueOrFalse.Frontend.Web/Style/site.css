@@ -12,7 +12,7 @@ a {
 }
 body {
   font-size: 13px;
-  color: #2E487B;
+  color: #2e487b;
 }
 #header {
   position: relative;
@@ -30,7 +30,7 @@ body {
   font-family: 'Pacifico', cursive;
   background: url('/images/toflogo.png') no-repeat right;
   padding-right: 72px;
-  color: #2E487B;
+  color: #2e487b;
 }
 /*Fonts*/
 h1,
@@ -114,7 +114,7 @@ input[type="color"],
 .uneditable-input,
 textarea,
 select {
-  color: #2E487B;
+  color: #2e487b;
 }
 /*Boxes
 ---------------------------------------------------------*/
@@ -160,10 +160,10 @@ div.box-green {
   background-color: white;
 }
 .green {
-  background-color: #D1EBA7;
+  background-color: #d1eba7;
 }
 .darkblue {
-  background-color: #2E487B;
+  background-color: #2e487b;
   color: white;
 }
 .darkblue a {
@@ -190,7 +190,7 @@ div.box-main .box-content {
 }
 .box-with-tabs ul.nav-tabs {
   background-color: white;
-  border-bottom: solid 3px #D1EBA7;
+  border-bottom: solid 3px #d1eba7;
   margin-top: -5px;
 }
 .box-with-tabs ul.nav-tabs li {
@@ -204,14 +204,14 @@ div.box-main .box-content {
   border-bottom: none;
 }
 .box-with-tabs ul.nav-tabs li a:hover {
-  background-color: #D1EBA7;
+  background-color: #d1eba7;
 }
 .box-with-tabs ul.nav-tabs li.active a {
   border-style: solid;
   border-width: 3px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  border-color: #D1EBA7;
+  border-color: #d1eba7;
   border-bottom: none;
 }
 .box-with-tabs ul.nav-tabs li.active a:hover {
@@ -255,11 +255,11 @@ div.rowBase:first-child {
 }
 /*temp
 ---------------------------------------------------------*/
-div.todo-temp {
-  background-color: #FFDF22;
-  position: absolute;
-  top: 0px;
-  right: 100px;
-  width: 100px;
-  height: 100px;
-}
+/*div.todo-temp {
+    background-color: #FFDF22;
+    position: absolute;
+    top: 0px;
+    right: 100px;
+    width: 100px;
+    height: 100px;
+}*/

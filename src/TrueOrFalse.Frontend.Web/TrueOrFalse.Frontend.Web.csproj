@@ -306,6 +306,10 @@
     <Content Include="Style\components.css">
       <DependentUpon>components.less</DependentUpon>
     </Content>
+    <Content Include="Style\includes\colors.css">
+      <DependentUpon>colors.less</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\colors.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
