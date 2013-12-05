@@ -82,12 +82,8 @@ public class AnswerQuestionModel : BaseModel
          
     public AnswerQuestionModel() { }
 
-    public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec, int elementOnPage = -1) : this()
+    public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
     {
-        searchSpec.PageSize = 1;
-        if (elementOnPage != -1)
-            searchSpec.CurrentPage = elementOnPage;
-
         PageCurrent = searchSpec.CurrentPage.ToString();
         PagesTotal = searchSpec.PageCount.ToString();
         PagerKey = searchSpec.Key;

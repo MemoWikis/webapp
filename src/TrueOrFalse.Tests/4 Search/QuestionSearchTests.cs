@@ -86,7 +86,7 @@ namespace TrueOrFalse.Tests
             });
 
             Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager(), valuatorId:2).Count, Is.EqualTo(0));
-            Assert.That(Resolve<SearchQuestions>().Run("", new Pager(), valuatorId: 2).Count, Is.EqualTo(2));
+            Assert.That(Resolve<SearchQuestions>().Run("Question", new Pager(), valuatorId: 2).Count, Is.EqualTo(2));
         }
 
         [Test]

@@ -56,10 +56,14 @@ public class AnswerQuestionController : BaseController
 
         var question = _questionRepository.GetById((int)id);
 
+        activeSearchSpec.PageSize = 1;
+        if ((int)elementOnPage != -1)
+            activeSearchSpec.CurrentPage = (int)elementOnPage;
+
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
         _saveQuestionView.Run(question, _sessionUser.User.Id);
 
-        return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec, (int)elementOnPage));
+        return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec));
     }
 
     public ActionResult Next(string pager, int? setId, int? questionId)
@@ -158,5 +162,11 @@ public class AnswerQuestionController : BaseController
         Sl.Resolve<UpdateQuestionTotals>().UpdateRelevanceAll(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevanceForAll(id);
         return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
+    }
+
+    public EmptyResult ClearHistory()
+    {
+        _sessionUiData.VisitedQuestions = new QuestionHistory();
+        return new EmptyResult();
     }
 }

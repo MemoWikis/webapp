@@ -37,7 +37,7 @@
                    <% 
                        var activeClass = "";  
                        if (index == 1)
-                           activeClass = Model.Active(MenuEntry.QuestionDetail); 
+                           activeClass = Model.Active(MenuEntry.QuestionDetail);
                            
                        string url = "";
                        if(question.Set != null)
@@ -45,9 +45,13 @@
                        else
                            url = Links.AnswerQuestion(Url, question.SearchSpec);
 
-                       var tooltip = "Frage: " + question.Text.Replace("\"", "'");
-                       if (index != 1 || activeClass != "active")
-                           tooltip += " <br><br> Antwort: " + question.Solution.Replace("\"", "'");
+                       string tooltip = "";
+                       if (String.IsNullOrEmpty(question.Text))
+                       {
+                           tooltip = "Frage: " + question.Text.Replace("\"", "'");
+                           if (index != 1 || activeClass != "active")
+                               tooltip += " <br><br> Antwort: " + question.Solution.Replace("\"", "'");                           
+                       }
                    %>
                    <a href="<%= url %>" class="show-tooltip <%=activeClass %>" title="<%= tooltip %>" data-placement="right" data-html="true">
                        <i class="fa fa-caret-right"></i> <%=question.Text.Truncate(100)%>
