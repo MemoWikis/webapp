@@ -15,14 +15,10 @@
         
         <% using (Html.BeginForm()) { %>
         
-            <div style="float: right;">
-                <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn btn-default">
-                    <i class="fa fa-plus-circle"></i>  Kategorie erstellen
-                </a>
-            </div>
+            
         
-            <div class="box-with-tabs">
-                <div class="green">
+            <div class="boxtainer-outlined-tabs">
+                <div class="boxtainer-header">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#home" >Alle Kategorien (<%= Model.TotalCategories %>)</a></li>
                         <li>
@@ -31,12 +27,16 @@
                             </a>
                         </li>
                     </ul>
+                    <div style="float: right; position: absolute; right: 0; top: 5px;">
+                        <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn btn-default">
+                            <i class="fa fa-plus-circle"></i>  Kategorie erstellen
+                        </a>
+                    </div>
                 </div>
-                
-                <div class="box box-green">
+                <div class="boxtainer-content">
                     
-                    <div class="">
-                        <ul class="nav pull-right" style="padding-left: 5px; margin-top: -1px; margin-right: -3px;">
+                    <div class="search-section">
+                        <ul class="nav pull-right">
                             <li class="dropdown" id="menu1">
                                 <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
                                     Sortieren nach: <%= Model.OrderByLabel %>
@@ -59,14 +59,14 @@
         
                         <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;"><%= Model.TotalCategoriesInResult %> Treffer</div>
                         
-                        <div class="pull-left form-group search-container">
+                        <div class="pull-left form-group">
                             <label>Suche:</label>
                             <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch"}) %>
                             <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png" /></button>
                         </div>
                     </div>
 
-                    <div class="box-content" style="clear: both;">
+                    <div class="" style="clear: both;">
                         <% foreach (var row in Model.CategoryRows){
                             Html.RenderPartial("CategoryRow", row);
                         } %>

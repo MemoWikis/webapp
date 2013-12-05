@@ -1,7 +1,12 @@
 ﻿@media temp {}
 
 
+/* LESS INCLUDES
+----------------------------------------------------------*/
+
+
 @import 'includes/colors.less';
+@import 'includes/shared.less';
 
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
@@ -51,6 +56,14 @@ span.smaller {
     font-size: 90%;
 }
 
+/*Helpers*/
+
+.clearfix {
+    display: inline-block;
+    width: 100%;
+    zoom: 1;
+}
+
 
 /* VALIDATION
 ----------------------------------------------------------*/
@@ -87,7 +100,7 @@ input[type="text"], input[type="password"], input[type="datetime"], input[type="
 }
 
 
-/*Boxes
+/*Container
 ---------------------------------------------------------*/
 
 .box {
@@ -127,31 +140,10 @@ div.box-content {
     padding: 5px;
     }
 
-div.box_darkblue {
-    background-color: #f2f6ff;
-}
-
-div.box_darkblue a {
-    color: #00628f;
-}
-
-div.box-green {
-    background-color: white;
-}
-
 .green {
     background-color: @light-green;
 }
 
-
-.darkblue {
-    background-color: @dark-blue;
-    color: white;
-}
-
-.darkblue a {
-    color: #9EDCF9;
-}
 
 .box-head {
     -webkit-border-radius: 6px;
@@ -176,44 +168,63 @@ div.box-main .box-content {
     padding-top: 15px;
 }
 
-.box-with-tabs ul.nav-tabs {
 
-    background-color: white;
-    border-bottom: solid 3px @light-green;
-    margin-top: -5px;
 
-    li {
+.box-with-tabs,
+.boxtainer-outlined-tabs {
+
+    .boxtainer-header {position: relative;}
+
+
+
+    ul.nav-tabs {
+
+        background-color: white;
+        border-bottom: solid 3px @light-green;
+        margin-top: -5px;
+
+        li {
     
-        border-bottom: 3px solid white;
-        top: 5px;
+            border-bottom: 3px solid white;
+            top: 5px;
 
-        a {
-            border: 3px solid transparent;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-            border-bottom: none;
-        }
-
-         a:hover {
-            background-color: @light-green;
-        }
-
-
-        &.active {
             a {
-                border-style: solid;
-                border-width: 3px;
+                border: 3px solid transparent;
                 border-top-left-radius: 4px;
                 border-top-right-radius: 4px;
-                border-color: @light-green;
                 border-bottom: none;
             }
 
-            a:hover{
-                background-color: white;
+             a:hover {
+                background-color: @light-green;
+            }
+
+
+            &.active {
+                a {
+                    border-style: solid;
+                    border-width: 3px;
+                    border-top-left-radius: 4px;
+                    border-top-right-radius: 4px;
+                    border-color: @light-green;
+                    border-bottom: none;
+                }
+
+                a:hover{
+                    background-color: white;
+                }
             }
         }
     }
+
+    .boxtainer-content {
+        padding: 0;
+        position: relative;
+        z-index: 2;
+
+        .search-section {padding-top: 20px;}
+    }
+    
 }
 
 

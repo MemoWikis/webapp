@@ -310,6 +310,10 @@
       <DependentUpon>colors.less</DependentUpon>
     </Content>
     <Content Include="Style\includes\colors.less" />
+    <Content Include="Style\includes\shared.css">
+      <DependentUpon>shared.less</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\shared.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
@@ -519,7 +523,6 @@
     <Content Include="Style\site-debug.css">
       <DependentUpon>site-debug.less</DependentUpon>
     </Content>
-    <Content Include="Style\site_old.css" />
     <Content Include="Style\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Style\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Style\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />

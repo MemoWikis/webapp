@@ -12,7 +12,7 @@
 <div class="col-md-9">
     <div class="row">
         <div class="col-md-8">
-            <div class="box box_darkblue">
+            <div class="box">
                 <div class="box-content">
                     <h1>
                         <a href="#teaser1">Richtig-oder-Falsch ist eine Lern- und Wissensplattform. </a>
@@ -179,7 +179,7 @@
                 </div>
             <% } %>
             
-            <div class="box box-green">
+            <div class="box">
                 <h2>Top Fragesätze</h2>
                 <div class="box-content">
                     <div class="question-short-row">
@@ -189,7 +189,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box box-green">
+            <div class="box">
                 <h2>Top Kategorien</h2>
                 
                 <div class="box-content">

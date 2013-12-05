@@ -28,7 +28,7 @@
                     </ul>
                 </div>
         
-                <div class="box box-green">
+                <div class="box">
                     
                     <div class="pull-left form-group search-container">
                         <label>Suche:</label>

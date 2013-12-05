@@ -43,7 +43,7 @@
             </ul>
         </div>
             
-        <div class="box box-green">
+        <div class="box">
             <div class="form-group search-container" style="margin-bottom: 8px;">
                 <label>Suche:</label>
                 <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id = "txtSearch", formUrl=Model.SearchUrl}) %>
