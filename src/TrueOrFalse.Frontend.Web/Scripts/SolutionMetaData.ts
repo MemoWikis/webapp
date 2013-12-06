@@ -1,7 +1,7 @@
 class SolutionMetaData {
-    IsDate: bool;
-    IsNumber: bool;
-    IsText: bool;
+    IsDate: boolean;
+    IsNumber: boolean;
+    IsText: boolean;
 }
 
 enum DatePrecision {

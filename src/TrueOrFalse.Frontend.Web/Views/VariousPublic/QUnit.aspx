@@ -9,8 +9,11 @@
 
     <script type="text/javascript">
         test("hello test", function () {
-        ok(1 == "1", "Passed!");
-    });
+            ok(1 == "1", "Passed!");              
+        });
+
+        DateParserTests.Run();
+
     </script>
     
 </asp:Content>
