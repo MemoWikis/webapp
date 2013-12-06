@@ -299,6 +299,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
+    <TypeScriptCompile Include="Scripts\DateParser.ts" />
+    <Content Include="Scripts\DateParser.js">
+      <DependentUpon>DateParser.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\SolutionMetaData.js">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
     </Content>
