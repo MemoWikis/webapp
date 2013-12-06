@@ -4,7 +4,9 @@
 
 <div class="form-group" id="infoMetaDate">
     <div class="col-sm-offset-2 col-sm-10" >
-        Format z.B.: DD.MM.JJJJ
+        Erfasst <span id="spanEntryPrecision">--------</span>: 
+        <i class="fa fa-exclamation-circle" id="iError" style="color:red; font-size: 16px;"></i> 
+        Eingabe Genauigkeit: <span id="spanAnswerPrecision"></span>.
     </div>
 </div>
 

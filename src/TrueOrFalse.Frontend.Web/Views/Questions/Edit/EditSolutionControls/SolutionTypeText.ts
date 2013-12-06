@@ -171,6 +171,7 @@ class SliderDate
         }
 
         this.SaveJson(this.MetaData);
+        $("#spanAnswerPrecision").text(text);
         $("#spanSliderValue").text(text);
     }
 }

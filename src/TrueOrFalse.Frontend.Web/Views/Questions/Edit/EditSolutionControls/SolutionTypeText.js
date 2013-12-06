@@ -153,6 +153,7 @@ var SliderDate = (function () {
             text = "Jahrtausend";
         }
         this.SaveJson(this.MetaData);
+        $("#spanAnswerPrecision").text(text);
         $("#spanSliderValue").text(text);
     };
     return SliderDate;
