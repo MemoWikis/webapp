@@ -46,7 +46,7 @@
                            url = Links.AnswerQuestion(Url, question.SearchSpec);
 
                        string tooltip = "";
-                       if (String.IsNullOrEmpty(question.Text))
+                       if (!String.IsNullOrEmpty(question.Text))
                        {
                            tooltip = "Frage: " + question.Text.Replace("\"", "'");
                            if (index != 1 || activeClass != "active")

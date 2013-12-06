@@ -17,7 +17,7 @@ class SolutionMetaDataMenu {
 
     constructor () {
 
-        this._sliderDate = new SliderDate();
+        this._sliderDate = new SliderDate(this.SetJsonMetaData);
         this._numberAccuracy = new NumberAccuracy();
 
         var jsonMetaData = this.GetJsonMetaData();
@@ -76,12 +76,10 @@ class SolutionMetaDataMenu {
 
         var metaData = this.GetJsonMetaData();
         if (metaData != null && metaData.IsDate) {
-            metaData = <SolutionMetadataDate>metaData;
-            $("#sliderDate").val(metaData.Precision);
-            this.SetJsonMetaData(metaData);
-        } else {
-            this.SetJsonMetaData(new SolutionMetadataDate());
-        }
+            this._sliderDate.Set(metaData);
+        } 
+
+        this.SetJsonMetaData(this._sliderDate.MetaData);
     }
 
     ResetAll() {
@@ -110,10 +108,16 @@ class SolutionMetaDataMenu {
 }
 
 class SliderDate
-{ 
-    constructor() {
+{
+    MetaData: SolutionMetadataDate = new SolutionMetadataDate();
+    SaveJson: (json: any) => any;
+
+    _slider: any;
+
+    constructor(SaveJson: (json: any) => any) {
+        this.SaveJson = SaveJson;
         var _this = this;
-        $("#sliderDate").slider({
+        this._slider = $("#sliderDate").slider({
             range: "min",
             value: 3,
             min: 1,
@@ -123,29 +127,50 @@ class SliderDate
         });
     }
 
-    SetUiSlider(sliderValue) {
+    public Set(metaData: SolutionMetadataDate) {
+        this.MetaData = metaData;
+        this._slider.slider("value", this.MetaData.Precision);
+        this.SetDateUi();
+    }
 
-        //<this._current
+    SetUiSlider(sliderValue) {
+        if (sliderValue == 1) this.MetaData.Precision = DatePrecision.Day;
+        else if (sliderValue == 2) this.MetaData.Precision = DatePrecision.Month;
+        else if (sliderValue == 3) this.MetaData.Precision = DatePrecision.Year;
+        else if (sliderValue == 4) this.MetaData.Precision = DatePrecision.Decade;
+        else if (sliderValue == 5) this.MetaData.Precision = DatePrecision.Century;
+        else if (sliderValue == 6) this.MetaData.Precision = DatePrecision.Millenium;
+
+        this.SetDateUi();
+    }
+
+    SetDateUi() {
         var text = "";
-        if (sliderValue == 1) {
+        if (this.MetaData.Precision == DatePrecision.Day) {
             text = "Tag";
         }
-        else if (sliderValue == 2){
+
+        if (this.MetaData.Precision == DatePrecision.Month) {
             text = "Monat";
         }
-        else if (sliderValue == 3){
+
+        if (this.MetaData.Precision == DatePrecision.Year) {
             text = "Jahr";
         }
-        else if (sliderValue == 4){
+
+        if (this.MetaData.Precision == DatePrecision.Decade) {
             text = "Jahrzent";
         }
-        else if (sliderValue == 5){
+
+        if (this.MetaData.Precision == DatePrecision.Century) {
             text = "Jahrhundert";
         }
-        else if (sliderValue == 6){
+
+        if (this.MetaData.Precision == DatePrecision.Millenium) {
             text = "Jahrtausend";
         }
 
+        this.SaveJson(this.MetaData);
         $("#spanSliderValue").text(text);
     }
 }

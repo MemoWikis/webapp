@@ -1,7 +1,7 @@
 var SolutionMetaDataMenu = (function () {
     function SolutionMetaDataMenu() {
         var _this = this;
-        this._sliderDate = new SliderDate();
+        this._sliderDate = new SliderDate(this.SetJsonMetaData);
         this._numberAccuracy = new NumberAccuracy();
         var jsonMetaData = this.GetJsonMetaData();
         if(jsonMetaData != null) {
@@ -68,12 +68,9 @@ var SolutionMetaDataMenu = (function () {
         $("#btnMenuItemDate").addClass("active");
         var metaData = this.GetJsonMetaData();
         if(metaData != null && metaData.IsDate) {
-            metaData = metaData;
-            $("#sliderDate").val(metaData.Precision);
-            this.SetJsonMetaData(metaData);
-        } else {
-            this.SetJsonMetaData(new SolutionMetadataDate());
+            this._sliderDate.Set(metaData);
         }
+        this.SetJsonMetaData(this._sliderDate.MetaData);
     };
     SolutionMetaDataMenu.prototype.ResetAll = function () {
         $("#infoMetaDate").hide();
@@ -97,9 +94,11 @@ var SolutionMetaDataMenu = (function () {
     return SolutionMetaDataMenu;
 })();
 var SliderDate = (function () {
-    function SliderDate() {
+    function SliderDate(SaveJson) {
+        this.MetaData = new SolutionMetadataDate();
+        this.SaveJson = SaveJson;
         var _this = this;
-        $("#sliderDate").slider({
+        this._slider = $("#sliderDate").slider({
             range: "min",
             value: 3,
             min: 1,
@@ -112,21 +111,48 @@ var SliderDate = (function () {
             }
         });
     }
+    SliderDate.prototype.Set = function (metaData) {
+        this.MetaData = metaData;
+        this._slider.slider("value", this.MetaData.Precision);
+        this.SetDateUi();
+    };
     SliderDate.prototype.SetUiSlider = function (sliderValue) {
-        var text = "";
         if(sliderValue == 1) {
-            text = "Tag";
+            this.MetaData.Precision = DatePrecision.Day;
         } else if(sliderValue == 2) {
-            text = "Monat";
+            this.MetaData.Precision = DatePrecision.Month;
         } else if(sliderValue == 3) {
-            text = "Jahr";
+            this.MetaData.Precision = DatePrecision.Year;
         } else if(sliderValue == 4) {
-            text = "Jahrzent";
+            this.MetaData.Precision = DatePrecision.Decade;
         } else if(sliderValue == 5) {
-            text = "Jahrhundert";
+            this.MetaData.Precision = DatePrecision.Century;
         } else if(sliderValue == 6) {
+            this.MetaData.Precision = DatePrecision.Millenium;
+        }
+        this.SetDateUi();
+    };
+    SliderDate.prototype.SetDateUi = function () {
+        var text = "";
+        if(this.MetaData.Precision == DatePrecision.Day) {
+            text = "Tag";
+        }
+        if(this.MetaData.Precision == DatePrecision.Month) {
+            text = "Monat";
+        }
+        if(this.MetaData.Precision == DatePrecision.Year) {
+            text = "Jahr";
+        }
+        if(this.MetaData.Precision == DatePrecision.Decade) {
+            text = "Jahrzent";
+        }
+        if(this.MetaData.Precision == DatePrecision.Century) {
+            text = "Jahrhundert";
+        }
+        if(this.MetaData.Precision == DatePrecision.Millenium) {
             text = "Jahrtausend";
         }
+        this.SaveJson(this.MetaData);
         $("#spanSliderValue").text(text);
     };
     return SliderDate;
