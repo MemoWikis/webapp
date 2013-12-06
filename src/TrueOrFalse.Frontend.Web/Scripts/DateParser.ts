@@ -11,6 +11,10 @@ class DateR{
     Day: number;
     Month: number;
     Year: number;
+
+    constructor(input : string) {
+        this.Input = input;
+    }
 }
 
 class DateParser{
@@ -20,43 +24,50 @@ class DateParser{
     static Run(input: any): DateR {
 
         if (typeof input != 'string' && !(input instanceof String))
-            return <DateR> { Input: input };
+            return new DateR(input);
 
         if (!this.ParseForDate(input).IsInvalid) return this._lastResult;
         if (!this.ParseForMonth(input).IsInvalid) return this._lastResult;
         if (!this.ParseForYear(input).IsInvalid) return this._lastResult;
 
-        return <DateR> { Input: input };
+        return new DateR(input);
     }
 
     private static ParseForDate(input : string): DateR {
         var parts = input.split('.');
 
         if (parts.length != 3)
-            return <DateR> {};
+            return new DateR(input);
 
-        var day = parts[0];
-        var month = parts[1];
-        var year = parts[2];
+        var result = new DateR(input);
+        result.Day = parseInt(parts[0]);
+        result.Month = parseInt(parts[1]);
+        result.Year = parseInt(parts[2]);
+        result.Precision = DatePrecision.Day;
+        result.IsInvalid = false;
 
-        return this._lastResult = <DateR> {};
+        return this._lastResult = result;
     }
 
     private static ParseForMonth(input: string): DateR {
-        return this._lastResult = <DateR> {};
+        return this._lastResult = new DateR(input);
     }
 
     private static ParseForYear(input: string): DateR {
-        return this._lastResult = <DateR> {};
+        return this._lastResult = new DateR(input);
     }
 }
 
 class DateParserTests {
     public static Run() {
-        test("title", function () {
+        test("DateParser tests", function () {
+            equal(DateParser.Run("abc").IsInvalid, true);
 
-            var date = <DateR>DateParser.Run("");
-            equal(date.IsInvalid, false);
+            equal(DateParser.Run("22.12.2014").IsInvalid, false);
+            equal(DateParser.Run("22.12.2014").Day, 22);
+            equal(DateParser.Run("22.12.2014").Month, 12);
+            equal(DateParser.Run("22.12.2014").Year, 2014);
+            equal(DateParser.Run("22.12.2014").Precision, DatePrecision.Day);
         });
     }
 }

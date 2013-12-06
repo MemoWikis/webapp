@@ -1,8 +1,9 @@
 /// <reference path="typescript.defs/qunit.d.ts" />
 /// <reference path="SolutionMetaData.ts" />
 var DateR = (function () {
-    function DateR() {
+    function DateR(input) {
         this.IsInvalid = true;
+        this.Input = input;
     }
     return DateR;
 })();
@@ -12,7 +13,7 @@ var DateParser = (function () {
     }
     DateParser.Run = function (input) {
         if (typeof input != 'string' && !(input instanceof String))
-            return { Input: input };
+            return new DateR(input);
 
         if (!this.ParseForDate(input).IsInvalid)
             return this._lastResult;
@@ -21,28 +22,31 @@ var DateParser = (function () {
         if (!this.ParseForYear(input).IsInvalid)
             return this._lastResult;
 
-        return { Input: input };
+        return new DateR(input);
     };
 
     DateParser.ParseForDate = function (input) {
         var parts = input.split('.');
 
         if (parts.length != 3)
-            return {};
+            return new DateR(input);
 
-        var day = parts[0];
-        var month = parts[1];
-        var year = parts[2];
+        var result = new DateR(input);
+        result.Day = parseInt(parts[0]);
+        result.Month = parseInt(parts[1]);
+        result.Year = parseInt(parts[2]);
+        result.Precision = 1 /* Day */;
+        result.IsInvalid = false;
 
-        return this._lastResult = {};
+        return this._lastResult = result;
     };
 
     DateParser.ParseForMonth = function (input) {
-        return this._lastResult = {};
+        return this._lastResult = new DateR(input);
     };
 
     DateParser.ParseForYear = function (input) {
-        return this._lastResult = {};
+        return this._lastResult = new DateR(input);
     };
     return DateParser;
 })();
@@ -51,9 +55,14 @@ var DateParserTests = (function () {
     function DateParserTests() {
     }
     DateParserTests.Run = function () {
-        test("title", function () {
-            var date = DateParser.Run("");
-            equal(date.IsInvalid, false);
+        test("DateParser tests", function () {
+            equal(DateParser.Run("abc").IsInvalid, true);
+
+            equal(DateParser.Run("22.12.2014").IsInvalid, false);
+            equal(DateParser.Run("22.12.2014").Day, 22);
+            equal(DateParser.Run("22.12.2014").Month, 12);
+            equal(DateParser.Run("22.12.2014").Year, 2014);
+            equal(DateParser.Run("22.12.2014").Precision, 1 /* Day */);
         });
     };
     return DateParserTests;
