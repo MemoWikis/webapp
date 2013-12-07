@@ -22,8 +22,9 @@ body {
   color: #2e487b;
   background-image: url(../img/dimension.png);
 }
-.container {
+.container.main {
   background-color: white;
+  padding-top: 25px;
 }
 #header {
   position: relative;
@@ -38,8 +39,8 @@ body {
   padding: 0px 0px 0px 0px;
   border: none;
   font-size: 2.0em;
-  font-family: 'Pacifico', cursive;
   background: url('/images/toflogo.png') no-repeat right;
+  font-family: 'Emilys Candy', cursive;
   padding-right: 72px;
   color: #2e487b;
 }
@@ -63,6 +64,9 @@ span.smaller {
   display: inline-block;
   width: 100%;
   zoom: 1;
+}
+.block {
+  display: block;
 }
 /* VALIDATION
 ----------------------------------------------------------*/

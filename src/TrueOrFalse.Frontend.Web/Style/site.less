@@ -25,8 +25,9 @@ body {
     background-image: url(../img/dimension.png);
 }
 
-.container {
+.container.main {
     background-color: white;
+    padding-top: 25px;
 }
 
 #header
@@ -36,20 +37,21 @@ body {
     padding: 0px;
     width: 100%;
     border-bottom: 1px solid;
+
+    
 }
 
-#header h1
-{
-    font-weight: 800;
-    margin: 0px;
-    padding: 0px 0px 0px 0px;
-    border: none;
-    font-size: 2.0em;
-    font-family: 'Pacifico', cursive;
-    background: url('/images/toflogo.png') no-repeat right;
-    padding-right: 72px;
-    color: @dark-blue;
-}
+    #header h1 {
+        font-weight: 800;
+        margin: 0px;
+        padding: 0px 0px 0px 0px;
+        border: none;
+        font-size: 2.0em;
+        background: url('/images/toflogo.png') no-repeat right;
+        font-family: 'Emilys Candy', cursive;
+        padding-right: 72px;
+        color: @dark-blue;
+    }
 
 .dark-blue {color: @dark-blue;}
 
@@ -69,6 +71,8 @@ span.smaller {
     width: 100%;
     zoom: 1;
 }
+
+.block {display: block;}
 
 
 /* VALIDATION
