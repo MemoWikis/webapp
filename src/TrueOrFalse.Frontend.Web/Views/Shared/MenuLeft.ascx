@@ -69,7 +69,7 @@
         <%--<div><a href="#"><i class="fa fa-caret-right"></i> Lerngruppen</a></div>--%>
     
         <div style="margin-top: 13px;">
-            <a class="<%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>"><i class="fa fa-caret-right"></i> Kategorisierung </a>
+            <a class="<%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>"><i class="fa fa-caret-right"></i> Kategorien </a>
         </div>
         <% index = 0; foreach (var set in new SessionUiData().VisitedCategories){ index++; %>
                <div class="sub">

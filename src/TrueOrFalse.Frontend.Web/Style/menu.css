@@ -1,4 +1,9 @@
-﻿div.box-menu {
+﻿#clearfix {
+  display: inline-block;
+  width: 100%;
+  zoom: 1;
+}
+div.box-menu {
   background-color: transparent !important;
   border: 1px solid silver;
 }
@@ -13,7 +18,7 @@ div.menu a {
 }
 div.menu a:hover,
 div.menu a.active:hover {
-  background-color: #2E487B;
+  background-color: #2e487b;
   color: white;
 }
 div.menu div.main {
@@ -21,7 +26,7 @@ div.menu div.main {
 }
 div.menu div.main a:hover,
 div.menu div.main a.active:hover {
-  background-color: #2E487B;
+  background-color: #2e487b;
   color: white;
 }
 div.menu div.no-hover:hover {
@@ -29,7 +34,7 @@ div.menu div.no-hover:hover {
 }
 div.menu a.active,
 div.menu div.main a.active {
-  color: #B13A48;
+  color: #b13a48;
 }
 div.menu i.fa-caret-right {
   visibility: hidden;

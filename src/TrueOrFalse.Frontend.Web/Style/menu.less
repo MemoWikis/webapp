@@ -1,4 +1,8 @@
-﻿div.box-menu {
+﻿@import 'includes/colors.less';
+@import 'includes/shared.less';
+
+
+div.box-menu {
     background-color:transparent !important;
     border: 1px solid silver;
 }
@@ -15,7 +19,7 @@ div.menu {
 
     a:hover,
     a.active:hover {
-        background-color: #2E487B;
+        background-color: @dark-blue;
         color: white;
     }
 
@@ -24,7 +28,7 @@ div.menu {
 
         a:hover,
         a.active:hover {
-            background-color: #2E487B;
+            background-color: @dark-blue;
             color: white;
         }
     }
@@ -33,7 +37,7 @@ div.menu {
 
     a.active,
     div.main a.active {
-        color: #B13A48;
+        color: @dark-red;
     }
 
     i.fa-caret-right {

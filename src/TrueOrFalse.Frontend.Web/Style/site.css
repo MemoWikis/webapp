@@ -15,11 +15,15 @@ html {
 }
 /*always show scrollbar*/
 a {
-  color: #275ABD;
+  color: #0e22b6;
 }
 body {
   font-size: 13px;
   color: #2e487b;
+  background-image: url(../img/dimension.png);
+}
+.container {
+  background-color: white;
 }
 #header {
   position: relative;
@@ -37,6 +41,9 @@ body {
   font-family: 'Pacifico', cursive;
   background: url('/images/toflogo.png') no-repeat right;
   padding-right: 72px;
+  color: #2e487b;
+}
+.dark-blue {
   color: #2e487b;
 }
 /*Fonts*/
@@ -106,7 +113,7 @@ a.button span.ui-icon {
 /* Labels
 ----------------------------------------------------------*/
 .label-category {
-  background-color: #275ABD;
+  background-color: #0e22b6;
 }
 /*FORMS
 ---------------------------------------------------------*/
@@ -264,8 +271,9 @@ div.box-main .box-content {
   display: table;
   content: "";
 }
-div.rowBase {
-  border-top: 1px solid #A6BADE;
+.rowBase,
+.category-row {
+  border-top: 1px solid #a6bade;
 }
 div.rowBase:first-child {
   border-top: none;

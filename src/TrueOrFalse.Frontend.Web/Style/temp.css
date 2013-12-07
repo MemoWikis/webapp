@@ -1,0 +1,14 @@
+﻿@media temp {
+  .btn:hover {
+    color: white;
+  }
+  .btn-default:hover {
+    color: black;
+  }
+  .btn:focus {
+    color: white;
+  }
+  .btn-default:focus {
+    color: black;
+  }
+}

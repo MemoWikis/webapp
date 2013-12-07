@@ -27,8 +27,8 @@
                             </a>
                         </li>
                     </ul>
-                    <div style="float: right; position: absolute; right: 0; top: 5px;">
-                        <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn btn-default">
+                    <div class="" style="float: right; position: absolute; right: 0; top: 5px;">
+                        <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn btn-success btn-sm">
                             <i class="fa fa-plus-circle"></i>  Kategorie erstellen
                         </a>
                     </div>
