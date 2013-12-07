@@ -6,8 +6,8 @@
 
 <%= Styles.Render("~/bundles/css") %>
 
-<% if(false){ %>
-<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<% if(true){ %>
+<link href='http://fonts.googleapis.com/css?family=Emilys+Candy' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 <% } %>
 
