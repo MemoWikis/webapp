@@ -1,3 +1,4 @@
+/// <reference path="../../../../Scripts/DateParser.ts" />
 /// <reference path="../../../../Scripts/SolutionMetaData.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
@@ -170,9 +171,20 @@ class SliderDate
             text = "Jahrtausend";
         }
 
+        var dateR = DateParser.Run("sss");
+        if (dateR.IsInvalid) {
+
+        }
+        else {
+
+        }
+        //spanEntryPrecision
+
         this.SaveJson(this.MetaData);
         $("#spanAnswerPrecision").text(text);
         $("#spanSliderValue").text(text);
+
+        
     }
 }
 

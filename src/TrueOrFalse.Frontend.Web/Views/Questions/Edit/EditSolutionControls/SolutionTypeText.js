@@ -1,51 +1,56 @@
+/// <reference path="../../../../Scripts/DateParser.ts" />
+/// <reference path="../../../../Scripts/SolutionMetaData.ts" />
+/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
+/// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
+/// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 var SolutionMetaDataMenu = (function () {
     function SolutionMetaDataMenu() {
         var _this = this;
         this._sliderDate = new SliderDate(this.SetJsonMetaData);
         this._numberAccuracy = new NumberAccuracy();
+
         var jsonMetaData = this.GetJsonMetaData();
-        if(jsonMetaData != null) {
+        if (jsonMetaData != null) {
             var solutionMetaData = jsonMetaData;
-            if(solutionMetaData.IsDate) {
+            if (solutionMetaData.IsDate)
                 this.SelectDate();
-            } else if(solutionMetaData.IsNumber) {
+            else if (solutionMetaData.IsNumber)
                 this.SelectNumber();
-            } else if(solutionMetaData.IsText) {
+            else if (solutionMetaData.IsText)
                 this.SelectText();
-            }
         } else {
             this.SelectText();
         }
+
         $("#btnMenuItemText").click(function () {
             _this.SelectText();
             $("#divMenuItemText").show();
         });
         $("#btnMenuItemText, #divMenuItemText").hover(function () {
-            if(_this._current.IsText) {
+            if (_this._current.IsText)
                 $("#divMenuItemText").show();
-            }
         }, function () {
             $("#divMenuItemText").hide();
         });
+
         $("#btnMenuItemNumber").click(function () {
             _this.SelectNumber();
             $("#divMenuItemNumber").show();
         });
         $("#btnMenuItemNumber, #divMenuItemNumber").hover(function () {
-            if(_this._current.IsNumber) {
+            if (_this._current.IsNumber)
                 $("#divMenuItemNumber").show();
-            }
         }, function () {
             $("#divMenuItemNumber").hide();
         });
+
         $("#btnMenuItemDate").click(function () {
             _this.SelectDate();
             $("#divMenuItemDate").show();
         });
         $("#btnMenuItemDate, #divMenuItemDate").hover(function () {
-            if(_this._current.IsDate) {
+            if (_this._current.IsDate)
                 $("#divMenuItemDate").show();
-            }
         }, function () {
             $("#divMenuItemDate").hide();
         });
@@ -56,43 +61,52 @@ var SolutionMetaDataMenu = (function () {
         $("#btnMenuItemText").addClass("active");
         this.SetJsonMetaData(new SolutionMetadataText());
     };
+
     SolutionMetaDataMenu.prototype.SelectNumber = function () {
         this.ResetAll();
         $("#infoMetaNumber").show();
         $("#btnMenuItemNumber").addClass("active");
         this.SetJsonMetaData(new SolutionMetadataNumber());
     };
+
     SolutionMetaDataMenu.prototype.SelectDate = function () {
         this.ResetAll();
         $("#infoMetaDate").show();
         $("#btnMenuItemDate").addClass("active");
+
         var metaData = this.GetJsonMetaData();
-        if(metaData != null && metaData.IsDate) {
+        if (metaData != null && metaData.IsDate) {
             this._sliderDate.Set(metaData);
         }
+
         this.SetJsonMetaData(this._sliderDate.MetaData);
     };
+
     SolutionMetaDataMenu.prototype.ResetAll = function () {
         $("#infoMetaDate").hide();
         $("#infoMetaText").hide();
         $("#infoMetaNumber").hide();
+
         $("#btnMenuItemText").removeClass("active");
         $("#btnMenuItemNumber").removeClass("active");
         $("#btnMenuItemDate").removeClass("active");
     };
+
     SolutionMetaDataMenu.prototype.GetJsonMetaData = function () {
         var jsonVal = $("#MetadataSolutionJson").val();
-        if(jsonVal.length == 0) {
+        if (jsonVal.length == 0)
             return null;
-        }
+
         return jQuery.parseJSON(jsonVal);
     };
+
     SolutionMetaDataMenu.prototype.SetJsonMetaData = function (json) {
         this._current = json;
         $("#MetadataSolutionJson").val(JSON.stringify(json));
     };
     return SolutionMetaDataMenu;
 })();
+
 var SliderDate = (function () {
     function SliderDate(SaveJson) {
         this.MetaData = new SolutionMetadataDate();
@@ -116,48 +130,63 @@ var SliderDate = (function () {
         this._slider.slider("value", this.MetaData.Precision);
         this.SetDateUi();
     };
+
     SliderDate.prototype.SetUiSlider = function (sliderValue) {
-        if(sliderValue == 1) {
-            this.MetaData.Precision = DatePrecision.Day;
-        } else if(sliderValue == 2) {
-            this.MetaData.Precision = DatePrecision.Month;
-        } else if(sliderValue == 3) {
-            this.MetaData.Precision = DatePrecision.Year;
-        } else if(sliderValue == 4) {
-            this.MetaData.Precision = DatePrecision.Decade;
-        } else if(sliderValue == 5) {
-            this.MetaData.Precision = DatePrecision.Century;
-        } else if(sliderValue == 6) {
-            this.MetaData.Precision = DatePrecision.Millenium;
-        }
+        if (sliderValue == 1)
+            this.MetaData.Precision = 1 /* Day */;
+        else if (sliderValue == 2)
+            this.MetaData.Precision = 2 /* Month */;
+        else if (sliderValue == 3)
+            this.MetaData.Precision = 3 /* Year */;
+        else if (sliderValue == 4)
+            this.MetaData.Precision = 4 /* Decade */;
+        else if (sliderValue == 5)
+            this.MetaData.Precision = 5 /* Century */;
+        else if (sliderValue == 6)
+            this.MetaData.Precision = 6 /* Millenium */;
+
         this.SetDateUi();
     };
+
     SliderDate.prototype.SetDateUi = function () {
         var text = "";
-        if(this.MetaData.Precision == DatePrecision.Day) {
+        if (this.MetaData.Precision == 1 /* Day */) {
             text = "Tag";
         }
-        if(this.MetaData.Precision == DatePrecision.Month) {
+
+        if (this.MetaData.Precision == 2 /* Month */) {
             text = "Monat";
         }
-        if(this.MetaData.Precision == DatePrecision.Year) {
+
+        if (this.MetaData.Precision == 3 /* Year */) {
             text = "Jahr";
         }
-        if(this.MetaData.Precision == DatePrecision.Decade) {
+
+        if (this.MetaData.Precision == 4 /* Decade */) {
             text = "Jahrzent";
         }
-        if(this.MetaData.Precision == DatePrecision.Century) {
+
+        if (this.MetaData.Precision == 5 /* Century */) {
             text = "Jahrhundert";
         }
-        if(this.MetaData.Precision == DatePrecision.Millenium) {
+
+        if (this.MetaData.Precision == 6 /* Millenium */) {
             text = "Jahrtausend";
         }
+
+        var dateR = DateParser.Run("sss");
+        if (dateR.IsInvalid) {
+        } else {
+        }
+
+        //spanEntryPrecision
         this.SaveJson(this.MetaData);
         $("#spanAnswerPrecision").text(text);
         $("#spanSliderValue").text(text);
     };
     return SliderDate;
 })();
+
 var NumberAccuracy = (function () {
     function NumberAccuracy() {
         $("#numberAccuracy").change(function () {
@@ -167,7 +196,9 @@ var NumberAccuracy = (function () {
     }
     return NumberAccuracy;
 })();
+
 var solutionMetaData = new SolutionMetaDataMenu();
+
 $('#help').click(function () {
     $("#modalHelpSolutionType").modal('show');
 });
