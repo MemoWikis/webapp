@@ -1,11 +1,47 @@
-﻿@media temp {
+﻿@import 'includes/colors.less';
+@import 'includes/shared.less';
 
-.btn:hover {color: white;}
 
-.btn-default:hover {color: black;}
+#header {
 
-.btn:focus {color: white;}
+    /*height: 40px;*/
+    background-color: @dark-blue;
+    
+    .container {padding: 10px 0;}
 
-.btn-default:focus {color: black;}
+    span#logo {display: inline-block;
+               background-image: url('/images/toflogo.png');
+               background-position: center;
+               background-color: white;
+               width: 80px;
+               height: 80px;
+               background-repeat: no-repeat;
+               border-radius: 40px;
+               border: solid 10px @cooles-gruen;
+               position: absolute;
+               top: 10px;
+               left: 298px;
 
+    }
+
+    h1 {
+        color: @cooles-gruen;
+        font-size: 80px;
+        background: none;
+        position: relative;
+          vertical-align: central;
+
+        span#uch {
+            color: @light-blue;
+            font-size: 65px;
+        }
+
+        
+    }
+
+    .pull-left {margin-bottom: 10px;}
+
+    
+
+    
 }

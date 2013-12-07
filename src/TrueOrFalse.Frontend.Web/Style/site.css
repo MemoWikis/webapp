@@ -22,8 +22,9 @@ body {
   color: #2e487b;
   background-image: url(../img/dimension.png);
 }
-.container {
+.container.main {
   background-color: white;
+  padding-top: 15px;
 }
 #header {
   position: relative;
@@ -63,6 +64,9 @@ span.smaller {
   display: inline-block;
   width: 100%;
   zoom: 1;
+}
+.block {
+  display: block;
 }
 /* VALIDATION
 ----------------------------------------------------------*/

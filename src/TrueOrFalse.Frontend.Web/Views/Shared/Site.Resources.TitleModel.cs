@@ -6,5 +6,4 @@ using System.Web;
 
 public class TitleModel
 {
-    public string TitleText = "Richtig-oder-Falsch";
 }
