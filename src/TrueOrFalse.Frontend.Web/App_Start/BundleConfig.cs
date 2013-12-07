@@ -22,19 +22,7 @@ namespace TrueOrFalse.View
 
             /* JS */
             bundles.Add(new ScriptBundle("~/bundles/shared")
-                .Include("~/Scripts/html5shiv.js")
-                .Include("~/Scripts/jquery-1.9.0.min.js")
-                .Include("~/Scripts/jquery-1.9.0.min.js")
-                .Include("~/Scripts/jquery-ui-1.10.0.min.js")
-                .Include("~/Scripts/jquery.validate.min.js")
-                .Include("~/Scripts/jquery.validate.unobtrusive.min.js")
-                .Include("~/Scripts/underscore-1.4.3.min.js")
-                .Include("~/Scripts/lib.js")
-                .Include("~/Scripts/jquery.sparkline.min.js")
-                .Include("~/Scripts/modernizr-2.6.2.js")
-                .Include("~/Scripts/google-code-prettify/prettify.js")
-                .Include("~/Scripts/bootstrap.js")
-                .Include("~/Scripts/json2.js"));
+                .IncludeDirectory("~/Scripts/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/file-uploader/header.js")
@@ -54,12 +42,10 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
-                .Include("~/Scripts/jquery.scrollTo-1.4.3.1.js")
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
-            
+
             bundles.Add(new ScriptBundle("~/bundles/Sets")
-                .IncludeDirectory("~/Views/Sets/Js/", "*.js")
-                .Include("~/Scripts/ValuationPerRow.js"));
+                .IncludeDirectory("~/Views/Sets/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Categories")
                 .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
@@ -74,8 +60,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Sets/Edit/Js/ImageUpload.js")
                 .Include("~/Views/Sets/Edit/Js/RemoveQuestionFromSet.js")
                 .Include("~/Views/Sets/Edit/Js/SetSortable.js")
-                .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
-                .Include("~/Scripts/jquery.scrollTo-1.4.3.1.js"));
+                .Include("~/Views/Shared/ImageUpload/ImageUpload.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/markdown")
                 .Include("~/Scripts/Markdown.Converter.js",

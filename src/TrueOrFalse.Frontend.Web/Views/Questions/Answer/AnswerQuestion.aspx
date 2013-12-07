@@ -36,7 +36,6 @@
         var ajaxUrl_GetAnswer = "<%= Model.AjaxUrl_GetAnswer(Url) %>";
     </script>
 
-    <script type="text/javascript" src="/Scripts/jquery.jplayer.min.js"></script>
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
 

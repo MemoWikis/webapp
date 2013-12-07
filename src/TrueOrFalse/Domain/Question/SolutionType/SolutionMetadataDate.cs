@@ -10,13 +10,15 @@ namespace TrueOrFalse
     {
         Day = 1,
         Month = 2,
-        Year = 3
+        Year = 3,
+        Decade = 4,
+        Century = 5,
+        Millenium = 6
     }
 
     public class SolutionMetadataDate : SolutionMetadata
     {
-        public SolutionMetadataDate()
-        {
+        public SolutionMetadataDate(){
             IsDate = true;
         }
 

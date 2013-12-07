@@ -26,7 +26,7 @@ namespace TrueOrFalse
         public AnswerQuestionResult Run(int questionId, string answer, int userId)
         {
             var question = _questionRepository.GetById(questionId);
-            var solution = new GetQuestionSolution().Run(question.SolutionType, question.Solution);
+            var solution = new GetQuestionSolution().Run(question);
 
             var result = new AnswerQuestionResult();
             result.IsCorrect = solution.IsCorrect(answer.Trim());

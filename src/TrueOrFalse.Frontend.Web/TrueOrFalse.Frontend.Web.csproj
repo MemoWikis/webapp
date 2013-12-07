@@ -298,11 +298,15 @@
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
     <Content Include="img\dimension.png" />
     <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
+    <TypeScriptCompile Include="Scripts\DateParser.ts" />
+    <Content Include="Scripts\DateParser.js">
+      <DependentUpon>DateParser.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\SolutionMetaData.js">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Style\bootstrap.css" />
     <Content Include="Style\temp.css">
       <DependentUpon>temp.less</DependentUpon>
@@ -363,15 +367,11 @@
     <Content Include="Scripts\html5shiv.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
-    <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
-    <Content Include="Scripts\jquery-ui-1.10.3.min.js" />
-    <Content Include="Scripts\jquery.scrollTo-1.4.3.1-min.js" />
     <Content Include="Scripts\jquery.scrollTo-1.4.3.1.js" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\Markdown.Converter.js" />
     <Content Include="Scripts\Markdown.Editor.js" />
@@ -383,7 +383,7 @@
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore-typed.d.ts" />
-    <Content Include="Scripts\underscore-1.4.3.min.js" />
+    <Content Include="Scripts\underscore-1.4.3.js" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
@@ -511,10 +511,9 @@
     <Content Include="Scripts\Jplayer.swf" />
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
-    <Content Include="Scripts\jquery.jplayer.min.js" />
-    <Content Include="Scripts\jquery.sparkline.min.js" />
+    <Content Include="Scripts\jquery.jplayer.js" />
+    <Content Include="Scripts\jquery.sparkline.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
     <Content Include="Scripts\MicrosoftAjax.js" />
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
@@ -662,6 +661,7 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\VariousPublic\QUnit.aspx" />
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
@@ -758,7 +758,9 @@
       <Name>TrueOrFalse</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\shared\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

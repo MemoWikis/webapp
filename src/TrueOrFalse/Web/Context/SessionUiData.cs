@@ -11,6 +11,7 @@ namespace TrueOrFalse.Web.Context
         /* History **************/
         public QuestionHistory VisitedQuestions{
             get { return Data.Get("lastVisitedQuestions", new QuestionHistory()); }
+            set { Data["lastVisitedQuestions"] = value; }
         }
 
         public QuestionSetHistory VisitedQuestionSets{

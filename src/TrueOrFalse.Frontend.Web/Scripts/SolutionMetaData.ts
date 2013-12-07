@@ -1,9 +1,37 @@
-enum SolutionMetaDataType {
-    Text,
-    Number,
-    Date
+class SolutionMetaData {
+    IsDate: boolean;
+    IsNumber: boolean;
+    IsText: boolean;
 }
 
-interface SolutionMetaData {
-    Name;
+enum DatePrecision {
+    Day = 1,
+    Month = 2,
+    Year = 3,
+    Decade = 4,
+    Century = 5,
+    Millenium = 6
+}
+
+class SolutionMetadataDate extends SolutionMetaData
+{
+    constructor() {
+        super();
+        this.IsDate = true;
+    }
+    Precision: DatePrecision;
+}
+
+class SolutionMetadataNumber extends SolutionMetaData {
+    constructor() {
+        super();
+        this.IsNumber = true;
+    }
+}
+
+class SolutionMetadataText extends SolutionMetaData {
+    constructor() {
+        super();
+        this.IsText = true;
+    }
 }

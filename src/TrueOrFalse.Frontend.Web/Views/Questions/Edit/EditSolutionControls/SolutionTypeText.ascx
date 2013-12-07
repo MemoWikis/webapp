@@ -1,9 +1,24 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionExact>" %>
 
+<%= Html.HiddenFor(m => m.MetadataSolutionJson) %>
 
-<div class="form-group">
+<div class="form-group" id="infoMetaDate">
     <div class="col-sm-offset-2 col-sm-10" >
-        Format z.B.: DD.MM.JJJJ
+        Erfasst <span id="spanEntryPrecision">--------</span>: 
+        <i class="fa fa-exclamation-circle" id="iError" style="color:red; font-size: 16px;"></i> 
+        Eingabe Genauigkeit: <span id="spanAnswerPrecision"></span>.
+    </div>
+</div>
+
+<div class="form-group" id="infoMetaText">
+    <div class="col-sm-offset-2 col-sm-10" >
+        Exakte Texteingabe
+    </div>
+</div>
+
+<div class="form-group" id="infoMetaNumber">
+    <div class="col-sm-offset-2 col-sm-10" >
+        Exakte Zahl
     </div>
 </div>
 
@@ -11,13 +26,13 @@
     
     <%= Html.LabelFor(m => m.Text, new { @class = "col-sm-2 control-label" })%>
     <div class="col-sm-10">
-        <%= Html.TextBoxFor(m => m.Text, new { @class="form-control", @id = "Answer", @style = "width:210px; float: left;", placeholder = "Antwort eingeben." })%>
+        <%= Html.TextBoxFor(m => m.Text, new { @class="form-control", @id = "Answer", @style = "width:310px; float: left;", placeholder = "Antwort eingeben." })%>
         
         <a href="#" class="btn btn-default" style="padding: 3px 4px; display: none"><img src="/Images/textfield-16.png" alt="Text"/></a>
         
         <div  style="display: inline-block; position: absolute;;">
             <div class="btn-group" style="position: relative; top: 3px; left: 10px; z-index: 11;">
-                <a class="btn btn-default active" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
+                <a class="btn btn-default" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
                 <a class="btn btn-default" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
                 <a class="btn btn-default" style="padding: 3px 4px; border-bottom-right-radius: 0" id="btnMenuItemDate"><img src="/Images/date-16.png" /></a>    
             </div>

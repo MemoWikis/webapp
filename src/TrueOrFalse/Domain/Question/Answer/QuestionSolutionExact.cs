@@ -7,7 +7,7 @@ public class QuestionSolutionExact : QuestionSolution
     [DisplayName("Antwort")]
     public string Text { get; set; }
 
-    public SolutionMetadata Metadata = new SolutionMetadata();
+    public string MetadataSolutionJson { get; set; }
 
     public override bool IsCorrect(string answer)
     {
@@ -22,5 +22,6 @@ public class QuestionSolutionExact : QuestionSolution
     public void FillFromPostData(NameValueCollection postData)
     {
         Text = postData["Text"];
+        MetadataSolutionJson = postData["MetadataSolutionJson"];
     }
 }
