@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
+using FluentNHibernate.Conventions.AcceptanceCriteria;
 using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;
@@ -41,12 +44,23 @@ namespace TrueOrFalse.Search
             int valuatorId = -1,
             SearchQuestionsOrderBy orderBy = SearchQuestionsOrderBy.None)
         {
-            var sqb = new SearchQueryBuilder()
-                .Add("FullTextStemmed", searchTerm)
+            var sqb = new SearchQueryBuilder();
+
+            var categoryFilter = GetCategoryFilter(searchTerm);
+            if (categoryFilter != null)
+            {
+                sqb.Add("Categories", categoryFilter, isMustHave: true, exact: true);
+                searchTerm = searchTerm.Replace("Kat:\"" + categoryFilter + "\"","");
+            }
+                
+            else
+                sqb.Add("Categories", searchTerm);
+
+            sqb.Add("FullTextStemmed", searchTerm)
                 .Add("FullTextExact", searchTerm)
-                .Add("Categories", searchTerm)
                 .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
                 .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
+
 
             var orderby = new List<SortOrder>();
             if (orderBy == SearchQuestionsOrderBy.Quality)
@@ -81,6 +95,18 @@ namespace TrueOrFalse.Search
                 result.QuestionIds.Add(resultItem.Id);
 
             return result;
+        }
+
+        private static string GetCategoryFilter(string searchTerm)
+        {
+            string categoryFilter = null;
+            if (searchTerm.IndexOf("Kat:\"") != -1)
+            {
+                var match = Regex.Match(searchTerm, "Kat:\"(.*)\"", RegexOptions.IgnoreCase);
+                if (match.Success)
+                    categoryFilter = match.Groups[1].Value;
+            }
+            return categoryFilter;
         }
     }
 }

@@ -132,5 +132,20 @@ namespace TrueOrFalse.Tests
             Assert.That(questions[1].Text, Is.EqualTo("Question1"));
             Assert.That(questions[2].Text, Is.EqualTo("Question2"));
         }
+
+        [Test]
+        public void Should_filter_by_category()
+        {
+            var context = ContextQuestion.New()
+                .AddQuestion("Question1", "Answer2").AddCategory("C")
+                .AddQuestion("Question2", "Answer3").AddCategory("B")
+                .AddQuestion("Juliane Misdom", "Answer3").AddCategory("B")
+                .Persist();
+
+            R<ReIndexAllQuestions>().Run();
+
+            Assert.That(Resolve<SearchQuestions>().Run("Kat:\"C\"", new Pager { PageSize = 10 }).QuestionIds.Count, Is.EqualTo(1));
+            Assert.That(Resolve<SearchQuestions>().Run("Kat:\"B\"", new Pager { PageSize = 10 }).QuestionIds.Count, Is.EqualTo(2));
+        }
     }
 }
