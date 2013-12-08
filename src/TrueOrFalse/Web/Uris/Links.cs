@@ -40,6 +40,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec){
+            RemoveRouteDataValues(url.RequestContext.RouteData.Values);
             return url.Action("Answer", AnswerQuestionController, new {pager = searchSpec.Key});
         }
 
@@ -145,5 +146,17 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string AccountController = "Account";
         public const string Logout = "Logout";
+
+        public static void RemoveRouteDataValues(RouteValueDictionary currentRouteData)
+        {
+            var keyList = new List<string>(currentRouteData.Keys);
+
+            var ignore = new[] { "Area", "Controller", "Action" };
+            foreach (string key in keyList)
+            {
+                if (!ignore.Contains(key, StringComparer.CurrentCultureIgnoreCase))
+                    currentRouteData.Remove(key);
+            }
+        }
     }
 }

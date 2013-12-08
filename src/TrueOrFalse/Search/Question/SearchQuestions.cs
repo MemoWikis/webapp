@@ -57,7 +57,7 @@ namespace TrueOrFalse.Search
                 orderby.Add(new SortOrder("Valuation", Order.DESC));
             else if (orderBy == SearchQuestionsOrderBy.DateCreated)
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
-
+            
             var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions
                                                       {
@@ -68,12 +68,13 @@ namespace TrueOrFalse.Search
                                                             OrderBy = orderby
                                                       });
 
+
             var result = new SearchQuestionsResult();
             result.QueryTime = queryResult.Header.QTime;
             result.Count = queryResult.NumFound;
             result.SpellChecking = queryResult.SpellChecking;
             result.Pager = pager;
-
+            
             pager.TotalItems = result.Count;
 
             foreach (var resultItem in queryResult)
