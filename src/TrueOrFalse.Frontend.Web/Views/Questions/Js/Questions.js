@@ -9,7 +9,14 @@
     }
 
     function SubmitSearch() {
-        window.location.href = $('#txtSearch').attr("formUrl") + $('#txtSearch').val();
+        window.location.href = $('#txtSearch').attr("formUrl") + 
+            $('#txtSearch').val()
+                .replace("Kat:\"", "Kat__")
+                .replace("kat:\"", "Kat__")
+                .replace("\"", "__")
+                .replace("'", "__")
+                .replace(":", "___")
+                .replace("&", "_and_");
     }
 
     $('#btnSearch').click(function () { SubmitSearch(); });

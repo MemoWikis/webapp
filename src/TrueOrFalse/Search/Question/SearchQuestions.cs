@@ -100,7 +100,7 @@ namespace TrueOrFalse.Search
         private static string GetCategoryFilter(string searchTerm)
         {
             string categoryFilter = null;
-            if (searchTerm.IndexOf("Kat:\"") != -1)
+            if (searchTerm != null && searchTerm.IndexOf("Kat:\"") != -1)
             {
                 var match = Regex.Match(searchTerm, "Kat:\"(.*)\"", RegexOptions.IgnoreCase);
                 if (match.Success)

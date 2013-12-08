@@ -132,6 +132,12 @@ public class QuestionsController : BaseController
         if (searchSpec.Filter.SearchTerm != searchTerm)
             searchSpec.CurrentPage = 1;
 
+        searchTerm = searchTerm
+            .Replace("Kat__", "Kat:\"")
+            .Replace("__", "\"")
+            .Replace("___", ":")
+            .Replace("_and_", "&");
+
         searchSpec.Filter.SearchTerm = model.SearchTerm = searchTerm;        
     }
 
