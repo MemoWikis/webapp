@@ -9,7 +9,7 @@
 </head>
 
 <body>
-        <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>    
+    <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>    
     
     <div class="container main">
         

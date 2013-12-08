@@ -26,10 +26,8 @@ public class UserImageSettings : IImageSettings
         throw new NotImplementedException();
     }
 
-    public ImageUrl GetUrl_20px_square(string emailAddress)
-    {
-        return GetUrl(emailAddress, 20, isSquare: true);
-    }
+    public ImageUrl GetUrl_20px_square(string emailAddress){return GetUrl(emailAddress, 20, isSquare: true);}
+    public ImageUrl GetUrl_30px_square(string emailAddress) { return GetUrl(emailAddress, 30, isSquare: true); }
     public ImageUrl GetUrl_128px_square(string emailAddress){ return GetUrl(emailAddress, 128, isSquare: true);}
     public ImageUrl GetUrl_85px_square(string emailAddress) { return GetUrl(emailAddress, 85, isSquare: true); }
     public ImageUrl GetUrl_50px(string emailAddress){ return GetUrl(emailAddress, 50);}
