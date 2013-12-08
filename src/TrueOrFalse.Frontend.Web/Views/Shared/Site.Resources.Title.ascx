@@ -8,7 +8,7 @@
                 <a class="block" href="/"><h1><span id="m">M</span>EM<span id="uch">uch</span>O<span id="logo"></span></h1></a>
             </div>
         
-            <div class="pull-right" style="padding-top: 15px; ">
+            <div class="pull-right" id="loginAndHelp">
                 <% Html.RenderPartial(UserControls.Logon); %>
             </div>
 
