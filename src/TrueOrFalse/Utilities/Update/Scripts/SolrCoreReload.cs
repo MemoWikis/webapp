@@ -36,7 +36,7 @@ namespace TrueOrFalse.Updates
         {
             File.Copy(
                 PathTo.SolrSchema("schema" + coreName + ".xml"),
-                ReadOverwrittenConfig.SolrPath().Value + "/tof" + coreName + "/conf/" + "schema.xml",
+                WebConfigSettings.SolrPath + "/tof" + coreName + "/conf/" + "schema.xml",
                 overwrite:true
             );
         }

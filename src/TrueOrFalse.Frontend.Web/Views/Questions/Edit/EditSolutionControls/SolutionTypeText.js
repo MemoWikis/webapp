@@ -22,6 +22,15 @@ var SolutionMetaDataMenu = (function () {
             this.SelectText();
         }
 
+        $("#Answer").keyup(function () {
+            console.log(_this._current);
+            console.log(_this._current.IsNumber);
+            if (_this._current.IsNumber) {
+                console.log("isNumber");
+                _this._sliderDate.SetDateUi();
+            }
+        });
+
         $("#btnMenuItemText").click(function () {
             _this.SelectText();
             $("#divMenuItemText").show();
@@ -174,9 +183,12 @@ var SliderDate = (function () {
             text = "Jahrtausend";
         }
 
-        var dateR = DateParser.Run("sss");
+        var dateR = DateParser.Run($("#Answer").val());
+        console.log(dateR);
         if (dateR.IsInvalid) {
+            $("#iDateError").show();
         } else {
+            $("#iDateError").hide();
         }
 
         //spanEntryPrecision

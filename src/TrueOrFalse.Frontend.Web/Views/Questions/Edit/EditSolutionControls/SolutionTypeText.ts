@@ -33,11 +33,20 @@ class SolutionMetaDataMenu {
         } else {
             this.SelectText();
         }
+
+        $("#Answer").keyup(() => {
+            console.log(this._current);
+            console.log(this._current.IsNumber);
+            if (this._current.IsNumber) {
+                console.log("isNumber");
+                this._sliderDate.SetDateUi();
+            }
+        });
         
         $("#btnMenuItemText").click(() => { this.SelectText(); $("#divMenuItemText").show(); });
         $("#btnMenuItemText, #divMenuItemText").hover(
             () => { if (this._current.IsText) $("#divMenuItemText").show(); },
-            () => { $("#divMenuItemText").hide();}
+            () => { $("#divMenuItemText").hide();}  
         );
 
         $("#btnMenuItemNumber").click(() => { this.SelectNumber(); $("#divMenuItemNumber").show(); });
@@ -171,12 +180,13 @@ class SliderDate
             text = "Jahrtausend";
         }
 
-        var dateR = DateParser.Run("sss");
+        var dateR = DateParser.Run($("#Answer").val());
+        console.log(dateR);
         if (dateR.IsInvalid) {
-
+            $("#iDateError").show();
         }
         else {
-
+            $("#iDateError").hide();
         }
         //spanEntryPrecision
 

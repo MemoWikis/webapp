@@ -11,7 +11,19 @@ namespace TrueOrFalse.Infrastructure
         private static readonly AppSettingsReader _settingReader = new AppSettingsReader();
 
         public static string SolrUrl { get { return Get<string>("SolrUrl"); } }
-        
+
+        public static string SolrPath
+        {
+            get
+            {
+                var result = ReadOverwrittenConfig.SolrPath();
+                if (result.HasValue)
+                    return result.Value;
+
+                return Get<string>("SolrPath");
+            }
+        }
+
         private static T Get<T>(string settingKey){
             return (T)_settingReader.GetValue(settingKey, typeof(T));
         }
