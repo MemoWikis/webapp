@@ -46,7 +46,7 @@
         <div class="box">
             <div class="form-group search-container" style="margin-bottom: 8px;">
                 <label>Suche:</label>
-                <input type="text" class="form-control" id="search" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
+                <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
                 <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png"/></button>
             </div>
             <% } %>
