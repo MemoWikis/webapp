@@ -17,7 +17,7 @@ namespace TrueOrFalse.Infrastructure
             return Value("sorlUrl");
         }
 
-        public static ReadOverwrittenConfigValueResult SolrPath(){
+        internal static ReadOverwrittenConfigValueResult SolrPath(){
             return Value("pathToSolr");
         }
 

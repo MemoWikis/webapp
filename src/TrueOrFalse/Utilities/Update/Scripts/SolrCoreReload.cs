@@ -28,7 +28,7 @@ namespace TrueOrFalse.Updates
         {
             CopySchema(coreName);
 
-            var url = ReadOverwrittenConfig.SolrUrl().Value + "admin/cores?wt=json&action=RELOAD&core=tof" + coreName;
+            var url = WebConfigSettings.SolrPath + "admin/cores?wt=json&action=RELOAD&core=tof" + coreName;
             WebRequest.Create(url).GetResponse();
         }
 

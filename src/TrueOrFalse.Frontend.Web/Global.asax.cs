@@ -50,9 +50,6 @@ namespace TrueOrFalse.Frontend.Web
             builder.RegisterModule<AutofacCoreModule>();
 
             var solrUrl = WebConfigSettings.SolrUrl;
-            var solrOverwritten = ReadOverwrittenConfig.SolrUrl();
-            if (solrOverwritten.HasValue)
-                solrUrl = solrOverwritten.Value;
 
             var cores = new SolrServers {
                                 new SolrServerElement {
