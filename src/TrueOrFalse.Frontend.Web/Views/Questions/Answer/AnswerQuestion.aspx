@@ -42,7 +42,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="col-md-6">
-        <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:10px; font-size: 22px;">
+        <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:0px; font-size: 22px;">
             <%= Model.QuestionText %>
         </p>
             

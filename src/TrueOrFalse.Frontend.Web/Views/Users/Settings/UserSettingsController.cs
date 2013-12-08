@@ -38,8 +38,8 @@ public class UserSettingsController : BaseController
 
         model.Message = new SuccessMessage("Wurde gespeichert");
 
-        _sessionUser.User.EmailAddress = model.Email;
-        _sessionUser.User.Name = model.Name;
+        _sessionUser.User.EmailAddress = model.Email.Trim();
+        _sessionUser.User.Name = model.Name.Trim();
         _sessionUser.User.AllowsSupportiveLogin = model.AllowsSupportiveLogin;
 
         _userRepo.Update(_sessionUser.User);
