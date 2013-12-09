@@ -33,6 +33,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string QuestionsMine(UrlHelper url) { return url.Action(QuestionsMineAction, QuestionsController); }
         public static string QuestionsWish(UrlHelper url) { return url.Action(QuestionsWishAction, QuestionsController); }
 
+        public static string QuestionWithCategoryFilter(UrlHelper url, MenuModelCategoryItem modelCategoryItem){
+            return modelCategoryItem.SearchUrl + "Kat__" + modelCategoryItem.Category.Name + "__";
+        }
 
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){
             return url.Action("Answer", AnswerQuestionController, 

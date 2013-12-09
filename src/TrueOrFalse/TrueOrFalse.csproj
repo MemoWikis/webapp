@@ -420,6 +420,7 @@
     <Compile Include="Web\JavascriptViewEngine\JavascriptViewEngine.cs" />
     <Compile Include="Web\MardownInit.cs" />
     <Compile Include="Web\Uris\Links.cs" />
+    <Compile Include="Web\Uris\MenuModelCategoryItem.cs" />
     <Compile Include="Web\Uris\UriSanitizer.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />

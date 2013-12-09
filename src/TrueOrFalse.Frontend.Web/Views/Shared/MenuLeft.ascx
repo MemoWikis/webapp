@@ -118,8 +118,10 @@
         <div class="menu">
             <div class="main no-link"><i class="fa fa-caret-right"></i> Kategorien</div>
             
-            <% foreach(var category in Model.Categories){ %>
-                <div class="sub"><a href="<%= Links.CategoryDetail(Url, category.Category) %>"><i class="fa fa-caret-right"></i> <%=category.Category.Name %> (<span><%=category.OnPageCount %>x) </span></a></div>
+            <% foreach(var catMenuItem in Model.Categories){ %>
+                <div class="sub">
+                    <a href="<%= Links.QuestionWithCategoryFilter(Url, catMenuItem) %>"><i class="fa fa-caret-right"></i> <%=catMenuItem.Category.Name %> (<span><%=catMenuItem.OnPageCount %>x) </span></a>
+                </div>
             <% } %>
         </div>
     </div>
