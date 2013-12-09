@@ -139,7 +139,7 @@ public class QuestionsController : BaseController
                 .Replace("___", ":")
                 .Replace("_and_", "&");
 
-        searchSpec.Filter.SearchTerm = model.SearchTerm = searchTerm;        
+        searchSpec.Filter.SearchTerm = model.SearchTerm = searchTerm;
     }
 
     public void SetSearchSpecVars(QuestionSearchSpec searchSpec, int? page, QuestionsModel model, string orderBy, string defaultOrder = "byViews")

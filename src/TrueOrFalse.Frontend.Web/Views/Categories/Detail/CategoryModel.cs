@@ -23,6 +23,8 @@ public class CategoryModel : BaseModel
     public string CreationDate;
     public string CreationDateNiceText;
 
+    public Category Category;
+
     public string ImageUrl;
 
     public bool IsOwner;
@@ -34,6 +36,7 @@ public class CategoryModel : BaseModel
     public CategoryModel(Category category)
     {
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_200px_square().Url;
+        Category = category;
 
         Id = category.Id;
         Name = category.Name;
@@ -44,7 +47,7 @@ public class CategoryModel : BaseModel
         CountSets = category.CountSets;
         CountCreators = category.CountCreators;
 
-        TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id);
+        TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id, 5);
         TopSets = Resolve<SetRepository>().GetForCategory(category.Id);
     }
 }

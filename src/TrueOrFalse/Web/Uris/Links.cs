@@ -37,6 +37,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return modelCategoryItem.SearchUrl + "Kat__" + modelCategoryItem.Category.Name + "__";
         }
 
+        public static string QuestionWithCategoryFilter(UrlHelper url, Category category){
+            return "/Fragen/Suche/" + "Kat__" + category.Name + "__";
+        }
+
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){
             return url.Action("Answer", AnswerQuestionController, 
                 new { text = UriSegmentFriendlyQuestion.Run(question.Text), questionId = question.Id, setId = set.Id });

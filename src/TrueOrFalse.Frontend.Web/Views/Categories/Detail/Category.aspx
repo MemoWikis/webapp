@@ -27,11 +27,12 @@
         <div class="row">
             <div class="col-md-12">                    
                 <h4>Fragen (<%=Model.CountQuestions %>)</h4>                    
-                    <% foreach(var question in Model.TopQuestions){ %>
-                        <div>
-                            - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(80) %></a>
-                        </div>
-                    <% } %>
+                <% foreach(var question in Model.TopQuestions){ %>
+                    <div>
+                        - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(80) %></a>
+                    </div>
+                <% } %>
+                <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="btn btn-info btn-sm" style="margin-top: 10px; margin-bottom: 10px;">Alle Fragen dieser Kategorie</a>
                 <h4>Fragesätze (<%=Model.CountSets %>)</h4>
                 <% foreach(var set in Model.TopSets){ %>
                     <div>
@@ -39,7 +40,7 @@
                     </div>
                 <% } %>
 
-                <h4 >Ersteller (<%=Model.CountCreators %>)</h4>
+                <h4>Ersteller (<%=Model.CountCreators %>)</h4>
             </div>         
         </div>
 
