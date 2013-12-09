@@ -32,7 +32,10 @@
                         - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(80) %></a>
                     </div>
                 <% } %>
-                <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="btn btn-info btn-sm" style="margin-top: 10px; margin-bottom: 10px;">Alle Fragen dieser Kategorie</a>
+                <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="btn btn-info btn-sm" style="margin-top: 10px; margin-bottom: 10px;">
+                    Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen
+                </a>
+                
                 <h4>Fragesätze (<%=Model.CountSets %>)</h4>
                 <% foreach(var set in Model.TopSets){ %>
                     <div>
