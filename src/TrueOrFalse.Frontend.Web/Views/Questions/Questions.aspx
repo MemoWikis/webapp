@@ -81,10 +81,10 @@
                     </li>
                 </ul>
                 &nbsp;
-                <a href="#" class="btn btn-default btn-xs hide" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
+                <a href="#" class="btn btn-default btn-xs" style="display: none" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
                     <i class="fa fa-folder-open"></i> 
                 </a>&nbsp;
-                <a href="#" class="btn btn-default btn-xs hide" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
+                <a href="#" class="btn btn-default btn-xs" style="display: none" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
                     <i class="fa fa-trash-o"></i> 
                 </a>
 
