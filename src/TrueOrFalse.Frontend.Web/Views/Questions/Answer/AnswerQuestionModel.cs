@@ -9,7 +9,6 @@ using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web;
 
-
 public class AnswerQuestionModel : BaseModel
 {
     public Func<UrlHelper, string> PreviousUrl;
@@ -79,6 +78,7 @@ public class AnswerQuestionModel : BaseModel
     public bool SourceIsSet;
 
     public Set Set;
+    public IList<Category> Categories;
          
     public AnswerQuestionModel() { }
 
@@ -97,6 +97,8 @@ public class AnswerQuestionModel : BaseModel
         SourceIsTabAll = QuestionSearchSpecSession.KeyPagerAll == searchSpec.KeyOverviewPage;
         SourceIsTabMine = QuestionSearchSpecSession.KeyPagerMine == searchSpec.KeyOverviewPage;
         SourceIsTabWish = QuestionSearchSpecSession.KeyPagerWish == searchSpec.KeyOverviewPage;
+
+        Categories = question.Categories;
 
         Populate(question);
     }

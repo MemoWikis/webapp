@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Data;
+using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -19,6 +20,7 @@ namespace TrueOrFalse
               .Database(
                 MySQLConfiguration.Standard
                   .ConnectionString(GetConnectionString.Run())
+                  .Dialect<MySQL5FlexibleDialect>
               )
               .Mappings(m =>
                 m.FluentMappings.Conventions.Add<EnumConvention>()

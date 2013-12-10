@@ -37,6 +37,7 @@ namespace TrueOrFalse.Tests
 
         public static void InitializeContainer()
         {
+            MySQL5FlexibleDialect.Engine = "MyISAM";
             BuildContainer();
             ServiceLocator.Init(_container);
             SessionFactory.BuildSchema();

@@ -70,12 +70,6 @@ public class QuestionsModel : BaseModel
         OrderByLabel = questionSearchSpec.OrderBy.ToText();
         SearchTerm = questionSearchSpec.Filter.SearchTerm;
 
-        MenuLeftModel.Categories = questions.GetAllCategories()
-                                    .GroupBy(c => c.Name)
-                                    .OrderByDescending(g => g.Count())
-                                    .Select(g =>  new MenuModelCategoryItem{Category = g.First(), OnPageCount = g.Count()})
-                                    .ToList();
-
         if (ActiveTabAll){
             Pager.Action = Action = Links.Questions;
             SearchUrl = "/Fragen/Suche/";
@@ -86,5 +80,14 @@ public class QuestionsModel : BaseModel
             Pager.Action = Action = Links.QuestionsMineAction;
             SearchUrl = "/Fragen/Meine/Suche/";
         }
+
+        MenuLeftModel.Categories = questions.GetAllCategories()
+                                    .GroupBy(c => c.Name)
+                                    .OrderByDescending(g => g.Count())
+                                    .Select(g =>  new MenuModelCategoryItem{
+                                        SearchUrl = SearchUrl,
+                                        Category = g.First(), OnPageCount = g.Count()
+                                    })
+                                    .ToList();
     }
 }

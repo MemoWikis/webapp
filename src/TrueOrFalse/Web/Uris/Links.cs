@@ -33,6 +33,13 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string QuestionsMine(UrlHelper url) { return url.Action(QuestionsMineAction, QuestionsController); }
         public static string QuestionsWish(UrlHelper url) { return url.Action(QuestionsWishAction, QuestionsController); }
 
+        public static string QuestionWithCategoryFilter(UrlHelper url, MenuModelCategoryItem modelCategoryItem){
+            return modelCategoryItem.SearchUrl + "Kat__" + modelCategoryItem.Category.Name + "__";
+        }
+
+        public static string QuestionWithCategoryFilter(UrlHelper url, Category category){
+            return "/Fragen/Suche/" + "Kat__" + category.Name + "__";
+        }
 
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){
             return url.Action("Answer", AnswerQuestionController, 
@@ -40,8 +47,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec){
-            RemoveRouteDataValues(url.RequestContext.RouteData.Values);
-            return url.Action("Answer", AnswerQuestionController, new {pager = searchSpec.Key});
+            return "/AnswerQuestion/Answer?pager=" + searchSpec.Key;
         }
 
         public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = ""){
@@ -146,17 +152,5 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string AccountController = "Account";
         public const string Logout = "Logout";
-
-        public static void RemoveRouteDataValues(RouteValueDictionary currentRouteData)
-        {
-            var keyList = new List<string>(currentRouteData.Keys);
-
-            var ignore = new[] { "Area", "Controller", "Action" };
-            foreach (string key in keyList)
-            {
-                if (!ignore.Contains(key, StringComparer.CurrentCultureIgnoreCase))
-                    currentRouteData.Remove(key);
-            }
-        }
     }
 }

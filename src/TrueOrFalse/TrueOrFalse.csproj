@@ -261,6 +261,7 @@
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryToken.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenMap.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenRepository.cs" />
+    <Compile Include="Infrastructure\Persistence\Session\MySQL5FlexibleDialect.cs" />
     <Compile Include="Infrastructure\Regexes.cs" />
     <Compile Include="Search\Category\IndexOperations\ReIndexAllCategories.cs" />
     <Compile Include="Search\Category\IndexOperations\SearchIndexCategory.cs" />
@@ -420,6 +421,7 @@
     <Compile Include="Web\JavascriptViewEngine\JavascriptViewEngine.cs" />
     <Compile Include="Web\MardownInit.cs" />
     <Compile Include="Web\Uris\Links.cs" />
+    <Compile Include="Web\Uris\MenuModelCategoryItem.cs" />
     <Compile Include="Web\Uris\UriSanitizer.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />

@@ -42,11 +42,13 @@ namespace TrueOrFalse
             base.Delete(question.Id);
         }
 
-        public IList<Question> GetForCategory(int categoryId)
+        public IList<Question> GetForCategory(int categoryId, int resultCount)
         {
             return _session.QueryOver<Question>()
+                .OrderBy(q => q.TotalRelevancePersonalEntries).Asc
                 .JoinQueryOver<Category>(q => q.Categories)
                 .Where(c => c.Id == categoryId)
+                .Take(resultCount)
                 .List<Question>();
         }
 

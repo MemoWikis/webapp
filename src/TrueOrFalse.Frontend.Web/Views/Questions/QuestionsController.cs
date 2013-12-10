@@ -132,13 +132,14 @@ public class QuestionsController : BaseController
         if (searchSpec.Filter.SearchTerm != searchTerm)
             searchSpec.CurrentPage = 1;
 
-        searchTerm = searchTerm
-            .Replace("Kat__", "Kat:\"")
-            .Replace("__", "\"")
-            .Replace("___", ":")
-            .Replace("_and_", "&");
+        if(!String.IsNullOrEmpty(searchTerm))
+            searchTerm = searchTerm
+                .Replace("Kat__", "Kat:\"")
+                .Replace("__", "\"")
+                .Replace("___", ":")
+                .Replace("_and_", "&");
 
-        searchSpec.Filter.SearchTerm = model.SearchTerm = searchTerm;        
+        searchSpec.Filter.SearchTerm = model.SearchTerm = searchTerm;
     }
 
     public void SetSearchSpecVars(QuestionSearchSpec searchSpec, int? page, QuestionsModel model, string orderBy, string defaultOrder = "byViews")
