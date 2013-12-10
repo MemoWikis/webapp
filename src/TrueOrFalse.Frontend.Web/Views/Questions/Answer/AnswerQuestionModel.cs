@@ -98,8 +98,6 @@ public class AnswerQuestionModel : BaseModel
         SourceIsTabMine = QuestionSearchSpecSession.KeyPagerMine == searchSpec.KeyOverviewPage;
         SourceIsTabWish = QuestionSearchSpecSession.KeyPagerWish == searchSpec.KeyOverviewPage;
 
-        Categories = question.Categories;
-
         Populate(question);
     }
 
@@ -165,6 +163,8 @@ public class AnswerQuestionModel : BaseModel
 
         ImageUrl_500px = QuestionImageSettings.Create(question.Id).GetUrl_128px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
+
+        Categories = question.Categories;
 
         FeedbackRows = new List<FeedbackRowModel>();
         FeedbackRows.Add(new FeedbackRowModel{

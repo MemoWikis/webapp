@@ -123,7 +123,7 @@
                             <% }else{ %>
                                 <h4 style="padding-left:5px;">Fragen Reihenfolge
                                     <span style="font-size: 11px;">(per Drag'n'Drop)</span>
-                                    <span id="revertAction" class="pull-right hide" style="font-size: 11px; font-weight: normal; position: relative; top: 7px; right: 7px; cursor: pointer">
+                                    <span id="revertAction" class="pull-right hide2" style="font-size: 11px; font-weight: normal; position: relative; top: 7px; right: 7px; cursor: pointer">
                                         [Rückgängig]
                                     </span>
                                 </h4>

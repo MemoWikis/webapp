@@ -24,18 +24,29 @@
         <div class="boxtainer-header">
             <ul class="nav nav-tabs" >
                 <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
-                    <a href="<%= Links.QuestionsAll(Url) %>">Alle Fragen (<%= Model.TotalQuestionsInSystem %>)</a>
+                    <a href="<%= Links.QuestionsAll(Url) %>">
+                        <%  string von = "";
+                            if (Model.ActiveTabAll && Model.TotalQuestionsInSystem != Model.TotalQuestionsInResult)
+                                von = Model.TotalQuestionsInResult + " von ";  %>
+                        Alle Fragen (<%= von + Model.TotalQuestionsInSystem %>)
+                    </a>
                 </li>
                 <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsWish(Url) %>">
-                        Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalWishKnowledge %>)</span> 
+                        <% von = "";
+                           if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
+                               von = Model.TotalQuestionsInResult + " von "; %>
+                        Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= von + Model.TotalWishKnowledge %>)</span>
                         <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
                            title="Wissen das Du jederzeit aktiv nutzen möchtest ist."></i>
                     </a>
                 </li>
                 <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsMine(Url) %>">
-                        Meine Fragen (<%= Model.TotalQuestionsMine %>)
+                        <%  von = "";
+                            if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
+                               von = Model.TotalQuestionsInResult + " von "; %>                        
+                        Meine Fragen (<%= von + Model.TotalQuestionsMine %>)
                         <i class="fa fa-question-circle show-tooltip" title="Fragen die von Dir erstellt wurden."></i>
                     </a>
                 </li>
@@ -83,10 +94,10 @@
                     </li>
                 </ul>
                 &nbsp;
-                <a href="#" class="btn btn-default btn-xs hide" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
+                <a href="#" class="btn btn-default btn-xs" style="display: none" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
                     <i class="fa fa-folder-open"></i> 
                 </a>&nbsp;
-                <a href="#" class="btn btn-default btn-xs hide" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
+                <a href="#" class="btn btn-default btn-xs" style="display: none" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
                     <i class="fa fa-trash-o"></i> 
                 </a>
 
