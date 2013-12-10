@@ -42,11 +42,25 @@
             </ul>
         </div>
             
-        <div class="box">
-            <div class="form-group search-container" style="margin-bottom: 8px;">
-                <label>Suche:</label>
-                <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
-                <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png"/></button>
+        <div class="boxtainer-content">
+            <div class="search-section">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Suche:</label>
+                            <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
+                            <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png"/></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        
+                    </div>
+                    <div class="col-md-6">
+                        
+                    </div>
+                </div>
             </div>
             <% } %>
 

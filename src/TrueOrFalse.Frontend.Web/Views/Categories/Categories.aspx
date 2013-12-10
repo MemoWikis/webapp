@@ -34,35 +34,38 @@
                     </div>
                 </div>
                 <div class="boxtainer-content">
-                    
                     <div class="search-section">
-                        <ul class="nav pull-right">
-                            <li class="dropdown" id="menu1">
-                                <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
-                                    Sortieren nach: <%= Model.OrderByLabel %>
-                                    <b class="caret"></b>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuestions" %>">
-                                            <% if (Model.OrderBy.QuestionCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Anzahl Fragen
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDate" %>">
-                                            <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="icon-ok"></i> <% } %>  Datum erstellt
-                                        </a>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="pull-left form-group">
+                                    <label>Suche:</label>
+                                    <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch"}) %>
+                                    <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png" /></button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="nav pull-right">
+                                    <li class="dropdown" id="menu1">
+                                        <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
+                                            Sortieren nach: <%= Model.OrderByLabel %>
+                                            <b class="caret"></b>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuestions" %>">
+                                                    <% if (Model.OrderBy.QuestionCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Anzahl Fragen
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDate" %>">
+                                                    <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="icon-ok"></i> <% } %>  Datum erstellt
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
-                            </li>
-                        </ul>
-        
-                        <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;"><%= Model.TotalCategoriesInResult %> Treffer</div>
-                        
-                        <div class="pull-left form-group">
-                            <label>Suche:</label>
-                            <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch"}) %>
-                            <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png" /></button>
+                                <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;"><%= Model.TotalCategoriesInResult %> Treffer</div>
+                            </div>
                         </div>
                     </div>
 
