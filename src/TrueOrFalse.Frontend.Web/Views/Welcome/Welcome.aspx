@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Web.Context" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
-    <title>Richtig-oder-Falsch</title>
+    <title>MEMuchO</title>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
 </asp:Content>
 

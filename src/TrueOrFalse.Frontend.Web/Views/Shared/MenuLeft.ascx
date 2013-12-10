@@ -92,17 +92,16 @@
             <a class="<%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>"><i class="fa fa-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="vertical-align: text-top;" ></a> 
         </div>    
         <% index = 0; foreach (var user in new SessionUiData().VisitedUserDetails){ index++;  %>
-               <div class="sub">
-                   <% var activeClass = ""; if (index == 1) { activeClass = Model.Active(MenuEntry.UserDetail); } %>
-                   <a href="<%= Links.UserDetail(Url, user.Name, user.Id) %>" class="<%= activeClass %>">
-                       <i class="fa fa-caret-right"></i> <%=user.Name%>
-                   </a>
-               </div>
+            <div class="sub">
+                <% var activeClass = ""; if (index == 1) { activeClass = Model.Active(MenuEntry.UserDetail); } %>
+                <a href="<%= Links.UserDetail(Url, user.Name, user.Id) %>" class="<%= activeClass %>">
+                    <i class="fa fa-caret-right"></i> <%=user.Name%>
+                </a>
+            </div>
         <% } %>
         <div><a class="<%= Model.Active(MenuEntry.Play) %>" href="#"><i class="fa fa-caret-right"></i> Spielen</a></div>
     
         <% if (Model.IsInstallationAdmin){ %>
-
             <div class="main" style="margin-top:12px;">
                 <a href="<%= Url.Action("Maintenance", "Maintenance") %>"><i class="fa fa-caret-right"></i> Adminstrativ</a> 
             </div>
