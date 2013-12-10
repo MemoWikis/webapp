@@ -520,7 +520,6 @@
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
-    <Content Include="Style\font-awesome_old.css" />
     <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.svg" />
     <Content Include="Style\fonts\OFL.txt" />
     <Content Include="Style\form.css">
