@@ -3,8 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="col-md-12 " style="border-top: 1px solid #e5e5e5; margin-top: 60px;">
-    <div class="clearfix" style="margin-bottom: 10px;"></div>
+<div class="col-md-12">
 
     <div style="float:left; padding-left: 0px;">
         <a href="http://teamcity.richtig-oder-falsch.de:8080/viewType.html?buildTypeId=TrueOrFalse_Default&guest=1">
@@ -15,14 +14,15 @@
     <div class="pull-right">
         <%= Html.ActionLink("Gemeinwohlunternehmen", Links.WelfareCompany, Links.VariousController)%> | 
         <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%>
-    </div>    
+    </div>
+    <div class="clearfix"></div>
 </div>
 
 
-<div class="col-md-12 " style="margin-top: 40px; margin-bottom: 40px;">
+<div class="col-md-12 ">
     
-    Auf:
-    <ul>
+    <span style="display: inline;">Auf:</span>
+    <ul id="footerOn">
         <li><a href="http://teamcity.richtig-oder-falsch.de:8080/viewType.html?buildTypeId=TrueOrFalse_Default&guest=1">Teamcity</a></li>
         <li><a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a></li>
     </ul>

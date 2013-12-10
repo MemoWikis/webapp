@@ -12,6 +12,8 @@
 ----------------------------------------------------------*/
 html {
   overflow: scroll;
+  height: 100%;
+  background-color: #efefef;
 }
 /*always show scrollbar*/
 a {
@@ -20,7 +22,30 @@ a {
 body {
   font-size: 13px;
   color: #2e487b;
-  background-image: url(../img/dimension.png);
+  background: url(../img/dimension.png);
+}
+.mainSection {
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #efefef 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, #efefef));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #efefef 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #efefef 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #efefef 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #efefef 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#efefef', GradientType=0);
+  /* IE6-9 */
+
 }
 .container.main {
   background-color: white;
@@ -31,18 +56,44 @@ body {
   margin: 0px;
   padding: 0px;
   width: 100%;
-  border-bottom: 1px solid;
+  height: 51px;
+  background-color: #2e487b;
 }
 #header h1 {
   font-weight: 800;
   margin: 0px;
-  padding: 0px 0px 0px 0px;
   border: none;
   font-size: 2.0em;
   background: url('/images/toflogo.png') no-repeat right;
   font-family: 'Emilys Candy', cursive;
+  color: #afd534;
+  font-size: 40px;
+  background: none;
+  position: relative;
+  padding-left: 0px;
+  padding-top: 3px;
   padding-right: 72px;
-  color: #2e487b;
+}
+#header h1 span#m {
+  padding-right: 3px;
+}
+#header h1 span#uch {
+  color: #e7ecf6;
+  font-size: 30px;
+}
+#header span#logo {
+  display: inline-block;
+  background-image: url('/images/toflogo.png');
+  background-position: center;
+  background-color: #e7ecf6;
+  width: 64px;
+  height: 64px;
+  background-repeat: no-repeat;
+  border-radius: 32px;
+  position: absolute;
+  top: 3px;
+  left: 200px;
+  border: solid 2px #2e487b;
 }
 #header #loginAndHelp {
   background-color: #e7ecf6;
@@ -61,6 +112,18 @@ body {
   padding-bottom: -3px;
   margin-top: -3px;
   margin-bottom: -3px;
+}
+#footer {
+  background-color: #efefef;
+  padding-top: 20px;
+}
+#footer #footerOn {
+  display: inline-block;
+  padding-left: 0;
+}
+#footer #footerOn li {
+  display: inline-block;
+  padding-left: 20px;
 }
 .dark-blue {
   color: #2e487b;

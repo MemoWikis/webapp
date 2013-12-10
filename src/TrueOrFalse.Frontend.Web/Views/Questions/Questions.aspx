@@ -20,9 +20,8 @@
         </a>
     </div>
     
-    <div class="box-with-tabs">
-        
-        <div class="green">
+     <div class="boxtainer-outlined-tabs">
+        <div class="boxtainer-header">
             <ul class="nav nav-tabs" >
                 <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsAll(Url) %>">

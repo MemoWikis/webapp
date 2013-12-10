@@ -3,24 +3,25 @@
 
 <!DOCTYPE html>
 
-<html>
 <head runat="server">
     <% Html.RenderPartial("Site.Resources.Head"); %>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
 <body>
-    <div class="container">
+    <%--HEADER--%>
+    <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>
+    <section class="mainSection">
+        <div class="container main">
         
-        <%--HEADER--%>
-        <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
         
-        <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
-        
-        <%-- FOOTER--%>
+        </div>
+    </section>
+    <%-- FOOTER--%>
+    <footer>
         <div id="footer" class="row">
             <% Html.RenderPartial(UserControls.WelcomeFooter); %>
         </div>
-        
-    </div>
+    </footer>
 </body>
 </html>

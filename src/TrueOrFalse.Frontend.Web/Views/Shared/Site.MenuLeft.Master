@@ -10,26 +10,29 @@
 
 <body>
     <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>    
-    
-    <div class="container main">
+    <section class="mainSection">
+        <div class="container main">
         
-        <div class="row">
-            <div class="col-md-3">
-                <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
-            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
+                </div>
                 
-            <%-- MAIN CONTENT--%>
-            <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+                <%-- MAIN CONTENT--%>
+                <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+            </div>
+
         </div>
-        
-        <%-- FOOTER--%>
+    </section>
+    <%-- FOOTER--%>
+    <footer>
         <div id="footer" class="row">
+            <div class="container">
             <%// ReSharper disable Asp.NotResolved
                 Html.RenderPartial(UserControls.WelcomeFooter); 
                 // ReSharper restore Asp.NotResolved%>
+            </div>
         </div>
-
-    </div>
-
+    </footer>
 </body>
 </html>
