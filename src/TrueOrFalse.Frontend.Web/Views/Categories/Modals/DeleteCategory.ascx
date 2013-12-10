@@ -8,7 +8,7 @@
                 <h3>Kategorie löschen</h3>
             </div>
             <div class="modal-body">
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     Die Kategorie <b>'<span id="spanCategoryTitle"></span>'</b> wird unwiederbringlich gelöscht. 
                     Alle damit verknüpften Daten werden entfernt! 
                 </div>

@@ -30,7 +30,7 @@ namespace TrueOrFalse.Web
             get
             {
                 if (Type == MessageType.IsError)
-                    return "alert alert-error";
+                    return "alert alert-danger";
 
                 return "alert alert-success";
             }

@@ -21,7 +21,7 @@ class ToQuestionSetModal {
         
         var setResult = GetSetsForUser.Run();
         this.Sets = setResult.Sets;
-
+            
         $("#tqsSuccess").hide();
         $("#tqsSuccessFooter").hide();
         if (setResult.TotalSets == 0) {
