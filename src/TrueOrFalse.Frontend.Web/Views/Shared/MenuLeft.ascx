@@ -28,7 +28,7 @@
 
         <div class="main">
             <a class="<%= Model.Active(MenuEntry.Knowledge) %>" href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>"> <i class="fa fa-caret-right"></i>
-                Wissen (<span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span>)
+                Wunschwissen (<span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span>)
             </a>
         </div>
         <div><a class="<%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>"><i class="fa fa-caret-right"></i> Fragen</a></div>
