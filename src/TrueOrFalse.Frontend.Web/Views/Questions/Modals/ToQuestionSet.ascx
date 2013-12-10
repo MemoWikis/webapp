@@ -21,9 +21,11 @@
                     <div id="tsqRowTemplate" class="tsqRow hide2">{Name}</div>
                 </div>
             </div>
+            
+
             <div class="modal-body hide2" id="tqsSuccess">
                 <div class="alert-success" style="padding: 5px;">
-                  <strong>2 Fragen wurden zum Fragesatz "asdfasdf" hinzugefügt</strong>
+                    <strong id="tqsSuccessMsg">{Amount} Fragen wurden zum Fragesatz "{SetName}" hinzugefügt</strong>
                 </div>
             </div> 
             <div class="modal-footer hide2" id="tqsSuccessFooter">

@@ -39,7 +39,7 @@ class ToQuestionSetModal {
             $("[data-questionSetId]").remove();
 
             for (var i = 0; i < setResult.Sets.length; i++) {
-                var newRow = template.clone().removeAttr("id").removeClass("hide");
+                var newRow = template.clone().removeAttr("id").removeClass("hide2");
                 newRow.attr("data-questionSetId", setResult.Sets[i].Id);
                 newRow.html(newRow.html().replace("{Name}", setResult.Sets[i].Name));
                 newRow.click(function () { _page.ToQuestionSetModal.AddToSet($(this)); });
@@ -54,8 +54,10 @@ class ToQuestionSetModal {
         var questionSet = _.filter(this.Sets, 
             function(pSet) { return pSet.Id == id; });
 
-        var text =  _page.RowSelector.Rows.length + " Fragen zu '" + 
-            questionSet[0].Name + "' hinzufügen";
+        $("#tqsSuccessMsg").html($("#tqsSuccessMsg").html()
+            .replace('{Amount}', _page.RowSelector.Rows.length.toString())
+            .replace('{SetName}', questionSet[0].Name)
+            );
 
         SendQuestionsToAdd.Run(id);
 
