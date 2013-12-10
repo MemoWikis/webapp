@@ -306,7 +306,9 @@
     <Content Include="Scripts\SolutionMetaData.js">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
+    <Content Include="Scripts\typescript.defs\underscore.d.ts" />
     <Content Include="Style\bootstrap.css" />
     <Content Include="Style\temp.css">
       <DependentUpon>temp.less</DependentUpon>
@@ -386,7 +388,6 @@
     <Content Include="Scripts\typescript.defs\lib.d.ts" />
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
-    <Content Include="Scripts\typescript.defs\underscore-typed.d.ts" />
     <Content Include="Scripts\underscore-1.4.3.js" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
@@ -513,7 +514,6 @@
     <Content Include="Scripts\google-code-prettify\prettify.js" />
     <Content Include="Scripts\Jplayer.swf" />
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
-    <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\jquery.jplayer.js" />
     <Content Include="Scripts\jquery.sparkline.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -629,26 +629,14 @@
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\Page.min.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Js\QuestionRowDelete.js">
-      <DependentUpon>QuestionRowDelete.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\QuestionRowDelete.min.js">
       <DependentUpon>QuestionRowDelete.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\QuestionRowSelection.js">
       <DependentUpon>QuestionRowSelection.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\QuestionRowSelection.min.js">
-      <DependentUpon>QuestionRowSelection.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Views\Questions\Js\ToQuestionSet.ts" />
     <Content Include="Views\Questions\Js\ToQuestionSet.js">
-      <DependentUpon>ToQuestionSet.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Js\ToQuestionSet.min.js">
       <DependentUpon>ToQuestionSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Modals\DeleteQuestion.ascx" />

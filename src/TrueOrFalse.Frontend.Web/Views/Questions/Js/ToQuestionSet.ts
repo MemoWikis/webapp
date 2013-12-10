@@ -1,7 +1,7 @@
 /// <reference path="Page.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
-/// <reference path="../../../Scripts/typescript.defs/underscore-typed.d.ts" />
+/// <reference path="../../../Scripts/typescript.defs/underscore.d.ts" />
 
 class ToQuestionSetModal {
 
@@ -77,7 +77,7 @@ class QuestionSet {
 class GetSetsForUserResult {
     TotalSets = 0;
     CurrentPage = 1;
-    Sets: QuestionSet[] = new QuestionSet[];
+    Sets: Array<QuestionSet> = new Array<QuestionSet>();
 }
 
 class GetSetsForUser {
@@ -106,13 +106,13 @@ class GetSetsForUser {
 class SendQuestionsToAddResult {
     TotalSets = 0;
     CurrentPage = 1;
-    Sets: QuestionSet[] = new QuestionSet[];
+    Sets: Array<QuestionSet> = new Array<QuestionSet>();
 }
 
 class SendQuestionsToAdd { 
     static Run(questionSetId) { 
 
-        var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr, a) { 
+        var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr : string, a) { 
             if (aggr.length == 0)
                 return a.QuestionId;
 
