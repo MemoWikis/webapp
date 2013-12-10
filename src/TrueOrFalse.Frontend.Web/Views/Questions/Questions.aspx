@@ -34,7 +34,8 @@
                 </li>
                 <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsWish(Url) %>">
-                        <% if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
+                        <% von = "";
+                           if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                                von = Model.TotalQuestionsInResult + " von "; %>
                         Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= von + Model.TotalWishKnowledge %>)</span>
                         <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
@@ -43,7 +44,8 @@
                 </li>
                 <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsMine(Url) %>">
-                        <% if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
+                        <%  von = "";
+                            if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
                                von = Model.TotalQuestionsInResult + " von "; %>                        
                         Meine Fragen (<%= von + Model.TotalQuestionsMine %>)
                         <i class="fa fa-question-circle show-tooltip" title="Fragen die von Dir erstellt wurden."></i>
