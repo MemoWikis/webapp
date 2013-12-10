@@ -253,7 +253,6 @@ div.box-content {
   border-radius: 3px;
   margin: -1px;
   background-color: white;
-  padding: 5px;
 }
 .green {
   background-color: #d1eba7;
@@ -325,6 +324,7 @@ div.box-main .box-content {
 .box-with-tabs .boxtainer-content .search-section,
 .boxtainer-outlined-tabs .boxtainer-content .search-section {
   padding-top: 20px;
+  padding-bottom: 20px;
 }
 .box div.pagination {
   margin-top: 15px;
@@ -360,7 +360,8 @@ div.box-main .box-content {
 .category-row {
   border-top: 1px solid #a6bade;
 }
-div.rowBase:first-child {
+.rowBase:first-child,
+.category-row:first-child {
   border-top: none;
 }
 /*temp

@@ -224,7 +224,6 @@ div.box-content {
     margin: -1px;
     
     background-color: white;
-    padding: 5px;
     }
 
 .green {
@@ -309,7 +308,10 @@ div.box-main .box-content {
         position: relative;
         z-index: 2;
 
-        .search-section {padding-top: 20px;}
+        .search-section {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
     }
     
 }
@@ -356,11 +358,12 @@ div.box-main .box-content {
 
 .rowBase, .category-row  {
     border-top:1px solid @row-border-blue;
+
+   
+    &:first-child {border-top: none;}
 }
 
-div.rowBase:first-child {
-    border-top: none;
-}
+
 
 
 
