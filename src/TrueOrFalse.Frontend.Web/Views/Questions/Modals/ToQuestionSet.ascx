@@ -15,17 +15,23 @@
             </div>
             <div class="modal-body hide2" id="tqsBody">
                 <div id="tqsTextSelectSet" class="alert-info" style="padding: 5px;">
-                  <strong>Bitte wähle einen Fragesatz</strong> 
+                  <strong>Bitte wähle einen Deiner Fragesätze</strong> 
+                </div>
+                <div style="margin-top: 11px;">
+                    <b>Filter:</b> &nbsp;<input type="text" style="width: 210px;" id="txtTqsSetFilter" />
+                    <span id="tqsSetCount"></span>
                 </div>
                 <div style="padding-top: 7px;" id="tsqRowContainer">
-                    <div id="tsqRowTemplate" class="tsqRow hide2">{Name}</div>
+                    <div id="tsqRowTemplate" class="tsqRow hide2"><b>{Name}</b> ({AnzahlFragen} Fragen)</div>
                 </div>
             </div>
             
 
             <div class="modal-body hide2" id="tqsSuccess">
                 <div class="alert-success" style="padding: 5px;">
-                    <strong id="tqsSuccessMsg">{Amount} Fragen wurden zum Fragesatz "{SetName}" hinzugefügt</strong>
+                    <strong id="tqsSuccessMsg">
+                        {Amount} Fragen wurden zum Fragesatz "{SetName}" hinzugefügt. {NonAdded}
+                    </strong>
                 </div>
             </div> 
             <div class="modal-footer hide2" id="tqsSuccessFooter">
