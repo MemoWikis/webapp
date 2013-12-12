@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>" style="vertical-align: middle; margin-right: 10px; "><i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i> Hilfe & Mehr </a> 
+<a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>" style="margin-right: 10px; "><i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i> Hilfe & Mehr </a> 
 <%
     var userSession = new SessionUser();
     
@@ -13,7 +13,7 @@
 %>
         <div class="dropdown" style="display: inline-block;">
             <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-                <img src="<%= imageSetttings.GetUrl_30px_square(userSession.User.EmailAddress).Url %>" /> <span style="vertical-align: middle;">Hallo <b><%= userSession.User.Name%></b>!</span>
+                <img src="<%= imageSetttings.GetUrl_30px_square(userSession.User.EmailAddress).Url %>" /> <span>Hallo <b><%= userSession.User.Name%></b>!</span>
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">            
