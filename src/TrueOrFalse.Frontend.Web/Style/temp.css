@@ -50,9 +50,94 @@
     color: #2e487b;
   }
   .tempfragesaetze a {
-    color: #ffb400;
+    color: #ffd700;
   }
   .menu a.active {
     text-transform: uppercase;
   }
 }
+#testmenu .list-group-item {
+  margin-top: 2px;
+  background-color: #f6f8fc;
+  border: solid 4px #0e22b6;
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
+}
+#testmenu .list-group-item:hover {
+  color: white;
+}
+#testmenu .list-group-item:first-child {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+#testmenu .list-group-item:last-child {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+#testmenu .list-group-item.test-set {
+  border-left-color: #ffd700;
+  border-right-color: #ffd700;
+}
+#testmenu .list-group-item.test-set:hover {
+  background-color: #ffd700;
+  color: black;
+}
+#testmenu .list-group-item.test-quest {
+  border-left-color: #afd534;
+  border-right-color: #afd534;
+}
+#testmenu .list-group-item.test-quest:hover {
+  background-color: #afd534;
+  color: black;
+}
+#testmenu .list-group-item.test-cat {
+  border-left-color: #99ccff;
+  border-right-color: #e7ecf6;
+}
+#testmenu .list-group-item.test-cat:hover {
+  background-color: #99ccff;
+  color: black;
+}
+#testmenu .list-group-item.test-know {
+  border-left-color: #b13a48;
+  border-right-color: #b13a48;
+}
+#testmenu .list-group-item.test-know:hover {
+  background-color: #b13a48;
+}
+#testmenu .list-group-item.test-news {
+  border-left-color: #ffa500;
+  border-right-color: #b13a48;
+}
+#testmenu .list-group-item.test-news:hover {
+  background-color: #ffa500;
+  color: black;
+}
+#testmenu .list-group-item.test-user {
+  border-left-color: #7e63a1;
+  border-right-color: #b13a48;
+}
+#testmenu .list-group-item.test-user:hover {
+  background-color: #7e63a1;
+}
+#testmenu .list-group-item.test-dues {
+  border-left-color: #138992;
+  border-right-color: #b13a48;
+}
+#testmenu .list-group-item.test-dues:hover {
+  background-color: #138992;
+}
+#testmenu .list-group-item.test-users {
+  border-left-color: #0e22b6;
+  border-right-color: #b13a48;
+}
+#testmenu .list-group-item.test-users:hover {
+  background-color: #0e22b6;
+}
+/*span {
+        display: inline-block;
+        width: 10px;
+        height: 20px;
+        background-color: @test-gelb;
+    }*/

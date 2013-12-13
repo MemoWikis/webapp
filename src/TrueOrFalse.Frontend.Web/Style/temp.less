@@ -57,3 +57,108 @@
 }
 
 }
+
+#testmenu .list-group-item {
+    margin-top: 2px;
+    background-color: lighten(@light-blue, 4%);
+    border: solid 4px @link-blue;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
+
+    &:hover {color: white;}
+
+
+    &:first-child {
+          border-top-right-radius: 0;
+          border-top-left-radius: 0;
+    }
+
+      &:last-child {
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+    }
+
+    &.test-set{
+        border-left-color: @test-gelb;
+        border-right-color: @test-gelb;
+
+        &:hover {
+            background-color: @test-gelb;
+            color: black;
+        }
+    }
+
+     &.test-quest{
+        border-left-color: @cooles-gruen;
+        border-right-color: @cooles-gruen;
+
+        &:hover {
+            background-color: @cooles-gruen;
+            color: black;
+        }
+    }
+
+    &.test-cat{
+        border-left-color: @middle-blue;
+        border-right-color: @light-blue;
+
+        &:hover {
+            background-color: @middle-blue;
+            color: black;
+        }
+    }
+
+    &.test-know{
+        border-left-color: @dark-red;
+        border-right-color: @dark-red;
+
+        &:hover {background-color: @dark-red;}
+    }
+
+    &.test-news{
+        border-left-color: @test-orange2;
+        border-right-color: @dark-red;
+
+        &:hover {
+            background-color: @test-orange2;
+            color: black;
+        }
+
+    }
+
+    &.test-user{
+        border-left-color: @test-violett;
+        border-right-color: @dark-red;
+
+        &:hover {background-color: @test-violett;}
+
+    }
+
+    &.test-dues{
+        border-left-color: @test-tuerkis;
+        border-right-color: @dark-red;
+
+        &:hover {
+            background-color: @test-tuerkis;
+        }
+
+    }
+
+     &.test-users{
+        border-left-color: @link-blue;
+        border-right-color: @dark-red;
+
+        &:hover {background-color: @link-blue;}
+
+    }
+
+   
+}
+
+ /*span {
+        display: inline-block;
+        width: 10px;
+        height: 20px;
+        background-color: @test-gelb;
+    }*/
