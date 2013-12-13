@@ -63,6 +63,7 @@
   border-top: none;
   border-bottom: none;
   border-right: none;
+  display: none;
 }
 #testmenu .list-group-item:hover {
   color: white;
@@ -135,9 +136,3 @@
 #testmenu .list-group-item.test-users:hover {
   background-color: #0e22b6;
 }
-/*span {
-        display: inline-block;
-        width: 10px;
-        height: 20px;
-        background-color: @test-gelb;
-    }*/
