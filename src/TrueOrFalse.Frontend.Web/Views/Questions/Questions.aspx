@@ -83,13 +83,16 @@
                                 </ul>
                             </li>
                         </ul>
-                        &nbsp;
-                        <a href="#" class="btn btn-default btn-xs" style="display: none" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
+                        
+                        <a href="#" class="btn btn-default btn-xs" style="display: none; margin-left: 7px;" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
                             <i class="fa fa-folder-open"></i> 
-                        </a>&nbsp;
-                        <a href="#" class="btn btn-default btn-xs" style="display: none" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
+                        </a>
+                        <a href="#" class="btn btn-default btn-xs" style="display: none; margin-left: 7px;" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
                             <i class="fa fa-trash-o"></i> 
                         </a>
+                        <a href="#" class="btn btn-default btn-xs" style=" margin-left: 7px;" id="btnExport" data-placement="bottom" data-original-title="Herunterladen">
+                            <i class="fa fa-cloud-download"></i>
+                        </a>                        
                     </div>
                     <div class="col-md-6">
                         <ul class="nav pull-right">
@@ -136,32 +139,28 @@
                        Html.RenderPartial("QuestionRow", row);
                 } %>
             </div>
-    
             <% Html.RenderPartial("Pager", Model.Pager); %>
-    
-            <% Html.RenderPartial("Modals/ToQuestionSet"); %>
-            <% Html.RenderPartial("Modals/DeleteQuestion"); %>
-    
-            <% /* MODAL-TAB-INFO-MyKnowledge****************************************************************/ %>
-    
-            <div id="modalTabInfoMyKnowledge" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button class="close" data-dismiss="modal">×</button>
-                            <h3>Hilfe: Tab - Mein Wunschwissen</h3>
-                        </div>
-                        <div class="modal-body">
-                            Es werden nur die Fragen gezeigt, die Du Dir <b>merken</b> möchtest, also Fragen deren Antworten zu Deinem Wunschwissen gehören. 
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh, nicht ganz klar.</a>
-                            <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
+</div>
         
+<% Html.RenderPartial("Modals/ToQuestionSet"); %>
+<% Html.RenderPartial("Modals/DeleteQuestion"); %>
+<% /* MODAL-TAB-INFO-MyKnowledge****************************************************************/ %>
+<div id="modalTabInfoMyKnowledge" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">×</button>
+                <h3>Hilfe: Tab - Mein Wunschwissen</h3>
+            </div>
+            <div class="modal-body">
+                Es werden nur die Fragen gezeigt, die Du Dir <b>merken</b> möchtest, also Fragen deren Antworten zu Deinem Wunschwissen gehören. 
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh, nicht ganz klar.</a>
+                <a href="#" class="btn btn-info" data-dismiss="modal">Danke, ich habe verstanden!</a>
+            </div>
         </div>
     </div>
 </div>

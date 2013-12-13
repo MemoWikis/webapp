@@ -1,14 +1,17 @@
 /// <reference path="Page.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
-/// <reference path="../../../Scripts/typescript.defs/underscore-typed.d.ts" />
+/// <reference path="../../../Scripts/typescript.defs/underscore.d.ts" />
 
 class ToQuestionSetModal {
 
     Sets: QuestionSet[];
+    _template: JQuery;
+    _templateSuccessMsg: string;
 
     constructor() { 
-        $('#btnSelectionToSet').click(function () {_page.ToQuestionSetModal.Show();});
+        $('#btnSelectionToSet').click(function () { _page.ToQuestionSetModal.Show(); });
+        this._templateSuccessMsg = $("#tqsSuccessMsg").html();
     }
 
     Show() {
@@ -19,11 +22,13 @@ class ToQuestionSetModal {
     Populate() { 
         $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufügen");
         
-        var setResult = GetSetsForUser.Run();
+        var setResult = GetSetsForUser.Run($("#txtTqsSetFilter").val());
         this.Sets = setResult.Sets;
-
+        this._template = $("#tsqRowTemplate");
+            
         $("#tqsSuccess").hide();
         $("#tqsSuccessFooter").hide();
+        
         if (setResult.TotalSets == 0) {
             $("#tqsBody").hide();
             $("#tqsNoSetsBody").show(200);
@@ -34,18 +39,15 @@ class ToQuestionSetModal {
             $("#tqsBody").show(200);
             $("#tqsTextSelectSet").show();
 
-            var template = $("#tsqRowTemplate");
-
-            $("[data-questionSetId]").remove();
-
-            for (var i = 0; i < setResult.Sets.length; i++) {
-                var newRow = template.clone().removeAttr("id").removeClass("hide");
-                newRow.attr("data-questionSetId", setResult.Sets[i].Id);
-                newRow.html(newRow.html().replace("{Name}", setResult.Sets[i].Name));
-                newRow.click(function () { _page.ToQuestionSetModal.AddToSet($(this)); });
-                $("#tsqRowContainer").append(newRow);
-            }
+            this.PopulateSets();
         }
+
+        $("#txtTqsSetFilter").keyup(() => {
+            var result = GetSetsForUser.Run($("#txtTqsSetFilter").val());
+            this.Sets = result.Sets;
+            $("#tqsSetCount").html("Treffer " + result.TotalSets.toString());
+            this.PopulateSets(); 
+        });
     }
 
     AddToSet(questionSetRow: JQuery) {
@@ -54,48 +56,72 @@ class ToQuestionSetModal {
         var questionSet = _.filter(this.Sets, 
             function(pSet) { return pSet.Id == id; });
 
-        var text =  _page.RowSelector.Rows.length + " Fragen zu '" + 
-            questionSet[0].Name + "' hinzufügen";
+        var result = SendQuestionsToAdd.Run(id);
 
-        SendQuestionsToAdd.Run(id);
+        var msgNonAdded = "";
+        if (result.QuestionAlreadyInSet > 0)
+            msgNonAdded = "<br/>" + result.QuestionAlreadyInSet + " Fragen waren bereits Teil des Fragesatzes.";
+
+        $("#tqsSuccessMsg").html(this._templateSuccessMsg
+            .replace('{Amount}', result.QuestionsAddedCount.toString())
+            .replace('{SetName}', questionSet[0].Name)
+            .replace('{NonAdded}', msgNonAdded)
+        );
 
         $("#tqsSuccess").show();
         $("#tqsSuccessFooter").show();
         $("#tqsBody").hide();
     }
+
+    PopulateSets() {
+        $("[data-questionSetId]").remove();
+
+        for (var i = 0; i < this.Sets.length; i++) {
+            var newRow = this._template.clone().removeAttr("id").removeClass("hide2");
+            newRow.attr("data-questionSetId", this.Sets[i].Id);
+            newRow.html(newRow.html()
+                .replace("{Name}", this.Sets[i].Name)
+                .replace("{AnzahlFragen}", this.Sets[i].QuestionCount.toString()));
+            newRow.click(function () { _page.ToQuestionSetModal.AddToSet($(this)); });
+            $("#tsqRowContainer").append(newRow);
+        }
+    }
 }
 
 class QuestionSet { 
-    constructor(Id: number, Name: string) {
+    constructor(Id: number, Name: string, QuestionCount: number) {
         this.Id = Id; 
         this.Name = Name;
+        this.QuestionCount = QuestionCount;
     }
     Id : number;
-    Name : string;
+    Name: string;
+    QuestionCount: number;
 }
 
 class GetSetsForUserResult {
     TotalSets = 0;
     CurrentPage = 1;
-    Sets: QuestionSet[] = new QuestionSet[];
+    Sets: Array<QuestionSet> = new Array<QuestionSet>();
 }
 
 class GetSetsForUser {
-    static Run() {
+    static Run(filter : string ) {
         var result = new GetSetsForUserResult();
 
         $.ajax({
             type: 'POST', async: false, cache: false,
+            data: { filter : filter},
             url: "/Questions/GetQuestionSets/",
             error: function (error) { console.log(error); },
             success: function (r) {
                 for (var i = 0; i < r.Sets.length; i++) { 
                     result.TotalSets = r.Total;
-                    result.CurrentPage = r.Total;
                     result.Sets.push(
                         new QuestionSet(
                             r.Sets[i].Id,
-                            r.Sets[i].Name));
+                            r.Sets[i].Name,
+                            r.Sets[i].QuestionCount));
                 }
             }
         });
@@ -103,30 +129,34 @@ class GetSetsForUser {
     }
 }
 
-class SendQuestionsToAddResult {
-    TotalSets = 0;
-    CurrentPage = 1;
-    Sets: QuestionSet[] = new QuestionSet[];
+class SendQuestionsToAddResult
+{
+    QuestionsAddedCount: number;
+    QuestionAlreadyInSet: number;
 }
 
 class SendQuestionsToAdd { 
     static Run(questionSetId) { 
 
-        var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr, a) { 
+        var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr : string, a) { 
             if (aggr.length == 0)
                 return a.QuestionId;
 
             return aggr + "," + a.QuestionId; }, ""
         );
 
+        var result = new SendQuestionsToAddResult();
         $.ajax({
             type: 'POST', async: false, cache: false,
             url: "/Questions/AddToQuestionSet/",
             data: questionIds + ":" + questionSetId,
             error: function (error) { console.log(error); },
-            success: function (result) { console.log(result); }
+            success: function (data) {
+                result.QuestionsAddedCount = data.QuestionsAddedCount;
+                result.QuestionAlreadyInSet = data.QuestionAlreadyInSet;
+            }
         });
 
-        return new SendQuestionsToAddResult();
+        return result;
     }
 }

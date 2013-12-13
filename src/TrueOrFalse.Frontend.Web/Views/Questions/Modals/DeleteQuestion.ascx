@@ -8,7 +8,7 @@
                 <h3>Frage löschen</h3>
             </div>
             <div class="modal-body">
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     Die Frage <b>'<span id="spanQuestionTitle"></span>'</b> wird unwiederbringlich gelöscht. Alle damit verknüpften Daten werden entfernt! 
                 </div>
             </div>

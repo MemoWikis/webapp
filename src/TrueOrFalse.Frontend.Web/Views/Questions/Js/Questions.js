@@ -2,6 +2,7 @@
 
     $('#btnSelectionToSet').tooltip();
     $('#btnSelectionDelete').tooltip();
+    $('#btnExport').tooltip();
 
     $('.userPopover').popover({ content: getPopupOverContent });
     function getPopupOverContent() {

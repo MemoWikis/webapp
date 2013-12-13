@@ -8,7 +8,7 @@
                 <h3>Fragesatz löschen</h3>
             </div>
             <div class="modal-body">
-                <div class="alert alert-error">
+                <div class="alert-danger">
                     Der Fragesatz <b>'<span id="spanSetTitle"></span>'</b> wird unwiederbringlich gelöscht. 
                     Alle damit verknüpften Daten werden entfernt! 
                 </div>
