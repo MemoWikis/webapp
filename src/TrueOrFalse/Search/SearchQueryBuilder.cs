@@ -28,7 +28,7 @@ namespace TrueOrFalse.Search
             if(exact)
                 term = fieldName + ":(" + seachTerm + ")";
             else if(startsWith)
-                term = fieldName + ":(" + seachTerm + "* OR " + seachTerm + "~ )";
+                term = fieldName + ":(" + seachTerm + "*)";
             else
                 term = fieldName + ":" + InputToSearchExpression.Run(seachTerm);
 

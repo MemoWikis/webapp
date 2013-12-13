@@ -24,11 +24,13 @@ namespace TrueOrFalse.Search
             string searchTerm, 
             Pager pager, 
             int creatorId = -1, 
-            int valuatorId = -1)
+            int valuatorId = -1,
+            bool startsWithSearch = false,
+            bool exact = false)
         {
             var sqb = new SearchQueryBuilder()
-                .Add("FullTextStemmed", searchTerm)
-                .Add("FullTextExact", searchTerm)
+                .Add("FullTextStemmed", searchTerm, startsWith : startsWithSearch, exact: exact)
+                .Add("FullTextExact", searchTerm, startsWith: startsWithSearch, exact: exact)
                 .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
                 .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
 
