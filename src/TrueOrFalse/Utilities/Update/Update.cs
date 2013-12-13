@@ -33,8 +33,8 @@ namespace TrueOrFalse.Updates
                 .Add(29, UpdateToVs029.Run)
                 .Add(30, UpdateToVs030.Run)
                 .Add(31, UpdateToVs031.Run)
+                .Add(32, UpdateToVs032.Run)
                 .Run();
         }
-
     }
 }

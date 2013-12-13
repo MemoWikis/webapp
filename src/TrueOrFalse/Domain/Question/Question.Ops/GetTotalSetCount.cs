@@ -23,6 +23,13 @@ namespace TrueOrFalse
             _questionRepo = questionRepo;
         }
 
+        public void Run()
+        {
+            foreach (var question in _questionRepo.GetAll()){
+                Run(question);
+            }
+        }
+
         public void Run(Question question)
         {
             var questionsInSet = _session.QueryOver<QuestionInSet>()
@@ -31,7 +38,10 @@ namespace TrueOrFalse
 
             question.SetsAmount = questionsInSet.Count;
             question.SetsTop5Json = JsonConvert.SerializeObject(
-                questionsInSet.Select(x => new SetMini{Id = x.Set.Id, Name = x.Set.Name}));
+                questionsInSet
+                    .Where(x => x.Set != null)
+                    .Take(5)
+                    .Select(x => new SetMini{Id = x.Set.Id, Name = x.Set.Name}));
 
             _questionRepo.Update(question);
         }
