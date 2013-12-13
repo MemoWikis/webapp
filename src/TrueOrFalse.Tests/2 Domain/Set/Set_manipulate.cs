@@ -32,6 +32,11 @@ namespace TrueOrFalse.Tests
             Assert.That(questionSetFromDb.QuestionsInSet.Count, Is.EqualTo(2));
             Assert.That(Resolve<QuestionInSetRepo>().GetAll().Count(), Is.EqualTo(2));
             Assert.That(Resolve<QuestionInSetRepo>().GetAll().First().Set.Id, Is.EqualTo(1));
+
+            var allQuestions = Resolve<QuestionRepository>().GetAll();
+            Assert.That(allQuestions[0].SetsAmount, Is.EqualTo(1));
+            Assert.That(allQuestions[0].SetTop5Minis[0].Id, Is.EqualTo(1));
+            Assert.That(allQuestions[0].SetTop5Minis[0].Name, Is.EqualTo("QS1"));
         }
 
         [Test]
