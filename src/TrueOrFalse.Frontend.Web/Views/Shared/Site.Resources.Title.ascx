@@ -11,7 +11,7 @@
                             <a class="block" href="/"><h1><span id="m">M</span>EM<span id="uch">uch</span>O<span id="logo"></span></h1></a>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3 colLoginAndHelp">
             	        <div id="loginAndHelp" class="pull-right">
                             <% Html.RenderPartial(UserControls.Logon); %>
                         </div>

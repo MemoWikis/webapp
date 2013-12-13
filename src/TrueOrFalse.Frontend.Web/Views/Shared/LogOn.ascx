@@ -13,8 +13,9 @@
 %>
         <div class="dropdown" style="display: inline-block;">
             <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-                <img src="<%= imageSetttings.GetUrl_30px_square(userSession.User.EmailAddress).Url %>" /> <span>Hallo <b><%= userSession.User.Name%></b>!</span>
+                <span>Hallo <b><%= userSession.User.Name%></b>!</span>
                 <b class="caret"></b>
+                <img src="<%= imageSetttings.GetUrl_30px_square(userSession.User.EmailAddress).Url %>" /> 
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">            
                 <li><a href="<%=Url.Action(Links.User, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>">Dein Profil</a></li>

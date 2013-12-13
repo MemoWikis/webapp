@@ -42,13 +42,13 @@ $(function () {
     var spanSparkLineTotals = $("#sparklineTrueOrFalseTotals");
     spanSparkLineTotals.sparkline([parseInt(spanSparkLineTotals.attr("data-answersTrue")), parseInt(spanSparkLineTotals.attr("data-answersFalse"))], {
         type: 'pie',
-        sliceColors: ['#1BE022', 'red']
+        sliceColors: ['#3e7700', '#B13A48']
     });
 
     var spanSparkLineUser = $("#sparklineTrueOrFalseUser");
     spanSparkLineUser.sparkline([parseInt(spanSparkLineUser.attr("data-answersTrue")), parseInt(spanSparkLineUser.attr("data-answersFalse"))], {
         type: 'pie',
-        sliceColors: ['#1BE022', 'red']
+        sliceColors: ['#3e7700', '#B13A48']
     });
 
     function foo(d, s, id) {

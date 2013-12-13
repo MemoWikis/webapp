@@ -7,7 +7,7 @@
         $(function () {
             $("#totalKnowledgeSpark").sparkline([75, 22, 40], {
                 type: 'pie',
-                sliceColors: ['#1BE022', 'red', 'silver']
+                sliceColors: ['#3e7700', '#B13A48', '#EFEFEF']
             });
 
             $("#totalKnowledgeOverTimeSpark").sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5], {
@@ -15,22 +15,22 @@
                 witdh: '250'
             });
 
-            $("#answeredThisWeekSparkle").sparkline([14, 4], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
-            $("#answeredThisMonthSparkle").sparkline([4, 8], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
-            $("#answeredLastWeekSparkle").sparkline([4, 6], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
-            $("#answeredLastMonthSparkle").sparkline([5, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            $("#answeredThisWeekSparkle").sparkline([14, 4], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#answeredThisMonthSparkle").sparkline([4, 8], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#answeredLastWeekSparkle").sparkline([4, 6], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#answeredLastMonthSparkle").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
             
-            $("#examSparkle1").sparkline([1, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
-            $("#examSparkle2").sparkline([15, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
-            $("#examSparkle3").sparkline([71, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
-            $("#examSparkle4").sparkline([1, 17], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
-            $("#examSparkle5").sparkline([10, 0], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            $("#examSparkle1").sparkline([1, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#examSparkle2").sparkline([15, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#examSparkle3").sparkline([71, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#examSparkle4").sparkline([1, 17], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#examSparkle5").sparkline([10, 0], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
             
 
-            $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#1BE022', 'red'] });
-            $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
             
-            $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#1BE022', 'red'] });
+            $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
         });
     </script>
     

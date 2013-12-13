@@ -1,6 +1,7 @@
 ﻿@import 'includes/colors.less';
 @import 'includes/shared.less';
 
+
 @media temp-disabled gradient grey {
 
 .mainSection {
@@ -16,5 +17,43 @@
 
 }
 
+@media temp-disabled {
+
+.box.box-menu {
+    border: none;
+    border: 1px solid @light-blue;
+    background-color: white;
+    padding-bottom: 15px;
+    padding-top: 15px;
+
+    .menu {
+
+       a {
+         padding-left: 10px;
+
+       }
+
+       .sub {
 
 
+
+            a {
+                padding-left: 15px;
+                font-style: italic;
+            }
+
+       }
+    }
+}
+
+
+
+.tempfragen a {color: @cooles-gruen;}  
+.tempkategorien a {color: @dark-blue;}
+.tempfragesaetze a {color: @test-gelb;}
+
+.menu a.active {
+    text-transform: uppercase;
+}
+
+}

@@ -31,7 +31,7 @@
                 Wunschwissen (<span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span>)
             </a>
         </div>
-        <div><a class="<%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>"><i class="fa fa-caret-right"></i> Fragen</a></div>
+        <div class="main tempfragen"><a class="<%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>"><i class="fa fa-caret-right"></i> Fragen</a></div>
         <% var index = 0; foreach (var question in new SessionUiData().VisitedQuestions) { index++ ;%>
                <div class="sub">
                    <% 
@@ -59,7 +59,7 @@
                </div>
         <% } %>
 
-        <div><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets")%>"><i class="fa fa-caret-right"></i> Fragesätze</a></div>
+        <div class="main tempfragesaetze"><a class="<%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets")%>"><i class="fa fa-caret-right"></i> Fragesätze</a></div>
         <% index = 0; foreach (var set in new SessionUiData().VisitedQuestionSets){ index++; %>
                <div class="sub">
                    <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
@@ -72,7 +72,7 @@
         <div><a href="<%= Links.Dates(Url) %>" class="<%= Model.Active(MenuEntry.Dates) %>"><i class="fa fa-caret-right"></i> Termine</a></div>
         <%--<div><a href="#"><i class="fa fa-caret-right"></i> Lerngruppen</a></div>--%>
     
-        <div style="margin-top: 13px;">
+        <div class="main" style="margin-top: 13px;">
             <a class="<%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>"><i class="fa fa-caret-right"></i> Kategorien </a>
         </div>
         <% index = 0; foreach (var set in new SessionUiData().VisitedCategories){ index++; %>

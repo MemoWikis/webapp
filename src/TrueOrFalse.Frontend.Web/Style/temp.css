@@ -28,3 +28,31 @@
   
   }
 }
+@media temp-disabled {
+  .box.box-menu {
+    border: none;
+    border: 1px solid #e7ecf6;
+    background-color: white;
+    padding-bottom: 15px;
+    padding-top: 15px;
+  }
+  .box.box-menu .menu a {
+    padding-left: 10px;
+  }
+  .box.box-menu .menu .sub a {
+    padding-left: 15px;
+    font-style: italic;
+  }
+  .tempfragen a {
+    color: #afd534;
+  }
+  .tempkategorien a {
+    color: #2e487b;
+  }
+  .tempfragesaetze a {
+    color: #ffb400;
+  }
+  .menu a.active {
+    text-transform: uppercase;
+  }
+}

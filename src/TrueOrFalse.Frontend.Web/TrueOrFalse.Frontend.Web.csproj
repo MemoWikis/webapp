@@ -308,6 +308,9 @@
     </Content>
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Style\bootstrap.css" />
+    <Content Include="Style\includes\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
     <Content Include="Style\temp.css">
       <DependentUpon>temp.less</DependentUpon>
     </Content>
@@ -330,6 +333,7 @@
     </Content>
     <Content Include="Style\z_buttons_2.3.2.less" />
     <Content Include="Style\utils.less" />
+    <Content Include="Style\includes\variables.less" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
