@@ -50,6 +50,9 @@
                 <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>    
             <% } %>
         </div>
+        <div>
+            hello
+        </div>
         
         <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
             <% if (Model.IsOwner){%>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Infrastructure;
 
@@ -48,6 +49,15 @@ namespace TrueOrFalse
         public virtual int TotalRelevancePersonalEntries { get; set; }
 
         public virtual int TotalViews { get; set; }
+
+        public virtual int SetsAmount { get; set; }
+        public virtual string SetsTop5Json { get; set; }
+
+        public virtual IList<SetMini> SetTop5Minis
+        {
+            get { return JsonConvert.DeserializeObject<List<SetMini>>(SetsTop5Json); }
+            set { SetsTop5Json = JsonConvert.SerializeObject(value);  }
+        }
 
         public Question()
         {

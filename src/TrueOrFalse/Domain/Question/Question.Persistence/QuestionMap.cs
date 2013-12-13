@@ -38,6 +38,9 @@ namespace TrueOrFalse
                 .Table("CategoriesToQuestions")
                 .Cascade.SaveUpdate();
 
+            Map(x => x.SetsAmount);
+            Map(x => x.SetsTop5Json);
+
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
         }

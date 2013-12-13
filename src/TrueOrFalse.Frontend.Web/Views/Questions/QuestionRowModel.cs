@@ -36,7 +36,8 @@ public class QuestionRowModel
     public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
     public Func<UrlHelper, string> UserLink { get; private set;  }
 
-    public IList<Category> Categories; 
+    public IList<Category> Categories;
+    public IList<Set> Sets; 
 
     public QuestionRowModel(
         Question question, 
@@ -82,5 +83,6 @@ public class QuestionRowModel
         Views = question.TotalViews;
 
         Categories = question.Categories;
+        //Sets = question.
     }
 }

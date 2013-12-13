@@ -12,14 +12,17 @@ namespace TrueOrFalse
         private readonly SetRepository _setRepo;
         private readonly QuestionRepository _questionRepo;
         private readonly QuestionInSetRepo _questionInSetRepo;
+        private readonly UpdateSetDataForQuestion _updateSetData;
 
         public AddToSet(
                 SetRepository setRepo, 
                 QuestionRepository questionRepo,
-                QuestionInSetRepo questionInSetRepo){
+                QuestionInSetRepo questionInSetRepo,
+                UpdateSetDataForQuestion updateSetData){
             _setRepo = setRepo;
             _questionRepo = questionRepo;
             _questionInSetRepo = questionInSetRepo;
+            _updateSetData = updateSetData;
                 }
 
         public AddToSetResult Run(int[] questionIds, int questionSet)
@@ -42,8 +45,8 @@ namespace TrueOrFalse
                     questionInSet.Question = question;
                     questionInSet.Set = set;
                     _questionInSetRepo.Create(questionInSet);
+                    _updateSetData.Run(question);
                 }
-                    
             }
 
             return new AddToSetResult
