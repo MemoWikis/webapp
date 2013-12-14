@@ -182,12 +182,28 @@
             vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
         </p>
         
-        <p style="padding-top: 10px;">
-            <b style="color: darkgray">Kategorien</b> <br/>
-            <% foreach (var category in Model.Categories){ %>
-                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="line-height: 22px;"><%= category.Name %></span></a>    
+        <% if(Model.Categories.Count > 0){ %>
+            <p style="padding-top: 10px;">
+                <b style="color: darkgray">Kategorien</b> <br/>
+                <% foreach (var category in Model.Categories){ %>
+                    <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="line-height: 22px;"><%= category.Name %></span></a>    
+                <% } %>
+            </p>
+        <% } %>
+        
+        <% if(Model.SetMinis.Count > 0){ %>
+            <b style="color: darkgray">Fragesätze</b> <br/>
+            <% foreach (var setMini in Model.SetMinis){ %>
+                <a href="<%= Links.SetDetail(Url, setMini) %>" style="margin-top: 3px; display: inline-block;"><span class="label label-set"><%: setMini.Name %></span></a>
             <% } %>
-        </p>
+        
+            <% if (Model.SetCount > 5){ %>
+                <div style="margin-top: 3px;">
+                    +  <%= Model.SetCount -5 %> weitere
+                </div>
+            <% } %>
+
+        <% } %>
         
         <p style="padding-top: 10px;">
             <b style="color: darkgray">Ich</b> <br/>

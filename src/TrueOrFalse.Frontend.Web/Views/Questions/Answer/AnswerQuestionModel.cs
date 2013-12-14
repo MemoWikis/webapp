@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Policy;
 using System.Web.Mvc;
+using Gibraltar.Agent.Configuration;
 using MarkdownSharp;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
@@ -79,6 +80,8 @@ public class AnswerQuestionModel : BaseModel
 
     public Set Set;
     public IList<Category> Categories;
+    public IList<SetMini> SetMinis;
+    public int SetCount;
          
     public AnswerQuestionModel() { }
 
@@ -165,6 +168,8 @@ public class AnswerQuestionModel : BaseModel
         SoundUrl = new GetQuestionSoundUrl().Run(question);
 
         Categories = question.Categories;
+        SetMinis = question.SetTop5Minis;
+        SetCount = question.SetsAmount;
 
         FeedbackRows = new List<FeedbackRowModel>();
         FeedbackRows.Add(new FeedbackRowModel{
