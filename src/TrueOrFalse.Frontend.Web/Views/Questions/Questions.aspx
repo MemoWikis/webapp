@@ -12,15 +12,9 @@
 
 <div class="col-md-9">
     <% using (Html.BeginForm()){ %>
-            
-    <div style="float: right;">
-        <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" class="btn btn-default">
-            <i class="fa fa-plus-circle"></i>
-            Frage erstellen
-        </a>
-    </div>
-    
+                
      <div class="boxtainer-outlined-tabs">
+         
         <div class="boxtainer-header">
             <ul class="nav nav-tabs" >
                 <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
@@ -51,6 +45,14 @@
                     </a>
                 </li>
             </ul>
+            
+            <div style="float: right; position: absolute; right: 0; top: 5px;">
+                <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" class="btn btn-success btn-sm">
+                    <i class="fa fa-plus-circle"></i>
+                    Frage erstellen
+                </a>
+            </div>
+
         </div>
             
         <div class="boxtainer-content">
