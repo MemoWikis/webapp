@@ -302,6 +302,12 @@
     <Content Include="Scripts\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
     <TypeScriptCompile Include="Scripts\MM.DateParser.ts" />
+    <Content Include="Scripts\MM.DateParser.js" >
+      <DependentUpon>MM.DateParser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.ValuationPerRow.js">
+      <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\SolutionMetaData.js">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
     </Content>
@@ -345,6 +351,7 @@
     <Content Include="Style\site.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Js\CategoriesDelete.js" />
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
     <Content Include="Views\Help\Wissen.aspx" />
@@ -584,6 +591,7 @@
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.ts" />
+    <Content Include="Views\Sets\Edit\Js\ImageUpload.js" />
     <Content Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.js">
       <DependentUpon>RemoveQuestionFromSet.ts</DependentUpon>
     </Content>
