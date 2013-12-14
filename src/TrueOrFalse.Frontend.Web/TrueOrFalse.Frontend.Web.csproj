@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -24,6 +25,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <TypeScriptToolsVersion>0.9</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -299,10 +301,7 @@
     <Content Include="img\dimension.png" />
     <Content Include="Scripts\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
-    <TypeScriptCompile Include="Scripts\DateParser.ts" />
-    <Content Include="Scripts\DateParser.js">
-      <DependentUpon>DateParser.ts</DependentUpon>
-    </Content>
+    <TypeScriptCompile Include="Scripts\MM.DateParser.ts" />
     <Content Include="Scripts\SolutionMetaData.js">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
     </Content>
@@ -578,18 +577,12 @@
     <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js">
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Scripts\ValuationPerRow.ts" />
-    <Content Include="Scripts\ValuationPerRow.js">
-      <DependentUpon>ValuationPerRow.ts</DependentUpon>
-    </Content>
+    <TypeScriptCompile Include="Scripts\MM.ValuationPerRow.ts" />
     <Content Include="Views\Sets\Detail\Set.aspx" />
     <Content Include="Views\Sets\Detail\Set.css" />
-    <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
-    <Content Include="Views\Sets\Edit\Js\ImageUpload.js">
-      <DependentUpon>ImageUpload.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.ts" />
     <Content Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.js">
       <DependentUpon>RemoveQuestionFromSet.ts</DependentUpon>
@@ -640,9 +633,6 @@
       <DependentUpon>QuestionRowSelection.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Views\Questions\Js\ToQuestionSet.ts" />
-    <Content Include="Views\Questions\Js\ToQuestionSet.js">
-      <DependentUpon>ToQuestionSet.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Modals\DeleteQuestion.ascx" />
     <Content Include="Views\Questions\Modals\ToQuestionSet.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
@@ -701,7 +691,7 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\QuestionRow.ascx" />
     <Content Include="Views\Questions\Questions.aspx" />
-    <Content Include="Scripts\lib.js" />
+    <Content Include="Scripts\MM.lib.js" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
@@ -760,6 +750,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

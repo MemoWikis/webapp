@@ -5,7 +5,7 @@ var setIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
         setIdToDelete = $(this).attr("data-setId");
-        populateDeleteSet(setIdToDelete);
+        populateDeleteCategory(setIdToDelete);
     });
 
     $('#btnCloseDelete').click(function () {
@@ -13,12 +13,12 @@ $(function () {
     });
 
     $('#confirmDelete').click(function () {
-        deleteSet(setIdToDelete);
+        deleteCategory(setIdToDelete);
         $('#modalDelete').modal('hide');
     });
 });
 
-function populateDeleteSet(setId) {
+function populateDeleteCategory(setId) {
     $.ajax({
         type: 'POST',
         url: "/Questions/DeleteDetails/" + setId,
@@ -32,7 +32,7 @@ function populateDeleteSet(setId) {
     });
 }
 
-function deleteSet(setId) {
+function deleteCategory(setId) {
     $.ajax({
         type: 'POST',
         url: "/Questions/Delete/" + setId,

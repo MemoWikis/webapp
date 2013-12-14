@@ -1,12 +1,12 @@
-/// <reference path="../../../Scripts/ValuationPerRow.ts" />
+/// <reference path="../../../Scripts/MM.ValuationPerRow.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
-function SubmitSearch() {
+function SubmitSearchSets() {
     window.location.href = $('#txtSearch').attr("formUrl") + $('#txtSearch').val();
 }
 
 $(function () {
-    $('#btnSearch').click(function () { SubmitSearch(); });
+    $('#btnSearch').click(function () { SubmitSearchSets(); });
 
     $(function () {
         $("#txtSearch").keypress(function (e: any) {

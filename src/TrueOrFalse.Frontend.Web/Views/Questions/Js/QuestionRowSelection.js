@@ -1,4 +1,7 @@
+/// <reference path="Page.ts" />
+/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
@@ -11,20 +14,25 @@ var QuestionRow = (function () {
     QuestionRow.prototype.SetCssClassSelected = function () {
         this.Row.addClass("selected-row");
     };
+
     QuestionRow.prototype.RemoveCssClassSelected = function () {
         this.Row.removeClass("selected-row");
     };
+
     QuestionRow.prototype.GetCheckbox = function () {
         return new Checkbox($(this.Row.find(".selectQuestion")));
     };
+
     QuestionRow.prototype.IsUserOwner = function () {
         return this.Row.attr("data-userIsOwner") == "true";
     };
+
     QuestionRow.prototype.IsMemorizedByUser = function () {
         return !(this.Row.find(".sliderValue").text() == "-1");
     };
     return QuestionRow;
 })();
+
 var Checkbox = (function (_super) {
     __extends(Checkbox, _super);
     function Checkbox(ckbContainer) {
@@ -35,16 +43,19 @@ var Checkbox = (function (_super) {
     Checkbox.prototype.IsChecked = function () {
         return this._ckb.is(':checked');
     };
+
     Checkbox.prototype.Check = function () {
         this._ckb.attr("checked", true);
         this.SetCssClassSelected();
     };
+
     Checkbox.prototype.Uncheck = function () {
         this._ckb.attr("checked", false);
         this.RemoveCssClassSelected();
     };
     return Checkbox;
 })(QuestionRow);
+
 var RowSelector = (function () {
     function RowSelector() {
         this.Rows = new Array();
@@ -52,8 +63,9 @@ var RowSelector = (function () {
     RowSelector.prototype.Count = function () {
         return this.Rows.length;
     };
+
     RowSelector.prototype.Toggle = function (ckb) {
-        if(ckb.IsChecked()) {
+        if (ckb.IsChecked()) {
             this.Rows.push(ckb);
             ckb.SetCssClassSelected();
         } else {
@@ -62,13 +74,15 @@ var RowSelector = (function () {
             });
             ckb.RemoveCssClassSelected();
         }
+
         this.UpdateToolbar();
     };
+
     RowSelector.prototype.UpdateToolbar = function () {
-        if(this.Count() > 0) {
+        if (this.Count() > 0) {
             $("#selectionCount").html("(" + this.Count() + ")");
             $("#btnSelectionToSet").show();
-            if(this.SelectionContainsWhereIAmOwner()) {
+            if (this.SelectionContainsWhereIAmOwner()) {
                 $("#btnSelectionDelete").show();
             }
         } else {
@@ -77,17 +91,19 @@ var RowSelector = (function () {
             $("#btnSelectionDelete").hide();
         }
     };
+
     RowSelector.prototype.SelectionContainsWhereIAmOwner = function () {
-        for(var i = 0; i < this.Rows.length; i++) {
-            if((this.Rows[i]).IsUserOwner()) {
+        for (var i = 0; i < this.Rows.length; i++) {
+            if (this.Rows[i].IsUserOwner())
                 return true;
-            }
         }
         return false;
     };
+
     RowSelector.prototype.SelectAll = function () {
         this.Rows = new Array();
         var rows = this.Rows;
+
         $(".question-row").each(function () {
             var questionRow = new QuestionRow($(this));
             rows.push(questionRow);
@@ -95,6 +111,7 @@ var RowSelector = (function () {
         });
         this.UpdateToolbar();
     };
+
     RowSelector.prototype.DeselecttAll = function () {
         $(".question-row").each(function () {
             new QuestionRow($(this)).GetCheckbox().Uncheck();
@@ -102,50 +119,62 @@ var RowSelector = (function () {
         this.Rows = new Array();
         this.UpdateToolbar();
     };
+
     RowSelector.prototype.SelectAllWhereIAmOwner = function () {
         var rows = this.Rows;
+
         $(".question-row").each(function () {
             var checkbox = new QuestionRow($(this)).GetCheckbox();
-            if(!checkbox.IsChecked() && checkbox.IsUserOwner()) {
+            if (!checkbox.IsChecked() && checkbox.IsUserOwner()) {
                 checkbox.Check();
                 rows.push(checkbox);
             }
         });
+
         this.UpdateToolbar();
     };
+
     RowSelector.prototype.SelectAllWhereIAmNotOwner = function () {
         var rows = this.Rows;
+
         $(".question-row").each(function () {
             var checkbox = new QuestionRow($(this)).GetCheckbox();
-            if(!checkbox.IsChecked() && !checkbox.IsUserOwner()) {
+            if (!checkbox.IsChecked() && !checkbox.IsUserOwner()) {
                 checkbox.Check();
                 rows.push(checkbox);
             }
         });
+
         this.UpdateToolbar();
     };
+
     RowSelector.prototype.SelectAllMemorizedByMe = function () {
         var rows = this.Rows;
+
         $(".question-row").each(function () {
             var checkbox = new QuestionRow($(this)).GetCheckbox();
+
             console.log(checkbox.IsMemorizedByUser());
-            if(!checkbox.IsChecked() && checkbox.IsMemorizedByUser()) {
+
+            if (!checkbox.IsChecked() && checkbox.IsMemorizedByUser()) {
                 checkbox.Check();
                 rows.push(checkbox);
             }
         });
+
         this.UpdateToolbar();
     };
+
     RowSelector.prototype.IsSelected = function (row) {
-        for(var i = 0; i < this.Rows.length; i++) {
-            if((this.Rows[i]).QuestionId == row.QuestionId) {
+        for (var i = 0; i < this.Rows.length; i++) {
+            if (this.Rows[i].QuestionId == row.QuestionId)
                 return true;
-            }
         }
         return false;
     };
     return RowSelector;
 })();
+
 $(function () {
     $('.selectQuestion').change(function () {
         _page.RowSelector.Toggle(new Checkbox($(this)));
@@ -168,3 +197,4 @@ $(function () {
         _page.RowSelector.SelectAllWhereIAmNotOwner();
     });
 });
+//# sourceMappingURL=QuestionRowSelection.js.map

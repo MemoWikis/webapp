@@ -1,11 +1,11 @@
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
-function SubmitSearch() {
+function SubmitSearchUsers() {
     window.location.href = "/Nutzer/Suche/" + $('#txtSearch').val();
 }
 
 $(function () {
-    $('#btnSearch').click(function () { SubmitSearch(); });
+    $('#btnSearch').click(function () { SubmitSearchUsers(); });
 
     $(function () {
         $("#txtSearch").keypress(function (e: any) {

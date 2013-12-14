@@ -1,4 +1,4 @@
-/// <reference path="../../../../Scripts/DateParser.ts" />
+/// <reference path="../../../../Scripts/MM.DateParser.ts" />
 /// <reference path="../../../../Scripts/SolutionMetaData.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
@@ -214,3 +214,4 @@ var solutionMetaData = new SolutionMetaDataMenu();
 $('#help').click(function () {
     $("#modalHelpSolutionType").modal('show');
 });
+//# sourceMappingURL=SolutionTypeText.js.map

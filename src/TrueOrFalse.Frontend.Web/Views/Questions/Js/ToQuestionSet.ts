@@ -9,26 +9,26 @@ class ToQuestionSetModal {
     _template: JQuery;
     _templateSuccessMsg: string;
 
-    constructor() { 
+    constructor() {
         $('#btnSelectionToSet').click(function () { _page.ToQuestionSetModal.Show(); });
         this._templateSuccessMsg = $("#tqsSuccessMsg").html();
     }
 
     Show() {
         this.Populate();
-        $('#modalToQuestionSet').modal('show'); 
+        $('#modalToQuestionSet').modal('show');
     }
 
-    Populate() { 
-        $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufügen");
-        
+    Populate() {
+        $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufuegen");
+
         var setResult = GetSetsForUser.Run($("#txtTqsSetFilter").val());
         this.Sets = setResult.Sets;
         this._template = $("#tsqRowTemplate");
-            
+
         $("#tqsSuccess").hide();
         $("#tqsSuccessFooter").hide();
-        
+
         if (setResult.TotalSets == 0) {
             $("#tqsBody").hide();
             $("#tqsNoSetsBody").show(200);
@@ -46,15 +46,15 @@ class ToQuestionSetModal {
             var result = GetSetsForUser.Run($("#txtTqsSetFilter").val());
             this.Sets = result.Sets;
             $("#tqsSetCount").html("Treffer " + result.TotalSets.toString());
-            this.PopulateSets(); 
+            this.PopulateSets();
         });
     }
 
     AddToSet(questionSetRow: JQuery) {
         var id = parseInt(questionSetRow.attr("data-questionSetId"));
 
-        var questionSet = _.filter(this.Sets, 
-            function(pSet) { return pSet.Id == id; });
+        var questionSet = _.filter(this.Sets,
+            function (pSet) { return pSet.Id == id; });
 
         var result = SendQuestionsToAdd.Run(id);
 
@@ -66,7 +66,7 @@ class ToQuestionSetModal {
             .replace('{Amount}', result.QuestionsAddedCount.toString())
             .replace('{SetName}', questionSet[0].Name)
             .replace('{NonAdded}', msgNonAdded)
-        );
+            );
 
         $("#tqsSuccess").show();
         $("#tqsSuccessFooter").show();
@@ -88,13 +88,13 @@ class ToQuestionSetModal {
     }
 }
 
-class QuestionSet { 
+class QuestionSet {
     constructor(Id: number, Name: string, QuestionCount: number) {
-        this.Id = Id; 
+        this.Id = Id;
         this.Name = Name;
         this.QuestionCount = QuestionCount;
     }
-    Id : number;
+    Id: number;
     Name: string;
     QuestionCount: number;
 }
@@ -106,16 +106,16 @@ class GetSetsForUserResult {
 }
 
 class GetSetsForUser {
-    static Run(filter : string ) {
+    static Run(filter: string) {
         var result = new GetSetsForUserResult();
 
         $.ajax({
             type: 'POST', async: false, cache: false,
-            data: { filter : filter},
+            data: { filter: filter },
             url: "/Questions/GetQuestionSets/",
             error: function (error) { console.log(error); },
             success: function (r) {
-                for (var i = 0; i < r.Sets.length; i++) { 
+                for (var i = 0; i < r.Sets.length; i++) {
                     result.TotalSets = r.Total;
                     result.Sets.push(
                         new QuestionSet(
@@ -129,21 +129,21 @@ class GetSetsForUser {
     }
 }
 
-class SendQuestionsToAddResult
-{
+class SendQuestionsToAddResult {
     QuestionsAddedCount: number;
     QuestionAlreadyInSet: number;
 }
 
-class SendQuestionsToAdd { 
-    static Run(questionSetId) { 
+class SendQuestionsToAdd {
+    static Run(questionSetId) {
 
-        var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr : string, a) { 
+        var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr: string, a) {
             if (aggr.length == 0)
                 return a.QuestionId;
 
-            return aggr + "," + a.QuestionId; }, ""
-        );
+            return aggr + "," + a.QuestionId;
+        }, ""
+            );
 
         var result = new SendQuestionsToAddResult();
         $.ajax({

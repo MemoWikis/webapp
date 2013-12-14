@@ -199,7 +199,7 @@
         
             <% if (Model.SetCount > 5){ %>
                 <div style="margin-top: 3px;">
-                    +  <%= Model.SetCount -5 %> weitere
+                    <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount -5 %> weitere </a>
                 </div>
             <% } %>
 

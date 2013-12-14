@@ -16,7 +16,7 @@ var ToQuestionSetModal = (function () {
 
     ToQuestionSetModal.prototype.Populate = function () {
         var _this = this;
-        $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufügen");
+        $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufuegen");
 
         var setResult = GetSetsForUser.Run($("#txtTqsSetFilter").val());
         this.Sets = setResult.Sets;
@@ -160,3 +160,4 @@ var SendQuestionsToAdd = (function () {
     };
     return SendQuestionsToAdd;
 })();
+//# sourceMappingURL=ToQuestionSet.js.map

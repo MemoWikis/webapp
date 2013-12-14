@@ -5,7 +5,7 @@
 
 class MarkdownQuestionExt
 { 
-    _isOpen: bool;
+    _isOpen: boolean;
 
     constructor() {
         $("#openExtendedQuestion").click((e) => { 

@@ -1,17 +1,22 @@
+/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+/// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 var setIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
         setIdToDelete = $(this).attr("data-setId");
         populateDeleteSet(setIdToDelete);
     });
+
     $('#btnCloseDelete').click(function () {
         $('#modalDelete').modal('hide');
     });
+
     $('#confirmDelete').click(function () {
         deleteSet(setIdToDelete);
         $('#modalDelete').modal('hide');
     });
 });
+
 function populateDeleteSet(setId) {
     $.ajax({
         type: 'POST',
@@ -25,6 +30,7 @@ function populateDeleteSet(setId) {
         }
     });
 }
+
 function deleteSet(setId) {
     $.ajax({
         type: 'POST',
@@ -39,3 +45,4 @@ function deleteSet(setId) {
         }
     });
 }
+//# sourceMappingURL=SetDelete.js.map

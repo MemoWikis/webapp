@@ -1,17 +1,22 @@
+/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+/// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 var questionIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
         questionIdToDelete = $(this).attr("data-questionId");
         populateDeleteQuestionId(questionIdToDelete);
     });
+
     $('#btnCloseQuestionDelete').click(function () {
         $('#modalDelete').modal('hide');
     });
+
     $('#confirmQuestionDelete').click(function () {
         deleteQuestion(questionIdToDelete);
         $('#modalDelete').modal('hide');
     });
 });
+
 function populateDeleteQuestionId(questionId) {
     $.ajax({
         type: 'POST',
@@ -25,6 +30,7 @@ function populateDeleteQuestionId(questionId) {
         }
     });
 }
+
 function deleteQuestion(questionId) {
     $.ajax({
         type: 'POST',
@@ -38,3 +44,4 @@ function deleteQuestion(questionId) {
         }
     });
 }
+//# sourceMappingURL=QuestionRowDelete.js.map

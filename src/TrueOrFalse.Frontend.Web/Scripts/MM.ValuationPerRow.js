@@ -1,14 +1,15 @@
+/// <reference path="typescript.defs/jquery.d.ts" />
+/// <reference path="typescript.defs/bootstrap.d.ts" />
 var ValuationPerRowMode;
 (function (ValuationPerRowMode) {
-    ValuationPerRowMode._map = [];
-    ValuationPerRowMode._map[0] = "Question";
-    ValuationPerRowMode.Question = 0;
-    ValuationPerRowMode._map[1] = "Set";
-    ValuationPerRowMode.Set = 1;
+    ValuationPerRowMode[ValuationPerRowMode["Question"] = 0] = "Question";
+    ValuationPerRowMode[ValuationPerRowMode["Set"] = 1] = "Set";
 })(ValuationPerRowMode || (ValuationPerRowMode = {}));
+
 var ValuationPerRow = (function () {
     function ValuationPerRow(parentDiv, mode) {
         this._mode = mode;
+
         var self = this;
         $(".removeRelevance").click(function () {
             var sliderContainer = $(this).parentsUntil(parentDiv);
@@ -16,6 +17,7 @@ var ValuationPerRow = (function () {
             sliderContainer.parent().find(".addRelevance").show();
             self.SendSilderValue(sliderContainer.find(".slider"), -1);
         });
+
         $(".addRelevance").click(function () {
             $(this).hide();
             $(this).parent().find(".sliderContainer").show();
@@ -24,6 +26,7 @@ var ValuationPerRow = (function () {
             self.SetUiSliderSpan(slider, 0);
             self.InitSlider(slider.parent().parent());
         });
+
         $(parentDiv).each(function () {
             self.InitSlider($(this));
         });
@@ -45,21 +48,24 @@ var ValuationPerRow = (function () {
             }
         });
     };
+
     ValuationPerRow.prototype.SetUiSliderSpan = function (divSlider, sliderValueParam) {
         var text = sliderValueParam != "-1" ? (sliderValueParam / 10).toString() : "";
         divSlider.parent().find(".sliderValue").text(text);
     };
+
     ValuationPerRow.prototype.SendSilderValue = function (divSlider, sliderValueParam) {
         var _this = this;
         $.ajax({
             type: 'POST',
-            url: this._mode == ValuationPerRowMode.Question ? "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam : "/Sets/SaveRelevancePersonal/" + divSlider.attr("data-setId") + "/" + sliderValueParam,
+            url: this._mode == 0 /* Question */ ? "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam : "/Sets/SaveRelevancePersonal/" + divSlider.attr("data-setId") + "/" + sliderValueParam,
             cache: false,
             success: function (result) {
                 divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());
                 divSlider.parent().parent().find(".totalRelevanceAvg").text(result.totalAverage.toString());
-                if(result.totalWishKnowledgeCountChange) {
-                    if(this._mode == ValuationPerRowMode.Question) {
+
+                if (result.totalWishKnowledgeCountChange) {
+                    if (this._mode == 0 /* Question */) {
                         _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
                     }
                     _this.SetElementValue("#tabWishKnowledgeCount", result.totalWishKnowledgeCount);
@@ -67,15 +73,14 @@ var ValuationPerRow = (function () {
             }
         });
     };
+
     ValuationPerRow.prototype.SetMenuWishKnowledge = function (newAmount) {
         this.SetElementValue("#menuWishKnowledgeCount", newAmount);
     };
+
     ValuationPerRow.prototype.SetElementValue = function (selector, newValue) {
-        $(selector).text(newValue).animate({
-            opacity: 0.25
-        }, 100).animate({
-            opacity: 1.00
-        }, 500);
+        $(selector).text(newValue).animate({ opacity: 0.25 }, 100).animate({ opacity: 1.00 }, 500);
     };
     return ValuationPerRow;
 })();
+//# sourceMappingURL=MM.ValuationPerRow.js.map

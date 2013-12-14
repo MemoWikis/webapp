@@ -10,7 +10,7 @@ enum ImageUploadModalMode{
 
 class WikimediaPreview
 {
-    SuccessfullyLoaded: bool = false;
+    SuccessfullyLoaded: boolean= false;
     SuccessfullyLoadedImageUrl: string;
 
     ImageThumbUrl: string;
@@ -165,7 +165,7 @@ class SaveWikipediaImage
 {
     static Run(wikiMediaPreview: WikimediaPreview, fnOnSave: Function) {
         if (!wikiMediaPreview.SuccessfullyLoaded) {
-            alert("Bitte lade ein Bild über eine Wikipedia URL.");
+            alert("Bitte lade ein Bild ueber eine Wikipedia URL.");
         } else {
             fnOnSave(wikiMediaPreview.ImageThumbUrl);
             $("#modalImageUpload").modal("hide");
@@ -178,12 +178,12 @@ class SaveUploadedImage
     static Run(imageThumbUrl : string, fnOnSave: Function) {
 
         if (!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) {
-            alert("Bitte wähle eine andere Lizenz");
+            alert("Bitte waehle eine andere Lizenz");
             return;
         }
 
         if ($("#rdoLicenceForeign").is(':checked')) {
-            alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
+            alert("Bitte waehle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
             return;
         }
 

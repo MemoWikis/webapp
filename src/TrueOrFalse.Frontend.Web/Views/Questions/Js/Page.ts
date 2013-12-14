@@ -1,6 +1,6 @@
 /// <reference path="ToQuestionSet.ts" />
 /// <reference path="QuestionRowSelection.ts" />
-/// <reference path="../../../Scripts/ValuationPerRow.ts" />
+/// <reference path="../../../Scripts/MM.ValuationPerRow.ts" />
 
 declare var _page: Page;
 
