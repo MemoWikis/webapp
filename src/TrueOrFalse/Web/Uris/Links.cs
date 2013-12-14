@@ -85,6 +85,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string SetsWish(UrlHelper url) { return url.Action(SetsWishAction, SetsController); }
         public static string SetsMine(UrlHelper url) { return url.Action(SetsMineAction, SetsController); }
 
+        public static string SetDetail(UrlHelper url, SetMini setMini){
+            return SetDetail(url, setMini.Name, setMini.Id);
+        }
+
         public static string SetDetail(UrlHelper url, Set set, int elementOnPage = 1){
             return SetDetail(url, set.Name, set.Id, elementOnPage);
         }

@@ -32,7 +32,7 @@
         <%if(Model.TotalQualityEntries != "0"){ %>
             <div>
                 <%= Model.TotalQualityEntries%> x <a href="">Qualität (&#216; <%= Model.TotalQualityAvg%>)</a>
-            </div>        
+            </div>
         <%} %>
         <div>
             <label class="checkbox selectQuestion" style="font-size: 12px">
@@ -41,7 +41,7 @@
         </div>      
     </div>
 
-    <div class="column-2" style="height: 87px; position: relative;">
+    <div class="column-2" style="height: 95px; position: relative;">
         <div style="font-weight:normal; font-size:large;">
             <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
         </div>   
@@ -50,11 +50,19 @@
                 <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>    
             <% } %>
         </div>
-        <div>
-            hello
+        <% if(Model.SetCount > 0){ %>
+        <div style="margin-top: 3px;">
+            <% foreach (var setMini in Model.SetMinis){ %>
+                <a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
+            <% } %>
+            
+            <% if (Model.SetCount > 5){ %>
+                +  <%= Model.SetCount -5 %> weitere
+            <% } %>
         </div>
+        <% } %>
         
-        <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
+        <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:0px;">
             <% if (Model.IsOwner){%>
                 <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 

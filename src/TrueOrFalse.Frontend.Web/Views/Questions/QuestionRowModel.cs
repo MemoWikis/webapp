@@ -37,7 +37,8 @@ public class QuestionRowModel
     public Func<UrlHelper, string> UserLink { get; private set;  }
 
     public IList<Category> Categories;
-    public IList<Set> Sets; 
+    public IList<SetMini> SetMinis;
+    public int SetCount;
 
     public QuestionRowModel(
         Question question, 
@@ -83,6 +84,7 @@ public class QuestionRowModel
         Views = question.TotalViews;
 
         Categories = question.Categories;
-        //Sets = question.
+        SetCount = question.SetsAmount;
+        SetMinis = question.SetTop5Minis;
     }
 }
