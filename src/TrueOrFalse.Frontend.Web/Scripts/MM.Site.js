@@ -13,14 +13,14 @@ $(function () {
             elem.attr("loaded", "true");
 
             var content = "";
-            for (var i = 0; i < data.length; i++) {
-                content += "<a href='" + data[i].Url + "'><span class='label label-set'>" + data[i].Name + "</span></a>&nbsp;";
+            for (var i = 5; i < data.length; i++) {
+                content += "<a href='" + data[i].Url + "'><span class='label label-set' style='display:block;'>" + data[i].Name + "</span></a>&nbsp;";
             }
 
-            content = "<div style='width:150px;'>" + content + "</div>";
+            content = "<div style=''>" + content + "</div>";
 
             elem.popover({
-                title: 'Alle Frages&#196;tze',
+                title: 'weitere Frages&#228tze',
                 html: true,
                 content: content,
                 trigger: 'click'
