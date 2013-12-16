@@ -98,6 +98,10 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage}, null);            
         }
 
+        public static string SetDetail(string name, int id){
+            return "/Fragesaetze/" + UriSanitizer.Run(name) + "/" + id +  "/1";
+        }
+
         public static string CategoryDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
             return url.Action("Category", "Category",
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage }, null);

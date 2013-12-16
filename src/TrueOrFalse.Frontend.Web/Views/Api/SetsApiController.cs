@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web;
 
 public class SetsApiController : ApiBaseController
 {
@@ -23,6 +25,7 @@ public class SetsApiController : ApiBaseController
                     new {
                         Id = s.Id,
                         Name = s.Name,
+                        Url = Links.SetDetail(s.Name, s.Id)
                     });
     }    
 }

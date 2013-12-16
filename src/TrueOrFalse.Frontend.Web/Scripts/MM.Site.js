@@ -14,13 +14,13 @@ $(function () {
 
             var content = "";
             for (var i = 0; i < data.length; i++) {
-                content += "<a href='#'><span class='label label-set'>" + data[i].Name + "</span></a>&nbsp;";
+                content += "<a href='" + data[i].Url + "'><span class='label label-set'>" + data[i].Name + "</span></a>&nbsp;";
             }
 
             content = "<div style='width:150px;'>" + content + "</div>";
 
             elem.popover({
-                title: 'Alle Fragesätze',
+                title: 'Alle Frages&#196;tze',
                 html: true,
                 content: content,
                 trigger: 'click'
