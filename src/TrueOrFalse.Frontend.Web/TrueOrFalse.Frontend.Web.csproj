@@ -21,11 +21,15 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <TargetFrameworkProfile />
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <TypeScriptToolsVersion>0.9</TypeScriptToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -222,7 +226,9 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Views\Api\ApiBaseController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
+    <Compile Include="Views\Api\SetsApiController.cs" />
     <Compile Include="Views\Dates\DatesController.cs" />
     <Compile Include="Views\Dates\DatesModel.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
@@ -297,12 +303,13 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Scripts\MM.Site.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
     <Content Include="img\dimension.png" />
     <Content Include="Scripts\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
     <TypeScriptCompile Include="Scripts\MM.DateParser.ts" />
-    <Content Include="Scripts\MM.DateParser.js" >
+    <Content Include="Scripts\MM.DateParser.js">
       <DependentUpon>MM.DateParser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.ValuationPerRow.js">
@@ -772,7 +779,16 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>27914</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://trueorfalse</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

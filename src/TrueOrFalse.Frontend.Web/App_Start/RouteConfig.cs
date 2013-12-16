@@ -83,6 +83,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action = "Export" });
             routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi" });
+            routes.MapRoute("ApiSets", "Api/Sets/{action}", new { controller = "SetsApi" });
             routes.MapRoute("ApiUser", "Api/User/{action}", new { controller = "UserApi" });
 
             routes.MapRoute("ImageUpload", "ImageUpload/{action}", new { controller = "ImageUpload" });
