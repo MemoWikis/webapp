@@ -1,5 +1,7 @@
 $(function() {
-    $("[popover-all-sets-for]").click(function () {
+    $("[popover-all-sets-for]").click(function (e) {
+
+        e.preventDefault();
 
         var elem = $(this);
 
