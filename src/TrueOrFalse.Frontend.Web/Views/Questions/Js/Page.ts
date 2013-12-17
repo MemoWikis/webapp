@@ -19,6 +19,6 @@ class Page
 $(function () {
     _page = new Page();
     _page.Init();
-    new ValuationPerRow(".column-1", ValuationPerRowMode.Question);
+    new ValuationPerRow(".column-3", ValuationPerRowMode.Question);
 });
 

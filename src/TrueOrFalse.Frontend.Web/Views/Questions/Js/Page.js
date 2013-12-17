@@ -15,6 +15,6 @@ var Page = (function () {
 $(function () {
     _page = new Page();
     _page.Init();
-    new ValuationPerRow(".column-1", 0 /* Question */);
+    new ValuationPerRow(".column-3", 0 /* Question */);
 });
 //# sourceMappingURL=Page.js.map
