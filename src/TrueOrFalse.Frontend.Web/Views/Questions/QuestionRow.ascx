@@ -4,16 +4,16 @@
 
 <div class="rowBase question-row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
     <div class="column-1"  >
-        <div>
-            <label class="checkbox selectQuestion" style="font-size: 12px">
-                <input type="checkbox"> <a>auswählen</a>
+        <div image-container="true">
+            <img src="<%= Model.ImageUrl%>" width="128">
+            <label class="checkbox selectQuestion" style="font-size: 12px; position: absolute; left:5px; bottom: -5px; width: 128px; color: black; background-color: white; opacity:0.7; display: none;">
+                <input type="checkbox"> auswählen
             </label>
         </div>
     </div>
 
     <div class="column-2" style="height: 95px; position: relative;">
-        
-        
+
         <div class="pull-right" style="margin-top: 1px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
             <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
             <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
@@ -21,7 +21,6 @@
             <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>)
         </div>
         
-
         <div style="font-weight:normal; font-size:large;">
             <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
         </div>   
