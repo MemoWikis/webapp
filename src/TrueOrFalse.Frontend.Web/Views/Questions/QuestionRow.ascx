@@ -5,8 +5,8 @@
 <div class="rowBase question-row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
     <div class="column-1"  >
         <div image-container="true">
-            <img src="<%= Model.ImageUrl%>" width="128">
-            <label class="checkbox selectQuestion" style="font-size: 12px; position: absolute; left:5px; bottom: -5px; width: 128px; color: black; background-color: white; opacity:0.7; display: none;">
+            <img src="<%= Model.ImageUrl%>" width="105" style="padding-bottom: 5px;">
+            <label class="checkbox selectQuestion" style="font-size: 12px; position: absolute; left:5px; bottom: -5px; width: 105px; color: black; background-color: white; opacity:0.7; display: none;">
                 <input type="checkbox"> auswählen
             </label>
         </div>
