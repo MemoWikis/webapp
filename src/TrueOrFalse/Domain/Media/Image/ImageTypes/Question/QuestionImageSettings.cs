@@ -34,7 +34,7 @@ public class QuestionImageSettings : IImageSettings
     public ImageUrl GetUrl_500px() { return GetUrl(500); }
 
     private ImageUrl GetUrl(int width, bool isSquare = false){
-        return ImageUrl.Get(this, width, isSquare, arg => "/Images/no-set-" + width + ".png");
+        return ImageUrl.Get(this, width, isSquare, arg => "/Images/no-question-" + width + ".png");
     }
 
     public static QuestionImageSettings Create(int questionId)

@@ -17,9 +17,9 @@
    version="1.1"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="platzhalter-question.svg"
-   inkscape:export-filename="/home/katrin/TrueOrFalse/docs/Graphics/Katgoriebild2.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="C:\Projects\TrueOrFalse\docs\Graphics\no-question.png"
+   inkscape:export-xdpi="162.53999"
+   inkscape:export-ydpi="162.53999">
   <defs
      id="defs3">
     <inkscape:perspective
@@ -1683,7 +1683,7 @@
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1600"
-     inkscape:window-height="838"
+     inkscape:window-height="837"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1">
@@ -1700,7 +1700,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
