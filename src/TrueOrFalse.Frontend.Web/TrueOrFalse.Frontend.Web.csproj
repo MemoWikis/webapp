@@ -592,6 +592,9 @@
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\MM.ValuationPerRow.ts" />
+    <Content Include="Views\Questions\Questions.css">
+      <DependentUpon>Questions.less</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Set.aspx" />
     <Content Include="Views\Sets\Detail\Set.css" />
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
@@ -653,7 +656,6 @@
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
-    <Content Include="Views\Questions\Questions.css" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Shared\ImageUpload\ImageUpload.ts" />
@@ -690,6 +692,7 @@
     <None Include="Style\site-debug.less" />
     <Content Include="Style\temp.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
+    <Content Include="Views\Questions\Questions.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

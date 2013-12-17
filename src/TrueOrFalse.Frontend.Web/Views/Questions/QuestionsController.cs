@@ -146,7 +146,7 @@ public class QuestionsController : BaseController
 
     public void SetSearchSpecVars(QuestionSearchSpec searchSpec, int? page, QuestionsModel model, string orderBy, string defaultOrder = "byViews")
     {
-        searchSpec.PageSize = 10;
+        searchSpec.PageSize = 20;
 
         if (page.HasValue)
             searchSpec.CurrentPage = page.Value;

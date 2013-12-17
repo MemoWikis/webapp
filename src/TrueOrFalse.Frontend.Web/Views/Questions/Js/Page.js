@@ -17,7 +17,7 @@ $(function () {
     _page.Init();
     new ValuationPerRow(".column-3", 0 /* Question */);
 
-    $(".column-1 [image-container]").hover(function () {
+    $(".column-1 .image-container").hover(function () {
         $(this).find("label").show();
     }, function () {
         if (!$($(this).find("input")[0]).prop('checked')) {
