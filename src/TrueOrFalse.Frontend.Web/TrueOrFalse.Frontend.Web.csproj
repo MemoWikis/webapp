@@ -305,6 +305,10 @@
     </Content>
     <TypeScriptCompile Include="Scripts\MM.Site.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
+    <Content Include="Images\no-category-picture-206.png" />
+    <Content Include="Images\no-question-128.png" />
+    <Content Include="Images\no-set-128.png" />
+    <Content Include="Images\no-set-206.png" />
     <Content Include="img\dimension.png" />
     <Content Include="Scripts\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
