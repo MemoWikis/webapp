@@ -318,6 +318,7 @@
     <Content Include="Scripts\MM.DateParser.js">
       <DependentUpon>MM.DateParser.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\MM.Log.js" />
     <Content Include="Scripts\MM.ValuationPerRow.js">
       <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
     </Content>
