@@ -1,4 +1,4 @@
-var __extends = this.__extends || function (d, b) {
+﻿var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -26,6 +26,24 @@ var SolutionMetadataDate = (function (_super) {
         _super.call(this);
         this.IsDate = true;
     }
+    SolutionMetadataDate.prototype.GetPrecisionLabel = function () {
+        switch (this.Precision) {
+            case 1 /* Day */:
+                return "Tag";
+            case 2 /* Month */:
+                return "Monat";
+            case 3 /* Year */:
+                return "Jahr";
+            case 4 /* Decade */:
+                return "Jahrzent";
+            case 5 /* Century */:
+                return "Jahrhundert";
+            case 6 /* Millenium */:
+                return "Jahrtausend";
+        }
+
+        return "-unknown-";
+    };
     return SolutionMetadataDate;
 })(SolutionMetaData);
 

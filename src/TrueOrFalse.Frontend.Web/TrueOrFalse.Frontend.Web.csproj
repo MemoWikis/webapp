@@ -226,6 +226,7 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Scripts\SqlDatabaseSetup.cs" />
     <Compile Include="Views\Api\ApiBaseController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
@@ -303,6 +304,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Scripts\MM.Log.ts" />
     <TypeScriptCompile Include="Scripts\MM.Site.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
     <Content Include="Images\no-category-picture-206.png" />
@@ -352,6 +354,7 @@
     <Content Include="Style\z_buttons_2.3.2.less" />
     <Content Include="Style\utils.less" />
     <Content Include="Style\includes\variables.less" />
+    <Content Include="Scripts\app.config" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
@@ -802,4 +805,6 @@
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' == ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' != ''" />
 </Project>

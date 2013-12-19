@@ -36,9 +36,7 @@ class SolutionMetaDataMenu {
 
         $("#Answer").keyup(() => {
             console.log(this._current);
-            console.log(this._current.IsNumber);
-            if (this._current.IsNumber) {
-                console.log("isNumber");
+            if (this._current.IsDate) {
                 this._sliderDate.SetDateUi();
             }
         });
@@ -155,46 +153,29 @@ class SliderDate
     }
 
     SetDateUi() {
-        var text = "";
-        if (this.MetaData.Precision == DatePrecision.Day) {
-            text = "Tag";
-        }
+        var text = this.MetaData.GetPrecisionLabel();
 
-        if (this.MetaData.Precision == DatePrecision.Month) {
-            text = "Monat";
-        }
 
-        if (this.MetaData.Precision == DatePrecision.Year) {
-            text = "Jahr";
-        }
 
-        if (this.MetaData.Precision == DatePrecision.Decade) {
-            text = "Jahrzent";
-        }
-
-        if (this.MetaData.Precision == DatePrecision.Century) {
-            text = "Jahrhundert";
-        }
-
-        if (this.MetaData.Precision == DatePrecision.Millenium) {
-            text = "Jahrtausend";
-        }
 
         var dateR = DateParser.Run($("#Answer").val());
         console.log(dateR);
         if (dateR.IsInvalid) {
             $("#iDateError").show();
+            $("#iDateCorrect").hide();
         }
         else {
             $("#iDateError").hide();
+            $("#iDateCorrect").show();
         }
+
+        //dateR.Precision()
+
         //spanEntryPrecision
 
         this.SaveJson(this.MetaData);
         $("#spanAnswerPrecision").text(text);
         $("#spanSliderValue").text(text);
-
-        
     }
 }
 

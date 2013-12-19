@@ -20,6 +20,19 @@ class SolutionMetadataDate extends SolutionMetaData
         this.IsDate = true;
     }
     Precision: DatePrecision;
+
+    GetPrecisionLabel(): string {
+        switch (this.Precision) {
+            case DatePrecision.Day: return "Tag"; 
+            case DatePrecision.Month: return "Monat";
+            case DatePrecision.Year: return "Jahr";
+            case DatePrecision.Decade: return "Jahrzent";
+            case DatePrecision.Century: return "Jahrhundert";
+            case DatePrecision.Millenium: return "Jahrtausend";
+        }
+
+        return "-unknown-";
+    }
 }
 
 class SolutionMetadataNumber extends SolutionMetaData {

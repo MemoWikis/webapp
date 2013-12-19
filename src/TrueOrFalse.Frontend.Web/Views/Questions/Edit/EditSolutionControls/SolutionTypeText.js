@@ -1,4 +1,4 @@
-/// <reference path="../../../../Scripts/MM.DateParser.ts" />
+﻿/// <reference path="../../../../Scripts/MM.DateParser.ts" />
 /// <reference path="../../../../Scripts/SolutionMetaData.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
@@ -24,9 +24,7 @@ var SolutionMetaDataMenu = (function () {
 
         $("#Answer").keyup(function () {
             console.log(_this._current);
-            console.log(_this._current.IsNumber);
-            if (_this._current.IsNumber) {
-                console.log("isNumber");
+            if (_this._current.IsDate) {
                 _this._sliderDate.SetDateUi();
             }
         });
@@ -158,39 +156,19 @@ var SliderDate = (function () {
     };
 
     SliderDate.prototype.SetDateUi = function () {
-        var text = "";
-        if (this.MetaData.Precision == 1 /* Day */) {
-            text = "Tag";
-        }
-
-        if (this.MetaData.Precision == 2 /* Month */) {
-            text = "Monat";
-        }
-
-        if (this.MetaData.Precision == 3 /* Year */) {
-            text = "Jahr";
-        }
-
-        if (this.MetaData.Precision == 4 /* Decade */) {
-            text = "Jahrzent";
-        }
-
-        if (this.MetaData.Precision == 5 /* Century */) {
-            text = "Jahrhundert";
-        }
-
-        if (this.MetaData.Precision == 6 /* Millenium */) {
-            text = "Jahrtausend";
-        }
+        var text = this.MetaData.GetPrecisionLabel();
 
         var dateR = DateParser.Run($("#Answer").val());
         console.log(dateR);
         if (dateR.IsInvalid) {
             $("#iDateError").show();
+            $("#iDateCorrect").hide();
         } else {
             $("#iDateError").hide();
+            $("#iDateCorrect").show();
         }
 
+        //dateR.Precision()
         //spanEntryPrecision
         this.SaveJson(this.MetaData);
         $("#spanAnswerPrecision").text(text);
