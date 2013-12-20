@@ -7,8 +7,8 @@ using TrueOrFalse;
 
 public class QuestionRowModel
 {
+    public string ImageUrl;
     public string CreatorName { get; private set; }
-
     public string QuestionShort { get; private set; }
     public int QuestionId { get; private set; }
     public int IndexInResulSet { get; private set; }
@@ -48,6 +48,9 @@ public class QuestionRowModel
         int currentUserid,
         string pagerKey) 
     {
+
+        ImageUrl = QuestionImageSettings.Create(question.Id).GetUrl_128px_square().Url;
+
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;
         CreatorName = question.Creator.Name;

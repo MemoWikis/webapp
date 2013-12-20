@@ -226,6 +226,7 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Scripts\SqlDatabaseSetup.cs" />
     <Compile Include="Views\Api\ApiBaseController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
@@ -303,8 +304,13 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Scripts\MM.Log.ts" />
     <TypeScriptCompile Include="Scripts\MM.Site.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
+    <Content Include="Images\no-category-picture-206.png" />
+    <Content Include="Images\no-question-128.png" />
+    <Content Include="Images\no-set-128.png" />
+    <Content Include="Images\no-set-206.png" />
     <Content Include="img\dimension.png" />
     <Content Include="Scripts\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
@@ -312,6 +318,7 @@
     <Content Include="Scripts\MM.DateParser.js">
       <DependentUpon>MM.DateParser.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\MM.Log.js" />
     <Content Include="Scripts\MM.ValuationPerRow.js">
       <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
     </Content>
@@ -348,6 +355,7 @@
     <Content Include="Style\z_buttons_2.3.2.less" />
     <Content Include="Style\utils.less" />
     <Content Include="Style\includes\variables.less" />
+    <Content Include="Scripts\app.config" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
@@ -592,6 +600,9 @@
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\MM.ValuationPerRow.ts" />
+    <Content Include="Views\Questions\Questions.css">
+      <DependentUpon>Questions.less</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Set.aspx" />
     <Content Include="Views\Sets\Detail\Set.css" />
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
@@ -653,7 +664,6 @@
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
-    <Content Include="Views\Questions\Questions.css" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Shared\ImageUpload\ImageUpload.ts" />
@@ -690,6 +700,7 @@
     <None Include="Style\site-debug.less" />
     <Content Include="Style\temp.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
+    <Content Include="Views\Questions\Questions.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -786,4 +797,6 @@
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' == ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' != ''" />
 </Project>

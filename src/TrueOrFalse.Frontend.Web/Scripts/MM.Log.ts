@@ -1,0 +1,6 @@
+ class Logger
+ {
+     static Error() {
+         
+     }
+ }

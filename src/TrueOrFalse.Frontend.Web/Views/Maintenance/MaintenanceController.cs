@@ -19,10 +19,17 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
-    public ActionResult CalcAggregatedValues()
+    public ActionResult CalcAggregatedValuesQuestions()
     {
         Resolve<UpdateQuestionAnswerCounts>().Run();
         return View("Maintenance", new MaintenanceModel{Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult CalcAggregatedValuesSets()
+    {
+        Resolve<UpdateSetDataForQuestion>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.") });
     }
 
     [AccessOnlyAsAdmin]

@@ -12,9 +12,16 @@
             <i class="fa fa-retweet"></i>
             Alle Antwortwahrscheinlichkeiten neu berechnen
         </a><br/><br/>
-        <a class="btn btn-default" href="<%= Url.Action("CalcAggregatedValues", "Maintenance") %>">
+        <a class="btn btn-default" href="<%= Url.Action("CalcAggregatedValuesQuestions", "Maintenance") %>">
             <i class="fa fa-retweet"></i>
-            Aggregierte Zahlen für Fragen aktualisieren
+            Aggregierte Zahlen aktualisieren
+        </a>
+        
+        <h4>Fragesätze</h4>
+        
+        <a class="btn btn-default" href="<%= Url.Action("CalcAggregatedValuesSets", "Maintenance") %>">
+            <i class="fa fa-retweet"></i>
+            Aggregierte Zahlen aktualisieren
         </a>
     
         <h4>Kategorien</h4>
@@ -22,7 +29,9 @@
             <i class="fa fa-retweet"></i>
             Feld: AnzahlFragen pro Kategorie aktualisieren
         </a>
-    
+        
+        
+  
         <h4>Suche</h4>
         Alle
         <a class="btn btn-default" href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>">

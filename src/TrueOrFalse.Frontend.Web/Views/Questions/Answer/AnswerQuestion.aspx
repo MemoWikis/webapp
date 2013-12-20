@@ -158,7 +158,7 @@
                 <br/>                
                 Fragesatz:
                 <a href="<%= Links.SetDetail(Url, Model.Set) %>">
-                    "<%= Model.Set.Name %>"
+                    <span class="label label-set"><%= Model.Set.Name %></a>
                 </a>            
             <% } %>
         </div>
