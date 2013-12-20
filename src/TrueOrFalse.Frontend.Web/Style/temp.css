@@ -67,6 +67,7 @@
   border-top: none;
   border-bottom: none;
   border-right: none;
+  font-size: 15px;
 }
 #testmenu .list-group-item:hover {
   color: white;
@@ -187,4 +188,37 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2c5fb2', GradientType=0);
   /* IE6-9 */
 
+}
+#MasterHeader h1 {
+  -webkit-text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
+  text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
+}
+#MasterHeader #loginAndHelp {
+  box-shadow: #2e487b 1px 1px 1px 0px inset;
+}
+#MasterHeader #logo {
+  box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
+}
+.insetText {
+  font-family: Lucida Grande;
+  background-color: #666666;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: rgba(255, 255, 255, 0.3) 0px 3px 3px;
+}
+.label {
+  border: 2px solid;
+  border-radius: 4px;
+  color: #2e487b;
+  display: inline-block;
+}
+.label-set {
+  background-color: #fdf8dc;
+  border-color: #ffd700;
+}
+.label-category {
+  background-color: #e7ecf6;
+  border-color: #99ccff;
 }
