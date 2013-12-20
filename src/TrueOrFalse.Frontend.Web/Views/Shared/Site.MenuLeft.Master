@@ -38,12 +38,14 @@
         </div>
     </section>
     <%-- FOOTER--%>
-    <footer>
-        <div id="footer" class="row">
+    <footer id="MasterFooter">
+        <div class="row">
             <div class="container">
-            <%// ReSharper disable Asp.NotResolved
-                Html.RenderPartial(UserControls.WelcomeFooter); 
-                // ReSharper restore Asp.NotResolved%>
+                <div class="row">
+                    <%// ReSharper disable Asp.NotResolved
+                        Html.RenderPartial(UserControls.WelcomeFooter); 
+                        // ReSharper restore Asp.NotResolved%>
+                </div>
             </div>
         </div>
     </footer>

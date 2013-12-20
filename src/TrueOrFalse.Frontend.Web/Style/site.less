@@ -32,6 +32,9 @@ body {
     background: url(../img/dimension.png);
 }
 
+.mainSection {
+    overflow-x: hidden; //damit der gradientRight nicht zu einem Scroll-Effekt führt
+}
 
 
 .container.main {
@@ -81,7 +84,7 @@ body {
 {
     position: relative;
     margin: 0px;
-    padding: 0px;
+    padding: 0 15px; //for Bootstrap .row
     width: 100%;
     min-height: 51px;
     background-color: @dark-blue;
@@ -96,7 +99,7 @@ body {
         background: url('/images/toflogo.png') no-repeat right;
         font-family: 'Emilys Candy', cursive;
         
-        color: @cooles-gruen;
+        color: @memo-green;
         font-size: 40px;
         background: none;
         position: relative;
@@ -158,10 +161,12 @@ body {
     
 }
 
-#footer {
+#MasterFooter {
 
     background-color: @background-grey;
     padding-top: 20px;
+    padding-left: 15px; //for Bootstrap .row
+    padding-right: 15px; //for Bootstrap .row
 
     .container {} 
             
@@ -227,7 +232,7 @@ a.button span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;
 }
 
 .label-set{
-    background-color: @color-set;
+    #set-scheme;
 }
 
 /*FORMS

@@ -48,9 +48,9 @@
 
 
 
-.tempfragen a {color: @cooles-gruen;}  
+.tempfragen a {color: @memo-green;}  
 .tempkategorien a {color: @dark-blue;}
-.tempfragesaetze a {color: @test-gelb;}
+.tempfragesaetze a {color: @set-color;}
 
 .menu a.active {
     text-transform: uppercase;
@@ -65,6 +65,7 @@
     border-top: none;
     border-bottom: none;
     border-right: none;
+    font-size: 15px;
 
     &:hover {color: white;}
 
@@ -80,21 +81,21 @@
     }
 
     &.test-set{
-        border-left-color: @test-gelb;
-        border-right-color: @test-gelb;
+        border-left-color: @set-color;
+        border-right-color: @set-color;
 
         &:hover {
-            background-color: @test-gelb;
+            background-color: @set-color;
             color: black;
         }
     }
 
      &.test-quest{
-        border-left-color: @cooles-gruen;
-        border-right-color: @cooles-gruen;
+        border-left-color: @memo-green;
+        border-right-color: @memo-green;
 
         &:hover {
-            background-color: @cooles-gruen;
+            background-color: @memo-green;
             color: black;
         }
     }
@@ -117,30 +118,30 @@
     }
 
     &.test-news{
-        border-left-color: @test-orange2;
-        border-right-color: @dark-red;
+        border-left-color: @middle-orange;
+        border-right-color: @middle-orange;
 
         &:hover {
-            background-color: @test-orange2;
+            background-color: @middle-orange;
             color: black;
         }
 
     }
 
     &.test-user{
-        border-left-color: @test-violett;
+        border-left-color: @middle-purple;
         border-right-color: @dark-red;
 
-        &:hover {background-color: @test-violett;}
+        &:hover {background-color: @middle-purple;}
 
     }
 
     &.test-dues{
-        border-left-color: @test-tuerkis;
+        border-left-color: @middle-turquoise;
         border-right-color: @dark-red;
 
         &:hover {
-            background-color: @test-tuerkis;
+            background-color: @middle-turquoise;
         }
 
     }
@@ -153,7 +154,85 @@
 
     }
 
-    display: none;
+    //display: none;
 }
 
+
+//Header section
+
+//Gradient Header
+
+#MasterHeader {
+
+    background: rgb(46,72,123); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(46,72,123,1) 0%, rgba(45,85,153,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(46,72,123,1)), color-stop(100%,rgba(45,85,153,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(46,72,123,1) 0%,rgba(45,85,153,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(46,72,123,1) 0%,rgba(45,85,153,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(46,72,123,1) 0%,rgba(45,85,153,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(46,72,123,1) 0%,rgba(45,85,153,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e487b', endColorstr='#2d5599',GradientType=0 ); /* IE6-9 */
+
+    background: rgb(46,72,123); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(46,72,123,1) 0%, rgba(44,95,178,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(46,72,123,1)), color-stop(100%,rgba(44,95,178,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e487b', endColorstr='#2c5fb2',GradientType=0 ); /* IE6-9 */
  
+    h1 {
+        -webkit-text-shadow: rgba(0,0,0,0.5) 1px 1px 1px;
+        text-shadow: rgba(0,0,0,0.5) 1px 1px 1px;
+    }
+
+    #loginAndHelp {
+        box-shadow: @dark-blue 1px 1px 1px 0px inset;
+    }
+
+    #logo {
+        box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
+        
+    }
+}
+
+
+//cooler Eindrückungseffekt für Text
+
+.insetText {
+font-family: Lucida Grande;
+background-color: #666666;
+-webkit-background-clip: text;
+-moz-background-clip: text;
+background-clip: text;
+color: transparent;
+text-shadow: rgba(255,255,255,0.3) 0px 3px 3px;
+}
+
+
+//
+
+
+
+//label
+
+.label {
+    border: 2px solid;
+    border-radius: 4px;
+    color: @dark-blue;
+    display: inline-block;
+}
+
+.label-set {
+    background-color: @pastel-yellow;
+    border-color: @middle-yellow;
+}
+
+.label-category {
+    background-color: @light-blue;
+    border-color: @middle-blue;
+}
+
+//
+
