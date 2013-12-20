@@ -21,8 +21,8 @@ class SolutionMetadataDate extends SolutionMetaData
     }
     Precision: DatePrecision;
 
-    GetPrecisionLabel(): string {
-        switch (this.Precision) {
+    static GetPrecisionLabel(precision : DatePrecision): string {
+        switch (precision) {
             case DatePrecision.Day: return "Tag"; 
             case DatePrecision.Month: return "Monat";
             case DatePrecision.Year: return "Jahr";

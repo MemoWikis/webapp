@@ -45,3 +45,4 @@ function deleteSet(setId) {
         }
     });
 }
+//# sourceMappingURL=SetDelete.js.map

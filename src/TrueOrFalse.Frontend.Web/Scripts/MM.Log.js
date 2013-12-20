@@ -5,3 +5,4 @@ var Logger = (function () {
     };
     return Logger;
 })();
+//# sourceMappingURL=MM.Log.js.map

@@ -26,8 +26,8 @@ var SolutionMetadataDate = (function (_super) {
         _super.call(this);
         this.IsDate = true;
     }
-    SolutionMetadataDate.prototype.GetPrecisionLabel = function () {
-        switch (this.Precision) {
+    SolutionMetadataDate.GetPrecisionLabel = function (precision) {
+        switch (precision) {
             case 1 /* Day */:
                 return "Tag";
             case 2 /* Month */:
@@ -64,3 +64,4 @@ var SolutionMetadataText = (function (_super) {
     }
     return SolutionMetadataText;
 })(SolutionMetaData);
+//# sourceMappingURL=SolutionMetaData.js.map

@@ -153,10 +153,9 @@ class SliderDate
     }
 
     SetDateUi() {
-        var text = this.MetaData.GetPrecisionLabel();
+        console.log(this.MetaData);
 
-
-
+        var text = SolutionMetadataDate.GetPrecisionLabel(this.MetaData.Precision);
 
         var dateR = DateParser.Run($("#Answer").val());
         console.log(dateR);

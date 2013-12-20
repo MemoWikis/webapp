@@ -156,7 +156,9 @@ var SliderDate = (function () {
     };
 
     SliderDate.prototype.SetDateUi = function () {
-        var text = this.MetaData.GetPrecisionLabel();
+        console.log(this.MetaData);
+
+        var text = SolutionMetadataDate.GetPrecisionLabel(this.MetaData.Precision);
 
         var dateR = DateParser.Run($("#Answer").val());
         console.log(dateR);
@@ -192,3 +194,4 @@ var solutionMetaData = new SolutionMetaDataMenu();
 $('#help').click(function () {
     $("#modalHelpSolutionType").modal('show');
 });
+//# sourceMappingURL=SolutionTypeText.js.map
