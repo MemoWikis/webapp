@@ -44,4 +44,3 @@ function deleteQuestion(questionId) {
         }
     });
 }
-//# sourceMappingURL=QuestionRowDelete.js.map

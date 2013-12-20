@@ -18,4 +18,3 @@ $(function () {
         });
     });
 });
-//# sourceMappingURL=Categories.js.map
