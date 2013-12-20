@@ -186,7 +186,7 @@
             <p style="padding-top: 10px;">
                 <b style="color: darkgray">Kategorien</b> <br/>
                 <% foreach (var category in Model.Categories){ %>
-                    <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="line-height: 22px;"><%= category.Name %></span></a>    
+                    <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
                 <% } %>
             </p>
         <% } %>

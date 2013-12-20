@@ -31,7 +31,7 @@ class SolutionMetadataDate extends SolutionMetaData
             case DatePrecision.Millenium: return "Jahrtausend";
         }
 
-        return "-unknown-";
+        return "";
     }
 }
 

@@ -1,4 +1,4 @@
-/// <reference path="../../../../Scripts/MM.DateParser.ts" />
+﻿/// <reference path="../../../../Scripts/MM.DateParser.ts" />
 /// <reference path="../../../../Scripts/SolutionMetaData.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
@@ -170,8 +170,8 @@ var SliderDate = (function () {
             $("#iDateCorrect").show();
         }
 
-        //dateR.Precision()
-        //spanEntryPrecision
+        $("spanEntryPrecision").html(SolutionMetadataDate.GetPrecisionLabel(dateR.Precision));
+
         this.SaveJson(this.MetaData);
         $("#spanAnswerPrecision").text(text);
         $("#spanSliderValue").text(text);

@@ -42,7 +42,7 @@ var SolutionMetadataDate = (function (_super) {
                 return "Jahrtausend";
         }
 
-        return "-unknown-";
+        return "";
     };
     return SolutionMetadataDate;
 })(SolutionMetaData);

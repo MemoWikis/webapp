@@ -168,9 +168,7 @@ class SliderDate
             $("#iDateCorrect").show();
         }
 
-        //dateR.Precision()
-
-        //spanEntryPrecision
+        $("spanEntryPrecision").html(SolutionMetadataDate.GetPrecisionLabel(dateR.Precision));
 
         this.SaveJson(this.MetaData);
         $("#spanAnswerPrecision").text(text);
