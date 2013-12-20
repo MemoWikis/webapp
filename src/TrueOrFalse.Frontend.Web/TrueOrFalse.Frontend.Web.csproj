@@ -226,7 +226,6 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
-    <Compile Include="Scripts\SqlDatabaseSetup.cs" />
     <Compile Include="Views\Api\ApiBaseController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
@@ -806,6 +805,4 @@
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' == ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(VisualStudioVersion)' != ''" />
 </Project>

@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{241E03E3-65D3-4F84-9A70-D8ECBBCA434C}"
-EndProject
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Tests", "TrueOrFalse.Tests\TrueOrFalse.Tests.csproj", "{1C9D8C0C-800E-4BBB-82B1-89E111004596}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Frontend.Web", "TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj", "{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}"

@@ -58,4 +58,3 @@ var MarkdownQuestionExt = (function () {
     };
     return MarkdownQuestionExt;
 })();
-//# sourceMappingURL=MarkdownQuestionExt.js.map
