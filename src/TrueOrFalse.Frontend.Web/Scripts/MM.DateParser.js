@@ -23,9 +23,9 @@ var DateR = (function () {
             case 4 /* Decade */:
                 return "Dekade";
             case 5 /* Century */:
-                return this.Year + ". Jh";
+                return this.Year + ". Jahrhundert";
             case 6 /* Millenium */:
-                return "Millenium";
+                return this.Year + ". Jahrausend";
         }
         return "";
     };
@@ -58,14 +58,28 @@ var DateParser = (function () {
 
             userInput = userInput.trim();
 
-            if (!/^\d{1,10}$/.test(userInput))
+            if (!/^\d{1,8}$/.test(userInput))
                 return result;
 
             result.IsInvalid = false;
             result.Year = parseInt(userInput);
             result.Precision = 5 /* Century */;
             return this._lastResult = result;
-        } else if (false) {
+        } else if (input.indexOf("Jt") > 0 || input.indexOf("Jt.") > 0) {
+            var userInput = input.replace("Jt", "").replace("Jt.", "");
+
+            if (parseInt(userInput) == NaN)
+                return result;
+
+            userInput = userInput.trim();
+
+            if (!/^\d{1,7}$/.test(userInput))
+                return result;
+
+            result.IsInvalid = false;
+            result.Year = parseInt(userInput);
+            result.Precision = 6 /* Millenium */;
+            return this._lastResult = result;
         } else if (parts.length == 3) {
             result.Day = parseInt(parts[0]);
             result.Month = parseInt(parts[1]);
@@ -123,10 +137,13 @@ var DateParserTests = (function () {
             equal(DateParser.Run("3 Jh").IsInvalid, false);
             equal(DateParser.Run("3 Jh").Year, 3);
             equal(DateParser.Run("3 Jh").Precision, 5 /* Century */);
-
             equal(DateParser.Run("3 : Jh").IsInvalid, true);
             equal(DateParser.Run("31 10 Jh").IsInvalid, true);
             equal(DateParser.Run("Jh").IsInvalid, true);
+
+            equal(DateParser.Run("5 Jt").IsInvalid, false);
+            equal(DateParser.Run("5 Jt").Year, 5);
+            equal(DateParser.Run("5 Jt").Precision, 6 /* Millenium */);
         });
     };
     return DateParserTests;
