@@ -34,7 +34,7 @@ class DateR{
             case DatePrecision.Decade:
                 return "Dekade"; 
             case DatePrecision.Century:
-                return "Century";
+                return this.Year + ". Jh";
             case DatePrecision.Millenium:
                 return "Millenium";
         }
@@ -57,10 +57,32 @@ class DateParser{
     }
 
     private static Parse(input : string): DateR {
+
         var parts = input.split('.');
 
         var result = new DateR(input);
-        if (parts.length == 3) { //DAY
+
+        if (input.indexOf("Jh") > 0 || input.indexOf("Jh.") > 0) {
+
+            var userInput = input.replace("Jh", "").replace("Jh.", "");
+
+            if (parseInt(userInput) == NaN)
+                return result;
+
+            userInput = userInput.trim();
+
+            if (!/^\d{1,10}$/.test(userInput))
+                return result;
+
+            result.IsInvalid = false;
+            result.Year = parseInt(userInput);
+            result.Precision = DatePrecision.Century;
+            return this._lastResult = result; 
+
+        } else if (false) {
+            
+        } else if (parts.length == 3) { //DAY
+
             result.Day = parseInt(parts[0]);
             result.Month = parseInt(parts[1]);
             result.Year = parseInt(parts[2]);
@@ -73,6 +95,7 @@ class DateParser{
             return this._lastResult = result;   
 
         } else if (parts.length == 2) { //Month 
+
             result.Month = parseInt(parts[0]);
             result.Year = parseInt(parts[1]);
 
@@ -111,6 +134,14 @@ class DateParserTests {
             equal(DateParser.Run("12.2014").Month, 12);
             equal(DateParser.Run("12.2014").Year, 2014);
             equal(DateParser.Run("12.2014").Precision, DatePrecision.Month);
+
+            equal(DateParser.Run("3 Jh").IsInvalid, false);
+            equal(DateParser.Run("3 Jh").Year, 3);
+            equal(DateParser.Run("3 Jh").Precision, DatePrecision.Century);
+
+            equal(DateParser.Run("3 : Jh").IsInvalid, true);
+            equal(DateParser.Run("31 10 Jh").IsInvalid, true);
+            equal(DateParser.Run("Jh").IsInvalid, true);
         });
     }
 }

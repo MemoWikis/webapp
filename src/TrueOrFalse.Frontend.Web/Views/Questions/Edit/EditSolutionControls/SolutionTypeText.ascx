@@ -12,8 +12,8 @@
                 <b>Monatsgenau:</b> 3.1999 (März 1999) <br />
                 <b>Jahresgenau:</b> 1999 (1999) <br />
                 <b>Jahrzehntgenau:</b>  172x (1720-ziger) <br />
-                <b>Jahrhundertgenau:</b> 19 Jhd <br />
-                <b>Jahrtausendgenau:</b> 3 Jht<br />
+                <b>Jahrhundertgenau:</b> 19 Jh <br />
+                <b>Jahrtausendgenau:</b> 3 Jt<br />
                 <div style='margin-top:3px;'>
                     <i>(für Daten vor Chr. Geburt, ein Minuszeichen voranstellen, z.B.: -2012)</i>
                 </div>
