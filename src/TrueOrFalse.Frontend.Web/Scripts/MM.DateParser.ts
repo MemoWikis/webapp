@@ -3,7 +3,7 @@
 
 
 class DateR{
-    IsInvalid: boolean = true;
+    IsValid: boolean = false;
 
     Input: string;
     Precision: DatePrecision;
@@ -60,7 +60,7 @@ class DateParser{
         if (typeof input != 'string' && !(input instanceof String))
             return new DateR(input);
 
-        if (!this.Parse(input).IsInvalid) return this._lastResult;
+        if (this.Parse(input).IsValid) return this._lastResult;
 
         return new DateR(input);
     }
@@ -83,7 +83,7 @@ class DateParser{
             if (!/^\d{1,8}$/.test(userInput))
                 return result;
 
-            result.IsInvalid = false;
+            result.IsValid = true;
             result.Year = parseInt(userInput);
             result.Precision = DatePrecision.Century;
             return this._lastResult = result; 
@@ -100,7 +100,7 @@ class DateParser{
             if (!/^\d{1,7}$/.test(userInput))
                 return result;
 
-            result.IsInvalid = false;
+            result.IsValid = true;
             result.Year = parseInt(userInput);
             result.Precision = DatePrecision.Millenium;
             return this._lastResult = result; 
@@ -113,7 +113,7 @@ class DateParser{
 
             var date = new Date(result.Year, result.Month - 1, result.Day);
             if (date.getFullYear() == result.Year && date.getMonth() + 1 == result.Month && date.getDate() == result.Day)
-                result.IsInvalid = false;
+                result.IsValid= true;
 
             result.Precision = DatePrecision.Day;
             return this._lastResult = result;   
@@ -125,7 +125,7 @@ class DateParser{
 
             var date = new Date(result.Year, result.Month - 1);
             if (date.getFullYear() == result.Year && date.getMonth() + 1 == result.Month)
-                result.IsInvalid = false;
+                result.IsValid = true;
 
             result.Precision = DatePrecision.Month;
             return this._lastResult = result; 
@@ -138,7 +138,7 @@ class DateParser{
                 result.IsNegative = true;
                 userInput = input.replace("-", "");
             }
-            result.IsInvalid = false;
+            result.IsValid = true;
             result.Precision = DatePrecision.Year;
             result.Year = parseInt(userInput);
             return this._lastResult = result; 
@@ -160,31 +160,31 @@ class DateParser{
 class DateParserTests {
     public static Run() {
         test("DateParser tests", function () {
-            equal(DateParser.Run("abc").IsInvalid, true);
+            equal(DateParser.Run("abc").IsValid, false);
 
-            equal(DateParser.Run("22.12.2014").IsInvalid, false);
+            equal(DateParser.Run("22.12.2014").IsValid, true);
             equal(DateParser.Run("22.12.2014").Day, 22);
             equal(DateParser.Run("22.12.2014").Month, 12);
             equal(DateParser.Run("22.12.2014").Year, 2014);
             equal(DateParser.Run("22.12.2014").Precision, DatePrecision.Day);
 
-            equal(DateParser.Run("12.2014").IsInvalid, false);
+            equal(DateParser.Run("12.2014").IsValid, true);
             equal(DateParser.Run("12.2014").Month, 12);
             equal(DateParser.Run("12.2014").Year, 2014);
             equal(DateParser.Run("12.2014").Precision, DatePrecision.Month);
 
-            equal(DateParser.Run("3 Jh").IsInvalid, false);
+            equal(DateParser.Run("3 Jh").IsValid, true);
             equal(DateParser.Run("3 Jh").Year, 3);
             equal(DateParser.Run("3 Jh").Precision, DatePrecision.Century);
-            equal(DateParser.Run("3 : Jh").IsInvalid, true);
-            equal(DateParser.Run("31 10 Jh").IsInvalid, true);
-            equal(DateParser.Run("Jh").IsInvalid, true);
+            equal(DateParser.Run("3 : Jh").IsValid, false);
+            equal(DateParser.Run("31 10 Jh").IsValid, false);
+            equal(DateParser.Run("Jh").IsValid, false);
 
-            equal(DateParser.Run("5 Jt").IsInvalid, false);
+            equal(DateParser.Run("5 Jt").IsValid, true);
             equal(DateParser.Run("5 Jt").Year, 5);
             equal(DateParser.Run("5 Jt").Precision, DatePrecision.Millenium);
 
-            equal(DateParser.Run("1999").IsInvalid, false);
+            equal(DateParser.Run("1999").IsValid, true);
             equal(DateParser.Run("1999").Year, 1999);
             equal(DateParser.Run("1999").Precision, DatePrecision.Year);
         });

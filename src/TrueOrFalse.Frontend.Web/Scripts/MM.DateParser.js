@@ -1,8 +1,8 @@
-﻿/// <reference path="typescript.defs/qunit.d.ts" />
+/// <reference path="typescript.defs/qunit.d.ts" />
 /// <reference path="SolutionMetaData.ts" />
 var DateR = (function () {
     function DateR(input) {
-        this.IsInvalid = true;
+        this.IsValid = false;
         this.IsNegative = false;
         this.Input = input;
     }
@@ -46,7 +46,7 @@ var DateParser = (function () {
         if (typeof input != 'string' && !(input instanceof String))
             return new DateR(input);
 
-        if (!this.Parse(input).IsInvalid)
+        if (this.Parse(input).IsValid)
             return this._lastResult;
 
         return new DateR(input);
@@ -68,7 +68,7 @@ var DateParser = (function () {
             if (!/^\d{1,8}$/.test(userInput))
                 return result;
 
-            result.IsInvalid = false;
+            result.IsValid = true;
             result.Year = parseInt(userInput);
             result.Precision = 5 /* Century */;
             return this._lastResult = result;
@@ -83,7 +83,7 @@ var DateParser = (function () {
             if (!/^\d{1,7}$/.test(userInput))
                 return result;
 
-            result.IsInvalid = false;
+            result.IsValid = true;
             result.Year = parseInt(userInput);
             result.Precision = 6 /* Millenium */;
             return this._lastResult = result;
@@ -94,7 +94,7 @@ var DateParser = (function () {
 
             var date = new Date(result.Year, result.Month - 1, result.Day);
             if (date.getFullYear() == result.Year && date.getMonth() + 1 == result.Month && date.getDate() == result.Day)
-                result.IsInvalid = false;
+                result.IsValid = true;
 
             result.Precision = 1 /* Day */;
             return this._lastResult = result;
@@ -104,7 +104,7 @@ var DateParser = (function () {
 
             var date = new Date(result.Year, result.Month - 1);
             if (date.getFullYear() == result.Year && date.getMonth() + 1 == result.Month)
-                result.IsInvalid = false;
+                result.IsValid = true;
 
             result.Precision = 2 /* Month */;
             return this._lastResult = result;
@@ -115,7 +115,7 @@ var DateParser = (function () {
                 result.IsNegative = true;
                 userInput = input.replace("-", "");
             }
-            result.IsInvalid = false;
+            result.IsValid = true;
             result.Precision = 3 /* Year */;
             result.Year = parseInt(userInput);
             return this._lastResult = result;
@@ -139,31 +139,31 @@ var DateParserTests = (function () {
     }
     DateParserTests.Run = function () {
         test("DateParser tests", function () {
-            equal(DateParser.Run("abc").IsInvalid, true);
+            equal(DateParser.Run("abc").IsValid, false);
 
-            equal(DateParser.Run("22.12.2014").IsInvalid, false);
+            equal(DateParser.Run("22.12.2014").IsValid, true);
             equal(DateParser.Run("22.12.2014").Day, 22);
             equal(DateParser.Run("22.12.2014").Month, 12);
             equal(DateParser.Run("22.12.2014").Year, 2014);
             equal(DateParser.Run("22.12.2014").Precision, 1 /* Day */);
 
-            equal(DateParser.Run("12.2014").IsInvalid, false);
+            equal(DateParser.Run("12.2014").IsValid, true);
             equal(DateParser.Run("12.2014").Month, 12);
             equal(DateParser.Run("12.2014").Year, 2014);
             equal(DateParser.Run("12.2014").Precision, 2 /* Month */);
 
-            equal(DateParser.Run("3 Jh").IsInvalid, false);
+            equal(DateParser.Run("3 Jh").IsValid, true);
             equal(DateParser.Run("3 Jh").Year, 3);
             equal(DateParser.Run("3 Jh").Precision, 5 /* Century */);
-            equal(DateParser.Run("3 : Jh").IsInvalid, true);
-            equal(DateParser.Run("31 10 Jh").IsInvalid, true);
-            equal(DateParser.Run("Jh").IsInvalid, true);
+            equal(DateParser.Run("3 : Jh").IsValid, false);
+            equal(DateParser.Run("31 10 Jh").IsValid, false);
+            equal(DateParser.Run("Jh").IsValid, false);
 
-            equal(DateParser.Run("5 Jt").IsInvalid, false);
+            equal(DateParser.Run("5 Jt").IsValid, true);
             equal(DateParser.Run("5 Jt").Year, 5);
             equal(DateParser.Run("5 Jt").Precision, 6 /* Millenium */);
 
-            equal(DateParser.Run("1999").IsInvalid, false);
+            equal(DateParser.Run("1999").IsValid, true);
             equal(DateParser.Run("1999").Year, 1999);
             equal(DateParser.Run("1999").Precision, 3 /* Year */);
         });
