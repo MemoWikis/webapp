@@ -12,6 +12,8 @@ class DateR{
     Month: number;
     Year: number;
 
+    IsNegative : boolean = false; 
+
     constructor(input : string) {
         this.Input = input;
     }
@@ -30,7 +32,14 @@ class DateR{
                 var date = new Date(this.Year, this.Month - 1);
                 return monthNames[date.getMonth()] + " " + date.getFullYear();
             case DatePrecision.Year:
-                return "Jahr"; 
+
+                if (this.IsNegative && this.Year > 10000)
+                    return "vor " + this.Year.toString() + " Jahren";
+
+                if (this.IsNegative)
+                    return this.Year.toString() + " v. Chr.";
+
+                return this.Year.toString(); 
             case DatePrecision.Decade:
                 return "Dekade"; 
             case DatePrecision.Century:
@@ -120,7 +129,21 @@ class DateParser{
 
             result.Precision = DatePrecision.Month;
             return this._lastResult = result; 
+
+        } else if (/^[-]{0,1}[ ]*\d{1,10}$/.test(input.trim())) { //Year
+
+            var userInput = input.replace(/ /g, "");
+
+            if (userInput.indexOf("-") == 0) {
+                result.IsNegative = true;
+                userInput = input.replace("-", "");
+            }
+            result.IsInvalid = false;
+            result.Precision = DatePrecision.Year;
+            result.Year = parseInt(userInput);
+            return this._lastResult = result; 
         }
+
 
         return new DateR(input);
     }
@@ -160,6 +183,10 @@ class DateParserTests {
             equal(DateParser.Run("5 Jt").IsInvalid, false);
             equal(DateParser.Run("5 Jt").Year, 5);
             equal(DateParser.Run("5 Jt").Precision, DatePrecision.Millenium);
+
+            equal(DateParser.Run("1999").IsInvalid, false);
+            equal(DateParser.Run("1999").Year, 1999);
+            equal(DateParser.Run("1999").Precision, DatePrecision.Year);
         });
     }
 }
