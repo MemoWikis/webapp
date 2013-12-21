@@ -15,6 +15,30 @@ class DateR{
     constructor(input : string) {
         this.Input = input;
     }
+
+    ToLabel(): string {
+
+        var monthNames = ["Januar", "Februar", "März",
+            "April", "Mai", "Juni", "Juli", "August", "September",
+            "Oktober", "November", "Dezember"];
+
+        switch (this.Precision) {
+            case DatePrecision.Day:
+                var date = new Date(this.Year, this.Month - 1, this.Day);
+                return date.getMonth() + ". " + monthNames[date.getMonth()] + " " + date.getFullYear();
+            case DatePrecision.Month:
+                return "Monat"; 
+            case DatePrecision.Year:
+                return "Jahr"; 
+            case DatePrecision.Decade:
+                return "Dekade"; 
+            case DatePrecision.Century:
+                return "Century";
+            case DatePrecision.Millenium:
+                return "Millenium";
+        }
+        return "";
+    }
 }
 
 class DateParser{
@@ -43,8 +67,13 @@ class DateParser{
         result.Day = parseInt(parts[0]);
         result.Month = parseInt(parts[1]);
         result.Year = parseInt(parts[2]);
+
+        var date = new Date(result.Year, result.Month-1, result.Day);
+        console.log(date);
+        if (date.getFullYear() == result.Year && date.getMonth() + 1 == result.Month && date.getDate() == result.Day)
+            result.IsInvalid = false;
+
         result.Precision = DatePrecision.Day;
-        result.IsInvalid = false;
 
         return this._lastResult = result;
     }

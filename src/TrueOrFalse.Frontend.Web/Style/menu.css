@@ -1,64 +1,80 @@
-﻿#clearfix {
-  display: inline-block;
-  width: 100%;
-  zoom: 1;
+﻿#set-scheme {
+    background-color: #ffd700;
+    color: black;
 }
-@media temp-disabled {
-  
+
+#clearfix {
+    display: inline-block;
+    width: 100%;
+    zoom: 1;
 }
+
 div.box-menu {
-  background-color: transparent;
-  border: 1px solid silver;
+    background-color: transparent;
+    border: 1px solid silver;
 }
+
 div.menu {
-  font-size: 15px;
+    font-size: 15px;
 }
+
 div.menu a {
-  text-decoration: none;
-  display: block;
-  padding-left: 5px;
-  padding-right: 10px;
+    text-decoration: none;
+    display: block;
+    padding-left: 5px;
+    padding-right: 10px;
 }
+
 div.menu a:hover,
 div.menu a.active:hover {
-  background-color: #2e487b;
-  color: white;
+    background-color: #2e487b;
+    color: white;
 }
+
 div.menu div.main {
-  font-weight: 700;
+    font-weight: 700;
 }
+
 div.menu div.main a:hover,
 div.menu div.main a.active:hover {
-  background-color: #2e487b;
-  color: white;
+    background-color: #2e487b;
+    color: white;
 }
+
 div.menu div.no-hover:hover {
-  background-color: transparent;
+    background-color: transparent;
 }
+
 div.menu a.active,
 div.menu div.main a.active {
-  color: #b13a48;
+    color: #b13a48;
 }
+
 div.menu i.fa-caret-right {
-  visibility: hidden;
+    visibility: hidden;
 }
+
 div.menu a.active i.fa-caret-right {
-  visibility: visible;
+    visibility: visible;
 }
+
 div.menu div.sub a {
-  padding-left: 15px;
-  font-size: 13px;
+    padding-left: 15px;
+    font-size: 13px;
 }
+
 div.menu div.no-link {
-  padding-left: 5px;
+    padding-left: 5px;
 }
+
 div.menu div a {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
 div.menu .tooltip-inner {
-  min-width: 200px;
-  text-align: left;
+    min-width: 200px;
+    text-align: left;
 }

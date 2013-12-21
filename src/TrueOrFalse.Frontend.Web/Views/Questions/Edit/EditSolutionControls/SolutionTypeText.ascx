@@ -4,10 +4,28 @@
 
 <div class="form-group" id="infoMetaDate">
     <div class="col-sm-offset-2 col-sm-10" >
-        Erfasst <span id="spanEntryPrecision"></span></span>: 
-        <i class="fa fa-exclamation-circle" id="iDateError" style="color:red; font-size: 16px;"></i> 
-        <i class="fa fa-check-circle" id="iDateCorrect" style="color:green; font-size: 16px;"></i> 
-        Eingabe Genauigkeit: <span id="spanAnswerPrecision"></span>.
+
+        <span class="show-tooltip tooltip-text-left tooltip-date" data-placement="top" 
+            title="<div style='margin-bottom: 3px;'>Je genauer desto besser!</div>
+                <div style='font-size:larger; font-weight:bold;'>Gültige Eingaben sind u.a.: </div>
+                <b>Tagesgenau:</b> 24.3.1999 (24 März 1999)<br />
+                <b>Monatsgenau:</b> 3.1999 (März 1999) <br />
+                <b>Jahresgenau:</b> 1999 (1999) <br />
+                <b>Jahrzehntgenau:</b>  172x (1720-ziger) <br />
+                <b>Jahrhundertgenau:</b> 19 Jhd <br />
+                <b>Jahrtausendgenau:</b> 3 Jht<br />
+                <div style='margin-top:3px;'>
+                    <i>(für Daten vor Chr. Geburt, ein Minuszeichen voranstellen, z.B.: -2012)</i>
+                </div>
+                
+            " 
+            data-html="true">
+            Erfasst <span id="spanEntryPrecision"></span>
+            <i class="fa fa-exclamation-circle" id="iDateError" style="color:red; font-size: 16px;"></i> 
+            <i class="fa fa-check-circle" id="iDateCorrect" style="color:green; font-size: 16px;"></i> 
+        </span>
+        <br />
+        Eingabegenauigkeit: <b><span id="spanAnswerPrecision"></span></b>.
     </div>
 </div>
 

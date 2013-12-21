@@ -1,10 +1,33 @@
-/// <reference path="typescript.defs/qunit.d.ts" />
+﻿/// <reference path="typescript.defs/qunit.d.ts" />
 /// <reference path="SolutionMetaData.ts" />
 var DateR = (function () {
     function DateR(input) {
         this.IsInvalid = true;
         this.Input = input;
     }
+    DateR.prototype.ToLabel = function () {
+        var monthNames = [
+            "Januar", "Februar", "März",
+            "April", "Mai", "Juni", "Juli", "August", "September",
+            "Oktober", "November", "Dezember"];
+
+        switch (this.Precision) {
+            case 1 /* Day */:
+                var date = new Date(this.Year, this.Month - 1, this.Day);
+                return date.getMonth() + ". " + monthNames[date.getMonth()] + " " + date.getFullYear();
+            case 2 /* Month */:
+                return "Monat";
+            case 3 /* Year */:
+                return "Jahr";
+            case 4 /* Decade */:
+                return "Dekade";
+            case 5 /* Century */:
+                return "Century";
+            case 6 /* Millenium */:
+                return "Millenium";
+        }
+        return "";
+    };
     return DateR;
 })();
 
@@ -35,8 +58,13 @@ var DateParser = (function () {
         result.Day = parseInt(parts[0]);
         result.Month = parseInt(parts[1]);
         result.Year = parseInt(parts[2]);
+
+        var date = new Date(result.Year, result.Month - 1, result.Day);
+        console.log(date);
+        if (date.getFullYear() == result.Year && date.getMonth() + 1 == result.Month && date.getDate() == result.Day)
+            result.IsInvalid = false;
+
         result.Precision = 1 /* Day */;
-        result.IsInvalid = false;
 
         return this._lastResult = result;
     };

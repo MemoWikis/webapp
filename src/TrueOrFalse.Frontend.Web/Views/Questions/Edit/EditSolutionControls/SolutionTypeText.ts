@@ -160,15 +160,19 @@ class SliderDate
         var dateR = DateParser.Run($("#Answer").val());
         console.log(dateR);
         if (dateR.IsInvalid) {
+            $("#spanEntryPrecision").html("keine g&#252;ltige Eingabe");
             $("#iDateError").show();
             $("#iDateCorrect").hide();
         }
         else {
+            $("#spanEntryPrecision").html(
+                "<b>" + SolutionMetadataDate.GetPrecisionLabel(dateR.Precision) + "genau </b>" +
+                "(" + dateR.ToLabel() + ")"
+            );
             $("#iDateError").hide();
             $("#iDateCorrect").show();
         }
 
-        $("spanEntryPrecision").html(SolutionMetadataDate.GetPrecisionLabel(dateR.Precision));
 
         this.SaveJson(this.MetaData);
         $("#spanAnswerPrecision").text(text);
@@ -187,6 +191,8 @@ class NumberAccuracy
 }
 
 var solutionMetaData = new SolutionMetaDataMenu();
+
+$('.show-tooltip').tooltip();
 
 $('#help').click(function () {
     $("#modalHelpSolutionType").modal('show');
