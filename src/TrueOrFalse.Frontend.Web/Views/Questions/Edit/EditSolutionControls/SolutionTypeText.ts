@@ -25,7 +25,7 @@ class SolutionMetaDataMenu {
         if (jsonMetaData != null) {
             var solutionMetaData = <SolutionMetaData>jsonMetaData;
             if (solutionMetaData.IsDate)
-                this.SelectDate();
+                this.SelectDate();  
             else if (solutionMetaData.IsNumber)
                 this.SelectNumber();
             else if (solutionMetaData.IsText)

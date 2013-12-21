@@ -25,7 +25,7 @@
             <i class="fa fa-check-circle" id="iDateCorrect" style="color:green; font-size: 16px;"></i> 
         </span>
         <br />
-        Eingabegenauigkeit: <b><span id="spanAnswerPrecision"></span></b>.
+        Antwortgenauigkeit: <b><span id="spanAnswerPrecision"></span></b>.
     </div>
 </div>
 
