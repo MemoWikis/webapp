@@ -15,8 +15,6 @@
         
         <% using (Html.BeginForm()) { %>
         
-            
-        
             <div class="boxtainer-outlined-tabs">
                 <div class="boxtainer-header">
                     <ul class="nav nav-tabs">
@@ -69,7 +67,7 @@
                         </div>
                     </div>
 
-                    <div class="" style="clear: both;">
+                    <div style="clear: both;">
                         <% foreach (var row in Model.CategoryRows){
                             Html.RenderPartial("CategoryRow", row);
                         } %>

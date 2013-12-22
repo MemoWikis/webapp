@@ -631,7 +631,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
-    <Content Include="Views\Sets\Sets.css" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
     <Content Include="Views\Questions\Edit\EditQuestion.css">
       <DependentUpon>EditQuestion.less</DependentUpon>
@@ -663,6 +662,9 @@
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
+    <Content Include="Views\Sets\Sets.css">
+      <DependentUpon>Sets.less</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\AudioPlayer.ascx" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Shared\ImageUpload\ImageUpload.ts" />
@@ -700,6 +702,7 @@
     <Content Include="Style\temp.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
     <Content Include="Views\Questions\Questions.less" />
+    <Content Include="Views\Sets\Sets.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

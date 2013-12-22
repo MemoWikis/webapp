@@ -1,12 +1,12 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SetRowModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase set-row" data-questionSetId="<%= Model.Id %>">
+<div class="rowBase set-row" data-questionSetId="<%= Model.Id %>" style="position: relative">
     <div class="column-1" style="line-height: 15px; font-size: 90%;">
-        <img src="<%= Model.ImageUrl%>" width="85"/>
+        <img src="<%= Model.ImageUrl%>" width="105"/>
     </div>
     
-    <div class="column-2" style="height: 87px; position: relative;">
+    <div class="column-2" style="height: 87px;">
         <div style="font-size:large;">
             <% if(Model.QuestionCount != 0){ %>
                 (<%= Model.QuestionCount %>)
@@ -35,7 +35,7 @@
         </div>
     </div>
     
-    <div class="column-3" style="position: relative; ">
+    <div class="column-3">
         
         <div style="float: right; position:relative;  padding-bottom:2px; padding-top:0px;  <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-setId="<%= Model.Id %>"> 
@@ -56,7 +56,7 @@
             </div>
         <%} %>
         
-        <div style="position: absolute; bottom:10px; right: 0px;">
+        <div style="position: absolute; bottom:6px; right: 0px;">
             von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%= Model.CreatorName %>
                 </a>

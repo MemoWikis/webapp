@@ -479,7 +479,6 @@ div.box-main .box-content {
 
 .rowBase,
 .category-row {
-    /*border-top:1px solid lighten(@row-border-blue, 80%);*/
     border-top: 5px solid #f8f9fc;
 }
 

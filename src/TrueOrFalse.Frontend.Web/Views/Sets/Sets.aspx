@@ -11,14 +11,9 @@
     
     <div class="col-md-9">
         <% using (Html.BeginForm()) { %>
-    
-            <div style="float: right;">
-                <a href="<%= Url.Action("Create", "EditSet") %>" class="btn btn-default">
-                    <i class="fa fa-plus-circle"></i> Fragesatz erstellen
-                </a>
-            </div>
-            <div class="box-with-tabs">
-                <div class="green">
+        
+             <div class="boxtainer-outlined-tabs">         
+                <div class="boxtainer-header">
                     <ul class="nav nav-tabs">
                         <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
                             <a href="<%= Links.Sets(Url) %>" >Alle Fragesätze (<%= Model.TotalSets %>)</a>
@@ -33,25 +28,32 @@
                             </a>
                         </li>
                     </ul>
+                    <div style="float: right; position: absolute; right: 0; top: 5px;">
+                        <a href="<%= Url.Action("Create", "EditSet") %>" class="btn btn-default">
+                            <i class="fa fa-plus-circle"></i> Fragesatz erstellen
+                        </a>
+                    </div>
                 </div>
+                         
+                <div class="boxtainer-content">
+                    <div class="search-section">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">                                        
+                                    <label>Suche:</label>
+                                    <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch", formUrl=Model.SearchUrl}) %>
+                                    <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png"/></button>
+                                </div>
+                            </div>
+                        </div>
         
-                <div class="box box-green">
-                    
-                    <div class="pull-left form-group search-container">
-                        <label>Suche:</label>
-                        <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch", formUrl=Model.SearchUrl}) %>
-                        <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png"/></button>
+                        <div style="clear:both;">
+                            <% foreach(var row in Model.Rows){
+                                Html.RenderPartial("SetRow", row);
+                            } %>
+                        </div>
+                        <% Html.RenderPartial("Pager", Model.Pager); %>
                     </div>
-                    <div style="clear:both;"></div>
-                    
-        
-                    <div class="box-content">
-                        <% foreach(var row in Model.Rows){
-                            Html.RenderPartial("SetRow", row);
-                        } %>
-    
-                    </div>
-                    <% Html.RenderPartial("Pager", Model.Pager); %>
                 </div>
             </div>
     <% } %>
