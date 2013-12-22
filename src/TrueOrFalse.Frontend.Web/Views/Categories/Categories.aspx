@@ -65,13 +65,16 @@
                                 <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;"><%= Model.TotalCategoriesInResult %> Treffer</div>
                             </div>
                         </div>
+                        
+                        <div style="clear: both;">
+                            <% foreach (var row in Model.CategoryRows){
+                                Html.RenderPartial("CategoryRow", row);
+                            } %>
+                        </div>
+
                     </div>
 
-                    <div style="clear: both;">
-                        <% foreach (var row in Model.CategoryRows){
-                            Html.RenderPartial("CategoryRow", row);
-                        } %>
-                    </div>
+
                     <% Html.RenderPartial("Pager", Model.Pager); %>
                 </div>
             </div>

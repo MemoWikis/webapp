@@ -671,6 +671,9 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Users.css">
+      <DependentUpon>Users.less</DependentUpon>
+    </Content>
     <Content Include="Views\VariousPublic\QUnit.aspx" />
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
     <Content Include="Views\Shared\Site.Resources.Head.ascx" />
@@ -703,6 +706,7 @@
     <Content Include="Style\z_variables_2.3.2.less" />
     <Content Include="Views\Questions\Questions.less" />
     <Content Include="Views\Sets\Sets.less" />
+    <Content Include="Views\Users\Users.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -730,7 +734,6 @@
     </Content>
     <Content Include="Views\Users\Settings\UserSettings.aspx" />
     <Content Include="Views\Users\UserRow.ascx" />
-    <Content Include="Views\Users\Users.css" />
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />

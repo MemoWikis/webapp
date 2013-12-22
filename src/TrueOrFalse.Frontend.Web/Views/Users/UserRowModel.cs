@@ -45,7 +45,7 @@ public class UserRowModel
 
         UserLink = urlHelper => Links.UserDetail(urlHelper, user.Name, user.Id);
 
-        ImageUrl = new UserImageSettings(user.Id).GetUrl_85px_square(user.EmailAddress).Url;
+        ImageUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user.EmailAddress).Url;
     }
 
 }
