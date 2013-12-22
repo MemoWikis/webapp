@@ -17,18 +17,6 @@
             <div class="row">
                 <div class="col-md-3">
                     <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
-                    <div id="testmenu">
-                        <div class="list-group">
-                            <a class="list-group-item test-know">Wunschwissen</a>
-                            <a class="list-group-item test-quest">Fragen</a>
-                            <a class="list-group-item test-set">Fragesätze</a>
-                            <a class="list-group-item test-cat">Kategorien</a>
-                            <a class="list-group-item test-dues">Termine</a>
-                            <a class="list-group-item test-users">Benutzer</a>
-                            <a class="list-group-item test-news">Neues</a>
-
-                        </div>
-                    </div>
                 </div>
                 
                 <%-- MAIN CONTENT--%>

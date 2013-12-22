@@ -124,3 +124,23 @@
         </div>
     </div>
 <% } %>
+
+
+<div id="testmenu">
+    <div class="list-group">
+        <a class="list-group-item test-know">Wunschwissen</a>
+        <a class="list-group-item test-quest">Fragen</a>
+        <a class="list-group-item test-set">Fragesätze</a>
+        <a class="list-group-item test-dues">Termine</a>
+                            
+        <a class="list-group-item test-cat" style="margin-top: 10px;">Kategorien</a>
+        <a class="list-group-item test-users">Benutzer</a>
+        <a class="list-group-item test-news">
+            Neues
+            <span class="badge" style="display:inline-block; position: relative; top: 1px;">21</span>
+        </a>
+                            
+        <a class="list-group-item test-cat" style="margin-top: 10px;">Administrativ</a>
+
+    </div>
+</div>
