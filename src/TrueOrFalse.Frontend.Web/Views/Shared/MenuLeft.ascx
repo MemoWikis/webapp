@@ -25,22 +25,7 @@
     </div>
 <% } %>
 
-
-<% if(Model.Categories.Any()){ %>
-    <div class="box" style="padding-left: 0px; padding-right: 0;">
-        <div class="menu">
-            <div class="main no-link"><i class="fa fa-caret-right"></i> Kategorien</div>
-            
-            <% foreach(var catMenuItem in Model.Categories){ %>
-                <div class="sub">
-                    <a href="<%= Links.QuestionWithCategoryFilter(Url, catMenuItem) %>">(<span><%=catMenuItem.OnPageCount %>x) </span>  <i class="fa fa-caret-right"></i><span class="label label-category"> <%=catMenuItem.Category.Name %> </span></a>
-                </div>
-            <% } %>
-        </div>
-    </div>
-<% } %>
-
-<div id="menu">
+<div id="menu-new">
     <div class="list-group">
         <a class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>">
             <i class="fa fa-caret-right"></i> Wunschwissen (<span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span>)
@@ -128,3 +113,17 @@
 
     </div>
 </div>
+
+<% if(Model.Categories.Any()){ %>
+    <div class="box" style="padding-left: 0px; padding-right: 0;">
+        <div class="menu">
+            <div class="main no-link"><i class="fa fa-caret-right"></i> Kategorien</div>
+            
+            <% foreach(var catMenuItem in Model.Categories){ %>
+                <div class="sub">
+                    <a href="<%= Links.QuestionWithCategoryFilter(Url, catMenuItem) %>">(<span><%=catMenuItem.OnPageCount %>x) </span>  <i class="fa fa-caret-right"></i><span class="label label-category"> <%=catMenuItem.Category.Name %> </span></a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+<% } %>
