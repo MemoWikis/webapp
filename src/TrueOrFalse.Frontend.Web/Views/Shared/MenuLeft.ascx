@@ -34,25 +34,12 @@
             <i class="fa fa-caret-right"></i> Fragen
         </a>
 
-        
-        <% index = 0;
-           var visitedQuestions = new SessionUiData().VisitedQuestions;
-           foreach (var question in visitedQuestions) { 
+        <%  index = 0;
+            var visitedQ = new SessionUiData().VisitedQuestions;
+            foreach (var question in visitedQ) { 
                
-               index++ ;
-
-                var activeClass = ""; 
-                var firstClass = "";
-                var lastClass = "";
-                if (index == 1)
-                {
-                    activeClass = Model.Active(MenuEntry.QuestionDetail);
-                    firstClass = "first";
-                }
-
-                if (index == visitedQuestions.Count()){
-                    lastClass = "last";
-                }
+                index++ ;
+                string activeClass = (index == 1) ? Model.Active(MenuEntry.QuestionDetail) : "";
 
                 string url = "";
                 if(question.Set != null)
@@ -68,7 +55,7 @@
                         tooltip += " <br><br> Antwort: " + question.Solution.Replace("\"", "'");                           
                 }
             %>
-            <a href="<%= url %>" class="list-group-item quest show-tooltip sub <%=activeClass + " " + firstClass + " " + lastClass%>" title="<%= tooltip %>" data-placement="right" data-html="true">
+            <a href="<%= url %>" class="list-group-item quest show-tooltip sub <%=activeClass + " " + visitedQ.CssFirst(index) + visitedQ.CssLast(index)%>" title="<%= tooltip %>" data-placement="right" data-html="true">
                 <i class="fa fa-caret-right"></i> <%=question.Text.Truncate(100)%>
             </a>
                    
@@ -77,11 +64,14 @@
         <a class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets")%>">
             <i class="fa fa-caret-right"></i> Fragesätze
         </a>    
-        <% index = 0; foreach (var set in new SessionUiData().VisitedQuestionSets){ index++; %>
-            <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
-            <a href="<%= Links.SetDetail(Url, set.Name, set.Id) %>" class="show-tooltip list-group-item set  <%= activeClass %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
-                <i class="fa fa-caret-right"></i> <%=set.Name%>
-            </a>
+        <%
+            var visitedS = new SessionUiData().VisitedQuestionSets;
+            index = 0; 
+            foreach (var set in visitedS){ index++; %>
+                <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
+                <a href="<%= Links.SetDetail(Url, set.Name, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
+                    <i class="fa fa-caret-right"></i> <%=set.Name%>
+                </a>
         <% } %>
         
         <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates(Url) %>">
@@ -92,9 +82,11 @@
             <i class="fa fa-caret-right"></i> Kategorien
         </a>
        
-        <% index = 0; foreach (var set in new SessionUiData().VisitedCategories){ index++; %>
+        <% var visitedC = new SessionUiData().VisitedCategories;
+           index = 0; 
+           foreach (var set in visitedC){ index++; %>
             <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.CategoryDetail); } %>
-            <a href="<%= Links.CategoryDetail( Url, set.Name, set.Id) %>" class="show-tooltip <%= activeClass %> list-group-item" title="Fragesatz: <%=set.Name%>" data-placement="right">
+            <a href="<%= Links.CategoryDetail( Url, set.Name, set.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Fragesatz: <%=set.Name%>" data-placement="right">
                 <i class="fa fa-caret-right"></i> <%=set.Name%>
             </a>
         <% } %>
@@ -102,9 +94,12 @@
         <a class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>">
             <i class="fa fa-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="position: relative; top: -1px; left: 4px;" >
         </a>
-        <% index = 0; foreach (var user in new SessionUiData().VisitedUserDetails){ index++;  %>
+        <%
+            var visitedU = new SessionUiData().VisitedUserDetails;
+            index = 0; 
+            foreach (var user in visitedU){ index++;  %>
             <% var activeClass = ""; if (index == 1) { activeClass = Model.Active(MenuEntry.UserDetail); } %>
-            <a href="<%= Links.UserDetail(Url, user.Name, user.Id) %>" class="list-group-item users <%= activeClass %>">
+            <a href="<%= Links.UserDetail(Url, user.Name, user.Id) %>" class="list-group-item users sub <%= activeClass + visitedU.CssFirst(index) + visitedU.CssLast(index) %>">
                 <i class="fa fa-caret-right"></i> <%=user.Name%>
             </a>
         <% } %>
