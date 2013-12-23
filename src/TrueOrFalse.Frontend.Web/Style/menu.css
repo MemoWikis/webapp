@@ -177,6 +177,30 @@
     color: #0e22b6;
 }
 
+#menu-new a.list-group-item.sub {
+    height: 18px;
+    overflow: hidden;
+    padding-top: 1px;
+    padding-left: 26px;
+    font-size: 12px;
+    margin-top: 0px;
+}
+
+#menu-new a.list-group-item.sub.first {
+    margin-top: -8px;
+}
+
+#menu-new a.list-group-item.sub.last {
+    height: 21px;
+}
+
+#menu-new a.list-group-item.sub i.fa-caret-right {
+    font-size: 17px;
+    position: absolute;
+    left: 14px;
+    top: 2px;
+}
+
 div.box-menu {
     background-color: transparent;
     border: 1px solid silver;

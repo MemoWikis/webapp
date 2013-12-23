@@ -34,13 +34,26 @@
             <i class="fa fa-caret-right"></i> Fragen
         </a>
 
-        <% index = 0; foreach (var question in new SessionUiData().VisitedQuestions) { index++ ;%>
-                   
-            <% 
-                var activeClass = "";  
+        
+        <% index = 0;
+           var visitedQuestions = new SessionUiData().VisitedQuestions;
+           foreach (var question in visitedQuestions) { 
+               
+               index++ ;
+
+                var activeClass = ""; 
+                var firstClass = "";
+                var lastClass = "";
                 if (index == 1)
+                {
                     activeClass = Model.Active(MenuEntry.QuestionDetail);
-                           
+                    firstClass = "first";
+                }
+
+                if (index == visitedQuestions.Count()){
+                    lastClass = "last";
+                }
+
                 string url = "";
                 if(question.Set != null)
                     url = Links.AnswerQuestion(Url, question.Question, question.Set);
@@ -55,7 +68,7 @@
                         tooltip += " <br><br> Antwort: " + question.Solution.Replace("\"", "'");                           
                 }
             %>
-            <a href="<%= url %>" class="list-group-item quest show-tooltip <%=activeClass %>" title="<%= tooltip %>" data-placement="right" data-html="true">
+            <a href="<%= url %>" class="list-group-item quest show-tooltip sub <%=activeClass + " " + firstClass + " " + lastClass%>" title="<%= tooltip %>" data-placement="right" data-html="true">
                 <i class="fa fa-caret-right"></i> <%=question.Text.Truncate(100)%>
             </a>
                    
