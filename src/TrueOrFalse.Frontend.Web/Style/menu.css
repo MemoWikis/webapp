@@ -9,6 +9,11 @@
     zoom: 1;
 }
 
+#menu-new .tooltip > .tooltip-inner {
+    min-width: 200px;
+    text-align: left;
+}
+
 #menu-new a.list-group-item {
     margin-top: 2px;
     background-color: #f6f8fc;
