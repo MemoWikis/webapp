@@ -9,72 +9,165 @@
     zoom: 1;
 }
 
-div.box-menu {
-    background-color: transparent;
-    border: 1px solid silver;
-}
-
-div.menu {
+#menu a.list-group-item {
+    margin-top: 2px;
+    background-color: #f6f8fc;
+    border: solid 4px #0e22b6;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
     font-size: 15px;
 }
 
-div.menu a {
-    text-decoration: none;
-    display: block;
-    padding-left: 5px;
-    padding-right: 10px;
-}
-
-div.menu a:hover,
-div.menu a.active:hover {
-    background-color: #2e487b;
+#menu a.list-group-item:hover {
     color: white;
 }
 
-div.menu div.main {
-    font-weight: 700;
+#menu a.list-group-item.active,
+#menu a.list-group-item.active:focus {
+    color: #555555;
+    background-color: #ebeff7;
 }
 
-div.menu div.main a:hover,
-div.menu div.main a.active:hover {
-    background-color: #2e487b;
-    color: white;
-}
-
-div.menu div.no-hover:hover {
-    background-color: transparent;
-}
-
-div.menu a.active,
-div.menu div.main a.active {
-    color: #b13a48;
-}
-
-div.menu i.fa-caret-right {
-    visibility: hidden;
-}
-
-div.menu a.active i.fa-caret-right {
+#menu a.list-group-item.active i.fa-caret-right {
     visibility: visible;
 }
 
-div.menu div.sub a {
-    padding-left: 15px;
-    font-size: 13px;
+#menu a.list-group-item i.fa-caret-right {
+    visibility: hidden;
+    font-size: 17px;
+    position: absolute;
+    left: 2px;
+    top: 13px;
 }
 
-div.menu div.no-link {
-    padding-left: 5px;
+#menu a.list-group-item:first-child {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
 }
 
-div.menu div a {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
-    white-space: nowrap;
+#menu a.list-group-item:last-child {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
-div.menu .tooltip-inner {
-    min-width: 200px;
-    text-align: left;
+#menu a.list-group-item.set {
+    border-left-color: #ffd700;
+    border-right-color: #ffd700;
+}
+
+#menu a.list-group-item.set i.fa-caret-right {
+    color: #ffd700;
+}
+
+#menu a.list-group-item.set:hover {
+    background-color: #ffeb80;
+    color: black;
+}
+
+#menu a.list-group-item.set:hover i.fa-caret-right {
+    color: white;
+}
+
+#menu a.list-group-item.quest {
+    border-left-color: #afd534;
+    border-right-color: #afd534;
+}
+
+#menu a.list-group-item.quest i.fa-caret-right {
+    color: #afd534;
+}
+
+#menu a.list-group-item.quest:hover {
+    background-color: #d0e689;
+    color: black;
+}
+
+#menu a.list-group-item.quest:hover i.fa-caret-right {
+    color: white;
+}
+
+#menu a.list-group-item.cat {
+    border-left-color: #99ccff;
+    border-right-color: #e7ecf6;
+}
+
+#menu a.list-group-item.cat i.fa-caret-right {
+    color: #99ccff;
+}
+
+#menu a.list-group-item.cat:hover {
+    background-color: #cce5ff;
+    color: black;
+}
+
+#menu a.list-group-item.know {
+    border-left-color: #b13a48;
+    border-right-color: #b13a48;
+}
+
+#menu a.list-group-item.know i.fa-caret-right {
+    color: #b13a48;
+}
+
+#menu a.list-group-item.know:hover {
+    background-color: #ce6975;
+    color: white;
+}
+
+#menu a.list-group-item.know:hover i.fa-caret-right {
+    color: white;
+}
+
+#menu a.list-group-item.news {
+    border-left-color: #ffa500;
+    border-right-color: #ffa500;
+}
+
+#menu a.list-group-item.news i.fa-caret-right {
+    color: #ffa500;
+}
+
+#menu a.list-group-item.news:hover {
+    background-color: #ffdb99;
+    color: black;
+}
+
+#menu a.list-group-item.dues {
+    border-left-color: #138992;
+    border-right-color: #b13a48;
+}
+
+#menu a.list-group-item.dues i.fa-caret-right {
+    color: #138992;
+}
+
+#menu a.list-group-item.dues:hover {
+    color: white;
+    background-color: #19b3bf;
+}
+
+#menu a.list-group-item.dues:hover i.fa-caret-right {
+    color: white;
+}
+
+#menu a.list-group-item.users {
+    border-left-color: #0e22b6;
+}
+
+#menu a.list-group-item.users:hover {
+    background-color: #0e22b6;
+}
+
+#menu a.list-group-item.users i.fa-caret-right {
+    color: #0e22b6;
+}
+
+#menu a.list-group-item.users:hover {
+    background-color: #6a7af3;
+    color: white;
+}
+
+#menu a.list-group-item.users:hover i.fa-caret-right {
+    color: #0e22b6;
 }

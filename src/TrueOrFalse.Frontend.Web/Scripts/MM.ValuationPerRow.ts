@@ -16,15 +16,17 @@ class ValuationPerRow
         this._mode = mode;
 
         var self = this;
-        $(".removeRelevance").click(function() {
+        $(".removeRelevance").click(function (e) {
+            e.preventDefault();
             var sliderContainer = $(this).parentsUntil(parentDiv);
             sliderContainer.hide();
             sliderContainer.parent().find(".addRelevance").show();
-            self.SendSilderValue(sliderContainer.find(".slider"), -1);
+            self.SendSilderValue(sliderContainer.find(".slider"), -1, self);
 
         });
 
-        $(".addRelevance").click(function () {
+        $(".addRelevance").click(function (e) {
+            e.preventDefault();
             $(this).hide();
             $(this).parent().find(".sliderContainer").show();
             $(this).parent().parent().find(".sliderAnotation").show();
@@ -48,8 +50,8 @@ class ValuationPerRow
             range: "min",
             max: 100,
             value: sliderValue,
-            slide: function(event, ui){ self.SetUiSliderSpan($(this), ui.value); },
-            change: function(event, ui){ self.SendSilderValue($(this), ui.value); }
+            slide: function (event, ui) { self.SetUiSliderSpan($(this), ui.value); },
+            change: function (event, ui) { self.SendSilderValue($(this), ui.value, self); }
         });
     }
 
@@ -58,12 +60,12 @@ class ValuationPerRow
         divSlider.parent().find(".sliderValue").text(text);
     }
 
-    SendSilderValue(divSlider, sliderValueParam) {
+    SendSilderValue(divSlider, sliderValueParam, self: ValuationPerRow) {
         var _this = this;
         $.ajax({
             type: 'POST',
             url:
-                this._mode ==  ValuationPerRowMode.Question ? 
+                self._mode ==  ValuationPerRowMode.Question ? 
                     "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" +sliderValueParam:
                     "/Sets/SaveRelevancePersonal/" + divSlider.attr("data-setId") + "/" + sliderValueParam,
             cache: false,
@@ -72,7 +74,7 @@ class ValuationPerRow
                 divSlider.parent().parent().find(".totalRelevanceAvg").text(result.totalAverage.toString());
 
                 if (result.totalWishKnowledgeCountChange) {
-                    if (this._mode == ValuationPerRowMode.Question) {
+                    if (self._mode == ValuationPerRowMode.Question) {
                         _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
                     }
                     _this.SetElementValue("#tabWishKnowledgeCount", result.totalWishKnowledgeCount);

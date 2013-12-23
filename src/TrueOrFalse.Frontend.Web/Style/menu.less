@@ -3,76 +3,127 @@
 
 @media temp-disabled {}
 
-div.box-menu {
-    background-color:transparent;
-    border: 1px solid silver;
-}
-
-div.menu {
+#menu a.list-group-item {
+    margin-top: 2px;
+    background-color: lighten(@light-blue, 4%);
+    border: solid 4px @link-blue;
+    border-top: none;
+    border-bottom: none;
+    border-right: none;
     font-size: 15px;
 
-    a {
-        text-decoration: none; 
-        display: block;
-        padding-left: 5px;
-        padding-right: 10px;
+    &:hover {color: white;}
+
+    &.active, &.active:focus{
+        color: #555555;
+        background-color: lighten(@light-blue, 1%);
     }
 
-    a:hover,
-    a.active:hover {
-        background-color: @dark-blue;
-        color: white;
+
+    &.active i.fa-caret-right { visibility: visible; }
+    i.fa-caret-right { 
+        visibility: hidden; 
+        font-size: 17px;
+        position: absolute; left: 2px; top: 13px;
     }
 
-    div.main {
-        font-weight:700;
+    &:first-child {
+          border-top-right-radius: 0;
+          border-top-left-radius: 0;
+    }
 
-        a:hover,
-        a.active:hover {
-            background-color: @dark-blue;
-            color: white;
+    &:last-child {
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+    }
+
+    &.set{
+        border-left-color: @set-color;
+        border-right-color: @set-color;
+        i.fa-caret-right { color: @set-color; }
+
+        &:hover {
+            background-color: lighten(@set-color, 25);
+            color: black;
+            i.fa-caret-right { color: white;}
         }
     }
 
-    div.no-hover:hover{ background-color: transparent; }
+     &.quest{
+        border-left-color: @memo-green;
+        border-right-color: @memo-green;
+        i.fa-caret-right { color: @memo-green; }
 
-    a.active,
-    div.main a.active {
-        color: @dark-red;
+        &:hover {
+            background-color: lighten(@memo-green, 20);
+            color: black;
+            i.fa-caret-right { color: white;}
+        }
     }
 
-    i.fa-caret-right {
-        visibility: hidden;
+    &.cat{
+        border-left-color: @middle-blue;
+        border-right-color: @light-blue;
+        i.fa-caret-right { color: @middle-blue; }
+
+        &:hover {
+            background-color: lighten(@middle-blue, 10);
+            color: black;
+        }
     }
 
-    a.active i.fa-caret-right {
-        visibility: visible;
+    &.know{
+
+        i.fa-caret-right { color: @dark-red; }
+        border-left-color: @dark-red;
+        border-right-color: @dark-red;
+
+        &:hover {
+            background-color: lighten(@dark-red,15); color: white;
+            i.fa-caret-right { color: white;}
+        }
+        
     }
 
-    div.sub a {
-        padding-left: 15px;
-        font-size: 13px;
+    &.news{
+        border-left-color: @middle-orange;
+        border-right-color: @middle-orange;
+        i.fa-caret-right { color: @middle-orange; }
+
+        &:hover {
+            background-color: lighten(@middle-orange,30);
+            color: black;
+        }
+
     }
 
-    div.no-link {
-        padding-left: 5px;
+
+    &.dues{
+        border-left-color: @middle-turquoise;
+        border-right-color: @dark-red;
+        i.fa-caret-right { color: @middle-turquoise; }
+
+        &:hover {
+            color: white;
+            background-color: lighten(@middle-turquoise, 10);
+            i.fa-caret-right { color: white;}
+        }
+
     }
 
-    div a {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -o-text-overflow: ellipsis;
-        white-space: nowrap;
- 
+     &.users{
+        &:hover {background-color: @link-blue;}
+
+        border-left-color: @link-blue;
+        i.fa-caret-right { color: @link-blue; }
+        
+        &:hover {
+            background-color: lighten(@link-blue, 30);
+            color: white;
+            i.fa-caret-right { color: @link-blue; }
+        }
+
     }
 
-    .tooltip-inner {
-        min-width: 200px;
-        text-align: left;
-    }
-
+    //display: none;
 }
-
-
-
-
