@@ -8,7 +8,9 @@ using TrueOrFalse.Frontend.Web.Models;
 public class UserModel : BaseModel
 {
     public string Name { get; private set; }
+    
     public int AmountCreatedQuestions;
+    public int AmountCreatedSets;
 
     public string ImageUrl_200;
     public bool ImageIsCustom;
@@ -20,5 +22,6 @@ public class UserModel : BaseModel
         Name = user.Name;
 
         AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id);
+        AmountCreatedSets = Resolve<UserSummary>().AmountCreatedSets(user.Id);
     }
 }

@@ -18,5 +18,14 @@ namespace TrueOrFalse
                 .Where(q => q.Creator.Id == creatorId)
                 .FutureValue<int>().Value;
         }
+
+        public int AmountCreatedSets(int creatorId)
+        {
+            return Sl.Resolve<ISession>()
+                .QueryOver<Set>()
+                .Select(Projections.RowCount())
+                .Where(q => q.Creator.Id == creatorId)
+                .FutureValue<int>().Value;            
+        }
     }
 }
