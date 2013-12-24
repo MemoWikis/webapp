@@ -7,15 +7,18 @@ using TrueOrFalse.Frontend.Web.Models;
 
 public class UserModel : BaseModel
 {
-    public UserModel(User user)
-    {
-        Name = user.Name;
-    }
-
     public string Name { get; private set; }
+    public int AmountCreatedQuestions;
 
     public string ImageUrl_200;
     public bool ImageIsCustom;
 
     public bool IsCurrentUser;
+
+    public UserModel(User user)
+    {
+        Name = user.Name;
+
+        AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id);
+    }
 }

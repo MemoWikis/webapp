@@ -19,7 +19,7 @@
             <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
                 <div class="column" >
                     <h4>Erstellte Inhalte</h4>
-                    <div>220 Fragen erstellt</div>
+                    <div><%= Model.AmountCreatedQuestions %> Fragen erstellt</div>
                     <div>17 Fragesätze erstellt</div>
                     <div>0 Kategorien erstellt</div>
                 </div>

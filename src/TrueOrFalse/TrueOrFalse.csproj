@@ -263,6 +263,7 @@
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryToken.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenMap.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenRepository.cs" />
+    <Compile Include="Domain\User\Ops\UserSummary.cs" />
     <Compile Include="Infrastructure\Persistence\Session\MySQL5FlexibleDialect.cs" />
     <Compile Include="Infrastructure\Regexes.cs" />
     <Compile Include="Search\Category\IndexOperations\ReIndexAllCategories.cs" />
