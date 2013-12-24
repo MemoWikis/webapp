@@ -27,5 +27,14 @@ namespace TrueOrFalse
                 .Where(q => q.Creator.Id == creatorId)
                 .FutureValue<int>().Value;            
         }
+
+        public int AmountCreatedCategories(int creatorId)
+        {
+            return Sl.Resolve<ISession>()
+                .QueryOver<Category>()
+                .Select(Projections.RowCount())
+                .Where(q => q.Creator.Id == creatorId)
+                .FutureValue<int>().Value;
+        }
     }
 }

@@ -21,7 +21,7 @@
                     <h4>Erstellte Inhalte</h4>
                     <div><%= Model.AmountCreatedQuestions %> Fragen erstellt</div>
                     <div><%= Model.AmountCreatedSets %> Fragesätze erstellt</div>
-                    <div>0 Kategorien erstellt</div>
+                    <div><%= Model.AmountCreatedCategories %>  Kategorien erstellt</div>
                 </div>
                 <div class="column">
                     <h4>Wunschwissen</h4>

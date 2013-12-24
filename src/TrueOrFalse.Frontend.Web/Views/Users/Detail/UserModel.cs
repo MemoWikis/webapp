@@ -11,6 +11,7 @@ public class UserModel : BaseModel
     
     public int AmountCreatedQuestions;
     public int AmountCreatedSets;
+    public int AmountCreatedCategories;
 
     public string ImageUrl_200;
     public bool ImageIsCustom;
@@ -23,5 +24,6 @@ public class UserModel : BaseModel
 
         AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id);
         AmountCreatedSets = Resolve<UserSummary>().AmountCreatedSets(user.Id);
+        AmountCreatedCategories = Resolve<UserSummary>().AmountCreatedCategories(user.Id);
     }
 }
