@@ -13,6 +13,8 @@ public class UserModel : BaseModel
     public int AmountCreatedSets;
     public int AmountCreatedCategories;
 
+    public int AmountWishCountQuestions;
+
     public string ImageUrl_200;
     public bool ImageIsCustom;
 
@@ -25,5 +27,7 @@ public class UserModel : BaseModel
         AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id);
         AmountCreatedSets = Resolve<UserSummary>().AmountCreatedSets(user.Id);
         AmountCreatedCategories = Resolve<UserSummary>().AmountCreatedCategories(user.Id);
+
+        AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(user.Id);
     }
 }

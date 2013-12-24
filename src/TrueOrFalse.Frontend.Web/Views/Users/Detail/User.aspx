@@ -25,7 +25,7 @@
                 </div>
                 <div class="column">
                     <h4>Wunschwissen</h4>
-                    <div>90 Fragen </div>
+                    <div><%= Model.AmountWishCountQuestions %> Fragen </div>
                     <div>21 Fragen erstellt</div>
                     <div>30 Kategorien erstellt</div>
                 </div>                 
