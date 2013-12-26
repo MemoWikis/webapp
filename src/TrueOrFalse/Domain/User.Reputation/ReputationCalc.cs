@@ -37,7 +37,7 @@ GROUP BY
 	qv.QuestionId, 
 	qv.RelevancePersonal", user.Id);
 
-            var wishCount = _session.CreateSQLQuery(query)
+            var wishCountQuestions = _session.CreateSQLQuery(query)
                 .List<object>()
                 .Select(item => new Tuple<int, int>(
                     Convert.ToInt32(((object[])item)[0]),
@@ -45,8 +45,33 @@ GROUP BY
                 )
                 .ToList();
 
-            result.ForQuestionsWishCount = wishCount.Sum(x => x.Item1) * 10;
-            result.ForQuestionsWishKnow = wishCount.Sum(x => x.Item2);
+            result.ForQuestionsWishCount = wishCountQuestions.Sum(q => q.Item1) * 10;
+            result.ForQuestionsWishKnow = wishCountQuestions.Sum(q => q.Item2);
+
+
+            query =
+                String.Format(
+@"SELECT count(sv.SetId), sum(sv.RelevancePersonal)
+FROM setvaluation sv
+LEFT JOIN questionset s
+ON sv.SetId = s.Id
+WHERE s.Creator_id = {0}
+AND sv.UserId <> {0}
+AND sv.RelevancePersonal <> -1
+GROUP BY 
+	sv.SetId, 
+	sv.RelevancePersonal", user.Id);
+
+            var wishCountSets = _session.CreateSQLQuery(query)
+                .List<object>()
+                .Select(item => new Tuple<int, int>(
+                    Convert.ToInt32(((object[])item)[0]),
+                    Convert.ToInt32(((object[])item)[1]))
+                )
+                .ToList();
+
+            result.ForSetWishCount = wishCountSets.Sum(s => s.Item1) * 10;
+            result.ForSetWishKnow = wishCountSets.Sum(s => s.Item2);
             
             return result;
         }
