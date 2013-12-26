@@ -10,7 +10,7 @@ namespace TrueOrFalse
     {
         public int ForQuestionsCreated;
         public int ForQuestionsWishCount;
-        public int ForQuestionsWishMemory;
+        public int ForQuestionsWishKnow;
 
         public int TotalRepuation
         {
@@ -19,7 +19,7 @@ namespace TrueOrFalse
                 return
                     ForQuestionsCreated +
                     ForQuestionsWishCount +
-                    ForQuestionsWishMemory;
+                    ForQuestionsWishKnow;
             }
         }
     }

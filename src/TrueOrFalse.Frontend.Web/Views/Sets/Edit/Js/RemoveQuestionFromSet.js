@@ -21,4 +21,3 @@ var RemoveQuestionFromSet = (function () {
 $(function () {
     new RemoveQuestionFromSet();
 });
-//# sourceMappingURL=RemoveQuestionFromSet.js.map

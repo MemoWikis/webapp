@@ -45,11 +45,9 @@ GROUP BY
                 )
                 .ToList();
 
-            result.ForQuestionsWishCount = wishCount.Sum(x => x.Item1);
-            result.ForQuestionsWishMemory = wishCount.Sum(x => x.Item2);
+            result.ForQuestionsWishCount = wishCount.Sum(x => x.Item1) * 10;
+            result.ForQuestionsWishKnow = wishCount.Sum(x => x.Item2);
             
-            //added setcount
-
             return result;
         }
     }

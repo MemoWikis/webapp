@@ -194,4 +194,3 @@ var SaveUploadedImage = (function () {
     };
     return SaveUploadedImage;
 })();
-//# sourceMappingURL=ImageUpload.js.map

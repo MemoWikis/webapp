@@ -35,8 +35,8 @@
             </div>
             <div class="column">
                 <h4>Reputation</h4>
-                <div><%=Model.Reputation.ForQuestionsCreated %> für erstelle Fragen</div>
-                <div>2321 für Fragesätze</div>
+                <div>- <%=Model.Reputation.ForQuestionsCreated %> für erstelle Fragen</div>
+                <div>- <%=Model.Reputation.ForQuestionsWishKnow + Model.Reputation.ForQuestionsWishCount %> für eigenen Fragen im Wunschwissen anderer </div>
             </div>
 
             <div style="clear: both"></div>

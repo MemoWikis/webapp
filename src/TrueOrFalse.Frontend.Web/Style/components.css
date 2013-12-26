@@ -1,5 +1,9 @@
-﻿/* LESS INCLUDES
+/* LESS INCLUDES
 ----------------------------------------------------------*/
+#set-scheme {
+  background-color: #ffd700;
+  color: black;
+}
 #clearfix {
   display: inline-block;
   width: 100%;
