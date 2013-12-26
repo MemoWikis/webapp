@@ -14,10 +14,19 @@
         
         <h2 class="pull-left" style="margin-bottom: 5px; margin-top: 0px;  font-size: 30px;">
             <%= Model.Name %>
-            <span style="display: inline-block; font-size: 20px; font-weight: normal;">(Reputation: 7821 (Platz 7))</span>
+            <span style="display: inline-block; font-size: 20px; font-weight: normal;">
+                (Reputation: <%=Model.ReputationTotal %> (Platz 7))
+            </span>
         </h2>
 
         <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
+            
+            <div class="column">
+                <h4>Wunschwissen</h4>
+                <div><%= Model.AmountWishCountQuestions %> Fragen gemerkt</div>
+                <div><%= Model.AmountWishCountSets %> Fragesätze gemerkt</div>
+                <div></div>
+            </div>
             <div class="column" >
                 <h4>Erstellte Inhalte</h4>
                 <div><%= Model.AmountCreatedQuestions %> Fragen erstellt</div>
@@ -25,18 +34,11 @@
                 <div><%= Model.AmountCreatedCategories %>  Kategorien erstellt</div>
             </div>
             <div class="column">
-                <h4>Wunschwissen</h4>
-                <div><%= Model.AmountWishCountQuestions %> Fragen erstellt</div>
-                <div><%= Model.AmountWishCountSets %> Fragesätze erstellt</div>
-                <div></div>
-            </div>                 
-            <div class="column">
                 <h4>Reputation</h4>
-                <div>2321 x gemerkt</div>
-                <div>70 x dupliziert</div>
-                <div>500 x gefollowed</div>
+                <div><%=Model.Reputation.ForQuestionsCreated %> für erstelle Fragen</div>
+                <div>2321 für Fragesätze</div>
             </div>
-                    
+
             <div style="clear: both"></div>
             <h3 style="margin-top: 30px;">Wunschwissen/Fragen</h3>
                     
