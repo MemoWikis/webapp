@@ -26,13 +26,8 @@ public class UserController : Controller
         var user = _userRepository.GetById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
-        var imageResult = new UserImageSettings(user.Id).GetUrl_200px(user.EmailAddress);
-        return View(_viewLocation, new UserModel(user)
-                                       {
-                                           IsCurrentUser = _sessionUser.User == user,
-                                           ImageUrl_200 = imageResult.Url,
-                                           ImageIsCustom = imageResult.HasUploadedImage
-                                       });
+        return View(_viewLocation, new UserModel(user){
+            IsCurrentUser = _sessionUser.User == user });
     }
 
     [HttpPost]

@@ -14,8 +14,9 @@ public class UserModel : BaseModel
     public int AmountCreatedCategories;
 
     public int AmountWishCountQuestions;
+    public int AmountWishCountSets;
 
-    public string ImageUrl_200;
+    public string ImageUrl_250;
     public bool ImageIsCustom;
 
     public bool IsCurrentUser;
@@ -29,5 +30,11 @@ public class UserModel : BaseModel
         AmountCreatedCategories = Resolve<UserSummary>().AmountCreatedCategories(user.Id);
 
         AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(user.Id);
+        AmountWishCountSets = Resolve<GetWishSetCount>().Run(user.Id);
+
+        var imageResult = new UserImageSettings(user.Id).GetUrl_250px(user.EmailAddress);
+        ImageUrl_250 = imageResult.Url;
+        ImageIsCustom = imageResult.HasUploadedImage;
+
     }
 }
