@@ -26,7 +26,7 @@
         </div>   
         <div>
             <% foreach (var category in Model.Categories){ %>
-                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>
             <% } %>
         </div>
         <% if(Model.SetCount > 0){ %>

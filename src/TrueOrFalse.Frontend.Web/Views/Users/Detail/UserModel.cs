@@ -24,6 +24,11 @@ public class UserModel : BaseModel
     public int ReputationTotal;
     public ReputationCalcResult Reputation;
 
+    public IList<Question> WishQuestions;
+    public IList<Category> WishQuestionsCategories;
+
+    public IList<Set> WishSets;
+
     public UserModel(User user)
     {
         Name = user.Name;
@@ -42,5 +47,20 @@ public class UserModel : BaseModel
         var reputation = Resolve<ReputationCalc>().Run(user);
         ReputationTotal = reputation.TotalRepuation;
         Reputation = reputation;
+
+        WishQuestions =
+            Resolve<QuestionRepository>().GetByIds(
+                Resolve<QuestionValuationRepository>()
+                    .GetByUser(user.Id)
+                    .QuestionIds().ToList()
+            );
+
+        WishQuestionsCategories = WishQuestions.GetAllCategories();
+
+        WishSets = Resolve<SetRepository>().GetByIds(
+            Resolve<SetValuationRepository>()
+                .GetByUser(user.Id)
+                .SetIds().ToArray()
+            );
     }
 }

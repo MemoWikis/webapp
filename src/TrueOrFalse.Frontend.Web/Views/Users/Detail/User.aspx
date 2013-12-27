@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="System.Web.Mvc.ViewPage<UserModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
     <style>
@@ -36,15 +37,27 @@
             <div class="column">
                 <h4>Reputation</h4>
                 <div>- <%= Model.Reputation.ForQuestionsCreated %> für erstelle Fragen</div>
-                <div>- <%= Model.Reputation.ForQuestionsWishKnow + Model.Reputation.ForQuestionsWishCount %> für eigenen Fragen im Wunschwissen anderer </div>
+                <div>- <%= Model.Reputation.ForQuestionsWishKnow + Model.Reputation.ForQuestionsWishCount %> für eigene Fragen im Wunschwissen anderer </div>
                 <div>- <%= Model.Reputation.ForSetWishCount + Model.Reputation.ForSetWishKnow %> für eigene Fragesätze im Wunschwissen anderer</div>
             </div>
 
             <div style="clear: both"></div>
-            <h3 style="margin-top: 30px;">Wunschwissen/Fragen</h3>
-                    
-            <div style="clear: both"></div>
-                     
+            <h3 style="margin-top: 20px; margin-bottom: 4px;">Wunschwissen/Fragen</h3>
+            <div style="margin-bottom: -2px; display: inline-block">Kategorien:</div>
+            <% foreach (var category in Model.WishQuestionsCategories){ %>
+                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="margin-top: 7px;"><%= category.Name %></span></a>        
+            <% } %>
+
+            <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #ffd700;">Fragesätze (<%= Model.WishSets.Count %>):</div>
+            <% foreach(var set in Model.WishSets){ %>
+                <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Text %></a></div>
+            <% } %>
+            
+            <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #afd534;">Fragen (<%= Model.WishQuestions.Count %>):</div>
+            <% foreach(var question in Model.WishQuestions){ %>
+                <div><a href="<%: Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a></div>
+            <% } %>
+
         </div>     
     </div>
 

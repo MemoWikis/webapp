@@ -10,7 +10,6 @@
     
     <div class="col-md-9">
         <% using (Html.BeginForm()) { %>
-    
 
             <div class="boxtainer-outlined-tabs">
                 <div class="boxtainer-header">

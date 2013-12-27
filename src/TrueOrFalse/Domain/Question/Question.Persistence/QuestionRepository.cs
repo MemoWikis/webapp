@@ -60,10 +60,13 @@ namespace TrueOrFalse
         public override IList<Question> GetByIds(params int[] questionIds)
         {
             var tmpResult = base.GetByIds(questionIds);
-            
+
             var result = new List<Question>();
             for (int i = 0; i < questionIds.Length; i++)
-                result.Add(tmpResult.First(q => q.Id == questionIds[i]));
+            {
+                if (tmpResult.Any(q => q.Id == questionIds[i]))
+                    result.Add(tmpResult.First(q => q.Id == questionIds[i]));
+            }
 
             return result;
         }
