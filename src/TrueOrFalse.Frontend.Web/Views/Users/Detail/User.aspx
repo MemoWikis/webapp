@@ -16,7 +16,7 @@
         <h2 class="pull-left" style="margin-bottom: 5px; margin-top: 0px;  font-size: 30px;">
             <%= Model.Name %>
             <span style="display: inline-block; font-size: 20px; font-weight: normal;">
-                &nbsp;(Reputation: <%=Model.ReputationTotal %> - Platz 7)
+                &nbsp;(Reputation: <%=Model.ReputationTotal %> - Rang <%= Model.ReputationRank %>)
             </span>
         </h2>
 

@@ -21,6 +21,7 @@ public class UserModel : BaseModel
 
     public bool IsCurrentUser;
 
+    public int ReputationRank;
     public int ReputationTotal;
     public ReputationCalcResult Reputation;
 
@@ -45,6 +46,7 @@ public class UserModel : BaseModel
         ImageIsCustom = imageResult.HasUploadedImage;
 
         var reputation = Resolve<ReputationCalc>().Run(user);
+        ReputationRank = user.ReputationPos;
         ReputationTotal = reputation.TotalRepuation;
         Reputation = reputation;
 
