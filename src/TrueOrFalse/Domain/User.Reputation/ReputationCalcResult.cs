@@ -8,6 +8,8 @@ namespace TrueOrFalse
 {
     public class ReputationCalcResult
     {
+        public User User;
+
         public int ForQuestionsCreated;
         public int ForQuestionsWishCount;
         public int ForQuestionsWishKnow;

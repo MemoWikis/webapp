@@ -18,6 +18,8 @@ namespace TrueOrFalse
             Map(x => x.IsEmailConfirmed);
             Map(x => x.IsInstallationAdmin);
             Map(x => x.AllowsSupportiveLogin);
+            Map(x => x.Reputation);
+            Map(x => x.ReputationPos);
             Map(x => x.Birthday);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);            

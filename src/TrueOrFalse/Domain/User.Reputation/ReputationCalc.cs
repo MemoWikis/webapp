@@ -18,11 +18,12 @@ namespace TrueOrFalse
         public ReputationCalcResult Run(User user)
         {
             var result = new ReputationCalcResult();
+            result.User = user;
 
-            var createdQuetions = _session.QueryOver<Question>()
+            var createdQuestions = _session.QueryOver<Question>()
                 .Where(q => q.Creator.Id == user.Id).List<Question>();
 
-            result.ForQuestionsCreated = createdQuetions.Count * 5;
+            result.ForQuestionsCreated = createdQuestions.Count * 5;
 
             string query = 
                 String.Format(

@@ -23,5 +23,8 @@ namespace TrueOrFalse
         public virtual Boolean AllowsSupportiveLogin { get; set; }
 
         public virtual DateTime? Birthday { get; set; }
+
+        public virtual int Reputation { get; set; }
+        public virtual int ReputationPos { get; set; }
     }
 }
