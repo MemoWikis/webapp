@@ -4,7 +4,7 @@
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
     <style>
-        .column{ width: 167px;float: left; padding-right: 4px;}
+        .column{ width: 33%;float: left; padding-right: 4px;}
     </style>
 </asp:Content>
 
@@ -16,17 +16,17 @@
         <h2 class="pull-left" style="margin-bottom: 5px; margin-top: 0px;  font-size: 30px;">
             <%= Model.Name %>
             <span style="display: inline-block; font-size: 20px; font-weight: normal;">
-                (Reputation: <%=Model.ReputationTotal %> (Platz 7))
+                &nbsp;(Reputation: <%=Model.ReputationTotal %> - Platz 7)
             </span>
         </h2>
 
         <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
             
             <div class="column">
-                <h4>Wunschwissen</h4>
-                <div><%= Model.AmountWishCountQuestions %> Fragen gemerkt</div>
-                <div><%= Model.AmountWishCountSets %> Fragesätze gemerkt</div>
-                <div></div>
+                <h4>Reputation</h4>
+                <div>- <%= Model.Reputation.ForQuestionsCreated %> für erstelle Fragen</div>
+                <div>- <%= Model.Reputation.ForQuestionsWishKnow + Model.Reputation.ForQuestionsWishCount %> für eigene Fragen im Wunschwissen anderer </div>
+                <div>- <%= Model.Reputation.ForSetWishCount + Model.Reputation.ForSetWishKnow %> für eigene Fragesätze im Wunschwissen anderer</div>
             </div>
             <div class="column" >
                 <h4>Erstellte Inhalte</h4>
@@ -34,20 +34,16 @@
                 <div><%= Model.AmountCreatedSets %> Fragesätze erstellt</div>
                 <div><%= Model.AmountCreatedCategories %>  Kategorien erstellt</div>
             </div>
+            
             <div class="column">
-                <h4>Reputation</h4>
-                <div>- <%= Model.Reputation.ForQuestionsCreated %> für erstelle Fragen</div>
-                <div>- <%= Model.Reputation.ForQuestionsWishKnow + Model.Reputation.ForQuestionsWishCount %> für eigene Fragen im Wunschwissen anderer </div>
-                <div>- <%= Model.Reputation.ForSetWishCount + Model.Reputation.ForSetWishKnow %> für eigene Fragesätze im Wunschwissen anderer</div>
+                <h4>Wunschwissen</h4>
+                <div><%= Model.AmountWishCountQuestions %> Fragen gemerkt</div>
+                <div><%= Model.AmountWishCountSets %> Fragesätze gemerkt</div>
+                <div></div>
             </div>
 
             <div style="clear: both"></div>
-            <h3 style="margin-top: 20px; margin-bottom: 4px;">Wunschwissen/Fragen</h3>
-            <div style="margin-bottom: -2px; display: inline-block">Kategorien:</div>
-            <% foreach (var category in Model.WishQuestionsCategories){ %>
-                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="margin-top: 7px;"><%= category.Name %></span></a>        
-            <% } %>
-
+            <h3 style="margin-top: 20px; margin-bottom: 4px;">Wunschwissen</h3>
             <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #ffd700;">Fragesätze (<%= Model.WishSets.Count %>):</div>
             <% foreach(var set in Model.WishSets){ %>
                 <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Text %></a></div>
@@ -82,7 +78,13 @@
             <% if(Model.ImageIsCustom){ %>
                 <a href="#">[x]</a>       
             <%} %>
-        <% } %>                 
+        <% } %>
+        
+        <h4 style="margin-top: 20px;">Wunschwissen-Kategorienfilter</h4>
+        <% foreach (var category in Model.WishQuestionsCategories){ %>
+            <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="margin-top: 7px;"><%= category.Name %></span></a>        
+        <% } %>
+
     </div>
 
 </asp:Content>
