@@ -12,6 +12,10 @@ public class UserRowModel
 {
     public int Id;
     public string Name;
+
+    public int Rank;
+    public int Reputation;
+
     public string DescriptionShort;
 
     public int IndexInResult;
@@ -34,6 +38,9 @@ public class UserRowModel
     {
         Id = user.Id;
         Name = user.Name;
+
+        Reputation = user.Reputation;
+        Rank = user.ReputationPos;
 
         IsCurrentUser = Id == sessionUser.User.Id;
         IsInstallationLogin = sessionUser.IsInstallationAdmin;
