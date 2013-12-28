@@ -16,5 +16,26 @@ namespace TrueOrFalse
         }
     }
 
-    public class UserOrderBy : SpecOrderByBase{}
+    public class UserOrderBy : SpecOrderByBase
+    {
+        public OrderBy Reputation;
+        public OrderBy WishCount;
+
+        public UserOrderBy()
+        {
+            Reputation = new OrderBy("Reputation", this);
+            WishCount = new OrderBy("WishCount", this);
+        }
+
+        public string ToText()
+        {
+            if (Reputation.IsCurrent())
+                return "Reputation";
+
+            if (WishCount.IsCurrent())
+                return "Wunschwissen";
+
+            return "";
+        }
+    }
 }

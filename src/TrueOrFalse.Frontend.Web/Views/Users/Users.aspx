@@ -34,7 +34,28 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <!-- order by -->
+                                
+                                <ul class="nav pull-right">
+                                    <li class="dropdown" id="menu1">
+                                        <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
+                                            Sortieren nach: <%= Model.OrderByLabel %>
+                                            <b class="caret"></b>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuestions" %>">
+                                                    <% if (Model.OrderBy.Reputation.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Reputation
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDate" %>">
+                                                    <% if (Model.OrderBy.WishCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %>  Wunschwissen
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
                             </div>
                         </div>
                         

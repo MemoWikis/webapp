@@ -16,7 +16,7 @@
             Repuation:<%= Model.Reputation %>            
         </div>
         <div>
-            <%= Model.QuestionCount %> Fragen
+            x öffentliches Wunschwissen
         </div>
         
         <%= Model.DescriptionShort %>

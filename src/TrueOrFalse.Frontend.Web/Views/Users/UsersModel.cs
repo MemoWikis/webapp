@@ -19,6 +19,9 @@ public class UsersModel : BaseModel
     public bool FilterByMe { get; set; }
     public bool FilterByAll { get; set; }
 
+    public string OrderByLabel { get; set; }
+    public UserOrderBy OrderBy;
+
     public PagerModel Pager { get; set; }
 
     public IEnumerable<UserRowModel> Rows;
@@ -36,5 +39,8 @@ public class UsersModel : BaseModel
         TotalSets = Resolve<GetTotalSetCount>().Run();
 
         Pager = new PagerModel(_sessionUiData.SearchSpecUser);
+
+        OrderByLabel = _sessionUiData.SearchSpecUser.OrderBy.ToText();
+        OrderBy = _sessionUiData.SearchSpecUser.OrderBy;
     }
 }

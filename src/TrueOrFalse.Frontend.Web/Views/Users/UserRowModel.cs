@@ -20,8 +20,6 @@ public class UserRowModel
 
     public int IndexInResult;
 
-    public int QuestionCount;
-
     public Func<UrlHelper, string> DetailLink;
     public Func<UrlHelper, string> UserLink;
 
