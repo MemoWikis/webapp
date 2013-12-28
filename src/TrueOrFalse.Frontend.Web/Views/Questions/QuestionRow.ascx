@@ -69,7 +69,11 @@
             <div>
                 <%= Model.TotalQualityEntries%> x <a href="">Qualität (&#216; <%= Model.TotalQualityAvg%>)</a>
             </div>
-        <%} %>
+          <%} %>
+        <div>
+            <%= Model.Views %>
+            <a href="">x gesehen</a>
+        </div>
         
         <div style="position: absolute; bottom: 5px;">
             von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
