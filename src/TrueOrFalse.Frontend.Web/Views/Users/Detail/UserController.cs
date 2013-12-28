@@ -27,7 +27,7 @@ public class UserController : Controller
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
         return View(_viewLocation, new UserModel(user){
-            IsCurrentUser = _sessionUser.User == user });
+            IsCurrentUser = _sessionUser.User.Id == user.Id });
     }
 
     [HttpPost]

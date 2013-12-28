@@ -45,15 +45,30 @@
             <div style="clear: both"></div>
             <h3 style="margin-top: 20px; margin-bottom: 4px;">Wunschwissen</h3>
             <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #ffd700;">Fragesätze (<%= Model.WishSets.Count %>):</div>
-            <% foreach(var set in Model.WishSets){ %>
-                <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Text %></a></div>
-            <% } %>
-            
-            <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #afd534;">Fragen (<%= Model.WishQuestions.Count %>):</div>
-            <% foreach(var question in Model.WishQuestions){ %>
-                <div><a href="<%: Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a></div>
+            <% if (Model.WishSets.Count > 0){ %>
+                <% foreach(var set in Model.WishSets){ %>
+                    <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Text %></a></div>
+                <% } %>
+            <% } else { %>
+                <div style="padding-top: 10px; padding-bottom: 10px;">--
+                    <%= Model.IsCurrentUser ?  
+                        "Du hast keine Fragesätze zu Deinem Wunschwissen hinzugefügt" : 
+                         Model.Name + " hat keine Fragesätze zum Wunschwissen hinzugefügt." %> --
+                </div>
             <% } %>
 
+            <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #afd534;">Fragen (<%= Model.WishQuestions.Count %>):</div>
+            <% if (Model.WishQuestions.Count > 0){ %>
+                <% foreach(var question in Model.WishQuestions){ %>
+                    <div><a href="<%: Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a></div>
+                <% } %>
+            <% } else { %>
+                <div style="padding-top: 10px; padding-bottom: 10px;">--
+                    <%= Model.IsCurrentUser ?  
+                        "Du hast keine Fragen zu Deinem Wunschwissen hinzugefügt" :
+                        Model.Name + " hat keine Fragen zum Wunschwissen hinzugefügt."  %> --
+                </div>
+            <% } %>
         </div>     
     </div>
 
