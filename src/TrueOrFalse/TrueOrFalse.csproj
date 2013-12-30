@@ -258,6 +258,7 @@
     <Compile Include="Domain\User.Reputation\ReputationCalc.cs" />
     <Compile Include="Domain\User.Reputation\ReputationCalcResult.cs" />
     <Compile Include="Domain\User.Reputation\UpdateReputationsAndRank.cs" />
+    <Compile Include="Domain\User\Ops\UpdateWishcount.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecovery.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecoveryResult.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordReset.cs" />
@@ -379,6 +380,8 @@
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs035.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs034.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs033.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs032.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs031.cs" />

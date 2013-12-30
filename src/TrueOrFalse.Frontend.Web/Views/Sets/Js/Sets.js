@@ -21,3 +21,4 @@ $(function () {
 
     new ValuationPerRow(".column-3", 1 /* Set */);
 });
+//# sourceMappingURL=Sets.js.map

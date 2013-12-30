@@ -16,6 +16,9 @@ public class UserRowModel
     public int Rank;
     public int Reputation;
 
+    public int WishCountQuestions;
+    public int WishCountSets;
+
     public string DescriptionShort;
 
     public int IndexInResult;
@@ -39,6 +42,9 @@ public class UserRowModel
 
         Reputation = user.Reputation;
         Rank = user.ReputationPos;
+
+        WishCountQuestions = user.WishCountQuestions;
+        WishCountSets = user.WishCountSets;
 
         IsCurrentUser = Id == sessionUser.User.Id;
         IsInstallationLogin = sessionUser.IsInstallationAdmin;

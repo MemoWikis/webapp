@@ -13,10 +13,10 @@
         </div>
         <div style="padding-top: 3px;">
             <span style="width: 53px; display: inline-block">Rang:<%= Model.Rank %></span> 
-            Repuation:<%= Model.Reputation %>            
+            Repuation:<%= Model.Reputation %>
         </div>
         <div>
-            x öffentliches Wunschwissen
+            <%= Model.WishCountQuestions %> öffentliches Wunschwissen (davon <%= Model.WishCountSets %> Fragesätze)
         </div>
         
         <%= Model.DescriptionShort %>

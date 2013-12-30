@@ -32,6 +32,9 @@ namespace TrueOrFalse
                 i++;
                 result.User.ReputationPos = i;
                 result.User.Reputation = result.TotalRepuation;
+                result.User.WishCountQuestions = Sl.Resolve<GetWishQuestionCount>().Run(result.User.Id);
+                result.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
+
                 _userRepository.Update(result.User);
             }
         }

@@ -45,6 +45,12 @@ public class MaintenanceController : BaseController
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Reputation and Rankings wurden aktualisiert.") });
     }
 
+    public ActionResult UpdateUserWishCount()
+    {
+        Resolve<UpdateWishcount>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wunschwissenantahl wurden aktualisiert.") });
+    }
+
     [AccessOnlyAsAdmin]
     public ActionResult ReIndexAllQuestions()
     {

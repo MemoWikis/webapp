@@ -19,3 +19,4 @@ var MarkdownDescription = (function () {
     };
     return MarkdownDescription;
 })();
+//# sourceMappingURL=MarkdownDescription.js.map

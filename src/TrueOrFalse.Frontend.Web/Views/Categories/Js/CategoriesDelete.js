@@ -45,3 +45,4 @@ function deleteCategory(setId) {
         }
     });
 }
+//# sourceMappingURL=CategoriesDelete.js.map

@@ -688,9 +688,6 @@
     <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.ttf" />
     <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.woff" />
     <Content Include="Style\fonts-awesome_old_temp\FontAwesome.otf" />
-    <Content Include="Views\Shared\ImageUpload\ImageUpload.min.js.map">
-      <DependentUpon>ImageUpload.js</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\EditQuestion.less" />
     <Content Include="Style\form.less" />
     <Content Include="Views\Categories\Categories.less" />
@@ -707,9 +704,6 @@
     <Content Include="Views\Questions\Questions.less" />
     <Content Include="Views\Sets\Sets.less" />
     <Content Include="Views\Users\Users.less" />
-    <Content Include="Views\Questions\Js\ToQuestionSet.js.map" />
-    <Content Include="Views\Questions\Js\QuestionRowDelete.js.map" />
-    <Content Include="Views\Questions\Js\QuestionRowSelection.js.map" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -798,7 +792,6 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
           <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

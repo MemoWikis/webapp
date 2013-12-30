@@ -64,3 +64,4 @@ var SolutionMetadataText = (function (_super) {
     }
     return SolutionMetadataText;
 })(SolutionMetaData);
+//# sourceMappingURL=SolutionMetaData.js.map

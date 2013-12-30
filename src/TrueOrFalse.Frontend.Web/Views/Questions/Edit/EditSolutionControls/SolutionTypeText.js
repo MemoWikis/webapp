@@ -196,3 +196,4 @@ $('.show-tooltip').tooltip();
 $('#help').click(function () {
     $("#modalHelpSolutionType").modal('show');
 });
+//# sourceMappingURL=SolutionTypeText.js.map
