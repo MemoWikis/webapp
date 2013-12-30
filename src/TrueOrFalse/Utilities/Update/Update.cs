@@ -37,6 +37,7 @@ namespace TrueOrFalse.Updates
                 .Add(33, UpdateToVs033.Run)
                 .Add(34, UpdateToVs034.Run)
                 .Add(35, UpdateToVs035.Run)
+                .Add(36, SolrCoreReload.ReloadUser)
                 .Run();
         }
     }

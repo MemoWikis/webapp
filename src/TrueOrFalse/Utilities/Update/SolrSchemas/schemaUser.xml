@@ -68,6 +68,9 @@
 	
         <field name="DateCreated" type="date" indexed="true" stored="false" multiValued="false"/>
 
+        <field name="Rank" type="int" indexed="true" stored="false" multiValued="false"/>
+        <field name="WishCountQuestions" type="int" indexed="true" stored="false" multiValued="false"/>
+
         <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
     </fields>
 

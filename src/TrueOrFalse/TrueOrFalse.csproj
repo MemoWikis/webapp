@@ -296,6 +296,7 @@
     <Compile Include="Search\User\IndexOperations\SearchIndexUser.cs" />
     <Compile Include="Search\User\Model\UserSolrMap.cs" />
     <Compile Include="Search\User\Model\ToUserSolrMap.cs" />
+    <Compile Include="Search\User\SearchUsersOrderBy.cs" />
     <Compile Include="Search\User\SearchUsers.cs" />
     <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Utilities\DateTimeUtils.cs" />

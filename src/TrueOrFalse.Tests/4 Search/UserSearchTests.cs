@@ -43,7 +43,7 @@ namespace TrueOrFalse.Tests
 
             Resolve<ReIndexAllUsers>().Run();
 
-            Assert.That(Resolve<SearchUsers>().Run("Juliane Misdom", new Pager()).Count, Is.EqualTo(1));
+            Assert.That(Resolve<SearchUsers>().Run("Juliane Misdom", new Pager(), SearchUsersOrderBy.None).Count, Is.EqualTo(1));
         }
     }
 }

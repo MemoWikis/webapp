@@ -17,5 +17,11 @@ namespace TrueOrFalse.Search
 
         [SolrField("DateCreated")]
         public DateTime DateCreated { get; set; }
+
+        [SolrField("WishCountQuestions")] 
+        public int WishCountQuestions { get; set; }
+
+        [SolrField("Rank")]
+        public int Rank { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace TrueOrFalse
             var allUsers = _userRepository.GetAll();
             var results = allUsers
                 .Select(user => _reputationCalc.Run(user))
-                .OrderBy(r => r.TotalRepuation);
+                .OrderByDescending(r => r.TotalRepuation);
 
             var i = 0;
             foreach (var result in results)

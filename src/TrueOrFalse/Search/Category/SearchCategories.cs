@@ -31,7 +31,7 @@ namespace TrueOrFalse.Search
         }
 
         public SearchCategoriesResult Run(
-            string searchTerm, 
+            string searchTerm,
             Pager pager, 
             bool searchStartingWith = false,
             SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None)
