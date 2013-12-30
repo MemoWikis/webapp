@@ -5,15 +5,15 @@ function SubmitSearchUsers() {
 }
 
 $(function () {
-    $('#btnSearch').click(function () { SubmitSearchUsers(); });
+    $('#btnSearch').click(function() {
+        SubmitSearchUsers();
+    });
 
-    $(function () {
-        $("#txtSearch").keypress(function (e: any) {
-            var code = (e.keyCode ? e.keyCode : e.which);
-            if (code === 13) {
-                SubmitSearch();
-                e.preventDefault();
-            }
-        });
+    $("#txtSearch").keypress(function (e: any) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code === 13) {
+            SubmitSearchUsers();
+            e.preventDefault();
+        }
     });
 });

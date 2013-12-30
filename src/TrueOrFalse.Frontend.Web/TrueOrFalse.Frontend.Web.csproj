@@ -671,6 +671,7 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Js\Users.js" />
     <Content Include="Views\Users\Users.css">
       <DependentUpon>Users.less</DependentUpon>
     </Content>
@@ -725,10 +726,7 @@
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\Users\Detail\User.aspx" />
-    <TypeScriptCompile Include="Views\Users\Js\users.ts" />
-    <Content Include="Views\Users\Js\users.js">
-      <DependentUpon>users.ts</DependentUpon>
-    </Content>
+    <TypeScriptCompile Include="Views\Users\Js\Users.ts" />
     <Content Include="Views\Users\Settings\UserSettings.aspx" />
     <Content Include="Views\Users\UserRow.ascx" />
     <Content Include="Views\Users\Users.aspx" />
