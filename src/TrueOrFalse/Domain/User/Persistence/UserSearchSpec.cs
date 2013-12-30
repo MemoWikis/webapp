@@ -24,7 +24,7 @@ namespace TrueOrFalse
         public UserOrderBy()
         {
             Reputation = new OrderBy("Reputation", this);
-            WishCount = new OrderBy("WishCount", this);
+            WishCount = new OrderBy("WishCountQuestions", this);
         }
 
         public string ToText()

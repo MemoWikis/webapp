@@ -43,12 +43,12 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuestions" %>">
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byReputation" %>">
                                                     <% if (Model.OrderBy.Reputation.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Reputation
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDate" %>">
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byWishCount" %>">
                                                     <% if (Model.OrderBy.WishCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %>  Wunschwissen
                                                 </a>
                                             </li>
