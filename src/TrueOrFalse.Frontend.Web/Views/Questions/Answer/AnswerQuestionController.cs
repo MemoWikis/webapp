@@ -142,7 +142,7 @@ public class AnswerQuestionController : BaseController
     {
         var oldKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
         
-        Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User.Id, newValue);
+        Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);
 
         var newKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
