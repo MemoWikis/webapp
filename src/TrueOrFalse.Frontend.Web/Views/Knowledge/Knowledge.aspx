@@ -78,7 +78,11 @@
         <div class="column">
             <h3>Wunschwissen</h3>
             <div class="answerHistoryRow">
-                <div>Fragen: <span><%= Model.QuestionsCount %> <span id="totalKnowledgeSpark"></span></span></div>    
+                <div>
+                    <a href="<%= Links.QuestionsWish(Url) %>">
+                        Fragen: <span><%= Model.QuestionsCount %> <span id="totalKnowledgeSpark"></span></span>
+                    </a>
+                </div>    
             </div>
             <div class="answerHistoryRow">
                 <div>
