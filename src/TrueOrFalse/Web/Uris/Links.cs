@@ -41,6 +41,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return "/Fragen/Suche/" + "Kat__" + category.Name + "__";
         }
 
+        public static string QuestionWithCreatorFilter(UrlHelper url, User user){
+            return "/Fragen/Suche/" + "Ersteller__" + user.Name + "__";
+        }
+
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){
             return url.Action("Answer", AnswerQuestionController, 
                 new { text = UriSegmentFriendlyQuestion.Run(question.Text), questionId = question.Id, setId = set.Id });

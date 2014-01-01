@@ -22,6 +22,13 @@ namespace TrueOrFalse
                            .SingleOrDefault<User>();
         }
 
+        public User GetByName(string name)
+        {
+            return _session.QueryOver<User>()
+               .Where(k => k.Name == name)
+               .SingleOrDefault<User>();
+        }
+
         public override void Update(User user)
         {
             _searchIndexUser.Update(user);

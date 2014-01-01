@@ -30,7 +30,7 @@
             </div>
             <div class="column" >
                 <h4>Erstellte Inhalte</h4>
-                <div><%= Model.AmountCreatedQuestions %> Fragen erstellt</div>
+                <div><a href="<%= Links.QuestionWithCreatorFilter(Url, Model.User) %>"><%= Model.AmountCreatedQuestions %> Fragen erstellt</a></div>
                 <div><%= Model.AmountCreatedSets %> Fragesätze erstellt</div>
                 <div><%= Model.AmountCreatedCategories %>  Kategorien erstellt</div>
             </div>

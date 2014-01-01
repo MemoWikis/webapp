@@ -30,8 +30,11 @@ public class UserModel : BaseModel
 
     public IList<Set> WishSets;
 
+    public User User;
+
     public UserModel(User user)
     {
+        User = user;
         Name = user.Name;
 
         AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id);
