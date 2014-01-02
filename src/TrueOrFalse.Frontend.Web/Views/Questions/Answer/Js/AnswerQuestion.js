@@ -159,7 +159,7 @@ function showMsgError(text, forceShow) {
             errorTryText = amountOfTriesText[amountOfTries - 1];
             break;
         default:
-            errorTryText = amountOfTriesText[7];
+            errorTryText = amountOfTriesText[6];
     }
     $("#errorTryCount").html("(" + errorTryText + ")");
 
