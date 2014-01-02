@@ -26,7 +26,9 @@ namespace TrueOrFalse
         public QuestionValuation GetBy(int questionId, int userId)
         {
             return _session.QueryOver<QuestionValuation>()
-                           .Where(q => q.UserId == userId && q.QuestionId == questionId)
+                           .Where(q => 
+                               q.UserId == userId && 
+                               q.QuestionId == questionId)
                            .SingleOrDefault();
         }
 
@@ -35,6 +37,15 @@ namespace TrueOrFalse
             return _session.QueryOver<QuestionValuation>()
                            .Where(q => q.QuestionId == questionId)
                            .List<QuestionValuation>();
+        }
+
+        public IList<QuestionValuation> GetByUser(int userId)
+        {
+            return _session.QueryOver<QuestionValuation>()
+                           .Where(q => 
+                               q.UserId == userId &&
+                               q.RelevancePersonal >= 0)
+                           .List<QuestionValuation>();            
         }
 
         public IList<QuestionValuation> GetBy(IList<int> questionIds, int userId)
@@ -57,8 +68,6 @@ namespace TrueOrFalse
                            .SetResultTransformer(Transformers.AliasToBean(typeof(QuestionValuation)))
                            .List<QuestionValuation>();
         }
-
-        //_searchIndexQuestion
 
         public override void Create(IList<QuestionValuation> questionValuations)
         {
@@ -83,7 +92,5 @@ namespace TrueOrFalse
             base.Update(questionValuation);
             _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.QuestionId));
         }
-
-
     }
 }

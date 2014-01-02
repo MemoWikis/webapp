@@ -12,11 +12,16 @@ public class UserRowModel
 {
     public int Id;
     public string Name;
+
+    public int Rank;
+    public int Reputation;
+
+    public int WishCountQuestions;
+    public int WishCountSets;
+
     public string DescriptionShort;
 
     public int IndexInResult;
-
-    public int QuestionCount;
 
     public Func<UrlHelper, string> DetailLink;
     public Func<UrlHelper, string> UserLink;
@@ -35,6 +40,12 @@ public class UserRowModel
         Id = user.Id;
         Name = user.Name;
 
+        Reputation = user.Reputation;
+        Rank = user.ReputationPos;
+
+        WishCountQuestions = user.WishCountQuestions;
+        WishCountSets = user.WishCountSets;
+
         IsCurrentUser = Id == sessionUser.User.Id;
         IsInstallationLogin = sessionUser.IsInstallationAdmin;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
@@ -45,7 +56,7 @@ public class UserRowModel
 
         UserLink = urlHelper => Links.UserDetail(urlHelper, user.Name, user.Id);
 
-        ImageUrl = new UserImageSettings(user.Id).GetUrl_85px_square(user.EmailAddress).Url;
+        ImageUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user.EmailAddress).Url;
     }
 
 }

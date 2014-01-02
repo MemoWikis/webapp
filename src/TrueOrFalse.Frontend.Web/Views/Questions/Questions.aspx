@@ -52,7 +52,6 @@
                     Frage erstellen
                 </a>
             </div>
-
         </div>
             
         <div class="boxtainer-content">

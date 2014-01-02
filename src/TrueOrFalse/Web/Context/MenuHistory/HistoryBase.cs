@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TrueOrFalse
 {
@@ -23,6 +24,16 @@ namespace TrueOrFalse
 
         IEnumerator IEnumerable.GetEnumerator(){
             return GetEnumerator();
+        }
+
+        public string CssLast(int index)
+        {
+            return this.Count() == index ? " last" : "";
+        }
+
+        public string CssFirst(int index)
+        {
+            return index == 1 ? " first" : "";
         }
     }
 }

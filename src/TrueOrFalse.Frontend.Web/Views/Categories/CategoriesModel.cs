@@ -16,8 +16,8 @@ public class CategoriesModel : BaseModel
     public int TotalCategories { get; set; }
     public int TotalMine  { get; set; }
     public string SearchTerm  { get; set; }
-    
-    public string OrderByLabel  { get; set; }
+
+    public string OrderByLabel { get; set; }
     public CategorytOrderBy OrderBy;
 
     public int TotalCategoriesInResult { get; set; }

@@ -46,21 +46,30 @@ namespace TrueOrFalse.Search
         {
             var sqb = new SearchQueryBuilder();
 
-            var categoryFilter = GetCategoryFilter(searchTerm);
+            var creatorFilter = GetCreatorFilterValue(searchTerm);
+            if (creatorFilter != null)
+            {
+                var creator = Sl.Resolve<UserRepository>().GetByName(creatorFilter);
+                if (creator != null)
+                    creatorId = creator.Id;
+
+                searchTerm = searchTerm.Replace("Ersteller:\"" + creatorFilter + "\"", "");
+            }
+
+            var categoryFilter = GetCategoryFilterValue(searchTerm);
             if (categoryFilter != null)
             {
                 sqb.Add("Categories", categoryFilter, isMustHave: true, exact: true);
                 searchTerm = searchTerm.Replace("Kat:\"" + categoryFilter + "\"","");
             }
-                
             else
                 sqb.Add("Categories", searchTerm);
+
 
             sqb.Add("FullTextStemmed", searchTerm)
                 .Add("FullTextExact", searchTerm)
                 .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
                 .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
-
 
             var orderby = new List<SortOrder>();
             if (orderBy == SearchQuestionsOrderBy.Quality)
@@ -97,16 +106,26 @@ namespace TrueOrFalse.Search
             return result;
         }
 
-        private static string GetCategoryFilter(string searchTerm)
+        private static string GetCategoryFilterValue(string searchTerm)
         {
-            string categoryFilter = null;
-            if (searchTerm != null && searchTerm.IndexOf("Kat:\"") != -1)
+            return GetFilter("Kat", searchTerm);
+        }
+
+        private static string GetCreatorFilterValue(string searchTerm)
+        {
+            return GetFilter("Ersteller", searchTerm);
+        }
+
+        private static string GetFilter(string key, string searchTerm)
+        {
+            string filter = null;
+            if (searchTerm != null && searchTerm.IndexOf(key + ":\"") != -1)
             {
-                var match = Regex.Match(searchTerm, "Kat:\"(.*)\"", RegexOptions.IgnoreCase);
+                var match = Regex.Match(searchTerm, key + ":\"(.*)\"", RegexOptions.IgnoreCase);
                 if (match.Success)
-                    categoryFilter = match.Groups[1].Value;
+                    filter = match.Groups[1].Value;
             }
-            return categoryFilter;
+            return filter;
         }
     }
 }

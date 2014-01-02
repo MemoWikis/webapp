@@ -8,14 +8,12 @@ $(function () {
         SubmitSearchUsers();
     });
 
-    $(function () {
-        $("#txtSearch").keypress(function (e) {
-            var code = (e.keyCode ? e.keyCode : e.which);
-            if (code === 13) {
-                SubmitSearch();
-                e.preventDefault();
-            }
-        });
+    $("#txtSearch").keypress(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code === 13) {
+            SubmitSearchUsers();
+            e.preventDefault();
+        }
     });
 });
 //# sourceMappingURL=users.js.map

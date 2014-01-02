@@ -15,6 +15,9 @@ namespace TrueOrFalse.Search
             if (String.IsNullOrEmpty(userInput))
                 return "";
 
+            if (userInput.Trim() == "")
+                return "";
+
             var multiWordTermsResult = Regex.Match(userInput, "\".*\"");
             if (multiWordTermsResult.Captures.Any())
             {

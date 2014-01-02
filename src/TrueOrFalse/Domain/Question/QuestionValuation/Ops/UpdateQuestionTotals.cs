@@ -8,14 +8,17 @@ namespace TrueOrFalse
         private readonly QuestionValuationRepository _questionValuationRepository;
         private readonly CreateOrUpdateQuestionValue _createOrUpdateQuestionValue;
         private readonly ISession _session;
+        private readonly ReputationUpdate _reputationUpdate;
 
         public UpdateQuestionTotals(QuestionValuationRepository questionValuationRepository,
                                     CreateOrUpdateQuestionValue createOrUpdateQuestionValue,
-                                    ISession session)
+                                    ISession session,
+                                    ReputationUpdate reputationUpdate)
         {
             _questionValuationRepository = questionValuationRepository;
             _createOrUpdateQuestionValue = createOrUpdateQuestionValue;
             _session = session;
+            _reputationUpdate = reputationUpdate;
         }
 
         public void Run(QuestionValuation questionValuation)
@@ -41,11 +44,13 @@ namespace TrueOrFalse
             _session.Flush();
         }
 
-        public void UpdateRelevancePersonal(int questionId, int userId, int relevance)
+        public void UpdateRelevancePersonal(int questionId, User user, int relevance)
         {
-            _createOrUpdateQuestionValue.Run(questionId, userId, relevancePeronal: relevance);
+            _createOrUpdateQuestionValue.Run(questionId, user.Id, relevancePeronal: relevance);
             _session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
-            _session.Flush();            
+            _session.Flush();
+
+            _reputationUpdate.ForQuestion(questionId);
         }
 
         public void UpdateRelevanceAll(int questionId, int userId, int relevance)

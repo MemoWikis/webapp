@@ -14,6 +14,7 @@
             $('#txtSearch').val()
                 .replace("Kat:\"", "Kat__")
                 .replace("kat:\"", "Kat__")
+                .replace("Ersteller:\"", "Ersteller__")
                 .replace("\"", "__")
                 .replace("'", "__")
                 .replace(":", "___")

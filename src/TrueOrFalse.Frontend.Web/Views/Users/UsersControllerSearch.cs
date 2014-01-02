@@ -22,23 +22,8 @@ public class UsersControllerSearch : IRegisterAsInstancePerLifetime
 
     public IList<User> Run()
     {
-        if (string.IsNullOrEmpty(_sessionUiData.SearchSpecUser.SearchTerm))
-            return SearchFromSqlServer();
-        
-        return SearchFromSOLR();
-    }
-
-    private IList<User> SearchFromSOLR()
-    {
-        var solrResult = _searchUsers.Run(
-            _sessionUiData.SearchSpecUser.SearchTerm,
-            _sessionUiData.SearchSpecUser);
+        var solrResult = _searchUsers.Run(_sessionUiData.SearchSpecUser);
 
         return _usersRepo.GetByIds(solrResult.UserIds.ToArray());
-    }
-
-    private IList<User> SearchFromSqlServer()
-    {
-        return _usersRepo.GetBy(_sessionUiData.SearchSpecUser);
     }
 }

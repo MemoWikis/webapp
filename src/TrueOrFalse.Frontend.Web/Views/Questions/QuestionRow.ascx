@@ -26,7 +26,7 @@
         </div>   
         <div>
             <% foreach (var category in Model.Categories){ %>
-                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>
             <% } %>
         </div>
         <% if(Model.SetCount > 0){ %>
@@ -69,9 +69,13 @@
             <div>
                 <%= Model.TotalQualityEntries%> x <a href="">Qualität (&#216; <%= Model.TotalQualityAvg%>)</a>
             </div>
-        <%} %>
+          <%} %>
+        <div>
+            <%= Model.Views %>
+            <a href="">x gesehen</a>
+        </div>
         
-        <div style="position: absolute; bottom: 3px;">
+        <div style="position: absolute; bottom: 5px;">
             von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%=Model.CreatorName %>
                 </a>

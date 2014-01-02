@@ -26,5 +26,9 @@ namespace TrueOrFalse
 
             return ((AutofacDependencyResolver) DependencyResolver.Current).RequestLifetimeScope.Resolve<T>();
         }
+
+        public static T R<T>(){
+            return Resolve<T>();
+        }
     }
 }

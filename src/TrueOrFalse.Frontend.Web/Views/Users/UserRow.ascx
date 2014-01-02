@@ -1,16 +1,22 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<UserRowModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase user-row <%= Model.IsCurrentUser ? "loggedInUser"  : "" %>" data-questionSetId="<%= Model.Id %>">
+<div class="rowBase user-row <%= Model.IsCurrentUser ? "loggedInUser"  : "" %>" data-questionSetId="<%= Model.Id %>" style="position: relative;">
     <div class="column-1" style="line-height: 15px; font-size: 90%;">
-        <img src="<%= Model.ImageUrl%>" width="85"/>
+        <img src="<%= Model.ImageUrl%>" width="105"/>
     </div>
     
-    <div class="column-2" style="width: 635px; height: 87px; position: relative;">
+    <div class="column-2" style="width: 635px; height: 87px;">
         <div style="font-size:large;">
             <a href="<%= Model.UserLink(Url) %>"><%= Model.Name %></a>
-            <span style="font-size: small;">(<%= Model.QuestionCount %> Fragen)</span>
-            <button class="btn btn-default btn-xs" type="button">Folgen</button>
+            <button class="btn btn-default btn-xs" type="button" style="position: relative; top: -2px; left: 3px;">Folgen</button>
+        </div>
+        <div style="padding-top: 3px;">
+            <span style="width: 53px; display: inline-block">Rang:<%= Model.Rank %></span> 
+            Repuation:<%= Model.Reputation %>
+        </div>
+        <div>
+            <%= Model.WishCountQuestions %> öffentliches Wunschwissen (davon <%= Model.WishCountSets %> Fragesätze)
         </div>
         
         <%= Model.DescriptionShort %>
@@ -30,9 +36,6 @@
             <%} %>
             
         </div>        
-
-        <div style="text-align: right; width: 150px; position: absolute; bottom:0px; right: 10px; ">
-        </div>
     </div>
     
     <div class="column-3">

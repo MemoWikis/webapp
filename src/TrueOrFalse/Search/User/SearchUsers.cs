@@ -13,21 +13,37 @@ namespace TrueOrFalse.Search
             _searchOperations = searchOperations;
         }
 
-        public SearchUsersResult Run(string searchTerm){
-            return Run(searchTerm, new Pager());
+        public SearchUsersResult Run(UserSearchSpec searchSpec)
+        {
+            var orderBy = SearchUsersOrderBy.None;
+            if (searchSpec.OrderBy.Reputation.IsCurrent()) orderBy = SearchUsersOrderBy.Rank;
+            else if (searchSpec.OrderBy.WishCount.IsCurrent()) orderBy = SearchUsersOrderBy.WishCount;
+
+            return Run(searchSpec.SearchTerm, new Pager(), orderBy);
         }
 
-        public SearchUsersResult Run(string searchTerm, Pager pager)
+        public SearchUsersResult Run(
+            string searchTerm, 
+            Pager pager,
+            SearchUsersOrderBy orderBy
+        )
         {
             var sqb = new SearchQueryBuilder()
                 .Add("Name", searchTerm);
+
+            var orderby = new List<SortOrder>();
+            if (orderBy == SearchUsersOrderBy.Rank)
+                orderby.Add(new SortOrder("Rank", Order.ASC));
+            else if (orderBy == SearchUsersOrderBy.WishCount)
+                orderby.Add(new SortOrder("WishCountQuestions", Order.ASC));
 
             var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions
                                                       {
                                                             Start = pager.LowerBound - 1,
                                                             Rows = pager.PageSize,
-                                                            SpellCheck = new SpellCheckingParameters{ Collate = true}
+                                                            SpellCheck = new SpellCheckingParameters{ Collate = true},
+                                                            OrderBy = orderby
                                                       });
 
             var result = new SearchUsersResult();

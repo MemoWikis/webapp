@@ -36,6 +36,15 @@ namespace TrueOrFalse
                            .SingleOrDefault();
         }
 
+        public IList<SetValuation> GetByUser(int userId)
+        {
+            return _session.QueryOver<SetValuation>()
+                           .Where(q =>
+                               q.UserId == userId &&
+                               q.RelevancePersonal >= 0)
+                           .List<SetValuation>();
+        }
+
         public IList<SetValuation> GetBy(IList<int> setIds, int userId)
         {
             if (!setIds.Any())

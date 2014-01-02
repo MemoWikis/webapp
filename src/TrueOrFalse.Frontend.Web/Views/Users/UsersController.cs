@@ -16,25 +16,25 @@ public class UsersController : BaseController
         _usersControllerSearch = usersControllerSearch;
     }
 
-    public ActionResult Search(string searchTerm, UsersModel model)
+    public ActionResult Search(string searchTerm, UsersModel model, string orderBy = null)
     {
         _sessionUiData.SearchSpecUser.SearchTerm = model.SearchTerm = searchTerm;
-        return Users(null, model);
+        return Users(null, model, orderBy);
     }
 
     [SetMenu(MenuEntry.Users)]
-    public ActionResult Users(int? page, UsersModel model)
+    public ActionResult Users(int? page, UsersModel model, string orderBy = null)
     {
+        SetUsersOrderBy(orderBy);
+
         _sessionUiData.SearchSpecUser.PageSize = 10;
         if (page.HasValue) _sessionUiData.SearchSpecUser.CurrentPage = page.Value;
 
-        
         if(model == null)
             model = new UsersModel();
 
         var users = _usersControllerSearch.Run();
         model.Init(users);
-
 
         return View(_viewLocation, model);
     }
@@ -50,4 +50,16 @@ public class UsersController : BaseController
         model.Message = new SuccessMessage("Nun Bist Du angemeldet als <b>\"" + user.Name +  "\"</b>");
         return Users(null, model);
     }
+
+    public void SetUsersOrderBy(string orderByCommand)
+    {
+        var searchSpec = _sessionUiData.SearchSpecUser;
+
+        if (searchSpec.OrderBy.Current == null && String.IsNullOrEmpty(orderByCommand))
+            orderByCommand = "byReputation";
+
+        if (orderByCommand == "byReputation") searchSpec.OrderBy.Reputation.Desc();
+        else if (orderByCommand == "byWishCount") searchSpec.OrderBy.WishCount.Desc();
+    }
+
 }

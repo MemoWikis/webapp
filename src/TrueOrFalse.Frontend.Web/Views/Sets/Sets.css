@@ -1,6 +1,23 @@
-﻿.set-row{ border-top:1px solid #A6BADE; }
-.set-row:hover{ background-color: #f3f5f8; }
-
-div.column-1 { width: 98px;float: left; padding-top: 5px; padding-left: 5px;}
-div.column-2 { width: 560px; padding-right: 10px; float: left; padding-top: 5px;}
-div.column-3 { width: 155px;float: left; padding-top: 5px; height: 100px;}
+.set-row:hover {
+  background-color: #f3f5f8;
+}
+div.column-1 {
+  padding: 5px;
+  width: 135px;
+  float: left;
+}
+div.column-1 img {
+  border-radius: 5px;
+}
+div.column-2 {
+  width: 550px;
+  padding-right: 10px;
+  float: left;
+  padding-top: 5px;
+}
+div.column-3 {
+  width: 155px;
+  float: left;
+  padding-top: 5px;
+  height: 100px;
+}

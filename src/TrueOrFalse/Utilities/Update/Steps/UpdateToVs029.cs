@@ -8,7 +8,7 @@ namespace TrueOrFalse.Updates
     {
         public static void Run()
         {
-            SolrCoreReload.ReloadCategory();       
+            SolrCoreReload.ReloadCategory();
         }
     }
 }

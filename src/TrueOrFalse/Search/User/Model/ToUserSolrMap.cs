@@ -15,6 +15,9 @@ namespace TrueOrFalse.Search
             result.Name = user.Name;
             result.DateCreated = user.DateCreated;
 
+            result.Rank = user.ReputationPos;
+            result.WishCountQuestions = user.WishCountQuestions;
+
             return result;
         }
     }

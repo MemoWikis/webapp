@@ -1,4 +1,4 @@
-﻿@media temp {
+@media temp {
   
 }
 /* LESS INCLUDES
@@ -64,6 +64,8 @@ body {
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
   /* W3C */
 
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=1);
+  /* IE6-9 */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=1);
   /* IE6-9 */
 
@@ -427,7 +429,6 @@ div.box-main .box-content {
 }
 .rowBase,
 .category-row {
-  /*border-top:1px solid lighten(@row-border-blue, 80%);*/
 
   border-top: 5px solid #f8f9fc;
 }

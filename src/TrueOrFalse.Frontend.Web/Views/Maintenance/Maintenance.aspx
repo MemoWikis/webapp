@@ -30,8 +30,16 @@
             Feld: AnzahlFragen pro Kategorie aktualisieren
         </a>
         
-        
-  
+        <h4>Nutzer</h4>
+        <a class="btn btn-default" href="<%= Url.Action("UpdateUserReputationAndRankings", "Maintenance") %>">
+            <i class="fa fa-retweet"></i>
+            Rankings und Reputation + Wunschwissen
+        </a>&nbsp;
+        <a class="btn btn-default" href="<%= Url.Action("UpdateUserWishCount", "Maintenance") %>">
+            <i class="fa fa-retweet"></i>
+            Wunschwissen
+        </a>
+
         <h4>Suche</h4>
         Alle
         <a class="btn btn-default" href="<%= Url.Action("ReIndexAllQuestions", "Maintenance") %>">

@@ -631,7 +631,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
-    <Content Include="Views\Sets\Sets.css" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
     <Content Include="Views\Questions\Edit\EditQuestion.css">
       <DependentUpon>EditQuestion.less</DependentUpon>
@@ -663,11 +662,18 @@
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
     <Content Include="Views\Maintenance\Maintenance.aspx" />
+    <Content Include="Views\Sets\Sets.css">
+      <DependentUpon>Sets.less</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\AudioPlayer.ascx" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Shared\ImageUpload\ImageUpload.ts" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\Users.js" />
+    <Content Include="Views\Users\Users.css">
+      <DependentUpon>Users.less</DependentUpon>
     </Content>
     <Content Include="Views\VariousPublic\QUnit.aspx" />
     <Content Include="Views\Shared\Site.Resources.Title.ascx" />
@@ -683,9 +689,6 @@
     <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.ttf" />
     <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.woff" />
     <Content Include="Style\fonts-awesome_old_temp\FontAwesome.otf" />
-    <Content Include="Views\Shared\ImageUpload\ImageUpload.min.js.map">
-      <DependentUpon>ImageUpload.js</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Edit\EditQuestion.less" />
     <Content Include="Style\form.less" />
     <Content Include="Views\Categories\Categories.less" />
@@ -700,6 +703,8 @@
     <Content Include="Style\temp.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
     <Content Include="Views\Questions\Questions.less" />
+    <Content Include="Views\Sets\Sets.less" />
+    <Content Include="Views\Users\Users.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -721,13 +726,9 @@
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\Users\Detail\User.aspx" />
-    <TypeScriptCompile Include="Views\Users\Js\users.ts" />
-    <Content Include="Views\Users\Js\users.js">
-      <DependentUpon>users.ts</DependentUpon>
-    </Content>
+    <TypeScriptCompile Include="Views\Users\Js\Users.ts" />
     <Content Include="Views\Users\Settings\UserSettings.aspx" />
     <Content Include="Views\Users\UserRow.ascx" />
-    <Content Include="Views\Users\Users.css" />
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />

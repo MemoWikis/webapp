@@ -137,6 +137,7 @@ public class QuestionsController : BaseController
         if(!String.IsNullOrEmpty(searchTerm))
             searchTerm = searchTerm
                 .Replace("Kat__", "Kat:\"")
+                .Replace("Ersteller__", "Ersteller:\"")
                 .Replace("__", "\"")
                 .Replace("___", ":")
                 .Replace("_and_", "&");

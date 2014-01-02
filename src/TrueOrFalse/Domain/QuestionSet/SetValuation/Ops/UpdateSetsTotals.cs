@@ -11,17 +11,24 @@ namespace TrueOrFalse
     {
         private readonly ISession _session;
         private readonly CreateOrUpdateSetValue _createOrUpdateSetValue;
+        private readonly ReputationUpdate _reputationUpdate;
 
-        public UpdateSetsTotals(ISession session,CreateOrUpdateSetValue _createOrUpdateSetValue){
+        public UpdateSetsTotals(
+            ISession session,
+            CreateOrUpdateSetValue _createOrUpdateSetValue,
+            ReputationUpdate reputationUpdate){
             _session = session;
             this._createOrUpdateSetValue = _createOrUpdateSetValue;
-        }
+            _reputationUpdate = reputationUpdate;
+            }
 
-        public void UpdateRelevancePersonal(int setId, int userId, int relevance)
+        public void UpdateRelevancePersonal(int setId, User user, int relevance)
         {
-            _createOrUpdateSetValue.Run(setId, userId, relevancePeronal: relevance);
+            _createOrUpdateSetValue.Run(setId, user.Id, relevancePeronal: relevance);
             _session.CreateSQLQuery(GenerateRelevancePersonal(setId)).ExecuteUpdate();
             _session.Flush();
+            
+            _reputationUpdate.ForSet(setId);
         }
 
         private string GenerateRelevancePersonal(int setId)

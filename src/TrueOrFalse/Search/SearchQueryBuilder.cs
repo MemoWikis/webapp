@@ -24,6 +24,9 @@ namespace TrueOrFalse.Search
             if (String.IsNullOrEmpty(seachTerm))
                 return this;
 
+            if (seachTerm.Trim() == "")
+                return this;
+
             string term;
             if(exact)
                 term = fieldName + ":(" + seachTerm + ")";

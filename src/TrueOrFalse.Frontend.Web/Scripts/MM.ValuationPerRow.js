@@ -11,14 +11,16 @@ var ValuationPerRow = (function () {
         this._mode = mode;
 
         var self = this;
-        $(".removeRelevance").click(function () {
+        $(".removeRelevance").click(function (e) {
+            e.preventDefault();
             var sliderContainer = $(this).parentsUntil(parentDiv);
             sliderContainer.hide();
             sliderContainer.parent().find(".addRelevance").show();
-            self.SendSilderValue(sliderContainer.find(".slider"), -1);
+            self.SendSilderValue(sliderContainer.find(".slider"), -1, self);
         });
 
-        $(".addRelevance").click(function () {
+        $(".addRelevance").click(function (e) {
+            e.preventDefault();
             $(this).hide();
             $(this).parent().find(".sliderContainer").show();
             $(this).parent().parent().find(".sliderAnotation").show();
@@ -44,7 +46,7 @@ var ValuationPerRow = (function () {
                 self.SetUiSliderSpan($(this), ui.value);
             },
             change: function (event, ui) {
-                self.SendSilderValue($(this), ui.value);
+                self.SendSilderValue($(this), ui.value, self);
             }
         });
     };
@@ -54,18 +56,18 @@ var ValuationPerRow = (function () {
         divSlider.parent().find(".sliderValue").text(text);
     };
 
-    ValuationPerRow.prototype.SendSilderValue = function (divSlider, sliderValueParam) {
+    ValuationPerRow.prototype.SendSilderValue = function (divSlider, sliderValueParam, self) {
         var _this = this;
         $.ajax({
             type: 'POST',
-            url: this._mode == 0 /* Question */ ? "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam : "/Sets/SaveRelevancePersonal/" + divSlider.attr("data-setId") + "/" + sliderValueParam,
+            url: self._mode == 0 /* Question */ ? "/Questions/SaveRelevancePersonal/" + divSlider.attr("data-questionId") + "/" + sliderValueParam : "/Sets/SaveRelevancePersonal/" + divSlider.attr("data-setId") + "/" + sliderValueParam,
             cache: false,
             success: function (result) {
                 divSlider.parent().parent().find(".totalRelevanceEntries").text(result.totalValuations.toString());
                 divSlider.parent().parent().find(".totalRelevanceAvg").text(result.totalAverage.toString());
 
                 if (result.totalWishKnowledgeCountChange) {
-                    if (this._mode == 0 /* Question */) {
+                    if (self._mode == 0 /* Question */) {
                         _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
                     }
                     _this.SetElementValue("#tabWishKnowledgeCount", result.totalWishKnowledgeCount);
