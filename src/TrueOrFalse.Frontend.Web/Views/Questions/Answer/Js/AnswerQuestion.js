@@ -4,14 +4,6 @@ var getAnswerData;
 var newAnswer;
 var getAnswerText;
 
-var errMsgs = [
-    "Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
-    "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
-    "Weiter, weiter nicht aufgeben.",
-    "Übung macht den Meister, Du bist auf dem richtigen Weg.",
-    "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden."
-];
-
 var successMsgs = ["Yeah! Weiter so.", "Du bis auf einem guten Weg.", "Sauber!", "Well Done!"];
 
 var answerHistory = [];
@@ -38,12 +30,12 @@ $(function () {
             divAnswerHistory.hide();
     });
     $(".selectorShowAnswer").click(function () {
-        showCorrectAnswer();
+        InputFeedback.ShowCorrectAnswer();
         return false;
     });
     $("#buttons-edit-answer").click(function () {
         newAnswer();
-        animateNeutral();
+        InputFeedback.AnimateNeutral();
     });
 });
 
@@ -54,7 +46,7 @@ function validateAnswer() {
     answerHistory.push(answerText);
 
     if (answerText.trim().length == 0) {
-        showMsgError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
+        InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
         return false;
     }
 
@@ -68,18 +60,14 @@ function validateAnswer() {
             $("#buttons-first-try").hide();
             $("#buttons-answer-again").hide();
             if (result.correct) {
-                showMsgSuccess();
+                InputFeedback.ShowSuccess();
             } else {
-                showMsgErrorWithRandomText();
-                animateWrongAnswer();
+                InputFeedback.ShowError();
             }
             ;
         }
     });
     return false;
-}
-
-function updateAmountOfTries() {
 }
 
 function ajaxGetAnswer(onSuccessAction) {
@@ -93,109 +81,107 @@ function ajaxGetAnswer(onSuccessAction) {
     });
 }
 
-$.fn.setCursorPosition = function (pos) {
-    this.each(function (index, elem) {
-        if (elem.setSelectionRange) {
-            elem.setSelectionRange(pos, pos);
-        } else if (elem.createTextRange) {
-            var range = elem.createTextRange();
-            range.collapse(true);
-            range.moveEnd('character', pos);
-            range.moveStart('character', pos);
-            range.select();
-        }
-    });
-    return this;
-};
-
-function animateWrongAnswer() {
-    $("#buttons-edit-answer").show();
-    $("#txtAnswer").animate({ backgroundColor: "#FFB6C1" }, 1000);
-}
-
-function animateNeutral() {
-    $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
-}
-
 function answerChanged() {
     if ($("#buttons-edit-answer").is(":visible")) {
         $("#buttons-edit-answer").hide();
         $("#buttons-answer-again").show();
-        animateNeutral();
+        InputFeedback.AnimateNeutral();
     }
 }
 
-function showMsgErrorWithRandomText() {
-    showMsgError(randomXToY(0, errMsgs.length - 1));
-}
-
-function showMsgSuccess() {
-    $("#buttons-next-answer").show();
-    $("#buttons-edit-answer").hide();
-    $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
-    $("#divWrongAnswer").hide();
-
-    $("#divAnsweredCorrect").show();
-    $("#wellDoneMsg").html("" + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
-}
-
-function showMsgError(text, forceShow) {
-    if (typeof forceShow === "undefined") { forceShow = false; }
-    var errorTryText;
-    var amountOfTriesText = ["ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"];
-
-    switch (amountOfTries) {
-        case 1:
-            errorTryText = amountOfTriesText[amountOfTries - 1];
-            break;
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            errorTryText = amountOfTriesText[amountOfTries - 1] + " Versuche";
-            break;
-        case 6:
-        case 7:
-            errorTryText = amountOfTriesText[amountOfTries - 1];
-            break;
-        default:
-            errorTryText = amountOfTriesText[6];
+var InputFeedback = (function () {
+    function InputFeedback() {
     }
-    $("#errorTryCount").html("(" + errorTryText + ")");
+    InputFeedback.ShowError = function (text, forceShow) {
+        if (typeof text === "undefined") { text = ""; }
+        if (typeof forceShow === "undefined") { forceShow = false; }
+        if (text == "") {
+            text = InputFeedback.ErrMsgs[randomXToY(0, InputFeedback.ErrMsgs.length - 1)];
+        }
 
-    $('#ulAnswerHistory').html("");
-    $.each(answerHistory, function (index, val) {
-        $('#ulAnswerHistory').append($('<li>' + val + '</li>'));
-    });
+        var errorTryText;
+        var amountOfTriesText = ["ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"];
 
-    $("#divWrongAnswer").show();
-    $("#buttons-first-try").hide();
-    $("#buttons-answer-again").hide();
+        switch (amountOfTries) {
+            case 1:
+                errorTryText = amountOfTriesText[amountOfTries - 1];
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                errorTryText = amountOfTriesText[amountOfTries - 1] + " Versuche";
+                break;
+            case 6:
+            case 7:
+                errorTryText = amountOfTriesText[amountOfTries - 1];
+                break;
+            default:
+                errorTryText = amountOfTriesText[6];
+        }
+        $("#errorTryCount").html("(" + errorTryText + ")");
 
-    if (forceShow || randomXToY(1, 10) % 4 == 0) {
-        $("#answerFeedback").html(text).show();
-    } else {
-        $("#answerFeedback").html(text).hide();
-    }
+        $('#ulAnswerHistory').html("");
+        $.each(answerHistory, function (index, val) {
+            $('#ulAnswerHistory').append($('<li>' + val + '</li>'));
+        });
 
-    animateWrongAnswer();
-}
+        $("#divWrongAnswer").show();
+        $("#buttons-first-try").hide();
+        $("#buttons-answer-again").hide();
+
+        if (forceShow || randomXToY(1, 10) % 4 == 0) {
+            $("#answerFeedback").html(text).show();
+        } else {
+            $("#answerFeedback").html(text).hide();
+        }
+
+        InputFeedback.AnimateWrongAnswer();
+    };
+
+    InputFeedback.AnimateWrongAnswer = function () {
+        $("#buttons-edit-answer").show();
+        $("#txtAnswer").animate({ backgroundColor: "#FFB6C1" }, 1000);
+    };
+
+    InputFeedback.AnimateNeutral = function () {
+        $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
+    };
+
+    InputFeedback.ShowSuccess = function () {
+        $("#buttons-next-answer").show();
+        $("#buttons-edit-answer").hide();
+        $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
+        $("#divWrongAnswer").hide();
+
+        $("#divAnsweredCorrect").show();
+        $("#wellDoneMsg").html("" + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
+    };
+
+    InputFeedback.ShowCorrectAnswer = function () {
+        showNextAnswer();
+        $("#divWrongAnswer").hide();
+        $("#divCorrectAnswer").show();
+
+        ajaxGetAnswer(function (result) {
+            $("#spanCorrectAnswer").html(result.correctAnswer);
+            $("#spanAnswerDescription").html(result.correctAnswerDesc);
+        });
+    };
+    InputFeedback.ErrMsgs = [
+        "Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
+        "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
+        "Weiter, weiter nicht aufgeben.",
+        "Übung macht den Meister, Du bist auf dem richtigen Weg.",
+        "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden."
+    ];
+    return InputFeedback;
+})();
 
 function randomXToY(minVal, maxVal, floatVal) {
     if (typeof floatVal === "undefined") { floatVal = 'undefined'; }
     var randVal = minVal + (Math.random() * (maxVal - minVal));
     return (typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal));
-}
-
-function showCorrectAnswer() {
-    showNextAnswer();
-    $("#divWrongAnswer").hide();
-    $("#divCorrectAnswer").show();
-
-    ajaxGetAnswer(function (result) {
-        $("#spanCorrectAnswer").html(result.correctAnswer);
-        $("#spanAnswerDescription").html(result.correctAnswerDesc);
-    });
 }
 
 function showNextAnswer() {

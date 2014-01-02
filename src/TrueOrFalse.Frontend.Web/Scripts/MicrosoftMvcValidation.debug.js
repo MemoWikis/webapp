@@ -177,7 +177,7 @@ Sys.Mvc.FormContext._parseJsonOptions = function Sys_Mvc_FormContext$_parseJsonO
             var validator = Sys.Mvc.ValidatorRegistry.getValidator(rule);
             if (validator) {
                 var validation = Sys.Mvc.$create_Validation();
-                validation.fieldErrorMessage = rule.ErrorMessage;
+                validation.fieldErrorMessage = rule.InputFeedback;
                 validation.validator = validator;
                 Array.add(fieldContext.validations, validation);
             }
