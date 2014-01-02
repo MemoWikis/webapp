@@ -1,15 +1,16 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="ObjectDumper" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <script src="/Views/Questions/Answer/AnswerQuestion.js" type="text/javascript"></script>
     
+    <%= Scripts.Render("~/bundles/AnswerQuestion") %>
+
     <style type="text/css">
-        
-        .selectorShowAnswer{/* marker class */}
+         .selectorShowAnswer{/* marker class */}
        
         div.headerLinks {}
         div.headerLinks i { margin-top: 2px;}
