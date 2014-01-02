@@ -1,4 +1,4 @@
-#set-scheme {
+﻿#set-scheme {
   background-color: #ffd700;
   color: black;
 }
@@ -22,6 +22,8 @@
   border-bottom: none;
   border-right: none;
   font-size: 15px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 #menu-new a.list-group-item:hover {
   color: white;
@@ -39,7 +41,7 @@
   font-size: 17px;
   position: absolute;
   left: 2px;
-  top: 13px;
+  top: 8px;
 }
 #menu-new a.list-group-item:first-child {
   border-top-right-radius: 0;
@@ -152,7 +154,6 @@
   margin-top: 0px;
 }
 #menu-new a.list-group-item.sub.first {
-  margin-top: -8px;
   z-index: 5;
 }
 #menu-new a.list-group-item.sub.last {
