@@ -317,7 +317,12 @@
     <Content Include="Scripts\MM.DateParser.js">
       <DependentUpon>MM.DateParser.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\MM.Log.js" />
+    <Content Include="Scripts\MM.Log.js">
+      <DependentUpon>MM.Log.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.Site.js">
+      <DependentUpon>MM.Site.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\MM.ValuationPerRow.js">
       <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
     </Content>
@@ -355,6 +360,21 @@
     <Content Include="Style\utils.less" />
     <Content Include="Style\includes\variables.less" />
     <Content Include="Scripts\app.config" />
+    <Content Include="Scripts\MM.Log.js.map">
+      <DependentUpon>MM.Log.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.DateParser.js.map">
+      <DependentUpon>MM.DateParser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.Site.js.map">
+      <DependentUpon>MM.Site.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.ValuationPerRow.js.map">
+      <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SolutionMetaData.js.map">
+      <DependentUpon>SolutionMetaData.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
