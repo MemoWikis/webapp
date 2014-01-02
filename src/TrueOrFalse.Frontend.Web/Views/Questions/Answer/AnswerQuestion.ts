@@ -1,16 +1,16 @@
 ﻿/// <reference path="../../../scripts/typescript.defs/lib.d.ts" />
+
 var answerResult;
 var getAnswerData;
 var newAnswer;
 var getAnswerText;
 
-var errMsgs = [
-    "Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
-    "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
-    "Weiter, weiter nicht aufgeben.",
-    "Übung macht den Meister, Du bist auf dem richtigen Weg.",
-    "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden."
-];
+var errMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
+               "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
+               "Weiter, weiter nicht aufgeben.",
+               "Übung macht den Meister, Du bist auf dem richtigen Weg.",
+               "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
+               ];
 
 var successMsgs = ["Yeah! Weiter so.", "Du bis auf einem guten Weg.", "Sauber!", "Well Done!"];
 
@@ -37,10 +37,7 @@ $(function () {
         else
             divAnswerHistory.hide();
     });
-    $(".selectorShowAnswer").click(function () {
-        showCorrectAnswer();
-        return false;
-    });
+    $(".selectorShowAnswer").click(function () { showCorrectAnswer(); return false; });
     $("#buttons-edit-answer").click(function () {
         newAnswer();
         animateNeutral();
@@ -61,14 +58,12 @@ $(function () {
 
     function foo(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id))
-            return;
-        js = d.createElement(s);
-        js.id = id;
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1&appId=128827270569993";
         fjs.parentNode.insertBefore(js, fjs);
-    }
-    foo(document, 'script', 'facebook-jssdk');
+    }foo(document, 'script', 'facebook-jssdk');
+
 });
 
 function InitFeedbackSliders() {
@@ -79,6 +74,7 @@ function InitFeedbackSliders() {
 }
 
 function InitFeedbackSlider(sliderName) {
+
     $("#remove" + sliderName + "Value").click(function () {
         $("#div" + sliderName + "Slider").hide();
         $("#div" + sliderName + "Add").show();
@@ -92,17 +88,13 @@ function InitFeedbackSlider(sliderName) {
 
     var sliderValue = $("#slider" + sliderName + "Value").text();
     SetUiSliderSpan(sliderName, sliderValue);
-
+    
     $("#slider" + sliderName).slider({
         range: "min",
         max: 100,
         value: sliderValue,
-        slide: function (event, ui) {
-            SetUiSliderSpan(sliderName, ui.value);
-        },
-        change: function (event, ui) {
-            SendSilderValue(sliderName, ui.value);
-        }
+        slide: function (event, ui) { SetUiSliderSpan(sliderName, ui.value); },
+        change: function (event, ui) { SendSilderValue(sliderName, ui.value); }
     });
 }
 
@@ -123,15 +115,16 @@ function SendSilderValue(sliderName, value) {
     });
 }
 
+
 function validateAnswer() {
+
     var answerText = getAnswerText();
 
     amountOfTries++;
     answerHistory.push(answerText);
 
-    if (answerText.trim().length == 0) {
-        showMsgError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
-        return false;
+    if(answerText.trim().length == 0) {
+        showMsgError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true); return false;
     }
 
     $.ajax({
@@ -148,15 +141,13 @@ function validateAnswer() {
             } else {
                 showMsgErrorWithRandomText();
                 animateWrongAnswer();
-            }
-            ;
+            };
         }
     });
     return false;
 }
 
-function updateAmountOfTries() {
-}
+function updateAmountOfTries() {}
 
 function ajaxGetAnswer(onSuccessAction) {
     $.ajax({
@@ -168,6 +159,7 @@ function ajaxGetAnswer(onSuccessAction) {
         }
     });
 }
+
 
 $.fn.setCursorPosition = function (pos) {
     this.each(function (index, elem) {
@@ -215,62 +207,61 @@ function showMsgSuccess() {
     $("#wellDoneMsg").html("" + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
 }
 
-function showMsgError(text, forceShow) {
-    if (typeof forceShow === "undefined") { forceShow = false; }
+function showMsgError(text, forceShow : boolean = false) {
+
     var errorTryText;
     var amountOfTriesText = ["ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"];
-
+    
     switch (amountOfTries) {
         case 1:
-            errorTryText = amountOfTriesText[amountOfTries - 1];
-            break;
+            errorTryText = amountOfTriesText[amountOfTries - 1]; break;
         case 2:
         case 3:
         case 4:
         case 5:
-            errorTryText = amountOfTriesText[amountOfTries - 1] + " Versuche";
-            break;
+            errorTryText = amountOfTriesText[amountOfTries - 1] + " Versuche"; break;
         case 6:
-        case 7:
-            errorTryText = amountOfTriesText[amountOfTries - 1];
-            break;
+        case 7 :
+            errorTryText = amountOfTriesText[amountOfTries - 1]; break;
         default:
             errorTryText = amountOfTriesText[7];
     }
     $("#errorTryCount").html("(" + errorTryText + ")");
 
     $('#ulAnswerHistory').html("");
-    $.each(answerHistory, function (index, val) {
-        $('#ulAnswerHistory').append($('<li>' + val + '</li>'));
+    $.each(answerHistory, function(index, val) {
+        $('#ulAnswerHistory').append(
+            $('<li>' + val + '</li>'));
     });
-
+    
     $("#divWrongAnswer").show();
     $("#buttons-first-try").hide();
     $("#buttons-answer-again").hide();
 
     if (forceShow || randomXToY(1, 10) % 4 == 0) {
         $("#answerFeedback").html(text).show();
-    } else {
+    }else {
         $("#answerFeedback").html(text).hide();
     }
 
     animateWrongAnswer();
 }
 
-function randomXToY(minVal, maxVal, floatVal) {
-    if (typeof floatVal === "undefined") { floatVal = 'undefined'; }
+function randomXToY(minVal : any, maxVal : any, floatVal : any = 'undefined') : number {
     var randVal = minVal + (Math.random() * (maxVal - minVal));
-    return (typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal));
+    return <number>(typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal));
 }
 
 function showCorrectAnswer() {
+
     showNextAnswer();
     $("#divWrongAnswer").hide();
     $("#divCorrectAnswer").show();
-
+    
     ajaxGetAnswer(function (result) {
         $("#spanCorrectAnswer").html(result.correctAnswer);
         $("#spanAnswerDescription").html(result.correctAnswerDesc);
+        
     });
 }
 
@@ -280,13 +271,14 @@ function showNextAnswer() {
     $("#buttons-next-answer").show();
 
     $("#answerFeedback").hide();
-
+    
     $("#buttons-first-try").hide();
     $("#buttons-edit-answer").hide();
     $("#buttons-answer-again").hide();
 }
 
 function isAnswerPossible() {
+
     if ($("#buttons-first-try").is(":visible"))
         return true;
 
@@ -298,4 +290,4 @@ function isAnswerPossible() {
 
     return false;
 }
-//# sourceMappingURL=AnswerQuestion.js.map
+
