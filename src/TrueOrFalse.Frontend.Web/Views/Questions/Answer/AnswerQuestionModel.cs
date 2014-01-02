@@ -31,8 +31,11 @@ public class AnswerQuestionModel : BaseModel
     public string TotalRelevanceForAllEntries;
     public string TotalRelevancePersonalAvg;
     public string TotalRelevancePersonalEntries;
+    
     public string SolutionType;
-    public object SolutionModel;
+    public QuestionSolution SolutionModel;
+    public SolutionMetadata SolutionMetadata;
+
     public string ImageUrl_500px;
     public string SoundUrl;
     public IList<FeedbackRowModel> FeedbackRows;
@@ -139,6 +142,8 @@ public class AnswerQuestionModel : BaseModel
         QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
         SolutionType = question.SolutionType.ToString();
         SolutionModel = new GetQuestionSolution().Run(question);
+
+        SolutionMetadata = new SolutionMetadata {Json = question.SolutionMetadataJson};
 
         TimesAnsweredTotal = question.TotalAnswers();
         PercenctageCorrectAnswers = 34;

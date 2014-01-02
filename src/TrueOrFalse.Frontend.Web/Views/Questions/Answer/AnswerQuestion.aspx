@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
+<%@ Import Namespace="ObjectDumper" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -74,7 +75,14 @@
         
         <div class="row ">
             <div class="col-md-10">
-                <%Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/SolutionType" + Model.SolutionType +".ascx", Model.SolutionModel); %>
+
+                <%
+                    string userControl = "SolutionType" + Model.SolutionType + ".ascx";
+                    if (Model.SolutionMetadata.IsDate)
+                        userControl = "SolutionTypeDate.ascx";
+                        
+                    Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel); 
+                %>
             </div>
         </div>
             

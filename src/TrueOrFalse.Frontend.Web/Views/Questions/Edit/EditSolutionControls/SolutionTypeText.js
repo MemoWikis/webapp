@@ -156,8 +156,6 @@ var SliderDate = (function () {
     };
 
     SliderDate.prototype.SetDateUi = function () {
-        console.log(this.MetaData);
-
         var text = SolutionMetadataDate.GetPrecisionLabel(this.MetaData.Precision);
 
         var dateR = DateParser.Run($("#Answer").val());

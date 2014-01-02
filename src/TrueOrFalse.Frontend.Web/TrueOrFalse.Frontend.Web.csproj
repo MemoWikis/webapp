@@ -592,6 +592,9 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js">
+      <DependentUpon>SolutionTypeDate.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
@@ -605,6 +608,7 @@
     <Content Include="Views\Sets\Detail\Set.aspx" />
     <Content Include="Views\Sets\Detail\Set.css" />
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.ts" />
@@ -705,6 +709,9 @@
     <Content Include="Views\Questions\Questions.less" />
     <Content Include="Views\Sets\Sets.less" />
     <Content Include="Views\Users\Users.less" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js.map">
+      <DependentUpon>SolutionTypeDate.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
