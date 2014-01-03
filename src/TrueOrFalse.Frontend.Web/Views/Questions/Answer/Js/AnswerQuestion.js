@@ -1,16 +1,17 @@
 ﻿/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
 /// <reference path="../../../../scripts/mm.utils.ts" />
 var answerResult;
-var getAnswerData;
-var newAnswer;
-var getAnswerText;
 
 var answerHistory = [];
 var amountOfTries = 0;
 
 var AnswerQuestion = (function () {
-    function AnswerQuestion() {
+    function AnswerQuestion(fnGetAnswerText, fnGetAnswerData, fnOnNewAnswer) {
         var _this = this;
+        this._getAnswerText = fnGetAnswerText;
+        this._getAnswerData = fnGetAnswerData;
+        this._onNewAnswer = fnOnNewAnswer;
+
         var self = this;
 
         $("#txtAnswer").keypress(function (e) {
@@ -47,12 +48,12 @@ var AnswerQuestion = (function () {
         });
         $("#buttons-edit-answer").click(function (e) {
             e.preventDefault();
-            newAnswer();
+            _this._onNewAnswer();
             InputFeedback.AnimateNeutral();
         });
     }
     AnswerQuestion.prototype.validateAnswer = function () {
-        var answerText = getAnswerText();
+        var answerText = this._getAnswerText();
 
         amountOfTries++;
         answerHistory.push(answerText);
@@ -65,7 +66,7 @@ var AnswerQuestion = (function () {
         $.ajax({
             type: 'POST',
             url: window.ajaxUrl_SendAnswer,
-            data: getAnswerData(),
+            data: this._getAnswerData(),
             cache: false,
             success: function (result) {
                 answerResult = result;
@@ -93,6 +94,14 @@ var AnswerQuestion = (function () {
             return true;
 
         return false;
+    };
+
+    AnswerQuestion.prototype.OnAnswerChange = function () {
+        if ($("#buttons-edit-answer").is(":visible")) {
+            $("#buttons-edit-answer").hide();
+            $("#buttons-answer-again").show();
+            InputFeedback.AnimateNeutral();
+        }
     };
     return AnswerQuestion;
 })();
@@ -210,16 +219,4 @@ function ajaxGetAnswer(onSuccessAction) {
         }
     });
 }
-
-function answerChanged() {
-    if ($("#buttons-edit-answer").is(":visible")) {
-        $("#buttons-edit-answer").hide();
-        $("#buttons-answer-again").show();
-        InputFeedback.AnimateNeutral();
-    }
-}
-
-$(function () {
-    new AnswerQuestion();
-});
-//# sourceMappingURL=AnswerQuestion.js.map
+//# sourceMappingURL=answerquestion.js.map

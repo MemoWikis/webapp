@@ -624,6 +624,9 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Js\AnswerQuestion.js">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
     </Content>
@@ -647,6 +650,7 @@
     <Content Include="Views\Sets\Detail\Set.css" />
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
@@ -806,6 +810,9 @@
     </Content>
     <Content Include="Views\Categories\Js\CategoriesDelete.js.map">
       <DependentUpon>CategoriesDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js.map">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
