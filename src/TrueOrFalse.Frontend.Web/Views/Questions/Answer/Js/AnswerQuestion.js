@@ -1,93 +1,101 @@
 ﻿/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
+/// <reference path="../../../../scripts/mm.utils.ts" />
 var answerResult;
 var getAnswerData;
 var newAnswer;
 var getAnswerText;
 
-var successMsgs = ["Yeah! Weiter so.", "Du bis auf einem guten Weg.", "Sauber!", "Well Done!"];
-
 var answerHistory = [];
 var amountOfTries = 0;
 
-$(function () {
-    $("#txtAnswer").keypress(function (e) {
-        if (e.keyCode == 13) {
-            if (isAnswerPossible()) {
-                validateAnswer();
-                return false;
+var AnswerQuestion = (function () {
+    function AnswerQuestion() {
+        var _this = this;
+        var self = this;
+
+        $("#txtAnswer").keypress(function (e) {
+            if (e.keyCode == 13) {
+                if (self.isAnswerPossible()) {
+                    self.validateAnswer();
+                    return false;
+                }
             }
-        }
-        return true;
-    });
+            return true;
+        });
 
-    $("#btnCheck").click(validateAnswer);
-    $("#btnCheckAgain").click(validateAnswer);
-    $("#errorTryCount").click(function () {
-        var divAnswerHistory = $("#divAnswerHistory");
-        if (!divAnswerHistory.is(":visible"))
-            divAnswerHistory.show();
-        else
-            divAnswerHistory.hide();
-    });
-    $(".selectorShowAnswer").click(function () {
-        InputFeedback.ShowCorrectAnswer();
-        return false;
-    });
-    $("#buttons-edit-answer").click(function () {
-        newAnswer();
-        InputFeedback.AnimateNeutral();
-    });
-});
+        $("#btnCheck").click(function (e) {
+            e.preventDefault();
+            _this.validateAnswer();
+        });
 
-function validateAnswer() {
-    var answerText = getAnswerText();
+        $("#btnCheckAgain").click(function (e) {
+            e.preventDefault();
+            _this.validateAnswer();
+        });
 
-    amountOfTries++;
-    answerHistory.push(answerText);
+        $("#errorTryCount").click(function () {
+            var divAnswerHistory = $("#divAnswerHistory");
+            if (!divAnswerHistory.is(":visible"))
+                divAnswerHistory.show();
+            else
+                divAnswerHistory.hide();
+        });
 
-    if (answerText.trim().length == 0) {
-        InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
-        return false;
+        $(".selectorShowAnswer").click(function () {
+            InputFeedback.ShowCorrectAnswer();
+            return false;
+        });
+        $("#buttons-edit-answer").click(function (e) {
+            e.preventDefault();
+            newAnswer();
+            InputFeedback.AnimateNeutral();
+        });
     }
+    AnswerQuestion.prototype.validateAnswer = function () {
+        var answerText = getAnswerText();
 
-    $.ajax({
-        type: 'POST',
-        url: window.ajaxUrl_SendAnswer,
-        data: getAnswerData(),
-        cache: false,
-        success: function (result) {
-            answerResult = result;
-            $("#buttons-first-try").hide();
-            $("#buttons-answer-again").hide();
-            if (result.correct) {
-                InputFeedback.ShowSuccess();
-            } else {
-                InputFeedback.ShowError();
+        amountOfTries++;
+        answerHistory.push(answerText);
+
+        if (answerText.trim().length == 0) {
+            InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: window.ajaxUrl_SendAnswer,
+            data: getAnswerData(),
+            cache: false,
+            success: function (result) {
+                answerResult = result;
+                $("#buttons-first-try").hide();
+                $("#buttons-answer-again").hide();
+                if (result.correct) {
+                    InputFeedback.ShowSuccess();
+                } else {
+                    InputFeedback.ShowError();
+                }
+                ;
             }
-            ;
-        }
-    });
-    return false;
-}
+        });
+        return false;
+    };
 
-function ajaxGetAnswer(onSuccessAction) {
-    $.ajax({
-        type: 'POST',
-        url: window.ajaxUrl_GetAnswer,
-        cache: false,
-        success: function (result) {
-            onSuccessAction(result);
-        }
-    });
-}
+    AnswerQuestion.prototype.isAnswerPossible = function () {
+        if ($("#buttons-first-try").is(":visible"))
+            return true;
 
-function answerChanged() {
-    if ($("#buttons-edit-answer").is(":visible")) {
-        $("#buttons-edit-answer").hide();
-        $("#buttons-answer-again").show();
-        InputFeedback.AnimateNeutral();
-    }
-}
+        if ($("#buttons-edit-answer").is(":visible"))
+            return true;
+
+        if ($("#buttons-answer-again").is(":visible"))
+            return true;
+
+        return false;
+    };
+    return AnswerQuestion;
+})();
 
 var InputFeedback = (function () {
     function InputFeedback() {
@@ -96,7 +104,7 @@ var InputFeedback = (function () {
         if (typeof text === "undefined") { text = ""; }
         if (typeof forceShow === "undefined") { forceShow = false; }
         if (text == "") {
-            text = InputFeedback.ErrMsgs[randomXToY(0, InputFeedback.ErrMsgs.length - 1)];
+            text = InputFeedback.ErrMsgs[Utils.Random(0, InputFeedback.ErrMsgs.length - 1)];
         }
 
         var errorTryText;
@@ -130,7 +138,7 @@ var InputFeedback = (function () {
         $("#buttons-first-try").hide();
         $("#buttons-answer-again").hide();
 
-        if (forceShow || randomXToY(1, 10) % 4 == 0) {
+        if (forceShow || Utils.Random(1, 10) % 4 == 0) {
             $("#answerFeedback").html(text).show();
         } else {
             $("#answerFeedback").html(text).hide();
@@ -155,11 +163,11 @@ var InputFeedback = (function () {
         $("#divWrongAnswer").hide();
 
         $("#divAnsweredCorrect").show();
-        $("#wellDoneMsg").html("" + successMsgs[randomXToY(0, successMsgs.length - 1)]).show();
+        $("#wellDoneMsg").html("" + InputFeedback.SuccessMsgs[Utils.Random(0, InputFeedback.SuccessMsgs.length - 1)]).show();
     };
 
     InputFeedback.ShowCorrectAnswer = function () {
-        showNextAnswer();
+        InputFeedback.ShowNextAnswer();
         $("#divWrongAnswer").hide();
         $("#divCorrectAnswer").show();
 
@@ -168,6 +176,18 @@ var InputFeedback = (function () {
             $("#spanAnswerDescription").html(result.correctAnswerDesc);
         });
     };
+
+    InputFeedback.ShowNextAnswer = function () {
+        $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
+
+        $("#buttons-next-answer").show();
+
+        $("#answerFeedback").hide();
+
+        $("#buttons-first-try").hide();
+        $("#buttons-edit-answer").hide();
+        $("#buttons-answer-again").hide();
+    };
     InputFeedback.ErrMsgs = [
         "Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
         "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
@@ -175,37 +195,31 @@ var InputFeedback = (function () {
         "Übung macht den Meister, Du bist auf dem richtigen Weg.",
         "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden."
     ];
+
+    InputFeedback.SuccessMsgs = ["Yeah! Weiter so.", "Du bis auf einem guten Weg.", "Sauber!", "Well Done!"];
     return InputFeedback;
 })();
 
-function randomXToY(minVal, maxVal, floatVal) {
-    if (typeof floatVal === "undefined") { floatVal = 'undefined'; }
-    var randVal = minVal + (Math.random() * (maxVal - minVal));
-    return (typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal));
+function ajaxGetAnswer(onSuccessAction) {
+    $.ajax({
+        type: 'POST',
+        url: window.ajaxUrl_GetAnswer,
+        cache: false,
+        success: function (result) {
+            onSuccessAction(result);
+        }
+    });
 }
 
-function showNextAnswer() {
-    $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
-
-    $("#buttons-next-answer").show();
-
-    $("#answerFeedback").hide();
-
-    $("#buttons-first-try").hide();
-    $("#buttons-edit-answer").hide();
-    $("#buttons-answer-again").hide();
+function answerChanged() {
+    if ($("#buttons-edit-answer").is(":visible")) {
+        $("#buttons-edit-answer").hide();
+        $("#buttons-answer-again").show();
+        InputFeedback.AnimateNeutral();
+    }
 }
 
-function isAnswerPossible() {
-    if ($("#buttons-first-try").is(":visible"))
-        return true;
-
-    if ($("#buttons-edit-answer").is(":visible"))
-        return true;
-
-    if ($("#buttons-answer-again").is(":visible"))
-        return true;
-
-    return false;
-}
+$(function () {
+    new AnswerQuestion();
+});
 //# sourceMappingURL=AnswerQuestion.js.map

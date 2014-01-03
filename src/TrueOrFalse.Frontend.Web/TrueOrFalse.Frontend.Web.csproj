@@ -305,6 +305,7 @@
     </Content>
     <TypeScriptCompile Include="Scripts\MM.Log.ts" />
     <TypeScriptCompile Include="Scripts\MM.Site.ts" />
+    <TypeScriptCompile Include="Scripts\MM.Utils.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
     <Content Include="Images\no-category-picture-206.png" />
     <Content Include="Images\no-question-128.png" />
@@ -322,6 +323,9 @@
     </Content>
     <Content Include="Scripts\MM.Site.js">
       <DependentUpon>MM.Site.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.Utils.js">
+      <DependentUpon>MM.Utils.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.ValuationPerRow.js">
       <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
@@ -374,6 +378,9 @@
     </Content>
     <Content Include="Scripts\SolutionMetaData.js.map">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.Utils.js.map">
+      <DependentUpon>MM.Utils.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -761,7 +768,7 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\QuestionRow.ascx" />
     <Content Include="Views\Questions\Questions.aspx" />
-    <Content Include="Scripts\MM.lib.js" />
+    <Content Include="Scripts\MM.JQueryExtensions.js" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
