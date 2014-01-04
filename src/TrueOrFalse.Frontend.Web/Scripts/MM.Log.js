@@ -1,7 +1,8 @@
 var Logger = (function () {
     function Logger() {
     }
-    Logger.Error = function () {
+    Logger.Error = function (msg) {
+        if (typeof msg === "undefined") { msg = ""; }
     };
     return Logger;
 })();

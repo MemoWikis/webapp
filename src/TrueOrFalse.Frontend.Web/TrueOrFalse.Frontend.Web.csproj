@@ -814,6 +814,9 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js.map">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js.map">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

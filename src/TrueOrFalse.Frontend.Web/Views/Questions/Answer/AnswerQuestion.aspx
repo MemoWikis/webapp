@@ -75,7 +75,7 @@
         
         <div class="row ">
             <div class="col-md-10">
-
+                <input type="hidden" id="hddSolutionMetaDataJson" value="<%: Model.SolutionMetaDataJson %>"/>
                 <%
                     string userControl = "SolutionType" + Model.SolutionType + ".ascx";
                     if (Model.SolutionMetadata.IsDate)

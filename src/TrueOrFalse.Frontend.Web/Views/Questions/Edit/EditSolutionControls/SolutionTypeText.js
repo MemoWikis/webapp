@@ -159,7 +159,7 @@ var SliderDate = (function () {
         var text = SolutionMetadataDate.GetPrecisionLabel(this.MetaData.Precision);
 
         var dateR = DateParser.Run($("#Answer").val());
-        console.log(dateR);
+
         if (!dateR.IsValid) {
             $("#spanEntryPrecision").html("keine g&#252;ltige Eingabe");
             $("#iDateError").show();

@@ -35,6 +35,7 @@ public class AnswerQuestionModel : BaseModel
     public string SolutionType;
     public QuestionSolution SolutionModel;
     public SolutionMetadata SolutionMetadata;
+    public string SolutionMetaDataJson;
 
     public string ImageUrl_500px;
     public string SoundUrl;
@@ -144,6 +145,7 @@ public class AnswerQuestionModel : BaseModel
         SolutionModel = new GetQuestionSolution().Run(question);
 
         SolutionMetadata = new SolutionMetadata {Json = question.SolutionMetadataJson};
+        SolutionMetaDataJson = question.SolutionMetadataJson;
 
         TimesAnsweredTotal = question.TotalAnswers();
         PercenctageCorrectAnswers = 34;
