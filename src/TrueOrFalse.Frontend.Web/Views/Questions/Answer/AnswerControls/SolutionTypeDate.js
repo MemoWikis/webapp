@@ -1,13 +1,17 @@
 /// <reference path="../js/answerquestion.ts" />
 var SolutionTypeDateEntry = (function () {
     function SolutionTypeDateEntry() {
+        var _this = this;
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(function () {
             answerQuestion.OnAnswerChange();
         });
+        $("#txtAnswer").keyup(function () {
+            _this.SetDateUi();
+        });
 
         var metaData = this.GetJsonMetaData();
-        $("#spanEntryPrecision").text(SolutionMetadataDate.GetPrecisionLabel(metaData.Precision));
+        $("#spanEntryPrecision").text(SolutionMetadataDate.GetPrecisionLabel(metaData.Precision) + "genau");
     }
     SolutionTypeDateEntry.prototype.GetAnswerText = function () {
         return $("#txtAnswer").val();
@@ -20,6 +24,20 @@ var SolutionTypeDateEntry = (function () {
     SolutionTypeDateEntry.prototype.OnNewAnswer = function () {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
+    };
+
+    SolutionTypeDateEntry.prototype.SetDateUi = function () {
+        var dateR = DateParser.Run($("#txtAnswer").val());
+
+        if (!dateR.IsValid) {
+            $("#spanEntryFeedback").html("kein g&#252;ltiges Datum");
+            $("#iDateError").show();
+            $("#iDateCorrect").hide();
+        } else {
+            $("#spanEntryFeedback").html("<b>" + SolutionMetadataDate.GetPrecisionLabel(dateR.Precision) + "genau </b>" + "(" + dateR.ToLabel() + ")");
+            $("#iDateError").hide();
+            $("#iDateCorrect").show();
+        }
     };
 
     SolutionTypeDateEntry.prototype.GetJsonMetaData = function () {

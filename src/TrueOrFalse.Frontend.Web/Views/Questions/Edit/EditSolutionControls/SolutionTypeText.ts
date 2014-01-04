@@ -35,7 +35,6 @@ class SolutionMetaDataMenu {
         }
 
         $("#Answer").keyup(() => {
-            console.log(this._current);
             if (this._current.IsDate) {
                 this._sliderDate.SetDateUi();
             }

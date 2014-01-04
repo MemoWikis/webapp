@@ -4,6 +4,11 @@
 
 class SolutionTypeTextEntry implements ISolutionEntry
 {
+    constructor() {
+        var answerQuestion = new AnswerQuestion(this);
+        $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });    
+    }
+
     GetAnswerText(): string {
         return $("#txtAnswer").val();
     }
@@ -19,7 +24,5 @@ class SolutionTypeTextEntry implements ISolutionEntry
 };
 
 $(function() {
-    var answerQuestion = new AnswerQuestion(new SolutionTypeTextEntry());
-    $("#txtAnswer").keypress(()=> { answerQuestion.OnAnswerChange(); });
+    new SolutionTypeTextEntry();
 });
-

@@ -3,6 +3,10 @@
 /// <reference path="../js/answerquestion.ts" />
 var SolutionTypeTextEntry = (function () {
     function SolutionTypeTextEntry() {
+        var answerQuestion = new AnswerQuestion(this);
+        $("#txtAnswer").keypress(function () {
+            answerQuestion.OnAnswerChange();
+        });
     }
     SolutionTypeTextEntry.prototype.GetAnswerText = function () {
         return $("#txtAnswer").val();
@@ -21,9 +25,6 @@ var SolutionTypeTextEntry = (function () {
 ;
 
 $(function () {
-    var answerQuestion = new AnswerQuestion(new SolutionTypeTextEntry());
-    $("#txtAnswer").keypress(function () {
-        answerQuestion.OnAnswerChange();
-    });
+    new SolutionTypeTextEntry();
 });
 //# sourceMappingURL=SolutionTypeText.js.map

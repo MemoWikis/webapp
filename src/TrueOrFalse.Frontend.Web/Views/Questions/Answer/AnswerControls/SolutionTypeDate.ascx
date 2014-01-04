@@ -1,6 +1,13 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
-Antwort als Datum min. <span id="spanEntryPrecision"></span>
-<textarea id="txtAnswer" class="form-control " rows="1" style=" width: 100%"></textarea>    
+Datum min. <b><span id="spanEntryPrecision"></span></b>
+
+<div style="padding-bottom: 5px;">
+    <span id="spanEntryFeedback"></span>
+    <i class="fa fa-exclamation-circle" id="iDateError" style="color:red; display: none; font-size: 16px;"></i> 
+    <i class="fa fa-check-circle" id="iDateCorrect" style="color:green; display: none;  font-size: 16px;"></i> 
+</div>
+
+<input type="text" id="txtAnswer" class="form-control " rows="1" style=" width: 100%"/>    
 
 <script src="/Views/Questions/Answer/AnswerControls/SolutionTypeDate.js" type="text/javascript"></script>
