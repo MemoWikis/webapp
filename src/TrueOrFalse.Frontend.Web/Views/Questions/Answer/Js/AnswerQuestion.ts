@@ -6,21 +6,23 @@ var answerResult;
 var answerHistory = [];
 var amountOfTries = 0;
 
+interface ISolutionEntry {
+    GetAnswerText(): string;
+    GetAnswerData(): {};
+    OnNewAnswer(): void;
+}
+
 class  AnswerQuestion
 {
     private _getAnswerText: () => string;
     private _getAnswerData: () => {};
     private _onNewAnswer : () => void;
 
-    constructor(
-        fnGetAnswerText: () => string,
-        fnGetAnswerData: () => {},
-        fnOnNewAnswer : () => void
-    )
+    constructor(solutionEntry : ISolutionEntry)
     {
-        this._getAnswerText = fnGetAnswerText;
-        this._getAnswerData = fnGetAnswerData;
-        this._onNewAnswer = fnOnNewAnswer;
+        this._getAnswerText = solutionEntry.GetAnswerText;
+        this._getAnswerData = solutionEntry.GetAnswerData;
+        this._onNewAnswer = solutionEntry.OnNewAnswer;
 
         var self = this;
 

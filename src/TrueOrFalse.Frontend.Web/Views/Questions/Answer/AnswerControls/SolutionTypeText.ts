@@ -2,24 +2,24 @@
 /// <reference path="../../../../scripts/mm.utils.ts" />
 /// <reference path="../js/answerquestion.ts" />
 
-class SolutionTypeTextEntry {
-
-    constructor() {
-        var answerQuestion =
-            new AnswerQuestion(
-                () => { return $("#txtAnswer").val(); }, /* fnGetAnswerText */
-                () => { return { answer: $("#txtAnswer").val() }; }, /* fnGetAnswerData */
-                () => { /* fnOnNewAnswer */
-                    $("#txtAnswer").focus();
-                    $("#txtAnswer").setCursorPosition(0);}
-            );
-
-        $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });
-
+class SolutionTypeTextEntry implements ISolutionEntry
+{
+    GetAnswerText(): string {
+        return $("#txtAnswer").val();
     }
-}
 
+    GetAnswerData(): {} {
+        return { answer: $("#txtAnswer").val() };
+    }
 
-$(function () {
-    new SolutionTypeTextEntry();
+    OnNewAnswer() {
+        $("#txtAnswer").focus();
+        $("#txtAnswer").setCursorPosition(0);
+    }        
+};
+
+$(function() {
+    var answerQuestion = new AnswerQuestion(new SolutionTypeTextEntry());
+    $("#txtAnswer").keypress(()=> { answerQuestion.OnAnswerChange(); });
 });
+

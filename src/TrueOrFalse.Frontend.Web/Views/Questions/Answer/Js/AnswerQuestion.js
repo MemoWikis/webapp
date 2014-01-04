@@ -6,11 +6,11 @@ var answerHistory = [];
 var amountOfTries = 0;
 
 var AnswerQuestion = (function () {
-    function AnswerQuestion(fnGetAnswerText, fnGetAnswerData, fnOnNewAnswer) {
+    function AnswerQuestion(solutionEntry) {
         var _this = this;
-        this._getAnswerText = fnGetAnswerText;
-        this._getAnswerData = fnGetAnswerData;
-        this._onNewAnswer = fnOnNewAnswer;
+        this._getAnswerText = solutionEntry.GetAnswerText;
+        this._getAnswerData = solutionEntry.GetAnswerData;
+        this._onNewAnswer = solutionEntry.OnNewAnswer;
 
         var self = this;
 
