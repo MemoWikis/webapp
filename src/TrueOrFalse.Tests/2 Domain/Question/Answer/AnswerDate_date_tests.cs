@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace TrueOrFalse.Tests
 {
-    public class Should_parse_answerDate : BaseTest
+    public class AnswerDate_date_tests : BaseTest
     {
         [Test]
         public void Run()
@@ -38,6 +38,13 @@ namespace TrueOrFalse.Tests
             Assert.That(DateAnswerParser.Run("1999").IsValid, Is.True);
             Assert.That(DateAnswerParser.Run("1999").Year, Is.EqualTo(1999));
             Assert.That(DateAnswerParser.Run("1999").Precision, Is.EqualTo(DatePrecision.Year));
+        }
+
+        [Test]
+        public void Should_compare_answer()
+        {
+            Assert.That(DateAnswerParser.Run("22.12.2014").Valid(DateAnswerParser.Run("2014"), DatePrecision.Year), Is.True);
+            Assert.That(DateAnswerParser.Run("22.12.2014").Valid(DateAnswerParser.Run("2014"), DatePrecision.Month), Is.False);
         }
     }
 }

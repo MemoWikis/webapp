@@ -15,7 +15,16 @@ public class QuestionSolutionExact : QuestionSolution
         if (solutionMetadata.IsDate)
         {
             var metaDate = solutionMetadata.GetAsDate();
-            //metaDate.Precision
+            var dateFromInput = DateAnswerParser.Run(answer);
+            var dateAnswer = DateAnswerParser.Run(answer);
+
+            if (!dateFromInput.IsValid)
+                return false;
+
+            if (dateFromInput.Precision <= metaDate.Precision)
+                return false;
+
+            return dateAnswer.Valid(dateFromInput, metaDate.Precision);
         }
         return Text == answer;
     }

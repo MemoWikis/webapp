@@ -10,7 +10,7 @@ public class GetQuestionSolution
         switch (question.SolutionType)
         {
             case SolutionType.Text:
-                return new QuestionSolutionExact {Text = question.Solution, MetadataSolutionJson = question.SolutionMetadataJson};
+                return new QuestionSolutionExact{ Text = question.Solution,  MetadataSolutionJson = question.SolutionMetadataJson };
 
             case SolutionType.Sequence:
                 return serializer.Deserialize<QuestionSolutionSequence>(question.Solution);
