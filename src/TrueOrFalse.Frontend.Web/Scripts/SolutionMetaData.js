@@ -13,11 +13,11 @@ var SolutionMetaData = (function () {
 var DatePrecision;
 (function (DatePrecision) {
     DatePrecision[DatePrecision["Day"] = 1] = "Day";
-    DatePrecision[DatePrecision["Month"] = 5] = "Month";
-    DatePrecision[DatePrecision["Year"] = 10] = "Year";
-    DatePrecision[DatePrecision["Decade"] = 15] = "Decade";
-    DatePrecision[DatePrecision["Century"] = 20] = "Century";
-    DatePrecision[DatePrecision["Millenium"] = 25] = "Millenium";
+    DatePrecision[DatePrecision["Month"] = 2] = "Month";
+    DatePrecision[DatePrecision["Year"] = 3] = "Year";
+    DatePrecision[DatePrecision["Decade"] = 4] = "Decade";
+    DatePrecision[DatePrecision["Century"] = 5] = "Century";
+    DatePrecision[DatePrecision["Millenium"] = 6] = "Millenium";
 })(DatePrecision || (DatePrecision = {}));
 
 var SolutionMetadataDate = (function (_super) {
@@ -30,15 +30,15 @@ var SolutionMetadataDate = (function (_super) {
         switch (precision) {
             case 1 /* Day */:
                 return "Tag";
-            case 5 /* Month */:
+            case 2 /* Month */:
                 return "Monat";
-            case 10 /* Year */:
+            case 3 /* Year */:
                 return "Jahr";
-            case 15 /* Decade */:
+            case 4 /* Decade */:
                 return "Jahrzent";
-            case 20 /* Century */:
+            case 5 /* Century */:
                 return "Jahrhundert";
-            case 25 /* Millenium */:
+            case 6 /* Millenium */:
                 return "Jahrtausend";
         }
 

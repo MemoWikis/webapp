@@ -16,7 +16,7 @@ public class QuestionSolutionExact : QuestionSolution
         {
             var metaDate = solutionMetadata.GetAsDate();
             var dateFromInput = DateAnswerParser.Run(answer);
-            var dateAnswer = DateAnswerParser.Run(answer);
+            var dateAnswer = DateAnswerParser.Run(Text);
 
             if (!dateFromInput.IsValid)
                 return false;

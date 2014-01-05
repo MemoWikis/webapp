@@ -16,10 +16,10 @@ var DateR = (function () {
             case 1 /* Day */:
                 var date = new Date(this.Year, this.Month - 1, this.Day);
                 return date.getMonth() + ". " + monthNames[date.getMonth()] + " " + date.getFullYear();
-            case 5 /* Month */:
+            case 2 /* Month */:
                 var date = new Date(this.Year, this.Month - 1);
                 return monthNames[date.getMonth()] + " " + date.getFullYear();
-            case 10 /* Year */:
+            case 3 /* Year */:
                 if (this.IsNegative && this.Year > 10000)
                     return "vor " + this.Year.toString() + " Jahren";
 
@@ -27,11 +27,11 @@ var DateR = (function () {
                     return this.Year.toString() + " v. Chr.";
 
                 return this.Year.toString();
-            case 15 /* Decade */:
+            case 4 /* Decade */:
                 return "Dekade";
-            case 20 /* Century */:
+            case 5 /* Century */:
                 return this.Year + ". Jahrhundert";
-            case 25 /* Millenium */:
+            case 6 /* Millenium */:
                 return this.Year + ". Jahrausend";
         }
         return "";
@@ -70,7 +70,7 @@ var DateParser = (function () {
 
             result.IsValid = true;
             result.Year = parseInt(userInput);
-            result.Precision = 20 /* Century */;
+            result.Precision = 5 /* Century */;
             return this._lastResult = result;
         } else if (input.indexOf("Jt") > 0 || input.indexOf("Jt.") > 0) {
             var userInput = input.replace("Jt", "").replace("Jt.", "");
@@ -85,7 +85,7 @@ var DateParser = (function () {
 
             result.IsValid = true;
             result.Year = parseInt(userInput);
-            result.Precision = 25 /* Millenium */;
+            result.Precision = 6 /* Millenium */;
             return this._lastResult = result;
         } else if (parts.length == 3) {
             result.Day = parseInt(parts[0]);
@@ -106,7 +106,7 @@ var DateParser = (function () {
             if (date.getFullYear() == result.Year && date.getMonth() + 1 == result.Month)
                 result.IsValid = true;
 
-            result.Precision = 5 /* Month */;
+            result.Precision = 2 /* Month */;
             return this._lastResult = result;
         } else if (/^[-]{0,1}[ ]*\d{1,10}$/.test(input.trim())) {
             var userInput = input.replace(/ /g, "");
@@ -116,7 +116,7 @@ var DateParser = (function () {
                 userInput = input.replace("-", "");
             }
             result.IsValid = true;
-            result.Precision = 10 /* Year */;
+            result.Precision = 3 /* Year */;
             result.Year = parseInt(userInput);
             return this._lastResult = result;
         }
@@ -150,22 +150,22 @@ var DateParserTests = (function () {
             equal(DateParser.Run("12.2014").IsValid, true);
             equal(DateParser.Run("12.2014").Month, 12);
             equal(DateParser.Run("12.2014").Year, 2014);
-            equal(DateParser.Run("12.2014").Precision, 5 /* Month */);
+            equal(DateParser.Run("12.2014").Precision, 2 /* Month */);
 
             equal(DateParser.Run("3 Jh").IsValid, true);
             equal(DateParser.Run("3 Jh").Year, 3);
-            equal(DateParser.Run("3 Jh").Precision, 20 /* Century */);
+            equal(DateParser.Run("3 Jh").Precision, 5 /* Century */);
             equal(DateParser.Run("3 : Jh").IsValid, false);
             equal(DateParser.Run("31 10 Jh").IsValid, false);
             equal(DateParser.Run("Jh").IsValid, false);
 
             equal(DateParser.Run("5 Jt").IsValid, true);
             equal(DateParser.Run("5 Jt").Year, 5);
-            equal(DateParser.Run("5 Jt").Precision, 25 /* Millenium */);
+            equal(DateParser.Run("5 Jt").Precision, 6 /* Millenium */);
 
             equal(DateParser.Run("1999").IsValid, true);
             equal(DateParser.Run("1999").Year, 1999);
-            equal(DateParser.Run("1999").Precision, 10 /* Year */);
+            equal(DateParser.Run("1999").Precision, 3 /* Year */);
         });
     };
     return DateParserTests;

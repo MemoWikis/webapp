@@ -6,11 +6,11 @@ class SolutionMetaData {
 
 enum DatePrecision {
     Day = 1,
-    Month = 5,
-    Year = 10,
-    Decade = 15,
-    Century = 20,
-    Millenium = 25
+    Month = 2,
+    Year = 3,
+    Decade = 4,
+    Century = 5,
+    Millenium = 6
 }
 
 class SolutionMetadataDate extends SolutionMetaData

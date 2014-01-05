@@ -141,15 +141,15 @@ var SliderDate = (function () {
         if (sliderValue == 1)
             this.MetaData.Precision = 1 /* Day */;
         else if (sliderValue == 2)
-            this.MetaData.Precision = 5 /* Month */;
+            this.MetaData.Precision = 2 /* Month */;
         else if (sliderValue == 3)
-            this.MetaData.Precision = 10 /* Year */;
+            this.MetaData.Precision = 3 /* Year */;
         else if (sliderValue == 4)
-            this.MetaData.Precision = 15 /* Decade */;
+            this.MetaData.Precision = 4 /* Decade */;
         else if (sliderValue == 5)
-            this.MetaData.Precision = 20 /* Century */;
+            this.MetaData.Precision = 5 /* Century */;
         else if (sliderValue == 6)
-            this.MetaData.Precision = 25 /* Millenium */;
+            this.MetaData.Precision = 6 /* Millenium */;
 
         this.SetDateUi();
     };

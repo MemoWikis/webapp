@@ -45,6 +45,11 @@ namespace TrueOrFalse.Tests
         {
             Assert.That(DateAnswerParser.Run("22.12.2014").Valid(DateAnswerParser.Run("2014"), DatePrecision.Year), Is.True);
             Assert.That(DateAnswerParser.Run("22.12.2014").Valid(DateAnswerParser.Run("2014"), DatePrecision.Month), Is.False);
+
+            Assert.That(DateAnswerParser.Run("22.12.2014").Valid(DateAnswerParser.Run("12.2014"), DatePrecision.Year), Is.True);
+            Assert.That(DateAnswerParser.Run("22.12.2014").Valid(DateAnswerParser.Run("11.2014"), DatePrecision.Year), Is.False);
+            Assert.That(DateAnswerParser.Run("22.12.2014").Valid(DateAnswerParser.Run("22.12.2014"), DatePrecision.Year), Is.True);
+            Assert.That(DateAnswerParser.Run("22.12.2014").Valid(DateAnswerParser.Run("21.12.2014"), DatePrecision.Year), Is.False);
         }
     }
 }
