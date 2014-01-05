@@ -228,6 +228,7 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
+    <Compile Include="Domain\Question\SolutionType\Date\DateAnswer.cs" />
     <Compile Include="Domain\Question\Answer\GetQuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewMap.cs" />
     <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewPersistence.cs" />
     <Compile Include="Domain\Question\QuestionView\QuestionView.cs" />
+    <Compile Include="Domain\Question\SolutionType\Date\DateAnswerParser.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadata.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataDate.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />

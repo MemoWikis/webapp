@@ -187,6 +187,7 @@
     <Compile Include="2 Domain\Knowledge\Should_calculate_correctness_probability.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_wish_knowledge_count.cs" />
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />
+    <Compile Include="2 Domain\Question\Answer\Should_parse_answerDate.cs" />
     <Compile Include="2 Domain\Question\Questions_in_Sets.cs" />
     <Compile Include="2 Domain\Set\Set_manipulate.cs" />
     <Compile Include="2 Domain\Set\Set_persistence.cs" />
