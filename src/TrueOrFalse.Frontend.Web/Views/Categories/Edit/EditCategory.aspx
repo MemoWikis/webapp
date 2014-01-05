@@ -10,16 +10,19 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    
 
-    <div class="col-md-9 category">
+    <div class="col-md-9  category category" style="margin-bottom: 30px;">
         <h2><% if (Model.IsEditing) { %>
                 Kategorie bearbeiten
             <% } else { %>
                 Kategorie erstellen
             <% } %>
         </h2>
+    </div>
 
-        <div class="form-horizontal" style="margin-top: 30px;">
+    <div class="col-md-6">
+        <div class="form-horizontal">
             <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
                     FormMethod.Post, new { enctype = "multipart/form-data" })){%>
             
@@ -32,33 +35,22 @@
                 <% Html.Message(Model.Message); %>
     
                 <div class="form-group">
-                    <%= Html.LabelFor(m => m.Name, new {@class="col-sm-2 control-label"} ) %>
-                    <div class="col-xs-3">
+                    <%= Html.LabelFor(m => m.Name, new {@class="col-sm-3 control-label"} ) %>
+                    <div class="col-xs-4">
                         <%= Html.TextBoxFor(m => m.Name, new {@class="form-control"} ) %>    
-                    </div>
-                </div>
-    
-                <div class="form-group">
-                    <label for="file" class="col-sm-2 control-label">Bild:</label>
-                
-                    <div class="col-sm-10">    
-                        <img id="categoryImg" alt="" src="<%= Model.ImageUrl %>" />
-                        <div style="margin-top: 10px;">
-                            <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
-                        </div>
                     </div>
                 </div>
         
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="col-sm-offset-3 col-sm-9">
                         Übergeordnete Kategorien: (Beispielsweise: Person > Politker, Bundesland > Bundeshauptstad, Kanzler > Minister.)
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">In Beziehung zu:</label>
+                    <label class="col-sm-3 control-label">In Beziehung zu:</label>
 
-                    <div id="relatedCategories" class="col-sm-10">
+                    <div id="relatedCategories" class="col-sm-9">
                         <script type="text/javascript">
                             $(function () {
                                 <%foreach (var category in Model.RelatedCategories) { %>
@@ -75,7 +67,7 @@
                 </div>
             
                 <div class="form-group" style="margin-top: 30px;">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="col-sm-offset-3 col-sm-9">
                         <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
                         <input type="submit" value="Speichern & Neu" class="btn btn-default" name="btnSave btn" />&nbsp;&nbsp;&nbsp;
                         <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
@@ -83,6 +75,13 @@
                 </div>
 
             </div>
+    </div>
+    
+    <div class="col-md-3">
+        <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" />
+        <div style="margin-top: 10px;">
+            <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
+        </div>
     </div>
 
 <% } %>

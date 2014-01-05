@@ -35,7 +35,7 @@ public class CategoryModel : BaseModel
 
     public CategoryModel(Category category)
     {
-        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_200px_square().Url;
+        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         Category = category;
 
         Id = category.Id;

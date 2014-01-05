@@ -54,6 +54,10 @@ public class EditCategoryController : BaseController
             _categoryRepository.Update(category);
         }
         StoreImage(id);
+        
+        model.Init(category);
+        model.IsEditing = true;
+
         return View(_viewPath, model);
     }
 
@@ -74,9 +78,10 @@ public class EditCategoryController : BaseController
             var category = model.ConvertToCategory();
             category.Creator = _sessionUser.User;
             _categoryRepository.Create(category);
-            CategoryImageStore.Run(file, category.Id);
+            StoreImage(category.Id);
             model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));
         }
+
         return View(_viewPath, model);
     }
 

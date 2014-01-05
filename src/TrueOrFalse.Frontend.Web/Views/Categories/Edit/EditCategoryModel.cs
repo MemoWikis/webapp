@@ -26,14 +26,18 @@ public class EditCategoryModel : BaseModel
     public string ImageLicenceOwner { get; set; }
 
     public EditCategoryModel(){
-        ImageUrl = "";
     }
 
-    public EditCategoryModel(Category category) : this()
+    public EditCategoryModel(Category category) 
+    {
+        Init(category);
+    }
+
+    public void Init(Category category)
     {
         Name = category.Name;
         RelatedCategories = (from cat in category.RelatedCategories select cat.Name).ToList();
-        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_200px_square().Url;
+        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;        
     }
 
     public Category ConvertToCategory()
