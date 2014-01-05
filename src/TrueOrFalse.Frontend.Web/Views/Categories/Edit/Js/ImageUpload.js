@@ -5,9 +5,9 @@
 
 $(function () {
     var imageUploadModal = new ImageUploadModal();
-    imageUploadModal.SetTitle("Fragesatzbild hochladen");
+    imageUploadModal.SetTitle("Kategoriebild hochladen");
     imageUploadModal.OnSave(function (url) {
-        $("#questionSetImg").attr("src", url);
+        $("#categoryImg").attr("src", url);
 
         if (imageUploadModal.Mode == 0 /* Wikimedia */) {
             $("#ImageIsNew").val("true");

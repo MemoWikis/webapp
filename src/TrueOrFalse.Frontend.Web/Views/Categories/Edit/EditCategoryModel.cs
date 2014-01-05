@@ -19,6 +19,12 @@ public class EditCategoryModel : BaseModel
 
     public string ImageUrl { get; set; }
 
+    public string ImageIsNew { get; set; }
+    public string ImageSource { get; set; }
+    public string ImageWikiFileName { get; set; }
+    public string ImageGuid { get; set; }
+    public string ImageLicenceOwner { get; set; }
+
     public EditCategoryModel(){
         ImageUrl = "";
     }
@@ -27,7 +33,7 @@ public class EditCategoryModel : BaseModel
     {
         Name = category.Name;
         RelatedCategories = (from cat in category.RelatedCategories select cat.Name).ToList();
-        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px().Url;
+        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_200px_square().Url;
     }
 
     public Category ConvertToCategory()

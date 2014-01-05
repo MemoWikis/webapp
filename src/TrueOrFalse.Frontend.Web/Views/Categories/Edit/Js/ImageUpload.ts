@@ -6,12 +6,11 @@
 declare var isEditMode: boolean;
 declare var questionSetId: number;
 
-
 $(function () {
     var imageUploadModal = new ImageUploadModal();
-    imageUploadModal.SetTitle("Fragesatzbild hochladen");
+    imageUploadModal.SetTitle("Kategoriebild hochladen");
     imageUploadModal.OnSave(function (url: string) {
-        $("#questionSetImg").attr("src", url);
+        $("#categoryImg").attr("src", url);
 
         if (imageUploadModal.Mode == ImageUploadModalMode.Wikimedia) {
             $("#ImageIsNew").val("true");

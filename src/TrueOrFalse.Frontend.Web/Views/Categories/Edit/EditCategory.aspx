@@ -5,6 +5,8 @@
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
     <%= Styles.Render("~/bundles/category") %>
+    <%= Scripts.Render("~/bundles/fileUploader") %>
+    <%= Scripts.Render("~/bundles/CategoryEdit") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -20,6 +22,12 @@
         <div class="form-horizontal" style="margin-top: 30px;">
             <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
                     FormMethod.Post, new { enctype = "multipart/form-data" })){%>
+            
+                <%: Html.HiddenFor(m => m.ImageIsNew) %>
+                <%: Html.HiddenFor(m => m.ImageSource) %>
+                <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
+                <%: Html.HiddenFor(m => m.ImageGuid) %>
+                <%: Html.HiddenFor(m => m.ImageLicenceOwner) %>
 
                 <% Html.Message(Model.Message); %>
     
@@ -34,11 +42,11 @@
                     <label for="file" class="col-sm-2 control-label">Bild:</label>
                 
                     <div class="col-sm-10">    
-                        <img alt="" src="<%= Model.ImageUrl %>" />
-                        <input type="file" name="file" id="file" />
+                        <img id="categoryImg" alt="" src="<%= Model.ImageUrl %>" />
+                        <div style="margin-top: 10px;">
+                            <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
+                        </div>
                     </div>
-
-                    
                 </div>
         
                 <div class="form-group">
@@ -78,6 +86,8 @@
     </div>
 
 <% } %>
+    
+<% Html.RenderPartial("../Shared/ImageUpload/ImageUpload"); %>
 
 </asp:Content>
 

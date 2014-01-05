@@ -53,7 +53,7 @@ public class EditCategoryController : BaseController
             model.UpdateCategory(category);
             _categoryRepository.Update(category);
         }
-        CategoryImageStore.Run(file, id);
+        StoreImage(id);
         return View(_viewPath, model);
     }
 
@@ -78,5 +78,22 @@ public class EditCategoryController : BaseController
             model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));
         }
         return View(_viewPath, model);
+    }
+
+    private void StoreImage(int categoryId)
+    {
+        if (Request["ImageIsNew"] == "true")
+        {
+            if (Request["ImageSource"] == "wikimedia")
+            {
+                Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(
+                    Request["ImageWikiFileName"], categoryId, _sessionUser.User.Id);
+            }
+            if (Request["ImageSource"] == "upload")
+            {
+                Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
+                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, _sessionUser.User.Id, Request["ImageLicenceOwner"]);
+            }
+        }
     }
 }

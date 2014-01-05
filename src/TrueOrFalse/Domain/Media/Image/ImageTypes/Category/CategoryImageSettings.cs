@@ -10,6 +10,8 @@ public class CategoryImageSettings : IImageSettings
 
     public string BasePath { get { return "/Images/Categories/"; } }
 
+    public CategoryImageSettings(){}
+
     public CategoryImageSettings(int categoryId){
         Id = categoryId;
     }
@@ -18,9 +20,8 @@ public class CategoryImageSettings : IImageSettings
         return HttpContext.Current.Server.MapPath(BasePath + Id);
     }
 
-    public void Init(int typeId)
-    {
-        throw new System.NotImplementedException();
+    public void Init(int categoryId){
+        Id = categoryId;
     }
 
     public ImageUrl GetUrl_50px() { return GetUrl(50); }
