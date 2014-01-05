@@ -28,10 +28,7 @@ public class EditCategoryController : BaseController
     public ViewResult Edit(int id)
     {
         var category = _categoryRepository.GetById(id);
-        var model = new EditCategoryModel(category){
-                            IsEditing = true,
-                            ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px().Url
-                    };
+        var model = new EditCategoryModel(category){IsEditing = true};
 
         return View(_viewPath, model);
     }
@@ -80,6 +77,7 @@ public class EditCategoryController : BaseController
             _categoryRepository.Create(category);
             StoreImage(category.Id);
             model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));
+            model.Init(category);
         }
 
         return View(_viewPath, model);

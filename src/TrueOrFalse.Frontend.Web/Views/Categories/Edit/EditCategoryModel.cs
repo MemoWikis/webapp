@@ -25,6 +25,8 @@ public class EditCategoryModel : BaseModel
     public string ImageGuid { get; set; }
     public string ImageLicenceOwner { get; set; }
 
+    public Category Category;
+
     public EditCategoryModel(){
     }
 
@@ -35,6 +37,7 @@ public class EditCategoryModel : BaseModel
 
     public void Init(Category category)
     {
+        Category = category;
         Name = category.Name;
         RelatedCategories = (from cat in category.RelatedCategories select cat.Name).ToList();
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;        

@@ -12,13 +12,25 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
 
-    <div class="col-md-9  category category" style="margin-bottom: 30px;">
+    <div class="col-md-6  category category" style="margin-bottom: 30px;">
         <h2><% if (Model.IsEditing) { %>
                 Kategorie bearbeiten
             <% } else { %>
                 Kategorie erstellen
             <% } %>
         </h2>
+    </div>
+    <div class="col-md-3">
+        <div class="pull-right">
+            <% if(Model.IsEditing){ %>
+                <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0px;">
+                    <i class="fa fa-list"></i>&nbsp;zur Übersicht
+                </a><br/>
+                <a href="<%= Links.CategoryDetail(Url, Model.Category) %>" style="font-size: 12px;">
+                    <i class="fa fa-eye"></i>&nbsp;Detailansicht
+                </a> 
+            <% } %>            
+        </div>
     </div>
 
     <div class="col-md-6">
@@ -78,7 +90,7 @@
     </div>
     
     <div class="col-md-3">
-        <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" />
+        <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
         <div style="margin-top: 10px;">
             <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
         </div>
