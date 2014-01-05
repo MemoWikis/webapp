@@ -337,6 +337,9 @@
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
     <Content Include="Style\bootstrap.css" />
+    <Content Include="Style\form.min.css">
+      <DependentUpon>form.less</DependentUpon>
+    </Content>
     <Content Include="Style\includes\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
