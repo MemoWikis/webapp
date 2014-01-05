@@ -21,7 +21,7 @@ public class QuestionSolutionExact : QuestionSolution
             if (!dateFromInput.IsValid)
                 return false;
 
-            if (dateFromInput.Precision <= metaDate.Precision)
+            if ((int)dateFromInput.Precision > (int)metaDate.Precision)
                 return false;
 
             return dateAnswer.Valid(dateFromInput, metaDate.Precision);
