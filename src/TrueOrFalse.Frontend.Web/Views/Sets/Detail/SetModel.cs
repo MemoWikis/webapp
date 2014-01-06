@@ -19,7 +19,7 @@ public class SetModel : BaseModel
     public string CreationDate;
     public string CreationDateNiceText;
 
-    public string ImageUrl_206px;
+    public string ImageUrl;
 
     public bool IsOwner;
 
@@ -40,6 +40,6 @@ public class SetModel : BaseModel
         CreationDate = set.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = TimeElapsedAsText.Run(set.DateCreated);
 
-        ImageUrl_206px = QuestionSetImageSettings.Create(set.Id).GetUrl_206px_square().Url;
+        ImageUrl = QuestionSetImageSettings.Create(set.Id).GetUrl_350px_square().Url;
     }
 }
