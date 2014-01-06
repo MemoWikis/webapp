@@ -654,7 +654,9 @@
       <DependentUpon>Questions.less</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Set.aspx" />
-    <Content Include="Views\Sets\Detail\Set.css" />
+    <Content Include="Views\Sets\Detail\Set.css">
+      <DependentUpon>Set.less</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
@@ -830,6 +832,7 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js.map">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Sets\Detail\Set.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

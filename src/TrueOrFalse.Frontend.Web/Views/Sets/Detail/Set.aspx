@@ -24,19 +24,17 @@
    
     <div class="col-md-6">
         <% var index = 0; foreach(var questionInSet in Model.QuestionsInSet){ index++; %>
-        
-            <div class="row" style="margin-bottom: 15px;">
-                <div class="col-md-1">
-                    <img src="/Images/no-question-50.png" width="32" style="vertical-align: top;" />
+            <div class="row question-row">
+                <div class="col-md-2 col-1">
+                    <img src="<%= QuestionImageSettings.Create(questionInSet.Id).GetUrl_128px_square().Url %>" class="img-responsive" style="" />
                 </div>
-                <div class="col-md-9" style="line-height: 15px; height: 32px; overflow:hidden;">
+                <div class="col-md-8 col-2">
                     <%= index %> <a href="<%= Links.AnswerQuestion(Url, questionInSet.Question, Model.Set) %>"><%=questionInSet.Question.Text %></a>    
                 </div>
-                <div class="col-md-2">
-                    <div class="show-tooltip active pull-right" data-placement="right" 
-                        data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest. Schnitt: 71% "
-                        style="display: inline-block; width: 60px; background-color:beige; height: 32px;vertical-align: top;">
-                        <span style="font-size: 25px; color: green; position: relative; top: 7px; left: 14px;">72%</span>
+                <div class="col-md-2 col-3">
+                    <div class="show-tooltip active pull-right" style="padding-top: 0px;" data-placement="right" 
+                        data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest. Schnitt: 71% ">
+                        <span style="font-size: 28px; color: green;">72%</span>
                     </div>
                 </div>
             </div>
@@ -55,7 +53,7 @@
     <div class="col-md-3">
         
         <div>
-            <img src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />    
+            <img src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
         </div>
 
         <div style="margin-top: 10px;">
