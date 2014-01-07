@@ -12,6 +12,7 @@ public class SetModel : BaseModel
     public string Name;
 
     public Set Set;
+    
     public IList<QuestionInSet> QuestionsInSet;
 
     public User Creator;
