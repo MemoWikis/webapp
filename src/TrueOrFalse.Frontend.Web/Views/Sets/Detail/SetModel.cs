@@ -14,6 +14,7 @@ public class SetModel : BaseModel
     public Set Set;
     
     public IList<QuestionInSet> QuestionsInSet;
+    public IList<TotalPerUser> TotalsPerUser;
 
     public User Creator;
     public string CreatorName;
@@ -52,6 +53,7 @@ public class SetModel : BaseModel
         ImageUrl = QuestionSetImageSettings.Create(set.Id).GetUrl_350px_square().Url;
 
         var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
+        TotalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.User.Id, questions);
 
         AnswersAllCount = questions.Sum(q => q.TotalAnswers());
         AnswersAllPercentageTrue = questions.Sum(q => q.TotalTrueAnswersPercentage());

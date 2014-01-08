@@ -2,6 +2,7 @@
     Inherits="ViewPage<SetModel>" Title="Fragesatz" %>
 
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
@@ -37,7 +38,13 @@
     </div>
    
     <div class="col-md-7">
-        <% var index = 0; foreach(var questionInSet in Model.QuestionsInSet){ index++; %>
+        <% var index = 0; 
+           
+           foreach(var questionInSet in Model.QuestionsInSet){ 
+               index++;
+               var question = questionInSet.Question;
+               var totals = Model.TotalsPerUser.ByQuestionId(question.Id) ?? new TotalPerUser();
+        %>
             <div class="row question-row">
                 <div class="col-md-9 col-1">                    
                     <img src="<%= QuestionImageSettings.Create(questionInSet.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
@@ -55,10 +62,10 @@
                     </div>
                     
                     <div class="pull-right" style="margin-top: 1px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
-                        <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
-                        <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
-                        <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount %>x beantwortet.">(<%= Model.AnswerMeCount%>x </span>
-                        <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>)
+                        <span class="show-tooltip" title="Insgesamt <%=question.TotalAnswers()%>x beantwortet."><%=question.TotalAnswers()%>x </span>
+                        <span class="pieTotals" data-percentage="<%= question.TotalTrueAnswersPercentage() %>-<%= question.TotalFalseAnswerPercentage() %>"></span>
+                        <span class="show-tooltip" title="Von Dir <%= totals.Total() %>x beantwortet.">(<%= totals.Total() %>x </span>
+                        <span class="pieTotals" data-percentage="<%= totals.PercentageTrue() %>-<%= totals.PercentageFalse() %>"></span>)
                     </div>
                 </div>
             </div>
