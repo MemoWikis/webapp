@@ -14,7 +14,7 @@
 
     <div class="column-2" style="height: 95px; position: relative;">
 
-        <div class="pull-right" style="margin-top: 1px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
+        <div class="pull-right" style="height: 10px; margin-top: 1px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
             <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
             <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
             <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount%>x beantwortet.">(ich <%= Model.AnswerMeCount%>x </span>

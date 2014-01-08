@@ -6,6 +6,7 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/Views/Sets/Detail/Set.css") %>
+    <%= Scripts.Render("~/bundles/Set") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -15,7 +16,14 @@
             <%= Model.Name %>
             <span style="display: inline-block; font-size: 20px; font-weight: normal; margin-left: 15px;">
                 <i class="fa fa-floppy-o"></i>  22x
-                <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73%
+                <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73% + 8
+                
+                <div style="display: inline-block; margin-top: 1px; margin-left: 15px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
+                    <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
+                    <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
+                    <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount%>x beantwortet.">(ich <%= Model.AnswerMeCount%>x </span>
+                    <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>)
+                </div>
             </span>
         </h2>
     </div>
@@ -31,28 +39,27 @@
     <div class="col-md-7">
         <% var index = 0; foreach(var questionInSet in Model.QuestionsInSet){ index++; %>
             <div class="row question-row">
-                <div class="col-md-10 col-1">                    
+                <div class="col-md-9 col-1">                    
                     <img src="<%= QuestionImageSettings.Create(questionInSet.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
 
-                    <a href="<%= Links.AnswerQuestion(Url, questionInSet.Question, Model.Set) %>" style="font-weight:normal; font-size:large;">
+                    <a href="<%= Links.AnswerQuestion(Url, questionInSet.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
                         <%=questionInSet.Question.Text %>
                     </a>    
                 </div>
-                <div class="col-md-2 col-2">
-                    <div class="show-tooltip active pull-right" data-placement="right" 
+                <div class="col-md-3 col-2">
+                    <div class="show-tooltip active pull-right" style="margin-right: 7px;" data-placement="right" 
                         data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest. Schnitt: 71% ">
                         <span style="font-size: 15px; color: green;">
-                            <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73%
+                            <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73% +8
                         </span>
                     </div>
                     
                     <div class="pull-right" style="margin-top: 1px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
                         <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
                         <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
-                        <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount %>x beantwortet.">(ich <%= Model.AnswerMeCount%>x </span>
+                        <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount %>x beantwortet.">(<%= Model.AnswerMeCount%>x </span>
                         <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>)
                     </div>
-
                 </div>
             </div>
         <% } %>

@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <title><%=Model.PageTitle %></title>
     <%= Scripts.Render("~/bundles/fileUploader") %>
-    <%= Scripts.Render("~/bundles/questionSetEdit") %>
+    <%= Scripts.Render("~/bundles/SetEdit") %>
     <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
     <script type="text/javascript">
         var isEditMode = <%= Model.IsEditing ? "true" : "false" %>;

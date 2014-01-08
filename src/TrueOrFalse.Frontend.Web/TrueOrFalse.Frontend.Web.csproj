@@ -662,6 +662,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.ts" />

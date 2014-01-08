@@ -60,9 +60,12 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/AnswerQuestion")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/questionSetEdit")
+            bundles.Add(new ScriptBundle("~/bundles/SetEdit")
                 .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Set")
+                .IncludeDirectory("~/Views/Sets/Detail/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/markdown")
                 .Include("~/Scripts/Markdown.Converter.js",
