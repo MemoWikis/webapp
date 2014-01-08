@@ -51,6 +51,7 @@ namespace TrueOrFalse
 	                  CAST(SUM(AnswerredCorrectly)AS signed INTEGER) as TotalTrue,
 	                  CAST(COUNT(QuestionId) - SUM(AnswerredCorrectly) AS signed INTEGER) as TotalFalse
                   FROM AnswerHistory
+                  WHERE UserId = {0}
                   GROUP BY QuestionId, UserId
                   HAVING UserId = {0} 
                   {1}", userId, sbQuestionIdRestriction);
