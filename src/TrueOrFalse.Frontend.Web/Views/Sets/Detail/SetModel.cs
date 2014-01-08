@@ -59,9 +59,9 @@ public class SetModel : BaseModel
         AnswersAllPercentageTrue = questions.Sum(q => q.TotalTrueAnswersPercentage());
         AnswersAllPercentageFalse = questions.Sum(q => q.TotalFalseAnswerPercentage());
 
-        AnswerMeCount = 1;
-        AnswerMePercentageTrue = 1;
-        AnswerMePercentageFalse = 1;
+        AnswerMeCount = TotalsPerUser.Sum(q => q.Total());
+        AnswerMePercentageTrue = TotalsPerUser.Sum(q => q.TotalTrue);
+        AnswerMePercentageFalse = TotalsPerUser.Sum(q => q.TotalFalse);
 
     }
 }
