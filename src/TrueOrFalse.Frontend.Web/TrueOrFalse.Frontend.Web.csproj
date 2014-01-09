@@ -653,6 +653,9 @@
     <Content Include="Views\Questions\Questions.css">
       <DependentUpon>Questions.less</DependentUpon>
     </Content>
+    <Content Include="Views\Sets\Detail\Js\Set.js">
+      <DependentUpon>Set.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Set.aspx" />
     <Content Include="Views\Sets\Detail\Set.css">
       <DependentUpon>Set.less</DependentUpon>
@@ -834,6 +837,9 @@
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Set.less" />
+    <Content Include="Views\Sets\Detail\Js\Set.js.map">
+      <DependentUpon>Set.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
