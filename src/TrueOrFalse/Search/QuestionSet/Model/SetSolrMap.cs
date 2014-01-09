@@ -24,6 +24,12 @@ namespace TrueOrFalse.Search
         [SolrField("Description")]
         public string Text { get; set; }
 
+        [SolrField("ValuationsAvg")]
+        public int ValuationsAvg { get; set; }
+
+        [SolrField("ValuationsCount")]
+        public int ValuationsCount { get; set; }
+
         [SolrField("AllQuestionsTitles")]
         public string AllQuestionsTitles { get; set; }
 

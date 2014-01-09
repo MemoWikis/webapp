@@ -16,6 +16,10 @@ namespace TrueOrFalse.Search
             result.Text = set.Text;
             result.Name = set.Name;
             result.CreatorId = set.Creator.Id;
+
+            result.ValuationsAvg = set.TotalRelevancePersonalAvg;
+            result.ValuationsCount = set.TotalRelevancePersonalEntries;
+
             if (set.QuestionsInSet.Any())
             {
                 result.AllQuestionsTitles = set.QuestionsInSet.Select(q => q.Question.Text).Aggregate((a, b) => a + " " + b);

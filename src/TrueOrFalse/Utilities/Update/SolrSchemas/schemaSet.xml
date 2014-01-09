@@ -74,7 +74,10 @@
         <field name="Text" type="string" indexed="false" stored="false" multiValued="false" />
         <field name="Description" type="string" indexed="false" stored="false" multiValued="false" />
         <field name="AllQuestionsTitles" type="string" indexed="false" stored="false" multiValued="false" />
-		<field name="AllQuestionsBodies" type="string" indexed="false" stored="false" multiValued="false" />
+		    <field name="AllQuestionsBodies" type="string" indexed="false" stored="false" multiValued="false" />
+
+        <field name="ValuationsAvg" type="int" indexed="true" stored="false" multiValued="false" />
+        <field name="ValuationsCount" type="int" indexed="true" stored="false" multiValued="false" />
 	
         <field name="DateCreated" type="date" indexed="true" stored="false" multiValued="false"/>
 
