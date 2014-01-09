@@ -24,6 +24,9 @@ public class SetsModel : BaseModel
     public string SearchTerm { get; set;  }
     public string SearchUrl { get; set; }
 
+    public string OrderByLabel { get; set; }
+    public SetOrderBy OrderBy;
+
     public bool FilterByMe { get; set; }
     public bool FilterByAll { get; set; }
 

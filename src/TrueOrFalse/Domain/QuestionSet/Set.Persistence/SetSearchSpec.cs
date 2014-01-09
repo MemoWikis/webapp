@@ -9,28 +9,33 @@ using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
-    public class SetSearchSpec : SearchSpecificationBase<QuestionSetFilter, QuestionSetOrderBy>
+    public class SetSearchSpec : SearchSpecificationBase<SetFilter, SetOrderBy>
     {
         public string SearchTerm;
     }
 
-    public class QuestionSetFilter : ConditionContainer
+    public class SetFilter : ConditionContainer
     {
         public ConditionInteger CreatorId;
         public int ValuatorId = -1;
 
-        public QuestionSetFilter(){
+        public SetFilter(){
             CreatorId = new ConditionInteger(this, "Creator.Id");
         }
     }
 
-    public class QuestionSetOrderBy : OrderByCriteria
+    public class SetOrderBy : OrderByCriteria
     {
-        public OrderBy OrderByCreationDate;
+        public OrderBy ValuationsAvg;
+        public OrderBy ValuationsCount;
 
-        public QuestionSetOrderBy()
+        public OrderBy CreationDate;
+
+        public SetOrderBy()
         {
-            OrderByCreationDate = new OrderBy("DateCreated", this);
+            CreationDate = new OrderBy("DateCreated", this);
+            ValuationsCount = new OrderBy("TotalRelevancePersonalEntries", this);
+            ValuationsAvg = new OrderBy("TotalRelevancePersonalAvg", this);
         }
     }
 }
