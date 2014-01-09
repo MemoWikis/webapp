@@ -49,6 +49,8 @@ public class SetsModel : BaseModel
         ActiveTabMine = isTabMineActive;
         ActiveTabWish = isTabWishActice;
 
+        OrderBy = searchSpec.OrderBy;
+
         var counter = 0;
         Rows = questionSets.Select(set => 
             new SetRowModel(

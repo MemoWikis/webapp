@@ -57,7 +57,7 @@ public class SetsController : BaseController
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult SetsMine(int? page, SetsModel model, string orderBy)
     {
-        SetSearchSpecVars(_sessionUiData.SearchSpecSetWish, page, orderBy);
+        SetSearchSpecVars(_sessionUiData.SearchSpecSetMine, page, orderBy);
 
         _sessionUiData.SearchSpecSetMine.Filter.CreatorId.EqualTo(_sessionUser.User.Id);
 
@@ -77,7 +77,7 @@ public class SetsController : BaseController
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult Sets(int? page, SetsModel model, string orderBy)
     {
-        SetSearchSpecVars(_sessionUiData.SearchSpecSetWish, page, orderBy);
+        SetSearchSpecVars(_sessionUiData.SearchSpecSetAll, page, orderBy);
 
         var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetAll);
         return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetAll, GetValuations(sets), isTabAllActive: true));
