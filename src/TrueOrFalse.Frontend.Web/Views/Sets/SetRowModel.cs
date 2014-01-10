@@ -51,7 +51,7 @@ public class SetRowModel
         RelevancePersonal = setValuation.RelevancePersonal;
 
         TotalRelevancePersonalEntries = set.TotalRelevancePersonalEntries.ToString();
-        TotalRelevancePersonalAvg = set.TotalRelevancePersonalAvg.ToString();
+        TotalRelevancePersonalAvg = (set.TotalRelevancePersonalAvg / 10d).ToString();
 
         DetailLink = urlHelper => Links.SetDetail(urlHelper, set, indexInResultSet);
         UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);

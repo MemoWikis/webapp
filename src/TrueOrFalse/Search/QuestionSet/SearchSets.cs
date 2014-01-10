@@ -51,9 +51,15 @@ namespace TrueOrFalse.Search
             if (orderBy == SearchSetsOrderBy.CreationDate)
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
             else if (orderBy == SearchSetsOrderBy.ValuationsCount)
+            {
                 orderby.Add(new SortOrder("ValuationsCount", Order.DESC));
-            else if (orderBy == SearchSetsOrderBy.ValuationsAvg)
                 orderby.Add(new SortOrder("ValuationsAvg", Order.DESC));
+            }
+            else if (orderBy == SearchSetsOrderBy.ValuationsAvg)
+            {
+                orderby.Add(new SortOrder("ValuationsAvg", Order.DESC));
+                orderby.Add(new SortOrder("ValuationsCount", Order.DESC));
+            }
 
             var sqb = new SearchQueryBuilder()
                 .Add("FullTextStemmed", searchTerm, startsWith : startsWithSearch, exact: exact)

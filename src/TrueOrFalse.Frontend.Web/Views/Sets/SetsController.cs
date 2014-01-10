@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse;
+using TrueOrFalse.Search;
 
 public class SetsController : BaseController
 {
@@ -105,12 +106,15 @@ public class SetsController : BaseController
     [HttpPost]
     public JsonResult SaveRelevancePersonal(int id, int newValue)
     {
-        var oldKnowledgeCount = Sl.Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
+        var oldKnowledgeCount = Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
 
-        Sl.Resolve<UpdateSetsTotals>().UpdateRelevancePersonal(id, _sessionUser.User, newValue);
-        var totals = Sl.Resolve<GetSetTotal>().RunForRelevancePersonal(id);
+        Resolve<UpdateSetsTotals>().UpdateRelevancePersonal(id, _sessionUser.User, newValue);
+        var totals = Resolve<GetSetTotal>().RunForRelevancePersonal(id);
+        
+        var set = Resolve<SetRepository>().GetById(id);
+        Resolve<SearchIndexSet>().Update(set);
 
-        var newKnowledgeCount = Sl.Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
+        var newKnowledgeCount = Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
 
         return new JsonResult
         {
