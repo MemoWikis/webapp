@@ -22,17 +22,19 @@
                 
                 <% Html.Message(Model.Message); %>
                 
-                <div class="control-group">
+                <div class="form-group">
                     <%: Html.LabelFor(model => model.Email, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="controls">
-                        <%: Html.EditorFor(model => model.Email) %>
+                    <div class="col-sm-3">
+                        <%: Html.TextBoxFor(model => model.Email, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Email) %>
                     </div>
                 </div>
                 
-                <div class="form-actions">
-                    <input type="submit" value="Link anfordern" class="btn btn-primary" />&nbsp;
-                    <%: Html.ActionLink("Mein Password ist mir wieder eingefallen.", Links.Login, Links.VariousController, new { @style = "vertical-align:bottom; margin-left:20px;" })%>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" value="Link anfordern" class="btn btn-primary" />&nbsp;
+                        <%: Html.ActionLink("Mein Password ist mir wieder eingefallen.", Links.Login, Links.VariousController, new { @style = "vertical-align:bottom; margin-left:20px;" })%>
+                    </div>
                 </div>
 
             </fieldset>            
