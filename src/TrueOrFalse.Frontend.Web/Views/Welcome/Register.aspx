@@ -20,42 +20,47 @@
                     Wir gehen sorgfältig mit Deinen Daten um.
                 </div>
        
-                <div class="control-group">
+                <div class="form-group">
                     <%: Html.LabelFor(model => model.Name, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="controls">
-                        <%: Html.EditorFor(model => model.Name) %>
+                    <div class="col-sm-3">
+                        <%: Html.TextBoxFor(model => model.Name, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Name) %>
                     </div>
                 </div>
                 
-                <div class="control-group">
+                <div class="form-group">
                     <%: Html.LabelFor(model => model.Email, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="controls">
-                        <%: Html.EditorFor(model => model.Email) %>
+                    <div class="col-sm-3">
+                        <%: Html.TextBoxFor(model => model.Email, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Email) %>
                     </div>
                 </div>
 
-                <div class="control-group">
+                <div class="form-group">
                     <%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="controls">
-                        <%: Html.Password("Password") %>
+                    <div class="col-sm-3">
+                        <%: Html.PasswordFor(model => model.Password, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Password) %>
                     </div>
                 </div>
 
-                <div class="control-group">
-                    <%: Html.LabelFor(model => model.TermsAndConditionsApproved, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="controls">
-                        <%: Html.CheckBoxFor(model => model.TermsAndConditionsApproved) %>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
                         <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
+                        <label class="checkbox" style="white-space:nowrap;">
+                            <%: Html.CheckBoxFor(model => model.TermsAndConditionsApproved, new { @class="" }) %>
+                            AGB Bestätigen: [TODO erstellen und verlinken]
+                        </label>
                     </div>
                 </div>
                 
-                <div class="form-actions">
-                    <input type="submit" value="Registrieren" class="btn btn-primary" />&nbsp;
-                    <%: Html.ActionLink("Ich bin schon Benutzer!", Links.Login, Links.VariousController,
-                                           new {@style = "vertical-align:bottom; margin-left:20px;"}) %>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10" style="border-top:0px; background-color:white;">
+                        <input type="submit" value="Registrieren" class="btn btn-primary" />&nbsp;
+                        <%: Html.ActionLink("Ich bin schon Benutzer!", Links.Login, Links.VariousController,
+                                           new {@style = "vertical-align:bottom; margin-left:20px;"}) %>                        
+
+                    </div>
                 </div>
 
             </fieldset>            
