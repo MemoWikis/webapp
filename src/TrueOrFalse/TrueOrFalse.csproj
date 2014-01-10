@@ -284,6 +284,7 @@
     <Compile Include="Search\QuestionSet\IndexOperations\SearchIndexSet.cs" />
     <Compile Include="Search\QuestionSet\Model\SetSolrMap.cs" />
     <Compile Include="Search\QuestionSet\Model\ToSetSolrMap.cs" />
+    <Compile Include="Search\QuestionSet\SearchSetsOrderBy.cs" />
     <Compile Include="Search\QuestionSet\SearchSets.cs" />
     <Compile Include="Search\QuestionSet\SearchSetsResult.cs" />
     <Compile Include="Search\Question\IndexOperations\SearchIndexQuestion.cs" />

@@ -63,7 +63,7 @@
                                             <li>
                                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byValuationsAvg" %>">
                                                     <% if (Model.OrderBy.ValuationsAvg.IsCurrent())
-                                                       { %><i class="icon-ok"></i> <% } %>  Gemerkt dursch. Bewertung
+                                                       { %><i class="icon-ok"></i> <% } %>  Gemerkt &#216; Wichtigkeit
                                                 </a>
                                             </li>
                                         </ul>

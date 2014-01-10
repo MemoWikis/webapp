@@ -26,16 +26,29 @@ namespace TrueOrFalse
 
     public class SetOrderBy : OrderByCriteria
     {
+        public OrderBy CreationDate;
         public OrderBy ValuationsAvg;
         public OrderBy ValuationsCount;
-
-        public OrderBy CreationDate;
 
         public SetOrderBy()
         {
             CreationDate = new OrderBy("DateCreated", this);
             ValuationsCount = new OrderBy("TotalRelevancePersonalEntries", this);
             ValuationsAvg = new OrderBy("TotalRelevancePersonalAvg", this);
+        }
+
+        public string ToText()
+        {
+            if (CreationDate.IsCurrent())
+                return "Erstellungsdatum";
+
+            if (ValuationsCount.IsCurrent())
+                return "Anzahl Gemerkt";
+
+            if (ValuationsAvg.IsCurrent())
+                return "Gemerkt &#216; Wichtigkeit";
+
+            return "";
         }
     }
 }

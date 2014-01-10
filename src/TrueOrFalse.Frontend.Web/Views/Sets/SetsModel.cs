@@ -50,6 +50,7 @@ public class SetsModel : BaseModel
         ActiveTabWish = isTabWishActice;
 
         OrderBy = searchSpec.OrderBy;
+        OrderByLabel = searchSpec.OrderBy.ToText();
 
         var counter = 0;
         Rows = questionSets.Select(set => 
