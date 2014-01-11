@@ -46,6 +46,8 @@ public class AnswerQuestionModel : BaseModel
     public int TimesAnsweredUserTrue;
     public int TimesAnsweredUserWrong;
 
+    public int CorrectnessProbability;
+
     public bool HasImage
     {
         get { return !string.IsNullOrEmpty(ImageUrl_500px); }
@@ -156,8 +158,10 @@ public class AnswerQuestionModel : BaseModel
         TimesAnsweredUser = valuationForUser.Total();
         TimesAnsweredUserTrue = valuationForUser.TotalTrue;
         TimesAnsweredUserWrong = valuationForUser.TotalFalse;
-
+        
         TotalViews = question.TotalViews + 1;
+
+        
 
         TotalQualityAvg = question.TotalQualityAvg.ToString();
         TotalQualityEntries = question.TotalQualityEntries.ToString();
@@ -177,6 +181,8 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
+
+        CorrectnessProbability = questionValuationForUser.CorrectnessProbability;
 
         FeedbackRows = new List<FeedbackRowModel>();
         FeedbackRows.Add(new FeedbackRowModel{

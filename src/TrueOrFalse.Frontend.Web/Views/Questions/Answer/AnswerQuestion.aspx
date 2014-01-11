@@ -192,7 +192,6 @@
         
         <% if(Model.Categories.Count > 0){ %>
             <p style="padding-top: 10px;">
-                <b style="color: darkgray">Kategorien</b> <br/>
                 <% foreach (var category in Model.Categories){ %>
                     <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
                 <% } %>
@@ -200,7 +199,6 @@
         <% } %>
         
         <% if(Model.SetMinis.Count > 0){ %>
-            <b style="color: darkgray">Fragesätze</b> <br/>
             <% foreach (var setMini in Model.SetMinis){ %>
                 <a href="<%= Links.SetDetail(Url, setMini) %>" style="margin-top: 3px; display: inline-block;"><span class="label label-set"><%: setMini.Name %></span></a>
             <% } %>
@@ -212,16 +210,17 @@
             <% } %>
 
         <% } %>
-        
-        <p style="padding-top: 10px;">
-            <b style="color: darkgray">Ich</b> <br/>
-            <%= Model.TimesAnsweredUser %> x beantwortet <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span>
-        </p>            
+    
+        <p style="padding-top: 10px;">            
+            <%= Model.TimesAnsweredUser %> x <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span>
+            <%= Model.TimesAnsweredTotal %> x ich <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span>
             
+            <br />
+            <i class="fa fa-tachometer" style="color:green;"></i> <%: Model.CorrectnessProbability %>% + 8
+        </p>
+        
         <p>
-            <b style="color: darkgray">Alle</b> <br/>
-            <%= Model.TotalViews %> x gesehen<br />
-            <%= Model.TimesAnsweredTotal %> x beantwortet <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span><br/>
+            <i class="fa fa-eye"></i> <%= Model.TotalViews %>x<br />
         </p>
             
         <p style="padding-top:12px;">
