@@ -409,6 +409,7 @@
     <Compile Include="Utilities\Update\Steps\UpdateToVs014.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs013.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs012.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
     <Compile Include="Utilities\Update\Update.cs" />
     <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />
