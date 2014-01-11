@@ -211,16 +211,29 @@
 
         <% } %>
     
-        <p style="padding-top: 10px;">            
-            <%= Model.TimesAnsweredUser %> x <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span>
-            <%= Model.TimesAnsweredTotal %> x ich <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span>
+        <p style="padding-top: 10px;">
+            <span class="show-tooltip" title="Insgesamt <%=Model.TimesAnsweredTotal%>x beantwortet."><%=Model.TimesAnsweredTotal%>x </span>
+            <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span>
+            <span class="show-tooltip" title="Von Dir <%=Model.TimesAnsweredUser%>x beantwortet.">(ich <%= Model.TimesAnsweredUser%>x </span>
+            <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span>
             
             <br />
-            <i class="fa fa-tachometer" style="color:green;"></i> <%: Model.CorrectnessProbability %>% + 8
+            <span class="show-tooltip" data-html="true"
+                title="
+                    <div style='text-align:left;'>
+                        Wahrscheinlichkeit, dass Du die Frage korrekt beantwortest: <b><%: Model.CorrectnessProbability %>%</b><br /><br />
+                        <b><%: Model.CorrectnessProbabilityDerivation %>%</b> besser als die korrekte Anwortwahrscheinlichkeit für alle Nutzer 
+                        (<%: Model.CorrectnessProbability + Model.CorrectnessProbabilityDerivation %>%). 
+                    </div>">
+                <i class="fa fa-tachometer" style="color:green;"></i> <%: Model.CorrectnessProbability %>% + 8    
+            </span>
+            
         </p>
         
         <p>
-            <i class="fa fa-eye"></i> <%= Model.TotalViews %>x<br />
+            <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
+                <i class="fa fa-eye"></i> <%= Model.TotalViews %>x<br />
+            </span>
         </p>
             
         <p style="padding-top:12px;">

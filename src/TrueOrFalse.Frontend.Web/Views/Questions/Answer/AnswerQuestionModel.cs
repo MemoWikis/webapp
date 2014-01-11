@@ -47,6 +47,7 @@ public class AnswerQuestionModel : BaseModel
     public int TimesAnsweredUserWrong;
 
     public int CorrectnessProbability;
+    public int CorrectnessProbabilityDerivation;
 
     public bool HasImage
     {
