@@ -26,6 +26,13 @@ namespace TrueOrFalse
                 .List();
         }
 
+        public IList<AnswerHistory> GetBy(int questionId)
+        {
+            return Session.QueryOver<AnswerHistory>()
+                          .Where(i => i.QuestionId == questionId)
+                          .List<AnswerHistory>();
+        }
+
         public IList<AnswerHistory> GetBy(int questionId, int userId)
         {
             return Session.QueryOver<AnswerHistory>()
