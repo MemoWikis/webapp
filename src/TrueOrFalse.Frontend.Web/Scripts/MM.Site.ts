@@ -31,4 +31,9 @@ $(function() {
             elem.popover('show');
         });
     });
+
+    $("#logo").hover(
+        function () { $(this).animate({ 'background-size': '140%' }, 250); },
+        function () { $(this).animate({ 'background-size': '120%' }, 250); }
+    );
 });
