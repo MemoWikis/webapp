@@ -214,18 +214,22 @@
         <p style="padding-top: 10px;">
             <span class="show-tooltip" title="Insgesamt <%=Model.TimesAnsweredTotal%>x beantwortet."><%=Model.TimesAnsweredTotal%>x </span>
             <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span>
-            <span class="show-tooltip" title="Von Dir <%=Model.TimesAnsweredUser%>x beantwortet.">(ich <%= Model.TimesAnsweredUser%>x </span>
+            <span class="show-tooltip" title="Von Dir <%=Model.TimesAnsweredUser%>x beantwortet."> ich <%= Model.TimesAnsweredUser%>x </span>
             <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span>
             
             <br />
             <span class="show-tooltip" data-html="true"
                 title="
                     <div style='text-align:left;'>
-                        Wahrscheinlichkeit, dass Du die Frage korrekt beantwortest: <b><%: Model.CorrectnessProbability %>%</b><br /><br />
-                        <b><%: Model.CorrectnessProbabilityDerivation %>%</b> besser als die korrekte Anwortwahrscheinlichkeit für alle Nutzer 
-                        (<%: Model.CorrectnessProbability + Model.CorrectnessProbabilityDerivation %>%). 
+                        <b><%: Model.CP %>%</b> Wahrscheinlichkeit, dass Du die Frage korrekt beantwortest<br /><br />
+                        
+                        Alle Nutzer: <%: Model.CP + Model.CPDerivation %>%<br />
+                        Dine Abweichung: <%: Model.CPDerivationSign %> <%: -Model.CPDerivation %>%
                     </div>">
-                <i class="fa fa-tachometer" style="color:green;"></i> <%: Model.CorrectnessProbability %>% + 8    
+                <i class="fa fa-tachometer" style="color:green;"></i> 
+                    <%: Model.CP %>% 
+                    <%: Model.CPDerivationSign %>
+                    <%: Math.Abs(Model.CPDerivation) %>
             </span>
             
         </p>

@@ -46,8 +46,9 @@ public class AnswerQuestionModel : BaseModel
     public int TimesAnsweredUserTrue;
     public int TimesAnsweredUserWrong;
 
-    public int CorrectnessProbability;
-    public int CorrectnessProbabilityDerivation;
+    public int CP;
+    public int CPDerivation;
+    public string CPDerivationSign;
 
     public bool HasImage
     {
@@ -162,8 +163,6 @@ public class AnswerQuestionModel : BaseModel
         
         TotalViews = question.TotalViews + 1;
 
-        
-
         TotalQualityAvg = question.TotalQualityAvg.ToString();
         TotalQualityEntries = question.TotalQualityEntries.ToString();
         TotalRelevanceForAllAvg = question.TotalRelevanceForAllAvg.ToString();
@@ -183,7 +182,10 @@ public class AnswerQuestionModel : BaseModel
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
 
-        CorrectnessProbability = questionValuationForUser.CorrectnessProbability;
+        CP = questionValuationForUser.CorrectnessProbability;
+        CPDerivation = questionValuationForUser.CorrectnessProbability - question.CorrectnessProbability;
+        CPDerivationSign = 
+            (questionValuationForUser.CorrectnessProbability < question.CorrectnessProbability) ? "+" : "-";
 
         FeedbackRows = new List<FeedbackRowModel>();
         FeedbackRows.Add(new FeedbackRowModel{
