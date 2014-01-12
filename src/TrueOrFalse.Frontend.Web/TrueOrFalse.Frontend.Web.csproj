@@ -344,6 +344,9 @@
     <Content Include="Style\includes\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
+    <Content Include="Style\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
     <Content Include="Style\temp.css">
       <DependentUpon>temp.less</DependentUpon>
     </Content>

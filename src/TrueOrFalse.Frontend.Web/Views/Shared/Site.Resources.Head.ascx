@@ -2,8 +2,6 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <%= Scripts.Render("~/bundles/shared") %>
-
-
 <%= Styles.Render("~/bundles/css") %>
 
 <% if(true){ %>
@@ -37,6 +35,3 @@
         
     });
 </script>
-
-
-

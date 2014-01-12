@@ -1,188 +1,198 @@
-@media temp {
-  
-}
-/* LESS INCLUDES
+﻿/* LESS INCLUDES
 ----------------------------------------------------------*/
 #set-scheme {
-  background-color: #ffd700;
-  color: black;
+    background-color: #ffd700;
+    color: black;
 }
+
 #clearfix {
-  display: inline-block;
-  width: 100%;
-  zoom: 1;
+    display: inline-block;
+    width: 100%;
+    zoom: 1;
 }
+
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
 html {
-  overflow: scroll;
-  height: 100%;
-  background-color: #efefef;
+    overflow: scroll;
+    height: 100%;
+    background-color: #efefef;
 }
+
 /*always show scrollbar*/
 a {
-  color: #0e22b6;
+    color: #0e22b6;
 }
+
 a:hover {
-  color: #0e22b6;
+    color: #0e22b6;
 }
+
 body {
-  font-size: 13px;
-  color: #2e487b;
-  background: url(../img/dimension.png);
+    font-size: 13px;
+    color: #2e487b;
+    background: url(../img/dimension.png);
 }
+
 .mainSection {
-  overflow-x: hidden;
+    overflow-x: hidden;
 }
+
 .container.main {
-  background-color: white;
-  padding-top: 25px;
-  padding-bottom: 20px;
-  position: relative;
+    background-color: white;
+    padding-top: 25px;
+    padding-bottom: 20px;
+    position: relative;
 }
+
 .container.main #gradientLeft {
-  width: 200px;
-  position: absolute;
-  left: -200px;
-  top: 0;
-  bottom: 0;
-  background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
-  /* FF3.6+ */
-
-  background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, #ffffff));
-  /* Chrome,Safari4+ */
-
-  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
-  /* Opera 11.10+ */
-
-  background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
-  /* IE10+ */
-
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
-  /* W3C */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=1);
-  /* IE6-9 */
-
+    width: 200px;
+    position: absolute;
+    left: -200px;
+    top: 0;
+    bottom: 0;
+    background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, #ffffff));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    /* IE10+ */
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=1);
+    /* IE6-9 */
 }
+
 .container.main #gradientRight {
-  width: 200px;
-  position: absolute;
-  right: -200px;
-  top: 0;
-  bottom: 0;
-  background: -moz-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* FF3.6+ */
-
-  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #ffffff), color-stop(100%, rgba(255, 255, 255, 0)));
-  /* Chrome,Safari4+ */
-
-  background: -webkit-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: -o-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* Opera 11.10+ */
-
-  background: -ms-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* IE10+ */
-
-  background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
-  /* W3C */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
-  /* IE6-9 */
-
+    width: 200px;
+    position: absolute;
+    right: -200px;
+    top: 0;
+    bottom: 0;
+    background: -moz-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, #ffffff), color-stop(100%, rgba(255, 255, 255, 0)));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+    /* IE10+ */
+    background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+    /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
+    /* IE6-9 */
 }
+
 #MasterHeader {
-  margin: 0px;
-  padding: 0 15px;
-  width: 100%;
-  min-height: 51px;
-  background-color: #2e487b;
-  position: relative;
-  z-index: 100;
+    margin: 0px;
+    padding: 0 15px;
+    width: 100%;
+    min-height: 51px;
+    background-color: #2e487b;
+    position: relative;
+    z-index: 100;
 }
+
+#MasterHeader a.title:hover {
+    text-decoration: none;
+}
+
 #MasterHeader h1 {
-  font-weight: 800;
-  margin: 0px;
-  border: none;
-  font-size: 2.0em;
-  background: url('/images/toflogo.png') no-repeat right;
-  font-family: 'Emilys Candy', cursive;
-  color: #afd534;
-  font-size: 40px;
-  background: none;
-  position: relative;
-  padding-left: 0px;
-  padding-top: 3px;
-  padding-right: 72px;
+    font-weight: 800;
+    margin: 0px;
+    border: none;
+    font-size: 2.0em;
+    background: url('/images/toflogo.png') no-repeat right;
+    font-family: 'Emilys Candy', cursive;
+    color: #afd534;
+    font-size: 40px;
+    background: none;
+    position: relative;
+    padding-left: 0px;
+    padding-top: 3px;
+    padding-right: 72px;
 }
+
 #MasterHeader h1 span#m {
-  padding-right: 3px;
+    padding-right: 3px;
 }
+
 #MasterHeader h1 span#uch {
-  color: #e7ecf6;
-  font-size: 30px;
+    color: #e7ecf6;
+    font-size: 30px;
 }
+
 #MasterHeader span#logo {
-  display: inline-block;
-  background-image: url('/images/toflogo.png');
-  background-position: center;
-  background-color: #e7ecf6;
-  width: 64px;
-  height: 64px;
-  background-repeat: no-repeat;
-  border-radius: 32px;
-  position: absolute;
-  top: 3px;
-  left: 200px;
-  border: solid 2px #2e487b;
-  z-index: 101;
+    display: inline-block;
+    background-image: url('/images/toflogo.png');
+    background-position: center;
+    background-color: #e7ecf6;
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    border-radius: 32px;
+    position: absolute;
+    top: 3px;
+    left: 200px;
+    border: solid 2px #2e487b;
+    z-index: 101;
 }
+
 #MasterHeader .colLoginAndHelp {
-  float: right;
-  width: auto;
-  min-width: 25%;
+    float: right;
+    width: auto;
+    min-width: 25%;
 }
+
 #MasterHeader #loginAndHelp {
-  background-color: #e7ecf6;
-  border-radius: 8px;
-  padding: 6px 10px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  text-align: center;
-  width: 100%;
+    background-color: #e7ecf6;
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    text-align: center;
+    width: 100%;
 }
+
 #MasterHeader #loginAndHelp a {
-  vertical-align: middle;
+    vertical-align: middle;
 }
+
 #MasterHeader #loginAndHelp img {
-  height: 27px;
-  padding-top: -3px;
-  padding-bottom: -3px;
-  margin-top: -3px;
-  margin-bottom: -3px;
+    height: 27px;
+    padding-top: -3px;
+    padding-bottom: -3px;
+    margin-top: -3px;
+    margin-bottom: -3px;
 }
+
 #MasterFooter {
-  background-color: #efefef;
-  padding-top: 20px;
-  padding-left: 15px;
-  padding-right: 15px;
+    background-color: #efefef;
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
+
 #MasterFooter #footerOn {
-  display: inline-block;
-  padding-left: 0;
+    display: inline-block;
+    padding-left: 0;
 }
+
 #MasterFooter #footerOn li {
-  display: inline-block;
-  padding-left: 20px;
+    display: inline-block;
+    padding-left: 20px;
 }
+
 .dark-blue {
-  color: #2e487b;
+    color: #2e487b;
 }
+
 /*Fonts*/
 h1,
 h2,
@@ -190,85 +200,103 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Lato', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
+
 span.smaller {
-  font-size: 90%;
+    font-size: 90%;
 }
+
 /*Helpers*/
 .clearfix {
-  display: inline-block;
-  width: 100%;
-  zoom: 1;
+    display: inline-block;
+    width: 100%;
+    zoom: 1;
 }
+
 .block {
-  display: block;
+    display: block;
 }
+
 /* VALIDATION
 ----------------------------------------------------------*/
 textarea.input-validation-error,
 input.input-validation-error {
-  border: 1px solid #f00;
-  background-color: #ffdede;
+    border: 1px solid #f00;
+    background-color: #ffdede;
 }
+
 .input-validation-valid {
-  /* Optional: you can set whatever style you want */
+    /* Optional: you can set whatever style you want */
 }
+
 .field-validation-error {
-  color: #f00;
-  background-color: #ffdede;
+    color: #f00;
+    background-color: #ffdede;
 }
+
 .field-validation-valid {
-  display: none;
+    display: none;
 }
+
 .validation-summary-errors {
-  font-weight: bold;
-  color: #ff0000;
+    font-weight: bold;
+    color: #ff0000;
 }
+
 .validation-summary-valid {
-  display: none;
+    display: none;
 }
+
 /* BUTTONS
 ----------------------------------------------------------*/
 div.button {
-  margin: 15px 0 10px 0;
+    margin: 15px 0 10px 0;
 }
+
 a.button {
-  padding: .3em 1em .4em 20px;
-  text-decoration: none;
-  position: relative;
+    padding: .3em 1em .4em 20px;
+    text-decoration: none;
+    position: relative;
 }
+
 a.button span.ui-icon {
-  margin: 0 5px 0 0;
-  position: absolute;
-  left: .2em;
-  top: 50%;
-  margin-top: -8px;
+    margin: 0 5px 0 0;
+    position: absolute;
+    left: .2em;
+    top: 50%;
+    margin-top: -8px;
 }
+
 /* VARIOUS
 ----------------------------------------------------------*/
 .cursor-hand {
-  cursor: pointer;
+    cursor: pointer;
 }
+
 .tooltip-text-left + .tooltip > .tooltip-inner {
-  text-align: left;
-  background-color: ghostwhite;
-  color: black;
-  border: 1px solid black;
-  box-shadow: white 0px 0px 0px 4px;
+    text-align: left;
+    background-color: ghostwhite;
+    color: black;
+    border: 1px solid black;
+    box-shadow: white 0px 0px 0px 4px;
 }
+
 .tooltip-date + .tooltip > .tooltip-inner {
-  min-width: 300px;
+    min-width: 300px;
 }
+
 /* Labels
 ----------------------------------------------------------*/
 .label-category {
-  background-color: #0e22b6;
+    background-color: #0e22b6;
 }
+
 .label-set {
-  background-color: #ffd700;
-  color: black;
+    background-color: #ffd700;
+    color: black;
 }
+
 /*FORMS
 ---------------------------------------------------------*/
 input[type="text"],
@@ -288,158 +316,189 @@ input[type="color"],
 .uneditable-input,
 textarea,
 select {
-  color: #2e487b;
+    color: #2e487b;
 }
+
 /*Container
 ---------------------------------------------------------*/
 .box {
-  background-color: #E7ECF6;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  padding: 10px;
-  margin-bottom: 15px;
+    background-color: #E7ECF6;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 15px;
 }
+
 .box h1,
 .box h2 {
-  margin: 0px;
+    margin: 0px;
 }
+
 .box h1 {
-  font-size: 20px;
-  line-height: 140%;
+    font-size: 20px;
+    line-height: 140%;
 }
+
 .box h2 {
-  font-size: 16px;
+    font-size: 16px;
 }
+
 div.box h2 {
-  line-height: 100%;
-  padding-bottom: 10px;
-  padding-left: 5px;
+    line-height: 100%;
+    padding-bottom: 10px;
+    padding-left: 5px;
 }
+
 div.box-content {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  margin: -1px;
-  background-color: white;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin: -1px;
+    background-color: white;
 }
+
 .green {
-  background-color: #d1eba7;
+    background-color: #d1eba7;
 }
+
 .box-head {
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  padding: 10px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px;
 }
+
 .box-head h2 {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0px;
 }
+
 div.box-main h1,
 div.box-main h2 {
-  padding-top: 10px;
-  padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
+
 div.box-main .box-content {
-  padding-top: 15px;
+    padding-top: 15px;
 }
+
 .box-with-tabs .boxtainer-header,
 .boxtainer-outlined-tabs .boxtainer-header {
-  position: relative;
+    position: relative;
 }
+
 .box-with-tabs ul.nav-tabs,
 .boxtainer-outlined-tabs ul.nav-tabs {
-  background-color: white;
-  border-bottom: solid 3px #d1eba7;
-  margin-top: -5px;
+    background-color: white;
+    border-bottom: solid 3px #d1eba7;
+    margin-top: -5px;
 }
+
 .box-with-tabs ul.nav-tabs li,
 .boxtainer-outlined-tabs ul.nav-tabs li {
-  border-bottom: 3px solid white;
-  top: 5px;
+    border-bottom: 3px solid white;
+    top: 5px;
 }
+
 .box-with-tabs ul.nav-tabs li a,
 .boxtainer-outlined-tabs ul.nav-tabs li a {
-  border: 3px solid transparent;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-bottom: none;
+    border: 3px solid transparent;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom: none;
 }
+
 .box-with-tabs ul.nav-tabs li a:hover,
 .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
-  background-color: #d1eba7;
+    background-color: #d1eba7;
 }
+
 .box-with-tabs ul.nav-tabs li.active a,
 .boxtainer-outlined-tabs ul.nav-tabs li.active a {
-  border-style: solid;
-  border-width: 3px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-color: #d1eba7;
-  border-bottom: none;
+    border-style: solid;
+    border-width: 3px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-color: #d1eba7;
+    border-bottom: none;
 }
+
 .box-with-tabs ul.nav-tabs li.active a:hover,
 .boxtainer-outlined-tabs ul.nav-tabs li.active a:hover {
-  background-color: white;
+    background-color: white;
 }
+
 .box-with-tabs .boxtainer-content,
 .boxtainer-outlined-tabs .boxtainer-content {
-  padding: 0;
-  position: relative;
-  z-index: 2;
+    padding: 0;
+    position: relative;
+    z-index: 2;
 }
+
 .box-with-tabs .boxtainer-content .search-section,
 .boxtainer-outlined-tabs .boxtainer-content .search-section {
-  padding-top: 20px;
-  padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
+
 .box div.pagination {
-  margin-top: 15px;
-  margin-bottom: 0px;
+    margin-top: 15px;
+    margin-bottom: 0px;
 }
+
 .box div.pagination ul {
-  background-color: white;
+    background-color: white;
 }
+
 .box-with-tabs .box {
-  padding-top: 20px;
+    padding-top: 20px;
 }
+
 .box div.form-actions {
-  background-color: transparent;
-  border: none;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  padding-bottom: 5px;
+    background-color: transparent;
+    border: none;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-bottom: 5px;
 }
+
 /*Rows
 ---------------------------------------------------------*/
 .rowBase:after {
-  clear: both;
+    clear: both;
 }
+
 .rowBase {
-  *zoom: 1;
+    *zoom: 1;
 }
+
 .rowBase:before,
 .rowBase:after {
-  display: table;
-  content: "";
+    display: table;
+    content: "";
 }
+
 .rowBase,
 .category-row {
-  border-top: 5px solid #f8f9fc;
+    border-top: 5px solid #f8f9fc;
 }
+
 .rowBase:first-child,
 .category-row:first-child {
-  border-top: none;
+    border-top: none;
 }
+
 /*temp
 ---------------------------------------------------------*/
 /*div.todo-temp {
-    background-color: #FFDF22;
-    position: absolute;
-    top: 0px;
-    right: 100px;
-    width: 100px;
-    height: 100px;
-}*/
+        background-color: #FFDF22;
+        position: absolute;
+        top: 0px;
+        right: 100px;
+        width: 100px;
+        height: 100px;
+}
+*/
