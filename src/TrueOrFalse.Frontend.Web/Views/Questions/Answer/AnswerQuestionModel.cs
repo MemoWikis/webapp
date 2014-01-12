@@ -182,10 +182,12 @@ public class AnswerQuestionModel : BaseModel
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
 
-        CP = questionValuationForUser.CorrectnessProbability;
-        CPDerivation = questionValuationForUser.CorrectnessProbability - question.CorrectnessProbability;
-        CPDerivationSign = 
-            (questionValuationForUser.CorrectnessProbability < question.CorrectnessProbability) ? "+" : "-";
+        CP = (questionValuationForUser.CorrectnessProbability == -1)
+            ? question.CorrectnessProbability
+            : questionValuationForUser.CorrectnessProbability;
+        CPDerivation = CP - question.CorrectnessProbability;
+        CPDerivationSign =
+            (CP <= question.CorrectnessProbability) ? "+" : "-";
 
         FeedbackRows = new List<FeedbackRowModel>();
         FeedbackRows.Add(new FeedbackRowModel{

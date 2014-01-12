@@ -24,11 +24,5 @@ $(function () {
             $(this).find("label").hide();
         }
     });
-
-    $("#logo").hover(function () {
-        $(this).animate({ 'background-size': '140%' }, 250);
-    }, function () {
-        $(this).animate({ 'background-size': '120%' }, 250);
-    });
 });
 //# sourceMappingURL=Page.js.map
