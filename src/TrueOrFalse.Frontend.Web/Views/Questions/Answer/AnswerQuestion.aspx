@@ -224,7 +224,7 @@
                         <b><%: Model.CP %>%</b> Wahrscheinlichkeit, dass Du die Frage korrekt beantwortest<br /><br />
                         
                         Alle Nutzer: <%: Model.CP + Model.CPDerivation %>%<br />
-                        Dine Abweichung: <%: Model.CPDerivationSign %> <%: -Model.CPDerivation %>%
+                        Deine Abweichung: <%: Model.CPDerivationSign %> <%: -Model.CPDerivation %>%
                     </div>">
                 <i class="fa fa-tachometer" style="color:green;"></i> 
                     <%: Model.CP %>% 
