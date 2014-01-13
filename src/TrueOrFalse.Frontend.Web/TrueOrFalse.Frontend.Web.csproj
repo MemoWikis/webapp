@@ -494,6 +494,8 @@
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
+    <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
+    <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
     <Compile Include="Views\Shared\ImageUpload\ImageUploadController.cs" />
     <Compile Include="Views\Shared\MenuLeftModel.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
@@ -731,7 +733,9 @@
     <Content Include="Views\Sets\Sets.css">
       <DependentUpon>Sets.less</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\AnswerHistory.ascx" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />
+    <Content Include="Views\Shared\CorrectnessProbability.ascx" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Shared\ImageUpload\ImageUpload.ts" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">

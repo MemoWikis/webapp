@@ -166,7 +166,7 @@
                 <br/>                
                 Fragesatz:
                 <a href="<%= Links.SetDetail(Url, Model.Set) %>">
-                    <span class="label label-set"><%= Model.Set.Name %></a>
+                    <span class="label label-set"><%= Model.Set.Name %></span>
                 </a>            
             <% } %>
         </div>
@@ -212,12 +212,9 @@
         <% } %>
     
         <p style="padding-top: 10px;">
-            <span class="show-tooltip" title="Insgesamt <%=Model.TimesAnsweredTotal%>x beantwortet."><%=Model.TimesAnsweredTotal%>x </span>
-            <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span>
-            <span class="show-tooltip" title="Von Dir <%=Model.TimesAnsweredUser%>x beantwortet."> ich <%= Model.TimesAnsweredUser%>x </span>
-            <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span>
             
-            <br />
+            <% Html.RenderPartial("AnswerHistory", Model.AnswerHistory); %> <br/>
+
             <span class="show-tooltip" data-html="true"
                 title="
                     <div style='text-align:left;'>
@@ -231,7 +228,6 @@
                     <%: Model.CPDerivationSign %>
                     <%: Math.Abs(Model.CPDerivation) %>
             </span>
-            
         </p>
         
         <p>

@@ -90,7 +90,9 @@ public class AnswerQuestionModel : BaseModel
     public IList<Category> Categories;
     public IList<SetMini> SetMinis;
     public int SetCount;
-         
+    
+    public AnswerHistoryModel AnswerHistory;
+
     public AnswerQuestionModel() { }
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
@@ -151,15 +153,7 @@ public class AnswerQuestionModel : BaseModel
         SolutionMetadata = new SolutionMetadata {Json = question.SolutionMetadataJson};
         SolutionMetaDataJson = question.SolutionMetadataJson;
 
-        TimesAnsweredTotal = question.TotalAnswers();
-        PercenctageCorrectAnswers = 34;
-        TimesAnsweredCorrect = question.TotalTrueAnswers;
-        TimesAnsweredWrongTotal = question.TotalFalseAnswers;
-        TimesJumpedOver = 0;
-
-        TimesAnsweredUser = valuationForUser.Total();
-        TimesAnsweredUserTrue = valuationForUser.TotalTrue;
-        TimesAnsweredUserWrong = valuationForUser.TotalFalse;
+        AnswerHistory = new AnswerHistoryModel(question, valuationForUser);
         
         TotalViews = question.TotalViews + 1;
 
