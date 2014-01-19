@@ -3,4 +3,5 @@
   <connectionString>Server=WIN-CBLM93MS62S\SQLEXPRESS;Database=TrueOrFalse;uid=TrueOrFalse;pwd=jklaem34jkl3</connectionString>
   <sorlUrl>http://localhost:8080/solr/</sorlUrl>
   <pathToSolr>C:/BitNami/apache-solr/solr</pathToSolr>
+  <developOffline>false</developOffline>
 </configuration>

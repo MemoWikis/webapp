@@ -1,8 +1,8 @@
 namespace TrueOrFalse.Infrastructure
 {
-    public class ReadOverwrittenConfigValueResult
+    public class OverwrittenConfigValueResult
     {
-        public ReadOverwrittenConfigValueResult(bool hasValue, string value)
+        public OverwrittenConfigValueResult(bool hasValue, string value)
         {
             HasValue = hasValue;
             Value = value;

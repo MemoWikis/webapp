@@ -14,7 +14,7 @@ namespace TrueOrFalse.Infrastructure
         {
             get
             {
-                var overwrittenValue = ReadOverwrittenConfig.SolrUrl();
+                var overwrittenValue = OverwrittenConfig.SolrUrl();
                 if (overwrittenValue.HasValue)
                     return overwrittenValue.Value;
 
@@ -26,7 +26,7 @@ namespace TrueOrFalse.Infrastructure
         {
             get
             {
-                var overwrittenValue = ReadOverwrittenConfig.SolrPath();
+                var overwrittenValue = OverwrittenConfig.SolrPath();
                 if (overwrittenValue.HasValue)
                     return overwrittenValue.Value;
 
