@@ -46,10 +46,6 @@ public class AnswerQuestionModel : BaseModel
     public int TimesAnsweredUserTrue;
     public int TimesAnsweredUserWrong;
 
-    public int CP;
-    public int CPDerivation;
-    public string CPDerivationSign;
-
     public bool HasImage
     {
         get { return !string.IsNullOrEmpty(ImageUrl_500px); }
@@ -92,6 +88,7 @@ public class AnswerQuestionModel : BaseModel
     public int SetCount;
     
     public AnswerHistoryModel AnswerHistory;
+    public CorrectnessProbabilityModel CorrectnessProbability;
 
     public AnswerQuestionModel() { }
 
@@ -154,6 +151,7 @@ public class AnswerQuestionModel : BaseModel
         SolutionMetaDataJson = question.SolutionMetadataJson;
 
         AnswerHistory = new AnswerHistoryModel(question, valuationForUser);
+        CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser);
         
         TotalViews = question.TotalViews + 1;
 
@@ -175,13 +173,6 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
-
-        CP = (questionValuationForUser.CorrectnessProbability == -1)
-            ? question.CorrectnessProbability
-            : questionValuationForUser.CorrectnessProbability;
-        CPDerivation = CP - question.CorrectnessProbability;
-        CPDerivationSign =
-            (CP <= question.CorrectnessProbability) ? "+" : "-";
 
         FeedbackRows = new List<FeedbackRowModel>();
         FeedbackRows.Add(new FeedbackRowModel{
