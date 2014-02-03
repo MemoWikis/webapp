@@ -10,6 +10,80 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
     <div class="col-md-9">
+        <div class="row">
+            <div class="col-md-3">
+                <div style="background-color: green; height: 20px;">3</div>
+            </div>
+            <div class="col-md-3">
+                <div style="background-color: green; height: 20px;">3</div>
+            </div>
+            <div class="col-md-3">
+                <div style="background-color: green; height: 20px;">3</div>
+            </div>
+            <div class="col-md-3">
+                <div style="background-color: green; height: 20px;">3</div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-2">
+                <div style="background-color: green; height: 20px;">2</div>
+            </div>
+            <div class="col-md-2">
+                <div style="background-color: green; height: 20px;">2</div>
+            </div>
+            <div class="col-md-2">
+                <div style="background-color: green; height: 20px;">2</div>
+            </div>
+            <div class="col-md-2">
+                <div style="background-color: green; height: 20px;">2</div>
+            </div>
+            <div class="col-md-2">
+                <div style="background-color: green; height: 20px;">2</div>
+            </div>
+            <div class="col-md-2">
+                <div style="background-color: green; height: 20px;">2</div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+            <div class="col-md-1">
+                <div style="background-color: green; height: 20px;">1</div>
+            </div>
+           
+        </div>
+   
     
         <div class="row">
 

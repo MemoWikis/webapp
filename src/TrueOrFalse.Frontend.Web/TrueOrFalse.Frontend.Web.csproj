@@ -328,6 +328,9 @@
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
     <Content Include="Style\bootstrap.css" />
+    <Content Include="Style\grid.css">
+      <DependentUpon>grid.less</DependentUpon>
+    </Content>
     <Content Include="Style\includes\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
@@ -355,6 +358,7 @@
     <Content Include="Style\utils.less" />
     <Content Include="Style\includes\variables.less" />
     <Content Include="Scripts\app.config" />
+    <Content Include="Style\grid.less" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
@@ -368,6 +372,7 @@
     <Content Include="Views\Categories\Js\CategoriesDelete.js" />
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
+    <Content Include="Views\Drafts\temp.aspx" />
     <Content Include="Views\Help\Wissen.aspx" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />

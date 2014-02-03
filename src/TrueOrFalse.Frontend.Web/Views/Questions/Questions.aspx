@@ -11,6 +11,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
 <div class="col-md-9">
+    
     <% using (Html.BeginForm()){ %>
                 
      <div class="boxtainer-outlined-tabs">
