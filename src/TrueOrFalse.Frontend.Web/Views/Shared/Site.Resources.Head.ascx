@@ -1,14 +1,13 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Infrastructure" %>
 
 <%= Scripts.Render("~/bundles/shared") %>
-
-
 <%= Styles.Render("~/bundles/css") %>
 
-<% if(true){ %>
-<link href='http://fonts.googleapis.com/css?family=Emilys+Candy' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+<% if (!OverwrittenConfig.DevelopOffline()){ %>
+    <link href='http://fonts.googleapis.com/css?family=Emilys+Candy' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 <% } %>
 
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -37,6 +36,3 @@
         
     });
 </script>
-
-
-

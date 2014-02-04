@@ -91,7 +91,6 @@ namespace TrueOrFalse.Search
                                                             OrderBy = orderby
                                                       });
 
-
             var result = new SearchQuestionsResult();
             result.QueryTime = queryResult.Header.QTime;
             result.Count = queryResult.NumFound;

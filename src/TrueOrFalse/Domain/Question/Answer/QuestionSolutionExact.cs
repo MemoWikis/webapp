@@ -11,6 +11,21 @@ public class QuestionSolutionExact : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
+        var solutionMetadata = new SolutionMetadata{Json = MetadataSolutionJson};
+        if (solutionMetadata.IsDate)
+        {
+            var metaDate = solutionMetadata.GetAsDate();
+            var dateFromInput = DateAnswerParser.Run(answer);
+            var dateAnswer = DateAnswerParser.Run(Text);
+
+            if (!dateFromInput.IsValid)
+                return false;
+
+            if ((int)dateFromInput.Precision > (int)metaDate.Precision)
+                return false;
+
+            return dateAnswer.Valid(dateFromInput, metaDate.Precision);
+        }
         return Text == answer;
     }
 

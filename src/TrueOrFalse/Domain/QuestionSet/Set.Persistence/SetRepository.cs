@@ -44,6 +44,12 @@ namespace TrueOrFalse
             base.Delete(id);
         }
 
+        public override IList<Set> GetByIds(params int[] setIds)
+        {
+            var sets = base.GetByIds(setIds);
+            return setIds.Select(t => sets.First(s => s.Id == t)).ToList();
+        }
+
         public IList<Set>GetForCategory(int categoryId)
         {
             return _session.QueryOver<Set>()

@@ -27,8 +27,13 @@ namespace TrueOrFalse
         [JsonProperty("IsText")]
         public bool IsText;
 
-        protected virtual void InitFromJson(string json){
+        protected virtual void InitFromJson(string json)
+        {
+            if (json == null)
+                return;
+
             var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadata>(json);
+
             IsDate = tmp.Result.IsDate;
             IsNumber = tmp.Result.IsNumber;
             IsText = tmp.Result.IsNumber;

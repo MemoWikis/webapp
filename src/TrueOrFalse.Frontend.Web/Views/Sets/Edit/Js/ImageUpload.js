@@ -5,6 +5,7 @@
 
 $(function () {
     var imageUploadModal = new ImageUploadModal();
+    imageUploadModal.SetTitle("Fragesatzbild hochladen");
     imageUploadModal.OnSave(function (url) {
         $("#questionSetImg").attr("src", url);
 

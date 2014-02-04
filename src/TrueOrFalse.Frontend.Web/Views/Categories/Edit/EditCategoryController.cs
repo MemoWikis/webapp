@@ -28,10 +28,7 @@ public class EditCategoryController : BaseController
     public ViewResult Edit(int id)
     {
         var category = _categoryRepository.GetById(id);
-        var model = new EditCategoryModel(category){
-                            IsEditing = true,
-                            ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px().Url
-                    };
+        var model = new EditCategoryModel(category){IsEditing = true};
 
         return View(_viewPath, model);
     }
@@ -53,7 +50,11 @@ public class EditCategoryController : BaseController
             model.UpdateCategory(category);
             _categoryRepository.Update(category);
         }
-        CategoryImageStore.Run(file, id);
+        StoreImage(id);
+        
+        model.Init(category);
+        model.IsEditing = true;
+
         return View(_viewPath, model);
     }
 
@@ -74,9 +75,28 @@ public class EditCategoryController : BaseController
             var category = model.ConvertToCategory();
             category.Creator = _sessionUser.User;
             _categoryRepository.Create(category);
-            CategoryImageStore.Run(file, category.Id);
+            StoreImage(category.Id);
             model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));
+            model.Init(category);
         }
+
         return View(_viewPath, model);
+    }
+
+    private void StoreImage(int categoryId)
+    {
+        if (Request["ImageIsNew"] == "true")
+        {
+            if (Request["ImageSource"] == "wikimedia")
+            {
+                Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(
+                    Request["ImageWikiFileName"], categoryId, _sessionUser.User.Id);
+            }
+            if (Request["ImageSource"] == "upload")
+            {
+                Resolve<ImageStore>().RunUploaded<CategoryImageSettings>(
+                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, _sessionUser.User.Id, Request["ImageLicenceOwner"]);
+            }
+        }
     }
 }

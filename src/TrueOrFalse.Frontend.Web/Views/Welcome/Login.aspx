@@ -59,7 +59,7 @@
                 </div>
                 
                 <div class="form-group"> 
-                    <div class="col-sm-offset-2 col-sm-10" style="border-top:0px; background-color:white;">
+                    <div class="col-sm-offset-2 col-sm-10">
                         Noch kein Benutzer?&nbsp;
                         <%: Html.ActionLink("Jetzt registrieren!", Links.Register) %><br/><br />
                     </div>

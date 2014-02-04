@@ -45,6 +45,33 @@
                                     <button class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png"/></button>
                                 </div>
                             </div>
+                            
+                            <div class="col-md-6">
+                                
+                                <ul class="nav pull-right">
+                                    <li class="dropdown" id="menu1">
+                                        <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
+                                            Sortieren nach: <%= Model.OrderByLabel %>
+                                            <b class="caret"></b>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byValuationsCount" %>">
+                                                    <% if (Model.OrderBy.ValuationsCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Anzahl Gemerkt
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byValuationsAvg" %>">
+                                                    <% if (Model.OrderBy.ValuationsAvg.IsCurrent())
+                                                       { %><i class="icon-ok"></i> <% } %>  Gemerkt &#216; Wichtigkeit
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div>
+
                         </div>
         
                         <div style="clear:both;">

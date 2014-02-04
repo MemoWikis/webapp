@@ -23,7 +23,6 @@ var SolutionMetaDataMenu = (function () {
         }
 
         $("#Answer").keyup(function () {
-            console.log(_this._current);
             if (_this._current.IsDate) {
                 _this._sliderDate.SetDateUi();
             }
@@ -156,12 +155,10 @@ var SliderDate = (function () {
     };
 
     SliderDate.prototype.SetDateUi = function () {
-        console.log(this.MetaData);
-
         var text = SolutionMetadataDate.GetPrecisionLabel(this.MetaData.Precision);
 
         var dateR = DateParser.Run($("#Answer").val());
-        console.log(dateR);
+
         if (!dateR.IsValid) {
             $("#spanEntryPrecision").html("keine g&#252;ltige Eingabe");
             $("#iDateError").show();

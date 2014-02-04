@@ -159,6 +159,10 @@ class ImageUploadModal
     OnSave(func: Function) { 
         this._onSave = func;
     }
+
+    SetTitle(title: string) {
+        $("#modalImageUpload .modal-title").html(title);
+    }
 }
 
 class SaveWikipediaImage

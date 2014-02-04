@@ -19,15 +19,28 @@ public class EditCategoryModel : BaseModel
 
     public string ImageUrl { get; set; }
 
+    public string ImageIsNew { get; set; }
+    public string ImageSource { get; set; }
+    public string ImageWikiFileName { get; set; }
+    public string ImageGuid { get; set; }
+    public string ImageLicenceOwner { get; set; }
+
+    public Category Category;
+
     public EditCategoryModel(){
-        ImageUrl = "";
     }
 
-    public EditCategoryModel(Category category) : this()
+    public EditCategoryModel(Category category) 
     {
+        Init(category);
+    }
+
+    public void Init(Category category)
+    {
+        Category = category;
         Name = category.Name;
         RelatedCategories = (from cat in category.RelatedCategories select cat.Name).ToList();
-        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px().Url;
+        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;        
     }
 
     public Category ConvertToCategory()

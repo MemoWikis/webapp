@@ -305,6 +305,8 @@
     </Content>
     <TypeScriptCompile Include="Scripts\MM.Log.ts" />
     <TypeScriptCompile Include="Scripts\MM.Site.ts" />
+    <TypeScriptCompile Include="Scripts\MM.Utils.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
     <Content Include="Images\no-category-picture-206.png" />
     <Content Include="Images\no-question-128.png" />
@@ -317,7 +319,15 @@
     <Content Include="Scripts\MM.DateParser.js">
       <DependentUpon>MM.DateParser.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\MM.Log.js" />
+    <Content Include="Scripts\MM.Log.js">
+      <DependentUpon>MM.Log.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.Site.js">
+      <DependentUpon>MM.Site.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.Utils.js">
+      <DependentUpon>MM.Utils.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\MM.ValuationPerRow.js">
       <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
     </Content>
@@ -330,9 +340,14 @@
     <Content Include="Style\bootstrap.css" />
     <Content Include="Style\grid.css">
       <DependentUpon>grid.less</DependentUpon>
+    <Content Include="Style\form.min.css">
+      <DependentUpon>form.less</DependentUpon>
     </Content>
     <Content Include="Style\includes\variables.css">
       <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Style\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
     </Content>
     <Content Include="Style\temp.css">
       <DependentUpon>temp.less</DependentUpon>
@@ -359,6 +374,24 @@
     <Content Include="Style\includes\variables.less" />
     <Content Include="Scripts\app.config" />
     <Content Include="Style\grid.less" />
+    <Content Include="Scripts\MM.Log.js.map">
+      <DependentUpon>MM.Log.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.DateParser.js.map">
+      <DependentUpon>MM.DateParser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.Site.js.map">
+      <DependentUpon>MM.Site.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.ValuationPerRow.js.map">
+      <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SolutionMetaData.js.map">
+      <DependentUpon>SolutionMetaData.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\MM.Utils.js.map">
+      <DependentUpon>MM.Utils.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
@@ -369,7 +402,12 @@
     <Content Include="Style\site.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Js\CategoriesDelete.js" />
+    <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
+      <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Js\CategoriesDelete.js">
+      <DependentUpon>CategoriesDelete.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
     <Content Include="Views\Drafts\temp.aspx" />
@@ -460,6 +498,8 @@
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeController.cs" />
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
+    <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
+    <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
     <Compile Include="Views\Shared\ImageUpload\ImageUploadController.cs" />
     <Compile Include="Views\Shared\MenuLeftModel.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
@@ -597,6 +637,18 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js">
+      <DependentUpon>SolutionTypeDate.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerQuestion.js">
+      <DependentUpon>AnswerQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
@@ -604,16 +656,31 @@
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\MM.ValuationPerRow.ts" />
+    <Content Include="Views\Questions\Js\ToQuestionSet.js">
+      <DependentUpon>ToQuestionSet.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Questions.css">
       <DependentUpon>Questions.less</DependentUpon>
     </Content>
+    <Content Include="Views\Sets\Detail\Js\Set.js">
+      <DependentUpon>Set.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Set.aspx" />
-    <Content Include="Views\Sets\Detail\Set.css" />
+    <Content Include="Views\Sets\Detail\Set.css">
+      <DependentUpon>Set.less</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.ts" />
-    <Content Include="Views\Sets\Edit\Js\ImageUpload.js" />
+    <Content Include="Views\Sets\Edit\Js\ImageUpload.js">
+      <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.js">
       <DependentUpon>RemoveQuestionFromSet.ts</DependentUpon>
     </Content>
@@ -670,13 +737,17 @@
     <Content Include="Views\Sets\Sets.css">
       <DependentUpon>Sets.less</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\AnswerHistory.ascx" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />
+    <Content Include="Views\Shared\CorrectnessProbability.ascx" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.ascx" />
     <TypeScriptCompile Include="Views\Shared\ImageUpload\ImageUpload.ts" />
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Js\Users.js" />
+    <Content Include="Views\Users\Js\Users.js">
+      <DependentUpon>Users.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Users.css">
       <DependentUpon>Users.less</DependentUpon>
     </Content>
@@ -710,6 +781,76 @@
     <Content Include="Views\Questions\Questions.less" />
     <Content Include="Views\Sets\Sets.less" />
     <Content Include="Views\Users\Users.less" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js.map">
+      <DependentUpon>SolutionTypeDate.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerQuestion.js.map">
+      <DependentUpon>AnswerQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionRowDelete.js.map">
+      <DependentUpon>QuestionRowDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionRowSelection.js.map">
+      <DependentUpon>QuestionRowSelection.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\ToQuestionSet.js.map">
+      <DependentUpon>ToQuestionSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Js\SetDelete.js.map">
+      <DependentUpon>SetDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Js\Sets.js.map">
+      <DependentUpon>Sets.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\Js\ImageUpload.js.map">
+      <DependentUpon>ImageUpload.js</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.js.map">
+      <DependentUpon>RemoveQuestionFromSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\Js\SetSortable.js.map">
+      <DependentUpon>SetSortable.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\users.js.map">
+      <DependentUpon>Users.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\EditQuestion.js.map">
+      <DependentUpon>EditQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js.map">
+      <DependentUpon>MarkdownDescription.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js.map">
+      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Js\Categories.js.map">
+      <DependentUpon>Categories.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Js\CategoriesDelete.js.map">
+      <DependentUpon>CategoriesDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js.map">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js.map">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\ImageUpload.js.map">
+      <DependentUpon>ImageUpload.js</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\ImageUpload\ImageUpload.js.map">
+      <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Set.less" />
+    <Content Include="Views\Sets\Detail\Js\Set.js.map">
+      <DependentUpon>Set.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -721,12 +862,11 @@
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <Content Include="Views\Categories\Edit\RelatedCategories.js" />
     <Content Include="Views\News\News.aspx" />
-    <Content Include="Views\Questions\Answer\AnswerQuestion.js" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\QuestionRow.ascx" />
     <Content Include="Views\Questions\Questions.aspx" />
-    <Content Include="Scripts\MM.lib.js" />
+    <Content Include="Scripts\MM.JQueryExtensions.js" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />

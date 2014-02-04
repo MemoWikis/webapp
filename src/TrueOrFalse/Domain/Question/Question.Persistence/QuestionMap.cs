@@ -30,6 +30,8 @@ namespace TrueOrFalse
             Map(x => x.TotalRelevancePersonalAvg);
             Map(x => x.TotalRelevancePersonalEntries);
             Map(x => x.TotalViews);
+
+            Map(x => x.CorrectnessProbability);
                         
             Map(x => x.Solution);
             Map(x => x.SolutionType);

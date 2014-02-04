@@ -20,14 +20,7 @@ public class SetsControllerSearch : IRegisterAsInstancePerLifetime
 
     public IList<Set> Run(SetSearchSpec searchSpecSet)
     {
-        var solrResult = _searchSets.Run(
-            searchSpecSet.SearchTerm,
-            searchSpecSet,
-            searchSpecSet.Filter.CreatorId.IsActive() ? 
-                Convert.ToInt32(searchSpecSet.Filter.CreatorId.GetValue()) : 
-                -1, 
-            searchSpecSet.Filter.ValuatorId);
-
+        var solrResult = _searchSets.Run(searchSpecSet);
         return _setRepo.GetByIds(solrResult.SetIds.ToArray());
     }
 }

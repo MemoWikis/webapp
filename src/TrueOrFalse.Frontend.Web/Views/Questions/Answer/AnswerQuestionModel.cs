@@ -31,8 +31,12 @@ public class AnswerQuestionModel : BaseModel
     public string TotalRelevanceForAllEntries;
     public string TotalRelevancePersonalAvg;
     public string TotalRelevancePersonalEntries;
+    
     public string SolutionType;
-    public object SolutionModel;
+    public QuestionSolution SolutionModel;
+    public SolutionMetadata SolutionMetadata;
+    public string SolutionMetaDataJson;
+
     public string ImageUrl_500px;
     public string SoundUrl;
     public IList<FeedbackRowModel> FeedbackRows;
@@ -82,7 +86,10 @@ public class AnswerQuestionModel : BaseModel
     public IList<Category> Categories;
     public IList<SetMini> SetMinis;
     public int SetCount;
-         
+    
+    public AnswerHistoryModel AnswerHistory;
+    public CorrectnessProbabilityModel CorrectnessProbability;
+
     public AnswerQuestionModel() { }
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
@@ -140,16 +147,12 @@ public class AnswerQuestionModel : BaseModel
         SolutionType = question.SolutionType.ToString();
         SolutionModel = new GetQuestionSolution().Run(question);
 
-        TimesAnsweredTotal = question.TotalAnswers();
-        PercenctageCorrectAnswers = 34;
-        TimesAnsweredCorrect = question.TotalTrueAnswers;
-        TimesAnsweredWrongTotal = question.TotalFalseAnswers;
-        TimesJumpedOver = 0;
+        SolutionMetadata = new SolutionMetadata {Json = question.SolutionMetadataJson};
+        SolutionMetaDataJson = question.SolutionMetadataJson;
 
-        TimesAnsweredUser = valuationForUser.Total();
-        TimesAnsweredUserTrue = valuationForUser.TotalTrue;
-        TimesAnsweredUserWrong = valuationForUser.TotalFalse;
-
+        AnswerHistory = new AnswerHistoryModel(question, valuationForUser);
+        CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser);
+        
         TotalViews = question.TotalViews + 1;
 
         TotalQualityAvg = question.TotalQualityAvg.ToString();

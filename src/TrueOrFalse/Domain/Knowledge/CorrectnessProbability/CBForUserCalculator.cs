@@ -5,7 +5,10 @@ using System.Text;
 
 namespace TrueOrFalse
 {
-    public class CorrectnessProbabilityCalculator : IRegisterAsInstancePerLifetime
+    /// <summary>
+    /// Correctness probability for user
+    /// </summary>
+    public class CBForUserCalculator : IRegisterAsInstancePerLifetime
     {
         /// <returns>CorrectnessProbability as Percentage</returns>
         public int Run(IEnumerable<AnswerHistory> answerHistoryItems)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;
@@ -11,6 +12,23 @@ namespace TrueOrFalse.Search
 
         public SearchSets(ISolrOperations<SetSolrMap> searchOperations){
             _searchOperations = searchOperations;
+        }
+
+        public SearchSetsResult Run(SetSearchSpec searchSpec)
+        {
+            var orderBy = SearchSetsOrderBy.None;
+            if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchSetsOrderBy.CreationDate;
+            else if (searchSpec.OrderBy.ValuationsCount.IsCurrent()) orderBy = SearchSetsOrderBy.ValuationsCount;
+            else if (searchSpec.OrderBy.ValuationsAvg.IsCurrent()) orderBy = SearchSetsOrderBy.ValuationsAvg;
+
+            return Run(
+                searchSpec.SearchTerm,
+                searchSpec,
+                searchSpec.Filter.CreatorId.IsActive()
+                    ? Convert.ToInt32(searchSpec.Filter.CreatorId.GetValue())
+                    : -1,
+                searchSpec.Filter.ValuatorId,
+                orderBy: orderBy);
         }
 
         public SearchSetsResult Run(
@@ -26,8 +44,23 @@ namespace TrueOrFalse.Search
             int creatorId = -1, 
             int valuatorId = -1,
             bool startsWithSearch = false,
-            bool exact = false)
+            bool exact = false,
+            SearchSetsOrderBy orderBy = SearchSetsOrderBy.None)
         {
+            var orderby = new List<SortOrder>();
+            if (orderBy == SearchSetsOrderBy.CreationDate)
+                orderby.Add(new SortOrder("DateCreated", Order.DESC));
+            else if (orderBy == SearchSetsOrderBy.ValuationsCount)
+            {
+                orderby.Add(new SortOrder("ValuationsCount", Order.DESC));
+                orderby.Add(new SortOrder("ValuationsAvg", Order.DESC));
+            }
+            else if (orderBy == SearchSetsOrderBy.ValuationsAvg)
+            {
+                orderby.Add(new SortOrder("ValuationsAvg", Order.DESC));
+                orderby.Add(new SortOrder("ValuationsCount", Order.DESC));
+            }
+
             var sqb = new SearchQueryBuilder()
                 .Add("FullTextStemmed", searchTerm, startsWith : startsWithSearch, exact: exact)
                 .Add("FullTextExact", searchTerm, startsWith: startsWithSearch, exact: exact)
@@ -39,7 +72,8 @@ namespace TrueOrFalse.Search
                                                       {
                                                             Start = pager.LowerBound - 1,
                                                             Rows = pager.PageSize,
-                                                            SpellCheck = new SpellCheckingParameters{ Collate = true}
+                                                            SpellCheck = new SpellCheckingParameters{ Collate = true},
+                                                            OrderBy = orderby
                                                       });
 
             var result = new SearchSetsResult();

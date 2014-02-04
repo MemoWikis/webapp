@@ -7,8 +7,9 @@ namespace TrueOrFalse
         private readonly ISession _session;
         private readonly RecalcQuestionWishItem _recalcQuestionWishItem;
 
-        public RecalcAllQuestionWishItems(ISession session, 
-                                            RecalcQuestionWishItem recalcQuestionWishItem)
+        public RecalcAllQuestionWishItems(
+            ISession session, 
+            RecalcQuestionWishItem recalcQuestionWishItem)
         {
             _session = session;
             _recalcQuestionWishItem = recalcQuestionWishItem;

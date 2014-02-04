@@ -157,6 +157,8 @@
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateSetCountForCategory.cs" />
+    <Compile Include="Domain\Knowledge\CorrectnessProbability\CBForAllUsersCalculator.cs" />
+    <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcCBForQuestions.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishSetCount.cs" />
     <Compile Include="Domain\Media\Image\ResizeImage.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
@@ -188,7 +190,7 @@
     <Compile Include="Domain\Media\Image\ImageTypes\Question\QuestionImageSettings.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMetaLoader.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMeta.cs" />
-    <Compile Include="Domain\Knowledge\CorrectnessProbability\CorrectnessProbabilityCalculator.cs" />
+    <Compile Include="Domain\Knowledge\CorrectnessProbability\CBForUserCalculator.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcAllQuestionWishItems.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcQuestionWishItem.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishQuestionCountCached.cs" />
@@ -228,6 +230,7 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
+    <Compile Include="Domain\Question\SolutionType\Date\DateAnswer.cs" />
     <Compile Include="Domain\Question\Answer\GetQuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
@@ -251,6 +254,7 @@
     <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewMap.cs" />
     <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewPersistence.cs" />
     <Compile Include="Domain\Question\QuestionView\QuestionView.cs" />
+    <Compile Include="Domain\Question\SolutionType\Date\DateAnswerParser.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadata.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataDate.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />
@@ -282,6 +286,7 @@
     <Compile Include="Search\QuestionSet\IndexOperations\SearchIndexSet.cs" />
     <Compile Include="Search\QuestionSet\Model\SetSolrMap.cs" />
     <Compile Include="Search\QuestionSet\Model\ToSetSolrMap.cs" />
+    <Compile Include="Search\QuestionSet\SearchSetsOrderBy.cs" />
     <Compile Include="Search\QuestionSet\SearchSets.cs" />
     <Compile Include="Search\QuestionSet\SearchSetsResult.cs" />
     <Compile Include="Search\Question\IndexOperations\SearchIndexQuestion.cs" />
@@ -367,8 +372,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\Settings\ConnectionString\GetConnectionString.cs" />
-    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConfig.cs" />
-    <Compile Include="Infrastructure\Settings\ConnectionString\ReadOverwrittenConfigValueResult.cs" />
+    <Compile Include="Infrastructure\Settings\ConnectionString\OverwrittenConfig.cs" />
+    <Compile Include="Infrastructure\Settings\ConnectionString\OverwrittenConfigValueResult.cs" />
     <Compile Include="Infrastructure\Settings\DbSetting\DbSettingLoader.cs" />
     <Compile Include="Infrastructure\Settings\DbSetting\DbSettings.cs" />
     <Compile Include="Infrastructure\Settings\DbSetting\DbSettingsMap.cs" />
@@ -406,6 +411,8 @@
     <Compile Include="Utilities\Update\Steps\UpdateToVs014.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs013.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs012.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs039.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
     <Compile Include="Utilities\Update\Update.cs" />
     <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />

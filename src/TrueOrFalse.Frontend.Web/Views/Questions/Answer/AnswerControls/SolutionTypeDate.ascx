@@ -1,19 +1,13 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
-<textarea id="txtAnswer" class="questionBlockWidth" style="height: 30px;"></textarea>    
+Datum min. <b><span id="spanEntryPrecision"></span></b>
 
-<script type="text/javascript">
-    $("#txtAnswer").keypress(function () {
-        answerChanged();
-    });
-    function getAnswerText() {
-        return $("#txtAnswer").val();
-    }
-    function getAnswerData() {
-        return { answer: $("#txtAnswer").val() };
-    }
-    function newAnswer() {
-        $("#txtAnswer").focus();
-        $("#txtAnswer").setCursorPosition(0);
-    }
-</script>
+<div style="padding-bottom: 5px;">
+    <span id="spanEntryFeedback"></span>
+    <i class="fa fa-exclamation-circle" id="iDateError" style="color:red; display: none; font-size: 16px;"></i> 
+    <i class="fa fa-check-circle" id="iDateCorrect" style="color:green; display: none;  font-size: 16px;"></i> 
+</div>
+
+<input type="text" id="txtAnswer" class="form-control " rows="1" style=" width: 100%"/>    
+
+<script src="/Views/Questions/Answer/AnswerControls/SolutionTypeDate.js" type="text/javascript"></script>

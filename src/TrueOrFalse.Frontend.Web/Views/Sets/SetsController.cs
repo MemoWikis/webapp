@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Activities.Expressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Seedworks.Lib;
 using TrueOrFalse;
+using TrueOrFalse.Search;
 
 public class SetsController : BaseController
 {
@@ -24,20 +26,19 @@ public class SetsController : BaseController
         _setsControllerSearch = setsControllerSearch;
     }
 
-    public ActionResult SetsWishSearch(string searchTerm, SetsModel model, int? page)
+    public ActionResult SetsWishSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
         if (_sessionUiData.SearchSpecSetWish.SearchTerm != searchTerm)
             _sessionUiData.SearchSpecSetWish.CurrentPage = 1;
 
         _sessionUiData.SearchSpecSetWish.SearchTerm = model.SearchTerm = searchTerm;
-        return SetsWish(page, model);
+        return SetsWish(page, model, orderBy);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
-    public ActionResult SetsWish(int? page, SetsModel model)
+    public ActionResult SetsWish(int? page, SetsModel model, string orderBy)
     {
-        if (page.HasValue)
-            _sessionUiData.SearchSpecSetWish.CurrentPage = page.Value;
+        SetSearchSpecVars(_sessionUiData.SearchSpecSetWish, page, orderBy);
 
         _sessionUiData.SearchSpecSetWish.Filter.ValuatorId = _sessionUser.User.Id;
 
@@ -45,20 +46,19 @@ public class SetsController : BaseController
         return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetWish, GetValuations(sets), isTabWishActice: true));
     }
 
-    public ActionResult SetsMineSearch(string searchTerm, SetsModel model, int? page)
+    public ActionResult SetsMineSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
         if (_sessionUiData.SearchSpecSetMine.SearchTerm != searchTerm)
             _sessionUiData.SearchSpecSetMine.CurrentPage = 1;
 
         _sessionUiData.SearchSpecSetMine.SearchTerm = model.SearchTerm = searchTerm;
-        return SetsMine(page, model);
+        return SetsMine(page, model, orderBy);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
-    public ActionResult SetsMine(int? page, SetsModel model)
+    public ActionResult SetsMine(int? page, SetsModel model, string orderBy)
     {
-        if (page.HasValue)
-            _sessionUiData.SearchSpecSetMine.CurrentPage = page.Value;
+        SetSearchSpecVars(_sessionUiData.SearchSpecSetMine, page, orderBy);
 
         _sessionUiData.SearchSpecSetMine.Filter.CreatorId.EqualTo(_sessionUser.User.Id);
 
@@ -66,20 +66,19 @@ public class SetsController : BaseController
         return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetMine, GetValuations(sets), isTabMineActive: true));
     }
 
-    public ActionResult SetsSearch(string searchTerm, SetsModel model, int? page)
+    public ActionResult SetsSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
         if (_sessionUiData.SearchSpecSetAll.SearchTerm != searchTerm)
             _sessionUiData.SearchSpecSetAll.CurrentPage = 1;
 
         _sessionUiData.SearchSpecSetAll.SearchTerm = model.SearchTerm = searchTerm;
-        return Sets(page, model);
+        return Sets(page, model, orderBy);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
-    public ActionResult Sets(int? page, SetsModel model)
+    public ActionResult Sets(int? page, SetsModel model, string orderBy)
     {
-        if (page.HasValue) 
-            _sessionUiData.SearchSpecSetAll.CurrentPage = page.Value;
+        SetSearchSpecVars(_sessionUiData.SearchSpecSetAll, page, orderBy);
 
         var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetAll);
         return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetAll, GetValuations(sets), isTabAllActive: true));
@@ -107,12 +106,15 @@ public class SetsController : BaseController
     [HttpPost]
     public JsonResult SaveRelevancePersonal(int id, int newValue)
     {
-        var oldKnowledgeCount = Sl.Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
+        var oldKnowledgeCount = Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
 
-        Sl.Resolve<UpdateSetsTotals>().UpdateRelevancePersonal(id, _sessionUser.User, newValue);
-        var totals = Sl.Resolve<GetSetTotal>().RunForRelevancePersonal(id);
+        Resolve<UpdateSetsTotals>().UpdateRelevancePersonal(id, _sessionUser.User, newValue);
+        var totals = Resolve<GetSetTotal>().RunForRelevancePersonal(id);
+        
+        var set = Resolve<SetRepository>().GetById(id);
+        Resolve<SearchIndexSet>().Update(set);
 
-        var newKnowledgeCount = Sl.Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
+        var newKnowledgeCount = Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
 
         return new JsonResult
         {
@@ -130,4 +132,22 @@ public class SetsController : BaseController
     {
         return _setValuationRepository.GetBy(sets.GetIds(), _sessionUser.User.Id);
     }
+
+    public void SetSearchSpecVars(SetSearchSpec searchSpec, int? page, string orderByCommand)
+    {
+        if (page.HasValue)
+            searchSpec.CurrentPage = page.Value;
+
+        SetSetsOrderBy(searchSpec, orderByCommand);
+    }
+
+    public void SetSetsOrderBy(SetSearchSpec searchSpec, string orderByCommand)
+    {
+        if (searchSpec.OrderBy.Current == null && String.IsNullOrEmpty(orderByCommand))
+            orderByCommand = "byValuationsCount";
+
+        if (orderByCommand == "byValuationsCount") searchSpec.OrderBy.ValuationsCount.Desc();
+        else if (orderByCommand == "byValuationsAvg") searchSpec.OrderBy.ValuationsAvg.Desc();
+    }
+
 }

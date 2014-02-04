@@ -9,6 +9,7 @@ declare var questionSetId: number;
 
 $(function () {
     var imageUploadModal = new ImageUploadModal();
+    imageUploadModal.SetTitle("Fragesatzbild hochladen");
     imageUploadModal.OnSave(function (url: string) {
         $("#questionSetImg").attr("src", url);
 

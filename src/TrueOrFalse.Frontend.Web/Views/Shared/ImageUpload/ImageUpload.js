@@ -150,6 +150,10 @@ var ImageUploadModal = (function () {
     ImageUploadModal.prototype.OnSave = function (func) {
         this._onSave = func;
     };
+
+    ImageUploadModal.prototype.SetTitle = function (title) {
+        $("#modalImageUpload .modal-title").html(title);
+    };
     return ImageUploadModal;
 })();
 

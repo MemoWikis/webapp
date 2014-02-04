@@ -14,6 +14,8 @@ namespace TrueOrFalse
             Map(x => x.RelevancePersonal);
             Map(x => x.RelevanceForAll);
 
+            Map(x => x.CorrectnessProbability);
+
             Map(x => x.DateCreated);
         }
     }

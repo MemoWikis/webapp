@@ -7,21 +7,29 @@ using Seedworks.Web.State;
 
 namespace TrueOrFalse.Infrastructure
 {
-    public static class ReadOverwrittenConfig
+    public static class OverwrittenConfig
     {
-        public static ReadOverwrittenConfigValueResult ConnectionString(){
+        public static OverwrittenConfigValueResult ConnectionString(){
             return Value("connectionString");
         }
 
-        public static ReadOverwrittenConfigValueResult SolrUrl(){
+        public static OverwrittenConfigValueResult SolrUrl(){
             return Value("sorlUrl");
         }
 
-        internal static ReadOverwrittenConfigValueResult SolrPath(){
+        internal static OverwrittenConfigValueResult SolrPath(){
             return Value("pathToSolr");
         }
 
-        private static ReadOverwrittenConfigValueResult Value(string itemName)
+        public static bool DevelopOffline(){
+            var result = Value("developOffline");
+            if (!result.HasValue)
+                return false;
+
+            return Boolean.Parse(result.Value);
+        }
+
+        private static OverwrittenConfigValueResult Value(string itemName)
         {
             string filePath;
             if (ContextUtil.IsWebContext)
@@ -30,16 +38,16 @@ namespace TrueOrFalse.Infrastructure
                 filePath = Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.Parent.FullName, "App.overwritten.config");
 
             if (!File.Exists(filePath))
-                return new ReadOverwrittenConfigValueResult(false, null);
+                return new OverwrittenConfigValueResult(false, null);
 
             var xDoc = XDocument.Load(filePath);
             
             if(xDoc.Root.Element(itemName) == null)
-                return new ReadOverwrittenConfigValueResult(false, null);
+                return new OverwrittenConfigValueResult(false, null);
 
             var value = xDoc.Root.Element(itemName).Value;
 
-            return new ReadOverwrittenConfigValueResult(true, value);
+            return new OverwrittenConfigValueResult(true, value);
         }
 
         static private string AssemblyDirectory

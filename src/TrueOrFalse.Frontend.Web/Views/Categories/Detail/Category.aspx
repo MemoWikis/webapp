@@ -10,8 +10,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
             
-    <div class="col-md-6 category">
-        <h2 class="pull-left"><%= Model.Name %></h2>
+    <div class="col-md-6  category category" style="margin-bottom: 30px;">
+        <h2><%= Model.Name %></h2>
+    </div>
+    <div class="col-md-3">
         <div class="pull-right">
             <div>
                 <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a><br/>
@@ -20,39 +22,37 @@
                 <% } %>
             </div>
         </div>
-        <div style="clear: both;">
-            <%= Model.Description %>
-        </div>
-       
-        <div class="row">
-            <div class="col-md-12">                    
-                <h4>Fragen (<%=Model.CountQuestions %>)</h4>                    
-                <% foreach(var question in Model.TopQuestions){ %>
-                    <div>
-                        - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(80) %></a>
-                    </div>
-                <% } %>
-                <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="btn btn-info btn-sm" style="margin-top: 10px; margin-bottom: 10px;">
-                    Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen
-                </a>
-                
-                <h4>Fragesätze (<%=Model.CountSets %>)</h4>
-                <% foreach(var set in Model.TopSets){ %>
-                    <div>
-                        - <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
-                    </div>
-                <% } %>
-
-                <h4>Ersteller (<%=Model.CountCreators %>)</h4>
-            </div>         
-        </div>
-
     </div>
+
+    <div class="col-md-6">
+        <%= Model.Description %>
+    </div>
+       
+    <div class="col-md-6">                    
+        <h4 style="margin-top: 0px;">Fragen (<%=Model.CountQuestions %>)</h4>                    
+        <% foreach(var question in Model.TopQuestions){ %>
+            <div>
+                - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(80) %></a>
+            </div>
+        <% } %>
+        <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="btn btn-info btn-sm" style="margin-top: 10px; margin-bottom: 10px;">
+            Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen
+        </a>
+                
+        <h4>Fragesätze (<%=Model.CountSets %>)</h4>
+        <% foreach(var set in Model.TopSets){ %>
+            <div>
+                - <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
+            </div>
+        <% } %>
+
+        <h4>Ersteller (<%=Model.CountCreators %>)</h4>
+    </div>         
+    
     <div class="col-md-3">
         <div>
-            <div class="box">
-                <img src="<%= Model.ImageUrl %>"/>
-            </div>
+            <img src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
         </div>
     </div>
+
 </asp:Content>

@@ -4,20 +4,21 @@
     {
         private readonly AnswerHistoryRepository _answerHistoryRepository;
         private readonly QuestionValuationRepository _questionValuationRepository;
-        private readonly CorrectnessProbabilityCalculator _correctnessProbabilityCalculator;
+        private readonly CBForUserCalculator _cbForUserCalculator;
 
-        public RecalcQuestionWishItem(AnswerHistoryRepository answerHistoryRepository,
-                                        QuestionValuationRepository questionValuationRepository,
-                                        CorrectnessProbabilityCalculator correctnessProbabilityCalculator)
+        public RecalcQuestionWishItem(
+            AnswerHistoryRepository answerHistoryRepository,
+            QuestionValuationRepository questionValuationRepository,
+            CBForUserCalculator cbForUserCalculator)
         {
             _answerHistoryRepository = answerHistoryRepository;
             _questionValuationRepository = questionValuationRepository;
-            _correctnessProbabilityCalculator = correctnessProbabilityCalculator;
+            _cbForUserCalculator = cbForUserCalculator;
         }
 
         public void Run(int questionId, int userId)
         {
-            int correctnessProbability = _correctnessProbabilityCalculator.Run(
+            int correctnessProbability = _cbForUserCalculator.Run(
                                             _answerHistoryRepository.GetBy(questionId, userId));
 
             var questionValuation = 

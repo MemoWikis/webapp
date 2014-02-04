@@ -1,14 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<AnswerQuestionModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <script src="/Views/Questions/Answer/AnswerQuestion.js" type="text/javascript"></script>
     
+    <%= Scripts.Render("~/bundles/AnswerQuestion") %>
+
     <style type="text/css">
-        
-        .selectorShowAnswer{/* marker class */}
+         .selectorShowAnswer{/* marker class */}
        
         div.headerLinks {}
         div.headerLinks i { margin-top: 2px;}
@@ -74,7 +75,14 @@
         
         <div class="row ">
             <div class="col-md-10">
-                <%Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/SolutionType" + Model.SolutionType +".ascx", Model.SolutionModel); %>
+                <input type="hidden" id="hddSolutionMetaDataJson" value="<%: Model.SolutionMetaDataJson %>"/>
+                <%
+                    string userControl = "SolutionType" + Model.SolutionType + ".ascx";
+                    if (Model.SolutionMetadata.IsDate)
+                        userControl = "SolutionTypeDate.ascx";
+                        
+                    Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel); 
+                %>
             </div>
         </div>
             
@@ -158,7 +166,7 @@
                 <br/>                
                 Fragesatz:
                 <a href="<%= Links.SetDetail(Url, Model.Set) %>">
-                    <span class="label label-set"><%= Model.Set.Name %></a>
+                    <span class="label label-set"><%= Model.Set.Name %></span>
                 </a>            
             <% } %>
         </div>
@@ -184,7 +192,6 @@
         
         <% if(Model.Categories.Count > 0){ %>
             <p style="padding-top: 10px;">
-                <b style="color: darkgray">Kategorien</b> <br/>
                 <% foreach (var category in Model.Categories){ %>
                     <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
                 <% } %>
@@ -192,7 +199,6 @@
         <% } %>
         
         <% if(Model.SetMinis.Count > 0){ %>
-            <b style="color: darkgray">Fragesätze</b> <br/>
             <% foreach (var setMini in Model.SetMinis){ %>
                 <a href="<%= Links.SetDetail(Url, setMini) %>" style="margin-top: 3px; display: inline-block;"><span class="label label-set"><%: setMini.Name %></span></a>
             <% } %>
@@ -204,16 +210,16 @@
             <% } %>
 
         <% } %>
+    
+        <p style="padding-top: 10px;">    
+            <% Html.RenderPartial("AnswerHistory", Model.AnswerHistory); %> <br/>
+            <% Html.RenderPartial("CorrectnessProbability", Model.CorrectnessProbability); %>
+        </p>
         
-        <p style="padding-top: 10px;">
-            <b style="color: darkgray">Ich</b> <br/>
-            <%= Model.TimesAnsweredUser %> x beantwortet <span id="sparklineTrueOrFalseUser" data-answersTrue="<%= Model.TimesAnsweredUserTrue  %>" data-answersFalse="<%= Model.TimesAnsweredUserWrong %>"></span>
-        </p>            
-            
         <p>
-            <b style="color: darkgray">Alle</b> <br/>
-            <%= Model.TotalViews %> x gesehen<br />
-            <%= Model.TimesAnsweredTotal %> x beantwortet <span id="sparklineTrueOrFalseTotals" data-answersTrue="<%= Model.TimesAnsweredCorrect %>" data-answersFalse="<%= Model.TimesAnsweredWrongTotal %>"></span><br/>
+            <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
+                <i class="fa fa-eye"></i> <%= Model.TotalViews %>x<br />
+            </span>
         </p>
             
         <p style="padding-top:12px;">

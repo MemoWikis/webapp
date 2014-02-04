@@ -8,7 +8,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="pull-left">
-                            <a class="block" href="/"><h1><span id="m">M</span>EM<span id="uch">uch</span>O<span id="logo"></span></h1></a>
+                            <a class="block title" href="/">
+                                <h1><span id="m">M</span>EM<span id="uch">uch</span>O<span id="logo"></span></h1>
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-3 colLoginAndHelp">

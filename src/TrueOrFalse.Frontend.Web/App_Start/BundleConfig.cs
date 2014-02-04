@@ -50,17 +50,22 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/Categories")
                 .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Categories")
-                .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
+            bundles.Add(new ScriptBundle("~/bundles/CategoryEdit")
+                .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
+                .Include("~/Views/Shared/ImageUpload/ImageUpload.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/questionSetEdit")
-                .Include("~/Views/Sets/Edit/Js/ImageUpload.js")
-                .Include("~/Views/Sets/Edit/Js/RemoveQuestionFromSet.js")
-                .Include("~/Views/Sets/Edit/Js/SetSortable.js")
+            bundles.Add(new ScriptBundle("~/bundles/AnswerQuestion")
+                .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/SetEdit")
+                .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Set")
+                .IncludeDirectory("~/Views/Sets/Detail/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/markdown")
                 .Include("~/Scripts/Markdown.Converter.js",

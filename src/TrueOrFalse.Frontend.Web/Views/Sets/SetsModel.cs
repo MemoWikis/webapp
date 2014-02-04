@@ -24,6 +24,9 @@ public class SetsModel : BaseModel
     public string SearchTerm { get; set;  }
     public string SearchUrl { get; set; }
 
+    public string OrderByLabel { get; set; }
+    public SetOrderBy OrderBy;
+
     public bool FilterByMe { get; set; }
     public bool FilterByAll { get; set; }
 
@@ -45,6 +48,9 @@ public class SetsModel : BaseModel
         ActiveTabAll = isTabAllActive;
         ActiveTabMine = isTabMineActive;
         ActiveTabWish = isTabWishActice;
+
+        OrderBy = searchSpec.OrderBy;
+        OrderByLabel = searchSpec.OrderBy.ToText();
 
         var counter = 0;
         Rows = questionSets.Select(set => 
