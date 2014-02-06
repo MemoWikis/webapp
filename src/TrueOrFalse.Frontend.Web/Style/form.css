@@ -1,46 +1,39 @@
-﻿h3.form-sub-title {
-    padding: 30px 0 0 100px;
-    font-size: 1.3em;
+h3.form-sub-title {
+  padding: 30px 0 0 100px;
+  font-size: 1.3em;
 }
-
 .added-cat {
-    float: left;
-    margin-right: 1em;
-    line-height: 28px;
+  float: left;
+  margin-right: 1em;
+  line-height: 28px;
 }
-
 .added-cat a img {
-    padding-left: 4px;
-    margin-top: -4px;
+  padding-left: 4px;
+  margin-top: -4px;
 }
-
 .added-usr {
-    display: inline-block;
-    margin-right: 1em;
+  display: inline-block;
+  margin-right: 1em;
 }
-
 .help-text {
-    padding-left: 180px;
-    padding-bottom: 7px;
+  padding-left: 180px;
+  padding-bottom: 7px;
 }
-
 textarea {
-    width: 400px;
-    height: 80px;
+  width: 400px;
+  height: 80px;
 }
-
 label {
-    font-size: 13px;
-    display: block;
-    float: left;
-    padding-right: 10px;
-    line-height: 20px;
+  font-size: 13px;
+  display: block;
+  float: left;
+  padding-right: 10px;
+  line-height: 20px;
 }
-
 div.control-group.markdown label {
-    margin-top: 5px;
+  margin-top: 5px;
 }
-
 div.control-group span > i.fa-info-circle {
-    color: lightblue;
+  color: lightblue;
 }
+/*# sourceMappingURL=form.css.map */

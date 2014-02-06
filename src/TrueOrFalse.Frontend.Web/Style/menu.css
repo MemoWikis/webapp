@@ -7,9 +7,6 @@
   width: 100%;
   zoom: 1;
 }
-@media temp-disabled {
-  
-}
 #menu-new .tooltip > .tooltip-inner {
   min-width: 200px;
   text-align: left;
@@ -22,6 +19,8 @@
   border-bottom: none;
   border-right: none;
   font-size: 15px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 #menu-new a.list-group-item:hover {
   color: white;
@@ -39,7 +38,7 @@
   font-size: 17px;
   position: absolute;
   left: 2px;
-  top: 13px;
+  top: 8px;
 }
 #menu-new a.list-group-item:first-child {
   border-top-right-radius: 0;
@@ -152,7 +151,6 @@
   margin-top: 0px;
 }
 #menu-new a.list-group-item.sub.first {
-  margin-top: -8px;
   z-index: 5;
 }
 #menu-new a.list-group-item.sub.last {
@@ -220,3 +218,4 @@ div.menu .tooltip-inner {
   min-width: 200px;
   text-align: left;
 }
+/*# sourceMappingURL=menu.css.map */

@@ -2,8 +2,8 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="rowBase question-row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
-    <div class="column-1"  >
+<div class="rowBase question-row row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
+    <div class="column-1 col-md-2">
         <div class="image-container">
             <img src="<%= Model.ImageUrl%>" width="105" style="padding-bottom: 5px;">
             <label class="checkbox selectQuestion">
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="column-2" style="height: 95px; position: relative;">
+    <div class="column-2 col-md-8" style="height: 95px; position: relative;">
 
         <div class="pull-right" style="height: 25px; margin-top: 0px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
             <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
@@ -43,7 +43,7 @@
         
     </div>
 
-    <div class="column-3" style="line-height: 15px; font-size: 90%;" data-questionId="<%= Model.QuestionId %>">
+    <div class="column-3 col-md-2" style="line-height: 15px; font-size: 90%;" data-questionId="<%= Model.QuestionId %>">
 
         <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
