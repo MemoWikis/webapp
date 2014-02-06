@@ -54,15 +54,15 @@
         }
 
         &.set {
-            border-left-color: @set-color;
-            border-right-color: @set-color;
+            border-left-color: @color-set;
+            border-right-color: @color-set;
 
             i.fa-caret-right {
-                color: @set-color;
+                color: @color-set;
             }
 
             &:hover {
-                background-color: lighten(@set-color, 25);
+                background-color: lighten(@color-set, 25);
                 color: black;
 
                 i.fa-caret-right {
@@ -72,15 +72,15 @@
         }
 
         &.quest {
-            border-left-color: @memo-green;
-            border-right-color: @memo-green;
+            border-left-color: @color-question;
+            border-right-color: @color-question;
 
             i.fa-caret-right {
-                color: @memo-green;
+                color: @color-question;
             }
 
             &:hover {
-                background-color: lighten(@memo-green, 20);
+                background-color: lighten(@color-question, 20);
                 color: black;
 
                 i.fa-caret-right {
@@ -90,15 +90,15 @@
         }
 
         &.cat {
-            border-left-color: @middle-blue;
-            border-right-color: @light-blue;
+            border-left-color: @color-category;
+            border-right-color: @color-category;
 
             i.fa-caret-right {
-                color: @middle-blue;
+                color: @color-category;
             }
 
             &:hover {
-                background-color: lighten(@middle-blue, 10);
+                background-color: lighten(@color-category, 10);
                 color: black;
             }
         }
@@ -177,15 +177,25 @@
         }
 
         &.sub {
-            height: 18px;
             overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             padding-top: 1px;
             padding-left: 26px;
+            padding-bottom: 0;
             font-size: 12px;
             margin-top: 0px;
+            line-height: 22px;
 
-            &.first{ z-index: 5; }
-            &.last{ height: 21px; }
+            &.first {
+                z-index: 5;
+            }
+
+            &.last {
+                padding-bottom: 0px;
+            }
 
             i.fa-caret-right {
                 font-size: 17px;

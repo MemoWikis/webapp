@@ -436,6 +436,42 @@ div.box-main .box-content {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+#question-main .box-with-tabs ul.nav-tabs,
+#question-main .boxtainer-outlined-tabs ul.nav-tabs {
+  border-bottom-color: #d0e689;
+}
+#question-main .box-with-tabs ul.nav-tabs li a:hover,
+#question-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
+  background-color: #d0e689;
+}
+#question-main .box-with-tabs ul.nav-tabs li.active a,
+#question-main .boxtainer-outlined-tabs ul.nav-tabs li.active a {
+  border-color: #d0e689;
+}
+#set-main .box-with-tabs ul.nav-tabs,
+#set-main .boxtainer-outlined-tabs ul.nav-tabs {
+  border-bottom-color: #ffe766;
+}
+#set-main .box-with-tabs ul.nav-tabs li a:hover,
+#set-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
+  background-color: #ffe766;
+}
+#set-main .box-with-tabs ul.nav-tabs li.active a,
+#set-main .boxtainer-outlined-tabs ul.nav-tabs li.active a {
+  border-color: #ffe766;
+}
+#category-main .box-with-tabs ul.nav-tabs,
+#category-main .boxtainer-outlined-tabs ul.nav-tabs {
+  border-bottom-color: #cce5ff;
+}
+#category-main .box-with-tabs ul.nav-tabs li a:hover,
+#category-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
+  background-color: #cce5ff;
+}
+#category-main .box-with-tabs ul.nav-tabs li.active a,
+#category-main .boxtainer-outlined-tabs ul.nav-tabs li.active a {
+  border-color: #cce5ff;
+}
 .box div.pagination {
   margin-top: 15px;
   margin-bottom: 0px;
