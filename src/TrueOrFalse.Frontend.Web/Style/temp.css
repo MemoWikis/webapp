@@ -1,4 +1,4 @@
-﻿#set-scheme {
+#set-scheme {
   background-color: #ffd700;
   color: black;
 }
@@ -11,25 +11,18 @@
   .mainSection {
     background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #efefef 100%);
     /* FF3.6+ */
-  
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, #efefef));
     /* Chrome,Safari4+ */
-  
     background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #efefef 100%);
     /* Chrome10+,Safari5.1+ */
-  
     background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #efefef 100%);
     /* Opera 11.10+ */
-  
     background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #efefef 100%);
     /* IE10+ */
-  
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #efefef 100%);
     /* W3C */
-  
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#efefef', GradientType=0);
     /* IE6-9 */
-  
   }
 }
 @media temp-disabled {
@@ -60,64 +53,8 @@
     text-transform: uppercase;
   }
 }
-#MasterHeader {
-  /* Old browsers */
-
-  background: -moz-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-  /* FF3.6+ */
-
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2e487b), color-stop(100%, #2d5599));
-  /* Chrome,Safari4+ */
-
-  background: -webkit-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: -o-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-  /* Opera 11.10+ */
-
-  background: -ms-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-  /* IE10+ */
-
-  background: linear-gradient(to bottom, #2e487b 0%, #2d5599 100%);
-  /* W3C */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2d5599', GradientType=0);
-  /* IE6-9 */
-
-  background: #2e487b;
-  /* Old browsers */
-
-  background: -moz-linear-gradient(top, #2e487b 0%, #2c5fb2 100%);
-  /* FF3.6+ */
-
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2e487b), color-stop(100%, #2c5fb2));
-  /* Chrome,Safari4+ */
-
-  background: -webkit-linear-gradient(top, #2e487b 0%, #2c5fb2 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: -o-linear-gradient(top, #2e487b 0%, #2c5fb2 100%);
-  /* Opera 11.10+ */
-
-  background: -ms-linear-gradient(top, #2e487b 0%, #2c5fb2 100%);
-  /* IE10+ */
-
-  background: linear-gradient(to bottom, #2e487b 0%, #2c5fb2 100%);
-  /* W3C */
-
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2c5fb2', GradientType=0);
-  /* IE6-9 */
-
-}
-#MasterHeader h1 {
-  -webkit-text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
-  text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
-}
-#MasterHeader #loginAndHelp {
-  box-shadow: #2e487b 1px 1px 1px 0px inset;
-}
-#MasterHeader #logo {
-  box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
+i:hover {
+  text-decoration: none;
 }
 .insetText {
   font-family: Lucida Grande;
@@ -142,3 +79,4 @@
   background-color: #e7ecf6;
   border-color: #99ccff;
 }
+/*# sourceMappingURL=temp.css.map */

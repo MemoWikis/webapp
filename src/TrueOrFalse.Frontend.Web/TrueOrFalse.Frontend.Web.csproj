@@ -340,6 +340,7 @@
     <Content Include="Style\bootstrap.css" />
     <Content Include="Style\grid.css">
       <DependentUpon>grid.less</DependentUpon>
+    </Content>
     <Content Include="Style\form.min.css">
       <DependentUpon>form.less</DependentUpon>
     </Content>
@@ -391,6 +392,39 @@
     </Content>
     <Content Include="Scripts\MM.Utils.js.map">
       <DependentUpon>MM.Utils.ts</DependentUpon>
+    </Content>
+    <Content Include="Style\site.css.map">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
+    <Content Include="Style\temp.css.map">
+      <DependentUpon>temp.css</DependentUpon>
+    </Content>
+    <Content Include="Style\grid.css.map">
+      <DependentUpon>grid.css</DependentUpon>
+    </Content>
+    <Content Include="Style\components.css.map">
+      <DependentUpon>components.css</DependentUpon>
+    </Content>
+    <Content Include="Style\form.css.map">
+      <DependentUpon>form.css</DependentUpon>
+    </Content>
+    <Content Include="Style\menu.css.map">
+      <DependentUpon>menu.css</DependentUpon>
+    </Content>
+    <Content Include="Style\site-debug.css.map">
+      <DependentUpon>site-debug.css</DependentUpon>
+    </Content>
+    <Content Include="Style\utils.css.map">
+      <DependentUpon>utils.css</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\colors.css.map">
+      <DependentUpon>colors.css</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\shared.css.map">
+      <DependentUpon>shared.css</DependentUpon>
+    </Content>
+    <Content Include="Style\z_buttons_2.3.2.css.map">
+      <DependentUpon>z_buttons_2.3.2.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -850,6 +884,27 @@
     <Content Include="Views\Sets\Detail\Set.less" />
     <Content Include="Views\Sets\Detail\Js\Set.js.map">
       <DependentUpon>Set.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Categories.css.map">
+      <DependentUpon>Categories.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Category.css.map">
+      <DependentUpon>Category.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditQuestion.css.map">
+      <DependentUpon>EditQuestion.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Questions.css.map">
+      <DependentUpon>Questions.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Set.css.map">
+      <DependentUpon>Set.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Users.css.map">
+      <DependentUpon>Users.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Sets.css.map">
+      <DependentUpon>Sets.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

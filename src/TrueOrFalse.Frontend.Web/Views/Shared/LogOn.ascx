@@ -3,7 +3,10 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>" style="margin-right: 10px; "><i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i> Hilfe & Mehr </a> 
+<a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>" style="margin-right: 10px; ">
+    <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
+    <span class="TextSpan">Hilfe & mehr</span>
+</a> 
 <%
     var userSession = new SessionUser();
     
@@ -13,7 +16,7 @@
 %>
         <div class="dropdown" style="display: inline-block;">
             <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-                <span>Hallo <b><%= userSession.User.Name%></b>!</span>
+                <span class="TextSpan">Hallo <b><%= userSession.User.Name%></b>!</span>
                 <b class="caret"></b>
                 <img src="<%= imageSetttings.GetUrl_30px_square(userSession.User.EmailAddress).Url %>" /> 
             </a>
@@ -31,7 +34,7 @@
 <%
     }else {
 %> 
-        <%= Html.ActionLink("Anmelden", "LogOn", "Account")%>
+        <a href="<%=Url.Action("LogOn", Links.AccountController) %>"><span class="TextSpan">Anmelden</span></a>
 <%
     }
 %>    

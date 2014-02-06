@@ -1,4 +1,4 @@
-﻿#set-scheme {
+#set-scheme {
   background-color: #ffd700;
   color: black;
 }
@@ -6,9 +6,6 @@
   display: inline-block;
   width: 100%;
   zoom: 1;
-}
-@media temp-disabled {
-  
 }
 #menu-new .tooltip > .tooltip-inner {
   min-width: 200px;
@@ -221,3 +218,4 @@ div.menu .tooltip-inner {
   min-width: 200px;
   text-align: left;
 }
+/*# sourceMappingURL=menu.css.map */
