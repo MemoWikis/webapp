@@ -214,6 +214,7 @@
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepository.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\CreateOrUpdateSetValue.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Ops\DeleteValuationsForNonExisitingSets.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotalResult.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotal.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\SetListExt.cs" />

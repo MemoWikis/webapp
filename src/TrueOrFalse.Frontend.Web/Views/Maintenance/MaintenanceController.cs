@@ -37,6 +37,13 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    public ActionResult DeleteValuationsForRemovedSets()
+    {
+        Resolve<DeleteValuationsForNonExisitingSets>().Run();
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Valutions for deleted sets are removed.") });
+    }
+
+    [AccessOnlyAsAdmin]
     public ActionResult UpdateFieldQuestionCountForCategories()
     {
         Resolve<UpdateQuestionCountForAllCategories>().Run();
