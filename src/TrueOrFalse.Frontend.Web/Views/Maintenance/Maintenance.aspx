@@ -23,6 +23,9 @@
             <i class="fa fa-retweet"></i>
             Aggregierte Zahlen aktualisieren
         </a>
+        <a class="btn btn-default" href="<%= Url.Action("DeleteValuationsForRemovedSets", "Maintenance") %>">
+            cleanup set valuations
+        </a>
     
         <h4>Kategorien</h4>
         <a class="btn btn-default" href="<%= Url.Action("UpdateFieldQuestionCountForCategories", "Maintenance") %>">

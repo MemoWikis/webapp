@@ -14,8 +14,8 @@
 
     <div class="col-md-7" style="margin-bottom: 20px;">
         <h2 style="margin-top:0px;" >
-            <%= Model.Name %>
-            <span style="display: inline-block; font-size: 20px; font-weight: normal; margin-left: 15px;">
+            <span style="margin-right: 15px;"><%= Model.Name %></span>
+            <span style="display: inline-block; font-size: 20px; font-weight: normal;">
                 <i class="fa fa-floppy-o"></i>  22x
                 <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73% + 8
                 
