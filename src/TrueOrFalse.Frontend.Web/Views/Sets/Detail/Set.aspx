@@ -73,14 +73,16 @@
 
         <div class="row "style="margin-top: 30px; height: 40px;">
             <div class="col-md-12">
-                <div class="pull-right">
-                    <a class="btn btn-info" href="<%= Links.AnswerQuestion(Url, Model.QuestionsInSet.First().Question, Model.Set) %>">
-                         Jetzt üben
-                    </a>
-                    <a class="btn btn-primary" href="<%= Links.AnswerQuestion(Url, Model.QuestionsInSet.First().Question, Model.Set) %>"><i class="fa fa-lightbulb-o"></i> 
-                        Jetzt testen
-                    </a>
-                </div>
+                <% if (Model.QuestionsInSet.Any()){ %>
+                    <div class="pull-right">
+                        <a class="btn btn-info" href="<%= Links.AnswerQuestion(Url, Model.QuestionsInSet.First().Question, Model.Set) %>">
+                             Jetzt üben
+                        </a>
+                        <a class="btn btn-primary" href="<%= Links.AnswerQuestion(Url, Model.QuestionsInSet.First().Question, Model.Set) %>"><i class="fa fa-lightbulb-o"></i> 
+                            Jetzt testen
+                        </a>
+                    </div>
+                <% } %>
             </div>
         </div>
     </div>

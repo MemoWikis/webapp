@@ -52,7 +52,7 @@ public class MaintenanceController : BaseController
     public ActionResult UpdateUserWishCount()
     {
         Resolve<UpdateWishcount>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wunschwissenantahl wurden aktualisiert.") });
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert.") });
     }
 
     [AccessOnlyAsAdmin]
