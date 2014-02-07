@@ -20,6 +20,10 @@ namespace TrueOrFalse
             var set = _setRepo.GetById(setId);
             _searchIndexSet.Delete(set);
             _setRepo.Delete(set);
+
+            Sl.Resolve<SetValuationRepository>().DeleteWhereSetIdIs(setId);
+
+            _searchIndexSet.Delete(set);
         }
     }
 }

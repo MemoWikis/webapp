@@ -24,7 +24,12 @@ namespace TrueOrFalse
 
         public void Run()
         {
-            foreach (var user in _userRepository.GetAll())
+            Run(_userRepository.GetAll());
+        }
+
+        public void Run(IEnumerable<User> users)
+        {
+            foreach (var user in users)
                 Run(user);
         }
 

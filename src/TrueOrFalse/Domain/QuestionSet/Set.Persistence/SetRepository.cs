@@ -10,7 +10,9 @@ namespace TrueOrFalse
     {
         private readonly SearchIndexSet _searchIndexSet;
 
-        public SetRepository(ISession session, SearchIndexSet searchIndexSet)
+        public SetRepository(
+            ISession session, 
+            SearchIndexSet searchIndexSet)
             : base(session)
         {
             _searchIndexSet = searchIndexSet;
@@ -35,13 +37,6 @@ namespace TrueOrFalse
             base.Create(set);
             Sl.Resolve<UpdateSetCountForCategory>().Run(set.Categories);
             _searchIndexSet.Update(set);
-        }
-
-        public override void Delete(int id)
-        {
-            var set = GetById(id);
-            _searchIndexSet.Delete(set);
-            base.Delete(id);
         }
 
         public override IList<Set> GetByIds(params int[] setIds)
