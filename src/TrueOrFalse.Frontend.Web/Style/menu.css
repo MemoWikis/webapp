@@ -78,7 +78,7 @@
 }
 #menu-new a.list-group-item.cat {
   border-left-color: #99ccff;
-  border-right-color: #e7ecf6;
+  border-right-color: #99ccff;
 }
 #menu-new a.list-group-item.cat i.fa-caret-right {
   color: #99ccff;
@@ -143,18 +143,23 @@
   color: #0e22b6;
 }
 #menu-new a.list-group-item.sub {
-  height: 18px;
   overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding-top: 1px;
   padding-left: 26px;
+  padding-bottom: 0;
   font-size: 12px;
   margin-top: 0px;
+  line-height: 22px;
 }
 #menu-new a.list-group-item.sub.first {
   z-index: 5;
 }
 #menu-new a.list-group-item.sub.last {
-  height: 21px;
+  padding-bottom: 0px;
 }
 #menu-new a.list-group-item.sub i.fa-caret-right {
   font-size: 17px;

@@ -2,6 +2,29 @@
     display: inline-block;
     width:100%;
     zoom: 1;
-} 
+}
+
+#tab-color(@outline-color) { 
+
+    .box-with-tabs,
+    .boxtainer-outlined-tabs {
+
+        ul.nav-tabs {
+            border-bottom-color: @outline-color;
+
+            li {
+                a:hover {
+                    background-color: @outline-color;
+                }
+
+                &.active {
+                    a {
+                        border-color: @outline-color;
+                    }
+                }
+            }
+        }
+    }
+}
 
 
