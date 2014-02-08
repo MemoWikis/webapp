@@ -2,16 +2,18 @@
 $(function () {
     InitFeedbackSliders();
 
-    var spanSparkLineTotals = $("#sparklineTrueOrFalseTotals");
-    spanSparkLineTotals.sparkline([parseInt(spanSparkLineTotals.attr("data-answersTrue")), parseInt(spanSparkLineTotals.attr("data-answersFalse"))], {
-        type: 'pie',
-        sliceColors: ['#3e7700', '#B13A48']
+    $(".sparklineTotals").each(function () {
+        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
+            type: 'pie',
+            sliceColors: ['#3e7700', '#B13A48']
+        });
     });
 
-    var spanSparkLineUser = $("#sparklineTrueOrFalseUser");
-    spanSparkLineUser.sparkline([parseInt(spanSparkLineUser.attr("data-answersTrue")), parseInt(spanSparkLineUser.attr("data-answersFalse"))], {
-        type: 'pie',
-        sliceColors: ['#3e7700', '#B13A48']
+    $(".sparklineTotalsUser").each(function () {
+        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
+            type: 'pie',
+            sliceColors: ['#3e7700', '#B13A48']
+        });
     });
 
     function foo(d, s, id) {
