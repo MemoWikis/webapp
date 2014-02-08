@@ -474,6 +474,10 @@ div.box-main .box-content {
 .category-row:first-child {
   border-top: none;
 }
+.jqstooltip {
+  height: 36px;
+  width: 100px;
+}
 /*temp
 ---------------------------------------------------------*/
 /*div.todo-temp {
