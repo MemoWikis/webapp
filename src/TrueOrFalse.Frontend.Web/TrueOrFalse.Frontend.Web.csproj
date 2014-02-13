@@ -341,14 +341,8 @@
     <Content Include="Style\grid.css">
       <DependentUpon>grid.less</DependentUpon>
     </Content>
-    <Content Include="Style\form.min.css">
-      <DependentUpon>form.less</DependentUpon>
-    </Content>
     <Content Include="Style\includes\variables.css">
       <DependentUpon>variables.less</DependentUpon>
-    </Content>
-    <Content Include="Style\site.min.css">
-      <DependentUpon>site.less</DependentUpon>
     </Content>
     <Content Include="Style\temp.css">
       <DependentUpon>temp.less</DependentUpon>

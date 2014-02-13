@@ -62,10 +62,11 @@
                     </div>
                     
                     <div class="pull-right" style="margin-top: 1px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
-                        <span class="show-tooltip" title="Insgesamt <%=question.TotalAnswers()%>x beantwortet."><%=question.TotalAnswers()%>x </span>
+                        <% Html.RenderPartial("AnswerHistory", new AnswerHistoryModel(question, totals)); %>
+<%--                    <span class="show-tooltip" title="Insgesamt <%=question.TotalAnswers()%>x beantwortet."><%=question.TotalAnswers()%>x </span>
                         <span class="pieTotals" data-percentage="<%= question.TotalTrueAnswersPercentage() %>-<%= question.TotalFalseAnswerPercentage() %>"></span>
                         <span class="show-tooltip" title="Von Dir <%= totals.Total() %>x beantwortet.">(<%= totals.Total() %>x </span>
-                        <span class="pieTotals" data-percentage="<%= totals.PercentageTrue() %>-<%= totals.PercentageFalse() %>"></span>)
+                        <span class="pieTotals" data-percentage="<%= totals.PercentageTrue() %>-<%= totals.PercentageFalse() %>"></span>)--%>
                     </div>
                 </div>
             </div>

@@ -89,5 +89,16 @@ namespace TrueOrFalse
             base.Update(setValuation);
             _searchIndexSet.Update(_setRepository.GetById(setValuation.Id));
         }
+
+        public void DeleteWhereSetIdIs(int setId)
+        {
+            var setValuations = GetBy(setId);
+            var userIds = setValuations.Select(x => x.UserId).Distinct().ToArray();
+            var users = Sl.Resolve<UserRepository>().GetByIds(userIds);
+
+            _session.Delete("FROM SetValuation WHERE SetId = " + setId + "");
+
+            Sl.Resolve<UpdateWishcount>().Run(users);
+        }
     }
 }
