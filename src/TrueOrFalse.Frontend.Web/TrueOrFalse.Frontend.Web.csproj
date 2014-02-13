@@ -347,9 +347,6 @@
     <Content Include="Style\includes\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
-    <Content Include="Style\mixins.css">
-      <DependentUpon>mixins.less</DependentUpon>
-    </Content>
     <Content Include="Style\site.min.css">
       <DependentUpon>site.less</DependentUpon>
     </Content>
@@ -429,7 +426,6 @@
     <Content Include="Style\z_buttons_2.3.2.css.map">
       <DependentUpon>z_buttons_2.3.2.css</DependentUpon>
     </Content>
-    <Content Include="Style\mixins.less" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />

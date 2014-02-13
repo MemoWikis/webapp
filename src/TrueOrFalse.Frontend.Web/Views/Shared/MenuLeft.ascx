@@ -115,10 +115,9 @@
             </a>
         <% } %>
 
-        <a class="<%= Model.Active(MenuEntry.Play) %> list-group-item quest" href="#" style="margin-top: 10px;">
+        <a class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="#" style="margin-top: 10px;">
             <i class="fa fa-caret-right"></i> Spielen
         </a>
-
     </div>
 </div>
 

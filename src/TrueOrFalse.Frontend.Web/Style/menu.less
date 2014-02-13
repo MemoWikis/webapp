@@ -10,7 +10,7 @@
     }
 }
 
-    #menu-new a.list-group-item {
+    #menu-new .list-group-item {
         margin-top: 2px;
         background-color: lighten(@light-blue, 4%);
         border: solid 4px @link-blue;
@@ -172,6 +172,27 @@
 
                 i.fa-caret-right {
                     color: @link-blue;
+                }
+            }
+        }
+
+        &.play {
+            &:hover {
+                background-color: @color-play;
+            }
+
+            border-left-color: @color-play;
+
+            i.fa-caret-right {
+                color: @color-play;
+            }
+
+            &:hover {
+                background-color: lighten(@color-play, 10);
+                color: white;
+
+                i.fa-caret-right {
+                    color: @color-play;
                 }
             }
         }
