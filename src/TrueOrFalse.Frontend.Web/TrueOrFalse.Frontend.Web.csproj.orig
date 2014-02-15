@@ -236,34 +236,6 @@
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.video.play.png" />
-    <Content Include="Content\bootstrap\alerts.css">
-      <DependentUpon>alerts.less</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\badges.css">
-      <DependentUpon>badges.less</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\bootstrap.css">
-      <DependentUpon>bootstrap.less</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\breadcrumbs.css">
-      <DependentUpon>breadcrumbs.less</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\button-groups.css">
-      <DependentUpon>button-groups.less</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\buttons.css">
-      <DependentUpon>buttons.less</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\carousel.css">
-      <DependentUpon>carousel.less</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\pager.css">
-      <DependentUpon>pager.less</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\variables.css">
-      <DependentUpon>variables.less</DependentUpon>
-    </Content>
-    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -344,7 +316,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
     <TypeScriptCompile Include="Scripts\MM.DateParser.ts" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\MM.DateParser.js">
       <DependentUpon>MM.DateParser.ts</DependentUpon>
     </Content>
@@ -366,12 +337,19 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
+    <Content Include="Style\bootstrap.css" />
     <Content Include="Style\grid.css">
       <DependentUpon>grid.less</DependentUpon>
     </Content>
     <Content Include="Style\includes\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
+<<<<<<< HEAD
+    <Content Include="Style\site.min.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+=======
+>>>>>>> 41dc1045f84a91b708a5fadb2e048903e115ec57
     <Content Include="Style\temp.css">
       <DependentUpon>temp.less</DependentUpon>
     </Content>
@@ -447,73 +425,6 @@
     </Content>
     <Content Include="Style\z_buttons_2.3.2.css.map">
       <DependentUpon>z_buttons_2.3.2.css</DependentUpon>
-    </Content>
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap\pager.css.map">
-      <DependentUpon>pager.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\badges.css.map">
-      <DependentUpon>badges.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\breadcrumbs.css.map">
-      <DependentUpon>breadcrumbs.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\buttons.css.map">
-      <DependentUpon>buttons.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\button-groups.css.map">
-      <DependentUpon>button-groups.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\carousel.css.map">
-      <DependentUpon>carousel.css</DependentUpon>
-    </Content>
-    <Content Include="Content\bootstrap\alerts.css.map">
-      <DependentUpon>alerts.css</DependentUpon>
-    </Content>
-    <None Include="Content\bootstrap\wells.less" />
-    <None Include="Content\bootstrap\variables.less" />
-    <None Include="Content\bootstrap\utilities.less" />
-    <None Include="Content\bootstrap\type.less" />
-    <None Include="Content\bootstrap\tooltip.less" />
-    <None Include="Content\bootstrap\thumbnails.less" />
-    <None Include="Content\bootstrap\theme.less" />
-    <None Include="Content\bootstrap\tables.less" />
-    <None Include="Content\bootstrap\scaffolding.less" />
-    <None Include="Content\bootstrap\responsive-utilities.less" />
-    <None Include="Content\bootstrap\progress-bars.less" />
-    <None Include="Content\bootstrap\print.less" />
-    <None Include="Content\bootstrap\popovers.less" />
-    <None Include="Content\bootstrap\panels.less" />
-    <None Include="Content\bootstrap\pagination.less" />
-    <None Include="Content\bootstrap\pager.less" />
-    <None Include="Content\bootstrap\normalize.less" />
-    <None Include="Content\bootstrap\navs.less" />
-    <None Include="Content\bootstrap\navbar.less" />
-    <None Include="Content\bootstrap\modals.less" />
-    <None Include="Content\bootstrap\mixins.less" />
-    <None Include="Content\bootstrap\media.less" />
-    <None Include="Content\bootstrap\list-group.less" />
-    <None Include="Content\bootstrap\labels.less" />
-    <None Include="Content\bootstrap\jumbotron.less" />
-    <None Include="Content\bootstrap\input-groups.less" />
-    <None Include="Content\bootstrap\grid.less" />
-    <None Include="Content\bootstrap\glyphicons.less" />
-    <None Include="Content\bootstrap\forms.less" />
-    <None Include="Content\bootstrap\dropdowns.less" />
-    <None Include="Content\bootstrap\component-animations.less" />
-    <None Include="Content\bootstrap\code.less" />
-    <None Include="Content\bootstrap\close.less" />
-    <None Include="Content\bootstrap\carousel.less" />
-    <None Include="Content\bootstrap\buttons.less" />
-    <None Include="Content\bootstrap\button-groups.less" />
-    <None Include="Content\bootstrap\breadcrumbs.less" />
-    <Content Include="Content\bootstrap\bootstrap.less" />
-    <None Include="Content\bootstrap\badges.less" />
-    <None Include="Content\bootstrap\alerts.less" />
-    <Content Include="Content\bootstrap\bootstrap.css.map">
-      <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
