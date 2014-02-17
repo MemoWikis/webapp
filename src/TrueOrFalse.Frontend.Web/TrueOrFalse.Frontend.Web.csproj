@@ -366,6 +366,40 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
+    <Content Include="Style\bootstrap\bootstrap.css">
+      <DependentUpon>bootstrap.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\alerts.css">
+      <DependentUpon>alerts.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\badges.css">
+      <DependentUpon>badges.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\bootstrap.css">
+      <DependentUpon>bootstrap.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\breadcrumbs.css">
+      <DependentUpon>breadcrumbs.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\button-groups.css">
+      <DependentUpon>button-groups.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\buttons.css">
+      <DependentUpon>buttons.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\carousel.css">
+      <DependentUpon>carousel.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\pager.css">
+      <DependentUpon>pager.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Style\bootstrap\variables_custom.css">
+      <DependentUpon>variables_custom.less</DependentUpon>
+    </Content>
     <Content Include="Style\grid.css">
       <DependentUpon>grid.less</DependentUpon>
     </Content>
@@ -515,6 +549,78 @@
     <Content Include="Content\bootstrap\bootstrap.css.map">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
+    <Content Include="Style\bootstrap\bootstrap\alerts.css.map">
+      <DependentUpon>alerts.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\alerts.less" />
+    <Content Include="Style\bootstrap\bootstrap\badges.css.map">
+      <DependentUpon>badges.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\badges.less" />
+    <Content Include="Style\bootstrap\bootstrap\bootstrap.less" />
+    <Content Include="Style\bootstrap\bootstrap\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\breadcrumbs.css.map">
+      <DependentUpon>breadcrumbs.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\breadcrumbs.less" />
+    <Content Include="Style\bootstrap\bootstrap\button-groups.css.map">
+      <DependentUpon>button-groups.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\button-groups.less" />
+    <Content Include="Style\bootstrap\bootstrap\buttons.css.map">
+      <DependentUpon>buttons.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\buttons.less" />
+    <Content Include="Style\bootstrap\bootstrap\carousel.css.map">
+      <DependentUpon>carousel.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\carousel.less" />
+    <Content Include="Style\bootstrap\bootstrap\close.less" />
+    <Content Include="Style\bootstrap\bootstrap\code.less" />
+    <Content Include="Style\bootstrap\bootstrap\component-animations.less" />
+    <Content Include="Style\bootstrap\bootstrap\dropdowns.less" />
+    <Content Include="Style\bootstrap\bootstrap\forms.less" />
+    <Content Include="Style\bootstrap\bootstrap\glyphicons.less" />
+    <Content Include="Style\bootstrap\bootstrap\grid.less" />
+    <Content Include="Style\bootstrap\bootstrap\input-groups.less" />
+    <Content Include="Style\bootstrap\bootstrap\jumbotron.less" />
+    <Content Include="Style\bootstrap\bootstrap\labels.less" />
+    <Content Include="Style\bootstrap\bootstrap\list-group.less" />
+    <Content Include="Style\bootstrap\bootstrap\media.less" />
+    <Content Include="Style\bootstrap\bootstrap\mixins.less" />
+    <Content Include="Style\bootstrap\bootstrap\modals.less" />
+    <Content Include="Style\bootstrap\bootstrap\navbar.less" />
+    <Content Include="Style\bootstrap\bootstrap\navs.less" />
+    <Content Include="Style\bootstrap\bootstrap\normalize.less" />
+    <Content Include="Style\bootstrap\bootstrap\pager.css.map">
+      <DependentUpon>pager.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\pager.less" />
+    <Content Include="Style\bootstrap\bootstrap\pagination.less" />
+    <Content Include="Style\bootstrap\bootstrap\panels.less" />
+    <Content Include="Style\bootstrap\bootstrap\popovers.less" />
+    <Content Include="Style\bootstrap\bootstrap\print.less" />
+    <Content Include="Style\bootstrap\bootstrap\progress-bars.less" />
+    <Content Include="Style\bootstrap\bootstrap\responsive-utilities.less" />
+    <Content Include="Style\bootstrap\bootstrap\scaffolding.less" />
+    <Content Include="Style\bootstrap\bootstrap\tables.less" />
+    <Content Include="Style\bootstrap\bootstrap\theme.less" />
+    <Content Include="Style\bootstrap\bootstrap\thumbnails.less" />
+    <Content Include="Style\bootstrap\bootstrap\tooltip.less" />
+    <Content Include="Style\bootstrap\bootstrap\type.less" />
+    <Content Include="Style\bootstrap\bootstrap\utilities.less" />
+    <Content Include="Style\bootstrap\bootstrap\variables.less" />
+    <Content Include="Style\bootstrap\bootstrap\wells.less" />
+    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Style\bootstrap\bootstrap.less" />
+    <Content Include="Style\bootstrap\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\variables_custom.less" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
