@@ -2,11 +2,11 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="rowBase set-row" data-questionSetId="<%= Model.Id %>" style="position: relative">
-    <div class="column-1" style="line-height: 15px; font-size: 90%;">
+    <div class="column-Image" style="line-height: 15px; font-size: 90%;">
         <img src="<%= Model.ImageUrl%>" width="105"/>
     </div>
     
-    <div class="column-2" style="height: 87px;">
+    <div class="column-MainContent" style="height: 87px;">
         <div style="font-size:large;">
             <% if(Model.QuestionCount != 0){ %>
                 (<%= Model.QuestionCount %>)
@@ -35,7 +35,7 @@
         </div>
     </div>
     
-    <div class="column-3">
+    <div class="column-Additional">
         
         <div style="float: right; position:relative;  padding-bottom:2px; padding-top:0px;  <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-setId="<%= Model.Id %>"> 

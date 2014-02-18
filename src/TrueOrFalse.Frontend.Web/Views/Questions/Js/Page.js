@@ -15,9 +15,9 @@ var Page = (function () {
 $(function () {
     _page = new Page();
     _page.Init();
-    new ValuationPerRow(".column-3", 0 /* Question */);
+    new ValuationPerRow(".column-Additional", 0 /* Question */);
 
-    $(".column-1 .image-container").hover(function () {
+    $(".column-Image .image-container").hover(function () {
         $(this).find("label").show();
     }, function () {
         if (!$($(this).find("input")[0]).prop('checked')) {

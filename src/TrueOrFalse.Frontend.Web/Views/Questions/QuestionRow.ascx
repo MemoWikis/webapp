@@ -3,16 +3,16 @@
 
 
 <div class="rowBase question-row row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
-    <div class="column-1 col-md-2">
+    <div class="column-Image col-xs-3 col-sm-2">
         <div class="image-container">
-            <img src="<%= Model.ImageUrl%>" width="105" style="padding-bottom: 5px;">
+            <img src="<%= Model.ImageUrl%>">
             <label class="checkbox selectQuestion">
                 <input type="checkbox"> auswählen
             </label>
         </div>
     </div>
 
-    <div class="column-2 col-md-8" style="height: 95px; position: relative;">
+    <div class="column-MainContent col-xs-7 col-sm-7">
 
         <div class="pull-right" style="height: 25px; margin-top: 0px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
             <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
@@ -43,9 +43,9 @@
         
     </div>
 
-    <div class="column-3 col-md-2" style="line-height: 15px; font-size: 90%;" data-questionId="<%= Model.QuestionId %>">
+    <div class="column-Additional col-sm-3" data-questionId="<%= Model.QuestionId %>">
 
-        <div style="padding-bottom:2px; padding-top:5px; width: 150px; <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
+        <div class="sliderContainer" style="<% if(Model.RelevancePersonal == -1){ %>display:none;<% } %>">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
                 <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                 <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
@@ -60,22 +60,22 @@
         <div style="clear:both;"></div>
 
         <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
-            <div style="margin-top: 2px;">
+            <div class="timesAdded" style="margin-top: 2px;">
                 <span class="totalRelevanceEntries"><%= Model.TotalRelevancePersonalEntries %></span> x 
                 <a href="">gemerkt (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span></a> <span class="piePersonalRelevanceTotal" data-avg="<%= Model.TotalRelevancePersonalAvg  %>"></span> )
             </div>
         <%} %>
         <%if(Model.TotalQualityEntries != "0"){ %>
-            <div>
+            <div class="avQuality">
                 <%= Model.TotalQualityEntries%> x <a href="">Qualität (&#216; <%= Model.TotalQualityAvg%>)</a>
             </div>
           <%} %>
-        <div>
+        <div class="timesSeen">
             <%= Model.Views %>
             <a href="">x gesehen</a>
         </div>
         
-        <div style="position: absolute; bottom: 5px;">
+        <div class="authorQuestion" style="position: absolute; bottom: 5px;">
             von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%=Model.CreatorName %>
                 </a>

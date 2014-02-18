@@ -28,6 +28,9 @@ body {
   color: #2e487b;
   background: url(../img/dimension.png);
 }
+img {
+  max-width: 100%;
+}
 .mainSection {
   overflow-x: hidden;
 }

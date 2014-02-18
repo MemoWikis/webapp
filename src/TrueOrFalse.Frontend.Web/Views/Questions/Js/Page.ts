@@ -19,9 +19,9 @@ class Page
 $(function () {
     _page = new Page();
     _page.Init();
-    new ValuationPerRow(".column-3", ValuationPerRowMode.Question);
+    new ValuationPerRow(".column-Additional", ValuationPerRowMode.Question);
 
-    $(".column-1 .image-container").hover(
+    $(".column-Image .image-container").hover(
         function() { $(this).find("label").show(); },
         function () {
             if (!$($(this).find("input")[0]).prop('checked')) {

@@ -2,11 +2,11 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="rowBase user-row <%= Model.IsCurrentUser ? "loggedInUser"  : "" %>" data-questionSetId="<%= Model.Id %>" style="position: relative;">
-    <div class="column-1" style="line-height: 15px; font-size: 90%;">
+    <div class="column-Image" style="line-height: 15px; font-size: 90%;">
         <img src="<%= Model.ImageUrl%>" width="105"/>
     </div>
     
-    <div class="column-2" style="width: 635px; height: 87px;">
+    <div class="column-MainContent" style="width: 635px; height: 87px;">
         <div style="font-size:large;">
             <a href="<%= Model.UserLink(Url) %>"><%= Model.Name %></a>
             <button class="btn btn-default btn-xs" type="button" style="position: relative; top: -2px; left: 3px;">Folgen</button>
@@ -38,6 +38,6 @@
         </div>        
     </div>
     
-    <div class="column-3">
+    <div class="column-Additional">
     </div>
 </div>

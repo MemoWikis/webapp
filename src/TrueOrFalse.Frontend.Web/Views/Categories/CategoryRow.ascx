@@ -3,11 +3,11 @@
 
 <div class="rowBase category-row" style="position: relative">
     
-    <div class="column-1" style="line-height: 15px; font-size: 90%;">
+    <div class="column-Image" style="line-height: 15px; font-size: 90%;">
         <img src="<%= Model.ImageUrl%>" width="105"/>
     </div>
     
-    <div class="column-2" style="height: 87px;">
+    <div class="column-MainContent" style="height: 87px;">
         <div style="font-size:large;">
             <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName%></a> 
             <span style="font-size: small;">(<b><%= Model.QuestionCount %> Fragen</b>)</span>

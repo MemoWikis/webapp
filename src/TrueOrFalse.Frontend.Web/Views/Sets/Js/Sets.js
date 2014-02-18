@@ -19,6 +19,6 @@ $(function () {
         });
     });
 
-    new ValuationPerRow(".column-3", 1 /* Set */);
+    new ValuationPerRow(".column-Additional", 1 /* Set */);
 });
 //# sourceMappingURL=Sets.js.map

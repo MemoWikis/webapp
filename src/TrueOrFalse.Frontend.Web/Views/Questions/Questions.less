@@ -1,21 +1,27 @@
-﻿/*div.column-1 { background-color: green; }
-div.column-2 {background-color: seashell; }
-div.column-3 { background-color: yellowgreen;}
+﻿/*div.column-Image { background-color: green; }
+div.column-MainContent {background-color: seashell; }
+div.column-Additional { background-color: yellowgreen;}
 div.question-row{background-color:silver;}*/
 
 div.question-row:hover{ background-color: #f3f5f8; }
 .column { display: inline-block;}
 div.question-row div.header { margin-bottom: 3px; border-bottom: 1px solid beige ;}
 
-div.column-1 { 
+div.column-Image { 
     //width: 135px;
     float: left;
     padding-top: 5px;
     padding-left: 5px;
 
-    div.image-container{
+    .image-container{
 
-        img{ border-radius: 5px;}
+        margin-bottom: 5px;
+
+        img{
+            width: 105px;
+            border-radius: 5px;
+            max-width: 100%;
+        }
 
         .selectQuestion{
             font-size: 12px; 
@@ -31,21 +37,29 @@ div.column-1 {
 
 
 }
-div.column-2 {
+div.column-MainContent {
     //width: 550px;
     padding-right: 20px;
     float: left;
     padding-top: 5px;
+    position: relative;
 }
 
-div.column-3 { 
+div.column-Additional { 
     //width: 160px;
     float: left;
     padding-top: 5px;
+    line-height: 15px;
+    font-size: 90%;
 }
 div.question-row div.answersTotal{ width: 40px;}
 div.question-row div.percentageBar{ width: 65px;float: right;}
 
+.sliderContainer {
+    padding-bottom: 2px;
+    padding-top:5px;
+    width: 150px;
+}
 .sliderValue{ margin-left: 10px;}
 .piePersonalRelevanceTotal{ display:none; margin-top: 10px;}
 
@@ -55,8 +69,8 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
     a { padding-left: 25px; }
 }
 
-div.column-3 div.row {
-    margin-left: 0px;
+div.column-Additional div.row {
+    margin-left: 0;
 }
 
 div.selected-row { background-color: #E7ECF6;}

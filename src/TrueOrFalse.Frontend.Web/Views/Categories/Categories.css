@@ -5,22 +5,22 @@
 .category-row:hover {
   background-color: #f3f5f8;
 }
-div.column-1 {
+div.column-Image {
   width: 115px;
   float: left;
   padding: 5px;
 }
-div.column-1 img {
+div.column-Image img {
   border-radius: 5px;
 }
-div.column-2 {
+div.column-MainContent {
   width: 557px;
   padding-right: 10px;
   float: left;
   padding-top: 5px;
   padding-left: 15px;
 }
-div.column-3 {
+div.column-Additional {
   width: 125px;
   float: left;
   padding-top: 5px;
