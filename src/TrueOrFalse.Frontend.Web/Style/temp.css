@@ -7,6 +7,9 @@
   width: 100%;
   zoom: 1;
 }
+/*
+    ToDo: go on with question row (adjust, refactor css, make mobile first)
+    */
 @media aufraeumen {
   .box.box-menu {
     border: none;
