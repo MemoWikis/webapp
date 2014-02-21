@@ -3,7 +3,7 @@
 
 
 <div class="rowBase question-row row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
-    <div class="column-Image col-xs-3 col-sm-2">
+    <div class="column-Image col-xs-2 col-sm-2">
         <div class="image-container">
             <img src="<%= Model.ImageUrl%>">
             <label class="checkbox selectQuestion">
@@ -12,16 +12,16 @@
         </div>
     </div>
 
-    <div class="column-MainContent col-xs-7 col-sm-7">
+    <div class="column-MainContent col-xs-10 col-sm-7 col-lg-8">
 
-        <div class="pull-right" style="height: 25px; margin-top: 0px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
+        <div class="ShortStats">
             <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
             <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
             <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount%>x beantwortet.">(ich <%= Model.AnswerMeCount%>x </span>
             <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>)
         </div>
         
-        <div style="font-weight:normal; font-size:large;">
+        <div class="QuestionText">
             <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
         </div>   
         <div>
@@ -43,15 +43,15 @@
         
     </div>
 
-    <div class="column-Additional col-sm-3" data-questionId="<%= Model.QuestionId %>">
+    <div class="column-Additional col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>">
 
         <div class="sliderContainer" style="<% if(Model.RelevancePersonal == -1){ %>display:none;<% } %>">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
                 <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                 <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
             </div>
-            <div style="float:left; margin-top: -2px" class="sliderAnotation">
-                <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="fa fa-minus"></i></a>
+            <div style="float:left; margin-top: -2px" class="sliderAnnotation">
+                <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="fa fa-times"></i></a>
             </div>
         </div>
         
@@ -75,7 +75,7 @@
             <a href="">x gesehen</a>
         </div>
         
-        <div class="authorQuestion" style="position: absolute; bottom: 5px;">
+        <div class="authorQuestion">
             von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%=Model.CreatorName %>
                 </a>

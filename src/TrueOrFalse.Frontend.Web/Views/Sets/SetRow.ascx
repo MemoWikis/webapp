@@ -42,7 +42,7 @@
                 <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
                 <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
             </div>
-            <div style="float:left; margin-top: -2px" class="sliderAnotation">
+            <div style="float:left; margin-top: -2px" class="sliderAnnotation">
                 <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="fa fa-minus"></i></a>
             </div>
         </div>

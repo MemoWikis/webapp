@@ -7,9 +7,31 @@
   width: 100%;
   zoom: 1;
 }
+/*               *\
+    Breakpoints
+\*               */
 /*
     ToDo: go on with question row (adjust, refactor css, make mobile first)
     */
+@media only screen and (max-width: 480px) {
+  .column-Image {
+    position: absolute;
+  }
+  .row .row .column-MainContent {
+    width: 100%;
+    min-height: 66px;
+    padding-left: 76.15625px;
+  }
+  .QuestionText {
+    clear: left;
+  }
+  div.ShortStats {
+    float: left;
+  }
+}
+.column-Image {
+  min-width: 76.15625px;
+}
 @media aufraeumen {
   .box.box-menu {
     border: none;

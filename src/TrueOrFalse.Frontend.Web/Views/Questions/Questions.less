@@ -1,4 +1,10 @@
-﻿/*div.column-Image { background-color: green; }
+﻿@import '../../Style/includes/colors.less';
+@import '../../Style/includes/variables.less';
+@import '../../Style/includes/shared.less';
+
+
+
+/*div.column-Image { background-color: green; }
 div.column-MainContent {background-color: seashell; }
 div.column-Additional { background-color: yellowgreen;}
 div.question-row{background-color:silver;}*/
@@ -45,6 +51,22 @@ div.column-MainContent {
     position: relative;
 }
 
+.ShortStats {
+    height: 25px;
+    margin-top: 0;
+    margin-right: 4px;
+    border-radius: 6px;
+    border: 1px solid beige;
+    background-color: beige;
+    padding:4px;
+    float: right;
+}
+
+.QuestionText{
+    font-weight: normal;
+    font-size: large;
+}
+
 div.column-Additional { 
     //width: 160px;
     float: left;
@@ -55,12 +77,20 @@ div.column-Additional {
 div.question-row div.answersTotal{ width: 40px;}
 div.question-row div.percentageBar{ width: 65px;float: right;}
 
+.addRelevance {
+    display: block;
+    padding-bottom: 6px;
+}
+
 .sliderContainer {
-    padding-bottom: 2px;
+    padding-bottom: 6px;
     padding-top:5px;
     width: 150px;
+    &::after{#Clear}
 }
-.sliderValue{ margin-left: 10px;}
+
+.sliderValue{margin-left: 6px;}
+.removeRelevance {margin-left: 2px;}
 .piePersonalRelevanceTotal{ display:none; margin-top: 10px;}
 
 .menu p.categories { padding-top: 10px; font-weight: bold;margin-bottom: 5px;}
@@ -71,6 +101,10 @@ div.question-row div.percentageBar{ width: 65px;float: right;}
 
 div.column-Additional div.row {
     margin-left: 0;
+}
+
+.authorQuestion {
+    padding-top: 6px;
 }
 
 div.selected-row { background-color: #E7ECF6;}

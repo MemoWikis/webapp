@@ -3,4 +3,10 @@
   width: 100%;
   zoom: 1;
 }
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
+}
 /*# sourceMappingURL=shared.css.map */

@@ -1,9 +1,29 @@
 ﻿@import 'includes/colors.less';
 @import 'includes/shared.less';
+@import 'includes/variables.less';
+
 
 /*
     ToDo: go on with question row (adjust, refactor css, make mobile first)
     */
+
+@media only screen and (max-width: @screen-xs-min) {
+    .column-Image {position: absolute;}
+    .row .row .column-MainContent {
+        width: 100%;
+        min-height: 66px;
+        padding-left: 76.15625px;
+    }
+
+    .QuestionText {clear: left;}
+
+    div.ShortStats {
+        float: left;
+    }
+    
+}
+
+.column-Image {min-width: 76.15625px;}
 
 
 @media current working session {

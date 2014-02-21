@@ -23,7 +23,7 @@ var ValuationPerRow = (function () {
             e.preventDefault();
             $(this).hide();
             $(this).parent().find(".sliderContainer").show();
-            $(this).parent().parent().find(".sliderAnotation").show();
+            $(this).parent().parent().find(".sliderAnnotation").show();
             var slider = $(this).parent().find(".slider");
             self.SetUiSliderSpan(slider, 0);
             self.InitSlider(slider.parent().parent());
