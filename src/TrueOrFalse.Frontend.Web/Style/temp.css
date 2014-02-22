@@ -7,19 +7,38 @@
   width: 100%;
   zoom: 1;
 }
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
+}
 /*               *\
     Breakpoints
 \*               */
 /*
     ToDo: go on with question row (adjust, refactor css, make mobile first)
     */
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .tempclass {
+    float: left;
+  }
+}
+@media only screen and (min-width: 480px) and (max-width: 992px) {
+  .row .row .column-Additional {
+    padding-left: 16.66666667%;
+    margin-left: 10px;
+  }
+}
 @media only screen and (max-width: 480px) {
   .column-Image {
     position: absolute;
   }
   .row .row .column-MainContent {
     width: 100%;
-    min-height: 66px;
+    padding-left: 76.15625px;
+  }
+  .row .row .column-Additional {
     padding-left: 76.15625px;
   }
   .QuestionText {
@@ -27,6 +46,11 @@
   }
   div.ShortStats {
     float: left;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .column-Additional {
+    width: 100%;
   }
 }
 .column-Image {

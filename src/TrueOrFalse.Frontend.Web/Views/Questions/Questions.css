@@ -74,7 +74,7 @@ div.column-MainContent {
   font-weight: normal;
   font-size: large;
 }
-div.column-Additional {
+.column-Additional {
   float: left;
   padding-top: 5px;
   line-height: 15px;
@@ -96,11 +96,16 @@ div.question-row div.percentageBar {
   padding-top: 5px;
   width: 150px;
 }
-.sliderContainer::after {
-  content: "";
-  display: block;
-  clear: both;
-  visibility: visible;
+@media only screen and (max-width: 768px) {
+  .sliderContainer {
+    float: left;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .sliderContainer,
+  .addRelevance {
+    float: left;
+  }
 }
 .sliderValue {
   margin-left: 6px;
@@ -125,6 +130,11 @@ div.question-row div.percentageBar {
 }
 div.column-Additional div.row {
   margin-left: 0;
+}
+.NumberTimes {
+  display: inline-block;
+  width: 20px;
+  text-align: center;
 }
 .authorQuestion {
   padding-top: 6px;
