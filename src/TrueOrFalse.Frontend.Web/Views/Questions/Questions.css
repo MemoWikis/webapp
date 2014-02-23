@@ -30,6 +30,26 @@ div.question-row div.header {
   margin-bottom: 3px;
   border-bottom: 1px solid beige ;
 }
+@media only screen and (min-width: 768px) {
+  .column-Image {
+    width: 155px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .column-MainContent {
+    width: 409.5px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .column-MainContent {
+    width: 559.5px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .column-Additional {
+    width: 155px;
+  }
+}
 div.column-Image {
   float: left;
   padding-top: 5px;

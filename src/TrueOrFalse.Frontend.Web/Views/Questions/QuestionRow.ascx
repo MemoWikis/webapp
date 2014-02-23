@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="column-MainContent col-xs-10 col-md-7 col-lg-8">
+    <div class="column-MainContent col-xs-10 col-sm-7 col-lg-8">
 
         <div class="ShortStats">
             <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
@@ -43,7 +43,7 @@
         
     </div>
 
-    <div class="column-Additional col-xs-10 col-md-3 col-lg-2" data-questionId="<%= Model.QuestionId %>">
+    <div class="column-Additional col-xs-10 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>">
         <div class="tempclass">
         <div class="sliderContainer" style="<% if(Model.RelevancePersonal == -1){ %>display:none;<% } %>">
             <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 

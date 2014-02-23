@@ -6,17 +6,15 @@
 /*
     ToDo: go on with question row (adjust, refactor css, make mobile first)
     */
-@media only screen and (min-width: @screen-sm-min) {
-
-}
 
 
-@media only screen and (min-width: @screen-sm-min) and (max-width: @screen-md-min) {
+
+@media only screen and (min-width: @screen-xs-min) and (max-width: @screen-sm-min) {
     .tempclass {
         float: left;
     }
 }
-@media only screen and (min-width: @screen-xs-min) and (max-width: @screen-md-min) {
+@media only screen and (min-width: @screen-xs-min) and (max-width: @screen-sm-min) {
 
 .row .row .column-Additional {
         padding-left: 16.66666667%;
@@ -49,12 +47,14 @@
     
 }
 
-@media only screen and (max-width: @screen-md-min) {
+@media only screen and (max-width: @screen-sm-min) {
         .column-Additional{
     width: 100%;}
 }
 
-.column-Image {min-width: 76.15625px;}
+.column-Image {min-width: @column-Image-below-xs-width;}
+
+
 
 
 @media current working session {
