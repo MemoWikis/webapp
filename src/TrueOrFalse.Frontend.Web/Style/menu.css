@@ -7,6 +7,12 @@
   width: 100%;
   zoom: 1;
 }
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
+}
 #menu-new .tooltip > .tooltip-inner {
   min-width: 200px;
   text-align: left;

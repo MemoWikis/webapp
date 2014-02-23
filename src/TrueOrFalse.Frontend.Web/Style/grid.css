@@ -3,6 +3,12 @@
   width: 100%;
   zoom: 1;
 }
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
+}
 .row .row {
   margin-right: -10px;
   margin-left: -10px;

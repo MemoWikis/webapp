@@ -22,8 +22,7 @@ namespace TrueOrFalse.Frontend.Web
     // visit http://go.microsoft.com/?LinkId=9394801
 
     public class Global : HttpApplication
-    {
-        
+    {        
         protected void Application_Start()
         {
             InitializeAutofac();
