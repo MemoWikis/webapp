@@ -20,6 +20,11 @@ public class DraftsController : Controller
         return View(new WelcomeModel());
     }
 
+    public ActionResult Icons()
+    {
+        return View(new WelcomeModel());
+    }
+
     public ActionResult ContentUnits()
     {
         return View(new WelcomeModel());

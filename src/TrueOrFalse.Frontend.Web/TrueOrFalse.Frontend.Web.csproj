@@ -550,6 +550,7 @@
     </Content>
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
+    <Content Include="Views\Drafts\Icons.aspx" />
     <Content Include="Views\Drafts\temp.aspx" />
     <Content Include="Views\Help\Wissen.aspx" />
     <Content Include="Views\Help\Reputation.aspx" />
