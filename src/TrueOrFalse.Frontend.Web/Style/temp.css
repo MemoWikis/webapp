@@ -28,18 +28,18 @@
 /*
     ToDo: go on with question row (adjust, refactor css, make mobile first)
     */
-@media only screen and (min-width: 480px) and (max-width: 768px) {
+@media only screen and (min-width: 480px) and (max-width: 767px) {
   .tempclass {
     float: left;
   }
 }
-@media only screen and (min-width: 480px) and (max-width: 768px) {
+@media only screen and (min-width: 480px) and (max-width: 767px) {
   .row .row .column-Additional {
     padding-left: 16.66666667%;
     margin-left: 10px;
   }
 }
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 479px) {
   .column-Image {
     position: absolute;
   }

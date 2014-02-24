@@ -97,7 +97,6 @@ img {
 {
     position: relative;
     margin: 0px;
-    padding: 0 15px; //for Bootstrap .row
     width: 100%;
     min-height: 51px;
     background-color: @dark-blue;
@@ -124,8 +123,28 @@ img {
     background: linear-gradient(to bottom,  rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e487b', endColorstr='#2c5fb2',GradientType=0 ); /* IE6-9 */
 
-    a.title:hover{
-        text-decoration: none;
+    .col-title {
+        
+        
+        width: 55%;
+        @media only screen and (min-width: @screen-xs-min){
+            width: 33.3333333%;
+        }
+        @media only screen and (min-width: @screen-sm-min){
+            width: 50%;
+        }
+        float: left;
+    }
+    
+    a.title {
+
+        &:hover{
+            text-decoration: none;
+        }
+
+        @media only screen and (max-width: @screen-xs-max) {
+            padding-top: 10px;
+        }
     }
 
     h1 {
@@ -137,12 +156,14 @@ img {
         font-family: 'Emilys Candy', cursive;
         
         color: @memo-green;
-        font-size: 40px;
+        font-size: 24px;
+        @media only screen and (min-width: @screen-sm-min){
+            font-size: 40px;
+        }
         background: none;
         position: relative;
         padding-left: 0px;
         padding-top: 3px;
-        padding-right: 72px;
         -webkit-text-shadow: rgba(0,0,0,0.5) 1px 1px 1px;
         text-shadow: rgba(0,0,0,0.5) 1px 1px 1px;
 
@@ -154,7 +175,10 @@ img {
 
         span#uch {
             color: @light-blue;
-            font-size: 30px;
+            font-size: 18px;
+            @media only screen and (min-width: @screen-sm-min){
+                font-size: 30px;
+            }
         }
     }
 
@@ -176,10 +200,14 @@ img {
         box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
     }
 
-    .colLoginAndHelp {
-        float: right;
-        width: auto;
-        min-width: 25%;
+    .col-LoginAndHelp {
+        width: 45%;
+        @media only screen and (min-width: @screen-xs-min) {
+            width: 66.6666666%;
+        }
+        @media only screen and (min-width: @screen-sm-min) {
+            width: 50%;
+        }
     }
 
     #loginAndHelp{
@@ -189,7 +217,8 @@ img {
         margin-top: 8px;
         margin-bottom: 8px;
         text-align: center;
-        width: 100%;
+        min-width: 50%;
+        float: right;
         box-shadow: @dark-blue 1px 1px 1px 0px inset;
 
         a {
@@ -202,6 +231,12 @@ img {
             padding-bottom: -3px;
             margin-top: -3px;
             margin-bottom: -3px;
+        }
+
+        .TextSpan {
+            @media only screen and (max-width:(@screen-xs-min - 1px)) {
+                display: none;
+            }
         }
     }
 

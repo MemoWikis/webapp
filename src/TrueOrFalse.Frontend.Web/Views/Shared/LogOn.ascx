@@ -5,7 +5,7 @@
 
 <a class="LinkWithIcon" href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>" style="margin-right: 10px; ">
     <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
-    <span class="TextSpan">Hilfe & mehr</span>
+    <span class="TextSpan hidden-xs">Hilfe & mehr</span>
 </a> 
 <%
     var userSession = new SessionUser();

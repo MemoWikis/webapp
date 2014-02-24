@@ -117,7 +117,6 @@ img {
 }
 #MasterHeader {
   margin: 0px;
-  padding: 0 15px;
   width: 100%;
   min-height: 51px;
   background-color: #2e487b;
@@ -155,8 +154,27 @@ img {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2c5fb2', GradientType=0);
   /* IE6-9 */
 }
+#MasterHeader .col-title {
+  width: 55%;
+  float: left;
+}
+@media only screen and (min-width: 480px) {
+  #MasterHeader .col-title {
+    width: 33.3333333%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  #MasterHeader .col-title {
+    width: 50%;
+  }
+}
 #MasterHeader a.title:hover {
   text-decoration: none;
+}
+@media only screen and (max-width: 767px) {
+  #MasterHeader a.title {
+    padding-top: 10px;
+  }
 }
 #MasterHeader h1 {
   font-weight: 800;
@@ -166,14 +184,18 @@ img {
   background: url('/images/toflogo.png') no-repeat right;
   font-family: 'Emilys Candy', cursive;
   color: #afd534;
-  font-size: 40px;
+  font-size: 24px;
   background: none;
   position: relative;
   padding-left: 0px;
   padding-top: 3px;
-  padding-right: 72px;
   -webkit-text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
   text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
+}
+@media only screen and (min-width: 768px) {
+  #MasterHeader h1 {
+    font-size: 40px;
+  }
 }
 #MasterHeader h1:hover {
   -webkit-text-shadow: rgba(0, 0, 0, 0.5) 3px 1px 1px;
@@ -184,7 +206,12 @@ img {
 }
 #MasterHeader h1 span#uch {
   color: #e7ecf6;
-  font-size: 30px;
+  font-size: 18px;
+}
+@media only screen and (min-width: 768px) {
+  #MasterHeader h1 span#uch {
+    font-size: 30px;
+  }
 }
 #MasterHeader span#logo {
   display: inline-block;
@@ -203,10 +230,18 @@ img {
   z-index: 101;
   box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
 }
-#MasterHeader .colLoginAndHelp {
-  float: right;
-  width: auto;
-  min-width: 25%;
+#MasterHeader .col-LoginAndHelp {
+  width: 45%;
+}
+@media only screen and (min-width: 480px) {
+  #MasterHeader .col-LoginAndHelp {
+    width: 66.6666666%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  #MasterHeader .col-LoginAndHelp {
+    width: 50%;
+  }
 }
 #MasterHeader #loginAndHelp {
   background-color: #e7ecf6;
@@ -215,7 +250,8 @@ img {
   margin-top: 8px;
   margin-bottom: 8px;
   text-align: center;
-  width: 100%;
+  min-width: 50%;
+  float: right;
   box-shadow: #2e487b 1px 1px 1px 0px inset;
 }
 #MasterHeader #loginAndHelp a {
@@ -227,6 +263,11 @@ img {
   padding-bottom: -3px;
   margin-top: -3px;
   margin-bottom: -3px;
+}
+@media only screen and (max-width: 479px) {
+  #MasterHeader #loginAndHelp .TextSpan {
+    display: none;
+  }
 }
 #MasterHeader i#tabInfoMyKnowledge {
   margin-right: 1px;
