@@ -40,4 +40,9 @@ public class DraftsController : Controller
         return View(new WelcomeModel());
     }
 
+    public ActionResult Templates()
+    {
+        return View(new WelcomeModel());
+    }
+
 }

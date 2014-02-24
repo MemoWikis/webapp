@@ -4,10 +4,25 @@
   background-color: #ffd700;
   color: black;
 }
+/*              *\
+  General styles
+\*              */
+.link {
+  color: #0e22b6;
+}
+.link:hover {
+  color: #0e22b6;
+}
 #clearfix {
   display: inline-block;
   width: 100%;
   zoom: 1;
+}
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
 }
 /*               *\
     Breakpoints
@@ -25,6 +40,21 @@ a {
 }
 a:hover {
   color: #0e22b6;
+}
+a.LinkWithIcon {
+  text-decoration: none;
+}
+a.LinkWithIcon:hover {
+  text-decoration: none;
+}
+a.LinkWithIcon:hover .TextSpan {
+  text-decoration: underline;
+}
+a.LinkWithIcon:focus {
+  text-decoration: none;
+}
+a.LinkWithIcon:focus .TextSpan {
+  text-decoration: underline;
 }
 body {
   font-size: 13px;
@@ -197,18 +227,6 @@ img {
   padding-bottom: -3px;
   margin-top: -3px;
   margin-bottom: -3px;
-}
-#MasterHeader a:hover {
-  text-decoration: none;
-}
-#MasterHeader a:hover .TextSpan {
-  text-decoration: underline;
-}
-#MasterHeader a:focus {
-  text-decoration: none;
-}
-#MasterHeader a:focus .TextSpan {
-  text-decoration: underline;
 }
 #MasterHeader i#tabInfoMyKnowledge {
   margin-right: 1px;

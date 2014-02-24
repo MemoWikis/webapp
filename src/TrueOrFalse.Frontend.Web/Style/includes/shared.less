@@ -1,4 +1,22 @@
-﻿#clearfix {
+﻿@import 'variables.less';
+@import 'colors.less';
+
+/*              *\
+  General styles
+\*              */
+
+.link {
+    color: @link-blue;
+
+    &:hover {
+        color: @link-color-hover;
+    }
+}
+
+
+//Helper classes
+
+#clearfix {
     display: inline-block;
     width:100%;
     zoom: 1;
@@ -10,6 +28,9 @@
     clear: both;
     visibility: visible;
 }
+
+
+
 
 #tab-color(@outline-color) { 
 

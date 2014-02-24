@@ -45,19 +45,18 @@
 
     <div class="column-Additional col-xs-10 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>">
         <div class="tempclass">
-        <div class="sliderContainer" style="<% if(Model.RelevancePersonal == -1){ %>display:none;<% } %>">
-            <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
-                <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-                <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+            <div class="sliderContainer" style="<% if(Model.RelevancePersonal == -1){ %>display:none;<% } %>">
+                <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
+                    <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+                    <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+                </div>
+                <div style="float:left; margin-top: -2px" class="sliderAnnotation">
+                    <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="fa fa-times"></i></a>
+                </div>
             </div>
-            <div style="float:left; margin-top: -2px" class="sliderAnnotation">
-                <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="fa fa-times"></i></a>
-            </div>
-        </div>
-        
-        
-        <a href="#" class="addRelevance" style="<% if(Model.RelevancePersonal != -1){ %>display:none;<% } %>" ><i class="fa fa-plus-circle "></i> merken</a>
-            <div class="clearfix"></div>
+            <a href="#" class="addRelevance" style="<% if(Model.RelevancePersonal != -1){ %>display:none;<% } %>" >
+                <i class="fa fa-plus-circle "></i> merken
+            </a>
         </div>
         <div class="NumberTimesStats">
             <%if(Model.TotalRelevancePersonalEntries != "0"){ %>

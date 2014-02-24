@@ -32,17 +32,17 @@ div.question-row div.header {
 }
 @media only screen and (min-width: 768px) {
   .column-Image {
-    width: 155px;
+    width: 125px;
   }
 }
 @media only screen and (min-width: 768px) {
   .column-MainContent {
-    width: 409.5px;
+    width: 439.5px;
   }
 }
 @media only screen and (min-width: 1200px) {
   .column-MainContent {
-    width: 559.5px;
+    width: 589.5px;
   }
 }
 @media only screen and (min-width: 768px) {
