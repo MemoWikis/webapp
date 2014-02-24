@@ -1,3 +1,8 @@
+div.pageHeader > h2 {
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
 h3.form-sub-title {
   padding: 30px 0 0 100px;
   font-size: 1.3em;
