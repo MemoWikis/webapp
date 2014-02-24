@@ -47,7 +47,7 @@
         %>
             <div class="row question-row">
                 <div class="col-md-9 col-1">                    
-                    <img src="<%= QuestionImageSettings.Create(questionInSet.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
+                    <img src="<%= QuestionImageSettings.Create(questionInSet.Question.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
 
                     <a href="<%= Links.AnswerQuestion(Url, questionInSet.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
                         <%=questionInSet.Question.Text %>
@@ -63,10 +63,6 @@
                     
                     <div class="pull-right" style="margin-top: 1px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
                         <% Html.RenderPartial("AnswerHistory", new AnswerHistoryModel(question, totals)); %>
-<%--                    <span class="show-tooltip" title="Insgesamt <%=question.TotalAnswers()%>x beantwortet."><%=question.TotalAnswers()%>x </span>
-                        <span class="pieTotals" data-percentage="<%= question.TotalTrueAnswersPercentage() %>-<%= question.TotalFalseAnswerPercentage() %>"></span>
-                        <span class="show-tooltip" title="Von Dir <%= totals.Total() %>x beantwortet.">(<%= totals.Total() %>x </span>
-                        <span class="pieTotals" data-percentage="<%= totals.PercentageTrue() %>-<%= totals.PercentageFalse() %>"></span>)--%>
                     </div>
                 </div>
             </div>

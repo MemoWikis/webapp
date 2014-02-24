@@ -35,5 +35,19 @@ $(function () {
     }, function () {
         $(this).animate({ 'background-size': '120%' }, 250);
     });
+
+    $(".sparklineTotals").each(function () {
+        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
+            type: 'pie',
+            sliceColors: ['#3e7700', '#B13A48']
+        });
+    });
+
+    $(".sparklineTotalsUser").each(function () {
+        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
+            type: 'pie',
+            sliceColors: ['#3e7700', '#B13A48']
+        });
+    });
 });
 //# sourceMappingURL=MM.Site.js.map

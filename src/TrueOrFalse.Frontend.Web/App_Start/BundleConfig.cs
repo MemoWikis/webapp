@@ -73,7 +73,9 @@ namespace TrueOrFalse.View
                          "~/Scripts/Markdown.Sanitizer.js", 
                          "~/Scripts/Markdown.Editor.js"));
 
-            //BundleTable.EnableOptimizations = true;
+#if RELEASE
+                BundleTable.EnableOptimizations = true;
+#endif
         }
     }
 }

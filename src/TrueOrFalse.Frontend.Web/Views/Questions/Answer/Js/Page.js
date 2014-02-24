@@ -2,20 +2,6 @@
 $(function () {
     InitFeedbackSliders();
 
-    $(".sparklineTotals").each(function () {
-        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
-            type: 'pie',
-            sliceColors: ['#3e7700', '#B13A48']
-        });
-    });
-
-    $(".sparklineTotalsUser").each(function () {
-        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
-            type: 'pie',
-            sliceColors: ['#3e7700', '#B13A48']
-        });
-    });
-
     function foo(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))
