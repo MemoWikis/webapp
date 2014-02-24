@@ -2,6 +2,18 @@
   background-color: #ffd700;
   color: black;
 }
+/*               *\
+    Breakpoints
+\*               */
+/*              *\
+  General styles
+\*              */
+.link {
+  color: #0e22b6;
+}
+.link:hover {
+  color: #0e22b6;
+}
 #clearfix {
   display: inline-block;
   width: 100%;
