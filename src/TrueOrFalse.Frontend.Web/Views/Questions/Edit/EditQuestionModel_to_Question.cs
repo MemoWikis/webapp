@@ -29,6 +29,8 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         question.Solution = model.Solution;
         question.SolutionType = (SolutionType) Enum.Parse(typeof(SolutionType), model.SolutionType);
 
+        question.Visibility = model.Visibility;
+
         var serializer = new JavaScriptSerializer();
         switch (question.SolutionType)
         {
