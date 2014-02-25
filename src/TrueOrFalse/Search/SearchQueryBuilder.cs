@@ -19,7 +19,7 @@ namespace TrueOrFalse.Search
             string seachTerm, 
             bool startsWith = false,
             bool exact = false,
-            bool isMustHave = false)
+            bool isAndCondition = false)
         {
             if (String.IsNullOrEmpty(seachTerm))
                 return this;
@@ -35,7 +35,7 @@ namespace TrueOrFalse.Search
             else
                 term = fieldName + ":" + InputToSearchExpression.Run(seachTerm);
 
-            if(isMustHave)
+            if(isAndCondition)
                 _andConditions.Add(term);
             else
                 _orConditions.Add(term);

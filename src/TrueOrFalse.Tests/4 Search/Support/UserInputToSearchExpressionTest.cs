@@ -34,12 +34,12 @@ namespace TrueOrFalse.Tests
 
             sqb = new SearchQueryBuilder()
                 .Add("fieldName", "1")
-                .Add("fieldName", "2", isMustHave: true)
+                .Add("fieldName", "2", isAndCondition: true)
                 .Add("fieldName", "3");
 
             Assert.That(sqb.ToString(), Is.EqualTo("(fieldName:(1~) fieldName:(3~)) AND fieldName:(2~)"));
 
-            sqb = new SearchQueryBuilder().Add("fieldName", "1", isMustHave: true);
+            sqb = new SearchQueryBuilder().Add("fieldName", "1", isAndCondition: true);
             Assert.That(sqb.ToString(), Is.EqualTo("fieldName:(1~)"));
         }
     }

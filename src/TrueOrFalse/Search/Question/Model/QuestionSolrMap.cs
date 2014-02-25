@@ -16,6 +16,9 @@ namespace TrueOrFalse.Search
         [SolrField("ValuatorIds")]
         public ICollection<int> ValuatorIds { get; set; }
 
+        [SolrField("IsPrivate")]
+        public bool IsPrivate { get; set; }
+
         [SolrField("Text")]
         public string Text { get; set; }
 
