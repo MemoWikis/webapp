@@ -132,6 +132,10 @@ public class AnswerQuestionModel : BaseModel
 
     private void Populate(Question question)
     {
+        if (question.Visibility != QuestionVisibility.All)
+            if(question.Creator.Id != _sessionUser.User.Id)
+                throw new Exception("Invalid access to questionId" + question.Id);
+        
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, _sessionUser.User.Id));
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.User.Id, question.Id);
 
