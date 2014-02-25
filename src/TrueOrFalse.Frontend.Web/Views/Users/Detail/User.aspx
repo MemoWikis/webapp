@@ -60,7 +60,10 @@
             <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #afd534;">Fragen (<%= Model.WishQuestions.Count %>):</div>
             <% if (Model.WishQuestions.Count > 0){ %>
                 <% foreach(var question in Model.WishQuestions){ %>
-                    <div><a href="<%: Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a></div>
+                    <div>
+                        <% if(question.IsPrivate()){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
+                        <a href="<%: Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a>
+                    </div>
                 <% } %>
             <% } else { %>
                 <div style="padding-top: 10px; padding-bottom: 10px;">--

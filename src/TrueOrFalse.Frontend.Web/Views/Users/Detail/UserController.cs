@@ -26,8 +26,7 @@ public class UserController : Controller
         var user = _userRepository.GetById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
-        return View(_viewLocation, new UserModel(user){
-            IsCurrentUser = _sessionUser.User.Id == user.Id });
+        return View(_viewLocation, new UserModel(user));
     }
 
     [HttpPost]

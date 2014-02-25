@@ -34,6 +34,8 @@ public class UserModel : BaseModel
 
     public UserModel(User user)
     {
+        IsCurrentUser = _sessionUser.User.Id == user.Id;
+
         User = user;
         Name = user.Name;
 
@@ -59,6 +61,9 @@ public class UserModel : BaseModel
                     .GetByUser(user.Id)
                     .QuestionIds().ToList()
             );
+
+        if (!IsCurrentUser)
+            WishQuestions = WishQuestions.Where(q => q.Visibility == QuestionVisibility.All).ToList();
 
         WishQuestionsCategories = WishQuestions.GetAllCategories();
 

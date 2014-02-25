@@ -70,5 +70,10 @@ namespace TrueOrFalse
         {
             return Text.TruncateAtWord(length);
         }
+
+        public virtual bool IsPrivate()
+        {
+            return Visibility != QuestionVisibility.All;
+        }
     }
 }
