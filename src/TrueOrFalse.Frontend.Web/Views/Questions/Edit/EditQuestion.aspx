@@ -175,8 +175,12 @@
             </div>
         </div>
         
+        <div class="col-md-3" style="margin-bottom: 11px; background-color: lavender;">
+            0 von 30 privaten Fragen verwendet.
+        </div>
+        
         <div class="col-md-3">
-            <%= Html.LabelFor(m => m.Visibility, new { @class = "" })%><br/>
+            <%= Html.LabelFor(m => m.Visibility, new { @style = "display:block; width: 100%" })%><br/>
             <label style="font-weight: normal">
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
                 für alle <span class="smaller">(öffentliche Frage)</span> &nbsp;&nbsp;
@@ -184,12 +188,12 @@
 
             <label style="font-weight: normal">
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                für mich <span class="smaller">(private Frage <i class="fa fa-trophy"></i>)</span> &nbsp;&nbsp;
+                für mich <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span> &nbsp;&nbsp;
             </label>
 
             <label style="font-weight: normal">
                 <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
-                für mich und meine Freunde <span class="smaller">(private Frage <i class="fa fa-trophy"></i>)</span>
+                für mich und meine Freunde <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span>
             </label>
         </div>
     </div>

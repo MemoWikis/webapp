@@ -15,7 +15,7 @@ public class EditQuestionModel : BaseModel
 {
     public Message Message;
 
-    [DisplayName("Sichtbarkeit")]
+    [DisplayName("Sichtbar")]
     public QuestionVisibility Visibility { get; set; }
 
     [Required]
