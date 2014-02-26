@@ -20,9 +20,18 @@ html {
 
 a { 
     .link;
+    @media only screen and (max-width: @screen-xs-max) {
+           // line-height: @icon-size-touch;
+            //height: @icon-size-touch;
+        }
 
     &.LinkWithIcon {
         text-decoration: none;
+        display: inline-block;
+        @media only screen and (max-width: @screen-xs-max) {
+            line-height: @icon-size-touch;
+        }
+
         &:hover {
             text-decoration: none;
             .TextSpan{text-decoration: underline;}
@@ -32,7 +41,27 @@ a {
             text-decoration: none;
             .TextSpan{text-decoration: underline;}
         }
+
+        i {
+            vertical-align: middle;
+            @media only screen and (max-width: @screen-xs-max) {
+                font-size: @icon-size-touch;
+            }
+        }
+
+        .TextSpan {
+            vertical-align: middle;
+        }
+
     }
+
+    //temp start
+
+    a.LinkWithIcon {
+        
+    }
+
+    //temp end
 }
 
 body {
@@ -142,8 +171,14 @@ img {
             text-decoration: none;
         }
 
-        @media only screen and (max-width: @screen-xs-max) {
+        padding-top: 15px;
+
+        @media only screen and (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
             padding-top: 10px;
+        }
+
+        @media only screen and (min-width: @screen-sm-min) {
+            padding-top: 0;
         }
     }
 
@@ -157,6 +192,9 @@ img {
         
         color: @memo-green;
         font-size: 24px;
+        @media only screen and (min-width: @screen-xs-min){
+            font-size: 32px;
+        }
         @media only screen and (min-width: @screen-sm-min){
             font-size: 40px;
         }
@@ -176,6 +214,9 @@ img {
         span#uch {
             color: @light-blue;
             font-size: 18px;
+            @media only screen and (min-width: @screen-xs-min){
+                font-size: 24px;
+            }
             @media only screen and (min-width: @screen-sm-min){
                 font-size: 30px;
             }
@@ -198,6 +239,9 @@ img {
         border: solid 2px @dark-blue;
         z-index: 101;
         box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
+        @media only screen and (max-width: @screen-xs-max) {
+            display: none;
+        }
     }
 
     .col-LoginAndHelp {
@@ -222,7 +266,10 @@ img {
         box-shadow: @dark-blue 1px 1px 1px 0px inset;
 
         a {
-            vertical-align: middle;
+            margin-right: 2px;
+            @media only screen and (min-width:(@screen-sm-min)) {
+                margin-right: 10px;
+            }
         }
 
         img{
@@ -237,6 +284,11 @@ img {
             @media only screen and (max-width:(@screen-xs-min - 1px)) {
                 display: none;
             }
+        }
+
+        .dropdown-menu {
+            right: -11px;
+            text-align: left;
         }
     }
 

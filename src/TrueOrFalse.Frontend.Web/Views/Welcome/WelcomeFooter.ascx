@@ -24,7 +24,7 @@
     <span style="display: inline;">Auf:</span>
     <ul id="footerOn">
         <li><a href="http://teamcity.richtig-oder-falsch.de:8080/viewType.html?buildTypeId=TrueOrFalse_Default&guest=1">Teamcity</a></li>
-        <li><a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a></li>
+        <li><a class="LinkWithIcon" href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a></li>
     </ul>
     
 </div>
