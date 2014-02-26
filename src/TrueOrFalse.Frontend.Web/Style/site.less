@@ -1,7 +1,4 @@
-﻿@media temp {}
-
-
-/* LESS INCLUDES
+﻿/* LESS INCLUDES
 ----------------------------------------------------------*/
 
 
@@ -25,7 +22,7 @@ a {
             //height: @icon-size-touch;
         }
 
-    &.LinkWithIcon {
+    &.SimpleTextLink {
         text-decoration: none;
         display: inline-block;
         @media only screen and (max-width: @screen-xs-max) {
@@ -57,7 +54,7 @@ a {
 
     //temp start
 
-    a.LinkWithIcon {
+    a.SimpleTextLink {
         
     }
 
@@ -80,7 +77,7 @@ img {
 
 
 .container.main {
-    background-color: white;
+    background-color: @color-background-global;
     padding-top: 25px;
     padding-bottom: 20px;
     position: relative;
@@ -130,7 +127,7 @@ img {
     min-height: 51px;
     background-color: @dark-blue;
     position: relative;
-    z-index: 100;
+    z-index: @z-Index-MasterHeader;
 
     //Gradient darker (overwritten)
     background: rgb(46,72,123); /* Old browsers */

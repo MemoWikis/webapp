@@ -41,36 +41,36 @@ a {
 a:hover {
   color: #0e22b6;
 }
-a.LinkWithIcon {
+a.SimpleTextLink {
   text-decoration: none;
   display: inline-block;
 }
 @media only screen and (max-width: 767px) {
-  a.LinkWithIcon {
+  a.SimpleTextLink {
     line-height: 25px;
   }
 }
-a.LinkWithIcon:hover {
+a.SimpleTextLink:hover {
   text-decoration: none;
 }
-a.LinkWithIcon:hover .TextSpan {
+a.SimpleTextLink:hover .TextSpan {
   text-decoration: underline;
 }
-a.LinkWithIcon:focus {
+a.SimpleTextLink:focus {
   text-decoration: none;
 }
-a.LinkWithIcon:focus .TextSpan {
+a.SimpleTextLink:focus .TextSpan {
   text-decoration: underline;
 }
-a.LinkWithIcon i {
+a.SimpleTextLink i {
   vertical-align: middle;
 }
 @media only screen and (max-width: 767px) {
-  a.LinkWithIcon i {
+  a.SimpleTextLink i {
     font-size: 25px;
   }
 }
-a.LinkWithIcon .TextSpan {
+a.SimpleTextLink .TextSpan {
   vertical-align: middle;
 }
 body {
@@ -85,7 +85,7 @@ img {
   overflow-x: hidden;
 }
 .container.main {
-  background-color: white;
+  background-color: #ffffff;
   padding-top: 25px;
   padding-bottom: 20px;
   position: relative;
