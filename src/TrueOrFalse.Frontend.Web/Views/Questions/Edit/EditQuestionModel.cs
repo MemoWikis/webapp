@@ -9,11 +9,11 @@ using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Frontend.Web.Models;
 using System.Linq;
-using Message = TrueOrFalse.Web.Message;
+using TrueOrFalse.Web;
 
 public class EditQuestionModel : BaseModel
 {
-    public Message Message;
+    public UIMessage Message;
 
     [DisplayName("Sichtbar")]
     public QuestionVisibility Visibility { get; set; }

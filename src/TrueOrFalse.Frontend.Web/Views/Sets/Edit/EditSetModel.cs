@@ -15,7 +15,7 @@ using TrueOrFalse.Web.Context;
 
 public class EditSetModel : BaseModel
 {
-    public Message Message;
+    public UIMessage Message;
 
     public string ImageIsNew { get; set; }
     public string ImageSource { get; set; }

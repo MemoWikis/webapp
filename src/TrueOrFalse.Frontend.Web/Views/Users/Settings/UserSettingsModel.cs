@@ -10,7 +10,7 @@ using TrueOrFalse.Web;
 
 public class UserSettingsModel : BaseModel
 {
-    public Message Message;
+    public UIMessage Message;
 
     [Required(ErrorMessage = "Bitte gib einen Nutzernamen an.")]
     [DisplayName("Nutzername")]

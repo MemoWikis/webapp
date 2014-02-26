@@ -4,14 +4,14 @@ using System.ComponentModel;
 using System.Linq;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
-using Message = TrueOrFalse.Web.Message;
+using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel
 {
     [DisplayName("Name")]
     public string Name { get; set; }
 
-    public Message Message;
+    public UIMessage Message;
 
     public List<string> RelatedCategories = new List<string>();
 

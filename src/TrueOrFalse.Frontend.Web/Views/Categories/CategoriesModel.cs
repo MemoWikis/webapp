@@ -10,7 +10,7 @@ using TrueOrFalse.Web.Context;
 
 public class CategoriesModel : BaseModel
 {
-    public Message Message;
+    public UIMessage Message;
     public IEnumerable<CategoryRowModel> CategoryRows { get; set; }
 
     public int TotalCategories { get; set; }

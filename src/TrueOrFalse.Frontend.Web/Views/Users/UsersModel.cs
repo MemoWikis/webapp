@@ -9,7 +9,7 @@ using TrueOrFalse.Web.Context;
 
 public class UsersModel : BaseModel
 {
-    public Message Message;
+    public UIMessage Message;
 
     public int TotalSets { get; set; }
     public int TotalMine { get; set; }

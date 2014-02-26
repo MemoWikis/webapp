@@ -4,7 +4,7 @@ using TrueOrFalse.Frontend.Web.Models;
 
 public class LoginModel : BaseModel
 {
-    public Message Message;
+    public UIMessage Message;
 
     public string Password;
 
@@ -15,7 +15,7 @@ public class LoginModel : BaseModel
 
     public void SetToWrongCredentials()
     {
-        Message = new Message(MessageType.IsError, 
+        Message = new UIMessage(MessageType.IsError, 
             "Du konntest nicht angemeldet werden. Bitte überprüfe Deinen Benutzernamen und Passwort"); ;
     }
 }

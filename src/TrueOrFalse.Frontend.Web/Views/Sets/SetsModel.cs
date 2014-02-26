@@ -11,7 +11,7 @@ using TrueOrFalse.Web.Context;
 
 public class SetsModel : BaseModel
 {
-    public Message Message;
+    public UIMessage Message;
 
     public bool ActiveTabAll;
     public bool ActiveTabMine;

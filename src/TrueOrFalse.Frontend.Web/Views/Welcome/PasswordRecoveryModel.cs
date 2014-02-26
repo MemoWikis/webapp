@@ -5,7 +5,7 @@ using TrueOrFalse.Web;
 
 public class PasswordRecoveryModel
 {
-    public Message Message;
+    public UIMessage Message;
 
     [Required(ErrorMessage = "Wir benötigen Deine E-Mail Adresse.")]
     [RegularExpression(Regexes.Email, ErrorMessage = "Wir benötigen eine gültige E-Mail Adresse.")]

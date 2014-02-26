@@ -8,7 +8,7 @@ namespace System.Web.Mvc
 {
     public static class MessageHtml
     {
-        public static void Message(this HtmlHelper html, Message message)
+        public static void Message(this HtmlHelper html, UIMessage message)
         {
             if (message == null)
                 return;

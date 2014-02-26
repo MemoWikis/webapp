@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace TrueOrFalse.Web
 {
-    public class SuccessMessage : Message
+    public class SuccessMessage : UIMessage
     {
         public SuccessMessage(string text) : base(MessageType.IsSuccess, text){}
     }
 
-    public class ErrorMessage : Message
+    public class ErrorMessage : UIMessage
     {
         public ErrorMessage(string text) : base(MessageType.IsError, text){}
 
@@ -20,7 +20,7 @@ namespace TrueOrFalse.Web
         }
     }
 
-    public class Message
+    public class UIMessage
     {
         public readonly string Text;
         public readonly MessageType Type;
@@ -36,9 +36,9 @@ namespace TrueOrFalse.Web
             }
         }
 
-        public Message(){}
+        public UIMessage(){}
 
-        public Message(MessageType messageType, string message)
+        public UIMessage(MessageType messageType, string message)
         {
             Text = message;
             Type = messageType;

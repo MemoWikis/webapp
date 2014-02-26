@@ -4,7 +4,7 @@ using TrueOrFalse.Web;
 
 public class PasswordResetModel
 {
-    public Message Message;
+    public UIMessage Message;
 
     [Required(ErrorMessage = "* Pflichtfeld")]
     [DisplayName("Neues Password")]
