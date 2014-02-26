@@ -161,6 +161,7 @@
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcCBForQuestions.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishSetCount.cs" />
     <Compile Include="Domain\Media\Image\ResizeImage.cs" />
+    <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategory.cs" />
