@@ -43,6 +43,12 @@ a:hover {
 }
 a.LinkWithIcon {
   text-decoration: none;
+  display: inline-block;
+}
+@media only screen and (max-width: 767px) {
+  a.LinkWithIcon {
+    line-height: 25px;
+  }
 }
 a.LinkWithIcon:hover {
   text-decoration: none;
@@ -55,6 +61,17 @@ a.LinkWithIcon:focus {
 }
 a.LinkWithIcon:focus .TextSpan {
   text-decoration: underline;
+}
+a.LinkWithIcon i {
+  vertical-align: middle;
+}
+@media only screen and (max-width: 767px) {
+  a.LinkWithIcon i {
+    font-size: 25px;
+  }
+}
+a.LinkWithIcon .TextSpan {
+  vertical-align: middle;
 }
 body {
   font-size: 13px;
@@ -168,12 +185,20 @@ img {
     width: 50%;
   }
 }
+#MasterHeader a.title {
+  padding-top: 15px;
+}
 #MasterHeader a.title:hover {
   text-decoration: none;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (min-width: 480px) and (max-width: 767px) {
   #MasterHeader a.title {
     padding-top: 10px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  #MasterHeader a.title {
+    padding-top: 0;
   }
 }
 #MasterHeader h1 {
@@ -192,6 +217,11 @@ img {
   -webkit-text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
   text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
 }
+@media only screen and (min-width: 480px) {
+  #MasterHeader h1 {
+    font-size: 32px;
+  }
+}
 @media only screen and (min-width: 768px) {
   #MasterHeader h1 {
     font-size: 40px;
@@ -207,6 +237,11 @@ img {
 #MasterHeader h1 span#uch {
   color: #e7ecf6;
   font-size: 18px;
+}
+@media only screen and (min-width: 480px) {
+  #MasterHeader h1 span#uch {
+    font-size: 24px;
+  }
 }
 @media only screen and (min-width: 768px) {
   #MasterHeader h1 span#uch {
@@ -229,6 +264,11 @@ img {
   border: solid 2px #2e487b;
   z-index: 101;
   box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
+}
+@media only screen and (max-width: 767px) {
+  #MasterHeader span#logo {
+    display: none;
+  }
 }
 #MasterHeader .col-LoginAndHelp {
   width: 45%;
@@ -255,7 +295,12 @@ img {
   box-shadow: #2e487b 1px 1px 1px 0px inset;
 }
 #MasterHeader #loginAndHelp a {
-  vertical-align: middle;
+  margin-right: 2px;
+}
+@media only screen and (min-width: 768px) {
+  #MasterHeader #loginAndHelp a {
+    margin-right: 10px;
+  }
 }
 #MasterHeader #loginAndHelp img {
   height: 27px;
@@ -268,6 +313,10 @@ img {
   #MasterHeader #loginAndHelp .TextSpan {
     display: none;
   }
+}
+#MasterHeader #loginAndHelp .dropdown-menu {
+  right: -11px;
+  text-align: left;
 }
 #MasterHeader i#tabInfoMyKnowledge {
   margin-right: 1px;

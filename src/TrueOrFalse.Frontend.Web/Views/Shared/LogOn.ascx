@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<a class="LinkWithIcon" href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>" style="margin-right: 10px; ">
+<a class="LinkWithIcon" href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">
     <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
     <span class="TextSpan hidden-xs">Hilfe & mehr</span>
 </a> 
@@ -20,7 +20,7 @@
                 <b class="caret"></b>
                 <img src="<%= imageSetttings.GetUrl_30px_square(userSession.User.EmailAddress).Url %>" /> 
             </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">            
+            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">            
                 <li><a href="<%=Url.Action(Links.User, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>">Dein Profil</a></li>
                 <li><a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>"><i class="fa fa-wrench" title="Einstellungen"></i> Einstellungen</a></li>
                 <li class="divider"></li>
