@@ -9,6 +9,11 @@ namespace TrueOrFalse
     [Serializable]
     public class QuestionSearchSpec : SearchSpecificationBase<QuestionFilter, QuestionOrderBy>
     {
+        public QuestionSearchSpec(bool ignorePrivates = true)
+        {
+            Filter.IgnorePrivates = ignorePrivates;
+        }
+
         public string Key;
         public string KeyOverviewPage;
     }
@@ -19,6 +24,7 @@ namespace TrueOrFalse
         public string SearchTerm;
         public int CreatorId = -1;
         public int ValuatorId = -1;
+        public bool IgnorePrivates = true;
     }
 
     [Serializable]

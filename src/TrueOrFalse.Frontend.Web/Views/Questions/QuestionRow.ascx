@@ -22,6 +22,7 @@
         </div>
         
         <div class="QuestionText">
+            <% if(Model.IsPrivate){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
             <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
         </div>   
         <div>

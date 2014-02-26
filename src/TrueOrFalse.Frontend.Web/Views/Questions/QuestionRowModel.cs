@@ -24,6 +24,8 @@ public class QuestionRowModel
     public int AnswerMePercentageTrue;
     public int AnswerMePercentageFalse;
 
+    public bool IsPrivate;
+
     public bool IsOwner;
     public string TotalRelevancePersonalEntries;
     public string TotalRelevancePersonalAvg;
@@ -77,6 +79,8 @@ public class QuestionRowModel
         IndexInResulSet = indexInResultSet;
 
         IsOwner = currentUserid == CreatorId;
+
+        IsPrivate = question.Visibility != QuestionVisibility.All;
 
         TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries.ToString();
         TotalRelevancePersonalAvg = (question.TotalRelevancePersonalAvg / 10d).ToString();

@@ -15,7 +15,7 @@ public class EditQuestionModel : BaseModel
 {
     public Message Message;
 
-    [DisplayName("Sichtbarkeit")]
+    [DisplayName("Sichtbar")]
     public QuestionVisibility Visibility { get; set; }
 
     [Required]
@@ -98,6 +98,7 @@ public class EditQuestionModel : BaseModel
         Categories = (from cat in question.Categories select cat.Name).ToList();
         ImageUrl_128 = QuestionImageSettings.Create(question.Id).GetUrl_500px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
+        Visibility = question.Visibility;
     }
 
     public void FillCategoriesFromPostData(NameValueCollection postData)

@@ -11,8 +11,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-
-    <div class="col-md-6  category category" style="margin-bottom: 30px;">
+    <div class="col-md-6 pageHeader">
         <h2><% if (Model.IsEditing) { %>
                 Kategorie bearbeiten
             <% } else { %>

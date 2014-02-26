@@ -64,8 +64,8 @@ namespace TrueOrFalse.Search
             var sqb = new SearchQueryBuilder()
                 .Add("FullTextStemmed", searchTerm, startsWith : startsWithSearch, exact: exact)
                 .Add("FullTextExact", searchTerm, startsWith: startsWithSearch, exact: exact)
-                .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
-                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
+                .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
+                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
 
             var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions

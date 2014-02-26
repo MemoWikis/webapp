@@ -29,6 +29,7 @@ namespace TrueOrFalse.Search
                 searchSpec,
                 searchSpec.Filter.CreatorId,
                 searchSpec.Filter.ValuatorId,
+                searchSpec.Filter.IgnorePrivates,
                 orderBy: orderBy
             );
         }
@@ -42,6 +43,7 @@ namespace TrueOrFalse.Search
             Pager pager,
             int creatorId = -1, 
             int valuatorId = -1,
+            bool ignorePrivates = true,
             SearchQuestionsOrderBy orderBy = SearchQuestionsOrderBy.None)
         {
             var sqb = new SearchQueryBuilder();
@@ -59,7 +61,7 @@ namespace TrueOrFalse.Search
             var categoryFilter = GetCategoryFilterValue(searchTerm);
             if (categoryFilter != null)
             {
-                sqb.Add("Categories", categoryFilter, isMustHave: true, exact: true);
+                sqb.Add("Categories", categoryFilter, isAndCondition: true, exact: true);
                 searchTerm = searchTerm.Replace("Kat:\"" + categoryFilter + "\"","");
             }
             else
@@ -68,8 +70,11 @@ namespace TrueOrFalse.Search
 
             sqb.Add("FullTextStemmed", searchTerm)
                 .Add("FullTextExact", searchTerm)
-                .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isMustHave: true, exact: true)
-                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isMustHave: true, exact: true);
+                .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
+                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
+
+            if (ignorePrivates)
+                sqb.Add("IsPrivate", "false", exact:true, isAndCondition:true);
 
             var orderby = new List<SortOrder>();
             if (orderBy == SearchQuestionsOrderBy.Quality)

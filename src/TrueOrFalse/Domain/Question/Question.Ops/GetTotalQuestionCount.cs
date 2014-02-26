@@ -13,7 +13,7 @@ namespace TrueOrFalse
         }
 
         public int Run(){
-            return (int)_session.CreateQuery("SELECT Count(Id) FROM Question").UniqueResult<Int64>();
+            return (int)_session.CreateQuery("SELECT Count(Id) FROM Question WHERE Visibility = 0").UniqueResult<Int64>();
         }
 
         public int Run(int creatorId)
