@@ -1,10 +1,9 @@
 ﻿/* LESS INCLUDES
 ----------------------------------------------------------*/
-
-
 @import 'includes/colors.less';
 @import 'includes/shared.less';
 @import 'includes/variables.less';
+@import 'z_buttons_2.3.2.less';
 
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
@@ -164,6 +163,8 @@ img {
     
     a.title {
 
+        display: inline-block;
+
         &:hover{
             text-decoration: none;
         }
@@ -293,6 +294,21 @@ img {
 
     i#tabInfoMyKnowledge {margin-right: 1px;}
     
+}
+
+#MenuButton {
+    display: inline-block;
+    float: left;
+    padding: 3px 7px;
+    margin-right: 5px;
+    font-size: 18px;
+    color: @memo-green;
+    //$temp:
+    margin-top: 18px;
+    .buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
+    @media only screen and (min-width: @screen-md-min) {
+        display: none;
+    }
 }
 
 #MasterFooter {

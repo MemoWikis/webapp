@@ -5800,23 +5800,27 @@ button.close {
   }
 }
 #menu-new {
-  /*$ToDo: enable with js functions
-    @media only screen and (max-width: @screen-sm-min) {
-        padding: 15px;
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
-        position: absolute;
-        left: 0;
-        background-color: @color-background-global;
-        width : 80%;
-        opacity: 1;
-        z-index: @z-Index-Menu;
-        .list-group {margin-bottom: 0;}
-    }*/
+  /*$ToDo: enable with js functions*/
 }
 #menu-new .tooltip > .tooltip-inner {
   min-width: 200px;
   text-align: left;
+}
+@media only screen and (max-width: 991px) {
+  #menu-new {
+    padding: 15px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: absolute;
+    left: -100%;
+    background-color: #ffffff;
+    width: 80%;
+    opacity: 1;
+    z-index: 100;
+  }
+  #menu-new .list-group {
+    margin-bottom: 0;
+  }
 }
 #menu-new .list-group-item {
   margin-top: 2px;
