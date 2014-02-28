@@ -53,16 +53,61 @@ $(function() {
         });
     });
 
-    var isOpen = false;
-
-    $("#MenuButton").click(function () {
-        if (isOpen == false) {
-            $("#menu-new").animate({ 'left': '0' }, 1000);
-            isOpen = true;
-        } else {
-            $("#menu-new").animate({ 'left': '-100%' }, 1000);
-            isOpen = false;
-        }
-    });
+    new Menu();
 
 });
+
+class Menu {
+
+    _isOpen: boolean;
+    _animationInProgress: boolean;
+
+    constructor() {
+        this._isOpen = false;
+        this._animationInProgress = false;
+
+        $("#MenuButton").click(() => {
+            if (this._animationInProgress)
+                return;
+
+            if (!this._isOpen) {
+                this.openMenu();
+            } else {
+                this.closeMenu();
+            }
+        });
+
+        //close on click outside the menu
+        $(document).mouseup((e) => {
+            if ($("#menu-new").has(e.target).length === 0 &&
+                $("#MenuButton").has(e.target).length === 0) {
+                this.closeMenu();
+            }
+        });
+
+        //close on ESC
+        $(document).keyup((e: any) => {
+            if (e.keyCode == 27) {
+                this.closeMenu();
+            }
+        });
+
+    }
+
+    openMenu() {
+        this._animationInProgress = true;
+        $("#menu-new").animate({ 'left': '0' }, 1000, "swing", () => {
+            this._animationInProgress = false;
+        });
+        this._isOpen = true;
+    }
+
+    closeMenu() {
+        this._animationInProgress = true;
+        $("#menu-new").animate({ 'left': '-100%' }, 1000, "swing",() => {
+                this._animationInProgress = false;
+            });
+        this._isOpen = false;
+    }
+
+}

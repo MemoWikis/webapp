@@ -296,16 +296,32 @@ img {
     
 }
 
-#MenuButton {
-    display: inline-block;
-    float: left;
+.MenuButton {
     padding: 3px 7px;
     margin-right: 5px;
     font-size: 18px;
-    color: @memo-green;
+}
+
+#MenuButton {
+    display: inline-block;
+    float: left;
+    .MenuButton;
+    color: #e7ecf6;
     //$temp:
     margin-top: 18px;
-    .buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
+    background-color: transparent;
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+    -webkit-text-shadow: none;
+    text-shadow: none;
+
+    &:hover {
+        .btn;
+        .buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
+        .MenuButton;
+    }
+
     @media only screen and (min-width: @screen-md-min) {
         display: none;
     }

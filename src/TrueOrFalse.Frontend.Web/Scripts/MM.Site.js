@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     $("[popover-all-sets-for]").click(function (e) {
         e.preventDefault();
 
@@ -52,16 +52,57 @@
         });
     });
 
-    var isOpen = false;
-
-    $("#MenuButton").click(function () {
-        if (isOpen == false) {
-            $("#menu-new").animate({ 'left': '0' }, 1000);
-            isOpen = true;
-        } else {
-            $("#menu-new").animate({ 'left': '-100%' }, 1000);
-            isOpen = false;
-        }
-    });
+    new Menu();
 });
+
+var Menu = (function () {
+    function Menu() {
+        var _this = this;
+        this._isOpen = false;
+        this._animationInProgress = false;
+
+        $("#MenuButton").click(function () {
+            if (_this._animationInProgress)
+                return;
+
+            if (!_this._isOpen) {
+                _this.openMenu();
+            } else {
+                _this.closeMenu();
+            }
+        });
+
+        //close on click outside the menu
+        $(document).mouseup(function (e) {
+            if ($("#menu-new").has(e.target).length === 0 && $("#MenuButton").has(e.target).length === 0) {
+                _this.closeMenu();
+            }
+        });
+
+        //close on ESC
+        $(document).keyup(function (e) {
+            if (e.keyCode == 27) {
+                _this.closeMenu();
+            }
+        });
+    }
+    Menu.prototype.openMenu = function () {
+        var _this = this;
+        this._animationInProgress = true;
+        $("#menu-new").animate({ 'left': '0' }, 1000, "swing", function () {
+            _this._animationInProgress = false;
+        });
+        this._isOpen = true;
+    };
+
+    Menu.prototype.closeMenu = function () {
+        var _this = this;
+        this._animationInProgress = true;
+        $("#menu-new").animate({ 'left': '-100%' }, 1000, "swing", function () {
+            _this._animationInProgress = false;
+        });
+        this._isOpen = false;
+    };
+    return Menu;
+})();
 //# sourceMappingURL=MM.Site.js.map
