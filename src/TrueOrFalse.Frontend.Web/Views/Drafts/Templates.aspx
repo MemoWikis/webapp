@@ -14,9 +14,9 @@
         <div>
             <h4>Link with Icon</h4>
                 For not having the icon underlined at hover.</br>
-                Use classes a.LinkWithIcon and span.TextSpan.</br>
+                Use classes a.SimpleTextLink and span.TextSpan.</br>
                 </br>
-                <a class="LinkWithIcon">
+                <a class="SimpleTextLink">
                     <i class="fa fa-question-circle"></i>
                     <span class="TextSpan">Hilfe & mehr</span>
                 </a> 

@@ -1,13 +1,9 @@
-﻿@media temp {}
-
-
-/* LESS INCLUDES
+﻿/* LESS INCLUDES
 ----------------------------------------------------------*/
-
-
 @import 'includes/colors.less';
 @import 'includes/shared.less';
 @import 'includes/variables.less';
+@import 'z_buttons_2.3.2.less';
 
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
@@ -25,7 +21,7 @@ a {
             //height: @icon-size-touch;
         }
 
-    &.LinkWithIcon {
+    &.SimpleTextLink {
         text-decoration: none;
         display: inline-block;
         @media only screen and (max-width: @screen-xs-max) {
@@ -57,7 +53,7 @@ a {
 
     //temp start
 
-    a.LinkWithIcon {
+    a.SimpleTextLink {
         
     }
 
@@ -80,7 +76,7 @@ img {
 
 
 .container.main {
-    background-color: white;
+    background-color: @color-background-global;
     padding-top: 25px;
     padding-bottom: 20px;
     position: relative;
@@ -130,7 +126,7 @@ img {
     min-height: 51px;
     background-color: @dark-blue;
     position: relative;
-    z-index: 100;
+    z-index: @z-Index-MasterHeader;
 
     //Gradient darker (overwritten)
     background: rgb(46,72,123); /* Old browsers */
@@ -166,6 +162,8 @@ img {
     }
     
     a.title {
+
+        display: inline-block;
 
         &:hover{
             text-decoration: none;
@@ -296,6 +294,37 @@ img {
 
     i#tabInfoMyKnowledge {margin-right: 1px;}
     
+}
+
+.MenuButton {
+    padding: 3px 7px;
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+#MenuButton {
+    display: inline-block;
+    float: left;
+    .MenuButton;
+    color: #e7ecf6;
+    //$temp:
+    margin-top: 18px;
+    background-color: transparent;
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+    -webkit-text-shadow: none;
+    text-shadow: none;
+
+    &:hover {
+        .btn;
+        .buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
+        .MenuButton;
+    }
+
+    @media only screen and (min-width: @screen-md-min) {
+        display: none;
+    }
 }
 
 #MasterFooter {

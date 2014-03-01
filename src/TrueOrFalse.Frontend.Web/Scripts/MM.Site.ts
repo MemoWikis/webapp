@@ -32,10 +32,12 @@ $(function() {
         });
     });
 
+    /*JULE NOGO AREA*/
     $("#logo").hover(
         function () { $(this).animate({ 'background-size': '140%' }, 250); },
         function () { $(this).animate({ 'background-size': '120%' }, 250); }
     );
+    /*JULE NOGO END*/
 
     $(".sparklineTotals").each(function () {
         $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
@@ -51,4 +53,61 @@ $(function() {
         });
     });
 
+    new Menu();
+
 });
+
+class Menu {
+
+    _isOpen: boolean;
+    _animationInProgress: boolean;
+
+    constructor() {
+        this._isOpen = false;
+        this._animationInProgress = false;
+
+        $("#MenuButton").click(() => {
+            if (this._animationInProgress)
+                return;
+
+            if (!this._isOpen) {
+                this.openMenu();
+            } else {
+                this.closeMenu();
+            }
+        });
+
+        //close on click outside the menu
+        $(document).mouseup((e) => {
+            if ($("#menu-new").has(e.target).length === 0 &&
+                $("#MenuButton").has(e.target).length === 0) {
+                this.closeMenu();
+            }
+        });
+
+        //close on ESC
+        $(document).keyup((e: any) => {
+            if (e.keyCode == 27) {
+                this.closeMenu();
+            }
+        });
+
+    }
+
+    openMenu() {
+        this._animationInProgress = true;
+        $("#menu-new").animate({ 'left': '0' }, 1000, "swing", () => {
+            this._animationInProgress = false;
+        });
+        this._isOpen = true;
+    }
+
+    closeMenu() {
+        this._animationInProgress = true;
+        $("#menu-new").animate({ 'left': '-100%' }, 1000, "swing",() => {
+                this._animationInProgress = false;
+            });
+        this._isOpen = false;
+    }
+
+}
