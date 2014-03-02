@@ -13,18 +13,6 @@
         <div class="row">
             <h2 style="margin-top: 0px;">Nachrichten</h2>    
         </div>
-        
-
-<%--        <ul>
-            <li>Willkommen auf Richtig-oder-Falsch</li>
-            <li>Fragesatz: "..." wurde aktualisiert (Du folgst dem Fragesatz)</li>
-            <li>Frage: "..." wurde aktualisiert (Die Frage ist in Deinem <a href="<%= Url.Action(Links.HelpWunschwissen, Links.HelpController) %>">Wunschwissen)</a></li>
-            <li>Person hat neue Frage hinzugefügt (Du folgst der Person)</li>
-            <li>Der Kategorie "" wurde neue Frage hinzugefügt (Du folgst der Kategorie)</li>
-            <li>Eine Frage die Du erstellt hast wurde geflaggt</li>
-            <li>Eine Frage die Du erstellt hast wurde kommentiert</li>
-            <li>Eine Frage die Du erstellt wurde duppliziert</li>
-        </ul>--%>
 
         <% foreach(var msg in Model.Rows){ %>
     
