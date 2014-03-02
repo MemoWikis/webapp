@@ -5912,14 +5912,14 @@ button.close {
 #menu-new .list-group-item.know:hover i.fa-caret-right {
   color: white;
 }
-#menu-new .list-group-item.news {
+#menu-new .list-group-item.messages {
   border-left-color: #ffa500;
   border-right-color: #ffa500;
 }
-#menu-new .list-group-item.news i.fa-caret-right {
+#menu-new .list-group-item.messages i.fa-caret-right {
   color: #ffa500;
 }
-#menu-new .list-group-item.news:hover {
+#menu-new .list-group-item.messages:hover {
   background-color: #ffdb99;
   color: black;
 }

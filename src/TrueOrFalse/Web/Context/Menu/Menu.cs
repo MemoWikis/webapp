@@ -13,7 +13,7 @@ namespace TrueOrFalse
         QuestionSet, QuestionSetDetail,
         Users, UserDetail,
         Categories, CategoryDetail,
-        News,
+        Messages,
         Help,
         Dates,
         Play

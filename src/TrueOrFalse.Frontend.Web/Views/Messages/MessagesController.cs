@@ -5,13 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 
-public class NewsController : BaseController
+public class MessagesController : BaseController
 {
-    [SetMenu(MenuEntry.News)]
-    public ActionResult News()
+    [SetMenu(MenuEntry.Messages)]
+    public ActionResult Messages()
     {
         if (!_sessionUser.IsLoggedIn)
-            return View(new NewsModel(new List<Message>()
+            return View(new MessageModel(new List<Message>()
             {
                 new Message
                 {
@@ -37,6 +37,6 @@ public class NewsController : BaseController
         var messages = Resolve<MessageRepository>()
             .GetForUser(_sessionUser.User.Id);
 
-        return View(new NewsModel(messages));
+        return View(new MessageModel(messages));
     }
 }

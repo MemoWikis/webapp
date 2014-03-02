@@ -6,24 +6,24 @@ using NHibernate.Mapping;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 
-public class NewsModel : BaseModel
+public class MessageModel : BaseModel
 {
     public bool IsLoggedIn = true;
-    public List<NewsModelRow> Rows = new List<NewsModelRow>();
+    public List<MessageModelRow> Rows = new List<MessageModelRow>();
 
-    public NewsModel()
+    public MessageModel()
     {
         
     }
 
-    public NewsModel(IList<Message> messages)
+    public MessageModel(IList<Message> messages)
     {
         foreach (var msg in messages)
-            Rows.Add(new NewsModelRow(msg));
+            Rows.Add(new MessageModelRow(msg));
     }
 }
 
-public class NewsModelRow
+public class MessageModelRow
 {
     public int MessageId;
     public bool IsRead;
@@ -31,7 +31,7 @@ public class NewsModelRow
     public string Body;
     public string When;
 
-    public NewsModelRow(Message message)
+    public MessageModelRow(Message message)
     {
         MessageId = message.Id;
         IsRead = message.IsRead;

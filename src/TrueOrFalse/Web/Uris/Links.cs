@@ -123,8 +123,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", "EditSet", new {id = questionSetId});
         }
 
-        public static string News(UrlHelper url){
-            return url.Action("News","News");
+        public static string Messages(UrlHelper url){
+            return url.Action("Messages","Messages");
         }
 
         public static string Dates(UrlHelper url){
