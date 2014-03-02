@@ -106,7 +106,7 @@
         
         <a class="list-group-item messages <%= Model.Active(MenuEntry.Messages) %>" href="<%= Links.Messages(Url) %>">
             Nachrichten
-            <span class="badge" style="display:inline-block; position: relative; top: 1px;">21</span>
+            <span class="badge" style="display:inline-block; position: relative; top: 1px;"><%= Model.UnreadMessageCount %></span>
         </a>
                             
         <% if (Model.IsInstallationAdmin){ %>

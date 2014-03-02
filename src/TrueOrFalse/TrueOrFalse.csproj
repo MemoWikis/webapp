@@ -163,6 +163,7 @@
     <Compile Include="Domain\Media\Image\ResizeImage.cs" />
     <Compile Include="Domain\Message\BaseSendMessage.cs" />
     <Compile Include="Domain\Message\Message.cs" />
+    <Compile Include="Domain\Message\Ops\GetUnreadMessageCount.cs" />
     <Compile Include="Domain\Message\SendCustomMsg.cs" />
     <Compile Include="Domain\Message\SendIsNowPrivateMsg.cs" />
     <Compile Include="Domain\Message\Persistence\MessageMap.cs" />

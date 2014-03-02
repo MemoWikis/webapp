@@ -225,6 +225,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
+    <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Views\Api\ApiBaseController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />

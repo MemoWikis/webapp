@@ -1,24 +1,29 @@
 ﻿using System.Collections.Generic;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web.Context;
 
-public class MenuLeftModel
+public class MenuLeftModel : BaseResolve
 {
     public IList<MenuModelCategoryItem> Categories = new List<MenuModelCategoryItem>();
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
     public Menu Menu;
 
+    public int UnreadMessageCount = 0;
+
     public MenuLeftModel()
     {
-        var userSession = Sl.Resolve<SessionUser>();
-        var sessionUiData= Sl.Resolve<SessionUiData>();
+        var userSession = Resolve<SessionUser>();
+        var sessionUiData= Resolve<SessionUiData>();
 
         Menu = sessionUiData.Menu;
         if (userSession.User != null)
         {
-            WishKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(userSession.User.Id);
             IsInstallationAdmin = userSession.IsInstallationAdmin;
+
+            WishKnowledgeCount = Resolve<GetWishQuestionCountCached>().Run(userSession.User.Id);
+            UnreadMessageCount = Resolve<GetUnreadMessageCount>().Run(userSession.User.Id);
         }
     }
 
