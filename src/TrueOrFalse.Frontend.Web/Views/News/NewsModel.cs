@@ -9,9 +9,12 @@ using TrueOrFalse.Frontend.Web.Models;
 public class NewsModel : BaseModel
 {
     public bool IsLoggedIn = true;
-    public List<NewsModelRow> Rows = new List<NewsModelRow>(); 
+    public List<NewsModelRow> Rows = new List<NewsModelRow>();
 
-    public NewsModel(){}
+    public NewsModel()
+    {
+        
+    }
 
     public NewsModel(IList<Message> messages)
     {
