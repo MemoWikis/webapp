@@ -105,7 +105,7 @@
         <% } %>
         
         <a class="list-group-item news <%= Model.Active(MenuEntry.News) %>" href="<%= Links.News(Url) %>">
-            Neues
+            Nachrichten
             <span class="badge" style="display:inline-block; position: relative; top: 1px;">21</span>
         </a>
                             

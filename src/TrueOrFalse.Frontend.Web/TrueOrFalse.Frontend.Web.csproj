@@ -779,6 +779,9 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\News\News.css">
+      <DependentUpon>News.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
@@ -812,6 +815,7 @@
       <DependentUpon>Set.less</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\News\Js\News.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
@@ -1013,6 +1017,10 @@
     </Content>
     <Content Include="Views\Sets\Sets.css.map">
       <DependentUpon>Sets.css</DependentUpon>
+    </Content>
+    <Content Include="Views\News\News.less" />
+    <Content Include="Views\News\News.css.map">
+      <DependentUpon>News.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

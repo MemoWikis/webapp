@@ -21,6 +21,9 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/category")
                 .Include("~/Views/Categories/Detail/*.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/news")
+                .Include("~/Views/News/*.css"));
+
             /* JS */
             bundles.Add(new ScriptBundle("~/bundles/shared")
                 .IncludeDirectory("~/Scripts/", "*.js"));

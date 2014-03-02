@@ -1,0 +1,33 @@
+#set-scheme {
+  background-color: #ffd700;
+  color: black;
+}
+.msgRow {
+  border: 1px solid #e8e8e8;
+  border-left: 4px solid #ffa500;
+  margin-bottom: 14px;
+}
+.msgRow:hover {
+  background-color: #f6f8fc;
+}
+.msgRow .header {
+  /*background-color: #f5f5f5;*/
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #f5f5f5;
+}
+.msgRow .header h4 {
+  margin: 0;
+}
+.msgRow .body {
+  min-height: 60px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+.msgRow .footer {
+  border-top: 1px solid #f5f5f5;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  /*background-color: #fbfbfb;*/
+}
+/*# sourceMappingURL=News.css.map */

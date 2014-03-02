@@ -5,12 +5,17 @@ using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 
-public class NewsController : Controller
+public class NewsController : BaseController
 {
     [SetMenu(MenuEntry.News)]
     public ActionResult News()
     {
-        return View(new NewsModel());
+        if (!_sessionUser.IsLoggedIn)
+            return View(new NewsModel{IsLoggedIn = false});
 
+        var messages = Resolve<MessageRepository>()
+            .GetForUser(_sessionUser.User.Id);
+
+        return View(new NewsModel(messages));
     }
 }
