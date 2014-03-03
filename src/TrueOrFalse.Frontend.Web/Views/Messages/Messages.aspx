@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="col-xs-5 footer">
-                    vor 12 min
+                    <span class="show-tooltip" title="<%: msg.WhenDatetime %>"><%: msg.When %></span>
                 </div>
                 <div class="col-xs-7  footer">
                     <span class="pull-right" style="<%: msg.IsRead ? "display: none" : "" %>">
