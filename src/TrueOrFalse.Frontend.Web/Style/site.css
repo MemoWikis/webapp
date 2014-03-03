@@ -583,36 +583,29 @@ img {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2c5fb2', GradientType=0);
   /* IE6-9 */
 }
+#MasterHeader .HeaderMainRow {
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
 #MasterHeader .col-title {
-  width: 55%;
   float: left;
+  padding-top: 1%;
+}
+@media only screen and (max-width: 479px) {
+  #MasterHeader .col-title {
+    width: 65%;
+  }
 }
 @media only screen and (min-width: 480px) {
   #MasterHeader .col-title {
-    width: 33.3333333%;
-  }
-}
-@media only screen and (min-width: 768px) {
-  #MasterHeader .col-title {
-    width: 50%;
+    padding-top: 0;
   }
 }
 #MasterHeader a.title {
   display: inline-block;
-  padding-top: 15px;
 }
 #MasterHeader a.title:hover {
   text-decoration: none;
-}
-@media only screen and (min-width: 480px) and (max-width: 767px) {
-  #MasterHeader a.title {
-    padding-top: 10px;
-  }
-}
-@media only screen and (min-width: 768px) {
-  #MasterHeader a.title {
-    padding-top: 0;
-  }
 }
 #MasterHeader h1 {
   font-weight: 800;
@@ -626,7 +619,6 @@ img {
   background: none;
   position: relative;
   padding-left: 0px;
-  padding-top: 3px;
   -webkit-text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
   text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
 }
@@ -638,6 +630,8 @@ img {
 @media only screen and (min-width: 768px) {
   #MasterHeader h1 {
     font-size: 40px;
+    margin-top: -4px;
+    margin-bottom: -3px;
   }
 }
 #MasterHeader h1:hover {
@@ -683,25 +677,17 @@ img {
     display: none;
   }
 }
-#MasterHeader .col-LoginAndHelp {
-  width: 45%;
-}
-@media only screen and (min-width: 480px) {
+@media only screen and (max-width: 479px) {
   #MasterHeader .col-LoginAndHelp {
-    width: 66.6666666%;
-  }
-}
-@media only screen and (min-width: 768px) {
-  #MasterHeader .col-LoginAndHelp {
-    width: 50%;
+    width: 35%;
+    padding-left: 0;
+    float: right;
   }
 }
 #MasterHeader #loginAndHelp {
   background-color: #e7ecf6;
   border-radius: 8px;
   padding: 6px 10px;
-  margin-top: 8px;
-  margin-bottom: 8px;
   text-align: center;
   min-width: 50%;
   float: right;
@@ -727,6 +713,11 @@ img {
     display: none;
   }
 }
+@media only screen and (max-width: 767px) {
+  #MasterHeader #loginAndHelp .TextSpan.Help {
+    display: none;
+  }
+}
 #MasterHeader #loginAndHelp .dropdown-menu {
   right: -11px;
   text-align: left;
@@ -734,25 +725,125 @@ img {
 #MasterHeader i#tabInfoMyKnowledge {
   margin-right: 1px;
 }
-.MenuButton {
+.MenuButtonXS {
   padding: 3px 7px;
   margin-right: 5px;
   font-size: 18px;
 }
+.MenuButtonSM {
+  padding: 5px 9px;
+  font-size: 25px;
+}
 #MenuButton {
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  padding: 4px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  color: #333333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #f5f5f5;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #e6e6e6;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  border: 1px solid #cccccc;
+  *border: 0;
+  border-bottom-color: #b3b3b3;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  *margin-left: .3em;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
   display: inline-block;
   float: left;
+  margin-left: -14px;
   padding: 3px 7px;
   margin-right: 5px;
   font-size: 18px;
   color: #e7ecf6;
-  margin-top: 18px;
   background-color: transparent;
   background-image: none;
   border-color: transparent;
   box-shadow: none;
   -webkit-text-shadow: none;
   text-shadow: none;
+}
+#MenuButton:hover,
+#MenuButton:focus,
+#MenuButton:active,
+#MenuButton.active,
+#MenuButton.disabled,
+#MenuButton[disabled] {
+  color: #333333;
+  background-color: #e6e6e6;
+  *background-color: #d9d9d9;
+}
+#MenuButton:active,
+#MenuButton.active {
+  background-color: #cccccc \9;
+}
+#MenuButton:first-child {
+  *margin-left: 0;
+}
+#MenuButton:hover,
+#MenuButton:focus {
+  color: #333333;
+  text-decoration: none;
+  background-position: 0 -15px;
+  -webkit-transition: background-position 0.1s linear;
+  -moz-transition: background-position 0.1s linear;
+  -o-transition: background-position 0.1s linear;
+  transition: background-position 0.1s linear;
+}
+#MenuButton:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+#MenuButton.active,
+#MenuButton:active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+}
+#MenuButton.disabled,
+#MenuButton[disabled] {
+  cursor: default;
+  background-image: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+@media only screen and (min-width: 768px) {
+  #MenuButton {
+    padding: 11px 19px;
+    font-size: 17.5px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 5px 9px;
+    font-size: 25px;
+  }
 }
 #MenuButton:hover {
   display: inline-block;
@@ -856,6 +947,17 @@ img {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+}
+@media only screen and (min-width: 768px) {
+  #MenuButton:hover {
+    padding: 11px 19px;
+    font-size: 17.5px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 5px 9px;
+    font-size: 25px;
+  }
 }
 #MenuButton:hover:hover,
 #MenuButton:hover:focus,
