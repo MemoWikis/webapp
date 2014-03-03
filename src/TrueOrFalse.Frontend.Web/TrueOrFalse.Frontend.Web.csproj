@@ -225,6 +225,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
+    <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Views\Api\ApiBaseController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
@@ -627,8 +628,8 @@
     <Compile Include="Views\Questions\Answer\FeedbackRowModel.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
-    <Compile Include="Views\News\NewsController.cs" />
-    <Compile Include="Views\News\NewsModel.cs" />
+    <Compile Include="Views\Messages\MessagesController.cs" />
+    <Compile Include="Views\Messages\MessageModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel_Category_Exists.cs" />
@@ -779,6 +780,12 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Messages\Message.css">
+      <DependentUpon>Message.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Messages.css">
+      <DependentUpon>Message.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
@@ -812,6 +819,7 @@
       <DependentUpon>Set.less</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
@@ -1014,6 +1022,13 @@
     <Content Include="Views\Sets\Sets.css.map">
       <DependentUpon>Sets.css</DependentUpon>
     </Content>
+    <Content Include="Views\Messages\Message.less" />
+    <Content Include="Views\Messages\News.css.map">
+      <DependentUpon>Messages.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Message.css.map">
+      <DependentUpon>Message.css</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -1024,7 +1039,7 @@
     <Content Include="Views\Categories\CategoryRow.ascx" />
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
     <Content Include="Views\Categories\Edit\RelatedCategories.js" />
-    <Content Include="Views\News\News.aspx" />
+    <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\QuestionRow.ascx" />

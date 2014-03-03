@@ -88,4 +88,17 @@ public class MaintenanceController : BaseController
         Resolve<ReIndexAllUsers>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
     }
+
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    public ActionResult SendMessage(MaintenanceModel model)
+    {
+        Resolve<SendCustomMsg>().Run(
+            model.TestMsgReceiverId, 
+            model.TestMsgSubject,
+            model.TestMsgBody);
+
+        model.Message = new SuccessMessage("Message was sent");
+        return View("Maintenance", model);
+    }
 }

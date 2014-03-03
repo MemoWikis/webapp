@@ -77,7 +77,7 @@ namespace TrueOrFalse
             routes.MapRoute("Knowledge", "Wissen/{action}", new { controller = "Knowledge", action = "Knowledge" });
 
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
-            routes.MapRoute("News", "Neues/{action}", new { controller = "News", action = "News" });
+            routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
             routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
 

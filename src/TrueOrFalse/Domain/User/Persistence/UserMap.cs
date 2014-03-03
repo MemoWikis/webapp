@@ -27,7 +27,7 @@ namespace TrueOrFalse
 
             Map(x => x.Birthday);
             Map(x => x.DateCreated);
-            Map(x => x.DateModified);            
+            Map(x => x.DateModified);
         }
     }
 }
