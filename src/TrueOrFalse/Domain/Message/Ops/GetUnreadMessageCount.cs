@@ -18,7 +18,7 @@ namespace TrueOrFalse
         public int Run(int receiverId)
         {
             return (int)_session
-                .CreateQuery("SELECT Count(Id) FROM Message WHERE ReceiverId = " + receiverId)
+                .CreateQuery("SELECT Count(Id) FROM Message WHERE IsRead = 0 AND ReceiverId = " + receiverId)
                 .UniqueResult<Int64>();
         }
     }

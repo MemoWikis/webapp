@@ -10,6 +10,9 @@
 .msgRow:hover {
   background-color: #f6f8fc;
 }
+.msgRow.isRead {
+  border-left: 4px solid #ffdb99;
+}
 .msgRow .header {
   /*background-color: #f5f5f5;*/
   padding-top: 9px;

@@ -127,6 +127,14 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Messages","Messages");
         }
 
+        public static string MessageSetRead(UrlHelper url){
+            return url.Action("SetMessageRead", "Messages");
+        }
+
+        public static object MessageSetUnread(UrlHelper url){
+            return url.Action("SetMessageUnread", "Messages");
+        }
+
         public static string Dates(UrlHelper url){
             return url.Action("Dates", "Dates");
         }

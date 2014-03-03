@@ -780,6 +780,9 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Messages\Js\Message.js">
+      <DependentUpon>Message.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Messages\Message.css">
       <DependentUpon>Message.less</DependentUpon>
     </Content>
@@ -1028,6 +1031,9 @@
     </Content>
     <Content Include="Views\Messages\Message.css.map">
       <DependentUpon>Message.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Js\Message.js.map">
+      <DependentUpon>Message.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
