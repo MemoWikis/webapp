@@ -7,9 +7,9 @@ $(function() {
             .animate({ opacity: 1.00 }, 500);
     };
 
-    $("[data-messageId]").each(function (){
+    $("[data-messageId]").each(function () {
 
-        var row = $(this)
+        var row = $(this);
         var msgId = row.attr("data-messageId");
 
         row
