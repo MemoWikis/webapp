@@ -7,6 +7,10 @@
   border-left: 4px solid #ffa500;
   margin-bottom: 14px;
 }
+.msgRow.rowBase {
+  margin-left: 0;
+  margin-right: 0;
+}
 .msgRow:hover {
   background-color: #ebeff7;
 }

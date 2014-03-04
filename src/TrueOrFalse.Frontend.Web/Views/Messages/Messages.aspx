@@ -15,18 +15,15 @@
 
     <div class="col-md-6">
         
-        <div class="row">
-            <h2 style="margin-top: 0px;">Nachrichten</h2>    
-        </div>
+        <h2 style="margin-top: 0px;">Nachrichten</h2>    
 
         <% foreach(var msg in Model.Rows){ %>
-    
             <div class="row msgRow rowBase <%: msg.IsRead ? "isRead" : "" %>" data-messageId="<%: msg.MessageId %>">
-                <div class="header col-lg-12">
+                <div class="col-xs-12 header">
                     <h4><%: msg.Subject %></h4>
                 </div>
 
-                <div class="col-lg-12 body">
+                <div class="col-xs-12 body">
                     <%= msg.Body %>
                 </div>
 
@@ -38,7 +35,7 @@
                         <a href="#" class="markAsRead">
                             als gelesen makieren
                         </a>
-                        &nbsp; <i class="fa fa-square-o show-tooltip" style="color:sandybrown" title="Die Frage ist ungelesen"></i>
+                        &nbsp; <i class="fa fa-square-o show-tooltip" style="color:sandybrown;" title="Die Frage ist ungelesen"></i>
                     </span>
                     
                     <span class="pull-right" style="<%: msg.IsRead ? "" : "display: none" %>">
@@ -53,5 +50,6 @@
         <% } %>        
 
     </div>
+    <div class="col-md-3"></div>
 
 </asp:Content>

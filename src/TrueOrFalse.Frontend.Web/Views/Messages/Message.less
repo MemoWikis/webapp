@@ -2,15 +2,19 @@
 
 .msgRow{
     border: 1px solid #e8e8e8;
-    border-left: 4px solid @middle-orange;
+    border-left: 4px solid @color-message;
     margin-bottom: 14px;
+    &.rowBase {
+        margin-left: 0;
+        margin-right: 0;
+    }
 
     &:hover{
         background-color: #ebeff7;
     }
 
     &.isRead{
-        border-left: 4px solid lighten(@middle-orange, 30%);
+        border-left: 4px solid lighten(@color-message, 30%);
         background-color:  #fcfcfc;
     }
 
