@@ -43,6 +43,7 @@ namespace TrueOrFalse.Updates
                 .Add(39, UpdateToVs039.Run)
                 .Add(40, SolrCoreReload.ReloadQuestion)
                 .Add(41, UpdateToVs041.Run)
+                .Add(42, UpdateToVs042.Run)
                 .Run();
         }
     }
