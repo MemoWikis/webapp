@@ -39,4 +39,15 @@ public class MessagesController : BaseController
 
         return View(new MessageModel(messages));
     }
+
+    [HttpPost]
+    public EmptyResult SetMessageRead(int msgId){
+        Resolve<SetMessageRead>().Run(msgId); return  new EmptyResult();
+    }
+
+    [HttpPost]
+    public EmptyResult SetMessageUnread(int msgId){
+        Resolve<SetMessageUnread>().Run(msgId); return new EmptyResult();
+    }
+
 }

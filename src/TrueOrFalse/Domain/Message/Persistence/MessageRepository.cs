@@ -18,6 +18,7 @@ namespace TrueOrFalse
         {
             return _session.QueryOver<Message>()
                 .Where(x => x.ReceiverId == userId)
+                .OrderBy(x => x.DateCreated).Desc
                 .List<Message>();
         }
     }

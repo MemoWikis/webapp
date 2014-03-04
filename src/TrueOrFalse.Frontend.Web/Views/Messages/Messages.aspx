@@ -4,10 +4,14 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/message") %>
+    <%= Scripts.Render("~/bundles/js/Messages") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
+
+    <input type="hidden" id="urlMessageSetRead" value="<%= Links.MessageSetRead(Url) %>"/>
+    <input type="hidden" id="urlMessageSetUnread" value="<%= Links.MessageSetUnread(Url) %>"/>
+
     <div class="col-md-6">
         
         <div class="row">
@@ -16,7 +20,7 @@
 
         <% foreach(var msg in Model.Rows){ %>
     
-            <div class="row msgRow rowBase ">
+            <div class="row msgRow rowBase <%: msg.IsRead ? "isRead" : "" %>" data-messageId="<%: msg.MessageId %>">
                 <div class="header col-lg-12">
                     <h4><%: msg.Subject %></h4>
                 </div>
@@ -25,18 +29,28 @@
                     <%= msg.Body %>
                 </div>
 
-                <div class="col-lg-7 footer">
-                    vor 12 min
+                <div class="col-xs-5 footer">
+                    <span class="show-tooltip" title="<%: msg.WhenDatetime %>"><%: msg.When %></span>
                 </div>
-                <div class="col-lg-5  footer">
-                    <a href="#" class="pull-right">als gelesen makieren</a>
+                <div class="col-xs-7  footer">
+                    <span class="pull-right" style="<%: msg.IsRead ? "display: none" : "" %>">
+                        <a href="#" class="markAsRead">
+                            als gelesen makieren
+                        </a>
+                        &nbsp; <i class="fa fa-square-o show-tooltip" style="color:sandybrown" title="Die Frage ist ungelesen"></i>
+                    </span>
+                    
+                    <span class="pull-right" style="<%: msg.IsRead ? "" : "display: none" %>">
+                        <a href="#" class="markAsUnRead">
+                            als ungelesen makieren 
+                        </a>
+                        &nbsp; <i class="fa fa-check-square-o show-tooltip" style="color:green" title="Die Frage ist gelesen"></i>
+                    </span>
                 </div>
             </div>
 
         <% } %>        
 
     </div>
-    
-
 
 </asp:Content>

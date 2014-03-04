@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using NHibernate.Mapping;
@@ -30,6 +31,7 @@ public class MessageModelRow
     public string Subject;
     public string Body;
     public string When;
+    public string WhenDatetime;
 
     public MessageModelRow(Message message)
     {
@@ -37,6 +39,7 @@ public class MessageModelRow
         IsRead = message.IsRead;
         Subject = message.Subject;
         Body = message.Body;
-        When = message.DateCreated.ToString("F");
+        When = TimeElapsedAsText.Run(message.DateCreated);
+        WhenDatetime = message.DateCreated.ToString("F", new CultureInfo("de-DE"));
     }
 }

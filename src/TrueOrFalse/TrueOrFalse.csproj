@@ -164,10 +164,13 @@
     <Compile Include="Domain\Message\BaseSendMessage.cs" />
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Ops\GetUnreadMessageCount.cs" />
+    <Compile Include="Domain\Message\Ops\SetMessageRead.cs" />
     <Compile Include="Domain\Message\SendCustomMsg.cs" />
+    <Compile Include="Domain\Message\SendWelcomeMsg.cs" />
     <Compile Include="Domain\Message\SendIsNowPrivateMsg.cs" />
     <Compile Include="Domain\Message\Persistence\MessageMap.cs" />
     <Compile Include="Domain\Message\Persistence\MessageRepository.cs" />
+    <Compile Include="Domain\Message\Ops\SetMessageUnread.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategory.cs" />
@@ -420,6 +423,7 @@
     <Compile Include="Utilities\Update\Steps\UpdateToVs013.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs012.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs042.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs041.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs039.cs" />
     <Compile Include="Utilities\Update\UpdateStepExecuter.cs" />
