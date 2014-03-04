@@ -13,16 +13,19 @@ namespace TrueOrFalse.Registration
         private readonly IsEmailAddressAvailable _isEmailAddressAvailable;
         private readonly UserRepository _userRepository;
         private readonly SendRegistrationEmail _sendRegistrationEmail;
+        private readonly SendWelcomeMsg _sendWelcomeMsg;
         private readonly ISession _session;
 
         public RegisterUser(IsEmailAddressAvailable isEmailAddressAvailable, 
                             UserRepository  userRepository,
                             SendRegistrationEmail sendRegistrationEmail,
+                            SendWelcomeMsg sendWelcomeMsg,
                             ISession session)
         {
             _isEmailAddressAvailable = isEmailAddressAvailable;
             _userRepository = userRepository;
             _sendRegistrationEmail = sendRegistrationEmail;
+            _sendWelcomeMsg = sendWelcomeMsg;
             _session = session;
         }
 
@@ -39,6 +42,7 @@ namespace TrueOrFalse.Registration
             }
 
             _sendRegistrationEmail.Run(user);
+            _sendWelcomeMsg.Run(user);
         }
 
     }
