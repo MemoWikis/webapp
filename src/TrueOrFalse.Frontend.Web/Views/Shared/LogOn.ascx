@@ -5,7 +5,7 @@
 
 <a class="SimpleTextLink" href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">
     <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
-    <span class="TextSpan hidden-xs">Hilfe & mehr</span>
+    <span class="TextSpan Help">Hilfe & mehr</span>
 </a> 
 <%
     var userSession = new SessionUser();
@@ -34,7 +34,7 @@
 <%
     }else {
 %> 
-        <a class="SimpleTextLink" href="<%=Url.Action("LogOn", Links.AccountController) %>"><span class="TextSpan">Anmelden</span></a>
+        <a class="SimpleTextLink" href="<%=Url.Action("LogOn", Links.AccountController) %>" title="Anmelden"><i class="fa fa-sign-in"></i> <span class="TextSpan">Anmelden</span></a>
 <%
     }
 %>    

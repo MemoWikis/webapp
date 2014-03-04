@@ -148,17 +148,23 @@ img {
     background: linear-gradient(to bottom,  rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e487b', endColorstr='#2c5fb2',GradientType=0 ); /* IE6-9 */
 
+    .HeaderMainRow {
+        padding-top: 2%;
+        padding-bottom: 2%;
+    }    
+
     .col-title {
         
+        @media only screen and (max-width: (@screen-xs-min - 1px)){
+            width: 65%;
+        }
         
-        width: 55%;
-        @media only screen and (min-width: @screen-xs-min){
-            width: 33.3333333%;
-        }
-        @media only screen and (min-width: @screen-sm-min){
-            width: 50%;
-        }
         float: left;
+        padding-top: 1%;
+        @media only screen and (min-width: @screen-xs-min){
+            padding-top: 0;
+        }
+        
     }
     
     a.title {
@@ -167,16 +173,6 @@ img {
 
         &:hover{
             text-decoration: none;
-        }
-
-        padding-top: 15px;
-
-        @media only screen and (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
-            padding-top: 10px;
-        }
-
-        @media only screen and (min-width: @screen-sm-min) {
-            padding-top: 0;
         }
     }
 
@@ -195,11 +191,12 @@ img {
         }
         @media only screen and (min-width: @screen-sm-min){
             font-size: 40px;
+            margin-top: -4px;
+            margin-bottom: -3px;
         }
         background: none;
         position: relative;
         padding-left: 0px;
-        padding-top: 3px;
         -webkit-text-shadow: rgba(0,0,0,0.5) 1px 1px 1px;
         text-shadow: rgba(0,0,0,0.5) 1px 1px 1px;
 
@@ -243,12 +240,10 @@ img {
     }
 
     .col-LoginAndHelp {
-        width: 45%;
-        @media only screen and (min-width: @screen-xs-min) {
-            width: 66.6666666%;
-        }
-        @media only screen and (min-width: @screen-sm-min) {
-            width: 50%;
+        @media only screen and (max-width: (@screen-xs-min - 1px)) {
+            width: 35%;
+            padding-left: 0;
+            float: right;
         }
     }
 
@@ -256,8 +251,6 @@ img {
         background-color: #e7ecf6; 
         border-radius: 8px; 
         padding: 6px 10px;
-        margin-top: 8px;
-        margin-bottom: 8px;
         text-align: center;
         min-width: 50%;
         float: right;
@@ -282,6 +275,11 @@ img {
             @media only screen and (max-width:(@screen-xs-min - 1px)) {
                 display: none;
             }
+            &.Help {
+                @media only screen and (max-width:(@screen-xs-max)) {
+                    display: none;
+                }
+            }
         }
 
         .dropdown-menu {
@@ -289,26 +287,32 @@ img {
             text-align: left;
         }
     }
-
-     
-
     i#tabInfoMyKnowledge {margin-right: 1px;}
-    
 }
 
-.MenuButton {
+.MenuButtonXS {//to override bootstrap styles several times
     padding: 3px 7px;
     margin-right: 5px;
     font-size: 18px;
 }
 
+.MenuButtonSM {//to override bootstrap styles several times
+    padding: 5px 9px;
+    font-size: 25px;
+}
+
 #MenuButton {
+    .btn;
+    @media only screen and (min-width: @screen-sm-min) {
+        .btn-lg;
+        .MenuButtonSM;
+    }
     display: inline-block;
     float: left;
-    .MenuButton;
+    margin-left: -14px;
+    .MenuButtonXS;
     color: #e7ecf6;
-    //$temp:
-    margin-top: 18px;
+    
     background-color: transparent;
     background-image: none;
     border-color: transparent;
@@ -318,9 +322,15 @@ img {
 
     &:hover {
         .btn;
+        @media only screen and (min-width: @screen-sm-min) {
+            .btn-lg;
+            .MenuButtonSM;
+        }
         .buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
-        .MenuButton;
+        .MenuButtonXS;
     }
+
+    
 
     @media only screen and (min-width: @screen-md-min) {
         display: none;
