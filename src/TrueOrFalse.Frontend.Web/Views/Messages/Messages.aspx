@@ -11,6 +11,7 @@
 
     <input type="hidden" id="urlMessageSetRead" value="<%= Links.MessageSetRead(Url) %>"/>
     <input type="hidden" id="urlMessageSetUnread" value="<%= Links.MessageSetUnread(Url) %>"/>
+    
 
     <div class="col-md-6">
         
@@ -30,7 +31,7 @@
                 </div>
 
                 <div class="col-xs-5 footer">
-                    <span class="show-tooltip" title="<%: msg.WhenDatetime %>"><%: msg.When %></span>
+                    <span class="show-tooltip" title="<%: msg.WhenDatetime %>">vor <%: msg.When %></span>
                 </div>
                 <div class="col-xs-7  footer">
                     <span class="pull-right" style="<%: msg.IsRead ? "display: none" : "" %>">

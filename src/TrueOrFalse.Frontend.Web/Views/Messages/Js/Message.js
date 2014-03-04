@@ -7,7 +7,8 @@ $(function () {
         var row = $(this);
         var msgId = row.attr("data-messageId");
 
-        row.find("a.markAsRead").click(function () {
+        row.find("a.markAsRead").click(function (e) {
+            e.preventDefault();
             $(this).parent().hide();
             $(this).parent().parent().find(".markAsUnRead").parent().show();
 
@@ -17,7 +18,8 @@ $(function () {
             row.addClass("isRead");
         });
 
-        row.find("a.markAsUnRead").click(function () {
+        row.find("a.markAsUnRead").click(function (e) {
+            e.preventDefault();
             $(this).parent().hide();
             $(this).parent().parent().find(".markAsRead").parent().show();
 

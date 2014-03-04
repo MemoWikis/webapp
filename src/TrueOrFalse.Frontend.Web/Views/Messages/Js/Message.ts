@@ -14,7 +14,8 @@ $(function() {
 
         row
             .find("a.markAsRead")
-            .click(function () {
+            .click(function (e) {
+                e.preventDefault();
                 $(this).parent().hide();
                 $(this).parent().parent().find(".markAsUnRead").parent().show();
 
@@ -26,7 +27,8 @@ $(function() {
 
         row
             .find("a.markAsUnRead")
-            .click(function () {
+            .click(function (e) {
+                e.preventDefault();
                 $(this).parent().hide();
                 $(this).parent().parent().find(".markAsRead").parent().show();
 
