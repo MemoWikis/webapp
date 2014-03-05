@@ -28,10 +28,10 @@
                         <%= msg.Body %>
                     </div>
 
-                    <div class="col-xs-5 footer">
+                    <div class="col-sm-5 footer">
                         <span class="show-tooltip" title="<%: msg.WhenDatetime %>">vor <%: msg.When %></span>
                     </div>
-                    <div class="col-xs-7  footer">
+                    <div class="col-sm-7  footer">
                         <span class="pull-right" style="<%: msg.IsRead ? "display: none" : "" %>">
                             <a href="#" class="SimpleTextLink markAsRead">
                                 <span class="TextSpan">als gelesen makieren</span> 
