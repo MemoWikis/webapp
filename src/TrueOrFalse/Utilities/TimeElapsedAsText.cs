@@ -18,21 +18,22 @@ namespace TrueOrFalse
         {
             var elapsedTime = DateTime.Now - dateTime;
 
-            if (elapsedTime.TotalSeconds <= 1)
-                return "vor Augenblicken";
+            if (elapsedTime.TotalSeconds < 60)
+                return "weniger als einer Minute";
 
-            if (elapsedTime.TotalSeconds <= 60)
-                return (int)elapsedTime.TotalSeconds + " Sekunden";
+            if (elapsedTime.TotalSeconds < 90)
+                return "einer Minute";
 
-            if (elapsedTime.TotalMinutes <= 60)
-                return (int)elapsedTime.TotalMinutes + " Minuten";
+            if (elapsedTime.TotalMinutes < 60)
+                return Math.Round(elapsedTime.TotalMinutes, MidpointRounding.AwayFromZero) + " Minuten";
 
             if (elapsedTime.TotalHours <= 24)
-                if ((int)Math.Round(elapsedTime.TotalHours ,0) == 1)
+                if ((int)Math.Round(elapsedTime.TotalHours, MidpointRounding.AwayFromZero) == 1)
                     return "einer Stunde";
                 else
-                    return (int)elapsedTime.TotalHours + " Stunden";
+                    return ((int)Math.Round(elapsedTime.TotalHours, MidpointRounding.AwayFromZero)) + " Stunden";
 
+            //ToDo: Consider date, not decimal span
             if (elapsedTime.TotalDays < 30)
                 if ((int)Math.Round(elapsedTime.TotalDays, 0) == 1)
                     return "einem Tag";

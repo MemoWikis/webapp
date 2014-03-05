@@ -40,6 +40,6 @@ public class MessageModelRow
         Subject = message.Subject;
         Body = message.Body;
         When = TimeElapsedAsText.Run(message.DateCreated);
-        WhenDatetime = message.DateCreated.ToString("F", new CultureInfo("de-DE"));
+        WhenDatetime = message.DateCreated.ToString("", new CultureInfo("de-DE"));
     }
 }
