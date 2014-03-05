@@ -2,8 +2,32 @@
   background-color: #ffd700;
   color: black;
 }
+/*               *\
+    Breakpoints
+\*               */
+/*              *\
+  General styles
+\*              */
+.link {
+  color: #0e22b6;
+}
+.link:hover {
+  color: #0e22b6;
+}
+#clearfix {
+  display: inline-block;
+  width: 100%;
+  zoom: 1;
+}
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
+}
 .msgRow {
-  border: 1px solid #e8e8e8;
+  border-right: 1px solid #e8e8e8;
+  border-top: none;
   border-left: 4px solid #ffa500;
   margin-bottom: 14px;
 }
@@ -17,6 +41,17 @@
 .msgRow.isRead {
   border-left: 4px solid #ffdb99;
   background-color: #fcfcfc;
+  color: #7693cc;
+}
+.msgRow .msg {
+  border-top: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
+}
+.msgRow .msg:after {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
 }
 .msgRow .header {
   padding-top: 9px;

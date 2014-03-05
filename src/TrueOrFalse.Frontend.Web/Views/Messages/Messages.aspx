@@ -19,31 +19,34 @@
 
         <% foreach(var msg in Model.Rows){ %>
             <div class="row msgRow rowBase <%: msg.IsRead ? "isRead" : "" %>" data-messageId="<%: msg.MessageId %>">
-                <div class="col-xs-12 header">
-                    <h4><%: msg.Subject %></h4>
-                </div>
+                <div class="msg">
+                    <div class="col-xs-12 header">
+                        <h4><%: msg.Subject %></h4>
+                    </div>
 
-                <div class="col-xs-12 body">
-                    <%= msg.Body %>
-                </div>
+                    <div class="col-xs-12 body">
+                        <%= msg.Body %>
+                    </div>
 
-                <div class="col-xs-5 footer">
-                    <span class="show-tooltip" title="<%: msg.WhenDatetime %>">vor <%: msg.When %></span>
-                </div>
-                <div class="col-xs-7  footer">
-                    <span class="pull-right" style="<%: msg.IsRead ? "display: none" : "" %>">
-                        <a href="#" class="markAsRead">
-                            als gelesen makieren
-                        </a>
-                        &nbsp; <i class="fa fa-square-o show-tooltip" style="color:sandybrown;" title="Die Frage ist ungelesen"></i>
-                    </span>
+                    <div class="col-xs-5 footer">
+                        <span class="show-tooltip" title="<%: msg.WhenDatetime %>">vor <%: msg.When %></span>
+                    </div>
+                    <div class="col-xs-7  footer">
+                        <span class="pull-right" style="<%: msg.IsRead ? "display: none" : "" %>">
+                            <a href="#" class="SimpleTextLink markAsRead">
+                                <span class="TextSpan">als gelesen makieren</span> 
+                                &nbsp; <i class="fa fa-square-o show-tooltip" style="color:sandybrown;" title="Die Frage ist ungelesen"></i>
+
+                            </a>
+                        </span>
                     
-                    <span class="pull-right" style="<%: msg.IsRead ? "" : "display: none" %>">
-                        <a href="#" class="markAsUnRead">
-                            als ungelesen makieren 
-                        </a>
-                        &nbsp; <i class="fa fa-check-square-o show-tooltip" style="color:green" title="Die Frage ist gelesen"></i>
-                    </span>
+                        <span class="pull-right" style="<%: msg.IsRead ? "" : "display: none" %>">
+                            <a href="#" class="SimpleTextLink markAsUnRead">
+                                <span class="TextSpan">als ungelesen makieren</span> 
+                                &nbsp; <i class="fa fa-check-square-o show-tooltip" style="color:green" title="Die Frage ist gelesen"></i>
+                            </a>
+                        </span>
+                    </div>
                 </div>
             </div>
 
