@@ -18,6 +18,10 @@ html {
      background-color: @background-grey;
 } /*always show scrollbar*/
 
+body {
+    min-width: 280px;
+}
+
 a { 
     .link;
     @media only screen and (max-width: @screen-xs-max) {
@@ -125,7 +129,6 @@ img {
 #MasterHeader {
     position: relative;
     margin: 0;
-    padding-top: 1px;
     width: 100%;
     max-height: 50px;
     background-color: @dark-blue;
@@ -151,8 +154,13 @@ img {
     
     .HeaderMainRow {
         height: @masterHeaderMainRowHeight-xs;
-        margin-top: 1%;
-        margin-bottom: 1%;
+        margin-top: 3px;
+        margin-bottom: 3px;
+
+        @media only screen and (min-width: @screen-sm-min){
+            margin-top: 1%;
+            margin-bottom: 1%;
+        }
 
         @media only screen and (min-width: @screen-sm-min){
             height: (@masterHeaderMainRowHeight-md);
@@ -167,8 +175,9 @@ img {
 
         @media only screen and (max-width: (@screen-xs-min - 1px)) {
             width: 65%;
+            padding-right: 0;
         }
-
+        width: auto;
         height: 100%;
         float: left;
     }
@@ -177,6 +186,9 @@ img {
         display: inline-block;
         height: 100%;
         vertical-align: middle;
+        position: relative;
+        top: 1px;
+        @media only screen and (min-width: @screen-sm-min){top: 0;}
 
         &:hover {
             text-decoration: none;
@@ -185,12 +197,12 @@ img {
 
     h1 {
         font-weight: 800;
-        margin: 0px;
+        margin: 0;
         border: none;
         background: url('/images/toflogo.png') no-repeat right;
         font-family: 'Emilys Candy', cursive;
         color: @memo-green;
-        font-size: 24px;
+        font-size: 28px;
         display: inline-block;
         height: 100%;
         line-height: @masterHeaderMainRowHeight-xs;
@@ -222,7 +234,7 @@ img {
 
         span#uch {
             color: @light-blue;
-            font-size: 18px;
+            font-size: 20px;
 
             @media only screen and (min-width: @screen-xs-min) {
                 font-size: 24px;
@@ -257,6 +269,10 @@ img {
     }
 
     .col-LoginAndHelp {
+
+        width: auto;
+        float: right;
+
         @media only screen and (max-width: (@screen-xs-min - 1px)) {
             width: 35%;
             padding-left: 0;
@@ -269,10 +285,23 @@ img {
         color: #e7ecf6;
         float: right;
         height: 100%;
+        margin-top: -2px;
+
+        @media only screen and (min-width: @screen-sm-min){
+            margin-top: 0;
+        }
 
         .dropdown {
             height: 100%;
             line-height: @masterHeaderMainRowHeight-xs;
+
+            span {
+                //$ToDo: relative max-width
+                max-width: 117px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            } 
         }
 
         a, span {
@@ -296,9 +325,12 @@ img {
             }
         }
 
-        a.helpLink { 
-            margin-right: 5px;
-            
+        a.helpLink {
+
+            @media only screen and (min-width: @screen-xs-min){
+                margin-right: 5px;
+            }
+
             i {
                 @media only screen and (min-width: @screen-sm-min) {
                 font-size: 16px;
@@ -338,6 +370,9 @@ img {
 }*/
         //$temp end
         .TextSpan, span {
+
+            display: inline-block;
+
             @media only screen and (max-width:(@screen-xs-min - 1px)) {
                 display: none;
             }
@@ -350,7 +385,6 @@ img {
         }
 
         .dropdown-menu {
-            right: -11px;
             text-align: left;
         }
     }
@@ -373,14 +407,17 @@ img {
 
 #MenuButton {
     .btn;
+    display: inline-block;
+    float: left;
+    margin-top: 4px;
     @media only screen and (min-width: @screen-sm-min) {
         .btn-lg;
         .MenuButtonSM;
+        margin-top: 0;
     }
-    display: inline-block;
-    float: left;
-    margin-top: 2px;
-    margin-left: -14px;
+   
+
+    margin-left: -6px;
     .MenuButtonXS;
     color: #e7ecf6;
     
