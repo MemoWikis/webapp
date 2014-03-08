@@ -7,6 +7,12 @@ namespace TrueOrFalse
 {
     public class TimeElapsedAsText
     {
+
+        static public string Run(DateTime dateTime)
+        {
+            return Run(dateTime, DateTime.Now);
+        }
+
         /// <summary>
         /// 34 Sekunden
         /// 3 Minuten
@@ -14,9 +20,10 @@ namespace TrueOrFalse
         /// 22 Tagen
         /// </summary>
         /// <returns></returns>
-        static public string Run(DateTime dateTime)
+        static public string Run(DateTime dateTimeBegin, DateTime dateTimeEnd)
         {
-            var elapsedTime = DateTime.Now - dateTime;
+            var elapsedTime = dateTimeEnd - dateTimeBegin;
+            var calDaysPassed = dateTimeEnd.Date - dateTimeBegin.Date;
 
             if (elapsedTime.TotalSeconds < 60)
                 return "weniger als einer Minute";
@@ -34,11 +41,15 @@ namespace TrueOrFalse
                     return ((int)Math.Round(elapsedTime.TotalHours, MidpointRounding.AwayFromZero)) + " Stunden";
 
             //ToDo: Consider date, not decimal span
+
+            //temp
+
+            
             if (elapsedTime.TotalDays < 30)
-                if ((int)Math.Round(elapsedTime.TotalDays, 0) == 1)
+                if (calDaysPassed.TotalDays <= 1)
                     return "einem Tag";
                 else
-                    return (int) elapsedTime.TotalDays + " Tagen";
+                    return (int) calDaysPassed.TotalDays + " Tagen";
 
             if(elapsedTime.TotalDays < 365)
                 if ((int)Math.Round(elapsedTime.TotalDays / 30, 0) == 1)
