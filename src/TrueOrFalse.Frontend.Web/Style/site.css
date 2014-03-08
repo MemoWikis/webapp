@@ -545,11 +545,12 @@ img {
   /* IE6-9 */
 }
 #MasterHeader {
-  margin: 0px;
-  width: 100%;
-  min-height: 51px;
-  background-color: #2e487b;
   position: relative;
+  margin: 0;
+  padding-top: 1px;
+  width: 100%;
+  max-height: 50px;
+  background-color: #2e487b;
   z-index: 100;
   /* Old browsers */
   background: -moz-linear-gradient(top, #2e487b 0%, #2d5599 100%);
@@ -584,25 +585,30 @@ img {
   /* IE6-9 */
 }
 #MasterHeader .HeaderMainRow {
-  padding-top: 2%;
-  padding-bottom: 2%;
+  height: 34px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+@media only screen and (min-width: 768px) {
+  #MasterHeader .HeaderMainRow {
+    height: 37px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
 }
 #MasterHeader .col-title {
+  height: 100%;
   float: left;
-  padding-top: 1%;
 }
 @media only screen and (max-width: 479px) {
   #MasterHeader .col-title {
     width: 65%;
   }
 }
-@media only screen and (min-width: 480px) {
-  #MasterHeader .col-title {
-    padding-top: 0;
-  }
-}
 #MasterHeader a.title {
   display: inline-block;
+  height: 100%;
+  vertical-align: middle;
 }
 #MasterHeader a.title:hover {
   text-decoration: none;
@@ -611,11 +617,13 @@ img {
   font-weight: 800;
   margin: 0px;
   border: none;
-  font-size: 2.0em;
   background: url('/images/toflogo.png') no-repeat right;
   font-family: 'Emilys Candy', cursive;
   color: #afd534;
   font-size: 24px;
+  display: inline-block;
+  height: 100%;
+  line-height: 34px;
   background: none;
   position: relative;
   padding-left: 0px;
@@ -630,8 +638,7 @@ img {
 @media only screen and (min-width: 768px) {
   #MasterHeader h1 {
     font-size: 40px;
-    margin-top: -4px;
-    margin-bottom: -3px;
+    padding-top: 2px;
   }
 }
 #MasterHeader h1:hover {
@@ -677,6 +684,9 @@ img {
     display: none;
   }
 }
+#MasterHeader .col-LoginAndHelp {
+  height: 34px;
+}
 @media only screen and (max-width: 479px) {
   #MasterHeader .col-LoginAndHelp {
     width: 35%;
@@ -685,36 +695,85 @@ img {
   }
 }
 #MasterHeader #loginAndHelp {
-  background-color: #e7ecf6;
-  border-radius: 8px;
-  padding: 6px 10px;
-  text-align: center;
-  min-width: 50%;
+  color: #e7ecf6;
   float: right;
-  box-shadow: #2e487b 1px 1px 1px 0px inset;
+  height: 100%;
+  /*
+  .userImage img       {
+  height: 28px;
+  width: 28px;
+ 
+  -webkit-transition: all 1s ease;
+     -moz-transition: all 1s ease;
+       -o-transition: all 1s ease;
+      -ms-transition: all 1s ease;
+          transition: all 1s ease;
 }
-#MasterHeader #loginAndHelp a {
-  margin-right: 2px;
+ 
+ .userImage img:hover {
+  width: 27px;
+  height: 27px;
+}*/
+}
+#MasterHeader #loginAndHelp .dropdown {
+  height: 100%;
+  line-height: 34px;
+}
+#MasterHeader #loginAndHelp a,
+#MasterHeader #loginAndHelp span {
+  height: 34px;
+  line-height: 34px;
+}
+#MasterHeader #loginAndHelp span {
+  vertical-align: middle;
+}
+#MasterHeader #loginAndHelp a.SimpleTextLink {
+  color: #e7ecf6;
+}
+#MasterHeader #loginAndHelp a.SimpleTextLink:hover,
+#MasterHeader #loginAndHelp a.SimpleTextLink:active,
+#MasterHeader #loginAndHelp a.SimpleTextLink:focus {
+  color: #afd534;
+}
+#MasterHeader #loginAndHelp a.SimpleTextLink:hover *,
+#MasterHeader #loginAndHelp a.SimpleTextLink:active *,
+#MasterHeader #loginAndHelp a.SimpleTextLink:focus * {
+  text-decoration: none;
+}
+#MasterHeader #loginAndHelp a.SimpleTextLink:hover img,
+#MasterHeader #loginAndHelp a.SimpleTextLink:active img,
+#MasterHeader #loginAndHelp a.SimpleTextLink:focus img {
+  border-color: #afd534;
+}
+#MasterHeader #loginAndHelp a.helpLink {
+  margin-right: 5px;
 }
 @media only screen and (min-width: 768px) {
-  #MasterHeader #loginAndHelp a {
-    margin-right: 10px;
+  #MasterHeader #loginAndHelp a.helpLink i {
+    font-size: 16px;
   }
 }
 #MasterHeader #loginAndHelp img {
-  height: 27px;
-  padding-top: -3px;
-  padding-bottom: -3px;
-  margin-top: -3px;
-  margin-bottom: -3px;
+  height: 30px;
+  width: 30px;
+  border-radius: 2px;
+}
+#MasterHeader #loginAndHelp .userImage {
+  border: 2px solid #e7ecf6;
+  border-radius: 4px;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
 }
 @media only screen and (max-width: 479px) {
-  #MasterHeader #loginAndHelp .TextSpan {
+  #MasterHeader #loginAndHelp .TextSpan,
+  #MasterHeader #loginAndHelp span {
     display: none;
   }
 }
 @media only screen and (max-width: 767px) {
-  #MasterHeader #loginAndHelp .TextSpan.Help {
+  #MasterHeader #loginAndHelp .TextSpan.Help,
+  #MasterHeader #loginAndHelp span.Help {
     display: none;
   }
 }
@@ -772,6 +831,7 @@ img {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
   display: inline-block;
   float: left;
+  margin-top: 2px;
   margin-left: -14px;
   padding: 3px 7px;
   margin-right: 5px;
