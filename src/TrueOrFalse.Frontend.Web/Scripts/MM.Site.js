@@ -74,7 +74,7 @@ var Menu = (function () {
 
         //close on click outside the menu
         $(document).mouseup(function (e) {
-            if ($("#menu-new").has(e.target).length === 0 && $("#MenuButton").has(e.target).length === 0) {
+            if ($("#mainMenu").has(e.target).length === 0 && $("#MenuButton").has(e.target).length === 0) {
                 _this.closeMenu();
             }
         });
@@ -89,7 +89,7 @@ var Menu = (function () {
     Menu.prototype.openMenu = function () {
         var _this = this;
         this._animationInProgress = true;
-        $("#menu-new").animate({ 'left': '0' }, 1000, "swing", function () {
+        $("#mainMenu").animate({ 'left': '0' }, 1000, "swing", function () {
             _this._animationInProgress = false;
         });
         this._isOpen = true;
@@ -98,7 +98,7 @@ var Menu = (function () {
     Menu.prototype.closeMenu = function () {
         var _this = this;
         this._animationInProgress = true;
-        $("#menu-new").animate({ 'left': '-100%' }, 1000, "swing", function () {
+        $("#mainMenu").animate({ 'left': '-100%' }, 1000, "swing", function () {
             _this._animationInProgress = false;
         });
         this._isOpen = false;

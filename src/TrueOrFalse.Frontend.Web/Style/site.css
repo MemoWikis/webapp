@@ -640,7 +640,7 @@ img {
   margin: 0;
   border: none;
   background: url('/images/toflogo.png') no-repeat right;
-  font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua,' cursive;
+  font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
   color: #afd534;
   font-size: 28px;
   display: inline-block;
@@ -723,11 +723,11 @@ img {
   color: #e7ecf6;
   float: right;
   height: 100%;
-  margin-top: -2px;
+  margin-top: -1px;
 }
 @media only screen and (min-width: 768px) {
   #loginAndHelp {
-    margin-top: 0;
+    margin-top: 1px;
   }
 }
 #loginAndHelp .dropdown {

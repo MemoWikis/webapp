@@ -79,7 +79,7 @@ class Menu {
 
         //close on click outside the menu
         $(document).mouseup((e) => {
-            if ($("#menu-new").has(e.target).length === 0 &&
+            if ($("#mainMenu").has(e.target).length === 0 &&
                 $("#MenuButton").has(e.target).length === 0) {
                 this.closeMenu();
             }
@@ -96,7 +96,7 @@ class Menu {
 
     openMenu() {
         this._animationInProgress = true;
-        $("#menu-new").animate({ 'left': '0' }, 1000, "swing", () => {
+        $("#mainMenu").animate({ 'left': '0' }, 1000, "swing", () => {
             this._animationInProgress = false;
         });
         this._isOpen = true;
@@ -104,7 +104,7 @@ class Menu {
 
     closeMenu() {
         this._animationInProgress = true;
-        $("#menu-new").animate({ 'left': '-100%' }, 1000, "swing",() => {
+        $("#mainMenu").animate({ 'left': '-100%' }, 1000, "swing",() => {
                 this._animationInProgress = false;
             });
         this._isOpen = false;
