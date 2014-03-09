@@ -554,21 +554,6 @@ img {
   max-height: 50px;
   background-color: #2e487b;
   z-index: 100;
-  /* Old browsers */
-  background: -moz-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2e487b), color-stop(100%, #2d5599));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-  /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-  /* IE10+ */
-  background: linear-gradient(to bottom, #2e487b 0%, #2d5599 100%);
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2d5599', GradientType=0);
-  /* IE6-9 */
   background: #2e487b;
   /* Old browsers */
   background: -moz-linear-gradient(top, #2e487b 0%, #2c5fb2 100%);
@@ -585,6 +570,26 @@ img {
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2c5fb2', GradientType=0);
   /* IE6-9 */
+}
+@media disabled {
+  #MasterHeader {
+    background: #2e487b;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, #2e487b 0%, #2d5599 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2e487b), color-stop(100%, #2d5599));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #2e487b 0%, #2d5599 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #2e487b 0%, #2d5599 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #2e487b 0%, #2d5599 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, #2e487b 0%, #2d5599 100%);
+    /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2d5599', GradientType=0);
+    /* IE6-9 */
+  }
 }
 #MasterHeader .HeaderMainRow {
   height: 34px;
@@ -635,7 +640,7 @@ img {
   margin: 0;
   border: none;
   background: url('/images/toflogo.png') no-repeat right;
-  font-family: 'Emilys Candy', cursive;
+  font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua,' cursive;
   color: #afd534;
   font-size: 28px;
   display: inline-block;
@@ -695,10 +700,11 @@ img {
   border: solid 2px #2e487b;
   z-index: 101;
   box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
+  display: none;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (min-width: 992px) {
   #MasterHeader span#logo {
-    display: none;
+    display: block;
   }
 }
 #MasterHeader .col-LoginAndHelp {
@@ -713,111 +719,123 @@ img {
     float: right;
   }
 }
-#MasterHeader #loginAndHelp {
+#loginAndHelp {
   color: #e7ecf6;
   float: right;
   height: 100%;
   margin-top: -2px;
-  /*
-  .userImage img       {
-  height: 28px;
-  width: 28px;
- 
-  -webkit-transition: all 1s ease;
-     -moz-transition: all 1s ease;
-       -o-transition: all 1s ease;
-      -ms-transition: all 1s ease;
-          transition: all 1s ease;
-}
- 
- .userImage img:hover {
-  width: 27px;
-  height: 27px;
-}*/
 }
 @media only screen and (min-width: 768px) {
-  #MasterHeader #loginAndHelp {
+  #loginAndHelp {
     margin-top: 0;
   }
 }
-#MasterHeader #loginAndHelp .dropdown {
+#loginAndHelp .dropdown {
   height: 100%;
   line-height: 34px;
 }
-#MasterHeader #loginAndHelp .dropdown span {
-  max-width: 117px;
+#loginAndHelp .dropdown .userName {
+  max-width: 115px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#MasterHeader #loginAndHelp a,
-#MasterHeader #loginAndHelp span {
+@media screen and (min-width: 500px) {
+  #loginAndHelp .dropdown .userName {
+    max-width: 135px;
+  }
+}
+@media screen and (min-width: 520px) {
+  #loginAndHelp .dropdown .userName {
+    max-width: 155px;
+  }
+}
+@media screen and (min-width: 540px) {
+  #loginAndHelp .dropdown .userName {
+    max-width: 175px;
+  }
+}
+@media screen and (min-width: 560px) {
+  #loginAndHelp .dropdown .userName {
+    max-width: 195px;
+  }
+}
+@media screen and (min-width: 992px) {
+  #loginAndHelp .dropdown .userName {
+    max-width: 400px;
+  }
+}
+#loginAndHelp a,
+#loginAndHelp span {
   height: 34px;
   line-height: 34px;
 }
-#MasterHeader #loginAndHelp span {
+#loginAndHelp span {
   vertical-align: middle;
 }
-#MasterHeader #loginAndHelp a.SimpleTextLink {
+#loginAndHelp a.SimpleTextLink {
   color: #e7ecf6;
 }
-#MasterHeader #loginAndHelp a.SimpleTextLink:hover,
-#MasterHeader #loginAndHelp a.SimpleTextLink:active,
-#MasterHeader #loginAndHelp a.SimpleTextLink:focus {
+#loginAndHelp a.SimpleTextLink:hover,
+#loginAndHelp a.SimpleTextLink:active,
+#loginAndHelp a.SimpleTextLink:focus {
   color: #afd534;
 }
-#MasterHeader #loginAndHelp a.SimpleTextLink:hover *,
-#MasterHeader #loginAndHelp a.SimpleTextLink:active *,
-#MasterHeader #loginAndHelp a.SimpleTextLink:focus * {
+#loginAndHelp a.SimpleTextLink:hover *,
+#loginAndHelp a.SimpleTextLink:active *,
+#loginAndHelp a.SimpleTextLink:focus * {
   text-decoration: none;
 }
-#MasterHeader #loginAndHelp a.SimpleTextLink:hover img,
-#MasterHeader #loginAndHelp a.SimpleTextLink:active img,
-#MasterHeader #loginAndHelp a.SimpleTextLink:focus img {
-  border-color: #afd534;
-}
 @media only screen and (min-width: 480px) {
-  #MasterHeader #loginAndHelp a.helpLink {
+  #loginAndHelp a.helpLink {
     margin-right: 5px;
   }
 }
 @media only screen and (min-width: 768px) {
-  #MasterHeader #loginAndHelp a.helpLink i {
+  #loginAndHelp a.helpLink {
+    margin-right: 10px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  #loginAndHelp a.helpLink i {
     font-size: 16px;
   }
 }
-#MasterHeader #loginAndHelp img {
+#loginAndHelp .userImage {
   height: 30px;
   width: 30px;
   border-radius: 2px;
-}
-#MasterHeader #loginAndHelp .userImage {
-  border: 2px solid #e7ecf6;
+  margin-left: 1px;
+  border: 1px solid #2e487b;
   border-radius: 4px;
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
 }
-#MasterHeader #loginAndHelp .TextSpan,
-#MasterHeader #loginAndHelp span {
+#loginAndHelp a:hover .userImage,
+#loginAndHelp a:active .userImage,
+#loginAndHelp a:focus .userImage {
+  height: 31px;
+  width: 31px;
+  margin-left: 0;
+}
+#loginAndHelp .TextSpan,
+#loginAndHelp span {
   display: inline-block;
 }
 @media only screen and (max-width: 479px) {
-  #MasterHeader #loginAndHelp .TextSpan,
-  #MasterHeader #loginAndHelp span {
+  #loginAndHelp .TextSpan,
+  #loginAndHelp span {
     display: none;
   }
 }
 @media only screen and (max-width: 767px) {
-  #MasterHeader #loginAndHelp .TextSpan.Help,
-  #MasterHeader #loginAndHelp span.Help {
+  #loginAndHelp .TextSpan.Help,
+  #loginAndHelp span.Help {
     display: none;
   }
 }
-#MasterHeader #loginAndHelp .dropdown-menu {
+#loginAndHelp .dropdown-menu {
   text-align: left;
 }
-#MasterHeader i#tabInfoMyKnowledge {
+#loginAndHelp i#tabInfoMyKnowledge {
   margin-right: 1px;
 }
 .MenuButtonXS {
@@ -868,7 +886,7 @@ img {
   display: inline-block;
   float: left;
   margin-top: 4px;
-  margin-left: -6px;
+  margin-left: -7px;
   padding: 3px 7px;
   margin-right: 5px;
   font-size: 18px;
@@ -1132,7 +1150,7 @@ input.input-validation-error {
 }
 .validation-summary-errors {
   font-weight: bold;
-  color: #ff0000;
+  color: #f00;
 }
 .validation-summary-valid {
   display: none;

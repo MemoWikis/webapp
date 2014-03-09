@@ -17,7 +17,7 @@
         <div class="dropdown" style="display: inline-block;">
             <span>Hallo</span>
             <a class="SimpleTextLink dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-                <span class="TextSpan"><b><%= userSession.User.Name%></b>!</span>
+                <span class="userName TextSpan"><b><%= userSession.User.Name%></b></span>
                 <b class="caret"></b>
                 <img class="userImage" src="<%= imageSetttings.GetUrl_30px_square(userSession.User.EmailAddress).Url %>" /> 
             </a>
