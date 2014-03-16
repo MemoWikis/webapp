@@ -54,7 +54,7 @@ class ToQuestionSetModal {
         var id = parseInt(questionSetRow.attr("data-questionSetId"));
 
         var questionSet = _.filter(this.Sets,
-            function (pSet) { return pSet.Id == id; });
+            function (pSet : QuestionSet) { return pSet.Id == id; });
 
         var result = SendQuestionsToAdd.Run(id);
 
