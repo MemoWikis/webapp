@@ -11,7 +11,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div class="col-md-6">
+    <div class="col-md-7">
         
         <h2 class="pull-left" style="margin-bottom: 5px; margin-top: 0px;  font-size: 30px;">
             <%= Model.Name %>
@@ -75,7 +75,7 @@
         </div>     
     </div>
 
-    <div class="col-md-3" >
+    <div class="col-md-2" >
         <img style="width:100%;" src="<%=Model.ImageUrl_250 %>" />
         <% if (Model.IsCurrentUser){ %>  
             <script type="text/javascript">
