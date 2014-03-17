@@ -339,6 +339,9 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
+    <Content Include="Style\0_temp.css">
+      <DependentUpon>0_temp.less</DependentUpon>
+    </Content>
     <Content Include="Style\bootstrap\bootstrap.css">
       <DependentUpon>bootstrap.less</DependentUpon>
     </Content>
@@ -379,9 +382,6 @@
     <Content Include="Style\includes\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
-    <Content Include="Style\temp.css">
-      <DependentUpon>temp.less</DependentUpon>
-    </Content>
     <Content Include="Style\components.css">
       <DependentUpon>components.less</DependentUpon>
     </Content>
@@ -393,6 +393,9 @@
       <DependentUpon>shared.less</DependentUpon>
     </Content>
     <Content Include="Style\includes\shared.less" />
+    <Content Include="Style\temp.css">
+      <DependentUpon>temp.less</DependentUpon>
+    </Content>
     <Content Include="Style\utils.css">
       <DependentUpon>utils.less</DependentUpon>
     </Content>
@@ -424,9 +427,6 @@
     </Content>
     <Content Include="Style\site.css.map">
       <DependentUpon>site.css</DependentUpon>
-    </Content>
-    <Content Include="Style\temp.css.map">
-      <DependentUpon>temp.css</DependentUpon>
     </Content>
     <Content Include="Style\grid.css.map">
       <DependentUpon>grid.css</DependentUpon>
@@ -532,6 +532,12 @@
     </Content>
     <Content Include="Style\includes\variables.css.map">
       <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="Style\temp.css.map">
+      <DependentUpon>temp.css</DependentUpon>
+    </Content>
+    <Content Include="Style\0_temp.css.map">
+      <DependentUpon>0_temp.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -1029,6 +1035,7 @@
     <Content Include="Views\Messages\Message.css.map">
       <DependentUpon>Message.css</DependentUpon>
     </Content>
+    <Content Include="Style\0_temp.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
