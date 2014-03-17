@@ -1,4 +1,6 @@
-﻿//Include overrides for bootstrap variables here
+﻿@import '../includes/colors.less';
+
+//Include overrides for bootstrap variables here
 
 /*               *\
     Breakpoints
@@ -8,3 +10,10 @@
 @screen-sm-min: 768px; //currently bootstrap custom value
 @screen-md-min: 992px; //currently bootstrap custom value
 @screen-lg-min: 1200px; //currently bootstrap custom value
+
+/*          *\
+    Styles
+\*          */
+
+@link-color: @link-blue;
+@link-hover-color: darken(@link-blue, 15%);
