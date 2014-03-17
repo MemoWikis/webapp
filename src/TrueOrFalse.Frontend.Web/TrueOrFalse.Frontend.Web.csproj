@@ -339,8 +339,11 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
-    <Content Include="Style\0_temp.css">
-      <DependentUpon>0_temp.less</DependentUpon>
+    <Content Include="Style\00_usingBootstrap.css">
+      <DependentUpon>00_usingBootstrap.less</DependentUpon>
+    </Content>
+    <Content Include="Style\01_temp.css">
+      <DependentUpon>01_temp.less</DependentUpon>
     </Content>
     <Content Include="Style\bootstrap\bootstrap.css">
       <DependentUpon>bootstrap.less</DependentUpon>
@@ -533,11 +536,13 @@
     <Content Include="Style\includes\variables.css.map">
       <DependentUpon>variables.css</DependentUpon>
     </Content>
+    <Content Include="Style\temp.less" />
     <Content Include="Style\temp.css.map">
       <DependentUpon>temp.css</DependentUpon>
     </Content>
-    <Content Include="Style\0_temp.css.map">
-      <DependentUpon>0_temp.css</DependentUpon>
+    <Content Include="Style\00_usingBootstrap.less" />
+    <Content Include="Style\01_temp.css.map">
+      <DependentUpon>01_temp.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -932,7 +937,6 @@
     <Content Include="Style\components.less" />
     <Content Include="Style\menu.less" />
     <None Include="Style\site-debug.less" />
-    <Content Include="Style\temp.less" />
     <Content Include="Style\z_variables_2.3.2.less" />
     <Content Include="Views\Questions\Questions.less" />
     <Content Include="Views\Sets\Sets.less" />
@@ -1035,7 +1039,7 @@
     <Content Include="Views\Messages\Message.css.map">
       <DependentUpon>Message.css</DependentUpon>
     </Content>
-    <Content Include="Style\0_temp.less" />
+    <Content Include="Style\01_temp.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
