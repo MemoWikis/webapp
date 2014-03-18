@@ -10,8 +10,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
             
-    <div class="col-md-6  category category" style="margin-bottom: 30px;">
-        <h2><%= Model.Name %></h2>
+    <div class="col-md-6 category" style="margin-bottom: 10px;">
+        <h2 style="margin-top: 0px;"><%= Model.Name %></h2>
     </div>
     <div class="col-md-3">
         <div class="pull-right">
@@ -24,15 +24,15 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-7">
         <%= Model.Description %>
     </div>
        
-    <div class="col-md-6">                    
+    <div class="col-md-7">                    
         <h4 style="margin-top: 0px;">Fragen (<%=Model.CountQuestions %>)</h4>                    
         <% foreach(var question in Model.TopQuestions){ %>
-            <div>
-                - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(80) %></a>
+            <div style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(150) %></a>
             </div>
         <% } %>
         <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="btn btn-info btn-sm" style="margin-top: 10px; margin-bottom: 10px;">
@@ -49,7 +49,7 @@
         <h4>Ersteller (<%=Model.CountCreators %>)</h4>
     </div>         
     
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div>
             <img src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
         </div>

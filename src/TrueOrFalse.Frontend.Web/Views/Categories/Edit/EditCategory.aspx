@@ -11,7 +11,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div class="col-md-6 pageHeader">
+    <div class="col-md-7 pageHeader">
         <h2><% if (Model.IsEditing) { %>
                 Kategorie bearbeiten
             <% } else { %>
@@ -19,7 +19,7 @@
             <% } %>
         </h2>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="pull-right">
             <% if(Model.IsEditing){ %>
                 <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0px;">
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-7">
         <div class="form-horizontal">
             <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
                     FormMethod.Post, new { enctype = "multipart/form-data" })){%>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">In Beziehung zu:</label>
+                    <label class="col-sm-3 control-label">Übergeordnete Kategorie:</label>
 
                     <div id="relatedCategories" class="col-sm-9">
                         <script type="text/javascript">
@@ -88,7 +88,7 @@
             </div>
     </div>
     
-    <div class="col-md-3">
+    <div class="col-md-2">
         <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
         <div style="margin-top: 10px;">
             <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
