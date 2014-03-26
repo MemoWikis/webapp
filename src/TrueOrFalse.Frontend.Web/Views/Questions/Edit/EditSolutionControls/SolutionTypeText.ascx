@@ -3,7 +3,7 @@
 <%= Html.HiddenFor(m => m.MetadataSolutionJson) %>
 
 <div class="form-group" id="infoMetaDate">
-    <div class="col-sm-offset-2 col-sm-10" >
+    <div class="col-xs-offset-2 col-xs-10 xxs-stack" >
 
         <span class="show-tooltip tooltip-text-left tooltip-date" data-placement="top" 
             title="<div style='margin-bottom: 3px;'>Je genauer desto besser!</div>
@@ -30,21 +30,21 @@
 </div>
 
 <div class="form-group" id="infoMetaText">
-    <div class="col-sm-offset-2 col-sm-10" >
+    <div class="col-xs-offset-2 col-xs-10 xxs-stack">
         Exakte Texteingabe
     </div>
 </div>
 
 <div class="form-group" id="infoMetaNumber">
-    <div class="col-sm-offset-2 col-sm-10" >
+    <div class="col-xs-offset-2 col-xs-10 xxs-stack">
         Exakte Zahl
     </div>
 </div>
 
 <div class="form-group">
     
-    <%= Html.LabelFor(m => m.Text, new { @class = "col-sm-2 control-label" })%>
-    <div class="col-sm-10">
+    <%= Html.LabelFor(m => m.Text, new { @class = "col-xs-2 xxs-stack control-label" })%>
+    <div class="col-xs-10 xxs-stack">
         <%= Html.TextBoxFor(m => m.Text, new { @class="form-control", @id = "Answer", @style = "width:310px; float: left;", placeholder = "Antwort eingeben." })%>
         
         <a href="#" class="btn btn-default" style="padding: 3px 4px; display: none"><img src="/Images/textfield-16.png" alt="Text"/></a>

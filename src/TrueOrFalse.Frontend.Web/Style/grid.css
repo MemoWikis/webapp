@@ -1,10 +1,4 @@
-﻿/*               *\
-    Breakpoints
-\*               */
-/*          *\
-    Styles
-\*          */
-#set-scheme {
+﻿#set-scheme {
   background-color: #ffd700;
   color: black;
 }
@@ -28,58 +22,107 @@
   clear: both;
   visibility: visible;
 }
-.row .row {
+.row .row,
+.row .form-horizontal .form-group {
   margin-right: -10px;
   margin-left: -10px;
 }
 .row .row .col-xs-1,
+.row .form-horizontal .form-group .col-xs-1,
 .row .row .col-sm-1,
+.row .form-horizontal .form-group .col-sm-1,
 .row .row .col-md-1,
+.row .form-horizontal .form-group .col-md-1,
 .row .row .col-lg-1,
+.row .form-horizontal .form-group .col-lg-1,
 .row .row .col-xs-2,
+.row .form-horizontal .form-group .col-xs-2,
 .row .row .col-sm-2,
+.row .form-horizontal .form-group .col-sm-2,
 .row .row .col-md-2,
+.row .form-horizontal .form-group .col-md-2,
 .row .row .col-lg-2,
+.row .form-horizontal .form-group .col-lg-2,
 .row .row .col-xs-3,
+.row .form-horizontal .form-group .col-xs-3,
 .row .row .col-sm-3,
+.row .form-horizontal .form-group .col-sm-3,
 .row .row .col-md-3,
+.row .form-horizontal .form-group .col-md-3,
 .row .row .col-lg-3,
+.row .form-horizontal .form-group .col-lg-3,
 .row .row .col-xs-4,
+.row .form-horizontal .form-group .col-xs-4,
 .row .row .col-sm-4,
+.row .form-horizontal .form-group .col-sm-4,
 .row .row .col-md-4,
+.row .form-horizontal .form-group .col-md-4,
 .row .row .col-lg-4,
+.row .form-horizontal .form-group .col-lg-4,
 .row .row .col-xs-5,
+.row .form-horizontal .form-group .col-xs-5,
 .row .row .col-sm-5,
+.row .form-horizontal .form-group .col-sm-5,
 .row .row .col-md-5,
+.row .form-horizontal .form-group .col-md-5,
 .row .row .col-lg-5,
+.row .form-horizontal .form-group .col-lg-5,
 .row .row .col-xs-6,
+.row .form-horizontal .form-group .col-xs-6,
 .row .row .col-sm-6,
+.row .form-horizontal .form-group .col-sm-6,
 .row .row .col-md-6,
+.row .form-horizontal .form-group .col-md-6,
 .row .row .col-lg-6,
+.row .form-horizontal .form-group .col-lg-6,
 .row .row .col-xs-7,
+.row .form-horizontal .form-group .col-xs-7,
 .row .row .col-sm-7,
+.row .form-horizontal .form-group .col-sm-7,
 .row .row .col-md-7,
+.row .form-horizontal .form-group .col-md-7,
 .row .row .col-lg-7,
+.row .form-horizontal .form-group .col-lg-7,
 .row .row .col-xs-8,
+.row .form-horizontal .form-group .col-xs-8,
 .row .row .col-sm-8,
+.row .form-horizontal .form-group .col-sm-8,
 .row .row .col-md-8,
+.row .form-horizontal .form-group .col-md-8,
 .row .row .col-lg-8,
+.row .form-horizontal .form-group .col-lg-8,
 .row .row .col-xs-9,
+.row .form-horizontal .form-group .col-xs-9,
 .row .row .col-sm-9,
+.row .form-horizontal .form-group .col-sm-9,
 .row .row .col-md-9,
+.row .form-horizontal .form-group .col-md-9,
 .row .row .col-lg-9,
+.row .form-horizontal .form-group .col-lg-9,
 .row .row .col-xs-10,
+.row .form-horizontal .form-group .col-xs-10,
 .row .row .col-sm-10,
+.row .form-horizontal .form-group .col-sm-10,
 .row .row .col-md-10,
+.row .form-horizontal .form-group .col-md-10,
 .row .row .col-lg-10,
+.row .form-horizontal .form-group .col-lg-10,
 .row .row .col-xs-11,
+.row .form-horizontal .form-group .col-xs-11,
 .row .row .col-sm-11,
+.row .form-horizontal .form-group .col-sm-11,
 .row .row .col-md-11,
+.row .form-horizontal .form-group .col-md-11,
 .row .row .col-lg-11,
+.row .form-horizontal .form-group .col-lg-11,
 .row .row .col-xs-12,
+.row .form-horizontal .form-group .col-xs-12,
 .row .row .col-sm-12,
+.row .form-horizontal .form-group .col-sm-12,
 .row .row .col-md-12,
-.row .row .col-lg-12 {
+.row .form-horizontal .form-group .col-md-12,
+.row .row .col-lg-12,
+.row .form-horizontal .form-group .col-lg-12 {
   padding-left: 10px;
   padding-right: 10px;
 }

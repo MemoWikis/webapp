@@ -1,4 +1,7 @@
-﻿.contextMenu {
+﻿@import (reference) '../../../Style/bootstrap/variables_custom.less';
+@import (reference) '../../../Style/bootstrap/bootstrap.less';
+
+.contextMenu {
     margin-top: -1px; padding: 10px; border-color: #ccc; margin-bottom: 0;
     border-top-left-radius: 0; 
     background: #ffffff;
@@ -19,3 +22,14 @@
     border-bottom: 5px solid white; 
     border-right: 5px solid white;
 }
+
+.labelVisibility {
+    @media only screen and (min-width: @screen-md-min) {
+        float: none;
+        width: 100%;
+        text-align: left !important;
+        padding-top: 0 !important;
+    }
+}
+
+

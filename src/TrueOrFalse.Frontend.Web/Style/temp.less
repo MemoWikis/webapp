@@ -4,10 +4,21 @@
 
 .test {color: lighten(#eee, 5)}
 
-@import 'includes/colors.less';
-@import 'includes/shared.less';
-@import 'includes/variables.less';
+/*
+.labelLeft {
+    .make-xs-column(2; @gutter: @grid-gutter-width);
+}
 
+.test {.make-sm-column(2; @gutter: @grid-gutter-width);
+}
+*/
+
+
+
+@import (reference) 'includes/colors.less';
+@import (reference) 'includes/shared.less';
+@import (reference) 'includes/variables.less';
+@import (reference) 'bootstrap/bootstrap.less';
 
 
 /*
@@ -29,6 +40,13 @@
         
 
     */
+@media only screen and (max-width: (@screen-xs-min - 1px))  {
+    .xxs-stack {
+        float: none;
+        width: 100%;
+        margin-left: 0;
+    }
+}
 
 
 

@@ -4,36 +4,84 @@
 .test {
   color: #fbfbfb;
 }
-#set-scheme {
-  background-color: #ffd700;
-  color: black;
+/*
+.labelLeft {
+    .make-xs-column(2; @gutter: @grid-gutter-width);
 }
-/*              *\
-  General styles
-\*              */
-.link {
-  color: #0e22b6;
+
+.test {.make-sm-column(2; @gutter: @grid-gutter-width);
 }
-.link:hover {
-  color: #0e22b6;
-}
-#clearfix {
-  display: inline-block;
-  width: 100%;
-  zoom: 1;
-}
-#Clear {
-  content: "";
+*/
+.thumbnail > img,
+.thumbnail a > img,
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
   display: block;
-  clear: both;
-  visibility: visible;
+  max-width: 100%;
+  height: auto;
 }
-/*               *\
-    Breakpoints
-\*               */
-/*          *\
-    Styles
-\*          */
+.btn-group-lg > .btn {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+}
+.btn-group-sm > .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn-group-xs > .btn {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.btn-toolbar:before,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:before,
+.btn-group-vertical > .btn-group:after,
+.nav:before,
+.nav:after,
+.navbar:before,
+.navbar:after,
+.navbar-header:before,
+.navbar-header:after,
+.navbar-collapse:before,
+.navbar-collapse:after,
+.pager:before,
+.pager:after,
+.panel-body:before,
+.panel-body:after,
+.modal-footer:before,
+.modal-footer:after {
+  content: " ";
+  display: table;
+}
+.container:after,
+.container-fluid:after,
+.row:after,
+.form-horizontal .form-group:after,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:after,
+.nav:after,
+.navbar:after,
+.navbar-header:after,
+.navbar-collapse:after,
+.pager:after,
+.panel-body:after,
+.modal-footer:after {
+  clear: both;
+}
 /*
     Next:
         MasterHeader: integrate mobile button
@@ -53,6 +101,13 @@
         
 
     */
+@media only screen and (max-width: 479px) {
+  .xxs-stack {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
 .GradientBunt {
   /* Old browsers */
   background: -moz-linear-gradient(left, #2e487b 1%, #2e487b 10%, #afd534 10%, #afd534 20%, #ffd700 20%, #ffd700 30%, #b13a48 30%, #b13a48 40%, #99ccff 40%, #99ccff 50%, #3e7700 50%, #3e7700 60%, #000007 60%, #000007 70%, #afd534 70%, #afd534 80%, #ffd700 80%, #ffd700 90%, #b13a48 90%, #b13a48 100%);

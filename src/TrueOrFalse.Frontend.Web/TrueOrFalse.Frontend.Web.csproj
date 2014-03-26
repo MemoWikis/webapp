@@ -339,9 +339,6 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
-    <Content Include="Style\00_usingBootstrap.css">
-      <DependentUpon>00_usingBootstrap.less</DependentUpon>
-    </Content>
     <Content Include="Style\01_temp.css">
       <DependentUpon>01_temp.less</DependentUpon>
     </Content>
@@ -376,6 +373,9 @@
       <DependentUpon>variables.less</DependentUpon>
     </Content>
     <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Style\bootstrap\memucho_overrides.css">
+      <DependentUpon>memucho_overrides.less</DependentUpon>
+    </Content>
     <Content Include="Style\bootstrap\variables_custom.css">
       <DependentUpon>variables_custom.less</DependentUpon>
     </Content>
@@ -540,12 +540,12 @@
     <Content Include="Style\temp.css.map">
       <DependentUpon>temp.css</DependentUpon>
     </Content>
-    <Content Include="Style\00_usingBootstrap.less" />
     <Content Include="Style\01_temp.css.map">
       <DependentUpon>01_temp.css</DependentUpon>
     </Content>
-    <Content Include="Style\00_usingBootstrap.css.map">
-      <DependentUpon>00_usingBootstrap.css</DependentUpon>
+    <Content Include="Style\bootstrap\memucho_overrides.less" />
+    <Content Include="Style\bootstrap\memucho_overrides.css.map">
+      <DependentUpon>memucho_overrides.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />

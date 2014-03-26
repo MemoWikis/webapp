@@ -1,1 +1,1 @@
-﻿{"version":3,"file":"variables.css","sources":["colors.less"],"names":[],"mappings":"AAiEA;EACI,yBAAA;EACA,YAAA"}
+﻿{"version":3,"file":"variables.css","sources":["../bootstrap/variables_custom.less"],"names":[],"mappings":"AAoBA;EACI,cAAA"}

@@ -22,12 +22,6 @@
   clear: both;
   visibility: visible;
 }
-/*               *\
-    Breakpoints
-\*               */
-/*          *\
-    Styles
-\*          */
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -5801,6 +5795,14 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+.form-horizontal .control-label,
+.form-horizontal .radio,
+.form-horizontal .checkbox,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+  margin-top: 0;
+  margin-bottom: 5px;
 }
 #mainMenu {
   /*$ToDo: enable with js functions*/
