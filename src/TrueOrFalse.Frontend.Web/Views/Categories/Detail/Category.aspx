@@ -28,25 +28,50 @@
         <%= Model.Description %>
     </div>
        
-    <div class="col-md-7">                    
-        <h4 style="margin-top: 0px;">Fragen (<%=Model.CountQuestions %>)</h4>                    
-        <% foreach(var question in Model.TopQuestions){ %>
-            <div style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(150) %></a>
+    <div class="col-md-7">
+        
+        <% if(Model.CategoriesChildren.Count > 0){ %>
+            <h4 style="margin-top: 0px;"><i class="fa fa-arrow-up"></i> Elternkategorien</h4>
+            <div style="margin-bottom: 12px;">
+                <% foreach(var category in Model.CategoriesParent){ %>
+                    <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>
+                <% } %>
             </div>
         <% } %>
-        <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="btn btn-info btn-sm" style="margin-top: 10px; margin-bottom: 10px;">
-            Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen
-        </a>
-                
-        <h4>Fragesätze (<%=Model.CountSets %>)</h4>
-        <% foreach(var set in Model.TopSets){ %>
-            <div>
-                - <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
+        
+        <% if(Model.CategoriesChildren.Count > 0){ %>
+            <h4 style="margin-top: 0px;"><i class="fa fa-arrow-down"></i> Kindkategorien</h4>
+            <div style="margin-bottom: 12px;">
+                <% foreach(var category in Model.CategoriesChildren){ %>
+                    <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>
+                <% } %>
             </div>
         <% } %>
 
-        <h4>Ersteller (<%=Model.CountCreators %>)</h4>
+        <% if(Model.CountQuestions > 0){ %>
+            <h4 style="margin-top: 0px;">Fragen (<%=Model.CountQuestions %>)</h4>                    
+            <% foreach(var question in Model.TopQuestions){ %>
+                <div style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                    - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(150) %></a>
+                </div>
+            <% } %>
+            <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="btn btn-info btn-sm" style="margin-top: 10px; margin-bottom: 10px;">
+                Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen
+            </a>
+        <% } %>
+            
+        <% if(Model.CountSets > 0){ %>    
+            <h4>Fragesätze (<%=Model.CountSets %>)</h4>
+            <% foreach(var set in Model.TopSets){ %>
+                <div>
+                    - <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
+                </div>
+            <% } %>
+        <% } %>
+        
+        <% if (Model.CountCreators > 0){ %>
+            <h4>Ersteller (<%=Model.CountCreators %>)</h4>
+        <% } %>
     </div>         
     
     <div class="col-md-2">

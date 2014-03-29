@@ -18,7 +18,7 @@ namespace TrueOrFalse
 
         public override void Create(Category category)
         {
-            foreach (var related in category.RelatedCategories.Where(x => x.DateCreated == default(DateTime)))
+            foreach (var related in category.ParentCategories.Where(x => x.DateCreated == default(DateTime)))
                 related.DateModified = related.DateCreated = DateTime.Now;
             base.Create(category);
             Flush();
@@ -53,6 +53,15 @@ namespace TrueOrFalse
         public bool Exists(string categoryName)
         {
             return GetByName(categoryName) != null;
+        }
+
+        public IList<Category> GetChildren(int categoryId)
+        {
+            var categoryIds = _session.CreateSQLQuery(@"SELECT Category_id
+                FROM relatedcategoriestorelatedcategories
+                WHERE  Related_id = " + categoryId).List<int>();
+
+            return GetByIds(categoryIds.ToArray());
         }
     }
 }

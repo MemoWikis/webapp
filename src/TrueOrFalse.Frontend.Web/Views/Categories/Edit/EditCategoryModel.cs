@@ -39,24 +39,24 @@ public class EditCategoryModel : BaseModel
     {
         Category = category;
         Name = category.Name;
-        RelatedCategories = (from cat in category.RelatedCategories select cat.Name).ToList();
+        RelatedCategories = (from cat in category.ParentCategories select cat.Name).ToList();
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;        
     }
 
     public Category ConvertToCategory()
     {
-        var category = new Category(Name) {RelatedCategories = new List<Category>()};
+        var category = new Category(Name) {ParentCategories = new List<Category>()};
         foreach (var name in RelatedCategories)
-            category.RelatedCategories.Add(Resolve<CategoryRepository>().GetByName(name));
+            category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
         return category;
     }
 
     public void UpdateCategory(Category category)
     {
         category.Name = Name;
-        category.RelatedCategories.Clear();
+        category.ParentCategories.Clear();
         foreach (var name in RelatedCategories)
-            category.RelatedCategories.Add(Resolve<CategoryRepository>().GetByName(name));
+            category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
     }
     
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)

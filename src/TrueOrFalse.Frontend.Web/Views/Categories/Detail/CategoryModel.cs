@@ -11,8 +11,8 @@ public class CategoryModel : BaseModel
     public string Name;
     public string Description;
 
-    public IList<Category> RelatedCategoriesOut;
-    public IList<Category> RelatedCategoriesIn;
+    public IList<Category> CategoriesParent;
+    public IList<Category> CategoriesChildren;
 
     public IList<Set> TopSets;
     public IList<Question> TopQuestions = new List<Question>();
@@ -49,5 +49,8 @@ public class CategoryModel : BaseModel
 
         TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id, 5);
         TopSets = Resolve<SetRepository>().GetForCategory(category.Id);
+
+        CategoriesParent = category.ParentCategories;
+        CategoriesChildren = Resolve<CategoryRepository>().GetChildren(category.Id);
     }
 }

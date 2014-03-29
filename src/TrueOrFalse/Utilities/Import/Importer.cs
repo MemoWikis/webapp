@@ -28,7 +28,7 @@ namespace TrueOrFalse
             foreach (var category in result.Categories)
             {
                 var categoryElement = document.Root.Elements("category").Single(x => x.Element("name").Value == category.Name);
-                category.RelatedCategories = (from relatedElementId in categoryElement.Element("relatedCategories").Elements("id")
+                category.ParentCategories = (from relatedElementId in categoryElement.Element("relatedCategories").Elements("id")
                                               select result.Categories.Single(x => x.Id == Convert.ToInt32(relatedElementId.Value))).ToList();
             }
 

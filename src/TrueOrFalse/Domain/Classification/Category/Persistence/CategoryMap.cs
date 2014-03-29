@@ -20,7 +20,7 @@ namespace TrueOrFalse
 
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
-            HasManyToMany(x => x.RelatedCategories).ChildKeyColumn("Related_Id").Cascade.DeleteOrphan();
+            HasManyToMany(x => x.ParentCategories).Table("relatedcategoriestorelatedcategories").ChildKeyColumn("Related_Id").Cascade.DeleteOrphan();
         }
     }
 }
