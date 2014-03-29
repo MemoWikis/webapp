@@ -35,6 +35,11 @@ namespace TrueOrFalse.Web.Context
             return userId == User.Id;
         }
 
+        public bool IsOwnerOrAdmin(int userId)
+        {
+            return IsOwner(userId) || IsInstallationAdmin;
+        }
+
         public void Login(User user)
         {
             IsLoggedIn = true;

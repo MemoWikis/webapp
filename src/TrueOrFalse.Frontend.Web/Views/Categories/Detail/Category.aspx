@@ -17,7 +17,7 @@
         <div class="pull-right">
             <div>
                 <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a><br/>
-                <% if(Model.IsOwner){ %>
+                <% if(Model.IsOwnerOrAdmin){ %>
                     <a href="<%= Links.CategoryEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                 <% } %>
             </div>
