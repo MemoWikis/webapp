@@ -40,6 +40,10 @@ public class EditQuestionModel : BaseModel
     [DisplayName("Erklärungen")]
     public string Description { get; set; }
 
+    [DisplayName("Content rights")]
+    [Required]
+    public bool ConfirmContentRights { get; set;  }
+
     public int Id = -1;
 
     public IEnumerable<string> Categories = new List<string>();

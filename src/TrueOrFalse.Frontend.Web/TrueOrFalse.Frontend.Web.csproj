@@ -568,6 +568,7 @@
     <Content Include="Views\Drafts\Icons.aspx" />
     <Content Include="Views\Drafts\Templates.aspx" />
     <Content Include="Views\Drafts\temp.aspx" />
+    <Content Include="Views\Help\UrheberrechtInhalte.aspx" />
     <Content Include="Views\Help\Wissen.aspx" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />

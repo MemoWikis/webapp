@@ -11,8 +11,8 @@ public class CategoryModel : BaseModel
     public string Name;
     public string Description;
 
-    public IList<Category> RelatedCategoriesOut;
-    public IList<Category> RelatedCategoriesIn;
+    public IList<Category> CategoriesParent;
+    public IList<Category> CategoriesChildren;
 
     public IList<Set> TopSets;
     public IList<Question> TopQuestions = new List<Question>();
@@ -27,7 +27,7 @@ public class CategoryModel : BaseModel
 
     public string ImageUrl;
 
-    public bool IsOwner;
+    public bool IsOwnerOrAdmin;
 
     public int CountQuestions;
     public int CountSets;
@@ -41,7 +41,7 @@ public class CategoryModel : BaseModel
         Id = category.Id;
         Name = category.Name;
         Description = category.Description;
-        IsOwner = _sessionUser.IsOwner(category.Creator.Id);
+        IsOwnerOrAdmin = _sessionUser.IsOwner(category.Creator.Id);
 
         CountQuestions = category.CountQuestions;
         CountSets = category.CountSets;
@@ -49,5 +49,8 @@ public class CategoryModel : BaseModel
 
         TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id, 5);
         TopSets = Resolve<SetRepository>().GetForCategory(category.Id);
+
+        CategoriesParent = category.ParentCategories;
+        CategoriesChildren = Resolve<CategoryRepository>().GetChildren(category.Id);
     }
 }

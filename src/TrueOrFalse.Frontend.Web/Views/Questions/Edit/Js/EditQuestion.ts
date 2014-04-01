@@ -14,4 +14,9 @@ $(function () {
 
     var editorQuestion = new MarkdownQuestionExt();
     var editorDescription = new MarkdownDescription();
+
+    $('#ConfirmContentRights').click(function() {
+        
+    });
+
 });

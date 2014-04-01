@@ -12,5 +12,8 @@ $(function () {
 
     var editorQuestion = new MarkdownQuestionExt();
     var editorDescription = new MarkdownDescription();
+
+    $('#ConfirmContentRights').click(function () {
+    });
 });
 //# sourceMappingURL=EditQuestion.js.map

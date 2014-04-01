@@ -15,6 +15,8 @@ public class HelpController : BaseController
     public ActionResult Reputation() { AddActionToHistory(); return View(new HelpModel()); }
     [SetMenu(MenuEntry.Help)]
     public ActionResult Wissen() { AddActionToHistory(); return View(new HelpModel()); }
+    [SetMenu(MenuEntry.Help)]
+    public ActionResult UrheberrechtInhalte() { AddActionToHistory(); return View(new HelpModel()); }
 
     public void AddActionToHistory(){
         _sessionUiData.VisitedHelpPages.Add(new HelpHistoryItem(GetActionName()));
