@@ -30,7 +30,7 @@
        
     <div class="col-md-7">
         
-        <% if(Model.CategoriesChildren.Count > 0){ %>
+        <% if(Model.CategoriesParent.Count > 0){ %>
             <h4 style="margin-top: 0px;"><i class="fa fa-arrow-up"></i> Elternkategorien</h4>
             <div style="margin-bottom: 12px;">
                 <% foreach(var category in Model.CategoriesParent){ %>

@@ -187,18 +187,30 @@
                             </select>
                         </div>
                     </div>
-                <div class="form-group">
-                    <div class="col-xs-offset-2 col-xs-10 xxs-stack">
-                        <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>&nbsp;&nbsp;&nbsp;
-                        <% if (Model.ShowSaveAndNewButton){ %>
-                            <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
-                        <% } %>                        
+                    
+                    <div class="form-group">
+                        <div class="col-xs-offset-2  col-xs-10">
+                            <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
+                            Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
+                            Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
+                            wie zum Beispiel bei Wikipedia-Einträgen. 
+                            <a href="" target="_blank">mehr erfahren</a> <br />
+                            Die Frage und Anwort ist meine eigene Arbeit und
+                            nicht aus urheberichtlich geschützten Quellen kopiert. 
+                            <a href="" target="_blank">mehr erfahren</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10 xxs-stack">
+                            <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
+                            <% if (Model.ShowSaveAndNewButton){ %>
+                                <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
+                            <% } %>                        
+                        </div>
                     </div>
                 </div>
             </div>
-        
-            
-        </div>
         </div>
     </div>
     <% } %>
