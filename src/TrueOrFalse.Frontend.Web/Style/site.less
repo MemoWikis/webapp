@@ -170,7 +170,7 @@ img {
     .col-title {
 
         @media only screen and (max-width: (@screen-xs-min - 1px)) {
-            width: 65%; padding-right: 0;
+            width: 70%; padding-right: 0;
         }
 
         width: auto;
@@ -277,7 +277,7 @@ img {
         float: right;
 
         @media only screen and (max-width: (@screen-xs-min - 1px)) {
-            width: 35%; padding-left: 0; float: right;
+            width: 30%; padding-left: 0; float: right;
         }
 
         height: @masterHeaderMainRowHeight-xs;
@@ -404,13 +404,13 @@ img {
 }
 
 .MenuButtonXS { //to override bootstrap styles several times
-    padding: 3px 7px;
-    margin-right: 5px;
+    padding: 3px 3px 3px 7px;
+    margin-right: 3px;
     font-size: 18px;
 }
 
 .MenuButtonSM { //to override bootstrap styles several times
-    padding: 5px 9px;
+    padding: 5px 7px 5px 9px;
     font-size: 25px;
 }
 
@@ -419,11 +419,15 @@ img {
     display: inline-block;
     float: left;
     margin-top: 4px;
+    .caret {margin-left: 3px;}
+
 
     @media only screen and (min-width: @screen-sm-min) {
         .btn-lg;
         .MenuButtonSM;
         margin-top: 0;
+        
+        .caret {margin-left: 5px;}
     }
 
     margin-left: -7px;
@@ -447,8 +451,6 @@ img {
         .buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
         .MenuButtonXS;
     }
-
-
 
     @media only screen and (min-width: @screen-md-min) {
         display: none;

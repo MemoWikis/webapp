@@ -613,7 +613,7 @@ img {
 }
 @media only screen and (max-width: 479px) {
   #MasterHeader .col-title {
-    width: 65%;
+    width: 70%;
     padding-right: 0;
   }
 }
@@ -711,7 +711,7 @@ img {
 }
 @media only screen and (max-width: 479px) {
   #MasterHeader .col-LoginAndHelp {
-    width: 35%;
+    width: 30%;
     padding-left: 0;
     float: right;
   }
@@ -836,12 +836,12 @@ img {
   margin-right: 1px;
 }
 .MenuButtonXS {
-  padding: 3px 7px;
-  margin-right: 5px;
+  padding: 3px 3px 3px 7px;
+  margin-right: 3px;
   font-size: 18px;
 }
 .MenuButtonSM {
-  padding: 5px 9px;
+  padding: 5px 7px 5px 9px;
   font-size: 25px;
 }
 #MenuButton {
@@ -884,8 +884,8 @@ img {
   float: left;
   margin-top: 4px;
   margin-left: -7px;
-  padding: 3px 7px;
-  margin-right: 5px;
+  padding: 3px 3px 3px 7px;
+  margin-right: 3px;
   font-size: 18px;
   color: #e7ecf6;
   background-color: transparent;
@@ -945,6 +945,9 @@ img {
   -moz-box-shadow: none;
   box-shadow: none;
 }
+#MenuButton .caret {
+  margin-left: 3px;
+}
 @media only screen and (min-width: 768px) {
   #MenuButton {
     padding: 11px 19px;
@@ -952,9 +955,12 @@ img {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
-    padding: 5px 9px;
+    padding: 5px 7px 5px 9px;
     font-size: 25px;
     margin-top: 0;
+  }
+  #MenuButton .caret {
+    margin-left: 5px;
   }
 }
 #MenuButton:hover {
@@ -1006,8 +1012,8 @@ img {
   *background-color: #2e487b;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  padding: 3px 7px;
-  margin-right: 5px;
+  padding: 3px 3px 3px 7px;
+  margin-right: 3px;
   font-size: 18px;
 }
 #MenuButton:hover:hover,
@@ -1067,7 +1073,7 @@ img {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
-    padding: 5px 9px;
+    padding: 5px 7px 5px 9px;
     font-size: 25px;
   }
 }

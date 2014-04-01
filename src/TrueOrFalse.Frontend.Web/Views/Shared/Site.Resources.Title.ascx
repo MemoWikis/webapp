@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <div class="row HeaderMainRow">
                     <div class="col-xs-6 col-title">
-                        <a id="MenuButton"><i class="fa fa-bars"></i></a>
+                        <a id="MenuButton"><i class="fa fa-bars"></i><span class="caret"></span></a>
                         <a class="block title" href="/">
                             <h1><span id="m">M</span>EM<span id="uch">uch</span>O<span id="logo"></span></h1>
                         </a>
