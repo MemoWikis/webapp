@@ -1134,6 +1134,26 @@ span.smaller {
 .block {
   display: block;
 }
+/* HEADER
+----------------------------------------------------------*/
+.underlined {
+  border-bottom: solid 2px #afd534;
+}
+span.underlined {
+  display: inline-block;
+}
+h3.underlined,
+h3 *.underlined {
+  border-bottom-width: 3px;
+}
+h2.underlined,
+h2 *.underlined {
+  border-bottom-width: 4px;
+}
+h1.underlined,
+h1 *.underlined {
+  border-bottom-width: 4px;
+}
 /* VALIDATION
 ----------------------------------------------------------*/
 textarea.input-validation-error,
