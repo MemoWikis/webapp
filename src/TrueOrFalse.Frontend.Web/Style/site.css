@@ -688,6 +688,9 @@ img {
   background-color: #e7ecf6;
   width: 64px;
   height: 64px;
+  -moz-background-size: 86%;
+  -o-background-size: 86%;
+  -webkit-background-size: 86%;
   background-size: 86%;
   background-repeat: no-repeat;
   border-radius: 32px;
