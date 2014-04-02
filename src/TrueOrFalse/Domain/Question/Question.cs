@@ -57,7 +57,12 @@ namespace TrueOrFalse
 
         public virtual IList<SetMini> SetTop5Minis
         {
-            get { return JsonConvert.DeserializeObject<List<SetMini>>(SetsTop5Json); }
+            get
+            {
+                if(String.IsNullOrEmpty(SetsTop5Json))
+                    return new List<SetMini>();
+                return JsonConvert.DeserializeObject<List<SetMini>>(SetsTop5Json);
+            }
             set { SetsTop5Json = JsonConvert.SerializeObject(value);  }
         }
 
