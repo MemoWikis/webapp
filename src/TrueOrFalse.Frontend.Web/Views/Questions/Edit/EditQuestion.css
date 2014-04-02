@@ -102,4 +102,7 @@
     padding-top: 0 !important;
   }
 }
+.menuCategories .underlined {
+  border-bottom-color: #99ccff;
+}
 /*# sourceMappingURL=EditQuestion.css.map */

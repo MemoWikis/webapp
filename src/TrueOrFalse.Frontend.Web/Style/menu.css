@@ -6055,4 +6055,11 @@ div.menu .tooltip-inner {
   min-width: 200px;
   text-align: left;
 }
+.menuCategories {
+  margin-bottom: 10px;
+}
+.menuCategories a {
+  display: inline-block;
+  margin-bottom: 5px;
+}
 /*# sourceMappingURL=menu.css.map */

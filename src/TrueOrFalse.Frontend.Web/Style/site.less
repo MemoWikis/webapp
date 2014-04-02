@@ -497,6 +497,25 @@ span.smaller {
 .block {
     display: block;
 }
+
+/* HEADER
+----------------------------------------------------------*/
+
+.underlined {
+
+    border-bottom: solid 2px @memo-green;
+    
+    span& {display: inline-block;}
+
+    h3&, h3 *& {border-bottom-width: 3px;}
+
+    h2&, h2 *& {border-bottom-width: 3px;}
+
+    h1&, h1 *& {border-bottom-width: 4px;}
+            
+}
+
+
 /* VALIDATION
 ----------------------------------------------------------*/
     textarea.input-validation-error, input.input-validation-error {
