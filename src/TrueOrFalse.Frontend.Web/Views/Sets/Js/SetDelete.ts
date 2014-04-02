@@ -1,11 +1,11 @@
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
-var setIdToDelete;
+var categoryIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
-        setIdToDelete = $(this).attr("data-setId");
-        populateDeleteSet(setIdToDelete);
+        categoryIdToDelete = $(this).attr("data-setId");
+        populateDeleteSet(categoryIdToDelete);
     });
 
     $('#btnCloseDelete').click(function () {
@@ -13,7 +13,7 @@ $(function () {
     });
 
     $('#confirmDelete').click(function () {
-        deleteSet(setIdToDelete);
+        deleteSet(categoryIdToDelete);
         $('#modalDelete').modal('hide');
     });
 });

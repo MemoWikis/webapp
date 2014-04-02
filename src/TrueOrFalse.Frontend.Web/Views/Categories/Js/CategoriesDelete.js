@@ -1,10 +1,10 @@
-/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
-var setIdToDelete;
+var categoryIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
-        setIdToDelete = $(this).attr("data-setId");
-        populateDeleteCategory(setIdToDelete);
+        categoryIdToDelete = $(this).attr("data-setId");
+        populateDeleteCategory(categoryIdToDelete);
     });
 
     $('#btnCloseDelete').click(function () {
@@ -12,7 +12,7 @@ $(function () {
     });
 
     $('#confirmDelete').click(function () {
-        deleteCategory(setIdToDelete);
+        deleteCategory(categoryIdToDelete);
         $('#modalDelete').modal('hide');
     });
 });
@@ -20,12 +20,13 @@ $(function () {
 function populateDeleteCategory(setId) {
     $.ajax({
         type: 'POST',
-        url: "/Questions/DeleteDetails/" + setId,
+        url: "/Categories/DeleteDetails/" + setId,
         cache: false,
         success: function (result) {
-            $("#spanQuestionTitle").html(result.questionTitle.toString());
+            $("#spanCategoryTitle").html(result.categoryTitle.toString());
         },
-        error: function () {
+        error: function (result) {
+            console.log(result);
             alert("Ein Fehler ist aufgetreten");
         }
     });
@@ -34,7 +35,7 @@ function populateDeleteCategory(setId) {
 function deleteCategory(setId) {
     $.ajax({
         type: 'POST',
-        url: "/Questions/Delete/" + setId,
+        url: "/Categories/Delete/" + setId,
         cache: false,
         success: function () {
             window.location.reload();

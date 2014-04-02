@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<CategoriesModel>" %>
+﻿<%@ Page Title="Kategorien" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<CategoriesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -81,5 +81,7 @@
             
         <% } %>
     </div>
+    
+    <% Html.RenderPartial("Modals/DeleteCategory"); %>
 
 </asp:Content>

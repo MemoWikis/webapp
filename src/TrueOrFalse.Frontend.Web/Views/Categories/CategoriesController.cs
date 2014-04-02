@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Seedworks.Lib;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -38,6 +39,20 @@ public class CategoriesController : BaseController
         model.Init(_categorySearch.Run());
 
         return View(_viewLocation, model);
+    }
+
+    [HttpPost]
+    public JsonResult DeleteDetails(int id)
+    {
+        var category = _categoryRepo.GetById(id);
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                categoryTitle = category.Name.WordWrap(50),
+            }
+        };
     }
 
     public ActionResult Delete(int id)
