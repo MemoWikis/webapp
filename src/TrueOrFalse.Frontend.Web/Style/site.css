@@ -1148,7 +1148,7 @@ h3 *.underlined {
 }
 h2.underlined,
 h2 *.underlined {
-  border-bottom-width: 4px;
+  border-bottom-width: 3px;
 }
 h1.underlined,
 h1 *.underlined {
