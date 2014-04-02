@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -39,6 +40,12 @@ namespace TrueOrFalse.Frontend.Web
 
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
             GlobalFilters.Filters.Add(new GlobalAuthorizationAttribute());
+        }
+
+        private void Application_BeginRequest()
+        {
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("de-DE");
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-DE");            
         }
 
         private void InitializeAutofac()
