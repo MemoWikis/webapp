@@ -11,7 +11,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="col-md-9">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="xxs-stack col-xs-12">
                 <div class="row">
                     <div class="col-xs-9 xxs-stack category" style="margin-bottom: 10px;">
                         <h2 style="margin-top: 0px;"><%= Model.Name %></h2>
@@ -28,7 +28,7 @@
             </div>
 
             <div class="col-lg-10 col-xs-9 xxs-stack">
-                <%= Model.Description %> asdfasdfasdfasdf
+                <%= Model.Description %>
             </div>
        
             <div class="col-lg-10 col-xs-9 xxs-stack">
