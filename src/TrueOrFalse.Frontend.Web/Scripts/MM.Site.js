@@ -32,9 +32,9 @@ $(function () {
 
     /*JULE NOGO AREA*/
     $("#logo").hover(function () {
-        $(this).animate({ 'background-size': '140%' }, 250);
+        $(this).animate({ 'background-size': '100%' }, 250);
     }, function () {
-        $(this).animate({ 'background-size': '120%' }, 250);
+        $(this).animate({ 'background-size': '86%' }, 250);
     });
 
     /*JULE NOGO END*/
