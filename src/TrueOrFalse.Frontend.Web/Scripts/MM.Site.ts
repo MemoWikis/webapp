@@ -96,7 +96,7 @@ class Menu {
 
     openMenu() {
         this._animationInProgress = true;
-        $("#mainMenu").animate({ 'left': '0' }, 1000, "swing", () => {
+        $("#mainMenu").animate({ 'left': '0' }, 200, "swing", () => {
             this._animationInProgress = false;
         });
         this._isOpen = true;
@@ -104,7 +104,7 @@ class Menu {
 
     closeMenu() {
         this._animationInProgress = true;
-        $("#mainMenu").animate({ 'left': '-100%' }, 1000, "swing",() => {
+        $("#mainMenu").animate({ 'left': '-100%' }, 200, "swing",() => {
                 this._animationInProgress = false;
             });
         this._isOpen = false;

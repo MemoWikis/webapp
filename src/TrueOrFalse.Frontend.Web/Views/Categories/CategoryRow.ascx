@@ -14,7 +14,7 @@
             <button class="btn btn-default btn-xs" type="button">Folgen</button>
         </div>
         
-        <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:5px;">
+        <div style="overflow: no-content; height: 20px; width: 230px; position: absolute; bottom:5px;">
             <% if(Model.UserCanEdit){ %>
             <a data-toggle="modal" data-SetId="<%= Model.CategoryId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
 
@@ -22,6 +22,10 @@
                 <img src="/Images/edit.png"/> 
             </a>
             <% } %>
+            
+            <span class="show-tooltip" title="erstellt: <%= Model.DateCreatedLong %>" style="font-size: 11px; position: relative; top: 1px; left: 10px; ">
+                erstellt: <%= Model.DateCreated %>
+            </span>
         </div>
         
         <%= Model.DescriptionShort %>

@@ -89,7 +89,7 @@ var Menu = (function () {
     Menu.prototype.openMenu = function () {
         var _this = this;
         this._animationInProgress = true;
-        $("#mainMenu").animate({ 'left': '0' }, 1000, "swing", function () {
+        $("#mainMenu").animate({ 'left': '0' }, 200, "swing", function () {
             _this._animationInProgress = false;
         });
         this._isOpen = true;
@@ -98,7 +98,7 @@ var Menu = (function () {
     Menu.prototype.closeMenu = function () {
         var _this = this;
         this._animationInProgress = true;
-        $("#mainMenu").animate({ 'left': '-100%' }, 1000, "swing", function () {
+        $("#mainMenu").animate({ 'left': '-100%' }, 200, "swing", function () {
             _this._animationInProgress = false;
         });
         this._isOpen = false;

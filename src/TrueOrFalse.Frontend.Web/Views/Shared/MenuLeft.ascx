@@ -87,7 +87,7 @@
                index = 0; 
                foreach (var set in visitedC){ index++; %>
                 <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.CategoryDetail); } %>
-                <a href="<%= Links.CategoryDetail( Url, set.Name, set.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Fragesatz: <%=set.Name%>" data-placement="right">
+                <a href="<%= Links.CategoryDetail( Url, set.Name, set.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie: <%=set.Name%>" data-placement="right">
                     <i class="fa fa-caret-right"></i> <%=set.Name%>
                 </a>
             <% } %>
