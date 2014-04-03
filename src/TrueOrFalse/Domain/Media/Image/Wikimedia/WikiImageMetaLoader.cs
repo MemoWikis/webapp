@@ -12,6 +12,8 @@ namespace TrueOrFalse
     {
         public WikiImageMeta Run(string fileNameOrUrl, int thumbUrlWidth = 1024)
         {
+            fileNameOrUrl = HttpUtility.UrlDecode(fileNameOrUrl);
+            
             if(String.IsNullOrEmpty(fileNameOrUrl))
                 return new WikiImageMeta { ImageNotFound = true };
 
