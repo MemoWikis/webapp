@@ -14,7 +14,7 @@
             <div class="boxtainer-outlined-tabs">
                 <div class="boxtainer-header">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#home" >Alle Nutzer (<%= Model.TotalSets %>)</a></li>
+                        <li class="active"><a href="#home" >Alle Nutzer (<%= Model.TotalUsers %>)</a></li>
                         <li>
                             <a href="#profile">
                                 Mein Netzwerk <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>

@@ -274,6 +274,7 @@
     <Compile Include="Domain\User.Reputation\ReputationCalcResult.cs" />
     <Compile Include="Domain\User.Reputation\ReputationUpdate.cs" />
     <Compile Include="Domain\User.Reputation\UpdateReputationsAndRank.cs" />
+    <Compile Include="Domain\User\Ops\GetTotalUsers.cs" />
     <Compile Include="Domain\User\Ops\UpdateWishcount.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecovery.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecoveryResult.cs" />

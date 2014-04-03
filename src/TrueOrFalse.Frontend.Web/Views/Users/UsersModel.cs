@@ -11,7 +11,7 @@ public class UsersModel : BaseModel
 {
     public UIMessage Message;
 
-    public int TotalSets { get; set; }
+    public int TotalUsers { get; set; }
     public int TotalMine { get; set; }
 
     public string SearchTerm { get; set;  }
@@ -36,7 +36,7 @@ public class UsersModel : BaseModel
 
         SearchTerm = _sessionUiData.SearchSpecUser.SearchTerm;
 
-        TotalSets = Resolve<GetTotalSetCount>().Run();
+        TotalUsers = Resolve<GetTotalUsers>().Run();
 
         Pager = new PagerModel(_sessionUiData.SearchSpecUser);
 
