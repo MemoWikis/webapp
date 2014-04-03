@@ -39,7 +39,7 @@ namespace TrueOrFalse
         public override void Delete(Question question)
         {
             _searchIndexQuestion.Delete(question);
-            base.Delete(question.Id);
+            base.Delete(question);
         }
 
         public IList<Question> GetForCategory(int categoryId, int resultCount)
