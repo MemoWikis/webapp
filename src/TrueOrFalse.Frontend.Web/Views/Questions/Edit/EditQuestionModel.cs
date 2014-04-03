@@ -46,7 +46,7 @@ public class EditQuestionModel : BaseModel
 
     public int Id = -1;
 
-    public IEnumerable<string> Categories = new List<string>();
+    public IList<string> Categories = new List<string>();
 
     public string PageTitle;
     public string FormTitle;

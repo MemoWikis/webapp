@@ -48,7 +48,7 @@
             </ul>
             
             <div style="float: right; position: absolute; right: 0; top: 5px;">
-                <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" class="btn btn-success btn-sm">
+                <a href="<%= Links.CreateQuestion(Url) %>" class="btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>

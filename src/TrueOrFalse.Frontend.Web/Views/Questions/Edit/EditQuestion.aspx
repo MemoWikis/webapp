@@ -34,7 +34,7 @@
                     </div>
                     <% if (!Model.ShowSaveAndNewButton){ %>
                         <div style="line-height: 12px">
-                            <a href="<%= Url.Action(Links.CreateQuestion, Links.EditQuestionController) %>" style="font-size: 12px;
+                            <a href="<%= Links.CreateQuestion(Url) %>" style="font-size: 12px;
                                 margin: 0px;"><i class="fa fa-plus-circle"></i> Frage erstellen</a>
                         </div>
                     <%} %>

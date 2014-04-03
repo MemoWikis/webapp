@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NHibernate.Mapping;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
@@ -18,7 +19,7 @@ public class EditQuestionController : BaseController
         _questionRepository = questionRepository;
     }
 
-    public ActionResult Create()
+    public ActionResult Create(int? categoryId)
     {
         var model = new EditQuestionModel();
         
@@ -26,6 +27,9 @@ public class EditQuestionController : BaseController
             model.Message = (SuccessMessage)TempData["createQuestionsMsg"];
 
         model.SetToCreateModel();
+        if(categoryId != null)
+            model.Categories.Add(Resolve<CategoryRepository>().GetById((int)categoryId).Name);
+
         return View(_viewLocation, model);
     }
 

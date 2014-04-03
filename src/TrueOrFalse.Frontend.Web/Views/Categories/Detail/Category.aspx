@@ -22,6 +22,7 @@
                             <% if(Model.IsOwnerOrAdmin){ %>
                                 <a href="<%= Links.CategoryEdit(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                             <% } %>
+                            <a href="<%= Links.CreateQuestion(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
                         </div>
                     </div>
                 </div>

@@ -140,7 +140,15 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public const string EditQuestionController = "EditQuestion"; 
-        public const string CreateQuestion = "Create";
+
+        public static string CreateQuestion(UrlHelper url, int categoryId = -1)
+        {
+            if (categoryId != -1)
+                return url.Action("Create", EditQuestionController, new { categoryId = categoryId }); 
+
+            return url.Action("Create", EditQuestionController);
+        }
+
         public const string EditQuestion = "Edit";
 
         public const string AnswerQuestionController = "AnswerQuestion";
