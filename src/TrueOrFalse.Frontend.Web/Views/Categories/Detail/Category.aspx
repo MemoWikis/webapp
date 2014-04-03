@@ -14,7 +14,7 @@
             <div class="xxs-stack col-xs-12">
                 <div class="row">
                     <div class="col-xs-9 xxs-stack category" style="margin-bottom: 10px;">
-                        <h2 style="margin-top: 0px;"><%= Model.Name %></h2>
+                        <h2 style="margin-top: 0;"><%= Model.Name %></h2>
                     </div>
                     <div class="col-xs-3 xxs-stack">
                         <div class="navLinks">
@@ -34,7 +34,7 @@
             <div class="col-lg-10 col-xs-9 xxs-stack">
         
                 <% if(Model.CategoriesParent.Count > 0){ %>
-                    <h4 style="margin-top: 0px;"><i class="fa fa-arrow-up"></i> Elternkategorien</h4>
+                    <h4 style="margin-top: 0;"><i class="fa fa-arrow-up"></i> Elternkategorien</h4>
                     <div style="margin-bottom: 12px;">
                         <% foreach(var category in Model.CategoriesParent){ %>
                             <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>
@@ -43,7 +43,7 @@
                 <% } %>
         
                 <% if(Model.CategoriesChildren.Count > 0){ %>
-                    <h4 style="margin-top: 0px;"><i class="fa fa-arrow-down"></i> Kindkategorien</h4>
+                    <h4 style="margin-top: 0;"><i class="fa fa-arrow-down"></i> Kindkategorien</h4>
                     <div style="margin-bottom: 12px;">
                         <% foreach(var category in Model.CategoriesChildren){ %>
                             <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>
@@ -52,9 +52,9 @@
                 <% } %>
 
                 <% if(Model.CountQuestions > 0){ %>
-                    <h4 style="margin-top: 0px;">Fragen (<%=Model.CountQuestions %>)</h4>                    
+                    <h4 style="margin-top: 0;">Fragen (<%=Model.CountQuestions %>)</h4>                    
                     <% foreach(var question in Model.TopQuestions){ %>
-                        <div style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                        <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
                             - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(150) %></a>
                         </div>
                     <% } %>
@@ -79,7 +79,7 @@
     
             <div class="col-lg-2 col-xs-3 xxs-stack">
                 <div>
-                    <img src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
+                    <img src="<%= Model.ImageUrl %>" class="img-responsive" style="-ms-border-radius:5px; border-radius:5px;" />
                 </div>
             </div>
         </div>
