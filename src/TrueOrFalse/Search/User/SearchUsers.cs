@@ -19,7 +19,7 @@ namespace TrueOrFalse.Search
             if (searchSpec.OrderBy.Reputation.IsCurrent()) orderBy = SearchUsersOrderBy.Rank;
             else if (searchSpec.OrderBy.WishCount.IsCurrent()) orderBy = SearchUsersOrderBy.WishCount;
 
-            return Run(searchSpec.SearchTerm, new Pager(), orderBy);
+            return Run(searchSpec.SearchTerm, searchSpec, orderBy);
         }
 
         public SearchUsersResult Run(
