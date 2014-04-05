@@ -30,6 +30,9 @@ public class EditCategoryController : BaseController
         var category = _categoryRepository.GetById(id);
         var model = new EditCategoryModel(category){IsEditing = true};
 
+        if (TempData["createCategoryMsg"] != null)
+            model.Message = (SuccessMessage)TempData["createCategoryMsg"];
+
         return View(_viewPath, model);
     }
 
@@ -59,7 +62,7 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    public ViewResult Create(EditCategoryModel model, HttpPostedFileBase file)
+    public ActionResult Create(EditCategoryModel model, HttpPostedFileBase file)
     {
         var categoryExists = new EditCategoryModel_Category_Exists();
         if (categoryExists.Yes(model))
@@ -68,19 +71,24 @@ public class EditCategoryController : BaseController
                                                            "Klicke <a href=\"{1}\">hier</a>, um sie zu bearbeiten.", 
                                                            categoryExists.ExistingCategory.Name,
                                                            Url.Action("Edit", new { id = categoryExists.ExistingCategory.Id })));
-        }
-        else
-        {
-            model.FillReleatedCategoriesFromPostData(Request.Form);
-            var category = model.ConvertToCategory();
-            category.Creator = _sessionUser.User;
-            _categoryRepository.Create(category);
-            StoreImage(category.Id);
-            model.Message = new SuccessMessage(string.Format("Die Kategorie <strong>'{0}'</strong> wurde angelegt.", model.Name));
-            model.Init(category);
+
+            return View(_viewPath, model);
         }
 
-        return View(_viewPath, model);
+        model.FillReleatedCategoriesFromPostData(Request.Form);
+        var category = model.ConvertToCategory();
+        category.Creator = _sessionUser.User;
+        _categoryRepository.Create(category);
+        StoreImage(category.Id);
+
+        TempData["createCategoryMsg"] 
+            = new SuccessMessage(string.Format(
+                 "Die Kategorie <strong>'{0}'</strong> wurde angelegt.<br>" + 
+                 "Du kannst die Kategorie jetzt bearbeiten<br>" +
+                 "oder eine <a href='/Kategorien/Erstelle'>neue Kategorie anlegen</a>.", 
+                model.Name));
+
+        return Redirect("/Kategorien/Bearbeite/" + category.Id);
     }
 
     private void StoreImage(int categoryId)

@@ -79,9 +79,12 @@
             
                 <div class="form-group" style="margin-top: 30px;">
                     <div class="col-sm-offset-3 col-sm-9">
-                        <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                        <input type="submit" value="Speichern & Neu" class="btn btn-default" name="btnSave btn" />&nbsp;&nbsp;&nbsp;
-                        <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+                        <% if (Model.IsEditing){ %>
+                            <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
+                            <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+                        <% } else { %>
+                            <input type="submit" value="Erstellen" class="btn btn-primary" name="btnSave" />
+                        <% } %>
                     </div>
                 </div>
 
