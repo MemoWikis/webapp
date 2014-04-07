@@ -446,6 +446,9 @@ html {
 /*always show scrollbar*/
 body {
   min-width: 280px;
+  position: relative;
+  font-size: 13px;
+  color: #2e487b;
 }
 a {
   color: #0e22b6;
@@ -485,24 +488,34 @@ a.SimpleTextLink i {
 a.SimpleTextLink .TextSpan {
   vertical-align: middle;
 }
-body {
-  font-size: 13px;
-  color: #2e487b;
-  background: url(../img/dimension.png);
-}
 img {
   max-width: 100%;
-}
-.mainSection {
-  overflow-x: hidden;
 }
 .container.main {
   background-color: #ffffff;
   padding-top: 25px;
   padding-bottom: 20px;
   position: relative;
+  z-index: 50;
 }
-.container.main #gradientLeft {
+.backgroundLayer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: url(../img/dimension.png);
+  z-index: 0;
+  overflow-x: hidden;
+}
+.backgroundLayer .container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+#gradientLeft {
   width: 300px;
   position: absolute;
   left: -300px;
@@ -523,7 +536,7 @@ img {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=1);
   /* IE6-9 */
 }
-.container.main #gradientRight {
+#gradientRight {
   width: 300px;
   position: absolute;
   right: -300px;
@@ -1104,6 +1117,8 @@ img {
   padding-top: 20px;
   padding-left: 15px;
   padding-right: 15px;
+  position: relative;
+  z-index: 99;
 }
 #MasterFooter #footerOn {
   display: inline-block;

@@ -5806,7 +5806,7 @@ button.close {
 @media disabled {
   .mainMenuContainer {
     position: fixed;
-    z-index: 99;
+    z-index: 98;
     width: 100%;
     min-height: 100%;
     left: 0;
