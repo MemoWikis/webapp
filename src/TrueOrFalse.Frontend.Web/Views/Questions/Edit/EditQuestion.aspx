@@ -57,20 +57,24 @@
                         <%= Html.LabelFor(m => m.Visibility, new { @class = "labelVisibility col-xs-2 xxs-stack control-label" })%>
                     
                         <div class="col-md-12 col-xs-10 xxs-stack">
-                            <label style="font-weight: normal">
-                                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
-                                für alle <span class="smaller">(öffentliche Frage)</span> &nbsp;&nbsp;
-                            </label>
-
-                            <label style="font-weight: normal">
-                                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                                für mich <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span> &nbsp;&nbsp;
-                            </label>
-
-                            <label style="font-weight: normal">
-                                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
-                                für mich und meine Freunde <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span>
-                            </label>
+                            <div class="radio">
+                                <label style="font-weight: normal">
+                                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
+                                    für alle <span class="smaller">(öffentliche Frage)</span> &nbsp;&nbsp;
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label style="font-weight: normal">
+                                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
+                                    für mich <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span> &nbsp;&nbsp;
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label style="font-weight: normal">
+                                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
+                                    für mich und meine Freunde<br/> <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span>
+                                </label>
+                            </div>
                             <div style="background-color: lavender; padding: 0 10px;">
                                 0 von 30 privaten Fragen verwendet.
                             </div>
@@ -189,6 +193,7 @@
                     </div>
                     
                     <div class="form-group">
+                        <div class="checkbox">
                         <div class="col-xs-offset-2  col-xs-10">
                             <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
                             Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
@@ -198,6 +203,7 @@
                             Die Frage und Anwort ist meine eigene Arbeit und
                             nicht aus urheberichtlich geschützten Quellen kopiert. 
                             <a href="" target="_blank">mehr erfahren</a>
+                        </div>
                         </div>
                     </div>
 
