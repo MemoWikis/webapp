@@ -52,6 +52,8 @@ public class EditCategoryController : BaseController
             model.FillReleatedCategoriesFromPostData(Request.Form);
             model.UpdateCategory(category);
             _categoryRepository.Update(category);
+
+            model.Message = new SuccessMessage("Die Kategorie wurde gespeichert.");
         }
         StoreImage(id);
         
