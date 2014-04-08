@@ -4,10 +4,10 @@
 
 /* LESS INCLUDES
 ----------------------------------------------------------*/
-@import 'includes/colors.less';
-@import 'includes/shared.less';
-@import 'includes/variables.less';
-@import 'z_buttons_2.3.2.less';
+@import (reference) 'includes/colors.less';
+@import (reference) 'includes/shared.less';
+@import (reference) 'includes/variables.less';
+@import (reference) 'z_buttons_2.3.2.less';
 
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
@@ -573,13 +573,35 @@ span.smaller {
         position: relative;
     }
 
-        a.button span.ui-icon {
-            margin: 0 5px 0 0;
-            position: absolute;
-            left: .2em;
-            top: 50%;
-            margin-top: -8px;
-        }
+    a.button span.ui-icon {
+        margin: 0 5px 0 0;
+        position: absolute;
+        left: .2em;
+        top: 50%;
+        margin-top: -8px;
+    }
+
+    .ButtonContainer {
+
+    }
+
+    /* Modals
+----------------------------------------------------------*/
+
+.modal-footer .ButtonContainer {
+    float: right;
+    margin-right: -5px;
+    margin-bottom: -10px;
+
+    .btn {
+        margin-left: 0 !important;
+        margin-right: 5px;
+        margin-bottom: 10px;
+    }
+}
+
+
+
     /* VARIOUS
 ----------------------------------------------------------*/
     .cursor-hand {

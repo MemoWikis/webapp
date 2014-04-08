@@ -11,6 +11,54 @@
 .link:hover {
   color: #0e22b6;
 }
+/*                        *\
+  Own responsive utilities
+\*                        */
+@media (min-width: 480px) {
+  .clear-left-xs {
+    clear: left;
+  }
+}
+@media (min-width: 480px) {
+  .clear-left-sm {
+    clear: left;
+  }
+}
+@media (min-width: 480px) {
+  .clear-left-xs {
+    clear: left;
+  }
+}
+@media (min-width: 480px) {
+  .clear-left-xs {
+    clear: left;
+  }
+}
+@media (max-width: 479px) {
+  .float-none-xxs {
+    float: none !important;
+  }
+}
+@media (min-width: 480px) {
+  .float-none-xs {
+    float: none !important;
+  }
+}
+@media (min-width: 768px) {
+  .float-none-sm {
+    float: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .float-none-md {
+    float: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .float-none-lg {
+    float: none !important;
+  }
+}
 #clearfix {
   display: inline-block;
   width: 100%;

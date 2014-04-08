@@ -43,7 +43,7 @@
         
                     <form class="form-horizontal" style="margin-top: 15px;">
                         <div class="form-group">
-                            <label class="col-xs-4 col-sm-3 xxs-stack">Wikipedia URL:</label>
+                            <label class="col-xs-4 col-sm-3 xxs-stack">Wikipedia-URL:</label>
                             <div class="col-xs-8 col-sm-9 xxs-stack">
                                 <input class="input-sm" style="width: 100%" id="txtWikimediaUrl" type="text" placeholder="http://">
                             </div>
@@ -109,9 +109,11 @@
                 </div>
             </div>
 
-            <div class="modal-footer" id="modalFooter">
-                <a href="#" class="btn btn-default" data-dismiss="modal">Abbrechen.</a>
-                <a href="#" class="btn btn-primary" id="aSaveImage">Bild speichern</a>
+            <div class="modal-footer" id="modalFooter" style="text-align: left;">
+                <div class="ButtonContainer float-none-xxs">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
+                    <a href="#" class="btn btn-primary" id="aSaveImage">Bild speichern</a>
+                </div>
             </div>
         </div>
     </div>
