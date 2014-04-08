@@ -77,6 +77,7 @@ img {
 }
 
 .mainSection {
+    position: relative; //for z-index-positioning inside
     //overflow-x: hidden; //damit der gradientRight nicht zu einem Scroll-Effekt führt
 }
 
@@ -87,7 +88,7 @@ img {
     padding-top: 25px;
     padding-bottom: 20px;
     position: relative;
-    z-index: @z-Index-mainContainer;
+   // z-index: @z-Index-mainContainer;
 }
 
 .backgroundLayer {
@@ -152,7 +153,6 @@ img {
     width: 100%;
     max-height: 50px;
     background-color: @dark-blue;
-    z-index: @z-Index-MasterHeader;
     //Gradient darker
     @media disabled {
         background: rgb(46,72,123); /* Old browsers */

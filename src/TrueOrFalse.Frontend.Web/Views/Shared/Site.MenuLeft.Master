@@ -11,7 +11,13 @@
 <body>
     <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>    
     <section class="mainSection">
-        <div class="container main">
+        <section class="backgroundLayer">
+            <div class="container">
+                <div id="gradientLeft"></div>
+                <div id="gradientRight"></div>
+            </div>
+        </section>
+            <div class="container main">
            <!-- <div id="gradientLeft"></div>
             <div id="gradientRight"></div>-->
             <div class="row">
@@ -37,11 +43,6 @@
             </div>
         </div>
     </footer>
-    <section class="backgroundLayer">
-        <div class="container">
-            <div id="gradientLeft"></div>
-            <div id="gradientRight"></div>
-        </div>
-    </section>
+    
 </body>
 </html>

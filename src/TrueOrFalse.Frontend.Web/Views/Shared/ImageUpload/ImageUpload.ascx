@@ -11,25 +11,27 @@
             <div class="modal-body" id="modalBody">
                 <div class="alert alert-info">
                     <strong>Achtung:</strong> Bildrechte sind ein sensibles Thema. 
-                    Bitte lade nur Bilder hoch die gemeinfrei sind oder Bilder die Du stelbst erstellt hast. 
+                    Bitte lade nur Bilder hoch, die gemeinfrei sind oder die du selbst erstellt hast. 
                 </div>
        
-                <div class="form-inline">
-                    <div class="radio-inline" style="width: 250px;">
-                        <label>
-                            <input type="radio" checked="checked" name="imgSource" id="rdoImageWikimedia"/>Bilder von Wikimedia verwenden.
-                        </label>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-xs-6 xxs-stack">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" checked="checked" name="imgSource" id="rdoImageWikimedia"/>Bilder von Wikimedia verwenden.
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 xxs-stack">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="imgSource" id="rdoImageUpload" />Eigene Bilder
+                                </label>                        
+                            </div>
+                        </div>
                     </div>
-        
-                    <div class="radio-inline" style="width: 130px;">
-                        <label>
-                            <input type="radio" name="imgSource" id="rdoImageUpload" />Eigene Bilder
-                        </label>                        
-                    </div>
-
                 </div>
-
-                <div style="clear: both;"></div>
 
                 <%-- Wikimedia --%>
                 <div id="divWikimedia">
@@ -39,12 +41,14 @@
                         Oder: Wenn Du auf Wikipedia auf ein Bild klickst, gelangst Du auf die Bild-Detailseite. Gib die URL der Detailseite hier an: 
                     </div>
         
-                    
-                    <div class="clearfix" style="margin-top: 15px;">
-                        <label style="position: relative; top: 5px;">Wikipedia URL:</label>
-                        <input class="col-md-2 form-control input-sm" id="txtWikimediaUrl" type="text" placeholder="http://" style="width: 320px;">
-                    </div>
-
+                    <form class="form-horizontal" style="margin-top: 15px;">
+                        <div class="form-group">
+                            <label class="col-xs-4 col-sm-3 xxs-stack">Wikipedia URL:</label>
+                            <div class="col-xs-8 col-sm-9 xxs-stack">
+                                <input class="input-sm" style="width: 100%" id="txtWikimediaUrl" type="text" placeholder="http://">
+                            </div>
+                        </div>
+                    </form>
                     <div class="hide2" style="padding-left:114px; margin-top: 15px;" id="divWikimediaSpinner">
                         <i class="fa fa-spinner fa-spin fa-2x pull-left"></i><span style="position: relative; top: 1px;">Vorschau wird geladen</span>
                     </div>
