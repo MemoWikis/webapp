@@ -1,17 +1,17 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMultipleChoice>" %>
 
 
-<div class="control-group">
-    <div class="controls">
-        <div id="choices"></div>
-        <button id="addChoice">Antwort hinzufügen</button>
+<div id="choices"></div>
+<div class="form-group">
+    <div class="xxs-stack col-xs-offset-2 col-xs-10 ButtonContainer">
+        <button class="btn" id="addChoice">Antwort hinzufügen</button>
     </div>
 </div>
 
 <script type="text/javascript">
     var addingChoiceId = 1;
     $("#addChoice").click(function () {
-        $("#choices").append("<div class='control-group'><input type='text' class='sequence-choice' name='choice-" + addingChoiceId + "' /></div>");
+        $("#choices").append("<div class='form-group'><div class='xxs-stack col-xs-offset-2 col-xs-10'><input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' /></div></div>");
         addingChoiceId++;
         return false;
     });

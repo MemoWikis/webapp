@@ -124,7 +124,7 @@
                             <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType", @class="form-control"})%>
                         </div>
                     </div>
-                    <div id="question-body">
+                    <div id="answer-body">
                     </div>
                     <script type="text/javascript">
                         function updateSolutionBody() {
@@ -133,7 +133,7 @@
                                 url: '<%=Url.Action("SolutionEditBody", "EditQuestion") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
                                 type: 'GET',
                                 beforeSend: function () { /* some loading indicator */ },
-                                success: function (data) { $("#question-body").html(data); },
+                                success: function (data) { $("#answer-body").html(data); },
                                 error: function (data) { /* handle error */ }
                             });
                         }
@@ -179,10 +179,10 @@
                     
                     <div class="form-group">
                         <label class="col-xs-2 xxs-stack control-label">Quellen</label>
-                        <div class="col-xs-3">
+                        <div class="col-xs-5">
                             <input class="form-control col-sm-2" type="text" />
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-5">
                             <select class="form-control ">
                                 <option>Wikipedia</option>
                                 <option>Webseite</option>
@@ -193,17 +193,17 @@
                     </div>
                     
                     <div class="form-group">
-                        <div class="checkbox">
-                        <div class="col-xs-offset-2  col-xs-10">
-                            <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
-                            Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
-                            Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
-                            wie zum Beispiel bei Wikipedia-Einträgen. 
-                            <a href="" target="_blank">mehr erfahren</a> <br />
-                            Die Frage und Anwort ist meine eigene Arbeit und
-                            nicht aus urheberichtlich geschützten Quellen kopiert. 
-                            <a href="" target="_blank">mehr erfahren</a>
-                        </div>
+                        <div class="xxs-stack col-xs-offset-2  col-xs-10">
+                            <div class="checkbox">
+                                <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
+                                Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
+                                Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
+                                wie zum Beispiel bei Wikipedia-Einträgen. 
+                                <a href="" target="_blank">mehr erfahren</a> <br />
+                                Die Frage und Anwort ist meine eigene Arbeit und
+                                nicht aus urheberichtlich geschützten Quellen kopiert. 
+                                <a href="" target="_blank">mehr erfahren</a>
+                            </div>
                         </div>
                     </div>
 

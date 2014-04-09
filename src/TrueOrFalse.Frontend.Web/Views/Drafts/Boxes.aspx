@@ -168,20 +168,6 @@
             </div>
             <div id="Div2">
             </div>
-            <script type="text/javascript">
-                function updateSolutionBody() {
-                    var selectedValue = $("#ddlAnswerType").val();
-                    $.ajax({
-                        url: '/EditQuestion/SolutionEditBody?questionId=&type=' + selectedValue,
-                        type: 'GET',
-                        beforeSend: function () { /* some loading indicator */ },
-                        success: function (data) { $("#question-body").html(data); },
-                        error: function (data) { /* handle error */ }
-                    });
-                }
-                $("#ddlAnswerType").change(updateSolutionBody);
-                updateSolutionBody();
-            </script>
             
             <p class="help-block help-text">
                 Je ausführlicher die Erklärung, desto besser!<br>

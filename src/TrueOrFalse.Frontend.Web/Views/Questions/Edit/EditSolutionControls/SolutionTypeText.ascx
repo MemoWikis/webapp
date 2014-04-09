@@ -2,42 +2,94 @@
 
 <%= Html.HiddenFor(m => m.MetadataSolutionJson) %>
 
-<div class="form-group" id="infoMetaDate">
-    <div class="col-xs-offset-2 col-xs-10 xxs-stack" >
-
-        <span class="show-tooltip tooltip-text-left tooltip-date" data-placement="top" 
-            title="<div style='margin-bottom: 3px;'>Je genauer desto besser!</div>
-                <div style='font-size:larger; font-weight:bold;'>Gültige Eingaben sind u.a.: </div>
-                <b>Tagesgenau:</b> 24.3.1999 (24 März 1999)<br />
-                <b>Monatsgenau:</b> 3.1999 (März 1999) <br />
-                <b>Jahresgenau:</b> 1999 (1999) <br />
-                <b>Jahrzehntgenau:</b>  172x (1720-ziger) <br />
-                <b>Jahrhundertgenau:</b> 19 Jh <br />
-                <b>Jahrtausendgenau:</b> 3 Jt<br />
-                <div style='margin-top:3px;'>
-                    <i>(für Daten vor Chr. Geburt, ein Minuszeichen voranstellen, z.B.: -2012)</i>
+<div class="form-group">
+    <label class="col-xs-2 xxs-stack control-label">Antwortformat</label>
+    <div class="xxs-stack col-xs-10" style="height: 28px;">
+        <div class="btn-group" style="position: relative; z-index: 11; width: 76px; float: left; margin-right: 10px;">
+            <a class="btn btn-default" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
+            <a class="btn btn-default" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
+            <a class="btn btn-default" style="padding: 3px 4px; border-bottom-right-radius: 0" id="btnMenuItemDate"><img src="/Images/date-16.png" /></a>    
+        </div>
+            
+        <%-- MenuItemText --%>
+        <div class="contextMenuOuter" id="divMenuItemText" style="left: 5px;">
+            <div class="well contextMenu">
+                <div style="margin-bottom: 5px">Großschreibung:</div>
+                <div class="btn-group">
+                    <a class="btn active">Ignorieren</a>
+                    <a class="btn btn-default">Beachten</a>
                 </div>
+                <div style="margin-top:10px; height: 20px;">
+                    <label class="checkbox" style="width: auto">
+                        <input type="checkbox">Exakte Schreibweise
+                    </label>
+                    <i class="fa fa-question-circle cursor-hand" id="help"></i>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+            
+        <%-- MenuItemNumber --%>
+        <div class="contextMenuOuter" id="divMenuItemNumber" style="left: 30px; width: 160px;">
+            <div class="well contextMenu">
+                <div style="margin-bottom: 5px">
+                    Abweichung:
+                    <input id="numberAccuracy" value="0" style="width: 20px;" />%    
+                </div>
+                <div>
+                    Einheit: 
+                    <input type="text" style="width: 100px;" />
+                </div>
+            </div>
+        </div>
+            
+        <%-- MenuItemDate --%>
+        <div class="contextMenuOuter" id="divMenuItemDate" style="left: 55px">
+            <div class="well contextMenu">
+                <div style="margin-bottom: 5px">
+                    genau auf
+                    <span id="spanSliderValue"></span>
+                </div>         
+                <div id="sliderDate" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 120px; margin-left:5px;"> 
+                    <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+                    <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+    
+        <div id="infoMetaDate">
+
+            <span class="show-tooltip tooltip-text-left tooltip-date" data-placement="top" 
+                title="<div style='margin-bottom: 3px;'>Je genauer desto besser!</div>
+                    <div style='font-size:larger; font-weight:bold;'>Gültige Eingaben sind u.a.: </div>
+                    <b>Tagesgenau:</b> 24.3.1999 (24 März 1999)<br />
+                    <b>Monatsgenau:</b> 3.1999 (März 1999) <br />
+                    <b>Jahresgenau:</b> 1999 (1999) <br />
+                    <b>Jahrzehntgenau:</b>  172x (1720-ziger) <br />
+                    <b>Jahrhundertgenau:</b> 19 Jh <br />
+                    <b>Jahrtausendgenau:</b> 3 Jt<br />
+                    <div style='margin-top:3px;'>
+                        <i>(für Daten vor Chr. Geburt, ein Minuszeichen voranstellen, z.B.: -2012)</i>
+                    </div>
                 
-            " 
-            data-html="true">
-            Erfasst <span id="spanEntryPrecision"></span>
-            <i class="fa fa-exclamation-circle" id="iDateError" style="color:red; font-size: 16px;"></i> 
-            <i class="fa fa-check-circle" id="iDateCorrect" style="color:green; font-size: 16px;"></i> 
-        </span>
-        <br />
-        Antwortgenauigkeit: <b><span id="spanAnswerPrecision"></span></b>.
-    </div>
-</div>
-
-<div class="form-group" id="infoMetaText">
-    <div class="col-xs-offset-2 col-xs-10 xxs-stack">
-        Exakte Texteingabe
-    </div>
-</div>
-
-<div class="form-group" id="infoMetaNumber">
-    <div class="col-xs-offset-2 col-xs-10 xxs-stack">
-        Exakte Zahl
+                " 
+                data-html="true">
+                Erfasst <span id="spanEntryPrecision"></span>
+                <i class="fa fa-exclamation-circle" id="iDateError" style="color:red; font-size: 16px;"></i> 
+                <i class="fa fa-check-circle" id="iDateCorrect" style="color:green; font-size: 16px;"></i> 
+            </span>
+            <br />
+            Antwortgenauigkeit: <b><span id="spanAnswerPrecision"></span></b>.
+        </div>
+        <div id="infoMetaText" style="height: 100%; vertical-align: middle;">
+            <span style="display: table-cell; height: 100%;">
+            Exakte Texteingabe
+                </span>
+        </div>
+        <div id="infoMetaNumber">
+            Exakte Zahl
+        </div>
     </div>
 </div>
 
@@ -46,63 +98,6 @@
     <%= Html.LabelFor(m => m.Text, new { @class = "col-xs-2 xxs-stack control-label" })%>
     <div class="col-xs-10 xxs-stack">
         <%= Html.TextBoxFor(m => m.Text, new { @class="form-control", @id = "Answer", @style = "width:310px; float: left;", placeholder = "Antwort eingeben." })%>
-        
-        <a href="#" class="btn btn-default" style="padding: 3px 4px; display: none"><img src="/Images/textfield-16.png" alt="Text"/></a>
-        
-        <div  style="display: inline-block; position: absolute;;">
-            <div class="btn-group" style="position: relative; top: 3px; left: 10px; z-index: 11;">
-                <a class="btn btn-default" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
-                <a class="btn btn-default" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
-                <a class="btn btn-default" style="padding: 3px 4px; border-bottom-right-radius: 0" id="btnMenuItemDate"><img src="/Images/date-16.png" /></a>    
-            </div>
-            
-            <%-- MenuItemText --%>
-            <div class="contextMenuOuter" id="divMenuItemText" style="left: 5px; ">
-                <div class="well contextMenu">
-                    <div style="margin-bottom: 5px">Großschreibung:</div>
-                    <div class="btn-group">
-                        <a class="btn active">Ignorieren</a>
-                        <a class="btn btn-default">Beachten</a>
-                    </div>
-                    <div style="margin-top:10px; height: 20px;">
-                        <label class="checkbox" style="width: auto">
-                            <input type="checkbox">Exakte Schreibweise
-                        </label>
-                        <i class="fa fa-question-circle cursor-hand" id="help"></i>
-                    </div>
-                    <div style="clear: both"></div>
-                </div>
-            </div>
-            
-            <%-- MenuItemNumber --%>
-            <div class="contextMenuOuter" id="divMenuItemNumber" style="left: 30px; width: 160px;">
-                <div class="well contextMenu">
-                    <div style="margin-bottom: 5px">
-                        Abweichung:
-                        <input id="numberAccuracy" value="0" style="width: 20px;" />%    
-                    </div>
-                    <div>
-                        Einheit: 
-                        <input type="text" style="width: 100px;" />
-                    </div>
-                </div>
-            </div>
-            
-            <%-- MenuItemDate --%>
-            <div class="contextMenuOuter" id="divMenuItemDate" style="position: relative; left: 55px">
-                <div class="well contextMenu">
-                    <div style="margin-bottom: 5px">
-                        genau auf
-                        <span id="spanSliderValue"></span>
-                    </div>         
-                    <div id="sliderDate" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 120px; margin-left:5px;"> 
-                        <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-                        <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-                    </div>
-                    <div style="clear: both"></div>
-                </div>
-            </div>
-        </div>
     </div>
 
 </div>
