@@ -55,6 +55,13 @@ namespace TrueOrFalse
             FillQuestionFields(question);
         }
 
+        public QuestionHistoryItem(Question question, HistoryItemType type)
+        {
+            Type = type;
+            
+            FillQuestionFields(question);
+        }
+
         private void FillQuestionFields(Question question)
         {
             Question = question;

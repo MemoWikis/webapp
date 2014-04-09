@@ -35,7 +35,10 @@ public class EditQuestionController : BaseController
 
     public ViewResult Edit(int id)
     {
-        var model = new EditQuestionModel(_questionRepository.GetById(id));
+        var question = _questionRepository.GetById(id);
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, HistoryItemType.Edit));
+        var model = new EditQuestionModel(question);
+        
         model.SetToUpdateModel();
         if (TempData["createQuestionsMsg"] != null){
             model.Message = (SuccessMessage) TempData["createQuestionsMsg"];
@@ -47,12 +50,15 @@ public class EditQuestionController : BaseController
     [HttpPost]
     public ActionResult Edit(int id, EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
     {
+        var question = _questionRepository.GetById(id);
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, HistoryItemType.Edit));
+
         model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
         model.SetToUpdateModel();
         _questionRepository.Update(
             Resolve<EditQuestionModel_to_Question>()
-                .Update(model, _questionRepository.GetById(id), Request.Form)
+                .Update(model, question, Request.Form)
         );
         UpdateSound(soundfile, id);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert");

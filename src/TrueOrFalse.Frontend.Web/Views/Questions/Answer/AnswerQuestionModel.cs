@@ -15,7 +15,7 @@ public class AnswerQuestionModel : BaseModel
     public Func<UrlHelper, string> PreviousUrl;
     public Func<UrlHelper, string> NextUrl;
 
-    public string QuestionId;
+    public int QuestionId;
     public User Creator;
     public string CreatorId { get; private set; }
     public string CreatorName { get; private set; }
@@ -145,7 +145,7 @@ public class AnswerQuestionModel : BaseModel
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = TimeElapsedAsText.Run(question.DateCreated);
 
-        QuestionId = question.Id.ToString();
+        QuestionId = question.Id;
         QuestionText = question.Text;
         QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
         SolutionType = question.SolutionType.ToString();
