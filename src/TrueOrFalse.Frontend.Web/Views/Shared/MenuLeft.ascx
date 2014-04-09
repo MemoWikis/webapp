@@ -85,11 +85,19 @@
        
             <% var visitedC = new SessionUiData().VisitedCategories;
                index = 0; 
-               foreach (var set in visitedC){ index++; %>
-                <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.CategoryDetail); } %>
-                <a href="<%= Links.CategoryDetail( Url, set.Name, set.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie: <%=set.Name%>" data-placement="right">
-                    <i class="fa fa-caret-right"></i> <%=set.Name%>
-                </a>
+               foreach (var categoryHistoryItem in visitedC){ index++; %>
+                 <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.CategoryDetail); } %>
+
+                 <% if(categoryHistoryItem.Type == HistoryItemType.Edit){ %>
+                    <a href="<%= Links.CategoryEdit( Url, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie bearbeiten: <%=categoryHistoryItem.Name%>" data-placement="right">
+                        <i class="fa fa-caret-right"></i> <%=categoryHistoryItem.Name%>
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                 <% }else{ %>
+                    <a href="<%= Links.CategoryDetail( Url, categoryHistoryItem.Name, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie: <%=categoryHistoryItem.Name%>" data-placement="right">
+                        <i class="fa fa-caret-right"></i> <%=categoryHistoryItem.Name%>
+                    </a>
+                <% } %>
             <% } %>
 
             <a class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>">

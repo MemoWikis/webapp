@@ -28,6 +28,8 @@ public class EditCategoryController : BaseController
     public ViewResult Edit(int id)
     {
         var category = _categoryRepository.GetById(id);
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
+        
         var model = new EditCategoryModel(category){IsEditing = true};
 
         if (TempData["createCategoryMsg"] != null)
@@ -40,6 +42,7 @@ public class EditCategoryController : BaseController
     public ViewResult Edit(int id, EditCategoryModel model, HttpPostedFileBase file)
     {
         var category = _categoryRepository.GetById(id);
+        _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
 
         var categoryExists = new EditCategoryModel_Category_Exists();
         if (model.Name != category.Name && categoryExists.Yes(model))

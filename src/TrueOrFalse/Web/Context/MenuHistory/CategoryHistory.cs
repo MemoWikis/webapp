@@ -16,7 +16,9 @@ namespace TrueOrFalse
         public string Name { get; private set; }
         public HistoryItemType Type { get; set; }
 
-        public CategoryHistoryItem(Category category, HistoryItemType type = HistoryItemType.Any)
+        public CategoryHistoryItem(
+            Category category, 
+            HistoryItemType type = HistoryItemType.Any)
         {
             Id = category.Id;
             Name = category.Name;
