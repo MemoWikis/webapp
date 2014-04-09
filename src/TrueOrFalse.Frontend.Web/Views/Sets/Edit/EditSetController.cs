@@ -47,6 +47,7 @@ public class EditSetController : BaseController
     public ViewResult Edit(int id)
     {
         var set = Resolve<SetRepository>().GetById(id);
+        _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set, HistoryItemType.Edit));
         var model = new EditSetModel(set);
         model.SetToUpdateModel();
         return View(_viewLocation, model);
@@ -57,6 +58,7 @@ public class EditSetController : BaseController
     {
         var questionSetRepo = Resolve<SetRepository>();
         var set = questionSetRepo.GetById(id);
+        _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set, HistoryItemType.Edit));
         StoreImage(set.Id);
         model.Fill(set);
         model.SetToUpdateModel();

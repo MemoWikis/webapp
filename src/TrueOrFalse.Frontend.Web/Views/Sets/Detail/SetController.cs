@@ -13,7 +13,7 @@ public class SetController : BaseController
     public ActionResult QuestionSet(string text, int id, int elementOnPage)
     {
         var set = Resolve<SetRepository>().GetById(id);
-        _sessionUiData.VisitedQuestionSets.Add(new QuestionSetHistoryItem(set));
+        _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set));
 
         return View(_viewLocation, new SetModel(set));
     }

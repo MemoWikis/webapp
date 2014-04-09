@@ -66,13 +66,21 @@
                 <i class="fa fa-caret-right"></i> Fragesätze
             </a>    
             <%
-                var visitedS = new SessionUiData().VisitedQuestionSets;
+                var visitedS = new SessionUiData().VisitedSets;
                 index = 0; 
                 foreach (var set in visitedS){ index++; %>
                     <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
-                    <a href="<%= Links.SetDetail(Url, set.Name, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
-                        <i class="fa fa-caret-right"></i> <%=set.Name%>
-                    </a>
+            
+                    <% if(set.Type == HistoryItemType.Edit){ %>
+                        <a href="<%= Links.QuestionSetEdit(Url, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
+                            <i class="fa fa-caret-right"></i> <%=set.Name%>
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    <% }else{ %>
+                        <a href="<%= Links.SetDetail(Url, set.Name, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
+                            <i class="fa fa-caret-right"></i> <%=set.Name%>
+                        </a>
+                    <% } %>
             <% } %>
         
             <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates(Url) %>">
