@@ -10,26 +10,6 @@
 /*                        *\
   Own responsive utilities
 \*                        */
-@media (min-width: 480px) {
-  .clear-left-xs {
-    clear: left;
-  }
-}
-@media (min-width: 480px) {
-  .clear-left-sm {
-    clear: left;
-  }
-}
-@media (min-width: 480px) {
-  .clear-left-xs {
-    clear: left;
-  }
-}
-@media (min-width: 480px) {
-  .clear-left-xs {
-    clear: left;
-  }
-}
 @media (max-width: 479px) {
   .float-none-xxs {
     float: none !important;
