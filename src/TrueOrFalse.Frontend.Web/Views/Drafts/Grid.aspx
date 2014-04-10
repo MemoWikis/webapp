@@ -109,6 +109,23 @@
     
         </div>
         
+        <div class="row">
+
+            <div class="test-col1">
+                <div class="box" style="min-height: 400px;"></div>
+            </div>
+            
+            <div class="test-col2">
+                <div class="box" style="min-height: 200px;"></div>
+            </div>
+            
+            <div class="test-col3">
+                <div class="box" style="min-height: 400px;"></div>
+            </div>
+    
+        </div>
+ 
+        
     </div>
 
 </asp:Content>

@@ -15,6 +15,13 @@
   Own responsive utilities
 \*                        */
 @media (max-width: 479px) {
+  .xxs-stack {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+@media (max-width: 479px) {
   .float-none-xxs {
     float: none !important;
   }

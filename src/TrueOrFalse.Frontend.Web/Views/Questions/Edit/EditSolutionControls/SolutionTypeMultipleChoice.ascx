@@ -3,7 +3,7 @@
 
 <div id="choices"></div>
 <div class="form-group">
-    <div class="xxs-stack col-xs-offset-2 col-xs-10 ButtonContainer">
+    <div class="noLabel columnControlsFull ButtonContainer">
         <button class="btn" id="addChoice">Antwort hinzufügen</button>
     </div>
 </div>
@@ -11,7 +11,7 @@
 <script type="text/javascript">
     var addingChoiceId = 1;
     $("#addChoice").click(function () {
-        $("#choices").append("<div class='form-group'><div class='xxs-stack col-xs-offset-2 col-xs-10'><input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' /></div></div>");
+        $("#choices").append("<div class='form-group'><div class='noLabel columnControlsFull'><input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' /></div></div>");
         addingChoiceId++;
         return false;
     });

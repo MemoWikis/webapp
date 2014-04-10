@@ -22,12 +22,10 @@
     
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
         <div class="row">
-            <div class="col-md-8 pageHeader">
+            <div class="pageHeader col-xs-12">
                 <h2 class="pull-left"><%=Model.FormTitle %></h2>
-            </div>
-    
-            <div class="col-md-4">
-                <div class="pull-right">
+            
+                <div class="headerControls pull-right">
                     <div>
                         <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" class="SimpleTextLink" style="font-size: 12px;
                             margin: 0;"><i class="fa fa-list"></i> <span class="TextSpan">zur Übersicht</span></a>
@@ -54,9 +52,9 @@
             <div class="col-md-4 col-md-push-8" style="margin-bottom: 11px;">
                 <div class="form-horizontal" role="form">
                     <div class="form-group">
-                        <%= Html.LabelFor(m => m.Visibility, new { @class = "labelVisibility col-xs-2 xxs-stack control-label" })%>
+                        <%= Html.LabelFor(m => m.Visibility, new { @class = "columnLabel labelVisibility control-label" })%>
                     
-                        <div class="col-md-12 col-xs-10 xxs-stack">
+                        <div class="columnControlsFull col-md-12">
                             <div class="radio">
                                 <label style="font-weight: normal">
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
@@ -89,8 +87,8 @@
                 </div>
                         
                     <div class="form-group">
-                        <%= Html.LabelFor(m => m.Question, new { @class = "col-xs-2 xxs-stack control-label" })%>
-                        <div class="col-xs-10 xxs-stack">
+                        <%= Html.LabelFor(m => m.Question, new { @class = "columnLabel control-label" })%>
+                        <div class="columnControlsFull">
                             <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 4})%>
                             <div style="padding-top: 4px;">
                                 <a href="#" id="openExtendedQuestion" class="SimpleTextLink"><i class="fa fa-plus-circle"></i> <span class="TextSpan">Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</span></a> 
@@ -99,8 +97,8 @@
                     </div>
                     
                     <div class="form-group markdown" style="display: none" id="extendedQuestion">
-                        <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "col-xs-2 xxs-stack control-label" })%>
-                        <div class="col-xs-10 xxs-stack">
+                        <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "columnLabel control-label" })%>
+                        <div class="columnControlsFull">
                             <div class="wmd-panel">
                                 <div id="wmd-button-bar-1"></div>
                                 <%= Html.TextAreaFor(m => m.QuestionExtended, new 
@@ -119,8 +117,8 @@
                     </div>--%>
 
                     <div class="form-group">
-                        <%= Html.LabelFor(m => m.SolutionType, new { @class = "col-xs-2 xxs-stack control-label" }) %>
-                        <div class="col-xs-4 xxs-stack">
+                        <%= Html.LabelFor(m => m.SolutionType, new { @class = "columnLabel control-label" }) %>
+                        <div class="columnControlsSmall">
                             <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType", @class="form-control"})%>
                         </div>
                     </div>
@@ -143,11 +141,11 @@
                     
                     
                     <div class="form-group">    
-                        <label class="col-xs-2 xxs-stack control-label show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">
+                        <label class="columnLabel control-label show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">
                             Kategorien
                         </label>
 
-                        <div id="relatedCategories" class="col-xs-10 xxs-stack">
+                        <div id="relatedCategories" class="columnControlsFull">
                             <script type="text/javascript">
                                 $(function () {
                                     <%foreach (var category in Model.Categories) { %>
@@ -164,10 +162,10 @@
                     </div>
                     
                     <div class="form-group markdown">
-                        <label class="col-xs-2 xxs-stack control-label show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">
+                        <label class="columnLabel control-label show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">
                             Erklärungen
                         </label>
-                        <div class="col-xs-10 xxs-stack">
+                        <div class="columnControlsFull">
                             <div class="wmd-panel">
                                 <div id="wmd-button-bar-2"></div>
                                 <%= Html.TextAreaFor(m => m.Description, new 
@@ -178,11 +176,11 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="col-xs-2 xxs-stack control-label">Quellen</label>
-                        <div class="col-xs-5">
-                            <input class="form-control col-sm-2" type="text" />
+                        <label class="columnLabel control-label">Quellen</label>
+                        <div class="columnControlsSmall">
+                            <input class="form-control" type="text" />
                         </div>
-                        <div class="col-xs-5">
+                        <div class="columnControlsSmall">
                             <select class="form-control ">
                                 <option>Wikipedia</option>
                                 <option>Webseite</option>
@@ -193,7 +191,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <div class="xxs-stack col-xs-offset-2  col-xs-10">
+                        <div class="noLabel columnControlsFull">
                             <div class="checkbox">
                                 <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
                                 Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
@@ -208,7 +206,7 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-xs-offset-2 col-xs-10 xxs-stack">
+                        <div class="noLabel columnControlsFull">
                             <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
                             <% if (Model.ShowSaveAndNewButton){ %>
                                 <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;

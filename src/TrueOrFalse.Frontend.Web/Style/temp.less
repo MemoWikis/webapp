@@ -13,6 +13,20 @@
 }
 */
 
+.test-col1 {
+    .make-sm-column(5);
+    .make-lg-column(3);
+}
+
+.test-col2 {
+    .make-sm-column(1);
+    .make-lg-column(4);
+}
+
+.test-col3 {
+    .make-sm-column(1);
+    .make-lg-column(5);
+}
 
 
 @import (reference) 'includes/colors.less';
@@ -40,13 +54,7 @@
         
 
     */
-@media only screen and (max-width: (@screen-xs-min - 1px))  {
-    .xxs-stack {
-        float: none;
-        width: 100%;
-        margin-left: 0;
-    }
-}
+
 
 
 

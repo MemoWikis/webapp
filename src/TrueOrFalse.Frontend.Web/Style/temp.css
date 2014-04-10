@@ -12,6 +12,60 @@
 .test {.make-sm-column(2; @gutter: @grid-gutter-width);
 }
 */
+.test-col1 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  .test-col1 {
+    float: left;
+    width: 41.66666667%;
+  }
+}
+@media (min-width: 1200px) {
+  .test-col1 {
+    float: left;
+    width: 25%;
+  }
+}
+.test-col2 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  .test-col2 {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+@media (min-width: 1200px) {
+  .test-col2 {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.test-col3 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  .test-col3 {
+    float: left;
+    width: 8.33333333%;
+  }
+}
+@media (min-width: 1200px) {
+  .test-col3 {
+    float: left;
+    width: 41.66666667%;
+  }
+}
 .thumbnail > img,
 .thumbnail a > img,
 .carousel-inner > .item > img,
@@ -101,13 +155,6 @@
         
 
     */
-@media only screen and (max-width: 479px) {
-  .xxs-stack {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-  }
-}
 .GradientBunt {
   /* Old browsers */
   background: -moz-linear-gradient(left, #2e487b 1%, #2e487b 10%, #afd534 10%, #afd534 20%, #ffd700 20%, #ffd700 30%, #b13a48 30%, #b13a48 40%, #99ccff 40%, #99ccff 50%, #3e7700 50%, #3e7700 60%, #000007 60%, #000007 70%, #afd534 70%, #afd534 80%, #ffd700 80%, #ffd700 90%, #b13a48 90%, #b13a48 100%);

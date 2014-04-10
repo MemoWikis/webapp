@@ -3,8 +3,8 @@
 <%= Html.HiddenFor(m => m.MetadataSolutionJson) %>
 
 <div class="form-group">
-    <label class="col-xs-2 xxs-stack control-label">Antwortformat</label>
-    <div class="xxs-stack col-xs-10" style="height: 28px;">
+    <label class="columnLabel control-label">Antwortformat</label>
+    <div class="columnControlsFull" style="height: 28px;">
         <div class="btn-group" style="position: relative; z-index: 11; width: 76px; float: left; margin-right: 10px;">
             <a class="btn btn-default" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
             <a class="btn btn-default" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
@@ -95,8 +95,8 @@
 
 <div class="form-group">
     
-    <%= Html.LabelFor(m => m.Text, new { @class = "col-xs-2 xxs-stack control-label" })%>
-    <div class="col-xs-10 xxs-stack">
+    <%= Html.LabelFor(m => m.Text, new { @class = "columnLabel control-label" })%>
+    <div class="columnControlsFull">
         <%= Html.TextBoxFor(m => m.Text, new { @class="form-control", @id = "Answer", @style = "width:310px; float: left;", placeholder = "Antwort eingeben." })%>
     </div>
 

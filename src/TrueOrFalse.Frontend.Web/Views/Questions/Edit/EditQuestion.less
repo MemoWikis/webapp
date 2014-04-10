@@ -1,6 +1,8 @@
-﻿@import (reference) '../../../Style/bootstrap/variables_custom.less';
-@import (reference) '../../../Style/bootstrap/bootstrap.less';
+﻿@import (reference) '../../../Style/bootstrap/bootstrap.less';
+@import (reference) '../../../Style/bootstrap/variables_custom.less';
 @import (reference) '../../../Style/includes/colors.less';
+@import (reference) '../../../Style/includes/shared.less';
+
 
 .contextMenu {
     margin-top: -1px; padding: 10px; border-color: #ccc; margin-bottom: 0;
@@ -28,7 +30,7 @@
 .labelVisibility {
     @media only screen and (min-width: @screen-md-min) {
         float: none;
-        width: 100%;
+        width: 100% !important;
         text-align: left !important;
         padding-top: 0 !important;
     }
@@ -38,3 +40,36 @@
     .underlined {border-bottom-color: @color-category;}
 }
 
+//Grid
+
+@grid-width-label-xs: 3;
+@grid-width-controls-full-xs: (12 - @grid-width-label-xs);
+@grid-width-controls-small-xs: 4;
+
+.pageHeader {
+    //.make-md-column(8);
+    .clearfix;
+}
+
+.headerControls {
+    margin-left: 10px;
+}
+
+.columnLabel {
+    .make-xs-column(@grid-width-label-xs);
+    .xxs-stack;
+}
+
+.columnControlsFull {
+    .xxs-stack;
+    .make-xs-column(@grid-width-controls-full-xs);
+}
+
+.columnControlsSmall {
+    .xxs-stack;
+    .make-xs-column(@grid-width-controls-small-xs);
+}
+
+.noLabel {
+    .make-xs-column-offset(@grid-width-label-xs);
+}
