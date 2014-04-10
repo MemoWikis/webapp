@@ -11,7 +11,11 @@ namespace TrueOrFalse
         public CategoryMap()
         {
             Id(x => x.Id);
+
             Map(x => x.Name);
+            Map(x => x.Description);
+            Map(x => x.WikipediaURL);
+
             References(x => x.Creator);
             
             Map(x => x.CountQuestions);
