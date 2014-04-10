@@ -59,9 +59,9 @@ $(function () {
 var Menu = (function () {
     function Menu() {
         $("#mainMenu .list-group-item").hover(function () {
-            $(this).find(".show-on-hover").show();
+            $(this).find(".show-on-hover").show(150);
         }, function () {
-            $(this).find(".show-on-hover").hide();
+            $(this).find(".show-on-hover").hide(150);
         });
     }
     return Menu;
