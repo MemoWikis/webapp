@@ -8,6 +8,7 @@ using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, CategorytOrderBy>
     {
         public string SearchTerm;
@@ -67,10 +68,12 @@ namespace TrueOrFalse
         }
     }
 
+    [Serializable]
     public class CategoryFilter : ConditionContainer
     {
     }
 
+    [Serializable]
     public class CategorytOrderBy : OrderByCriteria
     {
         public OrderBy CreationDate;

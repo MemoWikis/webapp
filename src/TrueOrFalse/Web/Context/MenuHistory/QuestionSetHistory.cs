@@ -7,10 +7,12 @@ using TrueOrFalse.Web;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class QuestionSetHistory : HistoryBase<QuestionSetHistoryItem>
     {
     }
 
+    [Serializable]
     public class QuestionSetHistoryItem : HistoryItemBase
     {
         public int Id { get; private set; }

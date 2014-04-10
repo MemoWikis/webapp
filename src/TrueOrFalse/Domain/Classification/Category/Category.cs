@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class Category : DomainEntity
     {
         

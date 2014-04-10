@@ -1,12 +1,15 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using System;
+using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class UserSearchSpec : SearchSpecificationBase<UserFilter, UserOrderBy>
     {
         public string SearchTerm;   
     }
 
+    [Serializable]
     public class UserFilter : ConditionContainer
     {
         public readonly ConditionString EmailAddress;
@@ -16,6 +19,7 @@ namespace TrueOrFalse
         }
     }
 
+    [Serializable]
     public class UserOrderBy : SpecOrderByBase
     {
         public OrderBy Reputation;

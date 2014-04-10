@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class HistoryBase<T> : IEnumerable<T> where T : HistoryItemBase
     {
         protected int _size = 3;

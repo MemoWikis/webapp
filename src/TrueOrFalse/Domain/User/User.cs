@@ -8,6 +8,7 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     [DebuggerDisplay("Id={Id} Name={Name}")]
     public class User : DomainEntity
     {
