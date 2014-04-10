@@ -97,6 +97,13 @@
                     
             <a class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" style="margin-top: 10px;" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>">
                 <i class="fa fa-caret-right"></i> Kategorien
+                
+                <% if(Model.IsInstallationAdmin){ %>
+                    <i class="fa fa-plus-circle pull-right show-tooltip show-on-hover hide2" 
+                        onclick="window.location = '<%= Url.Action("Create", "EditCategory") %>'; return false; "
+                        style="margin-top: 2px; color: lightblue;" 
+                        title="Neue Kategorie erstellen"></i>
+                <% } %>
             </a>
        
             <% var visitedC = new SessionUiData().VisitedCategories;

@@ -31,4 +31,9 @@ public class MenuLeftModel : BaseResolve
     {
         return Menu.Active(menuEntry);
     }
+
+    public bool IsActive(MenuEntry menuEntry)
+    {
+        return !string.IsNullOrEmpty(Menu.Active(menuEntry));
+    }
 }
