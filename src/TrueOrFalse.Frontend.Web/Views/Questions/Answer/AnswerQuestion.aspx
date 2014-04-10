@@ -182,7 +182,7 @@
                 <br style="line-height: 10px;"/>
             <% } %>            
             
-            <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}, null) %>"><i class="fa fa-pencil"></i> bearbeiten</a>
+            <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>"><i class="fa fa-pencil"></i> bearbeiten</a>
         </div>            
 
         <p style="padding-top: 12px;">

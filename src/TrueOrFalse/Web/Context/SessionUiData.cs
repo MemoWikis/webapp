@@ -14,7 +14,7 @@ namespace TrueOrFalse.Web.Context
             set { Data["lastVisitedQuestions"] = value; }
         }
 
-        public QuestionSetHistory VisitedQuestionSets{
+        public QuestionSetHistory VisitedSets{
             get { return Data.Get("lastVisitedQuestionSets", new QuestionSetHistory()); }
         }
 

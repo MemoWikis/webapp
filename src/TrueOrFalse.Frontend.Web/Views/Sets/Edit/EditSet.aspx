@@ -133,7 +133,7 @@
                                             <div class="questionTools">
                                                 <i class="fa fa-trash-o icon deleteButton"></i><br/>
                                                 <% if (Model.IsOwner(questionInSet.Question.Creator.Id)){%>
-                                                    <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = questionInSet.Question.Id}) %>">
+                                                    <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Id) %>">
                                                         <img src="/Images/edit.png"/> 
                                                     </a>
                                                 <% } %>

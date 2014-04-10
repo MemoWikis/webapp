@@ -4,10 +4,12 @@ using TrueOrFalse.Web.Uris;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class HelpHistory : HistoryBase<HelpHistoryItem>
     {
     }
 
+    [Serializable]
     public class HelpHistoryItem : HistoryItemBase
     {
         public int Id { get; private set; }

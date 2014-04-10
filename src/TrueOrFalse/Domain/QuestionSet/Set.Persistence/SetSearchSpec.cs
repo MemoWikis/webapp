@@ -9,11 +9,13 @@ using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class SetSearchSpec : SearchSpecificationBase<SetFilter, SetOrderBy>
     {
         public string SearchTerm;
     }
 
+    [Serializable]
     public class SetFilter : ConditionContainer
     {
         public ConditionInteger CreatorId;
@@ -24,6 +26,7 @@ namespace TrueOrFalse
         }
     }
 
+    [Serializable]
     public class SetOrderBy : OrderByCriteria
     {
         public OrderBy CreationDate;

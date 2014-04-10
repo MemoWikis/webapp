@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -149,7 +150,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Create", EditQuestionController);
         }
 
-        public const string EditQuestion = "Edit";
+        public static string EditQuestion(UrlHelper url, int questionId)
+        {
+            return url.Action("Edit", EditQuestionController, new {id = questionId});
+        }
 
         public const string AnswerQuestionController = "AnswerQuestion";
 

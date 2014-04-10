@@ -85,7 +85,7 @@
             <% if (Model.IsOwner){%>
                 <div style="position: relative; top: -1px; display: inline-block">
                     <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
-                    <a href="<%= Url.Action(Links.EditQuestion, Links.EditQuestionController, new {id = Model.QuestionId}) %>">
+                    <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>">
                         <img src="/Images/edit.png"/> 
                     </a>
                 </div>

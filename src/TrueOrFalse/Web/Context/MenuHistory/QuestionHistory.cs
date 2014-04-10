@@ -9,6 +9,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class QuestionHistory : HistoryBase<QuestionHistoryItem>
     {
         public QuestionHistory()
@@ -17,6 +18,7 @@ namespace TrueOrFalse
         }
     }
 
+    [Serializable]
     public class QuestionHistoryItem : HistoryItemBase
     {
         public int Id { get; private set; }
@@ -50,6 +52,13 @@ namespace TrueOrFalse
             HistoryItemType type = HistoryItemType.Any)
         {
             SearchSpec = QuestionSearchSpecSession.CloneAndAddToSession(seachSpec);
+            Type = type;
+            
+            FillQuestionFields(question);
+        }
+
+        public QuestionHistoryItem(Question question, HistoryItemType type)
+        {
             Type = type;
             
             FillQuestionFields(question);
