@@ -17,7 +17,7 @@ namespace TrueOrFalse
             if(String.IsNullOrEmpty(fileNameOrUrl))
                 return new WikiImageMeta { ImageNotFound = true };
 
-            var fileName = ParseFileName(fileNameOrUrl);
+            var fileName = ExtractFromUrl(fileNameOrUrl);
             var url =
                 "http://commons.wikimedia.org/w/api.php?action=query" +
                 "&prop=imageinfo" +
@@ -28,7 +28,7 @@ namespace TrueOrFalse
                 "&titles=File%3A" + HttpUtility.UrlEncode(fileName);
 
             var webRequest = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
-            webRequest.UserAgent = "TrueOrFalseBot/1.0 (http://www.richtig-oder-falsch.de/)";
+            webRequest.UserAgent = "TrueOrFalseBot/1.0 (http://www.memucho.de/)";
 
             string resultString;
             using (var response = webRequest.GetResponse())
@@ -62,11 +62,13 @@ namespace TrueOrFalse
                 };
         }
 
-        private string ParseFileName(string filePath)
+        private string ExtractFromUrl(string filePath)
         {
-            if (filePath.Contains("File:")){
+            //remove query string
+            filePath = filePath.Split('?')[0]; 
+
+            if (filePath.Contains("File:"))
                 return filePath.Split(new[] { "File:" }, StringSplitOptions.None)[1];
-            }
 
             return filePath;
         }

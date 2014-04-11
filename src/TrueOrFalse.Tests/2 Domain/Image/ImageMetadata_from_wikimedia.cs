@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using ObjectDumper;
 
 namespace TrueOrFalse.Tests
 {
@@ -19,6 +20,10 @@ namespace TrueOrFalse.Tests
             var result2 = Resolve<WikiImageMetaLoader>().Run("http://commons.wikimedia.org/wiki/File:Berlin_relief_location_map-names.png");
             Assert.That(result2.ImageNotFound, Is.False);
             Assert.That(result2.ImageTitle, Is.EqualTo("File:Berlin relief location map-names.png"));
+
+            var result3 = Resolve<WikiImageMetaLoader>().Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg?lang=de");
+            Assert.That(result3.ImageNotFound, Is.False);
+            Assert.That(result3.ImageTitle, Is.EqualTo("File:Platichthys flesus Vääna-Jõesuu in Estonia.jpg"));
         }
 
         [Test]

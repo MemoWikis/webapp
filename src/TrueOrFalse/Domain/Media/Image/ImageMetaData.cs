@@ -20,5 +20,6 @@ namespace TrueOrFalse
         public virtual string LicenceInfo { get; set; }
 
         public virtual int UserId { get; set; }
+
     }
 }
