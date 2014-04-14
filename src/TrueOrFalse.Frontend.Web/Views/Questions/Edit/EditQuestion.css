@@ -191,11 +191,10 @@
   margin-right: 12px;
 }
 #addRelatedCategory {
-  display: inline-block;
+  padding-left: 0;
   border: none;
   box-shadow: none;
   width: auto;
-  padding-left: 0;
 }
 .noInput {
   border: none;

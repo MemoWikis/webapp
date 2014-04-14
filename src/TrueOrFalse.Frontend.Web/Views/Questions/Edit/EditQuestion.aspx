@@ -89,7 +89,7 @@
                     <div class="form-group">
                         <%= Html.LabelFor(m => m.Question, new { @class = "columnLabel control-label" })%>
                         <div class="columnControlsFull">
-                            <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 4})%>
+                            <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 3})%>
                             <div style="padding-top: 4px;">
                                 <a href="#" id="openExtendedQuestion" class="SimpleTextLink"><i class="fa fa-plus-circle"></i> <span class="TextSpan">Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</span></a> 
                             </div>    
@@ -102,7 +102,7 @@
                             <div class="wmd-panel">
                                 <div id="wmd-button-bar-1"></div>
                                 <%= Html.TextAreaFor(m => m.QuestionExtended, new 
-                                    { @class= "wmd-input form-control", id="wmd-input-1", placeholder = "Erweiterte Beschreibung" })%>
+                                    { @class= "wmd-input form-control", id="wmd-input-1", placeholder = "Erweiterte Beschreibung", rows = 4 })%>
                             </div>                            
                             <div id="wmd-preview-1" class="wmd-panel wmd-preview"></div>
                         </div>
@@ -132,7 +132,7 @@
                             </script>
                             <div class="clearfix">
                                 <input id="txtNewRelatedCategory" class="form-control" style="width: 190px;" type="text" placeholder="Wähle eine Kategorie" />
-                                <a href="#" id="addRelatedCategory" style="display: none" class="input form-control">
+                                <a href="#" id="addRelatedCategory" style="display: none" class="form-control">
                                     <img alt="" src='/Images/Buttons/add.png' />
                                 </a>
                             </div>

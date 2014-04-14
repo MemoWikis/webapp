@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
     [DebuggerDisplay("Id={Id} Name={Name}")]
+    [Serializable]
+
     public class Set : DomainEntity
     {
         public virtual string Name { get; set; }

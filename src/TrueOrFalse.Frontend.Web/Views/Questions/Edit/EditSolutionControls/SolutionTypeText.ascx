@@ -83,7 +83,7 @@
             Antwortgenauigkeit: <b><span id="spanAnswerPrecision"></span></b>.
         </div>
         <div id="infoMetaText" style="height: 100%; vertical-align: middle;">
-            <span class="input form-control noInput">
+            <span>
                 Exakte Texteingabe
             </span>
         </div>
