@@ -6,23 +6,4 @@
    <label for="row-<%:i %>"><%:row.Key %></label> <%:Html.TextBox("row-" + i, null, new {@class = "sequence-row"})  %> <br />
 <% } %>
 
-<script type="text/javascript">
-    $('.sequence-row').keydown(function () {
-        //answerChanged();
-    });
-    function getAnswerText() {
-        return $.map($('.sequence-row'), function(x) {
-            return $(x).val();
-        }).join(", ");
-    }
-    function getAnswerData() {
-        return {
-            answer: JSON.stringify($.map($('.sequence-row'), function(x) {
-                return $(x).val();
-            }))
-        };
-    }
-    function newAnswer() {
-        $('.sequence-row').val(""); ;
-    }
-</script>
+<script src="/Views/Questions/Answer/AnswerControls/SolutionTypeSequence.js" type="text/javascript"></script>
