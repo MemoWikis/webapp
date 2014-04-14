@@ -8,6 +8,7 @@ using TrueOrFalse.Infrastructure;
 namespace TrueOrFalse
 {
     [DebuggerDisplay("Id={Id} Name={Text}")]
+    [Serializable]
     public class Question : DomainEntity
     {
         public virtual string Text { get; set; }

@@ -154,6 +154,18 @@
     margin-left: 0;
   }
 }
+.aside .columnControlsFull {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 992px) {
+  .aside .columnControlsFull {
+    float: left;
+    width: 100%;
+  }
+}
 .columnControlsSmall {
   position: relative;
   float: left;
@@ -173,5 +185,20 @@
   .noLabel {
     margin-left: 25%;
   }
+}
+#txtNewRelatedCategory {
+  float: left;
+  margin-right: 12px;
+}
+#addRelatedCategory {
+  padding-left: 0;
+  border: none;
+  box-shadow: none;
+  width: auto;
+}
+.noInput {
+  border: none;
+  box-shadow: none;
+  width: auto;
 }
 /*# sourceMappingURL=EditQuestion.css.map */

@@ -683,7 +683,6 @@ img {
   padding-left: 15px;
   padding-right: 15px;
   position: relative;
-  z-index: 99;
 }
 #MasterFooter #footerOn {
   display: inline-block;

@@ -43,7 +43,7 @@
 //Grid
 
 @grid-width-label-xs: 3;
-@grid-width-controls-full-xs: (12 - @grid-width-label-xs);
+@grid-width-controls-full-xs: (@grid-columns - @grid-width-label-xs);
 @grid-width-controls-small-xs: 4;
 
 .pageHeader {
@@ -63,6 +63,10 @@
 .columnControlsFull {
     .xxs-stack;
     .make-xs-column(@grid-width-controls-full-xs);
+
+    .aside & {
+        .make-md-column(@grid-columns);
+    }
 }
 
 .columnControlsSmall {
@@ -72,4 +76,21 @@
 
 .noLabel {
     .make-xs-column-offset(@grid-width-label-xs);
+}
+
+#txtNewRelatedCategory {
+    float: left;
+    margin-right: 12px;
+}
+
+#addRelatedCategory {
+    padding-left: 0;
+    .noInput
+    
+}
+
+.noInput {
+    border: none;
+    box-shadow: none;
+    width: auto;
 }

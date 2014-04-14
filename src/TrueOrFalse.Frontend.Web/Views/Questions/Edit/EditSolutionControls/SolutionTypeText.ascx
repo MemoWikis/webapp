@@ -5,7 +5,7 @@
 <div class="form-group">
     <label class="columnLabel control-label">Antwortformat</label>
     <div class="columnControlsFull" style="height: 28px;">
-        <div class="btn-group" style="position: relative; z-index: 11; width: 76px; float: left; margin-right: 10px;">
+        <div class="btn-group" style="position: relative; width: 76px; float: left; margin-right: 10px;">
             <a class="btn btn-default" style="padding: 3px 4px; border-bottom-left-radius: 0" id="btnMenuItemText"><img src="/Images/textfield-16.png" /></a>
             <a class="btn btn-default" style="padding: 3px 4px" id="btnMenuItemNumber"><img src="/Images/numeric_stepper-16.png" /></a>
             <a class="btn btn-default" style="padding: 3px 4px; border-bottom-right-radius: 0" id="btnMenuItemDate"><img src="/Images/date-16.png" /></a>    
@@ -83,9 +83,9 @@
             Antwortgenauigkeit: <b><span id="spanAnswerPrecision"></span></b>.
         </div>
         <div id="infoMetaText" style="height: 100%; vertical-align: middle;">
-            <span style="display: table-cell; height: 100%;">
-            Exakte Texteingabe
-                </span>
+            <span>
+                Exakte Texteingabe
+            </span>
         </div>
         <div id="infoMetaNumber">
             Exakte Zahl
@@ -97,9 +97,9 @@
     
     <%= Html.LabelFor(m => m.Text, new { @class = "columnLabel control-label" })%>
     <div class="columnControlsFull">
-        <%= Html.TextBoxFor(m => m.Text, new { @class="form-control", @id = "Answer", @style = "width:310px; float: left;", placeholder = "Antwort eingeben." })%>
+        <%= Html.TextBoxFor(m => m.Text, new { @class="form-control", @id = "Answer", @style = "float: left;", placeholder = "Antwort eingeben." })%>
     </div>
-
+    
 </div>
 
 <% /* MODAL-TAB-INFO****************************************************************/ %>
