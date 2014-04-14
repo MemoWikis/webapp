@@ -805,6 +805,9 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js">
+      <DependentUpon>SolutionTypeMultipleChoice.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
@@ -837,6 +840,7 @@
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
@@ -1045,6 +1049,9 @@
       <DependentUpon>Message.css</DependentUpon>
     </Content>
     <Content Include="Style\01_temp.less" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
+      <DependentUpon>SolutionTypeMultipleChoice.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

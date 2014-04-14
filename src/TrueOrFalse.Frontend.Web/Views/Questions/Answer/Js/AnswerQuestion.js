@@ -97,6 +97,10 @@ var AnswerQuestion = (function () {
     };
 
     AnswerQuestion.prototype.OnAnswerChange = function () {
+        this.Reenable_answer_button_if_renewed_answer();
+    };
+
+    AnswerQuestion.prototype.Reenable_answer_button_if_renewed_answer = function () {
         if ($("#buttons-edit-answer").is(":visible")) {
             $("#buttons-edit-answer").hide();
             $("#buttons-answer-again").show();

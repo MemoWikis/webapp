@@ -110,6 +110,10 @@ class  AnswerQuestion
     }   
 
     public OnAnswerChange() {
+        this.Reenable_answer_button_if_renewed_answer();
+    }
+
+    public Reenable_answer_button_if_renewed_answer() {
         if ($("#buttons-edit-answer").is(":visible")) {
             $("#buttons-edit-answer").hide();
             $("#buttons-answer-again").show();

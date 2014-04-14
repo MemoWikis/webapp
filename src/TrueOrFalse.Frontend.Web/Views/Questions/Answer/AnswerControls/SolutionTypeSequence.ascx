@@ -8,7 +8,7 @@
 
 <script type="text/javascript">
     $('.sequence-row').keydown(function () {
-        answerChanged();
+        //answerChanged();
     });
     function getAnswerText() {
         return $.map($('.sequence-row'), function(x) {
