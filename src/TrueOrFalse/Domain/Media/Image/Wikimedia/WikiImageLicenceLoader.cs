@@ -16,7 +16,7 @@ namespace TrueOrFalse
             var metaData = _metaDataLoader.Run(fileName);
 
             //webseite rausfinden
-            var url = String.Format("http://commons.wikimedia.org/w/index.php?title=File:{0}&action=raw",);
+            var url = String.Format("http://commons.wikimedia.org/w/index.php?title=File:{0}&action=raw","");
             //webseite laden
             //webseite parsen
 

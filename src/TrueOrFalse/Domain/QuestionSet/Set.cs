@@ -7,7 +7,6 @@ namespace TrueOrFalse
 {
     [DebuggerDisplay("Id={Id} Name={Name}")]
     [Serializable]
-
     public class Set : DomainEntity
     {
         public virtual string Name { get; set; }
