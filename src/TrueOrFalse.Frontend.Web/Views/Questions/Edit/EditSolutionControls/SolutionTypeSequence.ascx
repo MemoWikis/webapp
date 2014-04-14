@@ -12,7 +12,14 @@
     var addingRowId = 1;
 
     var fnAddRow = function() {
-        $("#rows").append("<div class='form-group'><div class='noLabel columnControlsFull'><input type='text' class='form-control sequence-key' name='key-" + addingRowId + "' />: <input type='text' class='form-control sequence-value' name='value-" + addingRowId + "' /></div></div>");
+        $("#rows").append(
+            "<div class='form-group'>" +
+            "   <div class='noLabel columnControlsFull'>" +
+            "       <input type='text' class='form-control sequence-key' name='key-" + addingRowId + "' />: " +
+            "       <input type='text' class='form-control sequence-value' name='value-" + addingRowId + "' />" +
+            "       <a href='#' onClick=\"$(this).parent().remove()\">[x]</a>" + 
+            "   </div>" +
+            "</div>");
         addingRowId++;
     }
     $("#addRow").click(function () {
@@ -20,11 +27,13 @@
         return false;
     });
 
-    fnAddRow();
+    <% if(Model.Rows.Count == 0){ %>
+        fnAddRow();
+    <% } %> 
 
-<% if(Model != null) foreach (var row in Model.Rows) { %>
-    $("#addRow").click();
-    $(".sequence-key").last().val('<%:row.Key %>');
-    $(".sequence-value").last().val('<%:row.Value %>');
-<% } %>
+    <% if(Model != null) foreach (var row in Model.Rows) { %>
+        fnAddRow();
+        $(".sequence-key").last().val('<%:row.Key %>');
+        $(".sequence-value").last().val('<%:row.Value %>');
+    <% }%>
 </script>
