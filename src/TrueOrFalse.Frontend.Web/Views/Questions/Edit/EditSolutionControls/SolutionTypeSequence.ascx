@@ -27,7 +27,7 @@
         return false;
     });
 
-    <% if(Model.Rows.Count == 0){ %>
+    <% if (Model == null || (Model != null && Model.Rows.Count == 0)){ %>
         fnAddRow();
     <% } %> 
 
