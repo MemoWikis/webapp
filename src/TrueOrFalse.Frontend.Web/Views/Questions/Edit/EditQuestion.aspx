@@ -49,12 +49,12 @@
         
 
         <div class="row">
-            <div class="col-md-4 col-md-push-8" style="margin-bottom: 11px;">
+            <div class="aside col-md-3 col-md-push-9" style="margin-bottom: 11px;">
                 <div class="form-horizontal" role="form">
                     <div class="form-group">
                         <%= Html.LabelFor(m => m.Visibility, new { @class = "columnLabel labelVisibility control-label" })%>
                     
-                        <div class="columnControlsFull col-md-12">
+                        <div class="columnControlsFull">
                             <div class="radio">
                                 <label style="font-weight: normal">
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 col-md-pull-4">
+            <div class="col-md-9 col-md-pull-3">
                 <div class="form-horizontal" role="form">
                 <div>
                     <% Html.Message(Model.Message); %>
@@ -115,6 +115,30 @@
                         <label for="soundfile" class="control-label">Ton:</label>
                         &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
                     </div>--%>
+                    
+                    <div class="form-group">    
+                        <label class="columnLabel control-label show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">
+                            Kategorien
+                        </label>
+
+                        <div id="relatedCategories" class="columnControlsFull">
+                            <script type="text/javascript">
+                                $(function () {
+                                    <%foreach (var category in Model.Categories) { %>
+                                    $("#txtNewRelatedCategory").val('<%=category %>');
+                                    $("#addRelatedCategory").click();
+                                    <% } %>
+                                });
+                            </script>
+                            <div class="clearfix">
+                                <input id="txtNewRelatedCategory" class="form-control" style="width: 190px;" type="text" placeholder="Wähle eine Kategorie" />
+                                <a href="#" id="addRelatedCategory" style="display: none" class="input form-control">
+                                    <img alt="" src='/Images/Buttons/add.png' />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
 
                     <div class="form-group">
                         <%= Html.LabelFor(m => m.SolutionType, new { @class = "columnLabel control-label" }) %>
@@ -138,28 +162,6 @@
                         $("#ddlAnswerType").change(updateSolutionBody);
                         updateSolutionBody();
                     </script>
-                    
-                    
-                    <div class="form-group">    
-                        <label class="columnLabel control-label show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">
-                            Kategorien
-                        </label>
-
-                        <div id="relatedCategories" class="columnControlsFull">
-                            <script type="text/javascript">
-                                $(function () {
-                                    <%foreach (var category in Model.Categories) { %>
-                                        $("#txtNewRelatedCategory").val('<%=category %>');
-                                        $("#addRelatedCategory").click();
-                                    <% } %>
-                                });
-                            </script>
-                            <input id="txtNewRelatedCategory" class="form-control" style="width: 190px;" type="text" placeholder="Wähle eine Kategorie" />
-                            <a href="#" id="addRelatedCategory" style="display: none">
-                                <img alt="" src='/Images/Buttons/add.png' />
-                            </a>
-                        </div>
-                    </div>
                     
                     <div class="form-group markdown">
                         <label class="columnLabel control-label show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">

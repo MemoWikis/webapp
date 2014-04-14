@@ -28,13 +28,8 @@ public class EditQuestionModel : BaseModel
     public string QuestionExtended { get; set; }
 
     [Required]
-    [DisplayName("Fragetyp")]
+    [DisplayName("Abfragetyp")]
     public string SolutionType { get; set; }
-
-    [Required]
-    [DataType(DataType.MultilineText)]
-    [DisplayName("Fragetyp")]
-    public string Solution { get; set; }
 
     [DataType(DataType.MultilineText)]
     [DisplayName("Erklärungen")]
@@ -96,7 +91,6 @@ public class EditQuestionModel : BaseModel
         Id = question.Id;
         Question = question.Text;
         QuestionExtended = question.TextExtended;
-        Solution = question.Solution;
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
         Categories = (from cat in question.Categories select cat.Name).ToList();
@@ -129,7 +123,6 @@ public class EditQuestionModel : BaseModel
     {
         Id = -1;
         Question = "";
-        Solution = "";
         Description = "";
         Categories = new string[]{};
     }

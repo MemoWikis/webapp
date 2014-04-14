@@ -1,4 +1,9 @@
-﻿.pageHeader{h2&, & > h2{
+﻿@import (reference) 'includes/colors.less';
+@import (reference) 'includes/shared.less';
+@import (reference) 'includes/variables.less';
+@import (reference) 'bootstrap/bootstrap.less';
+
+.pageHeader{h2&, & > h2{
         padding-top: 0; 
         margin-top: 0;
         margin-bottom: 30px;
@@ -23,6 +28,25 @@ div.control-group.markdown {
     label { margin-top: 5px; }
 }
 
-div.control-group{
+.control-group{
+
     span > i.fa-info-circle{color: lightblue; }
+
+}
+
+.form-group label {
+
+    @media (min-width: @screen-xs-min){
+        text-align: right;
+    }
+}
+
+.wmd-panel li {
+
+    @media (max-width: @screen-xxs-max){
+        position: relative;
+        display: block;
+        float: left;
+        left: auto !important;
+    }
 }
