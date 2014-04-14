@@ -33,6 +33,9 @@
             </a>
             <a class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>">
                 <i class="fa fa-caret-right"></i> Fragen
+                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
+                    onclick="window.location = '<%= Links.CreateQuestion(Url) %>'; return false; "
+                    title="Frage erstellen"></i>
             </a>
 
             <%  index = 0;
@@ -71,6 +74,10 @@
 
             <a class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets")%>">
                 <i class="fa fa-caret-right"></i> Fragesätze
+                
+                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
+                    onclick="window.location = '<%= Url.Action("Create", "EditSet") %>'; return false; "
+                    title="Neuen Fragesatz erstellen"></i>                
             </a>    
             <%
                 var visitedS = new SessionUiData().VisitedSets;
@@ -97,6 +104,10 @@
                     
             <a class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" style="margin-top: 10px;" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>">
                 <i class="fa fa-caret-right"></i> Kategorien
+                
+                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" 
+                    onclick="window.location = '<%= Url.Action("Create", "EditCategory") %>'; return false; "
+                    title="Neue Kategorie erstellen"></i>             
             </a>
        
             <% var visitedC = new SessionUiData().VisitedCategories;

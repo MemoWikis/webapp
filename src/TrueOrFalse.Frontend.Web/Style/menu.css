@@ -128,6 +128,19 @@
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+#mainMenu .list-group-item .add-new {
+  margin-top: 2px;
+  float: right !important;
+}
+#mainMenu .list-group-item .set-color {
+  color: #ffd700;
+}
+#mainMenu .list-group-item .quest-color {
+  color: #afd534;
+}
+#mainMenu .list-group-item .cat-color {
+  color: #99ccff;
+}
 #mainMenu .list-group-item.set {
   border-left-color: #ffd700;
   border-right-color: #ffd700;

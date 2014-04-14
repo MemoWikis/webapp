@@ -53,11 +53,25 @@ $(function() {
         });
     });
 
+    new MenuMobile();
     new Menu();
-
 });
 
 class Menu {
+
+    constructor() {
+        $("#mainMenu .list-group-item").hover(
+            function () {
+                $(this).find(".show-on-hover").show(150);
+            },
+            function () {
+                $(this).find(".show-on-hover").hide(150);
+            }
+        );
+    }
+}
+
+class MenuMobile {
 
     _isOpen: boolean;
     _animationInProgress: boolean;

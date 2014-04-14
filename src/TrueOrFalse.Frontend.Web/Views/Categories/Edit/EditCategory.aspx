@@ -51,6 +51,21 @@
                         <%= Html.TextBoxFor(m => m.Name, new {@class="form-control"} ) %>    
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <%= Html.LabelFor(m => m.Description, new {@class="col-sm-3 control-label"} ) %>
+                    <div class="col-xs-6">
+                        <%= Html.TextAreaFor(m => m.Description, new {@class="form-control"} ) %>
+                        <% %>
+                    </div>
+                </div>
+            
+                <div class="form-group">
+                    <%= Html.LabelFor(m => m.WikipediaURL, new {@class="col-sm-3 control-label"} ) %>
+                    <div class="col-xs-6">
+                        <%= Html.TextBoxFor(m => m.WikipediaURL, new {@class="form-control"} ) %>    
+                    </div>
+                </div>
         
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">

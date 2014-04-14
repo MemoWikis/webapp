@@ -52,11 +52,23 @@ $(function () {
         });
     });
 
+    new MenuMobile();
     new Menu();
 });
 
 var Menu = (function () {
     function Menu() {
+        $("#mainMenu .list-group-item").hover(function () {
+            $(this).find(".show-on-hover").show(150);
+        }, function () {
+            $(this).find(".show-on-hover").hide(150);
+        });
+    }
+    return Menu;
+})();
+
+var MenuMobile = (function () {
+    function MenuMobile() {
         var _this = this;
         this._isOpen = false;
         this._animationInProgress = false;
@@ -86,7 +98,7 @@ var Menu = (function () {
             }
         });
     }
-    Menu.prototype.openMenu = function () {
+    MenuMobile.prototype.openMenu = function () {
         var _this = this;
         this._animationInProgress = true;
         $("#mainMenu").animate({ 'left': '0' }, 200, "swing", function () {
@@ -95,7 +107,7 @@ var Menu = (function () {
         this._isOpen = true;
     };
 
-    Menu.prototype.closeMenu = function () {
+    MenuMobile.prototype.closeMenu = function () {
         var _this = this;
         this._animationInProgress = true;
         $("#mainMenu").animate({ 'left': '-100%' }, 200, "swing", function () {
@@ -103,6 +115,6 @@ var Menu = (function () {
         });
         this._isOpen = false;
     };
-    return Menu;
+    return MenuMobile;
 })();
 //# sourceMappingURL=MM.Site.js.map

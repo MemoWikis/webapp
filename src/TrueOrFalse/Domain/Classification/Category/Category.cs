@@ -7,9 +7,12 @@ namespace TrueOrFalse
     [Serializable]
     public class Category : DomainEntity
     {
-        
-        public virtual string Description { get; set; }
         public virtual string Name { get; set; }
+
+        public virtual string Description { get; set; }
+
+        public virtual string WikipediaURL { get; set; }
+
         public virtual User Creator { get; set; }
         public virtual IList<Category> ParentCategories { get; set; }
         

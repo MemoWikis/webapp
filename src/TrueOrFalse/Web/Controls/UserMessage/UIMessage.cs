@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 namespace TrueOrFalse.Web
 {
+    [Serializable]
     public class SuccessMessage : UIMessage
     {
         public SuccessMessage(string text) : base(MessageType.IsSuccess, text){}
     }
 
+    [Serializable]
     public class ErrorMessage : UIMessage
     {
         public ErrorMessage(string text) : base(MessageType.IsError, text){}
@@ -20,6 +22,7 @@ namespace TrueOrFalse.Web
         }
     }
 
+    [Serializable]
     public class UIMessage
     {
         public readonly string Text;
