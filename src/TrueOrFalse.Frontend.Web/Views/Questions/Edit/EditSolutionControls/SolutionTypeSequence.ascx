@@ -27,11 +27,13 @@
         return false;
     });
 
-    <% if (Model == null || (Model != null && Model.Rows.Count == 0)){ %>
+    <% bool isNewQuestion = Model == null; %>
+
+    <% if (isNewQuestion || (Model != null && Model.Rows.Count == 0)){ %>
         fnAddRow();
     <% } %> 
 
-    <% if(Model != null) foreach (var row in Model.Rows) { %>
+    <% if(!isNewQuestion) foreach (var row in Model.Rows) { %>
         fnAddRow();
         $(".sequence-key").last().val('<%:row.Key %>');
         $(".sequence-value").last().val('<%:row.Value %>');
