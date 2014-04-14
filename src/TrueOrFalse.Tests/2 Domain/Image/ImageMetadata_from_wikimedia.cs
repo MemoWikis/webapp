@@ -26,6 +26,8 @@ namespace TrueOrFalse.Tests
             Assert.That(result3.ImageTitle, Is.EqualTo("File:Platichthys flesus Vääna-Jõesuu in Estonia.jpg"));
         }
 
+
+
         [Test]
         public void Image_not_found_should_be_indicated()
         {
@@ -35,4 +37,5 @@ namespace TrueOrFalse.Tests
             );
         }
     }
+
 }

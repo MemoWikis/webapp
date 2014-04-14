@@ -185,6 +185,7 @@
     <Compile Include="1 View\MarkdownTests.cs" />
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
+    <Compile Include="2 Domain\Image\ImageLicenceInfo_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageMetadata_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\Image_persistence.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_correctness_probability.cs" />

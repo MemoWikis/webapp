@@ -32,6 +32,9 @@ namespace TrueOrFalse
         public int ImageThumbHeight;
         public string ImageThumbUrl;
 
+        public string User;
+        public string UserId;
+
         public string JSonResult;
 
         public Stream GetStream()

@@ -22,8 +22,9 @@ namespace TrueOrFalse
                 "http://commons.wikimedia.org/w/api.php?action=query" +
                 "&prop=imageinfo" +
                 "&format=json" +
-                "&iiprop=timestamp%7Cuser%7Cuserid%7Curl%7Csize" +
-                "&iilimit=1" +
+                "&iiprop=timestamp|user|userid|url|size|metadata|sha1" +
+                "&iilimit=1" + //return 1 revision
+                "&iiextmetadatalanguage=de" +
                 "&iiurlwidth=" + thumbUrlWidth +
                 "&titles=File%3A" + HttpUtility.UrlEncode(fileName);
 
@@ -48,6 +49,8 @@ namespace TrueOrFalse
                 {
                     PageId = page[pageName].pageid,
                     PageNamespace = page[pageName].ns,
+                    User = page[pageName].user,
+                    UserId = page[pageName].userid,
                     ImageTitle = page[pageName].title,
                     ImageRepository = page[pageName].imagerepository,
                     ImageTimeStamp = DateTime.Parse(page[pageName].imageinfo[0].timestamp.Replace('T', ' ').Replace('Z', ' ')),

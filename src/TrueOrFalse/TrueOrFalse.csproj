@@ -161,6 +161,8 @@
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcCBForQuestions.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishSetCount.cs" />
     <Compile Include="Domain\Media\Image\ResizeImage.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceInfo.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceLoader.cs" />
     <Compile Include="Domain\Message\BaseSendMessage.cs" />
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Ops\GetUnreadMessageCount.cs" />
