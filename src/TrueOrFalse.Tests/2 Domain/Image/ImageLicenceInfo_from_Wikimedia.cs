@@ -11,6 +11,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 {
     class ImageLicenceInfo_from_wikimedia : BaseTest
     {
+        [Ignore]//tmp
         [Test]
         public void Get_licence_info()
         {
