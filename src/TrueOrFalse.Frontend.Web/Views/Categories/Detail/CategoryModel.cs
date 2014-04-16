@@ -27,6 +27,8 @@ public class CategoryModel : BaseModel
 
     public string ImageUrl;
 
+    public string WikiUrl;
+
     public bool IsOwnerOrAdmin;
 
     public int CountQuestions;
@@ -36,6 +38,7 @@ public class CategoryModel : BaseModel
     public CategoryModel(Category category)
     {
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
+        WikiUrl = category.WikipediaURL;
         Category = category;
 
         Id = category.Id;

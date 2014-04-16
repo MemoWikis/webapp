@@ -314,6 +314,9 @@
     <Content Include="Images\no-question-128.png" />
     <Content Include="Images\no-set-128.png" />
     <Content Include="Images\no-set-206.png" />
+    <Content Include="Images\wiki-16.png" />
+    <Content Include="Images\wiki-24.png" />
+    <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
     <Content Include="Scripts\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />

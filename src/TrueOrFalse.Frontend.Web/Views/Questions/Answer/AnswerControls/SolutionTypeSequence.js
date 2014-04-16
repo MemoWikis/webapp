@@ -1,4 +1,4 @@
-﻿/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
+/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
 /// <reference path="../../../../scripts/mm.utils.ts" />
 /// <reference path="../js/answerquestion.ts" />
 var SolutionTypeSequence = (function () {
