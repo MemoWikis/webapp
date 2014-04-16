@@ -94,7 +94,7 @@
 #mainMenu .list-group-item {
   margin-top: 2px;
   background-color: #f6f8fc;
-  border: solid 4px #0e22b6;
+  border: solid 4px #2c5fb2;
   border-top: none;
   border-bottom: none;
   border-right: none;
@@ -220,20 +220,20 @@
   color: white;
 }
 #mainMenu .list-group-item.users {
-  border-left-color: #0e22b6;
+  border-left-color: #2c5fb2;
 }
 #mainMenu .list-group-item.users:hover {
-  background-color: #0e22b6;
+  background-color: #2c5fb2;
 }
 #mainMenu .list-group-item.users i.fa-caret-right {
-  color: #0e22b6;
+  color: #2c5fb2;
 }
 #mainMenu .list-group-item.users:hover {
-  background-color: #6a7af3;
+  background-color: #93b2e4;
   color: white;
 }
 #mainMenu .list-group-item.users:hover i.fa-caret-right {
-  color: #0e22b6;
+  color: #2c5fb2;
 }
 #mainMenu .list-group-item.play {
   border-left-color: #3e7700;

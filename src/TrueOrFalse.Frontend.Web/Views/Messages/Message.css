@@ -6,10 +6,10 @@
   General styles
 \*              */
 .link {
-  color: #0e22b6;
+  color: #2c5fb2;
 }
 .link:hover {
-  color: #0e22b6;
+  color: #2c5fb2;
 }
 /*                        *\
   Own responsive utilities
@@ -72,7 +72,7 @@
   border-left-color: #ffdb99;
   border-right-color: #e6e6e6;
   background-color: #fcfcfc;
-  color: #7693cc;
+  color: #5176be;
 }
 .msgRow.isRead .header,
 .msgRow.isRead .body,
