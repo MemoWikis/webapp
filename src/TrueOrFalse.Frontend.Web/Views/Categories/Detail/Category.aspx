@@ -78,7 +78,7 @@
                     <h4>Ersteller (<%=Model.CountCreators %>)</h4>
                 <% } %>
             </div>         
-    
+        
             <div class="col-lg-2 col-xs-3 xxs-stack">
                 <div>
                     <img src="<%= Model.ImageUrl %>" class="img-responsive" style="-ms-border-radius:5px; border-radius:5px;" />
