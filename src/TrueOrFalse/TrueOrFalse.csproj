@@ -164,6 +164,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\Model.Parameter.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\ParseImagePageMarkup.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\Model.Section.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\ParseSectionParameters.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiApiUtils.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceInfo.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceLoader.cs" />
