@@ -63,8 +63,8 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                 [[Category:Uploaded with UploadWizard]]";
 
 
-            var parsedImageMakup = new ParseImagePageMarkup(demoText);
-            var infoSectionParams = parsedImageMakup.InformationSection.Parameters;
+            var parsedImageMakup = ParseImageMarkup.Run(demoText);
+            var infoSectionParams = parsedImageMakup.InformationTemplate.Parameters;
 
             Assert.That(infoSectionParams.Count, Is.EqualTo(6));
             Assert.That(infoSectionParams[0].Key, Is.EqualTo("Description"));

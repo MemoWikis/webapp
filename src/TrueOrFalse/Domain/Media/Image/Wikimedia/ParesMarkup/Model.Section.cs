@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace TrueOrFalse.WikiMarkup
 {
     [DebuggerDisplay("Text={Text}")]
-    public class Section
+    public class Template
     {
-        public string Text;
+        public string Raw;
         public List<Parameter> Parameters = new List<Parameter>();
     }
 }

@@ -162,9 +162,11 @@
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishSetCount.cs" />
     <Compile Include="Domain\Media\Image\ResizeImage.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\Model.Parameter.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\ParseImagePageMarkup.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\ParseImageMarkup.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\Model.Section.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\ParseSectionParameters.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\ParseImageMarkupResult.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\ParseTemplate.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParesMarkup\ParseTemplateParameters.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiApiUtils.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceInfo.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceLoader.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.WikiMarkup
 {
-    public class ParseSectionParameters
+    public class ParseTemplateParameters
     {
         enum States { Detault, ParameterStarted }
 

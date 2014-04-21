@@ -40,6 +40,8 @@ namespace TrueOrFalse.WikiMarkup
                         Value += token;
                 }
 
+                if (Key != null) Key = Key.Trim();
+                if (Value != null) Value = Value.Trim();
             }
         }
     }
