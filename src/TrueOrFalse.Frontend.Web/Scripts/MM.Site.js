@@ -74,14 +74,14 @@ var MenuMobile = (function () {
         this._animationInProgress = false;
 
         $("#MenuButton").click(function () {
-            if (_this._animationInProgress)
-                return;
-
-            if (!_this._isOpen) {
-                _this.openMenu();
-            } else {
-                _this.closeMenu();
-            }
+            //if (this._animationInProgress)
+            //    return;
+            //if (!this._isOpen) {
+            //    this.openMenu();
+            //} else {
+            //    this.closeMenu();
+            //}
+            $("#mainMenu").slideToggle(200);
         });
 
         //close on click outside the menu
@@ -108,12 +108,12 @@ var MenuMobile = (function () {
     };
 
     MenuMobile.prototype.closeMenu = function () {
-        var _this = this;
-        this._animationInProgress = true;
-        $("#mainMenu").animate({ 'left': '-100%' }, 200, "swing", function () {
-            _this._animationInProgress = false;
-        });
-        this._isOpen = false;
+        //var _this = this;
+        //this._animationInProgress = true;
+        //$("#mainMenu").animate({ 'left': '-100%' }, 200, "swing", function () {
+        //    _this._animationInProgress = false;
+        //});
+        //this._isOpen = false;
     };
     return MenuMobile;
 })();

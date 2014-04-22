@@ -81,14 +81,15 @@ class MenuMobile {
         this._animationInProgress = false;
 
         $("#MenuButton").click(() => {
-            if (this._animationInProgress)
-                return;
+            //if (this._animationInProgress)
+            //    return;
 
-            if (!this._isOpen) {
-                this.openMenu();
-            } else {
-                this.closeMenu();
-            }
+            //if (!this._isOpen) {
+            //    this.openMenu();
+            //} else {
+            //    this.closeMenu();
+            //}
+            $("#mainMenu").slideToggle();
         });
 
         //close on click outside the menu
