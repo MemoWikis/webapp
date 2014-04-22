@@ -99,6 +99,11 @@
     border-bottom-left-radius: 0;
   }
 }
+@media (min-width: 992px) {
+  #mainMenu {
+    display: block !important;
+  }
+}
 #mainMenu .list-group-item {
   margin-top: 2px;
   background-color: #f6f8fc;
