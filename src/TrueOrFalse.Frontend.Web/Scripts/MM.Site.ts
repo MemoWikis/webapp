@@ -73,27 +73,23 @@ class Menu {
 
 class MenuMobile {
 
-    _isOpen: boolean;
-    _animationInProgress: boolean;
+    _isOpen: boolean = false;
 
     constructor() {
-        this._isOpen = false;
-        this._animationInProgress = false;
 
         $("#MenuButton").click(() => {
-            //if (this._animationInProgress)
-            //    return;
-
-            //if (!this._isOpen) {
-            //    this.openMenu();
-            //} else {
-            //    this.closeMenu();
-            //}
-            $("#mainMenu").slideToggle();
+            if (this._isOpen)
+                this.closeMenu();
+            else
+                this.openMenu();
         });
 
         //close on click outside the menu
         $(document).mouseup((e) => {
+
+            if (!this._isOpen)
+                return;
+
             if ($("#mainMenu").has(e.target).length === 0 &&
                 $("#MenuButton").has(e.target).length === 0) {
                 this.closeMenu();
@@ -102,6 +98,9 @@ class MenuMobile {
 
         //close on ESC
         $(document).keyup((e: any) => {
+            if (!this._isOpen)
+                return;
+
             if (e.keyCode == 27) {
                 this.closeMenu();
             }
@@ -110,18 +109,12 @@ class MenuMobile {
     }
 
     openMenu() {
-        this._animationInProgress = true;
-        $("#mainMenu").animate({ 'left': '0' }, 200, "swing", () => {
-            this._animationInProgress = false;
-        });
+        $("#mainMenu").slideDown();
         this._isOpen = true;
     }
 
     closeMenu() {
-        this._animationInProgress = true;
-        $("#mainMenu").animate({ 'left': '-100%' }, 200, "swing",() => {
-                this._animationInProgress = false;
-            });
+        $("#mainMenu").slideUp();
         this._isOpen = false;
     }
 

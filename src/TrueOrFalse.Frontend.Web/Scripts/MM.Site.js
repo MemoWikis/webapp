@@ -71,21 +71,18 @@ var MenuMobile = (function () {
     function MenuMobile() {
         var _this = this;
         this._isOpen = false;
-        this._animationInProgress = false;
-
         $("#MenuButton").click(function () {
-            //if (this._animationInProgress)
-            //    return;
-            //if (!this._isOpen) {
-            //    this.openMenu();
-            //} else {
-            //    this.closeMenu();
-            //}
-            $("#mainMenu").slideToggle(200);
+            if (_this._isOpen)
+                _this.closeMenu();
+            else
+                _this.openMenu();
         });
 
         //close on click outside the menu
         $(document).mouseup(function (e) {
+            if (!_this._isOpen)
+                return;
+
             if ($("#mainMenu").has(e.target).length === 0 && $("#MenuButton").has(e.target).length === 0) {
                 _this.closeMenu();
             }
@@ -93,27 +90,22 @@ var MenuMobile = (function () {
 
         //close on ESC
         $(document).keyup(function (e) {
+            if (!_this._isOpen)
+                return;
+
             if (e.keyCode == 27) {
                 _this.closeMenu();
             }
         });
     }
     MenuMobile.prototype.openMenu = function () {
-        var _this = this;
-        this._animationInProgress = true;
-        $("#mainMenu").animate({ 'left': '0' }, 200, "swing", function () {
-            _this._animationInProgress = false;
-        });
+        $("#mainMenu").slideDown();
         this._isOpen = true;
     };
 
     MenuMobile.prototype.closeMenu = function () {
-        //var _this = this;
-        //this._animationInProgress = true;
-        //$("#mainMenu").animate({ 'left': '-100%' }, 200, "swing", function () {
-        //    _this._animationInProgress = false;
-        //});
-        //this._isOpen = false;
+        $("#mainMenu").slideUp();
+        this._isOpen = false;
     };
     return MenuMobile;
 })();
