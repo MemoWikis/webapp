@@ -45,4 +45,12 @@ namespace TrueOrFalse.WikiMarkup
             }
         }
     }
+
+    public static class ParametersExt
+    {
+        public static Parameter ByKey(this IEnumerable<Parameter> parameters, string key)
+        {
+            return parameters.First(x => x.Key == key);
+        }
+    }
 }

@@ -12,5 +12,16 @@ namespace TrueOrFalse.WikiMarkup
     {
         public string Raw;
         public List<Parameter> Parameters = new List<Parameter>();
+
+        public Template(string text)
+        {
+            Raw = text;
+            Parameters = ParseTemplateParameters.Run(text);
+        }
+
+        public Parameter ParamByKey(string key)
+        {
+            return Parameters.ByKey(key);
+        }
     }
 }

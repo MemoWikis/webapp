@@ -64,12 +64,16 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 
 
             var parsedImageMakup = ParseImageMarkup.Run(demoText);
-            var infoSectionParams = parsedImageMakup.InformationTemplate.Parameters;
+            var infoSectionParams = parsedImageMakup.InfoTemplate.Parameters;
 
             Assert.That(infoSectionParams.Count, Is.EqualTo(6));
             Assert.That(infoSectionParams[0].Key, Is.EqualTo("Description"));
             Assert.That(infoSectionParams[1].Key, Is.EqualTo("Date"));
             Assert.That(infoSectionParams[1].Value, Is.EqualTo("2010-01-06"));
+
+            Assert.That(parsedImageMakup.DescriptionDE_Raw, 
+                Is.EqualTo("Eine [[:de:Flunder|Flunder]], ''Platichthys flesus'', nahe dem estnischen Dorf [[:de:Vääna-Jõesuu|Vääna-Jõesuu]]"));
+
         }
     }
 }
