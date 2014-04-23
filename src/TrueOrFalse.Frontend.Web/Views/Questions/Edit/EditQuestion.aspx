@@ -51,25 +51,45 @@
         <div class="row">
             <div class="aside col-md-3 col-md-push-9" style="margin-bottom: 11px;">
                 <div class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <%= Html.LabelFor(m => m.Visibility, new { @class = "columnLabel labelVisibility control-label" })%>
-                    
+                    <div class="form-group">                    
+                        <label for="Visibility" class="columnLabel labelVisibility control-label">Sichtbar</label>
+
                         <div class="columnControlsFull">
                             <div class="radio">
                                 <label style="font-weight: normal">
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
-                                    für alle <span class="smaller">(öffentliche Frage)</span> &nbsp;&nbsp;
+                                    für alle <span class="smaller">(öffentliche Frage)</span>
+                                    <i class="fa fa-question-circle show-tooltip" title="" data-placement="right" 
+                                       data-html="true"
+                                       data-original-title="
+                                        <ul class='show-tooltip-ul'>
+                                            <li>Die Frage ist für alle auffindbar.</li>
+                                            <li>Jeder kann die Frage in sein Wunschwissen aufnehmen.</li>
+                                        </ul>">
+                                    </i>
+                                    <br/>
+
                                 </label>
                             </div>
                             <div class="radio">
                                 <label style="font-weight: normal">
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                                    für mich <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span> &nbsp;&nbsp;
+                                    für mich <span class="smaller">(<i class="fa fa-lock"></i> private Frage)</span> &nbsp;&nbsp;
+                                    (Die Frage ist nur von Dir nutzbar.)
+                                    <i class="fa fa-question-circle show-tooltip tooltip-width-200" title="" data-placement="right" 
+                                       data-html="true"
+                                       data-original-title="
+                                        <ul class='show-tooltip-ul'>
+                                            <li>Die Frage kann nur von Dir genutzt werden.</li>
+                                            <li>Niemand anders hat jemals Zugriff auf die Frage.</li>
+                                        </ul>">
+                                    </i>
+
                                 </label>
                             </div>
                             <div class="radio">
                                 <label style="font-weight: normal">
-                                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends)  %>
+                                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends, new { disabled = true} )  %>
                                     für mich und meine Freunde<br/> <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span>
                                 </label>
                             </div>
