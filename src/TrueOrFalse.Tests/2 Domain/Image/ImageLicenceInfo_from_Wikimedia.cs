@@ -73,7 +73,10 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 
             Assert.That(parsedImageMakup.DescriptionDE_Raw, 
                 Is.EqualTo("Eine [[:de:Flunder|Flunder]], ''Platichthys flesus'', nahe dem estnischen Dorf [[:de:Vääna-Jõesuu|Vääna-Jõesuu]]"));
+            Assert.That(parsedImageMakup.Description, Is.EqualTo("Eine Flunder, <i>Platichthys flesus</i>, nahe dem estnischen Dorf Vääna-Jõesuu"));
 
+            Assert.That(parsedImageMakup.AuthorName_Raw, Is.EqualTo("[[User:Tiithunt|Tiit Hunt]]"));
+            Assert.That(parsedImageMakup.AuthorName, Is.EqualTo("Tiit Hunt"));
         }
     }
 }
