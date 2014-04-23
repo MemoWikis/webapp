@@ -201,4 +201,7 @@
   box-shadow: none;
   width: auto;
 }
+.subForm label {
+  text-align: left;
+}
 /*# sourceMappingURL=EditQuestion.css.map */

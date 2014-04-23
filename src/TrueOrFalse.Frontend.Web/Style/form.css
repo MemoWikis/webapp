@@ -112,7 +112,7 @@ div.control-group.markdown label {
   color: lightblue;
 }
 @media (min-width: 480px) {
-  .form-group label {
+  .form-group .control-label {
     text-align: right;
   }
 }
