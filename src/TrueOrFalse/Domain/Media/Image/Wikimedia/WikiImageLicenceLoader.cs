@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Net;
 
 namespace TrueOrFalse
 {
@@ -15,12 +17,10 @@ namespace TrueOrFalse
         {
             var metaData = _metaDataLoader.Run(fileName);
 
-            //webseite rausfinden
-            var url = String.Format("http://commons.wikimedia.org/w/index.php?title=File:{0}&action=raw","");
-            //webseite laden
+            var url = String.Format("http://commons.wikimedia.org/w/index.php?title=File:{0}&action=raw", fileName);
+            var page = WikiApiUtils.GetWebpage(url);
+
             //webseite parsen
-
-
 
             //lizenz objekt zurückgeben
             //lizenz objekt soll attribution beeinhalten

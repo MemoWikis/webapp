@@ -13,8 +13,13 @@
         <div class="row">
             <div class="xxs-stack col-xs-12">
                 <div class="row">
-                    <div class="col-xs-9 xxs-stack category" style="margin-bottom: 10px;">
-                        <h2 style="margin-top: 0;"><%= Model.Name %></h2>
+                    <div class="col-xs-9 xxs-stack category">
+                        <h2 style="margin-top: 0; margin-bottom: 10px;"><%= Model.Name %></h2>
+                        <% if(!String.IsNullOrEmpty(Model.Description)){ %>
+                            <div style="margin-bottom: 12px;">
+                                <%= Model.Description %>
+                            </div>
+                        <% } %>
                     </div>
                     <div class="col-xs-3 xxs-stack">
                         <div class="navLinks">
@@ -27,11 +32,7 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-10 col-xs-9 xxs-stack">
-                <%= Model.Description %>
-            </div>
-       
+            
             <div class="col-lg-10 col-xs-9 xxs-stack">
         
                 <% if(Model.CategoriesParent.Count > 0){ %>
@@ -77,11 +78,19 @@
                     <h4>Ersteller (<%=Model.CountCreators %>)</h4>
                 <% } %>
             </div>         
-    
+        
             <div class="col-lg-2 col-xs-3 xxs-stack">
                 <div>
                     <img src="<%= Model.ImageUrl %>" class="img-responsive" style="-ms-border-radius:5px; border-radius:5px;" />
                 </div>
+                
+                <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
+                    <div style="text-overflow: ellipsis; overflow: hidden;  white-space: nowrap; ">
+                        <a href="<%= Model.WikiUrl %>" style="margin-left: -3px;" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
+                            <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
+                        </a>
+                    </div>
+                <% } %>
             </div>
         </div>
     </div>
