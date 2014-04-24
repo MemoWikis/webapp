@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.WikiMarkup
 {
-    [DebuggerDisplay("Text={Text}")]
+    [DebuggerDisplay("Raw={Raw}")]
     public class Template
     {
         public string Raw;
         public List<Parameter> Parameters = new List<Parameter>();
+
+        public bool IsSet{ get { return !String.IsNullOrEmpty(Raw); } }
 
         public Template(string text)
         {

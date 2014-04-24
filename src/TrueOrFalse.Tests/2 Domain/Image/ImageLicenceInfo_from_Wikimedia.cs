@@ -66,7 +66,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             var parsedImageMakup = ParseImageMarkup.Run(demoText);
             var infoSectionParams = parsedImageMakup.InfoTemplate.Parameters;
 
-            Assert.That(infoSectionParams.Count, Is.EqualTo(6));
+            Assert.That(infoSectionParams.Count, Is.EqualTo(7));
             Assert.That(infoSectionParams[0].Key, Is.EqualTo("Description"));
             Assert.That(infoSectionParams[1].Key, Is.EqualTo("Date"));
             Assert.That(infoSectionParams[1].Value, Is.EqualTo("2010-01-06"));
@@ -77,6 +77,9 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 
             Assert.That(parsedImageMakup.AuthorName_Raw, Is.EqualTo("[[User:Tiithunt|Tiit Hunt]]"));
             Assert.That(parsedImageMakup.AuthorName, Is.EqualTo("Tiit Hunt"));
+
+            Assert.That(parsedImageMakup.LicenceIsCreativeCommons, Is.EqualTo(true));
+            Assert.That(parsedImageMakup.LicenceTemplateString, Is.EqualTo("cc-by-sa-3.0"));
         }
     }
 }
