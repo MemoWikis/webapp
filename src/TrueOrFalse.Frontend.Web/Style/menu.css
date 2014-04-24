@@ -347,6 +347,7 @@ div.menu .tooltip-inner {
 }
 .menuCategories {
   margin-bottom: 10px;
+  overflow: auto;
 }
 .menuCategories a {
   display: inline-block;

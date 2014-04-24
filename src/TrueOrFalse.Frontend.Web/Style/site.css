@@ -418,7 +418,7 @@ img {
 }
 .MenuButtonXS {
   padding: 3px 3px 3px 7px;
-  margin-right: 3px;
+  margin-right: 10px;
   font-size: 18px;
 }
 .MenuButtonSM {
@@ -466,7 +466,7 @@ img {
   margin-top: 4px;
   margin-left: -7px;
   padding: 3px 3px 3px 7px;
-  margin-right: 3px;
+  margin-right: 10px;
   font-size: 18px;
   color: #e7ecf6;
   background-color: transparent;
@@ -594,7 +594,7 @@ img {
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   padding: 3px 3px 3px 7px;
-  margin-right: 3px;
+  margin-right: 10px;
   font-size: 18px;
 }
 #MenuButton:hover:hover,

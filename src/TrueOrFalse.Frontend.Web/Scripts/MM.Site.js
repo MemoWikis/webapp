@@ -71,6 +71,7 @@ var MenuMobile = (function () {
     function MenuMobile() {
         var _this = this;
         this._isOpen = false;
+        this._isInProgress = false;
         $("#MenuButton").click(function () {
             if (_this._isOpen)
                 _this.closeMenu();
@@ -99,13 +100,23 @@ var MenuMobile = (function () {
         });
     }
     MenuMobile.prototype.openMenu = function () {
+        if (this._isInProgress)
+            return;
+
+        this._isInProgress = true;
         $("#mainMenu").slideDown();
         this._isOpen = true;
+        this._isInProgress = false;
     };
 
     MenuMobile.prototype.closeMenu = function () {
+        if (this._isInProgress)
+            return;
+
+        this._isInProgress = true;
         $("#mainMenu").slideUp();
         this._isOpen = false;
+        this._isInProgress = false;
     };
     return MenuMobile;
 })();

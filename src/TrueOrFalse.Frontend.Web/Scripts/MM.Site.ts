@@ -73,7 +73,8 @@ class Menu {
 
 class MenuMobile {
 
-    _isOpen: boolean = false;
+    private _isOpen: boolean = false;
+    private _isInProgress: boolean = false;
 
     constructor() {
 
@@ -109,13 +110,23 @@ class MenuMobile {
     }
 
     openMenu() {
+        if (this._isInProgress)
+            return;
+
+        this._isInProgress = true;
         $("#mainMenu").slideDown();
         this._isOpen = true;
+        this._isInProgress = false;
     }
 
     closeMenu() {
+        if (this._isInProgress)
+            return;
+
+        this._isInProgress = true;
         $("#mainMenu").slideUp();
         this._isOpen = false;
+        this._isInProgress = false;
     }
 
 }
