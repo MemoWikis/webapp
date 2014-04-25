@@ -14,17 +14,17 @@ namespace TrueOrFalse
                            .And(x => x.Type == imageType)
                            .SingleOrDefault<ImageMetaData>();
         }
-
-
-        public void StoreSetWiki(int questionSetId, int userId, WikiImageMeta wikiMetaData){
-            StoreWiki(questionSetId, userId, wikiMetaData, ImageType.QuestionSet);
-        }
         
         public void StoreSetUploaded(int questionSetId, int userId, string licenceGiverName){
             StoreUploaded(questionSetId, userId, ImageType.QuestionSet, licenceGiverName);
         }
 
-        private void StoreWiki(int typeId, int userId, WikiImageMeta wikiMetaData, ImageType imageType)
+        public void StoreWiki(
+            int typeId, 
+            ImageType imageType, 
+            int userId, 
+            WikiImageMeta wikiMetaData,
+            WikiImageLicenceInfo licenceInfo)
         {
             var imageMeta = GetBy(typeId, imageType);
             if (imageMeta == null)
@@ -32,8 +32,8 @@ namespace TrueOrFalse
                 Create(
                     new ImageMetaData
                     {
-                        TypeId = typeId,
                         Type = imageType,
+                        TypeId = typeId,
                         Source = ImageSource.WikiMedia,
                         SourceUrl = wikiMetaData.ImageUrl,
                         LicenceInfo = wikiMetaData.JSonResult,

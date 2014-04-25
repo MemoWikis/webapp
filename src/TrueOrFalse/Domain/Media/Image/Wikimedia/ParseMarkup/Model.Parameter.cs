@@ -57,6 +57,11 @@ namespace TrueOrFalse.WikiMarkup
     {
         public static Parameter ByKey(this IEnumerable<Parameter> parameters, string key)
         {
+            parameters = parameters.ToList();
+
+            if (parameters.All(x => x.Key != key))
+                return null;
+
             return parameters.First(x => x.Key == key);
         }
     }

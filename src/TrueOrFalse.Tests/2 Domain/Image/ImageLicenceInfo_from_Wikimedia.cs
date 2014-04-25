@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
         {
             var licenceInfoLoader = Resolve<WikiImageLicenceLoader>();
             var licenceInfo = licenceInfoLoader.Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg");
-            Assert.That(licenceInfo.Attribution, 
+            Assert.That(licenceInfo.AuthorName, 
                 Is.EqualTo("By Tiit Hunt (Own work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons"));
 
         }

@@ -103,7 +103,7 @@ public class EditCategoryController : BaseController
             if (Request["ImageSource"] == "wikimedia")
             {
                 Resolve<ImageStore>().RunWikimedia<CategoryImageSettings>(
-                    Request["ImageWikiFileName"], categoryId, _sessionUser.User.Id);
+                    Request["ImageWikiFileName"], categoryId, ImageType.Category, _sessionUser.User.Id);
             }
             if (Request["ImageSource"] == "upload")
             {
