@@ -13,7 +13,7 @@
 <div id="question-main">
     
     <% using (Html.BeginForm()){ %>
-    <div id="mobilePageHeader" class="panel panel-default">
+    <%--<div id="mobilePageHeader" class="panel panel-default">
         <div class="panel-body">
             Fragen
         </div>
@@ -33,7 +33,7 @@
         <div class="btn-group">
             <button type="button" class="btn btn-default">Right</button>
         </div> 
-    </div>
+    </div>--%>
                 
      <div class="boxtainer-outlined-tabs">
          
