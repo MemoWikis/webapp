@@ -2,6 +2,34 @@
 @import 'colors.less';
 
 /*              *\
+  Helper classes
+\*              */
+
+.block {
+    display: block;
+}
+
+#Clearfix, .Clearfix {
+    &:before,
+    &:after {
+        content: " "; /* 1 */
+        display: table; /* 2 */
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+#Clear{
+    content: "";
+    display: block;
+    clear: both;
+    visibility: visible;
+}
+
+
+/*              *\
   General styles
 \*              */
 
@@ -55,23 +83,9 @@
     }
 }
 
-//Helper classes
-
-#clearfix {
-    display: inline-block;
-    width:100%;
-    zoom: 1;
-}
-
-#Clear{
-    content: "";
-    display: block;
-    clear: both;
-    visibility: visible;
-}
-
-
-
+/*                        *\
+  Special styles
+\*                        */
 
 #tab-color(@outline-color) { 
 

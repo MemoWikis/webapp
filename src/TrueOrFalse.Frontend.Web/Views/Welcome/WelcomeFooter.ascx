@@ -15,7 +15,7 @@
         <%= Html.ActionLink("Gemeinwohlunternehmen", Links.WelfareCompany, Links.VariousController)%> | 
         <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%>
     </div>
-    <div class="clearfix"></div>
+    <div class="Clearfix"></div>
 </div>
 
 

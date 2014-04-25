@@ -403,6 +403,9 @@
     <Content Include="Style\temp.css">
       <DependentUpon>temp.less</DependentUpon>
     </Content>
+    <Content Include="Style\test.css">
+      <DependentUpon>test.less</DependentUpon>
+    </Content>
     <Content Include="Style\utils.css">
       <DependentUpon>utils.less</DependentUpon>
     </Content>
@@ -550,6 +553,10 @@
     <Content Include="Style\bootstrap\memucho_overrides.less" />
     <Content Include="Style\bootstrap\memucho_overrides.css.map">
       <DependentUpon>memucho_overrides.css</DependentUpon>
+    </Content>
+    <Content Include="Style\test.less" />
+    <Content Include="Style\test.css.map">
+      <DependentUpon>test.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />

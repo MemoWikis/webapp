@@ -2,11 +2,16 @@
 ----------------------------------------------------------*/
 /* STYLES
 ----------------------------------------------------------*/
-div.search-container,
-.search-section {
-  display: inline-block;
-  width: 100%;
-  zoom: 1;
+div.search-container:before,
+.search-section:before,
+div.search-container:after,
+.search-section:after {
+  content: " ";
+  display: table;
+}
+div.search-container:after,
+.search-section:after {
+  clear: both;
 }
 div.search-container label,
 .search-section label {

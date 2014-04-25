@@ -332,8 +332,10 @@ div.menu {
 
 .menuCategories {
 
+    @media (max-width: @screen-sm-max) {
+        display: none;
+    }
     margin-bottom: 10px;
-    overflow: auto; //to avoid mobile menu misplacing error caused by the top margin of h4 not covered by containing div
 
     a {
         display: inline-block;        

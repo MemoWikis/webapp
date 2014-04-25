@@ -3,6 +3,24 @@
   color: black;
 }
 /*              *\
+  Helper classes
+\*              */
+.block {
+  display: block;
+}
+#Clearfix,
+.Clearfix {
+  display: inline-block;
+  width: 100%;
+  zoom: 1;
+}
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
+}
+/*              *\
   General styles
 \*              */
 .link {
@@ -46,17 +64,9 @@
     float: none !important;
   }
 }
-#clearfix {
-  display: inline-block;
-  width: 100%;
-  zoom: 1;
-}
-#Clear {
-  content: "";
-  display: block;
-  clear: both;
-  visibility: visible;
-}
+/*                        *\
+  Special styles
+\*                        */
 .msgRow {
   background-color: #f2f5fa;
   border-right: 1px solid #d9d9d9;

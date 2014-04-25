@@ -35,7 +35,7 @@
 
                 <%-- Wikimedia --%>
                 <div id="divWikimedia">
-                    <div class="clearfix" style="margin-top:10px;">
+                    <div class="Clearfix" style="margin-top:10px;">
                         In Wikipedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. 
                         Auf <a href="http://commons.wikimedia.org/wiki/Hauptseite?uselang=de">Wiki-Commons</a> kann gezielt nach Inhalten gesucht werden. 
                         Oder: Wenn Du auf Wikipedia auf ein Bild klickst, gelangst Du auf die Bild-Detailseite. Gib die URL der Detailseite hier an: 

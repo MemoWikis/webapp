@@ -1,8 +1,11 @@
-﻿@import '../../Style/includes/colors.less';
+﻿@import (reference) '../../Style/bootstrap/bootstrap.less';
+@import (reference) '../../Style/bootstrap/variables_custom.less';
+@import '../../Style/includes/colors.less';
 @import '../../Style/includes/variables.less';
 @import '../../Style/includes/shared.less';
 
 
+.test {color: white;}
 
 /*div.column-Image { background-color: green; }
 div.column-MainContent {background-color: seashell; }
@@ -61,10 +64,19 @@ div.column-Image {
             opacity:0.7; 
             display: none;
         }
-
     }
+}
 
+#btnAddQuestion {
 
+    margin-bottom: 10px;
+
+    @media (min-width: @screen-md-min) {
+        float: right;
+        position: absolute;
+        right: 0;
+        top: 5px;
+    }
 }
 
 //$temp:
@@ -162,3 +174,13 @@ div.selected-row:hover { background-color: #d6e0f4;}
 .modal.fade {-webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none; transition: none}
 
 .tsqRow:hover{ background-color: #f3f5f8;cursor: pointer;}
+
+#mainFilterBar {
+//    margin-left: (-@grid-gutter-width/2);
+  //  margin-right: (-@grid-gutter-width/2);
+
+}
+
+#mobilePageHeader {
+    margin-bottom: 0;
+}
