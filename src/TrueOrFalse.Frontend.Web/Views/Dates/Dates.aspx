@@ -4,12 +4,10 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">    
-    <div class="col-md-9">
-        <h2 style="margin-top: 0px;">Termine</h2>
+    <h2 style="margin-top: 0px;">Termine</h2>
         
-        <ul>
-            <li>Initial Beispieltermine anlegen?</li>
-        </ul>
-    </div>
+    <ul>
+        <li>Initial Beispieltermine anlegen?</li>
+    </ul>
 </asp:Content>
 

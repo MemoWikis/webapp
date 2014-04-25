@@ -10,13 +10,38 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<div id="question-main" class="col-md-9">
+<div id="question-main">
     
     <% using (Html.BeginForm()){ %>
+    <div id="mobilePageHeader" class="panel panel-default">
+        <div class="panel-body">
+            Fragen
+        </div>
+    </div>
+    <nav id="mobilePageHeader" class="navbar navbar-default">
+        <div class="panel-body">
+            Fragen
+        </div>
+    </nav>
+    <div id="mainFilterBar" class="btn-group btn-group-justified" style="margin-bottom: 40px;">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default">Left</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default">Middle</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default">Right</button>
+        </div> 
+    </div>
                 
      <div class="boxtainer-outlined-tabs">
          
         <div class="boxtainer-header">
+                <a href="<%= Links.CreateQuestion(Url) %>" id="btnAddQuestion" class="btn btn-success btn-sm">
+                    <i class="fa fa-plus-circle"></i>
+                    Frage erstellen
+                </a>
             <ul class="nav nav-tabs" >
                 <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsAll(Url) %>">
@@ -47,12 +72,7 @@
                 </li>
             </ul>
             
-            <div style="float: right; position: absolute; right: 0; top: 5px;">
-                <a href="<%= Links.CreateQuestion(Url) %>" class="btn btn-success btn-sm">
-                    <i class="fa fa-plus-circle"></i>
-                    Frage erstellen
-                </a>
-            </div>
+            
         </div>
             
         <div class="boxtainer-content">

@@ -47,7 +47,7 @@
 
 </style>
 
-<div class="col-md-9" id="questionSetContainer" data-id="<%: Model.Id %>">
+<div id="questionSetContainer" data-id="<%: Model.Id %>">
     
     <div style="margin-bottom: -10px;">
         <% Html.Message(Model.Message); %>

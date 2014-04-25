@@ -1,13 +1,18 @@
-﻿@masterHeaderMainRowHeight-xs: 34px;
-@masterHeaderMainRowHeight-md: 37px;
-
-
-/* LESS INCLUDES
+﻿/* LESS INCLUDES
 ----------------------------------------------------------*/
+
+@import (reference) 'bootstrap/bootstrap.less';
+@import (reference) 'bootstrap/variables_custom.less';
 @import (reference) 'includes/colors.less';
 @import (reference) 'includes/shared.less';
 @import (reference) 'includes/variables.less';
 @import (reference) 'z_buttons_2.3.2.less';
+
+/* Local variables
+----------------------------------------------------------*/
+
+@masterHeaderMainRowHeight-xs: 34px;
+@masterHeaderMainRowHeight-md: 37px;
 
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
@@ -477,6 +482,14 @@ img {
     }
 }
 
+#MasterLeftColumn {
+    .make-md-column(3);
+}
+
+#MasterMainColumn {
+    .make-md-column(9);
+}
+
 #MasterFooter {
     background-color: @background-grey;
     padding-top: 20px;
@@ -506,16 +519,7 @@ h1, h2, h3, h4, h5, h6 {
 span.smaller {
     font-size: 90%;
 }
-/*Helpers*/
-.clearfix {
-    display: inline-block;
-    width: 100%;
-    zoom: 1;
-}
 
-.block {
-    display: block;
-}
 
 /* HEADER
 ----------------------------------------------------------*/
@@ -712,39 +716,43 @@ span.smaller {
 
 
         ul.nav-tabs {
-            background-color: white;
-            border-bottom: solid 3px @light-green;
-            margin-top: -5px;
 
-            li {
-                border-bottom: 3px solid white;
-                top: 5px;
+            border-bottom-width: 0;
 
-                a {
-                    border: 3px solid transparent;
-                    border-top-left-radius: 4px;
-                    border-top-right-radius: 4px;
-                    border-bottom: none;
-                }
+            a {border-width: 0;}
+
+            @media (min-width: @screen-md-min){
+                background-color: white;
+                border-bottom: solid 3px @light-green;
+                margin-top: -5px;
+
+                li {
+                
+                    border-bottom: 3px solid white;
+                    top: 5px;
+
+                    a {
+                        border: 3px solid transparent;
+                        border-top-left-radius: 4px;
+                        border-top-right-radius: 4px;
+                        border-bottom: none;
+                    }
 
                     a:hover {
                         background-color: @light-green;
                     }
 
 
-                &.active {
-                    a {
-                        border-style: solid;
-                        border-width: 3px;
-                        border-top-left-radius: 4px;
-                        border-top-right-radius: 4px;
-                        border-color: @light-green;
-                        border-bottom: none;
-                    }
+                    &.active {
+                        a {
+                            border: 3px solid @light-green;;
+                                border-bottom: none;
+                        }
 
                         a:hover {
                             background-color: white;
                         }
+                    }
                 }
             }
         }

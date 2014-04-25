@@ -9,7 +9,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div id="category-main" class="col-md-9">
+    <div id="category-main">
        
         <% Html.Message(Model.Message); %>
         
