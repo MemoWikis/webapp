@@ -102,9 +102,9 @@
             </div>
             <div class="col-md-9 col-md-pull-3">
                 <div class="form-horizontal" role="form">
-                <div>
-                    <% Html.Message(Model.Message); %>
-                </div>
+                    <div>
+                        <% Html.Message(Model.Message); %>
+                    </div>
                         
                     <div class="form-group">
                         <%= Html.LabelFor(m => m.Question, new { @class = "columnLabel control-label" })%>
@@ -137,7 +137,7 @@
                     </div>--%>
                     
                     <div class="form-group">    
-                        <label class="columnLabel control-label show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "left">
+                        <label class="columnLabel control-label show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "top">
                             Kategorien
                         </label>
 
@@ -184,7 +184,7 @@
                     </script>
                     
                     <div class="form-group markdown">
-                        <label class="columnLabel control-label show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "left">
+                        <label class="columnLabel control-label show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "top">
                             Erklärungen
                         </label>
                         <div class="columnControlsFull">

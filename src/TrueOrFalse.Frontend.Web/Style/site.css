@@ -12,13 +12,13 @@ body {
   min-width: 280px;
   position: relative;
   font-size: 13px;
-  color: #2e487b;
+  color: #203256;
 }
 a {
-  color: #0e22b6;
+  color: #2c5fb2;
 }
 a:hover {
-  color: #0e22b6;
+  color: #2c5fb2;
 }
 a.SimpleTextLink {
   text-decoration: none;
@@ -814,7 +814,7 @@ ul.show-tooltip-ul {
 /* Labels
 ----------------------------------------------------------*/
 .label-category {
-  background-color: #0e22b6;
+  background-color: #2c5fb2;
 }
 .label-set {
   background-color: #ffd700;

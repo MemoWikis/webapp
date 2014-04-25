@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionSequence>" %>
 
 
-<div id="rows"></div>
+<div id="rows" class="subForm"></div>
 <div class="form-group">
     <div class="noLabel columnControlsFull ButtonContainer">
         <button class="btn" id="addRow">Zeile hinzufügen</button>

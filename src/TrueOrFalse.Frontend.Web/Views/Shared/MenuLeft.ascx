@@ -26,7 +26,7 @@
 <% } %>
 
 <div class="mainMenuContainer">
-    <nav id="mainMenu">
+    <nav id="mainMenu" style="display: none;">
         <div class="list-group">
             <a class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>">
                 <i class="fa fa-caret-right"></i> Wunschwissen (<span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span>)

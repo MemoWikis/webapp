@@ -13,9 +13,9 @@
         <!-- Link with Icon -->
         <div>
             <h4>Link with Icon</h4>
-                For not having the icon underlined at hover.</br>
-                Use classes a.SimpleTextLink and span.TextSpan.</br>
-                </br>
+                For not having the icon underlined at hover.<br/>
+                Use classes a.SimpleTextLink and span.TextSpan.<br/>
+            <br/>
                 <a class="SimpleTextLink">
                     <i class="fa fa-question-circle"></i>
                     <span class="TextSpan">Hilfe & mehr</span>
@@ -38,8 +38,16 @@
         <h4><span class="underlined">Lorem ipsum - h4 underlined</span></h4>
         <h4 class="underlined">Lorem ipsum - h4 underlined complete</h4>
         <br/>
+        
+        <div>
+            <div class="alert alert-success">Test Success</div>
+            <div class="alert alert-info">Test Info</div>
+            <div class="alert alert-warning">Test Warning</div>
+            <div class="alert alert-danger">Test Danger</div>
 
+        </div>
 
 
     </div>
+   
 </asp:Content>

@@ -1,4 +1,28 @@
-﻿@apollo-gruen: #9C3; 
+﻿@media (max-width: @screen-xxs-max) {
+
+    .input-group {
+        display: block;
+
+        input {
+            border-bottom-left-radius: @input-border-radius !important;
+            border-top-right-radius: 0 !important;
+        }
+
+    }
+
+    .input-group-addon {
+        display: block;
+        width: auto;
+        border: 1px solid @input-group-addon-border-color !important;
+        border-bottom: none !important;
+        border-top-right-radius: @input-border-radius !important;
+        border-bottom-left-radius: 0 !important;
+    }
+}
+
+
+
+@apollo-gruen: #9C3; 
 
 .test {color: lighten(@apollo-gruen,10)}
 
@@ -27,6 +51,8 @@
     .make-sm-column(1);
     .make-lg-column(5);
 }
+
+
 
 
 @import (reference) 'includes/colors.less';

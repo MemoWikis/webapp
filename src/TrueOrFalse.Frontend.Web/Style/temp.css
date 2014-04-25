@@ -1,4 +1,21 @@
-﻿.test {
+﻿@media (max-width: 479px) {
+  .input-group {
+    display: block;
+  }
+  .input-group input {
+    border-bottom-left-radius: 4px !important;
+    border-top-right-radius: 0 !important;
+  }
+  .input-group-addon {
+    display: block;
+    width: auto;
+    border: 1px solid #cccccc !important;
+    border-bottom: none !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-left-radius: 0 !important;
+  }
+}
+.test {
   color: #add65c;
 }
 .test {

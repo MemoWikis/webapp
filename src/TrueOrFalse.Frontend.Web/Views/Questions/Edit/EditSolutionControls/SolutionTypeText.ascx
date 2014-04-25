@@ -82,14 +82,12 @@
             <br />
             Antwortgenauigkeit: <b><span id="spanAnswerPrecision"></span></b>.
         </div>
-        <div id="infoMetaText" style="height: 100%; vertical-align: middle;">
-            <span>
+        <p id="infoMetaText" class="form-control-static">
                 Exakte Texteingabe
-            </span>
-        </div>
-        <div id="infoMetaNumber">
+        </p>
+        <p id="infoMetaNumber" class="form-control-static">
             Exakte Zahl
-        </div>
+        </p>
     </div>
 </div>
 
