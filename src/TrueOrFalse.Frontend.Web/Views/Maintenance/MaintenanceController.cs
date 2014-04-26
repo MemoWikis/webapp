@@ -12,6 +12,18 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    public ActionResult Images()
+    {
+        return View(new MaintenanceImagesModel());
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult Messages()
+    {
+        return View(new MaintenanceMessagesModel());
+    }
+
+    [AccessOnlyAsAdmin]
     public ActionResult RecalculateAllKnowledgeItems()
     {
         Resolve<RecalcAllQuestionWishItems>().Run();
@@ -91,7 +103,7 @@ public class MaintenanceController : BaseController
 
     [HttpPost]
     [AccessOnlyAsAdmin]
-    public ActionResult SendMessage(MaintenanceModel model)
+    public ActionResult SendMessage(MaintenanceMessagesModel model)
     {
         Resolve<SendCustomMsg>().Run(
             model.TestMsgReceiverId, 
@@ -99,6 +111,6 @@ public class MaintenanceController : BaseController
             model.TestMsgBody);
 
         model.Message = new SuccessMessage("Message was sent");
-        return View("Maintenance", model);
+        return View("Messages", model);
     }
 }

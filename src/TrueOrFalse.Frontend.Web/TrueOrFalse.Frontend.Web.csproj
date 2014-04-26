@@ -633,7 +633,9 @@
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
+    <Compile Include="Views\Maintenance\MaintenanceMessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
+    <Compile Include="Views\Maintenance\MaintenanceImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionPage.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
     <Compile Include="Views\Sets\Detail\SetModel.cs" />
@@ -799,6 +801,8 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Maintenance\Messages.aspx" />
+    <Content Include="Views\Maintenance\Images.aspx" />
     <Content Include="Views\Messages\Js\Message.js">
       <DependentUpon>Message.ts</DependentUpon>
     </Content>
