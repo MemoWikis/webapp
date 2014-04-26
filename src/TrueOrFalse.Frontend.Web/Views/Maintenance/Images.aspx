@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MaintenanceImagesModel>" %>
+<%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -17,11 +18,13 @@
         </div>
         <% Html.Message(Model.Message); %>
         
+        <a href="/Maintenance/ImageMaintenanceWork" class="btn btn-danger" style="margin-bottom: 10px; margin-top: -5px;">Bildertypen eindeutig zuordnen</a>
         
         <table class="table">
             <tr>
                 <th>Id</th>
                 <th>TypeId</th>
+                <th>Type</th>
                 <th>InCat</th>
                 <th>InQuestion</th>
             </tr>
@@ -30,15 +33,13 @@
                 <tr class="<%=imageMaitenanceInfo.GetCssClass() %>">
                     <td><%= imageMaitenanceInfo.ImageId %></td>
                     <td><%= imageMaitenanceInfo.TypeId %></td>
+                    <td><%=  Enum.Parse(typeof(ImageType), imageMaitenanceInfo.MetaData.Type.ToString())  %></td>
                     <td><%= imageMaitenanceInfo.InCategoryFolder %></td>
                     <td><%= imageMaitenanceInfo.InQuestionFolder %></td>
                 </tr>
 
             <% } %>
         </table>
-        
-        <a href="/Maintenance/ImageMaintenanceWork" class="btn btn-danger">Bildertypen eindeutig zuordnen</a>
-
     </div>
 
 </asp:Content>

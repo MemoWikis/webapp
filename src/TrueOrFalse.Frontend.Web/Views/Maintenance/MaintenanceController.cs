@@ -6,20 +6,19 @@ using TrueOrFalse.Web;
 public class MaintenanceController : BaseController
 {
     [AccessOnlyAsAdmin]
-    public ActionResult Maintenance()
-    {
+    public ActionResult Maintenance(){
         return View(new MaintenanceModel());
     }
 
     [AccessOnlyAsAdmin]
-    public ActionResult Images()
-    {
+    public ActionResult Images(){
         return View(new MaintenanceImagesModel());
     }
 
     [AccessOnlyAsAdmin]
     public ActionResult ImageMaintenanceWork()
     {
+        Resolve<UpdateImageTypes>().Run();
         return View("Images", new MaintenanceImagesModel{ Message = new SuccessMessage("Images haven been assigned") });
     }
 
