@@ -18,6 +18,12 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    public ActionResult ImageMaintenanceWork()
+    {
+        return View("Images", new MaintenanceImagesModel{ Message = new SuccessMessage("Images haven been assigned") });
+    }
+
+    [AccessOnlyAsAdmin]
     public ActionResult Messages()
     {
         return View(new MaintenanceMessagesModel());

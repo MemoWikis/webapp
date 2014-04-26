@@ -16,6 +16,28 @@
             </nav>
         </div>
         <% Html.Message(Model.Message); %>
+        
+        
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>TypeId</th>
+                <th>InCat</th>
+                <th>InQuestion</th>
+            </tr>
+            <%  var index = 0;
+                foreach(var imageMaitenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
+                <tr class="<%=imageMaitenanceInfo.GetCssClass() %>">
+                    <td><%= imageMaitenanceInfo.ImageId %></td>
+                    <td><%= imageMaitenanceInfo.TypeId %></td>
+                    <td><%= imageMaitenanceInfo.InCategoryFolder %></td>
+                    <td><%= imageMaitenanceInfo.InQuestionFolder %></td>
+                </tr>
+
+            <% } %>
+        </table>
+        
+        <a href="/Maintenance/ImageMaintenanceWork" class="btn btn-danger">Bildertypen eindeutig zuordnen</a>
 
     </div>
 

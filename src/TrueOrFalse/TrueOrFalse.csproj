@@ -160,6 +160,8 @@
     <Compile Include="Domain\Knowledge\CorrectnessProbability\CBForAllUsersCalculator.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcCBForQuestions.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishSetCount.cs" />
+    <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageMaintenanceInfo.cs" />
+    <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ResizeImage.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Markup2Html\Markup2Html.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Model.Parameter.cs" />
