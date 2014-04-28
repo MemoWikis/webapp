@@ -15,7 +15,6 @@ public class EditQuestionModel : BaseModel
 {
     public UIMessage Message;
 
-    [DisplayName("Sichtbar")]
     public QuestionVisibility Visibility { get; set; }
 
     [Required]

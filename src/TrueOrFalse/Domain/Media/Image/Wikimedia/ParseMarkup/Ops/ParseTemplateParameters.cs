@@ -51,6 +51,9 @@ namespace TrueOrFalse.WikiMarkup
                     currentParameterTokens.Add(token);
             }
 
+            if (currentParameterTokens.Any())
+                result.Add(new Parameter(currentParameterTokens));
+
             return result;
         }
     }

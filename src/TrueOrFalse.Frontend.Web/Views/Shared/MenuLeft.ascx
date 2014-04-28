@@ -62,7 +62,7 @@
                         if (!String.IsNullOrEmpty(question.Text))
                         {
                             tooltip = "Frage: " + question.Text.Replace("\"", "'");
-                            if (index != 1 || activeClass != "active")
+                            if ((index != 1 || activeClass != "active") && question.Solution != null)
                                 tooltip += " <br><br> Antwort: " + question.Solution.Replace("\"", "'");                           
                         }
                         %>

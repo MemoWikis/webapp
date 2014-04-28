@@ -16,6 +16,8 @@ namespace TrueOrFalse.WikiMarkup
         public string Raw;
         public List<string> Tokens;
 
+        public bool HasKey{ get { return !String.IsNullOrEmpty(Key); } }
+
         public Parameter(List<string> currentParameterTokens)
         {
             Raw = currentParameterTokens.Aggregate((a,b) => a + ' ' + b);
@@ -27,7 +29,8 @@ namespace TrueOrFalse.WikiMarkup
                 bool isValue = false;
                 foreach (var token in Tokens)
                 {
-                    if (token == "=" && !isValue){
+                    if (token == "=" && !isValue)
+                    {
                         isValue = true;
                         isKey = false;
                         continue;
@@ -43,6 +46,18 @@ namespace TrueOrFalse.WikiMarkup
                 if (Key != null) Key = Key.Trim();
                 if (Value != null) Value = Value.Trim();
             }
+            else//!Raw.Contains("=")
+            {
+                Value = Raw;
+            }
+        }
+    }
+
+    public static class ParametersExt
+    {
+        public static Parameter ByKey(this IEnumerable<Parameter> parameters, string key)
+        {
+            return parameters.First(x => x.Key == key);
         }
     }
 }
