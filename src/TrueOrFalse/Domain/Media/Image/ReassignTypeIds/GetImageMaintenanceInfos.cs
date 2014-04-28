@@ -23,25 +23,8 @@ namespace TrueOrFalse
             var imageMetaDatas = _session.QueryOver<ImageMetaData>().List();
             var result = new List<ImageMaintenanceInfo>();
 
-            var categoryImgBasePath = new CategoryImageSettings().BasePath;
-            var questionImgBasePath = new QuestionImageSettings().BasePath;
-            var setImgBasePath = new QuestionSetImageSettings().BasePath;
-
             foreach (var imageMetaData in imageMetaDatas)
-            {
-                result.Add(new ImageMaintenanceInfo
-                {
-                    ImageId = imageMetaData.Id,
-                    MetaData = imageMetaData,
-                    TypeId = imageMetaData.TypeId,
-                    InCategoryFolder = File.Exists(HttpContext.Current.Server.MapPath(
-                        categoryImgBasePath + imageMetaData.TypeId + ".jpg")),
-                    InQuestionFolder = File.Exists(HttpContext.Current.Server.MapPath(
-                        questionImgBasePath + imageMetaData.TypeId + ".jpg")),
-                    InSetFolder = File.Exists(HttpContext.Current.Server.MapPath(
-                        setImgBasePath + imageMetaData.TypeId + ".jpg")),
-                });
-            }
+                result.Add(new ImageMaintenanceInfo(imageMetaData));
 
             return result;
         }

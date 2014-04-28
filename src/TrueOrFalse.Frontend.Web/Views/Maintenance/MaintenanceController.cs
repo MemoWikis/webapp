@@ -15,11 +15,9 @@ public class MaintenanceController : BaseController
         return View(new MaintenanceImagesModel());
     }
 
-    [AccessOnlyAsAdmin]
-    public ActionResult ImageMaintenanceWork()
+    public ActionResult ImageUpdateLicenceData()
     {
-        Resolve<UpdateImageTypes>().Run();
-        return View("Images", new MaintenanceImagesModel{ Message = new SuccessMessage("Images haven been assigned") });
+        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Images haven been assigned") });
     }
 
     [AccessOnlyAsAdmin]

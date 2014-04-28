@@ -18,24 +18,26 @@
         </div>
         <% Html.Message(Model.Message); %>
         
-        <a href="/Maintenance/ImageMaintenanceWork" class="btn btn-danger" style="margin-bottom: 10px; margin-top: -5px;">Bildertypen eindeutig zuordnen</a>
-        
+        <a href="/Maintenance/ImageMaintenanceWork" class="btn btn-primary" style="margin-bottom: 10px; margin-top: -5px;">Lizenzinformation laden</a>
+
         <table class="table">
             <tr>
-                <th>Id</th>
-                <th>TypeId</th>
-                <th>Type</th>
-                <th>InCat</th>
-                <th>InQuestion</th>
+                <th style="width: 75px;"></th>
+                <th style="width: 70px;">Info</th>
+                <th>Description</th>
             </tr>
             <%  var index = 0;
-                foreach(var imageMaitenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
-                <tr class="<%=imageMaitenanceInfo.GetCssClass() %>">
-                    <td><%= imageMaitenanceInfo.ImageId %></td>
-                    <td><%= imageMaitenanceInfo.TypeId %></td>
-                    <td><%=  Enum.Parse(typeof(ImageType), imageMaitenanceInfo.MetaData.Type.ToString())  %></td>
-                    <td><%= imageMaitenanceInfo.InCategoryFolder %></td>
-                    <td><%= imageMaitenanceInfo.InQuestionFolder %></td>
+                foreach(var imageMaintenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
+                <tr class="<%=imageMaintenanceInfo.GetCssClass() %>">
+                    <td>
+                        <img src="<%= imageMaintenanceInfo.Url_128 %>" style="width: 50px" />
+                    </td>                    
+                    <td>
+                        <%=  Enum.Parse(typeof(ImageType), imageMaintenanceInfo.MetaData.Type.ToString())  %><br/>
+                        ImageId: <%= imageMaintenanceInfo.ImageId %><br/>
+                        TypeId: <%= imageMaintenanceInfo.TypeId %>
+                    </td>
+                    <td></td>
                 </tr>
 
             <% } %>
