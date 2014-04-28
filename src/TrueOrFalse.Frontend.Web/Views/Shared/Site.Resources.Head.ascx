@@ -2,8 +2,8 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Infrastructure" %>
 
-<%= Scripts.Render("~/bundles/shared") %>
 <%= Styles.Render("~/bundles/css") %>
+<%= Scripts.Render("~/bundles/shared") %>
 
 <% if (!OverwrittenConfig.DevelopOffline()){ %>
     <link href='http://fonts.googleapis.com/css?family=Emilys+Candy' rel='stylesheet' type='text/css'>
