@@ -6,9 +6,24 @@ using TrueOrFalse.Web;
 public class MaintenanceController : BaseController
 {
     [AccessOnlyAsAdmin]
-    public ActionResult Maintenance()
-    {
+    public ActionResult Maintenance(){
         return View(new MaintenanceModel());
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult Images(){
+        return View(new MaintenanceImagesModel());
+    }
+
+    public ActionResult ImageUpdateLicenceData()
+    {
+        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Images haven been assigned") });
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult Messages()
+    {
+        return View(new MaintenanceMessagesModel());
     }
 
     [AccessOnlyAsAdmin]
@@ -91,7 +106,7 @@ public class MaintenanceController : BaseController
 
     [HttpPost]
     [AccessOnlyAsAdmin]
-    public ActionResult SendMessage(MaintenanceModel model)
+    public ActionResult SendMessage(MaintenanceMessagesModel model)
     {
         Resolve<SendCustomMsg>().Run(
             model.TestMsgReceiverId, 
@@ -99,6 +114,6 @@ public class MaintenanceController : BaseController
             model.TestMsgBody);
 
         model.Message = new SuccessMessage("Message was sent");
-        return View("Maintenance", model);
+        return View("Messages", model);
     }
 }

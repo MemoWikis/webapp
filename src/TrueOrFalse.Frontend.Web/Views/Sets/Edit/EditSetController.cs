@@ -76,7 +76,7 @@ public class EditSetController : BaseController
             if (Request["ImageSource"] == "wikimedia")
             {
                 Resolve<ImageStore>().RunWikimedia<QuestionSetImageSettings>(
-                    Request["ImageWikiFileName"], setId, _sessionUser.User.Id);
+                    Request["ImageWikiFileName"], setId, ImageType.QuestionSet, _sessionUser.User.Id);
             }
             if (Request["ImageSource"] == "upload")
             {

@@ -22,7 +22,11 @@ namespace TrueOrFalse
             Map(x => x.Source);
             Map(x => x.SourceUrl);
 
-            Map(x => x.LicenceInfo).Length(Constants.VarCharMaxLength);
+            Map(x => x.ApiResult).Length(Constants.VarCharMaxLength);
+
+            Map(x => x.Author);
+            Map(x => x.Description);
+            Map(x => x.Licence);
 
             Map(x => x.DateCreated);
             Map(x => x.DateModified);

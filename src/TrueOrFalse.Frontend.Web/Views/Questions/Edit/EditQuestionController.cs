@@ -125,7 +125,7 @@ public class EditQuestionController : BaseController
 
         if (imageSource == "wikimedia"){
             Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
-                wikiFileName, questionId, _sessionUser.User.Id);
+                wikiFileName, questionId, ImageType.Question, _sessionUser.User.Id);
         }
         
         if (imageSource == "upload"){

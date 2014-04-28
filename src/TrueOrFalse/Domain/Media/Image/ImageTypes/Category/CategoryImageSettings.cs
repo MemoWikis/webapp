@@ -24,8 +24,8 @@ public class CategoryImageSettings : IImageSettings
         Id = categoryId;
     }
 
-    public ImageUrl GetUrl_50px() { return GetUrl(50); }
-    public ImageUrl GetUrl_128px() { return GetUrl(128); }
+    public ImageUrl GetUrl_50px(bool asSquare = false) { return GetUrl(50, asSquare); }
+    public ImageUrl GetUrl_128px(bool asSquare = false) { return GetUrl(128, asSquare); }
     public ImageUrl GetUrl_85px_square() { return GetUrl(85, isSquare: true); }
 
     public ImageUrl GetUrl_206px_square() { return GetUrl(206, isSquare: true); }

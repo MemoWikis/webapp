@@ -14,12 +14,11 @@ namespace TrueOrFalse
         /// <summary>E.g questionId, questionSetId, ... </summary>
         public virtual int TypeId { get; set; }
         public virtual ImageSource Source { get; set; }
-
         public virtual string SourceUrl { get; set; }
-
-        public virtual string LicenceInfo { get; set; }
-
+        public virtual string ApiResult { get; set; }
         public virtual int UserId { get; set; }
-
+        public virtual string Author { get; set; }
+        public virtual string Description { get; set; }
+        public virtual string Licence { get; set; }
     }
 }

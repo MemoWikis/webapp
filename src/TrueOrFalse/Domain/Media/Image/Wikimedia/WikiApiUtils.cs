@@ -24,5 +24,16 @@ namespace TrueOrFalse
 
             return resultString;
         }
+
+        public static string ExtractFileNameFromUrl(string filePath)
+        {
+            //remove query string
+            filePath = filePath.Split('?')[0];
+
+            if (filePath.Contains("File:"))
+                return filePath.Split(new[] { "File:" }, StringSplitOptions.None)[1];
+
+            return filePath;
+        }
     }
 }

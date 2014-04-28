@@ -14,17 +14,17 @@ namespace TrueOrFalse
                            .And(x => x.Type == imageType)
                            .SingleOrDefault<ImageMetaData>();
         }
-
-
-        public void StoreSetWiki(int questionSetId, int userId, WikiImageMeta wikiMetaData){
-            StoreWiki(questionSetId, userId, wikiMetaData, ImageType.QuestionSet);
-        }
         
         public void StoreSetUploaded(int questionSetId, int userId, string licenceGiverName){
             StoreUploaded(questionSetId, userId, ImageType.QuestionSet, licenceGiverName);
         }
 
-        private void StoreWiki(int typeId, int userId, WikiImageMeta wikiMetaData, ImageType imageType)
+        public void StoreWiki(
+            int typeId, 
+            ImageType imageType, 
+            int userId, 
+            WikiImageMeta wikiMetaData,
+            WikiImageLicenceInfo licenceInfo)
         {
             var imageMeta = GetBy(typeId, imageType);
             if (imageMeta == null)
@@ -32,11 +32,11 @@ namespace TrueOrFalse
                 Create(
                     new ImageMetaData
                     {
-                        TypeId = typeId,
                         Type = imageType,
+                        TypeId = typeId,
                         Source = ImageSource.WikiMedia,
                         SourceUrl = wikiMetaData.ImageUrl,
-                        LicenceInfo = wikiMetaData.JSonResult,
+                        ApiResult = wikiMetaData.JSonResult,
                         UserId = userId
                     }
                 );
@@ -45,7 +45,7 @@ namespace TrueOrFalse
             {
                 imageMeta.SourceUrl = wikiMetaData.ImageUrl;
                 imageMeta.Source = ImageSource.WikiMedia;
-                imageMeta.LicenceInfo = wikiMetaData.JSonResult;
+                imageMeta.ApiResult = wikiMetaData.JSonResult;
                 imageMeta.UserId = userId;
 
                 Update(imageMeta);
@@ -63,7 +63,7 @@ namespace TrueOrFalse
                         TypeId = typeId,
                         Type = imageType,
                         Source = ImageSource.User,
-                        LicenceInfo = licenceGiverName,
+                        ApiResult = licenceGiverName,
                         UserId = userId
                     }
                 );
@@ -72,7 +72,7 @@ namespace TrueOrFalse
             {
                 imageMeta.Source = ImageSource.User;
                 imageMeta.UserId = userId;
-                imageMeta.LicenceInfo = licenceGiverName;
+                imageMeta.ApiResult = licenceGiverName;
 
                 Update(imageMeta);
             }                        

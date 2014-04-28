@@ -10,17 +10,24 @@ using TrueOrFalse;
 public class ImageStore : IRegisterAsInstancePerLifetime
 {
     private readonly WikiImageMetaLoader _metaLoader;
+    private readonly WikiImageLicenceLoader _wikiImageLicenceLoader;
     private readonly ImageMetaDataRepository _imgMetaRepo;
 
     public ImageStore(
         WikiImageMetaLoader metaLoader,
+        WikiImageLicenceLoader wikiImageLicenceLoader,
         ImageMetaDataRepository imgMetaRepo)
     {
         _metaLoader = metaLoader;
+        _wikiImageLicenceLoader = wikiImageLicenceLoader;
         _imgMetaRepo = imgMetaRepo;
     }
 
-    public void RunWikimedia<T>(string imageWikiFileName, int typeId, int userId) where T : IImageSettings
+    public void RunWikimedia<T>(
+        string imageWikiFileName, 
+        int typeId, 
+        ImageType imageType,
+        int userId) where T : IImageSettings
     {
         var wikiMetaData = _metaLoader.Run(imageWikiFileName, 1024);
 
@@ -31,7 +38,9 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             StoreImages.Run(stream, imageSettings);
         }
 
-        _imgMetaRepo.StoreSetWiki(typeId, userId, wikiMetaData);
+        var licenceInfo = _wikiImageLicenceLoader.Run(wikiMetaData.ImageTitle);
+
+        _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData, licenceInfo);
     }
 
     public void RunUploaded<T>(TmpImage tmpImage, int typeId, int userId, string licenceGiverName) where T : IImageSettings

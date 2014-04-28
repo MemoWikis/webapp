@@ -17,7 +17,7 @@ namespace TrueOrFalse
             if(String.IsNullOrEmpty(fileNameOrUrl))
                 return new WikiImageMeta { ImageNotFound = true };
 
-            var fileName = ExtractFromUrl(fileNameOrUrl);
+            var fileName = WikiApiUtils.ExtractFileNameFromUrl(fileNameOrUrl);
             var url =
                 "http://commons.wikimedia.org/w/api.php?action=query" +
                 "&prop=imageinfo" +
@@ -63,18 +63,6 @@ namespace TrueOrFalse
                     ImageThumbUrl = page[pageName].imageinfo[0].thumburl,
                     JSonResult = resultString
                 };
-        }
-
-        private string ExtractFromUrl(string filePath)
-        {
-            //remove query string
-            filePath = filePath.Split('?')[0]; 
-
-            if (filePath.Contains("File:"))
-                return filePath.Split(new[] { "File:" }, StringSplitOptions.None)[1];
-
-            return filePath;
-        }
-        
+        }        
     }
 }
