@@ -36,7 +36,7 @@ namespace TrueOrFalse
                         TypeId = typeId,
                         Source = ImageSource.WikiMedia,
                         SourceUrl = wikiMetaData.ImageUrl,
-                        LicenceInfo = wikiMetaData.JSonResult,
+                        ApiResult = wikiMetaData.JSonResult,
                         UserId = userId
                     }
                 );
@@ -45,7 +45,7 @@ namespace TrueOrFalse
             {
                 imageMeta.SourceUrl = wikiMetaData.ImageUrl;
                 imageMeta.Source = ImageSource.WikiMedia;
-                imageMeta.LicenceInfo = wikiMetaData.JSonResult;
+                imageMeta.ApiResult = wikiMetaData.JSonResult;
                 imageMeta.UserId = userId;
 
                 Update(imageMeta);
@@ -63,7 +63,7 @@ namespace TrueOrFalse
                         TypeId = typeId,
                         Type = imageType,
                         Source = ImageSource.User,
-                        LicenceInfo = licenceGiverName,
+                        ApiResult = licenceGiverName,
                         UserId = userId
                     }
                 );
@@ -72,7 +72,7 @@ namespace TrueOrFalse
             {
                 imageMeta.Source = ImageSource.User;
                 imageMeta.UserId = userId;
-                imageMeta.LicenceInfo = licenceGiverName;
+                imageMeta.ApiResult = licenceGiverName;
 
                 Update(imageMeta);
             }                        

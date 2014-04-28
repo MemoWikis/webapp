@@ -45,6 +45,8 @@ namespace TrueOrFalse.Updates
                 .Add(41, UpdateToVs041.Run)
                 .Add(42, UpdateToVs042.Run)
                 .Add(43, UpdateToVs043.Run)
+                .Add(44, UpdateToVs044.Run)
+                .Add(45, UpdateToVs045.Run)
                 .Run();
         }
     }

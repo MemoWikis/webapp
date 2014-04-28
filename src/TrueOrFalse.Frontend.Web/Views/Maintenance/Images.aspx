@@ -24,6 +24,8 @@
             <tr>
                 <th style="width: 75px;"></th>
                 <th style="width: 70px;">Info</th>
+                <th>Author</th>
+                <th>Licence</th>
                 <th>Description</th>
             </tr>
             <%  var index = 0;
@@ -37,6 +39,8 @@
                         ImageId: <%= imageMaintenanceInfo.ImageId %><br/>
                         TypeId: <%= imageMaintenanceInfo.TypeId %>
                     </td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                 </tr>
 

@@ -437,6 +437,8 @@
     <Compile Include="Utilities\Update\Steps\UpdateToVs013.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs012.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs045.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs044.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs043.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs042.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs041.cs" />
