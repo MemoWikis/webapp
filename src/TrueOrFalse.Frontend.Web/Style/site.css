@@ -293,6 +293,7 @@ img {
   bottom: 0;
   left: 0;
   right: 0;
+  background-color: #ffffff;
 }
 #gradientLeft {
   width: 300px;
@@ -642,7 +643,6 @@ img {
   font-weight: normal;
   border: 1px solid transparent;
   white-space: nowrap;
-  padding: 6px 12px;
   line-height: 1.42857143;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -652,7 +652,7 @@ img {
   *display: inline;
   /* IE7 inline-block hack */
   *zoom: 1;
-  padding: 4px 12px;
+  padding: 6px 12px;
   margin-bottom: 0;
   font-size: 14px;
   line-height: 20px;
@@ -806,7 +806,6 @@ fieldset[disabled] #MenuButton {
   background-image: none;
   border: 1px solid transparent;
   white-space: nowrap;
-  padding: 6px 12px;
   line-height: 1.42857143;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -817,7 +816,7 @@ fieldset[disabled] #MenuButton {
   *display: inline;
   /* IE7 inline-block hack */
   *zoom: 1;
-  padding: 4px 12px;
+  padding: 6px 12px;
   margin-bottom: 0;
   font-size: 14px;
   line-height: 20px;
@@ -1268,8 +1267,13 @@ div.box-main .box-content {
 }
 .box-with-tabs .boxtainer-content .search-section,
 .boxtainer-outlined-tabs .boxtainer-content .search-section {
-  padding-top: 20px;
   padding-bottom: 20px;
+}
+@media (min-width: 992px) {
+  .box-with-tabs .boxtainer-content .search-section,
+  .boxtainer-outlined-tabs .boxtainer-content .search-section {
+    padding-top: 20px;
+  }
 }
 #question-main .box-with-tabs ul.nav-tabs,
 #question-main .boxtainer-outlined-tabs ul.nav-tabs {

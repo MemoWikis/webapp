@@ -1,12 +1,71 @@
-﻿@media (max-width: 479px) {
-  .input-group {
+﻿@media (max-width: 767px) {
+  #mobileSubHeader .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+#mobilePageHeader,
+#mobilePageHeader2 {
+  margin-bottom: 0;
+  border-bottom-width: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-top: 10px;
+  overflow: auto;
+  position: relative;
+}
+@media (max-width: 767px) {
+  #mobilePageHeader,
+  #mobilePageHeader2 {
+    background-color: #f2f8dd;
+    background-color: #e7ecf6;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+#mobilePageHeader h4,
+#mobilePageHeader2 h4 {
+  margin-top: 0;
+  width: 50%;
+  float: left;
+}
+#mainFilterBar .btn-group .btn {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+@media (max-width: 767px) {
+  #mainFilterBar .btn-group .btn {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+@media (max-width: 479px) {
+  #mainFilterBar {
     display: block;
   }
-  .input-group input {
+  #mainFilterBar > .btn-group {
+    display: block;
+    float: left;
+  }
+  #mainFilterBar #AllQuestions {
+    width: 30%;
+  }
+  #mainFilterBar #WuWiQuestions {
+    width: 40%;
+  }
+  #mainFilterBar #MyQuestions {
+    width: 30%;
+  }
+}
+@media (max-width: 479px) {
+  #choices .input-group {
+    display: block;
+  }
+  #choices .input-group input {
     border-bottom-left-radius: 4px !important;
     border-top-right-radius: 0 !important;
   }
-  .input-group-addon {
+  #choices .input-group-addon {
     display: block;
     width: auto;
     border: 1px solid #cccccc !important;

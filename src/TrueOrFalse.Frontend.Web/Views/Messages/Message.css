@@ -8,11 +8,18 @@
 .block {
   display: block;
 }
-#Clearfix,
-.Clearfix {
-  display: inline-block;
-  width: 100%;
-  zoom: 1;
+#Clearfix:before,
+.Clearfix:before,
+#Clearfix:after,
+.Clearfix:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+#Clearfix:after,
+.Clearfix:after {
+  clear: both;
 }
 #Clear {
   content: "";
@@ -62,6 +69,16 @@
 @media (min-width: 1200px) {
   .float-none-lg {
     float: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .DesktopHide {
+    display: none;
+  }
+}
+@media (max-width: 991px) {
+  .MobileHide {
+    display: none;
   }
 }
 /*                        *\

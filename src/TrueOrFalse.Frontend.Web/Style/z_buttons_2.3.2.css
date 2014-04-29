@@ -1,12 +1,9 @@
-﻿.test {
-  color: green;
-}
-.btn {
+﻿.btn {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
   *zoom: 1;
-  padding: 4px 12px;
+  padding: 6px 12px;
   margin-bottom: 0;
   font-size: 14px;
   line-height: 20px;
