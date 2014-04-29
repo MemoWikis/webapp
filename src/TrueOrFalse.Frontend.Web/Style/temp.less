@@ -1,26 +1,108 @@
-﻿@media (max-width: @screen-xxs-max) {
+﻿#mobileSubHeader {
 
-    .input-group {
-        display: block;
+    .container {
 
-        input {
-            border-bottom-left-radius: @input-border-radius !important;
-            border-top-right-radius: 0 !important;
+        @media (max-width: @screen-xs-max) {
+            padding-left: 0;
+            padding-right: 0;
         }
-
-    }
-
-    .input-group-addon {
-        display: block;
-        width: auto;
-        border: 1px solid @input-group-addon-border-color !important;
-        border-bottom: none !important;
-        border-top-right-radius: @input-border-radius !important;
-        border-bottom-left-radius: 0 !important;
     }
 }
 
 
+
+#mobilePageHeader, #mobilePageHeader2 {
+    margin-bottom: 0;
+    border-bottom-width: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-top: 10px;
+    overflow: auto;
+    @media (max-width: @screen-xxs-max) {
+    }
+    @media (max-width: @screen-xs-max) {
+        background-color: @color-question-extralight;
+        background-color: @light-blue;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    @media (min-width: @screen-sm-min) {
+
+    }
+
+    h4 {
+        margin-top: 0;
+        width: 50%;
+        float: left;
+    }
+
+
+    //temp
+    
+    position: relative;
+    //top: -26px;
+    //margin-bottom: -25px;
+}
+
+#mainFilterBar {
+    .btn-group .btn {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+
+        @media (max-width: @screen-xs-max) {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+    }
+
+    @media (max-width: @screen-xxs-max) {
+        display: block;
+
+        > .btn-group {
+            display: block;
+            float: left;
+            
+        }
+
+        #AllQuestions {
+            width: 30%;
+        }
+
+        #WuWiQuestions {
+            width: 40%;
+        }
+
+        #MyQuestions {
+            width: 30%;
+        }
+
+    }
+}
+
+#choices {
+
+    @media (max-width: @screen-xxs-max) {
+
+        .input-group {
+            display: block;
+
+            input {
+                border-bottom-left-radius: @input-border-radius !important;
+                border-top-right-radius: 0 !important;
+            }
+        }
+
+        .input-group-addon {
+            display: block;
+            width: auto;
+            border: 1px solid @input-group-addon-border-color !important;
+            border-bottom: none !important;
+            border-top-right-radius: @input-border-radius !important;
+            border-bottom-left-radius: 0 !important;
+        }
+    }
+}
 
 @apollo-gruen: #9C3; 
 

@@ -115,6 +115,7 @@ img {
         bottom: 0;
         left: 0;
         right: 0;
+        background-color: @color-background-global;
     }
 }
 
@@ -723,8 +724,6 @@ span.smaller {
             position: relative;
         }
 
-
-
         ul.nav-tabs {
 
             border-bottom-width: 0;
@@ -773,15 +772,16 @@ span.smaller {
             z-index: 2;
 
             .search-section {
-                padding-top: 20px;
                 padding-bottom: 20px;
+                @media (min-width: @screen-md-min) {
+                    padding-top: 20px;
+                }
             }
         }
     }
 
     #question-main {
-        #tab-color
-        (lighten(@color-question, 20));
+        #tab-color (lighten(@color-question, 20));
     }
 
     #set-main {

@@ -83,11 +83,23 @@
     }
 }
 
+.DesktopHide {
+    @media (min-width: @screen-md-min) {
+        display: none;
+    }
+}
+
+.MobileHide {
+    @media (max-width: @screen-sm-max) {
+        display: none;
+    }
+}
+
 /*                        *\
   Special styles
 \*                        */
 
-#tab-color(@outline-color) { 
+#tab-color(@outline-color: @light-blue) { 
 
     .box-with-tabs,
     .boxtainer-outlined-tabs {

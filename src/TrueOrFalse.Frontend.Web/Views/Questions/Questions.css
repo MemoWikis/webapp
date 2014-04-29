@@ -278,6 +278,16 @@
     float: none !important;
   }
 }
+@media (min-width: 992px) {
+  .DesktopHide {
+    display: none;
+  }
+}
+@media (max-width: 991px) {
+  .MobileHide {
+    display: none;
+  }
+}
 /*                        *\
   Special styles
 \*                        */
@@ -342,11 +352,14 @@ div.column-Image .image-container .selectQuestion {
   opacity: 0.7;
   display: none;
 }
-#btnAddQuestion {
+.btnAddQuestion {
   margin-bottom: 10px;
 }
+#mobilePageHeader .btnAddQuestion {
+  float: right;
+}
 @media (min-width: 992px) {
-  #btnAddQuestion {
+  .btnAddQuestion {
     float: right;
     position: absolute;
     right: 0;
@@ -455,7 +468,42 @@ div.selected-row:hover {
   background-color: #f3f5f8;
   cursor: pointer;
 }
-#mobilePageHeader {
-  margin-bottom: 0;
+.SearchInputGroup {
+  float: left;
+  width: 66.66666667%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 992px) {
+  .SearchInputGroup {
+    float: left;
+    width: 50%;
+  }
+}
+@media (max-width: 479px) {
+  .SearchInputGroup {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+@media (max-width: 479px) {
+  #choices .input-group {
+    display: block;
+  }
+  #choices .input-group input {
+    border-bottom-left-radius: 4px !important;
+    border-top-right-radius: 0 !important;
+  }
+  #choices .input-group-addon {
+    display: block;
+    width: auto;
+    border: 1px solid #cccccc !important;
+    border-bottom: none !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-left-radius: 0 !important;
+  }
 }
 /*# sourceMappingURL=Questions.css.map */

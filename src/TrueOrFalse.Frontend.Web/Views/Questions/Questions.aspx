@@ -8,37 +8,103 @@
     <%= Scripts.Render("~/bundles/questions") %>
 </asp:Content>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
-<div id="question-main">
-    
-    <% using (Html.BeginForm()){ %>
-    <%--<div id="mobilePageHeader" class="panel panel-default">
-        <div class="panel-body">
-            Fragen
+<asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">
+     <div id="mobileSubHeader" class="mobileSubHeader DesktopHide">
+            <div class=" container">
+                <div id="mobilePageHeader" class="">
+                    <h4 class="">
+                        Fragen
+                    </h4>
+                    <a href="<%= Links.CreateQuestion(Url) %>" class="btnAddQuestion btn btn-success btn-sm">
+                        <i class="fa fa-plus-circle"></i>
+                        Frage erstellen
+                    </a>
+                </div>
+                <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
+                    <h4>
+                        Fragen
+                    </h4>
+                </nav>
+                <div id="mainFilterBar" class="btn-group btn-group-justified">
+                    <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
+                        <a  href="<%= Links.QuestionsAll(Url) %>" type="button" class="btn btn-default">
+                            <%  string von = "";
+                                if (Model.ActiveTabAll && Model.TotalQuestionsInSystem != Model.TotalQuestionsInResult)
+                                von = Model.TotalQuestionsInResult + " von ";  %>
+                                Alle (<%= von + Model.TotalQuestionsInSystem %>)
+                        </a>
+                    </div>
+                    <div id="WuWiQuestions" class="btn-group <%= Model.ActiveTabWish ? "active" : ""  %>">
+                        <a  href="<%= Links.QuestionsWish(Url) %>" type="button" class="btn btn-default">
+                            <% von = "";
+                            if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
+                            von = Model.TotalQuestionsInResult + " von "; %>
+                                Wunschwissen <span id="tabWishKnowledgeCount">(<%= von + Model.TotalWishKnowledge %>)</span>
+                            <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Wissen das Du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
+                        </a>
+                    </div>
+                    <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : ""  %>">
+                        <a href="<%= Links.QuestionsMine(Url) %>" type="button" class="btn btn-default">
+                        <%  von = "";
+                            if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
+                               von = Model.TotalQuestionsInResult + " von "; %>                        
+                        Meine (<%= von + Model.TotalQuestionsMine %>)
+                            <i class="fa fa-question-circle show-tooltip" title="Fragen die von Dir erstellt wurden." data-placement="right"></i>
+                        </a>
+                    </div> 
+                </div>
+            </div>
         </div>
-    </div>
-    <nav id="mobilePageHeader" class="navbar navbar-default">
-        <div class="panel-body">
+
+   <%-- <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
+        <div>
             Fragen
         </div>
     </nav>
     <div id="mainFilterBar" class="btn-group btn-group-justified" style="margin-bottom: 40px;">
         <div class="btn-group">
-            <button type="button" class="btn btn-default">Left</button>
+            <button type="button" class="btn btn-default">Alle</button>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default">Middle</button>
+            <button type="button" class="btn btn-default">Wunschwissen</button>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default">Right</button>
+            <button type="button" class="btn btn-default">Meine</button>
+        </div> 
+    </div>--%>
+</asp:Content>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+
+<div id="question-main">
+    
+    <% using (Html.BeginForm()){ %>
+   <%-- <div id="mobilePageHeader" class="panel panel-default">
+        <div class="panel-body">
+            Fragen
+        </div>
+    </div>
+    <nav id="mobilePageHeader2" class="navbar navbar-default">
+        <div>
+            Fragen
+        </div>
+    </nav>
+    <div id="mainFilterBar" class="btn-group btn-group-justified" style="margin-bottom: 40px;">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default">Alle</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default">Wunschwissen</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default">Meine</button>
         </div> 
     </div>--%>
                 
      <div class="boxtainer-outlined-tabs">
          
-        <div class="boxtainer-header">
-                <a href="<%= Links.CreateQuestion(Url) %>" id="btnAddQuestion" class="btn btn-success btn-sm">
+        <div class="boxtainer-header MobileHide">
+                <a href="<%= Links.CreateQuestion(Url) %>" class="btnAddQuestion btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>
@@ -78,11 +144,15 @@
         <div class="boxtainer-content">
             <div class="search-section">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="SearchInputGroup">
                         <div class="form-group">
                             <label>Suche:</label>
-                            <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
-                            <button class="btn btn-default" id="btnSearch" style="height: 34px;"><img src="/Images/Buttons/tick.png"/></button>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

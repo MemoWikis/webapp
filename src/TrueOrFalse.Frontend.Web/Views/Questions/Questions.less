@@ -67,10 +67,14 @@ div.column-Image {
     }
 }
 
-#btnAddQuestion {
+.btnAddQuestion {
 
     margin-bottom: 10px;
 
+    #mobilePageHeader & {
+        float: right;
+    }
+    
     @media (min-width: @screen-md-min) {
         float: right;
         position: absolute;
@@ -181,6 +185,35 @@ div.selected-row:hover { background-color: #d6e0f4;}
 
 }
 
-#mobilePageHeader {
-    margin-bottom: 0;
+.SearchInputGroup {
+
+    .make-xs-column(8);
+
+    .make-md-column(6);
+
+    .xxs-stack;
+}
+
+#choices {
+
+    @media (max-width: @screen-xxs-max) {
+
+        .input-group {
+            display: block;
+
+            input {
+                border-bottom-left-radius: @input-border-radius !important;
+                border-top-right-radius: 0 !important;
+            }
+        }
+
+        .input-group-addon {
+            display: block;
+            width: auto;
+            border: 1px solid @input-group-addon-border-color !important;
+            border-bottom: none !important;
+            border-top-right-radius: @input-border-radius !important;
+            border-bottom-left-radius: 0 !important;
+        }
+    }
 }
