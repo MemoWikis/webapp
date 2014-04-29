@@ -1,8 +1,6 @@
 ﻿@import (reference) 'z_variables_2.3.2.less';
 @import (reference) 'z_mixins_2.3.2.less';
 
-.test {color: green;}
-
 //
 // Buttons
 // --------------------------------------------------
@@ -11,11 +9,14 @@
 // Base styles
 // --------------------------------------------------
 
+@media disable {}
+
 // Core
 .btn {
   display: inline-block;
   .ie7-inline-block();
-  padding: 4px 12px;
+  //padding: 4px 12px;
+  padding: 6px 12px; //make compatible with new bootstrap elements
   margin-bottom: 0; // For input.btn
   font-size: @baseFontSize;
   line-height: @baseLineHeight;
