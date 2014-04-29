@@ -81,5 +81,30 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             Assert.That(parsedImageMakup.LicenceIsCreativeCommons, Is.EqualTo(true));
             Assert.That(parsedImageMakup.LicenceTemplateString, Is.EqualTo("cc-by-sa-3.0"));
         }
+
+        [Test]
+        public void Should_parse_markup()
+        {
+            const string demoText = @"
+                == {{int:filedesc}} ==
+                {{Uploaded with en.wp UW marker|year=2013|month=01|day=16}}
+                {{Information
+                |Description = {{en|A source code example that shows classes, methods, and inheritance.
+                This is NOT THE Mint Programming Language because Mint absolutely cannot perform a 'return this' implicitly at the end of a particular function.}}
+                |Source = Taking a screenshot, then editing using Paint.NET
+                |Date = 2013-01-16
+                |Author = [[User:Carrot Lord|Carrot Lord]]
+                }}
+
+                == {{int:license-header}} ==
+                {{self|GFDL|cc-by-sa-3.0|migration=redundant}}
+
+                [[Category:Programming languages]]";
+
+            var parsedImageMakup = ParseImageMarkup.Run(demoText);
+            Assert.That(parsedImageMakup.AuthorName_Raw, Is.EqualTo("[[User:Carrot Lord|Carrot Lord]]"));
+            Assert.That(parsedImageMakup.AuthorName, Is.EqualTo("Carrot Lord"));
+        }
+
     }
 }

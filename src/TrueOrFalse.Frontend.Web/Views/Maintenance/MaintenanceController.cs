@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 
@@ -17,7 +18,14 @@ public class MaintenanceController : BaseController
 
     public ActionResult ImageUpdateLicenceData()
     {
-        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Images haven been assigned") });
+        Resolve<LoadImageMarkups>().Run();
+        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Licence data has been updated") });
+    }
+
+    public ActionResult ImageUpdateMarkupFromDb()
+    {
+        Resolve<UpdateMarkupFromDb>().Run();
+        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Licence data has been updated") });
     }
 
     [AccessOnlyAsAdmin]
