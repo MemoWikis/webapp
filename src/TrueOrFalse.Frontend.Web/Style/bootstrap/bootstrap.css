@@ -6107,6 +6107,29 @@ button.close {
   margin-top: 0;
   margin-bottom: 5px;
 }
+.visible-xxs {
+  display: none !important;
+}
+@media (max-width: 479px) {
+  .visible-xxs {
+    display: block !important;
+  }
+  table.visible-xxs {
+    display: table;
+  }
+  tr.visible-xxs {
+    display: table-row !important;
+  }
+  th.visible-xxs,
+  td.visible-xxs {
+    display: table-cell !important;
+  }
+}
+@media (max-width: 479px) {
+  .hidden-xxs {
+    display: none !important;
+  }
+}
 .container,
 .container-fluid,
 .row,

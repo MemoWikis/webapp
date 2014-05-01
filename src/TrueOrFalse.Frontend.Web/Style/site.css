@@ -796,6 +796,8 @@ fieldset[disabled] #MenuButton {
     padding: 5px 7px 5px 9px;
     font-size: 25px;
     margin-top: 0;
+    position: relative;
+    top: -3px;
   }
   #MenuButton .caret {
     margin-left: 5px;

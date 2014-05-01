@@ -70,7 +70,7 @@ var ValuationPerRow = (function () {
                     if (self._mode == 0 /* Question */) {
                         _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
                     }
-                    _this.SetElementValue("#tabWishKnowledgeCount", result.totalWishKnowledgeCount);
+                    _this.SetElementValue(".tabWishKnowledgeCount", result.totalWishKnowledgeCount);
                 }
             }
         });

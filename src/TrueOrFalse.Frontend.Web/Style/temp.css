@@ -1,4 +1,8 @@
-﻿@media (max-width: 767px) {
+﻿#mobileSubHeader {
+  background-color: #e7ecf6;
+  position: relative;
+}
+@media (max-width: 767px) {
   #mobileSubHeader .container {
     padding-left: 0;
     padding-right: 0;
@@ -17,62 +21,117 @@
 @media (max-width: 767px) {
   #mobilePageHeader,
   #mobilePageHeader2 {
-    background-color: #f2f8dd;
-    background-color: #e7ecf6;
     padding-left: 10px;
     padding-right: 10px;
   }
 }
+#mobilePageHeader h3,
+#mobilePageHeader2 h3,
 #mobilePageHeader h4,
 #mobilePageHeader2 h4 {
   margin-top: 0;
   width: 50%;
   float: left;
 }
+.mainFilterBarWrapper {
+  position: relative;
+}
+#mainFilterBarBackground {
+  position: absolute;
+  width: 100%;
+}
+#mainFilterBarBackground .btn {
+  background-color: #f2f8dd;
+}
+#mainFilterBarBackground .btn-group:first-child .btn {
+  border-left: none;
+}
+#mainFilterBarBackground .btn-group:last-child .btn {
+  border-right: none;
+}
 #mainFilterBar .btn-group .btn {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  color: #203256;
+  text-shadow: #ffffff;
+  background-image: -webkit-linear-gradient(top, #f2f8dd 0%, #e1efb3 100%);
+  background-image: linear-gradient(to bottom, #f2f8dd 0%, #e1efb3 100%);
+  background-color: #ebf4cc;
+  background-image: -moz-linear-gradient(top, #f2f8dd, #e1efb3);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f8dd), to(#e1efb3));
+  background-image: -webkit-linear-gradient(top, #f2f8dd, #e1efb3);
+  background-image: -o-linear-gradient(top, #f2f8dd, #e1efb3);
+  background-image: linear-gradient(to bottom, #f2f8dd, #e1efb3);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f8dd', endColorstr='#ffe1efb3', GradientType=0);
+  border-color: #e1efb3 #e1efb3 #c8e273;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #e1efb3;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+#mainFilterBar .btn-group .btn:hover,
+#mainFilterBar .btn-group .btn:focus,
+#mainFilterBar .btn-group .btn:active,
+#mainFilterBar .btn-group .btn.active,
+#mainFilterBar .btn-group .btn.disabled,
+#mainFilterBar .btn-group .btn[disabled] {
+  color: #203256;
+  background-color: #e1efb3;
+  *background-color: #d9eb9e;
+}
+#mainFilterBar .btn-group .btn:active,
+#mainFilterBar .btn-group .btn.active {
+  background-color: #d0e689 \9;
 }
 @media (max-width: 767px) {
-  #mainFilterBar .btn-group .btn {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+  #mainFilterBar .btn-group:first-child .btn {
+    border-left: none;
+  }
+  #mainFilterBar .btn-group:last-child .btn {
+    border-right: none;
   }
 }
+#mainFilterBar .btn-group.active .btn {
+  text-shadow: #ffffff;
+  background-image: -webkit-linear-gradient(top, #e1efb3 0%, #d0e689 100%);
+  background-image: linear-gradient(to bottom, #e1efb3 0%, #d0e689 100%);
+  background-color: #daeca2;
+  background-image: -moz-linear-gradient(top, #e1efb3, #d0e689);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e1efb3), to(#d0e689));
+  background-image: -webkit-linear-gradient(top, #e1efb3, #d0e689);
+  background-image: -o-linear-gradient(top, #e1efb3, #d0e689);
+  background-image: linear-gradient(to bottom, #e1efb3, #d0e689);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe1efb3', endColorstr='#ffd0e689', GradientType=0);
+  border-color: #d0e689 #d0e689 #b7d949;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #d0e689;
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  color: #203256;
+  font-weight: bold;
+}
+#mainFilterBar .btn-group.active .btn:hover,
+#mainFilterBar .btn-group.active .btn:focus,
+#mainFilterBar .btn-group.active .btn:active,
+#mainFilterBar .btn-group.active .btn.active,
+#mainFilterBar .btn-group.active .btn.disabled,
+#mainFilterBar .btn-group.active .btn[disabled] {
+  color: #203256;
+  background-color: #d0e689;
+  *background-color: #c8e273;
+}
+#mainFilterBar .btn-group.active .btn:active,
+#mainFilterBar .btn-group.active .btn.active {
+  background-color: #c0de5e \9;
+}
 @media (max-width: 479px) {
-  #mainFilterBar {
-    display: block;
-  }
   #mainFilterBar > .btn-group {
-    display: block;
-    float: left;
-  }
-  #mainFilterBar #AllQuestions {
-    width: 30%;
-  }
-  #mainFilterBar #WuWiQuestions {
-    width: 40%;
-  }
-  #mainFilterBar #MyQuestions {
-    width: 30%;
+    display: table-cell !important;
   }
 }
-@media (max-width: 479px) {
-  #choices .input-group {
-    display: block;
-  }
-  #choices .input-group input {
-    border-bottom-left-radius: 4px !important;
-    border-top-right-radius: 0 !important;
-  }
-  #choices .input-group-addon {
-    display: block;
-    width: auto;
-    border: 1px solid #cccccc !important;
-    border-bottom: none !important;
-    border-top-right-radius: 4px !important;
-    border-bottom-left-radius: 0 !important;
-  }
+#mainFilterBarBackground .btn,
+#mainFilterBar .btn {
+  border-radius: 0;
 }
 .test {
   color: #add65c;
@@ -88,30 +147,6 @@
 .test {.make-sm-column(2; @gutter: @grid-gutter-width);
 }
 */
-#MasterLeftColumn {
-  position: relative;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (min-width: 992px) {
-  #MasterLeftColumn {
-    float: left;
-    width: 25%;
-  }
-}
-#MasterMainColumn {
-  position: relative;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (min-width: 992px) {
-  #MasterMainColumn {
-    float: left;
-    width: 75%;
-  }
-}
 .test-col1 {
   position: relative;
   min-height: 1px;
