@@ -1,9 +1,6 @@
 ﻿#mobileSubHeader {
 
-    //background-color: @color-question-extralight;
     background-color: @light-blue;
-   // background-color: lighten(#085388,60);
-    
     position: relative;
 
     .container {
@@ -40,13 +37,6 @@
         width: 50%;
         float: left;
     }
-
-
-    //temp
-    
-    position: relative;
-    //top: -26px;
-    //margin-bottom: -25px;
 }
 
 .mainFilterBarWrapper {
@@ -59,7 +49,9 @@
 
     .btn {
         //.gradientBar (@light-blue; @color-question-button-top)
-        background-color: @color-question-extralight;
+          .gradientBar (@color-question-button-top; @color-question-button-bottom; @global-text-color; white);
+           
+        //background-color: @color-question-light;
     }
 
     .btn-group {
@@ -79,6 +71,7 @@
 
         .btn {
             .buttonBackground (@color-question-extralight; lighten(@color-question, 30); @global-text-color; white);
+            .buttonBackground (@color-question-button-top; @color-question-button-bottom; @global-text-color; white);
             // .buttonBackground (lighten(@color-set, 30); lighten(@color-set, 40);  @global-text-color; white);//@color-question-light
         }
         @media (max-width: @screen-xs-max) {
