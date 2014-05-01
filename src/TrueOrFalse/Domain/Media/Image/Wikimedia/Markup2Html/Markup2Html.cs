@@ -13,6 +13,8 @@ namespace TrueOrFalse.WikiMarkup
         {
             //finds "[[de:pageName|displayName]]" transforms to "displayName"
             markup = Regex.Replace(markup, "\\[\\[.*?\\|(.*?)\\]\\]", match => match.Groups[1].Value);
+            //finds "[[displayName]]" transforms to "displayName"
+            markup = Regex.Replace(markup, "\\[\\[(.*?)\\]\\]", match => match.Groups[1].Value);
             //finds "[displayName]" transforms to "displayName"
             markup = Regex.Replace(markup, "\\[(.*?)\\]", match => match.Groups[1].Value);
             //finds "''displayName''" transforms to "<i>displayName</i>"

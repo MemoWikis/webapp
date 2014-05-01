@@ -11,16 +11,17 @@ using TrueOrFalse.WikiMarkup;
 
 namespace TrueOrFalse.Tests._2_Domain.Image
 {
-    class ImageLicenceInfo_from_wikimedia : BaseTest
+    internal class ImageLicenceInfo_from_wikimedia : BaseTest
     {
-        [Ignore]//tmp
+        [Ignore] //tmp
         [Test]
         public void Get_licence_info()
         {
             var licenceInfoLoader = Resolve<WikiImageLicenceLoader>();
             var licenceInfo = licenceInfoLoader.Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg");
-            Assert.That(licenceInfo.AuthorName, 
-                Is.EqualTo("By Tiit Hunt (Own work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons"));
+            Assert.That(licenceInfo.AuthorName,
+                Is.EqualTo(
+                    "By Tiit Hunt (Own work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons"));
 
         }
 
@@ -71,15 +72,64 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             Assert.That(infoSectionParams[1].Key, Is.EqualTo("Date"));
             Assert.That(infoSectionParams[1].Value, Is.EqualTo("2010-01-06"));
 
-            Assert.That(parsedImageMakup.DescriptionDE_Raw, 
-                Is.EqualTo("Eine [[:de:Flunder|Flunder]], ''Platichthys flesus'', nahe dem estnischen Dorf [[:de:Vääna-Jõesuu|Vääna-Jõesuu]]"));
-            Assert.That(parsedImageMakup.Description, Is.EqualTo("Eine Flunder, <i>Platichthys flesus</i>, nahe dem estnischen Dorf Vääna-Jõesuu"));
+            Assert.That(parsedImageMakup.DescriptionDE_Raw,
+                Is.EqualTo(
+                    "Eine [[:de:Flunder|Flunder]], ''Platichthys flesus'', nahe dem estnischen Dorf [[:de:Vääna-Jõesuu|Vääna-Jõesuu]]"));
+            Assert.That(parsedImageMakup.Description,
+                Is.EqualTo("Eine Flunder, <i>Platichthys flesus</i>, nahe dem estnischen Dorf Vääna-Jõesuu"));
 
             Assert.That(parsedImageMakup.AuthorName_Raw, Is.EqualTo("[[User:Tiithunt|Tiit Hunt]]"));
             Assert.That(parsedImageMakup.AuthorName, Is.EqualTo("Tiit Hunt"));
 
             Assert.That(parsedImageMakup.LicenceIsCreativeCommons, Is.EqualTo(true));
             Assert.That(parsedImageMakup.LicenceTemplateString, Is.EqualTo("cc-by-sa-3.0"));
+        }
+
+        [Test]
+        public void Should_parse_markup()
+        {
+            const string demoText = @"
+                == {{int:filedesc}} ==
+                {{Uploaded with en.wp UW marker|year=2013|month=01|day=16}}
+                {{Information
+                |Description = {{en|A source code example that shows classes, methods, and inheritance.
+                This is NOT THE Mint Programming Language because Mint absolutely cannot perform a 'return this' implicitly at the end of a particular function.}}
+                |Source = Taking a screenshot, then editing using Paint.NET
+                |Date = 2013-01-16
+                |Author = [[User:Carrot Lord|Carrot Lord]]
+                }}
+
+                == {{int:license-header}} ==
+                {{self|GFDL|cc-by-sa-3.0|migration=redundant}}
+
+                [[Category:Programming languages]]";
+
+            var parsedImageMakup = ParseImageMarkup.Run(demoText);
+            Assert.That(parsedImageMakup.AuthorName_Raw, Is.EqualTo("[[User:Carrot Lord|Carrot Lord]]"));
+            Assert.That(parsedImageMakup.AuthorName, Is.EqualTo("Carrot Lord"));
+        }
+
+        [Test]
+        public void Should_parse_de()
+        {
+            const string demoText = @"== {{int:filedesc}} ==
+                {{Information
+                |Description    ={{de|1=Rita Süssmuth auf der 50. Verleihung der Adolf-Grimme-Preise in Marl am 4. April 2014.}}
+                |Source         ={{own}}
+                |Author         =[[User:Michael-schilling|Michael Schilling]]
+                |Date           =2014-04-04
+                |Permission     =
+                |other_versions =
+                }}
+
+                [[Category:Rita Süssmuth]]
+                [[Category:Grimme-Preis 2014]]
+                == {{int:license-header}} ==
+                {{self|cc-by-sa-3.0}}            
+            }";
+
+            var parsedImageMakup = ParseImageMarkup.Run(demoText);
+            Assert.That(parsedImageMakup.DescriptionDE_Raw, Is.EqualTo("Rita Süssmuth auf der 50. Verleihung der Adolf-Grimme-Preise in Marl am 4. April 2014."));
         }
     }
 }

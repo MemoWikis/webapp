@@ -19,6 +19,6 @@ namespace TrueOrFalse
         public virtual int UserId { get; set; }
         public virtual string Author { get; set; }
         public virtual string Description { get; set; }
-        public virtual string Licence { get; set; }
+        public virtual string Markup { get; set; }
     }
 }

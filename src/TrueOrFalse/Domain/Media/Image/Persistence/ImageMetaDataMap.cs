@@ -26,7 +26,7 @@ namespace TrueOrFalse
 
             Map(x => x.Author);
             Map(x => x.Description);
-            Map(x => x.Licence);
+            Map(x => x.Markup);
 
             Map(x => x.DateCreated);
             Map(x => x.DateModified);

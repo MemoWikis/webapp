@@ -12,14 +12,14 @@ namespace TrueOrFalse
             fileName = WikiApiUtils.ExtractFileNameFromUrl(fileName);
 
             var url = String.Format("http://commons.wikimedia.org/w/index.php?title=File:{0}&action=raw", fileName);
-            var page = WikiApiUtils.GetWebpage(url);
+            var markup = WikiApiUtils.GetWebpage(url);
 
-            var parsedImageMakup = ParseImageMarkup.Run(page);
+            var parsedImageMakup = ParseImageMarkup.Run(markup);
             var licenceInfo = new WikiImageLicenceInfo
             {
                 AuthorName = parsedImageMakup.AuthorName,
                 Description = parsedImageMakup.Description,
-                Markup = page
+                Markup = markup
             };
 
             return licenceInfo;

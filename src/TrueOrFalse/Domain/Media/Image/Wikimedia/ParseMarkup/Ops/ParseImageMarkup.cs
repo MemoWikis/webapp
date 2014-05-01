@@ -56,14 +56,11 @@ namespace TrueOrFalse.WikiMarkup
         {
             var paramDesc = result.InfoTemplate.ParamByKey("Description");
             if (paramDesc != null)
+                SetDescription(result, paramDesc);
+            else
             {
-                var mldSection = new Template(ParseTemplate.Run(paramDesc.Value, "mld"));
-                if (mldSection.Parameters.Any(x => x.Key == "de"))
-                {
-                    var deParamValue = mldSection.ParamByKey("de").Value;
-                    result.DescriptionDE_Raw = deParamValue;
-                    result.Description = Markup2Html.Run(deParamValue);
-                }
+                result.InfoTemplate.ParamByKey("BArch-image");
+
             }
 
             var paramAuthor = result.InfoTemplate.ParamByKey("Author");
@@ -73,5 +70,30 @@ namespace TrueOrFalse.WikiMarkup
                 result.AuthorName = Markup2Html.Run(paramAuthor.Value);
             }
         }
+
+        private static void SetDescription(ParseImageMarkupResult result, Parameter descnParameter)
+        {
+            var mldSection = new Template(ParseTemplate.Run(descnParameter.Value, "mld"));
+            if (mldSection.Parameters.Any(x => x.Key == "de"))
+            {
+                var deParamValue = mldSection.ParamByKey("de").Value;
+                result.DescriptionDE_Raw = deParamValue;
+                result.Description = Markup2Html.Run(deParamValue);
+                return;
+            }
+
+            var deSection = new Template(ParseTemplate.Run(descnParameter.Value, "de"));
+            if(deSection.IsSet)
+            {
+                if (deSection.Parameters.Any())
+                {
+                    var deParamValue = deSection.Parameters.First().Value;
+                    result.DescriptionDE_Raw = deParamValue;
+                    result.Description = Markup2Html.Run(deParamValue);
+                }
+                return;
+            }
+        }
+
     }
 }

@@ -164,6 +164,7 @@
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\UpdateImageTypes.cs" />
     <Compile Include="Domain\Media\Image\ResizeImage.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\UpdateMarkupFromDb.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Markup2Html\Markup2Html.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Model.Parameter.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseImageMarkup.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseImageMarkupResult.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseTemplate.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseTemplateParameters.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\LoadImageMarkups.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiApiUtils.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceInfo.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceLoader.cs" />
@@ -413,6 +415,7 @@
     <Compile Include="Utilities\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs046.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs045.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs044.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs043.cs" />
