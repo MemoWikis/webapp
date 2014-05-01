@@ -11,6 +11,7 @@ namespace TrueOrFalse
     /// Relation between QuestionSet -> Question
     /// Contains order
     /// </summary>
+    [Serializable]
     public class QuestionInSet : DomainEntity
     {
         public virtual Set Set { get; set; }
