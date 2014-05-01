@@ -16,7 +16,6 @@
   border-bottom-right-radius: 0;
   padding-top: 10px;
   overflow: auto;
-  position: relative;
 }
 @media (max-width: 767px) {
   #mobilePageHeader,
@@ -41,7 +40,20 @@
   width: 100%;
 }
 #mainFilterBarBackground .btn {
-  background-color: #f2f8dd;
+  color: #203256;
+  text-shadow: #ffffff;
+  background-image: -webkit-linear-gradient(top, #f2f8dd 0%, #e1efb3 100%);
+  background-image: linear-gradient(to bottom, #f2f8dd 0%, #e1efb3 100%);
+  background-color: #ebf4cc;
+  background-image: -moz-linear-gradient(top, #f2f8dd, #e1efb3);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f8dd), to(#e1efb3));
+  background-image: -webkit-linear-gradient(top, #f2f8dd, #e1efb3);
+  background-image: -o-linear-gradient(top, #f2f8dd, #e1efb3);
+  background-image: linear-gradient(to bottom, #f2f8dd, #e1efb3);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f8dd', endColorstr='#ffe1efb3', GradientType=0);
+  border-color: #e1efb3 #e1efb3 #c8e273;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 #mainFilterBarBackground .btn-group:first-child .btn {
   border-left: none;
@@ -50,6 +62,7 @@
   border-right: none;
 }
 #mainFilterBar .btn-group .btn {
+  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   color: #203256;
   text-shadow: #ffffff;
   background-image: -webkit-linear-gradient(top, #f2f8dd 0%, #e1efb3 100%);
@@ -67,6 +80,20 @@
   *background-color: #e1efb3;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+#mainFilterBar .btn-group .btn:hover,
+#mainFilterBar .btn-group .btn:focus,
+#mainFilterBar .btn-group .btn:active,
+#mainFilterBar .btn-group .btn.active,
+#mainFilterBar .btn-group .btn.disabled,
+#mainFilterBar .btn-group .btn[disabled] {
+  color: #203256;
+  background-color: #e1efb3;
+  *background-color: #d9eb9e;
+}
+#mainFilterBar .btn-group .btn:active,
+#mainFilterBar .btn-group .btn.active {
+  background-color: #d0e689 \9;
 }
 #mainFilterBar .btn-group .btn:hover,
 #mainFilterBar .btn-group .btn:focus,
