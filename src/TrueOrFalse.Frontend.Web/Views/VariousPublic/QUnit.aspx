@@ -1,11 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-
-    <div class="col-lg-9">        
-        <div id="qunit"></div>
-        <div id="qunit-fixture"></div>    
-    </div>
+    
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>    
 
     <script type="text/javascript">
         test("hello test", function () {

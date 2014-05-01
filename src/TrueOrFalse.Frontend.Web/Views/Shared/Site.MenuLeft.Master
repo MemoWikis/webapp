@@ -18,18 +18,21 @@
                 <div id="gradientRight"></div>
             </div>
         </section>
-            <div class="container main">
-           <!-- <div id="gradientLeft"></div>
-            <div id="gradientRight"></div>-->
+
+        <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
+
+       
+
+        <div class="container main">
             <div class="row">
-                <div class="col-md-3">
+                <div id="MasterLeftColumn" class="">
                     <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
                 </div>
-                
-                <%-- MAIN CONTENT--%>
-                <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+                <div id="MasterMainColumn" class="">
+                    <%-- MAIN CONTENT--%>
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+                </div>
             </div>
-
         </div>
     </section>
     <%-- FOOTER--%>

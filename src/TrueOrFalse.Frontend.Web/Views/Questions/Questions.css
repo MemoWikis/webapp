@@ -1,6 +1,238 @@
-﻿#set-scheme {
-  background-color: #ffd700;
-  color: black;
+﻿.thumbnail > img,
+.thumbnail a > img,
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.btn-group-lg > .btn {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+}
+.btn-group-sm > .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn-group-xs > .btn {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.container,
+.container-fluid,
+.row,
+.form-horizontal .form-group,
+.btn-toolbar,
+.btn-group-vertical > .btn-group,
+.nav,
+.navbar,
+.navbar-header,
+.navbar-collapse,
+.pager,
+.panel-body,
+.modal-footer {
+  *zoom: 1;
+}
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.btn-toolbar:before,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:before,
+.btn-group-vertical > .btn-group:after,
+.nav:before,
+.nav:after,
+.navbar:before,
+.navbar:after,
+.navbar-header:before,
+.navbar-header:after,
+.navbar-collapse:before,
+.navbar-collapse:after,
+.pager:before,
+.pager:after,
+.panel-body:before,
+.panel-body:after,
+.modal-footer:before,
+.modal-footer:after {
+  content: " ";
+  display: table;
+}
+.container:after,
+.container-fluid:after,
+.row:after,
+.form-horizontal .form-group:after,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:after,
+.nav:after,
+.navbar:after,
+.navbar-header:after,
+.navbar-collapse:after,
+.pager:after,
+.panel-body:after,
+.modal-footer:after {
+  clear: both;
+}
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.btn-toolbar:before,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:before,
+.btn-group-vertical > .btn-group:after,
+.nav:before,
+.nav:after,
+.navbar:before,
+.navbar:after,
+.navbar-header:before,
+.navbar-header:after,
+.navbar-collapse:before,
+.navbar-collapse:after,
+.pager:before,
+.pager:after,
+.panel-body:before,
+.panel-body:after,
+.modal-footer:before,
+.modal-footer:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.container:after,
+.container-fluid:after,
+.row:after,
+.form-horizontal .form-group:after,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:after,
+.nav:after,
+.navbar:after,
+.navbar-header:after,
+.navbar-collapse:after,
+.pager:after,
+.panel-body:after,
+.modal-footer:after {
+  clear: both;
+}
+.container,
+.container-fluid,
+.row,
+.form-horizontal .form-group,
+.btn-toolbar,
+.btn-group-vertical > .btn-group,
+.nav,
+.navbar,
+.navbar-header,
+.navbar-collapse,
+.pager,
+.panel-body,
+.modal-footer {
+  *zoom: 1;
+}
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.btn-toolbar:before,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:before,
+.btn-group-vertical > .btn-group:after,
+.nav:before,
+.nav:after,
+.navbar:before,
+.navbar:after,
+.navbar-header:before,
+.navbar-header:after,
+.navbar-collapse:before,
+.navbar-collapse:after,
+.pager:before,
+.pager:after,
+.panel-body:before,
+.panel-body:after,
+.modal-footer:before,
+.modal-footer:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.container:after,
+.container-fluid:after,
+.row:after,
+.form-horizontal .form-group:after,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:after,
+.nav:after,
+.navbar:after,
+.navbar-header:after,
+.navbar-collapse:after,
+.pager:after,
+.panel-body:after,
+.modal-footer:after {
+  clear: both;
+}
+.btn-group-lg > .btn {
+  padding: 11px 19px;
+  font-size: 17.5px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+.btn-group-sm > .btn {
+  padding: 2px 10px;
+  font-size: 11.9px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.btn-group-xs > .btn {
+  padding: 0 6px;
+  font-size: 10.5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+/*              *\
+  Helper classes
+\*              */
+.block {
+  display: block;
+}
+#Clearfix:before,
+.Clearfix:before,
+#Clearfix:after,
+.Clearfix:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+#Clearfix:after,
+.Clearfix:after {
+  clear: both;
+}
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
 }
 /*              *\
   General styles
@@ -46,16 +278,21 @@
     float: none !important;
   }
 }
-#clearfix {
-  display: inline-block;
-  width: 100%;
-  zoom: 1;
+@media (min-width: 992px) {
+  .DesktopHide {
+    display: none;
+  }
 }
-#Clear {
-  content: "";
-  display: block;
-  clear: both;
-  visibility: visible;
+@media (max-width: 991px) {
+  .MobileHide {
+    display: none;
+  }
+}
+/*                        *\
+  Special styles
+\*                        */
+.test {
+  color: white;
 }
 /*div.column-Image { background-color: green; }
 div.column-MainContent {background-color: seashell; }
@@ -114,6 +351,20 @@ div.column-Image .image-container .selectQuestion {
   background-color: white;
   opacity: 0.7;
   display: none;
+}
+.btnAddQuestion {
+  margin-bottom: 10px;
+}
+#mobilePageHeader .btnAddQuestion {
+  float: right;
+}
+@media (min-width: 992px) {
+  .btnAddQuestion {
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 5px;
+  }
 }
 div.column-MainContent {
   padding-right: 20px;
@@ -216,5 +467,43 @@ div.selected-row:hover {
 .tsqRow:hover {
   background-color: #f3f5f8;
   cursor: pointer;
+}
+.SearchInputGroup {
+  float: left;
+  width: 66.66666667%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 992px) {
+  .SearchInputGroup {
+    float: left;
+    width: 50%;
+  }
+}
+@media (max-width: 479px) {
+  .SearchInputGroup {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+@media (max-width: 479px) {
+  #choices .input-group {
+    display: block;
+  }
+  #choices .input-group input {
+    border-bottom-left-radius: 4px !important;
+    border-top-right-radius: 0 !important;
+  }
+  #choices .input-group-addon {
+    display: block;
+    width: auto;
+    border: 1px solid #cccccc !important;
+    border-bottom: none !important;
+    border-top-right-radius: 4px !important;
+    border-bottom-left-radius: 0 !important;
+  }
 }
 /*# sourceMappingURL=Questions.css.map */

@@ -3,6 +3,31 @@
   color: black;
 }
 /*              *\
+  Helper classes
+\*              */
+.block {
+  display: block;
+}
+#Clearfix:before,
+.Clearfix:before,
+#Clearfix:after,
+.Clearfix:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+#Clearfix:after,
+.Clearfix:after {
+  clear: both;
+}
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
+}
+/*              *\
   General styles
 \*              */
 .link {
@@ -46,17 +71,19 @@
     float: none !important;
   }
 }
-#clearfix {
-  display: inline-block;
-  width: 100%;
-  zoom: 1;
+@media (min-width: 992px) {
+  .DesktopHide {
+    display: none;
+  }
 }
-#Clear {
-  content: "";
-  display: block;
-  clear: both;
-  visibility: visible;
+@media (max-width: 991px) {
+  .MobileHide {
+    display: none;
+  }
 }
+/*                        *\
+  Special styles
+\*                        */
 .msgRow {
   background-color: #f2f5fa;
   border-right: 1px solid #d9d9d9;

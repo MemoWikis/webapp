@@ -3,20 +3,18 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<div class="col-md-9" style="">
-    <div class="box box-main">
-        <h2><a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">Hilfe</a> - Urheberrechte</h2>
-        <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
-            <h4>Überblick</h4>
+<div class="box box-main">
+    <h2><a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">Hilfe</a> - Urheberrechte</h2>
+    <div class="box-content" style="min-height: 120px; clear: both; padding-top: 10px;">
+        <h4>Überblick</h4>
             
-            Themen<br/>
-            <ul>
-                <li><a href="#">Unter welcher Lizenz stehen öffentliche Fragen?</a></li>
-                <li><a href="#">Unter welcher Lizenz stehen private Fragen?</a></li>
-                <li><a href="#">Was muss ich beachten</a></li>
-            </ul>
+        Themen<br/>
+        <ul>
+            <li><a href="#">Unter welcher Lizenz stehen öffentliche Fragen?</a></li>
+            <li><a href="#">Unter welcher Lizenz stehen private Fragen?</a></li>
+            <li><a href="#">Was muss ich beachten</a></li>
+        </ul>
 
-        </div>
     </div>
 </div>
 
