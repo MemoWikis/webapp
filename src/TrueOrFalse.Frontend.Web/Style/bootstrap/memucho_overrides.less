@@ -11,3 +11,18 @@
         margin-bottom: 5px;
     }
 }
+
+//Responsive utilities
+
+.visible-xxs {
+  .responsive-invisibility();
+  @media (max-width: @screen-xxs-max) {
+    .responsive-visibility();
+  }
+}
+
+.hidden-xxs {
+  @media (max-width: @screen-xxs-max) {
+    .responsive-invisibility();
+  }
+}

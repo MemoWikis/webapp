@@ -1,5 +1,11 @@
 ﻿#mobileSubHeader {
 
+    //background-color: @color-question-extralight;
+    background-color: @light-blue;
+   // background-color: lighten(#085388,60);
+    
+    position: relative;
+
     .container {
 
         @media (max-width: @screen-xs-max) {
@@ -21,8 +27,7 @@
     @media (max-width: @screen-xxs-max) {
     }
     @media (max-width: @screen-xs-max) {
-        background-color: @color-question-extralight;
-        background-color: @light-blue;
+        
         padding-left: 10px;
         padding-right: 10px;
     }
@@ -30,7 +35,7 @@
 
     }
 
-    h4 {
+    h3, h4 {
         margin-top: 0;
         width: 50%;
         float: left;
@@ -44,65 +49,81 @@
     //margin-bottom: -25px;
 }
 
-#mainFilterBar {
-    .btn-group .btn {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
+.mainFilterBarWrapper {
+    position: relative;
+}
 
-        @media (max-width: @screen-xs-max) {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
+#mainFilterBarBackground {
+    position: absolute;
+    width: 100%;
 
+    .btn {
+        //.gradientBar (@light-blue; @color-question-button-top)
+        background-color: @color-question-extralight;
     }
 
-    @media (max-width: @screen-xxs-max) {
-        display: block;
+    .btn-group {
 
-        > .btn-group {
-            display: block;
-            float: left;
-            
+        &:first-child .btn {
+            border-left: none;
         }
-
-        #AllQuestions {
-            width: 30%;
+        &:last-child .btn {
+            border-right: none;
         }
-
-        #WuWiQuestions {
-            width: 40%;
-        }
-
-        #MyQuestions {
-            width: 30%;
-        }
-
     }
 }
 
-#choices {
+#mainFilterBar { 
 
-    @media (max-width: @screen-xxs-max) {
+    .btn-group  {
 
-        .input-group {
-            display: block;
+        .btn {
+            .buttonBackground (@color-question-extralight; lighten(@color-question, 30); @global-text-color; white);
+            // .buttonBackground (lighten(@color-set, 30); lighten(@color-set, 40);  @global-text-color; white);//@color-question-light
+        }
+        @media (max-width: @screen-xs-max) {
 
-            input {
-                border-bottom-left-radius: @input-border-radius !important;
-                border-top-right-radius: 0 !important;
+            &:first-child .btn {
+                border-left: none;
+            }
+            &:last-child .btn {
+                border-right: none;
             }
         }
+    }
 
-        .input-group-addon {
-            display: block;
-            width: auto;
-            border: 1px solid @input-group-addon-border-color !important;
-            border-bottom: none !important;
-            border-top-right-radius: @input-border-radius !important;
-            border-bottom-left-radius: 0 !important;
+    .btn-group.active { 
+        
+        .btn {//, .btn:hover
+
+        //.buttonBackground (@color-question-light; @color-question-light; @global-text-color; white);
+        //.gradientBar (@color-question-button-bottom; @color-question-light; @global-text-color; white);
+        .buttonBackground (@color-question-button-bottom; @color-question-light; @global-text-color; white);
+
+        color: @global-text-color;
+        font-weight: bold;
+        }
+    }
+
+    @media (max-width: @screen-xxs-max) {
+        //display: block;
+
+        > .btn-group {
+            //display: block;
+            display: table-cell !important;
+            //float: left;
         }
     }
 }
+
+#mainFilterBarBackground, #mainFilterBar {
+
+    .btn {
+        border-radius: 0;
+    }
+}
+
+
 
 @apollo-gruen: #9C3; 
 
@@ -119,13 +140,6 @@
 }
 */
 
-#MasterLeftColumn {
-    .make-md-column(3);
-}
-
-#MasterMainColumn {
-    .make-md-column(9);
-}
 
 .test-col1 {
     .make-sm-column(5);
@@ -148,6 +162,8 @@
 @import (reference) 'includes/shared.less';
 @import (reference) 'includes/variables.less';
 @import (reference) 'bootstrap/bootstrap.less';
+@import (reference) 'z_mixins_2.3.2.less';
+@import (reference) 'z_buttons_2.3.2.less';
 /*
     Next:
         MasterHeader: integrate mobile button

@@ -10,22 +10,31 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">
      <div id="mobileSubHeader" class="mobileSubHeader DesktopHide">
-            <div class=" container">
-                <div id="mobilePageHeader" class="">
-                    <h4 class="">
-                        Fragen
-                    </h4>
-                    <a href="<%= Links.CreateQuestion(Url) %>" class="btnAddQuestion btn btn-success btn-sm">
-                        <i class="fa fa-plus-circle"></i>
-                        Frage erstellen
-                    </a>
+        <div class=" container">
+            <div id="mobilePageHeader" class="">
+                <h3 class="">
+                    Fragen
+                </h3>
+                <a href="<%= Links.CreateQuestion(Url) %>" class="btnAddQuestion btn btn-success btn-sm">
+                    <i class="fa fa-plus-circle"></i>
+                    Frage erstellen
+                </a>
+            </div>
+            <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
+                <h4>
+                    Fragen
+                </h4>
+            </nav>
+        </div>
+        <div class="mainFilterBarWrapper">
+            <div id="mainFilterBarBackground" class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <a class="btn btn-default disabled">.</a>
                 </div>
-                <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
-                    <h4>
-                        Fragen
-                    </h4>
-                </nav>
+            </div>
+            <div class="container">
                 <div id="mainFilterBar" class="btn-group btn-group-justified">
+                
                     <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
                         <a  href="<%= Links.QuestionsAll(Url) %>" type="button" class="btn btn-default">
                             <%  string von = "";
@@ -39,7 +48,7 @@
                             <% von = "";
                             if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                             von = Model.TotalQuestionsInResult + " von "; %>
-                                Wunschwissen <span id="tabWishKnowledgeCount">(<%= von + Model.TotalWishKnowledge %>)</span>
+                                Wunsch<span class="hidden-xxs">wissen</span> <span class="tabWishKnowledgeCount">(<%= von + Model.TotalWishKnowledge %>)</span>
                             <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Wissen das Du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
                         </a>
                     </div>
@@ -47,14 +56,15 @@
                         <a href="<%= Links.QuestionsMine(Url) %>" type="button" class="btn btn-default">
                         <%  von = "";
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
-                               von = Model.TotalQuestionsInResult + " von "; %>                        
+                                von = Model.TotalQuestionsInResult + " von "; %>                        
                         Meine (<%= von + Model.TotalQuestionsMine %>)
                             <i class="fa fa-question-circle show-tooltip" title="Fragen die von Dir erstellt wurden." data-placement="right"></i>
                         </a>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
    <%-- <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
         <div>
@@ -79,27 +89,6 @@
 <div id="question-main">
     
     <% using (Html.BeginForm()){ %>
-   <%-- <div id="mobilePageHeader" class="panel panel-default">
-        <div class="panel-body">
-            Fragen
-        </div>
-    </div>
-    <nav id="mobilePageHeader2" class="navbar navbar-default">
-        <div>
-            Fragen
-        </div>
-    </nav>
-    <div id="mainFilterBar" class="btn-group btn-group-justified" style="margin-bottom: 40px;">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default">Alle</button>
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-default">Wunschwissen</button>
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-default">Meine</button>
-        </div> 
-    </div>--%>
                 
      <div class="boxtainer-outlined-tabs">
          
@@ -122,7 +111,7 @@
                         <% von = "";
                            if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                                von = Model.TotalQuestionsInResult + " von "; %>
-                        Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= von + Model.TotalWishKnowledge %>)</span>
+                        Mein Wunschwissen <span class="tabWishKnowledgeCount">(<%= von + Model.TotalWishKnowledge %>)</span>
                         <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
                            title="Wissen das Du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
                     </a>

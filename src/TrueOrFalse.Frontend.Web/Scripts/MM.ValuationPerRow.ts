@@ -77,7 +77,7 @@ class ValuationPerRow
                     if (self._mode == ValuationPerRowMode.Question) {
                         _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
                     }
-                    _this.SetElementValue("#tabWishKnowledgeCount", result.totalWishKnowledgeCount);
+                    _this.SetElementValue(".tabWishKnowledgeCount", result.totalWishKnowledgeCount);
                 }
             }
         });
