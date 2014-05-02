@@ -11,7 +11,7 @@
 <body>
     <%--HEADER--%>
     <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>
-    <section class="mainSection">
+    <section id="MasterSection">
         <div class="container main">
             <div id="gradientLeft"></div>
             <div id="gradientRight"></div>        

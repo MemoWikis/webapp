@@ -11,27 +11,27 @@
 
 <body>
     <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>    
-    <section class="mainSection">
-        <section class="backgroundLayer">
+    <section id="MasterSection">
+        <div id="MasterSectionBackgroundLayer" class="MasterSectionBackgroundLayer">
             <div class="container">
                 <div id="gradientLeft"></div>
                 <div id="gradientRight"></div>
             </div>
-        </section>
+        </div>
 
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
 
-        <div class="container main">
+        <section id="MasterMainContent" class="container">
             <div class="row">
-                <div id="MasterLeftColumn" class="">
+                <section id="MasterLeftColumn" class="">
                     <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
-                </div>
-                <div id="MasterMainColumn" class="">
+                </section>
+                <section id="MasterMainColumn" class="">
                     <%-- MAIN CONTENT--%>
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
-                </div>
+                </section>
             </div>
-        </div>
+        </section>
     </section>
     <%-- FOOTER--%>
     <footer id="MasterFooter">

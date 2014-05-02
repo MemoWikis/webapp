@@ -9,7 +9,7 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">
-     <div id="mobileSubHeader" class="mobileSubHeader DesktopHide">
+     <div id="MobileSubHeader" class="MobileSubHeader DesktopHide">
         <div class=" container">
             <div id="mobilePageHeader" class="">
                 <h3 class="">
@@ -26,14 +26,14 @@
                 </h4>
             </nav>
         </div>
-        <div class="mainFilterBarWrapper">
-            <div id="mainFilterBarBackground" class="btn-group btn-group-justified">
+        <div class="MainFilterBarWrapper">
+            <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
                 <div class="btn-group">
                     <a class="btn btn-default disabled">.</a>
                 </div>
             </div>
             <div class="container">
-                <div id="mainFilterBar" class="btn-group btn-group-justified">
+                <div id="MainFilterBar" class="btn-group btn-group-justified">
                 
                     <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
                         <a  href="<%= Links.QuestionsAll(Url) %>" type="button" class="btn btn-default">
@@ -65,23 +65,6 @@
             </div>
         </div>
     </div>
-
-   <%-- <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
-        <div>
-            Fragen
-        </div>
-    </nav>
-    <div id="mainFilterBar" class="btn-group btn-group-justified" style="margin-bottom: 40px;">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default">Alle</button>
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-default">Wunschwissen</button>
-        </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-default">Meine</button>
-        </div> 
-    </div>--%>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -126,8 +109,6 @@
                     </a>
                 </li>
             </ul>
-            
-            
         </div>
             
         <div class="boxtainer-content">
