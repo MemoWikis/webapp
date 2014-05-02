@@ -88,77 +88,8 @@ img {
     max-width: 100%;
 }
 
-.mainSection {
-    position: relative; //for z-index-positioning inside
-    //overflow-x: hidden; //damit der gradientRight nicht zu einem Scroll-Effekt führt
-}
-
-
-
-.container.main {
-    background-color: @color-background-global;
-    padding-top: 25px;
-    padding-bottom: 20px;
-    //position: relative;
-   // z-index: @z-Index-mainContainer;
-}
-
-.backgroundLayer {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: url(../img/dimension.png);
-    z-index: 0;
-    overflow-x: hidden;
-
-    & .container {
-        //height: 100%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: @color-background-global;
-    }
-}
-
-#gradientLeft {
-    width: @gradient-width;
-    position: absolute;
-    left: -@gradient-width;
-    top: 0;
-    bottom: 0;
-
-
-
-    background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
-    background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
-
-}
-
-#gradientRight {
-    width: @gradient-width;
-    position: absolute;
-    right: -@gradient-width;
-    top: 0;
-    bottom: 0;
-
-    background: -moz-linear-gradient(left,  rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
-    background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
-
-}
+/* MasterHeader  
+----------------------------------------------------------*/
 
 #MasterHeader {
     position: relative;
@@ -465,6 +396,7 @@ img {
         margin-top: 0;
         position: relative;
         top: -3px;
+        left: -3px;
         
         .caret {margin-left: 5px;}
     }
@@ -496,6 +428,86 @@ img {
     }
 }
 
+
+/* MasterSection
+----------------------------------------------------------*/
+
+#MasterSection {
+    position: relative; //for z-index-positioning inside
+    //overflow-x: hidden; //damit der gradientRight nicht zu einem Scroll-Effekt führt
+}
+
+#MasterSectionBackgroundLayer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url(../img/dimension.png);
+    z-index: 0;
+    overflow-x: hidden;
+
+    & .container {
+        //height: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: @color-background-global;
+    }
+}
+
+#gradientLeft {
+    width: @gradient-width;
+    position: absolute;
+    left: -@gradient-width;
+    top: 0;
+    bottom: 0;
+
+    background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+
+}
+
+#gradientRight {
+    width: @gradient-width;
+    position: absolute;
+    right: -@gradient-width;
+    top: 0;
+    bottom: 0;
+
+    background: -moz-linear-gradient(left,  rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
+}
+
+
+/* MobileSubHeader
+----------------------------------------------------------*/
+
+
+
+/* MasterMainContent
+----------------------------------------------------------*/
+
+#MasterMainContent {
+    background-color: @color-background-global;
+    padding-top: 25px;
+    padding-bottom: 20px;
+    //position: relative;
+   // z-index: @z-Index-mainContainer;
+}
+
 #MasterLeftColumn {
     .make-md-column(3);
     position: static;
@@ -505,6 +517,8 @@ img {
     .make-md-column(9);
 }
 
+/* MasterFooter
+----------------------------------------------------------*/
 
 #MasterFooter {
     background-color: @background-grey;
@@ -523,6 +537,9 @@ img {
         }
     }
 }
+
+/* $ToDo: Clean up
+----------------------------------------------------------*/
 
 .dark-blue {
     color: @dark-blue;
