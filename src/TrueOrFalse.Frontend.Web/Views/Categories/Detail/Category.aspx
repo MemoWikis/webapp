@@ -44,7 +44,13 @@
             <% } %>
         
             <% if(Model.CategoriesChildren.Count > 0){ %>
-                <h4 style="margin-top: 0;"><i class="fa fa-arrow-down"></i> Kindkategorien</h4>
+                <h4 style="margin-top: 0;">
+                    <i class="fa fa-arrow-down"></i> Kindkategorien
+                    <i class="fa fa-plus-circle show-tooltip cat-color add-new" 
+                       style="font-size: 14px; color: #99ccff; cursor: pointer"
+                       onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Name %>'; return false; " 
+                       data-original-title="Neue Kindkategorie erstellen"></i>
+                </h4>
                 <div style="margin-bottom: 12px;">
                     <% foreach(var category in Model.CategoriesChildren){ %>
                         <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>
@@ -59,8 +65,8 @@
                         - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(150) %></a>
                     </div>
                 <% } %>
-                <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="btn btn-info btn-sm" style="margin-top: 10px; margin-bottom: 10px;">
-                    Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen
+                <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" style="display:block; margin-top: 10px; margin-bottom: 10px; font-style: italic">
+                    <i class="fa fa-forward" style="color: #afd534;"></i> Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen
                 </a>
             <% } %>
             

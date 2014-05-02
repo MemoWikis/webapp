@@ -17,10 +17,13 @@ public class EditCategoryController : BaseController
         ActionInvoker = new JavaScriptActionInvoker();
     }
 
-    public ViewResult Create(string name)
+    public ViewResult Create(string name, string parent)
     {
-        var model = new EditCategoryModel();
-        model.Name = name ?? "";
+        var model = new EditCategoryModel {Name = name ?? ""};
+
+        if (!String.IsNullOrEmpty(parent))
+            model.ParentCategories.Add(_categoryRepository.GetByName(parent).Name);
+
         return View(_viewPath, model);
     }
 
