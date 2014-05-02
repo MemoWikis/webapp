@@ -21,16 +21,30 @@
         else
             label = "falsche Antwort " + (addingChoiceId);
 
-        $("#choices").append(
+        var actionButton = $("");
+        var actionButtonSperator = $("");
+        if(addingChoiceId != 0) {
+            actionButtonSperator = $("<div style='display:table-cell; width: 1%'/>");
+            actionButton = $("<a href='#' style='display:table-cell; width: 1%' class='btn'><i class='fa fa-times' style='color:red'></i></a>");
+            actionButton.click(function() {
+                //$(this).closest(".form-group").remove();
+                $(this).closest(".form-group").hide(500, function () { $(this).remove(); });
+                return false;
+            });
+        }
 
+        $("#choices")
+            .append($("<div class='form-group'>")
+                .append($("<div class='noLabel columnControlsFull'>")
+                    .append($("<div class='input-group'><span class='input-group-addon'>" + label + ":</span>")
+                        .append($("<input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' />"), 
+                                    actionButtonSperator, 
+                                    actionButton
+                        )
+                    )
+                )
+            );
 
-            "<div class='form-group'>" +
-            "   <div class='noLabel columnControlsFull'>" +
-            "       <div class='input-group'><span class='input-group-addon'>" + label + ":</span>" +
-            "           <input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' />" +
-            "       </div>" +
-            "   </div>" +
-            "</div>");
         addingChoiceId++;
         return false;
 
