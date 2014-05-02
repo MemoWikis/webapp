@@ -285,7 +285,6 @@ img {
   background-color: #ffffff;
   padding-top: 25px;
   padding-bottom: 20px;
-  position: relative;
 }
 .backgroundLayer {
   position: absolute;
@@ -997,6 +996,7 @@ fieldset[disabled] #MenuButton:hover {
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+  position: static;
 }
 @media (min-width: 992px) {
   #MasterLeftColumn {

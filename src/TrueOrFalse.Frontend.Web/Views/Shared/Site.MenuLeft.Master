@@ -21,8 +21,6 @@
 
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
 
-       
-
         <div class="container main">
             <div class="row">
                 <div id="MasterLeftColumn" class="">
