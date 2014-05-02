@@ -8,7 +8,13 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 
     public void FillFromPostData(NameValueCollection postData)
     {
-        Choices = (from x in postData.AllKeys where x.StartsWith("choice-") select postData.Get(x)).ToList();
+        Choices =
+            (
+               from x in postData.AllKeys 
+               where x.StartsWith("choice-")
+               select postData.Get(x)
+             )
+             .ToList();
     }
 
     public override bool IsCorrect(string answer)
