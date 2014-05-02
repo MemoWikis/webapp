@@ -77,7 +77,6 @@ class MenuMobile {
     private _isInProgress: boolean = false;
 
     constructor() {
-
         $("#MenuButton").click(() => {
             if (this._isOpen)
                 this.closeMenu();
@@ -86,7 +85,9 @@ class MenuMobile {
         });
 
         //close on click outside the menu
-        $(document).mouseup((e) => {
+
+        //$(document).mouseup((e) => { //$temp: Review - this does not work
+        $(document).mouseup(function (e) {
 
             if (!this._isOpen)
                 return;
@@ -106,10 +107,10 @@ class MenuMobile {
                 this.closeMenu();
             }
         });
-
     }
 
     openMenu() {
+
         if (this._isInProgress)
             return;
 
@@ -120,6 +121,7 @@ class MenuMobile {
     }
 
     closeMenu() {
+
         if (this._isInProgress)
             return;
 

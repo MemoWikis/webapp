@@ -1,4 +1,4 @@
-$(function () {
+﻿$(function () {
     $("[popover-all-sets-for]").click(function (e) {
         e.preventDefault();
 
@@ -80,12 +80,13 @@ var MenuMobile = (function () {
         });
 
         //close on click outside the menu
+        //$(document).mouseup((e) => { //$temp: Review - this does not work
         $(document).mouseup(function (e) {
-            if (!_this._isOpen)
+            if (!this._isOpen)
                 return;
 
             if ($("#mainMenu").has(e.target).length === 0 && $("#MenuButton").has(e.target).length === 0) {
-                _this.closeMenu();
+                this.closeMenu();
             }
         });
 
