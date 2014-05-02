@@ -495,6 +495,128 @@ img {
 /* MobileSubHeader
 ----------------------------------------------------------*/
 
+#MobileSubHeader {
+
+    background-color: @light-blue;
+    position: relative;
+
+    .container {
+
+        @media (max-width: @screen-xs-max) {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}
+
+#mobilePageHeader {
+    margin-bottom: 0;
+    border-bottom-width: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-top: 10px;
+    overflow: auto;
+    @media (max-width: @screen-xs-max) {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    h3, h4 {
+        margin-top: 0;
+        width: 50%;
+        float: left;
+    }
+}
+
+.MainFilterBarWrapper {
+    position: relative;
+}
+
+#MainFilterBarBackground {
+    position: absolute;
+    width: 100%;
+
+    .btn {
+        
+        //Variante heller gruener Gradient
+        //.gradientBar (@color-question-button-top; @color-question-button-bottom);
+       
+        //Variante entsaettigter dunkler gruener Gradient
+        //.gradientBar (desaturate(@color-question-light, 25), desaturate(@color-question, 25));
+        
+        //Variante entsaettigter gruener Gradient
+        .gradientBar (desaturate(@color-question-button-top, 25), desaturate(@color-question-light, 25));
+
+        //Variante Gradient gruen/grau:
+        //.gradientBar (rgba(0, 0, 0, 0.0980392); rgba(0, 0, 0, 0.247059));
+        //background-color: @color-question-button-bottom;
+
+        //Variante blau umschließend:
+        //.gradientBar (@light-blue;darken(@light-blue, 10));
+        //border-top-color: @light-blue;
+    }
+
+    .btn-group {
+
+        &:first-child .btn {
+            border-left: none;
+        }
+        &:last-child .btn {
+            border-right: none;
+        }
+    }
+}
+
+#MainFilterBar { 
+
+    .btn-group  {
+
+        .btn {
+            .buttonBackground (@color-question-extralight; lighten(@color-question, 30); @global-text-color; white);
+            .buttonBackground (@color-question-button-top; @color-question-button-bottom; @global-text-color; white);
+            // .buttonBackground (lighten(@color-set, 30); lighten(@color-set, 40);  @global-text-color; white);//@color-question-light
+        }
+        @media (max-width: @screen-xs-max) {
+
+            &:first-child .btn {
+                border-left: none;
+            }
+            &:last-child .btn {
+                border-right: none;
+            }
+        }
+    }
+
+    .btn-group.active { 
+        
+        .btn {//, .btn:hover
+
+        //.buttonBackground (@color-question-light; @color-question-light; @global-text-color; white);
+        //.gradientBar (@color-question-button-bottom; @color-question-light; @global-text-color; white);
+        .buttonBackground (@color-question-button-bottom; @color-question-light; @global-text-color; white);
+
+        color: @global-text-color;
+        font-weight: bold;
+        }
+    }
+
+    @media (max-width: @screen-xxs-max) {
+        //display: block;
+
+        > .btn-group {
+            //display: block;
+            display: table-cell !important;
+            //float: left;
+        }
+    }
+}
+
+#MainFilterBarBackground, #MainFilterBar {
+
+    .btn {
+        border-radius: 0;
+    }
+}
 
 
 /* MasterMainContent

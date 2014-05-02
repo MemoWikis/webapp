@@ -1,120 +1,5 @@
-﻿#mobileSubHeader {
+﻿//#MasterHeader h1 {display: none;}
 
-    background-color: @light-blue;
-    position: relative;
-
-    .container {
-
-        @media (max-width: @screen-xs-max) {
-            padding-left: 0;
-            padding-right: 0;
-        }
-    }
-}
-
-
-
-#mobilePageHeader, #mobilePageHeader2 {
-    margin-bottom: 0;
-    border-bottom-width: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    padding-top: 10px;
-    overflow: auto;
-    @media (max-width: @screen-xxs-max) {
-    }
-    @media (max-width: @screen-xs-max) {
-        
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-    @media (min-width: @screen-sm-min) {
-
-    }
-
-    h3, h4 {
-        margin-top: 0;
-        width: 50%;
-        float: left;
-    }
-}
-
-.mainFilterBarWrapper {
-    position: relative;
-}
-
-#mainFilterBarBackground {
-    position: absolute;
-    width: 100%;
-
-    .btn {
-        //.gradientBar (@light-blue; @color-question-button-top)
-          .gradientBar (@color-question-button-top; @color-question-button-bottom; @global-text-color; white);
-           
-        //background-color: @color-question-light;
-    }
-
-    .btn-group {
-
-        &:first-child .btn {
-            border-left: none;
-        }
-        &:last-child .btn {
-            border-right: none;
-        }
-    }
-}
-
-#mainFilterBar { 
-
-    .btn-group  {
-
-        .btn {
-            .buttonBackground (@color-question-extralight; lighten(@color-question, 30); @global-text-color; white);
-            .buttonBackground (@color-question-button-top; @color-question-button-bottom; @global-text-color; white);
-            // .buttonBackground (lighten(@color-set, 30); lighten(@color-set, 40);  @global-text-color; white);//@color-question-light
-        }
-        @media (max-width: @screen-xs-max) {
-
-            &:first-child .btn {
-                border-left: none;
-            }
-            &:last-child .btn {
-                border-right: none;
-            }
-        }
-    }
-
-    .btn-group.active { 
-        
-        .btn {//, .btn:hover
-
-        //.buttonBackground (@color-question-light; @color-question-light; @global-text-color; white);
-        //.gradientBar (@color-question-button-bottom; @color-question-light; @global-text-color; white);
-        .buttonBackground (@color-question-button-bottom; @color-question-light; @global-text-color; white);
-
-        color: @global-text-color;
-        font-weight: bold;
-        }
-    }
-
-    @media (max-width: @screen-xxs-max) {
-        //display: block;
-
-        > .btn-group {
-            //display: block;
-            display: table-cell !important;
-            //float: left;
-        }
-    }
-}
-
-#mainFilterBarBackground, #mainFilterBar {
-
-    .btn {
-        border-radius: 0;
-    }
-}
 
 
 
@@ -423,7 +308,7 @@ li.active a {background-color: lighten(@color-set,48) !important;}
 
 @media temp-disabled gradient grey {
 
-.mainSection {
+#MasterSection {
     background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(@background-grey-r, @background-grey-g, @background-grey-b,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(@background-grey-r, @background-grey-g, @background-grey-b,1))); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(@background-grey-r, @background-grey-g, @background-grey-b,1) 100%); /* Chrome10+,Safari5.1+ */
