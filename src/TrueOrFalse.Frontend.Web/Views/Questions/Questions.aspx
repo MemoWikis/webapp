@@ -155,7 +155,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-xs-5">
                         <ul class="nav pull-left">
                             <li class="dropdown" id="menu2">
                                 <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu2">
@@ -184,11 +184,11 @@
                             <i class="fa fa-cloud-download"></i>
                         </a>                        
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-xs-7">
                         <ul class="nav pull-right">
                             <li class="dropdown" id="menu1">
                                 <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
-                                    Sortieren nach: <%= Model.OrderByLabel %>
+                                    <span class="hidden-xxs">Sortieren nach:</span> <%= Model.OrderByLabel %>
                                     <b class="caret"></b>
                                 </button>
                                 <ul class="dropdown-menu">
@@ -217,7 +217,7 @@
                                 </ul>
                             </li>
                         </ul>
-                        <div class="pull-right" style="font-size: 14px; margin-right: 7px;"><%= Model.TotalQuestionsInResult %> Fragen</div>
+                        <div class="pull-right" style="font-size: 14px; margin-right: 7px; margin-top: 2px;"><%= Model.TotalQuestionsInResult %> Fragen</div>
                     </div>
                 </div>
             </div>
