@@ -21,7 +21,7 @@ namespace TrueOrFalse.Search
             else if (searchSpec.OrderBy.ValuationsCount.IsCurrent()) orderBy = SearchSetsOrderBy.ValuationsCount;
             else if (searchSpec.OrderBy.ValuationsAvg.IsCurrent()) orderBy = SearchSetsOrderBy.ValuationsAvg;
 
-            return Run(
+            var result = Run(
                 searchSpec.SearchTerm,
                 searchSpec,
                 searchSpec.Filter.CreatorId.IsActive()
@@ -29,6 +29,10 @@ namespace TrueOrFalse.Search
                     : -1,
                 searchSpec.Filter.ValuatorId,
                 orderBy: orderBy);
+
+            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking);
+
+            return result;
         }
 
         public SearchSetsResult Run(

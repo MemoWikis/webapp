@@ -32,6 +32,8 @@ public class SetsModel : BaseModel
 
     public PagerModel Pager { get; set; }
 
+    public string Suggestion; 
+
     public IEnumerable<SetRowModel> Rows;
     
     public SetsModel(){}
@@ -66,6 +68,8 @@ public class SetsModel : BaseModel
         TotalWish = Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
         
         SearchTerm = searchSpec.SearchTerm;
+        Suggestion = searchSpec.GetSuggestion();
+
         Pager = new PagerModel(searchSpec) {Controller = Links.SetsController};
 
         if (ActiveTabAll){
