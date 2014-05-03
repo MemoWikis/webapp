@@ -24,7 +24,7 @@ namespace TrueOrFalse.Search
             else if (searchSpec.OrderBy.OrderByCreationDate.IsCurrent()) orderBy = SearchQuestionsOrderBy.DateCreated;
             else if (searchSpec.OrderBy.OrderByPersonalRelevance.IsCurrent()) orderBy = SearchQuestionsOrderBy.Valuation;
 
-            return Run(
+            var result = Run(
                 searchSpec.Filter.SearchTerm,
                 searchSpec,
                 searchSpec.Filter.CreatorId,
@@ -32,6 +32,10 @@ namespace TrueOrFalse.Search
                 searchSpec.Filter.IgnorePrivates,
                 orderBy: orderBy
             );
+
+            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking);
+
+            return result;
         }
 
         public SearchQuestionsResult Run(string searchTerm){
