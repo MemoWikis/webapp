@@ -43,7 +43,7 @@
                                                 <%= Model.Suggestion %>
                                             </a> ?
                                         </div>
-                                    <% } %>                                    
+                                    <% } %>
 
                                     <div class="input-group">
                                         <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch"}) %>
