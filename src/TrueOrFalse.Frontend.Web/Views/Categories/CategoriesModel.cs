@@ -24,6 +24,8 @@ public class CategoriesModel : BaseModel
 
     public PagerModel Pager { get; set; }
 
+    public string Suggestion;
+
     public void Init(IEnumerable<Category> categories)
     {
         SetCategories(categories);
@@ -31,6 +33,8 @@ public class CategoriesModel : BaseModel
             Controller = Links.CategoriesController,
             Action = Links.Categories
         };
+
+        Suggestion = _sessionUiData.SearchSpecCategory.GetSuggestion();
 
         TotalCategories = Resolve<GetTotalCategories>().Run(); ;
         TotalMine = 0;

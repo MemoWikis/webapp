@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse.Search;
 using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
@@ -16,6 +17,13 @@ namespace TrueOrFalse
         public bool FilterByMe { get; private set; }
         public bool FilterByAll { get; private set; }
         public ReadOnlyCollection<int> FilterByUsers { get; private set; }
+
+        public SpellCheckResult SpellCheck;
+
+        public string GetSuggestion()
+        {
+            return SpellCheck.GetSuggestion();
+        }
 
         public CategorySearchSpec()
         {

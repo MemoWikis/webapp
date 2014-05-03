@@ -141,7 +141,6 @@
                                     <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
                                         <%= Model.Suggestion %>
                                     </a> ?
-
                                 </div>
                             <% } %>
 
