@@ -19,6 +19,11 @@ namespace TrueOrFalse
         public string Key;
         public string KeyOverviewPage;
         public SpellCheckResult SpellCheck;
+
+        public string GetSuggestion()
+        {
+            return SpellCheck.GetSuggestion();
+        }
     }
 
     [Serializable]

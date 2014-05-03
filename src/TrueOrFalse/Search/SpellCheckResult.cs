@@ -22,6 +22,16 @@ namespace TrueOrFalse.Search
             foreach (var spellCheck in spellChecking)
                 Items.Add(new SpellCheckResultItem(spellCheck));
         }
+
+        public string GetSuggestion()
+        {
+            if (Items.Any())
+            {
+                var spellCheckResult = Items.First();
+                return spellCheckResult.Suggestions.First();
+            }
+            return null;
+        }
     }
 
     [Serializable]

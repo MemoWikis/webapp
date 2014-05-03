@@ -51,15 +51,8 @@ public class QuestionsModel : BaseModel
         var totalsForCurrentUser = Resolve<TotalsPersUserLoader>().Run(currentUserId, questions);
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>().GetBy(questions.GetIds(), _sessionUser.User.Id);
 
-        var spellCheckItems = questionSearchSpec.SpellCheck;
-        if (spellCheckItems.Items.Any())
-        {
-            var spellCheckResult = spellCheckItems.Items.First();
-            Suggestions = spellCheckResult.Suggestions;
-            Suggestion = Suggestions.First();
-        }
-
         Pager = new PagerModel(questionSearchSpec);
+        Suggestion = questionSearchSpec.SpellCheck.GetSuggestion();
 
         int counter = 0; 
         QuestionRows = from question in questions
