@@ -7,11 +7,11 @@ namespace TrueOrFalse
 {
     public class WikiImageLicenceLoader : IRegisterAsInstancePerLifetime
     {
-        public WikiImageLicenceInfo Run(string fileName)
+        public WikiImageLicenceInfo Run(string imageTitle, string apiHost)
         {
-            fileName = WikiApiUtils.ExtractFileNameFromUrl(fileName);
+            imageTitle = WikiApiUtils.ExtractFileNameFromUrl(imageTitle);
 
-            var url = String.Format("http://commons.wikimedia.org/w/index.php?title=File:{0}&action=raw", fileName);
+            var url = String.Format("http://" + apiHost + "/w/index.php?title=File:{0}&action=raw", imageTitle);
             var markup = WikiApiUtils.GetWebpage(url);
 
             var parsedImageMakup = ParseImageMarkup.Run(markup);

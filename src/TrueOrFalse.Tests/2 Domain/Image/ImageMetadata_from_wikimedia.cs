@@ -27,7 +27,6 @@ namespace TrueOrFalse.Tests
         }
 
 
-
         [Test]
         public void Image_not_found_should_be_indicated()
         {

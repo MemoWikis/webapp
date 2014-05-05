@@ -16,6 +16,7 @@ namespace TrueOrFalse
         public virtual ImageSource Source { get; set; }
         public virtual string SourceUrl { get; set; }
         public virtual string ApiResult { get; set; }
+        public virtual string ApiHost { get; set; }
         public virtual int UserId { get; set; }
         public virtual string Author { get; set; }
         public virtual string Description { get; set; }

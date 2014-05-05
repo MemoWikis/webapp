@@ -416,6 +416,7 @@
     <Compile Include="Utilities\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs047.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs046.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs045.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs044.cs" />

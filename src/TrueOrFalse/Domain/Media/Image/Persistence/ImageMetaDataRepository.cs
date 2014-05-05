@@ -35,6 +35,7 @@ namespace TrueOrFalse
                         Type = imageType,
                         TypeId = typeId,
                         Source = ImageSource.WikiMedia,
+                        ApiHost = wikiMetaData.ApiHost,
                         SourceUrl = wikiMetaData.ImageUrl,
                         ApiResult = wikiMetaData.JSonResult,
                         UserId = userId
