@@ -36,6 +36,21 @@ namespace TrueOrFalse.Tests
                 Is.True
             );
         }
+
+        [Test]
+        public void If_image_not_on_commons_try_original_host()
+        {
+            var result = Resolve<WikiImageMetaLoader>().Run("http://en.wikipedia.org/wiki/File:Solr.png");
+        }
+
+        [Test]
+        public void Should_extract_host()
+        {
+            Assert.That(WikiApiUtils.ExtractDomain("http://en.wikipedia.org/wiki/File:Solr.png"), Is.EqualTo("en.wikipedia.org"));
+            Assert.That(WikiApiUtils.ExtractDomain("en.wikipedia.org/wiki/File:Solr.png"), Is.EqualTo("en.wikipedia.org"));
+            Assert.That(WikiApiUtils.ExtractDomain("someFoo/"), Is.EqualTo(null));
+            Assert.That(WikiApiUtils.ExtractDomain("http://someFoo/"), Is.EqualTo(null));
+        }
     }
 
 }

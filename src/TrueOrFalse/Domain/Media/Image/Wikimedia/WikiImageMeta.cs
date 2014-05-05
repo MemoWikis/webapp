@@ -10,6 +10,8 @@ namespace TrueOrFalse
 {
     public class WikiImageMeta
     {
+        public string ApiHost; 
+
         public bool ImageNotFound;
 
         public int PageId;
