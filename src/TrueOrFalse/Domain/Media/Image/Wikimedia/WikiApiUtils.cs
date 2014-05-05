@@ -44,9 +44,11 @@ namespace TrueOrFalse
             filePath = filePath.Trim();
             filePath = filePath.Replace("http://", "");
 
-
             if (filePath.Contains("/"))
                 filePath = filePath.Substring(0, filePath.IndexOf("/"));
+
+            if (new[] {"jpg", "jpeg", "png", "gif", "svg"}.Any(x => filePath.EndsWith(x.ToLower())))
+                return null;
 
             return filePath;
         }
