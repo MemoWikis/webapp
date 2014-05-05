@@ -468,7 +468,54 @@ div.selected-row:hover {
   background-color: #f3f5f8;
   cursor: pointer;
 }
-.SearchInputGroup {
+.SearchQuestionsForm {
+  *zoom: 1;
+}
+.SearchQuestionsForm:before,
+.SearchQuestionsForm:after {
+  content: " ";
+  display: table;
+}
+.SearchQuestionsForm:after {
+  clear: both;
+}
+.SearchQuestionsForm:before,
+.SearchQuestionsForm:after {
+  content: " ";
+  display: table;
+}
+.SearchQuestionsForm:after {
+  clear: both;
+}
+.SearchQuestionsForm:before,
+.SearchQuestionsForm:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.SearchQuestionsForm:after {
+  clear: both;
+}
+.SearchQuestionsForm:before,
+.SearchQuestionsForm:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.SearchQuestionsForm:after {
+  clear: both;
+}
+.SearchQuestionsForm .control-label {
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (max-width: 991px) {
+  .SearchQuestionsForm .control-label {
+    display: none;
+  }
+}
+.SearchQuestionsForm .input-group {
   float: left;
   width: 66.66666667%;
   position: relative;
@@ -476,17 +523,17 @@ div.selected-row:hover {
   padding-left: 10px;
   padding-right: 10px;
 }
-@media (min-width: 992px) {
-  .SearchInputGroup {
-    float: left;
-    width: 50%;
-  }
-}
 @media (max-width: 479px) {
-  .SearchInputGroup {
+  .SearchQuestionsForm .input-group {
     float: none;
     width: 100%;
     margin-left: 0;
+  }
+}
+@media (min-width: 992px) {
+  .SearchQuestionsForm .input-group {
+    float: left;
+    width: 50%;
   }
 }
 @media (max-width: 479px) {

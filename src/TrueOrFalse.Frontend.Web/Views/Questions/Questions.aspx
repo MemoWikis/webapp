@@ -80,7 +80,7 @@
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>
-            <ul class="nav nav-tabs" >
+            <ul class="nav nav-tabs">
                 <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
                     <a href="<%= Links.QuestionsAll(Url) %>">
                         <%  string von = "";
@@ -114,15 +114,13 @@
         <div class="boxtainer-content">
             <div class="search-section">
                 <div class="row">
-                    <div class="SearchInputGroup">
-                        <div class="form-group">
-                            <label>Suche:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
-                                </span>
-                            </div>
+                    <div class="SearchQuestionsForm form-group">
+                        <label class="control-label">Suche in Fragen:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
+                            </span>
                         </div>
                     </div>
                 </div>
