@@ -52,7 +52,7 @@
 <% if (Model != null)
        foreach (var choice in Model.Choices){ %>
         $("#addChoice").click();
-        $(".sequence-choice").last().val('<%: choice %>');
+        $(".sequence-choice").last().val('<%= choice %>');
 <% }else { %>
        $("#addChoice").click();
        $("#addChoice").click();

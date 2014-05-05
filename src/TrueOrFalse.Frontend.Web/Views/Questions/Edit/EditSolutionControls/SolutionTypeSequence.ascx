@@ -35,7 +35,7 @@
 
     <% if(!isNewQuestion) foreach (var row in Model.Rows) { %>
         fnAddRow();
-        $(".sequence-key").last().val('<%:row.Key %>');
-        $(".sequence-value").last().val('<%:row.Value %>');
+        $(".sequence-key").last().val('<%= row.Key %>');
+        $(".sequence-value").last().val('<%= row.Value %>');
     <% }%>
 </script>
