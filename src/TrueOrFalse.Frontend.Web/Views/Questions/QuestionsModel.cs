@@ -52,7 +52,7 @@ public class QuestionsModel : BaseModel
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>().GetBy(questions.GetIds(), _sessionUser.User.Id);
 
         Pager = new PagerModel(questionSearchSpec);
-        Suggestion = questionSearchSpec.SpellCheck.GetSuggestion();
+        Suggestion = questionSearchSpec.GetSuggestion();
 
         int counter = 0; 
         QuestionRows = from question in questions

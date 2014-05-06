@@ -27,6 +27,9 @@ namespace TrueOrFalse.Search
         {
             if (Items.Any())
             {
+                //var words = Items.Select(spellCheckItem => spellCheckItem.Suggestions.First()).ToList();
+                //return words.GroupBy(x => x).Select(x => x.Key).Aggregate((a, b) => a + " " + b);
+
                 var spellCheckResult = Items.First();
                 return spellCheckResult.Suggestions.First();
             }
@@ -37,6 +40,7 @@ namespace TrueOrFalse.Search
     [Serializable]
     public class SpellCheckResultItem
     {
+        public string Query;
         public int NumFound;
         public int StartOffset;
         public int EndOffset;
@@ -44,10 +48,12 @@ namespace TrueOrFalse.Search
 
         public SpellCheckResultItem(SolrNet.Impl.SpellCheckResult spellCheck)
         {
+            Query = spellCheck.Query;
             NumFound = spellCheck.NumFound;
             EndOffset = spellCheck.EndOffset;
             StartOffset = spellCheck.StartOffset;
             Suggestions = spellCheck.Suggestions;
+            
         }
     }
 }

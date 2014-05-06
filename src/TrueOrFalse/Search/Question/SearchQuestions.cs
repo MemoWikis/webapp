@@ -95,8 +95,8 @@ namespace TrueOrFalse.Search
                                                       {
                                                             Start = pager.LowerBound - 1,
                                                             Rows = pager.PageSize,
-                                                            SpellCheck = new SpellCheckingParameters{ Collate = true},
                                                             ExtraParams = new Dictionary<string, string> { { "qt", "dismax" } },
+                                                            SpellCheck = new SpellCheckingParameters(),
                                                             OrderBy = orderby
                                                       });
 
