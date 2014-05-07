@@ -577,6 +577,7 @@
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
     <Content Include="Views\Drafts\Icons.aspx" />
+    <Content Include="Views\Drafts\bootstrap.aspx" />
     <Content Include="Views\Drafts\Templates.aspx" />
     <Content Include="Views\Drafts\temp.aspx" />
     <Content Include="Views\Help\UrheberrechtInhalte.aspx" />
