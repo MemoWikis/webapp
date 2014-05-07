@@ -9,6 +9,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    
     <div class="GradientBunt" style="height: 50px; width: 50px;">
         <i class="fa fa-bars" style="color: white; font-size: 40px; display: block; margin-left: 15%; margin-top: 20px;"></i>
     </div>
@@ -19,5 +20,77 @@
             <div class="" style="width: 20px; height: 20px; background-color: blue; top: -10px; position: relative; z-index: auto;">D3</div>
         </div>
     </div>
+    <div style="margin-top: 20px;">
+        <h4>Statistik mit Icons</h4>
+        <div class="StatsRow">
+            <div class="StatsIcon">
+                <i class="fa fa-user"> </i>
+            </div>
+            <div class="StatsValue">
+                <span class="sparklineTotals" data-answerstrue="3" data-answersfalse="2"><canvas width="16" height="16" style="display: inline-block; width: 16px; height: 16px; vertical-align: top;"></canvas></span>
+            </div>
+            <div class="StatsDescription">
+                
+            </div>
+        </div>
+        <div class="StatsRow">
+            <div class="StatsIcon">
+                <i class="fa fa-users"> </i>
+            </div>
+            <div class="StatsValue">
+                <span class="sparklineTotals" data-answerstrue="3" data-answersfalse="3"><canvas width="16" height="16" style="display: inline-block; width: 16px; height: 16px; vertical-align: top;"></canvas></span>
+            </div>
+            <div class="StatsDescription">
+                
+            </div>
+        </div>
+        <div class="StatsRow">
+            <div class="StatsIcon">
+                <i class="fa fa-eye"> </i>
+            </div>
+            <div class="StatsValue">
+                52
+            </div>
+            <div class="StatsDescription">
+               x gesehen
+            </div>
+        </div>
+        <div class="StatsRow">
+            <div class="StatsIcon">
+                <i class="fa fa-thumb-tack"> </i>
+            </div>
+            <div class="StatsValue">
+                10
+            </div>
+            <div class="StatsDescription">
+                x in Wunschwissen aufgenommen
+            </div>
+        </div>
+        <div class="StatsRow">
+            <div class="StatsIcon">
+                <i class="fa fa-star"> </i>
+            </div>
+            <div class="StatsValue">
+                4,7
+            </div>
+            <div class="StatsDescription">
+                durchschnittliche Wertung (Anzahl?)
+            </div>
+        </div>
+        <div class="StatsRow">
+            <div class="StatsIcon">
+                <i class="fa fa-comment"> </i>
+            </div>
+            <div class="StatsValue">
+                4
+            </div>
+            <div class="StatsDescription">
+                Kommentare
+            </div>
+        </div>
+        
+        
+    </div>
+
         
 </asp:Content>
