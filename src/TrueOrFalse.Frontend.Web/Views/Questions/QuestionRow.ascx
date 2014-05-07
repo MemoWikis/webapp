@@ -2,8 +2,8 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="rowBase question-row row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
-    <div class="column-Image col-xs-2 col-sm-2">
+<div class="rowBase question-row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
+    <div class="column-Image">
         <div class="image-container">
             <img src="<%= Model.ImageUrl%>">
             <label class="checkbox selectQuestion">
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="column-MainContent col-xs-10 col-sm-7 col-lg-8">
+    <div class="column-MainContent">
 
         <div class="ShortStats">
             <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
@@ -91,6 +91,5 @@
                 </div>
             <% } %>
         </div>
-        
     </div>
 </div>

@@ -291,57 +291,54 @@
 /*                        *\
   Special styles
 \*                        */
-.test {
-  color: white;
-}
 /*div.column-Image { background-color: green; }
 div.column-MainContent {background-color: seashell; }
 div.column-Additional { background-color: yellowgreen;}
 div.question-row{background-color:silver;}*/
-div.question-row:hover {
+.question-row {
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+@media (min-width: 768px) {
+  .question-row {
+    margin-left: -5px;
+    margin-right: -5px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.question-row:hover {
   background-color: #f3f5f8;
 }
 .column {
   display: inline-block;
 }
-div.question-row div.header {
-  margin-bottom: 3px;
-  border-bottom: 1px solid beige ;
+.column-Image {
+  position: relative;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  float: left;
+  padding-top: 5px;
+  padding-left: 5px;
 }
 @media only screen and (min-width: 768px) {
   .column-Image {
     width: 125px;
   }
 }
-@media only screen and (min-width: 768px) {
-  .column-MainContent {
-    width: 439.5px;
-  }
-}
-@media only screen and (min-width: 1200px) {
-  .column-MainContent {
-    width: 589.5px;
-  }
-}
-@media only screen and (min-width: 768px) {
-  .column-Additional {
-    width: 155px;
-  }
-}
-div.column-Image {
-  float: left;
-  padding-top: 5px;
-  padding-left: 5px;
-}
-div.column-Image .image-container {
+.column-Image .image-container {
   margin-bottom: 5px;
 }
-div.column-Image .image-container img {
+.column-Image .image-container img {
   width: 105px;
   border-radius: 5px;
   max-width: 100%;
 }
-div.column-Image .image-container .selectQuestion {
+.column-Image .image-container .selectQuestion {
   font-size: 12px;
   position: absolute;
   left: 5px;
@@ -351,6 +348,46 @@ div.column-Image .image-container .selectQuestion {
   background-color: white;
   opacity: 0.7;
   display: none;
+}
+.column-MainContent {
+  float: left;
+  width: 83.33333333%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  .column-MainContent {
+    float: left;
+    width: 58.33333333%;
+  }
+}
+@media (min-width: 1200px) {
+  .column-MainContent {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .column-MainContent {
+    width: 442px;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .column-MainContent {
+    width: 422px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .column-MainContent {
+    width: 572px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .column-Additional {
+    width: 155px;
+  }
 }
 .btnAddQuestion {
   margin-bottom: 10px;
@@ -392,10 +429,10 @@ div.column-MainContent {
   line-height: 15px;
   font-size: 90%;
 }
-div.question-row div.answersTotal {
+.question-row .answersTotal {
   width: 40px;
 }
-div.question-row div.percentageBar {
+.question-row .percentageBar {
   width: 65px;
   float: right;
 }

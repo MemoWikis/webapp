@@ -145,7 +145,7 @@
                         </ul>
                         
                         <a href="#" class="btn btn-default btn-xs" style="display: none; margin-left: 7px;" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
-                            <i class="fa fa-folder-open"></i> 
+                            <i class="fa fa-list-ol"></i> 
                         </a>
                         <a href="#" class="btn btn-default btn-xs" style="display: none; margin-left: 7px;" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
                             <i class="fa fa-trash-o"></i> 
