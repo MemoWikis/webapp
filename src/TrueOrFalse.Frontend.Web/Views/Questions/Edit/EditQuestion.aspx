@@ -148,8 +148,10 @@
                                 <% } %>
                             });
                         </script>
-                        <div class="Clearfix">
-                            <input id="txtNewRelatedCategory" class="form-control" style="width: 190px;" type="text" placeholder="Wähle eine Kategorie" />
+                        <div class="row">
+                            <div class="xxs-stack col-xs-6">
+                                <input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" />
+                            </div>
                             <a href="#" id="addRelatedCategory" style="display: none" class="form-control">
                                 <img alt="" src='/Images/Buttons/add.png' />
                             </a>
