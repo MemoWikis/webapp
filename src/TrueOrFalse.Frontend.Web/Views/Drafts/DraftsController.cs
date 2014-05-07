@@ -9,7 +9,11 @@ using TrueOrFalse.Frontend.Web.Code;
 [HandleError]
 public class DraftsController : Controller
 {
-    
+    public ActionResult bootstrap()
+    {
+        return View(new WelcomeModel());
+    }
+
     public ActionResult Boxes()
     {
         return View(new WelcomeModel());
