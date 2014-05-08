@@ -115,21 +115,23 @@
             <div class="search-section">
                 <div class="row">
                     <div class="SearchQuestionsForm form-group">
-                            <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
-                                <div style="padding-bottom: 10px; font-size: large">
-                                    Oder suchst du: 
-                                    <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
-                                        <%= Model.Suggestion %>
-                                    </a> ?
-                                </div>
-                            <% } %>
-
+                        
                         <div class="input-group">
                             <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
                             <span class="input-group-btn">
                                 <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
+
+                        <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+                            <div class="col-xs-12" style="padding-top: 10px; font-size: large">
+                                Oder suchst du: 
+                                <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
+                                    <%= Model.Suggestion %>
+                                </a> ?
+                            </div>
+                        <% } %>
+
                     </div>
                 </div>
                 <div class="row">
