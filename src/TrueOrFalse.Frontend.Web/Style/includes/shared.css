@@ -33,6 +33,9 @@
   color: #2c5fb2;
 }
 /*                        *\
+     Media query mixins
+\*                        */
+/*                        *\
   Own responsive utilities
 \*                        */
 @media (max-width: 479px) {
