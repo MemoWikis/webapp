@@ -31,6 +31,78 @@ div.question-row{background-color:silver;}*/
 }
 .column { display: inline-block;}
 
+//$temp begin
+@media (max-width: @screen-xs-max) {
+
+    .NumberTimesStats {
+        clear: left;
+        float: left;
+    }
+    .QuestionAuthor {
+        float: right;
+        > div {
+            float: right;
+            //clear: right;
+        }
+    }
+}
+//$temp end
+
+
+.column-Image {min-width: @column-Image-below-xs-width;}
+
+@media DISABLE (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
+    .StatsGroup {
+        float: left;
+
+        &.Slider, &.NumberTimesStats {
+            .make-xs-column(4);
+        }
+
+        &.QuestionAuthor {
+            .make-xs-column(4);
+            float: right;
+            > div {
+                float: right;
+                clear: right;
+            }
+        }
+    }
+}
+@media (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
+
+.row .column-Additional {
+        padding-left: 16.66666667%;
+        //padding-right: 20px;
+        margin-left: 10px;
+    }
+}
+
+@media (max-width: (@screen-xs-min - 1px)) {
+    .column-Image {position: absolute !important;}
+    .row .column-MainContent {
+        width: 100%;
+        padding-left: 76.15625px;
+    }
+
+    .row .column-Additional {
+        padding-left: 76.15625px;
+    }
+    
+
+    .QuestionText {clear: left;}
+
+    div.ShortStats {
+        float: left;
+    } 
+}
+
+@media only screen and (max-width: @screen-sm-min) {
+    .column-Additional{
+        width: 100%;
+    }
+}
+
 
 .column-Image {
 
@@ -193,10 +265,6 @@ div.column-Additional div.row {
     text-align: center;
 }
 
-
-.authorQuestion {
-    padding-top: 6px;
-}
 
 div.selected-row { background-color: #E7ECF6;}
 div.selected-row:hover { background-color: #d6e0f4;}

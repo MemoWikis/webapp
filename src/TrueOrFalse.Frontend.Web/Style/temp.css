@@ -1,4 +1,60 @@
-﻿.test {
+﻿/*.boxtainer-header {
+    ul {
+        .make-row;
+    }
+
+    li {
+        padding-left: @grid-gutter-width/2;
+        padding-right: @grid-gutter-width/2;
+    }
+}*/
+.StatsRow {
+  *zoom: 1;
+}
+.StatsRow:before,
+.StatsRow:after {
+  content: " ";
+  display: table;
+}
+.StatsRow:after {
+  clear: both;
+}
+.StatsRow:before,
+.StatsRow:after {
+  content: " ";
+  display: table;
+}
+.StatsRow:after {
+  clear: both;
+}
+.StatsRow:before,
+.StatsRow:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.StatsRow:after {
+  clear: both;
+}
+.StatsRow:before,
+.StatsRow:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.StatsRow:after {
+  clear: both;
+}
+.StatsIcon,
+.StatsValue {
+  width: 25px;
+  float: left;
+  text-align: center;
+}
+.StatsValue {
+  margin-right: 10px;
+}
+.test {
   color: #add65c;
 }
 .test {
@@ -364,43 +420,6 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e5799', endColorstr='#7db9e8', GradientType=0);
     /* IE6-9 */
   }
-}
-@media only screen and (min-width: 480px) and (max-width: 767px) {
-  .tempclass {
-    float: left;
-  }
-}
-@media only screen and (min-width: 480px) and (max-width: 767px) {
-  .row .row .column-Additional {
-    padding-left: 16.66666667%;
-    margin-left: 10px;
-  }
-}
-@media only screen and (max-width: 479px) {
-  .column-Image {
-    position: absolute;
-  }
-  .row .row .column-MainContent {
-    width: 100%;
-    padding-left: 76.15625px;
-  }
-  .row .row .column-Additional {
-    padding-left: 76.15625px;
-  }
-  .QuestionText {
-    clear: left;
-  }
-  div.ShortStats {
-    float: left;
-  }
-}
-@media only screen and (max-width: 768px) {
-  .column-Additional {
-    width: 100%;
-  }
-}
-.column-Image {
-  min-width: 76.15625px;
 }
 @media aufraeumen {
   .box.box-menu {

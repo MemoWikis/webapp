@@ -45,7 +45,7 @@
     </div>
 
     <div class="column-Additional col-xs-10 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>">
-        <div class="tempclass">
+        <div class="StatsGroup Slider">
             <div class="sliderContainer" style="<% if(Model.RelevancePersonal == -1){ %>display:none;<% } %>">
                 <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
                     <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
@@ -59,7 +59,7 @@
                 <i class="fa fa-plus-circle "></i> merken
             </a>
         </div>
-        <div class="NumberTimesStats">
+        <div class="StatsGroup NumberTimesStats">
             <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
                 <div class="timesAdded" style="margin-top: 2px;">
                     <span class="totalRelevanceEntries NumberTimes"><%= Model.TotalRelevancePersonalEntries %></span> x &nbsp;
@@ -77,10 +77,12 @@
                 <a href="">gesehen</a>
             </div>
         </div>
-        <div class="authorQuestion">
+        <div class="StatsGroup QuestionAuthor">
+            <div>
             von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
                     <%=Model.CreatorName %>
                 </a>
+            </div>
 
             <% if (Model.IsOwner){%>
                 <div style="position: relative; top: -1px; display: inline-block">
