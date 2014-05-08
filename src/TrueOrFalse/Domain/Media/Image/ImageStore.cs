@@ -38,7 +38,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             StoreImages.Run(stream, imageSettings);
         }
 
-        var licenceInfo = _wikiImageLicenceLoader.Run(wikiMetaData.ImageTitle);
+        var licenceInfo = _wikiImageLicenceLoader.Run(wikiMetaData.ImageTitle, wikiMetaData.ApiHost);
 
         _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData, licenceInfo);
     }

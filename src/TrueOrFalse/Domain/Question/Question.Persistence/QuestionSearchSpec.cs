@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Seedworks.Lib.Persistence;
+using SolrNet.Impl;
+using SpellCheckResult = TrueOrFalse.Search.SpellCheckResult;
 
 namespace TrueOrFalse
 {
@@ -16,6 +18,12 @@ namespace TrueOrFalse
 
         public string Key;
         public string KeyOverviewPage;
+        public SpellCheckResult SpellCheck;
+
+        public string GetSuggestion()
+        {
+            return SpellCheck.GetSuggestion();
+        }
     }
 
     [Serializable]

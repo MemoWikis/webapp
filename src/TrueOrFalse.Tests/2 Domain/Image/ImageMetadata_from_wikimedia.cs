@@ -27,7 +27,6 @@ namespace TrueOrFalse.Tests
         }
 
 
-
         [Test]
         public void Image_not_found_should_be_indicated()
         {
@@ -35,6 +34,24 @@ namespace TrueOrFalse.Tests
                 Resolve<WikiImageMetaLoader>().Run("not-existing-image-9812.jpg").ImageNotFound,
                 Is.True
             );
+        }
+
+        [Test]
+        public void If_image_not_on_commons_try_original_host()
+        {
+            var result = Resolve<WikiImageMetaLoader>().Run("http://en.wikipedia.org/wiki/File:Solr.png");
+            Assert.That(result.ApiHost, Is.EqualTo("en.wikipedia.org"));
+            Assert.That(result.ImageNotFound, Is.False);
+        }
+
+        [Test]
+        public void Should_extract_host()
+        {
+            Assert.That(WikiApiUtils.ExtractDomain("http://en.wikipedia.org/wiki/File:Solr.png"), Is.EqualTo("en.wikipedia.org"));
+            Assert.That(WikiApiUtils.ExtractDomain("en.wikipedia.org/wiki/File:Solr.png"), Is.EqualTo("en.wikipedia.org"));
+            Assert.That(WikiApiUtils.ExtractDomain("someFoo/"), Is.EqualTo(null));
+            Assert.That(WikiApiUtils.ExtractDomain("http://someFoo/"), Is.EqualTo(null));
+            Assert.That(WikiApiUtils.ExtractDomain("not-existing-image-9812.jpg"), Is.EqualTo(null));
         }
     }
 

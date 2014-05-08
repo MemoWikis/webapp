@@ -30,7 +30,7 @@ namespace TrueOrFalse.Maintenance
             foreach (var img in allImages)
             {
                 var fileName = img.SourceUrl.Split('/').Last();
-                var licenceInfo = _wikiImageLicenceLoader.Run(fileName);
+                var licenceInfo = _wikiImageLicenceLoader.Run(fileName, img.ApiHost);
 
                 img.Author = licenceInfo.AuthorName;
                 img.Description = licenceInfo.Description;

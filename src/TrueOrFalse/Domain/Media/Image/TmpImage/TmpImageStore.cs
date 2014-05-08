@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TrueOrFalse.Web.Context;
 
-
 /// <summary>
 /// TmpImageStore is per user and stored in <see cref="SessionUiData"/> . 
 /// </summary>
+[Serializable]
 public class TmpImageStore
 {
     private readonly List<TmpImage> _tmpImages = new List<TmpImage>(); 

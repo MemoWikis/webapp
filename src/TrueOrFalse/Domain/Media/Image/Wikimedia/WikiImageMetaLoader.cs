@@ -10,7 +10,7 @@ namespace TrueOrFalse
 {
     public class WikiImageMetaLoader : IRegisterAsInstancePerLifetime
     {
-        public WikiImageMeta Run(string fileNameOrUrl, int thumbUrlWidth = 1024)
+        public WikiImageMeta Run(string fileNameOrUrl, int thumbUrlWidth = 1024, string host = "commons.wikimedia.org")
         {
             fileNameOrUrl = HttpUtility.UrlDecode(fileNameOrUrl);
             
@@ -19,7 +19,7 @@ namespace TrueOrFalse
 
             var fileName = WikiApiUtils.ExtractFileNameFromUrl(fileNameOrUrl);
             var url =
-                "http://commons.wikimedia.org/w/api.php?action=query" +
+                "http://" + host + "/w/api.php?action=query" +
                 "&prop=imageinfo" +
                 "&format=json" +
                 "&iiprop=timestamp|user|userid|url|size|metadata|sha1" +
@@ -43,10 +43,19 @@ namespace TrueOrFalse
             var pageName = ((ICollection<string>)page.GetDynamicMemberNames()).First();
 
             if (((ICollection<string>) page[pageName].GetDynamicMemberNames()).All(x => x != "imageinfo"))
-                return new WikiImageMeta{ImageNotFound = true};
+            {
+                if (WikiApiUtils.ExtractDomain(host) == "commons.wikimedia.org")
+                {
+                    var newTryHost = WikiApiUtils.ExtractDomain(fileNameOrUrl);
+                    if (!String.IsNullOrEmpty(newTryHost) && newTryHost != "commons.wikimedia.org")
+                        return Run(fileNameOrUrl, thumbUrlWidth, newTryHost);
+                }
+                return new WikiImageMeta { ImageNotFound = true };
+            }
 
             return new WikiImageMeta
                 {
+                    ApiHost = host,
                     PageId = page[pageName].pageid,
                     PageNamespace = page[pageName].ns,
                     User = page[pageName].user,

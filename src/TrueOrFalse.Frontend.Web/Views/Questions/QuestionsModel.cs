@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using FluentNHibernate.Conventions;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse;
@@ -27,6 +28,9 @@ public class QuestionsModel : BaseModel
 
     public string Action;
 
+    public string Suggestion; 
+    public IEnumerable<string> Suggestions = new List<string>();
+
     public QuestionsModel(){
         QuestionRows = Enumerable.Empty<QuestionRowModel>();
     }
@@ -48,6 +52,7 @@ public class QuestionsModel : BaseModel
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>().GetBy(questions.GetIds(), _sessionUser.User.Id);
 
         Pager = new PagerModel(questionSearchSpec);
+        Suggestion = questionSearchSpec.GetSuggestion();
 
         int counter = 0; 
         QuestionRows = from question in questions

@@ -35,5 +35,22 @@ namespace TrueOrFalse
 
             return filePath;
         }
+
+        public static string ExtractDomain(string filePath)
+        {
+            if (!filePath.Contains("."))
+                return null;
+
+            filePath = filePath.Trim();
+            filePath = filePath.Replace("http://", "");
+
+            if (filePath.Contains("/"))
+                filePath = filePath.Substring(0, filePath.IndexOf("/"));
+
+            if (new[] {"jpg", "jpeg", "png", "gif", "svg"}.Any(x => filePath.EndsWith(x.ToLower())))
+                return null;
+
+            return filePath;
+        }
     }
 }

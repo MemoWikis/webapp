@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse.Search;
 using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
@@ -13,6 +14,13 @@ namespace TrueOrFalse
     public class SetSearchSpec : SearchSpecificationBase<SetFilter, SetOrderBy>
     {
         public string SearchTerm;
+
+        public SpellCheckResult SpellCheck;
+
+        public string GetSuggestion()
+        {
+            return SpellCheck.GetSuggestion();
+        }
     }
 
     [Serializable]

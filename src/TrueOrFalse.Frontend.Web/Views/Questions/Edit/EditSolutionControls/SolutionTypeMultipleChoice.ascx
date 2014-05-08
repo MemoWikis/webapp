@@ -2,24 +2,8 @@
 
 
 <div id="choices">
-    <div class='form-group'>
-        <label class="columnLabel control-label">Antwortvorgaben</label>
-        <div class='columnControlsFull'>
-            <div class='input-group'>
-                <span class='input-group-addon'>richtige Antwort:</span>
-                <input type='text' class='sequence-choice form-control' name='choice-1' />
-            </div>
-        </div>
-    </div>
-    <div class='form-group'>
-        <div class='noLabel columnControlsFull'>
-            <div class='input-group'>
-                <span class='input-group-addon'>falsche Antwort 1:</span>
-                <input type='text' class='sequence-choice form-control' name='choice-2' />
-            </div>
-        </div>
-    </div>
 </div>
+
 <div class="form-group">
     <div class="noLabel columnControlsFull ButtonContainer">
         <button class="btn" id="addChoice">Antwort hinzufügen</button>
@@ -28,16 +12,49 @@
 
 
 <script type="text/javascript">
-    var addingChoiceId = 3;
+    var addingChoiceId = $("#choices .form-group").length;
     $("#addChoice").click(function () {
-        //$("#choices").append("<div class='form-group'><div class='noLabel columnControlsFull'><input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' /></div></div>");
 
-        $("#choices").append("<div class='form-group'><div class='noLabel columnControlsFull'><div class='input-group'><span class='input-group-addon'>falsche Antwort " + (addingChoiceId - 1) + ":</span><input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' /></div></div></div>");
+        var label = "";
+        if (addingChoiceId == 0)
+            label = "richtige Antwort";
+        else
+            label = "falsche Antwort " + (addingChoiceId);
+
+        var actionButton = $("");
+        var actionButtonSperator = $("");
+        if(addingChoiceId != 0) {
+            actionButtonSperator = $("<div style='display:table-cell; width: 1%'/>");
+            actionButton = $("<a href='#' style='display:table-cell; width: 1%' class='btn'><i class='fa fa-times' style='color:red'></i></a>");
+            actionButton.click(function() {
+                //$(this).closest(".form-group").remove();
+                $(this).closest(".form-group").hide(500, function () { $(this).remove(); });
+                return false;
+            });
+        }
+
+        $("#choices")
+            .append($("<div class='form-group'>")
+                .append($("<div class='noLabel columnControlsFull'>")
+                    .append($("<div class='input-group'><span class='input-group-addon'>" + label + ":</span>")
+                        .append($("<input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' />"), 
+                                    actionButtonSperator, 
+                                    actionButton
+                        )
+                    )
+                )
+            );
+
         addingChoiceId++;
         return false;
+
     });
-<% if(Model != null) foreach (var choice in Model.Choices) { %>
-    $("#addChoice").click();
-    $(".sequence-choice").last().val('<%:choice %>');
+<% if (Model != null)
+       foreach (var choice in Model.Choices){ %>
+        $("#addChoice").click();
+        $(".sequence-choice").last().val('<%= choice %>');
+<% }else { %>
+       $("#addChoice").click();
+       $("#addChoice").click();
 <% } %>
 </script>

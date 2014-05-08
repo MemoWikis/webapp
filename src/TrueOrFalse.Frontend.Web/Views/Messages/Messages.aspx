@@ -13,7 +13,7 @@
     <input type="hidden" id="urlMessageSetUnread" value="<%= Links.MessageSetUnread(Url) %>"/>
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-9">
         
             <h2 style="margin-top: 0px;">Nachrichten</h2>    
 

@@ -24,6 +24,8 @@ public class UsersModel : BaseModel
 
     public PagerModel Pager { get; set; }
 
+    public string Suggestion; 
+
     public IEnumerable<UserRowModel> Rows;
 
     public UsersModel(){
@@ -34,6 +36,7 @@ public class UsersModel : BaseModel
         var counter = 0;
         Rows = users.Select(qs => new UserRowModel(qs, counter++, _sessionUser));
 
+        Suggestion = _sessionUiData.SearchSpecUser.GetSuggestion();
         SearchTerm = _sessionUiData.SearchSpecUser.SearchTerm;
 
         TotalUsers = Resolve<GetTotalUsers>().Run();

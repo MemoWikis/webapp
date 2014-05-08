@@ -13,16 +13,12 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 {
     internal class ImageLicenceInfo_from_wikimedia : BaseTest
     {
-        [Ignore] //tmp
         [Test]
         public void Get_licence_info()
         {
             var licenceInfoLoader = Resolve<WikiImageLicenceLoader>();
-            var licenceInfo = licenceInfoLoader.Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg");
-            Assert.That(licenceInfo.AuthorName,
-                Is.EqualTo(
-                    "By Tiit Hunt (Own work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons"));
-
+            var licenceInfo = licenceInfoLoader.Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg", "commons.wikimedia.org");
+            Assert.That(licenceInfo.AuthorName, Is.EqualTo("Tiit Hunt"));
         }
 
         [Test]

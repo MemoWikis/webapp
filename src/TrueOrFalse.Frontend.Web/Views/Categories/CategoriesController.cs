@@ -26,7 +26,6 @@ public class CategoriesController : BaseController
         return Categories(null, model, orderBy);
     }
 
-
     [SetMenu(MenuEntry.Categories)]
     public ActionResult Categories(int? page, CategoriesModel model, string orderBy = null)
     {

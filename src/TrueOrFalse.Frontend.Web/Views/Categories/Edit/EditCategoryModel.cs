@@ -20,7 +20,7 @@ public class EditCategoryModel : BaseModel
 
     public UIMessage Message;
 
-    public List<string> RelatedCategories = new List<string>();
+    public List<string> ParentCategories = new List<string>();
 
     public bool IsEditing { get; set; }
 
@@ -48,7 +48,7 @@ public class EditCategoryModel : BaseModel
         Name = category.Name;
         Description = category.Description;
         WikipediaURL = category.WikipediaURL;
-        RelatedCategories = (from cat in category.ParentCategories select cat.Name).ToList();
+        ParentCategories = (from cat in category.ParentCategories select cat.Name).ToList();
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;        
     }
 
@@ -57,7 +57,7 @@ public class EditCategoryModel : BaseModel
         var category = new Category(Name) {ParentCategories = new List<Category>()};
         category.Description = Description;
         category.WikipediaURL = WikipediaURL;
-        foreach (var name in RelatedCategories)
+        foreach (var name in ParentCategories)
             category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
         return category;
     }
@@ -68,12 +68,12 @@ public class EditCategoryModel : BaseModel
         category.Description = Description;
         category.WikipediaURL = WikipediaURL;
         category.ParentCategories.Clear();
-        foreach (var name in RelatedCategories)
+        foreach (var name in ParentCategories)
             category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
     }
     
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
-        RelatedCategories = (from key in postData.AllKeys where key.StartsWith("cat") select postData[key]).ToList();
+        ParentCategories = (from key in postData.AllKeys where key.StartsWith("cat") select postData[key]).ToList();
     }
 }

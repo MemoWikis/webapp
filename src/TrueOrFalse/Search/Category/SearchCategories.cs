@@ -19,7 +19,10 @@ namespace TrueOrFalse.Search
             if (searchSpec.OrderBy.QuestionCount.IsCurrent()) orderBy = SearchCategoriesOrderBy.QuestionCount;
             else if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchCategoriesOrderBy.DateCreated;
 
-            return Run(searchSpec.SearchTerm, searchSpec, orderBy: orderBy);
+            var result = Run(searchSpec.SearchTerm, searchSpec, orderBy: orderBy);
+            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking);
+
+            return result;
         }
 
         public SearchCategoriesResult Run(
@@ -51,7 +54,7 @@ namespace TrueOrFalse.Search
                                                       {
                                                             Start = pager.LowerBound - 1,
                                                             Rows = pager.PageSize,
-                                                            SpellCheck = new SpellCheckingParameters{ Collate = true},
+                                                            SpellCheck = new SpellCheckingParameters(),
                                                             OrderBy = orderby
                                                       });
 

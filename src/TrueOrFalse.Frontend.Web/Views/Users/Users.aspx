@@ -27,9 +27,21 @@
                     <div class="row">
                         <div class="col-md-6">                    
                             <div class="pull-left form-group search-container">
-                                <label>Suche:</label>
-                                <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch"}) %>
-                                <a class="btn btn-default" id="btnSearch"><img src="/Images/Buttons/tick.png"/></a>
+                                <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+                                    <div style="padding-bottom: 10px; font-size: large">
+                                        Oder suchst du: 
+                                        <a href="<%= "/Nutzer/Suche/" + Model.Suggestion %>">
+                                            <%= Model.Suggestion %>
+                                        </a> ?
+                                    </div>
+                                <% } %>
+                                
+                                <div class="input-group">
+                                    <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch"}) %>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">

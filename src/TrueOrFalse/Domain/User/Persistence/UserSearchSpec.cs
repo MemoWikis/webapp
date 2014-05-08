@@ -1,12 +1,20 @@
 ﻿using System;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse.Search;
 
 namespace TrueOrFalse
 {
     [Serializable]
     public class UserSearchSpec : SearchSpecificationBase<UserFilter, UserOrderBy>
     {
-        public string SearchTerm;   
+        public string SearchTerm;
+
+        public SpellCheckResult SpellCheck;
+
+        public string GetSuggestion()
+        {
+            return SpellCheck.GetSuggestion();
+        }
     }
 
     [Serializable]
