@@ -1,8 +1,8 @@
 ﻿@import (reference) '../../Style/bootstrap/bootstrap.less';
 @import (reference) '../../Style/bootstrap/variables_custom.less';
-@import '../../Style/includes/colors.less';
-@import '../../Style/includes/variables.less';
-@import '../../Style/includes/shared.less';
+@import (reference) '../../Style/includes/colors.less';
+@import (reference) '../../Style/includes/variables.less';
+@import (reference) '../../Style/includes/shared.less';
 
 @question-row-image-padding: 5px;
 
@@ -31,44 +31,6 @@ div.question-row{background-color:silver;}*/
 }
 .column { display: inline-block;}
 
-//$temp begin
-@media (max-width: @screen-xs-max) {
-
-    .NumberTimesStats {
-        clear: left;
-        float: left;
-    }
-    .QuestionAuthor {
-        float: right;
-        > div {
-            float: right;
-            //clear: right;
-        }
-    }
-}
-//$temp end
-
-
-.column-Image {min-width: @column-Image-below-xs-width;}
-
-@media DISABLE (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
-    .StatsGroup {
-        float: left;
-
-        &.Slider, &.NumberTimesStats {
-            .make-xs-column(4);
-        }
-
-        &.QuestionAuthor {
-            .make-xs-column(4);
-            float: right;
-            > div {
-                float: right;
-                clear: right;
-            }
-        }
-    }
-}
 @media (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
 
 .row .column-Additional {
@@ -99,6 +61,7 @@ div.question-row{background-color:silver;}*/
 
 @media only screen and (max-width: @screen-sm-min) {
     .column-Additional{
+
         width: 100%;
     }
 }
@@ -106,11 +69,13 @@ div.question-row{background-color:silver;}*/
 
 .column-Image {
 
+    min-width: @column-Image-below-xs-width;
+
     .make-xs-column(2);
     
-    @media only screen and (min-width: @screen-sm-min) {
+    .sm-up({
         width: @column-Image-sm-width;
-    }
+    });
 
     float: left;
     padding-top: @question-row-image-padding;
@@ -146,15 +111,15 @@ div.question-row{background-color:silver;}*/
 
     // col-xs-10 col-sm-7 col-lg-8
 
-    @media only screen and (min-width: @screen-sm-min) {
+    @media (min-width: @screen-sm-min) {
         width: (722px - @column-Image-sm-width - @column-Additional-sm-width);
     }
     
-    @media only screen and (min-width: @screen-md-min) {
+    @media (min-width: @screen-md-min) {
         width: (702px - @column-Image-sm-width - @column-Additional-sm-width);
     }
 
-    @media only screen and (min-width: @screen-lg-min) {
+    @media (min-width: @screen-lg-min) {
         width: (852px - @column-Image-sm-width - @column-Additional-sm-width);
     }
 }
@@ -164,6 +129,51 @@ div.question-row{background-color:silver;}*/
         width: @column-Additional-sm-width;
     }
 }
+
+.QuestionAuthor {
+    padding-top: 6px;
+}
+
+
+
+
+
+@media DISABLE (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
+    .StatsGroup {
+        float: left;
+
+        &.Slider, &.NumberTimesStats {
+            .make-xs-column(4);
+        }
+
+        &.QuestionAuthor {
+            .make-xs-column(4);
+            float: right;
+            > div {
+                float: right;
+                clear: right;
+            }
+        }
+    }
+}
+
+//$temp begin
+@media (max-width: @screen-xs-max) {
+
+    .NumberTimesStats {
+        clear: left;
+        float: left;
+    }
+    .QuestionAuthor {
+        float: right;
+        > div {
+            float: right;
+            //clear: right;
+        }
+    }
+}
+//$temp end
+
 
 .btnAddQuestion {
 
@@ -256,8 +266,6 @@ div.column-MainContent {
 div.column-Additional div.row {
     margin-left: 0;
 }
-
-.NumberTimesStats {}
 
 .NumberTimes {
     display: inline-block;
