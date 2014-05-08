@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     $("[popover-all-sets-for]").click(function (e) {
         e.preventDefault();
 
