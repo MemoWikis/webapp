@@ -213,285 +213,6 @@
 div.column-MainContent {background-color: seashell; }
 div.column-Additional { background-color: yellowgreen;}
 div.question-row{background-color:silver;}*/
-.question-row {
-  margin-left: -10px;
-  margin-right: -10px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-@media (min-width: 768px) {
-  .question-row {
-    margin-left: -5px;
-    margin-right: -5px;
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-.question-row:hover {
-  background-color: #f3f5f8;
-}
-.column {
-  display: inline-block;
-}
-@media (min-width: 480px) and (max-width: 767px) {
-  .row .column-Additional {
-    padding-left: 16.66666667%;
-    margin-left: 10px;
-  }
-}
-@media (max-width: 479px) {
-  .column-Image {
-    position: absolute !important;
-  }
-  .row .column-MainContent {
-    width: 100%;
-    padding-left: 76.15625px;
-  }
-  .row .column-Additional {
-    padding-left: 76.15625px;
-  }
-  .QuestionText {
-    clear: left;
-  }
-  div.ShortStats {
-    float: left;
-  }
-}
-@media only screen and (max-width: 768px) {
-  .column-Additional {
-    width: 100%;
-  }
-}
-.column-Image {
-  min-width: 76.15625px;
-  position: relative;
-  width: 16.66666667%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-  float: left;
-  padding-top: 5px;
-  padding-left: 5px;
-}
-@media (min-width: 768px) {
-  .column-Image {
-    width: 125px;
-  }
-}
-.column-Image .image-container {
-  margin-bottom: 5px;
-}
-.column-Image .image-container img {
-  width: 105px;
-  border-radius: 5px;
-  max-width: 100%;
-}
-.column-Image .image-container .selectQuestion {
-  font-size: 12px;
-  position: absolute;
-  left: 5px;
-  bottom: 1px;
-  width: 105px;
-  color: black;
-  background-color: white;
-  opacity: 0.7;
-  display: none;
-}
-.column-MainContent {
-  float: left;
-  width: 83.33333333%;
-  position: relative;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (min-width: 768px) {
-  .column-MainContent {
-    float: left;
-    width: 58.33333333%;
-  }
-}
-@media (min-width: 1200px) {
-  .column-MainContent {
-    float: left;
-    width: 66.66666667%;
-  }
-}
-@media (min-width: 768px) {
-  .column-MainContent {
-    width: 442px;
-  }
-}
-@media (min-width: 992px) {
-  .column-MainContent {
-    width: 422px;
-  }
-}
-@media (min-width: 1200px) {
-  .column-MainContent {
-    width: 572px;
-  }
-}
-@media only screen and (min-width: 768px) {
-  .column-Additional {
-    width: 155px;
-  }
-}
-.QuestionAuthor {
-  padding-top: 6px;
-}
-@media DISABLE (min-width: 480px) and (max-width: 767px) {
-  .StatsGroup {
-    float: left;
-  }
-  .StatsGroup.Slider,
-  .StatsGroup.NumberTimesStats {
-    position: relative;
-    float: left;
-    width: 33.33333333%;
-    min-height: 1px;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .StatsGroup.QuestionAuthor {
-    position: relative;
-    float: left;
-    width: 33.33333333%;
-    min-height: 1px;
-    padding-left: 10px;
-    padding-right: 10px;
-    float: right;
-  }
-  .StatsGroup.QuestionAuthor > div {
-    float: right;
-    clear: right;
-  }
-}
-@media (max-width: 767px) {
-  .NumberTimesStats {
-    clear: left;
-    float: left;
-  }
-  .QuestionAuthor {
-    float: right;
-  }
-  .QuestionAuthor > div {
-    float: right;
-  }
-}
-.btnAddQuestion {
-  margin-bottom: 10px;
-}
-#mobilePageHeader .btnAddQuestion {
-  float: right;
-}
-@media (min-width: 992px) {
-  .btnAddQuestion {
-    float: right;
-    position: absolute;
-    right: 0;
-    top: 5px;
-  }
-}
-div.column-MainContent {
-  padding-right: 20px;
-  float: left;
-  padding-top: 5px;
-  position: relative;
-}
-.ShortStats {
-  height: 25px;
-  margin-top: 0;
-  margin-right: 4px;
-  border-radius: 6px;
-  border: 1px solid beige;
-  background-color: beige;
-  padding: 4px;
-  float: right;
-}
-.QuestionText {
-  font-weight: normal;
-  font-size: large;
-}
-.column-Additional {
-  float: left;
-  padding-top: 5px;
-  line-height: 15px;
-  font-size: 90%;
-}
-.question-row .answersTotal {
-  width: 40px;
-}
-.question-row .percentageBar {
-  width: 65px;
-  float: right;
-}
-.addRelevance {
-  display: block;
-  padding-bottom: 6px;
-}
-.sliderContainer {
-  padding-bottom: 6px;
-  padding-top: 5px;
-  width: 150px;
-}
-@media only screen and (max-width: 768px) {
-  .sliderContainer {
-    float: left;
-  }
-}
-@media only screen and (max-width: 768px) {
-  .sliderContainer,
-  .addRelevance {
-    float: left;
-  }
-}
-.sliderValue {
-  margin-left: 6px;
-}
-.removeRelevance {
-  margin-left: 2px;
-}
-.piePersonalRelevanceTotal {
-  display: none;
-  margin-top: 10px;
-}
-.menu p.categories {
-  padding-top: 10px;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-.menu div.category {
-  font-size: 13px;
-}
-.menu div.category a {
-  padding-left: 25px;
-}
-div.column-Additional div.row {
-  margin-left: 0;
-}
-.NumberTimes {
-  display: inline-block;
-  width: 20px;
-  text-align: center;
-}
-div.selected-row {
-  background-color: #E7ECF6;
-}
-div.selected-row:hover {
-  background-color: #d6e0f4;
-}
-.modal.fade {
-  -webkit-transition: none;
-  -moz-transition: none;
-  -ms-transition: none;
-  -o-transition: none;
-  transition: none;
-}
-.tsqRow:hover {
-  background-color: #f3f5f8;
-  cursor: pointer;
-}
 .SearchQuestionsForm {
   *zoom: 1;
 }
@@ -560,21 +281,263 @@ div.selected-row:hover {
     width: 50%;
   }
 }
+.btnAddQuestion {
+  margin-bottom: 10px;
+}
+#mobilePageHeader .btnAddQuestion {
+  float: right;
+}
+@media (min-width: 992px) {
+  .btnAddQuestion {
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 5px;
+  }
+}
+.question-row {
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+@media (min-width: 768px) {
+  .question-row {
+    margin-left: -5px;
+    margin-right: -5px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.question-row:hover {
+  background-color: #f3f5f8;
+}
+div.selected-row {
+  background-color: #E7ECF6;
+}
+div.selected-row:hover {
+  background-color: #d6e0f4;
+}
+.modal.fade {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+.tsqRow:hover {
+  background-color: #f3f5f8;
+  cursor: pointer;
+}
+.column {
+  display: inline-block;
+}
+.column-Image {
+  padding-top: 5px;
+  padding-left: 5px;
+  min-width: 75.15625px;
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 @media (max-width: 479px) {
-  #choices .input-group {
-    display: block;
+  .column-Image {
+    position: absolute !important;
   }
-  #choices .input-group input {
-    border-bottom-left-radius: 4px !important;
-    border-top-right-radius: 0 !important;
+}
+@media (min-width: 768px) {
+  .column-Image {
+    width: 125px;
   }
-  #choices .input-group-addon {
-    display: block;
-    width: auto;
-    border: 1px solid #cccccc !important;
-    border-bottom: none !important;
-    border-top-right-radius: 4px !important;
-    border-bottom-left-radius: 0 !important;
+}
+.column-Image .image-container {
+  margin-bottom: 5px;
+}
+.column-Image .image-container img {
+  width: 105px;
+  border-radius: 5px;
+  max-width: 100%;
+}
+.column-Image .image-container .selectQuestion {
+  font-size: 12px;
+  position: absolute;
+  left: 5px;
+  bottom: 1px;
+  width: 105px;
+  color: black;
+  background-color: white;
+  opacity: 0.7;
+  display: none;
+}
+.column-MainContent {
+  padding-right: 20px;
+  padding-top: 5px;
+  position: relative;
+  float: left;
+  width: 83.33333333%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (max-width: 479px) {
+  .column-MainContent {
+    width: 100%;
+    padding-left: 76px;
   }
+}
+@media (min-width: 768px) {
+  .column-MainContent {
+    width: 442px;
+  }
+}
+@media (min-width: 992px) {
+  .column-MainContent {
+    width: 422px;
+  }
+}
+@media (min-width: 1200px) {
+  .column-MainContent {
+    width: 572px;
+  }
+}
+.ShortStats {
+  height: 25px;
+  margin-top: 0;
+  margin-right: 4px;
+  border-radius: 6px;
+  border: 1px solid beige;
+  background-color: beige;
+  padding: 4px;
+  float: right;
+}
+@media (max-width: 479px) {
+  .ShortStats {
+    float: left;
+  }
+}
+.QuestionText {
+  font-weight: normal;
+  font-size: large;
+}
+@media (max-width: 479px) {
+  .QuestionText {
+    clear: left;
+  }
+}
+.column-Additional {
+  float: left;
+  padding-top: 5px;
+  line-height: 15px;
+  font-size: 90%;
+}
+@media (max-width: 479px) {
+  .column-Additional {
+    padding-left: 76.15625px;
+  }
+}
+@media (min-width: 480px) and (max-width: 767px) {
+  .column-Additional {
+    padding-left: 16.66666667%;
+    margin-left: 10px;
+  }
+}
+@media (min-width: 768px) {
+  .column-Additional {
+    width: 155px;
+  }
+}
+.NumberTimes {
+  display: inline-block;
+  width: 20px;
+  text-align: center;
+}
+.QuestionAuthor {
+  padding-top: 6px;
+}
+@media DISABLE (min-width: 480px) and (max-width: 767px) {
+  .StatsGroup {
+    float: left;
+  }
+  .StatsGroup.Slider,
+  .StatsGroup.NumberTimesStats {
+    position: relative;
+    float: left;
+    width: 33.33333333%;
+    min-height: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .StatsGroup.QuestionAuthor {
+    position: relative;
+    float: left;
+    width: 33.33333333%;
+    min-height: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    float: right;
+  }
+  .StatsGroup.QuestionAuthor > div {
+    float: right;
+    clear: right;
+  }
+}
+@media (max-width: 767px) {
+  .NumberTimesStats {
+    clear: left;
+    float: left;
+  }
+  .QuestionAuthor {
+    float: right;
+  }
+  .QuestionAuthor > div {
+    float: right;
+  }
+}
+.addRelevance {
+  display: block;
+  padding-bottom: 6px;
+}
+.sliderContainer {
+  padding-bottom: 6px;
+  padding-top: 5px;
+  width: 150px;
+}
+@media only screen and (max-width: 768px) {
+  .sliderContainer {
+    float: left;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .sliderContainer,
+  .addRelevance {
+    float: left;
+  }
+}
+.sliderValue {
+  margin-left: 6px;
+}
+.removeRelevance {
+  margin-left: 2px;
+}
+.piePersonalRelevanceTotal {
+  display: none;
+  margin-top: 10px;
+}
+.menu p.categories {
+  padding-top: 10px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.menu div.category {
+  font-size: 13px;
+}
+.menu div.category a {
+  padding-left: 25px;
+}
+div.column-Additional div.row {
+  margin-left: 0;
 }
 /*# sourceMappingURL=Questions.css.map */
