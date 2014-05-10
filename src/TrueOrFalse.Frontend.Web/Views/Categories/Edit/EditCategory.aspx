@@ -42,6 +42,7 @@
                 <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
                 <%: Html.HiddenFor(m => m.ImageGuid) %>
                 <%: Html.HiddenFor(m => m.ImageLicenceOwner) %>
+                <input type="hidden" id="isCategoryEdit" value="true"/>
 
                 <% Html.Message(Model.Message); %>
     

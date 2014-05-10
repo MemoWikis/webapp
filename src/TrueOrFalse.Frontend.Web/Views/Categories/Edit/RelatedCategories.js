@@ -8,6 +8,11 @@ $.expr[':'].textEquals = function (a, i, m) {
 
 $(function () {
 
+    var isCategoryEdit = $("#isCategoryEdit").length == 1;
+    var categoryName = "";
+    if (isCategoryEdit)
+        categoryName = $("#Name").val();
+
     var nextCatId = 1;
     function addCat() {
         var catId = nextCatId;
@@ -53,6 +58,10 @@ $(function () {
             return false;
         }
     }).data("ui-autocomplete")._renderItem = function (ul, item) {
+        console.log(categoryName + " " + item.name);
+            if (isCategoryEdit &&categoryName == item.name)
+                return "";
+
 		    return $("<li></li>")
 				.data("ui-autocomplete-item", item)
 				.append("<a><img src='" + item.imageUrl + "'/><span class='cat-name'>"
