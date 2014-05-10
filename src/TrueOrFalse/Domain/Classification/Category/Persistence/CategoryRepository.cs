@@ -44,10 +44,10 @@ namespace TrueOrFalse
             return GetByIds(questionIds.ToArray());
         }
 
-        public override IList<Category> GetByIds(params int[] questionIds)
+        public override IList<Category> GetByIds(params int[] categoryIds)
         {
-            var questions = base.GetByIds(questionIds);
-            return questionIds.Select(t => questions.First(q => q.Id == t)).ToList();
+            var categories = base.GetByIds(categoryIds);
+            return categoryIds.Select(t => categories.First(q => q.Id == t)).ToList();
         }
 
         public bool Exists(string categoryName)
