@@ -13,6 +13,9 @@ namespace TrueOrFalse
 
         public void Add(T historyItem)
         {
+            if (historyItem == null)
+                return;
+
             _list.RemoveAll(x => x.Id == historyItem.Id && x.Type == historyItem.Type);
             _list.Insert(0, historyItem);
 
