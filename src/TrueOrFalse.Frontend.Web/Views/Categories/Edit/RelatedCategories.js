@@ -83,7 +83,7 @@ $(function () {
 
     var fnCheckTextAndAdd = function (event) {
         checkText();
-        if (event.keyCode == 13) {
+        if (event.keyCode == 13 && $(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
             addCat();
         }
 

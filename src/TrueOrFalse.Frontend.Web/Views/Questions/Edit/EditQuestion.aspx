@@ -144,7 +144,7 @@
                             $(function () {
                                 <%foreach (var category in Model.Categories) { %>
                                 $("#txtNewRelatedCategory").val('<%=category %>');
-                                $("#addRelatedCategory").click();
+                                $("#txtNewRelatedCategory").trigger("initCategoryFromTxt");
                                 <% } %>
                             });
                         </script>
@@ -152,9 +152,6 @@
                             <div class="xxs-stack col-xs-6">
                                 <input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" />
                             </div>
-                            <a href="#" id="addRelatedCategory" style="display: none" class="form-control">
-                                <img alt="" src='/Images/Buttons/add.png' />
-                            </a>
                         </div>
                     </div>
                 </div>
