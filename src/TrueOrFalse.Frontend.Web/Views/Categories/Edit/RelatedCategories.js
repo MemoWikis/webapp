@@ -65,14 +65,13 @@ $(function () {
         var text = $("#txtNewRelatedCategory").val();
         var matchesInAutomcompleteList = $(".ui-autocomplete li .cat-name:textEquals('" + text + "')");
         var alreadyAddedCategory = $(".added-cat:textEquals('" + text + "')");
-        if (matchesInAutomcompleteList.size() == 0 || alreadyAddedCategory.size() != 0) {
-            $("#addRelatedCategory").hide();
-        } else {
-            $("#addRelatedCategory").show();
+
+        if (matchesInAutomcompleteList.size() != 0 && alreadyAddedCategory.size() == 0) {
             if ($("#txtNewRelatedCategory").val() != matchesInAutomcompleteList.text()) {
                 $("#txtNewRelatedCategory").val(matchesInAutomcompleteList.text());
             }
         }
+
         if (!animating && alreadyAddedCategory.size() != 0) {
             animating = true;
             alreadyAddedCategory.effect('bounce', null, 'fast', function () { animating = false; });
@@ -81,11 +80,10 @@ $(function () {
     }
     checkText();
 
-    $("#addRelatedCategory").click(addCat);
 
     var fnCheckTextAndAdd = function (event) {
         checkText();
-        if (event.keyCode == 13 && $("#addRelatedCategory").is(':visible')) {
+        if (event.keyCode == 13) {
             addCat();
         }
 
@@ -93,6 +91,7 @@ $(function () {
             event.preventDefault();
         }
     }
-
     $("#txtNewRelatedCategory").keydown(fnCheckTextAndAdd);
+
+    $("#txtNewRelatedCategory").bind("initCategoryFromTxt", addCat);
 });
