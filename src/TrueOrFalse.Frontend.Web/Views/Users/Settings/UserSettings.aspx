@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
+﻿<%@ Page Title="Einstellungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="System.Web.Mvc.ViewPage<UserSettingsModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -47,6 +47,12 @@
                     <%= Html.LabelFor(m => m.Email, new { @class = "col-sm-3 control-label" })%>
                     <div class="col-xs-4">
                         <%= Html.TextBoxFor(m => m.Email, new {@class="form-control"} )%>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Status</label>
+                    <div class="col-xs-4">
+                        Kein Mitglied
                     </div>
                 </div>
                 <div class="form-group">
