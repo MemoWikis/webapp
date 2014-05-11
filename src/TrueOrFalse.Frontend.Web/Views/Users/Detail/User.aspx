@@ -12,7 +12,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <div class="xxs-stack col-xs-12">
-            <div class="row">        
+            <div class="row">
                 <div class="col-xs-9 xxs-stack" style="margin-bottom: 10px;">
                     <h2 class="pull-left" style="margin-bottom: 10px; margin-top: 0px;  font-size: 30px;">
                         <%= Model.Name %>
