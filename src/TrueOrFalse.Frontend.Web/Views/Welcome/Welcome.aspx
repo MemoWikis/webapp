@@ -141,10 +141,19 @@
             </li>
             <li>
                 <b>Wir werden deine Daten niemals verkaufen.</b>
-                <p>Wir Nutzen Daten dafür, um Richtig-oder-Falsch besser zu machen.</p>
+                <p>Wir nutzen Daten dafür, um MEMuchO besser zu machen.</p>
             </li>
             <li>
-                <b>Gemeinwohlorientierung</b>
+                <b>Gemeinwohlorientierung</b><br/>
+                <p>
+                    Wir möchten unser Unternehmen auf  
+                    <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohl-fördernden Werten</a> aufbauen.
+                </p>
+                <p>
+                    Zu den Ideen der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> gehört zum Beispiel: 
+                    Unternehmen sollten kooperativ und <i>nicht</i> konkurenzorientiert agieren. 
+                    Daher sollten Information und Know-How geteilt werden.
+                </p>
             </li>
             <li>
                 <b>Transparenz!</b>
@@ -154,7 +163,7 @@
                 <p>
                     Die Software mit der MEMuchO läuft, steht unter einer Open Source Lizenz.
                     Die Quelltexte findest du auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
-                </p>
+                </p> 
             </li>        
         </ul>
         <div style="height: 10px;"></div>        
