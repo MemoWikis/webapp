@@ -11,26 +11,28 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
-        <div class="col-md-6 category" style="margin-bottom: 10px;">
-            <h2 class="pull-left" style="margin-bottom: 5px; margin-top: 0px;  font-size: 30px;">
-                <%= Model.Name %>
-                <span style="display: inline-block; font-size: 20px; font-weight: normal;">
-                    &nbsp;(Reputation: <%=Model.ReputationTotal %> - Rang <%= Model.ReputationRank %>)
-                </span>
-            </h2>
-        </div>
-        <div class="col-md-3">
-            <div class="pull-right">
-                <div>
-                    <a href="<%= Url.Action("Users", "Users")%>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a><br/>
-                    <% if (Model.IsCurrentUser) { %>
-                        <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
-                    <% } %>
+        <div class="xxs-stack col-xs-12">
+            <div class="row">        
+                <div class="col-xs-9 xxs-stack" style="margin-bottom: 10px;">
+                    <h2 class="pull-left" style="margin-bottom: 10px; margin-top: 0px;  font-size: 30px;">
+                        <%= Model.Name %>
+                        <span style="display: inline-block; font-size: 20px; font-weight: normal;">
+                            &nbsp;(Reputation: <%=Model.ReputationTotal %> - Rang <%= Model.ReputationRank %>)
+                        </span>
+                    </h2>
+                </div>
+                <div class="col-xs-3 xxs-stack">
+                    <div class="navLinks">
+                        <a href="<%= Url.Action("Users", "Users")%>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
+                        <% if (Model.IsCurrentUser) { %>
+                            <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
+                        <% } %>
+                    </div>
                 </div>
             </div>
         </div>
     
-        <div class="col-md-7">        
+        <div class="col-lg-10 col-xs-9 xxs-stack">
             <div class="box-content" style="min-height: 120px; clear: both; ">
             
                 <div class="column">
@@ -86,7 +88,7 @@
             </div>     
         </div>
 
-        <div class="col-md-2" >
+        <div class="col-lg-2 col-xs-3 xxs-stack">
             <img style="width:100%; border-radius:5px;" src="<%=Model.ImageUrl_250 %>" />
             <% if (Model.IsCurrentUser){ %>  
                 <script type="text/javascript">
