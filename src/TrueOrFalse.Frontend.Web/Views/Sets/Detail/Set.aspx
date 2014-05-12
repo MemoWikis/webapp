@@ -13,7 +13,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
-        <div class="col-md-7" style="margin-bottom: 20px;">
+        <div class="xxs-stack col-xs-9">
             <h2 style="margin-top:0px;" >
                 <span style="margin-right: 15px;"><%= Model.Name %></span>
                 <span style="display: inline-block; font-size: 20px; font-weight: normal;">
@@ -29,16 +29,16 @@
                 </span>
             </h2>
         </div>
-        <div class="col-md-2" style="margin-bottom: 20px;">
-            <div class="pull-right">
-                <a href="<%= Links.Sets(Url) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a><br/>
+        <div class="col-xs-3 xxs-stack">
+            <div class="navLinks">
+                <a href="<%= Links.Sets(Url) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
                 <% if(Model.IsOwner){ %>
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                 <% } %>
             </div>
         </div>
    
-        <div class="col-md-7">
+        <div class="col-lg-10 col-xs-9 xxs-stack" style="margin-top: 20px;">
             <% var index = 0; 
            
                foreach(var questionInSet in Model.QuestionsInSet){ 
@@ -85,7 +85,7 @@
             </div>
         </div>
     
-        <div class="col-md-2">
+        <div class="col-lg-2 col-xs-3 xxs-stack" style="margin-top: 20px;">
         
             <div>
                 <img src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
