@@ -209,6 +209,91 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+/*              *\
+  Helper classes
+\*              */
+.block {
+  display: block;
+}
+#Clearfix:before,
+.Clearfix:before,
+#Clearfix:after,
+.Clearfix:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+#Clearfix:after,
+.Clearfix:after {
+  clear: both;
+}
+#Clear {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: visible;
+}
+/*              *\
+  General styles
+\*              */
+.link {
+  color: #2c5fb2;
+}
+.link:hover {
+  color: #2c5fb2;
+}
+/*                        *\
+     Media query mixins
+\*                        */
+/*                        *\
+  Own responsive utilities
+\*                        */
+@media (max-width: 479px) {
+  .xxs-stack {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+@media (max-width: 479px) {
+  .float-none-xxs {
+    float: none !important;
+  }
+}
+@media (min-width: 480px) {
+  .float-none-xs {
+    float: none !important;
+  }
+}
+@media (min-width: 768px) {
+  .float-none-sm {
+    float: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .float-none-md {
+    float: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .float-none-lg {
+    float: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .DesktopHide {
+    display: none;
+  }
+}
+@media (max-width: 991px) {
+  .MobileHide {
+    display: none;
+  }
+}
+/*                        *\
+  Special styles
+\*                        */
 /*div.column-Image { background-color: green; }
 div.column-MainContent {background-color: seashell; }
 div.column-Additional { background-color: yellowgreen;}
