@@ -266,12 +266,12 @@ a.SimpleTextLink .TextSpan {
   vertical-align: middle;
 }
 @media (max-width: 767px) {
-  .show-tooltip {
+  .fa-question-circle.show-tooltip {
     display: none !important;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  .show-tooltip {
+  .fa-question-circle.show-tooltip {
     display: none !important;
   }
 }
