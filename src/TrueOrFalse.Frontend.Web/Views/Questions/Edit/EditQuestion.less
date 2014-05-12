@@ -3,7 +3,6 @@
 @import (reference) '../../../Style/includes/colors.less';
 @import (reference) '../../../Style/includes/shared.less';
 
-.test {color: red;}
 
 .contextMenu {
     margin-top: -1px; padding: 10px; border-color: #ccc; margin-bottom: 0;
@@ -97,5 +96,58 @@
 }
 
 .subForm label {
-             text-align: left;
-         }
+    text-align: left;
+}
+
+//Multiple Choice
+
+#choices {
+
+    .input-group-addon {
+        min-width: 155px;
+        text-align: left;
+    }
+
+    @media (max-width: @screen-xxs-max) {
+
+        .input-group {
+            display: block;
+
+
+            input {
+                border-bottom-left-radius: @input-border-radius !important;
+                border-bottom-right-radius: @input-border-radius !important;
+                border-top-right-radius: 0 !important;
+            }
+        }
+
+        .input-group-addon {
+            line-height: 20px;
+            display: block;
+            width: auto;
+            border: 1px solid @input-group-addon-border-color !important;
+            border-bottom: none !important;
+            border-top-right-radius: @input-border-radius !important;
+            border-bottom-left-radius: 0 !important;
+            padding-right: 20px;
+
+            & + .CloseButton {
+                border-bottom-right-radius: @input-border-radius;
+            }
+
+        }
+
+        .CloseButton {
+
+            position: static;
+
+
+            a.btn {
+                position: absolute;
+                right: 0;
+                top: 0;
+                border-bottom-right-radius: 0;
+            }
+        }
+    }
+}
