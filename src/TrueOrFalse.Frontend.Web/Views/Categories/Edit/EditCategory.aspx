@@ -42,6 +42,7 @@
                 <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
                 <%: Html.HiddenFor(m => m.ImageGuid) %>
                 <%: Html.HiddenFor(m => m.ImageLicenceOwner) %>
+                <input type="hidden" id="isCategoryEdit" value="true"/>
 
                 <% Html.Message(Model.Message); %>
     
@@ -81,14 +82,11 @@
                             $(function () {
                                 <%foreach (var category in Model.ParentCategories) { %>
                                     $("#txtNewRelatedCategory").val('<%=category %>');
-                                    $("#addRelatedCategory").click();
+                                    $("#txtNewRelatedCategory").trigger("initCategoryFromTxt");
                                 <% } %>
                             });
                         </script>
                         <input id="txtNewRelatedCategory" type="text" class="form-control" style="width: 190px;" />
-                        <a href="#" id="addRelatedCategory" style="display:none">
-                            <img alt="" src='/Images/Buttons/add.png' />
-                        </a>
                     </div>
                 </div>
             

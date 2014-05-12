@@ -213,19 +213,4 @@ div.column {
   width: 33%;
   float: left;
 }
-.navLinks {
-  margin-bottom: 20px;
-}
-.navLinks a {
-  margin-right: 5px;
-}
-@media screen and (min-width: 480px) {
-  .navLinks {
-    float: right;
-  }
-  .navLinks a {
-    display: block;
-    margin-right: 0;
-  }
-}
 /*# sourceMappingURL=Category.css.map */

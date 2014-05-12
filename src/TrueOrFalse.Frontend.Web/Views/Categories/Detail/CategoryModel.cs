@@ -36,7 +36,7 @@ public class CategoryModel : BaseModel
     public int CountCreators;
 
     public CategoryModel(Category category)
-    {
+    {   
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         WikiUrl = category.WikipediaURL;
         Category = category;

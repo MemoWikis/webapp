@@ -5,7 +5,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    
+    <title>Frage - <%= Model.QuestionText %></title>    
     <%= Scripts.Render("~/bundles/AnswerQuestion") %>
 
     <style type="text/css">

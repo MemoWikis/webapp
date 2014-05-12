@@ -7,47 +7,11 @@ $.expr[':'].textEquals = function (a, i, m) {
 };
 
 $(function () {
-    $("#txtNewRelatedCategory").autocomplete({
-        minLength: 0,
-        source: '/Api/Category/ByName',
-        focus: function (event, ui) {
-            $("#txtNewRelatedCategory").data("category-id", ui.item.id);
-            $("#txtNewRelatedCategory").val(ui.item.name);
-            return false;
-        },
-        select: function (event, ui) {
-            $("#txtNewRelatedCategory").data("category-id", ui.item.id);
-            $("#txtNewRelatedCategory").val(ui.item.name);
-            return false;
-        }
-    }).data("ui-autocomplete")._renderItem = function (ul, item) {
-		    return $("<li></li>")
-				.data("ui-autocomplete-item", item)
-				.append("<a><img src='" + item.imageUrl + "'/><span class='cat-name'>"
-				    + item.name + "</span><br><i>" + item.numberOfQuestions + " Fragen</i></a>")
-				.appendTo(ul);
-		};
 
-    var animating = false;
-    function checkText() {
-        var text = $("#txtNewRelatedCategory").val();
-        var matched = $(".ui-autocomplete li .cat-name:textEquals('" + text + "')");
-        var alreadAddedCategory = $(".added-cat:textEquals('" + text + "')");
-        if (matched.size() == 0 || alreadAddedCategory.size() != 0) {
-            $("#addRelatedCategory").hide();
-        } else {
-            $("#addRelatedCategory").show();
-            if ($("#txtNewRelatedCategory").val() != matched.text()) {
-                $("#txtNewRelatedCategory").val(matched.text());
-            }
-        }
-        if (!animating && alreadAddedCategory.size() != 0) {
-            animating = true;
-            alreadAddedCategory.effect('bounce', null, 'fast', function () { animating = false; });
-        }
-        setTimeout(checkText, 250);
-    }
-    checkText();
+    var isCategoryEdit = $("#isCategoryEdit").length == 1;
+    var categoryName = "";
+    if (isCategoryEdit)
+        categoryName = $("#Name").val();
 
     var nextCatId = 1;
     function addCat() {
@@ -74,11 +38,69 @@ $(function () {
         $("#cat-" + catId).show("blind", { direction: "horizontal" });
     }
 
-    $("#addRelatedCategory").click(addCat);
-    $("#txtNewRelatedCategory").keydown(function (event) {
+    $("#txtNewRelatedCategory").autocomplete({
+        minLength: 0,
+        source: '/Api/Category/ByName',
+        focus: function (event, ui) {
+            $("#txtNewRelatedCategory").data("category-id", ui.item.id);
+            $("#txtNewRelatedCategory").val(ui.item.name);
+            return false;
+        },
+        select: function (event, ui) {
+            $("#txtNewRelatedCategory").data("category-id", ui.item.id);
+            $("#txtNewRelatedCategory").val(ui.item.name);
+            
+            if ($(".added-cat:textEquals('" + ui.item.name + "')").length > 0) {
+                return false;
+            }
+
+            addCat();
+            return false;
+        }
+    }).data("ui-autocomplete")._renderItem = function (ul, item) {
+        console.log(categoryName + " " + item.name);
+            if (isCategoryEdit &&categoryName == item.name)
+                return "";
+
+		    return $("<li></li>")
+				.data("ui-autocomplete-item", item)
+				.append("<a><img src='" + item.imageUrl + "'/><span class='cat-name'>"
+				    + item.name + "</span><br><i>" + item.numberOfQuestions + " Fragen</i></a>")
+				.appendTo(ul);
+		};
+
+    var animating = false;
+    function checkText() {
+        var text = $("#txtNewRelatedCategory").val();
+        var matchesInAutomcompleteList = $(".ui-autocomplete li .cat-name:textEquals('" + text + "')");
+        var alreadyAddedCategory = $(".added-cat:textEquals('" + text + "')");
+
+        if (matchesInAutomcompleteList.size() != 0 && alreadyAddedCategory.size() == 0) {
+            if ($("#txtNewRelatedCategory").val() != matchesInAutomcompleteList.text()) {
+                $("#txtNewRelatedCategory").val(matchesInAutomcompleteList.text());
+            }
+        }
+
+        if (!animating && alreadyAddedCategory.size() != 0) {
+            animating = true;
+            alreadyAddedCategory.effect('bounce', null, 'fast', function () { animating = false; });
+        }
+        setTimeout(checkText, 250);
+    }
+    checkText();
+
+
+    var fnCheckTextAndAdd = function (event) {
         checkText();
-        if (event.keyCode == 13 && $("#addRelatedCategory").is(':visible')) {
+        if (event.keyCode == 13 && $(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
             addCat();
         }
-    });
+
+        if (event.keyCode == 13) {
+            event.preventDefault();
+        }
+    }
+    $("#txtNewRelatedCategory").keydown(fnCheckTextAndAdd);
+
+    $("#txtNewRelatedCategory").bind("initCategoryFromTxt", addCat);
 });

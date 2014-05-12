@@ -1,5 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
+﻿<%@ Page Title="Einstellungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="System.Web.Mvc.ViewPage<UserSettingsModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
     <style>
@@ -10,79 +11,94 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
     <div class="row">
-        <div class="col-md-7" style="">
-            <div class="box box-main">
+        <div class="xxs-stack col-xs-12">
+            <div class="row">
+                <div class="col-xs-9 xxs-stack" style="margin-bottom: 10px;">
+                    <h2 class="pull-left" style="margin-bottom: 10px; margin-top: 0px;  font-size: 30px;">
+                        <%= Model.Name %> 
+                        
+                        <span style="display: inline-block; font-size: 20px; font-weight: normal;">
+                            &nbsp;(Reputation: <%=Model.ReputationTotal %> - Rang <%= Model.ReputationRank %>)
+                        </span>
 
-                <h2 class="pull-left" style="padding-top:3px; padding-bottom: 5px; padding-left: 0px; margin-left:0px;  font-size: 30px;">
-                    <%= Model.Name %> <i class="fa fa-wrench show-tooltip" title="Hier kannst Du Deine Einstellungen bearbeiten"></i>
-                </h2>
-                <span class="pull-right" style="display: inline-block; font-size: 20px; font-weight: normal; position: relative; top: 13px;">Reputation: 7821 (Platz 7)</span>
-            
-                <form class="form-horizontal" method="POST">
-                    <div class="box-content" style="min-height: 120px; clear: both; padding-top: 20px;">
-                    
-                        <div>
-                            <% Html.Message(Model.Message); %>
-                        </div>
-
-                        <div class="control-group">
-                            <%= Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })%>
-                            <div class="controls">  
-                                <%= Html.TextBoxFor(m => m.Name)%>
-                            </div>
-                        </div>                    
-                        <div class="control-group">
-                            <%= Html.LabelFor(m => m.Email, new { @class = "col-sm-2 control-label" })%>
-                            <div class="controls">
-                                <%= Html.TextBoxFor(m => m.Email)%>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <label class="checkbox">
-                                    <input type="checkbox">
-                                    <%= Html.CheckBoxFor(m => m.AllowsSupportiveLogin)%>
-                                    <label for="AllowsSupportiveLogin">
-                                        Erlaube Mitarbeiten von RIOFA zur Fehlerbehebung oder zu Deiner Unterstützung, 
-                                        sich in Deinem Nutzerkonto anzumelden. Das ist nur nach Rücksprache nötig. 
-                                        (<a href="<%= Url.Action("DatenSicherheit","Help") %>">Mehr zur Datensicherheit</a>)
-                                    </label>
-                                </label>
-                            </div>
-                        </div>
+                        <i class="fa fa-wrench show-tooltip" title="Hier kannst Du Deine Einstellungen bearbeiten"></i>
+                    </h2>
+                </div>
+                <div class="col-xs-3 xxs-stack">
+                    <div class="navLinks">
+                        <a href="<%= Url.Action("Users", "Users")%>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
                     </div>
-                
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>&nbsp;&nbsp;&nbsp;
-                    </div>
-
-                </form>
+                </div>
             </div>
         </div>
 
-        <div class="col-md-3" >
-            <div class="box">
-                <img alt="" style="width: 200px;" src="<%=Model.ImageUrl_200 %>" />
-            
-                <script type="text/javascript">
-                    $(function () {
-                        $("#imageUploadLink").click(function () {
-                            $("#imageUpload").show();
-                        });
-                    })
-                </script>
-                <a id="imageUploadLink" href="#">aendern</a>
-                <div id="imageUpload" style="display: none">
-                    <% using (Html.BeginForm("UploadPicture", "UserSettings", null, FormMethod.Post, new { enctype = "multipart/form-data" })){ %>
-                        <input type="file" accept="image/*" name="file" id="file" />
-                        <input class="cancel" type="submit" value="Hochladen" />
-                    <% } %>
+        <div class="col-md-9">
+            <form class="form-horizontal" method="POST">
+
+                <% Html.Message(Model.Message); %>
+
+                <div class="form-group">
+                    <%= Html.LabelFor(m => m.Name, new { @class = "col-sm-3 control-label" })%>
+                    <div class="col-xs-4">
+                        <%= Html.TextBoxFor(m => m.Name, new {@class="form-control"} )%>
+                    </div>
+                </div>                    
+                <div class="form-group">
+                    <%= Html.LabelFor(m => m.Email, new { @class = "col-sm-3 control-label" })%>
+                    <div class="col-xs-4">
+                        <%= Html.TextBoxFor(m => m.Email, new {@class="form-control"} )%>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Status</label>
+                    <div class="col-xs-4">
+                        Kein Mitglied
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <label class="checkbox">
+                            <input type="checkbox">
+                            <%= Html.CheckBoxFor(m => m.AllowsSupportiveLogin)%>
+                            <label for="AllowsSupportiveLogin">
+                                Erlaube Mitarbeiten von RIOFA zur Fehlerbehebung oder zu deiner Unterstützung, 
+                                sich in deinem Nutzerkonto anzumelden. Das ist nur nach Rücksprache nötig. 
+                                (<a href="<%= Url.Action("DatenSicherheit","Help") %>">Mehr zur Datensicherheit</a>)
+                            </label>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 30px;">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>&nbsp;&nbsp;&nbsp;
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col-md-3" >
+            <img alt="" src="<%=Model.ImageUrl_200 %>" class="img-responsive" style="border-radius:5px;" />
             
-                <% if(Model.ImageIsCustom){ %>
-                    <a href="#">[x]</a>       
-                <%} %>
+            <script type="text/javascript">
+                $(function () {
+                    $("#imageUploadLink").click(function () {
+                        $("#imageUpload").show();
+                    });
+                })
+            </script>
+            <a id="imageUploadLink" href="#">aendern</a>
+            <div id="imageUpload" style="display: none">
+                <% using (Html.BeginForm("UploadPicture", "UserSettings", null, FormMethod.Post, new { enctype = "multipart/form-data" })){ %>
+                    <input type="file" accept="image/*" name="file" id="file" />
+                    <input class="cancel" type="submit" value="Hochladen" />
+                <% } %>
             </div>
+            
+            <% if(Model.ImageIsCustom){ %>
+                <a href="#">[x]</a>       
+            <%} %>
         </div>
     </div>
 

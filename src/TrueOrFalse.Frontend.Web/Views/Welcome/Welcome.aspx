@@ -93,12 +93,12 @@
                         So kannst du schneller lernen.
                     </p>
                     <p>
-                        (Die Analyse von Lernverhalten funktioniert nur, wenn wir viele Daten sammeln: 
+                        (Die Analyse von Lernverhalten funktioniert nur wenn wir viele Daten sammeln: 
                         Zu diesem Thema mehr hier: <a href="/Hilfe/DatenSicherheit">Hilfe Datenansicht</a>)
                     </p>
                 </li>
                 <li>
-                    <b>Zu überblicken Was du weist und was du wissen möchtest.</b>
+                    <b>Zu überblicken was du weist und was du wissen möchtest.</b>
                     <p>
                         Du möchtest dir 50, 500, 5000 (oder mehr) Fakten merken. 
                         Wir helfen dir dabei den Überblick zu behalten. 
@@ -128,7 +128,7 @@
             <li>
                 <b>Wikipedia Prinzip</b>
                 <p>
-                    In MEMuchO unterliegen öffentlichen Inhalte einer
+                    In MEMuchO unterliegen öffentliche Inhalte einer
                     Creative Commons Lizenz. Genau wie die Mehrheit der Einträge auf Wikipedia.
                             
                     Öffentliche MEMuchO-Inhalte können also von jedermann 
@@ -140,11 +140,20 @@
                 </p>
             </li>
             <li>
-                <b>Wir werden Deine Daten niemals verkaufen.</b>
-                <p>Wir Nutzen Daten dafür, um Richtig-oder-Falsch besser zu machen.</p>
+                <b>Wir werden deine Daten niemals verkaufen.</b>
+                <p>Wir nutzen Daten dafür, um MEMuchO besser zu machen.</p>
             </li>
             <li>
-                <b>Gemeinwohlorientierung</b>
+                <b>Gemeinwohlorientierung</b><br/>
+                <p>
+                    Wir möchten unser Unternehmen auf  
+                    <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohl-fördernden Werten</a> aufbauen.
+                </p>
+                <p>
+                    Zu den Ideen der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> gehört zum Beispiel: 
+                    Unternehmen sollten kooperativ und <i>nicht</i> konkurenzorientiert agieren. 
+                    Daher sollten Information und Know-How geteilt werden.
+                </p>
             </li>
             <li>
                 <b>Transparenz!</b>
@@ -154,7 +163,7 @@
                 <p>
                     Die Software mit der MEMuchO läuft, steht unter einer Open Source Lizenz.
                     Die Quelltexte findest du auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
-                </p>
+                </p> 
             </li>        
         </ul>
         <div style="height: 10px;"></div>        
@@ -208,21 +217,67 @@
             <div class="col-md-6"><img class="media-object" src="http://placesheen.com/120/120" alt="..."></div>
         </div>
             
+
         <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h4 class="media-heading">Fakten zur Ukraine</h4></div>
+            <div class="col-md-6">
+                <h4 class="media-heading">Studienfächer</h4>
+                <ul>
+                    <li><a href="">Psychologie</a></li>
+                    <li><a href="">Philosophie</a></li>
+                    <li><a href="">Informatik</a></li>
+                    <li><a href="">[mehr]</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-6">
+                <h4 class="media-heading">Schulfächer</h4>
+                <ul>
+                    <li><a href="">Deutsch</a></li>
+                    <li><a href="">Mathe</a></li>
+                    <li><a href="">Geschichte</a></li>
+                    <li><a href="">[mehr]</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="row" style="padding-top: 10px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Visual Studio</h4>
+                <ul>
+                    <li><a href="">Shortcut um in Visual-Studio zum nächsten Fehler zu springen.</a></li>
+                    <li><a href="">Shortcut um den Build abzubrechen ("Build.Cancel")</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="row" style="padding-top: 10px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Krise in der Ukraine</h4>
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    
+        <div class="row" style="padding-top: 10px;">
+            <div class="col-md-12"><h4 class="media-heading">Erkennst Du diese Vögel?</h4></div>
         </div>
         <div class="row">
             <div class="col-md-6"><img class="media-object" src="http://lorempixel.com/120/120/transport" alt="..."></div>
             <div class="col-md-6"><img class="media-object" src="http://placekitten.com/g/120/120" alt="..."></div>
         </div>
-            
+        
         <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h4 class="media-heading">Wirtschaftskrise</h4></div>
+            <div class="col-md-12"><h4 class="media-heading">Was ist das für ein Baum?</h4></div>
         </div>
         <div class="row">
-            <div class="col-md-6"><img class="media-object" src="http://lorempixel.com/120/120/g/transport/" alt="...">
-            </div>
-            <div class="col-md-6"><img class="media-object" src="http://lorempixel.com/120/120/abstract" alt="..."></div>
+            <div class="col-md-6"><img class="media-object" src="http://lorempixel.com/120/120/transport" alt="..."></div>
+            <div class="col-md-6"><img class="media-object" src="http://placekitten.com/g/120/120" alt="..."></div>
+        </div>        
+
+        <div class="row" style="padding-top: 10px;">
+            <div class="col-md-12"><h4 class="media-heading">Wirtschaftskrise</h4></div>
+            <div class="col-md-12"><img class="media-object" src="http://lorempixel.com/260/120/g/transport/" alt="...">
         </div>
     </div>
 </div>

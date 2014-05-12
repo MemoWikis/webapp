@@ -26,6 +26,9 @@ public class UserSettingsModel : BaseModel
     public string ImageUrl_200;
     public bool ImageIsCustom;
 
+    public int ReputationRank;
+    public int ReputationTotal;
+
     public UserSettingsModel(){}
 
     public UserSettingsModel(User user)
@@ -33,5 +36,9 @@ public class UserSettingsModel : BaseModel
         Name = user.Name;
         Email = user.EmailAddress;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
+
+        var reputation = Resolve<ReputationCalc>().Run(user);
+        ReputationRank = user.ReputationPos;
+        ReputationTotal = reputation.TotalRepuation;
     }
 }
