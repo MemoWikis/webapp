@@ -19,13 +19,13 @@
         if (addingChoiceId == 0)
             label = "richtige Antwort";
         else
-            label = "falsche Antwort " + (addingChoiceId);
+            label = "falsche Antwort (" + (addingChoiceId) + ")";
 
         var actionButton = $("");
-        var actionButtonSperator = $("");
+        //var actionButtonSperator = $("");
         if(addingChoiceId != 0) {
-            actionButtonSperator = $("<div style='display:table-cell; width: 1%'/>");
-            actionButton = $("<a href='#' style='display:table-cell; width: 1%' class='btn'><i class='fa fa-times' style='color:red'></i></a>");
+          //  actionButtonSperator = $("<div style='display:table-cell; width: 1%'/>");
+            actionButton = $("<span class='CloseButton input-group-btn'><a href='#' class='btn'><i class='fa fa-times'></i></a></span>");
             actionButton.click(function() {
                 //$(this).closest(".form-group").remove();
                 $(this).closest(".form-group").hide(500, function () { $(this).remove(); });
@@ -38,7 +38,7 @@
                 .append($("<div class='noLabel columnControlsFull'>")
                     .append($("<div class='input-group'><span class='input-group-addon'>" + label + ":</span>")
                         .append($("<input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' />"), 
-                                    actionButtonSperator, 
+            //                        actionButtonSperator, 
                                     actionButton
                         )
                     )
