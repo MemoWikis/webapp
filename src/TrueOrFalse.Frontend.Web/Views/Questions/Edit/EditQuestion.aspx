@@ -135,8 +135,8 @@
                 </div>--%>
                     
                 <div class="form-group">    
-                    <label class="columnLabel control-label show-tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "top">
-                        Kategorien
+                    <label class="columnLabel control-label">
+                        <span class="show-tooltip" data-toggle="tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "top">Kategorien</span>
                     </label>
 
                     <div id="relatedCategories" class="columnControlsFull">
@@ -177,8 +177,8 @@
                 </script>
                     
                 <div class="form-group markdown">
-                    <label class="columnLabel control-label show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "top">
-                        Erklärungen
+                    <label class="columnLabel control-label">
+                        <span class="show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "top">Erklärungen</span>
                     </label>
                     <div class="columnControlsFull">
                         <div class="wmd-panel">

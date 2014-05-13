@@ -10,7 +10,7 @@ $(function () {
     $('#Question').defaultText();
     $('#Description').defaultText();
 
-    $('.control-label .show-tooltip').append($("<i class='fa fa-info-circle'></i>"));
+    $('.control-label .show-tooltip').append($("<span> <i class='fa fa-info-circle'></i></span>"));
 
     var editorQuestion = new MarkdownQuestionExt();
     var editorDescription = new MarkdownDescription();
