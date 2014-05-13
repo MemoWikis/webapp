@@ -6130,6 +6130,10 @@ button.close {
     display: none !important;
   }
 }
+.tooltip.in {
+  opacity: 0.9;
+  filter: alpha(opacity=90);
+}
 .container,
 .container-fluid,
 .row,
