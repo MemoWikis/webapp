@@ -1536,11 +1536,18 @@ div.box-main .box-content {
   height: 36px;
   width: 100px;
 }
+/*Vendor adaptions
+---------------------------------------------------------*/
 /*Font-awesome icons adaptions
 ---------------------------------------------------------*/
 .SimpleTextLink .fa-check-square-o,
 .SimpleTextLink .fa-square-o {
   margin-top: 1px;
+}
+/*UI adaptions
+---------------------------------------------------------*/
+ul.ui-autocomplete {
+  z-index: 2;
 }
 /**************/
 .navLinks {
