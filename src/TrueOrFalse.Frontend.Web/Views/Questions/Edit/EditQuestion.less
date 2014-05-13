@@ -70,9 +70,13 @@
 }
 
 .columnControlsSmall {
+    
+    .make-xs-column(1);
+    width: percentage(1/@grid-columns*@grid-width-controls-full-xs/2);
     .xxs-stack;
-    .make-xs-column(@grid-width-controls-small-xs);
 }
+
+
 
 .noLabel {
     .make-xs-column-offset(@grid-width-label-xs);

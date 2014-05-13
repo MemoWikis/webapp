@@ -148,11 +148,7 @@
                                 <% } %>
                             });
                         </script>
-                        <div class="row">
-                            <div class="xxs-stack col-xs-6">
-                                <input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" />
-                            </div>
-                        </div>
+                        <div id="CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
                     </div>
                 </div>
                     

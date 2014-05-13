@@ -5,9 +5,51 @@
 @import (reference) 'includes/colors.less';
 @import (reference) 'includes/shared.less';
 
-/* STYLES
+/* CATEGORIES
 ----------------------------------------------------------*/
 
+//Categories input field with dropdown list
+
+#CatInputContainer {
+    width: 50%;
+    padding-right: @grid-gutter-width/2;
+    float: left;
+    #Clearfix;
+}
+
+ul.ui-autocomplete {
+
+    a.CatListItem {
+
+        #Clearfix;
+        border: 1px transparent solid;
+        padding: 5px !important;
+
+        img {
+            float: left;
+            border-radius: 4px;
+        }
+
+        .CatDescription {
+            margin-left: 55px;
+        }
+
+        span {
+            display: block;
+
+            &.NumberQuestions {
+                font-style: italic;
+            }
+
+        }
+    }
+}
+
+
+
+
+/* Containers
+----------------------------------------------------------*/
 
 
 div.search-container,

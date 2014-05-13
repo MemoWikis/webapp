@@ -302,10 +302,11 @@
 .columnControlsSmall {
   position: relative;
   float: left;
-  width: 33.33333333%;
+  width: 8.33333333%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+  width: 37.5%;
 }
 @media (max-width: 479px) {
   .columnControlsSmall {

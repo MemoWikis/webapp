@@ -1,6 +1,46 @@
 ﻿/* LESS INCLUDES
 ----------------------------------------------------------*/
-/* STYLES
+/* CATEGORIES
+----------------------------------------------------------*/
+#CatInputContainer {
+  width: 50%;
+  padding-right: 10px;
+  float: left;
+}
+#CatInputContainer:before,
+#CatInputContainer:after {
+  content: " ";
+  display: table;
+}
+#CatInputContainer:after {
+  clear: both;
+}
+ul.ui-autocomplete a.CatListItem {
+  border: 1px transparent solid;
+  padding: 5px !important;
+}
+ul.ui-autocomplete a.CatListItem:before,
+ul.ui-autocomplete a.CatListItem:after {
+  content: " ";
+  display: table;
+}
+ul.ui-autocomplete a.CatListItem:after {
+  clear: both;
+}
+ul.ui-autocomplete a.CatListItem img {
+  float: left;
+  border-radius: 4px;
+}
+ul.ui-autocomplete a.CatListItem .CatDescription {
+  margin-left: 55px;
+}
+ul.ui-autocomplete a.CatListItem span {
+  display: block;
+}
+ul.ui-autocomplete a.CatListItem span.NumberQuestions {
+  font-style: italic;
+}
+/* Containers
 ----------------------------------------------------------*/
 div.search-container:before,
 .search-section:before,
