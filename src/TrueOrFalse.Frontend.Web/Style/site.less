@@ -782,21 +782,51 @@ span.smaller {
 
     /* Labels
 ----------------------------------------------------------*/
+    
+    .label {
+        border: 2px solid;
+        border-radius: 4px;
+        color: @dark-blue;
+        display: inline-block;
+    }
+    
     .label-category {
-        background-color: @link-blue;
+        //background-color: @link-blue;
+        background-color: @light-blue;
+        border-color: @middle-blue;
     }
 
     .label-set {
-        #set-scheme;
+        //#set-scheme;
+        background-color: @pastel-yellow;
+        border-color: @middle-yellow;
     }
 
-
-
+   
     /*FORMS
 ---------------------------------------------------------*/
     input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, textarea, select {
         color: @dark-blue;
     }
+
+    /* Search section
+----------------------------------------------------------*/
+
+div.search-container,
+.search-section {
+
+    #Clearfix;
+    
+    label{padding-top: 6px;}
+
+    input[type=text]{
+        //float:left;
+        //margin-right: 3px;
+    }
+
+}
+
+
     /*Container
 ---------------------------------------------------------*/
     .box {
@@ -992,6 +1022,10 @@ span.smaller {
         width: 100px;
     }
 
+
+   
+
+
  /*Vendor adaptions
 ---------------------------------------------------------*/
 
@@ -999,6 +1033,9 @@ span.smaller {
     /*Font-awesome icons adaptions
 ---------------------------------------------------------*/
     //
+    i:hover {text-decoration: none;}
+
+    
     .SimpleTextLink {
         .fa-check-square-o, .fa-square-o {
             margin-top: 1px;

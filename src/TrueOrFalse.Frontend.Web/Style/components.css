@@ -40,25 +40,4 @@ ul.ui-autocomplete a.CatListItem span {
 ul.ui-autocomplete a.CatListItem span.NumberQuestions {
   font-style: italic;
 }
-/* Containers
-----------------------------------------------------------*/
-div.search-container:before,
-.search-section:before,
-div.search-container:after,
-.search-section:after {
-  content: " ";
-  display: table;
-}
-div.search-container:after,
-.search-section:after {
-  clear: both;
-}
-div.search-container label,
-.search-section label {
-  padding-top: 6px;
-}
-div.search-container button img,
-.search-section button img {
-  height: 18px;
-}
 /*# sourceMappingURL=components.css.map */
