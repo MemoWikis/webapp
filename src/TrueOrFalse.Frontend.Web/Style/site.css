@@ -664,8 +664,6 @@ fieldset[disabled] #MenuButton {
   pointer-events: none;
   opacity: 0.65;
   filter: alpha(opacity=65);
-  opacity: 0.0065;
-  filter: alpha(opacity=0.65);
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -715,8 +713,6 @@ fieldset[disabled] #MenuButton {
 #MenuButton[disabled] {
   cursor: default;
   background-image: none;
-  opacity: 65;
-  filter: alpha(opacity=6500);
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
@@ -834,8 +830,6 @@ fieldset[disabled] #MenuButton:hover {
   pointer-events: none;
   opacity: 0.65;
   filter: alpha(opacity=65);
-  opacity: 0.0065;
-  filter: alpha(opacity=0.65);
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -885,8 +879,6 @@ fieldset[disabled] #MenuButton:hover {
 #MenuButton:hover[disabled] {
   cursor: default;
   background-image: none;
-  opacity: 65;
-  filter: alpha(opacity=6500);
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;

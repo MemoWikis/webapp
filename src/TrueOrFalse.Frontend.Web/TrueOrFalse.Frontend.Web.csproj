@@ -370,6 +370,9 @@
     <Content Include="Style\bootstrap\bootstrap\carousel.css">
       <DependentUpon>carousel.less</DependentUpon>
     </Content>
+    <Content Include="Style\bootstrap\bootstrap\mixins.css">
+      <DependentUpon>mixins.less</DependentUpon>
+    </Content>
     <Content Include="Style\bootstrap\bootstrap\pager.css">
       <DependentUpon>pager.less</DependentUpon>
     </Content>
@@ -552,6 +555,9 @@
       <DependentUpon>memucho_overrides.css</DependentUpon>
     </Content>
     <Content Include="Style\drafts.less" />
+    <Content Include="Style\z_mixins_2.3.2.css.map">
+      <DependentUpon>z_mixins_2.3.2.css</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\font-awesome.css" />
@@ -561,6 +567,9 @@
     </Content>
     <Content Include="Style\site.css">
       <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Style\z_mixins_2.3.2.css">
+      <DependentUpon>z_mixins_2.3.2.less</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
