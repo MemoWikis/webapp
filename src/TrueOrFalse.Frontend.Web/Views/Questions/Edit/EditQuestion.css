@@ -257,6 +257,18 @@
 .headerControls {
   margin-left: 10px;
 }
+.aside .columnControlsFull {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 992px) {
+  .aside .columnControlsFull {
+    float: left;
+    width: 100%;
+  }
+}
 .columnLabel {
   position: relative;
   float: left;
