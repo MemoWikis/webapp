@@ -272,64 +272,33 @@
 .columnLabel {
   position: relative;
   float: left;
-  width: 25%;
+  width: 100%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
-}
-@media (max-width: 479px) {
-  .columnLabel {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-  }
+  text-align: left !important;
 }
 .columnControlsFull {
   position: relative;
   float: left;
-  width: 75%;
+  width: 100%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
-}
-@media (max-width: 479px) {
-  .columnControlsFull {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-  }
-}
-.aside .columnControlsFull {
-  position: relative;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (min-width: 992px) {
-  .aside .columnControlsFull {
-    float: left;
-    width: 100%;
-  }
 }
 .columnControlsSmall {
   position: relative;
   float: left;
-  width: 8.33333333%;
+  width: 50%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
-  width: 37.5%;
 }
 @media (max-width: 479px) {
   .columnControlsSmall {
     float: none;
     width: 100%;
     margin-left: 0;
-  }
-}
-@media (min-width: 480px) {
-  .noLabel {
-    margin-left: 25%;
   }
 }
 #txtNewRelatedCategory {

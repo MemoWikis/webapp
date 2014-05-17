@@ -845,6 +845,9 @@
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Scripts\MM.ValuationPerRow.ts" />
+    <Content Include="Views\Questions\Edit\Js\References.js">
+      <DependentUpon>References.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Js\ToQuestionSet.js">
       <DependentUpon>ToQuestionSet.ts</DependentUpon>
     </Content>
@@ -866,6 +869,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
@@ -1076,6 +1080,9 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js.map">
       <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\References.js.map">
+      <DependentUpon>References.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

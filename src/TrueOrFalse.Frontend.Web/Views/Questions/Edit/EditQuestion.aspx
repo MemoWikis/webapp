@@ -87,7 +87,7 @@
                         </div>
                         <div class="radio">
                             <label style="font-weight: normal">
-				<%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends, new { disabled = true} )  %>
+                                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends, new { disabled = true} )  %>
                                 für mich und meine Freunde<br/> <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span>
                             </label>
                         </div>
@@ -191,17 +191,31 @@
                 </div>
                     
                 <div class="form-group">
-                    <label class="columnLabel control-label">Quellen</label>
-                    <div class="columnControlsSmall">
-                        <input class="form-control" type="text" />
-                    </div>
-                    <div class="columnControlsSmall">
-                        <select class="form-control ">
-                            <option>Wikipedia</option>
-                            <option>Webseite</option>
-                            <option>Offline: Buch</option>
-                            <option>Offline: Zeitung/Zeitschrift</option>
+                    <label class="columnLabel control-label">Quellen 
+                        <span style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</span>
+                    </label>
+                    
+                    <div id="references"></div>
+                    
+<%--                    <div class="xxs-stack col-xs-4">
+                        <select class="form-control">
+                            <option>Url</option>
+                            <optgroup label="Offline">
+                                <option>Buch</option>
+                                <option>Zeitung/Zeitschrift</option>
+                            </optgroup>
+
                         </select>
+                    </div>
+                    <div class="xxs-stack col-xs-8">
+                        <input class="form-control" type="text" />
+                    </div>--%>
+
+                </div>
+                
+                <div class="form-group">
+                    <div class="noLabel columnControlsFull ButtonContainer">
+                        <button class="btn" id="addChoice">Quelle hinzufügen</button>
                     </div>
                 </div>
                     
@@ -213,8 +227,8 @@
                             Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
                             wie zum Beispiel bei Wikipedia-Einträgen. 
                             <a href="" target="_blank">mehr erfahren</a> <br />
-                            Die Frage und Anwort ist meine eigene Arbeit und
-                            nicht aus urheberichtlich geschützten Quellen kopiert. 
+                            Die Frage und Anwort sind meine eigene Arbeit und
+                            nicht aus urheberrechtlich geschützten Quellen kopiert. 
                             <a href="" target="_blank">mehr erfahren</a>
                         </div>
                     </div>
