@@ -2123,8 +2123,6 @@ fieldset[disabled] .btn {
   pointer-events: none;
   opacity: 0.65;
   filter: alpha(opacity=65);
-  opacity: 0.0065;
-  filter: alpha(opacity=0.65);
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -5308,8 +5306,6 @@ a.list-group-item-danger.active:focus {
   text-shadow: 0 1px 0 #ffffff;
   opacity: 0.2;
   filter: alpha(opacity=20);
-  opacity: 0.002;
-  filter: alpha(opacity=0.2);
 }
 .close:hover,
 .close:focus {
@@ -5318,8 +5314,6 @@ a.list-group-item-danger.active:focus {
   cursor: pointer;
   opacity: 0.5;
   filter: alpha(opacity=50);
-  opacity: 0.005;
-  filter: alpha(opacity=0.5);
 }
 button.close {
   padding: 0;
@@ -5395,8 +5389,6 @@ button.close {
 .modal-backdrop.in {
   opacity: 0.5;
   filter: alpha(opacity=50);
-  opacity: 0.005;
-  filter: alpha(opacity=0.5);
 }
 .modal-header {
   padding: 15px;
@@ -5462,8 +5454,6 @@ button.close {
 .tooltip.in {
   opacity: 0.9;
   filter: alpha(opacity=90);
-  opacity: 0.009;
-  filter: alpha(opacity=0.9);
 }
 .tooltip.top {
   margin-top: -3px;
@@ -5727,8 +5717,6 @@ button.close {
   width: 15%;
   opacity: 0.5;
   filter: alpha(opacity=50);
-  opacity: 0.005;
-  filter: alpha(opacity=0.5);
   font-size: 20px;
   color: #ffffff;
   text-align: center;
@@ -5745,8 +5733,6 @@ button.close {
   text-decoration: none;
   opacity: 0.9;
   filter: alpha(opacity=90);
-  opacity: 0.009;
-  filter: alpha(opacity=0.9);
 }
 .carousel-control .icon-prev,
 .carousel-control .icon-next,
@@ -6275,8 +6261,6 @@ button.close {
 .btn[disabled] {
   cursor: default;
   background-image: none;
-  opacity: 65;
-  filter: alpha(opacity=6500);
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;

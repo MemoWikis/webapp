@@ -19,7 +19,7 @@ $(function () {
         nextCatId++;
         var catText = $("#txtNewRelatedCategory").val();
         console.log($("#txtNewRelatedCategory").data("category-id"));
-        $("#txtNewRelatedCategory").before(
+        $("#CatInputContainer").before(
             "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
                 "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
                 "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" +
@@ -64,8 +64,8 @@ $(function () {
 
 		    return $("<li></li>")
 				.data("ui-autocomplete-item", item)
-				.append("<a><img src='" + item.imageUrl + "'/><span class='cat-name'>"
-				    + item.name + "</span><br><i>" + item.numberOfQuestions + " Fragen</i></a>")
+				.append("<a class='CatListItem'><img src='" + item.imageUrl + "'/><div class='CatDescription'><span class='cat-name'>"
+				    + item.name + "</span><span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span></div></a>")
 				.appendTo(ul);
 		};
 

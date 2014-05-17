@@ -266,12 +266,12 @@ a.SimpleTextLink .TextSpan {
   vertical-align: middle;
 }
 @media (max-width: 767px) {
-  .show-tooltip {
+  .fa-question-circle.show-tooltip {
     display: none !important;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
-  .show-tooltip {
+  .fa-question-circle.show-tooltip {
     display: none !important;
   }
 }
@@ -664,8 +664,6 @@ fieldset[disabled] #MenuButton {
   pointer-events: none;
   opacity: 0.65;
   filter: alpha(opacity=65);
-  opacity: 0.0065;
-  filter: alpha(opacity=0.65);
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -715,8 +713,6 @@ fieldset[disabled] #MenuButton {
 #MenuButton[disabled] {
   cursor: default;
   background-image: none;
-  opacity: 65;
-  filter: alpha(opacity=6500);
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
@@ -834,8 +830,6 @@ fieldset[disabled] #MenuButton:hover {
   pointer-events: none;
   opacity: 0.65;
   filter: alpha(opacity=65);
-  opacity: 0.0065;
-  filter: alpha(opacity=0.65);
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -885,8 +879,6 @@ fieldset[disabled] #MenuButton:hover {
 #MenuButton:hover[disabled] {
   cursor: default;
   background-image: none;
-  opacity: 65;
-  filter: alpha(opacity=6500);
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
@@ -1314,12 +1306,19 @@ ul.show-tooltip-ul {
 }
 /* Labels
 ----------------------------------------------------------*/
+.label {
+  border: 2px solid;
+  border-radius: 4px;
+  color: #2e487b;
+  display: inline-block;
+}
 .label-category {
-  background-color: #2c5fb2;
+  background-color: #e7ecf6;
+  border-color: #99ccff;
 }
 .label-set {
-  background-color: #ffd700;
-  color: black;
+  background-color: #fdf8dc;
+  border-color: #ffd700;
 }
 /*FORMS
 ---------------------------------------------------------*/
@@ -1341,6 +1340,23 @@ input[type="color"],
 textarea,
 select {
   color: #2e487b;
+}
+/* Search section
+----------------------------------------------------------*/
+div.search-container:before,
+.search-section:before,
+div.search-container:after,
+.search-section:after {
+  content: " ";
+  display: table;
+}
+div.search-container:after,
+.search-section:after {
+  clear: both;
+}
+div.search-container label,
+.search-section label {
+  padding-top: 6px;
 }
 /*Container
 ---------------------------------------------------------*/
@@ -1536,11 +1552,21 @@ div.box-main .box-content {
   height: 36px;
   width: 100px;
 }
+/*Vendor adaptions
+---------------------------------------------------------*/
 /*Font-awesome icons adaptions
 ---------------------------------------------------------*/
+i:hover {
+  text-decoration: none;
+}
 .SimpleTextLink .fa-check-square-o,
 .SimpleTextLink .fa-square-o {
   margin-top: 1px;
+}
+/*UI adaptions
+---------------------------------------------------------*/
+ul.ui-autocomplete {
+  z-index: 2;
 }
 /**************/
 .navLinks {

@@ -66,19 +66,10 @@ a {
         .TextSpan {
             vertical-align: middle;
         }
-
     }
-
-    //temp start
-
-    a.SimpleTextLink {
-        
-    }
-
-    //temp end
 }
 
-.show-tooltip {
+.fa-question-circle.show-tooltip {
     .hidden-xs;
     .hidden-sm;
 }
@@ -582,7 +573,7 @@ img {
                 border-left: none;
             }
             &:last-child .btn {
-                border-right: none;
+                 border-right: none;
             }
         }
     }
@@ -791,18 +782,51 @@ span.smaller {
 
     /* Labels
 ----------------------------------------------------------*/
+    
+    .label {
+        border: 2px solid;
+        border-radius: 4px;
+        color: @dark-blue;
+        display: inline-block;
+    }
+    
     .label-category {
-        background-color: @link-blue;
+        //background-color: @link-blue;
+        background-color: @light-blue;
+        border-color: @middle-blue;
     }
 
     .label-set {
-        #set-scheme;
+        //#set-scheme;
+        background-color: @pastel-yellow;
+        border-color: @middle-yellow;
     }
+
+   
     /*FORMS
 ---------------------------------------------------------*/
     input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, textarea, select {
         color: @dark-blue;
     }
+
+    /* Search section
+----------------------------------------------------------*/
+
+div.search-container,
+.search-section {
+
+    #Clearfix;
+    
+    label{padding-top: 6px;}
+
+    input[type=text]{
+        //float:left;
+        //margin-right: 3px;
+    }
+
+}
+
+
     /*Container
 ---------------------------------------------------------*/
     .box {
@@ -868,7 +892,6 @@ span.smaller {
     div.box-main .box-content {
         padding-top: 15px;
     }
-
 
 
     .box-with-tabs,
@@ -998,14 +1021,33 @@ span.smaller {
         height: 36px;
         width: 100px;
     }
+
+
+   
+
+
+ /*Vendor adaptions
+---------------------------------------------------------*/
+
     /*Font-awesome icons adaptions
 ---------------------------------------------------------*/
     //
+    i:hover {text-decoration: none;}
+
+    
     .SimpleTextLink {
         .fa-check-square-o, .fa-square-o {
             margin-top: 1px;
         }
     }
+
+/*UI adaptions
+---------------------------------------------------------*/
+
+ul.ui-autocomplete {
+    z-index: 2;
+}
+
 
 /**************/
 .navLinks {

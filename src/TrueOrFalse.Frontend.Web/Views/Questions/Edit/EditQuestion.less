@@ -3,7 +3,6 @@
 @import (reference) '../../../Style/includes/colors.less';
 @import (reference) '../../../Style/includes/shared.less';
 
-.test {color: red;}
 
 .contextMenu {
     margin-top: -1px; padding: 10px; border-color: #ccc; margin-bottom: 0;
@@ -56,28 +55,64 @@
     margin-left: 10px;
 }
 
-.columnLabel {
-    .make-xs-column(@grid-width-label-xs);
-    .xxs-stack;
+//Form columns
+
+.aside .columnControlsFull {
+    .make-md-column(@grid-columns);
 }
 
-.columnControlsFull {
-    .xxs-stack;
-    .make-xs-column(@grid-width-controls-full-xs);
+@labels-stacked: false; //TRUE for having labels stacked
 
-    .aside & {
-        .make-md-column(@grid-columns);
+.FormColumnGrid (@labels-stacked);//conditional styles
+
+//Form grid styles with labels stacked 
+
+.FormColumnGrid (@labels-stacked) when (@labels-stacked) {
+
+    .columnLabel {
+       .make-xs-column(12);
+        text-align: left !important;
+    }
+
+    .columnControlsFull {
+        .make-xs-column(12);
+    }
+
+    .columnControlsSmall {
+        .make-xs-column(6);
+        .xxs-stack;
     }
 }
 
-.columnControlsSmall {
-    .xxs-stack;
-    .make-xs-column(@grid-width-controls-small-xs);
+//Form grid styles with labels as seperate column 
+
+.FormColumnGrid (@labels-stacked) when (default()) {
+    
+    .columnLabel {
+       .make-xs-column(@grid-width-label-xs);
+       .xxs-stack;
+    }
+
+    .columnControlsFull {
+        .xxs-stack;
+        .make-xs-column(@grid-width-controls-full-xs);
+
+        .aside & {
+            .make-md-column(@grid-columns);
+        }
+    }
+
+    .columnControlsSmall {
+        .make-xs-column(1);
+        width: percentage(1/@grid-columns*@grid-width-controls-full-xs/2);
+        .xxs-stack;
+    }
+
+    .noLabel {
+        .make-xs-column-offset(@grid-width-label-xs);
+    }
 }
 
-.noLabel {
-    .make-xs-column-offset(@grid-width-label-xs);
-}
 
 #txtNewRelatedCategory {
     float: left;
@@ -97,5 +132,58 @@
 }
 
 .subForm label {
-             text-align: left;
-         }
+    text-align: left;
+}
+
+//Multiple Choice
+
+#choices {
+
+    .input-group-addon {
+        min-width: 155px;
+        text-align: left;
+    }
+
+    @media (max-width: @screen-xxs-max) {
+
+        .input-group {
+            display: block;
+
+
+            input {
+                border-bottom-left-radius: @input-border-radius !important;
+                border-bottom-right-radius: @input-border-radius !important;
+                border-top-right-radius: 0 !important;
+            }
+        }
+
+        .input-group-addon {
+            line-height: 20px;
+            display: block;
+            width: auto;
+            border: 1px solid @input-group-addon-border-color !important;
+            border-bottom: none !important;
+            border-top-right-radius: @input-border-radius !important;
+            border-bottom-left-radius: 0 !important;
+            padding-right: 20px;
+
+            & + .CloseButton {
+                border-bottom-right-radius: @input-border-radius;
+            }
+
+        }
+
+        .CloseButton {
+
+            position: static;
+
+
+            a.btn {
+                position: absolute;
+                right: 0;
+                top: 0;
+                border-bottom-right-radius: 0;
+            }
+        }
+    }
+}

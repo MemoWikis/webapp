@@ -11,6 +11,7 @@ namespace TrueOrFalse.View
             /* CSS */
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                   "~/Style/bootstrap/bootstrap.css",
+                  "~/Style/includes/shared.css",
                   "~/Style/*.css",
                   "~/Style/smoothness/jquery-ui.css", 
                   "~/Style/zocial/css/zocial.css"));

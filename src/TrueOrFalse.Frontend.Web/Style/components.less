@@ -5,25 +5,50 @@
 @import (reference) 'includes/colors.less';
 @import (reference) 'includes/shared.less';
 
-/* STYLES
+/* CATEGORIES
 ----------------------------------------------------------*/
 
+//Categories input field with dropdown list
 
-
-div.search-container,
-.search-section {
-
+#CatInputContainer {
+    width: 50%;
+    padding-right: @grid-gutter-width/2;
+    float: left;
     #Clearfix;
-    
-    label{padding-top: 6px;}
+    .media-below-xs ({
+        width: 100%;
+        padding-right: 0;
+    });
+}
 
-    input[type=text]{
-        //float:left;
-        //margin-right: 3px;
-    }
+ul.ui-autocomplete {
 
-    
-    button img{
-        height: 18px;
+    a.CatListItem {
+
+        #Clearfix;
+        border: 1px transparent solid;
+        padding: 5px !important;
+
+        img {
+            float: left;
+            border-radius: 4px;
+        }
+
+        .CatDescription {
+            margin-left: 55px;
+        }
+
+        span {
+            display: block;
+
+            &.NumberQuestions {
+                font-style: italic;
+            }
+
+        }
     }
 }
+
+
+
+
