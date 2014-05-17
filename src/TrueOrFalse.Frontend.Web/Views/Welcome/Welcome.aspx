@@ -79,60 +79,59 @@
                 <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
             </div>
         </div>
-
-        <h3><a name="teaser1">Wie hilft dir MEMuchO?</a></h3>
-        <p>
-            MEMuchO hilft dir dabei: 
-            <ul>
-                <li>
-                    <b>Schneller zu lernen:</b>
-                    <p>
-                        MEMuchO analysiert Dein Lernverhalten und 
-                        versucht den optimalen Zeitpunkt für eine 
-                        benötigte Wiederholung von Wissen zu ermitteln. 
-                        So kannst du schneller lernen.
-                    </p>
-                    <p>
-                        (Die Analyse von Lernverhalten funktioniert nur wenn wir viele Daten sammeln: 
-                        Zu diesem Thema mehr hier: <a href="/Hilfe/DatenSicherheit">Hilfe Datenansicht</a>)
-                    </p>
-                </li>
-                <li>
-                    <b>Zu überblicken was du weist und was du wissen möchtest.</b>
-                    <p>
-                        Du möchtest dir 50, 500, 5000 (oder mehr) Fakten merken. 
-                        Wir helfen dir dabei den Überblick zu behalten. 
-                    </p>
-                </li>
-                <li>
-                    <b>Zu einen genauern Termin zu lernen:</b>
-                    <p>
-                        Eine Klassenarbeit, eine Prüfung, ein wichtiges Gespräch steht an? 
-                        Du kannst Termine anlegen und bestimmen, was du zu diesem Termin
-                        als Faktenwissen abrufen möchtest.
-                    </p>
-                    <p>
-                        Dabei hast du genau im Blick, welches Wissen du schon sicher kannst und
-                        wo du noch weiter üben musst. 
-                    </p> 
-                    <p>
-                        MEMuchO erinnert Dich an Termine und 
-                        informiert Dich darüber, was es noch zu lernen gibt. 
-                    </p>
-                </li>
-            </ul>
-        </p>
-
+        <div class="well">
+            <h3><a name="teaser1">MEMuchO hilft dir ...</a></h3>
+            <p>
+                <ul>
+                    <li>
+                        <b>...schneller zu lernen.</b>
+                        <p>
+                            MEMuchO analysiert dein Lernverhalten und 
+                            versucht den optimalen Zeitpunkt für eine 
+                            benötigte Wiederholung von Wissen zu ermitteln. 
+                            So kannst du schneller lernen.
+                        </p>
+                        <p>
+                            (Die Analyse von Lernverhalten funktioniert nur wenn wir viele Daten sammeln: 
+                            Zu diesem Thema mehr hier: <a href="/Hilfe/DatenSicherheit">Hilfe Datenansicht</a>)
+                        </p>
+                    </li>
+                    <li>
+                        <b>...zu überblicken, was du weißt und was du wissen möchtest.</b>
+                        <p>
+                            Du möchtest dir 50, 500, 5000 (oder mehr) Fakten merken. 
+                            Wir helfen dir dabei den Überblick zu behalten. 
+                        </p>
+                    </li>
+                    <li>
+                        <b>...zu einem bestimmten Termin zu lernen.</b>
+                        <p>
+                            Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? 
+                            Du kannst Termine anlegen und bestimmen, was du zu diesem Termin
+                            als Faktenwissen abrufen möchtest.
+                        </p>
+                        <p>
+                            Dabei hast du genau im Blick, welches Wissen du schon sicher kannst und
+                            wo du noch weiter üben musst. 
+                        </p> 
+                        <p>
+                            MEMuchO erinnert dich an Termine und 
+                            informiert dich darüber, was es noch zu lernen gibt. 
+                        </p>
+                    </li>
+                </ul>
+            </p>
+        </div>
         <h3><a name="teaser2">Unsere Prinzipien</a></h3>
         <ul>
             <li>
-                <b>Wikipedia Prinzip</b>
+                <b>Wikipedia-Prinzip</b>
                 <p>
                     In MEMuchO unterliegen öffentliche Inhalte einer
                     Creative Commons Lizenz. Genau wie die Mehrheit der Einträge auf Wikipedia.
                             
                     Öffentliche MEMuchO-Inhalte können also von jedermann 
-                    kostenfrei und ohne Einschränkungen verwendet werden. 
+                    kostenfrei und ohne Einschränkungen verwendet werden.
                 
                     <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.de">Zum Lizenztext: 
                         <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" />
@@ -147,7 +146,7 @@
                 <b>Gemeinwohlorientierung</b><br/>
                 <p>
                     Wir möchten unser Unternehmen auf  
-                    <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohl-fördernden Werten</a> aufbauen.
+                    <a href="http://www.gemeinwohl-oekonomie.org/de">gemeinwohlfördernden Werten</a> aufbauen.
                 </p>
                 <p>
                     Zu den Ideen der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> gehört zum Beispiel: 
@@ -161,7 +160,7 @@
             <li>
                 <b>Open-Source</b>
                 <p>
-                    Die Software mit der MEMuchO läuft, steht unter einer Open Source Lizenz.
+                    Die Software, mit der MEMuchO läuft, steht unter einer Open-Source-Lizenz.
                     Die Quelltexte findest du auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
                 </p> 
             </li>        
@@ -189,7 +188,7 @@
                     sondern auch ein stabiles <a href="#teaser2">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
                 </p>
                 <p>
-                    Wir konzepieren, programmieren und gestalten.
+                    Wir konzipieren, programmieren und gestalten.
                 </p>
             </div>
         </div>
