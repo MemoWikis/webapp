@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CategoryPrintDaily : ICategoryType
+public class CategoryDaily : ICategoryType
 {
     public string Url;
 }

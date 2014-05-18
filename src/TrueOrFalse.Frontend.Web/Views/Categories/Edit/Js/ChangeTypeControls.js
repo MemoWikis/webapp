@@ -1,6 +1,14 @@
 ﻿$(function () {
+    var isEditing = $("#isEditing").val() == "true";
+
     function updateTypeBody() {
-        var selectedValue = $("#ddlCategoryType").val();
+        var selectedValue;
+        if (isEditing) {
+            selectedValue = $("#categoryType").val();
+        } else {
+            selectedValue = $("#ddlCategoryType").val();
+        }
+
         $.ajax({
             url: '/EditCategory/DetailsPartial?categoryId=' + $("#categoryId").val() + '&type=' + selectedValue,
             type: 'GET',
@@ -10,7 +18,10 @@
         });
     }
 
-    $("#ddlCategoryType").change(updateTypeBody);
+    if (!isEditing) {
+        $("#ddlCategoryType").change(updateTypeBody);
+    }
+
     updateTypeBody();
 });
 //# sourceMappingURL=ChangeTypeControls.js.map

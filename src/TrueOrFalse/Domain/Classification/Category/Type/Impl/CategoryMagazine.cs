@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CategoryStandard : ICategoryType
+public class CategoryMagazine : ICategoryType
 {
-    public string WikiUrl;
+    public string Url;
 }
+

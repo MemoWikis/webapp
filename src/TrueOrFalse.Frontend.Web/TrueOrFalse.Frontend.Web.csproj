@@ -572,14 +572,20 @@
     <Content Include="Style\z_mixins_2.3.2.css">
       <DependentUpon>z_mixins_2.3.2.less</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
+      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\Book.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\PrintDailyIssueArticle.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\PrintDailyIssue.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Magazine.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\MagazineArticle.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\DailyArticle.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\MagazineIssue.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\DailyIssue.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Standard.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\PrintDaily.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Daily.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Website.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
@@ -1092,6 +1098,9 @@
     </Content>
     <Content Include="Views\Questions\Edit\Js\References.js.map">
       <DependentUpon>References.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js.map">
+      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

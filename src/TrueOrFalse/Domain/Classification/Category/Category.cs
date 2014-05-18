@@ -20,8 +20,11 @@ namespace TrueOrFalse
         public virtual int CountSets { get; set; }
         public virtual int CountCreators { get; set; }
 
+        public virtual CategoryType Type { get; set; }
+
         public Category(){
             ParentCategories = new List<Category>();
+            Type = CategoryType.Standard;
         }
 
         public Category(string name) : this(){

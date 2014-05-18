@@ -7,5 +7,4 @@ using System.Threading.Tasks;
 public class CategoryBook : ICategoryType
 {
     public string ISBN;
-
 }

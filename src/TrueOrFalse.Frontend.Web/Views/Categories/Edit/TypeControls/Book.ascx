@@ -1,3 +1,8 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<dynamic>" %>
+﻿<%@ Control Language="C#" Inherits="ViewUserControl<CategoryBook>" %>
 
-<h1>Book</h1>
+<div class="form-group">
+    <label class="col-sm-3 control-label" for="WikipediaURL">ISBN - Nummer</label>
+    <div class="col-xs-4">
+        <input class="form-control" id="WikipediaURL2" name="WikipediaURL" type="text" value="">    
+    </div>
+</div>

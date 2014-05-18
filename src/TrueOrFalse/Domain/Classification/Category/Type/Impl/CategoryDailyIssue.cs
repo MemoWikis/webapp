@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CategoryPrintDailyArticle : ICategoryType
-{    
-    public int IssueId;
+public class CategoryDailyIssue : ICategoryType
+{
+    public int PrintDailyId;
+
+    public int Year;
+    public int No;
 }
 

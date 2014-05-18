@@ -22,6 +22,8 @@ namespace TrueOrFalse
             Map(x => x.CountSets);
             Map(x => x.CountCreators);
 
+            Map(x => x.Type);
+
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
             HasManyToMany(x => x.ParentCategories).Table("relatedcategoriestorelatedcategories").ChildKeyColumn("Related_Id");
