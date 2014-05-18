@@ -5,7 +5,6 @@
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/lib.d.ts" />
 
-
 $(function () {
     $('#Question').defaultText();
     $('#Description').defaultText();
@@ -19,4 +18,14 @@ $(function () {
         
     });
 
+    function updateSolutionBody() {
+        var selectedValue = $("#ddlAnswerType").val();
+        $.ajax({
+            url: $("#urlSolutionEditBody").val() + '?questionId=' + $("#questionId").val() +  '&type=' + selectedValue,
+            type: 'GET',
+            success: function (data) { $("#answer-body").html(data); }
+        });
+    }
+    $("#ddlAnswerType").change(updateSolutionBody);
+    updateSolutionBody();
 });

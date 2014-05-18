@@ -10,6 +10,7 @@ public class EditCategoryController : BaseController
 {
     private readonly CategoryRepository _categoryRepository;
     private const string _viewPath = "~/Views/Categories/Edit/EditCategory.aspx";
+    private const string _viewPathTypeControls = "~/Views/Categories/Edit/TypeControls/{0}.ascx";
 
     public EditCategoryController(CategoryRepository categoryRepository)
     {
@@ -97,6 +98,19 @@ public class EditCategoryController : BaseController
                 model.Name));
 
         return Redirect("/Kategorien/Bearbeite/" + category.Id);
+    }
+
+    public ActionResult DetailsPartial(int? categoryId, CategoryType type)
+    {
+        object model = null;
+
+        if (categoryId.HasValue && categoryId.Value > 0)
+        {
+            var question = _categoryRepository.GetById(categoryId.Value);
+            model = new GetQuestionSolution().Run(question);
+        }
+
+        return View(string.Format(_viewPathTypeControls, type), model);
     }
 
     private void StoreImage(int categoryId)

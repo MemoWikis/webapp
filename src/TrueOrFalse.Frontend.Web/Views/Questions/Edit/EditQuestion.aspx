@@ -17,6 +17,7 @@
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
     
 <input type="hidden" id="questionId" value="<%= Model.Id %>"/>
+<input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
     <div class="row">
@@ -159,22 +160,8 @@
                         <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType", @class="form-control"})%>
                     </div>
                 </div>
-                <div id="answer-body">
-                </div>
-                <script type="text/javascript">
-                    function updateSolutionBody() {
-                        var selectedValue = $("#ddlAnswerType").val();
-                        $.ajax({
-                            url: '<%=Url.Action("SolutionEditBody", "EditQuestion") %>?questionId=<%:Model.Id %>&type=' + selectedValue,
-                            type: 'GET',
-                            beforeSend: function () { /* some loading indicator */ },
-                            success: function (data) { $("#answer-body").html(data); },
-                            error: function (data) { /* handle error */ }
-                        });
-                    }
-                    $("#ddlAnswerType").change(updateSolutionBody);
-                    updateSolutionBody();
-                </script>
+                
+                <div id="answer-body"></div>
                     
                 <div class="form-group markdown">
                     <label class="columnLabel control-label">

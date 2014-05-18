@@ -43,27 +43,65 @@
                 <%: Html.HiddenFor(m => m.ImageGuid) %>
                 <%: Html.HiddenFor(m => m.ImageLicenceOwner) %>
                 <input type="hidden" id="isCategoryEdit" value="true"/>
+                <input type="hidden" id="categoryId" value="<%= Model.IsEditing ?  Model.Category.Id.ToString() : "" %>"/>
 
                 <% Html.Message(Model.Message); %>
     
                 <div class="form-group">
                     <%= Html.LabelFor(m => m.Name, new {@class="col-sm-3 control-label"} ) %>
-                    <div class="col-xs-4">
-                        <%= Html.TextBoxFor(m => m.Name, new {@class="form-control"} ) %>    
+                    <div class="col-xs-7">
+                        <%= Html.TextBoxFor(m => m.Name, new {@class="form-control"} ) %>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <%= Html.LabelFor(m => m.Description, new {@class="col-sm-3 control-label"} ) %>
-                    <div class="col-xs-6">
+                    <div class="col-xs-9">
                         <%= Html.TextAreaFor(m => m.Description, new {@class="form-control"} ) %>
                         <% %>
                     </div>
                 </div>
             
                 <div class="form-group">
+                    <label class="col-sm-3 control-label">Typ</label>
+                    <div class="col-xs-9">
+                        <select class="form-control" id="ddlCategoryType">
+                            <option value="Standard">Standard</option>
+                            <optgroup label="Internet">
+                                <option value="Website">Webseite</option>
+                                <option value="WebsiteArticle">Webseite -> Artikel/Eintrag/Meldung/..</option>
+                                <option value="WebsiteVideo">Youtube</option>
+                            </optgroup>
+                            <optgroup label="Druckmedien">
+                                <option value="Book">Buch (auch EBooks)</option>
+                                <option value="PrintDaily">Tageszeitung</option>
+                                <option value="PrintDailyIssue">Tageszeitung -> Ausgabe</option>
+                                <option value="PrintDailyArticle">Tageszeitung -> Artikel</option>
+                                <option value="Magazine">Zeitschrift/Magazin</option>
+                                <option value="MagazineIssue">Zeitschrift/Magazin -> Ausgabe</option>
+                                <option value="MagazineArticle">Zeitschrift/Magazin -> Artikel</option>
+                            </optgroup>
+                            <optgroup label="Film und Fernsehen">
+                                <option value="Movie">Film</option>
+                                <option value="TvShow">Fernsehen</option>
+                                <option value="TvShowEpisode">Fernsehen - Episode/Ausgabe</option>
+                            </optgroup>
+                            <optgroup label="Aus- und Weiterbildung">
+                                <option value="FieldOfStudy">Studienfach</option>
+                                <option value="SchoolSubject">Schulfach</option>
+                                <option value="FieldStudyTrade">Ausbildungsberuf</option>
+                                <option value="Course">Kurs/Seminar</option>
+                                <option value="Certification">Zertifizierung</option>
+                            </optgroup>
+                        </select>
+                    </div>                    
+                </div>
+
+                <div id="details-body"></div>
+            
+                <div class="form-group">
                     <%= Html.LabelFor(m => m.WikipediaURL, new {@class="col-sm-3 control-label"} ) %>
-                    <div class="col-xs-6">
+                    <div class="col-xs-9">
                         <%= Html.TextBoxFor(m => m.WikipediaURL, new {@class="form-control"} ) %>    
                     </div>
                 </div>

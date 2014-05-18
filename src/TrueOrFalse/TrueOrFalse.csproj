@@ -157,6 +157,16 @@
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateSetCountForCategory.cs" />
+    <Compile Include="Domain\Classification\Category\Type\Impl\CategoryPrintDailyArticle.cs" />
+    <Compile Include="Domain\Classification\Category\Type\Impl\CategoryPrintDailyIssue.cs" />
+    <Compile Include="Domain\Classification\Category\Type\Impl\CategoryStandard.cs" />
+    <Compile Include="Domain\Classification\Category\Type\CategoryType.cs" />
+    <Compile Include="Domain\Classification\Category\Type\Impl\CategoryBook.cs" />
+    <Compile Include="Domain\Classification\Category\Type\Impl\CategoryPrintDaily.cs" />
+    <Compile Include="Domain\Classification\Category\Type\Impl\CategoryWebsiteVideo.cs" />
+    <Compile Include="Domain\Classification\Category\Type\Impl\CategoryWebsiteArticle.cs" />
+    <Compile Include="Domain\Classification\Category\Type\Impl\CategoryWebsite.cs" />
+    <Compile Include="Domain\Classification\Category\Type\ICategoryType.cs" />
     <Compile Include="Domain\Knowledge\CorrectnessProbability\CBForAllUsersCalculator.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcCBForQuestions.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishSetCount.cs" />

@@ -15,5 +15,18 @@ $(function () {
 
     $('#ConfirmContentRights').click(function () {
     });
+
+    function updateSolutionBody() {
+        var selectedValue = $("#ddlAnswerType").val();
+        $.ajax({
+            url: $("#urlSolutionEditBody").val() + '?questionId=' + $("#questionId").val() + '&type=' + selectedValue,
+            type: 'GET',
+            success: function (data) {
+                $("#answer-body").html(data);
+            }
+        });
+    }
+    $("#ddlAnswerType").change(updateSolutionBody);
+    updateSolutionBody();
 });
 //# sourceMappingURL=EditQuestion.js.map
