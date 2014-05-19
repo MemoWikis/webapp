@@ -10,7 +10,17 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <div>
+    <div style="margin-top: 20px;">
+        <h4>Flexbox</h4>
+        <div class="flexboxx">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div style="margin-top: 20px;">
+        <h4>Dropdown ohne Control</h4>
+        
         <div class="dropdown">
           <div class="dropdown-toggle" type="" id="dropdownMenu1" data-toggle="dropdown">
             Dropdown
