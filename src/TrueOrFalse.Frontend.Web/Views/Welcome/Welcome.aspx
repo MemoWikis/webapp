@@ -24,60 +24,62 @@
             </ul>
         </div>
             
-        <div class="row" style="padding-top: 0px;">
-            <div class="col-sm-6 col-md-4">
+        <div class="row ThumbnailRow" style="padding-top: 0px;">
+            <div class="ThumbnailColumn">
                 <div class="thumbnail">
                     <img src="http://fillmurray.com/200/200">
                     <div class="caption">
                         <h4>Politik</h4>
                         <p>Wer war der 1. deutsche Bundeskanzler?</p>
-                        <p><a href="#" class="btn btn-primary" role="button">beantworten</a></p>
+                        <a href="#" class="btn btn-primary" role="button">beantworten</a>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="ThumbnailColumn">
                 <div class="thumbnail">
                     <img src="http://placecage.com/200/200">
                     <div class="caption">
                         <h4>Geschichte</h4>
                         <p>...</p>
-                        <p><a href="#" class="btn btn-primary" role="button">beantworten</a></p>
+                        <a href="#" class="btn btn-primary" role="button">beantworten</a>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="ThumbnailColumn">
                 <div class="thumbnail">
                     <img src="http://placecage.com/g/200/200">
                     <div class="caption">
                         <h4>Zitate</h4>
                         <p>...</p>
-                        <p><a href="#" class="btn btn-primary" role="button">beantworten</a></p>
+                        <a href="#" class="btn btn-primary" role="button">beantworten</a>
                     </div>
                 </div>
             </div>
         </div>
-            
-        <div class="media" style="padding-top: 0px; margin-top: 0px">
-            <a class="pull-left" href="#">
-                <img class="media-object" src="http://placebear.com/120/120 " alt="...">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">Streitbare Zitate:</h4>
-                Wer sagte:
-                "Wenn ich über die steuer- und erbrechtliche Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren."
-                <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
+        <div class="panel panel-default">
+            <div class="media panel-body" >
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="http://placebear.com/120/120 " alt="...">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">Streitbare Zitate:</h4>
+                    Wer sagte:
+                    "Wenn ich über die steuer- und erbrechtliche Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren."
+                    <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
+                </div>
             </div>
         </div>
-            
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img class="media-object" src="http://lorempixel.com/120/120/sports/" alt="...">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">Das kann Leben retten:</h4>
-                Ersthelferfragen und Selbstdiagnose. 
-                <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
-            </div>
+            <div class="panel panel-default">
+                <div class="media panel-body" >
+                    <a class="pull-left" href="#">
+                    <img class="media-object" src="http://lorempixel.com/120/120/sports/" alt="...">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">Das kann Leben retten:</h4>
+                    Ersthelferfragen und Selbstdiagnose. 
+                    <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
+                </div>
+           </div>
         </div>
         <div class="well">
             <h3><a name="teaser1">MEMuchO hilft dir ...</a></h3>
@@ -122,77 +124,77 @@
                 </ul>
             </p>
         </div>
-        <h3><a name="teaser2">Unsere Prinzipien</a></h3>
-        <ul>
-            <li>
-                <b>Wikipedia-Prinzip</b>
-                <p>
-                    In MEMuchO unterliegen öffentliche Inhalte einer
-                    Creative Commons Lizenz. Genau wie die Mehrheit der Einträge auf Wikipedia.
-                            
-                    Öffentliche MEMuchO-Inhalte können also von jedermann 
-                    kostenfrei und ohne Einschränkungen verwendet werden.
-                
-                    <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.de">Zum Lizenztext: 
-                        <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" />
-                    </a>
-                </p>
-            </li>
-            <li>
-                <b>Wir werden deine Daten niemals verkaufen.</b>
-                <p>Wir nutzen Daten dafür, um MEMuchO besser zu machen.</p>
-            </li>
-            <li>
-                <b>Gemeinwohlorientierung</b><br/>
-                <p>
-                    Wir möchten unser Unternehmen auf  
-                    <a href="http://www.gemeinwohl-oekonomie.org/de">gemeinwohlfördernden Werten</a> aufbauen.
-                </p>
-                <p>
-                    Zu den Ideen der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> gehört zum Beispiel: 
-                    Unternehmen sollten kooperativ und <i>nicht</i> konkurenzorientiert agieren. 
-                    Daher sollten Information und Know-How geteilt werden.
-                </p>
-            </li>
-            <li>
-                <b>Transparenz!</b>
-            </li>
-            <li>
-                <b>Open-Source</b>
-                <p>
-                    Die Software, mit der MEMuchO läuft, steht unter einer Open-Source-Lizenz.
-                    Die Quelltexte findest du auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
-                </p> 
-            </li>        
-        </ul>
-        <div style="height: 10px;"></div>        
-                
-        <h3><a name="teaser3">Team</a></h3>
-        <div style="width: 280px;">
-                    
-                
-            <div style="width: 128px; float: left; margin: 0px 20px 0 0px; ">
-                <img src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=128"/>
-                    <br/> <b>Robert</b> (Gründer) <br/>
+        <div class="well">
 
-            </div>
+            <h3><a name="teaser2">Unsere Prinzipien</a></h3>
+            <ul>
+                <li>
+                    <b>Wikipedia-Prinzip</b>
+                    <p>
+                        In MEMuchO unterliegen öffentliche Inhalte einer
+                        Creative Commons Lizenz. Genau wie die Mehrheit der Einträge auf Wikipedia.
+                            
+                        Öffentliche MEMuchO-Inhalte können also von jedermann 
+                        kostenfrei und ohne Einschränkungen verwendet werden.
                 
-            <div style="width: 128px; float: left; ">
-                <img src="/Images/no-profile-picture-128.png"/>  
-                <br/> <b>Jule </b>(Gründerin) <br/> 
-            </div>
-            <div style="clear:both"></div>
-            <div style="margin-top: 10px;">
-                <p>
-                    Eine spannende Reise: Wir möchten nicht nur <a href="#teaser1">das Lernen von Faktenwissen vereinfachen</a>, 
-                    sondern auch ein stabiles <a href="#teaser2">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
-                </p>
-                <p>
-                    Wir konzipieren, programmieren und gestalten.
-                </p>
-            </div>
+                        <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.de">Zum Lizenztext: 
+                            <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" />
+                        </a>
+                    </p>
+                </li>
+                <li>
+                    <b>Wir werden deine Daten niemals verkaufen.</b>
+                    <p>Wir nutzen Daten dafür, um MEMuchO besser zu machen.</p>
+                </li>
+                <li>
+                    <b>Gemeinwohlorientierung</b><br/>
+                    <p>
+                        Wir möchten unser Unternehmen auf  
+                        <a href="http://www.gemeinwohl-oekonomie.org/de">gemeinwohlfördernden Werten</a> aufbauen.
+                    </p>
+                    <p>
+                        Zu den Ideen der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> gehört zum Beispiel: 
+                        Unternehmen sollten kooperativ und <i>nicht</i> konkurenzorientiert agieren. 
+                        Daher sollten Information und Know-How geteilt werden.
+                    </p>
+                </li>
+                <li>
+                    <b>Transparenz!</b>
+                </li>
+                <li>
+                    <b>Open-Source</b>
+                    <p>
+                        Die Software, mit der MEMuchO läuft, steht unter einer Open-Source-Lizenz.
+                        Die Quelltexte findest du auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
+                    </p> 
+                </li>        
+            </ul>
         </div>
+        <div class="well Founder">
+            <h3><a name="teaser3">Team</a></h3>
+            <div class="row">
                 
+                <div class="col-xs-6 ImageColumn">
+                    <img src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=128"/>
+                        <br/> <b>Robert</b> (Gründer) <br/>
+
+                </div>
+                
+                <div class="col-xs-6 ImageColumn">
+                    <img src="/Images/no-profile-picture-128.png"/>  
+                    <br/> <b>Jule </b>(Gründerin) <br/> 
+                </div>
+                <div class="col-xs-12" style="margin-top: 10px;">
+                    <p>
+                        Eine spannende Reise: Wir möchten nicht nur <a href="#teaser1">das Lernen von Faktenwissen vereinfachen</a>, 
+                        sondern auch ein stabiles <a href="#teaser2">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
+                    </p>
+                    <p>
+                        Wir konzipieren, programmieren und gestalten.
+                    </p>
+                </div>
+            </div>
+        </div>  
     </div>
             
     <div class="col-md-4">
