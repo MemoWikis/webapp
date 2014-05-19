@@ -18,7 +18,6 @@ $(function () {
         var catId = nextCatId;
         nextCatId++;
         var catText = $("#txtNewRelatedCategory").val();
-        console.log($("#txtNewRelatedCategory").data("category-id"));
         $("#CatInputContainer").before(
             "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
                 "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
