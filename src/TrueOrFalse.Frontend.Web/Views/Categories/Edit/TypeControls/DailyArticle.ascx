@@ -12,10 +12,8 @@
     </div>
 </div>
 
-
 <div class="form-group">
     <div class="col-sm-offset-3 col-xs-9">
         Artikelname = Kategoriename
     </div>
 </div>
-

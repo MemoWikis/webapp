@@ -1,9 +1,10 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 
+
 <div class="form-group">
-    <label class="col-sm-3 control-label" for="ISBN_Nummer">ISBN - Nummer</label>
-    <div class="col-xs-4">
-        <input class="form-control" name="ISBN_Nummer" type="text" value="">    
+    <label class="col-sm-3 control-label" for="Url">IMDB - Url</label>
+    <div class="col-xs-9">
+        <input class="form-control" id="Url" name="Url" type="text" value="" placeholder="http://imdb.com/...">
     </div>
 </div>
 
