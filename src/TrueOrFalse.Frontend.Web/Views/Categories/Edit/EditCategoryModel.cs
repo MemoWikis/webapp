@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Web;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web;
@@ -59,6 +60,10 @@ public class EditCategoryModel : BaseModel
         category.WikipediaURL = WikipediaURL;
         foreach (var name in ParentCategories)
             category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
+
+        if (HttpContext.Current.Request["Url"] != null)
+            category.WikipediaURL = HttpContext.Current.Request["Url"];
+        
         return category;
     }
 

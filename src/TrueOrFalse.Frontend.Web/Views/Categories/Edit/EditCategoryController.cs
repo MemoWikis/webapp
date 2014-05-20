@@ -105,13 +105,13 @@ public class EditCategoryController : BaseController
     public ActionResult DetailsPartial(int? categoryId, CategoryType type)
     {
         object model = null;
+        Category category = null;
 
-        if (categoryId.HasValue && categoryId.Value > 0)
-        {
-            var category = _categoryRepository.GetById(categoryId.Value);
+        if (categoryId.HasValue && categoryId.Value > 0){
+            category = _categoryRepository.GetById(categoryId.Value);
         }
 
-        return View(string.Format(_viewPathTypeControls, type), model);
+        return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category, model));
     }
 
     private void StoreImage(int categoryId)

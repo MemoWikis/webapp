@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="ViewUserControl<CategoryDaily>" %>
+﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 
 <div class="form-group">
     <label class="col-sm-3 control-label" for="WikipediaURL">URL Tagesszeitung</label>
