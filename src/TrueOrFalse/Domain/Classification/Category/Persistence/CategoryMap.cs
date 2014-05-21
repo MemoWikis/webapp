@@ -23,6 +23,7 @@ namespace TrueOrFalse
             Map(x => x.CountCreators);
 
             Map(x => x.Type);
+            Map(x => x.TypeJson);
 
             Map(x => x.DateCreated);
             Map(x => x.DateModified);

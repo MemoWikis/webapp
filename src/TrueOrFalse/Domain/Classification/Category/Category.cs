@@ -22,6 +22,8 @@ namespace TrueOrFalse
 
         public virtual CategoryType Type { get; set; }
 
+        public virtual string TypeJson { get; set; }
+
         public Category(){
             ParentCategories = new List<Category>();
             Type = CategoryType.Standard;
