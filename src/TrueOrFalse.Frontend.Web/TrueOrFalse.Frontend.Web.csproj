@@ -139,9 +139,9 @@
       <HintPath>..\libs\MySql.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -230,6 +230,7 @@
     <Compile Include="Views\Api\ApiBaseController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
+    <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Dates\DatesController.cs" />
     <Compile Include="Views\Dates\DatesModel.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
@@ -585,11 +586,19 @@
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\Book.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Certification.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Course.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\FieldStudyTrade.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\SchoolSubject.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Magazine.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\MagazineArticle.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\DailyArticle.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\MagazineIssue.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\DailyIssue.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\FieldOfStudy.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\TvShowEpisode.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\TvShow.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Movie.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Standard.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Daily.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Website.ascx" />

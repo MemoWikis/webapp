@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Web;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web;
@@ -59,6 +61,19 @@ public class EditCategoryModel : BaseModel
         category.WikipediaURL = WikipediaURL;
         foreach (var name in ParentCategories)
             category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
+
+        var request = HttpContext.Current.Request;
+
+        if (request["ddlCategoryType"] != null)
+            category.Type = (CategoryType) Enum.Parse(typeof (CategoryType), request["ddlCategoryType"]);
+
+        if (request["Url"] != null)
+            category.WikipediaURL = request["Url"];
+
+        if (category.Type == CategoryType.WebsiteVideo)
+            category.TypeJson = new CategoryWebsiteVideo { Url = request["YoutubeUrl"] }.ToJson();
+
+        
         return category;
     }
 

@@ -87,7 +87,6 @@ public class EditCategoryController : BaseController
         model.FillReleatedCategoriesFromPostData(Request.Form);
         var category = model.ConvertToCategory();
         category.Creator = _sessionUser.User;
-        category.Type = (CategoryType)Enum.Parse(typeof(CategoryType), Request["ddlCategoryType"]);
 
         _categoryRepository.Create(category);
         StoreImage(category.Id);
@@ -105,13 +104,16 @@ public class EditCategoryController : BaseController
     public ActionResult DetailsPartial(int? categoryId, CategoryType type)
     {
         object model = null;
+        Category category = null;
 
-        if (categoryId.HasValue && categoryId.Value > 0)
-        {
-            var category = _categoryRepository.GetById(categoryId.Value);
+        if (categoryId.HasValue && categoryId.Value > 0){
+            category = _categoryRepository.GetById(categoryId.Value);
+
+            if (category.Type == CategoryType.WebsiteVideo)
+                model = CategoryWebsiteVideo.FromJson(category.TypeJson);
         }
 
-        return View(string.Format(_viewPathTypeControls, type), model);
+        return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category, model));
     }
 
     private void StoreImage(int categoryId)

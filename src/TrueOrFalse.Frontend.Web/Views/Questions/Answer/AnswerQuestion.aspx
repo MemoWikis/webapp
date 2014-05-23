@@ -42,71 +42,98 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
-        <div class="col-md-8">
-            <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:0px; font-size: 22px;">
-                <%= Model.QuestionText %>
-            </p>
-            
-            <p><%= Model.QuestionTextMarkdown %></p>
-            
-            <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
+        <div class="col-lg-8 col-xs-9 xxs-stack">
+            <ul class="pager" style="margin-top: 0;">
+                <li class="previous <%= Model.HasPreviousPage ? "" : "disabled" %>">
+                    <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
+                </li>
+                <li>
+                    <% if (Model.SourceIsSet){ %>
+                        <a href="<%= Links.SetDetail(Url, Model.Set) %>">
+                            Fragesatz:
+                            <span class="label label-set"><%= Model.Set.Name %></span>
+                        </a>            
+                    <% } %>                                          
+                </li>
+                <li>
+                    <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>                
+                </li>
+                <li class="next">
+                    <% if (Model.HasNextPage) { %>
+                        <a href="<%= Model.NextUrl(Url) %>"><i class="fa fa-arrow-right"></i> </a>
+                    <% } %>                
+                </li>
+            </ul>            
+        </div>
+    </div>
+    <div class="row">
 
-            <div class="alert alert-info" id="divCorrectAnswer" style="display: none; background-color: white; color:#2E487B;">
-                <b>Antwort:</b>
-                <span id="spanCorrectAnswer"></span>
-                <p style="padding-top:10px;">
-                    <b>Erklärung:</b>
-                    <span id="spanAnswerDescription"></span>
+        <div class="col-lg-8 col-xs-9 xxs-stack">
+            <div class="well">
+                <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:0px; font-size: 22px;">
+                    <%= Model.QuestionText %>
                 </p>
-            </div>
-        
-            <div class="alert alert-danger" id="divWrongAnswer" style="display: none">
-                <b>Falsche Antwort </b>
-                <a href="#" id="errorTryCount" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
-                
-                <div style="margin-top:5px;" id="answerFeedback">Du könntest es wenigstens probieren!</div>
-                
-                <div style="margin-top:7px; display: none;" id="divAnswerHistory" >
-                    Historie:
-                    <ul style="padding-top:5px;" id="ulAnswerHistory">
-                    </ul>
-                </div>
-            </div>
-        
-            <div>
-                <input type="hidden" id="hddSolutionMetaDataJson" value="<%: Model.SolutionMetaDataJson %>"/>
-                <%
-                    string userControl = "SolutionType" + Model.SolutionType + ".ascx";
-                    if (Model.SolutionMetadata.IsDate)
-                        userControl = "SolutionTypeDate.ascx";
-                        
-                    Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel); 
-                %>
-            </div>
             
-            <div style="margin-bottom: 10px; margin-top: 10px;">
-                <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
-                <div id="buttons-first-try">
-                    <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
-                    <a href="#" id="btnCheck" class="btn btn-primary pull-right">Antworten</a>
+                <p><%= Model.QuestionTextMarkdown %></p>
+            
+                <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
+
+                <div class="alert alert-info" id="divCorrectAnswer" style="display: none; background-color: white; color:#2E487B;">
+                    <b>Antwort:</b>
+                    <span id="spanCorrectAnswer"></span>
+                    <p style="padding-top:10px;">
+                        <b>Erklärung:</b>
+                        <span id="spanAnswerDescription"></span>
+                    </p>
                 </div>
-                <div id="buttons-next-answer" style="display: none;">
+        
+                <div class="alert alert-danger" id="divWrongAnswer" style="display: none">
+                    <b>Falsche Antwort </b>
+                    <a href="#" id="errorTryCount" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
+                
+                    <div style="margin-top:5px;" id="answerFeedback">Du könntest es wenigstens probieren!</div>
+                
+                    <div style="margin-top:7px; display: none;" id="divAnswerHistory" >
+                        Historie:
+                        <ul style="padding-top:5px;" id="ulAnswerHistory">
+                        </ul>
+                    </div>
+                </div>
+        
+                <div>
+                    <input type="hidden" id="hddSolutionMetaDataJson" value="<%: Model.SolutionMetaDataJson %>"/>
+                    <%
+                        string userControl = "SolutionType" + Model.SolutionType + ".ascx";
+                        if (Model.SolutionMetadata.IsDate)
+                            userControl = "SolutionTypeDate.ascx";
+                        
+                        Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel); 
+                    %>
+                </div>
+            
+                <div style="margin-bottom: 10px; margin-top: 10px;">
+                    <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
+                    <div id="buttons-first-try">
+                        <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
+                        <a href="#" id="btnCheck" class="btn btn-primary pull-right">Antworten</a>
+                    </div>
+                    <div id="buttons-next-answer" style="display: none;">
                     
-                <div class="" id="divAnsweredCorrect" style="display: none; float:left; margin-top:5px; width: 250px;">
-                    <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
-                </div>
-                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success pull-right">N&auml;chste Frage</a>
-                </div>
-                <div id="buttons-edit-answer" style="display: none;">
-                    <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
-                    <a href="#" id="btnEditAnswer" class="btn btn-warning pull-right">Antwort &Uuml;berarbeiten</a>
-                </div>
-                <div id="buttons-answer-again" style="display: none">
-                    <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
-                    <a href="#" id="btnCheckAgain" class="btn btn-warning pull-right">Nochmal Antworten</a>
+                    <div class="" id="divAnsweredCorrect" style="display: none; float:left; margin-top:5px; width: 250px;">
+                        <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
+                    </div>
+                    <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success pull-right">N&auml;chste Frage</a>
+                    </div>
+                    <div id="buttons-edit-answer" style="display: none;">
+                        <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
+                        <a href="#" id="btnEditAnswer" class="btn btn-warning pull-right">Antwort &Uuml;berarbeiten</a>
+                    </div>
+                    <div id="buttons-answer-again" style="display: none">
+                        <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
+                        <a href="#" id="btnCheckAgain" class="btn btn-warning pull-right">Nochmal Antworten</a>
+                    </div>
                 </div>
             </div>
-                        
             <div class="row valRow" style="margin-top: 25px;">
                 <div class="valColumn1 col-md-6">
                     <h4>Allgemeine Einschätzung</h4>
@@ -115,11 +142,7 @@
                     <h4>Meine Einschätzung</h4>
                 </div>
             </div>
-        
-            <div style="border-bottom: 1px solid silver; margin-bottom: 15px;">
-            
-            </div>
-            
+
             <% foreach (var row in Model.FeedbackRows){ %>
                 <div class="row valRow">
                     <div class="valColumn1 col-md-6">
@@ -144,30 +167,11 @@
                 Die Frage bitte: &nbsp;
                 <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
                 <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
-            </div>
-
+            </div>               
         </div>
-
-        <div class="col-md-4">
-            <div class="headerLinks" style="margin-top:8px; line-height: 25px;">
-                <% if(Model.HasPreviousPage){ %>
-                    <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
-                <% } %>
-                <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
-                <% if (Model.HasNextPage) { %>
-                    <a href="<%= Model.NextUrl(Url) %>"><i class="fa fa-arrow-right"></i> </a>
-                <% } %>
-            
-                <% if (Model.SourceIsSet){ %>
-                    <br/>                
-                    Fragesatz:
-                    <a href="<%= Links.SetDetail(Url, Model.Set) %>">
-                        <span class="label label-set"><%= Model.Set.Name %></span>
-                    </a>            
-                <% } %>
-            </div>
         
-            <div style="padding-top:12px;">
+        <div class="col-md-4">
+            <div>
                 <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
                     <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
                         <i class="fa fa-list"></i> 

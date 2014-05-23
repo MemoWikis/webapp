@@ -1,8 +1,8 @@
-﻿<%@ Control Language="C#" Inherits="ViewUserControl<CategoryDailyIssue>" %>
+﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 
 <div class="form-group">
     <div class="col-sm-offset-3 col-xs-9">
-        Name das Magazins
+        Name der Tageszeitung
     </div>
 </div>
 
