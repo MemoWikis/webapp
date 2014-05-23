@@ -22,7 +22,7 @@
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
     <div class="row">
         <div class="pageHeader col-xs-12">
-            <h2 class="pull-left"><%=Model.FormTitle %></h2>
+            <h2 class="pull-left"><span class="underlined"><%=Model.FormTitle %></span></h2>
             
             <div class="headerControls pull-right">
                 <div>
@@ -46,54 +46,55 @@
         </div>
     </div>
         
-
     <div class="row">
         <div class="aside col-md-3 col-md-push-9" style="margin-bottom: 11px;">
             <div class="form-horizontal" role="form">
-                <div class="form-group">
-                    <label for="Visibility" class="columnLabel labelVisibility control-label">Sichtbar</label>
+                <div class="FormSection">
+                    <div class="form-group">
+                        <label for="Visibility" class="columnLabel labelVisibility control-label">Sichtbar</label>
 
-                    <div class="columnControlsFull">
-                        <div class="radio">
-                            <label style="font-weight: normal">
-                                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
-                                    für alle <span class="smaller">(öffentliche Frage)</span>
-                                    <i class="fa fa-question-circle show-tooltip" title="" data-placement="right" 
-                                       data-html="true"
-                                       data-original-title="
-                                        <ul class='show-tooltip-ul'>
-                                            <li>Die Frage ist für alle auffindbar.</li>
-                                            <li>Jeder kann die Frage in sein Wunschwissen aufnehmen.</li>
-                                        </ul>">
-                                    </i>
-                                    <br/>
+                        <div class="columnControlsFull">
+                            <div class="radio">
+                                <label style="font-weight: normal">
+                                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
+                                        für alle <span class="smaller">(öffentliche Frage)</span>
+                                        <i class="fa fa-question-circle show-tooltip" title="" data-placement="right" 
+                                           data-html="true"
+                                           data-original-title="
+                                            <ul class='show-tooltip-ul'>
+                                                <li>Die Frage ist für alle auffindbar.</li>
+                                                <li>Jeder kann die Frage in sein Wunschwissen aufnehmen.</li>
+                                            </ul>">
+                                        </i>
+                                        <br/>
 
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label style="font-weight: normal">
-                                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                                    für mich <span class="smaller">(<i class="fa fa-lock"></i> private Frage)</span> &nbsp;&nbsp;
-                                    (Die Frage ist nur von Dir nutzbar.)
-                                    <i class="fa fa-question-circle show-tooltip tooltip-width-200" title="" data-placement="right" 
-                                       data-html="true"
-                                       data-original-title="
-                                        <ul class='show-tooltip-ul'>
-                                            <li>Die Frage kann nur von Dir genutzt werden.</li>
-                                            <li>Niemand anders hat jemals Zugriff auf die Frage.</li>
-                                        </ul>">
-                                    </i>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label style="font-weight: normal">
+                                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
+                                        für mich <span class="smaller">(<i class="fa fa-lock"></i> private Frage)</span> &nbsp;&nbsp;
+                                        (Die Frage ist nur von Dir nutzbar.)
+                                        <i class="fa fa-question-circle show-tooltip tooltip-width-200" title="" data-placement="right" 
+                                           data-html="true"
+                                           data-original-title="
+                                            <ul class='show-tooltip-ul'>
+                                                <li>Die Frage kann nur von Dir genutzt werden.</li>
+                                                <li>Niemand anders hat jemals Zugriff auf die Frage.</li>
+                                            </ul>">
+                                        </i>
 
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label style="font-weight: normal">
-                                <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends, new { disabled = true} )  %>
-                                für mich und meine Freunde<br/> <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span>
-                            </label>
-                        </div>
-                        <div style="background-color: lavender; padding: 0 10px;">
-                            0 von 30 privaten Fragen verwendet.
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label style="font-weight: normal">
+                                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends, new { disabled = true} )  %>
+                                    für mich und meine Freunde<br/> <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span>
+                                </label>
+                            </div>
+                            <div style="background-color: lavender; padding: 0 10px;">
+                                0 von 30 privaten Fragen verwendet.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,7 +105,8 @@
                 <div>
                     <% Html.Message(Model.Message); %>
                 </div>
-                        
+                <div class="FormSection">
+
                 <div class="form-group">
                     <%= Html.LabelFor(m => m.Question, new { @class = "columnLabel control-label" })%>
                     <div class="columnControlsFull">
@@ -114,7 +116,9 @@
                         </div>    
                     </div>
                 </div>
-                    
+               
+               
+
                 <div class="form-group markdown" style="display: none" id="extendedQuestion">
                     <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "columnLabel control-label" })%>
                     <div class="columnControlsFull">
@@ -134,7 +138,6 @@
                     <label for="soundfile" class="control-label">Ton:</label>
                     &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
                 </div>--%>
-                    
                 <div class="form-group">    
                     <label class="columnLabel control-label">
                         <span class="show-tooltip" data-toggle="tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "top">Kategorien</span>
@@ -152,81 +155,85 @@
                         <div id="CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
                     </div>
                 </div>
-                    
-
-                <div class="form-group">
-                    <%= Html.LabelFor(m => m.SolutionType, new { @class = "columnLabel control-label" }) %>
-                    <div class="columnControlsSmall">
-                        <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType", @class="form-control"})%>
-                    </div>
                 </div>
-                
-                <div id="answer-body"></div>
-                    
-                <div class="form-group markdown">
-                    <label class="columnLabel control-label">
-                        <span class="show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "top">Erklärungen</span>
-                    </label>
-                    <div class="columnControlsFull">
-                        <div class="wmd-panel">
-                            <div id="wmd-button-bar-2"></div>
-                            <%= Html.TextAreaFor(m => m.Description, new 
-                                { @class= "form-control wmd-input", id="wmd-input-2", placeholder = "Erklärung der Antwort und Quellen.", rows = 4 })%>
+                <div class="FormSection">
+                    <div class="form-group">
+                        <%= Html.LabelFor(m => m.SolutionType, new { @class = "columnLabel control-label" }) %>
+                        <div class="columnControlsSmall">
+                            <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType", @class="form-control"})%>
                         </div>
-                        <div id="wmd-preview-2" class="wmd-panel wmd-preview"></div>
                     </div>
-                </div>
-                    
-                <div class="form-group">
-                    <label class="columnLabel control-label">Quellen 
-                        <span style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</span>
-                    </label>
-                    
-                    <div id="references"></div>
-                    
-<%--                    <div class="xxs-stack col-xs-4">
-                        <select class="form-control">
-                            <option>Url</option>
-                            <optgroup label="Offline">
-                                <option>Buch</option>
-                                <option>Zeitung/Zeitschrift</option>
-                            </optgroup>
-
-                        </select>
-                    </div>
-                    <div class="xxs-stack col-xs-8">
-                        <input class="form-control" type="text" />
-                    </div>--%>
-
-                </div>
                 
-                <div class="form-group">
-                    <div class="noLabel columnControlsFull ButtonContainer">
-                        <button class="btn" id="addChoice">Quelle hinzufügen</button>
-                    </div>
+                    <div id="answer-body"></div>
                 </div>
+                <div class="FormSection">
+
+                    <div class="form-group markdown">
+                        <label class="columnLabel control-label">
+                            <span class="show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "top">Erklärungen</span>
+                        </label>
+                        <div class="columnControlsFull">
+                            <div class="wmd-panel">
+                                <div id="wmd-button-bar-2"></div>
+                                <%= Html.TextAreaFor(m => m.Description, new 
+                                    { @class= "form-control wmd-input", id="wmd-input-2", placeholder = "Erklärung der Antwort und Quellen.", rows = 4 })%>
+                            </div>
+                            <div id="wmd-preview-2" class="wmd-panel wmd-preview"></div>
+                        </div>
+                    </div>
                     
-                <div class="form-group">
-                    <div class="noLabel columnControlsFull">
-                        <div class="checkbox">
-                            <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
-                            Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
-                            Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
-                            wie zum Beispiel bei Wikipedia-Einträgen. 
-                            <a href="" target="_blank">mehr erfahren</a> <br />
-                            Die Frage und Anwort sind meine eigene Arbeit und
-                            nicht aus urheberrechtlich geschützten Quellen kopiert. 
-                            <a href="" target="_blank">mehr erfahren</a>
+                    <div class="form-group">
+                        <label class="columnLabel control-label">Quellen 
+                            <span style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</span>
+                        </label>
+                    
+                        <div id="references"></div>
+                    
+    <%--                    <div class="xxs-stack col-xs-4">
+                            <select class="form-control">
+                                <option>Url</option>
+                                <optgroup label="Offline">
+                                    <option>Buch</option>
+                                    <option>Zeitung/Zeitschrift</option>
+                                </optgroup>
+
+                            </select>
+                        </div>
+                        <div class="xxs-stack col-xs-8">
+                            <input class="form-control" type="text" />
+                        </div>--%>
+
+                    </div>
+                
+                    <div class="form-group">
+                        <div class="noLabel columnControlsFull ButtonContainer">
+                            <button class="btn" id="addChoice">Quelle hinzufügen</button>
                         </div>
                     </div>
                 </div>
+                <div class="FormSection">
+                    <div class="form-group">
+                        <div class="noLabel columnControlsFull">
+                            <div class="checkbox">
+                                <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
+                                Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
+                                Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
+                                wie zum Beispiel bei Wikipedia-Einträgen. 
+                                <a href="" target="_blank">mehr erfahren</a> <br />
+                                Die Frage und Anwort sind meine eigene Arbeit und
+                                nicht aus urheberrechtlich geschützten Quellen kopiert. 
+                                <a href="" target="_blank">mehr erfahren</a>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <div class="noLabel columnControlsFull">
-                        <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
-                        <% if (Model.ShowSaveAndNewButton){ %>
-                            <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
-                        <% } %>                        
+                    <div class="form-group">
+                        <div class="noLabel columnControlsFull">
+                            <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
+                            <% if (Model.ShowSaveAndNewButton){ %>
+                                <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
+                            <% } %>                        
+                        </div>
                     </div>
                 </div>
             </div>
