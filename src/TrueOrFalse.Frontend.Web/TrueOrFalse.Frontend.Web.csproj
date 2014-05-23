@@ -387,6 +387,9 @@
     <Content Include="Style\bootstrap\variables_custom.css">
       <DependentUpon>variables_custom.less</DependentUpon>
     </Content>
+    <Content Include="Style\drafts.css">
+      <DependentUpon>drafts.less</DependentUpon>
+    </Content>
     <Content Include="Style\grid.css">
       <DependentUpon>grid.less</DependentUpon>
     </Content>
@@ -558,6 +561,9 @@
     <Content Include="Style\drafts.less" />
     <Content Include="Style\z_mixins_2.3.2.css.map">
       <DependentUpon>z_mixins_2.3.2.css</DependentUpon>
+    </Content>
+    <Content Include="Style\drafts.css.map">
+      <DependentUpon>drafts.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
