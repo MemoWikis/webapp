@@ -50,9 +50,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;"><span class="underlined">Hallo <span class=".dark-blue"><%= Model.UserName %></span>, Dein Wissen:</span></h2>
+    <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;"><span class="underlined Knowledge">Hallo <span class=".dark-blue"><%= Model.UserName %></span>, dein Wunschwissen</span>:</h2>
         
-    <p style="margin-bottom: 10px;">Hier erhälst Du eine Übersicht über Dein Wunschwissen und Deinen Wissensstand.</p>
+    <p style="margin-bottom: 10px;">Hier erhältst du eine Übersicht über dein Wunschwissen und deinen Wissensstand.</p>
         
     <div class="alert" style="margin-bottom: 0px;">
         <strong>Kommende Prüfungen!</strong> 
