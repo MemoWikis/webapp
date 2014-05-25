@@ -46,6 +46,8 @@ public class AnswerQuestionModel : BaseModel
     public int TimesAnsweredUserTrue;
     public int TimesAnsweredUserWrong;
 
+    public bool IsOwner;
+
     public bool HasImage
     {
         get { return !string.IsNullOrEmpty(ImageUrl_500px); }
@@ -144,6 +146,8 @@ public class AnswerQuestionModel : BaseModel
         CreatorName = question.Creator.Name;
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = TimeElapsedAsText.Run(question.DateCreated);
+
+        IsOwner = _sessionUser.IsOwnerOrAdmin(question.Creator.Id);
 
         QuestionId = question.Id;
         QuestionText = question.Text;
