@@ -53,7 +53,20 @@
                             Fragesatz:
                             <span class="label label-set"><%= Model.Set.Name %></span>
                         </a>            
-                    <% } %>                                          
+                    <% } %>
+                    
+                    <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
+                        <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
+                            
+                            <span >
+                                <i class="fa fa-list"></i> 
+                                <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>
+                                <% if(Model.SourceIsTabMine){ %> meine Fragen <%} %>
+                                <% if(Model.SourceIsTabAll){ %> alle Fragen <%} %>
+                            </span>
+                        </a>
+                    <% } %>                    
+                                                   
                 </li>
                 <li>
                     <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>                
@@ -171,17 +184,7 @@
         </div>
         
         <div class="col-md-4">
-            <div>
-                <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
-                    <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
-                        <i class="fa fa-list"></i> 
-                        <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>
-                        <% if(Model.SourceIsTabMine){ %> meine Fragen <%} %>
-                        <% if(Model.SourceIsTabAll){ %> alle Fragen <%} %>
-                    </a>
-                    <br style="line-height: 10px;"/>
-                <% } %>            
-            
+            <div>            
                 <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>"><i class="fa fa-pencil"></i> bearbeiten</a>
             </div>            
 
