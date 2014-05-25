@@ -191,22 +191,61 @@
                 </div>
             <%} %>--%>
     
-            <div class="" style="margin-top: 20px; width: 400px;">
-                Die Frage bitte: &nbsp;
-                <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
-                <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
+                       
+            
+            <div style="margin-top: 30px; color: darkgray; font-weight: bold;" class="row">
+                <div class="col-lg-6">
+                    <h4 style="padding:0; margin:0;">Kommentare</h4>    
+                </div>
+                
+                <div class="col-lg-6" style="vertical-align: text-bottom; vertical-align: bottom; margin-top: 3px;">
+                    
+                    Die Frage bitte: &nbsp;
+                    <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
+                    <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
+                </div>
+                
             </div>
             
-            <div style="margin-top: 20px; color: darkgray">
-                Bisher keine Kommentare
+                        
+            <div class="panel panel-default" style="margin-top: 7px;">
+                <div class="panel-heading">
+                    Robert Mischke
+                    <span style="color: darkgray">vor 3 Tagen</span>
+                </div>
+                <div class="panel-body">
+                    <div class="col-lg-2">
+                        <img style="width:100%; border-radius:5px;" src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=250&amp;d=http%3A%2F%2Ftrueorfalse%2FImages%2Fno-profile-picture-250.png">
+                    </div>
+                    <div class="col-lg-10">
+                        "Die Frage sollte verbessert werden"    
+                    </div>
+                </div>
             </div>
             
+            
+            <div class="panel panel-default" style="margin-top: 7px;">
+                <div class="panel-heading">Neuen Kommentar hinzufügen</div>
+                <div class="panel-body">
+                    <div class="col-lg-2">
+                        <img style="width:100%; border-radius:5px;" src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=250&amp;d=http%3A%2F%2Ftrueorfalse%2FImages%2Fno-profile-picture-250.png">
+                    </div>
+                    <div class="col-lg-10">
+                        <textarea style="width: 100%; min-height: 82px;" class="form-control" placeholder="Bitte höflich, freundlich und sachlich schreiben :-)"></textarea>
+                    </div>
+                    
+                    <div class="col-lg-12" style="padding-top: 7px;">
+                        <a href="#" class="btn btn-default pull-right">Speichern</a>
+                    </div>
+                </div>                
+
+            </div>
+
         </div>
+        
         
         <div class="col-md-3 well" style="background-color: white;">
             
-
-
             <p>
                 von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><br />
                 vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
