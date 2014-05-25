@@ -61,7 +61,6 @@
             <p>Um Wunschwissen zu verwenden, musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.</p>
         </div>
 
-        </p>
     <% }else{  %>
         <div class="column">
             <h3>Wunschwissen</h3>

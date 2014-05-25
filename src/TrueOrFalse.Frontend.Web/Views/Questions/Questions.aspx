@@ -112,104 +112,122 @@
         </div>
             
         <div class="boxtainer-content">
-            <div class="search-section">
-                <div class="row">
-                    <div class="SearchQuestionsForm form-group">
+            
+            <% if(!Model.NotLogged){ %>
+                <div class="search-section">
+                    <div class="row">
+                        <div class="SearchQuestionsForm form-group">
                         
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-
-                        <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
-                            <div class="col-xs-12" style="padding-top: 10px; font-size: large">
-                                Oder suchst du: 
-                                <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
-                                    <%= Model.Suggestion %>
-                                </a> ?
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
+                                </span>
                             </div>
-                        <% } %>
 
+                            <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+                                <div class="col-xs-12" style="padding-top: 10px; font-size: large">
+                                    Oder suchst du: 
+                                    <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
+                                        <%= Model.Suggestion %>
+                                    </a> ?
+                                </div>
+                            <% } %>
+
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5">
-                        <ul class="nav pull-left">
-                            <li class="dropdown" id="menu2">
-                                <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu2">
-                                    <i class="fa fa-check-square-o"></i>
-                                    Auswahl <span id="selectionCount"></span>
-                                    <b class="caret"></b>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a id="selectAll">Alle</a></li>
-                                    <li><a id="selectNone">Keine</a></li>
-                                    <li><a id="selectMemorizedByMe">+ von mir gemerkte</a></li>
-                                    <li><a id="selectCreatedByMe">+ von mir erstellte</a></li>
-                                    <li><a id="selectedNotMemorizedByMe">+ <i>nicht</i> von mir gemerkte</a></li>
-                                    <li><a id="selectNotCraetedByMe">+ <i>nicht</i> von mir erstellt</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <ul class="nav pull-left">
+                                <li class="dropdown" id="menu2">
+                                    <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu2">
+                                        <i class="fa fa-check-square-o"></i>
+                                        Auswahl <span id="selectionCount"></span>
+                                        <b class="caret"></b>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a id="selectAll">Alle</a></li>
+                                        <li><a id="selectNone">Keine</a></li>
+                                        <li><a id="selectMemorizedByMe">+ von mir gemerkte</a></li>
+                                        <li><a id="selectCreatedByMe">+ von mir erstellte</a></li>
+                                        <li><a id="selectedNotMemorizedByMe">+ <i>nicht</i> von mir gemerkte</a></li>
+                                        <li><a id="selectNotCraetedByMe">+ <i>nicht</i> von mir erstellt</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
                         
-                        <a href="#" class="btn btn-default btn-xs" style="display: none; margin-left: 7px;" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
-                            <i class="fa fa-list-ol"></i> 
-                        </a>
-                        <a href="#" class="btn btn-default btn-xs" style="display: none; margin-left: 7px;" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
-                            <i class="fa fa-trash-o"></i> 
-                        </a>
-                        <a href="#" class="btn btn-default btn-xs" style=" margin-left: 7px;" id="btnExport" data-placement="bottom" data-original-title="Herunterladen">
-                            <i class="fa fa-cloud-download"></i>
-                        </a>                        
-                    </div>
-                    <div class="col-xs-7">
-                        <ul class="nav pull-right">
-                            <li class="dropdown" id="menu1">
-                                <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
-                                    <span class="hidden-xxs">Sortieren nach:</span> <%= Model.OrderByLabel %>
-                                    <b class="caret"></b>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>">
-                                            <% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Merken
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuality" %>">
-                                            <% if (Model.OrderBy.OrderByQuality.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Qualität
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDateCreated" %>">
-                                            <% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Erstellungsdatum
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="<%= Request.Url.AbsolutePath + "?orderBy=byViews" %>">
-                                            <% if (Model.OrderBy.OrderByViews.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Ansichten
-                                        </a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Empfehlungen</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div class="pull-right" style="font-size: 14px; margin-right: 7px; margin-top: 2px;"><%= Model.TotalQuestionsInResult %> Fragen</div>
+                            <a href="#" class="btn btn-default btn-xs" style="display: none; margin-left: 7px;" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
+                                <i class="fa fa-list-ol"></i> 
+                            </a>
+                            <a href="#" class="btn btn-default btn-xs" style="display: none; margin-left: 7px;" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
+                                <i class="fa fa-trash-o"></i> 
+                            </a>
+                            <a href="#" class="btn btn-default btn-xs" style=" margin-left: 7px;" id="btnExport" data-placement="bottom" data-original-title="Herunterladen">
+                                <i class="fa fa-cloud-download"></i>
+                            </a>                        
+                        </div>
+                        <div class="col-xs-7">
+                            <ul class="nav pull-right">
+                                <li class="dropdown" id="menu1">
+                                    <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
+                                        <span class="hidden-xxs">Sortieren nach:</span> <%= Model.OrderByLabel %>
+                                        <b class="caret"></b>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>">
+                                                <% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Merken
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuality" %>">
+                                                <% if (Model.OrderBy.OrderByQuality.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Qualität
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDateCreated" %>">
+                                                <% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Erstellungsdatum
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byViews" %>">
+                                                <% if (Model.OrderBy.OrderByViews.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Ansichten
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Empfehlungen</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="pull-right" style="font-size: 14px; margin-right: 7px; margin-top: 2px;"><%= Model.TotalQuestionsInResult %> Fragen</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <% } %>
-
+                <% } %>
+            <%} %>
             <div class="box-content">
+                
+                <% if(Model.NotLogged){ %>
 
-                <% foreach (var row in Model.QuestionRows){
-                       Html.RenderPartial("QuestionRow", row);
-                } %>
+                    <div class="bs-callout bs-callout-info" style="margin-top: 35px;">
+                        <h4>Anmelden oder registrieren</h4>
+                        <p>
+                            Um Wunschwissen oder eigene Fragen zu verwenden, <br/>
+                            musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
+                        </p>
+                    </div>
+
+                <% }else{  %>
+
+                    <% foreach (var row in Model.QuestionRows){
+                           Html.RenderPartial("QuestionRow", row);
+                    } %>
+                
+                <% } %>
             </div>
-            <% Html.RenderPartial("Pager", Model.Pager); %>
+            <% if(!Model.NotLogged){ %>
+                <% Html.RenderPartial("Pager", Model.Pager); %>
+            <% } %>
         </div>
     </div>
 </div>

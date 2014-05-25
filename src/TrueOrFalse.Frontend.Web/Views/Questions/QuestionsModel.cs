@@ -31,6 +31,8 @@ public class QuestionsModel : BaseModel
     public string Suggestion; 
     public IEnumerable<string> Suggestions = new List<string>();
 
+    public bool NotLogged;
+
     public QuestionsModel(){
         QuestionRows = Enumerable.Empty<QuestionRowModel>();
     }
@@ -38,7 +40,6 @@ public class QuestionsModel : BaseModel
     public QuestionsModel(
         IList<Question> questions, 
         QuestionSearchSpec questionSearchSpec, 
-        int currentUserId,
         bool isTabAllActive = false,
         bool isTabWishActice = false,
         bool isTabMineActive = false
@@ -48,8 +49,11 @@ public class QuestionsModel : BaseModel
         ActiveTabMine = isTabMineActive;
         ActiveTabWish = isTabWishActice;
 
+        int currentUserId = _sessionUser.IsLoggedIn ? _sessionUser.User.Id : -1;
+        NotLogged = !_sessionUser.IsLoggedIn && (ActiveTabWish || ActiveTabMine);
+
         var totalsForCurrentUser = Resolve<TotalsPersUserLoader>().Run(currentUserId, questions);
-        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>().GetBy(questions.GetIds(), _sessionUser.User.Id);
+        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>().GetBy(questions.GetIds(), currentUserId);
 
         Pager = new PagerModel(questionSearchSpec);
         Suggestion = questionSearchSpec.GetSuggestion();
@@ -66,8 +70,8 @@ public class QuestionsModel : BaseModel
                                   );
 
         TotalQuestionsInSystem = Resolve<GetTotalQuestionCount>().Run();
-        TotalQuestionsMine = Resolve<GetTotalQuestionCount>().Run(_sessionUser.User.Id);
-        TotalWishKnowledge = Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id);
+        TotalQuestionsMine = Resolve<GetTotalQuestionCount>().Run(currentUserId);
+        TotalWishKnowledge = Resolve<GetWishQuestionCountCached>().Run(currentUserId);
 
         TotalQuestionsInResult = questionSearchSpec.TotalItems;
 

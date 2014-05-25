@@ -22,6 +22,9 @@ namespace TrueOrFalse
 
         public string GetSuggestion()
         {
+            if (SpellCheck == null)
+                return "";
+
             return SpellCheck.GetSuggestion();
         }
     }
