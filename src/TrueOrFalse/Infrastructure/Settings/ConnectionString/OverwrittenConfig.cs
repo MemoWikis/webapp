@@ -29,6 +29,28 @@ namespace TrueOrFalse.Infrastructure
             return Boolean.Parse(result.Value);
         }
 
+
+        /// <summary>
+        /// Develop / Stage / Live
+        /// </summary>
+        public static string Environment()
+        {
+            var result = Value("environment");
+            if (!result.HasValue)
+                return "";
+
+            return result.Value;
+        }
+
+        public static string LogglyKey()
+        {
+            var result = Value("logglyKey");
+            if (!result.HasValue)
+                return "";
+
+            return result.Value;
+        }
+
         private static OverwrittenConfigValueResult Value(string itemName)
         {
             string filePath;
