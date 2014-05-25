@@ -66,7 +66,6 @@
                             </span>
                         </a>
                     <% } %>                    
-                                                   
                 </li>
                 <li>
                     <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>                
@@ -83,10 +82,11 @@
 
         <div class="col-lg-8 col-xs-9 xxs-stack">
             <div class="well">
-                <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:0px; font-size: 22px;">
-                    <%= Model.QuestionText %>
-                </p>
-            
+                                
+                <div style="float: right; padding-left: 10px;"><a href="" style="font-size: 20px;"><i class="fa fa-heart-o" id="iAdd" style="color:#b13a48"></i></a></div>    
+                <span style="font-size: 22px; padding-bottom: 20px;"><%= Model.QuestionText %></span>
+                
+
                 <p><%= Model.QuestionTextMarkdown %></p>
             
                 <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
@@ -147,16 +147,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row valRow" style="margin-top: 25px;">
-                <div class="valColumn1 col-md-6">
-                    <h4>Allgemeine Einschätzung</h4>
-                </div>
-                <div class="valColumn2 col-md-6">
-                    <h4>Meine Einschätzung</h4>
-                </div>
-            </div>
+            
+            
 
-            <% foreach (var row in Model.FeedbackRows){ %>
+<%--            <% foreach (var row in Model.FeedbackRows){ %>
                 <div class="row valRow">
                     <div class="valColumn1 col-md-6">
                         <%= row.Title %>: <i class="fa fa-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
@@ -174,7 +168,7 @@
                         <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="fa fa-plus"></i> ---</a>
                     </div>
                 </div>
-            <%} %>
+            <%} %>--%>
     
             <div class="" style="margin-top: 20px; width: 400px;">
                 Die Frage bitte: &nbsp;
@@ -226,7 +220,6 @@
             </p>
             
             <p style="padding-top:12px;">
-                Feedback: 
                 <a href="#">4x <i class="fa fa-repeat"></i></a>
                 <a href="#">2x <i class="fa fa-fire"></i></a>
             </p>
