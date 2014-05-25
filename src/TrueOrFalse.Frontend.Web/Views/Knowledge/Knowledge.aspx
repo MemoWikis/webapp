@@ -53,110 +53,99 @@
     <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;"><span class="underlined">Hallo <span class=".dark-blue"><%= Model.UserName %></span>, Dein Wissen:</span></h2>
         
     <p style="margin-bottom: 10px;">Hier erhälst Du eine Übersicht über Dein Wunschwissen und Deinen Wissensstand.</p>
-        
-<%--    <div class="alert" style="margin-bottom: 0px;">
-        <strong>Kommende Prüfungen!</strong> 
-        <ul>
-            <li>14.09.2013: Führerschein (78 Fragen ) <span id="examSparkle3" style="position: relative; top: 3px; left: 10px"></span></li>
-            <li>14.09.2013: BIO-Leistungskurs (12 Fragen )<span id="examSparkle2" style="position: relative; top: 3px; left: 10px"></span></li>
-            <li>15.09.2013: Phyisk-Leistungskurs (171 Fragen ) <span id="examSparkle1" style="position: relative; top: 3px; left: 10px"></span></li>
-        </ul>
-        <strong>Kommende Termine!</strong> 
-        <ul>
-            <li>14.09.2013: Bewerbungsgespräch Fa. Meyer (12 Fragen ) <span id="examSparkle4" style="position: relative; top: 3px; left: 10px"></span>
-            </li>
-            <li>
-                14.09.2013: Date mit Mona (18 Fragen )
-                <span id="examSparkle5" style="position: relative; top: 3px; left: 10px"></span>
-                &nbsp;&nbsp;<i class="fa fa-thumbs-o-up" style="color: green;"></i>
-                  
-            </li>
-        </ul>
-    </div>--%>
 
-    <div class="column">
-        <h3>Wunschwissen</h3>
-        <div class="answerHistoryRow">
-            <div>
-                <a href="<%= Links.QuestionsWish(Url) %>">
-                    Fragen: <span><%= Model.QuestionsCount %> <span id="totalKnowledgeSpark"></span></span>
-                </a>
-            </div>    
-        </div>
-        <div class="answerHistoryRow">
-            <div>
-                Frageseätze: <span><%= Model.QuestionsSetCount %> <span id="Span1"> (mit x Fragen)</span></span><br/>    
-            </div>
-                
-        </div>
-        <span id="totalKnowledgeOverTime">Entwicklung über Zeit:<br /> 
-        <span id="totalKnowledgeOverTimeSpark"></span></span>
-    </div>
-        
-    <div class="column">
-        <h3>Wissenstand</h3>
-        <div style="padding-bottom: 10px;">Dein Wissenstand entspricht ca. 83% Deines Wunschwissens.</div>
-        <div>Gewusst: 70% (217 Fragen) </div>
-        <div>Nicht gewusst 12% (xx Fragen)  </div>
-        <div>Unbekannt 18% (xx Fragen)</div>
-    </div>
+    <% if(!Model.IsLoggedIn){ %>
 
-    <div class="column">
-        <h3>Training</h3>
-        <div class="answerHistoryRow" style="margin-bottom: 5px;">
-            <div style="color:black;">Antworten ges.: 4312 </div> (seit: 4.3.2012)
+        <div class="bs-callout bs-callout-info">
+            <h4>Anmelden oder registrieren</h4>
+            <p>Um Wunschwissen zu verwenden, musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.</p>
         </div>
-                
-        <div class="answerHistoryRow">    
-            <div>Diese Woche <span class="answerAmount"><%= Model.TotalAnswerThisWeek %></span> 
-                <span id="answeredThisWeekSparkle"></span>
-                <div class="percentage"><span >74%</span></div>
-            </div> 
-        </div>
-        <div class="answerHistoryRow">
-            <div>Diesen Monat <span class="answerAmount"><%= Model.TotalAnswerThisMonth %></span> <span id="answeredThisMonthSparkle"></span>
-                <div class="percentage"><span>19%</span></div>
-            </div>
-        </div>
-        <div class="answerHistoryRow">
-            <div>Diese Jahr <span class="answerAmount"><%= Model.TotalAnswerPreviousWeek %></span> <span id="answeredLastWeekSparkle"></span></div> 
-        </div>
-        <div class="answerHistoryRow">
-            <div>Letzten Monat <span class="answerAmount"><%= Model.TotalAnswerLastMonth %></span> <span id="answeredLastMonthSparkle"></span></div> 
-        </div>
-    </div>
-    <div style="clear:both;"></div>
-        
-    <div style="padding-top:20px; height: 200px; ">
-        
+
+        </p>
+    <% }else{  %>
         <div class="column">
-            <h3>Fragen (175)</h3>
-            <table>
-                <tr>
-                    <td>Wann wurde xy geboren </td> 
-                    <td>14x <span id="question-1"></span> </td>
-                </tr>
-            </table>
+            <h3>Wunschwissen</h3>
+            <div class="answerHistoryRow">
+                <div>
+                    <a href="<%= Links.QuestionsWish(Url) %>">
+                        Fragen: <span><%= Model.QuestionsCount %> <span id="totalKnowledgeSpark"></span></span>
+                    </a>
+                </div>    
+            </div>
+            <div class="answerHistoryRow">
+                <div>
+                    Frageseätze: <span><%= Model.QuestionsSetCount %> <span id="Span1"> (mit x Fragen)</span></span><br/>    
+                </div>
+                
+            </div>
+            <span id="totalKnowledgeOverTime">Entwicklung über Zeit:<br /> 
+            <span id="totalKnowledgeOverTimeSpark"></span></span>
         </div>
         
         <div class="column">
-            <h3>Fragesätze</h3>
-            <div>
-                <span>Noch keine Fragesätze</span>
+            <h3>Wissenstand</h3>
+            <div style="padding-bottom: 10px;">Dein Wissenstand entspricht ca. 83% Deines Wunschwissens.</div>
+            <div>Gewusst: 70% (217 Fragen) </div>
+            <div>Nicht gewusst 12% (xx Fragen)  </div>
+            <div>Unbekannt 18% (xx Fragen)</div>
+        </div>
+
+        <div class="column">
+            <h3>Training</h3>
+            <div class="answerHistoryRow" style="margin-bottom: 5px;">
+                <div style="color:black;">Antworten ges.: 4312 </div> (seit: 4.3.2012)
+            </div>
+                
+            <div class="answerHistoryRow">    
+                <div>Diese Woche <span class="answerAmount"><%= Model.TotalAnswerThisWeek %></span> 
+                    <span id="answeredThisWeekSparkle"></span>
+                    <div class="percentage"><span >74%</span></div>
+                </div> 
+            </div>
+            <div class="answerHistoryRow">
+                <div>Diesen Monat <span class="answerAmount"><%= Model.TotalAnswerThisMonth %></span> <span id="answeredThisMonthSparkle"></span>
+                    <div class="percentage"><span>19%</span></div>
+                </div>
+            </div>
+            <div class="answerHistoryRow">
+                <div>Diese Jahr <span class="answerAmount"><%= Model.TotalAnswerPreviousWeek %></span> <span id="answeredLastWeekSparkle"></span></div> 
+            </div>
+            <div class="answerHistoryRow">
+                <div>Letzten Monat <span class="answerAmount"><%= Model.TotalAnswerLastMonth %></span> <span id="answeredLastMonthSparkle"></span></div> 
             </div>
         </div>
+        <div style="clear:both;"></div>
+        
+        <div style="padding-top:20px; height: 200px; ">
+        
+            <div class="column">
+                <h3>Fragen (175)</h3>
+                <table>
+                    <tr>
+                        <td>Wann wurde xy geboren </td> 
+                        <td>14x <span id="question-1"></span> </td>
+                    </tr>
+                </table>
+            </div>
+        
+            <div class="column">
+                <h3>Fragesätze</h3>
+                <div>
+                    <span>Noch keine Fragesätze</span>
+                </div>
+            </div>
  
-        <div class="column">
-            <h3>Kategorien (34)</h3>
-            <table>
-                <tr>
-                    <td>Musik</td> 
-                    <td>72</td> 
-                    <td><span id="inCategory-1"></span></td>
-                    <td><span id="inCategoeryOverTime-1"></span></td>
-                </tr>
-            </table>
+            <div class="column">
+                <h3>Kategorien (34)</h3>
+                <table>
+                    <tr>
+                        <td>Musik</td> 
+                        <td>72</td> 
+                        <td><span id="inCategory-1"></span></td>
+                        <td><span id="inCategoeryOverTime-1"></span></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-
+    <% } %>
 </asp:Content>

@@ -1584,4 +1584,23 @@ ul.ui-autocomplete {
     margin-right: 0;
   }
 }
+.bs-callout-info {
+  background-color: #f6f8fc;
+  border-color: #5bc0de !important;
+}
+.bs-callout {
+  margin: 20px 0;
+  padding: 20px;
+  border-left: 3px solid #eee;
+}
+.bs-callout-info h4 {
+  color: #5bc0de;
+}
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
 /*# sourceMappingURL=site.css.map */
