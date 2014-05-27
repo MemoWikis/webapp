@@ -54,7 +54,7 @@
         
     <p style="margin-bottom: 10px;">Hier erhältst du eine Übersicht über dein Wunschwissen und deinen Wissensstand.</p>
         
-    <div class="alert" style="margin-bottom: 0px;">
+<%--    <div class="alert" style="margin-bottom: 0px;">
         <strong>Kommende Prüfungen!</strong> 
         <ul>
             <li>14.09.2013: Führerschein (78 Fragen ) <span id="examSparkle3" style="position: relative; top: 3px; left: 10px"></span></li>
@@ -72,7 +72,7 @@
                   
             </li>
         </ul>
-    </div>
+    </div>--%>
 
     <div class="column">
         <h3>Wunschwissen</h3>

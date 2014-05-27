@@ -29,7 +29,8 @@
     <nav id="mainMenu" style="display: none;">
         <div class="list-group">
             <a class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>">
-                <i class="fa fa-caret-right"></i> Wunschwissen (<span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span>)
+                <i class="fa fa-caret-right"></i> 
+                Wunschwissen  <span style="float:right"><i class="fa fa-heart-o"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
             </a>
             <a class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>">
                 <i class="fa fa-caret-right"></i> Fragen

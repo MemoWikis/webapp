@@ -42,7 +42,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
-        <div class="col-lg-8 col-xs-9 xxs-stack">
+        <div class="col-lg-9 col-xs-9 xxs-stack">
             <ul class="pager" style="margin-top: 0;">
                 <li class="previous <%= Model.HasPreviousPage ? "" : "disabled" %>">
                     <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
@@ -53,7 +53,19 @@
                             Fragesatz:
                             <span class="label label-set"><%= Model.Set.Name %></span>
                         </a>            
-                    <% } %>                                          
+                    <% } %>
+                    
+                    <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
+                        <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
+                            
+                            <span >
+                                <i class="fa fa-list"></i> 
+                                <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>
+                                <% if(Model.SourceIsTabMine){ %> meine Fragen <%} %>
+                                <% if(Model.SourceIsTabAll){ %> alle Fragen <%} %>
+                            </span>
+                        </a>
+                    <% } %>                    
                 </li>
                 <li>
                     <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>                
@@ -65,15 +77,32 @@
                 </li>
             </ul>            
         </div>
+        
+        <div class="col-md-3">
+            <% if(Model.IsOwner){ %>
+                <div>            
+                    <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>" style="">
+                        <i class="fa fa-pencil pull-right" style="font-size: 19px; position: relative; top: 5px; opacity: 0.4"></i>
+                    </a>
+                </div>
+            <% } %>
+        </div>
     </div>
     <div class="row">
 
-        <div class="col-lg-8 col-xs-9 xxs-stack">
+        <div class="col-lg-9 col-xs-9 xxs-stack">
             <div class="well">
-                <p class="questionBlockWidth" style="padding-bottom:12px; margin-top:0px; font-size: 22px;">
+                                
+                <div style="float: right; padding-left: 10px;">
+                    <a href="" style="font-size: 22px;">
+                        <i class="fa fa-heart-o" id="iAdd" style="color:#b13a48"></i>
+                    </a>
+                </div>    
+                <span style="font-size: 22px; padding-bottom: 20px;">
                     <%= Model.QuestionText %>
-                </p>
-            
+                </span>
+                
+
                 <p><%= Model.QuestionTextMarkdown %></p>
             
                 <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
@@ -117,13 +146,16 @@
                         <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
                         <a href="#" id="btnCheck" class="btn btn-primary pull-right">Antworten</a>
                     </div>
-                    <div id="buttons-next-answer" style="display: none;">
                     
-                    <div class="" id="divAnsweredCorrect" style="display: none; float:left; margin-top:5px; width: 250px;">
-                        <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
+                    <div id="buttons-next-answer" style="display: none; padding-top: 20px; ">
+                    
+                        <div class="" id="divAnsweredCorrect" style="display: none; float:left; margin-top:5px; width: 250px;">
+                            <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
+                        </div>
+                    
+                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success pull-right">N&auml;chste Frage</a>
                     </div>
-                    <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success pull-right">N&auml;chste Frage</a>
-                    </div>
+
                     <div id="buttons-edit-answer" style="display: none;">
                         <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
                         <a href="#" id="btnEditAnswer" class="btn btn-warning pull-right">Antwort &Uuml;berarbeiten</a>
@@ -132,18 +164,14 @@
                         <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
                         <a href="#" id="btnCheckAgain" class="btn btn-warning pull-right">Nochmal Antworten</a>
                     </div>
+                    
+                    <div style="clear: both"></div>
                 </div>
             </div>
-            <div class="row valRow" style="margin-top: 25px;">
-                <div class="valColumn1 col-md-6">
-                    <h4>Allgemeine Einschätzung</h4>
-                </div>
-                <div class="valColumn2 col-md-6">
-                    <h4>Meine Einschätzung</h4>
-                </div>
-            </div>
+            
+            
 
-            <% foreach (var row in Model.FeedbackRows){ %>
+<%--            <% foreach (var row in Model.FeedbackRows){ %>
                 <div class="row valRow">
                     <div class="valColumn1 col-md-6">
                         <%= row.Title %>: <i class="fa fa-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
@@ -161,31 +189,25 @@
                         <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="fa fa-plus"></i> ---</a>
                     </div>
                 </div>
-            <%} %>
+            <%} %>--%>
     
             <div class="" style="margin-top: 20px; width: 400px;">
                 Die Frage bitte: &nbsp;
                 <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
                 <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
-            </div>               
+            </div>
+            
+            <div style="margin-top: 20px; color: darkgray">
+                Bisher keine Kommentare
+            </div>
+            
         </div>
         
-        <div class="col-md-4">
-            <div>
-                <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
-                    <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
-                        <i class="fa fa-list"></i> 
-                        <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>
-                        <% if(Model.SourceIsTabMine){ %> meine Fragen <%} %>
-                        <% if(Model.SourceIsTabAll){ %> alle Fragen <%} %>
-                    </a>
-                    <br style="line-height: 10px;"/>
-                <% } %>            
+        <div class="col-md-3 well" style="background-color: white;">
             
-                <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>"><i class="fa fa-pencil"></i> bearbeiten</a>
-            </div>            
 
-            <p style="padding-top: 12px;">
+
+            <p>
                 von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><br />
                 vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             </p>
@@ -220,12 +242,6 @@
                 <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
                     <i class="fa fa-eye"></i> <%= Model.TotalViews %>x<br />
                 </span>
-            </p>
-            
-            <p style="padding-top:12px;">
-                Feedback: 
-                <a href="#">4x <i class="fa fa-repeat"></i></a>
-                <a href="#">2x <i class="fa fa-fire"></i></a>
             </p>
             
             <p style="width: 150px;">

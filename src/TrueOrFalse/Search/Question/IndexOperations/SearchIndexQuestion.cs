@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using SolrNet;
 
 namespace TrueOrFalse.Search
@@ -36,17 +38,24 @@ namespace TrueOrFalse.Search
                     question, _questionValuationRepo.GetBy(question.Id)));
         }
 
-        public void Update(Question question, bool commitDelayed = false)
+        public void Update(Question question, bool commitDelayed = true)
         {
             if (question == null)
                 return;
 
             if (!commitDelayed)
-                _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));    
+                _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));
             else
-                _solrOperations.Add(
-                    ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)),
-                    new AddParameters { CommitWithin = 10000 });
+            {
+                var sp = Stopwatch.StartNew();
+                Loggly.Send("Question2SearchIndex-Start: " + sp.Elapsed, LogglyCategories.Performance);
+
+                var solrQuestion = ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id));
+                ExecAsync.Go(() => _solrOperations.Add(solrQuestion, new AddParameters { CommitWithin = 10000 }));
+
+                Loggly.Send("Question2SearchIndex-Stop: " + sp.Elapsed, LogglyCategories.Performance);
+                
+            }
 
             _solrOperations.Commit();
         }

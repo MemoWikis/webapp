@@ -12,6 +12,19 @@ $(function () {
         fjs.parentNode.insertBefore(js, fjs);
     }
     foo(document, 'script', 'facebook-jssdk');
+
+    //$("#iAdd").hover(
+    //    function () { $(this).removeClass("fa-heart-o").addClass("fa-heart"); },
+    //    function () { $(this).removeClass("fa-heart").addClass("fa-heart-o"); }
+    //);
+    $("#iAdd").click(function (e) {
+        if ($(this).hasClass("fa-heart-o"))
+            $(this).switchClass("fa-heart-o", "fa-heart");
+        else
+            $(this).switchClass("fa-heart", "fa-heart-o");
+
+        e.preventDefault();
+    });
 });
 
 function InitFeedbackSliders() {

@@ -48,7 +48,7 @@
                             <% von = "";
                             if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                             von = Model.TotalQuestionsInResult + " von "; %>
-                                Wunsch<span class="hidden-xxs">wissen</span> <span class="tabWishKnowledgeCount">(<%= von + Model.TotalWishKnowledge %>)</span>
+                            Wunsch<span class="hidden-xxs">wissen</span> <span class="tabWishKnowledgeCount">(<%= von + Model.TotalWishKnowledge %>)</span>
                             <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Wissen das Du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
                         </a>
                     </div>
