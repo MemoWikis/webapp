@@ -20,4 +20,7 @@
         <div style="float: left;"><div style="font-size: 74px; position: relative; padding-right: 10px; top: -10px;"><i class="fa fa-thumb-tack" style="color: yellowgreen;"></i><div style="font-size: 18px; position: absolute; top: 40px; left: 11px;">5,7</div></div></div>
         <div style="float: left;"><div style="font-size: 74px; position: relative; padding-right: 10px; top: -10px;"><i class="fa fa-eye" style="color: lightblue;"></i><div style="font-size: 18px; position: absolute; top: 40px; left: 25px;">5,7</div></div></div>
     </div>
+    <div>
+        <div class="PinIcon" style="float: left;"><div style="font-size: 74px; position: relative; padding-right: 10px; top: -10px;"><i class="fa fa-thumb-tack" style="color: lightgrey;"></i><div style="font-size: 18px; position: absolute; top: 40px; left: 11px;"></div></div></div>
+    </div>
 </asp:Content>

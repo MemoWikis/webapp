@@ -228,6 +228,23 @@
 
 
  */
+.PinIcon {
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.PinIcon:hover {
+  -moz-transform: rotate(0);
+  -ms-transform: rotate(0);
+  -o-transform: rotate(0);
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+}
+.PinIcon:hover i {
+  color: #b13a48 !important;
+}
 .flexboxx {
   /* basic styling */
   width: 350px;
