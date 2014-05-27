@@ -46,6 +46,7 @@
         </div>
     </div>
         
+
     <div class="row">
         <div class="aside col-md-3 col-md-push-9" style="margin-bottom: 11px;">
             <div class="form-horizontal" role="form">
@@ -102,6 +103,17 @@
         </div>
         <div class="col-md-9 col-md-pull-3">
             <div class="form-horizontal" role="form">
+                
+                <% if(!Model.IsLoggedIn){ %>
+                    <div class="bs-callout bs-callout-info" style="margin-top: -15px;">
+                        <h4>Anmelden oder registrieren</h4>
+                        <p>
+                            Um Fragen zu erstellen, <br/>
+                            musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
+                        </p>
+                    </div>
+                <% }%>
+
                 <div>
                     <% Html.Message(Model.Message); %>
                 </div>
@@ -226,7 +238,7 @@
                             </div>
                         </div>
                     </div>
-
+                <% if(Model.IsLoggedIn){ %>
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
                             <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
@@ -236,6 +248,7 @@
                         </div>
                     </div>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>

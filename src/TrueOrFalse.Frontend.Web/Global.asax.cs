@@ -39,7 +39,6 @@ namespace TrueOrFalse.Frontend.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
-            GlobalFilters.Filters.Add(new GlobalAuthorizationAttribute());
         }
 
         private void Application_BeginRequest()

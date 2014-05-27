@@ -6,9 +6,19 @@ using TrueOrFalse.Frontend.Web.Models;
 
 public class KnowledgeModel : BaseModel
 {
-    private readonly SessionUser _sessionUser;
+    private new readonly SessionUser _sessionUser;
 
-    public string UserName { get { return _sessionUser.User.Name; } }
+    public bool IsLoggedIn { get { return _sessionUser.IsLoggedIn;  } }
+
+    public string UserName
+    {
+        get
+        {
+            if (_sessionUser.User == null)
+                return "Unbekannte(r)";
+            return _sessionUser.User.Name;
+        }
+    }
 
     public int TotalAnswerThisWeek;
     public int TotalAnswerThisMonth;

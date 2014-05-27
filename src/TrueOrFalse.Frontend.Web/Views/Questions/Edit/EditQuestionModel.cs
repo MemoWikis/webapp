@@ -48,6 +48,7 @@ public class EditQuestionModel : BaseModel
     public string ImageUrl_128;
     public string SoundUrl;
     public bool IsEditing;
+    public bool IsLoggedIn;
 
     public IEnumerable<SelectListItem> VisibilityData { get {
             return new List<SelectListItem> {
@@ -88,6 +89,7 @@ public class EditQuestionModel : BaseModel
     public EditQuestionModel(Question question)
     {
         Id = question.Id;
+        IsLoggedIn = _sessionUser.IsLoggedIn;
         Question = question.Text;
         QuestionExtended = question.TextExtended;
         SolutionType = question.SolutionType.ToString();

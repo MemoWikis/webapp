@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using NHibernate.Criterion;
@@ -34,7 +35,6 @@ public class QuestionsController : BaseController
             new QuestionsModel(
                 _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionAll), 
                 _sessionUiData.SearchSpecQuestionAll, 
-                _sessionUser.User.Id,
                 isTabAllActive: true));
     }
 
@@ -47,6 +47,11 @@ public class QuestionsController : BaseController
     [SetMenu(MenuEntry.Questions)]
     public ActionResult QuestionsMine(int? page, QuestionsModel model, string orderBy)
     {
+        if (!_sessionUser.IsLoggedIn){
+            return View("Questions",
+                new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), isTabMineActive: true));
+        }
+
         SetSearchSpecVars(_sessionUiData.SearchSpecQuestionMine, page, model, orderBy);
         _sessionUiData.SearchSpecQuestionMine.Filter.CreatorId = _sessionUser.User.Id;
 
@@ -54,7 +59,6 @@ public class QuestionsController : BaseController
             new QuestionsModel(
                 _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionMine),
                 _sessionUiData.SearchSpecQuestionMine, 
-                _sessionUser.User.Id,
                 isTabMineActive: true));
     }
 
@@ -67,6 +71,11 @@ public class QuestionsController : BaseController
     [SetMenu(MenuEntry.Questions)]
     public ActionResult QuestionsWish(int? page, QuestionsModel model, string orderBy)
     {
+        if (!_sessionUser.IsLoggedIn){
+            return View("Questions", 
+                new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), isTabWishActice: true));
+        }
+
         SetSearchSpecVars(_sessionUiData.SearchSpecQuestionWish, page, model, orderBy);
         _sessionUiData.SearchSpecQuestionWish.Filter.ValuatorId = _sessionUser.User.Id;
 
@@ -74,7 +83,6 @@ public class QuestionsController : BaseController
             new QuestionsModel(
                 _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionWish),
                 _sessionUiData.SearchSpecQuestionWish,
-                _sessionUser.User.Id,
                 isTabWishActice: true));
     }
 

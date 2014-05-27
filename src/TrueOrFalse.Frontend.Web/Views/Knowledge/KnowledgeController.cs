@@ -22,6 +22,9 @@ public class KnowledgeController : Controller
     [SetMenu(MenuEntry.Knowledge)]
     public ActionResult Knowledge()
     {
+        if (!_sessionUser.IsLoggedIn)
+            return View(new KnowledgeModel(_sessionUser));
+
         var answersThisWeek = _getAnswerStatsInPeriod.RunForThisWeek(_sessionUser.User.Id);
         var answersThisMonth = _getAnswerStatsInPeriod.RunForThisMonth(_sessionUser.User.Id);
         var answersPreviousWeek = _getAnswerStatsInPeriod.RunForPreviousWeek(_sessionUser.User.Id);
