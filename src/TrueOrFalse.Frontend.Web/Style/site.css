@@ -1232,6 +1232,9 @@ h1 *.underlined {
 .underlined.Knowledge {
   border-bottom-color: #b13a48;
 }
+.underlined.Category {
+  border-bottom-color: #99ccff;
+}
 /* VALIDATION
 ----------------------------------------------------------*/
 textarea.input-validation-error,

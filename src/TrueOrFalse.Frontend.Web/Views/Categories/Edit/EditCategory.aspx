@@ -15,11 +15,15 @@
     FormMethod.Post, new { enctype = "multipart/form-data" })){%>
     
     <div class="col-md-9 pageHeader">
-        <h2><% if (Model.IsEditing) { %>
+        <h2>
+            <span class="underlined Category">
+                <% if (Model.IsEditing) { %>
                 Kategorie bearbeiten
-            <% } else { %>
+                <% } else { %>
                 Kategorie erstellen
-            <% } %>
+                <% } %>
+
+            </span>
         </h2>
     </div>
     <div class="col-md-3">
@@ -49,7 +53,34 @@
             <input type="hidden" id="categoryType" value="<%= Model.IsEditing ? Model.Category.Type.ToString() : "" %>"/>
 
             <% Html.Message(Model.Message); %>
-    
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label">
+                    Kategorietyp
+                </label>
+                <div class="col-xs-9">
+
+                    <div class="radio">
+                        <label style="font-weight: normal">
+                            <input type="radio" name="optionsRadios" value="option1" checked>
+                            Standard
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label style="font-weight: normal">
+                            <input type="radio" name="optionsRadios" value="option1">
+                            Medien (Bücher, Zeitungsartikel, Videos etc.)
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label style="font-weight: normal">
+                            <input type="radio" name="optionsRadios" value="option1">
+                            Aus- und Weiterbildung (Studiengänge, Schulfächer, Klassenstufen etc.)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <%= Html.LabelFor(m => m.Name, new {@class="col-sm-3 control-label"} ) %>
                 <div class="col-xs-7">
@@ -66,6 +97,7 @@
             </div>
             
             <%if(!Model.IsEditing){ %>
+                
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Typ</label>
                     <div class="col-xs-9">
