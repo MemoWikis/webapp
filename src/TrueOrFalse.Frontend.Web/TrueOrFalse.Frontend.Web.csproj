@@ -669,7 +669,6 @@
     <Compile Include="Views\Sets\SetsController.cs" />
     <Compile Include="Views\Sets\SetsModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
-    <Compile Include="Views\Questions\Answer\FeedbackRowModel.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
     <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
     <Compile Include="Views\Messages\MessagesController.cs" />

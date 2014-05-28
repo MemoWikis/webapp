@@ -39,7 +39,6 @@ public class AnswerQuestionModel : BaseModel
 
     public string ImageUrl_500px;
     public string SoundUrl;
-    public IList<FeedbackRowModel> FeedbackRows;
     public int TotalViews;
 
     public int TimesAnsweredUser;
@@ -60,12 +59,6 @@ public class AnswerQuestionModel : BaseModel
 
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }
-
-    public int TimesAnsweredTotal { get; private set; }
-    public int PercenctageCorrectAnswers { get; private set; }
-    public int TimesAnsweredCorrect { get; private set; }
-    public int TimesAnsweredWrongTotal { get; private set; }
-    public int TimesJumpedOver { get; private set; }
 
     public string AverageAnswerTime { get; private set; }
 
@@ -184,31 +177,5 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
-
-        FeedbackRows = new List<FeedbackRowModel>();
-        FeedbackRows.Add(new FeedbackRowModel{
-            Key = "RelevancePersonal",
-            Title = "Merken. [UhrIcon]",
-            FeedbackAverage = Math.Round(question.TotalRelevancePersonalAvg / 10d, 1).ToString(),
-            FeedbackCount = question.TotalRelevancePersonalEntries.ToString(),
-            HasUserValue = questionValuationForUser.IsSetRelevancePersonal(),
-            UserValue = questionValuationForUser.RelevancePersonal.ToString()
-        });
-        FeedbackRows.Add(new FeedbackRowModel{
-            Key = "Quality",
-            Title = "Qualität",
-            FeedbackAverage = Math.Round(question.TotalQualityAvg / 10d, 1).ToString(),
-            FeedbackCount = question.TotalQualityEntries.ToString(),
-            HasUserValue = questionValuationForUser.IsSetQuality(),
-            UserValue = questionValuationForUser.Quality.ToString()
-        });
-        FeedbackRows.Add(new FeedbackRowModel{
-            Key = "RelevanceForAll",
-            Title = "Allgemeinwissen?",
-            FeedbackAverage = Math.Round(question.TotalRelevanceForAllAvg / 10d, 1).ToString(),
-            FeedbackCount = question.TotalRelevanceForAllEntries.ToString(),
-            HasUserValue = questionValuationForUser.IsSetRelevanceForAll(),
-            UserValue = questionValuationForUser.RelevanceForAll.ToString()
-        });
     }
 }

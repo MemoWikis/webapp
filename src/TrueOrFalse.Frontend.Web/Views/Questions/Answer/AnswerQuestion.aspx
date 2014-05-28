@@ -173,30 +173,6 @@
                 </div>
             </div>
             
-            
-
-<%--            <% foreach (var row in Model.FeedbackRows){ %>
-                <div class="row valRow">
-                    <div class="valColumn1 col-md-6">
-                        <%= row.Title %>: <i class="fa fa-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
-                    </div>
-                        
-                    <div id="div<%= row.Key%>Slider" class="valColumn2 col-md-6" <% if(!row.HasUserValue){ %> style="display:none"  <% } %> >
-                        <div id="slider<%= row.Key %>" class="col-md-7 ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-                            <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-                            <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-                        </div>
-                        <a href="#" id="remove<%= row.Key %>Value"><img src="/Images/delete.png" class="imgDelete"></a>
-                        <span id="slider<%= row.Key %>Value" class="valMine"><%= row.UserValue%></span>
-                    </div>
-                    <div id="div<%= row.Key %>Add" class="valColumn2 col-md-6" <% if(row.HasUserValue){ %> style="display:none"  <% } %>>
-                        <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="fa fa-plus"></i> ---</a>
-                    </div>
-                </div>
-            <%} %>--%>
-    
-                       
-            
             <div style="margin-top: 30px; color: darkgray; font-weight: bold;" class="row">
                 <div class="col-lg-6">
                     <h4 style="padding:0; margin:0;">Kommentare</h4>    
@@ -208,10 +184,8 @@
                     <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
                     <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
                 </div>
-                
             </div>
-            
-                        
+  
             <div class="panel panel-default" style="margin-top: 7px;">
                 <div class="panel-heading">
                     Robert Mischke
@@ -226,8 +200,7 @@
                     </div>
                 </div>
             </div>
-            
-            
+                        
             <div class="panel panel-default" style="margin-top: 7px;">
                 <div class="panel-heading">Neuen Kommentar hinzufügen</div>
                 <div class="panel-body">
