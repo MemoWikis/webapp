@@ -62,7 +62,7 @@ public class AnswerQuestionController : BaseController
             activeSearchSpec.CurrentPage = (int)elementOnPage;
 
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
-        _saveQuestionView.Run(question, _sessionUser.User.Id);
+        _saveQuestionView.Run(question, _sessionUser.User);
 
         return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec));
     }
