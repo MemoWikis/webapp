@@ -1,5 +1,5 @@
 /// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
-/// <reference path="../../../../scripts/mm.utils.ts" />
+/// <reference path="../../../../scripts/utils.ts" />
 /// <reference path="../js/answerquestion.ts" />
 
 class SolutionTypeMultipleChoice implements ISolutionEntry

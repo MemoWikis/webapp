@@ -218,6 +218,7 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Views\Api\ApiBaseController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
+    <Compile Include="Views\Api\QuestionsController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Dates\DatesController.cs" />
@@ -294,9 +295,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <TypeScriptCompile Include="Scripts\MM.Log.ts" />
-    <TypeScriptCompile Include="Scripts\MM.Site.ts" />
-    <TypeScriptCompile Include="Scripts\MM.Utils.ts" />
+    <TypeScriptCompile Include="Scripts\Log.ts" />
+    <TypeScriptCompile Include="Scripts\Site.ts" />
+    <TypeScriptCompile Include="Scripts\Utils.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ChangeTypeControls.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
@@ -309,24 +310,23 @@
     <Content Include="Images\wiki-24.png" />
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
-    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\vendor\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
-    <TypeScriptCompile Include="Scripts\MM.DateParser.ts" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <TypeScriptCompile Include="Scripts\DateParser.ts" />
     <Content Include="Scripts\MM.DateParser.js">
-      <DependentUpon>MM.DateParser.ts</DependentUpon>
+      <DependentUpon>DateParser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.Log.js">
-      <DependentUpon>MM.Log.ts</DependentUpon>
+      <DependentUpon>Log.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.Site.js">
-      <DependentUpon>MM.Site.ts</DependentUpon>
+      <DependentUpon>Site.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.Utils.js">
-      <DependentUpon>MM.Utils.ts</DependentUpon>
+      <DependentUpon>Utils.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.ValuationPerRow.js">
-      <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
+      <DependentUpon>ValuationPerRow.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\SolutionMetaData.js">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
@@ -409,22 +409,22 @@
     <Content Include="Scripts\app.config" />
     <Content Include="Style\grid.less" />
     <Content Include="Scripts\MM.Log.js.map">
-      <DependentUpon>MM.Log.ts</DependentUpon>
+      <DependentUpon>Log.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.DateParser.js.map">
-      <DependentUpon>MM.DateParser.ts</DependentUpon>
+      <DependentUpon>DateParser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.Site.js.map">
-      <DependentUpon>MM.Site.ts</DependentUpon>
+      <DependentUpon>Site.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.ValuationPerRow.js.map">
-      <DependentUpon>MM.ValuationPerRow.ts</DependentUpon>
+      <DependentUpon>ValuationPerRow.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\SolutionMetaData.js.map">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\MM.Utils.js.map">
-      <DependentUpon>MM.Utils.ts</DependentUpon>
+      <DependentUpon>Utils.ts</DependentUpon>
     </Content>
     <Content Include="Style\site.css.map">
       <DependentUpon>site.css</DependentUpon>
@@ -623,25 +623,25 @@
     <Content Include="Scripts\file-uploader\uploader.basic.js" />
     <Content Include="Scripts\file-uploader\uploader.js" />
     <Content Include="Scripts\file-uploader\util.js" />
-    <Content Include="Scripts\html5shiv.js" />
-    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
-    <Content Include="Scripts\jquery-2.0.3.js" />
-    <Content Include="Scripts\jquery-ui-1.10.3.js" />
-    <Content Include="Scripts\jquery.scrollTo-1.4.3.1.js" />
-    <Content Include="Scripts\jquery-2.0.3.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\json2.js" />
-    <Content Include="Scripts\Markdown.Converter.js" />
-    <Content Include="Scripts\Markdown.Editor.js" />
-    <Content Include="Scripts\Markdown.Sanitizer.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\vendor\html5shiv.js" />
+    <None Include="Scripts\vendor\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\vendor\jquery-2.0.3.js" />
+    <Content Include="Scripts\vendor\jquery-ui-1.10.3.js" />
+    <Content Include="Scripts\vendor\jquery.scrollTo-1.4.3.1.js" />
+    <Content Include="Scripts\vendor\jquery-2.0.3.min.map" />
+    <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\vendor\jquery.validate.js" />
+    <Content Include="Scripts\vendor\json2.js" />
+    <Content Include="Scripts\vendor\Markdown.Converter.js" />
+    <Content Include="Scripts\vendor\Markdown.Editor.js" />
+    <Content Include="Scripts\vendor\Markdown.Sanitizer.js" />
+    <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
     <Content Include="Scripts\typescript.defs\markdown.d.ts" />
     <Content Include="Scripts\typescript.defs\jquery.scrollTo.d.ts" />
     <Content Include="Scripts\typescript.defs\lib.d.ts" />
     <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
     <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
-    <Content Include="Scripts\underscore-1.4.3.js" />
+    <Content Include="Scripts\vendor\underscore-1.4.3.js" />
     <Compile Include="Views\Categories\Detail\CategoryController.cs" />
     <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
     <Compile Include="Views\Categories\CategoriesControllerSearch.cs" />
@@ -769,15 +769,9 @@
     <Content Include="Scripts\google-code-prettify\prettify.js" />
     <Content Include="Scripts\Jplayer.swf" />
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
-    <Content Include="Scripts\jquery.jplayer.js" />
-    <Content Include="Scripts\jquery.sparkline.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftAjax.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\vendor\jquery.jplayer.js" />
+    <Content Include="Scripts\vendor\jquery.sparkline.js" />
+    <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
     <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.svg" />
     <Content Include="Style\fonts\OFL.txt" />
@@ -855,7 +849,7 @@
     <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js">
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Scripts\MM.ValuationPerRow.ts" />
+    <TypeScriptCompile Include="Scripts\ValuationPerRow.ts" />
     <Content Include="Views\Questions\Edit\Js\References.js">
       <DependentUpon>References.ts</DependentUpon>
     </Content>
@@ -1113,7 +1107,7 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\QuestionRow.ascx" />
     <Content Include="Views\Questions\Questions.aspx" />
-    <Content Include="Scripts\MM.JQueryExtensions.js" />
+    <Content Include="Scripts\JQueryExtensions.js" />
     <Content Include="Views\Shared\Message.ascx" />
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
@@ -1160,9 +1154,7 @@
       <Name>TrueOrFalse</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

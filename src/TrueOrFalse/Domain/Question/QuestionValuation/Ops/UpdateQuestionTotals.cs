@@ -44,7 +44,7 @@ namespace TrueOrFalse
             _session.Flush();
         }
 
-        public void UpdateRelevancePersonal(int questionId, User user, int relevance)
+        public void UpdateRelevancePersonal(int questionId, User user, int relevance = 50)
         {
             _createOrUpdateQuestionValue.Run(questionId, user.Id, relevancePeronal: relevance);
             _session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();

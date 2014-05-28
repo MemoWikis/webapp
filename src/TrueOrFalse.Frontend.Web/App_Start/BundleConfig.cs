@@ -27,7 +27,8 @@ namespace TrueOrFalse.View
 
             /* JS */
             bundles.Add(new ScriptBundle("~/bundles/shared")
-                .IncludeDirectory("~/Scripts/", "*.js"));
+                .IncludeDirectory("~/Scripts/", "*.js")
+                .IncludeDirectory("~/Scripts/vendor", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/file-uploader/header.js")
