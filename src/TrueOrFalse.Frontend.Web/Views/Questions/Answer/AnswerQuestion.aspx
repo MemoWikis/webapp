@@ -95,7 +95,11 @@
                                 
                 <div style="float: right; padding-left: 10px;">
                     <a href="" style="font-size: 22px;">
-                        <i class="fa fa-heart-o" id="iAdd" style="color:#b13a48"></i>
+                        <% if (Model.IsInWishknowledge){ %>
+                            <i class="fa fa-heart" id="iAdd" style="color:#b13a48"></i>
+                        <% } else {  %>
+                            <i class="fa fa-heart-o" id="iAdd" style="color:#b13a48"></i>
+                        <% } %>
                     </a>
                 </div>    
                 <span style="font-size: 22px; padding-bottom: 20px;">
@@ -278,11 +282,14 @@
             </p>
         
             <p>
+                <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
+                    <i class="fa fa-heart" style="color:silver;"></i> <%= Model.TotalRelevancePersonalEntries %>x<br />
+                </span>                
                 <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
-                    <i class="fa fa-eye"></i> <%= Model.TotalViews %>x<br />
-                </span>
+                    <i class="fa fa-eye" style="color:darkslategray;"></i> <%= Model.TotalViews %>x
+                </span><br />
             </p>
-            
+
             <p style="width: 150px;">
                 <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend" data-font="arial"></div>
             </p>

@@ -92,6 +92,8 @@ public class AnswerQuestionModel : BaseModel
     public AnswerHistoryModel AnswerHistory;
     public CorrectnessProbabilityModel CorrectnessProbability;
 
+    public bool IsInWishknowledge;
+
     public AnswerQuestionModel() { }
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
@@ -160,6 +162,7 @@ public class AnswerQuestionModel : BaseModel
 
         AnswerHistory = new AnswerHistoryModel(question, valuationForUser);
         CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser);
+        IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
         
         TotalViews = question.TotalViews + 1;
 
