@@ -137,9 +137,9 @@ public class AnswerQuestionModel : BaseModel
         if (question.Visibility != QuestionVisibility.All)
             if(question.Creator.Id != _sessionUser.User.Id)
                 throw new Exception("Invalid access to questionId" + question.Id);
-        
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, _sessionUser.User.Id));
-        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.User.Id, question.Id);
+
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
+        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
 
         Creator = question.Creator;
         CreatorId = question.Creator.Id.ToString();
