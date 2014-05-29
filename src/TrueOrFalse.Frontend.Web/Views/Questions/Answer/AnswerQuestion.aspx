@@ -93,13 +93,14 @@
         <div class="col-lg-9 col-xs-9 xxs-stack">
             <div class="well">
                                 
-                <div style="float: right; padding-left: 10px;">
-                    <a href="" style="font-size: 22px;">
+                <div style="float: right; margin-left: 10px;">
+                    <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <% if (Model.IsInWishknowledge){ %>
-                            <i class="fa fa-heart" id="iAdd" style="color:#b13a48"></i>
+                            <i class="fa fa-heart" id="iAdd" style="color:#b13a48;"></i>
                         <% } else {  %>
-                            <i class="fa fa-heart-o" id="iAdd" style="color:#b13a48"></i>
+                            <i class="fa fa-heart-o" id="iAdd" style="color:#b13a48;"></i>
                         <% } %>
+                        <i class="fa fa-spinner fa-spin hide2" id="iAddSpinner" style="color:#b13a48;"></i>
                     </a>
                 </div>    
                 <span style="font-size: 22px; padding-bottom: 20px;">

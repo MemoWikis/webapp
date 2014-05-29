@@ -218,7 +218,7 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Views\Api\ApiBaseController.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
-    <Compile Include="Views\Api\QuestionsController.cs" />
+    <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Dates\DatesController.cs" />
@@ -296,6 +296,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="Scripts\Log.ts" />
+    <TypeScriptCompile Include="Scripts\Menu.ts" />
+    <TypeScriptCompile Include="Scripts\QuestionsApi.ts" />
     <TypeScriptCompile Include="Scripts\Site.ts" />
     <TypeScriptCompile Include="Scripts\Utils.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ChangeTypeControls.ts" />
@@ -310,24 +312,27 @@
     <Content Include="Images\wiki-24.png" />
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
+    <Content Include="Scripts\DateParser.js">
+      <DependentUpon>DateParser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Log.js">
+      <DependentUpon>Log.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\QuestionsApi.js">
+      <DependentUpon>QuestionsApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Site.js">
+      <DependentUpon>Site.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utils.js">
+      <DependentUpon>Utils.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\ValuationPerRow.js">
+      <DependentUpon>ValuationPerRow.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\vendor\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
     <TypeScriptCompile Include="Scripts\DateParser.ts" />
-    <Content Include="Scripts\MM.DateParser.js">
-      <DependentUpon>DateParser.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\MM.Log.js">
-      <DependentUpon>Log.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\MM.Site.js">
-      <DependentUpon>Site.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\MM.Utils.js">
-      <DependentUpon>Utils.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\MM.ValuationPerRow.js">
-      <DependentUpon>ValuationPerRow.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\SolutionMetaData.js">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
     </Content>
@@ -408,23 +413,8 @@
     <Content Include="Style\includes\variables.less" />
     <Content Include="Scripts\app.config" />
     <Content Include="Style\grid.less" />
-    <Content Include="Scripts\MM.Log.js.map">
-      <DependentUpon>Log.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\MM.DateParser.js.map">
-      <DependentUpon>DateParser.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\MM.Site.js.map">
-      <DependentUpon>Site.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\MM.ValuationPerRow.js.map">
-      <DependentUpon>ValuationPerRow.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\SolutionMetaData.js.map">
       <DependentUpon>SolutionMetaData.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\MM.Utils.js.map">
-      <DependentUpon>Utils.ts</DependentUpon>
     </Content>
     <Content Include="Style\site.css.map">
       <DependentUpon>site.css</DependentUpon>
@@ -548,6 +538,24 @@
     <Content Include="Style\drafts.less" />
     <Content Include="Style\z_mixins_2.3.2.css.map">
       <DependentUpon>z_mixins_2.3.2.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\DateParser.js.map">
+      <DependentUpon>DateParser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Log.js.map">
+      <DependentUpon>Log.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\QuestionsApi.js.map">
+      <DependentUpon>QuestionsApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Site.js.map">
+      <DependentUpon>Site.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utils.js.map">
+      <DependentUpon>Utils.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\ValuationPerRow.js.map">
+      <DependentUpon>ValuationPerRow.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -843,6 +851,9 @@
     <Content Include="Views\Questions\Answer\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Js\PinQuestion.js">
+      <DependentUpon>PinQuestion.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
@@ -874,6 +885,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
@@ -1091,6 +1103,9 @@
     </Content>
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js.map">
       <DependentUpon>ChangeTypeControls.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\PinQuestion.js.map">
+      <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

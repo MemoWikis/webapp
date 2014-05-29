@@ -7,20 +7,20 @@ using TrueOrFalse;
 
 namespace Api
 {
-    public class QuestionsController : BaseController
+    public class QuestionsApiController : BaseController
     {
         [HttpPost]
-        public void Pin(int questionId)
+        public void Pin(string questionId)
         {
             Resolve<UpdateQuestionTotals>()
-                .UpdateRelevancePersonal(questionId, _sessionUser.User);
+                .UpdateRelevancePersonal(Convert.ToInt32(questionId), _sessionUser.User);
         }
 
         [HttpPost]
-        public void Unpin(int questionId)
+        public void Unpin(string questionId)
         {
             Resolve<UpdateQuestionTotals>()
-                .UpdateRelevancePersonal(questionId, _sessionUser.User, -1);
+                .UpdateRelevancePersonal(Convert.ToInt32(questionId), _sessionUser.User, -1);
         }
     }
 }

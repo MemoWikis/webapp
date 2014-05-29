@@ -68,20 +68,12 @@ var ValuationPerRow = (function () {
 
                 if (result.totalWishKnowledgeCountChange) {
                     if (self._mode == 0 /* Question */) {
-                        _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
+                        Utils.SetMenuPins(result.totalWishKnowledgeCount);
                     }
-                    _this.SetElementValue(".tabWishKnowledgeCount", result.totalWishKnowledgeCount);
+                    Utils.SetElementValue(".tabWishKnowledgeCount", result.totalWishKnowledgeCount);
                 }
             }
         });
-    };
-
-    ValuationPerRow.prototype.SetMenuWishKnowledge = function (newAmount) {
-        this.SetElementValue("#menuWishKnowledgeCount", newAmount);
-    };
-
-    ValuationPerRow.prototype.SetElementValue = function (selector, newValue) {
-        $(selector).text(newValue).animate({ opacity: 0.25 }, 100).animate({ opacity: 1.00 }, 500);
     };
     return ValuationPerRow;
 })();

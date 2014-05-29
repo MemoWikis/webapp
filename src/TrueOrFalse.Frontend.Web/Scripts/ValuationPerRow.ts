@@ -75,22 +75,11 @@ class ValuationPerRow
 
                 if (result.totalWishKnowledgeCountChange) {
                     if (self._mode == ValuationPerRowMode.Question) {
-                        _this.SetMenuWishKnowledge(result.totalWishKnowledgeCount);
+                        Utils.SetMenuPins(result.totalWishKnowledgeCount);
                     }
-                    _this.SetElementValue(".tabWishKnowledgeCount", result.totalWishKnowledgeCount);
+                    Utils.SetElementValue(".tabWishKnowledgeCount", result.totalWishKnowledgeCount);
                 }
             }
         });
-    }
-
-    SetMenuWishKnowledge(newAmount) {
-        this.SetElementValue("#menuWishKnowledgeCount", newAmount);
-    }
-
-    SetElementValue(selector: string, newValue : string) {
-        $(selector)
-            .text(newValue)
-            .animate({ opacity: 0.25 }, 100)
-            .animate({ opacity: 1.00 }, 500);
     }
 }

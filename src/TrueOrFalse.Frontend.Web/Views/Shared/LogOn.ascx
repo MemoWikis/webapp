@@ -35,7 +35,7 @@
 <%
     }else {
 %> 
-        <a class="SimpleTextLink" href="<%=Url.Action("LogOn", Links.AccountController) %>" title="Anmelden"><i class="fa fa-sign-in"></i> <span class="TextSpan">Anmelden</span></a>
+        <a class="SimpleTextLink" href="<%=Url.Action("Login", Links.WelcomeController) %>" title="Anmelden"><i class="fa fa-sign-in"></i> <span class="TextSpan">Anmelden</span></a>
 <%
     }
 %>    
