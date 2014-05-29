@@ -40,12 +40,14 @@ namespace TrueOrFalse.Updates
 
         public static void ReloadAllSchemas(bool testSchemas = false)
         {
-            _coreNames.ForEach(c => RefreshSchema(c + (testSchemas ? "Test" : "")));
+            _coreNames.ForEach(c => CopySchema(c + (testSchemas ? "Test" : "")));
+            _coreNames.ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
         }
 
         public static void ReloadAllConfigs(bool testSchemas = false)
         {
-            _coreNames.ForEach(c => RefreshSchema(c + (testSchemas ? "Test" : "")));
+            _coreNames.ForEach(c => CopyConfig(c + (testSchemas ? "Test" : "")));
+            _coreNames.ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
         }
 
         public static void RefreshSchema(string coreName){
@@ -71,7 +73,7 @@ namespace TrueOrFalse.Updates
         {
             File.Copy(
                 PathTo.SolrSchema("solrconfig" + coreName + ".xml"),
-                _solrPath + "/tof" + coreName + "/conf/" + "schema.xml",
+                _solrPath + "/tof" + coreName + "/conf/" + "solrconfig.xml",
                 overwrite: true
             );            
         }
