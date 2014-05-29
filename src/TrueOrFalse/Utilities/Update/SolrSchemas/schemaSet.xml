@@ -65,10 +65,10 @@
            -->
         <field name="Id" type="int" indexed="true" stored="true" required="true" multiValued="false" />
         <field name="CreatorId" type="int" indexed="true" stored="false" required="true" multiValued="false" />
-	<field name="ValuatorIds" type="int" indexed="true" stored="false" required="false" multiValued="true" />
+	      <field name="ValuatorIds" type="int" indexed="true" stored="false" required="false" multiValued="true" />
 
         <!-- Contains (Text, Description, AllQuestionTitle, AllQuestionBodies) -->
-	<field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true"/>
+	      <field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true"/>
         <field name="FullTextStemmed" type="textStemmed" indexed="true" stored="false" multiValued="true"/>
 
         <field name="Text" type="string" indexed="false" stored="false" multiValued="false" />
