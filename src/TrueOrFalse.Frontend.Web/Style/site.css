@@ -1,5 +1,33 @@
-﻿/* LESS INCLUDES
-----------------------------------------------------------*/
+﻿/*--------------------------------------------------------
+[Description]
+
+
+[Contents]
+    PRIMARY LAYOUT ELEMENTS
+        Links
+        Headings
+        Images
+    MASTER HEADER / #MasterHeader
+    MASTER SECTION / #MasterSection
+    MOBILE SUBHEADER / #MobileSubHeader
+    MASTER MAIN CONTENT / #MasterMainContent
+    MASTER FOOTER / #MasterFooter
+    VALIDATION
+    BUTTONS
+    MODALS
+    LABELS
+    SEARCH SECTION
+    CONTAINER
+    ROWS
+    VENDOR ADAPTATIONS
+        Font-awesome icons
+        UI
+    VARIOUS
+        Tooltips
+        Icons
+
+[Imports:]
+--------------------------------------------------------*/
 .thumbnail > img,
 .thumbnail a > img,
 .carousel-inner > .item > img,
@@ -211,22 +239,22 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-/* Local variables
+/*  [Local variables:]
 ----------------------------------------------------------*/
-/* PRIMARY LAYOUT ELEMENTS   
+/*  PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
 html {
   overflow: scroll;
   height: 100%;
   background-color: #efefef;
 }
-/*always show scrollbar*/
 body {
   min-width: 280px;
   position: relative;
   font-size: 13px;
   color: #203256;
 }
+/*Links*/
 a {
   color: #2c5fb2;
 }
@@ -265,20 +293,36 @@ a.SimpleTextLink i {
 a.SimpleTextLink .TextSpan {
   vertical-align: middle;
 }
-@media (max-width: 767px) {
-  .fa-question-circle.show-tooltip {
-    display: none !important;
-  }
+/*Headings*/
+.underlined {
+  border-bottom: solid 2px #afd534;
 }
-@media (min-width: 768px) and (max-width: 991px) {
-  .fa-question-circle.show-tooltip {
-    display: none !important;
-  }
+span.underlined {
+  display: inline-block;
 }
+h3.underlined,
+h3 *.underlined {
+  border-bottom-width: 3px;
+}
+h2.underlined,
+h2 *.underlined {
+  border-bottom-width: 3px;
+}
+h1.underlined,
+h1 *.underlined {
+  border-bottom-width: 4px;
+}
+.underlined.Knowledge {
+  border-bottom-color: #b13a48;
+}
+.underlined.Category {
+  border-bottom-color: #99ccff;
+}
+/*Images*/
 img {
   max-width: 100%;
 }
-/* MasterHeader  
+/* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
   position: relative;
@@ -918,7 +962,7 @@ fieldset[disabled] #MenuButton:hover {
     display: none;
   }
 }
-/* MasterSection
+/* MASTER SECITON
 ----------------------------------------------------------*/
 #MasterSection {
   position: relative;
@@ -983,7 +1027,7 @@ fieldset[disabled] #MenuButton:hover {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=1);
   /* IE6-9 */
 }
-/* MobileSubHeader
+/* MOBILE SUBHEADER
 ----------------------------------------------------------*/
 #MobileSubHeader {
   background-color: #e7ecf6;
@@ -1143,7 +1187,7 @@ fieldset[disabled] #MenuButton:hover {
 #MainFilterBar .btn {
   border-radius: 0;
 }
-/* MasterMainContent
+/* MASTER MAIN CONTENT
 ----------------------------------------------------------*/
 #MasterMainContent {
   background-color: #ffffff;
@@ -1175,7 +1219,7 @@ fieldset[disabled] #MenuButton:hover {
     width: 75%;
   }
 }
-/* MasterFooter
+/* MASTER FOOTER
 ----------------------------------------------------------*/
 #MasterFooter {
   background-color: #efefef;
@@ -1191,49 +1235,6 @@ fieldset[disabled] #MenuButton:hover {
 #MasterFooter #footerOn li {
   display: inline-block;
   padding-left: 20px;
-}
-/* $ToDo: Clean up
-----------------------------------------------------------*/
-.dark-blue {
-  color: #2e487b;
-}
-/*Fonts*/
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Lato', sans-serif;
-}
-span.smaller {
-  font-size: 90%;
-}
-/* HEADER
-----------------------------------------------------------*/
-.underlined {
-  border-bottom: solid 2px #afd534;
-}
-span.underlined {
-  display: inline-block;
-}
-h3.underlined,
-h3 *.underlined {
-  border-bottom-width: 3px;
-}
-h2.underlined,
-h2 *.underlined {
-  border-bottom-width: 3px;
-}
-h1.underlined,
-h1 *.underlined {
-  border-bottom-width: 4px;
-}
-.underlined.Knowledge {
-  border-bottom-color: #b13a48;
-}
-.underlined.Category {
-  border-bottom-color: #99ccff;
 }
 /* VALIDATION
 ----------------------------------------------------------*/
@@ -1276,7 +1277,7 @@ a.button span.ui-icon {
   top: 50%;
   margin-top: -8px;
 }
-/* Modals
+/*  MODALS
 ----------------------------------------------------------*/
 .modal-footer .ButtonContainer {
   float: right;
@@ -1288,29 +1289,7 @@ a.button span.ui-icon {
   margin-right: 5px;
   margin-bottom: 10px;
 }
-/* VARIOUS
-----------------------------------------------------------*/
-.cursor-hand {
-  cursor: pointer;
-}
-.tooltip-text-left + .tooltip > .tooltip-inner {
-  text-align: left;
-  background-color: ghostwhite;
-  color: black;
-  border: 1px solid black;
-  box-shadow: white 0px 0px 0px 4px;
-}
-.tooltip-date + .tooltip > .tooltip-inner {
-  min-width: 300px;
-}
-.tooltip-width-200 + .tooltip > .tooltip-inner {
-  min-width: 200px;
-}
-ul.show-tooltip-ul {
-  text-align: left;
-  padding-left: 15px;
-}
-/* Labels
+/*  LABELS
 ----------------------------------------------------------*/
 .label {
   border: 2px solid;
@@ -1326,28 +1305,7 @@ ul.show-tooltip-ul {
   background-color: #fdf8dc;
   border-color: #ffd700;
 }
-/*FORMS
----------------------------------------------------------*/
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input,
-textarea,
-select {
-  color: #2e487b;
-}
-/* Search section
+/* SEARCH SECTION
 ----------------------------------------------------------*/
 div.search-container:before,
 .search-section:before,
@@ -1364,7 +1322,7 @@ div.search-container label,
 .search-section label {
   padding-top: 6px;
 }
-/*Container
+/*CONTAINER
 ---------------------------------------------------------*/
 .box {
   background-color: #E7ECF6;
@@ -1533,7 +1491,7 @@ div.box-main .box-content {
   margin-top: 0px;
   padding-bottom: 5px;
 }
-/*Rows
+/*ROWS
 ---------------------------------------------------------*/
 .rowBase:after {
   clear: both;
@@ -1558,10 +1516,9 @@ div.box-main .box-content {
   height: 36px;
   width: 100px;
 }
-/*Vendor adaptions
+/*VENDOR ADAPTATIONS
 ---------------------------------------------------------*/
-/*Font-awesome icons adaptions
----------------------------------------------------------*/
+/*Font-awesome icons*/
 i:hover {
   text-decoration: none;
 }
@@ -1569,12 +1526,45 @@ i:hover {
 .SimpleTextLink .fa-square-o {
   margin-top: 1px;
 }
-/*UI adaptions
----------------------------------------------------------*/
+/*UI*/
 ul.ui-autocomplete {
   z-index: 2;
 }
-/**************/
+/* VARIOUS
+----------------------------------------------------------*/
+.cursor-hand {
+  cursor: pointer;
+}
+/*Tooltips*/
+@media (max-width: 767px) {
+  .fa-question-circle.show-tooltip {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .fa-question-circle.show-tooltip {
+    display: none !important;
+  }
+}
+.tooltip-text-left + .tooltip > .tooltip-inner {
+  text-align: left;
+  background-color: ghostwhite;
+  color: black;
+  border: 1px solid black;
+  box-shadow: white 0px 0px 0px 4px;
+}
+.tooltip-date + .tooltip > .tooltip-inner {
+  min-width: 300px;
+}
+.tooltip-width-200 + .tooltip > .tooltip-inner {
+  min-width: 200px;
+}
+ul.show-tooltip-ul {
+  text-align: left;
+  padding-left: 15px;
+}
+/*Icons*/
+/**/
 .navLinks {
   margin-bottom: 20px;
 }
@@ -1590,23 +1580,21 @@ ul.ui-autocomplete {
     margin-right: 0;
   }
 }
-.bs-callout-info {
-  background-color: #f6f8fc;
-  border-color: #5bc0de !important;
+/* $ToDo: Clean up
+----------------------------------------------------------*/
+.dark-blue {
+  color: #2e487b;
 }
-.bs-callout {
-  margin: 20px 0;
-  padding: 20px;
-  border-left: 3px solid #eee;
+/*Fonts*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Lato', sans-serif;
 }
-.bs-callout-info h4 {
-  color: #5bc0de;
-}
-.bs-callout h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-}
-.bs-callout p:last-child {
-  margin-bottom: 0;
+span.smaller {
+  font-size: 90%;
 }
 /*# sourceMappingURL=site.css.map */

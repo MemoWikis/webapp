@@ -3,6 +3,10 @@
 @import (reference) 'includes/variables.less';
 @import (reference) 'bootstrap/bootstrap.less';
 
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input, textarea, select {
+    color: @dark-blue;
+}
+
 .pageHeader{h2&, & > h2{
         padding-top: 0; 
         margin-top: 0;
@@ -51,14 +55,31 @@ div.control-group.markdown {
     }
 }
 
-.FormSection {
-    .well;
-    background-color: #F6F8FC;
-    padding-top: 10px;
-    padding-bottom: 10px;
+/*Form Section style (conditional mixins)*/
 
-    /*label.control-label {
-        padding-bottom: 5px;
-        font-size: 15px;
-    }*/
+//Please set only one of the following two to true (or both to false):
+@FormSection-well-Style: true;
+@FormSection-bs-callout-Style: false;
+
+.FormSection-well-Style (@FormSection-well-Style);//conditional styles
+.FormSection-bs-callout-Style (@FormSection-bs-callout-Style);//conditional styles
+
+.FormSection-well-Style (@FormSection-well-Style) when (@FormSection-well-Style) {
+
+    .FormSection {
+        .well;
+        background-color: #F6F8FC;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+.FormSection-bs-callout-Style (@FormSection-bs-callout-Style) when (@FormSection-bs-callout-Style) {
+
+    .FormSection {
+        .bs-callout;
+        .bs-callout-info;
+        border: none;
+        margin-top: 0;
+    }
 }

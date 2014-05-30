@@ -1,9 +1,26 @@
-﻿@import 'variables.less';
+﻿/*--------------------------------------------------------
+[Description]
+
+
+[Contents]
+
+    Helper Classes
+    General Styles
+    Media query mixins
+    Own responsive utilities
+    Special styles
+        Modified styles from bootstrap website (not part of framework) / .bs-callout
+            
+
+[Imports:]
+--------------------------------------------------------*/
+
+@import 'variables.less';
 @import 'colors.less';
 
-/*              *\
-  Helper classes
-\*              */
+
+/*  Helper classes
+----------------------------------------------------------*/
 
 .block {
     display: block;
@@ -29,9 +46,8 @@
 }
 
 
-/*              *\
-  General styles
-\*              */
+/*  General styles
+----------------------------------------------------------*/
 
 .link {
     color: @link-blue;
@@ -41,10 +57,8 @@
     }
 }
 
-/*                        *\
-     Media query mixins
-\*                        */
-
+/*  Media query mixins
+----------------------------------------------------------*/
 
 .media-below-xs(@rules)   {@media(max-width: @screen-xxs-max){ @rules(); }}
 .media-xs(@rules)         {@media (min-width: @screen-xs-min) and (max-width: @screen-xs-max) { @rules(); }}
@@ -63,9 +77,8 @@
 
 
 
-/*                        *\
-  Own responsive utilities
-\*                        */
+/*  Own responsive utilities
+----------------------------------------------------------*/
 
 .xxs-stack {
     @media (max-width: (@screen-xs-min - 1px))  {
@@ -117,9 +130,9 @@
     }
 }
 
-/*                        *\
-  Special styles
-\*                        */
+/*  Mixins
+----------------------------------------------------------*/
+
 
 #tab-color(@outline-color: @light-blue) { 
 
@@ -142,6 +155,31 @@
             }
         }
     }
+}
+
+/*Modified styles from bootstrap website (not part of framework)*/
+
+.bs-callout-info {
+    background-color: #f6f8fc;
+    border-color: #5bc0de !important;
+}
+.bs-callout {
+    margin: 20px 0;
+    padding: 20px;
+    border-left: 3px solid #eee;
+}
+
+.bs-callout-info h4 {
+    color: #5bc0de;
+}
+
+.bs-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.bs-callout p:last-child {
+    margin-bottom: 0;
 }
 
 

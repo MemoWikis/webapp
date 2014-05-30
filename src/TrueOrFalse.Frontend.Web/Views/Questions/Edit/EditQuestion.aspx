@@ -105,7 +105,7 @@
             <div class="form-horizontal" role="form">
                 
                 <% if(!Model.IsLoggedIn){ %>
-                    <div class="bs-callout bs-callout-info" style="margin-top: -15px;">
+                    <div class="bs-callout bs-callout-info" style="margin-top: 0;">
                         <h4>Anmelden oder registrieren</h4>
                         <p>
                             Um Fragen zu erstellen, <br/>

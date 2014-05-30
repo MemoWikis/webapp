@@ -209,6 +209,25 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input,
+textarea,
+select {
+  color: #2e487b;
+}
 h2.pageHeader,
 .pageHeader > h2 {
   padding-top: 0;
@@ -265,6 +284,7 @@ div.control-group.markdown label {
     left: auto !important;
   }
 }
+/*Form Section style (conditional mixins)*/
 .FormSection {
   min-height: 20px;
   padding: 19px;
@@ -278,10 +298,6 @@ div.control-group.markdown label {
   background-color: #F6F8FC;
   padding-top: 10px;
   padding-bottom: 10px;
-  /*label.control-label {
-        padding-bottom: 5px;
-        font-size: 15px;
-    }*/
 }
 .FormSection blockquote {
   border-color: #ddd;

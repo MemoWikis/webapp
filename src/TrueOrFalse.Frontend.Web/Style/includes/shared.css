@@ -1,6 +1,21 @@
-﻿/*              *\
-  Helper classes
-\*              */
+﻿/*--------------------------------------------------------
+[Description]
+
+
+[Contents]
+
+    Helper Classes
+    General Styles
+    Media query mixins
+    Own responsive utilities
+    Special styles
+        Modified styles from bootstrap website (not part of framework) / .bs-callout
+            
+
+[Imports:]
+--------------------------------------------------------*/
+/*  Helper classes
+----------------------------------------------------------*/
 .block {
   display: block;
 }
@@ -23,21 +38,18 @@
   clear: both;
   visibility: visible;
 }
-/*              *\
-  General styles
-\*              */
+/*  General styles
+----------------------------------------------------------*/
 .link {
   color: #2c5fb2;
 }
 .link:hover {
   color: #2c5fb2;
 }
-/*                        *\
-     Media query mixins
-\*                        */
-/*                        *\
-  Own responsive utilities
-\*                        */
+/*  Media query mixins
+----------------------------------------------------------*/
+/*  Own responsive utilities
+----------------------------------------------------------*/
 @media (max-width: 479px) {
   .xxs-stack {
     float: none;
@@ -80,7 +92,26 @@
     display: none;
   }
 }
-/*                        *\
-  Special styles
-\*                        */
+/*  Mixins
+----------------------------------------------------------*/
+/*Modified styles from bootstrap website (not part of framework)*/
+.bs-callout-info {
+  background-color: #f6f8fc;
+  border-color: #5bc0de !important;
+}
+.bs-callout {
+  margin: 20px 0;
+  padding: 20px;
+  border-left: 3px solid #eee;
+}
+.bs-callout-info h4 {
+  color: #5bc0de;
+}
+.bs-callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
 /*# sourceMappingURL=shared.css.map */
