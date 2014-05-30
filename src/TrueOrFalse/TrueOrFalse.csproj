@@ -506,7 +506,16 @@
     <Content Include="Utilities\Update\SolrSchemas\solr.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\solrconfig.xml">
+    <Content Include="Utilities\Update\SolrSchemas\solrconfigUser.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\SolrSchemas\solrconfigSet.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\SolrSchemas\solrconfigQuestion.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Utilities\Update\SolrSchemas\solrconfigCategory.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

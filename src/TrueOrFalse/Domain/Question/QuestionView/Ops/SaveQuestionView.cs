@@ -19,13 +19,18 @@ namespace TrueOrFalse
             _session = session;
         }
 
+        public void Run(Question question, User user)
+        {
+            Run(question, user == null ? -1 : user.Id);
+        }
+
         public void Run(Question question, int userId)
         {
             _questionViewRepo.Create(new QuestionView{QuestionId = question.Id, UserId = userId});
             _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
                 ExecuteUpdate();
 
-            _searchIndexQuestion.Update(question, commitDelayed: true);
+            _searchIndexQuestion.Update(question);
         }
     }
 }

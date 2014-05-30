@@ -93,9 +93,14 @@
         <div class="col-lg-9 col-xs-9 xxs-stack">
             <div class="well">
                                 
-                <div style="float: right; padding-left: 10px;">
-                    <a href="" style="font-size: 22px;">
-                        <i class="fa fa-heart-o" id="iAdd" style="color:#b13a48"></i>
+                <div style="float: right; margin-left: 10px;">
+                    <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                        <% if (Model.IsInWishknowledge){ %>
+                            <i class="fa fa-heart" id="iAdd" style="color:#b13a48;"></i>
+                        <% } else {  %>
+                            <i class="fa fa-heart-o" id="iAdd" style="color:#b13a48;"></i>
+                        <% } %>
+                        <i class="fa fa-spinner fa-spin hide2" id="iAddSpinner" style="color:#b13a48;"></i>
                     </a>
                 </div>    
                 <span style="font-size: 22px; padding-bottom: 20px;">
@@ -169,30 +174,6 @@
                 </div>
             </div>
             
-            
-
-<%--            <% foreach (var row in Model.FeedbackRows){ %>
-                <div class="row valRow">
-                    <div class="valColumn1 col-md-6">
-                        <%= row.Title %>: <i class="fa fa-user"></i><span id="span<%= row.Key%>Count">&nbsp;<%= row.FeedbackCount %></span> Ø <span id="span<%= row.Key%>Average"><%= row.FeedbackAverage %></span>
-                    </div>
-                        
-                    <div id="div<%= row.Key%>Slider" class="valColumn2 col-md-6" <% if(!row.HasUserValue){ %> style="display:none"  <% } %> >
-                        <div id="slider<%= row.Key %>" class="col-md-7 ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-                            <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-                            <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-                        </div>
-                        <a href="#" id="remove<%= row.Key %>Value"><img src="/Images/delete.png" class="imgDelete"></a>
-                        <span id="slider<%= row.Key %>Value" class="valMine"><%= row.UserValue%></span>
-                    </div>
-                    <div id="div<%= row.Key %>Add" class="valColumn2 col-md-6" <% if(row.HasUserValue){ %> style="display:none"  <% } %>>
-                        <a href="#" id="select<%= row.Key %>Value">- Einschätzung hinzfügen <i class="fa fa-plus"></i> ---</a>
-                    </div>
-                </div>
-            <%} %>--%>
-    
-                       
-            
             <div style="margin-top: 30px; color: darkgray; font-weight: bold;" class="row">
                 <div class="col-lg-6">
                     <h4 style="padding:0; margin:0;">Kommentare</h4>    
@@ -204,10 +185,8 @@
                     <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
                     <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
                 </div>
-                
             </div>
-            
-                        
+  
             <div class="panel panel-default" style="margin-top: 7px;">
                 <div class="panel-heading">
                     Robert Mischke
@@ -222,8 +201,7 @@
                     </div>
                 </div>
             </div>
-            
-            
+                        
             <div class="panel panel-default" style="margin-top: 7px;">
                 <div class="panel-heading">Neuen Kommentar hinzufügen</div>
                 <div class="panel-body">
@@ -278,11 +256,14 @@
             </p>
         
             <p>
+                <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
+                    <i class="fa fa-heart" style="color:silver;"></i> <%= Model.TotalRelevancePersonalEntries %>x<br />
+                </span>                
                 <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
-                    <i class="fa fa-eye"></i> <%= Model.TotalViews %>x<br />
-                </span>
+                    <i class="fa fa-eye" style="color:darkslategray;"></i> <%= Model.TotalViews %>x
+                </span><br />
             </p>
-            
+
             <p style="width: 150px;">
                 <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend" data-font="arial"></div>
             </p>

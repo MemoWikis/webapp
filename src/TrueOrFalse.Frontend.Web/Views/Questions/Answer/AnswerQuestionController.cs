@@ -62,7 +62,7 @@ public class AnswerQuestionController : BaseController
             activeSearchSpec.CurrentPage = (int)elementOnPage;
 
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
-        _saveQuestionView.Run(question, _sessionUser.User.Id);
+        _saveQuestionView.Run(question, _sessionUser.User);
 
         return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec));
     }
@@ -138,24 +138,7 @@ public class AnswerQuestionController : BaseController
         return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
     }
 
-    [HttpPost]
-    public JsonResult SaveRelevancePersonal(int id, int newValue)
-    {
-        var oldKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
-        
-        Sl.Resolve<UpdateQuestionTotals>().UpdateRelevancePersonal(id, _sessionUser.User, newValue);
-        var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevancePersonal(id);
 
-        var newKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload: true);
-
-        return new JsonResult { Data = new
-            {
-                totalValuations = totals.Count, 
-                totalAverage = Math.Round(totals.Avg / 10d, 1),
-                totalWishKnowledgeCount = Sl.Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, forceReload:true),
-                totalWishKnowledgeCountChange = oldKnowledgeCount != newKnowledgeCount
-            }};
-    }
 
     [HttpPost]
     public JsonResult SaveRelevanceForAll(int id, int newValue)

@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System;
+using System.IO;
+using System.Web;
 
 namespace TrueOrFalse.Updates
 {
@@ -11,7 +13,10 @@ namespace TrueOrFalse.Updates
 
         public static string SolrSchema(string fileName)
         {
-            return HttpContext.Current.Server.MapPath("bin/Utilities/Update/SolrSchemas/" + fileName);
+            if(HttpContext.Current != null)
+                return HttpContext.Current.Server.MapPath("bin/Utilities/Update/SolrSchemas/" + fileName);
+
+            return AppDomain.CurrentDomain.BaseDirectory + "/Utilities/Update/SolrSchemas/" + fileName;
         }
     }
 }

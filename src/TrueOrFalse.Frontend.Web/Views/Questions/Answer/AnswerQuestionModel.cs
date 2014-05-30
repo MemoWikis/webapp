@@ -39,7 +39,6 @@ public class AnswerQuestionModel : BaseModel
 
     public string ImageUrl_500px;
     public string SoundUrl;
-    public IList<FeedbackRowModel> FeedbackRows;
     public int TotalViews;
 
     public int TimesAnsweredUser;
@@ -60,12 +59,6 @@ public class AnswerQuestionModel : BaseModel
 
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }
-
-    public int TimesAnsweredTotal { get; private set; }
-    public int PercenctageCorrectAnswers { get; private set; }
-    public int TimesAnsweredCorrect { get; private set; }
-    public int TimesAnsweredWrongTotal { get; private set; }
-    public int TimesJumpedOver { get; private set; }
 
     public string AverageAnswerTime { get; private set; }
 
@@ -91,6 +84,8 @@ public class AnswerQuestionModel : BaseModel
     
     public AnswerHistoryModel AnswerHistory;
     public CorrectnessProbabilityModel CorrectnessProbability;
+
+    public bool IsInWishknowledge;
 
     public AnswerQuestionModel() { }
 
@@ -137,9 +132,9 @@ public class AnswerQuestionModel : BaseModel
         if (question.Visibility != QuestionVisibility.All)
             if(question.Creator.Id != _sessionUser.User.Id)
                 throw new Exception("Invalid access to questionId" + question.Id);
-        
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, _sessionUser.User.Id));
-        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.User.Id, question.Id);
+
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
+        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
 
         Creator = question.Creator;
         CreatorId = question.Creator.Id.ToString();
@@ -160,6 +155,7 @@ public class AnswerQuestionModel : BaseModel
 
         AnswerHistory = new AnswerHistoryModel(question, valuationForUser);
         CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser);
+        IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
         
         TotalViews = question.TotalViews + 1;
 
@@ -181,31 +177,5 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
-
-        FeedbackRows = new List<FeedbackRowModel>();
-        FeedbackRows.Add(new FeedbackRowModel{
-            Key = "RelevancePersonal",
-            Title = "Merken. [UhrIcon]",
-            FeedbackAverage = Math.Round(question.TotalRelevancePersonalAvg / 10d, 1).ToString(),
-            FeedbackCount = question.TotalRelevancePersonalEntries.ToString(),
-            HasUserValue = questionValuationForUser.IsSetRelevancePersonal(),
-            UserValue = questionValuationForUser.RelevancePersonal.ToString()
-        });
-        FeedbackRows.Add(new FeedbackRowModel{
-            Key = "Quality",
-            Title = "Qualität",
-            FeedbackAverage = Math.Round(question.TotalQualityAvg / 10d, 1).ToString(),
-            FeedbackCount = question.TotalQualityEntries.ToString(),
-            HasUserValue = questionValuationForUser.IsSetQuality(),
-            UserValue = questionValuationForUser.Quality.ToString()
-        });
-        FeedbackRows.Add(new FeedbackRowModel{
-            Key = "RelevanceForAll",
-            Title = "Allgemeinwissen?",
-            FeedbackAverage = Math.Round(question.TotalRelevanceForAllAvg / 10d, 1).ToString(),
-            FeedbackCount = question.TotalRelevanceForAllEntries.ToString(),
-            HasUserValue = questionValuationForUser.IsSetRelevanceForAll(),
-            UserValue = questionValuationForUser.RelevanceForAll.ToString()
-        });
     }
 }

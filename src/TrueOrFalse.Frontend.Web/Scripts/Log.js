@@ -6,4 +6,4 @@ var Logger = (function () {
     };
     return Logger;
 })();
-//# sourceMappingURL=MM.Log.js.map
+//# sourceMappingURL=Log.js.map

@@ -1,4 +1,4 @@
-/// <reference path="../../../Scripts/MM.ValuationPerRow.ts" />
+/// <reference path="../../../Scripts/ValuationPerRow.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
 function SubmitSearchSets() {
