@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CategoryTvShowEpisode : ICategoryType
+public class CategoryTvShowEpisode : CategoryBase<CategoryTvShowEpisode>
 {
     public string Url;
 }

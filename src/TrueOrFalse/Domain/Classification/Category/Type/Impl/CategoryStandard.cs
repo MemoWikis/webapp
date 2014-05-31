@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CategoryStandard : ICategoryType
+public class CategoryStandard : CategoryBase<CategoryStandard>
 {
     public string WikiUrl;
 }

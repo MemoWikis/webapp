@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CategoryMagazineArticle : ICategoryType
+public class CategoryMagazineArticle : CategoryBase<CategoryMagazineArticle>
 {    
     public int IssueId;
 }

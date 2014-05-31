@@ -108,12 +108,9 @@ public class EditCategoryController : BaseController
 
         if (categoryId.HasValue && categoryId.Value > 0){
             category = _categoryRepository.GetById(categoryId.Value);
-
-            if (category.Type == CategoryType.WebsiteVideo)
-                model = CategoryWebsiteVideo.FromJson(category.TypeJson);
         }
 
-        return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category, model));
+        return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category));
     }
 
     private void StoreImage(int categoryId)

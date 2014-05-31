@@ -17,9 +17,6 @@ public class EditCategoryModel : BaseModel
     [DisplayName("Beschreibung")]
     public string Description { get; set; }
 
-    [DisplayName("Wikipedia URL")]
-    public string WikipediaURL { get; set; }
-
     public UIMessage Message;
 
     public List<string> ParentCategories = new List<string>();
@@ -49,7 +46,6 @@ public class EditCategoryModel : BaseModel
         Category = category;
         Name = category.Name;
         Description = category.Description;
-        WikipediaURL = category.WikipediaURL;
         ParentCategories = (from cat in category.ParentCategories select cat.Name).ToList();
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;        
     }
@@ -58,22 +54,16 @@ public class EditCategoryModel : BaseModel
     {
         var category = new Category(Name) {ParentCategories = new List<Category>()};
         category.Description = Description;
-        category.WikipediaURL = WikipediaURL;
         foreach (var name in ParentCategories)
             category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
 
         var request = HttpContext.Current.Request;
 
         if (request["ddlCategoryType"] != null)
-            category.Type = (CategoryType) Enum.Parse(typeof (CategoryType), request["ddlCategoryType"]);
+            category.Type = (CategoryType)Enum.Parse(typeof(CategoryType), request["ddlCategoryType"]);
 
-        if (request["Url"] != null)
-            category.WikipediaURL = request["Url"];
+        FillFromRequest(category);
 
-        if (category.Type == CategoryType.WebsiteVideo)
-            category.TypeJson = new CategoryWebsiteVideo { Url = request["YoutubeUrl"] }.ToJson();
-
-        
         return category;
     }
 
@@ -81,14 +71,26 @@ public class EditCategoryModel : BaseModel
     {
         category.Name = Name;
         category.Description = Description;
-        category.WikipediaURL = WikipediaURL;
         category.ParentCategories.Clear();
         foreach (var name in ParentCategories)
             category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
+
+        FillFromRequest(category);
+    }
+
+    private static void FillFromRequest(Category category)
+    {
+        var request = HttpContext.Current.Request;
+
+        if (request["Url"] != null)
+            category.WikipediaURL = request["Url"];
+
+        if (category.Type == CategoryType.WebsiteVideo)
+            category.TypeJson = new CategoryWebsiteVideo {Url = request["YoutubeUrl"]}.ToJson();
     }
     
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
-        ParentCategories = (from key in postData.AllKeys where key.StartsWith("cat") select postData[key]).ToList();
+        ParentCategories = (from key in postData.AllKeys where key.StartsWith("cat-") select postData[key]).ToList();
     }
 }

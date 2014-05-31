@@ -10,12 +10,16 @@ public class EditCategoryTypeModel
     public string WikipediaUrl;
     public object Model;
 
-    public EditCategoryTypeModel(Category category, object model)
+    public EditCategoryTypeModel(Category category)
     {
-        Model = model;
-
         if (category == null)
             return;
+
+        if (category.Type == CategoryType.WebsiteVideo)
+            Model = CategoryWebsiteVideo.FromJson(category.TypeJson);
+
+        if (category.Type == CategoryType.Book)
+            Model = CategoryBook.FromJson(category.TypeJson);
 
         WikipediaUrl = category.WikipediaURL;
     }

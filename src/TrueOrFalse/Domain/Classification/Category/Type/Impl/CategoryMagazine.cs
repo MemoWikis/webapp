@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CategoryMagazine : ICategoryType
+public class CategoryMagazine : CategoryBase<CategoryMagazine>
 {
     public string Url;
 }

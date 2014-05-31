@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CategoryDailyIssue : ICategoryType
+public class CategoryDailyIssue : CategoryBase<CategoryDailyIssue>
 {
     public int PrintDailyId;
 

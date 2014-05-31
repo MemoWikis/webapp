@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class CategoryDaily : ICategoryType
+public class CategoryDaily : CategoryBase<CategoryWebsiteVideo>
 {
     public string Url;
 }
