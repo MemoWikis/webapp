@@ -49,6 +49,7 @@ var AnswerQuestion = (function () {
         $("#buttons-edit-answer").click(function (e) {
             e.preventDefault();
             _this._onNewAnswer();
+
             InputFeedback.AnimateNeutral();
         });
     }
@@ -62,6 +63,8 @@ var AnswerQuestion = (function () {
             InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
             return false;
         }
+
+        $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
 
         $.ajax({
             type: 'POST',
@@ -78,6 +81,11 @@ var AnswerQuestion = (function () {
                     InputFeedback.ShowError();
                 }
                 ;
+
+                $("#answerHistory").html();
+                $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
+                    $("#answerHistory").html(data);
+                });
             }
         });
         return false;

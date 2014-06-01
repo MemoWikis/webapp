@@ -25,7 +25,7 @@ namespace TrueOrFalse.Web.Context
         {
             get { return Data.Get<User>("user"); }
             private set { Data["user"] = value; }
-        } 
+        }
 
         public bool IsOwner(int userId)
         {
@@ -53,6 +53,17 @@ namespace TrueOrFalse.Web.Context
         {
             IsLoggedIn = false;
             User = null;
+        }
+
+        public int UserId
+        {
+            get
+            {
+                if (IsLoggedIn)
+                    return User.Id;
+
+                return -1;
+            }
         }
     }
 }

@@ -81,9 +81,8 @@ public class AnswerQuestionModel : BaseModel
     public IList<Category> Categories;
     public IList<SetMini> SetMinis;
     public int SetCount;
-    
-    public AnswerHistoryModel AnswerHistory;
-    public CorrectnessProbabilityModel CorrectnessProbability;
+
+    public HistoryAndProbabilityModel HistoryAndProbability; 
 
     public bool IsInWishknowledge;
 
@@ -153,8 +152,12 @@ public class AnswerQuestionModel : BaseModel
         SolutionMetadata = new SolutionMetadata {Json = question.SolutionMetadataJson};
         SolutionMetaDataJson = question.SolutionMetadataJson;
 
-        AnswerHistory = new AnswerHistoryModel(question, valuationForUser);
-        CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser);
+        HistoryAndProbability = new HistoryAndProbabilityModel
+        {
+            AnswerHistory = new AnswerHistoryModel(question, valuationForUser),
+            CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
+        };
+
         IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
         
         TotalViews = question.TotalViews + 1;

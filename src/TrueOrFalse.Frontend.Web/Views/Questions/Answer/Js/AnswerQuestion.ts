@@ -12,7 +12,7 @@ interface ISolutionEntry {
     OnNewAnswer(): void;
 }
 
-class  AnswerQuestion
+class AnswerQuestion
 {
     private _getAnswerText: () => string;
     private _getAnswerData: () => {};
@@ -62,6 +62,7 @@ class  AnswerQuestion
         $("#buttons-edit-answer").click((e) => {
             e.preventDefault();
             this._onNewAnswer();
+
             InputFeedback.AnimateNeutral();
         });
     }
@@ -76,12 +77,14 @@ class  AnswerQuestion
             InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true); return false;
         }
 
+        $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+
         $.ajax({
             type: 'POST',
             url: window.ajaxUrl_SendAnswer,
             data: this._getAnswerData(),
             cache: false,
-            success: function (result) {
+            success: function(result) {
                 answerResult = result;
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
@@ -90,6 +93,11 @@ class  AnswerQuestion
                 } else {
                     InputFeedback.ShowError();
                 };
+
+                $("#answerHistory").html();
+                $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId}, function(data) {
+                    $("#answerHistory").html(data);    
+                });
             }
         });
         return false;
