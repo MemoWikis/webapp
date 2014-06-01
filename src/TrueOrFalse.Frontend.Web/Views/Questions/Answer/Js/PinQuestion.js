@@ -2,32 +2,29 @@
     function PinQuestion() {
         var self = this;
 
-        $("#iAdd").click(function (e) {
-            var _this = this;
+        $("#iAdded, #iAddedNot").click(function (e) {
             e.preventDefault();
             if (this._changeInProgress)
                 return;
 
             self._changeInProgress = true;
 
-            if ($(this).hasClass("fa-heart-o")) {
+            if ($(this).attr("id") == "iAddedNot") {
                 self.Pin();
-                $("#iAdd, #iAddSpinner").toggle();
+                $("#iAddedNot, #iAddSpinner").toggle();
 
                 setTimeout(function () {
-                    $(_this).switchClass("fa-heart-o", "fa-heart");
-                    $("#iAdd, #iAddSpinner").toggle();
+                    $("#iAdded, #iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsPluseOne();
                     self.SetSidebarValue(self.GetSidebarValue() + 1);
                 }, 400);
             } else {
                 self.UnPin();
-                $("#iAdd, #iAddSpinner").toggle();
+                $("#iAdded, #iAddSpinner").toggle();
 
                 setTimeout(function () {
-                    $(_this).switchClass("fa-heart", "fa-heart-o");
-                    $("#iAdd, #iAddSpinner").toggle();
+                    $("#iAddedNot, #iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsMinusOne();
                     self.SetSidebarValue(self.GetSidebarValue() - 1);

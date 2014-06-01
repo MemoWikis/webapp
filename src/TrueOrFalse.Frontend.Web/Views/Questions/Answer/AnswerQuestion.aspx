@@ -95,11 +95,8 @@
                                 
                 <div style="float: right; margin-left: 10px;">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                        <% if (Model.IsInWishknowledge){ %>
-                            <i class="fa fa-heart" id="iAdd" style="color:#b13a48;"></i>
-                        <% } else {  %>
-                            <i class="fa fa-heart-o" id="iAdd" style="color:#b13a48;"></i>
-                        <% } %>
+                        <i class="fa fa-heart show-tooltip <%= Model.IsInWishknowledge ? "" : "hide2" %>" id="iAdded" style="color:#b13a48;" title="Klicke um aus Wunschwissen zu enfernen"></i>
+                        <i class="fa fa-heart-o show-tooltip <%= Model.IsInWishknowledge ? "hide2" : "" %>" id="iAddedNot" style="color:#b13a48;" title="Klicke um zum Wunschwissen hinzuzufügen"></i>
                         <i class="fa fa-spinner fa-spin hide2" id="iAddSpinner" style="color:#b13a48;"></i>
                     </a>
                 </div>    
