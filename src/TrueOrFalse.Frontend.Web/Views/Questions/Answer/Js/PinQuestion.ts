@@ -24,6 +24,7 @@
                     $("#iAdd, #iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsPluseOne();
+                    self.SetSidebarValue(self.GetSidebarValue() + 1);
                 }, 400);
                 
             } else {
@@ -36,9 +37,18 @@
                     $("#iAdd, #iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsMinusOne();
+                    self.SetSidebarValue(self.GetSidebarValue() - 1);
                 }, 400);   
             }            
         });        
+    }
+
+    SetSidebarValue(newValue : number) {
+        Utils.SetElementValue("#sideWishKnowledgeCount", newValue.toString() + "x");
+    }
+
+    GetSidebarValue(): number {
+        return parseInt(/[0-9]*/.exec($("#sideWishKnowledgeCount").html())[0]);
     }
 
     Pin() {
