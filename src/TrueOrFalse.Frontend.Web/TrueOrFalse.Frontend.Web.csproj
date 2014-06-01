@@ -576,6 +576,9 @@
     <Content Include="Style\z_mixins_2.3.2.css">
       <DependentUpon>z_mixins_2.3.2.less</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Edit\EditCategory.css">
+      <DependentUpon>EditCategory.less</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
       <DependentUpon>ChangeTypeControls.ts</DependentUpon>
     </Content>
@@ -1112,6 +1115,10 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\PinQuestion.js.map">
       <DependentUpon>PinQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\EditCategory.less" />
+    <Content Include="Views\Categories\Edit\EditCategory.css.map">
+      <DependentUpon>EditCategory.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

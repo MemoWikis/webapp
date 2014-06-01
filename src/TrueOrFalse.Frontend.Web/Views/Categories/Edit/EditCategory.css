@@ -1,20 +1,4 @@
-﻿/*--------------------------------------------------------
-[Description]
-
-
-[Contents]
-
-    Helper Classes
-    General Styles
-    Media query mixins
-    Own responsive utilities
-    Special styles
-        Modified styles from bootstrap website (not part of framework) / .bs-callout
-        Form grid/columns conditional mixin
-
-[Imports:]
---------------------------------------------------------*/
-.thumbnail > img,
+﻿.thumbnail > img,
 .thumbnail a > img,
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
@@ -225,112 +209,34 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-/*  Helper classes
-----------------------------------------------------------*/
-.block {
-  display: block;
+.columnLabel {
+  position: relative;
+  float: left;
+  width: 25%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
-#Clearfix:before,
-.Clearfix:before,
-#Clearfix:after,
-.Clearfix:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
+.columnControlsFull {
+  position: relative;
+  float: left;
+  width: 75%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
-#Clearfix:after,
-.Clearfix:after {
-  clear: both;
-}
-#Clear {
-  content: "";
-  display: block;
-  clear: both;
-  visibility: visible;
-}
-/*  General styles
-----------------------------------------------------------*/
-.link {
-  color: #2c5fb2;
-}
-.link:hover {
-  color: #2c5fb2;
-}
-/*  Media query mixins
-----------------------------------------------------------*/
-/*  Own responsive utilities
-----------------------------------------------------------*/
-@media (max-width: 479px) {
-  .xxs-stack {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-  }
-}
-@media (max-width: 479px) {
-  .float-none-xxs {
-    float: none !important;
-  }
+.columnControlsSmall {
+  position: relative;
+  float: left;
+  width: 8.33333333%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 37.5%;
 }
 @media (min-width: 480px) {
-  .float-none-xs {
-    float: none !important;
+  .noLabel {
+    margin-left: 25%;
   }
 }
-@media (min-width: 768px) {
-  .float-none-sm {
-    float: none !important;
-  }
-}
-@media (min-width: 992px) {
-  .float-none-md {
-    float: none !important;
-  }
-}
-@media (min-width: 1200px) {
-  .float-none-lg {
-    float: none !important;
-  }
-}
-@media (min-width: 992px) {
-  .DesktopHide {
-    display: none;
-  }
-}
-@media (max-width: 991px) {
-  .MobileHide {
-    display: none;
-  }
-}
-/*  Mixins
-----------------------------------------------------------*/
-/*Modified styles from bootstrap website (not part of framework)*/
-.bs-callout-info {
-  background-color: #f6f8fc;
-  border-color: #5bc0de !important;
-}
-.bs-callout {
-  margin: 20px 0;
-  padding: 20px;
-  border-left: 3px solid #eee;
-}
-.bs-callout-info h4 {
-  color: #5bc0de;
-}
-.bs-callout h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-}
-.bs-callout p:last-child {
-  margin-bottom: 0;
-}
-/*Form grid/columns conditional mixin:*/
-/*Example for calling:
-    
-    @labels-stacked: true; //TRUE for having labels stacked
-
-    .FormColumnGrid (@labels-stacked);
-    
-*/
-/*# sourceMappingURL=shared.css.map */
+/*# sourceMappingURL=EditCategory.css.map */

@@ -2,13 +2,13 @@
 
 
 <div class="form-group">
-    <div class="col-sm-offset-3 col-xs-9">
+    <div class="columnControlsFull">
         TV-Show 
     </div>
 </div>
 
 <div class="form-group">
-    <label class="col-sm-3 control-label" for="a">Jahr</label>
+    <label class="columnLabel control-label" for="a">Jahr</label>
     <div class="col-xs-3">
         <input class="form-control" id="a" name="a" type="text" value="">    
     </div>
@@ -20,7 +20,7 @@
 </div>
 
 <div class="form-group">
-    <label class="col-sm-3 control-label" for="a">Tag</label>
+    <label class="columnLabel control-label" for="a">Tag</label>
     <div class="col-xs-3">
         <input class="form-control" id="a" name="a" type="text" value="">    
     </div>

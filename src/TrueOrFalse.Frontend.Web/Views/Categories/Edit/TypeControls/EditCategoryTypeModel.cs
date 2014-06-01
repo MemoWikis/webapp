@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Models;
 
 
-public class EditCategoryTypeModel
+public class EditCategoryTypeModel : BaseModel
 {
     public string WikipediaUrl;
     public object Model;

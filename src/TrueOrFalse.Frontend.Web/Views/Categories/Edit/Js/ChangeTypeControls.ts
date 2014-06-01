@@ -14,7 +14,7 @@
         $.ajax({
             url: '/EditCategory/DetailsPartial?categoryId=' + $("#categoryId").val() + '&type=' + selectedValue,
             type: 'GET',
-            success: function (data) { $("#details-body").html(data); }
+            success: function (data) { $("#CategoryDetailsBody").html(data); }
         });
     }
 
