@@ -11,7 +11,7 @@ class Utils
         $(selector)
             .text(newValue)
             .animate({ opacity: 0.25 }, 100)
-            .animate({ opacity: 1.00 }, 500);
+            .animate({ opacity: 1.00 }, 800);
     }
 
     static SetMenuPins(newAmount){

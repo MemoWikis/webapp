@@ -19,6 +19,7 @@
                     $("#iAdd, #iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsPluseOne();
+                    self.SetSidebarValue(self.GetSidebarValue() + 1);
                 }, 400);
             } else {
                 self.UnPin();
@@ -29,10 +30,19 @@
                     $("#iAdd, #iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsMinusOne();
+                    self.SetSidebarValue(self.GetSidebarValue() - 1);
                 }, 400);
             }
         });
     }
+    PinQuestion.prototype.SetSidebarValue = function (newValue) {
+        Utils.SetElementValue("#sideWishKnowledgeCount", newValue.toString() + "x");
+    };
+
+    PinQuestion.prototype.GetSidebarValue = function () {
+        return parseInt(/[0-9]*/.exec($("#sideWishKnowledgeCount").html())[0]);
+    };
+
     PinQuestion.prototype.Pin = function () {
         QuestionsApi.Pin(window.questionId);
     };
