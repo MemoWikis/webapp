@@ -45,5 +45,86 @@
         <div class="alert alert-danger">Test Danger</div>
 
     </div>
+    <div>
+        <h4>Tooltip</h4>
+        Text with tooltip                      
+        <i class="fa fa-question-circle show-tooltip" title="help text" data-placement="right"></i>
+    </div>
+        <h4>Temp. Accordion for interaction sketching</h4>
+    <div>
+        <!-- temp accordion html start-->
+                    <div class="panel-group" id="accordion">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="Colored Category panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+            Überschrift Code-Abschnitt 1
+                            </a>
+                          </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                          <div class="panel-body">
+<!-- temp accordion html end-->
+Code-Abschnitt 1
+<!-- temp accordion html start-->
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="Colored Category panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+            Überschrift Code-Abschnitt 2
+                            </a>
+                          </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                          <div class="panel-body">
+<!-- temp accordion html end-->
+Code-Abschnitt 2                              
+<!-- temp accordion html start-->
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="Colored Category panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+            Überschrift Code-Abschnitt 3
+                            </a>
+                          </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse">
+                          <div class="panel-body">
+<!-- temp accordion html end-->
+Code-Abschnitt 3                             
+<!-- temp accordion html start-->
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="Colored Category panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+Überschrift Code-Abschnitt 4
+                            </a>
+                          </h4>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse">
+                          <div class="panel-body">
+<!-- temp accordion html end-->
+Code-Abschnitt 4
+
+<!-- temp accordion html start-->
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+<!-- temp accordion html end-->
+    </div>
    
 </asp:Content>
