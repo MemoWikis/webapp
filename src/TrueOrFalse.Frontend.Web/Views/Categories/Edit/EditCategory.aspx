@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditCategoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Register Src="~/Views/Categories/Edit/TypeControls/Book.ascx" TagPrefix="uc1" TagName="Book" %>
+
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
@@ -63,55 +65,115 @@
                 <% Html.Message(Model.Message); %>
             
             
+                <div class="FormSection">
+                    <div class="form-group">
+                        <label class="columnLabel control-label">
+                            Kategorietyp
+                        </label>
+                        <div class="columnControlsFull">
 
-                <div class="form-group">
-                    <label class="columnLabel control-label">
-                        Kategorietyp
-                    </label>
-                    <div class="columnControlsFull">
+                            <div class="radio">
+                                <label style="font-weight: normal">
+                                    <input type="radio" name="optionsRadios" value="option1" checked>
+                                    Standard
+                                    <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themenkategorien" data-placement="right"></i>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label style="font-weight: normal">
+                                    <input type="radio" name="optionsRadios" value="option1">
+                                    Medien (Bücher, Zeitungsartikel, Videos etc.)
+                                    <i class="fa fa-question-circle show-tooltip" title="help text" data-placement="right"></i>
+                                    <select class="form-control" id="ddlCategoryType" name="ddlCategoryType" style="margin-top: 5px;">
+                                        <option value="NoValue">Medienart auswählen...</option>
+                                        <option value="Standard"><%= CategoryType.Standard.GetName() %></option>
+                                        <optgroup label="Internet">
+                                            <option value="Website"><%= CategoryType.Website.GetName() %></option>
+                                            <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
+                                            <option value="WebsiteVideo"><%= CategoryType.WebsiteVideo.GetName() %></option>
+                                        </optgroup>
+                                        <optgroup label="Druckmedien">
+                                            <option value="Book"><%= CategoryType.Book.GetName() %></option>
+                                            <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
+                                            <option value="DailyIssue"><%= CategoryType.DailyIssue.GetName() %></option>
+                                            <option value="DailyArticle"><%= CategoryType.DailyArticle.GetName() %></option>
+                                            <option value="Magazine"><%= CategoryType.Magazine.GetName() %></option>
+                                            <option value="MagazineIssue"><%= CategoryType.MagazineIssue.GetName() %></option>
+                                            <option value="MagazineArticle"><%= CategoryType.MagazineArticle.GetName() %></option>
+                                        </optgroup>
+                                        <optgroup label="Film und Fernsehen">
+                                            <option value="Movie"><%= CategoryType.Movie.GetName() %></option>
+                                            <option value="TvShow"><%= CategoryType.TvShow.GetName() %></option>
+                                            <option value="TvShowEpisode"><%= CategoryType.TvShowEpisode.GetName() %></option>
+                                        </optgroup>
+                                        <optgroup label="Aus- und Weiterbildung">
+                                            <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
+                                            <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
+                                            <option value="FieldStudyTrade"><%= CategoryType.FieldStudyTrade.GetName() %></option>
+                                            <option value="Course"><%= CategoryType.Course.GetName() %></option>
+                                            <option value="Certification"><%= CategoryType.Certification.GetName() %></option>
+                                        </optgroup>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label style="font-weight: normal">
+                                    <input type="radio" name="optionsRadios" value="option1">
+                                    Aus- und Weiterbildung (Studiengänge, Schulfächer, Klassenstufen etc.)
+                                    <select class="form-control" id="ddlCategoryTypex" name="ddlCategoryType" style="margin-top: 5px;">
+                                        <option value="NoValue">Bitte auswählen...</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    
+                </div>
 
-                        <div class="radio">
-                            <label style="font-weight: normal">
-                                <input type="radio" name="optionsRadios" value="option1" checked>
-                                Standard
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label style="font-weight: normal">
-                                <input type="radio" name="optionsRadios" value="option1">
-                                Medien (Bücher, Zeitungsartikel, Videos etc.)
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label style="font-weight: normal">
-                                <input type="radio" name="optionsRadios" value="option1">
-                                Aus- und Weiterbildung (Studiengänge, Schulfächer, Klassenstufen etc.)
-                            </label>
+                <div id="CategoryDetailsBody">
+                        <!-- temporariliy included partial:-->
+                        <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/Book.ascx", new EditCategoryTypeModel(Model.Category));%>
+                </div>
+                <div class="FormSection">
+                    <div class="form-group">
+                        <label class="columnLabel control-label">
+                            Übergeordnete Kategorie(n)
+                            <i class="fa fa-question-circle show-tooltip" title="Hilft, Kategorien in Beziehung zueinander zu setzen. Beispiele: Kategorie Wirbeltiere - übergeordnet: Biologie. Kategorie Algebra - übergeordnet: Mathematik" data-placement="right" data-trigger="hover click"></i>
+
+                        </label>
+
+                        <div id="relatedCategories" class="columnControlsFull">
+                            <script type="text/javascript">
+                                $(function () {
+                                    <%foreach (var category in Model.ParentCategories) { %>
+                                        $("#txtNewRelatedCategory").val('<%=category %>');
+                                        $("#txtNewRelatedCategory").trigger("initCategoryFromTxt");
+                                    <% } %>
+                                });
+                            </script>
+                            <div id="CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
                         </div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <%= Html.LabelFor(m => m.Name, new {@class="columnLabel control-label"} ) %>
-                    <div class="columnControlsFull">
-                        <%= Html.TextBoxFor(m => m.Name, new {@class="form-control"} ) %>
+                <div class="form-group" style="margin-top: 30px;">
+                    <div class="noLabel columnControlsFull">
+                        <% if (Model.IsEditing){ %>
+                            <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
+                            <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+                        <% } else { %>
+                            <input type="submit" value="Erstellen" class="btn btn-primary" name="btnSave" />
+                        <% } %>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <%= Html.LabelFor(m => m.Description, new {@class="columnLabel control-label"} ) %>
-                    <div class="columnControlsFull">
-                        <%= Html.TextAreaFor(m => m.Description, new {@class="form-control"} ) %>
-                        <% %>
-                    </div>
-                </div>
-            
-                <%if(!Model.IsEditing){ %>
+                
+                <div class="FormSection" style="background-color: grey;">
+                    <%if(!Model.IsEditing){ %>
                 
                     <div class="form-group">
-                        <label class="columnLabel control-label">Typ</label>
+                        <label class="columnLabel control-label"></label>
                         <div class="columnControlsFull">
-                            <select class="form-control" id="ddlCategoryType" name="ddlCategoryType">
+                            <select class="form-control" id="ddlCategoryTypex" name="ddlCategoryType">
                                 <option value="Standard"><%= CategoryType.Standard.GetName() %></option>
                                 <optgroup label="Internet">
                                     <option value="Website"><%= CategoryType.Website.GetName() %></option>
@@ -142,50 +204,31 @@
                             </select>
                         </div>
                     </div>
-                <% }else{ %>
+                    <% }else{ %>
+                        <div class="form-group">
+                            <label class="columnLabel control-label">Typ</label>
+                            <div class="columnControlsFull">
+                                <p class="form-control-static">
+                                    <%= Model.Category.Type.GetName() %>
+                                </p>
+                            </div>
+                        </div>                    
+                    <% } %>
                     <div class="form-group">
-                        <label class="columnLabel control-label">Typ</label>
+                        <%= Html.LabelFor(m => m.Name, new {@class="columnLabel control-label"} ) %>
                         <div class="columnControlsFull">
-                            <p class="form-control-static">
-                                <%= Model.Category.Type.GetName() %>
-                            </p>
+                            <%= Html.TextBoxFor(m => m.Name, new {@class="form-control"} ) %>
                         </div>
-                    </div>                    
-                <% } %>
-
-                <div id="CategoryDetailsBody"></div>
-                    
-                <div class="form-group">
-                    <div class="noLabel columnControlsFull">
-                        Übergeordnete Kategorien: (Beispielsweise: Person > Politker, Bundesland > Bundeshauptstad, Kanzler > Minister.)
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="columnLabel control-label">Übergeordnete Kategorie:</label>
+                    <div class="form-group">
+                        <%= Html.LabelFor(m => m.Description, new {@class="columnLabel control-label"} ) %>
+                        <div class="columnControlsFull">
+                            <%= Html.TextAreaFor(m => m.Description, new {@class="form-control"} ) %>
+                            <% %>
+                        </div>
+                    </div>
 
-                    <div id="relatedCategories" class="columnControlsFull">
-                        <script type="text/javascript">
-                            $(function () {
-                                <%foreach (var category in Model.ParentCategories) { %>
-                                    $("#txtNewRelatedCategory").val('<%=category %>');
-                                    $("#txtNewRelatedCategory").trigger("initCategoryFromTxt");
-                                <% } %>
-                            });
-                        </script>
-                        <div id="CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
-                    </div>
-                </div>
-            
-                <div class="form-group" style="margin-top: 30px;">
-                    <div class="noLabel columnControlsFull">
-                        <% if (Model.IsEditing){ %>
-                            <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                            <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
-                        <% } else { %>
-                            <input type="submit" value="Erstellen" class="btn btn-primary" name="btnSave" />
-                        <% } %>
-                    </div>
                 </div>
             </div>
         </div>
