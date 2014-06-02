@@ -223,11 +223,11 @@
     
         .columnLabel {
            .make-xs-column(@grid-width-label-xs);
-           .xxs-stack;
+           .xxs-stack;//not put out, replacement: see below
         }
 
         .columnControlsFull {
-            .xxs-stack;
+            .xxs-stack;//not put out, replacement: see below
             .make-xs-column(@grid-width-controls-full-xs);
 
             .aside & {
@@ -238,8 +238,17 @@
         .columnControlsSmall {
             .make-xs-column(1);
             width: percentage(1/@grid-columns*@grid-width-controls-full-xs/2);
-            .xxs-stack;
+            .xxs-stack;//not put out, replacement: see below
         }
+
+        @media (max-width: (@screen-xs-min - 1px))  {//replacement for xxs-stack-mixin
+            .columnLabel, .columnControlsFull, .columnControlsSmall {
+                float: none;
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
 
         @media (min-width: @screen-xs-min) {//replace offset-column-mixin
             .noLabel {
