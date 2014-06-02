@@ -234,6 +234,15 @@
   padding-right: 10px;
   width: 37.5%;
 }
+@media (max-width: 479px) {
+  .columnLabel,
+  .columnControlsFull,
+  .columnControlsSmall {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
 @media (min-width: 480px) {
   .noLabel {
     margin-left: 25%;

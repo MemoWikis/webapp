@@ -316,7 +316,13 @@ h1 *.underlined {
   border-bottom-color: #b13a48;
 }
 .underlined.Category {
-  border-bottom-color: #99ccff;
+  border-bottom-color: #5bc0de;
+}
+.Colored.Knowledge {
+  color: #b13a48;
+}
+.Colored.Category {
+  color: #5bc0de;
 }
 /*Images*/
 img {
@@ -1464,15 +1470,15 @@ div.box-main .box-content {
 }
 #category-main .box-with-tabs ul.nav-tabs,
 #category-main .boxtainer-outlined-tabs ul.nav-tabs {
-  border-bottom-color: #cce5ff;
+  border-bottom-color: #85d0e7;
 }
 #category-main .box-with-tabs ul.nav-tabs li a:hover,
 #category-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
-  background-color: #cce5ff;
+  background-color: #85d0e7;
 }
 #category-main .box-with-tabs ul.nav-tabs li.active a,
 #category-main .boxtainer-outlined-tabs ul.nav-tabs li.active a {
-  border-color: #cce5ff;
+  border-color: #85d0e7;
 }
 .box div.pagination {
   margin-top: 15px;
