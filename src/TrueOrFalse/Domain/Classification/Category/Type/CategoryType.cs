@@ -36,7 +36,7 @@ public static class CategoryTypeExts
             case CategoryType.Website: return "Webseite";
             case CategoryType.WebsiteArticle: return "Webseite -> Artikel/Eintrag/Meldung/..";
             case CategoryType.WebsiteVideo: return "Youtube";
-            case CategoryType.Book: return "Buch (auch EBooks)";
+            case CategoryType.Book: return "Buch (auch eBooks)";
             case CategoryType.Daily: return "Tageszeitung";
             case CategoryType.DailyIssue: return "Tageszeitung -> Ausgabe";
             case CategoryType.DailyArticle: return "Tageszeitung -> Artikel";
