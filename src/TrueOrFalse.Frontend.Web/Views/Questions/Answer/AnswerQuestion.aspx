@@ -176,30 +176,33 @@
                 </div>
                 
                 <div class="col-lg-6" style="vertical-align: text-bottom; vertical-align: bottom; margin-top: 3px;">
-                    
-                    Die Frage bitte: &nbsp;
-                    <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
-                    <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
+                    <% if(Model.IsLoggedIn){ %>
+                        Die Frage bitte: &nbsp;
+                        <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
+                        <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
+                    <% } %>
                 </div>
             </div>
             
             <div id="comments"></div>
                         
-            <div class="panel panel-default" style="margin-top: 7px;">
-                <div class="panel-heading">Neuen Kommentar hinzufügen</div>
-                <div class="panel-body">
-                    <div class="col-lg-2">
-                        <img style="width:100%; border-radius:5px;" src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=250&amp;d=http%3A%2F%2Ftrueorfalse%2FImages%2Fno-profile-picture-250.png">
-                    </div>
-                    <div class="col-lg-10">
-                        <textarea style="width: 100%; min-height: 82px;" class="form-control" id="txtNewComment" placeholder="Bitte höflich, freundlich und sachlich schreiben :-)"></textarea>
-                    </div>
+            <% if(Model.IsLoggedIn){ %>
+                <div class="panel panel-default" style="margin-top: 7px;">
+                    <div class="panel-heading">Neuen Kommentar hinzufügen</div>
+                    <div class="panel-body">
+                        <div class="col-lg-2">
+                            <img style="width:100%; border-radius:5px;" src="<%= Model.ImageUrlAddComment %>">
+                        </div>
+                        <div class="col-lg-10">
+                            <textarea style="width: 100%; min-height: 82px;" class="form-control" id="txtNewComment" placeholder="Bitte höflich, freundlich und sachlich schreiben :-)"></textarea>
+                        </div>
                     
-                    <div class="col-lg-12" style="padding-top: 7px;">
-                        <a href="#" class="btn btn-default pull-right" id="btnSaveComment">Speichern</a>
-                    </div>
-                </div>                
-            </div>
+                        <div class="col-lg-12" style="padding-top: 7px;">
+                            <a href="#" class="btn btn-default pull-right" id="btnSaveComment">Speichern</a>
+                        </div>
+                    </div>                
+                </div>
+            <% } %>
 
         </div>
         

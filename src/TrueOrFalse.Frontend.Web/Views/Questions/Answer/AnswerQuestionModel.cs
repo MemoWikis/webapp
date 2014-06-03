@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Security.Policy;
 using System.Web.Mvc;
 using Gibraltar.Agent.Configuration;
@@ -46,6 +47,8 @@ public class AnswerQuestionModel : BaseModel
     public int TimesAnsweredUserWrong;
 
     public bool IsOwner;
+
+    public string ImageUrlAddComment;
 
     public bool HasImage
     {
@@ -134,6 +137,9 @@ public class AnswerQuestionModel : BaseModel
 
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
+
+        if(IsLoggedIn)
+            ImageUrlAddComment = new UserImageSettings(UserId).GetUrl_128px_square(_sessionUser.User.EmailAddress).Url;
 
         Creator = question.Creator;
         CreatorId = question.Creator.Id.ToString();
