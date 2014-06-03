@@ -184,7 +184,11 @@
                 </div>
             </div>
             
-            <div id="comments"></div>
+            <div id="comments">
+                <% foreach(var comment in Model.Comments){ %>
+                    <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.ascx", comment); %>
+                <% } %>
+            </div>
                         
             <% if(Model.IsLoggedIn){ %>
                 <div class="panel panel-default" style="margin-top: 7px;">
@@ -194,6 +198,7 @@
                             <img style="width:100%; border-radius:5px;" src="<%= Model.ImageUrlAddComment %>">
                         </div>
                         <div class="col-lg-10">
+                            <i class="fa fa-spinner fa-spin hide2" id="saveCommentSpinner"></i>
                             <textarea style="width: 100%; min-height: 82px;" class="form-control" id="txtNewComment" placeholder="Bitte höflich, freundlich und sachlich schreiben :-)"></textarea>
                         </div>
                     

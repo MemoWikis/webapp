@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Security.Policy;
 using System.Web.Mvc;
 using Gibraltar.Agent.Configuration;
@@ -89,6 +90,8 @@ public class AnswerQuestionModel : BaseModel
 
     public bool IsInWishknowledge;
 
+    public IList<CommentModel> Comments;
+
     public AnswerQuestionModel() { }
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
@@ -140,6 +143,11 @@ public class AnswerQuestionModel : BaseModel
 
         if(IsLoggedIn)
             ImageUrlAddComment = new UserImageSettings(UserId).GetUrl_128px_square(_sessionUser.User.EmailAddress).Url;
+
+        Comments = Resolve<CommentRepository>()
+            .GetForDisplay(question.Id)
+            .Select(c => new CommentModel(c))
+            .ToList();
 
         Creator = question.Creator;
         CreatorId = question.Creator.Id.ToString();

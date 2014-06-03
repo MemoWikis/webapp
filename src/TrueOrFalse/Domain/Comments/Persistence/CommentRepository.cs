@@ -12,5 +12,15 @@ public class CommentRepository : RepositoryDb<Comment>
     public CommentRepository(ISession session) : base(session)
     {
     }
+
+    public IList<Comment> GetForDisplay(int questionId)
+    {
+        return _session.QueryOver<Comment>()
+            .Where(
+                x => x.TypeId == questionId && 
+                x.Type == CommentType.AnswerQuestion)
+            .Fetch(x => x.Answers).Eager
+            .List<Comment>();
+    }
 }
 
