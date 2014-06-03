@@ -7,8 +7,8 @@
 
 
 <div class="form-group">
-    <label class="col-sm-3 control-label" for="WikipediaURL">Youtube URL</label>
-    <div class="col-xs-9">
+    <label class="columnLabel control-label" for="WikipediaURL">Youtube URL</label>
+    <div class="columnControlsFull">
         <input class="form-control" id="YoutubeUrl" name="YoutubeUrl" type="text" value="<%= model.Url %>">    
     </div>
 </div>

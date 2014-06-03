@@ -13,7 +13,7 @@
             url: '/EditCategory/DetailsPartial?categoryId=' + $("#categoryId").val() + '&type=' + selectedValue,
             type: 'GET',
             success: function (data) {
-                $("#details-body").html(data);
+                $("#CategoryDetailsBody").html(data);
             }
         });
     }

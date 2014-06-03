@@ -10,14 +10,14 @@
     Own responsive utilities
     Special styles
         Modified styles from bootstrap website (not part of framework) / .bs-callout
-            
+        Form grid/columns conditional mixin
 
 [Imports:]
 --------------------------------------------------------*/
 
 @import 'variables.less';
 @import 'colors.less';
-
+@import (reference) '../bootstrap/bootstrap.less';
 
 /*  Helper classes
 ----------------------------------------------------------*/
@@ -182,4 +182,80 @@
     margin-bottom: 0;
 }
 
+/*Form grid/columns conditional mixin:*/
 
+
+//Conditional mixin
+/*Example for calling:
+    
+    @labels-stacked: true; //TRUE for having labels stacked
+
+    .FormColumnGrid (@labels-stacked);
+    
+*/
+
+
+
+//Form grid styles with labels stacked
+
+.FormColumnGrid (@labels-stacked: false; @grid-width-label-xs: 3; @grid-width-controls-full-xs: @grid-columns - @grid-width-label-xs) {
+
+    .FormColumnGridConditional (@labels-stacked) when (@labels-stacked) {
+
+        .columnLabel {
+           .make-xs-column(12);
+            text-align: left !important;
+        }
+
+        .columnControlsFull {
+            .make-xs-column(12);
+        }
+
+        .columnControlsSmall {
+            .make-xs-column(6);
+            .xxs-stack;
+        }
+    }
+
+    //Form grid styles with labels as seperate column 
+
+    .FormColumnGridConditional(@labels-stacked) when (default()) {
+    
+        .columnLabel {
+           .make-xs-column(@grid-width-label-xs);
+           .xxs-stack;//not put out, replacement: see below
+        }
+
+        .columnControlsFull {
+            .xxs-stack;//not put out, replacement: see below
+            .make-xs-column(@grid-width-controls-full-xs);
+
+            .aside & {
+                .make-md-column(@grid-columns);
+            }
+        }
+
+        .columnControlsSmall {
+            .make-xs-column(1);
+            width: percentage(1/@grid-columns*@grid-width-controls-full-xs/2);
+            .xxs-stack;//not put out, replacement: see below
+        }
+
+        @media (max-width: (@screen-xs-min - 1px))  {//replacement for xxs-stack-mixin
+            .columnLabel, .columnControlsFull, .columnControlsSmall {
+                float: none;
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
+
+        @media (min-width: @screen-xs-min) {//replace offset-column-mixin
+            .noLabel {
+                margin-left: percentage(@grid-width-label-xs/@grid-columns);
+            }
+        }
+    }
+
+    .FormColumnGridConditional(@labels-stacked);
+}

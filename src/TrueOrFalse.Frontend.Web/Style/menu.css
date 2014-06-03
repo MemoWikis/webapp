@@ -293,7 +293,7 @@
   color: #afd534;
 }
 #mainMenu .list-group-item .cat-color {
-  color: #99ccff;
+  color: #5bc0de;
 }
 #mainMenu .list-group-item.set {
   border-left-color: #ffd700;
@@ -324,14 +324,14 @@
   color: white;
 }
 #mainMenu .list-group-item.cat {
-  border-left-color: #99ccff;
-  border-right-color: #99ccff;
+  border-left-color: #5bc0de;
+  border-right-color: #5bc0de;
 }
 #mainMenu .list-group-item.cat i.fa-caret-right {
-  color: #99ccff;
+  color: #5bc0de;
 }
 #mainMenu .list-group-item.cat:hover {
-  background-color: #cce5ff;
+  background-color: #85d0e7;
   color: black;
 }
 #mainMenu .list-group-item.know {

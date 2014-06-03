@@ -209,67 +209,18 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-.contextMenu {
-  margin-top: -1px;
-  padding: 10px;
-  border-color: #ccc;
-  margin-bottom: 0;
-  border-top-left-radius: 0;
-  background: #ffffff;
-  background: -moz-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f8f8f8));
-  background: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
-  background: -o-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
-  background: -ms-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
-  background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f8f8f8', GradientType=0);
-}
-.contextMenuOuter {
-  display: none;
-  z-index: 10;
-  position: absolute;
-  top: 28px;
-  border-left: 5px solid white;
-  border-top: none;
-  border-radius: 6px;
-  border-bottom: 5px solid white;
-  border-right: 5px solid white;
-}
-@media only screen and (min-width: 992px) {
-  .labelVisibility {
-    float: none;
-    width: 100% !important;
-    text-align: left !important;
-    padding-top: 0 !important;
-  }
-}
-.menuCategories .underlined {
-  border-bottom-color: #5bc0de;
-}
-.pageHeader:before,
-.pageHeader:after {
-  content: " ";
-  display: table;
-}
-.pageHeader:after {
-  clear: both;
-}
-.headerControls {
-  margin-left: 10px;
-}
 .columnLabel {
   position: relative;
   float: left;
-  width: 100%;
+  width: 25%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
-  text-align: left !important;
 }
 .columnControlsFull {
   position: relative;
   float: left;
-  width: 100%;
+  width: 75%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
@@ -277,63 +228,24 @@
 .columnControlsSmall {
   position: relative;
   float: left;
-  width: 50%;
+  width: 8.33333333%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
-}
-#txtNewRelatedCategory {
-  float: left;
-  margin-right: 12px;
-}
-#addRelatedCategory {
-  padding-left: 0;
-  border: none;
-  box-shadow: none;
-  width: auto;
-}
-.noInput {
-  border: none;
-  box-shadow: none;
-  width: auto;
-}
-.subForm label {
-  text-align: left;
-}
-#choices .input-group-addon {
-  min-width: 155px;
-  text-align: left;
+  width: 37.5%;
 }
 @media (max-width: 479px) {
-  #choices .input-group {
-    display: block;
-  }
-  #choices .input-group input {
-    border-bottom-left-radius: 4px !important;
-    border-bottom-right-radius: 4px !important;
-    border-top-right-radius: 0 !important;
-  }
-  #choices .input-group-addon {
-    line-height: 20px;
-    display: block;
-    width: auto;
-    border: 1px solid #cccccc !important;
-    border-bottom: none !important;
-    border-top-right-radius: 4px !important;
-    border-bottom-left-radius: 0 !important;
-    padding-right: 20px;
-  }
-  #choices .input-group-addon + .CloseButton {
-    border-bottom-right-radius: 4px;
-  }
-  #choices .CloseButton {
-    position: static;
-  }
-  #choices .CloseButton a.btn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    border-bottom-right-radius: 0;
+  .columnLabel,
+  .columnControlsFull,
+  .columnControlsSmall {
+    float: none;
+    width: 100%;
+    margin-left: 0;
   }
 }
-/*# sourceMappingURL=EditQuestion.css.map */
+@media (min-width: 480px) {
+  .noLabel {
+    margin-left: 25%;
+  }
+}
+/*# sourceMappingURL=EditCategory.css.map */

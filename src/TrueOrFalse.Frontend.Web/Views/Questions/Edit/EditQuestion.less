@@ -42,10 +42,6 @@
 
 //Grid
 
-@grid-width-label-xs: 3;
-@grid-width-controls-full-xs: (@grid-columns - @grid-width-label-xs);
-@grid-width-controls-small-xs: 4;
-
 .pageHeader {
     //.make-md-column(8);
     .Clearfix;
@@ -55,63 +51,11 @@
     margin-left: 10px;
 }
 
-//Form columns
+//Form column style
 
-.aside .columnControlsFull {
-    .make-md-column(@grid-columns);
-}
+.FormColumnGrid (@labels-stacked: true; 3);//conditional styles, @labels-stacked: TRUE for having labels stacked
 
-@labels-stacked: true; //TRUE for having labels stacked
-
-.FormColumnGrid (@labels-stacked);//conditional styles
-
-//Form grid styles with labels stacked 
-
-.FormColumnGrid (@labels-stacked) when (@labels-stacked) {
-
-    .columnLabel {
-       .make-xs-column(12);
-        text-align: left !important;
-    }
-
-    .columnControlsFull {
-        .make-xs-column(12);
-    }
-
-    .columnControlsSmall {
-        .make-xs-column(6);
-        .xxs-stack;
-    }
-}
-
-//Form grid styles with labels as seperate column 
-
-.FormColumnGrid (@labels-stacked) when (default()) {
-    
-    .columnLabel {
-       .make-xs-column(@grid-width-label-xs);
-       .xxs-stack;
-    }
-
-    .columnControlsFull {
-        .xxs-stack;
-        .make-xs-column(@grid-width-controls-full-xs);
-
-        .aside & {
-            .make-md-column(@grid-columns);
-        }
-    }
-
-    .columnControlsSmall {
-        .make-xs-column(1);
-        width: percentage(1/@grid-columns*@grid-width-controls-full-xs/2);
-        .xxs-stack;
-    }
-
-    .noLabel {
-        .make-xs-column-offset(@grid-width-label-xs);
-    }
-}
+//
 
 
 #txtNewRelatedCategory {
