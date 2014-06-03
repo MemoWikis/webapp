@@ -56,7 +56,6 @@
     UnPin() {
         QuestionsApi.Unpin(window.questionId);
     }
-          
 }
 
 

@@ -104,7 +104,6 @@
                     <%= Model.QuestionText %>
                 </span>
                 
-
                 <p><%= Model.QuestionTextMarkdown %></p>
             
                 <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
@@ -183,21 +182,8 @@
                     <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
                 </div>
             </div>
-  
-            <div class="panel panel-default" style="margin-top: 7px;">
-                <div class="panel-heading">
-                    Robert Mischke
-                    <span style="color: darkgray">vor 3 Tagen</span>
-                </div>
-                <div class="panel-body">
-                    <div class="col-lg-2">
-                        <img style="width:100%; border-radius:5px;" src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=250&amp;d=http%3A%2F%2Ftrueorfalse%2FImages%2Fno-profile-picture-250.png">
-                    </div>
-                    <div class="col-lg-10">
-                        "Die Frage sollte verbessert werden"    
-                    </div>
-                </div>
-            </div>
+            
+            <div id="comments"></div>
                         
             <div class="panel panel-default" style="margin-top: 7px;">
                 <div class="panel-heading">Neuen Kommentar hinzufügen</div>
@@ -206,18 +192,16 @@
                         <img style="width:100%; border-radius:5px;" src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=250&amp;d=http%3A%2F%2Ftrueorfalse%2FImages%2Fno-profile-picture-250.png">
                     </div>
                     <div class="col-lg-10">
-                        <textarea style="width: 100%; min-height: 82px;" class="form-control" placeholder="Bitte höflich, freundlich und sachlich schreiben :-)"></textarea>
+                        <textarea style="width: 100%; min-height: 82px;" class="form-control" id="txtNewComment" placeholder="Bitte höflich, freundlich und sachlich schreiben :-)"></textarea>
                     </div>
                     
                     <div class="col-lg-12" style="padding-top: 7px;">
-                        <a href="#" class="btn btn-default pull-right">Speichern</a>
+                        <a href="#" class="btn btn-default pull-right" id="btnSaveComment">Speichern</a>
                     </div>
                 </div>                
-
             </div>
 
         </div>
-        
         
         <div class="col-md-3 well" style="background-color: white;">
             
@@ -272,7 +256,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal">×</button>
-                        <h3>Dies Frage verbessern</h3>
+                        <h3>Diese Frage verbessern</h3>
                     </div>
                     <div class="modal-body">
                         <div >
@@ -307,7 +291,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal">×</button>
-                        <h3>Dies Frage bitte löschen</h3>
+                        <h3>Diese Frage bitte löschen</h3>
                     </div>
                     <div class="modal-body">
                         <div >

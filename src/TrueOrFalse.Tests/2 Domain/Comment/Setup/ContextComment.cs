@@ -31,7 +31,7 @@ namespace TrueOrFalse.Tests
             All.Add(new Comment
             {
                 TypeId = 1,
-                User = _user1,
+                Creator = _user1,
                 AnswerTo = comment,
                 Text = "My comment"
             });

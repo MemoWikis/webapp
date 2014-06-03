@@ -15,7 +15,7 @@ public class CommentMap : ClassMap<Comment>
         Map(x => x.TypeId);
 
         References(x => x.AnswerTo).Column("AnswerTo").Cascade.None();
-        Map(x => x.User);
+        Map(x => x.Creator);
         Map(x => x.Text);
 
         Map(x => x.DateCreated);

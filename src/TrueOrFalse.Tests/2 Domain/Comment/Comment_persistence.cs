@@ -22,6 +22,3 @@ namespace TrueOrFalse.Tests.Persistence
         }
     }    
 }
-
-
-
