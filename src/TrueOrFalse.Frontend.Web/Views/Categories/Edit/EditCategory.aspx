@@ -71,60 +71,61 @@
                             Kategorietyp
                         </label>
                         <div class="columnControlsFull">
+                             <%if(!Model.IsEditing){ %>
 
-                            <div class="radio">
-                                <label style="font-weight: normal">
-                                    <input type="radio" name="optionsRadios" value="option1" checked>
-                                    Standard
-                                    <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themenkategorien" data-placement="right"></i>
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label style="font-weight: normal">
-                                    <input type="radio" name="optionsRadios" value="option1">
-                                    Medien (Bücher, Zeitungsartikel, Videos etc.)
-                                    <i class="fa fa-question-circle show-tooltip" title="help text" data-placement="right"></i>
-                                    <select class="form-control" id="ddlCategoryType" name="ddlCategoryType" style="margin-top: 5px;">
-                                        <option value="NoValue">Medienart auswählen...</option>
-                                        <option value="Standard"><%= CategoryType.Standard.GetName() %></option>
-                                        <optgroup label="Internet">
-                                            <option value="Website"><%= CategoryType.Website.GetName() %></option>
-                                            <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
-                                            <option value="WebsiteVideo"><%= CategoryType.WebsiteVideo.GetName() %></option>
-                                        </optgroup>
-                                        <optgroup label="Druckmedien">
-                                            <option value="Book"><%= CategoryType.Book.GetName() %></option>
-                                            <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
-                                            <option value="DailyIssue"><%= CategoryType.DailyIssue.GetName() %></option>
-                                            <option value="DailyArticle"><%= CategoryType.DailyArticle.GetName() %></option>
-                                            <option value="Magazine"><%= CategoryType.Magazine.GetName() %></option>
-                                            <option value="MagazineIssue"><%= CategoryType.MagazineIssue.GetName() %></option>
-                                            <option value="MagazineArticle"><%= CategoryType.MagazineArticle.GetName() %></option>
-                                        </optgroup>
-                                        <optgroup label="Film und Fernsehen">
-                                            <option value="Movie"><%= CategoryType.Movie.GetName() %></option>
-                                            <option value="TvShow"><%= CategoryType.TvShow.GetName() %></option>
-                                            <option value="TvShowEpisode"><%= CategoryType.TvShowEpisode.GetName() %></option>
-                                        </optgroup>
-                                        <optgroup label="Aus- und Weiterbildung">
-                                            <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
+                                <div class="radio">
+                                    <label style="font-weight: normal">
+                                        <input type="radio" name="rdoCategoryTypeGroup" value="standard" checked>
+                                        Standard
+                                        <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themenkategorien" data-placement="right"></i>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label style="font-weight: normal">
+                                        <input type="radio" name="rdoCategoryTypeGroup" value="media">
+                                        Medien (Bücher, Zeitungsartikel, Videos etc.)
+                                        <i class="fa fa-question-circle show-tooltip" title="help text" data-placement="right"></i>
+                                        <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;">
+                                            <optgroup label="Druckmedien">
+                                                <option value="Book"><%= CategoryType.Book.GetName() %></option>
+                                                <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
+                                                <option value="DailyIssue"><%= CategoryType.DailyIssue.GetName() %></option>
+                                                <option value="DailyArticle"><%= CategoryType.DailyArticle.GetName() %></option>
+                                                <option value="Magazine"><%= CategoryType.Magazine.GetName() %></option>
+                                                <option value="MagazineIssue"><%= CategoryType.MagazineIssue.GetName() %></option>
+                                                <option value="MagazineArticle"><%= CategoryType.MagazineArticle.GetName() %></option>
+                                            </optgroup>
+                                            <optgroup label="Internet">
+                                                <option value="Website"><%= CategoryType.Website.GetName() %></option>
+                                                <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
+                                                <option value="WebsiteVideo"><%= CategoryType.WebsiteVideo.GetName() %></option>
+                                            </optgroup>
+                                            <optgroup label="Film und Fernsehen">
+                                                <option value="Movie"><%= CategoryType.Movie.GetName() %></option>
+                                                <option value="TvShow"><%= CategoryType.TvShow.GetName() %></option>
+                                                <option value="TvShowEpisode"><%= CategoryType.TvShowEpisode.GetName() %></option>
+                                            </optgroup>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label style="font-weight: normal">
+                                        <input type="radio" name="rdoCategoryTypeGroup" value="education">
+                                        Aus- und Weiterbildung (Studiengänge, Schulfächer, Klassenstufen etc.)
+                                        <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;">
                                             <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
+                                            <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
                                             <option value="FieldStudyTrade"><%= CategoryType.FieldStudyTrade.GetName() %></option>
                                             <option value="Course"><%= CategoryType.Course.GetName() %></option>
                                             <option value="Certification"><%= CategoryType.Certification.GetName() %></option>
-                                        </optgroup>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label style="font-weight: normal">
-                                    <input type="radio" name="optionsRadios" value="option1">
-                                    Aus- und Weiterbildung (Studiengänge, Schulfächer, Klassenstufen etc.)
-                                    <select class="form-control" id="ddlCategoryTypex" name="ddlCategoryType" style="margin-top: 5px;">
-                                        <option value="NoValue">Bitte auswählen...</option>
-                                    </select>
-                                </label>
-                            </div>
+                                        </select>
+                                    </label>
+                                </div>
+                             <% }else{ %>
+                                <p class="form-control-static">
+                                    <%= Model.Category.Type.GetName() %>
+                                </p>
+                            <% } %>
                         </div>
                     </div>
                 

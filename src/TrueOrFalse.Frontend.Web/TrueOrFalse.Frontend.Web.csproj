@@ -585,6 +585,7 @@
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Edit\TypeControls\BookChapter.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Book.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Certification.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Course.ascx" />

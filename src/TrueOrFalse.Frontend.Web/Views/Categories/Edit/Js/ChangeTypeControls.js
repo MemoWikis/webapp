@@ -1,12 +1,21 @@
-﻿$(function () {
-    var isEditing = $("#isEditing").val() == "true";
+﻿var bla = (function () {
+    function bla() {
+        var self = this;
+        this._isCreating = $("#isEditing").val() == "false";
 
-    function updateTypeBody() {
+        if (this._isCreating) {
+            $("#ddlCategoryType").change(self.UpdateTypeBody);
+            self.InitGroupBehaviour();
+        }
+
+        this.UpdateTypeBody();
+    }
+    bla.prototype.UpdateTypeBody = function () {
         var selectedValue;
-        if (isEditing) {
+        if (this._isCreating) {
             selectedValue = $("#categoryType").val();
         } else {
-            selectedValue = $("#ddlCategoryType").val();
+            //selectedValue = $("#ddlCategoryType").val();
         }
 
         $.ajax({
@@ -16,12 +25,18 @@
                 $("#CategoryDetailsBody").html(data);
             }
         });
-    }
+    };
 
-    if (!isEditing) {
-        $("#ddlCategoryType").change(updateTypeBody);
-    }
+    bla.prototype.InitGroupBehaviour = function () {
+        $("input:radio[name=rdoCategoryTypeGroup]").change(function () {
+            $("input:radio[name=rdoCategoryTypeGroup]").parent().children("select").hide();
+            $("input:radio[name=rdoCategoryTypeGroup]:checked").parent().children("select").slideDown();
+        });
+    };
+    return bla;
+})();
 
-    updateTypeBody();
+$(function () {
+    new bla();
 });
 //# sourceMappingURL=ChangeTypeControls.js.map

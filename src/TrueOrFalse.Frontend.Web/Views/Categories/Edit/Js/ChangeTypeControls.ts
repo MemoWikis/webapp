@@ -1,27 +1,49 @@
-﻿$(function () {
+﻿
+class bla {
 
-    var isEditing = $("#isEditing").val() == "true";
+    private _isCreating: boolean;
 
-    function updateTypeBody() {
+    constructor() {
+
+        var self = this;
+        this._isCreating = $("#isEditing").val() == "false";
+        
+        if (this._isCreating) {
+            $("#ddlCategoryType").change(self.UpdateTypeBody);
+            self.InitGroupBehaviour();
+        }
+
+        this.UpdateTypeBody();
+    }
+
+
+    UpdateTypeBody() {
 
         var selectedValue;
-        if (isEditing) {
+        if (this._isCreating) {
             selectedValue = $("#categoryType").val();
         } else {
-            selectedValue = $("#ddlCategoryType").val();
+
+            //selectedValue = $("#ddlCategoryType").val();
         }
-         
+
         $.ajax({
             url: '/EditCategory/DetailsPartial?categoryId=' + $("#categoryId").val() + '&type=' + selectedValue,
             type: 'GET',
-            success: function (data) { $("#CategoryDetailsBody").html(data); }
+            success: function(data) { $("#CategoryDetailsBody").html(data); }
         });
     }
 
-    if (!isEditing) {
-        $("#ddlCategoryType").change(updateTypeBody);
+    InitGroupBehaviour() {
+        $("input:radio[name=rdoCategoryTypeGroup]").change(function () {
+            $("input:radio[name=rdoCategoryTypeGroup]").parent().children("select").hide();
+            $("input:radio[name=rdoCategoryTypeGroup]:checked").parent().children("select").slideDown();
+        });
     }
+}
 
-    updateTypeBody();
 
+
+$(function () {
+    new bla();
 });

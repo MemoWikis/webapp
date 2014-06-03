@@ -59,8 +59,24 @@ public class EditCategoryModel : BaseModel
 
         var request = HttpContext.Current.Request;
 
-        if (request["ddlCategoryType"] != null)
-            category.Type = (CategoryType)Enum.Parse(typeof(CategoryType), request["ddlCategoryType"]);
+        string categoryType = "standard";
+
+        //if (request["ddlCategoryType"] != null)
+
+
+        if (request["rdoCategoryTypeGroup"] == "standard")
+            categoryType = "standard";
+        if (request["rdoCategoryTypeGroup"] == "media")
+            if (request["ddlCategoryTypeMedia"] != null)
+                categoryType = request["ddlCategoryTypeMedia"];
+        if (request["rdoCategoryTypeGroup"] == "education")
+            if (request["ddlCategoryTypeEducation"] != null)
+                categoryType = request["ddlCategoryTypeEducation"];
+
+        category.Type = (CategoryType)Enum.Parse(typeof(CategoryType), categoryType);
+                
+
+            //category.Type = (CategoryType)Enum.Parse(typeof(CategoryType), request["ddlCategoryType"]);
 
         FillFromRequest(category);
 
