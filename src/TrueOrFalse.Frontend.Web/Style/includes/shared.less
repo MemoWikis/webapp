@@ -6,6 +6,8 @@
 
     Helper Classes
     General Styles
+    Layout Elements
+    Color scheme
     Media query mixins
     Own responsive utilities
     Special styles
@@ -18,6 +20,7 @@
 @import 'variables.less';
 @import 'colors.less';
 @import (reference) '../bootstrap/bootstrap.less';
+@import '../font-awesome-4.1.0/less/font-awesome.less';
 
 /*  Helper classes
 ----------------------------------------------------------*/
@@ -56,6 +59,17 @@
         color: @link-color-hover;
     }
 }
+
+/*  Layout elements
+----------------------------------------------------------*/
+
+/*  Color scheme
+----------------------------------------------------------*/
+
+.ColoredBottomBorder (@color: @memo-green; @border-width: 2px) {
+    border-bottom: solid @border-width @color;
+}
+
 
 /*  Media query mixins
 ----------------------------------------------------------*/
