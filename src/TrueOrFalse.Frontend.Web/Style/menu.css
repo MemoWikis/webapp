@@ -285,6 +285,7 @@
 #mainMenu .list-group-item .add-new {
   margin-top: 2px;
   float: right !important;
+  float: right;
 }
 #mainMenu .list-group-item .set-color {
   color: #ffd700;
