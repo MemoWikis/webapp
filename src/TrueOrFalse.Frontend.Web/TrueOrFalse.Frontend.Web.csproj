@@ -857,6 +857,8 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
     <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
     <Content Include="Views\Questions\Answer\Js\AnswerQuestion.js">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
