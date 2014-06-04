@@ -138,14 +138,29 @@ public class AnswerQuestionController : BaseController
         return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
     }
 
-
-
     [HttpPost]
     public JsonResult SaveRelevanceForAll(int id, int newValue)
     {
         Sl.Resolve<UpdateQuestionTotals>().UpdateRelevanceAll(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevanceForAll(id);
         return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
+    }
+
+    public ActionResult PartialAnswerHistory(int questionId)
+    {
+        var question = _questionRepository.GetById(questionId);
+        
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, _sessionUser.UserId));
+        var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, question.Id);
+
+        return View("~/Views/Questions/Answer/HistoryAndProbability.ascx",
+            new HistoryAndProbabilityModel
+            {
+                LoadJs = true,
+                AnswerHistory = new AnswerHistoryModel(question, valuationForUser),
+                CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
+            }
+        );
     }
 
     public EmptyResult ClearHistory()

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Security.Policy;
 using System.Web.Mvc;
 using Gibraltar.Agent.Configuration;
@@ -47,6 +49,8 @@ public class AnswerQuestionModel : BaseModel
 
     public bool IsOwner;
 
+    public string ImageUrlAddComment;
+
     public bool HasImage
     {
         get { return !string.IsNullOrEmpty(ImageUrl_500px); }
@@ -81,11 +85,12 @@ public class AnswerQuestionModel : BaseModel
     public IList<Category> Categories;
     public IList<SetMini> SetMinis;
     public int SetCount;
-    
-    public AnswerHistoryModel AnswerHistory;
-    public CorrectnessProbabilityModel CorrectnessProbability;
+
+    public HistoryAndProbabilityModel HistoryAndProbability; 
 
     public bool IsInWishknowledge;
+
+    public IList<CommentModel> Comments;
 
     public AnswerQuestionModel() { }
 
@@ -136,6 +141,14 @@ public class AnswerQuestionModel : BaseModel
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
 
+        if(IsLoggedIn)
+            ImageUrlAddComment = new UserImageSettings(UserId).GetUrl_128px_square(_sessionUser.User.EmailAddress).Url;
+
+        Comments = Resolve<CommentRepository>()
+            .GetForDisplay(question.Id)
+            .Select(c => new CommentModel(c))
+            .ToList();
+
         Creator = question.Creator;
         CreatorId = question.Creator.Id.ToString();
         CreatorName = question.Creator.Name;
@@ -153,8 +166,12 @@ public class AnswerQuestionModel : BaseModel
         SolutionMetadata = new SolutionMetadata {Json = question.SolutionMetadataJson};
         SolutionMetaDataJson = question.SolutionMetadataJson;
 
-        AnswerHistory = new AnswerHistoryModel(question, valuationForUser);
-        CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser);
+        HistoryAndProbability = new HistoryAndProbabilityModel
+        {
+            AnswerHistory = new AnswerHistoryModel(question, valuationForUser),
+            CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
+        };
+
         IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
         
         TotalViews = question.TotalViews + 1;

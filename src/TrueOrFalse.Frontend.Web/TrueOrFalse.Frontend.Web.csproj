@@ -719,7 +719,10 @@
     <Compile Include="Views\Maintenance\MaintenanceMessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceImagesModel.cs" />
+    <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionPage.cs" />
+    <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs" />
+    <Compile Include="Views\Questions\Answer\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
     <Compile Include="Views\Sets\Detail\SetModel.cs" />
     <Compile Include="Views\Sets\Edit\EditSetController.cs" />
@@ -897,8 +900,14 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
     <Content Include="Views\Questions\Answer\Js\AnswerQuestion.js">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\Comments.js">
+      <DependentUpon>Comments.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
@@ -906,6 +915,7 @@
     <Content Include="Views\Questions\Answer\Js\PinQuestion.js">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\HistoryAndProbability.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
@@ -936,6 +946,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\Comments.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
@@ -1158,6 +1169,9 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\PinQuestion.js.map">
       <DependentUpon>PinQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\Comments.js.map">
+      <DependentUpon>Comments.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\EditCategory.less" />
     <Content Include="Views\Categories\Edit\EditCategory.css.map">

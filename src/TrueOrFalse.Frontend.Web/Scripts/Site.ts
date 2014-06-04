@@ -1,4 +1,20 @@
-$(function() {
+function FillSparklineTotals() {
+    $(".sparklineTotals").each(function () {
+        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
+            type: 'pie',
+            sliceColors: ['#3e7700', '#B13A48']
+        });
+    });
+
+    $(".sparklineTotalsUser").each(function () {
+        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
+            type: 'pie',
+            sliceColors: ['#3e7700', '#B13A48']
+        });
+    });    
+}
+
+$(function () {
     $("[popover-all-sets-for]").click(function (e) {
 
         e.preventDefault();
@@ -36,18 +52,7 @@ $(function() {
         function () { $(this).animate({ 'background-size': '100%' }, 250); },
         function () { $(this).animate({ 'background-size': '86%' }, 250); }
     );
-   
-    $(".sparklineTotals").each(function () {
-        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
-            type: 'pie',
-            sliceColors: ['#3e7700', '#B13A48']
-        });
-    });
 
-    $(".sparklineTotalsUser").each(function () {
-        $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
-            type: 'pie',
-            sliceColors: ['#3e7700', '#B13A48']
-        });
-    });
+    FillSparklineTotals();
 });
+

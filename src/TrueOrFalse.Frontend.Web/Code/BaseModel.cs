@@ -11,15 +11,6 @@ namespace TrueOrFalse.Frontend.Web.Models
 
         public bool IsLoggedIn{ get { return _sessionUser.IsLoggedIn; } }
 
-        public int UserId
-        {
-            get
-            {
-                if (_sessionUser.IsLoggedIn)
-                    return _sessionUser.User.Id;
-
-                return -1;
-            }
-        }
+        public int UserId{ get { return _sessionUser.UserId;  }}
     }
 }

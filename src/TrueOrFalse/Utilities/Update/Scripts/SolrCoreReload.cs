@@ -63,7 +63,7 @@ namespace TrueOrFalse.Updates
         private static void CopySchema(string coreName)
         {
             File.Copy(
-                PathTo.SolrSchema("schema" + coreName + ".xml"),
+                PathTo.SolrSchema("schema" + coreName.Replace("Test", "") + ".xml"),
                 _solrPath + "/tof" + coreName + "/conf/" + "schema.xml",
                 overwrite:true
             );
@@ -72,7 +72,7 @@ namespace TrueOrFalse.Updates
         private static void CopyConfig(string coreName)
         {
             File.Copy(
-                PathTo.SolrSchema("solrconfig" + coreName + ".xml"),
+                PathTo.SolrSchema("solrconfig" + coreName.Replace("Test", "") + ".xml"),
                 _solrPath + "/tof" + coreName + "/conf/" + "solrconfig.xml",
                 overwrite: true
             );            
