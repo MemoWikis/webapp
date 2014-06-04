@@ -22,20 +22,20 @@
     </div>
     <!-- Header -->
     <h1>Lorem ipsum - h1 plain</h1>
-    <h1><span class="underlined">Lorem ipsum - h1 underlined</span></h1>
-    <h1 class="underlined">Lorem ipsum - h1 underlined complete</h1>
+    <h1><span class="ColoredBottomBorder">Lorem ipsum - h1 underlined</span></h1>
+    <h1 class="ColoredBottomBorder">Lorem ipsum - h1 underlined complete</h1>
     <br/>
     <h2>Lorem ipsum - h2 plain</h2>
-    <h2><span class="underlined">Lorem ipsum - h2 underlined</span></h2>
-    <h2 class="underlined">Lorem ipsum - h2 underlined complete</h2>
+    <h2><span class="ColoredBottomBorder">Lorem ipsum - h2 underlined</span></h2>
+    <h2 class="ColoredBottomBorder">Lorem ipsum - h2 underlined complete</h2>
     <br/>
     <h3>Lorem ipsum - h3 plain</h3>
-    <h3><span class="underlined">Lorem ipsum - h3 underlined</span></h3>
-    <h3 class="underlined">Lorem ipsum - h3 underlined complete</h3>
+    <h3><span class="ColoredBottomBorder">Lorem ipsum - h3 underlined</span></h3>
+    <h3 class="ColoredBottomBorder">Lorem ipsum - h3 underlined complete</h3>
     <br/>
     <h4>Lorem ipsum - h4 plain</h4>
-    <h4><span class="underlined">Lorem ipsum - h4 underlined</span></h4>
-    <h4 class="underlined">Lorem ipsum - h4 underlined complete</h4>
+    <h4><span class="ColoredBottomBorder">Lorem ipsum - h4 underlined</span></h4>
+    <h4 class="ColoredBottomBorder">Lorem ipsum - h4 underlined complete</h4>
     <br/>
         
     <div>
@@ -56,7 +56,7 @@
                     <div class="panel-group" id="accordion">
                       <div class="panel panel-default">
                         <div class="panel-heading">
-                          <h4 class="Colored Category panel-title">
+                          <h4 class=".ColoredText Category panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
             Überschrift Code-Abschnitt 1
                             </a>
@@ -73,7 +73,7 @@ Code-Abschnitt 1
                       </div>
                       <div class="panel panel-default">
                         <div class="panel-heading">
-                          <h4 class="Colored Category panel-title">
+                          <h4 class=".ColoredText Category panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
             Überschrift Code-Abschnitt 2
                             </a>
@@ -90,7 +90,7 @@ Code-Abschnitt 2
                       </div>
                       <div class="panel panel-default">
                         <div class="panel-heading">
-                          <h4 class="Colored Category panel-title">
+                          <h4 class=".ColoredText Category panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
             Überschrift Code-Abschnitt 3
                             </a>
@@ -107,7 +107,7 @@ Code-Abschnitt 3
                       </div>
                       <div class="panel panel-default">
                         <div class="panel-heading">
-                          <h4 class="Colored Category panel-title">
+                          <h4 class=".ColoredText Category panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
 Überschrift Code-Abschnitt 4
                             </a>

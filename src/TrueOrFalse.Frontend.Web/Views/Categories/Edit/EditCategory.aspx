@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-9 pageHeader">
             <h2>
-                <span class="underlined Category">
+                <span class="ColoredBottomBorder Category">
                     <% if (Model.IsEditing) { %>
                     Kategorie bearbeiten
                     <% } else { %>
@@ -128,13 +128,13 @@
                             <% } %>
                         </div>
                     </div>
-                
-                    
                 </div>
+                 <!-- temporariliy included partial:-->
+            <%-- <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/Standard.ascx", new EditCategoryTypeModel(Model.Category));%>    --%>
 
                 <div id="CategoryDetailsBody">
-                        <!-- temporariliy included partial:-->
-                        <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/Book.ascx", new EditCategoryTypeModel(Model.Category));%>
+                       
+                        
                 </div>
                 <div class="FormSection">
                     <div class="form-group">
