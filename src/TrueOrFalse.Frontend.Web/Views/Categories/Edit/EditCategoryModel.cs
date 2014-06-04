@@ -11,10 +11,8 @@ using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel
 {
-    [DisplayName("Name")]
     public string Name { get; set; }
 
-    [DisplayName("Beschreibung")]
     public string Description { get; set; }
 
     public UIMessage Message;
@@ -75,8 +73,6 @@ public class EditCategoryModel : BaseModel
 
         category.Type = (CategoryType)Enum.Parse(typeof(CategoryType), categoryType);
                 
-
-            //category.Type = (CategoryType)Enum.Parse(typeof(CategoryType), request["ddlCategoryType"]);
 
         FillFromRequest(category);
 

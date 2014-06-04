@@ -38,8 +38,13 @@ class bla {
         $.ajax({
             url: '/EditCategory/DetailsPartial?categoryId=' + $("#categoryId").val() + '&type=' + selectedValue,
             type: 'GET',
-            success: function(data) { $("#CategoryDetailsBody").html(data); }
+            success: function(data) {
+                $("#CategoryDetailsBody").html(data);
+                $('#CategoryDetailsBody .show-tooltip').tooltip();
+            }
         });
+
+        
     }
 
     InitGroupBehaviour() {

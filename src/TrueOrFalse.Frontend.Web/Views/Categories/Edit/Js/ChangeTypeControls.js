@@ -37,6 +37,7 @@
             type: 'GET',
             success: function (data) {
                 $("#CategoryDetailsBody").html(data);
+                $('#CategoryDetailsBody .show-tooltip').tooltip();
             }
         });
     };
