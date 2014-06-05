@@ -23,4 +23,9 @@ public class AnswerCommentsController : BaseController
             new CommentModel(comment));
     }
 
+    public ActionResult GetAnswerHtml()
+    {
+        return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx", new CommentAnswerAddModel());        
+    }
+
 }
