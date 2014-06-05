@@ -94,7 +94,7 @@ public class EditCategoryController : BaseController
         TempData["createCategoryMsg"] 
             = new SuccessMessage(string.Format(
                  "Die Kategorie <strong>'{0}'</strong> wurde angelegt.<br>" + 
-                 "Du kannst die Kategorie jetzt bearbeiten<br>" +
+                 "Du kannst die Kategorie jetzt bearbeiten" +
                  "oder eine <a href='/Kategorien/Erstelle'>neue Kategorie anlegen</a>.", 
                 model.Name));
 

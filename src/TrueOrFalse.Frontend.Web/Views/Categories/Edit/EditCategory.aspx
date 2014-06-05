@@ -84,7 +84,7 @@
                                     <label style="font-weight: normal">
                                         <input type="radio" name="rdoCategoryTypeGroup" value="media">
                                         Medien (Bücher, Zeitungsartikel, Videos etc.)
-                                        <i class="fa fa-question-circle show-tooltip" title="help text" data-placement="right"></i>
+                                        <i class="fa fa-question-circle show-tooltip" title="Kategorietyp für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen und für Quellenangaben in Fragen." data-placement="right"></i>
                                         <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;">
                                             <optgroup label="Druckmedien">
                                                 <option value="Book"><%= CategoryType.Book.GetName() %></option>
@@ -130,7 +130,7 @@
                     </div>
                 </div>
                  <!-- temporariliy included partial:-->
-            <%-- <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/Standard.ascx", new EditCategoryTypeModel(Model.Category));%>    --%>
+          <%--   <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/Daily.ascx", new EditCategoryTypeModel(Model.Category));%>    --%>
 
                 <div id="CategoryDetailsBody">
                        
@@ -157,18 +157,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group" style="margin-top: 30px;">
-                    <div class="noLabel columnControlsFull">
-                        <% if (Model.IsEditing){ %>
-                            <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                            <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
-                        <% } else { %>
-                            <input type="submit" value="Erstellen" class="btn btn-primary" name="btnSave" />
-                        <% } %>
+                <div class="FormSection">
+                    <div class="form-group">
+                        <div class="noLabel columnControlsFull">
+                            <p class="form-control-static"><span class="RequiredField"></span> Pflichtfeld</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="noLabel columnControlsFull">
+                            <% if (Model.IsEditing){ %>
+                                <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
+                                <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+                            <% } else { %>
+                                <input type="submit" value="Kategorie erstellen" class="btn btn-primary" name="btnSave" />
+                            <% } %>
+                        </div>
                     </div>
                 </div>
+               <%-- <% if (Model.IsEditing){ %>
+                                <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
+                                <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+                            <% } else { %>
+                                <input type="submit" value="Erstellen" class="btn btn-primary" name="btnSave" />
+                            <% } %>--%>
                 
-                <div class="FormSection" style="background-color: grey;">
+                <%--<div class="FormSection" style="background-color: grey;">
                     <%if(!Model.IsEditing){ %>
                 
                     <div class="form-group">
@@ -230,7 +243,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div>--%>
             </div>
         </div>
     </div>

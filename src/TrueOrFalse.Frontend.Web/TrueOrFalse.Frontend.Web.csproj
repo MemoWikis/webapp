@@ -220,6 +220,7 @@
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
+    <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Dates\DatesController.cs" />
     <Compile Include="Views\Dates\DatesModel.cs" />

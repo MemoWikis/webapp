@@ -228,6 +228,9 @@ textarea,
 select {
   color: #2e487b;
 }
+.RequiredField:before {
+  content: '*';
+}
 h2.pageHeader,
 .pageHeader > h2 {
   padding-top: 0;
