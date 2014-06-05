@@ -162,7 +162,7 @@
 
 <% if(Model.Categories.Any()){ %>
     <div class="menuCategories">
-        <h4><span class="underlined">Kategorien</span></h4>
+        <h4><span class="ColoredBottomBorder">Kategorien</span></h4>
         <% foreach(var catMenuItem in Model.Categories){ %>
             <a href="<%= Links.QuestionWithCategoryFilter(Url, catMenuItem) %>"><span class="label label-category"> <%=catMenuItem.Category.Name %> (<span><%=catMenuItem.OnPageCount %>x) </span> </span></a>
         <% } %>

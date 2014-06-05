@@ -385,6 +385,15 @@
     <Content Include="Style\drafts.css">
       <DependentUpon>drafts.less</DependentUpon>
     </Content>
+    <Content Include="Style\font-awesome-4.1.0\css\font-awesome.css" />
+    <Content Include="Style\font-awesome-4.1.0\css\font-awesome.min.css" />
+    <Content Include="Style\font-awesome-4.1.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Style\font-awesome-4.1.0\less\font-awesome.css">
+      <DependentUpon>font-awesome.less</DependentUpon>
+    </Content>
+    <Content Include="Style\font-awesome-4.1.0\less\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
     <Content Include="Style\grid.css">
       <DependentUpon>grid.less</DependentUpon>
     </Content>
@@ -563,9 +572,42 @@
     <Content Include="Scripts\ValuationPerRow.js.map">
       <DependentUpon>ValuationPerRow.ts</DependentUpon>
     </Content>
+    <Content Include="Style\font-awesome-4.1.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Style\font-awesome-4.1.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Style\font-awesome-4.1.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Style\font-awesome-4.1.0\fonts\FontAwesome.otf" />
+    <Content Include="Style\font-awesome-4.1.0\less\bordered-pulled.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\core.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\fixed-width.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\font-awesome.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\icons.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\larger.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\list.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\mixins.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\path.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\rotated-flipped.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\spinning.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\stacked.less" />
+    <Content Include="Style\font-awesome-4.1.0\less\variables.less" />
+    <Content Include="Style\font-awesome-4.1.0\scss\font-awesome.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_bordered-pulled.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_core.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_fixed-width.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_icons.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_larger.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_list.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_mixins.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_path.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_rotated-flipped.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_spinning.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_stacked.scss" />
+    <Content Include="Style\font-awesome-4.1.0\scss\_variables.scss" />
+    <Content Include="Style\font-awesome-4.1.0\less\font-awesome.css.map">
+      <DependentUpon>font-awesome.css</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
-    <Content Include="Style\font-awesome.css" />
+    <Content Include="Style\fonts-awesome\font-awesome.css" />
     <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
     <Content Include="Style\menu.css">
       <DependentUpon>menu.less</DependentUpon>
@@ -585,6 +627,7 @@
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Edit\TypeControls\BookChapter.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Book.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Certification.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Course.ascx" />
@@ -1201,7 +1244,9 @@
       <Name>TrueOrFalse</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Style\fontAwesome\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

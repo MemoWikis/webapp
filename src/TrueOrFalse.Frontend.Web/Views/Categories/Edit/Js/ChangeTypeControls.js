@@ -1,12 +1,35 @@
-﻿$(function () {
-    var isEditing = $("#isEditing").val() == "true";
+﻿var bla = (function () {
+    function bla() {
+        var self = this;
+        this._isCreating = $("#isEditing").val() == "false";
 
-    function updateTypeBody() {
+        if (this._isCreating) {
+            $("input[name=rdoCategoryTypeGroup]:radio").change(function () {
+                self.UpdateTypeBody();
+            });
+            $("select[name='ddlCategoryTypeMedia']").change(function () {
+                self.UpdateTypeBody();
+            });
+            $("select[name='ddlCategoryTypeEducation']").change(function () {
+                self.UpdateTypeBody();
+            });
+
+            self.InitGroupBehaviour();
+        }
+
+        this.UpdateTypeBody();
+    }
+    bla.prototype.UpdateTypeBody = function () {
         var selectedValue;
-        if (isEditing) {
+        if (!this._isCreating) {
             selectedValue = $("#categoryType").val();
         } else {
-            selectedValue = $("#ddlCategoryType").val();
+            if ($("input:radio[name=rdoCategoryTypeGroup]:checked").val() == 'standard')
+                selectedValue = 'standard';
+            if ($("input:radio[name=rdoCategoryTypeGroup]:checked").val() == 'media')
+                selectedValue = $("select[name=ddlCategoryTypeMedia]").val();
+            if ($("input:radio[name='rdoCategoryTypeGroup']:checked").val() == 'education')
+                selectedValue = $("select[name='ddlCategoryTypeEducation']").val();
         }
 
         $.ajax({
@@ -14,14 +37,21 @@
             type: 'GET',
             success: function (data) {
                 $("#CategoryDetailsBody").html(data);
+                $('#CategoryDetailsBody .show-tooltip').tooltip();
             }
         });
-    }
+    };
 
-    if (!isEditing) {
-        $("#ddlCategoryType").change(updateTypeBody);
-    }
+    bla.prototype.InitGroupBehaviour = function () {
+        $("input:radio[name='rdoCategoryTypeGroup']").change(function () {
+            $("input:radio[name='rdoCategoryTypeGroup']").parent().children("select").hide();
+            $("input:radio[name='rdoCategoryTypeGroup']:checked").parent().children("select").slideDown();
+        });
+    };
+    return bla;
+})();
 
-    updateTypeBody();
+$(function () {
+    new bla();
 });
 //# sourceMappingURL=ChangeTypeControls.js.map

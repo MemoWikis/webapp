@@ -294,34 +294,34 @@ a.SimpleTextLink .TextSpan {
   vertical-align: middle;
 }
 /*Headings*/
-.underlined {
+.ColoredBottomBorder {
   border-bottom: solid 2px #afd534;
 }
-span.underlined {
+span.ColoredBottomBorder {
   display: inline-block;
 }
-h3.underlined,
-h3 *.underlined {
+h3.ColoredBottomBorder,
+h3 *.ColoredBottomBorder {
   border-bottom-width: 3px;
 }
-h2.underlined,
-h2 *.underlined {
+h2.ColoredBottomBorder,
+h2 *.ColoredBottomBorder {
   border-bottom-width: 3px;
 }
-h1.underlined,
-h1 *.underlined {
+h1.ColoredBottomBorder,
+h1 *.ColoredBottomBorder {
   border-bottom-width: 4px;
 }
-.underlined.Knowledge {
+.ColoredBottomBorder.Knowledge {
   border-bottom-color: #b13a48;
 }
-.underlined.Category {
+.ColoredBottomBorder.Category {
   border-bottom-color: #5bc0de;
 }
-.Colored.Knowledge {
+.ColoredText.Knowledge {
   color: #b13a48;
 }
-.Colored.Category {
+.ColoredText.Category {
   color: #5bc0de;
 }
 /*Images*/

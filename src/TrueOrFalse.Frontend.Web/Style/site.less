@@ -103,9 +103,11 @@ a {
 
 /*Headings*/
 
-.underlined {
 
-    border-bottom: solid 2px @memo-green;
+
+.ColoredBottomBorder {
+
+    .ColoredBottomBorder();
     
     span& {display: inline-block;}
 
@@ -120,10 +122,11 @@ a {
             
 }
 
-.Colored {
+.ColoredText {
     &.Knowledge {color: @color-knowledge;}
     &.Category {color: @color-category;}
 }
+
 
 /*Images*/
 
@@ -1042,9 +1045,11 @@ ul.ui-autocomplete {
 
 /*Tooltips*/
 
+
 .fa-question-circle.show-tooltip {
     .hidden-xs;
     .hidden-sm;
+    //font-size: 20px; implement hiding/toggle
 }
 
 .tooltip-text-left + .tooltip > .tooltip-inner {
