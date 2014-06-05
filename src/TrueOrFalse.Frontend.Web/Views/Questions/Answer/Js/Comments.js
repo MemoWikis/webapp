@@ -1,8 +1,12 @@
 ﻿var Comments = (function () {
     function Comments() {
         var _this = this;
+        var self = this;
         $("#btnSaveComment").click(function (e) {
             return _this.AddComment(e);
+        });
+        $(".btnAnswerComment").click(function (e) {
+            self.ShowAddAnswer(e, this);
         });
     }
     Comments.prototype.AddComment = function (e) {
@@ -24,6 +28,15 @@
             txtNewComment.val("");
             $("#saveCommentSpinner").hide();
             txtNewComment.show();
+        });
+    };
+
+    Comments.prototype.ShowAddAnswer = function (e, buttonElem) {
+        e.preventDefault();
+
+        $.post("/AnswerComments/GetAnswerHtml", function (data) {
+            $(buttonElem).parent().hide();
+            $($(buttonElem).parents(".panel")[0]).append(data);
         });
     };
     return Comments;

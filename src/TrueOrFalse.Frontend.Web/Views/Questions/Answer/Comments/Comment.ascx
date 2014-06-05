@@ -16,7 +16,7 @@
         </div>
         
         <div style="position: absolute; bottom: 8px; right: 20px;">
-            <a href="#">Antworten</a>
+            <a href="#" class="btnAnswerComment">Antworten</a>
         </div>
     </div>
 </div>

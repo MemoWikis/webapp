@@ -1,7 +1,9 @@
 ﻿class Comments
 {
     constructor() {
+        var self = this;
         $("#btnSaveComment").click((e) => this.AddComment(e));
+        $(".btnAnswerComment").click(function(e) { self.ShowAddAnswer(e, this); });
     }
 
     AddComment(e : BaseJQueryEventObject) {
@@ -27,8 +29,16 @@
         });
     }
 
-}
+    ShowAddAnswer(e: BaseJQueryEventObject, buttonElem : JQuery) {
 
+        e.preventDefault();
+
+        $.post("/AnswerComments/GetAnswerHtml", function (data) {
+            $(buttonElem).parent().hide();
+            $($(buttonElem).parents(".panel")[0]).append(data);
+        });
+    }
+}
 
 $(function () {
     new Comments();

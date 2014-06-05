@@ -722,7 +722,12 @@
     <Compile Include="Views\Maintenance\MaintenanceImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionPage.cs" />
-    <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs" />
+    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddModel.cs">
+      <DependentUpon>CommentAnswerAdd.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
+      <DependentUpon>Comment.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Questions\Answer\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
     <Compile Include="Views\Sets\Detail\SetModel.cs" />
