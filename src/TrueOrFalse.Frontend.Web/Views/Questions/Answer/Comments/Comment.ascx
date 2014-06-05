@@ -15,8 +15,10 @@
             <%= Model.Text %>
         </div>
         
-        <div style="position: absolute; bottom: 8px; right: 20px;">
-            <a href="#" class="btnAnswerComment">Antworten</a>
-        </div>
+        <% if(Model.IsLoggedIn){ %>
+            <div style="position: absolute; bottom: 8px; right: 20px;">
+                <a href="#" class="btnAnswerComment" data-comment-id="<%= Model.Id %>">Antworten</a>
+            </div>
+        <% } %>
     </div>
 </div>

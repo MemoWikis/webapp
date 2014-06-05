@@ -2,7 +2,6 @@ using System;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Frontend.Web.Models;
 
 public class CategoryRowModel : BaseModel
 {

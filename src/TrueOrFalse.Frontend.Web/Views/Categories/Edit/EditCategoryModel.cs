@@ -6,7 +6,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel

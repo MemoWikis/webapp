@@ -4,9 +4,10 @@ using System.Linq;
 using System.Web;
 using TrueOrFalse;
 
-
-public class CommentModel
+public class CommentModel : BaseModel
 {
+    /// <summary>Comment.Id</summary>
+    public int Id;
     public string CreatorName;
     public string CreationDate;
     public string CreationDateNiceText;
@@ -15,6 +16,7 @@ public class CommentModel
 
     public CommentModel(Comment comment)
     {
+        Id = comment.Id;
         CreatorName = comment.Creator.Name;
         CreationDate = comment.DateCreated.ToString("U");
         CreationDateNiceText = TimeElapsedAsText.Run(comment.DateCreated);

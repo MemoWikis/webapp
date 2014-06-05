@@ -3,13 +3,13 @@
         var _this = this;
         var self = this;
         $("#btnSaveComment").click(function (e) {
-            return _this.AddComment(e);
+            return _this.SaveComment(e);
         });
         $(".btnAnswerComment").click(function (e) {
             self.ShowAddAnswer(e, this);
         });
     }
-    Comments.prototype.AddComment = function (e) {
+    Comments.prototype.SaveComment = function (e) {
         e.preventDefault();
 
         var params = {
@@ -21,7 +21,7 @@
         $("#saveCommentSpinner").show();
         txtNewComment.hide();
 
-        $.post("/AnswerComments/AddComment", params, function (data) {
+        $.post("/AnswerComments/SaveComment", params, function (data) {
             $("#comments").append(data);
 
             txtNewComment.attr("placeholder", "Dein Kommentar wurde gespeichert.");
@@ -34,9 +34,39 @@
     Comments.prototype.ShowAddAnswer = function (e, buttonElem) {
         e.preventDefault();
 
+        var self = this;
+        buttonElem = $(buttonElem);
+
         $.post("/AnswerComments/GetAnswerHtml", function (data) {
-            $(buttonElem).parent().hide();
-            $($(buttonElem).parents(".panel")[0]).append(data);
+            buttonElem.parent().hide();
+
+            var html = $(data);
+            var btnSaveAnswer = $(html.find(".saveAnswer")[0]);
+            var parentContainer = $($(buttonElem).parents(".panel")[0]);
+            btnSaveAnswer.click(function (e) {
+                self.SaveAnswer(e, parentContainer, html, buttonElem.data("comment-id"));
+            });
+            parentContainer.append(html);
+        });
+    };
+
+    Comments.prototype.SaveAnswer = function (e, parentContainer, divAnswerEdit, commentId) {
+        e.preventDefault();
+
+        var params = {
+            commentId: commentId,
+            text: $(divAnswerEdit.find("textarea")[0]).val()
+        };
+
+        divAnswerEdit.remove();
+
+        var progress = $("<div class='panel-body' style='position: relative;'>" + "<div class='col-lg-offset-2 col-lg-10' style='height: 50px;'>" + "<i class='fa fa-spinner fa-spin'></i>" + "</div>" + "</div>");
+
+        parentContainer.append(progress);
+
+        $.post("/AnswerComments/SaveAnswer", params, function (data) {
+            progress.hide();
+            parentContainer.append(data);
         });
     };
     return Comments;

@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse.Web;
 
 public class UserSettingsModel : BaseModel

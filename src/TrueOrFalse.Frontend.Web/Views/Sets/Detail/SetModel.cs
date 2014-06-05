@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Models;
 
 public class SetModel : BaseModel
 {

@@ -9,6 +9,6 @@
     </div>
         
     <div class="col-lg-12">
-        <a class="btn btn-default pull-right" href="#">Speichern</a>
+        <a class="btn btn-default pull-right saveAnswer" href="#">Speichern</a>
     </div>
 </div>

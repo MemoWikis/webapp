@@ -4,12 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-
 public class AnswerCommentsController : BaseController
 {
 
     [HttpPost]
-    public ActionResult AddComment(int questionId, string text)
+    public ActionResult SaveComment(int questionId, string text)
     {
         var comment = new Comment();
         comment.Type = CommentType.AnswerQuestion;
@@ -23,9 +22,28 @@ public class AnswerCommentsController : BaseController
             new CommentModel(comment));
     }
 
-    public ActionResult GetAnswerHtml()
+    [HttpPost]
+    public ActionResult SaveAnswer(int commentId, string text)
     {
-        return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx", new CommentAnswerAddModel());        
+        var commentRepo = Resolve<CommentRepository>();
+        var parentComment = commentRepo.GetById(commentId);
+
+        var comment = new Comment();
+        comment.Type = CommentType.AnswerQuestion;
+        comment.TypeId = parentComment.TypeId;
+        comment.AnswerTo = parentComment;
+        comment.Text = text;
+        comment.Creator = _sessionUser.User;
+
+        commentRepo.Create(comment);
+
+        return View("~/Views/Questions/Answer/Comments/CommentAnswer.ascx",
+            new CommentModel(comment));
     }
 
+    public ActionResult GetAnswerHtml()
+    {
+        return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx", 
+            new CommentAnswerAddModel());
+    }
 }
