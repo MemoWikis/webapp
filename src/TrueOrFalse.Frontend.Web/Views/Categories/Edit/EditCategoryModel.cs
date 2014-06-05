@@ -63,7 +63,7 @@ public class EditCategoryModel : BaseModel
 
 
         if (request["rdoCategoryTypeGroup"] == "standard")
-            categoryType = "standard";
+            categoryType = "Standard";
         if (request["rdoCategoryTypeGroup"] == "media")
             if (request["ddlCategoryTypeMedia"] != null)
                 categoryType = request["ddlCategoryTypeMedia"];
@@ -94,8 +94,12 @@ public class EditCategoryModel : BaseModel
     {
         var request = HttpContext.Current.Request;
 
-        if (request["Url"] != null)
-            category.WikipediaURL = request["Url"];
+        if (request["WikipediaUrl"] != null)
+            category.WikipediaURL = request["WikipediaUrl"];
+
+        if (category.Type == CategoryType.Daily)
+            category.TypeJson = new CategoryDaily { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"],}.ToJson();
+
 
         if (category.Type == CategoryType.WebsiteVideo)
             category.TypeJson = new CategoryWebsiteVideo {Url = request["YoutubeUrl"]}.ToJson();
