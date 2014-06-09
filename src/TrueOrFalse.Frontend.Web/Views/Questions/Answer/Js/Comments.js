@@ -38,20 +38,23 @@
         buttonElem = $(buttonElem);
 
         $.post("/AnswerComments/GetAnswerHtml", function (data) {
-            buttonElem.parent().hide();
-
             var html = $(data);
             var btnSaveAnswer = $(html.find(".saveAnswer")[0]);
             var parentContainer = $($(buttonElem).parents(".panel")[0]);
+
+            var answerRow = $(buttonElem.parents(".panel-body")[0]);
+            answerRow.remove();
+
             btnSaveAnswer.click(function (e) {
-                self.SaveAnswer(e, parentContainer, html, buttonElem.data("comment-id"));
+                self.SaveAnswer(e, parentContainer, html, buttonElem.data("comment-id"), answerRow);
             });
             parentContainer.append(html);
         });
     };
 
-    Comments.prototype.SaveAnswer = function (e, parentContainer, divAnswerEdit, commentId) {
+    Comments.prototype.SaveAnswer = function (e, parentContainer, divAnswerEdit, commentId, answerRow) {
         e.preventDefault();
+        var self = this;
 
         var params = {
             commentId: commentId,
@@ -67,6 +70,10 @@
         $.post("/AnswerComments/SaveAnswer", params, function (data) {
             progress.hide();
             parentContainer.append(data);
+            parentContainer.append(answerRow);
+            answerRow.find(".btnAnswerComment").click(function (e2) {
+                self.ShowAddAnswer(e2, this);
+            });
         });
     };
     return Comments;

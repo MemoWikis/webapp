@@ -56,8 +56,7 @@
                     <% } %>
                     
                     <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
-                        <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
-                            
+                        <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">                        
                             <span >
                                 <i class="fa fa-list"></i> 
                                 <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>
@@ -68,16 +67,16 @@
                     <% } %>                    
                 </li>
                 <li>
-                    <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>                
+                    <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
                 </li>
                 <li class="next">
                     <% if (Model.HasNextPage) { %>
                         <a href="<%= Model.NextUrl(Url) %>"><i class="fa fa-arrow-right"></i> </a>
-                    <% } %>                
+                    <% } %>
                 </li>
-            </ul>            
+            </ul>
         </div>
-        
+
         <div class="col-md-3">
             <% if(Model.IsOwner){ %>
                 <div>            

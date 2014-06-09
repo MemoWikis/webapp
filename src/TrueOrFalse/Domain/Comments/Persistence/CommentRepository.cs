@@ -18,9 +18,13 @@ public class CommentRepository : RepositoryDb<Comment>
         return _session.QueryOver<Comment>()
             .Where(
                 x => x.TypeId == questionId && 
-                x.Type == CommentType.AnswerQuestion)
+                x.Type == CommentType.AnswerQuestion &&
+                x.AnswerTo == null)
             .Fetch(x => x.Answers).Eager
-            .List<Comment>();
+            .List<Comment>()
+            .GroupBy(x => x.Id)
+            .Select(x => x.First())
+            .ToList();
     }
 }
 
