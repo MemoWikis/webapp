@@ -20,6 +20,8 @@ namespace TrueOrFalse
         public string KeyOverviewPage;
         public SpellCheckResult SpellCheck;
 
+        public QuestionHistoryItem HistoryItem;
+
         public string GetSuggestion()
         {
             if (SpellCheck == null)

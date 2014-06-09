@@ -44,7 +44,10 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult AnswerSet(Set set, Question question )
     {
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(set, question));
+        _sessionUiData
+            .VisitedQuestions
+            .Add(new QuestionHistoryItem(set, question));
+
         return View(_viewLocation, new AnswerQuestionModel(set, question));
     }
 
@@ -93,7 +96,19 @@ public class AnswerQuestionController : BaseController
 
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
+
         var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
+
+        if (searchSpec.HistoryItem != null){
+            if (searchSpec.HistoryItem.Question != null){
+                if (searchSpec.HistoryItem.Question.Id != question.Id){
+                    question = Resolve<QuestionRepository>().GetById(searchSpec.HistoryItem.Question.Id);
+                }
+            }
+
+            searchSpec.HistoryItem = null;
+        }
+
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, searchSpec));
         _saveQuestionView.Run(question, _sessionUser.User.Id);
 

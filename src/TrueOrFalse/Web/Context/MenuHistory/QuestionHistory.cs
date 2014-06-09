@@ -51,10 +51,10 @@ namespace TrueOrFalse
             QuestionSearchSpec seachSpec,
             HistoryItemType type = HistoryItemType.Any)
         {
-            SearchSpec = QuestionSearchSpecSession.CloneAndAddToSession(seachSpec);
             Type = type;
-            
             FillQuestionFields(question);
+            
+            SearchSpec = QuestionSearchSpecSession.CloneAndAddToSession(seachSpec, this);
         }
 
         public QuestionHistoryItem(Question question, HistoryItemType type)
