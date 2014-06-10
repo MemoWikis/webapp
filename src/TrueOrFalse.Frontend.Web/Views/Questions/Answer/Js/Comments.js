@@ -5,11 +5,17 @@
         $("#btnSaveComment").click(function (e) {
             return _this.SaveComment(e);
         });
+        this.RegisterBtnAnswerComment($(window));
+    }
+    Comments.prototype.RegisterBtnAnswerComment = function (parent) {
+        var self = this;
         $(".btnAnswerComment").click(function (e) {
             self.ShowAddAnswer(e, this);
         });
-    }
+    };
+
     Comments.prototype.SaveComment = function (e) {
+        var self = this;
         e.preventDefault();
 
         var params = {
@@ -28,6 +34,7 @@
             txtNewComment.val("");
             $("#saveCommentSpinner").hide();
             txtNewComment.show();
+            self.RegisterBtnAnswerComment(txtNewComment);
         });
     };
 
@@ -71,9 +78,7 @@
             progress.hide();
             parentContainer.append(data);
             parentContainer.append(answerRow);
-            answerRow.find(".btnAnswerComment").click(function (e2) {
-                self.ShowAddAnswer(e2, this);
-            });
+            self.RegisterBtnAnswerComment(answerRow);
         });
     };
     return Comments;

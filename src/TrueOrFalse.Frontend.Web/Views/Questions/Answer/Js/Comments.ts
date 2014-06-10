@@ -3,11 +3,17 @@
     constructor() {
         var self = this;
         $("#btnSaveComment").click((e) => this.SaveComment(e));
-        $(".btnAnswerComment").click(function(e) { self.ShowAddAnswer(e, this); });
+        this.RegisterBtnAnswerComment($(window));
+    }
+
+    RegisterBtnAnswerComment(parent : JQuery) {
+        var self = this;
+        $(".btnAnswerComment").click(function (e) { self.ShowAddAnswer(e, this); });        
     }
 
     SaveComment(e : BaseJQueryEventObject) {
 
+        var self = this;
         e.preventDefault();
 
         var params = {
@@ -26,6 +32,7 @@
             txtNewComment.val("");
             $("#saveCommentSpinner").hide();
             txtNewComment.show();
+            self.RegisterBtnAnswerComment(txtNewComment);
         });
     }
 
@@ -83,9 +90,7 @@
             progress.hide();
             parentContainer.append(data);
             parentContainer.append(answerRow);
-            answerRow
-                .find(".btnAnswerComment")
-                .click(function (e2) { self.ShowAddAnswer(e2, this); });
+            self.RegisterBtnAnswerComment(answerRow);
         });
     }
 }
