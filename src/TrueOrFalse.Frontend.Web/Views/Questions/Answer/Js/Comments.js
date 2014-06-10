@@ -5,6 +5,9 @@
         $("#btnSaveComment").click(function (e) {
             return _this.SaveComment(e);
         });
+        $("#btnImprove").click(function (e) {
+            return _this.SaveImproveComment(e);
+        });
         this.RegisterBtnAnswerComment($(window));
     }
     Comments.prototype.RegisterBtnAnswerComment = function (parent) {
@@ -14,14 +17,33 @@
         });
     };
 
-    Comments.prototype.SaveComment = function (e) {
-        var self = this;
-        e.preventDefault();
+    Comments.prototype.SaveImproveComment = function (e) {
+        window.scrollTo(0, document.body.scrollHeight);
 
+        var params = {
+            questionId: window.questionId,
+            text: $("#txtImproveBecause").val(),
+            typeImprovement: true,
+            typeId: "1"
+        };
+
+        this.SaveCommentJson(e, params);
+
+        $("#modalImprove").modal('hide');
+    };
+
+    Comments.prototype.SaveComment = function (e) {
         var params = {
             questionId: window.questionId,
             text: $("#txtNewComment").val()
         };
+
+        this.SaveCommentJson(e, params);
+    };
+
+    Comments.prototype.SaveCommentJson = function (e, params) {
+        e.preventDefault();
+        var self = this;
 
         var txtNewComment = $("#txtNewComment");
         $("#saveCommentSpinner").show();

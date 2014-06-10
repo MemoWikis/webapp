@@ -3,6 +3,7 @@
     constructor() {
         var self = this;
         $("#btnSaveComment").click((e) => this.SaveComment(e));
+        $("#btnImprove").click((e) => this.SaveImproveComment(e));
         this.RegisterBtnAnswerComment($(window));
     }
 
@@ -11,21 +12,41 @@
         $(".btnAnswerComment").click(function (e) { self.ShowAddAnswer(e, this); });        
     }
 
-    SaveComment(e : BaseJQueryEventObject) {
+    SaveImproveComment(e: BaseJQueryEventObject) {
 
-        var self = this;
-        e.preventDefault();
+        window.scrollTo(0, document.body.scrollHeight);
 
+        var params = {
+            questionId: window.questionId,
+            text: $("#txtImproveBecause").val(),
+            typeImprovement: true,
+            typeId : "1"
+        }
+
+        this.SaveCommentJson(e, params);
+
+        $("#modalImprove").modal('hide');
+    }
+
+    SaveComment(e: BaseJQueryEventObject) {
         var params = {
             questionId: window.questionId,
             text: $("#txtNewComment").val()
         }
 
+        this.SaveCommentJson(e, params);
+    }
+
+    SaveCommentJson(e: BaseJQueryEventObject, params : {}) {
+
+        e.preventDefault();
+        var self = this;
+
         var txtNewComment = $("#txtNewComment");
         $("#saveCommentSpinner").show();
         txtNewComment.hide();
 
-        $.post("/AnswerComments/SaveComment", params, function(data) {
+        $.post("/AnswerComments/SaveComment", params, function (data) {
             $("#comments").append(data);
 
             txtNewComment.attr("placeholder", "Dein Kommentar wurde gespeichert.");
@@ -34,6 +55,7 @@
             txtNewComment.show();
             self.RegisterBtnAnswerComment(txtNewComment);
         });
+        
     }
 
     ShowAddAnswer(e: BaseJQueryEventObject, buttonElem : JQuery) {

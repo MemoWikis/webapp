@@ -8,7 +8,12 @@ public class AnswerCommentsController : BaseController
 {
 
     [HttpPost]
-    public ActionResult SaveComment(int questionId, string text)
+    public ActionResult SaveComment(
+        int questionId, 
+        string text,
+        bool? typeImprovement,
+        bool? typeRemove,
+        int? typeId)
     {
         var comment = new Comment();
         comment.Type = CommentType.AnswerQuestion;
