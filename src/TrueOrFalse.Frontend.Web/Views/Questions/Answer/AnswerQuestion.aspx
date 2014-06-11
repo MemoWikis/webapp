@@ -335,22 +335,50 @@
                             <p>
                                 Ich bitte darum, dass diese Frage gelöscht wird weil: 
                             </p>
-                            <ul>
-                                <li><a href="#">Die Frage ist beleidigend, abwertend oder rassistisch.</a></li>
-                                <li><a href="#">Urheberrechte werden verletzt.</a></li>
-                                <li><a href="#">Es handelt sich um Spam.</a></li>
-                                <li><a href="#">... ein anderer Grund.</a></li>
+                            <ul style="list-style-type: none">
+                                <li>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ckbDelete" value="deleteIsOffending"/>
+                                            <%= ShouldReasons.ByKey("deleteIsOffending") %>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ckbDelete" value="deleteIsOffending"/>
+                                            <%= ShouldReasons.ByKey("deleteCopyright") %>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ckbDelete" value="deleteIsSpam"/>
+                                            <%= ShouldReasons.ByKey("deleteIsSpam") %>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ckbDelete" value="deleteIsSpam"/>
+                                            <%= ShouldReasons.ByKey("deleteOther") %>
+                                        </label>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                         <p>
                             Weiter Erläuterung (optional).
                         </p>
-                        <textarea style="width: 500px;" rows="3"></textarea>
+                        <textarea style="width: 500px;" rows="3" id="txtDeleteBecause"></textarea>
             
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-default" data-dismiss="modal" id="A1">Schliessen</a>
-                        <a href="#" class="btn btn-primary btn-danger" id="A2">Absenden</a>
+                        <a href="#" class="btn btn-primary btn-danger" id="btnShouldDelete">Absenden</a>
                     </div>
                 </div>
             </div>

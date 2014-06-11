@@ -24,6 +24,19 @@
                     <div class="clearfix"></div>
                 </div>
             <% } %>
+
+            <% if(Model.ShouldBeDeleted){ %>
+                <div>
+                    <i class="fa fa-fire show-tooltip" style="float:left; color: tomato;" title="Die Frage sollte gelöscht werden"></i>&nbsp;
+                    <ul style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;">
+                        <% foreach (var shouldReason in Model.ShouldReasons){ %>
+                            <li><%= shouldReason %></li>       
+                        <% } %>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            <% } %>            
+
             <%= Model.Text.LineBreaksToBRs() %>
         </div>
     </div>
