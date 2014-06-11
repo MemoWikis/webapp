@@ -5,34 +5,32 @@
             (CategoryStandard)Model.Model;
 %>
 
-<div class="FormSection">
-    <h4 class="CategoryTypeHeader"><%= CategoryType.Standard.GetName() %></h4>
-    <div class="form-group">
-        <label class="columnLabel control-label" for="Name">Name<span class="RequiredField"></span></label>
-        <div class="columnControlsFull">
-            <input class="form-control" name="Name" type="text" value="<%= Model.Name %>">
-        </div>
+<h4 class="CategoryTypeHeader"><%= CategoryType.Standard.GetName() %></h4>
+<div class="form-group">
+    <label class="columnLabel control-label" for="Name">Name<span class="RequiredField"></span></label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="Name" type="text" value="<%= Model.Name %>">
     </div>
-    <div class="form-group">
-        <label class="columnLabel control-label" for="Description">
-            Beschreibung 
-            <i class="fa fa-question-circle show-tooltip" 
-                title="<%= EditCategoryTypeModel.DescriptionInfo %>" data-placement="right">
-            </i>
-        </label>
-        <div class="columnControlsFull">
-            <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
-        </div>
+</div>
+<div class="form-group">
+    <label class="columnLabel control-label" for="Description">
+        Beschreibung 
+        <i class="fa fa-question-circle show-tooltip" 
+            title="<%= EditCategoryTypeModel.DescriptionInfo %>" data-placement="right">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
     </div>
-    <div class="form-group">
-        <label class="columnLabel control-label" for="WikipediaUrl">
-            Wikipedia-URL
-            <i class="fa fa-question-circle show-tooltip" 
-                title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="right">
-            </i>
-        </label>
-        <div class="columnControlsFull">
-            <input class="form-control" name="WikipediaUrl" type="text" value="<%= Model.WikipediaUrl %>">
-        </div>
+</div>
+<div class="form-group">
+    <label class="columnLabel control-label" for="WikipediaUrl">
+        Wikipedia-URL
+        <i class="fa fa-question-circle show-tooltip" 
+            title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="right">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="WikipediaUrl" type="text" value="<%= Model.WikipediaUrl %>">
     </div>
 </div>
