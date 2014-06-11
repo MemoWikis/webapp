@@ -274,32 +274,32 @@
                                 <li>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" value="ckbShouldBePrivate"/> 
-                                            Die Frage sollte privat sein.
+                                            <input type="checkbox" name="ckbImprove" value="shouldBePrivate"/> 
+                                            <%= ShouldReasons.ByKey("shouldBePrivate") %>
                                         </label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" value="ckbSourceAreWrong"/> 
-                                            Die Quellen sind nicht korrekt.
+                                            <input type="checkbox" name="ckbImprove" value="sourcesAreWrong"/> 
+                                            <%= ShouldReasons.ByKey("sourcesAreWrong") %>
                                         </label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" value="ckbAnswerNotClear"/> 
-                                            Die Antwort ist nicht eindeutig.
+                                            <input type="checkbox" name="ckbImprove" value="answerNotClear"/> 
+                                            <%= ShouldReasons.ByKey("answerNotClear") %>
                                         </label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" value="ckbImproveOtherReason"/>                                     
-                                            ... ein anderer Grund.
+                                            <input type="checkbox" name="ckbImprove" value="improveOtherReason"/>
+                                            <%= ShouldReasons.ByKey("improveOtherReason") %>
                                         </label>
                                     </div>
                                 </li>

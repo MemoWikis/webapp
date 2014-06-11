@@ -18,6 +18,11 @@ public class CommentModel : BaseModel
 
     public User Creator;
 
+    public bool ShouldBeImproved;
+    public bool ShouldBeDeleted;
+
+    public List<string> ShouldReasons; 
+
     public IEnumerable<CommentModel> Answers = new List<CommentModel>(); 
 
     public CommentModel(Comment comment)
@@ -29,6 +34,10 @@ public class CommentModel : BaseModel
         CreationDateNiceText = TimeElapsedAsText.Run(comment.DateCreated);
         ImageUrl = new UserImageSettings(comment.Creator.Id).GetUrl_128px_square(comment.Creator.EmailAddress).Url;
         Text = comment.Text;
+
+        ShouldBeImproved = comment.ShouldImprove;
+        ShouldBeDeleted = comment.ShouldRemove;
+        ShouldReasons = TrueOrFalse.ShouldReasons.ByKeys(comment.ShouldKeys);
 
         if(comment.Answers != null)
             Answers = comment.Answers

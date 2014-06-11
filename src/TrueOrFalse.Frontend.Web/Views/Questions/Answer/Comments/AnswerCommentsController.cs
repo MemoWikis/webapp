@@ -13,13 +13,22 @@ public class AnswerCommentsController : BaseController
         string text,
         bool? typeImprovement,
         bool? typeRemove,
-        int? typeId)
+        string typeKeys)
     {
         var comment = new Comment();
         comment.Type = CommentType.AnswerQuestion;
         comment.TypeId = questionId;
         comment.Text = text;
         comment.Creator = _sessionUser.User;
+
+        if(typeImprovement.HasValue)
+            comment.ShouldImprove = typeImprovement.Value;
+
+        if (typeRemove.HasValue)
+            comment.ShouldRemove = typeRemove.Value;
+
+        if (!String.IsNullOrEmpty(typeKeys))
+            comment.ShouldKeys = typeKeys;
 
         Resolve<CommentRepository>().Create(comment);
 

@@ -13,6 +13,17 @@
             <img style="width:100%; border-radius:5px;" src="<%= Model.ImageUrl %>">
         </div>
         <div class="col-lg-10" style="height: 100%; padding-bottom: 25px; ">
+            <% if(Model.ShouldBeImproved){ %>
+                <div>
+                    <i class="fa fa-repeat show-tooltip" style="float:left" title="Die Frage sollte verbessert werden"></i>&nbsp;
+                    <ul style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;  ">
+                        <% foreach (var shouldReason in Model.ShouldReasons){ %>
+                            <li><%= shouldReason %></li>       
+                        <% } %>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            <% } %>
             <%= Model.Text %>
         </div>
     </div>

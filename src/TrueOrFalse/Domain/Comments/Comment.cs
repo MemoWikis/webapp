@@ -24,7 +24,7 @@ public class Comment : DomainEntity
 
     public virtual bool ShouldImprove { get; set; }
 
-    public virtual string ShouldIds { get; set; }
+    public virtual string ShouldKeys { get; set; }
 
     public Comment ()
     {

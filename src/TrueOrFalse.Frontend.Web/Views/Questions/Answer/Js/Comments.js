@@ -24,7 +24,9 @@
             questionId: window.questionId,
             text: $("#txtImproveBecause").val(),
             typeImprovement: true,
-            typeId: "1"
+            typeKeys: $("input:checked[name='ckbImprove']").map(function () {
+                return $(this).val();
+            }).get().join(", ")
         };
 
         this.SaveCommentJson(e, params);
