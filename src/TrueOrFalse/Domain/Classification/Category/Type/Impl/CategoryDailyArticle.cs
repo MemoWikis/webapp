@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 public class CategoryDailyArticle : CategoryBase<CategoryDailyArticle>
-{    
-    public int IssueId;
+{
+    public string Title;
+    public string Subtitle;
+    public string Author;
+    public string Url;
 }
 

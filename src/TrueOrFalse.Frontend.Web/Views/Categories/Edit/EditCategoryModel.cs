@@ -108,6 +108,15 @@ public class EditCategoryModel : BaseModel
         if (category.Type == CategoryType.Daily)
             category.TypeJson = new CategoryDaily { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"] }.ToJson();
 
+        if (category.Type == CategoryType.DailyArticle)
+        {
+            category.TypeJson = new CategoryDailyArticle { Title = request["Title"], Subtitle = request["Subtitle"], Author = request["Author"], Url = request["Url"] }.ToJson();
+            if (String.IsNullOrEmpty(request["Subtitle"]))
+                category.Name = request["Title"];
+            else
+                category.Name = request["Title"] + " – " + request["Subtitle"];
+        }
+
         if (category.Type == CategoryType.Magazine)
             category.TypeJson = new CategoryMagazine { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"] }.ToJson();
 
