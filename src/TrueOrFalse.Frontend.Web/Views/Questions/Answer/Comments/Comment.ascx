@@ -16,7 +16,7 @@
             <% if(Model.ShouldBeImproved){ %>
                 <div>
                     <i class="fa fa-repeat show-tooltip" style="float:left" title="Die Frage sollte verbessert werden"></i>&nbsp;
-                    <ul style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;  ">
+                    <ul style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;">
                         <% foreach (var shouldReason in Model.ShouldReasons){ %>
                             <li><%= shouldReason %></li>       
                         <% } %>

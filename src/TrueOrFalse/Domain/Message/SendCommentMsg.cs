@@ -32,10 +32,27 @@ namespace TrueOrFalse
             if(HttpContext.Current != null)
                 questionUrl = Links.AnswerQuestion(new UrlHelper(HttpContext.Current.Request.RequestContext), question);
 
+            string shouldImprove = "";
+            if (comment.ShouldImprove)
+            {
+                shouldImprove = String.Format(@"
+                    <p>Die Frage sollte verbessert werden!</p>
+                    <div>
+                        <i class='fa fa-repeat show-tooltip' style='float:left' title='Die Frage sollte verbessert werden'></i>&nbsp;
+                        <ul style='float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;'>
+                            {0}
+                        </ul>
+                    </div>",
+                    ShouldReasons
+                        .ByKeys(comment.ShouldKeys)
+                        .Select(x => "<li>" + x +"</li>")
+                        .Aggregate((a, b) => a + b));
+            }
+
             string body = String.Format(@"
 <p>Ein neuer Kommentar auf die Frage <a href='{0}'><i>'{1}'</i></a>: .</p>
-
-<p>{2}</p>", questionUrl, question.Text, comment.Text.LineBreaksToBRs());
+{2}
+<p>{3}</p>", questionUrl, question.Text, shouldImprove, comment.Text.LineBreaksToBRs());
 
             _messageRepo.Create(new Message
             {
