@@ -5,7 +5,7 @@
             (CategoryVolumeChapter)Model.Model;
 %>
 
-<h4 class="CategoryTypeHeader"><%= CategoryType.VolumeChapter.GetName() %></h4>
+<h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.VolumeChapter.GetName() %></h4>
     
 <div class="form-group">
     <label class="columnLabel control-label" for="Title">

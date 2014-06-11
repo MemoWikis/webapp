@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 
-<h4 class="CategoryTypeHeader"><%= CategoryType.DailyIssue.GetName() %></h4>
+<h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.DailyIssue.GetName() %></h4>
 <div class="form-group">
     <div class="columnControlsFull">
         Name der Tageszeitung

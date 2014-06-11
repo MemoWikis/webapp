@@ -5,7 +5,7 @@
             (CategoryMagazine)Model.Model;
 %>
 
-<h4 class="CategoryTypeHeader"><%= CategoryType.Magazine.GetName() %></h4>
+<h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.Magazine.GetName() %></h4>
 <div class="form-group">
     <label class="columnLabel control-label" for="Name">Zeitschriftentitel<span class="RequiredField"></span></label>
     <div class="columnControlsFull">

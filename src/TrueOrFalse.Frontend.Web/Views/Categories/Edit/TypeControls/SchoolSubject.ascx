@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 
-<h4 class="CategoryTypeHeader"><%= CategoryType.SchoolSubject.GetName() %></h4>
+<h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.SchoolSubject.GetName() %></h4>
 <div class="form-group">
     <label class="columnLabel control-label" for="Url">Wikipedia URL</label>
     <div class="columnControlsFull">

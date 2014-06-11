@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 
-<h4 class="CategoryTypeHeader"><%= CategoryType.Movie.GetName() %></h4>
+<h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.Movie.GetName() %></h4>
 <div class="form-group">
     <label class="columnLabel control-label" for="Url">IMDB - Url</label>
     <div class="columnControlsFull">

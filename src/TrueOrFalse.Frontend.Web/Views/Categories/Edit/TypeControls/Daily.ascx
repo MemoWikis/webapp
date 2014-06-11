@@ -5,7 +5,7 @@
             (CategoryDaily)Model.Model;
 %>
 
-<h4 class="CategoryTypeHeader"><%= CategoryType.Daily.GetName() %></h4>
+<h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.Daily.GetName() %></h4>
 <div class="form-group">
     <label class="columnLabel control-label" for="Name">Zeitungstitel<span class="RequiredField"></span></label>
     <div class="columnControlsFull">
