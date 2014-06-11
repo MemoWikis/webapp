@@ -77,7 +77,7 @@
             </ul>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-xs-3">
             <% if(Model.IsOwner){ %>
                 <div>            
                     <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>" style="">
@@ -170,11 +170,11 @@
             </div>
             
             <div style="margin-top: 30px; color: darkgray; font-weight: bold;" class="row">
-                <div class="col-lg-6">
+                <div class="col-xs-6">
                     <h4 style="padding:0; margin:0;">Kommentare</h4>    
                 </div>
                 
-                <div class="col-lg-6" style="vertical-align: text-bottom; vertical-align: bottom; margin-top: 3px;">
+                <div class="col-xs-6" style="vertical-align: text-bottom; vertical-align: bottom; margin-top: 3px;">
                     <% if(Model.IsLoggedIn){ %>
                         Die Frage bitte: &nbsp;
                         <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
@@ -193,15 +193,15 @@
                 <div class="panel panel-default" style="margin-top: 7px;">
                     <div class="panel-heading">Neuen Kommentar hinzufügen</div>
                     <div class="panel-body">
-                        <div class="col-lg-2">
+                        <div class="col-xs-2">
                             <img style="width:100%; border-radius:5px;" src="<%= Model.ImageUrlAddComment %>">
                         </div>
-                        <div class="col-lg-10">
+                        <div class="col-xs-10">
                             <i class="fa fa-spinner fa-spin hide2" id="saveCommentSpinner"></i>
                             <textarea style="width: 100%; min-height: 82px;" class="form-control" id="txtNewComment" placeholder="Bitte höflich, freundlich und sachlich schreiben :-)"></textarea>
                         </div>
                     
-                        <div class="col-lg-12" style="padding-top: 7px;">
+                        <div class="col-xs-12" style="padding-top: 7px;">
                             <a href="#" class="btn btn-default pull-right" id="btnSaveComment">Speichern</a>
                         </div>
                     </div>                
@@ -210,7 +210,7 @@
 
         </div>
         
-        <div class="col-md-3 well" style="background-color: white;">
+        <div class="col-xs-3 well" style="background-color: white;">
             
             <p>
                 von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><br />
