@@ -201,6 +201,7 @@
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Ops\GetUnreadMessageCount.cs" />
     <Compile Include="Domain\Message\Ops\SetMessageRead.cs" />
+    <Compile Include="Domain\Message\SendCommentMsg.cs" />
     <Compile Include="Domain\Message\SendCustomMsg.cs" />
     <Compile Include="Domain\Message\SendWelcomeMsg.cs" />
     <Compile Include="Domain\Message\SendIsNowPrivateMsg.cs" />
