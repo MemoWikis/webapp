@@ -1,8 +1,6 @@
 ﻿using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Web.Context;
-using TrueOrFalse.Frontend.Web.Models;
-
 
 [HandleError]
 public class AccountController : Controller

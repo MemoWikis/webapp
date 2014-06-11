@@ -20,6 +20,12 @@ public class Comment : DomainEntity
 
     public virtual string Text { get; set; }
 
+    public virtual bool ShouldRemove { get; set; }
+
+    public virtual bool ShouldImprove { get; set; }
+
+    public virtual string ShouldKeys { get; set; }
+
     public Comment ()
     {
         Type = CommentType.AnswerQuestion;

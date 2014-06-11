@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using FluentNHibernate.Conventions;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Frontend.Web.Models;
 using TrueOrFalse;
 
 public class QuestionsModel : BaseModel

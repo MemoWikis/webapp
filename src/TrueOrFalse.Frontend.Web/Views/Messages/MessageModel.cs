@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using NHibernate.Mapping;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Models;
 
 public class MessageModel : BaseModel
 {

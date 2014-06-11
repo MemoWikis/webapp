@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Models;
 
 public class RegisterModel : BaseModel
 {

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using TrueOrFalse.Web.Context;
-using TrueOrFalse.Frontend.Web.Models;
-
 
 public class KnowledgeModel : BaseModel
 {

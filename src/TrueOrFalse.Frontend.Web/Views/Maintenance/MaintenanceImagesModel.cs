@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Web;
-using TrueOrFalse.Frontend.Web.Models;
 
 public class MaintenanceImagesModel : BaseModel
 {

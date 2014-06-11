@@ -56,8 +56,7 @@
                     <% } %>
                     
                     <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
-                        <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">
-                            
+                        <a href="<%= QuestionSearchSpecSession.GetUrl(Url, Model.PagerKeyOverviewPage) %>">                        
                             <span >
                                 <i class="fa fa-list"></i> 
                                 <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>
@@ -68,16 +67,16 @@
                     <% } %>                    
                 </li>
                 <li>
-                    <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>                
+                    <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
                 </li>
                 <li class="next">
                     <% if (Model.HasNextPage) { %>
                         <a href="<%= Model.NextUrl(Url) %>"><i class="fa fa-arrow-right"></i> </a>
-                    <% } %>                
+                    <% } %>
                 </li>
-            </ul>            
+            </ul>
         </div>
-        
+
         <div class="col-md-3">
             <% if(Model.IsOwner){ %>
                 <div>            
@@ -271,23 +270,53 @@
                             <p>
                                 Ich bitte darum, dass diese Frage verbessert wird weil: 
                             </p>
-                            <ul>
-                                <li><a href="#">Die Frage sollte privat sein.</a></li>
-                                <li><a href="#">Die Quellen sind falsch.</a></li>
-                                <li><a href="#">Die Quellen sind online nicht zu erreichen.</a></li>
-                                <li><a href="#">Die Antwort ist nicht eindeutig.</a></li>
-                                <li><a href="#">... ein anderer Grund.</a></li>
+                            <ul style="list-style-type: none">
+                                <li>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ckbImprove" value="shouldBePrivate"/> 
+                                            <%= ShouldReasons.ByKey("shouldBePrivate") %>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ckbImprove" value="sourcesAreWrong"/> 
+                                            <%= ShouldReasons.ByKey("sourcesAreWrong") %>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ckbImprove" value="answerNotClear"/> 
+                                            <%= ShouldReasons.ByKey("answerNotClear") %>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="ckbImprove" value="improveOtherReason"/>
+                                            <%= ShouldReasons.ByKey("improveOtherReason") %>
+                                        </label>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
-                        <p>
-                            Erläuterung zum Verbesserungsvorschlag (optional).
+                        <p style="padding-top: 10px;">
+                            Erläuterung zum Verbesserungsvorschlag:
                         </p>
-                        <textarea style="width: 500px;" rows="3"></textarea>
-            
+                        <textarea style="width: 500px;" rows="3" id="txtImproveBecause"></textarea>
+                        <p style="padding-top: 15px;">
+                            Die Verbesserungsanfrage wird als Kommentar veröffentlicht und 
+                            als Nachricht an <%= Model.CreatorName %> gesendet.
+                        </p>
                     </div>
                     <div class="modal-footer">
-                        <a href="#" class="btn" data-dismiss="modal" id="btnCloseQuestionDelete">Schliessen</a>
-                        <a href="#" class="btn btn-primary btn-success" id="confirmQuestionDelete">Absenden</a>
+                        <a href="#" class="btn" data-dismiss="modal">Schliessen</a>
+                        <a href="#" class="btn btn-primary btn-success" id="btnImprove">Absenden</a>
                     </div>
                 </div>
             </div>

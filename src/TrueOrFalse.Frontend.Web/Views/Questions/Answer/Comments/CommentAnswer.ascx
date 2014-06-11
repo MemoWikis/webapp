@@ -1,14 +1,19 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<CommentModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="panel-body" style="position: relative">
     <div class="col-lg-2">
-        <img style="width:100%; border-radius:5px;" src="<%= Model.ImageUrl %>">
+        <img class="pull-right" style="width:50%; border-radius:5px;" src="<%= Model.ImageUrl %>">
     </div>
     <div class="col-lg-10" style="height: 100%; padding-bottom: 25px; ">
-        <%= Model.Text %>
-    </div>
-        
-    <div style="position: absolute; bottom: 8px; right: 20px;">
-        <a href="#">Antworten</a>
+        <div>
+            <span style="color:silver">
+                <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a>
+                <span style="font-size: 11px; padding-left: 5px;">vor <%= Model.CreationDateNiceText%></span>
+            </span>
+        </div>
+        <div>
+            <%= Model.Text %>    
+        </div>
     </div>
 </div>

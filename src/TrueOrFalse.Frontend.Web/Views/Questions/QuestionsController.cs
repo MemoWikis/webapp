@@ -156,7 +156,8 @@ namespace TrueOrFalse
             searchSpec.Filter.SearchTerm = model.SearchTerm = searchTerm;
         }
 
-        public void SetSearchSpecVars(QuestionSearchSpec searchSpec, int? page, QuestionsModel model, string orderBy, string defaultOrder = "byViews")
+        public void SetSearchSpecVars(QuestionSearchSpec searchSpec, int? page, QuestionsModel model,
+            string orderBy, string defaultOrder = "byRelevance")
         {
             searchSpec.PageSize = 20;
 

@@ -38,10 +38,14 @@ namespace TrueOrFalse
             return CloneAndAddToSession(activeSearchSpec);
         }
 
-        public static QuestionSearchSpec CloneAndAddToSession(QuestionSearchSpec searchSpec)
+        public static QuestionSearchSpec CloneAndAddToSession(QuestionSearchSpec searchSpec, QuestionHistoryItem historyItem = null)
         {
             var result = searchSpec.DeepClone();
             result.Key = Guid.NewGuid().ToString();
+
+            if (historyItem != null)
+                result.HistoryItem = historyItem.DeepClone();
+
             Sl.Resolve<SessionUiData>().SearchSpecQuestions.Add(result);
             return result;
         }

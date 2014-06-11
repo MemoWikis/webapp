@@ -89,6 +89,8 @@ namespace TrueOrFalse.Search
                 orderby.Add(new SortOrder("Valuation", Order.DESC));
             else if (orderBy == SearchQuestionsOrderBy.DateCreated)
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
+
+            orderby.Add(new SortOrder("DateCreated", Order.DESC));
             
             var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions

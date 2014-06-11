@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using TrueOrFalse.Frontend.Web.Models;
 
 public class VariousPublicController : Controller
 {

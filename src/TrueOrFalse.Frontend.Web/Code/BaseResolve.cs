@@ -1,10 +1,9 @@
-﻿namespace TrueOrFalse.Frontend.Web.Models
+﻿using TrueOrFalse;
+
+public class BaseResolve
 {
-    public class BaseResolve
+    protected T Resolve<T>()
     {
-        protected T Resolve<T>()
-        {
-            return ServiceLocator.Resolve<T>();
-        }
+        return ServiceLocator.Resolve<T>();
     }
 }
