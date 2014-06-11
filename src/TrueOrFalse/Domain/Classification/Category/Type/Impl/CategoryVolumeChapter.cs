@@ -5,13 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-public class CategoryBook : CategoryBase<CategoryBook>
+public class CategoryVolumeChapter : CategoryBase<CategoryVolumeChapter>
 {
     public string Title;
     public string Subtitle;
     public string Author;
+    public string TitleVolume;
+    public string SubtitleVolume;
+    public string Editor;
     public string ISBN;
     public string Publisher;
     public string PublicationCity;
     public string PublicationYear;
+    public string PagesChapterFrom;
+    public string PagesChapterTo;
 }

@@ -96,9 +96,32 @@ public class EditCategoryModel : BaseModel
         if (request["WikipediaUrl"] != null)
             category.WikipediaURL = request["WikipediaUrl"];
 
+        if (category.Type == CategoryType.Book)
+        {
+            category.TypeJson = new CategoryBook { Title = request["Title"], Subtitle = request["Subtitle"], Author = request["Author"], ISBN = request["ISBN"], Publisher = request["Publisher"], PublicationCity = request["PublicationCity"], PublicationYear = request["PublicationYear"] }.ToJson();
+            if (String.IsNullOrEmpty(request["Subtitle"]))
+                category.Name = request["Title"];
+            else
+                category.Name = request["Title"] + " – " + request["Subtitle"];
+        }
+        
         if (category.Type == CategoryType.Daily)
-            category.TypeJson = new CategoryDaily { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"],}.ToJson();
+            category.TypeJson = new CategoryDaily { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"] }.ToJson();
 
+        if (category.Type == CategoryType.Magazine)
+            category.TypeJson = new CategoryMagazine { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"] }.ToJson();
+
+        if (category.Type == CategoryType.VolumeChapter)
+        {
+            category.TypeJson = new CategoryVolumeChapter { Title = request["Title"], Subtitle = request["Subtitle"], Author = request["Author"], TitleVolume = request["TitleVolume"], SubtitleVolume = request["SubtitleVolume"], Editor = request["Editor"], ISBN = request["ISBN"], Publisher = request["Publisher"], PublicationCity = request["PublicationCity"], PublicationYear = request["PublicationYear"], PagesChapterFrom = request["PagesChapterFrom"], PagesChapterTo = request["PagesChapterTo"] }.ToJson();
+            if (String.IsNullOrEmpty(request["Subtitle"]))
+                category.Name = request["Title"];
+            else
+                category.Name = request["Title"] + " – " + request["Subtitle"];
+        }
+        
+        if (category.Type == CategoryType.Website)
+            category.TypeJson = new CategoryWebsite { Url = request["Url"] }.ToJson();
 
         if (category.Type == CategoryType.WebsiteVideo)
             category.TypeJson = new CategoryWebsiteVideo {Url = request["YoutubeUrl"]}.ToJson();

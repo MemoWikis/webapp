@@ -4,7 +4,7 @@
     <h4 class="CategoryTypeHeader"><%= CategoryType.MagazineArticle.GetName() %></h4>
     <div class="form-group">
         <div class="columnControlsFull">
-            Artikel für Webseite
+            Artikel für Webseite: URL, Titel, Autor, Erscheinungsdatum
         </div>
     </div>
 

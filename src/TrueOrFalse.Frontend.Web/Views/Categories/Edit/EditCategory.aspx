@@ -83,11 +83,13 @@
                                 <div class="radio">
                                     <label style="font-weight: normal">
                                         <input type="radio" name="rdoCategoryTypeGroup" value="media">
-                                        Medien (Bücher, Zeitungsartikel, Videos etc.)
+                                        Medien
                                         <i class="fa fa-question-circle show-tooltip" title="Kategorietyp für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen und für Quellenangaben in Fragen." data-placement="right"></i>
+                                        <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
                                         <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;">
                                             <optgroup label="Druckmedien">
                                                 <option value="Book"><%= CategoryType.Book.GetName() %></option>
+                                                <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>
                                                 <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
                                                 <option value="DailyIssue"><%= CategoryType.DailyIssue.GetName() %></option>
                                                 <option value="DailyArticle"><%= CategoryType.DailyArticle.GetName() %></option>
@@ -111,7 +113,8 @@
                                 <div class="radio">
                                     <label style="font-weight: normal">
                                         <input type="radio" name="rdoCategoryTypeGroup" value="education">
-                                        Aus- und Weiterbildung (Studiengänge, Schulfächer, Klassenstufen etc.)
+                                        Aus- und Weiterbildung
+                                        <br/><span style="font-weight: normal;">(Studiengänge, Schulfächer, Klassenstufen etc.)</span>
                                         <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;">
                                             <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
                                             <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
@@ -130,7 +133,7 @@
                     </div>
                 </div>
                  <!-- temporariliy included partial:-->
-          <%--   <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/Daily.ascx", new EditCategoryTypeModel(Model.Category));%>    --%>
+           <%--  <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/VolumeChapter.ascx", new EditCategoryTypeModel(Model.Category));%>    --%>
 
                 <div id="CategoryDetailsBody">
                        

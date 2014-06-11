@@ -13,8 +13,12 @@ public class EditCategoryTypeModel : BaseModel
 
     public object Model;
 
-    public const string WikipediaInfo = "Falls es einen Wikipedia-Artikel gibt, dessen Gegenstand der Kategorie entspricht, gib bitte hier den Link an.";
+    public const string WikipediaInfo = "Falls es einen Wikipedia-Artikel zur Kategorie gibt, gib bitte hier den Link an (z.B. Kategorie 'Lerntheorie' - http://de.wikipedia.org/wiki/Lerntheorie).";
     public const string DescriptionInfo = "Kurze Beschreibung der Kategorie und/oder alternative Bezeichnungen.";
+
+    public const string IsbnInfo = " Bitte mit Bindestrichen angeben. Falls zwei ISBN-Nummern vorhanden sind, verwende bitte immer die längere (13-stellig). Die ISBN ist eine Identifizierungsnummer, die meist auf der Buchrückseite oder im Impressum eines Buchs zu finden ist. ";
+     
+    public const string IssnInfo = "Die ISSN ist eine Identifizierungsnummer für Zeitungen und Zeitschriften (ähnlich der ISBN für Bücher). Du kannst sie z.B. im Impressum, in Online-Katalogen von Bibliotheken oder auch im Wikipedia-Artikel zu einer Zeitung oder Zeitschrift finden.";
 
     
 
@@ -23,14 +27,21 @@ public class EditCategoryTypeModel : BaseModel
         if (category == null)
             return;
 
-        
-
         if (category.Type == CategoryType.Book)
             Model = CategoryBook.FromJson(category.TypeJson);
 
         if (category.Type == CategoryType.Daily)
             Model = CategoryDaily.FromJson(category.TypeJson);
 
+        if (category.Type == CategoryType.Magazine)
+            Model = CategoryMagazine.FromJson(category.TypeJson);
+        
+        if (category.Type == CategoryType.VolumeChapter)
+            Model = CategoryVolumeChapter.FromJson(category.TypeJson);
+
+        if (category.Type == CategoryType.Website)
+            Model = CategoryWebsite.FromJson(category.TypeJson);
+        
         if (category.Type == CategoryType.WebsiteVideo)
             Model = CategoryWebsiteVideo.FromJson(category.TypeJson);
 
