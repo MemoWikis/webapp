@@ -13,7 +13,7 @@
             </span>
         </div>
         <div>
-            <%= Model.Text %>    
+            <%= Model.Text.LineBreaksToBRs() %>    
         </div>
     </div>
 </div>

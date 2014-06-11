@@ -24,7 +24,7 @@
                     <div class="clearfix"></div>
                 </div>
             <% } %>
-            <%= Model.Text %>
+            <%= Model.Text.LineBreaksToBRs() %>
         </div>
     </div>
     
