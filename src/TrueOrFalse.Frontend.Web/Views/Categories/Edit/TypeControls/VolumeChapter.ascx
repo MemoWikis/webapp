@@ -1,16 +1,16 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 <%
     var model = Model.Model == null ? 
-            new CategoryBook() : 
-            (CategoryBook)Model.Model;
+            new CategoryVolumeChapter() : 
+            (CategoryVolumeChapter)Model.Model;
 %>
 
 <div class="FormSection">
-    <h4 class="CategoryTypeHeader"><%= CategoryType.Book.GetName() %></h4>
+    <h4 class="CategoryTypeHeader"><%= CategoryType.VolumeChapter.GetName() %></h4>
     
     <div class="form-group">
         <label class="columnLabel control-label" for="Title">
-            Titel
+            Titel des Beitrags
             <span class="RequiredField"></span>
         </label>
         <div class="columnControlsFull">
@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="columnLabel control-label" for="Subtitle">Untertitel</label>
+        <label class="columnLabel control-label" for="Subtitle">Untertitel des Beitrags</label>
         <div class="columnControlsFull">
             <input class="form-control" name="Subtitle" type="text" value="<%= model.Subtitle %>">
         </div>
@@ -31,6 +31,48 @@
         </label>
         <div class="columnControlsFull">
                 <textarea class="form-control" name="Author" type="text"><%= model.Author %></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="columnLabel control-label">Seiten Beitrag</label>
+        <div class="columnControlsFull">
+            <div class="form-group">
+                <div class="columnControlsFull">
+                    <label class="control-label" style="float: left;" for="PagesChapterFrom">von</label>
+                    <div class="col-xs-3">
+                        <input class="form-control" name="PagesChapterFrom" type="text" value="<%= model.PagesChapterFrom %>">
+                    </div>
+                    <label class="control-label" style="float: left;" for="PagesChapterTo">bis</label>
+                    <div class="col-xs-3">
+                        <input class="form-control" style="" name="PagesChapterTo" type="text" value="<%= model.PagesChapterTo %>">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="columnLabel control-label" for="TitleVolume">
+            Titel des Sammelbands
+            <span class="RequiredField"></span>
+        </label>
+        <div class="columnControlsFull">
+            <input class="form-control" name="TitleVolume" type="text" value="<%= model.TitleVolume %>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="columnLabel control-label" for="SubtitleVolume">Untertitel des Sammelbands</label>
+        <div class="columnControlsFull">
+            <input class="form-control" name="SubtitleVolume" type="text" value="<%= model.SubtitleVolume %>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="columnLabel control-label" for="Editor">
+            Herausgeber
+            <span class="RequiredField"></span>
+            <i class="fa fa-question-circle show-tooltip" title='Bitte gib einen Herausgeber je Zeile im Format "Nachname, Vorname" an.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+        </label>
+        <div class="columnControlsFull">
+                <textarea class="form-control" name="Editor" type="text"><%= model.Editor %></textarea>
         </div>
     </div>
     <div class="form-group">

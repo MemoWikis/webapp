@@ -11,6 +11,7 @@ public enum CategoryType
     WebsiteArticle = 3,
     WebsiteVideo = 4,
     Book = 5,
+    VolumeChapter = 20,
     Daily = 6,
     DailyIssue = 7,
     DailyArticle = 8,
@@ -37,6 +38,7 @@ public static class CategoryTypeExts
             case CategoryType.WebsiteArticle: return "Webseite -> Artikel/Eintrag/Meldung/..";
             case CategoryType.WebsiteVideo: return "Youtube";
             case CategoryType.Book: return "Buch (auch eBooks)";
+            case CategoryType.VolumeChapter: return "Beitrag in Sammelband";
             case CategoryType.Daily: return "Tageszeitung";
             case CategoryType.DailyIssue: return "Tageszeitung -> Ausgabe";
             case CategoryType.DailyArticle: return "Tageszeitung -> Artikel";

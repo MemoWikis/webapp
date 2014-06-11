@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 public class CategoryMagazine : CategoryBase<CategoryMagazine>
 {
+    public string ISSN;
+    public string Publisher;
     public string Url;
 }
 

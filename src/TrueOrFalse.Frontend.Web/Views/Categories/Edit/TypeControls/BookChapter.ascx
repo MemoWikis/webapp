@@ -16,7 +16,7 @@
 <div class="FormSection">
     <div class="form-group">
         <div class="noLabel columnControlsFull">
-            <p class="form-control-static" style="margin-bottom: 10px;">Bitte prüfe zunächst, ob das Buch bzw. die Ausgabe schon angelegt wurden:</p>
+            <p class="form-control-static" style="margin-bottom: 10px;">Bitte prüfe zuerst, ob das Buch bzw. die Ausgabe schon angelegt wurden:</p>
             <input class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder Autor">
             <ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: block; position: static; width: 330px;">
                 <li class="ui-menu-item" role="presentation">

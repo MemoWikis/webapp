@@ -95,7 +95,7 @@ public class EditCategoryController : BaseController
             = new SuccessMessage(string.Format(
                  "Die Kategorie <strong>'{0}'</strong> wurde angelegt.<br>" + 
                  "Du kannst die Kategorie jetzt bearbeiten" +
-                 "oder eine <a href='/Kategorien/Erstelle'>neue Kategorie anlegen</a>.", 
+                 " oder eine <a href='/Kategorien/Erstelle'>neue Kategorie anlegen</a>.", 
                 model.Name));
 
         return Redirect("/Kategorien/Bearbeite/" + category.Id);

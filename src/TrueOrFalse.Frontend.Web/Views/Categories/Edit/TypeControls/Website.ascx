@@ -1,11 +1,43 @@
-﻿<%@ Control Language="C#" Inherits="ViewUserControl<CategoryWebsite>" %>
-
+﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
+<%
+    var model = Model.Model == null ? 
+            new CategoryWebsite() : 
+            (CategoryWebsite)Model.Model;
+%>
 <div class="FormSection">
     <h4 class="CategoryTypeHeader"><%= CategoryType.Website.GetName() %></h4>
     <div class="form-group">
-        <label class="columnLabel control-label" for="WikipediaURL">URL Webseite</label>
+        <label class="columnLabel control-label" for="Name">
+            Name der Webseite
+            <span class="RequiredField"></span>
+            <i class="fa fa-question-circle show-tooltip" 
+                title="Beispiel: ZEIT ONLINE" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+            </i>
+        </label>
         <div class="columnControlsFull">
-            <input class="form-control" id="WikipediaURL2" name="WikipediaURL" type="text" value="http://de.someUrl/">    
+            <input class="form-control" name="Name" type="text" value="<%= Model.Name %>">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="columnLabel control-label" for="Description">
+            Beschreibung 
+            <i class="fa fa-question-circle show-tooltip" 
+                title="<%= EditCategoryTypeModel.DescriptionInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+            </i>
+        </label>
+        <div class="columnControlsFull">
+            <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="columnLabel control-label" for="Url">
+            Url
+            <i class="fa fa-question-circle show-tooltip" 
+                title="Gib hier bitte die URL der Webseite an. Beispiel: www.zeit.de" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+            </i>
+        </label>
+        <div class="columnControlsFull">
+            <input class="form-control" name="Url" type="text" value="<%= model.Url %>">
         </div>
     </div>
 </div>

@@ -21,7 +21,7 @@
             </i>
         </label>
         <div class="columnControlsFull">
-            <textarea class="form-control" name="Description" type="text" value="<%= Model.Description %>"></textarea>
+            <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
         </div>
     </div>
     <div class="form-group">
@@ -29,8 +29,7 @@
             ISSN
             <span class="RequiredField"></span>
             <i class="fa fa-question-circle show-tooltip" 
-                title="Die ISSN ist eine Identifizierungsnummer für Zeitschriften (ähnlich der ISBN für Bücher).
-                Du kannst sie z.B. oft im Wikipedia-Artikel zu einer Zeitung/Zeitschrift oder in Online-Katalogen von Bibliotheken finden." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+                title="<%= EditCategoryTypeModel.IssnInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
             </i>
         </label>
         <div class="columnControlsFull">
