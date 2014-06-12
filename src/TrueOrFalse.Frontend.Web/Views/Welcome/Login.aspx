@@ -21,7 +21,7 @@
                         <a class="zocial icon facebook"></a>
                         <a class="zocial icon google"></a>
                         <a class="zocial icon twitter"></a>
-                        &nbsp;<span style="position: relative; top: -8px;">ODER MIT</span>
+                        <p style="margin-top: 10px; margin-bottom: 0;">oder mit</p>
                     </div>
                 </div>
 
@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="form-group">
-                    <%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2 control-label" })%>
+                    <label class = "col-sm-2 control-label" for="Password">Passwort</label>
                     <div class="col-sm-3">
                         <%: Html.PasswordFor(m => m.Password, new { @class="form-control" }) %>
                     </div>
