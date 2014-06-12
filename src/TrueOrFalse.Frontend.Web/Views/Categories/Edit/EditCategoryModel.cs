@@ -89,6 +89,18 @@ public class EditCategoryModel : BaseModel
         FillFromRequest(category);
     }
 
+    private static string ToNumericalString(string input)
+    {
+        int outInt;
+        return !Int32.TryParse(input, out outInt) ? String.Empty : outInt.ToString();
+    }
+
+    private static string ToNumericalStringWithLeadingZeros(string input)
+    {
+        int outInt;
+        return !Int32.TryParse(input, out outInt) ? String.Empty : input;
+    }
+
     private static void FillFromRequest(Category category)
     {
         var request = HttpContext.Current.Request;
@@ -107,6 +119,23 @@ public class EditCategoryModel : BaseModel
         
         if (category.Type == CategoryType.Daily)
             category.TypeJson = new CategoryDaily { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"] }.ToJson();
+
+        if (category.Type == CategoryType.DailyIssue)
+        {
+            category.TypeJson = new CategoryDailyIssue { Year = ToNumericalString(request["Year"]), Volume = ToNumericalString(request["Volume"]), No = ToNumericalStringWithLeadingZeros(request["No"]), IssuePeriod = request["IssuePeriod"], PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]), PublicationDateDay = ToNumericalString(request["PublicationDateDay"]), Title = request["Title"] }.ToJson();
+            
+            var name = "";
+            if (!String.IsNullOrEmpty(ToNumericalString(request["Year"])))
+            {
+                name = ToNumericalString(request["Year"]);
+                if (String.IsNullOrEmpty(ToNumericalStringWithLeadingZeros(request["No"])))
+                    name += "/" + ToNumericalStringWithLeadingZeros(request["No"]);
+                if (String.IsNullOrEmpty(request["IssuePeriod"]))
+                    name += " (" + request["IssuePeriod"] + ")";
+            }
+           
+            category.Name = name;
+        }
 
         if (category.Type == CategoryType.DailyArticle)
         {

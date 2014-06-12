@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 public class CategoryDailyIssue : CategoryBase<CategoryDailyIssue>
 {
-    public int PrintDailyId;
-
-    public int Year;
-    public int No;
+    public string Year;
+    public string Volume;
+    public string No;
+    public string IssuePeriod;
+    public string PublicationDateMonth;
+    public string PublicationDateDay;
+    public string Title;
 }
 
