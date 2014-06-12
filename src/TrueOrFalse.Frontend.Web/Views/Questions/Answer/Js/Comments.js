@@ -8,6 +8,9 @@
         $("#btnImprove").click(function (e) {
             return _this.SaveImproveComment(e);
         });
+        $("#btnShouldDelete").click(function (e) {
+            return _this.SaveDeleteComent(e);
+        });
         this.RegisterBtnAnswerComment($(window));
     }
     Comments.prototype.RegisterBtnAnswerComment = function (parent) {
@@ -15,6 +18,23 @@
         $(".btnAnswerComment").click(function (e) {
             self.ShowAddAnswer(e, this);
         });
+    };
+
+    Comments.prototype.SaveDeleteComent = function (e) {
+        window.scrollTo(0, document.body.scrollHeight);
+
+        var params = {
+            questionId: window.questionId,
+            text: $("#txtDeleteBecause").val(),
+            typeRemove: true,
+            typeKeys: $("input:checked[name='ckbDelete']").map(function () {
+                return $(this).val();
+            }).get().join(", ")
+        };
+
+        this.SaveCommentJson(e, params);
+
+        $("#modalDelete").modal('hide');
     };
 
     Comments.prototype.SaveImproveComment = function (e) {

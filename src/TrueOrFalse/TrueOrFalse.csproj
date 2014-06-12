@@ -202,6 +202,7 @@
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Ops\GetUnreadMessageCount.cs" />
     <Compile Include="Domain\Message\Ops\SetMessageRead.cs" />
+    <Compile Include="Domain\Message\SendCommentMsg.cs" />
     <Compile Include="Domain\Message\SendCustomMsg.cs" />
     <Compile Include="Domain\Message\SendWelcomeMsg.cs" />
     <Compile Include="Domain\Message\SendIsNowPrivateMsg.cs" />
@@ -441,6 +442,8 @@
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs056.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs055.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs054.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs053.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs052.cs" />

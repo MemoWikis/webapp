@@ -12,7 +12,7 @@ namespace TrueOrFalse
 
         public void Run(int receiverId, string subject, string body)
         {
-            var user = LoadUser(receiverId);
+            LoadUser(receiverId);
 
             _messageRepo.Create(new Message
             {

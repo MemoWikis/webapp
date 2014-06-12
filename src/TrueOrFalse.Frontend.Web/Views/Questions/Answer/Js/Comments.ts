@@ -4,12 +4,30 @@
         var self = this;
         $("#btnSaveComment").click((e) => this.SaveComment(e));
         $("#btnImprove").click((e) => this.SaveImproveComment(e));
+        $("#btnShouldDelete").click((e) => this.SaveDeleteComent(e));
         this.RegisterBtnAnswerComment($(window));
     }
 
     RegisterBtnAnswerComment(parent : JQuery) {
         var self = this;
         $(".btnAnswerComment").click(function (e) { self.ShowAddAnswer(e, this); });        
+    }
+
+    SaveDeleteComent(e: BaseJQueryEventObject) {
+        window.scrollTo(0, document.body.scrollHeight);
+
+        var params = {
+            questionId: window.questionId,
+            text: $("#txtDeleteBecause").val(),
+            typeRemove: true,
+            typeKeys: $("input:checked[name='ckbDelete']")
+                .map(function () { return $(this).val(); })
+                .get().join(", ")
+        }
+
+        this.SaveCommentJson(e, params);
+
+        $("#modalDelete").modal('hide');
     }
 
     SaveImproveComment(e: BaseJQueryEventObject) {
@@ -21,10 +39,9 @@
             text: $("#txtImproveBecause").val(),
             typeImprovement: true,
             typeKeys: $("input:checked[name='ckbImprove']")
-                        .map(function () { return $(this).val(); })
-                        .get().join(", ")
-                
-    }
+                .map(function () { return $(this).val(); })
+                .get().join(", ")        
+        }
 
         this.SaveCommentJson(e, params);
 

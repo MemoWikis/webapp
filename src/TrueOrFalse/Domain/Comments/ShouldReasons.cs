@@ -17,7 +17,11 @@ namespace TrueOrFalse
             _shouldReasons.Add("sourcesAreWrong", "Die Quellen sind nicht korrekt.");
             _shouldReasons.Add("answerNotClear", "Die Antwort ist nicht eindeutig.");
             _shouldReasons.Add("improveOtherReason", "... ein anderer Grund.");
-            _shouldReasons.Add("", "");
+
+            _shouldReasons.Add("deleteIsOffending", "Die Frage ist beleidigend, abwertend oder rassistisch.");
+            _shouldReasons.Add("deleteCopyright", "Urheberrechte werden verletzt.");
+            _shouldReasons.Add("deleteIsSpam", "Es handelt sich um Spam.");
+            _shouldReasons.Add("deleteOther", "... ein anderer Grund.");
         }
 
         public static string ByKey(string key)
