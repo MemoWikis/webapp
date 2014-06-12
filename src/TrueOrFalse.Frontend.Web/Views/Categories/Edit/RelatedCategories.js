@@ -6,6 +6,7 @@ $.expr[':'].textEquals = function (a, i, m) {
     return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i")) != null;
 };
 
+
 $(function () {
 
     var isCategoryEdit = $("#isCategoryEdit").length == 1;
@@ -25,7 +26,8 @@ $(function () {
                 "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
             "</div> ");
         $("#txtNewRelatedCategory").val('');
-        $("#delete-cat-" + catId).click(function () {
+        $("#delete-cat-" + catId).click(function (e) {
+            e.preventDefault();
             animating = true;
             $("#cat-" + catId).stop(true).animate({ opacity: 0 }, 250, function () {
                 $(this).hide("blind", { direction: "horizontal" }, function () {
