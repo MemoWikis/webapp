@@ -7,7 +7,9 @@
 
 <h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.Magazine.GetName() %></h4>
 <div class="form-group">
-    <label class="columnLabel control-label" for="Name">Zeitschriftentitel<span class="RequiredField"></span></label>
+    <label class="RequiredField columnLabel control-label" for="Name">
+        Zeitschriftentitel
+    </label>
     <div class="columnControlsFull">
         <input class="form-control" name="Name" type="text" value="<%= Model.Name %>">
     </div>
@@ -24,9 +26,8 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="ISSN">
+    <label class="RequiredField columnLabel control-label" for="ISSN">
         ISSN
-        <span class="RequiredField"></span>
         <i class="fa fa-question-circle show-tooltip" title="<%= EditCategoryTypeModel.IssnInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>

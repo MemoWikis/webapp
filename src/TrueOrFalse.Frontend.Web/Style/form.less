@@ -7,10 +7,17 @@ input[type="text"], input[type="password"], input[type="datetime"], input[type="
     color: @dark-blue;
 }
 
+label {
+    font-weight: normal;
+}
+
 .RequiredField {
-    &:before {
+
+    font-weight: bold;
+    &:after {
         content: '*';
     }
+
 }
 
 .pageHeader{h2&, & > h2{
@@ -100,11 +107,9 @@ div.control-group.markdown {
         border: none;
         margin-top: 0;
         margin-bottom: 0;
-        border-top: solid 1px @color-category;
-        border-bottom: solid 1px @color-category;
 
         & + .FormSection {
-            border-top: none;
+            border-top: solid 1px @color-category;
         }
     }
 }

@@ -6,9 +6,8 @@
 %>
 <h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.Website.GetName() %></h4>
 <div class="form-group">
-    <label class="columnLabel control-label" for="Name">
+    <label class="RequiredField columnLabel control-label" for="Name">
         Name der Webseite
-        <span class="RequiredField"></span>
         <i class="fa fa-question-circle show-tooltip" 
             title="Beispiel: ZEIT ONLINE" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>

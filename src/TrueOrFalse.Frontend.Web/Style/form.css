@@ -228,7 +228,13 @@ textarea,
 select {
   color: #2e487b;
 }
-.RequiredField:before {
+label {
+  font-weight: normal;
+}
+.RequiredField {
+  font-weight: bold;
+}
+.RequiredField:after {
   content: '*';
 }
 h2.pageHeader,
@@ -297,11 +303,9 @@ div.control-group.markdown label {
   border: none;
   margin-top: 0;
   margin-bottom: 0;
-  border-top: solid 1px #5bc0de;
-  border-bottom: solid 1px #5bc0de;
 }
 .FormSection + .FormSection {
-  border-top: none;
+  border-top: solid 1px #5bc0de;
 }
 .aside .columnControlsFull {
   position: relative;

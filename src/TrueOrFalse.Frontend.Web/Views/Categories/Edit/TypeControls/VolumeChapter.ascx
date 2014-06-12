@@ -8,9 +8,8 @@
 <h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.VolumeChapter.GetName() %></h4>
     
 <div class="form-group">
-    <label class="columnLabel control-label" for="Title">
+    <label class="RequiredField columnLabel control-label" for="Title">
         Titel des Beitrags
-        <span class="RequiredField"></span>
     </label>
     <div class="columnControlsFull">
         <input class="form-control" name="Title" type="text" value="<%= model.Title %>">
@@ -23,9 +22,8 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="Author">
+    <label class="RequiredField columnLabel control-label" for="Author">
         Autor(en)
-        <span class="RequiredField"></span>
         <i class="fa fa-question-circle show-tooltip" title='Bitte gib einen Autor je Zeile im Format "Nachname, Vorname" an.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
@@ -50,9 +48,8 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="TitleVolume">
+    <label class="RequiredField columnLabel control-label" for="TitleVolume">
         Titel des Sammelbands
-        <span class="RequiredField"></span>
     </label>
     <div class="columnControlsFull">
         <input class="form-control" name="TitleVolume" type="text" value="<%= model.TitleVolume %>">
@@ -65,9 +62,8 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="Editor">
+    <label class="RequiredField columnLabel control-label" for="Editor">
         Herausgeber
-        <span class="RequiredField"></span>
         <i class="fa fa-question-circle show-tooltip" title='Bitte gib einen Herausgeber je Zeile im Format "Nachname, Vorname" an.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
@@ -86,9 +82,8 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="ISBN">
+    <label class="RequiredField columnLabel control-label" for="ISBN">
         ISBN
-        <span class="RequiredField"></span>
         <i class="fa fa-question-circle show-tooltip" title="<%= EditCategoryTypeModel.IsbnInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">

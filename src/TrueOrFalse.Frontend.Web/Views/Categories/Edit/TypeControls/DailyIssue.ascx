@@ -8,7 +8,7 @@
 <h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.DailyIssue.GetName() %></h4>
 
 <div class="form-group">
-    <label class="columnLabel control-label" for="xxx">
+    <label class="RequiredField columnLabel control-label" style="font-weight: bold;" for="xxx">
         Tageszeitung
     </label>
     <div class="columnControlsFull">
@@ -36,9 +36,8 @@
 </div>
 
 <div class="form-group">
-    <label class="columnLabel control-label" for="Year">
+    <label class="RequiredField columnLabel control-label" for="Year">
         Jahr
-        <span class="RequiredField"></span>
     </label>
     <div class="columnControlsFull">
         <input class="form-control" name="Year" type="text" value="<%= model.Year %>">
@@ -54,9 +53,8 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="No">
+    <label class="RequiredField columnLabel control-label" for="No">
         Ausgabennummer
-        <span class="RequiredField"></span>
         <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben (Führende Nullen sind möglich).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">

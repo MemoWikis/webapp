@@ -14,7 +14,7 @@
 </div>
 <%--<h4 class="CategoryTypeHeader"><%= CategoryType.Standard.GetName() %></h4>--%>
 <div class="form-group">
-    <label class="columnLabel control-label" for="Name">Name<span class="RequiredField"></span></label>
+    <label class="RequiredField columnLabel control-label" for="Name">Name</label>
     <div class="columnControlsFull">
         <input class="form-control" name="Name" type="text" value="<%= Model.Name %>">
     </div>
