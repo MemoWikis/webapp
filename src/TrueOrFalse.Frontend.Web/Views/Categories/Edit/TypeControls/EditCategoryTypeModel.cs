@@ -36,8 +36,14 @@ public class EditCategoryTypeModel : BaseModel
         if (category.Type == CategoryType.DailyArticle)
             Model = CategoryDailyArticle.FromJson(category.TypeJson);
 
+        if (category.Type == CategoryType.DailyIssue)
+            Model = CategoryDailyIssue.FromJson(category.TypeJson);
+
         if (category.Type == CategoryType.Magazine)
             Model = CategoryMagazine.FromJson(category.TypeJson);
+        
+        if (category.Type == CategoryType.MagazineIssue)
+            Model = CategoryMagazineIssue.FromJson(category.TypeJson);
         
         if (category.Type == CategoryType.VolumeChapter)
             Model = CategoryVolumeChapter.FromJson(category.TypeJson);

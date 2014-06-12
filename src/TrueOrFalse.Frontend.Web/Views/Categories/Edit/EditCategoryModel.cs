@@ -122,19 +122,18 @@ public class EditCategoryModel : BaseModel
 
         if (category.Type == CategoryType.DailyIssue)
         {
-            category.TypeJson = new CategoryDailyIssue { Year = ToNumericalString(request["Year"]), Volume = ToNumericalString(request["Volume"]), No = ToNumericalStringWithLeadingZeros(request["No"]), IssuePeriod = request["IssuePeriod"], PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]), PublicationDateDay = ToNumericalString(request["PublicationDateDay"]), Title = request["Title"] }.ToJson();
-            
-            var name = "";
-            if (!String.IsNullOrEmpty(ToNumericalString(request["Year"])))
+            var categoryDailyIssue = new CategoryDailyIssue
             {
-                name = ToNumericalString(request["Year"]);
-                if (String.IsNullOrEmpty(ToNumericalStringWithLeadingZeros(request["No"])))
-                    name += "/" + ToNumericalStringWithLeadingZeros(request["No"]);
-                if (String.IsNullOrEmpty(request["IssuePeriod"]))
-                    name += " (" + request["IssuePeriod"] + ")";
-            }
-           
-            category.Name = name;
+                Year = ToNumericalString(request["Year"]),
+                Volume = ToNumericalString(request["Volume"]),
+                No = ToNumericalStringWithLeadingZeros(request["No"]),
+                PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
+                PublicationDateDay = ToNumericalString(request["PublicationDateDay"])
+            };
+            
+            category.TypeJson = categoryDailyIssue.ToJson();
+
+            category.Name = categoryDailyIssue.BuildTitle();
         }
 
         if (category.Type == CategoryType.DailyArticle)
@@ -148,6 +147,24 @@ public class EditCategoryModel : BaseModel
 
         if (category.Type == CategoryType.Magazine)
             category.TypeJson = new CategoryMagazine { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"] }.ToJson();
+
+        if (category.Type == CategoryType.MagazineIssue)
+        {
+            var categoryMagazineIssue = new CategoryMagazineIssue
+            {
+                Year = ToNumericalString(request["Year"]),
+                Volume = ToNumericalString(request["Volume"]),
+                No = ToNumericalStringWithLeadingZeros(request["No"]),
+                IssuePeriod = request["IssuePeriod"],
+                PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
+                PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
+                Title = request["Title"]
+            };
+
+            category.TypeJson = categoryMagazineIssue.ToJson();
+
+            category.Name = categoryMagazineIssue.BuildTitle();
+        }
 
         if (category.Type == CategoryType.VolumeChapter)
         {

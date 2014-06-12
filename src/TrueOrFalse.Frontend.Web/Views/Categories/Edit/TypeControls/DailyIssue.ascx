@@ -44,34 +44,7 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="Volume">
-        Jahrgang
-        <i class="fa fa-question-circle show-tooltip" title='Gibt an, im wievielten Jahr eine Zeitung oder Zeitschrift zum Zeitpunkt der jeweiligen Ausgabe erscheint (nur eintragen, falls angegeben).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
-    </label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="Volume" type="text" value="<%= model.Volume %>">
-    </div>
-</div>
-<div class="form-group">
-    <label class="RequiredField columnLabel control-label" for="No">
-        Ausgabennummer
-        <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben (Führende Nullen sind möglich).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
-    </label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="No" type="text" value="<%= model.No %>">
-    </div>
-</div>
-<div class="form-group">
-    <label class="columnLabel control-label" for="IssuePeriod">
-        Ausgabenzeitraum
-        <i class="fa fa-question-circle show-tooltip" title='Wie auf der Zeitschrift als Ergänzung zum Jahr und zur Ausgabennummer angeben. Beispiel "Aug./Sep.".'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
-    </label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="IssuePeriod" type="text" value="<%= model.IssuePeriod %>">
-    </div>
-</div>
-<div class="form-group">
-    <label class="columnLabel control-label">
+    <label class="RequiredField columnLabel control-label">
         Erscheinungsdatum
         <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
@@ -91,15 +64,23 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="Title">
-        Titel der Ausgabe
-        <i class="fa fa-question-circle show-tooltip" title='Falls vorhanden.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+    <label class="columnLabel control-label" for="Volume">
+        Jahrgang
+        <i class="fa fa-question-circle show-tooltip" title='Gibt an, im wievielten Jahr eine Zeitung oder Zeitschrift zum Zeitpunkt der jeweiligen Ausgabe erscheint (nur eintragen, falls angegeben).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Title" type="text" value="<%= model.Title %>">
+        <input class="form-control" name="Volume" type="text" value="<%= model.Volume %>">
     </div>
 </div>
-
+<div class="form-group">
+    <label class="columnLabel control-label" for="No">
+        Ausgabennummer
+        <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben (Führende Nullen sind möglich).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="No" type="text" value="<%= model.No %>">
+    </div>
+</div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Description">
         Beschreibung
