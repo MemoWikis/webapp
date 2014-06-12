@@ -12,8 +12,11 @@
         Tageszeitung
     </label>
     <div class="columnControlsFull">
-        <input id="txtNewRelatedCategory" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">
-        <ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: block; position: static; width: 330px;">
+        <div class="CatInputContainer">
+            <input id="txtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
+        </div>
+        
+<%--        <ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: block; position: static; width: 330px;">
             <li class="ui-menu-item" role="presentation">
                 <a class="CatListItem ui-corner-all" id="ui-id-39" tabindex="-1">
                     <img src="/Images/no-category-picture-50.png">
@@ -31,7 +34,7 @@
                     </div>
                 </a>
             </li>
-        </ul>
+        </ul>--%>
     </div>
 </div>
 
@@ -90,3 +93,9 @@
         <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        new AutocompleteCategories("#txtDaily", true);
+    });
+</script>

@@ -213,21 +213,21 @@
 }
 /* CATEGORIES
 ----------------------------------------------------------*/
-#CatInputContainer {
+.CatInputContainer {
   width: 50%;
   padding-right: 10px;
   float: left;
 }
-#CatInputContainer:before,
-#CatInputContainer:after {
+.CatInputContainer:before,
+.CatInputContainer:after {
   content: " ";
   display: table;
 }
-#CatInputContainer:after {
+.CatInputContainer:after {
   clear: both;
 }
 @media (max-width: 479px) {
-  #CatInputContainer {
+  .CatInputContainer {
     width: 100%;
     padding-right: 0;
   }

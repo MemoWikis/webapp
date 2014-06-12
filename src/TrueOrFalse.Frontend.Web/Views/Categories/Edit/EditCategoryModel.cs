@@ -143,6 +143,8 @@ public class EditCategoryModel : BaseModel
                 category.Name = request["Title"];
             else
                 category.Name = request["Title"] + " – " + request["Subtitle"];
+
+            var nameOfDaily = request[""];
         }
 
         if (category.Type == CategoryType.Magazine)
