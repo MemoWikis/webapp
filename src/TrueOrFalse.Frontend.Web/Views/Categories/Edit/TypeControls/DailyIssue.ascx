@@ -12,7 +12,7 @@
         Tageszeitung
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">
+        <input id="txtNewRelatedCategory" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">
         <ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: block; position: static; width: 330px;">
             <li class="ui-menu-item" role="presentation">
                 <a class="CatListItem ui-corner-all" id="ui-id-39" tabindex="-1">

@@ -1,4 +1,5 @@
-﻿var ui;
+﻿
+var ui: any;
 
 function escape_regexp(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -8,7 +9,9 @@ $.expr[':'].textEquals = function (a, i, m) {
     return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i")) != null;
 };
 
+
 $(function () {
+
     var isCategoryEdit = $("#isCategoryEdit").length == 1;
     var categoryName = "";
     if (isCategoryEdit)
@@ -19,7 +22,12 @@ $(function () {
         var catId = nextCatId;
         nextCatId++;
         var catText = $("#txtNewRelatedCategory").val();
-        $("#CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" + "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
+        $("#CatInputContainer").before(
+            "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
+                "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
+                "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" +
+                "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
+            "</div> ");
         $("#txtNewRelatedCategory").val('');
         $("#delete-cat-" + catId).click(function (e) {
             e.preventDefault();
@@ -45,7 +53,7 @@ $(function () {
         select: function (event, ui) {
             $("#txtNewRelatedCategory").data("category-id", ui.item.id);
             $("#txtNewRelatedCategory").val(ui.item.name);
-
+            
             if ($(".added-cat:textEquals('" + ui.item.name + "')").length > 0) {
                 return false;
             }
@@ -53,13 +61,17 @@ $(function () {
             addCat();
             return false;
         }
-    }).data("ui-autocomplete")._renderItem = function (ul, item) {
+    }).data("ui-autocomplete")._renderItem = function (ul, item) : any {
         console.log(categoryName + " " + item.name);
-        if (isCategoryEdit && categoryName == item.name)
-            return "";
+            if (isCategoryEdit &&categoryName == item.name)
+                return "";
 
-        return $("<li></li>").data("ui-autocomplete-item", item).append("<a class='CatListItem'><img src='" + item.imageUrl + "'/><div class='CatDescription'><span class='cat-name'>" + item.name + "</span><span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span></div></a>").appendTo(ul);
-    };
+		    return $("<li></li>")
+				.data("ui-autocomplete-item", item)
+				.append("<a class='CatListItem'><img src='" + item.imageUrl + "'/><div class='CatDescription'><span class='cat-name'>"
+				    + item.name + "</span><span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span></div></a>")
+				.appendTo(ul);
+		};
 
     var animating = false;
     function checkText() {
@@ -75,13 +87,12 @@ $(function () {
 
         if (!animating && alreadyAddedCategory.length != 0) {
             animating = true;
-            alreadyAddedCategory.effect('bounce', null, 'fast', function () {
-                animating = false;
-            });
+            alreadyAddedCategory.effect('bounce', null, 'fast', function () { animating = false; });
         }
         setTimeout(checkText, 250);
     }
     checkText();
+
 
     var fnCheckTextAndAdd = function (event) {
         checkText();
@@ -92,9 +103,8 @@ $(function () {
         if (event.keyCode == 13) {
             event.preventDefault();
         }
-    };
+    }
     $("#txtNewRelatedCategory").keydown(fnCheckTextAndAdd);
 
     $("#txtNewRelatedCategory").bind("initCategoryFromTxt", addCat);
 });
-//# sourceMappingURL=RelatedCategories.js.map
