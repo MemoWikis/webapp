@@ -176,26 +176,19 @@
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>">
-                                                <% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Merken
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuality" %>">
-                                                <% if (Model.OrderBy.OrderByQuality.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Qualität
+                                                <% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gemerkt
                                             </a>
                                         </li>
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDateCreated" %>">
-                                                <% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Erstellungsdatum
+                                                <% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Datum erstellt
                                             </a>
                                         </li>
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byViews" %>">
-                                                <% if (Model.OrderBy.OrderByViews.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Ansichten
+                                                <% if (Model.OrderBy.OrderByViews.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gesehen
                                             </a>
                                         </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Empfehlungen</a></li>
                                     </ul>
                                 </li>
                             </ul>

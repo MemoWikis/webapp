@@ -60,16 +60,16 @@ namespace TrueOrFalse
         public string ToText()
         {
             if (OrderByPersonalRelevance.IsCurrent())
-                return "Merken";
+                return "Gemerkt";
 
             if (OrderByQuality.IsCurrent())
                 return "Qualität";
 
             if (OrderByViews.IsCurrent())
-                return "Ansichten";
+                return "Gesehen";
 
             if (OrderByCreationDate.IsCurrent())
-                return "Erstellungsdatum";
+                return "Datum erstellt";
 
             return "";
         }
