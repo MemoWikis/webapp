@@ -11,10 +11,11 @@
     <label class="RequiredField columnLabel control-label" style="font-weight: bold;" for="xxx">
         Tageszeitung
     </label>
-    <div class="columnControlsFull">
-        <div class="CatInputContainer">
+    <div class="JS-RelatedCategories columnControlsFull">
+        <div class="JS-CatInputContainer">
             <input id="txtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
         </div>
+
         
 <%--        <ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: block; position: static; width: 330px;">
             <li class="ui-menu-item" role="presentation">

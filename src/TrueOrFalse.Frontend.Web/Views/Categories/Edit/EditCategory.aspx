@@ -136,9 +136,7 @@
            <%--  <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/VolumeChapter.ascx", new EditCategoryTypeModel(Model.Category));%>    --%>
                 <div class="FormSection">
                     <div id="CategoryDetailsBody">
-                        <h4 class="CategoryTypeHeader">Formular wird geladen...</h4>
-                       
-                        
+                        <h4 class="CategoryTypeHeader">Formular wird geladen...</h4>                       
                     </div>
                 </div>
                 <div class="FormSection">
@@ -149,7 +147,7 @@
 
                         </label>
 
-                        <div id="relatedCategories" class="columnControlsFull">
+                        <div class="JS-RelatedCategories columnControlsFull">
                             <script type="text/javascript">
                                 $(function () {
                                     <%foreach (var category in Model.ParentCategories) { %>
@@ -158,7 +156,7 @@
                                     <% } %>
                                 });
                             </script>
-                            <div class="CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
+                            <div class="JS-CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
                         </div>
                     </div>
                 </div>

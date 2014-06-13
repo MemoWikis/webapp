@@ -15,7 +15,7 @@ var AutocompleteCategories = (function () {
         this.isSingleSelect = isSingleSelect;
 
         var elemInput = $(inputSelector);
-        var elemContainer = elemInput.parent(".CatInputContainer");
+        var elemContainer = elemInput.closest(".JS-RelatedCategories");
 
         var isCategoryEdit = $("#isCategoryEdit").length == 1;
         var categoryName = "";
@@ -30,10 +30,10 @@ var AutocompleteCategories = (function () {
 
             if (self.isSingleSelect) {
                 catId = 999;
-                elemContainer.before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name=''/> " + "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
+                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name=''/> " + "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
                 elemInput.hide();
             } else {
-                elemContainer.before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" + "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
+                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" + "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
             }
 
             elemInput.val('');
@@ -65,7 +65,7 @@ var AutocompleteCategories = (function () {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
-                if ($(".added-cat:textEquals('" + ui.item.name + "')").length > 0) {
+                if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length > 0) {
                     return false;
                 }
 
@@ -83,8 +83,8 @@ var AutocompleteCategories = (function () {
         var animating = false;
         function checkText() {
             var text = $(inputSelector).val();
-            var matchesInAutomcompleteList = elemContainer.find(".ui-autocomplete li .cat-name:textEquals('" + text + "')");
-            var alreadyAddedCategory = $(".added-cat:textEquals('" + text + "')");
+            var matchesInAutomcompleteList = elemContainer.find($(".ui-autocomplete li .cat-name:textEquals('" + text + "')"));
+            var alreadyAddedCategory = elemContainer.find(".added-cat:textEquals('" + text + "')");
 
             if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
                 if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
@@ -103,17 +103,18 @@ var AutocompleteCategories = (function () {
         checkText();
 
         var fnCheckTextAndAdd = function (event) {
+            debugger;
             checkText();
-            if (event.keyCode == 13 && $(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
-                addCat();
-            }
-
             if (event.keyCode == 13) {
                 event.preventDefault();
+
+                if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
+                    addCat();
+                }
             }
         };
-        $(inputSelector).keydown(fnCheckTextAndAdd);
 
+        $(inputSelector).keypress(fnCheckTextAndAdd);
         $(inputSelector).bind("initCategoryFromTxt", addCat);
     }
     return AutocompleteCategories;
