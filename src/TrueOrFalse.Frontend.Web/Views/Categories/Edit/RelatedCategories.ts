@@ -70,7 +70,17 @@ class AutocompleteCategories {
 
         $(inputSelector).autocomplete({
             minLength: 0,
-            source:'/Api/Category/ByName',
+            source: function (request, response) {
+
+                var type = "";
+                if (self.isSingleSelect) {
+                    type = "&type=Daily";
+                }
+
+                $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {
+                    response(data);
+                });
+            },
             focus: function (event, ui) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
@@ -88,7 +98,6 @@ class AutocompleteCategories {
                 return false;
             }
         }).data("ui-autocomplete")._renderItem = function (ul, item): any {
-            console.log(categoryName + " " + item.name);
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
