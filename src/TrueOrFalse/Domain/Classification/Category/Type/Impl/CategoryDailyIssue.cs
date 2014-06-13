@@ -6,9 +6,24 @@ using System.Threading.Tasks;
 
 public class CategoryDailyIssue : CategoryBase<CategoryDailyIssue>
 {
-    public int PrintDailyId;
+    public string Year;
+    public string Volume;
+    public string No;
+    public string PublicationDateMonth;
+    public string PublicationDateDay;
 
-    public int Year;
-    public int No;
+    public string BuildTitle()
+    {
+        var name = "";
+        if (!String.IsNullOrEmpty(PublicationDateMonth) && !String.IsNullOrEmpty(PublicationDateDay)) { 
+            var publicationDate = new DateTime(Convert.ToInt32(Year), Convert.ToInt32(PublicationDateMonth),
+            Convert.ToInt32(PublicationDateDay));
+            name = publicationDate.ToString("dd.MM.yyyy");
+        }
+
+        return name;
+    }
+
+   
 }
 

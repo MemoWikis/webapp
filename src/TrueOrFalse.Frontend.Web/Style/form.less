@@ -7,17 +7,24 @@ input[type="text"], input[type="password"], input[type="datetime"], input[type="
     color: @dark-blue;
 }
 
+label {
+    font-weight: normal;
+}
+
 .RequiredField {
-    &:before {
+
+    font-weight: bold;
+    &:after {
         content: '*';
     }
 }
 
-.pageHeader{h2&, & > h2{
-        padding-top: 0; 
+.pageHeader{
+    h2&, & > h2{
+        padding-top: 0;
         margin-top: 0;
         margin-bottom: 30px;
-        }
+    }
 }
 
 h3.form-sub-title { padding: 30px 0 0 100px;font-size: 1.3em; }
@@ -63,12 +70,14 @@ div.control-group.markdown {
 
 /*Form Section style (conditional mixins)*/
 
-//Please set only one of the following two to true (or both to false):
-@FormSection-well-Style: true;
+//Please set only one of the following to true (or all to false):
+@FormSection-well-Style: false;
 @FormSection-bs-callout-Style: false;
+@FormSection-bs-callout-all-in-one-with-hr-Style: true;
 
 .FormSection-well-Style (@FormSection-well-Style);//conditional styles
 .FormSection-bs-callout-Style (@FormSection-bs-callout-Style);//conditional styles
+.FormSection-bs-callout-all-in-one-with-hr-Style (@FormSection-bs-callout-all-in-one-with-hr-Style);//conditional styles
 
 .FormSection-well-Style (@FormSection-well-Style) when (@FormSection-well-Style) {
 
@@ -87,6 +96,21 @@ div.control-group.markdown {
         .bs-callout-info;
         border: none;
         margin-top: 0;
+    }
+}
+
+.FormSection-bs-callout-all-in-one-with-hr-Style (@FormSection-bs-callout-all-in-one-with-hr-Style) when (@FormSection-bs-callout-all-in-one-with-hr-Style) {
+
+    .FormSection {
+        .bs-callout;
+        .bs-callout-info;
+        border: none;
+        margin-top: 0;
+        margin-bottom: 0;
+
+        & + .FormSection {
+            border-top: solid 1px @color-category;
+        }
     }
 }
 

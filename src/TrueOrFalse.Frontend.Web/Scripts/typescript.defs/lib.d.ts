@@ -10,6 +10,7 @@ interface JQuery {
     sparkline(p1: any, p2: any);
     sparkline(p1: any, p2: any, p3: any);
     has(p1: any);
+    hide(p1: any, p2: any, p3: any)
 }
 
 interface Window {
