@@ -28,9 +28,10 @@ namespace TrueOrFalse.Search
         public SearchCategoriesResult Run(
             string searchTerm, 
             bool searchStartingWith = false, 
-            SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None)
+            SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None,
+            int pageSize = 10)
         {
-            return Run(searchTerm, new Pager(), searchStartingWith, orderBy);
+            return Run(searchTerm, new Pager { PageSize = pageSize }, searchStartingWith, orderBy);
         }
 
         public SearchCategoriesResult Run(

@@ -155,7 +155,7 @@
                         <span class="show-tooltip" data-toggle="tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "top">Kategorien</span>
                     </label>
 
-                    <div id="relatedCategories" class="columnControlsFull">
+                    <div class="JS-RelatedCategories columnControlsFull">
                         <script type="text/javascript">
                             $(function () {
                                 <%foreach (var category in Model.Categories) { %>
@@ -164,7 +164,7 @@
                                 <% } %>
                             });
                         </script>
-                        <div class="CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
+                        <div class="JS-CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
                     </div>
                 </div>
                 </div>

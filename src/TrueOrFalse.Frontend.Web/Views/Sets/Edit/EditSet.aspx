@@ -99,7 +99,7 @@
                                     </span>
                                 </label>        
                                 
-                                <div id="relatedCategories" class="col-sm-9">
+                                <div class="JS-RelatedCategories col-sm-9">
                                     <script type="text/javascript">
                                         $(function () {
                                             <%foreach (var category in Model.Categories) { %>

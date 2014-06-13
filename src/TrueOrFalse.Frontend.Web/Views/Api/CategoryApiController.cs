@@ -20,10 +20,25 @@ namespace TrueOrFalse.View.Web.Views.Api
             _categoryRepo = categoryRepo;
         }
 
-        public JsonResult ByName(string term)
+        public JsonResult ByName(string term, string type)
         {
-            var categoryIds = _searchCategories.Run(term, searchStartingWith: true).CategoryIds.Take(5);
-            var categories = _categoryRepo.GetByIds(categoryIds.ToArray());
+            IList<Category> categories;
+            
+            if (type == "Daily")
+            {
+                categories = _categoryRepo.Session
+                    .QueryOver<Category>()
+                    .Where(c => c.Type == CategoryType.Daily)
+                    .WhereRestrictionOn(c => c.Name).IsLike(term + "%")
+                    .List();
+            }
+            else
+            {
+                var categoryIds = _searchCategories.Run(term, searchStartingWith: true, pageSize: 5).CategoryIds;
+                categories = _categoryRepo.GetByIds(categoryIds.ToArray());
+            }
+
+
 
             return Json(from c in categories
                         select new {

@@ -628,6 +628,9 @@
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Edit\RelatedCategories.js">
+      <DependentUpon>RelatedCategories.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Edit\TypeControls\VolumeChapter.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\BookChapter.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Book.ascx" />
@@ -1183,6 +1186,9 @@
     <Content Include="Views\Categories\Edit\EditCategory.less" />
     <Content Include="Views\Categories\Edit\EditCategory.css.map">
       <DependentUpon>EditCategory.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\RelatedCategories.js.map">
+      <DependentUpon>RelatedCategories.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

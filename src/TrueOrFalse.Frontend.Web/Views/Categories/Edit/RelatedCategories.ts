@@ -19,7 +19,7 @@ class AutocompleteCategories {
         this.isSingleSelect = isSingleSelect;
 
         var elemInput = $(inputSelector);
-        var elemContainer = elemInput.parent(".CatInputContainer");
+        var elemContainer = elemInput.closest(".JS-RelatedCategories");
 
         var isCategoryEdit = $("#isCategoryEdit").length == 1;
         var categoryName = "";
@@ -34,7 +34,7 @@ class AutocompleteCategories {
 
             if (self.isSingleSelect) {
                 catId = 999;
-                elemContainer.before(
+                elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
                     "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
                     "<input type='hidden' value='" + catText + "' name=''/> " +
@@ -42,14 +42,13 @@ class AutocompleteCategories {
                     "</div> ");
                 elemInput.hide();
             } else {
-                elemContainer.before(
+                elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
                     "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
                     "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" +
                     "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
                     "</div> ");                
             }
-
 
             elemInput.val('');
             $("#delete-cat-" + catId).click(function (e) {
@@ -71,7 +70,17 @@ class AutocompleteCategories {
 
         $(inputSelector).autocomplete({
             minLength: 0,
-            source: '/Api/Category/ByName',
+            source: function (request, response) {
+
+                var type = "";
+                if (self.isSingleSelect) {
+                    type = "&type=Daily";
+                }
+
+                $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {
+                    response(data);
+                });
+            },
             focus: function (event, ui) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
@@ -81,7 +90,7 @@ class AutocompleteCategories {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
-                if ($(".added-cat:textEquals('" + ui.item.name + "')").length > 0) {
+                if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length > 0) {
                     return false;
                 }
 
@@ -89,7 +98,6 @@ class AutocompleteCategories {
                 return false;
             }
         }).data("ui-autocomplete")._renderItem = function (ul, item): any {
-            console.log(categoryName + " " + item.name);
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
@@ -103,14 +111,14 @@ class AutocompleteCategories {
         var animating = false;
         function checkText() {
             var text = $(inputSelector).val();
-            var matchesInAutomcompleteList = elemContainer.find(".ui-autocomplete li .cat-name:textEquals('" + text + "')");
-            var alreadyAddedCategory = $(".added-cat:textEquals('" + text + "')");
+            //var matchesInAutomcompleteList = elemContainer.find($(".ui-autocomplete li .cat-name:textEquals('" + text + "')"));
+            var alreadyAddedCategory = elemContainer.find(".added-cat:textEquals('" + text + "')");
 
-            if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
-                if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
-                    $(inputSelector).val(matchesInAutomcompleteList.text());
-                }
-            }
+            //if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
+            //    if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
+            //        $(inputSelector).val(matchesInAutomcompleteList.text());
+            //    }
+            //}
 
             if (!animating && alreadyAddedCategory.length != 0) {
                 animating = true;
@@ -120,22 +128,26 @@ class AutocompleteCategories {
         }
         checkText();
 
-
         var fnCheckTextAndAdd = function (event) {
-            checkText();
-            if (event.keyCode == 13 && $(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
-                addCat();
-            }
 
             if (event.keyCode == 13) {
                 event.preventDefault();
+
+                if (ui != undefined) {
+
+                    checkText();
+
+                    if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
+                        addCat();
+                    }
+                }
             }
         }
-    $(inputSelector).keydown(fnCheckTextAndAdd);
 
+        $(inputSelector).keypress(fnCheckTextAndAdd);
         $(inputSelector).bind("initCategoryFromTxt", addCat);        
-    }
 
+    }
 }
 
 $(function () {
