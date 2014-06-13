@@ -44,52 +44,40 @@
         
     </div>
 
-    <div class="column-Additional col-xs-10 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>">
+    <div class="column-Additional col-xs-10 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>" style="height: 100%;" >
         <div class="StatsGroup Slider">
-            <div class="sliderContainer" style="<% if(Model.RelevancePersonal == -1){ %>display:none;<% } %>">
-                <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-questionId="<%= Model.QuestionId %>"> 
-                    <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-                    <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-                </div>
-                <div style="float:left; margin-top: -2px" class="sliderAnnotation">
-                    <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="fa fa-times"></i></a>
-                </div>
-            </div>
-            <a href="#" class="addRelevance" style="<% if(Model.RelevancePersonal != -1){ %>display:none;<% } %>" >
-                <i class="fa fa-plus-circle "></i> merken
-            </a>
+            
         </div>
         <div class="StatsGroup NumberTimesStats">
             <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
                 <div class="timesAdded" style="margin-top: 2px;">
-                    <span class="totalRelevanceEntries NumberTimes"><%= Model.TotalRelevancePersonalEntries %></span> x &nbsp;
-                    <a href="">gemerkt (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span></a> <span class="piePersonalRelevanceTotal" data-avg="<%= Model.TotalRelevancePersonalAvg  %>"></span> )
+                    <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
+                    <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
+                    <span class="totalRelevanceEntries NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
+                    </span>
+
                 </div>
             <%} %>
-            <%if(Model.TotalQualityEntries != "0"){ %>
-                <div class="avQuality">
-                    <span class="NumberTimes"><%= Model.TotalQualityEntries%></span> x &nbsp;<a href="">Qualität (&#216; <%= Model.TotalQualityAvg%>)</a>
-                </div>
-              <%} %>
             <div class="timesSeen">
-                <span class="NumberTimes"><%= Model.Views %></span>
-                 x &nbsp;
-                <a href="">gesehen</a>
+                <span class="show-tooltip" data-original-title="Die Frage wurde <%= Model.Views %>x mal gesehen.">
+                    <i class="fa fa-eye" style="color:darkslategray;"></i>                
+                    <span class="NumberTimes"><%= Model.Views %>x</span>
+                     
+                </span>
+
             </div>
         </div>
         <div class="StatsGroup QuestionAuthor">
-            <div>
-            von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
-                    <%=Model.CreatorName %>
-                </a>
-            </div>
-
+            <a href="<%= Model.UserLink(Url)  %>" class="userPopover show-tooltip" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
+                data-original-title="Erstellt von <%=Model.CreatorName %> am <%= Model.DateCreated.ToString("D") %>">
+                <%=Model.CreatorName %>
+            </a>
+            
+            &nbsp;
             <% if (Model.IsOwner){%>
                 <div style="position: relative; top: -1px; display: inline-block">
-                    <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
-                    <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>">
-                        <img src="/Images/edit.png"/> 
-                    </a>
+                    <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>&nbsp;
+                    <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>"><i class="fa fa-pencil"></i></a>
                 </div>
             <% } %>
         </div>

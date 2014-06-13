@@ -42,6 +42,8 @@ public class QuestionRowModel
     public IList<SetMini> SetMinis;
     public int SetCount;
 
+    public DateTime DateCreated;
+
     public QuestionRowModel(
         Question question, 
         TotalPerUser totalForUser, 
@@ -93,5 +95,7 @@ public class QuestionRowModel
         Categories = question.Categories;
         SetCount = question.SetsAmount;
         SetMinis = question.SetTop5Minis;
+
+        DateCreated = question.DateCreated;
     }
 }

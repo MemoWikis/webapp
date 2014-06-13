@@ -454,8 +454,10 @@ div.selected-row:hover {
   width: 20px;
   text-align: center;
 }
-.QuestionAuthor {
-  padding-top: 6px;
+@media (min-width: 768px) {
+  .QuestionAuthor {
+    padding-top: 35px;
+  }
 }
 @media DISABLE (min-width: 480px) and (max-width: 767px) {
   .StatsGroup {
