@@ -70,7 +70,7 @@ class AutocompleteCategories {
 
         $(inputSelector).autocomplete({
             minLength: 0,
-            source: '/Api/Category/ByName',
+            source:'/Api/Category/ByName',
             focus: function (event, ui) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
@@ -102,14 +102,14 @@ class AutocompleteCategories {
         var animating = false;
         function checkText() {
             var text = $(inputSelector).val();
-            var matchesInAutomcompleteList = elemContainer.find($(".ui-autocomplete li .cat-name:textEquals('" + text + "')"));
+            //var matchesInAutomcompleteList = elemContainer.find($(".ui-autocomplete li .cat-name:textEquals('" + text + "')"));
             var alreadyAddedCategory = elemContainer.find(".added-cat:textEquals('" + text + "')");
 
-            if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
-                if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
-                    $(inputSelector).val(matchesInAutomcompleteList.text());
-                }
-            }
+            //if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
+            //    if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
+            //        $(inputSelector).val(matchesInAutomcompleteList.text());
+            //    }
+            //}
 
             if (!animating && alreadyAddedCategory.length != 0) {
                 animating = true;
@@ -120,21 +120,25 @@ class AutocompleteCategories {
         checkText();
 
         var fnCheckTextAndAdd = function (event) {
-            debugger;
-            checkText();
+
             if (event.keyCode == 13) {
                 event.preventDefault();
-                
-                if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
-                    addCat();
+
+                if (ui != undefined) {
+
+                    checkText();
+
+                    if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
+                        addCat();
+                    }
                 }
             }
         }
 
-    $(inputSelector).keypress(fnCheckTextAndAdd);
+        $(inputSelector).keypress(fnCheckTextAndAdd);
         $(inputSelector).bind("initCategoryFromTxt", addCat);        
-    }
 
+    }
 }
 
 $(function () {

@@ -20,9 +20,9 @@ namespace TrueOrFalse.View.Web.Views.Api
             _categoryRepo = categoryRepo;
         }
 
-        public JsonResult ByName(string term)
+        public JsonResult ByName(string term, string type)
         {
-            var categoryIds = _searchCategories.Run(term, searchStartingWith: true).CategoryIds.Take(5);
+            var categoryIds = _searchCategories.Run(term, searchStartingWith: true, pageSize: 5).CategoryIds;
             var categories = _categoryRepo.GetByIds(categoryIds.ToArray());
 
             return Json(from c in categories

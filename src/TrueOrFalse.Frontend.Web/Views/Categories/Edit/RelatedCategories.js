@@ -83,15 +83,15 @@ var AutocompleteCategories = (function () {
         var animating = false;
         function checkText() {
             var text = $(inputSelector).val();
-            var matchesInAutomcompleteList = elemContainer.find($(".ui-autocomplete li .cat-name:textEquals('" + text + "')"));
+
+            //var matchesInAutomcompleteList = elemContainer.find($(".ui-autocomplete li .cat-name:textEquals('" + text + "')"));
             var alreadyAddedCategory = elemContainer.find(".added-cat:textEquals('" + text + "')");
 
-            if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
-                if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
-                    $(inputSelector).val(matchesInAutomcompleteList.text());
-                }
-            }
-
+            //if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
+            //    if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
+            //        $(inputSelector).val(matchesInAutomcompleteList.text());
+            //    }
+            //}
             if (!animating && alreadyAddedCategory.length != 0) {
                 animating = true;
                 alreadyAddedCategory.effect('bounce', null, 'fast', function () {
@@ -103,13 +103,15 @@ var AutocompleteCategories = (function () {
         checkText();
 
         var fnCheckTextAndAdd = function (event) {
-            debugger;
-            checkText();
             if (event.keyCode == 13) {
                 event.preventDefault();
 
-                if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
-                    addCat();
+                if (ui != undefined) {
+                    checkText();
+
+                    if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
+                        addCat();
+                    }
                 }
             }
         };
