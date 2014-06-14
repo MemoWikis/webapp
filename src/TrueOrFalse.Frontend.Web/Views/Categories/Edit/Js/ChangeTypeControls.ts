@@ -1,5 +1,5 @@
 ﻿
-class bla {
+class ChangeTypeControls {
 
     private _isCreating: boolean;
 
@@ -7,16 +7,30 @@ class bla {
 
         var self = this;
         this._isCreating = $("#isEditing").val() == "false";
-        
+
+        var ddlCategoryTypeMedia = $($("select[name='ddlCategoryTypeMedia']")[0]);
+        var ddlCategoryTypeEducation = $($("select[name='ddlCategoryTypeEducation']")[0]);
+
         if (this._isCreating) {
             $("input[name=rdoCategoryTypeGroup]:radio").change(function() { self.UpdateTypeBody(); });
-            $("select[name='ddlCategoryTypeMedia']").change(function () { self.UpdateTypeBody(); });
-            $("select[name='ddlCategoryTypeEducation']").change(function () { self.UpdateTypeBody(); });
+            ddlCategoryTypeMedia.change(function () { self.UpdateTypeBody(); });
+            ddlCategoryTypeEducation.change(function () { self.UpdateTypeBody(); });
 
             self.InitGroupBehaviour();
-        }
 
-        this.UpdateTypeBody();
+            $("input:radio[name='rdoCategoryTypeGroup']:checked").trigger("change");
+            var selectedRdo = $($("input:radio[name='rdoCategoryTypeGroup']:checked")[0]);
+
+            if (selectedRdo.val() == "media") {
+                ddlCategoryTypeMedia.val(ddlCategoryTypeMedia.attr("data-selectedValue"));
+                ddlCategoryTypeMedia.trigger("change");
+            }else if (selectedRdo.val() == "education") {
+                ddlCategoryTypeEducation.val(ddlCategoryTypeEducation.attr("data-selectedValue"));
+                ddlCategoryTypeEducation.trigger("change");
+            } else {
+                this.UpdateTypeBody();        
+            }
+        }
     }
 
 
@@ -58,5 +72,5 @@ class bla {
 
 
 $(function () {
-    new bla();
+    new ChangeTypeControls();
 });

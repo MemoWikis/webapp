@@ -31,10 +31,18 @@ public class EditCategoryModel : BaseModel
 
     public Category Category;
 
-    public EditCategoryModel(){
+    public string rdoCategoryTypeGroup { get; set; }
+    public string ddlCategoryTypeMedia { get; set; }
+    public string ddlCategoryTypeEducation { get; set; }
+
+    
+
+    public EditCategoryModel()
+    {
+        rdoCategoryTypeGroup = "standard";
     }
 
-    public EditCategoryModel(Category category) 
+    public EditCategoryModel(Category category) : this()
     {
         Init(category);
     }
@@ -205,6 +213,8 @@ public class EditCategoryModel : BaseModel
 public class ConvertToCategoryResult
 {
     public Category Category;
+    public object TypeModel;
+
     public bool HasError;
     public UIMessage ErrorMessage;
 }

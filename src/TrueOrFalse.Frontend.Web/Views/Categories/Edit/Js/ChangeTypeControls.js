@@ -1,25 +1,39 @@
-﻿var bla = (function () {
-    function bla() {
+﻿var ChangeTypeControls = (function () {
+    function ChangeTypeControls() {
         var self = this;
         this._isCreating = $("#isEditing").val() == "false";
+
+        var ddlCategoryTypeMedia = $($("select[name='ddlCategoryTypeMedia']")[0]);
+        var ddlCategoryTypeEducation = $($("select[name='ddlCategoryTypeEducation']")[0]);
 
         if (this._isCreating) {
             $("input[name=rdoCategoryTypeGroup]:radio").change(function () {
                 self.UpdateTypeBody();
             });
-            $("select[name='ddlCategoryTypeMedia']").change(function () {
+            ddlCategoryTypeMedia.change(function () {
                 self.UpdateTypeBody();
             });
-            $("select[name='ddlCategoryTypeEducation']").change(function () {
+            ddlCategoryTypeEducation.change(function () {
                 self.UpdateTypeBody();
             });
 
             self.InitGroupBehaviour();
-        }
 
-        this.UpdateTypeBody();
+            $("input:radio[name='rdoCategoryTypeGroup']:checked").trigger("change");
+            var selectedRdo = $($("input:radio[name='rdoCategoryTypeGroup']:checked")[0]);
+
+            if (selectedRdo.val() == "media") {
+                ddlCategoryTypeMedia.val(ddlCategoryTypeMedia.attr("data-selectedValue"));
+                ddlCategoryTypeMedia.trigger("change");
+            } else if (selectedRdo.val() == "education") {
+                ddlCategoryTypeEducation.val(ddlCategoryTypeEducation.attr("data-selectedValue"));
+                ddlCategoryTypeEducation.trigger("change");
+            } else {
+                this.UpdateTypeBody();
+            }
+        }
     }
-    bla.prototype.UpdateTypeBody = function () {
+    ChangeTypeControls.prototype.UpdateTypeBody = function () {
         var selectedValue;
         if (!this._isCreating) {
             selectedValue = $("#categoryType").val();
@@ -42,16 +56,16 @@
         });
     };
 
-    bla.prototype.InitGroupBehaviour = function () {
+    ChangeTypeControls.prototype.InitGroupBehaviour = function () {
         $("input:radio[name='rdoCategoryTypeGroup']").change(function () {
             $("input:radio[name='rdoCategoryTypeGroup']").parent().children("select").hide();
             $("input:radio[name='rdoCategoryTypeGroup']:checked").parent().children("select").slideDown();
         });
     };
-    return bla;
+    return ChangeTypeControls;
 })();
 
 $(function () {
-    new bla();
+    new ChangeTypeControls();
 });
 //# sourceMappingURL=ChangeTypeControls.js.map
