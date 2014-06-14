@@ -135,16 +135,26 @@ public class EditCategoryModel : BaseModel
             category.Name = categoryDailyIssue.BuildTitle();
 
             var dailyCategoryName = request["hddTxtDaily"];
-            if (String.IsNullOrEmpty(dailyCategoryName))
+            var isNullOrEmptyError = String.IsNullOrEmpty(dailyCategoryName);
+
+
+            Category dailyFromDb = null;
+            if(!isNullOrEmptyError)
+                dailyFromDb = Resolve<CategoryRepository>().GetByName(dailyCategoryName);
+
+            if (isNullOrEmptyError || dailyFromDb == null || dailyFromDb.Type != CategoryType.Daily)
             {
-                EditCategoryTypeModel.SaveToSession(categoryDailyIssue, category);
-                return new ConvertToCategoryResult { Category = category, HasError = true, 
+                return new ConvertToCategoryResult
+                {
+                    Category = category,
+                    HasError = true,
                     ErrorMessage = new ErrorMessage(
                         "Die Ausgabe konnte nicht gespeichert werden. <br>" +
-                        "Um zu speichern, wähle bitte eine Tageszeitung aus.")};
+                        "Um zu speichern, wähle bitte eine Tageszeitung aus.")
+                };                
             }
 
-            Resolve<CategoryRepository>().GetByName(dailyCategoryName);
+            category.ParentCategories.Add(dailyFromDb);
         }
 
         if (category.Type == CategoryType.DailyArticle)

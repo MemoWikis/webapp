@@ -86,8 +86,10 @@ public class EditCategoryController : BaseController
         }
 
         model.FillReleatedCategoriesFromPostData(Request.Form);
+        
         var convertResult = model.ConvertToCategory();
         if (convertResult.HasError){
+            EditCategoryTypeModel.SaveToSession(convertResult.TypeModel, convertResult.Category);
             model.Message = convertResult.ErrorMessage;
             return View(_viewPath, model);
         }
