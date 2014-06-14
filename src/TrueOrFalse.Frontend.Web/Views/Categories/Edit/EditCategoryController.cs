@@ -108,16 +108,15 @@ public class EditCategoryController : BaseController
         return Redirect("/Kategorien/Bearbeite/" + category.Id);
     }
 
-    public ActionResult DetailsPartial(int? categoryId, CategoryType type)
+    public ActionResult DetailsPartial(int? categoryId, CategoryType type, string typeModelGuid)
     {
-        object model = null;
         Category category = null;
 
         if (categoryId.HasValue && categoryId.Value > 0){
             category = _categoryRepository.GetById(categoryId.Value);
         }
 
-        return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category));
+        return View(string.Format(_viewPathTypeControls, type), new EditCategoryTypeModel(category, type));
     }
 
     private void StoreImage(int categoryId)

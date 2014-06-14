@@ -1,7 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
-public class CategoryBase<T>
+[Serializable]
+public abstract class CategoryBase<T> : ICategoryBase
 {
+    public abstract CategoryType Type { get; }
+
     public string ToJson()
     {
         return JsonConvert.SerializeObject(this);

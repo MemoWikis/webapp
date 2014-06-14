@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
+[Serializable]
 public class CategoryDailyIssue : CategoryBase<CategoryDailyIssue>
 {
     public string Year;
@@ -11,6 +13,9 @@ public class CategoryDailyIssue : CategoryBase<CategoryDailyIssue>
     public string No;
     public string PublicationDateMonth;
     public string PublicationDateDay;
+
+    [JsonIgnore]
+    public override CategoryType Type { get { return CategoryType.DailyIssue; } }
 
     public string BuildTitle()
     {
@@ -23,7 +28,6 @@ public class CategoryDailyIssue : CategoryBase<CategoryDailyIssue>
 
         return name;
     }
-
    
 }
 

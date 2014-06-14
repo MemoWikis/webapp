@@ -174,6 +174,7 @@
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryWebsiteVideo.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryWebsiteArticle.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryWebsite.cs" />
+    <Compile Include="Domain\Classification\Category\Type\Impl\ICategoryBase.cs" />
     <Compile Include="Domain\Comments\Comment.cs" />
     <Compile Include="Domain\Comments\CommentType.cs" />
     <Compile Include="Domain\Comments\Persistence\CommentMap.cs" />

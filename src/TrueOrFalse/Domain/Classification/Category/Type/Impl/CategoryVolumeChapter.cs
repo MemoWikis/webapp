@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
+[Serializable]
 public class CategoryVolumeChapter : CategoryBase<CategoryVolumeChapter>
 {
     public string Title;
@@ -19,4 +20,7 @@ public class CategoryVolumeChapter : CategoryBase<CategoryVolumeChapter>
     public string PublicationYear;
     public string PagesChapterFrom;
     public string PagesChapterTo;
+
+    [JsonIgnore]
+    public override CategoryType Type { get { return CategoryType.VolumeChapter; } }
 }

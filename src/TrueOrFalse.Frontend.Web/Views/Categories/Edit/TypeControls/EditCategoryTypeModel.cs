@@ -20,12 +20,24 @@ public class EditCategoryTypeModel : BaseModel
      
     public const string IssnInfo = "Die ISSN ist eine Identifizierungsnummer für Zeitungen und Zeitschriften (ähnlich der ISBN für Bücher). Du kannst sie z.B. im Impressum, in Online-Katalogen von Bibliotheken oder auch im Wikipedia-Artikel zu einer Zeitung oder Zeitschrift finden.";
 
-    
 
-    public EditCategoryTypeModel(Category category)
+    public EditCategoryTypeModel(Category category, CategoryType type)
     {
         if (category == null)
-            return;
+        {
+            var typeModel = HttpContext.Current.Session["RecentCategoryTypeModel"];
+            if (typeModel != null)
+            {
+                if (((ICategoryBase) typeModel).Type == type){
+                    Model = typeModel;
+                    PopulateFromCategory((Category)HttpContext.Current.Session["RecentCategory"]);
+                }
+            }
+
+            return;            
+        }
+
+        PopulateFromCategory(category);
 
         if (category.Type == CategoryType.Book)
             Model = CategoryBook.FromJson(category.TypeJson);
@@ -53,10 +65,18 @@ public class EditCategoryTypeModel : BaseModel
         
         if (category.Type == CategoryType.WebsiteVideo)
             Model = CategoryWebsiteVideo.FromJson(category.TypeJson);
+    }
 
-
+    private void PopulateFromCategory(Category category)
+    {
         Name = category.Name;
         Description = category.Description;
         WikipediaUrl = category.WikipediaURL;
+    }
+
+    public static void SaveToSession(object typeModel, Category category)
+    {
+        HttpContext.Current.Session["RecentCategoryTypeModel"] = typeModel;
+        HttpContext.Current.Session["RecentCategory"] = category;
     }
 }

@@ -35,8 +35,6 @@ public class EditCategoryModel : BaseModel
     public string ddlCategoryTypeMedia { get; set; }
     public string ddlCategoryTypeEducation { get; set; }
 
-    
-
     public EditCategoryModel()
     {
         rdoCategoryTypeGroup = "standard";
@@ -139,6 +137,7 @@ public class EditCategoryModel : BaseModel
             var dailyCategoryName = request["hddTxtDaily"];
             if (String.IsNullOrEmpty(dailyCategoryName))
             {
+                EditCategoryTypeModel.SaveToSession(categoryDailyIssue, category);
                 return new ConvertToCategoryResult { Category = category, HasError = true, 
                     ErrorMessage = new ErrorMessage(
                         "Die Ausgabe konnte nicht gespeichert werden. <br>" +
@@ -146,10 +145,6 @@ public class EditCategoryModel : BaseModel
             }
 
             Resolve<CategoryRepository>().GetByName(dailyCategoryName);
-
-            //get current category
-            //remove all existing 
-
         }
 
         if (category.Type == CategoryType.DailyArticle)
