@@ -76,16 +76,23 @@ public class EditCategoryController : BaseController
         var categoryExists = new EditCategoryModel_Category_Exists();
         if (categoryExists.Yes(model))
         {
-            model.Message = new ErrorMessage(string.Format("Die Kategorie <strong>'{0}'</strong> existiert bereits. " +
-                                                           "Klicke <a href=\"{1}\">hier</a>, um sie zu bearbeiten.", 
-                                                           categoryExists.ExistingCategory.Name,
-                                                           Url.Action("Edit", new { id = categoryExists.ExistingCategory.Id })));
+            model.Message = new ErrorMessage(
+                string.Format("Die Kategorie <strong>'{0}'</strong> existiert bereits. " +
+                              "Klicke <a href=\"{1}\">hier</a>, um sie zu bearbeiten.", 
+                              categoryExists.ExistingCategory.Name,
+                              Url.Action("Edit", new { id = categoryExists.ExistingCategory.Id })));
 
             return View(_viewPath, model);
         }
 
         model.FillReleatedCategoriesFromPostData(Request.Form);
-        var category = model.ConvertToCategory();
+        var convertResult = model.ConvertToCategory();
+        if (convertResult.HasError){
+            model.Message = convertResult.ErrorMessage;
+            return View(_viewPath, model);
+        }
+
+        var category = convertResult.Category;
         category.Creator = _sessionUser.User;
 
         _categoryRepository.Create(category);

@@ -97,6 +97,6 @@
 
 <script type="text/javascript">
     $(function () {
-        new AutocompleteCategories("#txtDaily", true);
+        new AutocompleteCategories("#txtDaily", true, "hddTxtDaily");
     });
 </script>

@@ -9,8 +9,9 @@ $.expr[':'].textEquals = function (a, i, m) {
 };
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, singleSelectInputName) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
+        if (typeof singleSelectInputName === "undefined") { singleSelectInputName = ""; }
         var self = this;
         this.isSingleSelect = isSingleSelect;
 
@@ -30,7 +31,7 @@ var AutocompleteCategories = (function () {
 
             if (self.isSingleSelect) {
                 catId = 999;
-                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name=''/> " + "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
+                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='" + this.singleSelectInputName + "'/> " + "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
                 elemInput.hide();
             } else {
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" + "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");

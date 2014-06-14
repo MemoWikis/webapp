@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
+using Microsoft.Ajax.Utilities;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 
@@ -47,7 +48,7 @@ public class EditCategoryModel : BaseModel
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;        
     }
 
-    public Category ConvertToCategory()
+    public ConvertToCategoryResult ConvertToCategory()
     {
         var category = new Category(Name) {ParentCategories = new List<Category>()};
         category.Description = Description;
@@ -55,11 +56,7 @@ public class EditCategoryModel : BaseModel
             category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
 
         var request = HttpContext.Current.Request;
-
-        string categoryType = "standard";
-
-        //if (request["ddlCategoryType"] != null)
-
+        var categoryType = "standard";
 
         if (request["rdoCategoryTypeGroup"] == "standard")
             categoryType = "Standard";
@@ -71,11 +68,8 @@ public class EditCategoryModel : BaseModel
                 categoryType = request["ddlCategoryTypeEducation"];
 
         category.Type = (CategoryType)Enum.Parse(typeof(CategoryType), categoryType);
-                
 
-        FillFromRequest(category);
-
-        return category;
+        return FillFromRequest(category);
     }
 
     public void UpdateCategory(Category category)
@@ -101,7 +95,7 @@ public class EditCategoryModel : BaseModel
         return !Int32.TryParse(input, out outInt) ? String.Empty : input;
     }
 
-    private static void FillFromRequest(Category category)
+    private ConvertToCategoryResult FillFromRequest(Category category)
     {
         var request = HttpContext.Current.Request;
 
@@ -132,8 +126,22 @@ public class EditCategoryModel : BaseModel
             };
             
             category.TypeJson = categoryDailyIssue.ToJson();
-
             category.Name = categoryDailyIssue.BuildTitle();
+
+            var dailyCategoryName = request["hddTxtDaily"];
+            if (String.IsNullOrEmpty(dailyCategoryName))
+            {
+                return new ConvertToCategoryResult { Category = category, HasError = true, 
+                    ErrorMessage = new ErrorMessage(
+                        "Die Ausgabe konnte nicht gespeichert werden. <br>" +
+                        "Um zu speichern, wähle bitte eine Tageszeitung aus.")};
+            }
+
+            Resolve<CategoryRepository>().GetByName(dailyCategoryName);
+
+            //get current category
+            //remove all existing 
+
         }
 
         if (category.Type == CategoryType.DailyArticle)
@@ -182,10 +190,21 @@ public class EditCategoryModel : BaseModel
 
         if (category.Type == CategoryType.WebsiteVideo)
             category.TypeJson = new CategoryWebsiteVideo {Url = request["YoutubeUrl"]}.ToJson();
+
+
+        return new ConvertToCategoryResult { Category = category };
     }
     
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
         ParentCategories = (from key in postData.AllKeys where key.StartsWith("cat-") select postData[key]).ToList();
     }
+}
+
+
+public class ConvertToCategoryResult
+{
+    public Category Category;
+    public bool HasError;
+    public UIMessage ErrorMessage;
 }

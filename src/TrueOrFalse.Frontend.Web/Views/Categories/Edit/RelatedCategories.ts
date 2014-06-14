@@ -13,7 +13,10 @@ class AutocompleteCategories {
 
     isSingleSelect : boolean;
     
-    constructor(inputSelector: string, isSingleSelect: boolean = false) {
+    constructor(
+        inputSelector: string,
+        isSingleSelect: boolean = false,
+        singleSelectInputName = "") {
 
         var self = this;
         this.isSingleSelect = isSingleSelect;
@@ -36,9 +39,9 @@ class AutocompleteCategories {
                 catId = 999;
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
-                    "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
-                    "<input type='hidden' value='" + catText + "' name=''/> " +
-                    "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" +
+                        "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
+                        "<input type='hidden' value='" + catText + "' name='" + this.singleSelectInputName + "'/> " +
+                        "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" +
                     "</div> ");
                 elemInput.hide();
             } else {
