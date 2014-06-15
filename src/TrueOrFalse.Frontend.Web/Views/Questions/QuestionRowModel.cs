@@ -5,7 +5,7 @@ using TrueOrFalse.Web.Uris;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse;
 
-public class QuestionRowModel
+public class QuestionRowModel : BaseModel
 {
     public string ImageUrl;
     public string CreatorName { get; private set; }
@@ -15,14 +15,6 @@ public class QuestionRowModel
 
     public string CreatorUrlName { get; private set; }
     public int CreatorId { get; private set; }
-
-    public int AnswersAllCount { get; private set; }
-    public int AnswersAllPercentageTrue;
-    public int AnswersAllPercentageFalse;
-
-    public int AnswerMeCount { get; private set; }
-    public int AnswerMePercentageTrue;
-    public int AnswerMePercentageFalse;
 
     public bool IsPrivate;
 
@@ -43,6 +35,8 @@ public class QuestionRowModel
     public int SetCount;
 
     public DateTime DateCreated;
+
+    public HistoryAndProbabilityModel HistoryAndProbability;
 
     public QuestionRowModel(
         Question question, 
@@ -65,17 +59,6 @@ public class QuestionRowModel
         AnswerQuestionLink = urlHelper => Links.AnswerQuestion(urlHelper, question, indexInResultSet, pagerKey);
         UserLink = urlHelper => Links.UserDetail(urlHelper, question.Creator.Name, question.Creator.Id);
 
-        AnswersAllCount = question.TotalAnswers();
-        AnswersAllPercentageTrue = question.TotalTrueAnswersPercentage();
-        AnswersAllPercentageFalse = question.TotalFalseAnswerPercentage();
-
-        if(totalForUser == null)
-            totalForUser = new TotalPerUser();
-
-        AnswerMeCount = totalForUser.Total();
-        AnswerMePercentageTrue = totalForUser.PercentageTrue();
-        AnswerMePercentageFalse = totalForUser.PercentageFalse();
-
         RelevancePersonal = questionValuation.RelevancePersonal;
         
         IndexInResulSet = indexInResultSet;
@@ -95,6 +78,17 @@ public class QuestionRowModel
         Categories = question.Categories;
         SetCount = question.SetsAmount;
         SetMinis = question.SetTop5Minis;
+
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
+
+        if (totalForUser == null)
+            totalForUser = new TotalPerUser();
+
+        HistoryAndProbability = new HistoryAndProbabilityModel
+        {
+            AnswerHistory = new AnswerHistoryModel(question, totalForUser),
+            CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
+        };
 
         DateCreated = question.DateCreated;
     }

@@ -85,7 +85,7 @@ public class AnswerQuestionModel : BaseModel
     public IList<SetMini> SetMinis;
     public int SetCount;
 
-    public HistoryAndProbabilityModel HistoryAndProbability; 
+    public HistoryAndProbabilityModel HistoryAndProbability;
 
     public bool IsInWishknowledge;
 

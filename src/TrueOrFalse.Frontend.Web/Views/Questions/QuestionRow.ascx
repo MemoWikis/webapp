@@ -13,13 +13,6 @@
     </div>
 
     <div class="column-MainContent">
-
-        <div class="ShortStats">
-            <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
-            <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
-            <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount%>x beantwortet.">(ich <%= Model.AnswerMeCount%>x </span>
-            <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>)
-        </div>
         
         <div class="QuestionText">
             <% if(Model.IsPrivate){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
@@ -50,21 +43,27 @@
         </div>
         <div class="StatsGroup NumberTimesStats">
             <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
-                <div class="timesAdded" style="margin-top: 2px;">
+                <div class="timesAdded" style="margin-top: 7px;">
                     <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
-                    <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
-                    <span class="totalRelevanceEntries NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
+                        <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
+                        <span class="totalRelevanceEntries NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
+                    </span>
+                    
+                    &nbsp;
+                    
+                    <span class="show-tooltip" data-original-title="Die Frage wurde <%= Model.Views %>x mal gesehen.">
+                        <i class="fa fa-eye" style="color:darkslategray;"></i>                
+                        <span class="NumberTimes"><%= Model.Views %>x</span>
                     </span>
 
                 </div>
             <%} %>
-            <div class="timesSeen">
-                <span class="show-tooltip" data-original-title="Die Frage wurde <%= Model.Views %>x mal gesehen.">
-                    <i class="fa fa-eye" style="color:darkslategray;"></i>                
-                    <span class="NumberTimes"><%= Model.Views %>x</span>
-                     
-                </span>
+            <div>
 
+            </div>
+            
+            <div style="padding-top: 10px; padding-bottom: 12px;">
+                <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
             </div>
         </div>
         <div class="StatsGroup QuestionAuthor">

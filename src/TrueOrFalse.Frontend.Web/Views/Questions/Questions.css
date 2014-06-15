@@ -403,21 +403,6 @@ div.selected-row:hover {
     width: 572px;
   }
 }
-.ShortStats {
-  height: 25px;
-  margin-top: 0;
-  margin-right: 4px;
-  border-radius: 6px;
-  border: 1px solid beige;
-  background-color: beige;
-  padding: 4px;
-  float: right;
-}
-@media (max-width: 479px) {
-  .ShortStats {
-    float: left;
-  }
-}
 .QuestionText {
   font-weight: normal;
   font-size: large;
@@ -456,14 +441,13 @@ div.selected-row:hover {
 }
 @media (min-width: 768px) {
   .QuestionAuthor {
-    padding-top: 35px;
+    padding-top: 16px;
   }
 }
 @media DISABLE (min-width: 480px) and (max-width: 767px) {
   .StatsGroup {
     float: left;
   }
-  .StatsGroup.Slider,
   .StatsGroup.NumberTimesStats {
     position: relative;
     float: left;

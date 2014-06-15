@@ -239,7 +239,7 @@
             <% } %>
     
             <p style="padding-top: 10px;" id="answerHistory">
-                <% Html.RenderPartial("~/Views/Questions/Answer/HistoryAndProbability.ascx", Model.HistoryAndProbability); %> <br/>
+                <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
             </p>
         
             <p>
