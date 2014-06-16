@@ -24,6 +24,40 @@
 
  */
 
+/*.ColorScheme (@color; @text-color: false; @underline-color: false; @background-color: false; @border-color: false; @border-bottom-color: false) {
+
+    @color: #fff;
+
+    .mixin (@color) when (iscolor(@color)) {
+        .underline(@underline-colored) when (@underline-colored = true) {
+            text-decoration: underline;
+            text-decoration-color: @color;
+        }
+    }
+
+    //
+
+    .mixin(@) when (default()) {
+    
+    }
+
+    //.mixin;
+}*/
+
+
+
+//++++++++++++++++++++++++++
+
+.tooltip-inner {
+    //width: 600px;
+    max-width: 600px;
+
+}
+
+//+++++++++++++++++++++++++++++
+
+
+
 //
 
 .PinIcon {
@@ -32,6 +66,7 @@
     -o-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
+    color: lightgray;
 
     &:hover {
         -moz-transform: rotate(0);
@@ -45,6 +80,10 @@
         }
     }
 }
+
+
+
+
 
 
 //Drafts flexbox
@@ -216,17 +255,6 @@ ul {
 .StatsValue {
     margin-right: 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
