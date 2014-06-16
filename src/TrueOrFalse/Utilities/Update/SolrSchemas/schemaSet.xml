@@ -183,13 +183,11 @@
             </analyzer>
         </fieldType>
 		
-        <fieldType name="textExact" class="solr.TextField" positionIncrementGap="100">
+        <fieldType name="textExact" class="solr.TextField" positionIncrementGap="0">
             <analyzer type="index">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" format="snowball" enablePositionIncrements="true"/>
-                <!--<filter class="solr.LowerCaseFilterFactory"/>-->
-                <!-- less aggressive: <filter class="solr.GermanMinimalStemFilterFactory"/> -->
-                <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="German2"/> -->
+                <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
             <analyzer type="query">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
