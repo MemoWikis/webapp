@@ -439,11 +439,12 @@ div.selected-row:hover {
   width: 20px;
   text-align: center;
 }
-@media (min-width: 768px) {
-  .QuestionAuthor {
-    padding-top: 16px;
-  }
-}
+/*.QuestionAuthor {
+
+    .media-sm-up({
+        padding-top: 16px;
+    })
+}*/
 @media DISABLE (min-width: 480px) and (max-width: 767px) {
   .StatsGroup {
     float: left;
@@ -525,5 +526,16 @@ div.selected-row:hover {
 }
 div.column-Additional div.row {
   margin-left: 0;
+}
+.Pin {
+  height: 25px;
+  margin-top: -1px;
+  padding-left: 10px;
+  float: right;
+}
+@media (max-width: 479px) {
+  .Pin {
+    float: left;
+  }
 }
 /*# sourceMappingURL=Questions.css.map */

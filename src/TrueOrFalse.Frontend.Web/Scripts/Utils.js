@@ -1,4 +1,4 @@
-var Utils = (function () {
+﻿var Utils = (function () {
     function Utils() {
     }
     Utils.Random = function (minVal, maxVal, floatVal) {
@@ -8,7 +8,11 @@ var Utils = (function () {
     };
 
     Utils.SetElementValue = function (selector, newValue) {
-        $(selector).text(newValue).animate({ opacity: 0.25 }, 100).animate({ opacity: 1.00 }, 800);
+        Utils.SetElementValue2($(selector), newValue);
+    };
+
+    Utils.SetElementValue2 = function (elements, newValue) {
+        elements.text(newValue).animate({ opacity: 0.25 }, 100).animate({ opacity: 1.00 }, 800);
     };
 
     Utils.SetMenuPins = function (newAmount) {

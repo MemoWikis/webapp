@@ -14,6 +14,14 @@
 
     <div class="column-MainContent">
         
+        <div class="Pin" data-question-id="<%= Model.QuestionId %>">
+            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
+                <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
+                <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+            </a>
+        </div>
+        
         <div class="QuestionText">
             <% if(Model.IsPrivate){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
             <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
@@ -46,7 +54,7 @@
                 <div class="timesAdded" style="margin-top: 7px;">
                     <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
                         <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
-                        <span class="totalRelevanceEntries NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
+                        <span class="totalPins NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
                     </span>
                     
                     &nbsp;
@@ -62,7 +70,7 @@
 
             </div>
             
-            <div style="padding-top: 10px; padding-bottom: 12px;">
+            <div style="padding-top: 12px; padding-bottom: 19px;">
                 <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
             </div>
         </div>

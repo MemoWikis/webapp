@@ -6,12 +6,16 @@ class Utils
         return <number>(typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal));
     }
 
-    static SetElementValue(selector: string, newValue: string)
-    {
-        $(selector)
+
+    static SetElementValue(selector: string, newValue: string) {
+        Utils.SetElementValue2($(selector), newValue);
+    }
+
+    static SetElementValue2(elements: JQuery, newValue: string) {
+        elements
             .text(newValue)
             .animate({ opacity: 0.25 }, 100)
-            .animate({ opacity: 1.00 }, 800);
+            .animate({ opacity: 1.00 }, 800);        
     }
 
     static SetMenuPins(newAmount){

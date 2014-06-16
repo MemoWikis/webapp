@@ -24,7 +24,6 @@ public class QuestionRowModel : BaseModel
 
     public string TotalQualityEntries;
     public string TotalQualityAvg;
-    public int RelevancePersonal;
     public int Views;
 
     public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
@@ -37,6 +36,8 @@ public class QuestionRowModel : BaseModel
     public DateTime DateCreated;
 
     public HistoryAndProbabilityModel HistoryAndProbability;
+
+    public bool IsInWishknowledge;
 
     public QuestionRowModel(
         Question question, 
@@ -58,8 +59,6 @@ public class QuestionRowModel : BaseModel
 
         AnswerQuestionLink = urlHelper => Links.AnswerQuestion(urlHelper, question, indexInResultSet, pagerKey);
         UserLink = urlHelper => Links.UserDetail(urlHelper, question.Creator.Name, question.Creator.Id);
-
-        RelevancePersonal = questionValuation.RelevancePersonal;
         
         IndexInResulSet = indexInResultSet;
 
@@ -79,7 +78,8 @@ public class QuestionRowModel : BaseModel
         SetCount = question.SetsAmount;
         SetMinis = question.SetTop5Minis;
 
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
+
+        IsInWishknowledge = questionValuation.IsSetRelevancePersonal();
 
         if (totalForUser == null)
             totalForUser = new TotalPerUser();
@@ -87,7 +87,7 @@ public class QuestionRowModel : BaseModel
         HistoryAndProbability = new HistoryAndProbabilityModel
         {
             AnswerHistory = new AnswerHistoryModel(question, totalForUser),
-            CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
+            CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuation)
         };
 
         DateCreated = question.DateCreated;
