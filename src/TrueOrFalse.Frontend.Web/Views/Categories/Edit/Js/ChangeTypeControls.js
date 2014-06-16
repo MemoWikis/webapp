@@ -1,4 +1,6 @@
-﻿var ChangeTypeControls = (function () {
+﻿var fnBlaBla;
+
+var ChangeTypeControls = (function () {
     function ChangeTypeControls() {
         var self = this;
         this._isCreating = $("#isEditing").val() == "false";
@@ -52,6 +54,7 @@
             success: function (data) {
                 $("#CategoryDetailsBody").html(data);
                 $('#CategoryDetailsBody .show-tooltip').tooltip();
+                fnBlaBla();
             }
         });
     };

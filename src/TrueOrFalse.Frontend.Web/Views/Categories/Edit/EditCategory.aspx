@@ -15,7 +15,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
-    FormMethod.Post, new { enctype = "multipart/form-data" })){%>
+    FormMethod.Post, new { enctype = "multipart/form-data", @id="EditCategoryForm" })){%>
     <div class="row">
         <div class="col-md-9 pageHeader">
             <h2>
@@ -32,7 +32,7 @@
         <div class="col-md-3">
             <div class="pull-right">
                 <% if(Model.IsEditing){ %>
-                    <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0px;">
+                    <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0;">
                         <i class="fa fa-list"></i>&nbsp;zur Übersicht
                     </a><br/>
                     <a href="<%= Links.CategoryDetail(Url, Model.Category) %>" style="font-size: 12px;">
@@ -179,8 +179,6 @@
             </div>
         </div>
     </div>
-    
-    
 
 <% } %>
     
