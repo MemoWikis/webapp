@@ -9,6 +9,7 @@ input[type="text"], input[type="password"], input[type="datetime"], input[type="
 
 label {
     font-weight: normal;
+    line-break: normal;
 }
 
 .RequiredField {
@@ -17,6 +18,10 @@ label {
     &:after {
         content: '*';
     }
+}
+
+.FieldYear {
+    width: 80px;
 }
 
 .pageHeader{
@@ -73,10 +78,12 @@ div.control-group.markdown {
 //Please set only one of the following to true (or all to false):
 @FormSection-well-Style: false;
 @FormSection-bs-callout-Style: false;
-@FormSection-bs-callout-all-in-one-with-hr-Style: true;
+@FormSection-bs-callout-all-in-one-Style: true;
+@FormSection-bs-callout-all-in-one-with-hr-Style: false;
 
 .FormSection-well-Style (@FormSection-well-Style);//conditional styles
 .FormSection-bs-callout-Style (@FormSection-bs-callout-Style);//conditional styles
+.FormSection-bs-callout-all-in-one-Style (@FormSection-bs-callout-all-in-one-Style);//conditional styles
 .FormSection-bs-callout-all-in-one-with-hr-Style (@FormSection-bs-callout-all-in-one-with-hr-Style);//conditional styles
 
 .FormSection-well-Style (@FormSection-well-Style) when (@FormSection-well-Style) {
@@ -99,6 +106,24 @@ div.control-group.markdown {
     }
 }
 
+.FormSection-bs-callout-all-in-one-Style (@FormSection-bs-callout-all-in-one-Style) when (@FormSection-bs-callout-all-in-one-Style) {
+
+    .FormSection {
+        .bs-callout;
+        .bs-callout-info;
+        border: none;
+        margin-top: 0;
+        margin-bottom: 0;
+        & + .FormSection {
+            padding-top: 0;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
 .FormSection-bs-callout-all-in-one-with-hr-Style (@FormSection-bs-callout-all-in-one-with-hr-Style) when (@FormSection-bs-callout-all-in-one-with-hr-Style) {
 
     .FormSection {
@@ -111,6 +136,7 @@ div.control-group.markdown {
         & + .FormSection {
             border-top: solid 1px @color-category;
         }
+
     }
 }
 

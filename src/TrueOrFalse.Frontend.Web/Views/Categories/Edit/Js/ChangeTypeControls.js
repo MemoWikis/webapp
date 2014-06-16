@@ -28,9 +28,9 @@
             } else if (selectedRdo.val() == "education") {
                 ddlCategoryTypeEducation.val(ddlCategoryTypeEducation.attr("data-selectedValue"));
                 ddlCategoryTypeEducation.trigger("change");
-            } else {
-                this.UpdateTypeBody();
             }
+        } else {
+            this.UpdateTypeBody();
         }
     }
     ChangeTypeControls.prototype.UpdateTypeBody = function () {

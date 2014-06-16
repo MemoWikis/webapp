@@ -27,9 +27,9 @@ class ChangeTypeControls {
             }else if (selectedRdo.val() == "education") {
                 ddlCategoryTypeEducation.val(ddlCategoryTypeEducation.attr("data-selectedValue"));
                 ddlCategoryTypeEducation.trigger("change");
-            } else {
-                this.UpdateTypeBody();        
-            }
+            } 
+        } else {
+            this.UpdateTypeBody();
         }
     }
 
@@ -57,8 +57,6 @@ class ChangeTypeControls {
                 $('#CategoryDetailsBody .show-tooltip').tooltip();
             }
         });
-
-        
     }
 
     InitGroupBehaviour() {

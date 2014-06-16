@@ -230,12 +230,16 @@ select {
 }
 label {
   font-weight: normal;
+  line-break: normal;
 }
 .RequiredField {
   font-weight: bold;
 }
 .RequiredField:after {
   content: '*';
+}
+.FieldYear {
+  width: 80px;
 }
 h2.pageHeader,
 .pageHeader > h2 {
@@ -305,7 +309,10 @@ div.control-group.markdown label {
   margin-bottom: 0;
 }
 .FormSection + .FormSection {
-  border-top: solid 1px #5bc0de;
+  padding-top: 0;
+}
+.FormSection .form-group:last-child {
+  margin-bottom: 0;
 }
 .aside .columnControlsFull {
   position: relative;

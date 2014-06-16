@@ -64,15 +64,13 @@
 
                 <% Html.Message(Model.Message); %>
             
-            
+                <%if(!Model.IsEditing){ %>
                 <div class="FormSection">
                     <div class="form-group">
                         <label class="columnLabel control-label">
                             Kategorietyp
                         </label>
                         <div class="columnControlsFull">
-                             <%if(!Model.IsEditing){ %>
-
                                 <div class="radio">
                                     <label style="font-weight: normal">
                                         <input type="radio" name="rdoCategoryTypeGroup" value="standard" <%= Model.rdoCategoryTypeGroup == "standard" ? "checked" : "" %>>
@@ -124,14 +122,15 @@
                                         </select>
                                     </label>
                                 </div>
-                             <% }else{ %>
+                            <%-- <% }else{ %>
                                 <p class="form-control-static">
                                     <%= Model.Category.Type.GetName() %>
-                                </p>
-                            <% } %>
+                                </p>--%>
+                            
                         </div>
                     </div>
                 </div>
+                <% } %>
                  <!-- temporariliy included partial:-->
            <%--  <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/VolumeChapter.ascx", new EditCategoryTypeModel(Model.Category));%>    --%>
                 <div class="FormSection">

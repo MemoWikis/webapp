@@ -35,19 +35,19 @@ public static class CategoryTypeExts
         {
             case CategoryType.Standard: return "Standard";
             case CategoryType.Website: return "Webseite";
-            case CategoryType.WebsiteArticle: return "Webseite -> Artikel/Eintrag/Meldung/..";
+            case CategoryType.WebsiteArticle: return "Webseite: Artikel/Eintrag/Meldung/..";
             case CategoryType.WebsiteVideo: return "Youtube";
             case CategoryType.Book: return "Buch (auch eBooks)";
             case CategoryType.VolumeChapter: return "Beitrag in Sammelband";
             case CategoryType.Daily: return "Tageszeitung";
-            case CategoryType.DailyIssue: return "Tageszeitung -> Ausgabe";
-            case CategoryType.DailyArticle: return "Tageszeitung -> Artikel";
+            case CategoryType.DailyIssue: return "Tageszeitung: Ausgabe";
+            case CategoryType.DailyArticle: return "Tageszeitung: Artikel";
             case CategoryType.Magazine: return "Zeitschrift/Magazin";
-            case CategoryType.MagazineIssue: return "Zeitschrift/Magazin -> Ausgabe";
-            case CategoryType.MagazineArticle: return "Zeitschrift/Magazin -> Artikel";
+            case CategoryType.MagazineIssue: return "Zeitschrift/Magazin: Ausgabe";
+            case CategoryType.MagazineArticle: return "Zeitschrift/Magazin: Artikel";
             case CategoryType.Movie: return "Film";
             case CategoryType.TvShow: return "Fernsehen";
-            case CategoryType.TvShowEpisode: return "Fernsehen - Episode/Ausgabe";
+            case CategoryType.TvShowEpisode: return "Fernsehen: Episode/Ausgabe";
             case CategoryType.FieldOfStudy: return "Studienfach";
             case CategoryType.FieldStudyTrade: return "Ausbildungsberuf";
             case CategoryType.SchoolSubject: return "Schulfach";
