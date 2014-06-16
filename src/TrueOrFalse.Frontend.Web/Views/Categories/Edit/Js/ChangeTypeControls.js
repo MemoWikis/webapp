@@ -1,4 +1,6 @@
-﻿var ChangeTypeControls = (function () {
+﻿var fnBlaBla;
+
+var ChangeTypeControls = (function () {
     function ChangeTypeControls() {
         var self = this;
         this._isCreating = $("#isEditing").val() == "false";
@@ -28,9 +30,9 @@
             } else if (selectedRdo.val() == "education") {
                 ddlCategoryTypeEducation.val(ddlCategoryTypeEducation.attr("data-selectedValue"));
                 ddlCategoryTypeEducation.trigger("change");
-            } else {
-                this.UpdateTypeBody();
             }
+        } else {
+            this.UpdateTypeBody();
         }
     }
     ChangeTypeControls.prototype.UpdateTypeBody = function () {
@@ -52,6 +54,7 @@
             success: function (data) {
                 $("#CategoryDetailsBody").html(data);
                 $('#CategoryDetailsBody .show-tooltip').tooltip();
+                fnBlaBla();
             }
         });
     };

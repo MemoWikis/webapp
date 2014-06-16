@@ -5,7 +5,7 @@
             (CategoryDailyArticle)Model.Model;
 %>
 
-<h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.DailyArticle.GetName() %></h4>
+<h4 class="CategoryTypeHeader"><%= CategoryType.DailyArticle.GetName() %></h4>
     
 <div class="form-group">
     <label class="columnLabel control-label" for="xxx">

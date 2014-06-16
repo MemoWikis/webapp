@@ -5,7 +5,7 @@
             (CategoryBook)Model.Model;
 %>
 
-<h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.Book.GetName() %></h4>
+<h4 class="CategoryTypeHeader"><%= CategoryType.Book.GetName() %></h4>
     
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" for="Title">
@@ -42,7 +42,7 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="ISBN">
+    <label class="RequiredField columnLabel control-label" for="ISBN">
         ISBN
         <i class="fa fa-question-circle show-tooltip" title="<%= EditCategoryTypeModel.IsbnInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
@@ -71,7 +71,7 @@
 <div class="form-group">
     <label class="columnLabel control-label" for="PublicationYear">Erscheinungsjahr</label>
     <div class="columnControlsFull">
-        <input class="form-control" name="PublicationYear" type="text" value="<%=model.PublicationYear %>">
+        <input class="FieldYear form-control" name="PublicationYear" type="text" value="<%=model.PublicationYear %>">
     </div>
 </div>
 <%--<div class="form-group">

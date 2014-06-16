@@ -1,4 +1,6 @@
 ﻿
+var fnBlaBla: any;
+
 class ChangeTypeControls {
 
     private _isCreating: boolean;
@@ -27,9 +29,9 @@ class ChangeTypeControls {
             }else if (selectedRdo.val() == "education") {
                 ddlCategoryTypeEducation.val(ddlCategoryTypeEducation.attr("data-selectedValue"));
                 ddlCategoryTypeEducation.trigger("change");
-            } else {
-                this.UpdateTypeBody();        
-            }
+            } 
+        } else {
+            this.UpdateTypeBody();
         }
     }
 
@@ -55,6 +57,7 @@ class ChangeTypeControls {
             success: function(data) {
                 $("#CategoryDetailsBody").html(data);
                 $('#CategoryDetailsBody .show-tooltip').tooltip();
+                fnBlaBla();
             }
         });
 

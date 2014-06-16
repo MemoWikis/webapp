@@ -4,15 +4,7 @@
             new CategoryStandard() : 
             (CategoryStandard)Model.Model;
 %>
-<div class="form-group">
-   <%-- <label class="columnLabel control-label" for="Name">
-        <h4 class="CategoryTypeHeader">Kategorie:</h4>
-    </label>--%>
-    <%--<div class="noLabel columnControlsFull">--%>
-        <h4 class="CategoryTypeHeader">Kategorie: <%= CategoryType.Standard.GetName() %></h4>
-    <%--</div>--%>
-</div>
-<%--<h4 class="CategoryTypeHeader"><%= CategoryType.Standard.GetName() %></h4>--%>
+<h4 class="CategoryTypeHeader">Standardkategorie</h4>
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" for="Name">Name</label>
     <div class="columnControlsFull">

@@ -228,12 +228,35 @@
 
 
  */
+/*.ColorScheme (@color; @text-color: false; @underline-color: false; @background-color: false; @border-color: false; @border-bottom-color: false) {
+
+    @color: #fff;
+
+    .mixin (@color) when (iscolor(@color)) {
+        .underline(@underline-colored) when (@underline-colored = true) {
+            text-decoration: underline;
+            text-decoration-color: @color;
+        }
+    }
+
+    //
+
+    .mixin(@) when (default()) {
+    
+    }
+
+    //.mixin;
+}*/
+.tooltip-inner {
+  max-width: 600px;
+}
 .PinIcon {
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   -o-transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
+  color: lightgray;
 }
 .PinIcon:hover {
   -moz-transform: rotate(0);

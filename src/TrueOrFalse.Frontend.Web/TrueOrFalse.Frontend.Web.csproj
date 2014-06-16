@@ -340,6 +340,7 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
+    <Content Include="Scripts\vendor\jquery.validate.MEM.custom.js" />
     <Content Include="Style\01_temp.css">
       <DependentUpon>01_temp.less</DependentUpon>
     </Content>
@@ -628,6 +629,7 @@
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Edit\Js\Validation.js" />
     <Content Include="Views\Categories\Edit\RelatedCategories.js">
       <DependentUpon>RelatedCategories.ts</DependentUpon>
     </Content>
@@ -844,7 +846,6 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
     <Content Include="Scripts\vendor\jquery.jplayer.js" />
     <Content Include="Scripts\vendor\jquery.sparkline.js" />
-    <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
     <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.svg" />
     <Content Include="Style\fonts\OFL.txt" />
