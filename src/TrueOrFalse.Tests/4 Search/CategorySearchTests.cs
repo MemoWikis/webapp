@@ -30,11 +30,11 @@ namespace TrueOrFalse.Tests
             solrOperations.Add(categorySolrMap);
             solrOperations.Commit();
 
-            var result1 = solrOperations.Query(new SolrQueryByField("FullTextExact", "Foo"));
+            var result1 = solrOperations.Query(new SolrQueryByField("FullTextStemmed", "Foo"));
             Assert.That(result1.Count, Is.EqualTo(1));
 
-            var result2 = solrOperations.Query(new SolrQueryByField("FullTextExact", "fo"));
-            Assert.That(result2.SpellChecking.First().Suggestions.First(), Is.EqualTo("foo"));
+            var result2 = solrOperations.Query(new SolrQueryByField("FullTextStemmed", "foo"));
+            Assert.That(result2.SpellChecking.First().Suggestions.First(), Is.EqualTo("Foo"));
         }
 
         [Test]

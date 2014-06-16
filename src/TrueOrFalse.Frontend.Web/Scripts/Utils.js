@@ -1,4 +1,4 @@
-﻿var Utils = (function () {
+var Utils = (function () {
     function Utils() {
     }
     Utils.Random = function (minVal, maxVal, floatVal) {
