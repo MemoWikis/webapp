@@ -13,12 +13,13 @@
     </div>
 
     <div class="column-MainContent">
-
-        <div class="ShortStats">
-            <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
-            <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
-            <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount%>x beantwortet.">(ich <%= Model.AnswerMeCount%>x </span>
-            <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>)
+        
+        <div class="Pin" data-question-id="<%= Model.QuestionId %>">
+            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
+                <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
+                <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+            </a>
         </div>
         
         <div class="QuestionText">
@@ -50,21 +51,27 @@
         </div>
         <div class="StatsGroup NumberTimesStats">
             <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
-                <div class="timesAdded" style="margin-top: 2px;">
+                <div class="timesAdded" style="margin-top: 7px;">
                     <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
-                    <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
-                    <span class="totalRelevanceEntries NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
+                        <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
+                        <span class="totalPins NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
+                    </span>
+                    
+                    &nbsp;
+                    
+                    <span class="show-tooltip" data-original-title="Die Frage wurde <%= Model.Views %>x mal gesehen.">
+                        <i class="fa fa-eye" style="color:darkslategray;"></i>                
+                        <span class="NumberTimes"><%= Model.Views %>x</span>
                     </span>
 
                 </div>
             <%} %>
-            <div class="timesSeen">
-                <span class="show-tooltip" data-original-title="Die Frage wurde <%= Model.Views %>x mal gesehen.">
-                    <i class="fa fa-eye" style="color:darkslategray;"></i>                
-                    <span class="NumberTimes"><%= Model.Views %>x</span>
-                     
-                </span>
+            <div>
 
+            </div>
+            
+            <div style="padding-top: 12px; padding-bottom: 19px;">
+                <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
             </div>
         </div>
         <div class="StatsGroup QuestionAuthor">

@@ -144,21 +144,6 @@ div.selected-row:hover { background-color: #d6e0f4;}
     });
 }
 
-.ShortStats {
-
-    height: 25px;
-    margin-top: 0;
-    margin-right: 4px;
-    border-radius: 6px;
-    border: 1px solid beige;
-    background-color: beige;
-    padding:4px;
-    float: right;
-
-    .media-below-xs ({
-        float: left;
-    });
-} 
 
 .QuestionText {
 
@@ -199,19 +184,19 @@ div.selected-row:hover { background-color: #d6e0f4;}
 
 
 
-.QuestionAuthor {
+/*.QuestionAuthor {
 
     .media-sm-up({
-        padding-top: 35px;
+        padding-top: 16px;
     })
-}
+}*/
 
 
 @media DISABLE (min-width: @screen-xs-min) and (max-width: @screen-xs-max) {
     .StatsGroup {
         float: left;
 
-        &.Slider, &.NumberTimesStats {
+        &.NumberTimesStats {
             .make-xs-column(4);
         }
 
@@ -280,3 +265,15 @@ div.selected-row:hover { background-color: #d6e0f4;}
 div.column-Additional div.row {
     margin-left: 0;
 }
+
+.Pin {
+
+    height: 25px;
+    margin-top: -1px;
+    padding-left: 10px;
+    float: right;
+
+    .media-below-xs ({
+        float: left;
+    });
+} 

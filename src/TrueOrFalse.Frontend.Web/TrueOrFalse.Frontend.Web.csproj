@@ -734,7 +734,7 @@
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
       <DependentUpon>Comment.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Questions\Answer\HistoryAndProbabilityModel.cs" />
+    <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
     <Compile Include="Views\Sets\Detail\SetModel.cs" />
     <Compile Include="Views\Sets\Edit\EditSetController.cs" />
@@ -926,7 +926,13 @@
     <Content Include="Views\Questions\Answer\Js\PinQuestion.js">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\HistoryAndProbability.ascx" />
+    <Content Include="Views\Questions\Js\QuestionRowPin.js">
+      <DependentUpon>QuestionRowPin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Questions.css">
+      <DependentUpon>Questions.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\HistoryAndProbability.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
@@ -939,9 +945,6 @@
     </Content>
     <Content Include="Views\Questions\Js\ToQuestionSet.js">
       <DependentUpon>ToQuestionSet.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Questions.css">
-      <DependentUpon>Questions.less</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Js\Set.js">
       <DependentUpon>Set.ts</DependentUpon>
@@ -961,6 +964,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionRowPin.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
@@ -1146,9 +1150,6 @@
     <Content Include="Views\Questions\Edit\EditQuestion.css.map">
       <DependentUpon>EditQuestion.css</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Questions.css.map">
-      <DependentUpon>Questions.css</DependentUpon>
-    </Content>
     <Content Include="Views\Sets\Detail\Set.css.map">
       <DependentUpon>Set.css</DependentUpon>
     </Content>
@@ -1190,6 +1191,12 @@
     </Content>
     <Content Include="Views\Categories\Edit\RelatedCategories.js.map">
       <DependentUpon>RelatedCategories.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Questions.css.map">
+      <DependentUpon>Questions.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionRowPin.js.map">
+      <DependentUpon>QuestionRowPin.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
