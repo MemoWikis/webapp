@@ -52,7 +52,7 @@ namespace TrueOrFalse.Search
         {
             var sqb = new SearchQueryBuilder();
 
-            var creatorFilter = GetCreatorFilterValue(searchTerm);
+            var creatorFilter = QuestionFilter.GetCreatorFilterValue(searchTerm);
             if (creatorFilter != null)
             {
                 var creator = Sl.Resolve<UserRepository>().GetByName(creatorFilter);
@@ -62,7 +62,7 @@ namespace TrueOrFalse.Search
                 searchTerm = searchTerm.Replace("Ersteller:\"" + creatorFilter + "\"", "");
             }
 
-            var categoryFilter = GetCategoryFilterValue(searchTerm);
+            var categoryFilter = QuestionFilter.GetCategoryFilterValue(searchTerm);
             if (categoryFilter != null)
             {
                 sqb.Add("Categories", categoryFilter, isAndCondition: true, exact: true);
@@ -114,28 +114,6 @@ namespace TrueOrFalse.Search
                 result.QuestionIds.Add(resultItem.Id);
 
             return result;
-        }
-
-        private static string GetCategoryFilterValue(string searchTerm)
-        {
-            return GetFilter("Kat", searchTerm);
-        }
-
-        private static string GetCreatorFilterValue(string searchTerm)
-        {
-            return GetFilter("Ersteller", searchTerm);
-        }
-
-        private static string GetFilter(string key, string searchTerm)
-        {
-            string filter = null;
-            if (searchTerm != null && searchTerm.IndexOf(key + ":\"") != -1)
-            {
-                var match = Regex.Match(searchTerm, key + ":\"(.*)\"", RegexOptions.IgnoreCase);
-                if (match.Success)
-                    filter = match.Groups[1].Value;
-            }
-            return filter;
         }
     }
 }

@@ -48,6 +48,12 @@
                     <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
                 </li>
                 <li>
+                    <% if (Model.SourceIsCategory){ %>
+                        <a href="<%= Links.CategoryDetail(Url, Model.SourceCategory) %>">
+                            Kategorie:
+                            <span class="label label-set"><%= Model.SourceCategory.Name %></span>
+                        </a>                                    
+                    <% } %>
                     <% if (Model.SourceIsSet){ %>
                         <a href="<%= Links.SetDetail(Url, Model.Set) %>">
                             Fragesatz:
