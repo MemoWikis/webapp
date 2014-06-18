@@ -176,15 +176,18 @@
             </div>
             
             <div style="margin-top: 30px; color: darkgray; font-weight: bold;" class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-4">
                     <h4 style="padding:0; margin:0;">Kommentare</h4>    
                 </div>
                 
-                <div class="col-xs-6" style="vertical-align: text-bottom; vertical-align: bottom; margin-top: 3px;">
+                <div class="col-xs-8 " style="vertical-align: text-bottom; 
+                      vertical-align: bottom; margin-top: 3px; text-align: right">
                     <% if(Model.IsLoggedIn){ %>
-                        Die Frage bitte: &nbsp;
-                        <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
-                        <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
+                        <span style="padding-right: 2px">
+                            Die Frage bitte: &nbsp;
+                            <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
+                            <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
+                        </span>
                     <% } %>
                 </div>
             </div>
