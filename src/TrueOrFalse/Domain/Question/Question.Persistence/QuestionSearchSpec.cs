@@ -30,6 +30,11 @@ namespace TrueOrFalse
 
             return SpellCheck.GetSuggestion();
         }
+
+        public void SetCategoryFilter(string category)
+        {
+            Filter.SearchTerm = "Kat:\"" + category + "\"";
+        }
     }
 
     [Serializable]

@@ -61,9 +61,13 @@
 
             <% if(Model.CountQuestions > 0){ %>
                 <h4 style="margin-top: 0;">Fragen (<%=Model.CountQuestions %>)</h4>                    
-                <% foreach(var question in Model.TopQuestions){ %>
+                <%
+                    var index = 0;
+                    foreach(var question in Model.TopQuestions){ 
+                        index++;
+                %>
                     <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
-                        - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(150) %></a>
+                        - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>"><%= question.GetShortTitle(150) %></a>
                     </div>
                 <% } %>
                 <a href="<%= Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" style="display:block; margin-top: 10px; margin-bottom: 10px; font-style: italic">

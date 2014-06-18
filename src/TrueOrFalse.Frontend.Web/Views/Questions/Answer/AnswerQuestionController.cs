@@ -27,12 +27,12 @@ public class AnswerQuestionController : BaseController
 
 
     [SetMenu(MenuEntry.QuestionDetail)]
-    public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId)
+    public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
         if (setId != null && questionId != null)
             return AnswerSet((int)setId, (int)questionId);
 
-        return AnswerQuestion(text, id, elementOnPage, pager);
+        return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
     public ActionResult AnswerSet(int setId, int questionId)
@@ -51,9 +51,16 @@ public class AnswerQuestionController : BaseController
         return View(_viewLocation, new AnswerQuestionModel(set, question));
     }
 
-    public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager)
+    public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+
+        if (String.IsNullOrEmpty(category))
+        {
+            activeSearchSpec.SetCategoryFilter(category);
+            activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+        }
+            
 
         if (text == null && id == null && elementOnPage == null)
             return GetViewBySearchSpec(activeSearchSpec);
@@ -168,7 +175,7 @@ public class AnswerQuestionController : BaseController
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, _sessionUser.UserId));
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, question.Id);
 
-        return View("~/Views/Questions/Answer/HistoryAndProbability.ascx",
+        return View("HistoryAndProbability",
             new HistoryAndProbabilityModel
             {
                 LoadJs = true,
