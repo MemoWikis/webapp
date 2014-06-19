@@ -1,7 +1,4 @@
-﻿
-var fnBlaBla: any;
-
-class ChangeTypeControls {
+﻿class ChangeTypeControls {
 
     private _isCreating: boolean;
 
@@ -57,7 +54,7 @@ class ChangeTypeControls {
             success: function(data) {
                 $("#CategoryDetailsBody").html(data);
                 $('#CategoryDetailsBody .show-tooltip').tooltip();
-                fnBlaBla();
+                fnEditCatValidation(selectedValue);
             }
         });
 

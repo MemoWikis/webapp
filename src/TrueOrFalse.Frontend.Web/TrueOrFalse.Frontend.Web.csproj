@@ -296,13 +296,16 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Scripts\FormValidation.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
     <TypeScriptCompile Include="Scripts\QuestionsApi.ts" />
     <TypeScriptCompile Include="Scripts\Site.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\jquery.validation.d.ts" />
     <TypeScriptCompile Include="Scripts\Utils.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ChangeTypeControls.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ImageUpload.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
     <Content Include="Images\no-category-picture-206.png" />
     <Content Include="Images\no-category-picture-350.png" />
@@ -315,6 +318,9 @@
     <Content Include="img\dimension.png" />
     <Content Include="Scripts\DateParser.js">
       <DependentUpon>DateParser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\FormValidation.js">
+      <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\Log.js">
       <DependentUpon>Log.ts</DependentUpon>
@@ -607,6 +613,9 @@
     <Content Include="Style\font-awesome-4.1.0\less\font-awesome.css.map">
       <DependentUpon>font-awesome.css</DependentUpon>
     </Content>
+    <Content Include="Scripts\FormValidation.js.map">
+      <DependentUpon>FormValidation.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
@@ -629,7 +638,10 @@
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\Js\Validation.js" />
+    <Content Include="Views\Categories\Edit\Js\EditCatValidation.js" />
+    <Content Include="Views\Categories\Edit\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Edit\RelatedCategories.js">
       <DependentUpon>RelatedCategories.ts</DependentUpon>
     </Content>
@@ -1197,6 +1209,9 @@
     </Content>
     <Content Include="Views\Questions\Js\QuestionRowPin.js.map">
       <DependentUpon>QuestionRowPin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

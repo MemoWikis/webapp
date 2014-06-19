@@ -3,9 +3,12 @@
  * Customized for MEMuchO
  */
 
+
+
+
 (function($) {
 	$.extend($.validator.messages, {
-    required: "Bitte fülle dieses Pflichtfeld aus.",
+    required: "Hoppla, das ist ein Pflichtfeld.",
     maxlength: $.validator.format("Gib bitte maximal {0} Zeichen ein."),
     minlength: $.validator.format("Gib bitte mindestens {0} Zeichen ein."),
     rangelength: $.validator.format("Gib bitte mindestens {0} und maximal {1} Zeichen ein."),
