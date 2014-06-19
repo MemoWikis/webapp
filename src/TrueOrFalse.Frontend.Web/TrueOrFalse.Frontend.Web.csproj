@@ -319,6 +319,9 @@
     <Content Include="Scripts\Log.js">
       <DependentUpon>Log.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\Menu.js">
+      <DependentUpon>Menu.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\QuestionsApi.js">
       <DependentUpon>QuestionsApi.ts</DependentUpon>
     </Content>
@@ -327,9 +330,6 @@
     </Content>
     <Content Include="Scripts\Utils.js">
       <DependentUpon>Utils.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\ValuationPerRow.js">
-      <DependentUpon>ValuationPerRow.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\bootstrap.js" />
     <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
@@ -571,9 +571,6 @@
     <Content Include="Scripts\Utils.js.map">
       <DependentUpon>Utils.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\ValuationPerRow.js.map">
-      <DependentUpon>ValuationPerRow.ts</DependentUpon>
-    </Content>
     <Content Include="Style\font-awesome-4.1.0\fonts\fontawesome-webfont.eot" />
     <Content Include="Style\font-awesome-4.1.0\fonts\fontawesome-webfont.ttf" />
     <Content Include="Style\font-awesome-4.1.0\fonts\fontawesome-webfont.woff" />
@@ -606,6 +603,9 @@
     <Content Include="Style\font-awesome-4.1.0\scss\_variables.scss" />
     <Content Include="Style\font-awesome-4.1.0\less\font-awesome.css.map">
       <DependentUpon>font-awesome.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Menu.js.map">
+      <DependentUpon>Menu.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -939,7 +939,6 @@
     <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js">
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Scripts\ValuationPerRow.ts" />
     <Content Include="Views\Questions\Edit\Js\References.js">
       <DependentUpon>References.ts</DependentUpon>
     </Content>

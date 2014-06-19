@@ -1,4 +1,4 @@
-/// <reference path="../../../Scripts/ValuationPerRow.ts" />
+
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
 function SubmitSearchSets() {
@@ -17,6 +17,4 @@ $(function () {
             }
         });
     });
-
-    new ValuationPerRow(".column-Additional", ValuationPerRowMode.Set);
 });

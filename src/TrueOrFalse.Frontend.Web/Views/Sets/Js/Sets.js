@@ -1,4 +1,3 @@
-/// <reference path="../../../Scripts/ValuationPerRow.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 function SubmitSearchSets() {
     window.location.href = $('#txtSearch').attr("formUrl") + $('#txtSearch').val();
@@ -18,7 +17,5 @@ $(function () {
             }
         });
     });
-
-    new ValuationPerRow(".column-Additional", 1 /* Set */);
 });
 //# sourceMappingURL=Sets.js.map
