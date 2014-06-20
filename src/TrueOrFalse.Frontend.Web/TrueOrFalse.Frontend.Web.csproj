@@ -346,6 +346,7 @@
     <Content Include="Scripts\typescript.defs\jquery.d.ts" />
     <Content Include="Scripts\typescript.defs\qunit.d.ts" />
     <Content Include="Scripts\typescript.defs\underscore.d.ts" />
+    <Content Include="Scripts\vendor\jquery.validate.zz.additional-methods.js" />
     <Content Include="Scripts\vendor\jquery.validate.MEM.custom.js" />
     <Content Include="Style\01_temp.css">
       <DependentUpon>01_temp.less</DependentUpon>
@@ -638,7 +639,6 @@
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\Js\EditCatValidation.js" />
     <Content Include="Views\Categories\Edit\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>

@@ -1,13 +1,25 @@
-﻿var fnEditCatValidation = function (categoryType) {
+﻿fnAddRegExMethod("IsbnChar", /(^[0-9][-]{0,1}){0,}[xX0-9]$/, "Bitte verwende nur Ziffern und Bindestriche ('X' am Ende möglich).");
+fnAddRegExMethod("IsbnLength", /(^(([a-z0-9][-]{0,1}){12})[a-z0-9]$)|(^(([a-z0-9][-]{0,1}){9})[a-z0-9]$)/, "Die ISBN muss genau 10 oder 13 Stellen haben (ohne Bindestriche).");
+fnAddRegExMethod("IsbnAll", /(^(([0-9][-]{0,1}){12})[xX0-9]$)|(^(([0-9][-]{0,1}){9})[xX0-9]$)/, "Fies! Dieses Feld hat strenge Regeln: <br/> Verwende nur Ziffern und Bindestriche ('X' am Ende möglich).<br/> Die ISBN muss genau 10 oder 13 Stellen haben (ohne Bindestriche).");
+
+var fnEditCatValidation = function (categoryType) {
     var validationDefaultSettings = {
+        debug: true,
         rules: {
             Name: {
                 required: true
             },
-            WikipediaUrl: {
-                url: true
+            Title: {
+                required: true
             },
-            Title: {},
+            Author: {
+                required: true
+            },
+            ISBN: {
+                //IsbnChar: true,
+                //IsbnLength: true,
+                IsbnAll: true
+            },
             Year: {
                 digits: true,
                 minlength: 4,
@@ -26,6 +38,9 @@
                 digits: true,
                 maxlength: 2,
                 range: [1, 31]
+            },
+            WikipediaUrl: {
+                url: true
             }
         },
         messages: {
@@ -49,8 +64,9 @@
 
     var validationSettings = validationDefaultSettings;
 
-    //Custom settings for partials
+    //Custom settings for partials:
     if (categoryType == "Book") {
+        $.extend(validationSettings, {});
     }
 
     fnValidateForm("#EditCategoryForm", validationSettings);

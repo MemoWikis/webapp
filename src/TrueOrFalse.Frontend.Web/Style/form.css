@@ -330,7 +330,9 @@ label.ValidationError {
   display: block;
   clear: left;
   color: #b13a48;
-  font-weight: bold;
+  font-family: Arial, sans-serif;
+  font-style: italic;
+  font-size: 13px;
 }
 .form-group > label.ValidationError {
   position: relative;
