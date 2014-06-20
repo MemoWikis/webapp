@@ -613,6 +613,7 @@
     </Content>
     <Content Include="Scripts\FormValidation.js.map">
       <DependentUpon>FormValidation.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\Menu.js.map">
       <DependentUpon>Menu.ts</DependentUpon>
     </Content>
