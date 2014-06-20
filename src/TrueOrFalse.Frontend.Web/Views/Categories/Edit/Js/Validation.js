@@ -12,6 +12,9 @@ var fnEditCatValidation = function (categoryType) {
             Title: {
                 required: true
             },
+            TitleVolume: {
+                required: true
+            },
             Author: {
                 required: true
             },
@@ -62,14 +65,13 @@ var fnEditCatValidation = function (categoryType) {
         }
     };
 
-    var validationSettings = validationDefaultSettings;
+    fnValidateForm("#EditCategoryForm", validationDefaultSettings);
 
     //Custom settings for partials:
-    if (categoryType == "Book") {
-        $.extend(validationSettings, {});
+    if (categoryType == "VolumeChapter") {
+        $('[name="TitleVolume"]').rules("add", { required: true });
+        $('[name="Editor"]').rules("add", { required: true });
     }
-
-    fnValidateForm("#EditCategoryForm", validationSettings);
 };
 //<span class="help-block">Ups, keine gültige Kategorie ausgewählt. Bitte suchen und aus der Liste auswählen oder <a>Kategorie in neuem Tab anlegen</a>.</span>
 //# sourceMappingURL=Validation.js.map

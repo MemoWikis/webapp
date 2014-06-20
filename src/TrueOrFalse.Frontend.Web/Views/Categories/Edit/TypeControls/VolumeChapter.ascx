@@ -27,7 +27,7 @@
         <i class="fa fa-question-circle show-tooltip" title='Bitte gib einen Autor je Zeile im Format "Nachname, Vorname" an.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
-            <textarea class="form-control" name="Author" type="text"><%= model.Author %></textarea>
+            <textarea class="form-control" name="Author" type="text" placeholder="Nachname, Vorname"><%= model.Author %></textarea>
     </div>
 </div>
 <div class="form-group">
@@ -67,7 +67,7 @@
         <i class="fa fa-question-circle show-tooltip" title='Bitte gib einen Herausgeber je Zeile im Format "Nachname, Vorname" an.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
-            <textarea class="form-control" name="Editor" type="text"><%= model.Editor %></textarea>
+            <textarea class="form-control" name="Editor" type="text" placeholder="Nachname, Vorname"><%= model.Editor %></textarea>
     </div>
 </div>
 <div class="form-group">
@@ -82,17 +82,12 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="RequiredField columnLabel control-label" for="ISBN">
+    <label class="columnLabel control-label" for="ISBN">
         ISBN
         <i class="fa fa-question-circle show-tooltip" title="<%= EditCategoryTypeModel.IsbnInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
         <input class="form-control" name="ISBN" type="text" value="<%= model.ISBN %>">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"> Das Buch hat keine ISBN-Nummer.
-            </label>
-            </div>
     </div>
 
 </div>
@@ -116,7 +111,7 @@
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="WikipediaUrl">
-        <a href="http://www.wikipedia.de/" target="_blank" style="color: red;">Wikipedia</a>-URL
+        Wikipedia-URL
         <i class="fa fa-question-circle show-tooltip" 
             title="Falls es einen Wikipedia-Artikel zum Buch gibt, gib bitte hier den Link an" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>

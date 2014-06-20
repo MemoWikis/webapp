@@ -13,6 +13,9 @@ var fnEditCatValidation = function (categoryType) {
             Title: {
                 required: true,
             },
+            TitleVolume: {
+                required: true,
+            },
             Author: {
                 required: true,
             },
@@ -67,18 +70,14 @@ var fnEditCatValidation = function (categoryType) {
         },
     }
 
-    var validationSettings = validationDefaultSettings;
+    fnValidateForm("#EditCategoryForm", validationDefaultSettings);
 
-    //Custom settings for partials:
+    //Custom settings for partials: 
 
-    if (categoryType == "Book") {
-        $.extend(validationSettings,
-        {
-                
-        });
+    if (categoryType == "VolumeChapter") {
+        $('[name="TitleVolume"]').rules("add", { required: true, });
+        $('[name="Editor"]').rules("add", { required: true, });
     }
-
-    fnValidateForm("#EditCategoryForm", validationSettings);
 }
 
 
