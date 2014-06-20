@@ -111,7 +111,7 @@
       <str name="spellcheck.count">5</str>
       <str name="spellcheck.alternativeTermCount">2</str>
       <str name="spellcheck.maxResultsForSuggest">5</str>
-      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.collate">false</str>
       <str name="spellcheck.collateExtendedResults">false</str>
       <str name="spellcheck.maxCollationTries">5</str>
       <str name="spellcheck.maxCollations">3</str>

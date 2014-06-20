@@ -79,6 +79,8 @@ public class AnswerQuestionModel : BaseModel
     public bool SourceIsTabWish;
 
     public bool SourceIsSet;
+    public bool SourceIsCategory;
+    public Category SourceCategory;
 
     public Set Set;
     public IList<Category> Categories;
@@ -108,6 +110,12 @@ public class AnswerQuestionModel : BaseModel
         SourceIsTabAll = QuestionSearchSpecSession.KeyPagerAll == searchSpec.KeyOverviewPage;
         SourceIsTabMine = QuestionSearchSpecSession.KeyPagerMine == searchSpec.KeyOverviewPage;
         SourceIsTabWish = QuestionSearchSpecSession.KeyPagerWish == searchSpec.KeyOverviewPage;
+
+        if (searchSpec.Filter.HasCategoryFilter()){
+            SourceCategory = Resolve<CategoryRepository>().GetByName(searchSpec.Filter.CategoryFilter());
+            if (SourceCategory != null)
+                SourceIsCategory = true;
+        }
 
         Populate(question);
     }

@@ -55,13 +55,19 @@ namespace TrueOrFalse.Frontend.Web.Code
             return "/AnswerQuestion/Answer?pager=" + searchSpec.Key;
         }
 
-        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = ""){
-            return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey);
+        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
+            return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
 
-        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = ""){
+        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
             return url.Action("Answer", AnswerQuestionController,
-                new { text = UriSegmentFriendlyQuestion.Run(questionText), id = questionId, elementOnPage = paramElementOnPage, pager = pagerKey }, null);
+                new {
+                    text = UriSegmentFriendlyQuestion.Run(questionText), 
+                    id = questionId, 
+                    elementOnPage = paramElementOnPage, 
+                    pager = pagerKey, 
+                    category = categoryFilter
+                }, null);
         }
 
         public static string UserDetail(UrlHelper url, User user){

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Seedworks.Lib.Persistence;
 using SolrNet.Impl;
 using SpellCheckResult = TrueOrFalse.Search.SpellCheckResult;
@@ -29,6 +30,11 @@ namespace TrueOrFalse
 
             return SpellCheck.GetSuggestion();
         }
+
+        public void SetCategoryFilter(string category)
+        {
+            Filter.SearchTerm = "Kat:\"" + category + "\"";
+        }
     }
 
     [Serializable]
@@ -38,6 +44,38 @@ namespace TrueOrFalse
         public int CreatorId = -1;
         public int ValuatorId = -1;
         public bool IgnorePrivates = true;
+
+        public bool HasCategoryFilter()
+        {
+            return !String.IsNullOrEmpty(GetCategoryFilterValue(SearchTerm));
+        }
+
+        public string CategoryFilter()
+        {
+            return GetCategoryFilterValue(SearchTerm);
+        }
+
+        public static string GetCategoryFilterValue(string searchTerm)
+        {
+            return GetFilter("Kat", searchTerm);
+        }
+
+        public static string GetCreatorFilterValue(string searchTerm)
+        {
+            return GetFilter("Ersteller", searchTerm);
+        }
+
+        private static string GetFilter(string key, string searchTerm)
+        {
+            string filter = null;
+            if (searchTerm != null && searchTerm.IndexOf(key + ":\"") != -1)
+            {
+                var match = Regex.Match(searchTerm, key + ":\"(.*)\"", RegexOptions.IgnoreCase);
+                if (match.Success)
+                    filter = match.Groups[1].Value;
+            }
+            return filter;
+        }
     }
 
     [Serializable]

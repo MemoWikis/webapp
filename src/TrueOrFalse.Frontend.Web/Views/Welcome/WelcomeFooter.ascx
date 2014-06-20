@@ -6,7 +6,7 @@
 <div class="col-md-12">
 
     <div style="float:left; padding-left: 0px;">
-        <a href="http://teamcity.richtig-oder-falsch.de:8080/viewType.html?buildTypeId=TrueOrFalse_Default&guest=1">
+        <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
             Build: <%= Assembly.Load("TrueOrFalse").GetName().Version.Major %> </a>
     </div>
 
@@ -23,7 +23,7 @@
     
     <span style="display: inline;">Auf:</span>
     <ul id="footerOn">
-        <li><a href="http://teamcity.richtig-oder-falsch.de:8080/viewType.html?buildTypeId=TrueOrFalse_Default&guest=1">Teamcity</a></li>
+        <li><a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">Teamcity</a></li>
         <li><a class="SimpleTextLink" href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a></li>
     </ul>
     

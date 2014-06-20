@@ -45,7 +45,8 @@ namespace TrueOrFalse
         public IList<Question> GetForCategory(int categoryId, int resultCount)
         {
             return _session.QueryOver<Question>()
-                .OrderBy(q => q.TotalRelevancePersonalEntries).Asc
+                .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
+                .ThenBy(x => x.DateCreated).Desc
                 .JoinQueryOver<Category>(q => q.Categories)
                 .Where(c => c.Id == categoryId)
                 .Take(resultCount)
