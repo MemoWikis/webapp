@@ -4,3 +4,12 @@
     <a class="close" data-dismiss="alert" href="#">×</a>
     <%= Model.Text %>
 </div>
+
+
+<script type="text/javascript">
+    $(function() {
+        $(".alert")
+            .animate({ opacity: 0.35 }, 200)
+            .animate({ opacity: 1.00 }, 500);
+    });
+</script>
