@@ -26,6 +26,7 @@
         },
 
         errorClass: "ValidationError",
+        ignore: ":hidden, .ValidationIgnore",
 
     }
 

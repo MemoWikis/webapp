@@ -155,7 +155,7 @@
                                     <% } %>
                                 });
                             </script>
-                            <div class="JS-CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
+                            <div class="JS-CatInputContainer"><input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  /></div>
                         </div>
                     </div>
                 </div>
