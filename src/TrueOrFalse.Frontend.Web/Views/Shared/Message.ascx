@@ -9,7 +9,7 @@
 <script type="text/javascript">
     $(function() {
         $(".alert")
-            .animate({ opacity: 0.35 }, 200)
-            .animate({ opacity: 1.00 }, 500);
+            .animate({ opacity: 0.35 }, 400)
+            .animate({ opacity: 1.00 }, 1200);
     });
 </script>

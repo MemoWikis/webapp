@@ -146,6 +146,7 @@ public class EditCategoryModel : BaseModel
             {
                 return new ConvertToCategoryResult
                 {
+                    TypeModel = categoryDailyIssue,
                     Category = category,
                     HasError = true,
                     ErrorMessage = new ErrorMessage(

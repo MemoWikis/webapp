@@ -89,6 +89,10 @@ public class EditCategoryController : BaseController
         
         var convertResult = model.ConvertToCategory();
         if (convertResult.HasError){
+
+            if(convertResult.TypeModel == null)
+                throw new Exception("Dear developer, please assign the type model!");
+
             EditCategoryTypeModel.SaveToSession(convertResult.TypeModel, convertResult.Category);
             model.Message = convertResult.ErrorMessage;
             return View(_viewPath, model);

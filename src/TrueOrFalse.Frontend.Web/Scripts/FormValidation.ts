@@ -26,7 +26,7 @@
         },
 
         errorClass: "ValidationError",
-        ignore: ":hidden, .ValidationIgnore",
+        ignore: ":hidden, .JS-ValidationIgnore",
 
     }
 
