@@ -47,11 +47,17 @@ public class EditCategoryModel : BaseModel
 
     public void Init(Category category)
     {
+        var parentCategories = category.ParentCategories;
+        if (category.Type == CategoryType.DailyIssue)
+            parentCategories = parentCategories.Where(c => c.Type != CategoryType.Daily).ToList();
+
         Category = category;
         Name = category.Name;
         Description = category.Description;
-        ParentCategories = (from cat in category.ParentCategories select cat.Name).ToList();
-        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;        
+        ParentCategories = (from cat in parentCategories select cat.Name).ToList();
+        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
+
+
     }
 
     public ConvertToCategoryResult ConvertToCategory()
