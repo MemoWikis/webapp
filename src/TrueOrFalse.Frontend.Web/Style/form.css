@@ -326,4 +326,48 @@ div.control-group.markdown label {
     width: 100%;
   }
 }
+label.ValidationError {
+  display: block;
+  clear: left;
+  color: #b13a48;
+  font-family: Arial, sans-serif;
+  font-style: italic;
+  font-size: 13px;
+}
+.form-group > label.ValidationError {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.ValidationError .help-block,
+.ValidationError .control-label,
+.ValidationError .radio,
+.ValidationError .checkbox,
+.ValidationError .radio-inline,
+.ValidationError .checkbox-inline {
+  color: #b13a48;
+}
+.ValidationError .form-control {
+  border-color: #b13a48;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.ValidationError .form-control:focus {
+  border-color: #8b2d38;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d47d87;
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d47d87;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d47d87;
+}
+.ValidationError .input-group-addon {
+  color: #b13a48;
+  border-color: #b13a48;
+  background-color: #f4dbe0;
+}
+.ValidationError .form-control-feedback {
+  color: #b13a48;
+}
 /*# sourceMappingURL=form.css.map */

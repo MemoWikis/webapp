@@ -3,73 +3,83 @@ fnAddRegExMethod("IsbnLength", /(^(([a-z0-9][-]{0,1}){12})[a-z0-9]$)|(^(([a-z0-9
 fnAddRegExMethod("IsbnAll", /(^(([0-9][-]{0,1}){12})[xX0-9]$)|(^(([0-9][-]{0,1}){9})[xX0-9]$)/, "Fies! Dieses Feld hat strenge Regeln: <br/> Verwende nur Ziffern und Bindestriche ('X' am Ende möglich).<br/> Die ISBN muss genau 10 oder 13 Stellen haben (ohne Bindestriche).");
 
 var fnEditCatValidation = function (categoryType) {
+
     var validationDefaultSettings = {
         debug: true,
         rules: {
             Name: {
-                required: true
+                required: true,
             },
             Title: {
-                required: true
+                required: true,
             },
             Author: {
-                required: true
+                required: true,
             },
             ISBN: {
                 //IsbnChar: true,
                 //IsbnLength: true,
-                IsbnAll: true
+                IsbnAll: true,
             },
             Year: {
                 digits: true,
                 minlength: 4,
-                maxlength: 4
+                maxlength: 4,
             },
             PublicationYear: {
                 minlength: 4,
-                maxlength: 4
+                maxlength: 4,
             },
             PublicationDateMonth: {
                 digits: true,
                 maxlength: 2,
-                range: [1, 12]
+                range: [1, 12],
             },
             PublicationDateDay: {
                 digits: true,
                 maxlength: 2,
-                range: [1, 31]
+                range: [1, 31],
             },
             WikipediaUrl: {
-                url: true
-            }
+                url: true,
+            },
         },
         messages: {
-            Name: {},
+            Name: {
+            
+            },
             Year: {
                 minlength: "Bitte gib das Jahr vierstellig an.",
-                maxlength: "Bitte gib das Jahr vierstellig an."
+                maxlength:
+                    "Bitte gib das Jahr vierstellig an.",
             },
             PublicationYear: {
                 minlength: "Bitte gib das Jahr vierstellig an.",
-                maxlength: "Bitte gib das Jahr vierstellig an."
+                maxlength:
+                "Bitte gib das Jahr vierstellig an.",
             },
             PublicationDateMonth: {
-                range: "Bitte gib für den Monat eine Zahl von {0} bis {1} an."
+                range: "Bitte gib für den Monat eine Zahl von {0} bis {1} an.",
             },
             PublicationDateDay: {
-                range: "Bitte gib für den Tag eine Zahl von {0} bis {1} an."
-            }
-        }
-    };
+                range: "Bitte gib für den Tag eine Zahl von {0} bis {1} an.",
+            },
+        },
+    }
 
     var validationSettings = validationDefaultSettings;
 
     //Custom settings for partials:
+
     if (categoryType == "Book") {
-        $.extend(validationSettings, {});
+        $.extend(validationSettings,
+        {
+                
+        });
     }
 
     fnValidateForm("#EditCategoryForm", validationSettings);
-};
-//<span class="help-block">Ups, keine gültige Kategorie ausgewählt. Bitte suchen und aus der Liste auswählen oder <a>Kategorie in neuem Tab anlegen</a>.</span>
-//# sourceMappingURL=Validation.js.map
+}
+
+
+//<span class="help-block">Ups, keine gültige Kategorie ausgewählt. Bitte suchen und aus der Liste auswählen oder <a>Kategorie in neuem Tab anlegen</a>.</span> 

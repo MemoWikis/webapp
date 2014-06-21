@@ -144,3 +144,23 @@ div.control-group.markdown {
 .aside .columnControlsFull {
     .make-md-column(@grid-columns);
 }
+
+//Validation
+
+.ValidationError {
+
+    label& {
+        display: block;
+        clear: left;
+        color: @color-error;
+        font-family: Arial, sans-serif;
+        font-style: italic;
+        font-size: (@font-size-normal - 1px);
+
+        .form-group > & {
+            .make-xs-column(12);
+        }
+    }
+    
+    .form-control-validation(@color-error; @color-error; @state-danger-bg);
+}

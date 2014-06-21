@@ -53,20 +53,20 @@
         <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
-        <div class="form-group">
+        <div class="form-group JS-ValidationGroup">
             <label class="sr-only" for="PublicationDateDay">Tag</label>
-            <div style="width: 60px;" class="col-xs-1">
-                <input class="form-control" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>">
+            <div style="width: 70px;" class="col-xs-1">
+                <input class="form-control JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>">
             </div>
             <label class="control-label" style="float: left;">.</label>
             <label class="sr-only" for="PublicationDateMonth">Monat</label>
-            <div style="width: 60px;" class="col-xs-1">
-                <input class="form-control" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>">
+            <div style="width: 70px;" class="col-xs-1">
+                <input class="form-control JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>">
             </div>
             <label class="control-label" style="float: left;">.</label>
             <label class="sr-only" for="Year">Jahr</label>
             <div style="width: 100px;" class="col-xs-1">
-                <input class="form-control" name="Year" type="text" value="<%= model.Year %>">
+                <input class="form-control JS-ValidationGroupMember" name="Year" type="text" value="<%= model.Year %>">
             </div>
         </div>
     </div>
