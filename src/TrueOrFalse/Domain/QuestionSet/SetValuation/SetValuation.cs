@@ -18,5 +18,7 @@ namespace TrueOrFalse
         {
             RelevancePersonal = -1;
         }
+
+        public virtual bool IsInWishknowledge(){ return RelevancePersonal != -1; }
     }
 }

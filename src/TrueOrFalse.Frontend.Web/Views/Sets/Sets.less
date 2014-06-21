@@ -1,4 +1,5 @@
-﻿
+﻿@import (reference) '../../Style/includes/shared.less';
+
 .set-row:hover{ background-color: #f3f5f8; }
 
 div.column-Image { 
@@ -8,3 +9,14 @@ div.column-Image {
 }
 div.column-MainContent { width: 550px; padding-right: 10px; float: left; padding-top: 5px;}
 div.column-Additional { width: 155px;float: left; padding-top: 5px; height: 100px;}
+
+.Pin {
+    height: 25px;
+    margin-top: -1px;
+    padding-left: 10px;
+    float: right;
+
+    .media-below-xs ({
+        float: left;
+    });
+}

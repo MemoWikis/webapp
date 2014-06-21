@@ -46,30 +46,22 @@
     </div>
 
     <div class="column-Additional col-xs-10 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>" style="height: 100%;" >
-        <div class="StatsGroup Slider">
-            
-        </div>
         <div class="StatsGroup NumberTimesStats">
-            <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
-                <div class="timesAdded" style="margin-top: 7px;">
-                    <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
-                        <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
-                        <span class="totalPins NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
-                    </span>
-                    
-                    &nbsp;
-                    
-                    <span class="show-tooltip" data-original-title="Die Frage wurde <%= Model.Views %>x mal gesehen.">
-                        <i class="fa fa-eye" style="color:darkslategray;"></i>                
-                        <span class="NumberTimes"><%= Model.Views %>x</span>
-                    </span>
-
-                </div>
-            <%} %>
-            <div>
-
-            </div>
             
+            <div class="timesAdded" style="margin-top: 7px;">
+                <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
+                    <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
+                    <span class="totalPins NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
+                </span>
+                    
+                &nbsp;
+                    
+                <span class="show-tooltip" data-original-title="Die Frage wurde <%= Model.Views %>x mal gesehen.">
+                    <i class="fa fa-eye" style="color:darkslategray;"></i>                
+                    <span class="NumberTimes"><%= Model.Views %>x</span>
+                </span>
+            </div>
+                        
             <div style="padding-top: 12px; padding-bottom: 19px;">
                 <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
             </div>
