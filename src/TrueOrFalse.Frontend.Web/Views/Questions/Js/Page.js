@@ -14,7 +14,6 @@ var Page = (function () {
 $(function () {
     _page = new Page();
     _page.Init();
-    new ValuationPerRow(".column-Additional", 0 /* Question */);
 
     $(".column-Image .image-container").hover(function () {
         $(this).find("label").show();
