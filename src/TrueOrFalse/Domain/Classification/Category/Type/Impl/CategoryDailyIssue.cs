@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using TrueOrFalse;
 
 [Serializable]
 public class CategoryDailyIssue : CategoryBase<CategoryDailyIssue>
@@ -13,6 +14,19 @@ public class CategoryDailyIssue : CategoryBase<CategoryDailyIssue>
     public string No;
     public string PublicationDateMonth;
     public string PublicationDateDay;
+
+    /// <summary>The daily of the issues</summary>
+    [JsonIgnore]
+    public Category Daily
+    {
+        get
+        {
+            if (Category == null)
+                return null;
+
+            return Category.ParentCategories.First(c => c.Type == CategoryType.Daily);
+        }
+    }
 
     [JsonIgnore]
     public override CategoryType Type { get { return CategoryType.DailyIssue; } }

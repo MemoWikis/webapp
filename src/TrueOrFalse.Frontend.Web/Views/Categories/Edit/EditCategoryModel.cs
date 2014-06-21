@@ -137,7 +137,6 @@ public class EditCategoryModel : BaseModel
             var dailyCategoryName = request["hddTxtDaily"];
             var isNullOrEmptyError = String.IsNullOrEmpty(dailyCategoryName);
 
-
             Category dailyFromDb = null;
             if(!isNullOrEmptyError)
                 dailyFromDb = Resolve<CategoryRepository>().GetByName(dailyCategoryName);
