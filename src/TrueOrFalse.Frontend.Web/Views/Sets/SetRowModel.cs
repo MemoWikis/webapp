@@ -31,6 +31,8 @@ public class SetRowModel
     public string TotalRelevancePersonalEntries;
     public string TotalRelevancePersonalAvg;
 
+    public bool IsInWishknowledge;
+
     public SetRowModel(
         Set set, 
         SetValuation setValuation,
@@ -49,6 +51,8 @@ public class SetRowModel
         IndexInResult = indexInResultSet;
 
         RelevancePersonal = setValuation.RelevancePersonal;
+
+        IsInWishknowledge = setValuation.IsInWishknowledge();
 
         TotalRelevancePersonalEntries = set.TotalRelevancePersonalEntries.ToString();
         TotalRelevancePersonalAvg = (set.TotalRelevancePersonalAvg / 10d).ToString();

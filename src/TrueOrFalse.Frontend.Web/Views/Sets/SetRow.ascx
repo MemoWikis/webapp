@@ -7,6 +7,15 @@
     </div>
     
     <div class="column-MainContent" style="height: 87px;">
+        
+        <div class="Pin" data-set-id="<%= Model.Id %>">
+            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
+                <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
+                <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+            </a>
+        </div>
+
         <div style="font-size:large;">
             <% if(Model.QuestionCount != 0){ %>
                 (<%= Model.QuestionCount %>)
@@ -23,43 +32,29 @@
         </div>
         
         <%= Model.DescriptionShort %>
-        
-        <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:-3px;">
-            <% if (Model.IsOwner){%>
-                <a data-toggle="modal" data-SetId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
-
-                <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>">
-                    <img src="/Images/edit.png"/> 
-                </a>
-            <% } %>
-        </div>
     </div>
     
     <div class="column-Additional">
         
-        <div style="float: right; position:relative;  padding-bottom:2px; padding-top:0px;  <% if(Model.RelevancePersonal == -1){ %>display:none<% } %>" class="sliderContainer">
-            <div class="slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="width: 90px; margin-left:5px; float: left;" data-setId="<%= Model.Id %>"> 
-                <div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
-                <a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a>
-            </div>
-            <div style="float:left; margin-top: -2px" class="sliderAnnotation">
-                <a href="#"><span class="sliderValue"><%= Model.RelevancePersonal %></span></a> <a href="#" class="removeRelevance"><i class="fa fa-minus"></i></a>
-            </div>
+        <div style="margin-top: 7px;">
+            <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
+                <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
+                <span class="totalPins NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
+            </span>
         </div>
-        <a href="#" class="addRelevance" style="<% if(Model.RelevancePersonal != -1){ %>display:none;<% } %>; float: right;" ><i class="fa fa-plus-circle "></i> merken</a>
-        
-        <br />
-        <%if(Model.TotalRelevancePersonalEntries != "0"){ %>
-            <div style="margin-top: 2px; float:right; width: 150px; text-align: right;">
-                <span class="totalRelevanceEntries"><%= Model.TotalRelevancePersonalEntries %></span> x 
-                <a href="">gemerkt (&#216;   <span class="totalRelevanceAvg"><%= Model.TotalRelevancePersonalAvg %></span></a> <span class="piePersonalRelevanceTotal" data-avg="<%= Model.TotalRelevancePersonalAvg  %>"></span> )
-            </div>
-        <%} %>
-        
-        <div style="position: absolute; bottom:6px; right: 0px;">
-            von <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" data-original-title="<%=Model.CreatorName %>">
-                    <%= Model.CreatorName %>
-                </a>
+
+        <div style="position: absolute; bottom:6px; ">
+            <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
+               data-original-title="Erstellt von <%=Model.CreatorName %>">
+                <%= Model.CreatorName %>
+            </a>
+            
+            <% if (Model.IsOwner){%>
+                <div style="position: relative; top: -1px; display: inline-block">
+                    <a data-toggle="modal" data-SetId="<%= Model.Id %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>&nbsp;
+                    <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>"><i class="fa fa-pencil"></i></a>
+                </div>
+            <% } %>
         </div>
 
     </div>

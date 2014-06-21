@@ -1,6 +1,5 @@
 /// <reference path="ToQuestionSet.ts" />
 /// <reference path="QuestionRowSelection.ts" />
-/// <reference path="../../../Scripts/ValuationPerRow.ts" />
 
 declare var _page: Page;
 
@@ -19,7 +18,6 @@ class Page
 $(function () {
     _page = new Page();
     _page.Init();
-    new ValuationPerRow(".column-Additional", ValuationPerRowMode.Question);
 
     $(".column-Image .image-container").hover(
         function() { $(this).find("label").show(); },
@@ -29,5 +27,7 @@ $(function () {
             }
         }
     );
-});
 
+    new PinRow(PinRowType.Question);
+
+});

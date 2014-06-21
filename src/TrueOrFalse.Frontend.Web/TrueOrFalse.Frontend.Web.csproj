@@ -926,8 +926,8 @@
     <Content Include="Views\Questions\Answer\Js\PinQuestion.js">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\QuestionRowPin.js">
-      <DependentUpon>QuestionRowPin.ts</DependentUpon>
+    <Content Include="Scripts\RowPin.js">
+      <DependentUpon>RowPin.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Questions.css">
       <DependentUpon>Questions.less</DependentUpon>
@@ -963,7 +963,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
-    <TypeScriptCompile Include="Views\Questions\Js\QuestionRowPin.ts" />
+    <TypeScriptCompile Include="Scripts\RowPin.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
@@ -1194,8 +1194,8 @@
     <Content Include="Views\Questions\Questions.css.map">
       <DependentUpon>Questions.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Js\QuestionRowPin.js.map">
-      <DependentUpon>QuestionRowPin.ts</DependentUpon>
+    <Content Include="Scripts\RowPin.js.map">
+      <DependentUpon>RowPin.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

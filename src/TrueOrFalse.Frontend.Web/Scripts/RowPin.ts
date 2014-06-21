@@ -1,8 +1,20 @@
-﻿var PinQuestionRow = (function () {
-    function PinQuestionRow() {
+﻿enum PinRowType {
+    Question,
+    Set
+}
+
+class PinRow {
+
+    _changeInProgress: boolean;
+    _pinRowType: PinRowType;
+
+    constructor(pinRowType : PinRowType) {
+
         var self = this;
+        this._pinRowType = pinRowType;
 
         $(".Pin").find(".iAdded, .iAddedNot").click(function (e) {
+
             var divPin = $($(this).parents(".Pin"));
             var questionId = parseInt(divPin.attr("data-question-id"));
 
@@ -13,20 +25,23 @@
             self._changeInProgress = true;
 
             if ($(this).hasClass("iAddedNot")) {
+
                 self.Pin(questionId);
                 divPin.find(".iAddedNot, .iAddSpinner").toggle();
 
-                setTimeout(function () {
+                setTimeout(() => {
                     divPin.find(".iAdded, .iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsPluseOne();
                     self.SetSidebarValue(self.GetSidebarValue(divPin) + 1, divPin);
                 }, 400);
+
             } else {
+
                 self.UnPin(questionId);
                 divPin.find(".iAdded, .iAddSpinner").toggle();
 
-                setTimeout(function () {
+                setTimeout(() => {
                     divPin.find(".iAddedNot, .iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsMinusOne();
@@ -35,25 +50,20 @@
             }
         });
     }
-    PinQuestionRow.prototype.SetSidebarValue = function (newValue, parent) {
+
+    SetSidebarValue(newValue: number, parent: JQuery) {
         Utils.SetElementValue2(parent.parents(".question-row").find(".totalPins"), newValue.toString() + "x");
-    };
+    }
 
-    PinQuestionRow.prototype.GetSidebarValue = function (parent) {
+    GetSidebarValue(parent: JQuery): number {
         return parseInt(/[0-9]*/.exec(parent.parents(".question-row").find($(".totalPins")).html())[0]);
-    };
+    }
 
-    PinQuestionRow.prototype.Pin = function (questionId) {
+    Pin(questionId : number) {
         QuestionsApi.Pin(questionId);
-    };
+    }
 
-    PinQuestionRow.prototype.UnPin = function (questionId) {
+    UnPin(questionId : number) {
         QuestionsApi.Unpin(questionId);
-    };
-    return PinQuestionRow;
-})();
-
-$(function () {
-    new PinQuestionRow();
-});
-//# sourceMappingURL=QuestionRowPin.js.map
+    }
+}

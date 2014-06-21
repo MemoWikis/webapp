@@ -1,12 +1,8 @@
-﻿class PinQuestionRow {
-    _changeInProgress: boolean;
-
-    constructor() {
-
+﻿var PinSetRow = (function () {
+    function PinSetRow() {
         var self = this;
 
         $(".Pin").find(".iAdded, .iAddedNot").click(function (e) {
-
             var divPin = $($(this).parents(".Pin"));
             var questionId = parseInt(divPin.attr("data-question-id"));
 
@@ -17,23 +13,20 @@
             self._changeInProgress = true;
 
             if ($(this).hasClass("iAddedNot")) {
-
                 self.Pin(questionId);
                 divPin.find(".iAddedNot, .iAddSpinner").toggle();
 
-                setTimeout(() => {
+                setTimeout(function () {
                     divPin.find(".iAdded, .iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsPluseOne();
                     self.SetSidebarValue(self.GetSidebarValue(divPin) + 1, divPin);
                 }, 400);
-
             } else {
-
                 self.UnPin(questionId);
                 divPin.find(".iAdded, .iAddSpinner").toggle();
 
-                setTimeout(() => {
+                setTimeout(function () {
                     divPin.find(".iAddedNot, .iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsMinusOne();
@@ -42,25 +35,25 @@
             }
         });
     }
-
-    SetSidebarValue(newValue: number, parent: JQuery) {
+    PinSetRow.prototype.SetSidebarValue = function (newValue, parent) {
         Utils.SetElementValue2(parent.parents(".question-row").find(".totalPins"), newValue.toString() + "x");
-    }
+    };
 
-    GetSidebarValue(parent: JQuery): number {
+    PinSetRow.prototype.GetSidebarValue = function (parent) {
         return parseInt(/[0-9]*/.exec(parent.parents(".question-row").find($(".totalPins")).html())[0]);
-    }
+    };
 
-    Pin(questionId : number) {
+    PinSetRow.prototype.Pin = function (questionId) {
         QuestionsApi.Pin(questionId);
-    }
+    };
 
-    UnPin(questionId : number) {
+    PinSetRow.prototype.UnPin = function (questionId) {
         QuestionsApi.Unpin(questionId);
-    }
-}
-
+    };
+    return PinSetRow;
+})();
 
 $(function () {
-    new PinQuestionRow();
+    new PinSetRow();
 });
+//# sourceMappingURL=SetRowPin.js.map
