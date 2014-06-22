@@ -54,30 +54,30 @@ var fnAddRegExMethod = function(name, regEx, message){
     );
 }
 
-var fnDependentField = function(selectorPrimaryField, selectorDependentField, domDependentField) {
+//var fnDependentField = function(selectorPrimaryField, selectorDependentField, domDependentField) {
     
-}
+//}
 
-var fnAddOtherFieldFirstMethod = function (selectorPrimaryField, selectorDependentField, methodName, message) {
+//var fnAddOtherFieldFirstMethod = function (selectorPrimaryField, selectorDependentField, methodName, message) {
 
-    jQuery.validator.addMethod(
-        name,
-        function (value, element) {
+//    jQuery.validator.addMethod(
+//        name,
+//        function (value, element) {
 
-            if (this.optional(element)) {
-                return true;
-            }
-            if (typeof regEx === "string") {
-                regEx = new RegExp(regEx);
-            }
-            return regEx.test(value);
-        },
-        message
-        );
-}
+//            if (this.optional(element)) {
+//                return true;
+//            }
+//            if (typeof regEx === "string") {
+//                regEx = new RegExp(regEx);
+//            }
+//            return regEx.test(value);
+//        },
+//        message
+//        );
+//}
 
 
-jQuery.validator.addMethod("otherFieldFirst", )
+//jQuery.validator.addMethod("otherFieldFirst", )
 
 //$.validator.addMethod(
 //    "requiredOrCheckbox",

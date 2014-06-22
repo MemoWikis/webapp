@@ -9,19 +9,29 @@ $.expr[':'].textEquals = function (a, i, m) {
     return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i")) != null;
 };
 
+enum AutoCompleteFilterType {
+    None,
+    Daily, 
+    DailyIssue
+}
+
 class AutocompleteCategories {
 
-    isSingleSelect: boolean;
+    private _isSingleSelect: boolean;
+    private _filterType: AutoCompleteFilterType;
+
     OnAdd: any;
     OnRemove: any;
     
     constructor(
         inputSelector: string,
         isSingleSelect: boolean = false,
-        singleSelectInputName = "") {
+        filterType: AutoCompleteFilterType = AutoCompleteFilterType.None ) {
+
+        this._filterType = filterType;
 
         var self = this;
-        this.isSingleSelect = isSingleSelect;
+        this._isSingleSelect = isSingleSelect;
 
         var elemInput = $(inputSelector);
         var elemContainer = elemInput.closest(".JS-RelatedCategories");
@@ -33,19 +43,19 @@ class AutocompleteCategories {
 
         var nextCatId = 1;
         function addCat() {
-            var catId = nextCatId;
+            var catId = nextCatId.toString();
             nextCatId++;
             var catText = $(inputSelector).val();
 
             if(self.OnAdd != null)
                 self.OnAdd();
 
-            if (self.isSingleSelect) {
-                catId = 999;
+            if (self._isSingleSelect) {
+                catId = inputSelector.substring(1);
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
                         "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
-                        "<input type='hidden' value='" + catText + "' name='" + singleSelectInputName + "'/> " +
+                        "<input type='hidden' value='" + catText + "' name='" + "hdd" + catId + "'/> " +
                         "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" +
                     "</div> ");
                 elemInput.hide();
@@ -71,7 +81,7 @@ class AutocompleteCategories {
                     });
                 });
 
-                if (self.isSingleSelect)
+                if (self._isSingleSelect)
                     elemInput.show();
 
             });
@@ -83,8 +93,12 @@ class AutocompleteCategories {
             source: function (request, response) {
 
                 var type = "";
-                if (self.isSingleSelect) {
+                if (self._filterType == AutoCompleteFilterType.Daily) {
                     type = "&type=Daily";
+                }
+
+                if (self._filterType == AutoCompleteFilterType.DailyIssue) {
+                    type = "&type=DailyIssue";
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {
