@@ -9,9 +9,8 @@ $.expr[':'].textEquals = function (a, i, m) {
 };
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, singleSelectInputName) {
+    function AutocompleteCategories(inputSelector, isSingleSelect) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
-        if (typeof singleSelectInputName === "undefined") { singleSelectInputName = ""; }
         var self = this;
         this.isSingleSelect = isSingleSelect;
 
@@ -25,7 +24,7 @@ var AutocompleteCategories = (function () {
 
         var nextCatId = 1;
         function addCat() {
-            var catId = nextCatId;
+            var catId = nextCatId.toString();
             nextCatId++;
             var catText = $(inputSelector).val();
 
@@ -33,8 +32,8 @@ var AutocompleteCategories = (function () {
                 self.OnAdd();
 
             if (self.isSingleSelect) {
-                catId = 999;
-                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='" + singleSelectInputName + "'/> " + "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
+                catId = inputSelector.substring(1);
+                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='" + "hdd" + catId + "'/> " + "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
                 elemInput.hide();
             } else {
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='cat-" + catId + "'/>" + "<a href='#' id='delete-cat-" + catId + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");

@@ -24,7 +24,7 @@
         </label>
         <div class="JS-RelatedCategories columnControlsFull">
             <div class="JS-CatInputContainer">
-                <input id="txtDailyIssue" class="form-control" name="" type="text" value="" placeholder="Suche nach Datum">    
+                <input id="TxtDailyIssue" class="form-control" name="" type="text" value="" placeholder="Suche nach Datum">    
             </div>
         </div>
     </div>--%>
@@ -137,12 +137,12 @@
                     "</label>" +
                     "<div class='JS-RelatedCategories columnControlsFull'>" +
                         "<div class='JS-CatInputContainer'>" +
-                            "<input id='txtDailyIssue' class='form-control' name='' type='text' value='' placeholder='Suche nach Datum'>" +
+                            "<input id='TxtDailyIssue' class='form-control' name='' type='text' value='' placeholder='Suche nach Datum'>" +
                         "</div>" +
                     "</div>" +
                 "</div>"
                 );
-            new AutocompleteCategories("#txtDailyIssue", true, "hddTxtDailyIssue");
+            new AutocompleteCategories("#TxtDailyIssue", true);
         };
         autoComplete.OnRemove = function () {
             $("#IssueSelect").remove();

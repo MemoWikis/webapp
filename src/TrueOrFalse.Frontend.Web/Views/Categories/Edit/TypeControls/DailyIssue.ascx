@@ -17,7 +17,7 @@
             <p class="form-control-static"><%= model.Daily.Name %></p>      
         <% }else{ %>
             <div class="JS-CatInputContainer">
-                <input id="txtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
+                <input id="TxtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
             </div>
         <% } %>
 
@@ -106,12 +106,6 @@
 
 <script type="text/javascript">
     $(function () {
-        var autoComplete = new AutocompleteCategories("#txtDaily", true, "hddTxtDaily");
-        autoComplete.OnAdd = function() {
-            alert("added daily");
-        };
-        autoComplete.OnRemove = function () {
-            alert("removed daily");
-        };
+        new AutocompleteCategories("#TxtDaily", true);
     });
 </script>
