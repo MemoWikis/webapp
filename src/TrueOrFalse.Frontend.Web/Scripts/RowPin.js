@@ -11,7 +11,12 @@ var PinRow = (function () {
 
         $(".Pin").find(".iAdded, .iAddedNot").click(function (e) {
             var divPin = $($(this).parents(".Pin"));
-            var questionId = parseInt(divPin.attr("data-question-id"));
+
+            var id = -1;
+            if (self._pinRowType == 0 /* Question */)
+                id = parseInt(divPin.attr("data-question-id"));
+            else if (self._pinRowType == 1 /* Set */)
+                id = parseInt(divPin.attr("data-set-id"));
 
             e.preventDefault();
             if (this._changeInProgress)
@@ -20,42 +25,64 @@ var PinRow = (function () {
             self._changeInProgress = true;
 
             if ($(this).hasClass("iAddedNot")) {
-                self.Pin(questionId);
+                self.Pin(id);
                 divPin.find(".iAddedNot, .iAddSpinner").toggle();
 
                 setTimeout(function () {
                     divPin.find(".iAdded, .iAddSpinner").toggle();
                     self._changeInProgress = false;
-                    Utils.MenuPinsPluseOne();
+
+                    if (!self.IsSetRow())
+                        Utils.MenuPinsPluseOne();
+
                     self.SetSidebarValue(self.GetSidebarValue(divPin) + 1, divPin);
                 }, 400);
             } else {
-                self.UnPin(questionId);
+                self.UnPin(id);
                 divPin.find(".iAdded, .iAddSpinner").toggle();
 
                 setTimeout(function () {
                     divPin.find(".iAddedNot, .iAddSpinner").toggle();
                     self._changeInProgress = false;
-                    Utils.MenuPinsMinusOne();
+
+                    if (!self.IsSetRow())
+                        Utils.MenuPinsMinusOne();
+
                     self.SetSidebarValue(self.GetSidebarValue(divPin) - 1, divPin);
                 }, 400);
             }
         });
     }
     PinRow.prototype.SetSidebarValue = function (newValue, parent) {
-        Utils.SetElementValue2(parent.parents(".question-row").find(".totalPins"), newValue.toString() + "x");
+        Utils.SetElementValue2(parent.parents(".rowBase").find(".totalPins"), newValue.toString() + "x");
     };
 
     PinRow.prototype.GetSidebarValue = function (parent) {
-        return parseInt(/[0-9]*/.exec(parent.parents(".question-row").find($(".totalPins")).html())[0]);
+        return parseInt(/[0-9]*/.exec(parent.parents(".rowBase").find($(".totalPins")).html())[0]);
     };
 
-    PinRow.prototype.Pin = function (questionId) {
-        QuestionsApi.Pin(questionId);
+    PinRow.prototype.Pin = function (id) {
+        if (this.IsQuestionRow()) {
+            QuestionsApi.Pin(id);
+        } else if (this.IsSetRow()) {
+            SetsApi.Pin(id);
+        }
     };
 
-    PinRow.prototype.UnPin = function (questionId) {
-        QuestionsApi.Unpin(questionId);
+    PinRow.prototype.UnPin = function (id) {
+        if (this.IsQuestionRow()) {
+            SetsApi.Unpin(id);
+        } else if (this.IsSetRow()) {
+            QuestionsApi.Unpin(id);
+        }
+    };
+
+    PinRow.prototype.IsQuestionRow = function () {
+        return this._pinRowType == 0 /* Question */;
+    };
+
+    PinRow.prototype.IsSetRow = function () {
+        return this._pinRowType == 1 /* Set */;
     };
     return PinRow;
 })();

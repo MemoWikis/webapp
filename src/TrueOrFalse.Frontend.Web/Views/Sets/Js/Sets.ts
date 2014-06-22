@@ -17,4 +17,7 @@ $(function () {
             }
         });
     });
+
+    new PinRow(PinRowType.Set);
+
 });

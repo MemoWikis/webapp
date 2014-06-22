@@ -16,4 +16,9 @@ public class BaseController : Controller
     {
         return ServiceLocator.Resolve<T>();
     }
+
+    protected T R<T>()
+    {
+        return ServiceLocator.Resolve<T>();
+    }
 }

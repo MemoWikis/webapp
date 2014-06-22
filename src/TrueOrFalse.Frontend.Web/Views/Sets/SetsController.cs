@@ -103,31 +103,6 @@ public class SetsController : BaseController
         return new EmptyResult();
     }
 
-    [HttpPost]
-    public JsonResult SaveRelevancePersonal(int id, int newValue)
-    {
-        var oldKnowledgeCount = Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
-
-        Resolve<UpdateSetsTotals>().UpdateRelevancePersonal(id, _sessionUser.User, newValue);
-        var totals = Resolve<GetSetTotal>().RunForRelevancePersonal(id);
-        
-        var set = Resolve<SetRepository>().GetById(id);
-        Resolve<SearchIndexSet>().Update(set);
-
-        var newKnowledgeCount = Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
-
-        return new JsonResult
-        {
-            Data = new
-            {
-                totalValuations = totals.Count,
-                totalAverage = Math.Round(totals.Avg / 10d, 1),
-                totalWishKnowledgeCount = newKnowledgeCount,
-                totalWishKnowledgeCountChange = oldKnowledgeCount != newKnowledgeCount
-            }
-        };
-    }
-
     public IList<SetValuation> GetValuations(IEnumerable<Set> sets)
     {
         return _setValuationRepository.GetBy(sets.GetIds(), _sessionUser.User.Id);
