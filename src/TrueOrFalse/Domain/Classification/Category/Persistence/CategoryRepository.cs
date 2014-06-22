@@ -34,6 +34,8 @@ namespace TrueOrFalse
 
         public Category GetByName(string categoryName)
         {
+            categoryName = categoryName ?? "";
+
             return _session.CreateQuery("from Category as c where c.Name = :categoryName")
                            .SetString("categoryName", categoryName)
                            .UniqueResult<Category>();

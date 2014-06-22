@@ -22,7 +22,8 @@
             } else
                 error.insertAfter(element);
         },
-        errorClass: "ValidationError"
+        errorClass: "ValidationError",
+        ignore: ":hidden, .JS-ValidationIgnore"
     };
 
     $.extend(true, validationSettings, customSettings);

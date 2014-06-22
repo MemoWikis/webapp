@@ -241,8 +241,8 @@ label {
 .FieldYear {
   width: 80px;
 }
-h2.pageHeader,
-.pageHeader > h2 {
+h2.PageHeader,
+.PageHeader > h2 {
   padding-top: 0;
   margin-top: 0;
   margin-bottom: 30px;

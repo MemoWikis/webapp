@@ -12,9 +12,14 @@
         Tageszeitung
     </label>
     <div class="JS-RelatedCategories columnControlsFull">
-        <div class="JS-CatInputContainer">
-            <input id="txtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
-        </div>
+        
+        <% if(Model.IsEditing){ %>
+            <p class="form-control-static"><%= model.Daily.Name %></p>      
+        <% }else{ %>
+            <div class="JS-CatInputContainer">
+                <input id="txtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
+            </div>
+        <% } %>
 
         
 <%--        <ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: block; position: static; width: 330px;">
@@ -101,6 +106,12 @@
 
 <script type="text/javascript">
     $(function () {
-        new AutocompleteCategories("#txtDaily", true, "hddTxtDaily");
+        var autoComplete = new AutocompleteCategories("#txtDaily", true, "hddTxtDaily");
+        autoComplete.OnAdd = function() {
+            alert("added daily");
+        };
+        autoComplete.OnRemove = function () {
+            alert("removed daily");
+        };
     });
 </script>

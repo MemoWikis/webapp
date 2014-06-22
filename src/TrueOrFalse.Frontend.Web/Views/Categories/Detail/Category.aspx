@@ -13,7 +13,10 @@
     <div class="row">
         <div class="xxs-stack col-xs-12">
             <div class="row">
-                <div class="col-xs-9 xxs-stack category">
+                <div class="PageHeader col-xs-9 xxs-stack category">
+                    <% if (Model.Type != "Standard") {%>
+                        <h3 class="CategoryType"><%= Model.Type%></h3>
+                    <% } %>
                     <h2 style="margin-top: 0; margin-bottom: 10px;"><%= Model.Name %></h2>
                     <% if(!String.IsNullOrEmpty(Model.Description)){ %>
                         <div style="margin-bottom: 12px;">

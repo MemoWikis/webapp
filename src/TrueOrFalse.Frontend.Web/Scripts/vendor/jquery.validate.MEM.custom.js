@@ -5,7 +5,6 @@
 
 
 
-
 (function($) {
 	$.extend($.validator.messages, {
     required: "Hoppla, das ist ein Pflichtfeld.",
@@ -13,7 +12,7 @@
     minlength: $.validator.format("Gib bitte mindestens {0} Zeichen ein."),
     rangelength: $.validator.format("Gib bitte mindestens {0} und maximal {1} Zeichen ein."),
     email: "Gib bitte eine gültige E-Mail Adresse ein.",
-    url: "Gib bitte eine gültige URL ein.",
+    url: "Ups, da stimmt was mit dem Format nicht. Bitte gib eine gültige URL ein.",
     date: "Bitte gib ein gültiges Datum ein.",
     number: "Gib bitte eine Zahl ein.",
     digits: "Verwende bitte nur Ziffern.",

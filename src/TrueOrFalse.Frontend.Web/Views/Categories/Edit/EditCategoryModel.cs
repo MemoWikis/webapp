@@ -47,11 +47,17 @@ public class EditCategoryModel : BaseModel
 
     public void Init(Category category)
     {
+        var parentCategories = category.ParentCategories;
+        if (category.Type == CategoryType.DailyIssue)
+            parentCategories = parentCategories.Where(c => c.Type != CategoryType.Daily).ToList();
+
         Category = category;
         Name = category.Name;
         Description = category.Description;
-        ParentCategories = (from cat in category.ParentCategories select cat.Name).ToList();
-        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;        
+        ParentCategories = (from cat in parentCategories select cat.Name).ToList();
+        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
+
+
     }
 
     public ConvertToCategoryResult ConvertToCategory()
@@ -128,15 +134,16 @@ public class EditCategoryModel : BaseModel
                 Volume = ToNumericalString(request["Volume"]),
                 No = ToNumericalStringWithLeadingZeros(request["No"]),
                 PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
-                PublicationDateDay = ToNumericalString(request["PublicationDateDay"])
+                PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
+                Category = category
             };
             
             category.TypeJson = categoryDailyIssue.ToJson();
-            category.Name = categoryDailyIssue.BuildTitle();
 
             var dailyCategoryName = request["hddTxtDaily"];
             var isNullOrEmptyError = String.IsNullOrEmpty(dailyCategoryName);
 
+            category.Name = categoryDailyIssue.BuildTitle(dailyCategoryName);
 
             Category dailyFromDb = null;
             if(!isNullOrEmptyError)
@@ -146,6 +153,7 @@ public class EditCategoryModel : BaseModel
             {
                 return new ConvertToCategoryResult
                 {
+                    TypeModel = categoryDailyIssue,
                     Category = category,
                     HasError = true,
                     ErrorMessage = new ErrorMessage(
@@ -159,7 +167,14 @@ public class EditCategoryModel : BaseModel
 
         if (category.Type == CategoryType.DailyArticle)
         {
-            category.TypeJson = new CategoryDailyArticle { Title = request["Title"], Subtitle = request["Subtitle"], Author = request["Author"], Url = request["Url"] }.ToJson();
+            var categoryDailyArticle = new CategoryDailyArticle
+            {
+                Title = request["Title"],
+                Subtitle = request["Subtitle"],
+                Author = request["Author"],
+                Url = request["Url"]
+            };
+            category.TypeJson= categoryDailyArticle.ToJson();
             if (String.IsNullOrEmpty(request["Subtitle"]))
                 category.Name = request["Title"];
             else

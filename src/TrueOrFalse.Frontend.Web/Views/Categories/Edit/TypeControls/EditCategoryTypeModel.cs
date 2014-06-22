@@ -7,7 +7,10 @@ using TrueOrFalse;
 
 public class EditCategoryTypeModel : BaseModel
 {
+    public bool IsEditing;
+
     public string Name { get; set; }
+
     public string Description { get; set; }
     public string WikipediaUrl { get; set; }
 
@@ -23,6 +26,8 @@ public class EditCategoryTypeModel : BaseModel
 
     public EditCategoryTypeModel(Category category, CategoryType type)
     {
+        IsEditing = category != null;
+
         if (category == null)
         {
             var typeModel = HttpContext.Current.Session["RecentCategoryTypeModel"];
@@ -40,31 +45,31 @@ public class EditCategoryTypeModel : BaseModel
         PopulateFromCategory(category);
 
         if (category.Type == CategoryType.Book)
-            Model = CategoryBook.FromJson(category.TypeJson);
+            Model = CategoryBook.FromJson(category.TypeJson, category);
 
         if (category.Type == CategoryType.Daily)
-            Model = CategoryDaily.FromJson(category.TypeJson);
+            Model = CategoryDaily.FromJson(category.TypeJson, category);
         
         if (category.Type == CategoryType.DailyArticle)
-            Model = CategoryDailyArticle.FromJson(category.TypeJson);
+            Model = CategoryDailyArticle.FromJson(category.TypeJson, category);
 
         if (category.Type == CategoryType.DailyIssue)
-            Model = CategoryDailyIssue.FromJson(category.TypeJson);
+            Model = CategoryDailyIssue.FromJson(category.TypeJson, category);
 
         if (category.Type == CategoryType.Magazine)
-            Model = CategoryMagazine.FromJson(category.TypeJson);
+            Model = CategoryMagazine.FromJson(category.TypeJson, category);
         
         if (category.Type == CategoryType.MagazineIssue)
-            Model = CategoryMagazineIssue.FromJson(category.TypeJson);
+            Model = CategoryMagazineIssue.FromJson(category.TypeJson, category);
         
         if (category.Type == CategoryType.VolumeChapter)
-            Model = CategoryVolumeChapter.FromJson(category.TypeJson);
+            Model = CategoryVolumeChapter.FromJson(category.TypeJson, category);
 
         if (category.Type == CategoryType.Website)
-            Model = CategoryWebsite.FromJson(category.TypeJson);
+            Model = CategoryWebsite.FromJson(category.TypeJson, category);
         
         if (category.Type == CategoryType.WebsiteVideo)
-            Model = CategoryWebsiteVideo.FromJson(category.TypeJson);
+            Model = CategoryWebsiteVideo.FromJson(category.TypeJson, category);
     }
 
     private void PopulateFromCategory(Category category)
@@ -78,5 +83,11 @@ public class EditCategoryTypeModel : BaseModel
     {
         HttpContext.Current.Session["RecentCategoryTypeModel"] = typeModel;
         HttpContext.Current.Session["RecentCategory"] = category;
+    }
+
+    public static void RemoveRecentTypeModelFromSession()
+    {
+        HttpContext.Current.Session["RecentCategoryTypeModel"] = null;
+        HttpContext.Current.Session["RecentCategory"] = null;
     }
 }

@@ -5,7 +5,7 @@ fnAddRegExMethod("IsbnAll", /(^(([0-9][-]{0,1}){12})[xX0-9]$)|(^(([0-9][-]{0,1})
 var fnEditCatValidation = function (categoryType) {
 
     var validationDefaultSettings = {
-        debug: true,
+        //debug: true,
         rules: {
             Name: {
                 required: true,

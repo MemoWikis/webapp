@@ -24,7 +24,7 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="RequiredField columnLabel control-label" for="ISSN">
+    <label class="columnLabel control-label" for="ISSN">
         ISSN
         <i class="fa fa-question-circle show-tooltip" 
             title="<%= EditCategoryTypeModel.IssnInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>">

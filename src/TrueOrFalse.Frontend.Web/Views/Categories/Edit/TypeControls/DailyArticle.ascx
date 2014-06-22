@@ -7,11 +7,30 @@
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.DailyArticle.GetName() %></h4>
     
+<div id="JS-IssueSelectGroup" class="JS-InterdependentFields" style="padding-bottom: 15px;">
+    <div class="form-group JS-MasterField">
+        <label class="RequiredField columnLabel control-label" for="">
+            Tageszeitung
+        </label>
+        <div class="JS-RelatedCategories columnControlsFull">
+            <div class="JS-CatInputContainer">
+                <input id="txtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
+            </div>
+        </div>
+    </div>
+    <%--<div class="form-group JS-DependentField" style="margin-bottom: 15px;">
+        <label class="RequiredField columnLabel control-label" for="">
+            Ausgabe
+        </label>
+        <div class="JS-RelatedCategories columnControlsFull">
+            <div class="JS-CatInputContainer">
+                <input id="txtDailyIssue" class="form-control" name="" type="text" value="" placeholder="Suche nach Datum">    
+            </div>
+        </div>
+    </div>--%>
+</div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="xxx">
-        Tageszeitung
-    </label>
-    <div class="columnControlsFull">
+    <div class="noLabel columnControlsFull">
         <input class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">
         <ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: block; position: static; width: 330px;">
             <li class="ui-menu-item" role="presentation">
@@ -106,3 +125,27 @@
         <input class="form-control" name="Url" type="text" value="<%= model.Url %>">
     </div>
 </div>
+<script type="text/javascript">
+    $(function () {
+        var autoComplete = new AutocompleteCategories("#txtDaily", true, "hddTxtDaily");
+        autoComplete.OnAdd = function () {
+            $("#IssueSelect").remove();
+            $("#JS-IssueSelectGroup").append(
+                "<div id='IssueSelect' class='form-group JS-DependentField'>" +
+                    "<label class='RequiredField columnLabel control-label' for=''>" +
+                    "Ausgabe" +
+                    "</label>" +
+                    "<div class='JS-RelatedCategories columnControlsFull'>" +
+                        "<div class='JS-CatInputContainer'>" +
+                            "<input id='txtDailyIssue' class='form-control' name='' type='text' value='' placeholder='Suche nach Datum'>" +
+                        "</div>" +
+                    "</div>" +
+                "</div>"
+                );
+            new AutocompleteCategories("#txtDailyIssue", true, "hddTxtDailyIssue");
+        };
+        autoComplete.OnRemove = function () {
+            $("#IssueSelect").remove();
+        };
+    });
+</script>
