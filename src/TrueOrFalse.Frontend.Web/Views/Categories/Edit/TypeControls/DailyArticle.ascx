@@ -14,7 +14,7 @@
         </label>
         <div class="JS-RelatedCategories columnControlsFull">
             <div class="JS-CatInputContainer">
-                <input id="txtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
+                <input id="TxtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
             </div>
         </div>
     </div>
@@ -127,7 +127,7 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        var autoComplete = new AutocompleteCategories("#txtDaily", true, "hddTxtDaily");
+        var autoComplete = new AutocompleteCategories("#TxtDaily", true, AutoCompleteFilterType.Daily);
         autoComplete.OnAdd = function () {
             $("#IssueSelect").remove();
             $("#JS-IssueSelectGroup").append(
@@ -142,7 +142,7 @@
                     "</div>" +
                 "</div>"
                 );
-            new AutocompleteCategories("#TxtDailyIssue", true);
+            new AutocompleteCategories("#TxtDailyIssue", true, AutoCompleteFilterType.DailyIssue);
         };
         autoComplete.OnRemove = function () {
             $("#IssueSelect").remove();

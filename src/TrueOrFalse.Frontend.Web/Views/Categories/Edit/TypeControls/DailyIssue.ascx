@@ -106,6 +106,6 @@
 
 <script type="text/javascript">
     $(function () {
-        new AutocompleteCategories("#TxtDaily", true);
+        new AutocompleteCategories("#TxtDaily", true, AutoCompleteFilterType.Daily);
     });
 </script>

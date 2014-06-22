@@ -9,18 +9,29 @@ $.expr[':'].textEquals = function (a, i, m) {
     return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i")) != null;
 };
 
+enum AutoCompleteFilterType {
+    None,
+    Daily, 
+    DailyIssue
+}
+
 class AutocompleteCategories {
 
-    isSingleSelect: boolean;
+    private _isSingleSelect: boolean;
+    private _filterType: AutoCompleteFilterType;
+
     OnAdd: any;
     OnRemove: any;
     
     constructor(
         inputSelector: string,
-        isSingleSelect: boolean = false) {
+        isSingleSelect: boolean = false,
+        filterType: AutoCompleteFilterType = AutoCompleteFilterType.None ) {
+
+        this._filterType = filterType;
 
         var self = this;
-        this.isSingleSelect = isSingleSelect;
+        this._isSingleSelect = isSingleSelect;
 
         var elemInput = $(inputSelector);
         var elemContainer = elemInput.closest(".JS-RelatedCategories");
@@ -39,7 +50,7 @@ class AutocompleteCategories {
             if(self.OnAdd != null)
                 self.OnAdd();
 
-            if (self.isSingleSelect) {
+            if (self._isSingleSelect) {
                 catId = inputSelector.substring(1);
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
@@ -70,7 +81,7 @@ class AutocompleteCategories {
                     });
                 });
 
-                if (self.isSingleSelect)
+                if (self._isSingleSelect)
                     elemInput.show();
 
             });
@@ -82,8 +93,12 @@ class AutocompleteCategories {
             source: function (request, response) {
 
                 var type = "";
-                if (self.isSingleSelect) {
+                if (self._filterType == AutoCompleteFilterType.Daily) {
                     type = "&type=Daily";
+                }
+
+                if (self._filterType == AutoCompleteFilterType.DailyIssue) {
+                    type = "&type=DailyIssue";
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {

@@ -32,12 +32,19 @@ namespace TrueOrFalse.View.Web.Views.Api
                     .WhereRestrictionOn(c => c.Name).IsLike(term + "%")
                     .List();
             }
+            else if (type == "DailyIssue")
+            {
+                categories = _categoryRepo.Session
+                    .QueryOver<Category>()
+                    .Where(c => c.Type == CategoryType.DailyIssue && c.ParentCategories.Any(p => p.Name == "..."))
+                    .WhereRestrictionOn(c => c.Name).IsLike("%" + term + "%")
+                    .List();                
+            }
             else
             {
                 var categoryIds = _searchCategories.Run(term, searchStartingWith: true, pageSize: 5).CategoryIds;
                 categories = _categoryRepo.GetByIds(categoryIds.ToArray());
             }
-
 
 
             return Json(from c in categories

@@ -8,11 +8,21 @@ $.expr[':'].textEquals = function (a, i, m) {
     return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i")) != null;
 };
 
+var AutoCompleteFilterType;
+(function (AutoCompleteFilterType) {
+    AutoCompleteFilterType[AutoCompleteFilterType["None"] = 0] = "None";
+    AutoCompleteFilterType[AutoCompleteFilterType["Daily"] = 1] = "Daily";
+    AutoCompleteFilterType[AutoCompleteFilterType["DailyIssue"] = 2] = "DailyIssue";
+})(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
+
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
+        if (typeof filterType === "undefined") { filterType = 0 /* None */; }
+        this._filterType = filterType;
+
         var self = this;
-        this.isSingleSelect = isSingleSelect;
+        this._isSingleSelect = isSingleSelect;
 
         var elemInput = $(inputSelector);
         var elemContainer = elemInput.closest(".JS-RelatedCategories");
@@ -31,7 +41,7 @@ var AutocompleteCategories = (function () {
             if (self.OnAdd != null)
                 self.OnAdd();
 
-            if (self.isSingleSelect) {
+            if (self._isSingleSelect) {
                 catId = inputSelector.substring(1);
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" + "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='" + "hdd" + catId + "'/> " + "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
                 elemInput.hide();
@@ -52,7 +62,7 @@ var AutocompleteCategories = (function () {
                     });
                 });
 
-                if (self.isSingleSelect)
+                if (self._isSingleSelect)
                     elemInput.show();
             });
             $("#cat-" + catId).show("blind", { direction: "horizontal" });
@@ -62,8 +72,12 @@ var AutocompleteCategories = (function () {
             minLength: 0,
             source: function (request, response) {
                 var type = "";
-                if (self.isSingleSelect) {
+                if (self._filterType == 1 /* Daily */) {
                     type = "&type=Daily";
+                }
+
+                if (self._filterType == 2 /* DailyIssue */) {
+                    type = "&type=DailyIssue";
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {
