@@ -9,6 +9,7 @@ public class CategoryModel : BaseModel
     public int Id;
     public string Name;
     public string Description;
+    public string Type;
 
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
@@ -43,6 +44,7 @@ public class CategoryModel : BaseModel
         Id = category.Id;
         Name = category.Name;
         Description = category.Description;
+        Type = category.Type.GetName();
         IsOwnerOrAdmin = _sessionUser.IsOwnerOrAdmin(category.Creator.Id);
 
         CountQuestions = category.CountQuestions;

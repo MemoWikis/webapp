@@ -84,4 +84,10 @@ public class EditCategoryTypeModel : BaseModel
         HttpContext.Current.Session["RecentCategoryTypeModel"] = typeModel;
         HttpContext.Current.Session["RecentCategory"] = category;
     }
+
+    public static void RemoveRecentTypeModelFromSession()
+    {
+        HttpContext.Current.Session["RecentCategoryTypeModel"] = null;
+        HttpContext.Current.Session["RecentCategory"] = null;
+    }
 }

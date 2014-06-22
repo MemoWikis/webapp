@@ -134,14 +134,16 @@ public class EditCategoryModel : BaseModel
                 Volume = ToNumericalString(request["Volume"]),
                 No = ToNumericalStringWithLeadingZeros(request["No"]),
                 PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
-                PublicationDateDay = ToNumericalString(request["PublicationDateDay"])
+                PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
+                Category = category
             };
             
             category.TypeJson = categoryDailyIssue.ToJson();
-            category.Name = categoryDailyIssue.BuildTitle();
 
             var dailyCategoryName = request["hddTxtDaily"];
             var isNullOrEmptyError = String.IsNullOrEmpty(dailyCategoryName);
+
+            category.Name = categoryDailyIssue.BuildTitle(dailyCategoryName);
 
             Category dailyFromDb = null;
             if(!isNullOrEmptyError)
@@ -165,7 +167,14 @@ public class EditCategoryModel : BaseModel
 
         if (category.Type == CategoryType.DailyArticle)
         {
-            category.TypeJson = new CategoryDailyArticle { Title = request["Title"], Subtitle = request["Subtitle"], Author = request["Author"], Url = request["Url"] }.ToJson();
+            var categoryDailyArticle = new CategoryDailyArticle
+            {
+                Title = request["Title"],
+                Subtitle = request["Subtitle"],
+                Author = request["Author"],
+                Url = request["Url"]
+            };
+            category.TypeJson= categoryDailyArticle.ToJson();
             if (String.IsNullOrEmpty(request["Subtitle"]))
                 category.Name = request["Title"];
             else

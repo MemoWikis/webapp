@@ -11,7 +11,9 @@ $.expr[':'].textEquals = function (a, i, m) {
 
 class AutocompleteCategories {
 
-    isSingleSelect : boolean;
+    isSingleSelect: boolean;
+    OnAdd: any;
+    OnRemove: any;
     
     constructor(
         inputSelector: string,
@@ -35,12 +37,15 @@ class AutocompleteCategories {
             nextCatId++;
             var catText = $(inputSelector).val();
 
+            if(self.OnAdd != null)
+                self.OnAdd();
+
             if (self.isSingleSelect) {
                 catId = 999;
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catId + "' style='display: none;'>" +
                         "<a href='/Kategorien/" + catText + "/" + catId + "'>" + catText + "</a>" +
-                        "<input type='hidden' value='" + catText + "' name='" + this.singleSelectInputName + "'/> " +
+                        "<input type='hidden' value='" + catText + "' name='" + singleSelectInputName + "'/> " +
                         "<a href='#' id='delete-cat-" + catId + "'><i class='fa fa-pencil'></i></a>" +
                     "</div> ");
                 elemInput.hide();
@@ -56,6 +61,8 @@ class AutocompleteCategories {
             elemInput.val('');
             $("#delete-cat-" + catId).click(function (e) {
                 e.preventDefault();
+                if (self.OnRemove != null)
+                    self.OnRemove();
                 animating = true;
                 $("#cat-" + catId).stop(true).animate({ opacity: 0 }, 250, function () {
                     $(this).hide("blind", { direction: "horizontal" }, function () {

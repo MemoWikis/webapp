@@ -54,6 +54,31 @@ var fnAddRegExMethod = function(name, regEx, message){
     );
 }
 
+var fnDependentField = function(selectorPrimaryField, selectorDependentField, domDependentField) {
+    
+}
+
+var fnAddOtherFieldFirstMethod = function (selectorPrimaryField, selectorDependentField, methodName, message) {
+
+    jQuery.validator.addMethod(
+        name,
+        function (value, element) {
+
+            if (this.optional(element)) {
+                return true;
+            }
+            if (typeof regEx === "string") {
+                regEx = new RegExp(regEx);
+            }
+            return regEx.test(value);
+        },
+        message
+        );
+}
+
+
+jQuery.validator.addMethod("otherFieldFirst", )
+
 //$.validator.addMethod(
 //    "requiredOrCheckbox",
 //    function (value, element) {

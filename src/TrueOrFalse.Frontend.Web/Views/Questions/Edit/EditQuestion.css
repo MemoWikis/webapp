@@ -246,12 +246,12 @@
 .menuCategories .ColoredBottomBorder {
   border-bottom-color: #5bc0de;
 }
-.pageHeader:before,
-.pageHeader:after {
+.PageHeader:before,
+.PageHeader:after {
   content: " ";
   display: table;
 }
-.pageHeader:after {
+.PageHeader:after {
   clear: both;
 }
 .headerControls {

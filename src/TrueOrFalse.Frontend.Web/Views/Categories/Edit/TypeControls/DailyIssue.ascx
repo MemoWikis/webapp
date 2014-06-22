@@ -106,6 +106,12 @@
 
 <script type="text/javascript">
     $(function () {
-        new AutocompleteCategories("#txtDaily", true, "hddTxtDaily");
+        var autoComplete = new AutocompleteCategories("#txtDaily", true, "hddTxtDaily");
+        autoComplete.OnAdd = function() {
+            alert("added daily");
+        };
+        autoComplete.OnRemove = function () {
+            alert("removed daily");
+        };
     });
 </script>

@@ -104,6 +104,8 @@ public class EditCategoryController : BaseController
         _categoryRepository.Create(category);
         StoreImage(category.Id);
 
+        EditCategoryTypeModel.RemoveRecentTypeModelFromSession();
+
         TempData["createCategoryMsg"] 
             = new SuccessMessage(string.Format(
                  "Die Kategorie <strong>'{0}'</strong> wurde angelegt.<br>" + 
