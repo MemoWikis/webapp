@@ -22,7 +22,7 @@ namespace TrueOrFalse
             _reputationUpdate = reputationUpdate;
             }
 
-        public void UpdateRelevancePersonal(int setId, User user, int relevance)
+        public void UpdateRelevancePersonal(int setId, User user, int relevance = 50)
         {
             _createOrUpdateSetValue.Run(setId, user.Id, relevancePeronal: relevance);
             _session.CreateSQLQuery(GenerateRelevancePersonal(setId)).ExecuteUpdate();

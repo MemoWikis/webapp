@@ -17,5 +17,7 @@ $(function () {
             }
         });
     });
+
+    new PinRow(1 /* Set */);
 });
 //# sourceMappingURL=Sets.js.map

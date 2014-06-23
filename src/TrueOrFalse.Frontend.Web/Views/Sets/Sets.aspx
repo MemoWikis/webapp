@@ -19,7 +19,7 @@
                             <a href="<%= Links.Sets(Url) %>" >Alle Fragesätze (<%= Model.TotalSets %>)</a>
                         </li>
                         <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
-                            <a href="<%= Links.SetsWish(Url) %>">Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalWish %>)</span></a>
+                            <a href="<%= Links.SetsWish(Url) %>">Mein Wunschwissen (<span id="tabWishKnowledgeCount"><%= Model.TotalWish %></span>)</a>
                         </li>
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
                             <a href="<%= Links.SetsMine(Url) %>">

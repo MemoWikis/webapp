@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SetRowModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase set-row" data-questionSetId="<%= Model.Id %>" style="position: relative">
+<div class="rowBase set-row" data-setId="<%= Model.Id %>" style="position: relative">
     <div class="column-Image" style="line-height: 15px; font-size: 90%;">
         <img src="<%= Model.ImageUrl%>" width="105"/>
     </div>
