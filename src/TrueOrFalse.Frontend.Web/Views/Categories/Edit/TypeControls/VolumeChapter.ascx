@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 <%
     var model = Model.Model == null ? 
-            new CategoryVolumeChapter() : 
-            (CategoryVolumeChapter)Model.Model;
+            new CategoryTypeVolumeChapter() : 
+            (CategoryTypeVolumeChapter)Model.Model;
 %>
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.VolumeChapter.GetName() %></h4>

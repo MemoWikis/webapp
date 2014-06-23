@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 [Serializable]
-public class CategoryTvShow : CategoryBase<CategoryTvShow>
+public class CategoryTypeTvShowEpisode : CategoryTypeBase<CategoryTypeTvShowEpisode>
 {
     public string Url;
 
     [JsonIgnore]
-    public override CategoryType Type { get { return CategoryType.TvShow; } }
+    public override CategoryType Type { get { return CategoryType.TvShowEpisode; } }
 }

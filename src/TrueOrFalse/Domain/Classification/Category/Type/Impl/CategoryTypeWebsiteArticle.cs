@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 [Serializable]
-public class CategoryWebsiteVideo : CategoryBase<CategoryWebsiteVideo>
+public class CategoryTypeWebsiteArticle : CategoryTypeBase<CategoryTypeWebsiteArticle>
 {
+    public int WebsiteId;
     public string Url;
 
     [JsonIgnore]
-    public override CategoryType Type { get { return CategoryType.WebsiteVideo; } }
+    public override CategoryType Type { get { return CategoryType.WebsiteArticle; } }
 }

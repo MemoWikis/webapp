@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 [Serializable]
-public class CategoryVolumeChapter : CategoryBase<CategoryVolumeChapter>
+public class CategoryTypeVolumeChapter : CategoryTypeBase<CategoryTypeVolumeChapter>
 {
     public string Title;
     public string Subtitle;

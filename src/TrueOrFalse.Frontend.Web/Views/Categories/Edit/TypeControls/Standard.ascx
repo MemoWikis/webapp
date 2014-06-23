@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 <%
     var model = Model.Model == null ? 
-            new CategoryStandard() : 
-            (CategoryStandard)Model.Model;
+            new CategoryTypeStandard() : 
+            (CategoryTypeStandard)Model.Model;
 %>
 <h4 class="CategoryTypeHeader">Standardkategorie</h4>
 <div class="form-group">

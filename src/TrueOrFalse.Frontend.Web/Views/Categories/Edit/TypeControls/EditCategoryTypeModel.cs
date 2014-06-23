@@ -33,7 +33,7 @@ public class EditCategoryTypeModel : BaseModel
             var typeModel = HttpContext.Current.Session["RecentCategoryTypeModel"];
             if (typeModel != null)
             {
-                if (((ICategoryBase) typeModel).Type == type){
+                if (((ICategoryTypeBase) typeModel).Type == type){
                     Model = typeModel;
                     PopulateFromCategory((Category)HttpContext.Current.Session["RecentCategory"]);
                 }
@@ -45,31 +45,31 @@ public class EditCategoryTypeModel : BaseModel
         PopulateFromCategory(category);
 
         if (category.Type == CategoryType.Book)
-            Model = CategoryBook.FromJson(category.TypeJson, category);
+            Model = CategoryTypeBook.FromJson(category.TypeJson, category);
 
         if (category.Type == CategoryType.Daily)
-            Model = CategoryDaily.FromJson(category.TypeJson, category);
+            Model = CategoryTypeDaily.FromJson(category.TypeJson, category);
         
         if (category.Type == CategoryType.DailyArticle)
-            Model = CategoryDailyArticle.FromJson(category.TypeJson, category);
+            Model = CategoryTypeDailyArticle.FromJson(category.TypeJson, category);
 
         if (category.Type == CategoryType.DailyIssue)
-            Model = CategoryDailyIssue.FromJson(category.TypeJson, category);
+            Model = CategoryTypeDailyIssue.FromJson(category.TypeJson, category);
 
         if (category.Type == CategoryType.Magazine)
-            Model = CategoryMagazine.FromJson(category.TypeJson, category);
+            Model = CategoryTypeMagazine.FromJson(category.TypeJson, category);
         
         if (category.Type == CategoryType.MagazineIssue)
-            Model = CategoryMagazineIssue.FromJson(category.TypeJson, category);
+            Model = CategoryTypeMagazineIssue.FromJson(category.TypeJson, category);
         
         if (category.Type == CategoryType.VolumeChapter)
-            Model = CategoryVolumeChapter.FromJson(category.TypeJson, category);
+            Model = CategoryTypeVolumeChapter.FromJson(category.TypeJson, category);
 
         if (category.Type == CategoryType.Website)
-            Model = CategoryWebsite.FromJson(category.TypeJson, category);
+            Model = CategoryTypeWebsite.FromJson(category.TypeJson, category);
         
         if (category.Type == CategoryType.WebsiteVideo)
-            Model = CategoryWebsiteVideo.FromJson(category.TypeJson, category);
+            Model = CategoryTypeWebsiteVideo.FromJson(category.TypeJson, category);
     }
 
     private void PopulateFromCategory(Category category)

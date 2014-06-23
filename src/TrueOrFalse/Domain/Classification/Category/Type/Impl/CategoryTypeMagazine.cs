@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 [Serializable]
-public class CategoryDaily : CategoryBase<CategoryDaily>
+public class CategoryTypeMagazine : CategoryTypeBase<CategoryTypeMagazine>
 {
     public string ISSN;
     public string Publisher;
     public string Url;
 
-     [JsonIgnore]
-    public override CategoryType Type { get { return CategoryType.Daily; } }
+    [JsonIgnore]
+    public override CategoryType Type { get { return CategoryType.Magazine; } }
 }
 

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using TrueOrFalse;
 
 [Serializable]
-public class CategoryDailyIssue : CategoryBase<CategoryDailyIssue>
+public class CategoryTypeDailyIssue : CategoryTypeBase<CategoryTypeDailyIssue>
 {
     public string Year;
     public string Volume;

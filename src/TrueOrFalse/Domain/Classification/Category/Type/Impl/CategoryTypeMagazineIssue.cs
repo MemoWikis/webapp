@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 [Serializable]
-public class CategoryMagazineIssue : CategoryBase<CategoryMagazineIssue>
+public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIssue>
 {
     public string Year;
     public string Volume;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TrueOrFalse;
 
 
-public interface ICategoryBase
+public interface ICategoryTypeBase
 {
     CategoryType Type { get; }
     Category Category { get; set; }

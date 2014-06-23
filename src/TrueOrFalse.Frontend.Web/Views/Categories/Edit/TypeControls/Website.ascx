@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 <%
     var model = Model.Model == null ? 
-            new CategoryWebsite() : 
-            (CategoryWebsite)Model.Model;
+            new CategoryTypeWebsite() : 
+            (CategoryTypeWebsite)Model.Model;
 %>
 <h4 class="CategoryTypeHeader"><%= CategoryType.Website.GetName() %></h4>
 <div class="form-group">

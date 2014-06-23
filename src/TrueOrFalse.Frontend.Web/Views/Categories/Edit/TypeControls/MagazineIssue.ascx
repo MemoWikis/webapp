@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 <%
     var model = Model.Model == null ? 
-            new CategoryMagazineIssue() : 
-            (CategoryMagazineIssue)Model.Model;
+            new CategoryTypeMagazineIssue() : 
+            (CategoryTypeMagazineIssue)Model.Model;
 %>
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.MagazineIssue.GetName() %></h4>
