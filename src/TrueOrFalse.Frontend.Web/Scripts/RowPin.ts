@@ -38,8 +38,10 @@ class PinRow {
                     divPin.find(".iAdded, .iAddSpinner").toggle();
                     self._changeInProgress = false;
 
-                    if (!self.IsSetRow())
+                    if (self.IsQuestionRow()) 
                         Utils.MenuPinsPluseOne();
+
+                    Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) + 1).toString());
 
                     self.SetSidebarValue(self.GetSidebarValue(divPin) + 1, divPin);
                 }, 400);
@@ -53,9 +55,11 @@ class PinRow {
                     divPin.find(".iAddedNot, .iAddSpinner").toggle();
                     self._changeInProgress = false;
 
-                    if (!self.IsSetRow())
+                    if (self.IsQuestionRow()) 
                         Utils.MenuPinsMinusOne();
 
+                    Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) - 1).toString());
+                        
                     self.SetSidebarValue(self.GetSidebarValue(divPin) - 1, divPin);
                 }, 400);
             }
@@ -80,9 +84,9 @@ class PinRow {
 
     UnPin(id: number) {
         if (this.IsQuestionRow()) {
-            SetsApi.Unpin(id);
-        } else if (this.IsSetRow()) {
             QuestionsApi.Unpin(id);
+        } else if (this.IsSetRow()) {
+            SetsApi.Unpin(id);
         }
     }
 
