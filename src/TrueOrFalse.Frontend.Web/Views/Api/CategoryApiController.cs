@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NHibernate.Transform;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse.View.Web.Views.Api
@@ -34,11 +35,23 @@ namespace TrueOrFalse.View.Web.Views.Api
             }
             else if (type == "DailyIssue")
             {
-                categories = _categoryRepo.Session
-                    .QueryOver<Category>()
-                    .Where(c => c.Type == CategoryType.DailyIssue && c.ParentCategories.Any(p => p.Name == "..."))
-                    .WhereRestrictionOn(c => c.Name).IsLike("%" + term + "%")
-                    .List();                
+                //categories = _categoryRepo.Session
+                //    .QueryOver<Category>()
+                //    .Where(c => c.Type == CategoryType.DailyIssue && c.ParentCategories.Any(p => p.Name == "..."))
+                //    .WhereRestrictionOn(c => c.Name).IsLike("%" + term + "%")
+                //    .List();                
+
+
+                categories = _categoryRepo.Session.CreateQuery(String.Format(
+                    @"FROM category as c /* DailyIssue */
+                     INNER JOIN category as categoryParent
+                     ON c.P = categoryParent.Id 
+                     AND categoryParent.`Type` = '{0}'
+                     WHERE c.`Type` = '{1}'
+                     AND categoryParent.Id = {2}", (int)CategoryType.Daily, (int)CategoryType.DailyIssue, "105" ))
+                            .SetResultTransformer(Transformers.AliasToBean(typeof(Category)))
+                            .List<Category>();
+
             }
             else
             {
