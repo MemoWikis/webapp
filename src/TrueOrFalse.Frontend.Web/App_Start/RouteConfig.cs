@@ -64,8 +64,10 @@ namespace TrueOrFalse
             routes.MapRoute("Sets_Edit", "FrageSaetze/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });
             /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });
             /* API */ routes.MapRoute("Set_ImageUpload", "Set/UploadImage/{id}", new { controller = "EditSet", action = "UploadImage", id = UrlParameter.Optional });
+            
 
             routes.MapRoute("Categories_SearchTerm", "Kategorien/Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Categories_ByName", "Kategorien/ByName/{name}", new { controller = "CategoryDetails", action = "ByName" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
             routes.MapRoute("Categories_Create", "Kategorien/Erstelle", new { controller = "EditCategory", action = "Create" });
             routes.MapRoute("Categories_Edit", "Kategorien/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
@@ -91,6 +93,8 @@ namespace TrueOrFalse
             routes.MapRoute("ImageUpload", "ImageUpload/{action}", new { controller = "ImageUpload" });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
+
+            
         }
     }
 }

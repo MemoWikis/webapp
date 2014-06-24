@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using NHibernate.Transform;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse.View.Web.Views.Api
@@ -22,17 +23,21 @@ namespace TrueOrFalse.View.Web.Views.Api
             _categoryRepo = categoryRepo;
         }
 
-        public JsonResult ByName(string term, string type, int? parentId)
+        public JsonResult ByName(string term, string type, int? parentId , bool? exactSearch)
         {
             IList<Category> categories;
             
             if (type == "Daily")
             {
+                string searchTerm = "%" + term + "%";
+                if (exactSearch.HasValue && exactSearch.Value)
+                    searchTerm = term;
+
                 categories = _categoryRepo.Session
                     .QueryOver<Category>()
                     .Where(c => c.Type == CategoryType.Daily)
                     .WhereRestrictionOn(c => c.Name)
-                    .IsLike("%" + term + "%")
+                    .IsLike(searchTerm)
                     .List();
             }
             else if (type == "DailyIssue"){
@@ -51,6 +56,12 @@ namespace TrueOrFalse.View.Web.Views.Api
                             numberOfQuestions = c.CountQuestions,
                             imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
                         }, JsonRequestBehavior.AllowGet);
+        }
+
+        public string GetUrl(string categoryName)
+        {
+            var category = _categoryRepo.GetByName(categoryName);
+            return Links.CategoryDetail(category);
         }
     }
 }

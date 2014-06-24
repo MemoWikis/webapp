@@ -27,7 +27,7 @@ public class CategoryRowModel : BaseModel
 
         UserCanEdit = _sessionUser.IsInstallationAdmin;
 
-        DetailLink = urlHelper => Links.CategoryDetail(urlHelper, category.Name, category.Id, indexInResultSet);
+        DetailLink = urlHelper => Links.CategoryDetail(category.Name, category.Id, indexInResultSet);
 
         DateCreated = category.DateCreated.ToString("dd.MM.yyyy");
         DateCreatedLong = category.DateCreated.ToString("U");

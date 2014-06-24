@@ -42,7 +42,7 @@
                 <h4 style="margin-top: 0;"><i class="fa fa-arrow-up"></i> Elternkategorien</h4>
                 <div style="margin-bottom: 12px;">
                     <% foreach(var category in Model.CategoriesParent){ %>
-                        <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>
+                        <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
                     <% } %>
                 </div>
             <% } %>
@@ -57,7 +57,7 @@
                 </h4>
                 <div style="margin-bottom: 12px;">
                     <% foreach(var category in Model.CategoriesChildren){ %>
-                        <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category"><%= category.Name %></span></a>
+                        <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
                     <% } %>
                 </div>
             <% } %>

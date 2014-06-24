@@ -295,6 +295,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
@@ -316,6 +317,9 @@
     <Content Include="Images\wiki-24.png" />
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
+    <Content Include="Scripts\CategoryApi.js">
+      <DependentUpon>CategoryApi.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\DateParser.js">
       <DependentUpon>DateParser.ts</DependentUpon>
     </Content>
@@ -622,6 +626,9 @@
     </Content>
     <Content Include="Scripts\SetsApi.js.map">
       <DependentUpon>SetsApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\CategoryApi.js.map">
+      <DependentUpon>CategoryApi.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />

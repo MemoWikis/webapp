@@ -35,7 +35,7 @@
                     <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0;">
                         <i class="fa fa-list"></i>&nbsp;zur Übersicht
                     </a><br/>
-                    <a href="<%= Links.CategoryDetail(Url, Model.Category) %>" style="font-size: 12px;">
+                    <a href="<%= Links.CategoryDetail(Model.Category) %>" style="font-size: 12px;">
                         <i class="fa fa-eye"></i>&nbsp;Detailansicht
                     </a> 
                 <% } %>            

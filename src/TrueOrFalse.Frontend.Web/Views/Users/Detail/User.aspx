@@ -114,7 +114,7 @@
         
             <h4 style="margin-top: 20px;">Wunschwissen-Kategorienfilter</h4>
             <% foreach (var category in Model.WishQuestionsCategories){ %>
-                <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="margin-top: 7px;"><%= category.Name %></span></a>        
+                <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category" style="margin-top: 7px;"><%= category.Name %></span></a>        
             <% } %>
 
         </div>

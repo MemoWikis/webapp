@@ -123,7 +123,7 @@
                         <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i> 
                     </a>
                  <% }else{ %>
-                    <a href="<%= Links.CategoryDetail( Url, categoryHistoryItem.Name, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie: <%=categoryHistoryItem.Name%>" data-placement="right">
+                    <a href="<%= Links.CategoryDetail(categoryHistoryItem.Name, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie: <%=categoryHistoryItem.Name%>" data-placement="right">
                         <i class="fa fa-caret-right"></i> <%=categoryHistoryItem.Name%>
                     </a>
                 <% } %>

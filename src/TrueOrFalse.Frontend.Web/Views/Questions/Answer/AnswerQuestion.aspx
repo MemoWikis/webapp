@@ -49,7 +49,7 @@
                 </li>
                 <li>
                     <% if (Model.SourceIsCategory){ %>
-                        <a href="<%= Links.CategoryDetail(Url, Model.SourceCategory) %>">
+                        <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>">
                             Kategorie:
                             <span class="label label-set"><%= Model.SourceCategory.Name %></span>
                         </a>                                    
@@ -229,7 +229,7 @@
             <% if(Model.Categories.Count > 0){ %>
                 <p style="padding-top: 10px;">
                     <% foreach (var category in Model.Categories){ %>
-                        <a href="<%= Links.CategoryDetail(Url, category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
+                        <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
                     <% } %>
                 </p>
             <% } %>

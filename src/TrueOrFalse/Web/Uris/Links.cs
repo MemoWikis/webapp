@@ -113,13 +113,13 @@ namespace TrueOrFalse.Frontend.Web.Code
             return "/Fragesaetze/" + UriSanitizer.Run(name) + "/" + id +  "/1";
         }
 
-        public static string CategoryDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
-            return url.Action("Category", "Category",
+        public static string CategoryDetail(string name, int id, int elementOnpage = 1){
+            return GetUrlHelper().Action("Category", "Category",
                 new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage }, null);
         }
 
-        public static string CategoryDetail(UrlHelper url, Category category){
-            return CategoryDetail(url, category.Name, category.Id);
+        public static string CategoryDetail(Category category){
+            return CategoryDetail(category.Name, category.Id);
         }
 
         public static object CategoryEdit(UrlHelper url, int id){
@@ -190,5 +190,10 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string AccountController = "Account";
         public const string Logout = "Logout";
+
+        public static UrlHelper GetUrlHelper()
+        {
+            return new UrlHelper(HttpContext.Current.Request.RequestContext);
+        }
     }
 }
