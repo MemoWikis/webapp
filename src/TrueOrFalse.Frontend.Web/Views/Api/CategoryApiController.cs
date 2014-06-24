@@ -35,17 +35,8 @@ namespace TrueOrFalse.View.Web.Views.Api
                     .IsLike("%" + term + "%")
                     .List();
             }
-            else if (type == "DailyIssue")
-            {
-                categories = _categoryRepo.Session
-                    .QueryOver<Category>()
-                    .Where(c => c.Type == CategoryType.DailyIssue)
-                    .JoinQueryOver<Category>(c => c.ParentCategories)
-                    .Where(c => 
-                        c.Type == CategoryType.Daily &&
-                        c.Id == parentId
-                    )
-                    .List<Category>();
+            else if (type == "DailyIssue"){
+                categories = _categoryRepo.GetChildren(CategoryType.Daily, CategoryType.DailyIssue, (int)parentId);
             }
             else
             {
@@ -53,14 +44,13 @@ namespace TrueOrFalse.View.Web.Views.Api
                 categories = _categoryRepo.GetByIds(categoryIds.ToArray());
             }
 
-
             return Json(from c in categories
                         select new {
                             id = c.Id,
                             name = c.Name,
                             numberOfQuestions = c.CountQuestions,
                             imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
-                        }, JsonRequestBehavior.AllowGet); 
+                        }, JsonRequestBehavior.AllowGet);
         }
     }
 }

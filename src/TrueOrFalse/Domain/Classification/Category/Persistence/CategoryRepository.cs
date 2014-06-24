@@ -46,6 +46,21 @@ namespace TrueOrFalse
             return GetByIds(questionIds.ToArray());
         }
 
+
+        public IList<Category> GetChildren(CategoryType parentType, CategoryType childrenType, int parentId)
+        {
+            return Session
+                .QueryOver<Category>()
+                .Where(c => c.Type == childrenType)
+                .JoinQueryOver<Category>(c => c.ParentCategories)
+                .Where(c =>
+                    c.Type == parentType &&
+                    c.Id == parentId
+                )
+                .List<Category>();            
+        }
+
+
         public override IList<Category> GetByIds(params int[] categoryIds)
         {
             var categories = base.GetByIds(categoryIds);

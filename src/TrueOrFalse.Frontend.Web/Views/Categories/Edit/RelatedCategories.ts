@@ -26,7 +26,8 @@ class AutocompleteCategories {
     constructor(
         inputSelector: string,
         isSingleSelect: boolean = false,
-        filterType: AutoCompleteFilterType = AutoCompleteFilterType.None ) {
+        filterType: AutoCompleteFilterType = AutoCompleteFilterType.None,
+        selectorParentId : string = "") {
 
         this._filterType = filterType;
 
@@ -98,7 +99,7 @@ class AutocompleteCategories {
                 }
 
                 if (self._filterType == AutoCompleteFilterType.DailyIssue) {
-                    type = "&type=DailyIssue";
+                    type = "&type=DailyIssue&parentId=" + $(selectorParentId).val();
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {

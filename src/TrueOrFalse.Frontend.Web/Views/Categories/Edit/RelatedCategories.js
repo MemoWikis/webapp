@@ -16,9 +16,10 @@ var AutoCompleteFilterType;
 })(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, filterType) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParentId) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
         if (typeof filterType === "undefined") { filterType = 0 /* None */; }
+        if (typeof selectorParentId === "undefined") { selectorParentId = ""; }
         this._filterType = filterType;
 
         var self = this;
@@ -77,7 +78,7 @@ var AutocompleteCategories = (function () {
                 }
 
                 if (self._filterType == 2 /* DailyIssue */) {
-                    type = "&type=DailyIssue";
+                    type = "&type=DailyIssue&parentId=" + $(selectorParentId).val();
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {

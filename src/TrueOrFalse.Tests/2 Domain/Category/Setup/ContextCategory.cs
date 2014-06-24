@@ -24,15 +24,18 @@ namespace TrueOrFalse.Tests
             return BaseTest.Resolve<ContextCategory>();
         }
 
-        public ContextCategory Add(string categoryName)
+        public ContextCategory Add(string categoryName, CategoryType categoryType = CategoryType.Standard)
         {
             Category category;
             if (_categoryRepository.Exists(categoryName))
+            {  
                 category = _categoryRepository.GetByName(categoryName);
+            }
             else
             {
                 category = new Category(categoryName);
                 category.Creator = _contextUser.All.First();
+                category.Type = categoryType;
                 _categoryRepository.Create(category);
             }
 
@@ -52,6 +55,16 @@ namespace TrueOrFalse.Tests
                 _categoryRepository.Create(cat);
 
             return this;
+        }
+
+        public ContextCategory Update()
+        {
+            foreach (var cat in All)
+                _categoryRepository.Update(cat);
+
+            _categoryRepository.Session.Flush();
+
+            return this;            
         }
     }
 }

@@ -142,7 +142,7 @@
                     "</div>" +
                 "</div>"
                 );
-            new AutocompleteCategories("#TxtDailyIssue", true, AutoCompleteFilterType.DailyIssue);
+            new AutocompleteCategories("#TxtDailyIssue", true, AutoCompleteFilterType.DailyIssue, "");
         };
         autoComplete.OnRemove = function () {
             $("#IssueSelect").remove();

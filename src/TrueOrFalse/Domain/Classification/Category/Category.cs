@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
+    [DebuggerDisplay("Id={Id} Name={Name}")]
     [Serializable]
     public class Category : DomainEntity
     {
