@@ -10,7 +10,12 @@ public class EditCategoryModel_Category_Exists : IRegisterAsInstancePerLifetime
 
     public bool Yes(EditCategoryModel model)
     {
-        ExistingCategory = ServiceLocator.Resolve<CategoryRepository>().GetByName(model.Name);
-        return ExistingCategory != null;
+        return Yes(model.Name);
+    }
+
+    public bool Yes(string categoryName)
+    {
+        ExistingCategory = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
+        return ExistingCategory != null;        
     }
 }

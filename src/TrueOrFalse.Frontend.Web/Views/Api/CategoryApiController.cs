@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Activities.Expressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,7 +22,7 @@ namespace TrueOrFalse.View.Web.Views.Api
             _categoryRepo = categoryRepo;
         }
 
-        public JsonResult ByName(string term, string type)
+        public JsonResult ByName(string term, string type, int? parentId)
         {
             IList<Category> categories;
             
@@ -30,28 +31,21 @@ namespace TrueOrFalse.View.Web.Views.Api
                 categories = _categoryRepo.Session
                     .QueryOver<Category>()
                     .Where(c => c.Type == CategoryType.Daily)
-                    .WhereRestrictionOn(c => c.Name).IsLike(term + "%")
+                    .WhereRestrictionOn(c => c.Name)
+                    .IsLike("%" + term + "%")
                     .List();
             }
             else if (type == "DailyIssue")
             {
-                //categories = _categoryRepo.Session
-                //    .QueryOver<Category>()
-                //    .Where(c => c.Type == CategoryType.DailyIssue && c.ParentCategories.Any(p => p.Name == "..."))
-                //    .WhereRestrictionOn(c => c.Name).IsLike("%" + term + "%")
-                //    .List();                
-
-
-                categories = _categoryRepo.Session.CreateQuery(String.Format(
-                    @"FROM category as c /* DailyIssue */
-                     INNER JOIN category as categoryParent
-                     ON c.P = categoryParent.Id 
-                     AND categoryParent.`Type` = '{0}'
-                     WHERE c.`Type` = '{1}'
-                     AND categoryParent.Id = {2}", (int)CategoryType.Daily, (int)CategoryType.DailyIssue, "105" ))
-                            .SetResultTransformer(Transformers.AliasToBean(typeof(Category)))
-                            .List<Category>();
-
+                categories = _categoryRepo.Session
+                    .QueryOver<Category>()
+                    .Where(c => c.Type == CategoryType.DailyIssue)
+                    .JoinQueryOver<Category>(c => c.ParentCategories)
+                    .Where(c => 
+                        c.Type == CategoryType.Daily &&
+                        c.Id == parentId
+                    )
+                    .List<Category>();
             }
             else
             {

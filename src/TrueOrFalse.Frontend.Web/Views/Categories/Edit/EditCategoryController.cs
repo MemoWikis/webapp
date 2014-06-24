@@ -72,19 +72,7 @@ public class EditCategoryController : BaseController
 
     [HttpPost]
     public ActionResult Create(EditCategoryModel model, HttpPostedFileBase file)
-    {
-        var categoryExists = new EditCategoryModel_Category_Exists();
-        if (categoryExists.Yes(model))
-        {
-            model.Message = new ErrorMessage(
-                string.Format("Die Kategorie <strong>'{0}'</strong> existiert bereits. " +
-                              "Klicke <a href=\"{1}\">hier</a>, um sie zu bearbeiten.", 
-                              categoryExists.ExistingCategory.Name,
-                              Url.Action("Edit", new { id = categoryExists.ExistingCategory.Id })));
-
-            return View(_viewPath, model);
-        }
-
+    {                
         model.FillReleatedCategoriesFromPostData(Request.Form);
         
         var convertResult = model.ConvertToCategory();
@@ -101,6 +89,19 @@ public class EditCategoryController : BaseController
         var category = convertResult.Category;
         category.Creator = _sessionUser.User;
 
+        var categoryExists = new EditCategoryModel_Category_Exists();
+        if (categoryExists.Yes(category.Name))
+        {
+            model.Message = new ErrorMessage(
+                string.Format("Die Kategorie <strong>'{0}'</strong> existiert bereits. " +
+                              "Klicke <a href=\"{1}\">hier</a>, um sie zu bearbeiten.",
+                              categoryExists.ExistingCategory.Name,
+                              Url.Action("Edit", new { id = categoryExists.ExistingCategory.Id })));
+
+            return View(_viewPath, model);
+        }
+
+
         _categoryRepository.Create(category);
         StoreImage(category.Id);
 
@@ -111,7 +112,7 @@ public class EditCategoryController : BaseController
                  "Die Kategorie <strong>'{0}'</strong> wurde angelegt.<br>" + 
                  "Du kannst die Kategorie jetzt bearbeiten" +
                  " oder eine <a href='/Kategorien/Erstelle'>neue Kategorie anlegen</a>.", 
-                model.Name));
+                category.Name));
 
         return Redirect("/Kategorien/Bearbeite/" + category.Id);
     }
