@@ -16,10 +16,10 @@ var AutoCompleteFilterType;
 })(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParentId) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParentName) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
         if (typeof filterType === "undefined") { filterType = 0 /* None */; }
-        if (typeof selectorParentId === "undefined") { selectorParentId = ""; }
+        if (typeof selectorParentName === "undefined") { selectorParentName = ""; }
         this._filterType = filterType;
 
         var self = this;
@@ -44,7 +44,7 @@ var AutocompleteCategories = (function () {
 
             if (self._isSingleSelect) {
                 catIdx = inputSelector.substring(1);
-                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "'>" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
+                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catText + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
                 elemInput.hide();
             } else {
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "' >" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
@@ -72,16 +72,16 @@ var AutocompleteCategories = (function () {
         $(inputSelector).autocomplete({
             minLength: 0,
             source: function (request, response) {
-                var type = "";
+                var params = "";
                 if (self._filterType == 1 /* Daily */) {
-                    type = "&type=Daily";
+                    params = "&type=Daily";
                 }
 
                 if (self._filterType == 2 /* DailyIssue */) {
-                    type = "&type=DailyIssue&parentId=" + $(selectorParentId).val();
+                    params = "&type=DailyIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
                 }
 
-                $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {
+                $.get("/Api/Category/ByName?term=" + request.term + params, function (data) {
                     response(data);
                 });
             },

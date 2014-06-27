@@ -27,7 +27,7 @@ class AutocompleteCategories {
         inputSelector: string,
         isSingleSelect: boolean = false,
         filterType: AutoCompleteFilterType = AutoCompleteFilterType.None,
-        selectorParentId : string = "") {
+        selectorParentName : string = "") {
 
         this._filterType = filterType;
 
@@ -56,7 +56,7 @@ class AutocompleteCategories {
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
                         "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "'>" + catText + "</a>" +
-                        "<input type='hidden' value='" + catText + "' name='" + "hdd" + catIdx + "'/> " +
+                        "<input id='hdd" + catIdx + "' type='hidden' value='" + catText + "'name='" + "hdd" + catIdx + "'/> " +
                         "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +
                     "</div> ");
                 elemInput.hide();
@@ -93,16 +93,16 @@ class AutocompleteCategories {
             minLength: 0,
             source: function (request, response) {
 
-                var type = "";
+                var params = "";
                 if (self._filterType == AutoCompleteFilterType.Daily) {
-                    type = "&type=Daily";
+                    params = "&type=Daily";
                 }
 
                 if (self._filterType == AutoCompleteFilterType.DailyIssue) {
-                    type = "&type=DailyIssue&parentId=" + $(selectorParentId).val();
+                    params = "&type=DailyIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
                 }
 
-                $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {
+                $.get("/Api/Category/ByName?term=" + request.term + params, function (data) {
                     response(data);
                 });
             },

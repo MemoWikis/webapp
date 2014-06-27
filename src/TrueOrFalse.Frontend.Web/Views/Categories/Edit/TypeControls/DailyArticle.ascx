@@ -137,12 +137,12 @@
                     "</label>" +
                     "<div class='JS-RelatedCategories columnControlsFull'>" +
                         "<div class='JS-CatInputContainer'>" +
-                            "<input id='TxtDailyIssue' class='form-control' name='' type='text' value='' placeholder='Suche nach Datum'>" +
+                            "<input id='TxtDailyIssue' class='form-control' name='' type='text' value='' placeholder='Suche nach Datum (TT.MM.JJJJ)'>" +
                         "</div>" +
                     "</div>" +
                 "</div>"
                 );
-            new AutocompleteCategories("#TxtDailyIssue", true, AutoCompleteFilterType.DailyIssue, "");
+            new AutocompleteCategories("#TxtDailyIssue", true, AutoCompleteFilterType.DailyIssue, "#TxtDaily");
         };
         autoComplete.OnRemove = function () {
             $("#IssueSelect").remove();
