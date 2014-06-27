@@ -19,6 +19,11 @@ public class DraftsController : Controller
         return View(new WelcomeModel());
     }
 
+    public ActionResult Forms()
+    {
+        return View(new WelcomeModel());
+    }
+
     public ActionResult Grid()
     {
         return View(new WelcomeModel());
