@@ -7,6 +7,17 @@
 
 .FormColumnGrid (@labels-stacked: false; 3);//conditional styles, @labels-stacked: TRUE for having labels stacked
 
+.ControlsInline {
+    width: 250px;//overwrite with custom width
+    padding-right: @grid-gutter-width/2;
+    float: left;
+    #Clearfix;
+    .media-below-xs ({
+        width: 100%;
+        padding-right: 0;
+    });
+}
+
 .CategoryTypeHeader {
     color: @color-category;
     margin-top: 0;
