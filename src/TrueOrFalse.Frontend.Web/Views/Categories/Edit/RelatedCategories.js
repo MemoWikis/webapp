@@ -45,7 +45,9 @@ var AutocompleteCategories = (function () {
             if (self._isSingleSelect) {
                 catIdx = inputSelector.substring(1);
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catText + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
-                elemInput.hide();
+                elemInput.attr("type", "hidden").hide();
+                var validator = $("#EditCategoryForm").validate();
+                validator.element(elemInput);
             } else {
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "' >" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
             }
@@ -64,7 +66,7 @@ var AutocompleteCategories = (function () {
                 });
 
                 if (self._isSingleSelect)
-                    elemInput.show();
+                    elemInput.attr("type", "").show();
             });
             $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
         }
@@ -85,11 +87,11 @@ var AutocompleteCategories = (function () {
                     response(data);
                 });
             },
-            focus: function (event, ui) {
-                $(inputSelector).data("category-id", ui.item.id);
-                $(inputSelector).val(ui.item.name);
-                return false;
-            },
+            //focus: function (event, ui) {
+            //    $(inputSelector).data("category-id", ui.item.id);
+            //    $(inputSelector).val(ui.item.name);
+            //    return false;
+            //},
             select: function (event, ui) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);

@@ -78,6 +78,12 @@ var fnEditCatValidation = function (categoryType) {
         $('[name="TitleVolume"]').rules("add", { required: true, });
         $('[name="Editor"]').rules("add", { required: true, });
     }
+
+    if (categoryType == "DailyArticle") {
+        $('[name="Author"]').rules("add", { required: false, });
+        $('[name="TxtDaily"]').rules("add", { required: true, });
+        $('[name="TxtDailyIssue"]').rules("add", { required: true, });
+    }
 }
 
 

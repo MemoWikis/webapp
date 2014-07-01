@@ -59,7 +59,9 @@ class AutocompleteCategories {
                         "<input id='hdd" + catIdx + "' type='hidden' value='" + catText + "'name='" + "hdd" + catIdx + "'/> " +
                         "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +
                     "</div> ");
-                elemInput.hide();
+                elemInput.attr("type", "hidden").hide();
+                var validator = $("#EditCategoryForm").validate();
+                validator.element(elemInput);
             } else {
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
@@ -83,7 +85,7 @@ class AutocompleteCategories {
                 });
 
                 if (self._isSingleSelect)
-                    elemInput.show();
+                    elemInput.attr("type", "").show();
 
             });
             $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
@@ -106,11 +108,11 @@ class AutocompleteCategories {
                     response(data);
                 });
             },
-            focus: function (event, ui) {
-                $(inputSelector).data("category-id", ui.item.id);
-                $(inputSelector).val(ui.item.name);
-                return false;
-            },
+            //focus: function (event, ui) {
+            //    $(inputSelector).data("category-id", ui.item.id);
+            //    $(inputSelector).val(ui.item.name);
+            //    return false;
+            //},
             select: function (event, ui) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);

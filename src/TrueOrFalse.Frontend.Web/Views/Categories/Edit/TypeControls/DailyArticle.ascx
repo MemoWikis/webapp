@@ -84,6 +84,7 @@
                 "</div>"
                 );
             new AutocompleteCategories("#TxtDailyIssue", true, AutoCompleteFilterType.DailyIssue, "#TxtDaily");
+            fnEditCatValidation("DailyArticle");
         };
         autoComplete.OnRemove = function () {
             $("#IssueSelect").remove();
