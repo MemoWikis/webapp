@@ -13,12 +13,36 @@
             Tageszeitung
         </label>
         <div class="JS-RelatedCategories columnControlsFull">
-            <div class="JS-CatInputContainer ControlsInline">
-                <input id="TxtDaily" class="form-control" name="TxtDaily" type="" value="" placeholder="Suche nach Titel oder ISSN">    
-            </div>
+            <% if(Model.IsEditing){ %>
+            <p class="form-control-static">
+                <%= model.Daily.Name %>
+                <span>
+                    <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+                </span>
+            </p>
+            <% }else{ %>
+                <div class="JS-CatInputContainer ControlsInline">
+                    <input id="TxtDaily" class="form-control" name="TxtDaily" type="" value="" placeholder="Suche nach Titel oder ISSN">    
+                </div>
+            <% } %>
+            
         </div>
     </div>
-    
+    <% if(Model.IsEditing){ %>
+        <div class="form-group">
+            <label class="RequiredField columnLabel control-label" for="">
+                Ausgabe
+            </label>
+            <div class="columnControlsFull">
+                <p class="form-control-static">
+                    <%= model.DailyIssue.Name %>
+                    <span>
+                        <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung/Ausgabe lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+                    </span>
+                </p>
+            </div>
+        </div>
+    <% } %>
 </div>
 
 <div class="form-group">
@@ -66,28 +90,33 @@
         <input class="form-control" name="Url" type="text" value="<%= model.Url %>">
     </div>
 </div>
-<script type="text/javascript">
-    $(function () {
-        var autoComplete = new AutocompleteCategories("#TxtDaily", true, AutoCompleteFilterType.Daily);
-        autoComplete.OnAdd = function () {
-            $("#IssueSelect").remove();
-            $("#JS-IssueSelectGroup").append(
-                "<div id='IssueSelect' class='form-group JS-DependentField'>" +
-                    "<label class='RequiredField columnLabel control-label' for=''>" +
-                    "Ausgabe" +
-                    "</label>" +
-                    "<div class='JS-RelatedCategories columnControlsFull'>" +
-                        "<div class='JS-CatInputContainer ControlsInline'>" +
-                            "<input id='TxtDailyIssue' class='form-control' name='TxtDailyIssue' type='' value='' placeholder='Suche nach Datum (TT.MM.JJJJ)'>" +
+<% if (!Model.IsEditing)
+   { %>
+    <script type="text/javascript">
+        $(function () {
+            $('[name="TxtDaily"]').rules("add", { required: true, });
+            var autoComplete = new AutocompleteCategories("#TxtDaily", true, AutoCompleteFilterType.Daily);
+            autoComplete.OnAdd = function () {
+                $("#IssueSelect").remove();
+                $("#JS-IssueSelectGroup").append(
+                    "<div id='IssueSelect' class='form-group JS-DependentField'>" +
+                        "<label class='RequiredField columnLabel control-label' for=''>" +
+                        "Ausgabe" +
+                        "</label>" +
+                        "<div class='JS-RelatedCategories columnControlsFull'>" +
+                            "<div class='JS-CatInputContainer ControlsInline'>" +
+                                "<input id='TxtDailyIssue' class='form-control' name='TxtDailyIssue' type='' value='' placeholder='Suche nach Datum (TT.MM.JJJJ)'>" +
+                            "</div>" +
                         "</div>" +
-                    "</div>" +
-                "</div>"
-                );
-            new AutocompleteCategories("#TxtDailyIssue", true, AutoCompleteFilterType.DailyIssue, "#TxtDaily");
-            fnEditCatValidation("DailyArticle");
-        };
-        autoComplete.OnRemove = function () {
-            $("#IssueSelect").remove();
-        };
-    });
-</script>
+                    "</div>"
+                    );
+                new AutocompleteCategories("#TxtDailyIssue", true, AutoCompleteFilterType.DailyIssue, "#TxtDaily");
+                fnEditCatValidation("DailyArticle");
+                $('[name="TxtDailyIssue"]').rules("add", { required: true, });
+            };
+            autoComplete.OnRemove = function () {
+                $("#IssueSelect").remove();
+            };
+        });
+    </script>
+<% } %>

@@ -81,8 +81,6 @@ var fnEditCatValidation = function (categoryType) {
     //Further custom settings for partials:
     if (categoryType == "DailyArticle") {
         $('[name="Author"]').rules("add", { required: false });
-        $('[name="TxtDaily"]').rules("add", { required: true });
-        $('[name="TxtDailyIssue"]').rules("add", { required: true });
     }
 
     if (categoryType == "DailyIssue") {

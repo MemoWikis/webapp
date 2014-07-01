@@ -14,11 +14,16 @@
     <div class="JS-RelatedCategories columnControlsFull">
         
         <% if(Model.IsEditing){ %>
-            <p class="form-control-static"><%= model.Daily.Name %></p>      
+            <p class="form-control-static">
+                <%= model.Daily.Name %>
+                <span>
+                    <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+                </span>
+            </p>
+
         <% }else{ %>
             <div class="JS-CatInputContainer ControlsInline">
                 <input id="TxtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">
-                <span><i class="fa fa-question-circle"></i></span>    
             </div>
         <% } %>
     </div>
