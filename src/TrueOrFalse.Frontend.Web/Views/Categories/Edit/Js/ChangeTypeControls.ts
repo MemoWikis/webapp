@@ -47,6 +47,9 @@
         if ($("input:radio[name='rdoCategoryTypeGroup']:checked").val() == 'education')
             selectedValue = $("select[name='ddlCategoryTypeEducation']").val();
         }
+                                            
+        $("#CategoryDetailsBody").html("<h4 class='CategoryTypeHeader'> Formular wird geladen...</h4>");
+
 
         $.ajax({
             url: '/EditCategory/DetailsPartial?categoryId=' + $("#categoryId").val() + '&type=' + selectedValue,
