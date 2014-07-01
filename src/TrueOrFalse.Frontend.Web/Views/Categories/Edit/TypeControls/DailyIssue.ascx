@@ -16,31 +16,11 @@
         <% if(Model.IsEditing){ %>
             <p class="form-control-static"><%= model.Daily.Name %></p>      
         <% }else{ %>
-            <div class="JS-CatInputContainer">
-                <input id="TxtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">    
+            <div class="JS-CatInputContainer ControlsInline">
+                <input id="TxtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">
+                <span><i class="fa fa-question-circle"></i></span>    
             </div>
         <% } %>
-
-        
-<%--        <ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all" id="ui-id-1" tabindex="0" style="display: block; position: static; width: 330px;">
-            <li class="ui-menu-item" role="presentation">
-                <a class="CatListItem ui-corner-all" id="ui-id-39" tabindex="-1">
-                    <img src="/Images/no-category-picture-50.png">
-                    <div class="CatDescription">
-                        <span class="" style="font-weight: bold;">Der Spiegel</span>
-                        <span class="NumberQuestions">ISSN: 0038-7452</span>
-                    </div>
-                </a>
-            </li>
-            <li class="ui-menu-item" role="presentation">
-                <a class="CatListItem ui-corner-all" id="ui-id-39" tabindex="-1">
-                    <div class="CatDescription">
-                        <span class="" style="font-weight: bold;">Kein Treffer:</span>
-                        <span class="NumberQuestions">Zeitung in neuem Tab anlegen</span>
-                    </div>
-                </a>
-            </li>
-        </ul>--%>
     </div>
 </div>
 
@@ -61,17 +41,17 @@
         <div class="form-group JS-ValidationGroup">
             <label class="sr-only" for="PublicationDateDay">Tag</label>
             <div style="width: 70px;" class="col-xs-1">
-                <input class="form-control JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>">
+                <input class="form-control JS-ValidationGroupMember JS-DateGroup" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>">
             </div>
             <label class="control-label" style="float: left;">.</label>
             <label class="sr-only" for="PublicationDateMonth">Monat</label>
             <div style="width: 70px;" class="col-xs-1">
-                <input class="form-control JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>">
+                <input class="form-control JS-ValidationGroupMember JS-DateGroup" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>">
             </div>
             <label class="control-label" style="float: left;">.</label>
             <label class="sr-only" for="Year">Jahr</label>
             <div style="width: 100px;" class="col-xs-1">
-                <input class="form-control JS-ValidationGroupMember" name="Year" type="text" value="<%= model.Year %>">
+                <input class="form-control JS-ValidationGroupMember JS-DateGroup" name="Year" type="text" value="<%= model.Year %>">
             </div>
         </div>
     </div>
@@ -103,9 +83,10 @@
         <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
     </div>
 </div>
-
+<%if (!Model.IsEditing) { %>
 <script type="text/javascript">
     $(function () {
         new AutocompleteCategories("#TxtDaily", true, AutoCompleteFilterType.Daily);
     });
 </script>
+<% } %>

@@ -71,7 +71,7 @@ var AutocompleteCategories = (function () {
             $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
         }
 
-        $(inputSelector).autocomplete({
+        var autocomplete = $(inputSelector).autocomplete({
             minLength: 0,
             source: function (request, response) {
                 var params = "";
@@ -103,7 +103,9 @@ var AutocompleteCategories = (function () {
                 addCat();
                 return false;
             }
-        }).data("ui-autocomplete")._renderItem = function (ul, item) {
+        });
+
+        autocomplete.data("ui-autocomplete")._renderItem = function (ul, item) {
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 

@@ -42,6 +42,8 @@ var fnAddRegExMethod = function (name, regEx, message) {
         return regEx.test(value);
     }, message);
 };
+//Add require_from_group method with custom message
+//jQuery.validator.addMethod("methodName", $.validator.methods.require_from_group, "Custom massage");
 //var fnDependentField = function(selectorPrimaryField, selectorDependentField, domDependentField) {
 //}
 //var fnAddOtherFieldFirstMethod = function (selectorPrimaryField, selectorDependentField, methodName, message) {

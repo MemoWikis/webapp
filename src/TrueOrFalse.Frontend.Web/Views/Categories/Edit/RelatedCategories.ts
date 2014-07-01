@@ -91,9 +91,9 @@ class AutocompleteCategories {
             $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
         }
 
-        $(inputSelector).autocomplete({
+        var autocomplete = $(inputSelector).autocomplete({
             minLength: 0,
-            source: function (request, response) {
+            source: function(request, response) {
 
                 var params = "";
                 if (self._filterType == AutoCompleteFilterType.Daily) {
@@ -104,7 +104,7 @@ class AutocompleteCategories {
                     params = "&type=DailyIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
                 }
 
-                $.get("/Api/Category/ByName?term=" + request.term + params, function (data) {
+                $.get("/Api/Category/ByName?term=" + request.term + params, function(data) {
                     response(data);
                 });
             },
@@ -113,7 +113,7 @@ class AutocompleteCategories {
             //    $(inputSelector).val(ui.item.name);
             //    return false;
             //},
-            select: function (event, ui) {
+            select: function(event, ui) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
@@ -124,7 +124,9 @@ class AutocompleteCategories {
                 addCat();
                 return false;
             }
-        }).data("ui-autocomplete")._renderItem = function (ul, item): any {
+        });
+
+        autocomplete.data("ui-autocomplete")._renderItem = function (ul, item): any {
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
