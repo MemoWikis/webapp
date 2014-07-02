@@ -24,20 +24,12 @@
 
         <% }else{ %>
             <div class="JS-CatInputContainer ControlsInline">
-                <input id="TxtDaily" class="form-control" name="" type="text" value="" placeholder="Suche nach Titel oder ISSN">
+                <input id="TxtDaily" class="form-control" name="TxtDaily" type="text" value="" placeholder="Suche nach Titel oder ISSN">
             </div>
         <% } %>
     </div>
 </div>
 
-<%--<div class="form-group">
-    <label class="RequiredField columnLabel control-label" for="Year">
-        Jahr
-    </label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="Year" type="text" value="<%= model.Year %>">
-    </div>
-</div>--%>
 <div class="form-group">
     <label class="RequiredField columnLabel control-label">
         Erscheinungsdatum
@@ -46,18 +38,18 @@
     <div class="columnControlsFull">
         <div class="form-group JS-ValidationGroup">
             <label class="sr-only" for="PublicationDateDay">Tag</label>
-            <div style="width: 70px;" class="col-xs-1">
-                <input class="form-control JS-ValidationGroupMember JS-DateGroup" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>">
+            <div style="width: 75px;" class="col-xs-1">
+                <input class="form-control JS-ValidationGroupMember JS-DateGroup" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>" placeholder="TT">
             </div>
             <label class="control-label" style="float: left;">.</label>
             <label class="sr-only" for="PublicationDateMonth">Monat</label>
-            <div style="width: 70px;" class="col-xs-1">
-                <input class="form-control JS-ValidationGroupMember JS-DateGroup" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>">
+            <div style="width: 75px;" class="col-xs-1">
+                <input class="form-control JS-ValidationGroupMember JS-DateGroup" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>" placeholder="MM">
             </div>
             <label class="control-label" style="float: left;">.</label>
             <label class="sr-only" for="Year">Jahr</label>
             <div style="width: 100px;" class="col-xs-1">
-                <input class="form-control JS-ValidationGroupMember JS-DateGroup" name="Year" type="text" value="<%= model.Year %>">
+                <input class="form-control JS-ValidationGroupMember JS-DateGroup" name="Year" type="text" value="<%= model.Year %>" placeholder="JJJJ">
             </div>
         </div>
     </div>
@@ -89,10 +81,11 @@
         <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
     </div>
 </div>
-<%if (!Model.IsEditing) { %>
-<script type="text/javascript">
-    $(function () {
-        new AutocompleteCategories("#TxtDaily", true, AutoCompleteFilterType.Daily);
-    });
-</script>
+ <%if (!Model.IsEditing) { %>
+    <script type="text/javascript">
+        $('[name="TxtDaily"]').rules("add", { required: true, });
+        $(function () {
+            new AutocompleteCategories("#TxtDaily", true, AutoCompleteFilterType.Daily);
+        });
+    </script>
 <% } %>
