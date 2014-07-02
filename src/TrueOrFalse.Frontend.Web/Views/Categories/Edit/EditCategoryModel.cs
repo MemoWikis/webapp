@@ -52,6 +52,9 @@ public class EditCategoryModel : BaseModel
         var parentCategories = category.ParentCategories;
         if (category.Type == CategoryType.DailyIssue)
             parentCategories = parentCategories.Where(c => c.Type != CategoryType.Daily).ToList();
+        if (category.Type == CategoryType.DailyArticle)
+            parentCategories = parentCategories.Where(c => c.Type != CategoryType.Daily && c.Type != CategoryType.DailyIssue).ToList();
+
 
         Category = category;
         Name = category.Name;

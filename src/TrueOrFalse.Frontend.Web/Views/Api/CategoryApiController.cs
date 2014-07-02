@@ -23,16 +23,14 @@ namespace TrueOrFalse.View.Web.Views.Api
             _categoryRepo = categoryRepo;
         }
 
-        public JsonResult ByName(string term, string type, int? parentId , bool? exactSearch)
+        public JsonResult ByName(string term, string type, string parentName)
         {
             IList<Category> categories;
-            
+
+            string searchTerm = "%" + term + "%";
+
             if (type == "Daily")
             {
-                string searchTerm = "%" + term + "%";
-                if (exactSearch.HasValue && exactSearch.Value)
-                    searchTerm = term;
-
                 categories = _categoryRepo.Session
                     .QueryOver<Category>()
                     .Where(c => c.Type == CategoryType.Daily)
@@ -41,7 +39,7 @@ namespace TrueOrFalse.View.Web.Views.Api
                     .List();
             }
             else if (type == "DailyIssue"){
-                categories = _categoryRepo.GetChildren(CategoryType.Daily, CategoryType.DailyIssue, (int)parentId);
+                categories = _categoryRepo.GetChildren(CategoryType.Daily, CategoryType.DailyIssue, parentName, searchTerm);
             }
             else
             {

@@ -1,24 +1,25 @@
 ﻿var fnValidateForm = function (formSelector, customSettings) {
+
     var validationSettings = {
-        highlight: function (element, errorClass, validClass) {
+        highlight: function(element, errorClass, validClass) {
             if (element.type === "radio") {
                 this.findByName(element.name).addClass(errorClass).removeClass(validClass);
             } else {
                 $(element).addClass(errorClass).removeClass(validClass);
             }
-            $(element).closest(".form-group").addClass(errorClass).removeClass(validClass);
+            $(element).closest(".form-group:not(.JS-ValidationGroup)").addClass(errorClass).removeClass(validClass);
         },
 
-        unhighlight: function (element, errorClass, validClass) {
+        unhighlight: function(element, errorClass, validClass) {
             if (element.type === "radio") {
                 this.findByName(element.name).removeClass(errorClass).addClass(validClass);
             } else {
                 $(element).removeClass(errorClass).addClass(validClass);
             }
-            $(element).closest(".form-group").removeClass(errorClass).addClass(validClass);
+            $(element).closest(".form-group:not(.JS-ValidationGroup)").removeClass(errorClass).addClass(validClass);
         },
 
-        errorPlacement: function (error, element) {
+        errorPlacement: function(error, element) {
             if (element.hasClass("JS-ValidationGroupMember")) {
                 error.appendTo(element.closest(".JS-ValidationGroup"));
             } else
@@ -27,13 +28,13 @@
 
         errorClass: "ValidationError",
         ignore: ":hidden, .JS-ValidationIgnore",
-
-    }
+}
 
     $.extend(true, validationSettings, customSettings);
 
-    $(formSelector).validate(validationSettings);
+    var validator = $(formSelector).validate(validationSettings);
 
+    return validator;
 }
 
 var fnAddRegExMethod = function(name, regEx, message){
@@ -53,6 +54,9 @@ var fnAddRegExMethod = function(name, regEx, message){
         message
     );
 }
+
+//Add require_from_group method with custom message
+//jQuery.validator.addMethod("methodName", $.validator.methods.require_from_group, "Custom massage");
 
 //var fnDependentField = function(selectorPrimaryField, selectorDependentField, domDependentField) {
     

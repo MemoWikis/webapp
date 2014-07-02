@@ -47,19 +47,29 @@ namespace TrueOrFalse
         }
 
 
-        public IList<Category> GetChildren(CategoryType parentType, CategoryType childrenType, int parentId)
+        public IList<Category> GetChildren(CategoryType parentType, CategoryType childrenType, int parentId, string searchTerm = "")
         {
-            return Session
+            var query = Session
                 .QueryOver<Category>()
-                .Where(c => c.Type == childrenType)
-                .JoinQueryOver<Category>(c => c.ParentCategories)
+                .Where(c => c.Type == childrenType);
+
+            if (!String.IsNullOrEmpty(searchTerm))
+                query.WhereRestrictionOn(c => c.Name)
+                    .IsLike(searchTerm);
+
+            query.JoinQueryOver<Category>(c => c.ParentCategories)
                 .Where(c =>
                     c.Type == parentType &&
                     c.Id == parentId
-                )
-                .List<Category>();            
+                );
+            
+            return query.List<Category>();            
         }
 
+        public IList<Category> GetChildren(CategoryType parentType, CategoryType childrenType, string parentName, string searchTerm = "")
+        {
+            return GetChildren(parentType, childrenType, GetByName(parentName).Id, searchTerm);
+        }
 
         public override IList<Category> GetByIds(params int[] categoryIds)
         {

@@ -213,25 +213,6 @@
 }
 /* CATEGORIES
 ----------------------------------------------------------*/
-.JS-CatInputContainer {
-  width: 50%;
-  padding-right: 10px;
-  float: left;
-}
-.JS-CatInputContainer:before,
-.JS-CatInputContainer:after {
-  content: " ";
-  display: table;
-}
-.JS-CatInputContainer:after {
-  clear: both;
-}
-@media (max-width: 479px) {
-  .JS-CatInputContainer {
-    width: 100%;
-    padding-right: 0;
-  }
-}
 ul.ui-autocomplete a.CatListItem {
   border: 1px transparent solid;
   padding: 5px !important;

@@ -6,7 +6,7 @@
             } else {
                 $(element).addClass(errorClass).removeClass(validClass);
             }
-            $(element).closest(".form-group").addClass(errorClass).removeClass(validClass);
+            $(element).closest(".form-group:not(.JS-ValidationGroup)").addClass(errorClass).removeClass(validClass);
         },
         unhighlight: function (element, errorClass, validClass) {
             if (element.type === "radio") {
@@ -14,7 +14,7 @@
             } else {
                 $(element).removeClass(errorClass).addClass(validClass);
             }
-            $(element).closest(".form-group").removeClass(errorClass).addClass(validClass);
+            $(element).closest(".form-group:not(.JS-ValidationGroup)").removeClass(errorClass).addClass(validClass);
         },
         errorPlacement: function (error, element) {
             if (element.hasClass("JS-ValidationGroupMember")) {
@@ -28,7 +28,9 @@
 
     $.extend(true, validationSettings, customSettings);
 
-    $(formSelector).validate(validationSettings);
+    var validator = $(formSelector).validate(validationSettings);
+
+    return validator;
 };
 
 var fnAddRegExMethod = function (name, regEx, message) {
@@ -42,6 +44,8 @@ var fnAddRegExMethod = function (name, regEx, message) {
         return regEx.test(value);
     }, message);
 };
+//Add require_from_group method with custom message
+//jQuery.validator.addMethod("methodName", $.validator.methods.require_from_group, "Custom massage");
 //var fnDependentField = function(selectorPrimaryField, selectorDependentField, domDependentField) {
 //}
 //var fnAddOtherFieldFirstMethod = function (selectorPrimaryField, selectorDependentField, methodName, message) {

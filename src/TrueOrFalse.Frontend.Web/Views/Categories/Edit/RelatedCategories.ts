@@ -27,7 +27,7 @@ class AutocompleteCategories {
         inputSelector: string,
         isSingleSelect: boolean = false,
         filterType: AutoCompleteFilterType = AutoCompleteFilterType.None,
-        selectorParentId : string = "") {
+        selectorParentName : string = "") {
 
         this._filterType = filterType;
 
@@ -56,10 +56,12 @@ class AutocompleteCategories {
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
                         "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "'>" + catText + "</a>" +
-                        "<input type='hidden' value='" + catText + "' name='" + "hdd" + catIdx + "'/> " +
+                        "<input id='hdd" + catIdx + "' type='hidden' value='" + catText + "'name='" + "hdd" + catIdx + "'/> " +
                         "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +
                     "</div> ");
-                elemInput.hide();
+                elemInput.attr("type", "hidden").hide();
+                var validator = $("#EditCategoryForm").validate();
+                validator.element(elemInput);
             } else {
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
@@ -83,35 +85,35 @@ class AutocompleteCategories {
                 });
 
                 if (self._isSingleSelect)
-                    elemInput.show();
+                    elemInput.attr("type", "").show();
 
             });
             $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
         }
 
-        $(inputSelector).autocomplete({
+        var autocomplete = $(inputSelector).autocomplete({
             minLength: 0,
-            source: function (request, response) {
+            source: function(request, response) {
 
-                var type = "";
+                var params = "";
                 if (self._filterType == AutoCompleteFilterType.Daily) {
-                    type = "&type=Daily";
+                    params = "&type=Daily";
                 }
 
                 if (self._filterType == AutoCompleteFilterType.DailyIssue) {
-                    type = "&type=DailyIssue&parentId=" + $(selectorParentId).val();
+                    params = "&type=DailyIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
                 }
 
-                $.get("/Api/Category/ByName?term=" + request.term + type, function (data) {
+                $.get("/Api/Category/ByName?term=" + request.term + params, function(data) {
                     response(data);
                 });
             },
-            focus: function (event, ui) {
-                $(inputSelector).data("category-id", ui.item.id);
-                $(inputSelector).val(ui.item.name);
-                return false;
-            },
-            select: function (event, ui) {
+            //focus: function (event, ui) {
+            //    $(inputSelector).data("category-id", ui.item.id);
+            //    $(inputSelector).val(ui.item.name);
+            //    return false;
+            //},
+            select: function(event, ui) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
@@ -122,7 +124,9 @@ class AutocompleteCategories {
                 addCat();
                 return false;
             }
-        }).data("ui-autocomplete")._renderItem = function (ul, item): any {
+        });
+
+        autocomplete.data("ui-autocomplete")._renderItem = function (ul, item): any {
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 

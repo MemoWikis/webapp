@@ -3,7 +3,7 @@ fnAddRegExMethod("IsbnLength", /(^(([a-z0-9][-]{0,1}){12})[a-z0-9]$)|(^(([a-z0-9
 fnAddRegExMethod("IsbnAll", /(^(([0-9][-]{0,1}){12})[xX0-9]$)|(^(([0-9][-]{0,1}){9})[xX0-9]$)/, "Fies! Dieses Feld hat strenge Regeln: <br/> Verwende nur Ziffern und Bindestriche ('X' am Ende möglich).<br/> Die ISBN muss genau 10 oder 13 Stellen haben (ohne Bindestriche).");
 
 var fnEditCatValidation = function (categoryType) {
-    var validationDefaultSettings = {
+    var validationBasicSettings = {
         //debug: true,
         rules: {
             Name: {
@@ -34,11 +34,13 @@ var fnEditCatValidation = function (categoryType) {
             },
             PublicationDateMonth: {
                 digits: true,
+                minlength: 2,
                 maxlength: 2,
                 range: [1, 12]
             },
             PublicationDateDay: {
                 digits: true,
+                minlength: 2,
                 maxlength: 2,
                 range: [1, 31]
             },
@@ -57,17 +59,35 @@ var fnEditCatValidation = function (categoryType) {
                 maxlength: "Bitte gib das Jahr vierstellig an."
             },
             PublicationDateMonth: {
-                range: "Bitte gib für den Monat eine Zahl von {0} bis {1} an."
+                range: "Bitte gib für den Monat einen Wert zwischen 01 und 12 an.",
+                minlength: "Bitte gib den Monat zweistellig an.",
+                maxlength: "Bitte gib den Monat zweistellig an."
             },
             PublicationDateDay: {
-                range: "Bitte gib für den Tag eine Zahl von {0} bis {1} an."
+                range: "Bitte gib für den Tag einen Wert zwischen 01 und 31 an.",
+                minlength: "Bitte gib den Tag zweistellig an.",
+                maxlength: "Bitte gib den Tag zweistellig an."
             }
         }
     };
+    debugger;
 
-    fnValidateForm("#EditCategoryForm", validationDefaultSettings);
+    var validator = fnValidateForm("#EditCategoryForm", validationBasicSettings);
 
-    //Custom settings for partials:
+    //Further custom settings for partials:
+    if (categoryType == "DailyArticle") {
+        $('[name="Author"]').rules("add", { required: false });
+    }
+
+    if (categoryType == "DailyIssue") {
+        $('[name="PublicationDateDay"]').rules("add", { required: true });
+        $('[name="PublicationDateMonth"]').rules("add", { required: true });
+        $('[name="Year"]').rules("add", { required: true });
+        validator.groups['PublicationDateDay'] = 'DateGroup'; //http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi
+        validator.groups['PublicationDateMonth'] = 'DateGroup';
+        validator.groups['Year'] = 'DateGroup';
+    }
+
     if (categoryType == "VolumeChapter") {
         $('[name="TitleVolume"]').rules("add", { required: true });
         $('[name="Editor"]').rules("add", { required: true });
