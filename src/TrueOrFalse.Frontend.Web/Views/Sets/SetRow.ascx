@@ -37,9 +37,9 @@
     <div class="column-Additional">
         
         <div style="margin-top: 7px;">
-            <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
+            <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen">
                 <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
-                <span class="totalPins NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
+                <span class="totalPins NumberTimes"><%= Model.TotalPins %>x</span>                        
             </span>
         </div>
 

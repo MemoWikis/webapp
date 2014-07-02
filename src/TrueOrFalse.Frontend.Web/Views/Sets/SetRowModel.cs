@@ -28,8 +28,7 @@ public class SetRowModel
     public bool IsOwner;
 
     public int RelevancePersonal;
-    public string TotalRelevancePersonalEntries;
-    public string TotalRelevancePersonalAvg;
+    public string TotalPins;
 
     public bool IsInWishknowledge;
 
@@ -51,11 +50,9 @@ public class SetRowModel
         IndexInResult = indexInResultSet;
 
         RelevancePersonal = setValuation.RelevancePersonal;
-
         IsInWishknowledge = setValuation.IsInWishknowledge();
 
-        TotalRelevancePersonalEntries = set.TotalRelevancePersonalEntries.ToString();
-        TotalRelevancePersonalAvg = (set.TotalRelevancePersonalAvg / 10d).ToString();
+        TotalPins = set.TotalRelevancePersonalEntries.ToString();
 
         DetailLink = urlHelper => Links.SetDetail(urlHelper, set, indexInResultSet);
         UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);
