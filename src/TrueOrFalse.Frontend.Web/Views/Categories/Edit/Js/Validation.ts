@@ -1,6 +1,7 @@
 ﻿fnAddRegExMethod("IsbnChar", /(^[0-9][-]{0,1}){0,}[xX0-9]$/, "Bitte verwende nur Ziffern und Bindestriche ('X' am Ende möglich).");
 fnAddRegExMethod("IsbnLength", /(^(([a-z0-9][-]{0,1}){12})[a-z0-9]$)|(^(([a-z0-9][-]{0,1}){9})[a-z0-9]$)/, "Die ISBN muss genau 10 oder 13 Stellen haben (ohne Bindestriche).");
 fnAddRegExMethod("IsbnAll", /(^(([0-9][-]{0,1}){12})[xX0-9]$)|(^(([0-9][-]{0,1}){9})[xX0-9]$)/, "Fies! Dieses Feld hat strenge Regeln: <br/> Verwende nur Ziffern und Bindestriche ('X' am Ende möglich).<br/> Die ISBN muss genau 10 oder 13 Stellen haben (ohne Bindestriche).");
+fnAddRegExMethod("Issn", /(^(([0-9][-]{0,1}){7})[xX0-9]$)/, "Fies! Dieses Feld hat strenge Regeln: <br/> Verwende nur Ziffern und Bindestriche ('X' am Ende möglich).<br/> Die ISSN muss genau 8 Stellen haben (ohne Bindestriche).");
 
 var fnEditCatValidation = function (categoryType) {
 
@@ -24,6 +25,14 @@ var fnEditCatValidation = function (categoryType) {
                 //IsbnLength: true,
                 IsbnAll: true,
             },
+            ISSN: {
+                //IsbnChar: true,
+                //IsbnLength: true,
+                Issn: true,
+            },
+            No: {
+                digits: true,
+            },
             Year: {
                 digits: true,
                 minlength: 4,
@@ -44,6 +53,9 @@ var fnEditCatValidation = function (categoryType) {
                 minlength: 2,
                 maxlength: 2,
                 range: [1, 31],
+            },
+            Url: {
+                url: true,
             },
             WikipediaUrl: {
                 url: true,
@@ -74,10 +86,9 @@ var fnEditCatValidation = function (categoryType) {
             },
         },
     }
-    debugger;
+    //debugger;
 
     var validator = fnValidateForm("#EditCategoryForm", validationBasicSettings);
-
     //Further custom settings for partials: 
 
     if (categoryType == "DailyArticle") {
@@ -88,9 +99,17 @@ var fnEditCatValidation = function (categoryType) {
         $('[name="PublicationDateDay"]').rules("add", { required: true, });
         $('[name="PublicationDateMonth"]').rules("add", { required: true, });
         $('[name="Year"]').rules("add", { required: true, });
-        validator.groups['PublicationDateDay'] = 'DateGroup';//http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi
+        validator.groups['PublicationDateDay'] = 'DateGroup';//http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi#answer-9688284
         validator.groups['PublicationDateMonth'] = 'DateGroup';
         validator.groups['Year'] = 'DateGroup';
+    }
+
+    if (categoryType == "MagazineIssue") {
+        $('[name="Year"]').rules("add", { required: true, });
+        $('[name="No"]').rules("add", { required: true, });
+
+        validator.groups['PublicationDateDay'] = 'DateGroup';//http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi#answer-9688284
+        validator.groups['PublicationDateMonth'] = 'DateGroup';
     }
 
     if (categoryType == "VolumeChapter") {

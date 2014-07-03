@@ -248,24 +248,24 @@
     margin-left: 25%;
   }
 }
-.ControlsInline {
-  width: 250px;
+.ControlInline {
   padding-right: 10px;
   float: left;
 }
-.ControlsInline:before,
-.ControlsInline:after {
+.ControlInline:before,
+.ControlInline:after {
   content: " ";
   display: table;
 }
-.ControlsInline:after {
+.ControlInline:after {
   clear: both;
 }
-@media (max-width: 479px) {
-  .ControlsInline {
-    width: 100%;
-    padding-right: 0;
-  }
+.ControlInline.xxs-stack {
+  padding-right: 0;
+}
+.LabelInline {
+  float: left;
+  padding-right: 10px;
 }
 .CategoryTypeHeader {
   color: #5bc0de;

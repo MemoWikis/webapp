@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using TrueOrFalse;
 
 [Serializable]
 public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIssue>
@@ -15,6 +16,19 @@ public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIs
     public string PublicationDateMonth;
     public string PublicationDateDay;
     public string Title;
+
+    /// <summary>Obligatory Magazine parent</summary>
+    [JsonIgnore]
+    public Category Magazine
+    {
+        get
+        {
+            if (Category == null)
+                return null;
+
+            return Category.ParentCategories.FirstOrDefault(c => c.Type == CategoryType.Magazine);
+        }
+    }
 
     [JsonIgnore]
     public override CategoryType Type { get { return CategoryType.MagazineIssue; } }

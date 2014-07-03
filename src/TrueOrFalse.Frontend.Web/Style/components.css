@@ -213,6 +213,21 @@
 }
 /* CATEGORIES
 ----------------------------------------------------------*/
+.JS-CatInputContainer {
+  width: 250px;
+}
+@media (max-width: 479px) {
+  .JS-CatInputContainer {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+@media (max-width: 479px) {
+  .JS-CatInputContainer {
+    padding-right: 0;
+  }
+}
 ul.ui-autocomplete a.CatListItem {
   border: 1px transparent solid;
   padding: 5px !important;

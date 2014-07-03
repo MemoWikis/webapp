@@ -15,7 +15,7 @@ public class CategoryTypeDailyIssue : CategoryTypeBase<CategoryTypeDailyIssue>
     public string PublicationDateMonth;
     public string PublicationDateDay;
 
-    /// <summary>The daily of the issues</summary>
+    /// <summary>Obligatory Daily parent</summary>
     [JsonIgnore]
     public Category Daily
     {

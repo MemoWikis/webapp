@@ -277,8 +277,12 @@ label {
 .RequiredField:after {
   content: '*';
 }
-.FieldYear {
+.InputYear {
   width: 80px;
+}
+.InputDayOrMonth,
+.InputVolume {
+  width: 54px;
 }
 h2.PageHeader,
 .PageHeader > h2 {

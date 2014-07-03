@@ -38,7 +38,20 @@ namespace TrueOrFalse.View.Web.Views.Api
                     .IsLike(searchTerm)
                     .List();
             }
+            if (type == "Magazine")
+            {
+                categories = _categoryRepo.Session
+                    .QueryOver<Category>()
+                    .Where(c => c.Type == CategoryType.Magazine)
+                    .WhereRestrictionOn(c => c.Name)
+                    .IsLike(searchTerm)
+                    .List();
+            }
             else if (type == "DailyIssue"){
+                categories = _categoryRepo.GetChildren(CategoryType.Daily, CategoryType.DailyIssue, parentName, searchTerm);
+            }
+            else if (type == "MagazineIssue")
+            {
                 categories = _categoryRepo.GetChildren(CategoryType.Daily, CategoryType.DailyIssue, parentName, searchTerm);
             }
             else

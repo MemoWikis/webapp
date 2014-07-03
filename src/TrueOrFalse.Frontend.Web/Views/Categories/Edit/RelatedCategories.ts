@@ -12,7 +12,8 @@ $.expr[':'].textEquals = function (a, i, m) {
 enum AutoCompleteFilterType {
     None,
     Daily, 
-    DailyIssue
+    DailyIssue,
+    Magazine
 }
 
 class AutocompleteCategories {
@@ -102,6 +103,10 @@ class AutocompleteCategories {
 
                 if (self._filterType == AutoCompleteFilterType.DailyIssue) {
                     params = "&type=DailyIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
+                }
+
+                if (self._filterType == AutoCompleteFilterType.Magazine) {
+                    params = "&type=Magazine";
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + params, function(data) {

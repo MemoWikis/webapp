@@ -23,7 +23,7 @@
             </p>
 
         <% }else{ %>
-            <div class="JS-CatInputContainer ControlsInline">
+            <div class="JS-CatInputContainer ControlInline xxs-stack">
                 <input id="TxtDaily" class="form-control" name="TxtDaily" type="text" value="" placeholder="Suche nach Titel oder ISSN">
             </div>
         <% } %>
@@ -36,20 +36,20 @@
         <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
-        <div class="form-group JS-ValidationGroup">
+        <div class="JS-ValidationGroup">
             <label class="sr-only" for="PublicationDateDay">Tag</label>
-            <div style="width: 75px;" class="col-xs-1">
-                <input class="form-control JS-ValidationGroupMember JS-DateGroup" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>" placeholder="TT">
+            <div style="" class="ControlInline">
+                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>" placeholder="TT">
             </div>
-            <label class="control-label" style="float: left;">.</label>
+            <label class="control-label LabelInline">.</label>
             <label class="sr-only" for="PublicationDateMonth">Monat</label>
-            <div style="width: 75px;" class="col-xs-1">
-                <input class="form-control JS-ValidationGroupMember JS-DateGroup" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>" placeholder="MM">
+            <div style="" class="ControlInline">
+                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>" placeholder="MM">
             </div>
-            <label class="control-label" style="float: left;">.</label>
+            <label class="control-label LabelInline">.</label>
             <label class="sr-only" for="Year">Jahr</label>
-            <div style="width: 100px;" class="col-xs-1">
-                <input class="form-control JS-ValidationGroupMember JS-DateGroup" name="Year" type="text" value="<%= model.Year %>" placeholder="JJJJ">
+            <div style="" class="ControlInline">
+                <input class="form-control InputYear JS-ValidationGroupMember" name="Year" type="text" value="<%= model.Year %>" placeholder="JJJJ">
             </div>
         </div>
     </div>
@@ -57,7 +57,7 @@
 <div class="form-group">
     <label class="columnLabel control-label" for="Volume">
         Jahrgang
-        <i class="fa fa-question-circle show-tooltip" title='Gibt an, im wievielten Jahr eine Zeitung oder Zeitschrift zum Zeitpunkt der jeweiligen Ausgabe erscheint (nur eintragen, falls angegeben).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+        <i class="fa fa-question-circle show-tooltip" title='Keine Jahreszahl, sondern gibt an, im wievielten Jahr eine Zeitung oder Zeitschrift zum Zeitpunkt der jeweiligen Ausgabe erscheint (nur eintragen, falls angegeben).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div style="width: 80px;" class="col-xs-1">
         <input class="form-control" name="Volume" type="text" value="<%= model.Volume %>">

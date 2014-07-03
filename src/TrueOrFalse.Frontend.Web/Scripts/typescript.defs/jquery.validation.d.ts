@@ -223,7 +223,10 @@ interface Validator
 	size(): number;
 
    	errorMap: ErrorDictionary;
-	errorList: ErrorListItem[];
+    errorList: ErrorListItem[];
+
+    //memucho custom for groups hack (determine groups after call of validate())
+    groups?: Object;
 }
 
 interface JQuery

@@ -73,7 +73,7 @@
 <div class="form-group">
     <label class="columnLabel control-label" for="PublicationYear">Erscheinungsjahr</label>
     <div class="columnControlsFull">
-        <input class="FieldYear form-control" name="PublicationYear" type="text" value="<%=model.PublicationYear %>">
+        <input class="InputYear form-control" name="PublicationYear" type="text" value="<%=model.PublicationYear %>">
     </div>
 </div>
 <%--<div class="form-group">

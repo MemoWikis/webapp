@@ -22,7 +22,7 @@
                 <input id="hddTxtDaily" class="form-control" name="hddTxtDaily" type="hidden" value="<%= model.Daily.Name %>">
             </p>
             <% }else{ %>
-                <div class="JS-CatInputContainer ControlsInline">
+                <div class="JS-CatInputContainer ControlInline">
                     <input id="TxtDaily" class="form-control" name="TxtDaily" type="" value="" placeholder="Suche nach Titel oder ISSN">    
                 </div>
             <% } %>
@@ -106,7 +106,7 @@
                         "Ausgabe" +
                         "</label>" +
                         "<div class='JS-RelatedCategories columnControlsFull'>" +
-                            "<div class='JS-CatInputContainer ControlsInline'>" +
+                            "<div class='JS-CatInputContainer ControlInline'>" +
                                 "<input id='TxtDailyIssue' class='form-control' name='TxtDailyIssue' type='' value='' placeholder='Suche nach Datum (TT.MM.JJJJ)'>" +
                             "</div>" +
                         "</div>" +
