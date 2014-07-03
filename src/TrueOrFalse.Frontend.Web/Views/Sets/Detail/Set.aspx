@@ -16,14 +16,14 @@
         <div class="xxs-stack col-xs-9">
             <h2 style="margin-top:0px;" >
                 <span style="margin-right: 15px;"><%= Model.Name %></span>
-                <span style="display: inline-block; font-size: 20px; font-weight: normal;">                    
+                <span style="display: inline-block; font-size: 20px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
                         <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
                         <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
                     </a>
                     
-                    <span class="show-tooltip" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
+                    <span class="show-tooltip" id="totalPins" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
                     
 
                     <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73% + 8

@@ -7,5 +7,7 @@ $(function () {
             sliceColors: ['#3e7700', '#B13A48']
         });
     });
+
+    new Pin(2 /* SetDetail */);
 });
 //# sourceMappingURL=Set.js.map
