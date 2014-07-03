@@ -16,8 +16,16 @@
         <div class="xxs-stack col-xs-9">
             <h2 style="margin-top:0px;" >
                 <span style="margin-right: 15px;"><%= Model.Name %></span>
-                <span style="display: inline-block; font-size: 20px; font-weight: normal;">
-                    <i class="fa fa-floppy-o"></i>  22x
+                <span style="display: inline-block; font-size: 20px; font-weight: normal;">                    
+                    <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                        <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
+                        <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
+                        <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+                    </a>
+                    
+                    <span class="show-tooltip" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
+                    
+
                     <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73% + 8
                 
                     <div style="display: inline-block; margin-top: 1px; margin-left: 15px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">

@@ -34,6 +34,10 @@ public class SetModel : BaseModel
     public int AnswerMePercentageTrue;
     public int AnswerMePercentageFalse;
 
+    public bool IsInWishknowledge;
+
+    public string TotalPins;
+
     public SetModel(Set set)
     {
         Id = set.Id;
@@ -62,5 +66,13 @@ public class SetModel : BaseModel
         AnswerMePercentageTrue = TotalsPerUser.Sum(q => q.TotalTrue);
         AnswerMePercentageFalse = TotalsPerUser.Sum(q => q.TotalFalse);
 
+        var setValuations = Resolve<SetValuationRepository>().GetBy(Id);
+        var setValuation = setValuations.FirstOrDefault(sv => sv.UserId == _sessionUser.UserId);
+        if (setValuation != null){
+            IsInWishknowledge = setValuation.IsInWishknowledge();
+        }
+
+        TotalPins = set.TotalRelevancePersonalEntries.ToString();
     }
+    
 }
