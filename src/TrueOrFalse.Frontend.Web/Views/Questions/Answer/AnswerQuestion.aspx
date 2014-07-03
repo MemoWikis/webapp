@@ -10,12 +10,7 @@
 
     <style type="text/css">
          .selectorShowAnswer{/* marker class */}
-       
-        div.headerLinks {}
-        div.headerLinks i { margin-top: 2px;}
-        
-        .questionBlockWidth { }
-        
+               
         .sparklineTotals{ position: relative;top: 1px; }
         .sparklineTotalsUser{ position: relative;top: 1px; }
 
