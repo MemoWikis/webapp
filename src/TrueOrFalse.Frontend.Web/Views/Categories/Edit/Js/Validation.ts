@@ -110,6 +110,8 @@ var fnEditCatValidation = function (categoryType) {
 
         validator.groups['PublicationDateDay'] = 'DateGroup';//http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi#answer-9688284
         validator.groups['PublicationDateMonth'] = 'DateGroup';
+        validator.groups['No'] = 'IssueGroup';
+        validator.groups['Year'] = 'IssueGroup';
     }
 
     if (categoryType == "VolumeChapter") {

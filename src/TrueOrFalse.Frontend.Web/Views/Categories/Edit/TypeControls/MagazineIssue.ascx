@@ -29,13 +29,33 @@
         <% } %>
     </div>
 </div>
-
 <div class="form-group">
-    <label class="RequiredField columnLabel control-label" for="Year">
-        Jahr
+    <label class="RequiredField columnLabel control-label">
+        Ausgabe
     </label>
-    <div class="columnControlsFull">
-        <input class="form-control InputYear" name="Year" type="text" value="<%= model.Year %>">
+    <div class="columnControlsFull JS-ValidationGroup">
+        <label class="control-label LabelInline" for="No">
+            Nummer
+            <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben (Führende Nullen sind möglich).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+        </label>
+        <div class="ControlInline">
+            <input class="form-control InputIssueNo JS-ValidationGroupMember" name="No" type="text" value="<%= model.No %>">
+        </div>
+        <label class="control-label LabelInline" for="Year">
+            / Jahr
+        </label>
+        <div class="ControlInline">
+            <input class="form-control InputYear JS-ValidationGroupMember" name="Year" type="text" value="<%= model.Year %>">
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="columnLabel control-label" for="IssuePeriod">
+        Ausgabenzeitraum
+        <i class="fa fa-question-circle show-tooltip" title='Wie auf der Zeitschrift als Ergänzung zum Jahr und zur Ausgabennummer angeben. Beispiel "Aug./Sep.".'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+    </label>
+    <div class="columnControlsSmall">
+        <input class="form-control" name="IssuePeriod" type="text" value="<%= model.IssuePeriod %>">
     </div>
 </div>
 <div class="form-group">
@@ -47,24 +67,7 @@
         <input class="form-control InputVolume" name="Volume" type="text" value="<%= model.Volume %>">
     </div>
 </div>
-<div class="form-group">
-    <label class="RequiredField columnLabel control-label" for="No">
-        Ausgabennummer
-        <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben (Führende Nullen sind möglich).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
-    </label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="No" type="text" value="<%= model.No %>">
-    </div>
-</div>
-<div class="form-group">
-    <label class="columnLabel control-label" for="IssuePeriod">
-        Ausgabenzeitraum
-        <i class="fa fa-question-circle show-tooltip" title='Wie auf der Zeitschrift als Ergänzung zum Jahr und zur Ausgabennummer angeben. Beispiel "Aug./Sep.".'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
-    </label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="IssuePeriod" type="text" value="<%= model.IssuePeriod %>">
-    </div>
-</div>
+
 <div class="form-group">
     <label class="columnLabel control-label">
         Erscheinungsdatum

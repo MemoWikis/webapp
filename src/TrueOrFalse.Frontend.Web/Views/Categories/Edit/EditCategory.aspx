@@ -75,14 +75,14 @@
                                 <label style="font-weight: normal">
                                     <input type="radio" name="rdoCategoryTypeGroup" value="standard" <%= Model.rdoCategoryTypeGroup == "standard" ? "checked" : "" %>>
                                     Standard
-                                    <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themenkategorien" data-placement="right"></i>
+                                    <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themenkategorien" data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
                                 </label>
                             </div>
                             <div class="radio">
                                 <label style="font-weight: normal">
                                     <input type="radio" name="rdoCategoryTypeGroup" value="media" <%= Model.rdoCategoryTypeGroup == "media" ? "checked" : "" %>>
                                     Medien
-                                    <i class="fa fa-question-circle show-tooltip" title="Kategorietyp für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen und für Quellenangaben in Fragen." data-placement="right"></i>
+                                    <i class="fa fa-question-circle show-tooltip" title="Kategorietyp für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen und für Quellenangaben in Fragen." data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
                                     <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
                                     <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeMedia %>" >
                                         <optgroup label="Druckmedien">
@@ -126,18 +126,18 @@
                     </div>
                 </div>
                 <% } %>
-                 <!-- temporariliy included partial:-->
+<%--temporariliy included partial:--%>
            <%--  <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/VolumeChapter.ascx", new EditCategoryTypeModel(Model.Category));%>    --%>
                 <div class="FormSection">
                     <div id="CategoryDetailsBody">
                         <h4 class="CategoryTypeHeader">Formular wird geladen...</h4>                    
                     </div>
                 </div>
-                <div class="FormSection">
+                <div class="FormSection JS-ShowWithPartial" style="display: none;">
                     <div class="form-group">
                         <label class="columnLabel control-label">
                             Übergeordnete Kategorie(n)
-                            <i class="fa fa-question-circle show-tooltip" title="Hilft, Kategorien in Beziehung zueinander zu setzen. Beispiele: Kategorie Wirbeltiere - übergeordnet: Biologie. Kategorie Algebra - übergeordnet: Mathematik" data-placement="right" data-trigger="hover click"></i>
+                            <i class="fa fa-question-circle show-tooltip" title="Hilft, Kategorien in Beziehung zueinander zu setzen. Beispiele: Kategorie Wirbeltiere - übergeordnet: Biologie. Kategorie Algebra - übergeordnet: Mathematik" data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
 
                         </label>
 
@@ -150,11 +150,11 @@
                                     <% } %>
                                 });
                             </script>
-                            <div class="JS-CatInputContainer ControlInline" style="width: 180px;"><input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  /></div>
+                            <div class="JS-CatInputContainer ControlInline"><input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  /></div>
                         </div>
                     </div>
                 </div>
-                <div class="FormSection">
+                <div class="FormSection JS-ShowWithPartial" style="display: none;">
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
                             <p class="form-control-static"><span class="RequiredField"></span> Pflichtfeld</p>

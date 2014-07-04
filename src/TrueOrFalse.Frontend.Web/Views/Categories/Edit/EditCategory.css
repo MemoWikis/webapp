@@ -248,25 +248,6 @@
     margin-left: 25%;
   }
 }
-.ControlInline {
-  padding-right: 10px;
-  float: left;
-}
-.ControlInline:before,
-.ControlInline:after {
-  content: " ";
-  display: table;
-}
-.ControlInline:after {
-  clear: both;
-}
-.ControlInline.xxs-stack {
-  padding-right: 0;
-}
-.LabelInline {
-  float: left;
-  padding-right: 10px;
-}
 .CategoryTypeHeader {
   color: #5bc0de;
   margin-top: 0;

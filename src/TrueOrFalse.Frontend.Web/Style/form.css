@@ -281,8 +281,28 @@ label {
   width: 80px;
 }
 .InputDayOrMonth,
-.InputVolume {
+.InputVolume,
+.InputIssueNo {
   width: 54px;
+}
+.ControlInline {
+  padding-right: 10px;
+  float: left;
+}
+.ControlInline:before,
+.ControlInline:after {
+  content: " ";
+  display: table;
+}
+.ControlInline:after {
+  clear: both;
+}
+.ControlInline.xxs-stack {
+  padding-right: 0;
+}
+.LabelInline {
+  float: left;
+  padding-right: 10px;
 }
 h2.PageHeader,
 .PageHeader > h2 {
@@ -326,6 +346,9 @@ div.control-group.markdown label {
 }
 .control-group span > i.fa-info-circle {
   color: lightblue;
+}
+.form-group .control-label {
+  word-break: break-all;
 }
 @media (min-width: 480px) {
   .form-group .control-label {

@@ -48,14 +48,15 @@
             selectedValue = $("select[name='ddlCategoryTypeEducation']").val();
         }
                                             
+        $('.JS-ShowWithPartial').hide();
         $("#CategoryDetailsBody").html("<h4 class='CategoryTypeHeader'> Formular wird geladen...</h4>");
-
 
         $.ajax({
             url: '/EditCategory/DetailsPartial?categoryId=' + $("#categoryId").val() + '&type=' + selectedValue,
             type: 'GET',
             success: function(data) {
                 $("#CategoryDetailsBody").html(data);
+                $('.JS-ShowWithPartial').show();
                 $('#CategoryDetailsBody .show-tooltip').tooltip();
                 fnEditCatValidation(selectedValue);
             }
