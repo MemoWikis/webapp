@@ -216,6 +216,7 @@
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+  width: auto;
 }
 .columnControlsFull {
   position: relative;
@@ -224,6 +225,7 @@
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+  float: right;
 }
 .columnControlsSmall {
   position: relative;
@@ -284,6 +286,16 @@ label {
 .InputVolume,
 .InputIssueNo {
   width: 54px;
+}
+.InputIssuePeriod {
+  width: 240px;
+}
+@media (max-width: 479px) {
+  .InputIssuePeriod {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
 }
 .ControlInline {
   padding-right: 10px;

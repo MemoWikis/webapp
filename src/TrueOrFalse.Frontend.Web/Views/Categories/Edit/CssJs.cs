@@ -5,6 +5,6 @@ using System.Web;
 
 public class CssJs
 {
-    public const string TooltipPlacementLabel = "right";
+    public const string TooltipPlacementLabel = "top";
     public const string TooltipPlacementFormField = "right";
 }

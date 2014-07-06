@@ -49,7 +49,7 @@ class AutocompleteCategories {
             nextCatIdx++;
             var catText = $(inputSelector).val();
 
-            if(self.OnAdd != null)
+            if (self.OnAdd != null)
                 self.OnAdd();
 
             if (self._isSingleSelect) {

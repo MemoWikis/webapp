@@ -138,9 +138,7 @@
                         <label class="columnLabel control-label">
                             Übergeordnete Kategorie(n)
                             <i class="fa fa-question-circle show-tooltip" title="Hilft, Kategorien in Beziehung zueinander zu setzen. Beispiele: Kategorie Wirbeltiere - übergeordnet: Biologie. Kategorie Algebra - übergeordnet: Mathematik" data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
-
                         </label>
-
                         <div class="JS-RelatedCategories columnControlsFull">
                             <script type="text/javascript">
                                 $(function () {

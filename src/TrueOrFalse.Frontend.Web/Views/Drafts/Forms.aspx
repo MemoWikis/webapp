@@ -14,7 +14,7 @@
         <h4>Autocomplete</h4>
         <form>
             <div class="form-horizontal">
-                <div class="form-group JS-DependentField" style="margin-bottom: 15px;">
+                <div class="form-group" style="margin-bottom: 15px;">
                     <label class="RequiredField columnLabel control-label" for="">
                         Ausgabe
                     </label>

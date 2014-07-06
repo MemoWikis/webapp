@@ -7,45 +7,43 @@
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.DailyArticle.GetName() %></h4>
     
-<div id="JS-IssueSelectGroup" class="JS-InterdependentFields" style="padding-bottom: 15px;">
-    <div class="form-group JS-MasterField">
-        <label class="RequiredField columnLabel control-label" for="">
-            Tageszeitung
-        </label>
-        <div class="JS-RelatedCategories columnControlsFull">
-            <% if(Model.IsEditing){ %>
-            <p class="form-control-static">
-                <%= model.Daily.Name %>
-                <span>
-                    <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
-                </span>
-                <input id="hddTxtDaily" class="form-control" name="hddTxtDaily" type="hidden" value="<%= model.Daily.Name %>">
-            </p>
-            <% }else{ %>
-                <div class="JS-CatInputContainer ControlInline">
-                    <input id="TxtDaily" class="form-control" name="TxtDaily" type="" value="" placeholder="Suche nach Titel oder ISSN">    
-                </div>
-            <% } %>
+<div id="JS-DailySelect" class="form-group">
+    <label class="RequiredField columnLabel control-label" for="">
+        Tageszeitung
+    </label>
+    <div class="JS-RelatedCategories columnControlsFull">
+        <% if(Model.IsEditing){ %>
+        <p class="form-control-static">
+            <%= model.Daily.Name %>
+            <span>
+                <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+            </span>
+            <input id="hddTxtDaily" class="form-control" name="hddTxtDaily" type="hidden" value="<%= model.Daily.Name %>">
+        </p>
+        <% }else{ %>
+            <div class="JS-CatInputContainer ControlInline">
+                <input id="TxtDaily" class="form-control" name="TxtDaily" type="" value="" placeholder="Suche nach Titel oder ISSN">    
+            </div>
+        <% } %>
             
+    </div>
+</div>
+<% if(Model.IsEditing){ %>
+    <div class="form-group">
+        <label class="RequiredField columnLabel control-label" for="">
+            Ausgabe
+        </label>
+        <div class="columnControlsFull">
+            <p class="form-control-static">
+                <%= model.DailyIssue.Name %>
+                <span>
+                    <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung/Ausgabe lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+                </span>
+                <input id="hddTxtDailyIssue" class="form-control" name="hddTxtDailyIssue" type="hidden" value="<%= model.DailyIssue.Name %>">
+            </p>
         </div>
     </div>
-    <% if(Model.IsEditing){ %>
-        <div class="form-group">
-            <label class="RequiredField columnLabel control-label" for="">
-                Ausgabe
-            </label>
-            <div class="columnControlsFull">
-                <p class="form-control-static">
-                    <%= model.DailyIssue.Name %>
-                    <span>
-                        <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung/Ausgabe lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
-                    </span>
-                    <input id="hddTxtDailyIssue" class="form-control" name="hddTxtDailyIssue" type="hidden" value="<%= model.DailyIssue.Name %>">
-                </p>
-            </div>
-        </div>
-    <% } %>
-</div>
+<% } %>
 
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" for="Title">
@@ -100,8 +98,10 @@
             var autoComplete = new AutocompleteCategories("#TxtDaily", true, AutoCompleteFilterType.Daily);
             autoComplete.OnAdd = function () {
                 $("#IssueSelect").remove();
-                $("#JS-IssueSelectGroup").append(
-                    "<div id='IssueSelect' class='form-group JS-DependentField'>" +
+                debugger;
+
+                $("#JS-DailySelect").after(
+                    "<div id='IssueSelect' class='form-group'>" +
                         "<label class='RequiredField columnLabel control-label' for=''>" +
                         "Ausgabe" +
                         "</label>" +

@@ -15,7 +15,7 @@
     <label class="columnLabel control-label" for="Description">
         Beschreibung 
         <i class="fa fa-question-circle show-tooltip" 
-            title="<%= EditCategoryTypeModel.DescriptionInfo %>" data-placement="right">
+            title="<%= EditCategoryTypeModel.DescriptionInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">
@@ -26,7 +26,7 @@
     <label class="columnLabel control-label" for="WikipediaUrl">
         Wikipedia-URL
         <i class="fa fa-question-circle show-tooltip" 
-            title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="right">
+            title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">

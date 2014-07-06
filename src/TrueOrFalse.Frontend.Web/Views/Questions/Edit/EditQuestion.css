@@ -282,6 +282,9 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+.noLabel {
+  margin-left: 0;
+}
 #txtNewRelatedCategory {
   float: left;
   margin-right: 12px;

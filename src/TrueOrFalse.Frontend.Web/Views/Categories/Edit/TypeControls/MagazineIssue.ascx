@@ -54,8 +54,8 @@
         Ausgabenzeitraum
         <i class="fa fa-question-circle show-tooltip" title='Wie auf der Zeitschrift als Ergänzung zum Jahr und zur Ausgabennummer angeben. Beispiel "Aug./Sep.".'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
-    <div class="columnControlsSmall">
-        <input class="form-control" name="IssuePeriod" type="text" value="<%= model.IssuePeriod %>">
+    <div class="columnControlsFull">
+        <input class="form-control InputIssuePeriod" name="IssuePeriod" type="text" value="<%= model.IssuePeriod %>">
     </div>
 </div>
 <div class="form-group">

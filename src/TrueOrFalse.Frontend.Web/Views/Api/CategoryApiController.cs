@@ -38,7 +38,7 @@ namespace TrueOrFalse.View.Web.Views.Api
                     .IsLike(searchTerm)
                     .List();
             }
-            if (type == "Magazine")
+            else if (type == "Magazine")
             {
                 categories = _categoryRepo.Session
                     .QueryOver<Category>()
