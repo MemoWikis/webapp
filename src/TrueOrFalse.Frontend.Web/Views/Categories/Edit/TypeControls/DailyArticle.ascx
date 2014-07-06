@@ -98,8 +98,6 @@
             var autoComplete = new AutocompleteCategories("#TxtDaily", true, AutoCompleteFilterType.Daily);
             autoComplete.OnAdd = function () {
                 $("#IssueSelect").remove();
-                debugger;
-
                 $("#JS-DailySelect").after(
                     "<div id='IssueSelect' class='form-group'>" +
                         "<label class='RequiredField columnLabel control-label' for=''>" +

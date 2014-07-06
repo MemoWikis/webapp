@@ -14,6 +14,7 @@ var AutoCompleteFilterType;
     AutoCompleteFilterType[AutoCompleteFilterType["Daily"] = 1] = "Daily";
     AutoCompleteFilterType[AutoCompleteFilterType["DailyIssue"] = 2] = "DailyIssue";
     AutoCompleteFilterType[AutoCompleteFilterType["Magazine"] = 3] = "Magazine";
+    AutoCompleteFilterType[AutoCompleteFilterType["MagazineIssue"] = 4] = "MagazineIssue";
 })(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
 
 var AutocompleteCategories = (function () {
@@ -86,6 +87,10 @@ var AutocompleteCategories = (function () {
 
                 if (self._filterType == 3 /* Magazine */) {
                     params = "&type=Magazine";
+                }
+
+                if (self._filterType == 4 /* MagazineIssue */) {
+                    params = "&type=MagazineIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + params, function (data) {

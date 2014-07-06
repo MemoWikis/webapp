@@ -52,7 +52,7 @@ namespace TrueOrFalse.View.Web.Views.Api
             }
             else if (type == "MagazineIssue")
             {
-                categories = _categoryRepo.GetChildren(CategoryType.Daily, CategoryType.DailyIssue, parentName, searchTerm);
+                categories = _categoryRepo.GetChildren(CategoryType.Magazine, CategoryType.MagazineIssue, parentName, searchTerm);
             }
             else
             {

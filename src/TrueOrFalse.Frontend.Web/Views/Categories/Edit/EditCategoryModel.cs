@@ -138,6 +138,9 @@ public class EditCategoryModel : BaseModel
         if (category.Type == CategoryType.MagazineIssue)
             return FillMagazineIssue(category, request, result);
 
+        if (category.Type == CategoryType.MagazineArticle)
+            return FillMagazineArticle(category, request, result);
+
         if (category.Type == CategoryType.VolumeChapter)
             return FillVolumeChapter(category, request, result);
 
@@ -259,6 +262,49 @@ public class EditCategoryModel : BaseModel
         category.TypeJson = categoryMagazineIssue.ToJson();
 
         category.Name = categoryMagazineIssue.BuildTitle();
+
+        return result;
+    }
+
+    private static ConvertToCategoryResult FillMagazineArticle(Category category, HttpRequest request, ConvertToCategoryResult result)
+    {
+        var categoryMagazineArticle = new CategoryTypeMagazineArticle
+        {
+            Title = request["Title"],
+            Subtitle = request["Subtitle"],
+            Author = request["Author"],
+            Url = request["Url"]
+        };
+
+        category.TypeJson = categoryMagazineArticle.ToJson();
+
+        if (String.IsNullOrEmpty(request["Subtitle"]))
+            category.Name = request["Title"];
+        else
+            category.Name = request["Title"] + " – " + request["Subtitle"];
+
+        var addParentMagazine =
+            new AddParentCategoryFromInput(
+                category,
+                categoryMagazineArticle,
+                parentCategoryType: CategoryType.Magazine,
+                htmlInputName: "hddTxtMagazine",
+                errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
+                "Um zu speichern, wähle bitte eine Zeitschrift aus.");
+
+        var addParentMagazineIssue =
+            new AddParentCategoryFromInput(
+                category,
+                categoryMagazineArticle,
+                parentCategoryType: CategoryType.MagazineIssue,
+                htmlInputName: "hddTxtMagazineIssue",
+                errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
+                "Um zu speichern, wähle bitte eine Ausgabe der Zeitschrift aus.");
+
+        if (addParentMagazine.HasError)
+            return addParentMagazine.Result;
+        if (addParentMagazineIssue.HasError)
+            return addParentMagazineIssue.Result;
 
         return result;
     }

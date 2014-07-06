@@ -13,7 +13,8 @@ enum AutoCompleteFilterType {
     None,
     Daily, 
     DailyIssue,
-    Magazine
+    Magazine,
+    MagazineIssue
 }
 
 class AutocompleteCategories {
@@ -107,6 +108,10 @@ class AutocompleteCategories {
 
                 if (self._filterType == AutoCompleteFilterType.Magazine) {
                     params = "&type=Magazine";
+                }
+
+                if (self._filterType == AutoCompleteFilterType.MagazineIssue) {
+                    params = "&type=MagazineIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + params, function(data) {
