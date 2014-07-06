@@ -224,6 +224,18 @@
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+  font-size: 90%;
+}
+.columnControlsFull .radio {
+  font-size: 111.11111111%;
+}
+.columnLabel {
+  width: auto;
+  padding-right: 0;
+}
+.columnControlsFull {
+  padding-left: 3px;
+  float: right;
 }
 .columnControlsSmall {
   position: relative;

@@ -212,7 +212,7 @@
 
 //Form grid styles with labels stacked
 
-.FormColumnGrid (@labels-stacked: false; @grid-width-label-xs: 3; @grid-width-controls-full-xs: @grid-columns - @grid-width-label-xs) {
+.FormColumnGrid (@labels-stacked: false; @label-width-variable: false; @grid-width-label-xs: 3; @grid-width-controls-full-xs: @grid-columns - @grid-width-label-xs) {
 
     .FormColumnGridConditional (@labels-stacked) when (@labels-stacked) {
 
@@ -233,7 +233,6 @@
         .noLabel {
             margin-left: 0;
         }
-
     }
 
     //Form grid styles with labels as seperate column 
@@ -248,11 +247,27 @@
         .columnControlsFull {
             .xxs-stack;//not put out, replacement: see below
             .make-xs-column(@grid-width-controls-full-xs);
+            font-size: 90%;
+            .radio {font-size: percentage(100/90);}
 
             .aside & {
                 .make-md-column(@grid-columns);
             }
         }
+
+        .LabelWidth (@label-width-variable) when (@label-width-variable) {
+            .columnLabel {
+                width: auto;
+                padding-right: 0;
+            }
+            .columnControlsFull {
+                padding-left: 3px;
+                float: right;
+            }
+        }
+
+        .LabelWidth (@label-width-variable);
+
 
         .columnControlsSmall {
             .make-xs-column(1);
