@@ -40,7 +40,7 @@ public class SetsController : BaseController
     {
         SetSearchSpecVars(_sessionUiData.SearchSpecSetWish, page, orderBy);
 
-        _sessionUiData.SearchSpecSetWish.Filter.ValuatorId = _sessionUser.User.Id;
+        _sessionUiData.SearchSpecSetWish.Filter.ValuatorId = _sessionUser.UserId;
 
         var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetWish);
         return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetWish, GetValuations(sets), isTabWishActice: true));
@@ -60,7 +60,7 @@ public class SetsController : BaseController
     {
         SetSearchSpecVars(_sessionUiData.SearchSpecSetMine, page, orderBy);
 
-        _sessionUiData.SearchSpecSetMine.Filter.CreatorId.EqualTo(_sessionUser.User.Id);
+        _sessionUiData.SearchSpecSetMine.Filter.CreatorId.EqualTo(_sessionUser.UserId);
 
         var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetMine);
         return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetMine, GetValuations(sets), isTabMineActive: true));
@@ -105,7 +105,7 @@ public class SetsController : BaseController
 
     public IList<SetValuation> GetValuations(IEnumerable<Set> sets)
     {
-        return _setValuationRepository.GetBy(sets.GetIds(), _sessionUser.User.Id);
+        return _setValuationRepository.GetBy(sets.GetIds(), _sessionUser.UserId);
     }
 
     public void SetSearchSpecVars(SetSearchSpec searchSpec, int? page, string orderByCommand)

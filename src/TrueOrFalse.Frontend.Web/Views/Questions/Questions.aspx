@@ -113,7 +113,7 @@
             
         <div class="boxtainer-content">
             
-            <% if(!Model.NotLogged){ %>
+            <% if(!Model.NotAllowed){ %>
                 <div class="search-section">
                     <div class="row">
                         <div class="SearchQuestionsForm form-group">
@@ -199,28 +199,19 @@
                 <% } %>
             <%} %>
             <div class="box-content">
-                
-                <% if(Model.NotLogged){ %>
-
-                    <div class="bs-callout bs-callout-info" style="margin-top: 35px;">
-                        <h4>Anmelden oder registrieren</h4>
-                        <p>
-                            Um Wunschwissen oder eigene Fragen zu verwenden, <br/>
-                            musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
-                        </p>
-                    </div>
-
-                <% }else{  %>
-
-                    <% foreach (var row in Model.QuestionRows){
-                           Html.RenderPartial("QuestionRow", row);
-                    } %>
-                
-                <% } %>
+                <% 
+                    if(Model.NotAllowed){
+                        Html.RenderPartial("RegisterOrLogin_Questions");
+                    }else{ 
+                        foreach (var row in Model.QuestionRows){
+                               Html.RenderPartial("QuestionRow", row);
+                        } 
+                    }
+                %>
             </div>
-            <% if(!Model.NotLogged){ %>
-                <% Html.RenderPartial("Pager", Model.Pager); %>
-            <% } %>
+            <% if(!Model.NotAllowed){ 
+                Html.RenderPartial("Pager", Model.Pager);
+            } %>
         </div>
     </div>
 </div>

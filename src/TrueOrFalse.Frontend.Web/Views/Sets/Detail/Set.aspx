@@ -25,15 +25,11 @@
                     
                     <span class="show-tooltip" id="totalPins" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
                     
+                    
+                    <span>
+                        <i class="fa fa-tachometer" style="margin-left: 20px; color: green;"></i> 3/3    
+                    </span>
 
-                    <i class="fa fa-tachometer" style="margin-left: 20px;"></i> 73% + 8
-                
-                    <div style="display: inline-block; margin-top: 1px; margin-left: 20px; margin-right: 4px; border-radius: 6px;">
-                        <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
-                        <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
-                        <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount%>x beantwortet.">(ich <%= Model.AnswerMeCount%>x </span>
-                        <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>)
-                    </div>
                 </span>
             </h2>
         </div>

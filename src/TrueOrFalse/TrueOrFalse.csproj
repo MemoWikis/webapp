@@ -481,10 +481,11 @@
     <Compile Include="Web\Filters\SetMenuAttribute.cs" />
     <Compile Include="Web\HtmlLabelExtensions.cs" />
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
-    <Compile Include="Web\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
-    <Compile Include="Web\JavascriptViewEngine\JavascriptActionInvoker.cs" />
-    <Compile Include="Web\JavascriptViewEngine\JavascriptView.cs" />
-    <Compile Include="Web\JavascriptViewEngine\JavascriptViewEngine.cs" />
+    <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
+    <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionInvoker.cs" />
+    <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptView.cs" />
+    <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptViewEngine.cs" />
+    <Compile Include="Web\ViewEngine\PartialSubDirectoriesViewEngine.cs" />
     <Compile Include="Web\MardownInit.cs" />
     <Compile Include="Web\Uris\Links.cs" />
     <Compile Include="Web\Uris\MenuModelCategoryItem.cs" />
