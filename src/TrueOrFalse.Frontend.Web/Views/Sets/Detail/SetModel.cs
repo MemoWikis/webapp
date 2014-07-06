@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Seedworks.Lib;
 using TrueOrFalse;
 
 public class SetModel : BaseModel
@@ -11,9 +12,8 @@ public class SetModel : BaseModel
     public string Name;
 
     public Set Set;
-    
-    public IList<QuestionInSet> QuestionsInSet;
-    public IList<TotalPerUser> TotalsPerUser;
+
+    public IList<SetQuestionRow> QuestionsInSet;
 
     public User Creator;
     public string CreatorName;
@@ -44,8 +44,7 @@ public class SetModel : BaseModel
         Name = set.Name;
 
         Set = set;
-        QuestionsInSet = set.QuestionsInSet;
-
+        
         IsOwner = _sessionUser.IsOwner(set.Creator.Id);
 
         Creator = set.Creator;
@@ -55,16 +54,25 @@ public class SetModel : BaseModel
 
         ImageUrl = QuestionSetImageSettings.Create(set.Id).GetUrl_350px_square().Url;
 
+        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>()
+            .GetBy(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);
+
         var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
-        TotalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.User.Id, questions);
+        var totalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questions);
+        QuestionsInSet = set.QuestionsInSet.Select(
+            x => new SetQuestionRow(
+                x.Question, 
+                totalsPerUser.ByQuestionId(x.Question.Id),
+                questionValutionsForCurrentUser.ByQuestionId(x.Question.Id)))
+            .ToList();
 
         AnswersAllCount = questions.Sum(q => q.TotalAnswers());
         AnswersAllPercentageTrue = questions.Sum(q => q.TotalTrueAnswersPercentage());
         AnswersAllPercentageFalse = questions.Sum(q => q.TotalFalseAnswerPercentage());
 
-        AnswerMeCount = TotalsPerUser.Sum(q => q.Total());
-        AnswerMePercentageTrue = TotalsPerUser.Sum(q => q.TotalTrue);
-        AnswerMePercentageFalse = TotalsPerUser.Sum(q => q.TotalFalse);
+        AnswerMeCount = totalsPerUser.Sum(q => q.Total());
+        AnswerMePercentageTrue = totalsPerUser.Sum(q => q.TotalTrue);
+        AnswerMePercentageFalse = totalsPerUser.Sum(q => q.TotalFalse);
 
         var setValuations = Resolve<SetValuationRepository>().GetBy(Id);
         var setValuation = setValuations.FirstOrDefault(sv => sv.UserId == _sessionUser.UserId);

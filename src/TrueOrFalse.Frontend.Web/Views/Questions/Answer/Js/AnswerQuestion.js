@@ -231,4 +231,4 @@ function ajaxGetAnswer(onSuccessAction) {
         }
     });
 }
-//# sourceMappingURL=answerquestion.js.map
+//# sourceMappingURL=AnswerQuestion.js.map

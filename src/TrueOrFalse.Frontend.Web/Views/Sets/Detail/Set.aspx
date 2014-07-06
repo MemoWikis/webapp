@@ -47,34 +47,21 @@
         </div>
    
         <div class="col-lg-10 col-xs-9 xxs-stack" style="margin-top: 20px;">
-            <% var index = 0; 
-           
-               foreach(var questionInSet in Model.QuestionsInSet){ 
-                   index++;
-                   var question = questionInSet.Question;
-                   var totals = Model.TotalsPerUser.ByQuestionId(question.Id) ?? new TotalPerUser();
-            %>
+            <%  foreach(var questionRow in Model.QuestionsInSet){ %>
+
                 <div class="row question-row">
                     <div class="col-md-9 col-1">                    
-                        <img src="<%= QuestionImageSettings.Create(questionInSet.Question.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
+                        <img src="<%= QuestionImageSettings.Create(questionRow.Question.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
 
-                        <a href="<%= Links.AnswerQuestion(Url, questionInSet.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
-                            <%=questionInSet.Question.Text %>
+                        <a href="<%= Links.AnswerQuestion(Url, questionRow.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
+                            <%=questionRow.Question.Text %>
                         </a>    
                     </div>
                     <div class="col-md-3 col-2">
-                        <div class="show-tooltip active pull-right" style="margin-right: 7px;" data-placement="right" 
-                            data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest. Schnitt: 71% ">
-                            <span style="font-size: 15px; color: green;">
-                                <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73% +8
-                            </span>
-                        </div>
-                    
-                        <div class="pull-right" style="margin-top: 1px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
-                            <% Html.RenderPartial("AnswerHistory", new AnswerHistoryModel(question, totals)); %>
-                        </div>
+                        <% Html.RenderPartial("HistoryAndProbability", questionRow.HistoryAndProbability); %>
                     </div>
                 </div>
+
             <% } %>
 
             <div class="row "style="margin-top: 30px; height: 40px;">
