@@ -38,6 +38,8 @@ public class SetModel : BaseModel
 
     public string TotalPins;
 
+    public SetActiveMemory ActiveMemory;
+
     public SetModel(Set set)
     {
         Id = set.Id;
@@ -81,6 +83,8 @@ public class SetModel : BaseModel
         }
 
         TotalPins = set.TotalRelevancePersonalEntries.ToString();
+
+        ActiveMemory = SetActiveMemoryLoader.Run(set, questionValutionsForCurrentUser);
     }
     
 }
