@@ -17,6 +17,8 @@ namespace TrueOrFalse
 
         public AnswerHistoryModel(Question question, TotalPerUser valuationForUser)
         {
+            valuationForUser = valuationForUser ?? new TotalPerUser();
+
             TimesAnsweredTotal = question.TotalAnswers();
             TimesAnsweredCorrect = question.TotalTrueAnswers;
             TimesAnsweredWrongTotal = question.TotalFalseAnswers;

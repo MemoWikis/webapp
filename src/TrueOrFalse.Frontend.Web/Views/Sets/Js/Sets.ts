@@ -18,6 +18,6 @@ $(function () {
         });
     });
 
-    new PinRow(PinRowType.Set);
+    new Pin(PinRowType.Set);
 
 });

@@ -228,6 +228,9 @@
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.video.play.png" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\animated-overlay.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -317,6 +320,8 @@
     <Content Include="Images\wiki-24.png" />
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\CategoryApi.js">
       <DependentUpon>CategoryApi.ts</DependentUpon>
     </Content>
@@ -760,6 +765,7 @@
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
       <DependentUpon>Comment.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Sets\Detail\SetQuestionRow.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
     <Compile Include="Views\Sets\Detail\SetModel.cs" />
@@ -1061,6 +1067,8 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
+    <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
     <Content Include="Views\Users\Js\Users.js">
       <DependentUpon>Users.ts</DependentUpon>
     </Content>
@@ -1226,6 +1234,8 @@
     <Content Include="Views\Categories\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

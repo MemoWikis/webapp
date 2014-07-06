@@ -30,7 +30,7 @@ public class QuestionsModel : BaseModel
     public string Suggestion; 
     public IEnumerable<string> Suggestions = new List<string>();
 
-    public bool NotLogged;
+    public bool NotAllowed;
 
     public QuestionsModel(){
         QuestionRows = Enumerable.Empty<QuestionRowModel>();
@@ -49,7 +49,7 @@ public class QuestionsModel : BaseModel
         ActiveTabWish = isTabWishActice;
 
         int currentUserId = _sessionUser.IsLoggedIn ? _sessionUser.User.Id : -1;
-        NotLogged = !_sessionUser.IsLoggedIn && (ActiveTabWish || ActiveTabMine);
+        NotAllowed = !_sessionUser.IsLoggedIn && (ActiveTabWish || ActiveTabMine);
 
         var totalsForCurrentUser = Resolve<TotalsPersUserLoader>().Run(currentUserId, questions);
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>().GetBy(questions.GetIds(), currentUserId);

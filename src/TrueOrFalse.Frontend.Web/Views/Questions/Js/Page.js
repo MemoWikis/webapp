@@ -23,6 +23,6 @@ $(function () {
         }
     });
 
-    new PinRow(0 /* Question */);
+    new Pin(0 /* Question */);
 });
 //# sourceMappingURL=Page.js.map

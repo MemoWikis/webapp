@@ -7,4 +7,6 @@ $(function() {
             sliceColors: ['#3e7700', '#B13A48']
         });
     });
+
+    new Pin(PinRowType.SetDetail);
 });

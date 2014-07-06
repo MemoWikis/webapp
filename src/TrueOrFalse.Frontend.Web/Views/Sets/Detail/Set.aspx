@@ -16,24 +16,20 @@
         <div class="xxs-stack col-xs-9">
             <h2 style="margin-top:0px;" >
                 <span style="margin-right: 15px;"><%= Model.Name %></span>
-                <span style="display: inline-block; font-size: 20px; font-weight: normal;">                    
+                <span style="display: inline-block; font-size: 20px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
                         <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
                         <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
                     </a>
                     
-                    <span class="show-tooltip" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
+                    <span class="show-tooltip" id="totalPins" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
                     
+                    
+                    <span>
+                        <i class="fa fa-tachometer" style="margin-left: 20px; color: green;"></i> 3/3    
+                    </span>
 
-                    <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73% + 8
-                
-                    <div style="display: inline-block; margin-top: 1px; margin-left: 15px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
-                        <span class="show-tooltip" title="Insgesamt <%=Model.AnswersAllCount%>x beantwortet."><%=Model.AnswersAllCount%>x </span>
-                        <span class="pieTotals" data-percentage="<%= Model.AnswersAllPercentageTrue %>-<%= Model.AnswersAllPercentageFalse %>"></span>
-                        <span class="show-tooltip" title="Von Dir <%=Model.AnswerMeCount%>x beantwortet.">(ich <%= Model.AnswerMeCount%>x </span>
-                        <span class="pieTotals" data-percentage="<%= Model.AnswerMePercentageTrue %>-<%= Model.AnswerMePercentageFalse %>"></span>)
-                    </div>
                 </span>
             </h2>
         </div>
@@ -47,34 +43,21 @@
         </div>
    
         <div class="col-lg-10 col-xs-9 xxs-stack" style="margin-top: 20px;">
-            <% var index = 0; 
-           
-               foreach(var questionInSet in Model.QuestionsInSet){ 
-                   index++;
-                   var question = questionInSet.Question;
-                   var totals = Model.TotalsPerUser.ByQuestionId(question.Id) ?? new TotalPerUser();
-            %>
+            <%  foreach(var questionRow in Model.QuestionsInSet){ %>
+
                 <div class="row question-row">
                     <div class="col-md-9 col-1">                    
-                        <img src="<%= QuestionImageSettings.Create(questionInSet.Question.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
+                        <img src="<%= QuestionImageSettings.Create(questionRow.Question.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
 
-                        <a href="<%= Links.AnswerQuestion(Url, questionInSet.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
-                            <%=questionInSet.Question.Text %>
+                        <a href="<%= Links.AnswerQuestion(Url, questionRow.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
+                            <%=questionRow.Question.Text %>
                         </a>    
                     </div>
                     <div class="col-md-3 col-2">
-                        <div class="show-tooltip active pull-right" style="margin-right: 7px;" data-placement="right" 
-                            data-original-title="72% Wahrscheinlichkeit, dass Du die Frage richtig beantwortest. Schnitt: 71% ">
-                            <span style="font-size: 15px; color: green;">
-                                <i class="fa fa-tachometer" style="margin-left: 15px;"></i> 73% +8
-                            </span>
-                        </div>
-                    
-                        <div class="pull-right" style="margin-top: 1px; margin-right: 4px; border-radius: 6px; border: 1px solid beige; background-color: beige; padding:4px;">
-                            <% Html.RenderPartial("AnswerHistory", new AnswerHistoryModel(question, totals)); %>
-                        </div>
+                        <% Html.RenderPartial("HistoryAndProbability", questionRow.HistoryAndProbability); %>
                     </div>
                 </div>
+
             <% } %>
 
             <div class="row "style="margin-top: 30px; height: 40px;">

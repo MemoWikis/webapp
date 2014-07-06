@@ -14,6 +14,8 @@ namespace TrueOrFalse
 
         public CorrectnessProbabilityModel(Question question, QuestionValuation questionValuationForUser)
         {
+            questionValuationForUser = questionValuationForUser ?? new QuestionValuation();
+
             CPPersonal = (questionValuationForUser.CorrectnessProbability == -1)
                 ? question.CorrectnessProbability
                 : questionValuationForUser.CorrectnessProbability;

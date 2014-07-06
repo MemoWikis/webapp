@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
@@ -39,7 +40,9 @@ namespace TrueOrFalse.Frontend.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
+            ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
         }
+
 
         private void Application_BeginRequest()
         {
@@ -90,5 +93,6 @@ namespace TrueOrFalse.Frontend.Web
             if(!Sl.Resolve<SessionUser>().IsLoggedIn)
                 Sl.Resolve<LoginFromCookie>().Run();
         }
+
     }
 }

@@ -34,6 +34,8 @@ public class SetsModel : BaseModel
     public string Suggestion; 
 
     public IEnumerable<SetRowModel> Rows;
+
+    public bool NotAllowed;
     
     public SetsModel(){}
 
@@ -50,6 +52,8 @@ public class SetsModel : BaseModel
         ActiveTabMine = isTabMineActive;
         ActiveTabWish = isTabWishActice;
 
+        NotAllowed = !_sessionUser.IsLoggedIn && (ActiveTabWish || ActiveTabMine);
+
         OrderBy = searchSpec.OrderBy;
         OrderByLabel = searchSpec.OrderBy.ToText();
 
@@ -59,12 +63,12 @@ public class SetsModel : BaseModel
                 set,
                 NotNull.Run(setValutionsForCurrentUser.BySetId(set.Id)),
                 counter++, 
-                _sessionUser.User.Id
+                _sessionUser.UserId
             ));
 
         TotalSets = Resolve<GetTotalSetCount>().Run();
-        TotalMine = Resolve<GetTotalSetCount>().Run(_sessionUser.User.Id);
-        TotalWish = Resolve<GetWishSetCount>().Run(_sessionUser.User.Id);
+        TotalMine = Resolve<GetTotalSetCount>().Run(_sessionUser.UserId);
+        TotalWish = Resolve<GetWishSetCount>().Run(_sessionUser.UserId);
         
         SearchTerm = searchSpec.SearchTerm;
         Suggestion = searchSpec.GetSuggestion();

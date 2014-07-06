@@ -85,9 +85,15 @@
                         </div>
         
                         <div style="clear:both;">
-                            <% foreach(var row in Model.Rows){
-                                Html.RenderPartial("SetRow", row);
-                            } %>
+                            <% 
+                                if(Model.NotAllowed){
+                                    Html.RenderPartial("RegisterOrLogin_Sets");
+                                }else{ 
+                                    foreach (var row in Model.Rows){
+                                        Html.RenderPartial("SetRow", row);
+                                    } 
+                                }
+                            %>
                         </div>
                         <% Html.RenderPartial("Pager", Model.Pager); %>
                     </div>
@@ -96,5 +102,9 @@
     <% } %>
     </div>
     
-    <% Html.RenderPartial("Modals/DeleteSet"); %>
+    <%
+        if (Model.NotAllowed){
+            Html.RenderPartial("Modals/DeleteSet");
+        }
+    %>
 </asp:Content>

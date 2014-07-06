@@ -10,12 +10,7 @@
 
     <style type="text/css">
          .selectorShowAnswer{/* marker class */}
-       
-        div.headerLinks {}
-        div.headerLinks i { margin-top: 2px;}
-        
-        .questionBlockWidth { }
-        
+               
         .sparklineTotals{ position: relative;top: 1px; }
         .sparklineTotalsUser{ position: relative;top: 1px; }
 
@@ -247,9 +242,9 @@
 
             <% } %>
     
-            <p style="padding-top: 10px;" id="answerHistory">
+            <div style="padding-top: 20px; padding-bottom: 20px;" id="answerHistory">
                 <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
-            </p>
+            </div>
         
             <p>
                 <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">

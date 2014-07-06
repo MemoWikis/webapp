@@ -82,7 +82,7 @@ var AnswerQuestion = (function () {
                 }
                 ;
 
-                $("#answerHistory").html();
+                $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
                     $("#answerHistory").html(data);
                 });

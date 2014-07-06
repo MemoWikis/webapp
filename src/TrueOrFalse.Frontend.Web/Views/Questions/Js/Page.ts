@@ -28,6 +28,6 @@ $(function () {
         }
     );
 
-    new PinRow(PinRowType.Question);
+    new Pin(PinRowType.Question);
 
 });

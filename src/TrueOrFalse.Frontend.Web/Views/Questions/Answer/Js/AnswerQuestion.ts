@@ -94,9 +94,9 @@ class AnswerQuestion
                     InputFeedback.ShowError();
                 };
 
-                $("#answerHistory").html();
+                $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId}, function(data) {
-                    $("#answerHistory").html(data);    
+                    $("#answerHistory").html(data);
                 });
             }
         });
