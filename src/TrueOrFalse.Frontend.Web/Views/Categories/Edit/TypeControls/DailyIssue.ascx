@@ -59,8 +59,8 @@
         Jahrgang
         <i class="fa fa-question-circle show-tooltip" title='Keine Jahreszahl, sondern gibt an, im wievielten Jahr eine Zeitung oder Zeitschrift zum Zeitpunkt der jeweiligen Ausgabe erscheint (nur eintragen, falls angegeben).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
-    <div style="width: 80px;" class="col-xs-1">
-        <input class="form-control" name="Volume" type="text" value="<%= model.Volume %>">
+    <div class="columnControlsFull">
+        <input class="form-control InputVolume" name="Volume" type="text" value="<%= model.Volume %>">
     </div>
 </div>
 <div class="form-group">
@@ -68,8 +68,8 @@
         Ausgabennummer
         <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben (Führende Nullen sind möglich).'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
-    <div style="width: 80px;" class="col-xs-1">
-        <input class="form-control" name="No" type="text" value="<%= model.No %>">
+    <div class="columnControlsFull">
+        <input class="form-control InputIssueNo" name="No" type="text" value="<%= model.No %>">
     </div>
 </div>
 <div class="form-group">

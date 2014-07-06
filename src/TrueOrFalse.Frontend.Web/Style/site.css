@@ -273,7 +273,7 @@ a.SimpleTextLink {
   text-decoration: none;
   display: inline-block;
 }
-@media only screen and (max-width: 767px) {
+@media (max-width: 767px) {
   a.SimpleTextLink {
     line-height: 25px;
   }
@@ -293,7 +293,7 @@ a.SimpleTextLink:focus .TextSpan {
 a.SimpleTextLink i {
   vertical-align: middle;
 }
-@media only screen and (max-width: 767px) {
+@media (max-width: 767px) {
   a.SimpleTextLink i {
     font-size: 25px;
   }
@@ -386,13 +386,13 @@ img {
   margin-top: 3px;
   margin-bottom: 3px;
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #MasterHeader .HeaderMainRow {
     margin-top: 1%;
     margin-bottom: 1%;
   }
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #MasterHeader .HeaderMainRow {
     height: 37px;
     margin-top: 6px;
@@ -404,7 +404,7 @@ img {
   height: 100%;
   float: left;
 }
-@media only screen and (max-width: 479px) {
+@media (max-width: 479px) {
   #MasterHeader .col-title {
     width: 70%;
     padding-right: 0;
@@ -417,7 +417,7 @@ img {
   position: relative;
   top: 1px;
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #MasterHeader a.title {
     top: 0;
   }
@@ -442,12 +442,12 @@ img {
   -webkit-text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
   text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
 }
-@media only screen and (min-width: 480px) {
+@media (min-width: 480px) {
   #MasterHeader h1 {
     font-size: 32px;
   }
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #MasterHeader h1 {
     font-size: 40px;
     padding-top: 2px;
@@ -464,12 +464,12 @@ img {
   color: #e7ecf6;
   font-size: 20px;
 }
-@media only screen and (min-width: 480px) {
+@media (min-width: 480px) {
   #MasterHeader h1 span#uch {
     font-size: 24px;
   }
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #MasterHeader h1 span#uch {
     font-size: 30px;
   }
@@ -495,7 +495,7 @@ img {
   box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
   display: none;
 }
-@media only screen and (min-width: 992px) {
+@media (min-width: 992px) {
   #MasterHeader span#logo {
     display: block;
   }
@@ -505,7 +505,7 @@ img {
   float: right;
   height: 34px;
 }
-@media only screen and (max-width: 479px) {
+@media (max-width: 479px) {
   #MasterHeader .col-LoginAndHelp {
     width: 30%;
     padding-left: 0;
@@ -518,7 +518,7 @@ img {
   height: 100%;
   margin-top: -1px;
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #loginAndHelp {
     margin-top: 1px;
   }
@@ -533,27 +533,27 @@ img {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-@media screen and (min-width: 500px) {
+@media (min-width: 500px) {
   #loginAndHelp .dropdown .userName {
     max-width: 135px;
   }
 }
-@media screen and (min-width: 520px) {
+@media (min-width: 520px) {
   #loginAndHelp .dropdown .userName {
     max-width: 155px;
   }
 }
-@media screen and (min-width: 540px) {
+@media (min-width: 540px) {
   #loginAndHelp .dropdown .userName {
     max-width: 175px;
   }
 }
-@media screen and (min-width: 560px) {
+@media (min-width: 560px) {
   #loginAndHelp .dropdown .userName {
     max-width: 195px;
   }
 }
-@media screen and (min-width: 992px) {
+@media (min-width: 992px) {
   #loginAndHelp .dropdown .userName {
     max-width: 400px;
   }
@@ -579,17 +579,17 @@ img {
 #loginAndHelp a.SimpleTextLink:focus * {
   text-decoration: none;
 }
-@media only screen and (min-width: 480px) {
+@media (min-width: 480px) {
   #loginAndHelp a.helpLink {
     margin-right: 5px;
   }
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #loginAndHelp a.helpLink {
     margin-right: 10px;
   }
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #loginAndHelp a.helpLink i {
     font-size: 16px;
   }
@@ -613,13 +613,13 @@ img {
 #loginAndHelp span {
   display: inline-block;
 }
-@media only screen and (max-width: 479px) {
+@media (max-width: 479px) {
   #loginAndHelp .TextSpan,
   #loginAndHelp span {
     display: none;
   }
 }
-@media only screen and (max-width: 767px) {
+@media (max-width: 767px) {
   #loginAndHelp .TextSpan.Help,
   #loginAndHelp span.Help {
     display: none;
@@ -780,7 +780,7 @@ fieldset[disabled] #MenuButton {
 #MenuButton .caret {
   margin-left: 3px;
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #MenuButton {
     padding: 10px 16px;
     font-size: 18px;
@@ -943,7 +943,7 @@ fieldset[disabled] #MenuButton:hover {
   -moz-box-shadow: none;
   box-shadow: none;
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   #MenuButton:hover {
     padding: 10px 16px;
     font-size: 18px;
@@ -971,7 +971,7 @@ fieldset[disabled] #MenuButton:hover {
 #MenuButton:hover.active {
   background-color: #203256 \9;
 }
-@media only screen and (min-width: 992px) {
+@media (min-width: 992px) {
   #MenuButton {
     display: none;
   }
@@ -1518,10 +1518,6 @@ div.box-main .box-content {
   display: table;
   content: "";
 }
-.rowBase,
-.category-row {
-  border-top: 5px solid #f8f9fc;
-}
 .rowBase:first-child,
 .category-row:first-child {
   border-top: none;
@@ -1550,16 +1546,6 @@ ul.ui-autocomplete {
   cursor: pointer;
 }
 /*Tooltips*/
-@media (max-width: 767px) {
-  .fa-question-circle.show-tooltip {
-    display: none !important;
-  }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-  .fa-question-circle.show-tooltip {
-    display: none !important;
-  }
-}
 .tooltip-text-left + .tooltip > .tooltip-inner {
   text-align: left;
   background-color: ghostwhite;

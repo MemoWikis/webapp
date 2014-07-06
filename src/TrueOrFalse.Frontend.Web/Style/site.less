@@ -68,7 +68,7 @@ h1, h2, h3, h4, h5 {
 
 a { 
     .link;
-    @media only screen and (max-width: @screen-xs-max) {
+    @media (max-width: @screen-xs-max) {
            // line-height: @icon-size-touch;
             //height: @icon-size-touch;
         }
@@ -76,7 +76,7 @@ a {
     &.SimpleTextLink {
         text-decoration: none;
         display: inline-block;
-        @media only screen and (max-width: @screen-xs-max) {
+        @media (max-width: @screen-xs-max) {
             line-height: @icon-size-touch;
         }
 
@@ -92,7 +92,7 @@ a {
 
         i {
             vertical-align: middle;
-            @media only screen and (max-width: @screen-xs-max) {
+            @media (max-width: @screen-xs-max) {
                 font-size: @icon-size-touch;
             }
         }
@@ -176,18 +176,18 @@ img {
         margin-top: 3px;
         margin-bottom: 3px;
 
-        @media only screen and (min-width: @screen-sm-min) {
+        @media (min-width: @screen-sm-min) {
             margin-top: 1%; margin-bottom: 1%;
         }
 
-        @media only screen and (min-width: @screen-sm-min) {
+        @media (min-width: @screen-sm-min) {
             height: (@masterHeaderMainRowHeight-md); margin-top: 6px; margin-bottom: 6px;
         }
     }
 
     .col-title {
 
-        @media only screen and (max-width: (@screen-xs-min - 1px)) {
+        @media (max-width: (@screen-xs-min - 1px)) {
             width: 70%; padding-right: 0;
         }
 
@@ -203,7 +203,7 @@ img {
         position: relative;
         top: 1px;
 
-        @media only screen and (min-width: @screen-sm-min) {
+        @media (min-width: @screen-sm-min) {
             top: 0;
         }
 
@@ -225,11 +225,11 @@ img {
         line-height: @masterHeaderMainRowHeight-xs;
 
 
-        @media only screen and (min-width: @screen-xs-min) {
+        @media (min-width: @screen-xs-min) {
             font-size: 32px;
         }
 
-        @media only screen and (min-width: @screen-sm-min) {
+        @media (min-width: @screen-sm-min) {
             font-size: 40px; padding-top: 2px;
         }
 
@@ -252,11 +252,11 @@ img {
             color: @light-blue;
             font-size: 20px;
 
-            @media only screen and (min-width: @screen-xs-min) {
+            @media (min-width: @screen-xs-min) {
                 font-size: 24px;
             }
 
-            @media only screen and (min-width: @screen-sm-min) {
+            @media (min-width: @screen-sm-min) {
                 font-size: 30px;
             }
         }
@@ -283,7 +283,7 @@ img {
         box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
         display: none;
 
-        @media only screen and (min-width: @screen-md-min) {
+        @media (min-width: @screen-md-min) {
             display: block;
         }
     }
@@ -292,7 +292,7 @@ img {
         width: auto;
         float: right;
 
-        @media only screen and (max-width: (@screen-xs-min - 1px)) {
+        @media (max-width: (@screen-xs-min - 1px)) {
             width: 30%; padding-left: 0; float: right;
         }
 
@@ -307,7 +307,7 @@ img {
     height: 100%;
     margin-top: -1px;
 
-    @media only screen and (min-width: @screen-sm-min) {
+    @media (min-width: @screen-sm-min) {
         margin-top: 1px;
     }
 
@@ -318,19 +318,19 @@ img {
         .userName {
             //$ToDo: relative max-width
             max-width: 115px;
-            @media screen and (min-width: 500px){
+            @media (min-width: 500px){
                 max-width: 135px;
             }
-            @media screen and (min-width: 520px){
+            @media (min-width: 520px){
                 max-width: 155px;
             }
-            @media screen and (min-width: 540px){
+            @media (min-width: 540px){
                 max-width: 175px;
             }
-            @media screen and (min-width: 560px){
+            @media (min-width: 560px){
                 max-width: 195px;
             }
-            @media screen and (min-width: @screen-md-min){
+            @media (min-width: @screen-md-min){
                 max-width: 400px;
             }
             overflow: hidden;
@@ -362,16 +362,16 @@ img {
 
     a.helpLink {
 
-        @media only screen and (min-width: @screen-xs-min) {
+        @media (min-width: @screen-xs-min) {
             margin-right: 5px;
         }
 
-        @media only screen and (min-width: @screen-sm-min) {
+        @media (min-width: @screen-sm-min) {
             margin-right: 10px;
         }
 
         i {
-            @media only screen and (min-width: @screen-sm-min) {
+            @media (min-width: @screen-sm-min) {
                 font-size: 16px;
             }
         }
@@ -399,12 +399,12 @@ img {
     .TextSpan, span {
         display: inline-block;
 
-        @media only screen and (max-width:(@screen-xs-min - 1px)) {
+        @media (max-width:(@screen-xs-min - 1px)) {
             display: none;
         }
 
         &.Help {
-            @media only screen and (max-width:(@screen-xs-max)) {
+            @media (max-width:(@screen-xs-max)) {
                 display: none;
             }
         }
@@ -438,7 +438,7 @@ img {
     .caret {margin-left: 3px;}
 
 
-    @media only screen and (min-width: @screen-sm-min) {
+    @media (min-width: @screen-sm-min) {
         .btn-lg;
         .MenuButtonSM;
         margin-top: 0;
@@ -462,7 +462,7 @@ img {
     &:hover {
         .btn;
 
-        @media only screen and (min-width: @screen-sm-min) {
+        @media (min-width: @screen-sm-min) {
             .btn-lg;
             .MenuButtonSM;
         }
@@ -471,7 +471,7 @@ img {
         .MenuButtonXS;
     }
 
-    @media only screen and (min-width: @screen-md-min) {
+    @media (min-width: @screen-md-min) {
         display: none;
     }
 }
@@ -1004,6 +1004,7 @@ div.box-main .box-content {
     }
 
 .rowBase, .category-row {
+    
     border-top: 5px solid lighten(@row-border-blue, 22%);
 
     &:first-child {
@@ -1046,7 +1047,6 @@ ul.ui-autocomplete {
 }
 
 /*Tooltips*/
-
 
 .fa-question-circle.show-tooltip {
     //.hidden-xs;
