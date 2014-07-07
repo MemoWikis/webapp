@@ -27,8 +27,10 @@ namespace TrueOrFalse.Utilities.Tests
             Assert.That(TimeElapsedAsText.Run(new DateTime(2014, 5, 16, 10, 00, 00), new DateTime(2014, 5, 17, 11, 00, 00)), Is.EqualTo("einem Tag"));
             Assert.That(TimeElapsedAsText.Run(new DateTime(2014, 5, 16, 23, 59, 00), new DateTime(2014, 5, 18, 00, 00, 01)), Is.EqualTo("2 Tagen"));
             Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-31)), Is.EqualTo("einem Monat"));
-            Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-87)), Is.EqualTo("3 Monate"));
-            Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-96)), Is.EqualTo("3 Monate"));            
+            Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-87)), Is.EqualTo("3 Monaten"));
+            Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-96)), Is.EqualTo("3 Monaten"));
+            Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-400)), Is.EqualTo("einem Jahr"));
+            Assert.That(TimeElapsedAsText.Run(DateTime.Now.AddDays(-700)), Is.EqualTo("2 Jahren"));
         }
     }
 }
