@@ -46,7 +46,7 @@ public class UserRowModel
         WishCountQuestions = user.WishCountQuestions;
         WishCountSets = user.WishCountSets;
 
-        IsCurrentUser = Id == sessionUser.User.Id;
+        IsCurrentUser = Id == sessionUser.UserId;
         IsInstallationLogin = sessionUser.IsInstallationAdmin;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
 

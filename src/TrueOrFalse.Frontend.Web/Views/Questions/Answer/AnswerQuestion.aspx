@@ -15,7 +15,7 @@
         .sparklineTotalsUser{ position: relative;top: 1px; }
 
         .valRow .valColumn2 .imgDelete{position: relative; left: 10px;top: -3px;  }
-        .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0px;padding-left: 5px; float: left; }
+        .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0;padding-left: 5px; float: left; }
     </style>
 
     <script type="text/javascript">

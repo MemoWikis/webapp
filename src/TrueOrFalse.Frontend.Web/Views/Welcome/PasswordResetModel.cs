@@ -11,7 +11,7 @@ public class PasswordResetModel
     public string NewPassword1 { get; set; }
 
     [Required(ErrorMessage = "* Pflichtfeld")]
-    [System.Web.Mvc.Compare("NewPassword1", ErrorMessage = "Die Passwörter stimmen nicht über ein.")]
+    [Compare("NewPassword1", ErrorMessage = "Die Passwörter stimmen nicht über ein.")]
     [DisplayName("Neues Password (bestätigen)")]
     public string NewPassword2 { get; set; }
 

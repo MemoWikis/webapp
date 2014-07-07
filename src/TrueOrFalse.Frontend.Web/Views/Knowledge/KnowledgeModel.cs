@@ -6,8 +6,6 @@ public class KnowledgeModel : BaseModel
 {
     private new readonly SessionUser _sessionUser;
 
-    public bool IsLoggedIn { get { return _sessionUser.IsLoggedIn;  } }
-
     public string UserName
     {
         get
