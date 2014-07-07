@@ -33,13 +33,12 @@ public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIs
     [JsonIgnore]
     public override CategoryType Type { get { return CategoryType.MagazineIssue; } }
 
-    public string BuildTitle()
+    public string BuildTitle(string magazineName)
     {
         var name = "";
-        if (!String.IsNullOrEmpty(Year)) {
-            name = Year;
-            if (!String.IsNullOrEmpty(No))
-                name += "/" + No;
+        if (!String.IsNullOrEmpty(No) && !String.IsNullOrEmpty(Year))
+        {
+            name = magazineName + " " + No + "/" + Year;
             if (!String.IsNullOrEmpty(IssuePeriod))
                 name += " (" + IssuePeriod + ")";
         }

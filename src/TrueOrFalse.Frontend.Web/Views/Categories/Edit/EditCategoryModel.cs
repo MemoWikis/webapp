@@ -54,6 +54,10 @@ public class EditCategoryModel : BaseModel
             parentCategories = parentCategories.Where(c => c.Type != CategoryType.Daily).ToList();
         if (category.Type == CategoryType.DailyArticle)
             parentCategories = parentCategories.Where(c => c.Type != CategoryType.Daily && c.Type != CategoryType.DailyIssue).ToList();
+        if (category.Type == CategoryType.MagazineIssue)
+            parentCategories = parentCategories.Where(c => c.Type != CategoryType.Magazine).ToList();
+        if (category.Type == CategoryType.MagazineArticle)
+            parentCategories = parentCategories.Where(c => c.Type != CategoryType.Magazine && c.Type != CategoryType.MagazineIssue).ToList();
 
 
         Category = category;
@@ -61,8 +65,6 @@ public class EditCategoryModel : BaseModel
         Description = category.Description;
         ParentCategories = (from cat in parentCategories select cat.Name).ToList();
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
-
-
     }
 
     public ConvertToCategoryResult ConvertToCategory()
@@ -270,7 +272,8 @@ public class EditCategoryModel : BaseModel
                errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
                "Um zu speichern, wähle bitte eine Zeitschrift aus.");
 
-        category.Name = categoryMagazineIssue.BuildTitle();
+        category.Name = categoryMagazineIssue.BuildTitle(addParentMagazine.FieldValue);
+
 
         return addParentMagazine.HasError ? addParentMagazine.Result : result;
     }
@@ -353,12 +356,12 @@ public class EditCategoryModel : BaseModel
         public AddParentCategoryFromInput(Category category, ICategoryTypeBase typeModel, CategoryType parentCategoryType, string htmlInputName, string errorMessage)
         {
             var request = HttpContext.Current.Request;
-            var dailyCategoryName = FieldValue = request[htmlInputName];
-            var isNullOrEmptyError = String.IsNullOrEmpty(dailyCategoryName);
+            var parentCategoryName = FieldValue = request[htmlInputName];
+            var isNullOrEmptyError = String.IsNullOrEmpty(parentCategoryName);
 
             Category parentFromDb = null;
             if (!isNullOrEmptyError)
-                parentFromDb = Sl.Resolve<CategoryRepository>().GetByName(dailyCategoryName);
+                parentFromDb = Sl.Resolve<CategoryRepository>().GetByName(parentCategoryName);
 
             if (isNullOrEmptyError || parentFromDb == null || parentFromDb.Type != parentCategoryType)
             {
