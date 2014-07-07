@@ -39,25 +39,26 @@
                     <div class="search-section">
                         <div class="row">
                             <div class="col-md-6">
-                                <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
-                                    <div style="padding-bottom: 10px; font-size: large">
-                                        Oder suchst du: 
-                                        <a href="<%= Model.SearchUrl + Model.Suggestion %>">
-                                            <%= Model.Suggestion %>
-                                        </a> ?
-                                    </div>
-                                <% } %>                                
+                                <div class="pull-left form-group">
+                                    <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+                                        <div style="padding-bottom: 10px; font-size: large">
+                                            Oder suchst du: 
+                                            <a href="<%= Model.SearchUrl + Model.Suggestion %>">
+                                                <%= Model.Suggestion %>
+                                            </a> ?
+                                        </div>
+                                    <% } %>                                
                                 
-                                <div class="input-group">
-                                    <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch", formUrl=Model.SearchUrl}) %>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
-                                    </span>
+                                    <div class="input-group">
+                                        <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch", formUrl=Model.SearchUrl}) %>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             
-                            <div class="col-md-6">
-                                
+                            <div class="col-md-6">        
                                 <ul class="nav pull-right">
                                     <li class="dropdown" id="menu1">
                                         <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
@@ -79,7 +80,6 @@
                                         </ul>
                                     </li>
                                 </ul>
-
                             </div>
 
                         </div>
@@ -95,11 +95,13 @@
                                 }
                             %>
                         </div>
-                        <% Html.RenderPartial("Pager", Model.Pager); %>
+                        
                     </div>
+                    
+                    <% Html.RenderPartial("Pager", Model.Pager); %>
                 </div>
             </div>
-    <% } %>
+        <% } %>
     </div>
     
     <%
