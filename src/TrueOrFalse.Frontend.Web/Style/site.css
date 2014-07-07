@@ -1518,6 +1518,10 @@ div.box-main .box-content {
   display: table;
   content: "";
 }
+.rowBase,
+.category-row {
+  border-top: 5px solid #ffffff;
+}
 .rowBase:first-child,
 .category-row:first-child {
   border-top: none;

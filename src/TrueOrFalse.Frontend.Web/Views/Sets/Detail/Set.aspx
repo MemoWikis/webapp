@@ -24,10 +24,12 @@
                     </a>
                     
                     <span class="show-tooltip" id="totalPins" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
-                    
-                    
-                    <span>
-                        <i class="fa fa-tachometer" style="margin-left: 20px; color: green;"></i> 3/3    
+
+                    <span class="show-tooltip" title="<%= Model.ActiveMemory.TotalInActiveMemory %> von <%= Model.ActiveMemory.TotalQuestions%> Fragen 
+                        aus diesem Fragesatz <br> sind in deinem aktiven Wissen. <br><br> Im 'aktiven Wissen' ist eine Frage, wenn die<br> Antwortwahrscheinlichkeit über 90% liegt." 
+                        data-html="true" data-placement="bottom">
+                        <i class="fa fa-tachometer" style="margin-left: 20px; color: green;"></i> 
+                        <%= Model.ActiveMemory.TotalInActiveMemory %>/<%= Model.ActiveMemory.TotalQuestions %>
                     </span>
 
                 </span>
@@ -84,7 +86,7 @@
 
             <div style="margin-top: 10px;">
                 von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"> <%= Model.CreatorName %> </a> <br/>
-                vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />                
+                vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             </div>
             
             <div style="margin-top: 10px;">
