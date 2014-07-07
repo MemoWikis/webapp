@@ -55,10 +55,10 @@ var fnEditCatValidation = function (categoryType) {
                 range: [1, 31],
             },
             Url: {
-                url: true,
+                //url: true, too strict
             },
             WikipediaUrl: {
-                url: true,
+                //url: true, too strict
             },
         },
         messages: {
@@ -106,6 +106,7 @@ var fnEditCatValidation = function (categoryType) {
 
     if (categoryType == "MagazineArticle") {
         $('[name="Author"]').rules("add", { required: false, });
+        $('[name="Title"]').rules("add", { required: true, });
     }
 
     if (categoryType == "MagazineIssue") {

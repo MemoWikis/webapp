@@ -65,7 +65,7 @@
         <i class="fa fa-question-circle show-tooltip" title='Bitte gib einen Autor je Zeile im Format "Nachname, Vorname" an.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
-            <textarea class="form-control" name="Author" type="text"><%= model.Author %></textarea>
+            <textarea class="form-control" name="Author" type="text" placeholder="Name, Vorname"><%= model.Author %></textarea>
     </div>
 </div>
 <div class="form-group">

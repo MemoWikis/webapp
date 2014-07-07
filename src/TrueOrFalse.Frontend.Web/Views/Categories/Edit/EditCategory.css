@@ -226,7 +226,9 @@
   padding-right: 10px;
   font-size: 90%;
 }
-.columnControlsFull .radio {
+.columnControlsFull .radio,
+.columnControlsFull .form-control-static,
+.columnControlsFull .added-cat {
   font-size: 111.11111111%;
 }
 @media (min-width: 480px) {
