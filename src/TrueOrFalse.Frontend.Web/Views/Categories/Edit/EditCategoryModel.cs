@@ -261,9 +261,18 @@ public class EditCategoryModel : BaseModel
 
         category.TypeJson = categoryMagazineIssue.ToJson();
 
+        var addParentMagazine =
+           new AddParentCategoryFromInput(
+               category,
+               categoryMagazineIssue,
+               parentCategoryType: CategoryType.Magazine,
+               htmlInputName: "hddTxtMagazine",
+               errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
+               "Um zu speichern, wähle bitte eine Zeitschrift aus.");
+
         category.Name = categoryMagazineIssue.BuildTitle();
 
-        return result;
+        return addParentMagazine.HasError ? addParentMagazine.Result : result;
     }
 
     private static ConvertToCategoryResult FillMagazineArticle(Category category, HttpRequest request, ConvertToCategoryResult result)
@@ -347,11 +356,11 @@ public class EditCategoryModel : BaseModel
             var dailyCategoryName = FieldValue = request[htmlInputName];
             var isNullOrEmptyError = String.IsNullOrEmpty(dailyCategoryName);
 
-            Category dailyFromDb = null;
+            Category parentFromDb = null;
             if (!isNullOrEmptyError)
-                dailyFromDb = Sl.Resolve<CategoryRepository>().GetByName(dailyCategoryName);
+                parentFromDb = Sl.Resolve<CategoryRepository>().GetByName(dailyCategoryName);
 
-            if (isNullOrEmptyError || dailyFromDb == null || dailyFromDb.Type != parentCategoryType)
+            if (isNullOrEmptyError || parentFromDb == null || parentFromDb.Type != parentCategoryType)
             {
                 {
                     Result = new ConvertToCategoryResult
@@ -366,7 +375,7 @@ public class EditCategoryModel : BaseModel
                 }
             }
 
-            category.ParentCategories.Add(dailyFromDb);            
+            category.ParentCategories.Add(parentFromDb);            
         }
     }
 
