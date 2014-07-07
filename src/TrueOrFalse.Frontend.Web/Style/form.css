@@ -226,7 +226,9 @@
   padding-right: 10px;
   font-size: 90%;
 }
-.columnControlsFull .radio {
+.columnControlsFull .radio,
+.columnControlsFull .form-control-static,
+.columnControlsFull .added-cat {
   font-size: 111.11111111%;
 }
 .columnControlsSmall {
@@ -286,14 +288,17 @@ label {
 }
 .InputDayOrMonth,
 .InputVolume,
-.InputIssueNo {
+.InputIssueNo,
+.InputPageNo {
   width: 54px;
 }
-.InputIssuePeriod {
+.InputIssuePeriod,
+.InputIsxn {
   width: 240px;
 }
 @media (max-width: 479px) {
-  .InputIssuePeriod {
+  .InputIssuePeriod,
+  .InputIsxn {
     float: none;
     width: 100%;
     margin-left: 0;
