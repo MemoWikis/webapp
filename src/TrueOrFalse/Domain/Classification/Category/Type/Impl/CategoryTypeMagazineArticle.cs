@@ -13,6 +13,8 @@ public class CategoryTypeMagazineArticle : CategoryTypeBase<CategoryTypeMagazine
     public string Subtitle;
     public string Author;
     public string Url;
+    public string PagesChapterFrom;
+    public string PagesChapterTo;
 
     /// <summary>Obligatory Daily parent</summary>
     [JsonIgnore]
