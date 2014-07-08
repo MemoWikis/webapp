@@ -3,7 +3,12 @@ fnAddRegExMethod("IsbnLength", /(^(([a-z0-9][-]{0,1}){12})[a-z0-9]$)|(^(([a-z0-9
 fnAddRegExMethod("IsbnAll", /(^(([0-9][-]{0,1}){12})[xX0-9]$)|(^(([0-9][-]{0,1}){9})[xX0-9]$)/, "Fies! Dieses Feld hat strenge Regeln: <br/> Verwende nur Ziffern und Bindestriche ('X' am Ende möglich).<br/> Die ISBN muss genau 10 oder 13 Stellen haben (ohne Bindestriche).");
 fnAddRegExMethod("Issn", /(^(([0-9][-]{0,1}){7})[xX0-9]$)/, "Fies! Dieses Feld hat strenge Regeln: <br/> Verwende nur Ziffern und Bindestriche ('X' am Ende möglich).<br/> Die ISSN muss genau 8 Stellen haben (ohne Bindestriche).");
 
-var fnEditCatValidation = function (categoryType) {
+var fnEditCatValidation = function (categoryType, resetValidator, usePartialCustomSettings) {
+    //for (var i in validator.settings.rules) {
+    //    delete validator.settings.rules[i];
+    //}
+    if (typeof resetValidator === "undefined") { resetValidator = false; }
+    if (typeof usePartialCustomSettings === "undefined") { usePartialCustomSettings = false; }
     var validationBasicSettings = {
         //debug: true,
         rules: {
@@ -79,42 +84,43 @@ var fnEditCatValidation = function (categoryType) {
         }
     };
 
-    //debugger;
-    var validator = fnValidateForm("#EditCategoryForm", validationBasicSettings);
+    var validator = fnValidateForm("#EditCategoryForm", validationBasicSettings, resetValidator);
 
     //Further custom settings for partials:
-    if (categoryType == "DailyArticle") {
-        $('[name="Author"]').rules("add", { required: false });
-    }
+    if (usePartialCustomSettings) {
+        if (categoryType == "DailyArticle") {
+            $('[name="Author"]').rules("add", { required: false });
+        }
 
-    if (categoryType == "DailyIssue") {
-        $('[name="PublicationDateDay"]').rules("add", { required: true });
-        $('[name="PublicationDateMonth"]').rules("add", { required: true });
-        $('[name="Year"]').rules("add", { required: true });
-        validator.groups['PublicationDateDay'] = 'DateGroup'; //http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi#answer-9688284
-        validator.groups['PublicationDateMonth'] = 'DateGroup';
-        validator.groups['Year'] = 'DateGroup';
-    }
+        if (categoryType == "DailyIssue") {
+            $('[name="PublicationDateDay"]').rules("add", { required: true });
+            $('[name="PublicationDateMonth"]').rules("add", { required: true });
+            $('[name="Year"]').rules("add", { required: true });
+            validator.groups['PublicationDateDay'] = 'DateGroup'; //http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi#answer-9688284
+            validator.groups['PublicationDateMonth'] = 'DateGroup';
+            validator.groups['Year'] = 'DateGroup';
+        }
 
-    if (categoryType == "MagazineArticle") {
-        $('[name="Author"]').rules("add", { required: false });
-        $('[name="Title"]').rules("add", { required: true });
-    }
+        if (categoryType == "MagazineArticle") {
+            $('[name="Author"]').rules("add", { required: false });
+            $('[name="Title"]').rules("add", { required: true });
+        }
 
-    if (categoryType == "MagazineIssue") {
-        $('[name="Year"]').rules("add", { required: true });
-        $('[name="No"]').rules("add", { required: true });
-        $('[name="Title"]').rules("add", { required: false });
+        if (categoryType == "MagazineIssue") {
+            $('[name="Year"]').rules("add", { required: true });
+            $('[name="No"]').rules("add", { required: true });
+            $('[name="Title"]').rules("add", { required: false });
 
-        validator.groups['PublicationDateDay'] = 'DateGroup'; //http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi#answer-9688284
-        validator.groups['PublicationDateMonth'] = 'DateGroup';
-        validator.groups['No'] = 'IssueGroup';
-        validator.groups['Year'] = 'IssueGroup';
-    }
+            validator.groups['PublicationDateDay'] = 'DateGroup'; //http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi#answer-9688284
+            validator.groups['PublicationDateMonth'] = 'DateGroup';
+            validator.groups['No'] = 'IssueGroup';
+            validator.groups['Year'] = 'IssueGroup';
+        }
 
-    if (categoryType == "VolumeChapter") {
-        $('[name="TitleVolume"]').rules("add", { required: true });
-        $('[name="Editor"]').rules("add", { required: true });
+        if (categoryType == "VolumeChapter") {
+            $('[name="TitleVolume"]').rules("add", { required: true });
+            $('[name="Editor"]').rules("add", { required: true });
+        }
     }
 };
 //<span class="help-block">Ups, keine gültige Kategorie ausgewählt. Bitte suchen und aus der Liste auswählen oder <a>Kategorie in neuem Tab anlegen</a>.</span>
