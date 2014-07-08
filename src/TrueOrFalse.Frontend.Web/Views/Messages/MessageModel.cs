@@ -8,7 +8,6 @@ using TrueOrFalse;
 
 public class MessageModel : BaseModel
 {
-    public bool IsLoggedIn = true;
     public List<MessageModelRow> Rows = new List<MessageModelRow>();
 
     public MessageModel()

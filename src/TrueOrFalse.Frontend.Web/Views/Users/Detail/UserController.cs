@@ -21,7 +21,7 @@ public class UserController : Controller
     }
 
     [SetMenu(MenuEntry.UserDetail)]
-    public ViewResult User(string userName, int id)
+    new public ViewResult User(string userName, int id)
     {
         var user = _userRepository.GetById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));

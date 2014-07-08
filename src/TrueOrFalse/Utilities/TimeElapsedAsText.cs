@@ -55,10 +55,14 @@ namespace TrueOrFalse
                 if ((int)Math.Round(elapsedTime.TotalDays / 30, 0) == 1)
                     return "einem Monat";
                 else
-                    return (int)Math.Round(elapsedTime.TotalDays / 30, 0) + " Monate";
+                    return (int)Math.Round(elapsedTime.TotalDays / 30, 0) + " Monaten";
 
 
-            return "";
+            if (elapsedTime.TotalDays < 365*1.5)
+                return "einem Jahr";
+
+            return Math.Round(elapsedTime.TotalDays/365) + " Jahren";
+
         }
     }
 }

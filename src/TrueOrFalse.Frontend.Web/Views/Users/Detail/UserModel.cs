@@ -18,8 +18,6 @@ public class UserModel : BaseModel
     public string ImageUrl_250;
     public bool ImageIsCustom;
 
-    public bool IsCurrentUser;
-
     public int ReputationRank;
     public int ReputationTotal;
     public ReputationCalcResult Reputation;
@@ -33,8 +31,6 @@ public class UserModel : BaseModel
 
     public UserModel(User user)
     {
-        IsCurrentUser = _sessionUser.User.Id == user.Id;
-
         User = user;
         Name = user.Name;
 

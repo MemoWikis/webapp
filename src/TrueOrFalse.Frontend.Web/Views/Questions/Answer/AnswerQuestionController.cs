@@ -117,7 +117,7 @@ public class AnswerQuestionController : BaseController
         }
 
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, searchSpec));
-        _saveQuestionView.Run(question, _sessionUser.User.Id);
+        _saveQuestionView.Run(question, _sessionUser.UserId);
 
         return View(_viewLocation, new AnswerQuestionModel(question, searchSpec));
     }

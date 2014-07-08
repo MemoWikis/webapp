@@ -15,7 +15,7 @@ public class MessagesController : BaseController
             {
                 new Message
                 {
-                    Subject = "<p>Hallo Unbekannter!</p>",
+                    Subject = "Hallo Unbekannte(r)!",
                     Body = @"<p>
                                 schön das Du bei uns vorbeischaust. 
                                 Eigentlich gibt es hier nichts zu sehen, 
@@ -29,10 +29,7 @@ public class MessagesController : BaseController
                     DateCreated = DateTime.Now,
                     IsRead = false
                 }
-            })
-            {
-                IsLoggedIn = false
-            });
+            }));
 
         var messages = Resolve<MessageRepository>()
             .GetForUser(_sessionUser.User.Id);

@@ -14,7 +14,7 @@ namespace TrueOrFalse.Tests
         private List<User> _users;
 
         [SetUp]
-        public void SetUp()
+        public void SetUpBaseTest()
         {
            _users =  Resolve<SampleData>().CreateUsers();
         }

@@ -15,7 +15,7 @@
         .sparklineTotalsUser{ position: relative;top: 1px; }
 
         .valRow .valColumn2 .imgDelete{position: relative; left: 10px;top: -3px;  }
-        .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0px;padding-left: 5px; float: left; }
+        .valRow .valColumn2 .valMine{margin-top: -2px; padding-top: 0;padding-left: 5px; float: left; }
     </style>
 
     <script type="text/javascript">
@@ -171,6 +171,7 @@
             </div>
             
             <div style="margin-top: 30px; color: darkgray; font-weight: bold;" class="row">
+
                 <div class="col-xs-4">
                     <h4 style="padding:0; margin:0;">Kommentare</h4>    
                 </div>
@@ -185,7 +186,7 @@
                         </span>
                     <% } %>
                 </div>
-            </div>
+            </div>  
             
             <div id="comments">
                 <% foreach(var comment in Model.Comments){ %>
@@ -209,6 +210,12 @@
                             <a href="#" class="btn btn-default pull-right" id="btnSaveComment">Speichern</a>
                         </div>
                     </div>                
+                </div>
+            <% } else { %>
+                <div class="row">
+                    <div class="col-xs-12" style="padding-top: 10px; color: darkgray">
+                        Um zu kommentieren, mußt Du angemeldet sein.
+                    </div>                     
                 </div>
             <% } %>
 
