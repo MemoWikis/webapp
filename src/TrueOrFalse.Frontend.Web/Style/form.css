@@ -209,6 +209,14 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+.columnControlsFull {
+  font-size: 90%;
+}
+.columnControlsFull .radio,
+.columnControlsFull .form-control-static,
+.columnControlsFull .added-cat {
+  font-size: 111.11111111%;
+}
 .columnLabel {
   position: relative;
   float: left;
@@ -224,12 +232,6 @@
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
-  font-size: 90%;
-}
-.columnControlsFull .radio,
-.columnControlsFull .form-control-static,
-.columnControlsFull .added-cat {
-  font-size: 111.11111111%;
 }
 .columnControlsSmall {
   position: relative;
@@ -333,10 +335,14 @@ h3.form-sub-title {
   padding: 30px 0 0 100px;
   font-size: 1.3em;
 }
+.JS-CatInputContainer {
+  padding-right: 0;
+}
 .added-cat {
   float: left;
   margin-right: 1em;
   line-height: 28px;
+  font-weight: bold;
 }
 .added-cat a img {
   padding-left: 4px;

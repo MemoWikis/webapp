@@ -214,6 +214,11 @@
 
 .FormColumnGrid (@labels-stacked: false; @label-width-variable: false; @grid-width-label-xs: 3; @grid-width-controls-full-xs: @grid-columns - @grid-width-label-xs) {
 
+    .columnControlsFull {
+        font-size: 90%;
+        .radio, .form-control-static, .added-cat {font-size: percentage(100/90);}
+    }
+
     .FormColumnGridConditional (@labels-stacked) when (@labels-stacked) {
 
         .columnLabel {
@@ -223,6 +228,7 @@
 
         .columnControlsFull {
             .make-xs-column(12);
+            .radio, .form-control-static {margin-left: 20px;}
         }
 
         .columnControlsSmall {
@@ -232,6 +238,14 @@
 
         .noLabel {
             margin-left: 0;
+        }
+
+        .radio {
+            margin-left: 20px;
+        }
+
+        input.form-control, textarea.form-control {
+            max-width: 400px;
         }
     }
 
@@ -247,8 +261,6 @@
         .columnControlsFull {
             .xxs-stack;//not put out, replacement: see below
             .make-xs-column(@grid-width-controls-full-xs);
-            font-size: 90%;
-            .radio, .form-control-static, .added-cat {font-size: percentage(100/90);}
 
             .aside & {
                 .make-md-column(@grid-columns);
