@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse
 {
-    public class CBForAllUsersCalculator : IRegisterAsInstancePerLifetime
+    public class ProbabilityForAllUsersCalc : IRegisterAsInstancePerLifetime
     {
         public int Run(IList<AnswerHistory> answerHistoryItems)
         {

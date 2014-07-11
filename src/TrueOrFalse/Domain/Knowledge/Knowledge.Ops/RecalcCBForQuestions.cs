@@ -10,17 +10,17 @@ namespace TrueOrFalse
     {
         private readonly QuestionRepository _questionRepo;
         private readonly AnswerHistoryRepository _answerHistoryRepo;
-        private readonly CBForAllUsersCalculator _cbForAllUsersCalc;
+        private readonly ProbabilityForAllUsersCalc _probabilityForAllUsersCalc;
 
         public RecalcCBForQuestions(
             QuestionRepository questionRepo,
             AnswerHistoryRepository answerHistoryRepo,
-            CBForAllUsersCalculator cbForAllUsersCalc
+            ProbabilityForAllUsersCalc probabilityForAllUsersCalc
             )
         {
             _questionRepo = questionRepo;
             _answerHistoryRepo = answerHistoryRepo;
-            _cbForAllUsersCalc = cbForAllUsersCalc;
+            _probabilityForAllUsersCalc = probabilityForAllUsersCalc;
         }
 
         public void Run()
@@ -29,7 +29,7 @@ namespace TrueOrFalse
             foreach (var question in _questionRepo.GetAll())
             {
                 question.CorrectnessProbability = 
-                    _cbForAllUsersCalc.Run(_answerHistoryRepo.GetBy(question.Id));
+                    _probabilityForAllUsersCalc.Run(_answerHistoryRepo.GetBy(question.Id));
 
                 _questionRepo.Update(question);
             }

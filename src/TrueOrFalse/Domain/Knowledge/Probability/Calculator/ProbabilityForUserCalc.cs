@@ -8,7 +8,7 @@ namespace TrueOrFalse
     /// <summary>
     /// Correctness probability for user
     /// </summary>
-    public class CBForUserCalculator : IRegisterAsInstancePerLifetime
+    public class ProbabilityForUserCalc : IRegisterAsInstancePerLifetime
     {
         /// <returns>CorrectnessProbability as Percentage</returns>
         public int Run(IEnumerable<AnswerHistory> answerHistoryItems)
