@@ -252,10 +252,16 @@
 .radio {
   margin-left: 20px;
 }
+.added-cat.SingleSelect {
+  margin-left: 20px;
+}
 input.form-control,
 textarea.form-control,
 select.form-control {
   max-width: 400px;
+}
+#CategoryDetailsBody {
+  padding-top: 20px;
 }
 .CategoryTypeHeader {
   color: #5bc0de;

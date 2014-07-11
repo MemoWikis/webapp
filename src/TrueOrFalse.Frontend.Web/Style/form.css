@@ -397,13 +397,11 @@ div.control-group.markdown label {
   border-color: #5bc0de !important;
   border: none;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: -1px;
+  padding-bottom: 1px;
 }
 .FormSection + .FormSection {
   padding-top: 0;
-}
-.FormSection .form-group:last-child {
-  margin-bottom: 0;
 }
 .aside .columnControlsFull {
   position: relative;

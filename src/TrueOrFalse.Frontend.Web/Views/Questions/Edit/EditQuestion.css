@@ -301,7 +301,8 @@
   margin-left: 20px;
 }
 input.form-control,
-textarea.form-control {
+textarea.form-control,
+select.form-control {
   max-width: 400px;
 }
 #txtNewRelatedCategory {
