@@ -47,7 +47,7 @@
         <i class="fa fa-question-circle show-tooltip" title="<%= EditCategoryTypeModel.IsbnInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="ISBN" type="text" value="<%= model.ISBN %>">
+        <input class="form-control InputIsxn" name="ISBN" type="text" value="<%= model.ISBN %>">
     </div>
     <%--<div class="columnControlsFull JS-InputWithCheckbox">
         <input class="form-control" name="ISBN" type="text" value="<%= model.ISBN %>">

@@ -182,10 +182,10 @@ public class EditCategoryModel : BaseModel
         var categoryDailyIssue = new CategoryTypeDailyIssue
         {
             Year = ToNumericalString(request["Year"]),
-            Volume = ToNumericalString(request["Volume"]),
+            Volume = ToNumericalStringWithLeadingZeros(request["Volume"]),
             No = ToNumericalStringWithLeadingZeros(request["No"]),
-            PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
-            PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
+            PublicationDateMonth = ToNumericalStringWithLeadingZeros(request["PublicationDateMonth"]),
+            PublicationDateDay = ToNumericalStringWithLeadingZeros(request["PublicationDateDay"]),
             Category = category
         };
 

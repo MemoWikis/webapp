@@ -209,21 +209,7 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-.columnLabel {
-  position: relative;
-  float: left;
-  width: 25%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
 .columnControlsFull {
-  position: relative;
-  float: left;
-  width: 75%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
   font-size: 90%;
 }
 .columnControlsFull .radio,
@@ -231,38 +217,45 @@
 .columnControlsFull .added-cat {
   font-size: 111.11111111%;
 }
-@media (min-width: 480px) {
-  .columnLabel {
-    width: auto;
-    padding-right: 0;
-  }
-  .columnControlsFull {
-    padding-left: 3px;
-    float: right;
-  }
+.columnLabel {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: left !important;
+}
+.columnControlsFull {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.columnControlsFull .radio,
+.columnControlsFull .form-control-static {
+  margin-left: 20px;
 }
 .columnControlsSmall {
   position: relative;
   float: left;
-  width: 8.33333333%;
+  width: 50%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
-  width: 37.5%;
 }
-@media (max-width: 479px) {
-  .columnLabel,
-  .columnControlsFull,
-  .columnControlsSmall {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-  }
+.noLabel {
+  margin-left: 0;
 }
-@media (min-width: 480px) {
-  .noLabel {
-    margin-left: 25%;
-  }
+.radio {
+  margin-left: 20px;
+}
+input.form-control,
+textarea.form-control,
+select.form-control {
+  max-width: 400px;
 }
 .CategoryTypeHeader {
   color: #5bc0de;

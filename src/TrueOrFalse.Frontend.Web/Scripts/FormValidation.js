@@ -1,4 +1,5 @@
-﻿var fnValidateForm = function (formSelector, customSettings) {
+﻿var fnValidateForm = function (formSelector, customSettings, resetValidator) {
+    if (typeof resetValidator === "undefined") { resetValidator = false; }
     var validationSettings = {
         highlight: function (element, errorClass, validClass) {
             if (element.type === "radio") {
@@ -27,6 +28,12 @@
     };
 
     $.extend(true, validationSettings, customSettings);
+
+    var elemForm = $(formSelector).first();
+    if (resetValidator) {
+        if (elemForm.data("validator") != undefined)
+            elemForm.data("validator", null);
+    }
 
     var validator = $(formSelector).validate(validationSettings);
 

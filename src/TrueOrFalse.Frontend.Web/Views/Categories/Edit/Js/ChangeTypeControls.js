@@ -39,7 +39,7 @@
             selectedValue = $("#categoryType").val();
         } else {
             if ($("input:radio[name=rdoCategoryTypeGroup]:checked").val() == 'standard')
-                selectedValue = 'standard';
+                selectedValue = 'Standard';
             if ($("input:radio[name=rdoCategoryTypeGroup]:checked").val() == 'media')
                 selectedValue = $("select[name=ddlCategoryTypeMedia]").val();
             if ($("input:radio[name='rdoCategoryTypeGroup']:checked").val() == 'education')
@@ -53,10 +53,11 @@
             url: '/EditCategory/DetailsPartial?categoryId=' + $("#categoryId").val() + '&type=' + selectedValue,
             type: 'GET',
             success: function (data) {
+                fnEditCatValidation(selectedValue, true, false); //initiate validator without rules for fields not rendered yet
                 $("#CategoryDetailsBody").html(data);
                 $('.JS-ShowWithPartial').show();
                 $('#CategoryDetailsBody .show-tooltip').tooltip();
-                fnEditCatValidation(selectedValue);
+                fnEditCatValidation(selectedValue, false, true);
             }
         });
     };

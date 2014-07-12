@@ -32,7 +32,7 @@
         </i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="ISSN" type="text" value="<%= model.ISSN %>">
+        <input class="form-control InputIsxn" name="ISSN" type="text" value="<%= model.ISSN %>">
     </div>
 </div>
 <div class="form-group">

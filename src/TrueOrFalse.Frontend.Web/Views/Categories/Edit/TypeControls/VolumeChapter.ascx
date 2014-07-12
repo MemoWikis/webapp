@@ -32,20 +32,19 @@
 </div>
 <div class="form-group">
     <label class="columnLabel control-label">Seiten Beitrag</label>
+    
     <div class="columnControlsFull">
-        <div class="form-group">
-            <div class="columnControlsFull">
-                <label class="control-label" style="float: left;" for="PagesChapterFrom">von</label>
-                <div class="col-xs-3">
-                    <input class="form-control" name="PagesChapterFrom" type="text" value="<%= model.PagesChapterFrom %>">
-                </div>
-                <label class="control-label" style="float: left;" for="PagesChapterTo">bis</label>
-                <div class="col-xs-3">
-                    <input class="form-control" style="" name="PagesChapterTo" type="text" value="<%= model.PagesChapterTo %>">
-                </div>
+        <div class="JS-ValidationGroup">
+            <label class="control-label LabelInline" for="PagesChapterFrom">von</label>
+            <div class="ControlInline">
+                <input class="form-control InputPageNo JS-ValidationGroupMember" name="PagesChapterFrom" type="text" value="<%= model.PagesChapterFrom%>">
+            </div>
+            <label class="control-label LabelInline" for="PagesChapterTo">bis</label>
+            <div style="" class="ControlInline">
+                <input class="form-control InputPageNo JS-ValidationGroupMember" style="" name="PagesChapterTo" type="text" value="<%= model.PagesChapterTo %>">
             </div>
         </div>
-    </div>
+    </div>    
 </div>
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" for="TitleVolume">
@@ -87,7 +86,7 @@
         <i class="fa fa-question-circle show-tooltip" title="<%= EditCategoryTypeModel.IsbnInfo %>" data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="ISBN" type="text" value="<%= model.ISBN %>">
+        <input class="form-control InputIsxn" name="ISBN" type="text" value="<%= model.ISBN %>">
     </div>
 
 </div>
@@ -106,7 +105,7 @@
 <div class="form-group">
     <label class="columnLabel control-label" for="PublicationYear">Erscheinungsjahr</label>
     <div class="columnControlsFull">
-        <input class="form-control" name="PublicationYear" type="text" value="<%=model.PublicationYear %>">
+        <input class="form-control InputYear" name="PublicationYear" type="text" value="<%=model.PublicationYear %>">
     </div>
 </div>
 <div class="form-group">
