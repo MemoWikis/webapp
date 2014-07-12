@@ -210,7 +210,6 @@
   border-radius: 3px;
 }
 .msgRow {
-  background-color: #f2f5fa;
   border-right: 1px solid #d9d9d9;
   border-top: none;
   border-left: 4px solid #ffa500;
@@ -221,10 +220,9 @@
   margin-right: 0;
 }
 .msgRow.isRead {
+  opacity: 0.6;
   border-left-color: #ffdb99;
   border-right-color: #e6e6e6;
-  background-color: #fcfcfc;
-  color: #5176be;
 }
 .msgRow.isRead .header,
 .msgRow.isRead .body,
@@ -233,6 +231,7 @@
 }
 .msgRow:hover {
   background-color: #ebeff7;
+  opacity: 1;
 }
 .msgRow .msg {
   border-top: 1px solid #d9d9d9;
