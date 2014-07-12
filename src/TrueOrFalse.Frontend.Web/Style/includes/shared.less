@@ -148,7 +148,7 @@
 ----------------------------------------------------------*/
 
 
-#tab-color(@outline-color: @light-blue) { 
+#tab-color(@outline-color: @light-blue, @font-color: @global-text-color) { 
 
     .box-with-tabs,
     .boxtainer-outlined-tabs {
@@ -159,6 +159,7 @@
             li {
                 a:hover {
                     background-color: @outline-color;
+                    color: @font-color;
                 }
 
                 &.active {
