@@ -332,6 +332,9 @@ h1 *.ColoredBottomBorder {
 .ColoredBottomBorder.User {
   border-bottom-color: #2c5fb2;
 }
+.ColoredBottomBorder.Message {
+  border-bottom-color: #ffa500;
+}
 .ColoredText.Knowledge {
   color: #b13a48;
 }
