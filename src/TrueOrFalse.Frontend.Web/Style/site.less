@@ -121,6 +121,8 @@ a {
 
     &.Knowledge {border-bottom-color: @color-knowledge;}
     &.Category {border-bottom-color: @color-category;}
+    &.Set {border-bottom-color: @color-set;}
+    &.User{border-bottom-color: @color-user;}
             
 }
 
@@ -951,18 +953,9 @@ div.box-main .box-content {
 }
 
 #question-main {
-    #tab-color (lighten(@color-question, 20));
+    #tab-color(lighten(@color-question, 20));
 }
 
-#set-main {
-    #tab-color
-    (lighten(@color-set, 20));
-}
-
-#category-main {
-    #tab-color
-    (lighten(@color-category, 10));
-}
 
 
 .box div.pagination {

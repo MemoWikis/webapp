@@ -190,22 +190,19 @@
     }
 
     &.users {
-        &:hover {
-            background-color: @link-blue;
-        }
 
-        border-left-color: @link-blue;
+        border-left-color: @color-user;
 
         i.fa-caret-right {
-            color: @link-blue;
+            color: @color-user;
         }
 
         &:hover {
-            background-color: lighten(@link-blue, 30);
+            background-color: @color-user-light;
             color: white;
 
             i.fa-caret-right {
-                color: @link-blue;
+                color: @color-user;
             }
         }
     }

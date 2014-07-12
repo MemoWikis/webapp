@@ -15,7 +15,7 @@ public class Probability : Entity
 
     public virtual DateTime DateTimeCalculated { get; set; }
 
-    public int GetIntegerPercentage()
+    public virtual int GetIntegerPercentage()
     {
         return (int)Math.Round(Percentage * 100, 0, MidpointRounding.AwayFromZero);
     }
