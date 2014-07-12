@@ -183,6 +183,9 @@
     <Compile Include="Domain\Knowledge\Probability\Calculator\ProbabilityForAllUsersCalc.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcCBForQuestions.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishSetCount.cs" />
+    <Compile Include="Domain\Knowledge\Probability\Persistence\ProbabilityMap.cs" />
+    <Compile Include="Domain\Knowledge\Probability\Persistence\ProbabilityRepo.cs" />
+    <Compile Include="Domain\Knowledge\Probability\Probability.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageMaintenanceInfo.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\UpdateImageTypes.cs" />

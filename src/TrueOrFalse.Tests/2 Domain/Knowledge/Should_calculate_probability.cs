@@ -5,10 +5,10 @@ using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {
-    public class Should_calculate_correctness_probability : BaseTest
+    public class Should_calculate_probability_ : BaseTest
     {
         [Test]
-        public void Should_calculate_correctness()
+        public void Should_calculate_probability()
         {
             Assert.That(Resolve<ProbabilityForUserCalc>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = false, DateCreated = DateTime.Now.AddDays(-1) },
@@ -22,7 +22,7 @@ namespace TrueOrFalse.Tests
         }
 
         [Test]
-        public void When_history_is_always_true_correctness_probability_should_be_100_percent()
+        public void When_history_is_always_true_probability_should_be_100_percent()
         {
             var correctnessProbability = Resolve<ProbabilityForUserCalc>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = true, DateCreated = DateTime.Now.AddDays(-1) },
