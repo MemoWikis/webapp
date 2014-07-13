@@ -5,26 +5,26 @@ using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {
-    public class Should_calculate_correctness_probability : BaseTest
+    public class Should_calculate_probability_ : BaseTest
     {
         [Test]
-        public void Should_calculate_correctness()
+        public void Should_calculate_probability()
         {
-            Assert.That(Resolve<CBForUserCalculator>().Run(new List<AnswerHistory>{
+            Assert.That(Resolve<ProbabilityForUserCalc>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = false, DateCreated = DateTime.Now.AddDays(-1) },
                 new AnswerHistory { AnswerredCorrectly = true, DateCreated = DateTime.Now.AddDays(-2) }
             }),Is.EqualTo(36));
 
-            Assert.That(Resolve<CBForUserCalculator>().Run(new List<AnswerHistory>{
+            Assert.That(Resolve<ProbabilityForUserCalc>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = true, DateCreated = DateTime.Now.AddDays(-1) },
                 new AnswerHistory { AnswerredCorrectly = false, DateCreated = DateTime.Now.AddDays(-2) }
             }), Is.EqualTo(63));            
         }
 
         [Test]
-        public void When_history_is_always_true_correctness_probability_should_be_100_percent()
+        public void When_history_is_always_true_probability_should_be_100_percent()
         {
-            var correctnessProbability = Resolve<CBForUserCalculator>().Run(new List<AnswerHistory>{
+            var correctnessProbability = Resolve<ProbabilityForUserCalc>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = true, DateCreated = DateTime.Now.AddDays(-1) },
                 new AnswerHistory { AnswerredCorrectly = true, DateCreated = DateTime.Now.AddDays(-2) }
             });
@@ -35,7 +35,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void When_history_is_always_false_correctness_probability_should_be_0_percent()
         {
-            var correctnessProbability = Resolve<CBForUserCalculator>().Run(new List<AnswerHistory>{
+            var correctnessProbability = Resolve<ProbabilityForUserCalc>().Run(new List<AnswerHistory>{
                 new AnswerHistory{AnswerredCorrectly = false, DateCreated = DateTime.Now.AddDays(-1)},
                 new AnswerHistory { AnswerredCorrectly = false, DateCreated = DateTime.Now.AddDays(-2) }
             });

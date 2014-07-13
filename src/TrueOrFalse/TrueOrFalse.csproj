@@ -180,9 +180,12 @@
     <Compile Include="Domain\Comments\Persistence\CommentMap.cs" />
     <Compile Include="Domain\Comments\Persistence\CommentRepository.cs" />
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
-    <Compile Include="Domain\Knowledge\CorrectnessProbability\CBForAllUsersCalculator.cs" />
+    <Compile Include="Domain\Knowledge\Probability\Calculator\ProbabilityForAllUsersCalc.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcCBForQuestions.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishSetCount.cs" />
+    <Compile Include="Domain\Knowledge\Probability\Persistence\ProbabilityMap.cs" />
+    <Compile Include="Domain\Knowledge\Probability\Persistence\ProbabilityRepo.cs" />
+    <Compile Include="Domain\Knowledge\Probability\Probability.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageMaintenanceInfo.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\UpdateImageTypes.cs" />
@@ -239,7 +242,7 @@
     <Compile Include="Domain\Media\Image\ImageTypes\Question\QuestionImageSettings.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMetaLoader.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMeta.cs" />
-    <Compile Include="Domain\Knowledge\CorrectnessProbability\CBForUserCalculator.cs" />
+    <Compile Include="Domain\Knowledge\Probability\Calculator\ProbabilityForUserCalc.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcAllQuestionWishItems.cs" />
     <Compile Include="Domain\Knowledge\Knowledge.Ops\RecalcQuestionWishItem.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishQuestionCountCached.cs" />

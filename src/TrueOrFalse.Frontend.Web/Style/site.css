@@ -326,6 +326,15 @@ h1 *.ColoredBottomBorder {
 .ColoredBottomBorder.Category {
   border-bottom-color: #5bc0de;
 }
+.ColoredBottomBorder.Set {
+  border-bottom-color: #ffd700;
+}
+.ColoredBottomBorder.User {
+  border-bottom-color: #2c5fb2;
+}
+.ColoredBottomBorder.Message {
+  border-bottom-color: #ffa500;
+}
 .ColoredText.Knowledge {
   color: #b13a48;
 }
@@ -1459,6 +1468,7 @@ div.box-main .box-content {
 #question-main .box-with-tabs ul.nav-tabs li a:hover,
 #question-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
   background-color: #d0e689;
+  color: #203256;
 }
 #question-main .box-with-tabs ul.nav-tabs li.active a,
 #question-main .boxtainer-outlined-tabs ul.nav-tabs li.active a {
@@ -1471,6 +1481,7 @@ div.box-main .box-content {
 #set-main .box-with-tabs ul.nav-tabs li a:hover,
 #set-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
   background-color: #ffe766;
+  color: #203256;
 }
 #set-main .box-with-tabs ul.nav-tabs li.active a,
 #set-main .boxtainer-outlined-tabs ul.nav-tabs li.active a {
@@ -1483,10 +1494,24 @@ div.box-main .box-content {
 #category-main .box-with-tabs ul.nav-tabs li a:hover,
 #category-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
   background-color: #85d0e7;
+  color: #203256;
 }
 #category-main .box-with-tabs ul.nav-tabs li.active a,
 #category-main .boxtainer-outlined-tabs ul.nav-tabs li.active a {
   border-color: #85d0e7;
+}
+#user-main .box-with-tabs ul.nav-tabs,
+#user-main .boxtainer-outlined-tabs ul.nav-tabs {
+  border-bottom-color: #6a95da;
+}
+#user-main .box-with-tabs ul.nav-tabs li a:hover,
+#user-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
+  background-color: #6a95da;
+  color: #ffffff;
+}
+#user-main .box-with-tabs ul.nav-tabs li.active a,
+#user-main .boxtainer-outlined-tabs ul.nav-tabs li.active a {
+  border-color: #6a95da;
 }
 .box div.pagination {
   margin-top: 15px;

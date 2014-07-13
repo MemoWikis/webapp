@@ -8,6 +8,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
+<div id="user-main">
     <% using (Html.BeginForm()) { %>
 
         <div class="boxtainer-outlined-tabs">
@@ -84,4 +85,5 @@
             </div>
         </div>
     <% } %>
+</div>
 </asp:Content>

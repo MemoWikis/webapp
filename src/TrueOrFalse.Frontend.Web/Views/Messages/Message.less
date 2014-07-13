@@ -3,7 +3,7 @@
 
 
 .msgRow{
-    background-color: lighten(#ebeff7, 2);
+    //background-color: lighten(#ebeff7, 2);
     border-right: 1px solid @grey-15;
     border-top: none;
     border-left: 4px solid @color-message;
@@ -15,10 +15,15 @@
     }
 
     &.isRead{
+
+        opacity: 0.6;
+
+
+
         border-left-color: lighten(@color-message, 30%);
         border-right-color: @grey-10;
-        background-color:  #fcfcfc;
-        color: lighten(@global-text-color, 30);
+        //background-color:  #fcfcfc;
+        //color: lighten(@global-text-color, 30);
 
         .header, .body, .footer  {
             border-color: @grey-10;
@@ -27,6 +32,7 @@
 
     &:hover{
         background-color: #ebeff7;
+        opacity: 1;
     }
 
     .msg {

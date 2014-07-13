@@ -121,7 +121,10 @@ a {
 
     &.Knowledge {border-bottom-color: @color-knowledge;}
     &.Category {border-bottom-color: @color-category;}
-            
+    &.Set {border-bottom-color: @color-set;}
+    &.User{border-bottom-color: @color-user;}
+    &.Message{border-bottom-color: @color-message;}
+        
 }
 
 .ColoredText {
@@ -951,18 +954,21 @@ div.box-main .box-content {
 }
 
 #question-main {
-    #tab-color (lighten(@color-question, 20));
+    #tab-color(lighten(@color-question, 20));
 }
 
 #set-main {
-    #tab-color
-    (lighten(@color-set, 20));
+    #tab-color(lighten(@color-set, 20));
 }
 
 #category-main {
-    #tab-color
-    (lighten(@color-category, 10));
+    #tab-color(lighten(@color-category, 10));
 }
+
+#user-main {
+    #tab-color(lighten(@color-user, 20), white);
+}
+
 
 
 .box div.pagination {
