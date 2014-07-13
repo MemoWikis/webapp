@@ -37,7 +37,7 @@ namespace TrueOrFalse
             {
                 shouldImproveOrRemove = String.Format(@"
                     <p>Die Frage sollte verbessert werden!</p>
-                    <div>
+                    <div class='ReasonList'>
                         <i class='fa fa-repeat show-tooltip' style='float:left' title='Die Frage sollte verbessert werden'></i>&nbsp;
                         <ul style='float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;'>
                             {0}
@@ -53,7 +53,7 @@ namespace TrueOrFalse
             {
                 shouldImproveOrRemove = String.Format(@"
                     <p>Die Frage sollte entfernt werden!</p>
-                    <div>
+                    <div class='ReasonList'>
                         <i class='fa fa-fire show-tooltip' style='float:left' title='Die Frage sollte entfernt werden'></i>&nbsp;
                         <ul style='float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;'>
                             {0}

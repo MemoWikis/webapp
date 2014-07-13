@@ -253,4 +253,43 @@ ul.ui-autocomplete a.CatListItem span {
 ul.ui-autocomplete a.CatListItem span.NumberQuestions {
   font-style: italic;
 }
+/* MESSAGES + COMMENTS
+----------------------------------------------------------*/
+.ReasonList {
+  *zoom: 1;
+}
+.ReasonList:before,
+.ReasonList:after {
+  content: " ";
+  display: table;
+}
+.ReasonList:after {
+  clear: both;
+}
+.ReasonList:before,
+.ReasonList:after {
+  content: " ";
+  display: table;
+}
+.ReasonList:after {
+  clear: both;
+}
+.ReasonList:before,
+.ReasonList:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.ReasonList:after {
+  clear: both;
+}
+.ReasonList:before,
+.ReasonList:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.ReasonList:after {
+  clear: both;
+}
 /*# sourceMappingURL=components.css.map */
