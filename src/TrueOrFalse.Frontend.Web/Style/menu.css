@@ -377,9 +377,6 @@
 #mainMenu .list-group-item.users {
   border-left-color: #2c5fb2;
 }
-#mainMenu .list-group-item.users:hover {
-  background-color: #2c5fb2;
-}
 #mainMenu .list-group-item.users i.fa-caret-right {
   color: #2c5fb2;
 }

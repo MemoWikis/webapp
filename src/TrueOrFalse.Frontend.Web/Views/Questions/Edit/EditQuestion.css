@@ -300,6 +300,9 @@
 .radio {
   margin-left: 20px;
 }
+.added-cat.SingleSelect {
+  margin-left: 20px;
+}
 input.form-control,
 textarea.form-control,
 select.form-control {
