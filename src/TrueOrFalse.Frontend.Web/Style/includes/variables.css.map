@@ -1,1 +1,9 @@
-﻿{"version":3,"file":"variables.css","sources":["../bootstrap/variables_custom.less"],"names":[],"mappings":"AAoBA;EACI,cAAA"}
+{
+  "version": 3,
+  "file": "variables.css",
+  "sources": [
+    "../bootstrap/variables_custom.less"
+  ],
+  "names": [],
+  "mappings": "AAoBA;EACI,cAAA"
+}
