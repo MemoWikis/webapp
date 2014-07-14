@@ -52,4 +52,12 @@ ul.ui-autocomplete a.CatListItem span.NumberQuestions {
 .ReasonList:after {
   clear: both;
 }
+.ReasonList:before,
+.ReasonList:after {
+  content: " ";
+  display: table;
+}
+.ReasonList:after {
+  clear: both;
+}
 /*# sourceMappingURL=components.css.map */
