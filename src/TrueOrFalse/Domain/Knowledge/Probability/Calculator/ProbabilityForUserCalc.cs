@@ -15,18 +15,18 @@ public class ProbabilityForUserCalc : IRegisterAsInstancePerLifetime
         if (!answerHistoryItems.Any())
             return -1;
 
-        var weightedFavorableOutcomes = 0d;
-        var weightedTotalOutcomes = 0d;
+        var weightedFavorableOutcomes = 0m;
+        var weightedTotalOutcomes = 0m;
 
         var index = 0;
 
         foreach(var historyItem in answerHistoryItems.OrderByDescending(d => d.DateCreated))
         {
             index++;
-            var weight = 1d;
+            var weight = 1m;
             if (index == 1) weight += 5;
-            if (index == 2) weight += 2.5;
-            if (index == 3) weight += 1.5;
+            if (index == 2) weight += 2.5m;
+            if (index == 3) weight += 1.5m;
 
             weightedFavorableOutcomes += (historyItem.AnswerredCorrectly ? 1 : 0) * weight;
             weightedTotalOutcomes += weight;

@@ -8,10 +8,12 @@ using TrueOrFalse;
 
 public class Probability : Entity
 {
-    public virtual decimal Percentage { get; set; }
-
     public virtual Question Question { get; set; }
     public virtual User User { get; set; }
+
+    public virtual decimal Percentage { get; set; }
+
+    public virtual int AnswerCount { get; set; }
 
     public virtual DateTime DateTimeCalculated { get; set; }
 

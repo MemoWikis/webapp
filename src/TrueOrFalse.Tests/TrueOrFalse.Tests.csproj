@@ -190,6 +190,8 @@
     <Compile Include="2 Domain\Image\ImageLicenceInfo_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageMetadata_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\Image_persistence.cs" />
+    <Compile Include="2 Domain\Knowledge\Probability\Probability_persistence.cs" />
+    <Compile Include="2 Domain\Knowledge\Setup\ContextProbability.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_probability.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_wish_knowledge_count.cs" />
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />
@@ -279,9 +281,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="2 Domain\Knowledge\Probability\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
