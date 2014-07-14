@@ -1,8 +1,4 @@
-﻿/*@import (reference) 'includes/colors.less';
-@import (reference) 'includes/shared.less';
-@import (reference) 'includes/variables.less';
-@import (reference) 'bootstrap/bootstrap.less';*/
-.columnControlsFull {
+﻿.columnControlsFull {
   font-size: 90%;
 }
 .columnControlsFull .radio,
