@@ -20,16 +20,18 @@ class MenuMobile {
     constructor() {
 
         $("#MenuButton").click(() => {
-            if (this._isOpen)
+            if (this._isOpen) {
                 this.closeMenu();
-            else
+            } else {
                 this.openMenu();
+            }
         });
 
         //close on click outside the menu
         $(document).mouseup((e) =>  {
-            if (!this._isOpen)
+            if (!this._isOpen && !this._isInProgress){
                 return;
+            }
 
             if ($("#mainMenu").has(e.target).length === 0 &&
                 $("#MenuButton").has(e.target).length === 0) {
@@ -39,8 +41,9 @@ class MenuMobile {
 
         //close on ESC
         $(document).keyup((e: any) => {
-            if (!this._isOpen)
+            if (!this._isOpen && !this._isInProgress) {
                 return;
+            }
 
             if (e.keyCode == 27) {
                 this.closeMenu();
@@ -50,24 +53,30 @@ class MenuMobile {
 
     openMenu() {
 
-        if (this._isInProgress)
+        if (this._isInProgress) {
             return;
-
+        }
+            
         this._isInProgress = true;
-        $("#mainMenu").slideDown();
-        this._isOpen = true;
-        this._isInProgress = false;
+        $("#mainMenu").slideDown(400, () => {
+            this._isOpen = true;
+            this._isInProgress = false;
+        });
+        
     }
 
     closeMenu() {
 
-        if (this._isInProgress)
+        if (this._isInProgress) {
             return;
+        }
 
         this._isInProgress = true;
-        $("#mainMenu").slideUp();
-        this._isOpen = false;
-        this._isInProgress = false;
+        $("#mainMenu").slideUp(400, () => {
+            this._isOpen = false;
+            this._isInProgress = false;    
+        });
+        
     }
 
 }
