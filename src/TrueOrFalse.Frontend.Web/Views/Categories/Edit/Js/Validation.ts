@@ -130,6 +130,14 @@ var fnEditCatValidation = function (categoryType, resetValidator = false, usePar
             $('[name="TitleVolume"]').rules("add", { required: true, });
             $('[name="Editor"]').rules("add", { required: true, });
         }
+
+        if (categoryType == "WebsiteArticle") {
+            $('[name="Author"]').rules("add", { required: false, });
+            $('[name="Url"]').rules("add", { required: true, });
+            validator.groups['PublicationDateDay'] = 'DateGroup';//http://stackoverflow.com/questions/2150268/jquery-validate-plugin-how-can-i-add-groups-to-a-validator-after-its-been-initi#answer-9688284
+            validator.groups['PublicationDateMonth'] = 'DateGroup';
+            validator.groups['Year'] = 'DateGroup';
+        }
     }
 }
 

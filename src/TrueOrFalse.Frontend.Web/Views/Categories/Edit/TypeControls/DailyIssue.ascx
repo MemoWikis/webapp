@@ -29,7 +29,6 @@
         <% } %>
     </div>
 </div>
-
 <div class="form-group">
     <label class="RequiredField columnLabel control-label">
         Erscheinungsdatum

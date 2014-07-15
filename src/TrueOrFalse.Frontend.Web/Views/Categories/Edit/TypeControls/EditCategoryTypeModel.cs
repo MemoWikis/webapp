@@ -70,6 +70,9 @@ public class EditCategoryTypeModel : BaseModel
 
         if (category.Type == CategoryType.Website)
             Model = CategoryTypeWebsite.FromJson(category.TypeJson, category);
+
+        if (category.Type == CategoryType.WebsiteArticle)
+            Model = CategoryTypeWebsiteArticle.FromJson(category.TypeJson, category);
         
         if (category.Type == CategoryType.WebsiteVideo)
             Model = CategoryTypeWebsiteVideo.FromJson(category.TypeJson, category);

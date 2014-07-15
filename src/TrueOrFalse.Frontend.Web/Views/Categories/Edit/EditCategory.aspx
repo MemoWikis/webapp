@@ -85,7 +85,7 @@
                                     <i class="fa fa-question-circle show-tooltip" title="Kategorietyp für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen und für Quellenangaben in Fragen." data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
                                     <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
                                     <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeMedia %>" >
-                                        <optgroup label="Druckmedien">
+                                        <optgroup label="Druckmedien und eBooks">
                                             <option value="Book"><%= CategoryType.Book.GetName() %></option>
                                             <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>
                                             <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
@@ -96,7 +96,7 @@
                                             <option value="MagazineArticle"><%= CategoryType.MagazineArticle.GetName() %></option>
                                         </optgroup>
                                         <optgroup label="Internet">
-                                            <option value="Website"><%= CategoryType.Website.GetName() %></option>
+                                            <%--<option value="Website"><%= CategoryType.Website.GetName() %></option>--%>
                                             <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
                                             <option value="WebsiteVideo"><%= CategoryType.WebsiteVideo.GetName() %></option>
                                         </optgroup>

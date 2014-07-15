@@ -61,6 +61,7 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input,
 textarea,
+textarea.form-control,
 select {
   color: #2e487b;
 }
@@ -70,6 +71,9 @@ label {
 }
 .RequiredField {
   font-weight: bold;
+}
+[data-is-editing="True"] .RequiredField {
+  font-weight: normal;
 }
 .RequiredField:after {
   content: '*';
