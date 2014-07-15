@@ -15,7 +15,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
-    FormMethod.Post, new { enctype = "multipart/form-data", @id="EditCategoryForm" })){%>
+    FormMethod.Post, new { enctype = "multipart/form-data", id="EditCategoryForm", data_is_editing=Model.IsEditing })){%>
     <div class="row">
         <div class="col-md-9 PageHeader">
             <h2>
@@ -65,7 +65,7 @@
                 <% Html.Message(Model.Message); %>
             
                 <%if(!Model.IsEditing){ %>
-                <div class="FormSection">
+                <div id="CategoryTypeSelect" class="FormSection">
                     <div class="form-group">
                         <label class="columnLabel control-label">
                             Kategorietyp
