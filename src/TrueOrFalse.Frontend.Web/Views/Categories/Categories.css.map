@@ -1,1 +1,9 @@
-﻿{"version":3,"file":"Categories.css","sources":["../../Style/includes/colors.less","Categories.less"],"names":[],"mappings":"AAoEA;EACI,yBAAA;EACA,YAAA;;ACpEJ,aAAa;EAAQ,yBAAA;;AAGrB,GAAG;EACC,YAAA;EAAa,WAAA;EACb,YAAA;;AAFJ,GAAG,aAGC;EACI,kBAAA;;AAGR,GAAG;EACC,YAAA;EAAa,mBAAA;EAAqB,WAAA;EAAa,gBAAA;EAC/C,kBAAA;;AAEJ,GAAG;EAAqB,YAAA;EAAa,WAAA;EAAa,gBAAA"}
+{
+  "version": 3,
+  "file": "Categories.css",
+  "sources": [
+    "Categories.less"
+  ],
+  "names": [],
+  "mappings": "AAEA,aAAa;EAAQ,yBAAA;;AAGrB,GAAG;EACC,YAAA;EAAa,WAAA;EACb,YAAA;;AAFJ,GAAG,aAGC;EACI,kBAAA;;AAGR,GAAG;EACC,YAAA;EAAa,mBAAA;EAAqB,WAAA;EAAa,gBAAA;EAC/C,kBAAA;;AAEJ,GAAG;EAAqB,YAAA;EAAa,WAAA;EAAa,gBAAA"
+}

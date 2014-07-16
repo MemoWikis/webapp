@@ -56,7 +56,7 @@ class AutocompleteCategories {
             if (self._isSingleSelect) {
                 catIdx = inputSelector.substring(1);
                 elemInput.closest(".JS-CatInputContainer").before(
-                    "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
+                    "<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" +
                         "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "'>" + catText + "</a>" +
                         "<input id='hdd" + catIdx + "' type='hidden' value='" + catText + "'name='" + "hdd" + catIdx + "'/> " +
                         "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +

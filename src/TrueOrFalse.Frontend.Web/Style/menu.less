@@ -1,6 +1,4 @@
-﻿@import (reference) 'includes/colors.less';
-@import (reference) 'includes/shared.less';
-@import (reference) 'bootstrap/bootstrap.less';
+﻿@import (reference) 'includes/imports.less';
 
 #mainMenu {
     .tooltip > .tooltip-inner {
@@ -55,10 +53,9 @@
         background-color: lighten(@light-blue, 1%);
     }
 
-
-        &.active i.fa-caret-right {
-            visibility: visible;
-        }
+    &.active i.fa-caret-right {
+        visibility: visible;
+    }
 
     i.fa-caret-right {
         visibility: hidden;

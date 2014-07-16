@@ -1,7 +1,4 @@
-﻿@import (reference) 'includes/colors.less';
-@import (reference) 'includes/shared.less';
-@import (reference) 'includes/variables.less';
-@import (reference) 'bootstrap/bootstrap.less';
+﻿@import (reference) 'includes/imports.less';
 
 .FormColumnGrid (@labels-stacked: false; 3);
 
@@ -175,13 +172,11 @@ div.control-group.markdown {
         .bs-callout-info;
         border: none;
         margin-top: 0;
-        margin-bottom: 0;
+        margin-bottom: -1px; //to include the bottom margin of .form-group into the .FormSection and have the entire background colored http://stackoverflow.com/a/1939980
+        padding-bottom: 1px; //to include the bottom margin of .form-group into the .FormSection and have the entire background colored http://stackoverflow.com/a/1939980
+
         & + .FormSection {
             padding-top: 0;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
         }
     }
 }

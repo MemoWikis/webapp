@@ -418,6 +418,9 @@
     <Content Include="Style\grid.css">
       <DependentUpon>grid.less</DependentUpon>
     </Content>
+    <Content Include="Style\includes\imports.css">
+      <DependentUpon>imports.less</DependentUpon>
+    </Content>
     <Content Include="Style\includes\variables.css">
       <DependentUpon>variables.less</DependentUpon>
     </Content>
@@ -635,6 +638,11 @@
     <Content Include="Scripts\CategoryApi.js.map">
       <DependentUpon>CategoryApi.ts</DependentUpon>
     </Content>
+    <Content Include="Style\includes\imports.less" />
+    <Content Include="Style\z_mixins_for_buttons_2.3.2.css">
+      <DependentUpon>z_mixins_for_buttons_2.3.2.less</DependentUpon>
+    </Content>
+    <Content Include="Style\z_mixins_for_buttons_2.3.2.less" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
@@ -1236,6 +1244,9 @@
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Style\z_mixins_for_buttons_2.3.2.css.map">
+      <DependentUpon>z_mixins_for_buttons_2.3.2.css</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

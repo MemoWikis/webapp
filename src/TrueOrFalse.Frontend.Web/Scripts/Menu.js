@@ -15,26 +15,29 @@ var MenuMobile = (function () {
         this._isOpen = false;
         this._isInProgress = false;
         $("#MenuButton").click(function () {
-            if (_this._isOpen)
+            if (_this._isOpen) {
                 _this.closeMenu();
-            else
+            } else {
                 _this.openMenu();
+            }
         });
 
         //close on click outside the menu
         $(document).mouseup(function (e) {
-            if (!this._isOpen)
+            if (!_this._isOpen && !_this._isInProgress) {
                 return;
+            }
 
             if ($("#mainMenu").has(e.target).length === 0 && $("#MenuButton").has(e.target).length === 0) {
-                this.closeMenu();
+                _this.closeMenu();
             }
         });
 
         //close on ESC
         $(document).keyup(function (e) {
-            if (!_this._isOpen)
+            if (!_this._isOpen && !_this._isInProgress) {
                 return;
+            }
 
             if (e.keyCode == 27) {
                 _this.closeMenu();
@@ -42,23 +45,29 @@ var MenuMobile = (function () {
         });
     }
     MenuMobile.prototype.openMenu = function () {
-        if (this._isInProgress)
+        var _this = this;
+        if (this._isInProgress) {
             return;
+        }
 
         this._isInProgress = true;
-        $("#mainMenu").slideDown();
-        this._isOpen = true;
-        this._isInProgress = false;
+        $("#mainMenu").slideDown(400, function () {
+            _this._isOpen = true;
+            _this._isInProgress = false;
+        });
     };
 
     MenuMobile.prototype.closeMenu = function () {
-        if (this._isInProgress)
+        var _this = this;
+        if (this._isInProgress) {
             return;
+        }
 
         this._isInProgress = true;
-        $("#mainMenu").slideUp();
-        this._isOpen = false;
-        this._isInProgress = false;
+        $("#mainMenu").slideUp(400, function () {
+            _this._isOpen = false;
+            _this._isInProgress = false;
+        });
     };
     return MenuMobile;
 })();

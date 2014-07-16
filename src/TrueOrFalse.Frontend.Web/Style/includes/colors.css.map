@@ -1,1 +1,9 @@
-﻿{"version":3,"file":"colors.css","sources":["colors.less"],"names":[],"mappings":"AAoEA;EACI,yBAAA;EACA,YAAA"}
+{
+  "version": 3,
+  "file": "colors.css",
+  "sources": [
+    "colors.less"
+  ],
+  "names": [],
+  "mappings": "AAoEA;EACI,yBAAA;EACA,YAAA"
+}

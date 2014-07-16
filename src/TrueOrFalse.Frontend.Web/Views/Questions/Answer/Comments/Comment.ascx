@@ -14,30 +14,28 @@
         </div>
         <div class="col-xs-10" style="height: 100%; padding-bottom: 25px; ">
             <% if(Model.ShouldBeImproved){ %>
-                <div>
+                <div class='ReasonList'>
                     <i class="fa fa-repeat show-tooltip" style="float:left" title="Die Frage sollte verbessert werden"></i>&nbsp;
                     <ul style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;">
                         <% foreach (var shouldReason in Model.ShouldReasons){ %>
                             <li><%= shouldReason %></li>       
                         <% } %>
                     </ul>
-                    <div class="clearfix"></div>
                 </div>
             <% } %>
 
             <% if(Model.ShouldBeDeleted){ %>
-                <div>
+                <div class="ReasonList">
                     <i class="fa fa-fire show-tooltip" style="float:left; color: tomato;" title="Die Frage sollte gelöscht werden"></i>&nbsp;
                     <ul style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;">
                         <% foreach (var shouldReason in Model.ShouldReasons){ %>
                             <li><%= shouldReason %></li>       
                         <% } %>
                     </ul>
-                    <div class="clearfix"></div>
                 </div>
             <% } %>            
 
-            <%= Model.Text.LineBreaksToBRs() %>
+            <p><%= Model.Text.LineBreaksToBRs() %></p>
         </div>
     </div>
     

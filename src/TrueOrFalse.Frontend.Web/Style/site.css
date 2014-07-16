@@ -28,217 +28,6 @@
 
 [Imports:]
 --------------------------------------------------------*/
-.thumbnail > img,
-.thumbnail a > img,
-.carousel-inner > .item > img,
-.carousel-inner > .item > a > img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-.btn-group-lg > .btn {
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 6px;
-}
-.btn-group-sm > .btn {
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-}
-.btn-group-xs > .btn {
-  padding: 1px 5px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-}
-.container,
-.container-fluid,
-.row,
-.form-horizontal .form-group,
-.btn-toolbar,
-.btn-group-vertical > .btn-group,
-.nav,
-.navbar,
-.navbar-header,
-.navbar-collapse,
-.pager,
-.panel-body,
-.modal-footer {
-  *zoom: 1;
-}
-.container:before,
-.container:after,
-.container-fluid:before,
-.container-fluid:after,
-.row:before,
-.row:after,
-.form-horizontal .form-group:before,
-.form-horizontal .form-group:after,
-.btn-toolbar:before,
-.btn-toolbar:after,
-.btn-group-vertical > .btn-group:before,
-.btn-group-vertical > .btn-group:after,
-.nav:before,
-.nav:after,
-.navbar:before,
-.navbar:after,
-.navbar-header:before,
-.navbar-header:after,
-.navbar-collapse:before,
-.navbar-collapse:after,
-.pager:before,
-.pager:after,
-.panel-body:before,
-.panel-body:after,
-.modal-footer:before,
-.modal-footer:after {
-  content: " ";
-  display: table;
-}
-.container:after,
-.container-fluid:after,
-.row:after,
-.form-horizontal .form-group:after,
-.btn-toolbar:after,
-.btn-group-vertical > .btn-group:after,
-.nav:after,
-.navbar:after,
-.navbar-header:after,
-.navbar-collapse:after,
-.pager:after,
-.panel-body:after,
-.modal-footer:after {
-  clear: both;
-}
-.container:before,
-.container:after,
-.container-fluid:before,
-.container-fluid:after,
-.row:before,
-.row:after,
-.form-horizontal .form-group:before,
-.form-horizontal .form-group:after,
-.btn-toolbar:before,
-.btn-toolbar:after,
-.btn-group-vertical > .btn-group:before,
-.btn-group-vertical > .btn-group:after,
-.nav:before,
-.nav:after,
-.navbar:before,
-.navbar:after,
-.navbar-header:before,
-.navbar-header:after,
-.navbar-collapse:before,
-.navbar-collapse:after,
-.pager:before,
-.pager:after,
-.panel-body:before,
-.panel-body:after,
-.modal-footer:before,
-.modal-footer:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.container:after,
-.container-fluid:after,
-.row:after,
-.form-horizontal .form-group:after,
-.btn-toolbar:after,
-.btn-group-vertical > .btn-group:after,
-.nav:after,
-.navbar:after,
-.navbar-header:after,
-.navbar-collapse:after,
-.pager:after,
-.panel-body:after,
-.modal-footer:after {
-  clear: both;
-}
-.container,
-.container-fluid,
-.row,
-.form-horizontal .form-group,
-.btn-toolbar,
-.btn-group-vertical > .btn-group,
-.nav,
-.navbar,
-.navbar-header,
-.navbar-collapse,
-.pager,
-.panel-body,
-.modal-footer {
-  *zoom: 1;
-}
-.container:before,
-.container:after,
-.container-fluid:before,
-.container-fluid:after,
-.row:before,
-.row:after,
-.form-horizontal .form-group:before,
-.form-horizontal .form-group:after,
-.btn-toolbar:before,
-.btn-toolbar:after,
-.btn-group-vertical > .btn-group:before,
-.btn-group-vertical > .btn-group:after,
-.nav:before,
-.nav:after,
-.navbar:before,
-.navbar:after,
-.navbar-header:before,
-.navbar-header:after,
-.navbar-collapse:before,
-.navbar-collapse:after,
-.pager:before,
-.pager:after,
-.panel-body:before,
-.panel-body:after,
-.modal-footer:before,
-.modal-footer:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.container:after,
-.container-fluid:after,
-.row:after,
-.form-horizontal .form-group:after,
-.btn-toolbar:after,
-.btn-group-vertical > .btn-group:after,
-.nav:after,
-.navbar:after,
-.navbar-header:after,
-.navbar-collapse:after,
-.pager:after,
-.panel-body:after,
-.modal-footer:after {
-  clear: both;
-}
-.btn-group-lg > .btn {
-  padding: 11px 19px;
-  font-size: 17.5px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-}
-.btn-group-sm > .btn {
-  padding: 2px 10px;
-  font-size: 11.9px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-.btn-group-xs > .btn {
-  padding: 0 6px;
-  font-size: 10.5px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
 /*  [Local variables:]
 ----------------------------------------------------------*/
 /*  PRIMARY LAYOUT ELEMENTS   
@@ -657,7 +446,6 @@ img {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
   *display: inline;
   /* IE7 inline-block hack */
@@ -671,8 +459,6 @@ img {
   cursor: pointer;
   color: #333333;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  background-image: -webkit-linear-gradient(top, #ffffff 0%, #e6e6e6 100%);
-  background-image: linear-gradient(to bottom, #ffffff 0%, #e6e6e6 100%);
   background-color: #f5f5f5;
   background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
@@ -721,7 +507,6 @@ img {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  -moz-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton.disabled,
@@ -732,7 +517,6 @@ fieldset[disabled] #MenuButton {
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   box-shadow: none;
 }
 #MenuButton:hover,
@@ -763,7 +547,6 @@ fieldset[disabled] #MenuButton {
   transition: background-position 0.1s linear;
 }
 #MenuButton:focus {
-  outline: thin dotted;
   outline: thin dotted #333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
@@ -819,7 +602,6 @@ fieldset[disabled] #MenuButton {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
   display: inline-block;
   *display: inline;
@@ -834,8 +616,6 @@ fieldset[disabled] #MenuButton {
   cursor: pointer;
   color: #333333;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  background-image: -webkit-linear-gradient(top, #ffffff 0%, #e6e6e6 100%);
-  background-image: linear-gradient(to bottom, #ffffff 0%, #e6e6e6 100%);
   background-color: #f5f5f5;
   background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
@@ -858,8 +638,6 @@ fieldset[disabled] #MenuButton {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
   color: #e7ecf6;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-image: -webkit-linear-gradient(top, #2c5fb2 0%, #2e487b 100%);
-  background-image: linear-gradient(to bottom, #2c5fb2 0%, #2e487b 100%);
   background-color: #2d569c;
   background-image: -moz-linear-gradient(top, #2c5fb2, #2e487b);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2c5fb2), to(#2e487b));
@@ -887,7 +665,6 @@ fieldset[disabled] #MenuButton {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  -moz-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton:hover.disabled,
@@ -898,7 +675,6 @@ fieldset[disabled] #MenuButton:hover {
   opacity: 0.65;
   filter: alpha(opacity=65);
   -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   box-shadow: none;
 }
 #MenuButton:hover:hover,
@@ -929,7 +705,6 @@ fieldset[disabled] #MenuButton:hover {
   transition: background-position 0.1s linear;
 }
 #MenuButton:hover:focus {
-  outline: thin dotted;
   outline: thin dotted #333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
@@ -1092,8 +867,6 @@ fieldset[disabled] #MenuButton:hover {
 #MainFilterBarBackground .btn {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-image: -webkit-linear-gradient(top, #eff3e2 0%, #c7d59a 100%);
-  background-image: linear-gradient(to bottom, #eff3e2 0%, #c7d59a 100%);
   background-color: #dfe7c5;
   background-image: -moz-linear-gradient(top, #eff3e2, #c7d59a);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#eff3e2), to(#c7d59a));
@@ -1115,8 +888,6 @@ fieldset[disabled] #MenuButton:hover {
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   color: #203256;
   text-shadow: #ffffff;
-  background-image: -webkit-linear-gradient(top, #f2f8dd 0%, #e1efb3 100%);
-  background-image: linear-gradient(to bottom, #f2f8dd 0%, #e1efb3 100%);
   background-color: #ebf4cc;
   background-image: -moz-linear-gradient(top, #f2f8dd, #e1efb3);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f8dd), to(#e1efb3));
@@ -1169,8 +940,6 @@ fieldset[disabled] #MenuButton:hover {
 }
 #MainFilterBar .btn-group.active .btn {
   text-shadow: #ffffff;
-  background-image: -webkit-linear-gradient(top, #e1efb3 0%, #d0e689 100%);
-  background-image: linear-gradient(to bottom, #e1efb3 0%, #d0e689 100%);
   background-color: #daeca2;
   background-image: -moz-linear-gradient(top, #e1efb3, #d0e689);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e1efb3), to(#d0e689));

@@ -1,8 +1,4 @@
-﻿#set-scheme {
-  background-color: #ffd700;
-  color: black;
-}
-.category-row:hover {
+﻿.category-row:hover {
   background-color: #f3f5f8;
 }
 div.column-Image {
