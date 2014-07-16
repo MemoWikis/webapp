@@ -1,24 +1,24 @@
 ﻿namespace TrueOrFalse
 {
-    public class RecalcQuestionWishItem : IRegisterAsInstancePerLifetime
+    public class ProbabilityForUserUpdate : IRegisterAsInstancePerLifetime
     {
         private readonly AnswerHistoryRepository _answerHistoryRepository;
         private readonly QuestionValuationRepository _questionValuationRepository;
-        private readonly ProbabilityForUserCalc _probabilityForUserCalc;
+        private readonly ProbabilityCalc _probabilityCalc;
 
-        public RecalcQuestionWishItem(
+        public ProbabilityForUserUpdate(
             AnswerHistoryRepository answerHistoryRepository,
             QuestionValuationRepository questionValuationRepository,
-            ProbabilityForUserCalc probabilityForUserCalc)
+            ProbabilityCalc probabilityCalc)
         {
             _answerHistoryRepository = answerHistoryRepository;
             _questionValuationRepository = questionValuationRepository;
-            _probabilityForUserCalc = probabilityForUserCalc;
+            _probabilityCalc = probabilityCalc;
         }
 
         public void Run(int questionId, int userId)
         {
-            int correctnessProbability = _probabilityForUserCalc.Run(
+            int correctnessProbability = _probabilityCalc.Run(
                                             _answerHistoryRepository.GetBy(questionId, userId));
 
             var questionValuation = 

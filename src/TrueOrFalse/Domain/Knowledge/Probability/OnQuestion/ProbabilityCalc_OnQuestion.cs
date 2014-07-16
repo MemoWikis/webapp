@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrueOrFalse;
 
-public class ProbabilityForAllUsersCalc : IRegisterAsInstancePerLifetime
+public class ProbabilityCalc_OnQuestion : IRegisterAsInstancePerLifetime
 {
     public int Run(IList<AnswerHistory> answerHistoryItems)
     {

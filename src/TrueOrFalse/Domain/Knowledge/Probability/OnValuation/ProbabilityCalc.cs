@@ -7,7 +7,7 @@ using TrueOrFalse;
 /// <summary>
 /// Correctness probability for user
 /// </summary>
-public class ProbabilityForUserCalc : IRegisterAsInstancePerLifetime
+public class ProbabilityCalc : IRegisterAsInstancePerLifetime
 {
     /// <returns>CorrectnessProbability as Percentage</returns>
     public int Run(IList<AnswerHistory> answerHistoryItems)

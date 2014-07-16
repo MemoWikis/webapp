@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse
 {
-    public class RecalcCBForQuestions : IRegisterAsInstancePerLifetime
+    public class ProbabilityUpdate_OnQuestion : IRegisterAsInstancePerLifetime
     {
         private readonly QuestionRepository _questionRepo;
         private readonly AnswerHistoryRepository _answerHistoryRepo;
-        private readonly ProbabilityForAllUsersCalc _probabilityForAllUsersCalc;
+        private readonly ProbabilityCalc_OnQuestion _probabilityCalcOnQuestion;
 
-        public RecalcCBForQuestions(
+        public ProbabilityUpdate_OnQuestion(
             QuestionRepository questionRepo,
             AnswerHistoryRepository answerHistoryRepo,
-            ProbabilityForAllUsersCalc probabilityForAllUsersCalc
+            ProbabilityCalc_OnQuestion probabilityCalcOnQuestion
             )
         {
             _questionRepo = questionRepo;
             _answerHistoryRepo = answerHistoryRepo;
-            _probabilityForAllUsersCalc = probabilityForAllUsersCalc;
+            _probabilityCalcOnQuestion = probabilityCalcOnQuestion;
         }
 
         public void Run()
@@ -29,7 +29,7 @@ namespace TrueOrFalse
             foreach (var question in _questionRepo.GetAll())
             {
                 question.CorrectnessProbability = 
-                    _probabilityForAllUsersCalc.Run(_answerHistoryRepo.GetBy(question.Id));
+                    _probabilityCalcOnQuestion.Run(_answerHistoryRepo.GetBy(question.Id));
 
                 _questionRepo.Update(question);
             }

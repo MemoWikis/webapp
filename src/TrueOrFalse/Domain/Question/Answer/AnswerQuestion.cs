@@ -10,17 +10,17 @@ namespace TrueOrFalse
         private readonly QuestionRepository _questionRepository;
         private readonly AnswerHistoryLog _answerHistoryLog;
         private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
-        private readonly RecalcQuestionWishItem _recalcQuestionWishItem;
+        private readonly ProbabilityForUserUpdate _probabilityForUserUpdate;
 
         public AnswerQuestion(QuestionRepository questionRepository, 
                               AnswerHistoryLog answerHistoryLog, 
                               UpdateQuestionAnswerCount updateQuestionAnswerCount, 
-                              RecalcQuestionWishItem recalcQuestionWishItem)
+                              ProbabilityForUserUpdate probabilityForUserUpdate)
         {
             _questionRepository = questionRepository;
             _answerHistoryLog = answerHistoryLog;
             _updateQuestionAnswerCount = updateQuestionAnswerCount;
-            _recalcQuestionWishItem = recalcQuestionWishItem;
+            _probabilityForUserUpdate = probabilityForUserUpdate;
         }
 
         public AnswerQuestionResult Run(int questionId, string answer, int userId)
@@ -35,7 +35,7 @@ namespace TrueOrFalse
 
             _answerHistoryLog.Run(question, result, userId);
             _updateQuestionAnswerCount.Run(questionId, result.IsCorrect);
-            _recalcQuestionWishItem.Run(questionId, userId);
+            _probabilityForUserUpdate.Run(questionId, userId);
 
             return result;
         }
