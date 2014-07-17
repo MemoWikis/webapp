@@ -217,19 +217,25 @@
 
     .columnControlsFull {
         font-size: 90%;
-        .radio, .form-control-static, .added-cat {font-size: percentage(100/90);}
+
+        .radio, .form-control-static, .added-cat {
+            font-size: percentage(100/90);
+        }
     }
 
     .FormColumnGridConditional (@labels-stacked) when (@labels-stacked) {
 
         .columnLabel {
-           .make-xs-column(12);
+            .make-xs-column(12);
             text-align: left !important;
         }
 
         .columnControlsFull {
             .make-xs-column(12);
-            .radio, .form-control-static {margin-left: 20px;}
+
+            .radio, .form-control-static {
+                margin-left: 20px;
+            }
         }
 
         .columnControlsSmall {
@@ -245,41 +251,54 @@
             margin-left: 20px;
         }
 
-        .added-cat.SingleSelect {margin-left: 20px;}
+        .added-cat.SingleSelect {
+            margin-left: 20px;
+        }
 
         input.form-control, textarea.form-control, select.form-control {
             max-width: 400px;
         }
     }
-
-    //Form grid styles with labels as seperate column 
-
+    //Form grid styles with labels as seperate column
     .FormColumnGridConditional(@labels-stacked) when (default()) {
-    
+
         .columnLabel {
-           .make-xs-column(@grid-width-label-xs);
-           .xxs-stack;//not put out, replacement: see below
+            .make-xs-column(@grid-width-label-xs);
+            .xxs-stack; //not put out, replacement: see below
         }
 
         .columnControlsFull {
-            .xxs-stack;//not put out, replacement: see below
+            .xxs-stack; //not put out, replacement: see below
             .make-xs-column(@grid-width-controls-full-xs);
 
             .aside & {
                 .make-md-column(@grid-columns);
             }
         }
-
+        //Label-width-variable: true can be used together with labels-stacked: false, lets controls break to a new line, if label text is longer than the width reserved for labels
         .LabelWidth (@label-width-variable) when (@label-width-variable) {
-            
+
             @media (min-width: @screen-xs-min) {
                 .columnLabel {
                     width: auto;
                     padding-right: 0;
                 }
+
                 .columnControlsFull {
                     padding-left: 3px;
                     float: right;
+                }
+            }
+        }
+
+        .LabelWidth (@label-width-variable) when (default()) {
+            .columnLabel {
+                -ms-word-break: break-all;
+                word-break: break-all;
+
+                .tooltip {
+                    -ms-word-break: normal;
+                    word-break: normal;
                 }
             }
         }
@@ -290,10 +309,10 @@
         .columnControlsSmall {
             .make-xs-column(1);
             width: percentage(1/@grid-columns*@grid-width-controls-full-xs/2);
-            .xxs-stack;//not put out, replacement: see below
+            .xxs-stack; //not put out, replacement: see below
         }
 
-        @media (max-width: (@screen-xs-min - 1px))  {//replacement for xxs-stack-mixin
+        @media (max-width: (@screen-xs-min - 1px)) { //replacement for xxs-stack-mixin
             .columnLabel, .columnControlsFull, .columnControlsSmall {
                 float: none;
                 width: 100%;
@@ -302,7 +321,7 @@
         }
 
 
-        @media (min-width: @screen-xs-min) {//replaces offset-column-mixin
+        @media (min-width: @screen-xs-min) { //replaces offset-column-mixin
             .noLabel {
                 margin-left: percentage(@grid-width-label-xs/@grid-columns);
             }
@@ -310,5 +329,4 @@
     }
 
     .FormColumnGridConditional(@labels-stacked);
-
 }

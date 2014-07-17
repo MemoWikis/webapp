@@ -22,6 +22,14 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+.columnLabel {
+  -ms-word-break: break-all;
+  word-break: break-all;
+}
+.columnLabel .tooltip {
+  -ms-word-break: normal;
+  word-break: normal;
+}
 .columnControlsSmall {
   position: relative;
   float: left;
@@ -167,9 +175,6 @@ div.control-group.markdown label {
 }
 .control-group span > i.fa-info-circle {
   color: lightblue;
-}
-.form-group .control-label {
-  word-break: break-all;
 }
 @media (min-width: 480px) {
   .form-group .control-label {
