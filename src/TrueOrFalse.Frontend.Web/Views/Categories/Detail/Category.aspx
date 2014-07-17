@@ -17,7 +17,7 @@
                     <% if (Model.Type != "Standard") {%>
                         <h3 class="CategoryType"><%= Model.Type%></h3>
                     <% } %>
-                    <h2 style="margin-top: 0; margin-bottom: 10px;"><%= Model.Name %></h2>
+                    <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredBottomBorder Category"><%= Model.Name %></span></h2>
                     <% if(!String.IsNullOrEmpty(Model.Description)){ %>
                         <div style="margin-bottom: 12px;">
                             <%= Model.Description %>

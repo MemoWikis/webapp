@@ -2,17 +2,22 @@
 
 namespace TrueOrFalse
 {
-    public class RecalcAllQuestionWishItems : IRegisterAsInstancePerLifetime
+    /// <summary>
+    /// Updates the probabilities 
+    ///     - for all question valuations 
+    ///     - for all useres
+    /// </summary>
+    public class ProbabilityForUsersUpdate : IRegisterAsInstancePerLifetime
     {
         private readonly ISession _session;
-        private readonly RecalcQuestionWishItem _recalcQuestionWishItem;
+        private readonly ProbabilityForUserUpdate _probabilityForUserUpdate;
 
-        public RecalcAllQuestionWishItems(
+        public ProbabilityForUsersUpdate(
             ISession session, 
-            RecalcQuestionWishItem recalcQuestionWishItem)
+            ProbabilityForUserUpdate probabilityForUserUpdate)
         {
             _session = session;
-            _recalcQuestionWishItem = recalcQuestionWishItem;
+            _probabilityForUserUpdate = probabilityForUserUpdate;
         }
 
         public void Run()
@@ -26,7 +31,7 @@ namespace TrueOrFalse
                     .List<object[]>();
 
             foreach (var item in questionValuationRecords)
-                _recalcQuestionWishItem.Run((int) item[0], (int) item[1]);   
+                _probabilityForUserUpdate.Run((int) item[0], (int) item[1]);   
         }
     }
 }
