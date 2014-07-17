@@ -184,7 +184,7 @@ public class EditCategoryModel : BaseModel
     {
         var categoryDailyIssue = new CategoryTypeDailyIssue
         {
-            Year = ToNumericalString(request["Year"]),
+            PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
             Volume = ToNumericalStringWithLeadingZeros(request["Volume"]),
             No = ToNumericalStringWithLeadingZeros(request["No"]),
             PublicationDateMonth = ToNumericalStringWithLeadingZeros(request["PublicationDateMonth"]),
@@ -255,7 +255,7 @@ public class EditCategoryModel : BaseModel
     {
         var categoryMagazineIssue = new CategoryTypeMagazineIssue
         {
-            Year = ToNumericalString(request["Year"]),
+            PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
             Volume = ToNumericalString(request["Volume"]),
             No = ToNumericalStringWithLeadingZeros(request["No"]),
             IssuePeriod = request["IssuePeriod"],
@@ -358,7 +358,7 @@ public class EditCategoryModel : BaseModel
                 Title = request["Title"],
                 Subtitle = request["Subtitle"],
                 Author = request["Author"],
-                Year = ToNumericalString(request["Year"]),
+                PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
                 PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
                 PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
                 Url = request["Url"]

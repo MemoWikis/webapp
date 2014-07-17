@@ -41,11 +41,11 @@
         <div class="ControlInline">
             <input class="form-control InputIssueNo JS-ValidationGroupMember" name="No" type="text" value="<%= model.No %>">
         </div>
-        <label class="control-label LabelInline" for="Year">
+        <label class="control-label LabelInline" for="PublicationDateYear">
             / Jahr
         </label>
         <div class="ControlInline">
-            <input class="form-control InputYear JS-ValidationGroupMember" name="Year" type="text" value="<%= model.Year %>">
+            <input class="form-control InputYear JS-ValidationGroupMember" name="PublicationDateYear" type="text" value="<%= model.PublicationDateYear %>">
         </div>
     </div>
 </div>

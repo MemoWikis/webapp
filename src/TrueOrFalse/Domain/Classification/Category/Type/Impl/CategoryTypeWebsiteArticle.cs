@@ -13,7 +13,7 @@ public class CategoryTypeWebsiteArticle : CategoryTypeBase<CategoryTypeWebsiteAr
     public string Title;
     public string Subtitle;
     public string Author;
-    public string Year;
+    public string PublicationDateYear;
     public string PublicationDateMonth;
     public string PublicationDateDay;    
     public string Url;

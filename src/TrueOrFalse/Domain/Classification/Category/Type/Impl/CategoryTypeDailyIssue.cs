@@ -9,7 +9,7 @@ using TrueOrFalse;
 [Serializable]
 public class CategoryTypeDailyIssue : CategoryTypeBase<CategoryTypeDailyIssue>
 {
-    public string Year;
+    public string PublicationDateYear;
     public string Volume;
     public string No;
     public string PublicationDateMonth;
@@ -35,7 +35,7 @@ public class CategoryTypeDailyIssue : CategoryTypeBase<CategoryTypeDailyIssue>
     {
         var name = "";
         if (!String.IsNullOrEmpty(PublicationDateMonth) && !String.IsNullOrEmpty(PublicationDateDay)) {
-            var publicationDate = new DateTime(Convert.ToInt32(Year), Convert.ToInt32(PublicationDateMonth),
+            var publicationDate = new DateTime(Convert.ToInt32(PublicationDateYear), Convert.ToInt32(PublicationDateMonth),
             Convert.ToInt32(PublicationDateDay));
             name = dailyName + " vom " + publicationDate.ToString("dd.MM.yyyy");
         }

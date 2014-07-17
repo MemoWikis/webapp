@@ -51,6 +51,24 @@ var fnAddRegExMethod = function (name, regEx, message) {
         return regEx.test(value);
     }, message);
 };
+
+var fnAddAllOrNothingMethod = function (name, message) {
+    jQuery.validator.addMethod(name, function (value, element) {
+        var members = $(element).closest('.JS-ValidationGroup').find('.JS-ValidationGroupMember');
+        var firstFilledIn = ($(members[0]).val() != "");
+        var allOfSameValue = true;
+
+        if (members.length > 0) {
+            var i = 1;
+            while (i < members.length && allOfSameValue) {
+                if (firstFilledIn != ($(members[i]).val() != ""))
+                    allOfSameValue = false;
+                i++;
+            }
+        }
+        return allOfSameValue;
+    }, message);
+};
 //Add require_from_group method with custom message
 //jQuery.validator.addMethod("methodName", $.validator.methods.require_from_group, "Custom massage");
 //var fnDependentField = function(selectorPrimaryField, selectorDependentField, domDependentField) {
