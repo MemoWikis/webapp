@@ -62,8 +62,11 @@ input[type="color"],
 .uneditable-input,
 textarea,
 textarea.form-control,
-select {
+select.form-control {
   color: #2e487b;
+}
+optgroup:disabled {
+  color: GrayText;
 }
 label {
   font-weight: normal;

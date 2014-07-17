@@ -98,12 +98,12 @@
                                         <optgroup label="Internet">
                                             <%--<option value="Website"><%= CategoryType.Website.GetName() %></option>--%>
                                             <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
-                                            <option value="WebsiteVideo"><%= CategoryType.WebsiteVideo.GetName() %></option>
+                                            <option value="WebsiteVideo" disabled><%= CategoryType.WebsiteVideo.GetName() %></option>
                                         </optgroup>
-                                        <optgroup label="Film und Fernsehen">
-                                            <option value="Movie"><%= CategoryType.Movie.GetName() %></option>
-                                            <option value="TvShow"><%= CategoryType.TvShow.GetName() %></option>
-                                            <option value="TvShowEpisode"><%= CategoryType.TvShowEpisode.GetName() %></option>
+                                        <optgroup label="Film und Fernsehen" disabled>
+                                            <option value="Movie" disabled><%= CategoryType.Movie.GetName() %></option>
+                                            <option value="TvShow" disabled><%= CategoryType.TvShow.GetName() %></option>
+                                            <option value="TvShowEpisode" disabled><%= CategoryType.TvShowEpisode.GetName() %></option>
                                         </optgroup>
                                     </select>
                                 </label>
