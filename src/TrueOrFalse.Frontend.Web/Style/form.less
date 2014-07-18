@@ -241,4 +241,11 @@ div.control-group.markdown {
     }
     
     .form-control-validation(@color-error; @color-error; @state-danger-bg);
+
+    .checkbox label {
+        color: @global-text-color;
+        &.ValidationError{
+            color: @color-error;
+        }
+    }
 }

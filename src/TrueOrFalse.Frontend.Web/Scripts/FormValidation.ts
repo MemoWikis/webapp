@@ -22,13 +22,17 @@
         errorPlacement: function(error, element) {
             if (element.hasClass("JS-ValidationGroupMember")) {
                 error.appendTo(element.closest(".JS-ValidationGroup"));
-            } else
+            } else {
+                if (element.attr('type') == "checkbox") {
+                    error.append('</br>').css('display', 'inline');
+                }
                 error.insertAfter(element);
+            }
         },
 
         errorClass: "ValidationError",
         ignore: ":hidden, .JS-ValidationIgnore",
-}
+    }
 
     $.extend(true, validationSettings, customSettings);
 

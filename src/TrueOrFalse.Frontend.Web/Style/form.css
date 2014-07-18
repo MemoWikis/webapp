@@ -258,4 +258,10 @@ label.ValidationError {
 .ValidationError .form-control-feedback {
   color: #b13a48;
 }
+.ValidationError .checkbox label {
+  color: #203256;
+}
+.ValidationError .checkbox label.ValidationError {
+  color: #b13a48;
+}
 /*# sourceMappingURL=form.css.map */
