@@ -16,7 +16,7 @@ public class EditQuestionModel : BaseModel
 
     public QuestionVisibility Visibility { get; set; }
 
-    [Required]
+    //[Required]
     [DataType(DataType.MultilineText )]
     [DisplayName("Frage")]
     public string Question { get; set; }
