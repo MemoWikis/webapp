@@ -711,16 +711,16 @@ img {
 /* VALIDATION
 ----------------------------------------------------------*/
     textarea.input-validation-error, input.input-validation-error {
-        border: 1px solid #f00;
-        background-color: #ffdede;
+        border: 1px solid @color-error;
+        background-color: @color-error-light;
     }
 
     .input-validation-valid { /* Optional: you can set whatever style you want */
     }
 
     .field-validation-error {
-        color: #f00;
-        background-color: #ffdede;
+        color: @color-error;
+        background-color: @color-error-light;
     }
 
     .field-validation-valid {
@@ -729,7 +729,7 @@ img {
 
     .validation-summary-errors {
         font-weight: bold;
-        color: #f00;
+        color: @color-error;
     }
 
     .validation-summary-valid {
@@ -786,6 +786,7 @@ img {
     border-radius: 4px;
     color: @dark-blue;
     display: inline-block;
+    margin-bottom: 5px;
 }
     
 .label-category {

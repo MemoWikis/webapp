@@ -149,6 +149,9 @@ public class EditCategoryModel : BaseModel
         if (category.Type == CategoryType.Website)
             category.TypeJson = new CategoryTypeWebsite { Url = request["Url"] }.ToJson();
 
+        if (category.Type == CategoryType.WebsiteArticle)
+            return FillWebsiteArticle(category, request, result);
+
         if (category.Type == CategoryType.WebsiteVideo)
             category.TypeJson = new CategoryTypeWebsiteVideo {Url = request["YoutubeUrl"]}.ToJson();
 
@@ -181,7 +184,7 @@ public class EditCategoryModel : BaseModel
     {
         var categoryDailyIssue = new CategoryTypeDailyIssue
         {
-            Year = ToNumericalString(request["Year"]),
+            PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
             Volume = ToNumericalStringWithLeadingZeros(request["Volume"]),
             No = ToNumericalStringWithLeadingZeros(request["No"]),
             PublicationDateMonth = ToNumericalStringWithLeadingZeros(request["PublicationDateMonth"]),
@@ -252,7 +255,7 @@ public class EditCategoryModel : BaseModel
     {
         var categoryMagazineIssue = new CategoryTypeMagazineIssue
         {
-            Year = ToNumericalString(request["Year"]),
+            PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
             Volume = ToNumericalString(request["Volume"]),
             No = ToNumericalStringWithLeadingZeros(request["No"]),
             IssuePeriod = request["IssuePeriod"],
@@ -339,6 +342,28 @@ public class EditCategoryModel : BaseModel
                 PagesChapterFrom = request["PagesChapterFrom"],
                 PagesChapterTo = request["PagesChapterTo"]
             }.ToJson();
+        if (String.IsNullOrEmpty(request["Subtitle"]))
+            category.Name = request["Title"];
+        else
+            category.Name = request["Title"] + " – " + request["Subtitle"];
+
+        return result;
+    }
+
+    private static ConvertToCategoryResult FillWebsiteArticle(Category category, HttpRequest request, ConvertToCategoryResult result)
+    {
+        category.TypeJson =
+            new CategoryTypeWebsiteArticle
+            {
+                Title = request["Title"],
+                Subtitle = request["Subtitle"],
+                Author = request["Author"],
+                PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
+                PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
+                PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
+                Url = request["Url"]
+            }.ToJson();
+
         if (String.IsNullOrEmpty(request["Subtitle"]))
             category.Name = request["Title"];
         else

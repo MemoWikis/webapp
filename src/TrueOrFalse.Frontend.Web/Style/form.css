@@ -22,6 +22,14 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+.columnLabel {
+  -ms-word-break: break-all;
+  word-break: break-all;
+}
+.columnLabel .tooltip {
+  -ms-word-break: normal;
+  word-break: normal;
+}
 .columnControlsSmall {
   position: relative;
   float: left;
@@ -61,8 +69,12 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input,
 textarea,
-select {
+textarea.form-control,
+select.form-control {
   color: #2e487b;
+}
+optgroup:disabled {
+  color: GrayText;
 }
 label {
   font-weight: normal;
@@ -70,6 +82,9 @@ label {
 }
 .RequiredField {
   font-weight: bold;
+}
+[data-is-editing="True"] .RequiredField {
+  font-weight: normal;
 }
 .RequiredField:after {
   content: '*';
@@ -93,6 +108,8 @@ label {
     float: none;
     width: 100%;
     margin-left: 0;
+    left: 0;
+    right: 0;
   }
 }
 .ControlInline {
@@ -160,9 +177,6 @@ div.control-group.markdown label {
 }
 .control-group span > i.fa-info-circle {
   color: lightblue;
-}
-.form-group .control-label {
-  word-break: break-all;
 }
 @media (min-width: 480px) {
   .form-group .control-label {
@@ -244,6 +258,12 @@ label.ValidationError {
   background-color: #f4dbe0;
 }
 .ValidationError .form-control-feedback {
+  color: #b13a48;
+}
+.ValidationError .checkbox label {
+  color: #203256;
+}
+.ValidationError .checkbox label.ValidationError {
   color: #b13a48;
 }
 /*# sourceMappingURL=form.css.map */

@@ -1,6 +1,5 @@
 ﻿/// <reference path="jquery.d.ts"/>
 interface JQuery {
-    defaultText();
     setCursorPosition(position : number);
 
     sparklines(p1: any);

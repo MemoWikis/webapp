@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 public enum CategoryType
 {
     Standard = 1,
-    Website = 2,
-    WebsiteArticle = 3,
-    WebsiteVideo = 4,
+    
     Book = 5,
     VolumeChapter = 20,
     Daily = 6,
@@ -18,9 +16,16 @@ public enum CategoryType
     Magazine = 9,
     MagazineIssue = 10,
     MagazineArticle = 11,
+
+    Website = 2,
+    WebsiteArticle = 3,
+    WebsiteVideo = 4,
+    WebsiteOther = 21,
+
     Movie = 12,
     TvShow = 13,
     TvShowEpisode = 14,
+
     FieldOfStudy = 15,
     FieldStudyTrade = 16,
     SchoolSubject = 17,
@@ -34,20 +39,26 @@ public static class CategoryTypeExts
         switch (e)
         {
             case CategoryType.Standard: return "Standard";
-            case CategoryType.Website: return "Webseite";
-            case CategoryType.WebsiteArticle: return "Webseite: Artikel/Eintrag/Meldung/Kurs...";
-            case CategoryType.WebsiteVideo: return "Youtube";
+
             case CategoryType.Book: return "Buch (auch eBooks)";
             case CategoryType.VolumeChapter: return "Beitrag in Sammelband";
             case CategoryType.Daily: return "Tageszeitung";
             case CategoryType.DailyIssue: return "Tageszeitung: Ausgabe";
             case CategoryType.DailyArticle: return "Tageszeitung: Artikel";
-            case CategoryType.Magazine: return "Zeitschrift/Magazin";
-            case CategoryType.MagazineIssue: return "Zeitschrift/Magazin: Ausgabe";
-            case CategoryType.MagazineArticle: return "Zeitschrift/Magazin: Artikel";
+            case CategoryType.Magazine: return "Zeitschrift";
+            case CategoryType.MagazineIssue: return "Zeitschrift: Ausgabe";
+            case CategoryType.MagazineArticle: return "Zeitschrift: Artikel";
+
+            case CategoryType.Website: return "Webseite";
+            case CategoryType.WebsiteArticle: return "Online-Artikel";
+            case CategoryType.WebsiteVideo: return "Youtube-Video";
+            case CategoryType.WebsiteOther: return "Webseite: Artikel/Eintrag/Meldung/Kurs...";
+
+
             case CategoryType.Movie: return "Film";
             case CategoryType.TvShow: return "Fernsehen";
             case CategoryType.TvShowEpisode: return "Fernsehen: Episode/Ausgabe";
+
             case CategoryType.FieldOfStudy: return "Studienfach";
             case CategoryType.FieldStudyTrade: return "Ausbildungsberuf";
             case CategoryType.SchoolSubject: return "Schulfach";

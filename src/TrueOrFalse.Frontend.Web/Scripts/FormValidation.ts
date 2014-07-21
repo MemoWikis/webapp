@@ -22,13 +22,17 @@
         errorPlacement: function(error, element) {
             if (element.hasClass("JS-ValidationGroupMember")) {
                 error.appendTo(element.closest(".JS-ValidationGroup"));
-            } else
+            } else {
+                if (element.attr('type') == "checkbox") {
+                    error.append('</br>').css('display', 'inline');
+                }
                 error.insertAfter(element);
+            }
         },
 
         errorClass: "ValidationError",
         ignore: ":hidden, .JS-ValidationIgnore",
-}
+    }
 
     $.extend(true, validationSettings, customSettings);
 
@@ -59,6 +63,30 @@ var fnAddRegExMethod = function(name, regEx, message){
         },
         message
     );
+}
+
+var fnAddAllOrNothingMethod = function (name, message) {
+
+    jQuery.validator.addMethod(
+        name,
+        function (value, element) {
+            var members = $(element).closest('.JS-ValidationGroup').find('.JS-ValidationGroupMember');
+            var firstFilledIn = ($(members[0]).val() != "");
+            var allOfSameValue = true;
+            
+            if (members.length > 0) {
+                var i = 1;
+                while (i < members.length && allOfSameValue) {
+                    if (firstFilledIn != ($(members[i]).val() != ""))
+                        allOfSameValue = false;
+                    i++;
+                }
+            }
+            return allOfSameValue;
+        },
+        message
+    );
+
 }
 
 //Add require_from_group method with custom message

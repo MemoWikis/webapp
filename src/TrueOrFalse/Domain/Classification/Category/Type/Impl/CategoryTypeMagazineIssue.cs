@@ -9,7 +9,7 @@ using TrueOrFalse;
 [Serializable]
 public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIssue>
 {
-    public string Year;
+    public string PublicationDateYear;
     public string Volume;
     public string No;
     public string IssuePeriod;
@@ -36,9 +36,9 @@ public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIs
     public string BuildTitle(string magazineName)
     {
         var name = "";
-        if (!String.IsNullOrEmpty(No) && !String.IsNullOrEmpty(Year))
+        if (!String.IsNullOrEmpty(No) && !String.IsNullOrEmpty(PublicationDateYear))
         {
-            name = magazineName + " " + No + "/" + Year;
+            name = magazineName + " " + No + "/" + PublicationDateYear;
             if (!String.IsNullOrEmpty(IssuePeriod))
                 name += " (" + IssuePeriod + ")";
         }

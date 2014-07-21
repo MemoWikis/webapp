@@ -4,12 +4,38 @@
 
 .FormColumnGrid (@labels-stacked: true; @label-width-variable: false; 3);//conditional styles, @labels-stacked: TRUE for having labels stacked
 
-#CategoryDetailsBody {
-    padding-top: 20px;
+#CategoryTypeSelect {
+    padding-bottom: 20px;
 }
 
 .CategoryTypeHeader {
     color: @color-category;
     margin-top: 0;
     margin-bottom: 20px;
+}
+
+[data-is-editing="True"] {
+
+    input, textarea {
+        
+        &[type="text"] {
+            font-weight: bold;
+        }
+
+        &::-webkit-input-placeholder { /* WebKit browsers */
+            font-weight: normal;
+        }
+
+        &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            font-weight: normal;  
+        }
+
+        &::-moz-placeholder { /* Mozilla Firefox 19+ */
+            font-weight: normal;
+        }
+
+        &:-ms-input-placeholder { /* Internet Explorer 10+ */
+            font-weight: normal;
+        }
+    }
 }

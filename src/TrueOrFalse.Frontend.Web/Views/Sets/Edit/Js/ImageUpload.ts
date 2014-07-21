@@ -32,7 +32,4 @@ $(function () {
     }); 
 
     $("#txtLicenceOwner").val("Vorname Nachname");
-
-    $('#Title').defaultText();
-    $('#Text').defaultText();
 });

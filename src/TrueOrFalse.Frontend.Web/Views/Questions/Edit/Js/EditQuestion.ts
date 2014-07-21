@@ -6,9 +6,6 @@
 /// <reference path="../../../../Scripts/typescript.defs/lib.d.ts" />
 
 $(function () {
-    $('#Question').defaultText();
-    $('#Description').defaultText();
-
     $('.control-label .show-tooltip').append($("<span> <i class='fa fa-info-circle'></i></span>"));
 
     var editorQuestion = new MarkdownQuestionExt();

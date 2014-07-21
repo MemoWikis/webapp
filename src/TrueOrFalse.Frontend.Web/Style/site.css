@@ -1032,22 +1032,22 @@ fieldset[disabled] #MenuButton:hover {
 ----------------------------------------------------------*/
 textarea.input-validation-error,
 input.input-validation-error {
-  border: 1px solid #f00;
-  background-color: #ffdede;
+  border: 1px solid #b13a48;
+  background-color: #e3a0ac;
 }
 .input-validation-valid {
   /* Optional: you can set whatever style you want */
 }
 .field-validation-error {
-  color: #f00;
-  background-color: #ffdede;
+  color: #b13a48;
+  background-color: #e3a0ac;
 }
 .field-validation-valid {
   display: none;
 }
 .validation-summary-errors {
   font-weight: bold;
-  color: #f00;
+  color: #b13a48;
 }
 .validation-summary-valid {
   display: none;
@@ -1088,6 +1088,7 @@ a.button span.ui-icon {
   border-radius: 4px;
   color: #2e487b;
   display: inline-block;
+  margin-bottom: 5px;
 }
 .label-category {
   background-color: #e7ecf6;

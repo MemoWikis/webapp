@@ -15,7 +15,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
-    FormMethod.Post, new { enctype = "multipart/form-data", @id="EditCategoryForm" })){%>
+    FormMethod.Post, new { enctype = "multipart/form-data", id="EditCategoryForm", data_is_editing=Model.IsEditing })){%>
     <div class="row">
         <div class="col-md-9 PageHeader">
             <h2>
@@ -65,7 +65,7 @@
                 <% Html.Message(Model.Message); %>
             
                 <%if(!Model.IsEditing){ %>
-                <div class="FormSection">
+                <div id="CategoryTypeSelect" class="FormSection">
                     <div class="form-group">
                         <label class="columnLabel control-label">
                             Kategorietyp
@@ -85,7 +85,7 @@
                                     <i class="fa fa-question-circle show-tooltip" title="Kategorietyp für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen und für Quellenangaben in Fragen." data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
                                     <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
                                     <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeMedia %>" >
-                                        <optgroup label="Druckmedien">
+                                        <optgroup label="Druckmedien und eBooks">
                                             <option value="Book"><%= CategoryType.Book.GetName() %></option>
                                             <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>
                                             <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
@@ -96,14 +96,14 @@
                                             <option value="MagazineArticle"><%= CategoryType.MagazineArticle.GetName() %></option>
                                         </optgroup>
                                         <optgroup label="Internet">
-                                            <option value="Website"><%= CategoryType.Website.GetName() %></option>
+                                            <%--<option value="Website"><%= CategoryType.Website.GetName() %></option>--%>
                                             <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
-                                            <option value="WebsiteVideo"><%= CategoryType.WebsiteVideo.GetName() %></option>
+                                            <option value="WebsiteVideo" disabled><%= CategoryType.WebsiteVideo.GetName() %></option>
                                         </optgroup>
-                                        <optgroup label="Film und Fernsehen">
-                                            <option value="Movie"><%= CategoryType.Movie.GetName() %></option>
-                                            <option value="TvShow"><%= CategoryType.TvShow.GetName() %></option>
-                                            <option value="TvShowEpisode"><%= CategoryType.TvShowEpisode.GetName() %></option>
+                                        <optgroup label="Film und Fernsehen" disabled>
+                                            <option value="Movie" disabled><%= CategoryType.Movie.GetName() %></option>
+                                            <option value="TvShow" disabled><%= CategoryType.TvShow.GetName() %></option>
+                                            <option value="TvShowEpisode" disabled><%= CategoryType.TvShowEpisode.GetName() %></option>
                                         </optgroup>
                                     </select>
                                 </label>

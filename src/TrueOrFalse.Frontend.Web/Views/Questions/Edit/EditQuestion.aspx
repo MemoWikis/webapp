@@ -19,7 +19,7 @@
 <input type="hidden" id="questionId" value="<%= Model.Id %>"/>
 <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
     
-<% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { enctype = "multipart/form-data", style="margin:0px;" })){ %>
+<% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { id="EditQuestionForm", enctype = "multipart/form-data", style="margin:0px;" })){ %>
     <div class="row">
         <div class="PageHeader col-xs-12">
             <h2 class="pull-left"><span class="ColoredBottomBorder"><%=Model.FormTitle %></span></h2>
@@ -182,7 +182,7 @@
 
                     <div class="form-group markdown">
                         <label class="columnLabel control-label">
-                            <span class="show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "top">Erklärungen</span>
+                            <span class="show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "top">Erklärungen und Ergänzungen</span>
                         </label>
                         <div class="columnControlsFull">
                             <div class="wmd-panel">
@@ -227,14 +227,16 @@
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
                             <div class="checkbox">
-                                <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
-                                Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
-                                Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
-                                wie zum Beispiel bei Wikipedia-Einträgen. 
-                                <a href="" target="_blank">mehr erfahren</a> <br />
-                                Die Frage und Anwort sind meine eigene Arbeit und
-                                nicht aus urheberrechtlich geschützten Quellen kopiert. 
-                                <a href="" target="_blank">mehr erfahren</a>
+                                <label>
+                                    <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
+                                    Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
+                                    Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
+                                    wie zum Beispiel bei Wikipedia-Einträgen. 
+                                    <a href="" target="_blank">mehr erfahren</a> <br />
+                                    Die Frage und Anwort sind meine eigene Arbeit und
+                                    nicht aus urheberrechtlich geschützten Quellen kopiert. 
+                                    <a href="" target="_blank">mehr erfahren</a>
+                                </label>
                             </div>
                         </div>
                     </div>

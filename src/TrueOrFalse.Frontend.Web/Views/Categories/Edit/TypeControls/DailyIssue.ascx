@@ -29,7 +29,6 @@
         <% } %>
     </div>
 </div>
-
 <div class="form-group">
     <label class="RequiredField columnLabel control-label">
         Erscheinungsdatum
@@ -47,9 +46,9 @@
                 <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>" placeholder="MM">
             </div>
             <label class="control-label LabelInline">.</label>
-            <label class="sr-only" for="Year">Jahr</label>
+            <label class="sr-only" for="PublicationDateYear">Jahr</label>
             <div style="" class="ControlInline">
-                <input class="form-control InputYear JS-ValidationGroupMember" name="Year" type="text" value="<%= model.Year %>" placeholder="JJJJ">
+                <input class="form-control InputYear JS-ValidationGroupMember" name="PublicationDateYear" type="text" value="<%= model.PublicationDateYear %>" placeholder="JJJJ">
             </div>
         </div>
     </div>

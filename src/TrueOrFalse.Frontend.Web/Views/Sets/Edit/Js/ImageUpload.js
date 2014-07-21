@@ -1,4 +1,4 @@
-/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/lib.d.ts" />
 /// <reference path="../../../Shared/ImageUpload/ImageUpload.ts" />
@@ -28,8 +28,5 @@ $(function () {
     });
 
     $("#txtLicenceOwner").val("Vorname Nachname");
-
-    $('#Title').defaultText();
-    $('#Text').defaultText();
 });
 //# sourceMappingURL=ImageUpload.js.map

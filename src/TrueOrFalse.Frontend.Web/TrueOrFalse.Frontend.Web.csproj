@@ -320,8 +320,6 @@
     <Content Include="Images\wiki-24.png" />
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\CategoryApi.js">
       <DependentUpon>CategoryApi.ts</DependentUpon>
     </Content>
@@ -735,7 +733,6 @@
     <Content Include="Scripts\vendor\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\vendor\jquery.scrollTo-1.4.3.1.js" />
     <Content Include="Scripts\vendor\jquery-2.0.3.min.map" />
-    <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\vendor\jquery.validate.js" />
     <Content Include="Scripts\vendor\json2.js" />
     <Content Include="Scripts\vendor\Markdown.Converter.js" />
@@ -969,6 +966,9 @@
     <Content Include="Scripts\RowPin.js">
       <DependentUpon>RowPin.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Edit\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Questions.css">
       <DependentUpon>Questions.less</DependentUpon>
     </Content>
@@ -1004,6 +1004,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\Js\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Scripts\RowPin.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
@@ -1246,6 +1247,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Style\z_mixins_for_buttons_2.3.2.css.map">
       <DependentUpon>z_mixins_for_buttons_2.3.2.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
