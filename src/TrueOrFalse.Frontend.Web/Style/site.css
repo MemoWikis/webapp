@@ -1088,6 +1088,7 @@ a.button span.ui-icon {
   border-radius: 4px;
   color: #2e487b;
   display: inline-block;
+  margin-bottom: 5px;
 }
 .label-category {
   background-color: #e7ecf6;

@@ -6,4 +6,15 @@
   color: #5bc0de;
   margin-top: 0;
 }
+.MainCategory span.label-category {
+  color: #31b0d5;
+  font-size: 145%;
+  margin-top: 5px;
+}
+.CategoryRelations {
+  text-align: center;
+}
+.RelationArrow {
+  font-size: 18px;
+}
 /*# sourceMappingURL=Category.css.map */
