@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using TrueOrFalse;
 using TrueOrFalse.Web.Context;
 
 public class KnowledgeModel : BaseModel
 {
-    private new readonly SessionUser _sessionUser;
-
     public string UserName
     {
         get
@@ -16,16 +15,29 @@ public class KnowledgeModel : BaseModel
         }
     }
 
-    public int TotalAnswerThisWeek;
-    public int TotalAnswerThisMonth;
-    public int TotalAnswerPreviousWeek;
-    public int TotalAnswerLastMonth;
+    public GetAnswerStatsInPeriodResult AnswersThisWeek;
+    public GetAnswerStatsInPeriodResult AnswersThisMonth;
+    public GetAnswerStatsInPeriodResult AnswersThisYear;
+    public GetAnswerStatsInPeriodResult AnswersLastMonth;
+    public GetAnswerStatsInPeriodResult AnswersLastWeek;
+    public GetAnswerStatsInPeriodResult AnswersLastYear;
+    public GetAnswerStatsInPeriodResult AnswersEver;
 
     public int QuestionsCount;
     public int QuestionsSetCount;
 
-    public KnowledgeModel(SessionUser sessionUser)
+    public KnowledgeModel()
     {
-        _sessionUser = sessionUser;
+        var getWishQuestionCount = Resolve<GetWishQuestionCountCached>();
+        QuestionsCount = getWishQuestionCount.Run(UserId);
+
+        var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
+        AnswersThisWeek = getAnswerStatsInPeriod.RunForThisWeek(UserId);
+        AnswersThisMonth = getAnswerStatsInPeriod.RunForThisMonth(UserId);
+        AnswersThisYear = getAnswerStatsInPeriod.RunForThisYear(UserId);
+        AnswersLastWeek = getAnswerStatsInPeriod.RunForLastWeek(UserId);
+        AnswersLastMonth = getAnswerStatsInPeriod.RunForLastMonth(UserId);
+        AnswersLastYear = getAnswerStatsInPeriod.RunForLastYear(UserId);
+        AnswersEver = getAnswerStatsInPeriod.Run(UserId);
     }
 }

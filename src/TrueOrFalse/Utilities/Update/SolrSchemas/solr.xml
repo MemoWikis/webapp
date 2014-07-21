@@ -48,7 +48,7 @@
   You can read more about SolrCloud mode at http://wiki.apache.org/solr/SolrCloud
   -->
   <cores adminPath="/admin/cores" defaultCoreName="tofQuestion" host="${host:}" hostPort="${jetty.port:8983}" hostContext="${hostContext:solr}" zkClientTimeout="${zkClientTimeout:15000}">
-    <core name="tofQuestion" instanceDir="tofQuestion" />
+  <core name="tofQuestion" instanceDir="tofQuestion" />
 	<core name="tofQuestionTest" instanceDir="tofQuestionTest" />
 	<core name="tofSetTest" instanceDir="toSetTest" />
   </cores>

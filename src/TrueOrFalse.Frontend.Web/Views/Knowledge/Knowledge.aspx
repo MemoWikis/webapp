@@ -15,17 +15,9 @@
                 witdh: '250'
             });
 
-            $("#answeredThisWeekSparkle").sparkline([14, 4], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#answeredThisMonthSparkle").sparkline([4, 8], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#answeredLastWeekSparkle").sparkline([4, 6], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#answeredLastMonthSparkle").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            
-            $("#examSparkle1").sparkline([1, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#examSparkle2").sparkline([15, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#examSparkle3").sparkline([71, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#examSparkle4").sparkline([1, 17], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#examSparkle5").sparkline([10, 0], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            
+            $("#answeredThisWeekSparkle").sparkline([<%= Model.AnswersThisWeek.TotalTrueAnswers %>, <%= Model.AnswersThisWeek.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#answeredThisMonthSparkle").sparkline([<%= Model.AnswersThisMonth.TotalTrueAnswers %>, <%= Model.AnswersThisMonth.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#answeredThisYearSparkle").sparkline([<%= Model.AnswersThisYear.TotalTrueAnswers %>, <%= Model.AnswersThisYear.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
 
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
             $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
@@ -92,25 +84,43 @@
         <div class="column">
             <h3>Training</h3>
             <div class="answerHistoryRow" style="margin-bottom: 5px;">
-                <div style="color:black;">Antworten ges.: 4312 </div> (seit: 4.3.2012)
+                <div style="color:black;">
+                    Antworten ges.: <%= Model.AnswersEver.TotalAnswers %>
+                </div> 
             </div>
                 
             <div class="answerHistoryRow">    
-                <div>Diese Woche <span class="answerAmount"><%= Model.TotalAnswerThisWeek %></span> 
+                <div>
+                    Diese Woche 
+                    <span class="answerAmount"><%= Model.AnswersThisWeek.TotalAnswers %></span> 
                     <span id="answeredThisWeekSparkle"></span>
-                    <div class="percentage"><span >74%</span></div>
+                    
+                    &nbsp;
+                    Vorwoche
+                    <%= Model.AnswersLastWeek.TotalTrueAnswers %>
                 </div> 
             </div>
             <div class="answerHistoryRow">
-                <div>Diesen Monat <span class="answerAmount"><%= Model.TotalAnswerThisMonth %></span> <span id="answeredThisMonthSparkle"></span>
-                    <div class="percentage"><span>19%</span></div>
+                <div>
+                    Diesen Monat 
+                    <span class="answerAmount"><%= Model.AnswersThisMonth.TotalAnswers %></span> 
+                    <span id="answeredThisMonthSparkle"></span>
+                    
+                    &nbsp;
+                    Vormonat
+                    <%= Model.AnswersLastMonth.TotalAnswers %>
                 </div>
             </div>
             <div class="answerHistoryRow">
-                <div>Diese Jahr <span class="answerAmount"><%= Model.TotalAnswerPreviousWeek %></span> <span id="answeredLastWeekSparkle"></span></div> 
-            </div>
-            <div class="answerHistoryRow">
-                <div>Letzten Monat <span class="answerAmount"><%= Model.TotalAnswerLastMonth %></span> <span id="answeredLastMonthSparkle"></span></div> 
+                <div>
+                    Diese Jahr 
+                    <span class="answerAmount"><%= Model.AnswersThisYear.TotalAnswers %></span> 
+                    <span id="answeredThisYearSparkle"></span>
+                    
+                    &nbsp;
+                    Vorjahr
+                    <%= Model.AnswersLastYear.TotalAnswers %>
+                </div> 
             </div>
         </div>
         <div style="clear:both;"></div>
