@@ -30,12 +30,30 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-9 xxs-stack">
-            <% if(!String.IsNullOrEmpty(Model.Description)){ %>
-                <div style="margin-bottom: 12px;">
-                    <%= Model.Description %>
-                </div>
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-9 xxs-stack">
+                    <% if(!String.IsNullOrEmpty(Model.Description)){ %>
+                    <div style="margin-bottom: 12px;">
+                        <%= Model.Description %>
+                    </div>
             <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 col-xs-push-9 xxs-stack">
+            <div class="CategoryImage">
+                <img src="<%= Model.ImageUrl %>" class="img-responsive" style="-ms-border-radius:5px; border-radius:5px;" />
+                <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
+                    <div style="text-overflow: ellipsis; overflow: hidden;  white-space: nowrap; ">
+                        <a href="<%= Model.WikiUrl %>" style="margin-left: -3px;" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
+                            <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="col-xs-9 col-xs-pull-3 xxs-stack">
             <div class="CategoryRelations well">
                 <% if(Model.CategoriesParent.Count > 0){ %>
                     <h4 style="margin-top: 0;">Elternkategorien</h4>
@@ -95,18 +113,5 @@
                 <h4>Ersteller (<%=Model.CountCreators %>)</h4>
             <% } %>
         </div>         
-        <div class="col-xs-3 xxs-stack">
-            <div>
-                <img src="<%= Model.ImageUrl %>" class="img-responsive" style="-ms-border-radius:5px; border-radius:5px;" />
-            </div>
-                
-            <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
-                <div style="text-overflow: ellipsis; overflow: hidden;  white-space: nowrap; ">
-                    <a href="<%= Model.WikiUrl %>" style="margin-left: -3px;" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
-                        <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
-                    </a>
-                </div>
-            <% } %>
-        </div>
     </div>
 </asp:Content>

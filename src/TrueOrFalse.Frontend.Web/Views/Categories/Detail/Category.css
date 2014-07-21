@@ -6,6 +6,10 @@
   color: #5bc0de;
   margin-top: 0;
 }
+.CategoryImage {
+  max-width: 200px;
+  margin-bottom: 10px;
+}
 .MainCategory span.label-category {
   color: #31b0d5;
   font-size: 145%;
