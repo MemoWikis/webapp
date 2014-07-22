@@ -2,8 +2,9 @@
   "version": 3,
   "file": "Category.css",
   "sources": [
-    "Category.less"
+    "Category.less",
+    "../../../Style/includes/shared.less"
   ],
   "names": [],
-  "mappings": "AAGA,GAAG;EAAW,UAAA;EAAY,WAAA;;AAE1B;EACI,cAAA;EACA,aAAA;;AAGJ;EACI,gBAAA;EACA,mBAAA;;AAGJ,aAAc,KAAI;EACd,cAAA;EACA,eAAA;EACA,eAAA;;AAGJ;EACI,kBAAA;;AAGJ;EACI,eAAA"
+  "mappings": "AAGA,GAAG;EAAW,UAAA;EAAY,WAAA;;AAE1B;EACI,cAAA;EACA,aAAA;;AAGJ;EACI,mBAAA;;ACiEsE,QAAb;EAAa;ID/DlE,gBAAA;;;AAIR,aAAc,KAAI;EACd,cAAA;EACA,eAAA;EACA,eAAA;;AAGJ;EACI,kBAAA;;AAGJ;EACI,eAAA"
 }

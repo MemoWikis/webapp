@@ -7,8 +7,12 @@
   margin-top: 0;
 }
 .CategoryImage {
-  max-width: 200px;
   margin-bottom: 10px;
+}
+@media (max-width: 479px) {
+  .CategoryImage {
+    max-width: 150px;
+  }
 }
 .MainCategory span.label-category {
   color: #31b0d5;

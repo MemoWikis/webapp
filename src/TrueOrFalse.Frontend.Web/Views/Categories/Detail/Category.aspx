@@ -13,13 +13,7 @@
     <div class="row">
         <div class="xxs-stack col-xs-12">
             <div class="row">
-                <div class="PageHeader col-xs-9 xxs-stack category">
-                    <% if (Model.Type != "Standard") {%>
-                        <h3 class="CategoryType"><%= Model.Type%></h3>
-                    <% } %>
-                    <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredBottomBorder Category"><%= Model.Name %></span></h2>
-                </div>
-                <div class="col-xs-3 xxs-stack">
+                <div class="col-xs-3 col-xs-push-9 xxs-stack">
                     <div class="navLinks">
                         <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
                         <% if(Model.IsOwnerOrAdmin){ %>
@@ -28,6 +22,13 @@
                         <a href="<%= Links.CreateQuestion(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
                     </div>
                 </div>
+                <div class="PageHeader col-xs-9 col-xs-pull-3 xxs-stack category">
+                    <% if (Model.Type != "Standard") {%>
+                        <h3 class="CategoryType"><%= Model.Type%></h3>
+                    <% } %>
+                    <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredBottomBorder Category"><%= Model.Name %></span></h2>
+                </div>
+                
             </div>
         </div>
         <div class="col-xs-12">
