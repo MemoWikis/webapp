@@ -58,14 +58,16 @@
             <h3>Wunschwissen</h3>
             <div class="answerHistoryRow">
                 <div>
-                    <a href="<%= Links.QuestionsWish(Url) %>">
+                    <a href="<%= Links.QuestionsWish() %>">
                         Fragen: <span><%= Model.QuestionsCount %> <span id="totalKnowledgeSpark"></span></span>
                     </a>
                 </div>    
             </div>
             <div class="answerHistoryRow">
                 <div>
-                    Frageseätze: <span><%= Model.QuestionsSetCount %> <span id="Span1"> (mit x Fragen)</span></span><br/>    
+                    <a href="<%= Links.SetsWish() %>">
+                        Frageseätze: <span><%= Model.SetCount %> </span><br/>
+                    </a>
                 </div>
                 
             </div>

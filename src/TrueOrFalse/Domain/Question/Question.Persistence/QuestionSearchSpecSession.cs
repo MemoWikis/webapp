@@ -59,11 +59,11 @@ namespace TrueOrFalse
             throw new Exception("invalid combination");
         }
 
-        public static string GetUrl(UrlHelper urlHelper, string key)
+        public static string GetUrl(string key)
         {
-            if (key == KeyPagerMine) return Links.QuestionsMine(urlHelper);
-            if (key == KeyPagerWish) return Links.QuestionsWish(urlHelper);
-            return Links.QuestionsAll(urlHelper);
+            if (key == KeyPagerMine) return Links.QuestionsMine();
+            if (key == KeyPagerWish) return Links.QuestionsWish();
+            return Links.QuestionsAll();
         }
     }
 }

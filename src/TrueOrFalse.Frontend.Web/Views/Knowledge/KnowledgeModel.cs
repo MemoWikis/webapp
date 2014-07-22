@@ -24,12 +24,12 @@ public class KnowledgeModel : BaseModel
     public GetAnswerStatsInPeriodResult AnswersEver;
 
     public int QuestionsCount;
-    public int QuestionsSetCount;
+    public int SetCount;
 
     public KnowledgeModel()
     {
-        var getWishQuestionCount = Resolve<GetWishQuestionCountCached>();
-        QuestionsCount = getWishQuestionCount.Run(UserId);
+        QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
+        SetCount = R<GetWishSetCount>().Run(UserId);
 
         var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
         AnswersThisWeek = getAnswerStatsInPeriod.RunForThisWeek(UserId);

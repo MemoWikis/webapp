@@ -37,7 +37,7 @@
         </div>
         <div class="col-xs-3 xxs-stack">
             <div class="navLinks">
-                <a href="<%= Links.Sets(Url) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
+                <a href="<%= Links.Sets() %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
                 <% if(Model.IsOwner){ %>
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                 <% } %>

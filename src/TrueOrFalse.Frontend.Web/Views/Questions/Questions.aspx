@@ -36,7 +36,7 @@
                 <div id="MainFilterBar" class="btn-group btn-group-justified">
                 
                     <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
-                        <a  href="<%= Links.QuestionsAll(Url) %>" type="button" class="btn btn-default">
+                        <a  href="<%= Links.QuestionsAll() %>" type="button" class="btn btn-default">
                             <%  string von = "";
                                 if (Model.ActiveTabAll && Model.TotalQuestionsInSystem != Model.TotalQuestionsInResult)
                                 von = Model.TotalQuestionsInResult + " von ";  %>
@@ -44,7 +44,7 @@
                         </a>
                     </div>
                     <div id="WuWiQuestions" class="btn-group <%= Model.ActiveTabWish ? "active" : ""  %>">
-                        <a  href="<%= Links.QuestionsWish(Url) %>" type="button" class="btn btn-default">
+                        <a  href="<%= Links.QuestionsWish() %>" type="button" class="btn btn-default">
                             <% von = "";
                             if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                             von = Model.TotalQuestionsInResult + " von "; %>
@@ -53,7 +53,7 @@
                         </a>
                     </div>
                     <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : ""  %>">
-                        <a href="<%= Links.QuestionsMine(Url) %>" type="button" class="btn btn-default">
+                        <a href="<%= Links.QuestionsMine() %>" type="button" class="btn btn-default">
                         <%  von = "";
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
                                 von = Model.TotalQuestionsInResult + " von "; %>                        
@@ -82,7 +82,7 @@
                 </a>
             <ul class="nav nav-tabs">
                 <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
-                    <a href="<%= Links.QuestionsAll(Url) %>">
+                    <a href="<%= Links.QuestionsAll() %>">
                         <%  string von = "";
                             if (Model.ActiveTabAll && Model.TotalQuestionsInSystem != Model.TotalQuestionsInResult)
                                 von = Model.TotalQuestionsInResult + " von ";  %>
@@ -90,7 +90,7 @@
                     </a>
                 </li>
                 <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
-                    <a href="<%= Links.QuestionsWish(Url) %>">
+                    <a href="<%= Links.QuestionsWish() %>">
                         <% von = "";
                            if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                                von = Model.TotalQuestionsInResult + " von "; %>
@@ -100,7 +100,7 @@
                     </a>
                 </li>
                 <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
-                    <a href="<%= Links.QuestionsMine(Url) %>">
+                    <a href="<%= Links.QuestionsMine() %>">
                         <%  von = "";
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
                                von = Model.TotalQuestionsInResult + " von "; %>                        
