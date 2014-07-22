@@ -15,9 +15,9 @@ public abstract class CategoryTypeBase<T> : ICategoryTypeBase
         return JsonConvert.SerializeObject(this);
     }
 
-    public static T FromJson(string json, Category category = null)
+    public static T FromJson(Category category)
     {
-        var result = JsonConvert.DeserializeObject<T>(json);
+        var result = JsonConvert.DeserializeObject<T>(category.TypeJson);
         ((ICategoryTypeBase)result).Category = category;
         return result;
     }

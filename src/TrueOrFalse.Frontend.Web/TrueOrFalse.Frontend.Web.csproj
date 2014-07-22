@@ -1076,6 +1076,7 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Reference.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
     <Content Include="Views\Users\Js\Users.js">
