@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Web.Context;
@@ -28,6 +29,15 @@ public class KnowledgeModel : BaseModel
 
     public KnowledgeModel()
     {
+        var sp = Stopwatch.StartNew();
+
+        if (IsLoggedIn)
+        {
+            Loggly.Send("Dashboard-Probability-Start: " + sp.Elapsed, LogglyCategories.Performance);
+            R<ProbabilityForUserUpdate>().Run(UserId);
+            Loggly.Send("Dashboard-Probability-Stop: " + sp.Elapsed, LogglyCategories.Performance);            
+        }
+
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetCount = R<GetWishSetCount>().Run(UserId);
 

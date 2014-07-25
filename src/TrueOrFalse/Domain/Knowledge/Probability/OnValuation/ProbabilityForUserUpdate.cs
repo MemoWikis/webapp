@@ -25,6 +25,7 @@ namespace TrueOrFalse
 
         public void Run(int questionId, int userId)
         {
+
             var questionValuation =
                 _questionValuationRepository.GetBy(questionId, userId) ?? new QuestionValuation();
 

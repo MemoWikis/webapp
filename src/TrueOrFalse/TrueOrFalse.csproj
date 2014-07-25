@@ -182,7 +182,9 @@
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityCalc_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityUpdate_OnQuestion.cs" />
-    <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishSetCount.cs" />
+    <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
+    <Compile Include="Domain\Knowledge\Summary\KnowledgeSummary.cs" />
+    <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryLoader.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageMaintenanceInfo.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\UpdateImageTypes.cs" />
@@ -242,12 +244,12 @@
     <Compile Include="Domain\Knowledge\Probability\OnValuation\ProbabilityCalc.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnValuation\ProbabilityForUsersUpdate.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnValuation\ProbabilityForUserUpdate.cs" />
-    <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishQuestionCountCached.cs" />
-    <Compile Include="Domain\Knowledge\KnowledgeHistory\KnowledgeHistoryItem.cs" />
-    <Compile Include="Domain\Knowledge\KnowledgeCount\GetWishQuestionCount.cs" />
-    <Compile Include="Domain\Knowledge\KnowledgeHistory\Ops\CreateKnowledgeHistoryItem.cs" />
-    <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryItemMap.cs" />
-    <Compile Include="Domain\Knowledge\KnowledgeHistory\Persistence\KnowledgeHistoryRepository.cs" />
+    <Compile Include="Domain\Knowledge\Count\GetWishQuestionCountCached.cs" />
+    <Compile Include="Domain\Knowledge\History\KnowledgeHistoryItem.cs" />
+    <Compile Include="Domain\Knowledge\Count\GetWishQuestionCount.cs" />
+    <Compile Include="Domain\Knowledge\History\Ops\CreateKnowledgeHistoryItem.cs" />
+    <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryItemMap.cs" />
+    <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryRepository.cs" />
     <Compile Include="Domain\QuestionSet\Ops\AddToSetResult.cs" />
     <Compile Include="Domain\QuestionSet\Ops\AddToSet.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetTotalCategories.cs" />
@@ -445,6 +447,7 @@
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs057.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs056.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs055.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs054.cs" />
