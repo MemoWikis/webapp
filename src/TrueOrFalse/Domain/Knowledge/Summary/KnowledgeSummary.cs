@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 public class KnowledgeSummary
 {
-    public int Secure;
-    public int Weak;
-    public int Unknown;
+    public int Secure = 0;
+    public int Weak  = 0;
+    public int Unknown = 0;
 
     public int Total{ get { return Secure + Weak + Unknown; }}
 }

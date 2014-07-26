@@ -37,12 +37,20 @@ namespace TrueOrFalse
             var questionId = questionValuation.QuestionId;
             var userId = questionValuation.UserId;
 
-            int correctnessProbability = _probabilityCalc.Run(
-                                            _answerHistoryRepository.GetBy(questionId, userId));
+            var answerHistoryItems = _answerHistoryRepository.GetBy(questionId, userId);
+            int correctnessProbability = _probabilityCalc.Run(answerHistoryItems);
 
             questionValuation.QuestionId = questionId;
             questionValuation.UserId = userId;
             questionValuation.CorrectnessProbability = correctnessProbability;
+
+            if (answerHistoryItems.Count <= 4)
+                questionValuation.KnowledgeStatus = KnowledgeStatus.Unknown;
+            else 
+                questionValuation.KnowledgeStatus = 
+                    correctnessProbability >= 89 ? 
+                        KnowledgeStatus.Secure : 
+                        KnowledgeStatus.Weak;
 
             _questionValuationRepository.CreateOrUpdate(questionValuation);            
         }

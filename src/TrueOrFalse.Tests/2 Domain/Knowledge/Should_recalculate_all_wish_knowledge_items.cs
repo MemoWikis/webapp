@@ -26,6 +26,12 @@ namespace TrueOrFalse.Tests
 
             Resolve<ProbabilityForUsersUpdate>().Run();
             Assert.That(Resolve<GetWishQuestionCount>().Run(userId: 2), Is.EqualTo(2));
+
+            Resolve<ISession>().Flush();
+
+            var summary = Resolve<KnowledgeSummaryLoader>().Run(userId: 2);
+            Assert.That(summary.Total, Is.EqualTo(2));
+            Assert.That(summary.Unknown, Is.EqualTo(2));
         }
     }
 }

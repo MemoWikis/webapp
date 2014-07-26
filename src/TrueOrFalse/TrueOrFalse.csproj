@@ -180,6 +180,7 @@
     <Compile Include="Domain\Comments\Persistence\CommentMap.cs" />
     <Compile Include="Domain\Comments\Persistence\CommentRepository.cs" />
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
+    <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityCalc_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityUpdate_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
@@ -447,6 +448,7 @@
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs058.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs057.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs056.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs055.cs" />

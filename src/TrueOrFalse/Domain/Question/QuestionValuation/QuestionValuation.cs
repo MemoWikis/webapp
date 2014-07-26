@@ -18,6 +18,8 @@ namespace TrueOrFalse
 
         public virtual int CorrectnessProbability { get; set; }
 
+        public virtual KnowledgeStatus KnowledgeStatus { get; set; }
+
         public virtual bool IsSetQuality(){ return Quality != -1;}
         public virtual bool IsSetRelevanceForAll(){ return RelevanceForAll != -1;}
         public virtual bool IsSetRelevancePersonal() { return RelevancePersonal != -1; }
