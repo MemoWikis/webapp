@@ -19,6 +19,7 @@
     SEARCH SECTION
     CONTAINER
     ROWS
+    REFERENCES DEFAULT
     VENDOR ADAPTATIONS
         Font-awesome icons
         UI
@@ -309,6 +310,13 @@ img {
     padding-left: 0;
     float: right;
   }
+}
+#MasterHeader span#logo {
+  background-image: url('/images/memo_liegend_bearbeitet4.png');
+  background-size: 83% !important;
+}
+#memo {
+  display: none;
 }
 #loginAndHelp {
   color: #e7ecf6;

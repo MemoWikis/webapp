@@ -311,6 +311,9 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
+    <Content Include="Images\Memo.png" />
+    <Content Include="Images\memo_liegend_bearbeitet4.png" />
+    <Content Include="Images\memo_mit_laptop_ohne_koerper.png" />
     <Content Include="Images\no-category-picture-206.png" />
     <Content Include="Images\no-category-picture-350.png" />
     <Content Include="Images\no-question-128.png" />
