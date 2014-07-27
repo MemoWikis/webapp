@@ -5,10 +5,17 @@
     
     <script>
         $(function () {
-            $("#totalKnowledgeSpark").sparkline([75, 22, 40], {
-                type: 'pie',
-                sliceColors: ['#3e7700', '#B13A48', '#EFEFEF']
-            });
+            var titles = ['Gewust', 'Nicht gewusst', 'Unbekannt'];
+            $("#totalKnowledgeSpark")
+                .sparkline(
+                    [<%= Model.KnowledgeSummary.Secure %>, <%= Model.KnowledgeSummary.Weak %>, <%= Model.KnowledgeSummary.Unknown %>],
+                    {
+                        type: 'pie',
+                        sliceColors: ['#3e7700', '#B13A48', '#EFEFEF'],
+                        tooltipFormat: '{{offset:slice}} ({{percent.1}}%)',
+                        tooltipValueLookups: {'slice': titles},
+                    }
+            );
 
             $("#totalKnowledgeOverTimeSpark").sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5], {
                 type: 'line',
