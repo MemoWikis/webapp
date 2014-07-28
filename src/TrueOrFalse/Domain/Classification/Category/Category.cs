@@ -37,6 +37,9 @@ namespace TrueOrFalse
 
         public virtual object GetTypeModel()
         {
+            if (Type == CategoryType.Standard)
+                return new object();
+
             if (Type == CategoryType.Book)
                 return CategoryTypeBook.FromJson(this);
 
