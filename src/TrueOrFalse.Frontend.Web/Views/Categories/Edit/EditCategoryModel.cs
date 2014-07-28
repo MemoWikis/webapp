@@ -155,7 +155,6 @@ public class EditCategoryModel : BaseModel
         if (category.Type == CategoryType.WebsiteVideo)
             category.TypeJson = new CategoryTypeWebsiteVideo {Url = request["YoutubeUrl"]}.ToJson();
 
-
         return result;
     }
 

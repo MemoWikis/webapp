@@ -49,15 +49,13 @@ public class EditCategoryController : BaseController
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
 
         var categoryExists = new EditCategoryModel_Category_Exists();
-        if (model.Name != category.Name && categoryExists.Yes(model))
-        {
+
+        model.FillReleatedCategoriesFromPostData(Request.Form);
+        model.UpdateCategory(category);
+        if (model.Name != category.Name && categoryExists.Yes(model)){
             model.Message = new ErrorMessage(string.Format("Es existiert bereits eine Kategorie mit dem Namen <strong>'{0}'</strong>.",
-                                                           categoryExists.ExistingCategory.Name));
-        }
-        else
-        {
-            model.FillReleatedCategoriesFromPostData(Request.Form);
-            model.UpdateCategory(category);
+                                                            categoryExists.ExistingCategory.Name));
+        } else {
             _categoryRepository.Update(category);
 
             model.Message = new SuccessMessage("Die Kategorie wurde gespeichert.");
