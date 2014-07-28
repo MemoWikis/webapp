@@ -16,10 +16,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="memo_liegend_bearbeitet4.svg"
-   inkscape:export-filename="C:\D\PROJECTS\TrueOrFalse\docs\Graphics\MemoLogoNeu\memo_liegend_bearbeitet4.png"
-   inkscape:export-xdpi="253.95363"
-   inkscape:export-ydpi="253.95363"
+   sodipodi:docname="memo_mit_laptop_ohne_koerper.svg"
+   inkscape:export-filename="C:\D\PROJECTS\TrueOrFalse\docs\Graphics\MemoLogoNeu\memo_mit_laptop_ohne_koerper.png"
+   inkscape:export-xdpi="264.38208"
+   inkscape:export-ydpi="264.38208"
    style="enable-background:new">
   <defs
      id="defs4">
@@ -1598,7 +1598,7 @@
      inkscape:cx="37.679106"
      inkscape:cy="20.014866"
      inkscape:document-units="px"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="g4257"
      showgrid="false"
      height="372.05px"
      units="cm"
@@ -1739,16 +1739,6 @@
            clip-path="url(#clipPath5261)"
            transform="translate(-133.33421,-36.263976)" />
       </g>
-      <path
-         sodipodi:type="arc"
-         style="opacity:0.30973451;fill:none;stroke:#200000;stroke-opacity:0.978836"
-         id="path44031"
-         sodipodi:cx="37.077305"
-         sodipodi:cy="20.199501"
-         sodipodi:rx="24.86783"
-         sodipodi:ry="23.610971"
-         d="m 61.945135,20.199501 a 24.86783,23.610971 0 1 1 -49.73566,0 24.86783,23.610971 0 1 1 49.73566,0 z"
-         transform="matrix(3.3640246,0,0,3.5430982,262.98189,-15.553353)" />
     </g>
     <g
        sodipodi:type="inkscape:box3d"
