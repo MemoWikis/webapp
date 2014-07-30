@@ -23,7 +23,7 @@ namespace TrueOrFalse.View.Web.Views.Api
             _categoryRepo = categoryRepo;
         }
 
-        public JsonResult ByName(string term, string type, string parentName)
+        public JsonResult ByName(string term, string type, int? parentId)
         {
             IList<Category> categories;
 
@@ -48,11 +48,11 @@ namespace TrueOrFalse.View.Web.Views.Api
                     .List();
             }
             else if (type == "DailyIssue"){
-                categories = _categoryRepo.GetChildren(CategoryType.Daily, CategoryType.DailyIssue, parentName, searchTerm);
+                categories = _categoryRepo.GetChildren(CategoryType.Daily, CategoryType.DailyIssue, parentId.Value, searchTerm);
             }
             else if (type == "MagazineIssue")
             {
-                categories = _categoryRepo.GetChildren(CategoryType.Magazine, CategoryType.MagazineIssue, parentName, searchTerm);
+                categories = _categoryRepo.GetChildren(CategoryType.Magazine, CategoryType.MagazineIssue, parentId.Value, searchTerm);
             }
             else
             {

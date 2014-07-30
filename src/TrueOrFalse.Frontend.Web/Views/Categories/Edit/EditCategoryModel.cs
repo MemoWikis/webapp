@@ -18,7 +18,7 @@ public class EditCategoryModel : BaseModel
 
     public UIMessage Message;
 
-    public List<string> ParentCategories = new List<string>();
+    public IList<Category> ParentCategories = new List<Category>();
 
     public bool IsEditing { get; set; }
 
@@ -63,16 +63,15 @@ public class EditCategoryModel : BaseModel
         Category = category;
         Name = category.Name;
         Description = category.Description;
-        ParentCategories = (from cat in parentCategories select cat.Name).ToList();
+        ParentCategories = parentCategories;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
     }
 
     public ConvertToCategoryResult ConvertToCategory()
     {
-        var category = new Category(Name) {ParentCategories = new List<Category>()};
+        var category = new Category(Name);
         category.Description = Description;
-        foreach (var name in ParentCategories)
-            category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
+        category.ParentCategories = ParentCategories;
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -95,9 +94,7 @@ public class EditCategoryModel : BaseModel
     {
         category.Name = Name;
         category.Description = Description;
-        category.ParentCategories.Clear();
-        foreach (var name in ParentCategories)
-            category.ParentCategories.Add(Resolve<CategoryRepository>().GetByName(name));
+        category.ParentCategories = ParentCategories;
 
         FillFromRequest(category);
     }
@@ -408,7 +405,13 @@ public class EditCategoryModel : BaseModel
 
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
-        ParentCategories = (from key in postData.AllKeys where key.StartsWith("cat-") select postData[key]).ToList();
+        var _categoryRepo = Resolve<CategoryRepository>();
+        ParentCategories = 
+            (from key in postData.AllKeys 
+             where key.StartsWith("cat-")
+             select _categoryRepo.GetById(Convert.ToInt32(postData[key])))
+             .Where(category => category != null)
+             .ToList();
     }
 }
 

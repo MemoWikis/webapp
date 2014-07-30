@@ -10,10 +10,10 @@ var AutoCompleteFilterType;
 })(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParentName) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
         if (typeof filterType === "undefined") { filterType = 0 /* None */; }
-        if (typeof selectorParentName === "undefined") { selectorParentName = ""; }
+        if (typeof selectorParent === "undefined") { selectorParent = ""; }
         this._filterType = filterType;
 
         var self = this;
@@ -76,7 +76,7 @@ var AutocompleteCategories = (function () {
                 }
 
                 if (self._filterType == 2 /* DailyIssue */) {
-                    params = "&type=DailyIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
+                    params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
                 if (self._filterType == 3 /* Magazine */) {
@@ -84,7 +84,7 @@ var AutocompleteCategories = (function () {
                 }
 
                 if (self._filterType == 4 /* MagazineIssue */) {
-                    params = "&type=MagazineIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
+                    params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + params, function (data) {

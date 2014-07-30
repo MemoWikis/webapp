@@ -31,4 +31,10 @@ public class CategoryController : BaseController
         Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetByName(name)));
     }
 
+    public void ById()
+    {
+        var id = Convert.ToInt32(Request["id"]);
+        Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));
+    }
+
 }

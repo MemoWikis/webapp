@@ -23,7 +23,7 @@ public class EditCategoryController : BaseController
         var model = new EditCategoryModel {Name = name ?? ""};
 
         if (!String.IsNullOrEmpty(parent))
-            model.ParentCategories.Add(_categoryRepository.GetByName(parent).Name);
+            model.ParentCategories.Add(_categoryRepository.GetById(Convert.ToInt32(parent)));
 
         return View(_viewPath, model);
     }

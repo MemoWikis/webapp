@@ -24,12 +24,6 @@ public class EditSetController : BaseController
             return View(_viewLocation, model);
         }
 
-        var categoriesExist = Resolve<CategoryNamesExist>();
-        if (categoriesExist.No(model.Categories)){
-            model.Message = categoriesExist.GetErrorMsg(Url);
-            return View(_viewLocation, model);
-        }
-
         var set = model.ToQuestionSet();
         set.Creator = _sessionUser.User;
         Resolve<SetRepository>().Create(set);

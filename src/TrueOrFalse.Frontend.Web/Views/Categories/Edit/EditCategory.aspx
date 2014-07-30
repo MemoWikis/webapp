@@ -143,12 +143,16 @@
                             <script type="text/javascript">
                                 $(function () {
                                     <%foreach (var category in Model.ParentCategories) { %>
-                                        $("#txtNewRelatedCategory").val('<%=category %>');
+                                        $("#txtNewRelatedCategory")
+                                            .val('<%=category.Name %>')
+                                            .data('category-id', '<%=category.Id %>');
                                         $("#txtNewRelatedCategory").trigger("initCategoryFromTxt");
                                     <% } %>
                                 });
                             </script>
-                            <div class="JS-CatInputContainer ControlInline"><input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  /></div>
+                            <div class="JS-CatInputContainer ControlInline">
+                                <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 [Serializable]
 public class CategoryTypeStandard : CategoryTypeBase<CategoryTypeStandard>
 {
-    public string WikiUrl;
 
     [JsonIgnore]
     public override CategoryType Type { get { return CategoryType.Standard; } }

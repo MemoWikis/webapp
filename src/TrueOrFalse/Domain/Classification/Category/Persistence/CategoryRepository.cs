@@ -47,7 +47,11 @@ namespace TrueOrFalse
         }
 
 
-        public IList<Category> GetChildren(CategoryType parentType, CategoryType childrenType, int parentId, string searchTerm = "")
+        public IList<Category> GetChildren(
+            CategoryType parentType, 
+            CategoryType childrenType, 
+            int parentId, 
+            String searchTerm = "")
         {
             var query = Session
                 .QueryOver<Category>()
@@ -64,11 +68,6 @@ namespace TrueOrFalse
                 );
             
             return query.List<Category>();            
-        }
-
-        public IList<Category> GetChildren(CategoryType parentType, CategoryType childrenType, string parentName, string searchTerm = "")
-        {
-            return GetChildren(parentType, childrenType, GetByName(parentName).Id, searchTerm);
         }
 
         public override IList<Category> GetByIds(params int[] categoryIds)

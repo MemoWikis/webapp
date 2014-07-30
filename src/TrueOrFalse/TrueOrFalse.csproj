@@ -153,7 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
-    <Compile Include="Domain\Classification\Category\CategoryNamesExist.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateSetCountForCategory.cs" />

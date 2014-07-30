@@ -21,7 +21,7 @@ class AutocompleteCategories {
         inputSelector: string,
         isSingleSelect: boolean = false,
         filterType: AutoCompleteFilterType = AutoCompleteFilterType.None,
-        selectorParentName : string = "") {
+        selectorParent : string = "") {
 
         this._filterType = filterType;
 
@@ -97,7 +97,7 @@ class AutocompleteCategories {
                 }
 
                 if (self._filterType == AutoCompleteFilterType.DailyIssue) {
-                    params = "&type=DailyIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
+                    params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
                 if (self._filterType == AutoCompleteFilterType.Magazine) {
@@ -105,7 +105,7 @@ class AutocompleteCategories {
                 }
 
                 if (self._filterType == AutoCompleteFilterType.MagazineIssue) {
-                    params = "&type=MagazineIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
+                    params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + params, function(data) {

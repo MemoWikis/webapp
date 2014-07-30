@@ -38,9 +38,8 @@
                     <div style="margin-bottom: 12px;">
                         <%= Model.Description %>
                     </div>
-            <% } %>
-    <% Html.RenderPartial("Reference", Model.Category);%>
-
+                    <% } %>
+                    <% Html.RenderPartial("Reference", Model.Category);%>
                 </div>
             </div>
         </div>
@@ -86,7 +85,7 @@
                         <% } %>
                         <i class="fa fa-plus-circle show-tooltip cat-color add-new" 
                            style="font-size: 14px; color: #99ccff; cursor: pointer"
-                           onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Name %>'; return false; " 
+                           onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Id%>'; return false; " 
                            data-original-title="Neue Kindkategorie erstellen"></i>
                     </div>
                 <% } else { %>
