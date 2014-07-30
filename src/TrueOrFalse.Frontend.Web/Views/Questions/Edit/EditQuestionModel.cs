@@ -99,13 +99,7 @@ public class EditQuestionModel : BaseModel
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
     {
-        var categoryRepo = Resolve<CategoryRepository>();
-        Categories = 
-            (from key in postData.AllKeys 
-             where key.StartsWith("cat")
-             select categoryRepo.GetById(Convert.ToInt32(postData[key])))
-             .Where(category => category != null)
-             .ToList();
+        Categories = RelatedCategoriesUtils.GetReleatedCategoriesFromPostData(postData);
     }
 
     public void SetToCreateModel()

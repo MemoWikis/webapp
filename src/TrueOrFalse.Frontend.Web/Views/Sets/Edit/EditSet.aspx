@@ -103,15 +103,16 @@
                                     <script type="text/javascript">
                                         $(function () {
                                             <%foreach (var category in Model.Categories) { %>
-                                                $("#txtNewRelatedCategory").val('<%=category %>');
-                                                $("#addRelatedCategory").click();
+                                            $("#txtNewRelatedCategory")
+                                                .val('<%=category.Name %>')
+                                                    .data('category-id', '<%=category.Id %>')
+                                                    .trigger("initCategoryFromTxt");
                                             <% } %>
                                         });
                                     </script>
-                                    <input id="txtNewRelatedCategory" type="text" placeholder="Wähle eine Kategorie" class="form-control" style="width: 190px;" />
-                                    <a href="#" id="addRelatedCategory" style="display: none">
-                                        <img alt="" src='/Images/Buttons/add.png' />
-                                    </a>
+                                    <div class="JS-CatInputContainer ControlInline">
+                                        <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
+                                    </div>
                                 </div>                                
                             </div>
 

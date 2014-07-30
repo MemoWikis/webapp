@@ -53,13 +53,4 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         return question;
     }
 
-    private void AddCategory(Question question, string categoryName)
-    {
-        var category = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
-
-        if (category == null)
-            throw new InvalidDataException();
-
-        question.Categories.Add(category);
-    }
 }

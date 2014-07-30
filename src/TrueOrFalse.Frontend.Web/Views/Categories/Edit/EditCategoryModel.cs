@@ -382,7 +382,7 @@ public class EditCategoryModel : BaseModel
 
             Category parentFromDb = null;
             if (!isNullOrEmptyError)
-                parentFromDb = Sl.Resolve<CategoryRepository>().GetByName(parentCategoryName);
+                parentFromDb = Sl.Resolve<CategoryRepository>().GetByName(parentCategoryName).First();
 
             if (isNullOrEmptyError || parentFromDb == null || parentFromDb.Type != parentCategoryType)
             {
@@ -405,13 +405,7 @@ public class EditCategoryModel : BaseModel
 
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
-        var _categoryRepo = Resolve<CategoryRepository>();
-        ParentCategories = 
-            (from key in postData.AllKeys 
-             where key.StartsWith("cat-")
-             select _categoryRepo.GetById(Convert.ToInt32(postData[key])))
-             .Where(category => category != null)
-             .ToList();
+        ParentCategories = RelatedCategoriesUtils.GetReleatedCategoriesFromPostData(postData);
     }
 }
 

@@ -29,7 +29,7 @@ namespace TrueOrFalse.Tests
             Category category;
             if (_categoryRepository.Exists(categoryName))
             {  
-                category = _categoryRepository.GetByName(categoryName);
+                category = _categoryRepository.GetByName(categoryName).First();
             }
             else
             {

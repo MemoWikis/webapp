@@ -32,13 +32,13 @@ namespace TrueOrFalse
             Flush();
         }
 
-        public Category GetByName(string categoryName)
+        public IList<Category> GetByName(string categoryName)
         {
             categoryName = categoryName ?? "";
 
             return _session.CreateQuery("from Category as c where c.Name = :categoryName")
                            .SetString("categoryName", categoryName)
-                           .UniqueResult<Category>();
+                           .List<Category>();
         }
 
         public IList<Category> GetByIds(List<int> questionIds)

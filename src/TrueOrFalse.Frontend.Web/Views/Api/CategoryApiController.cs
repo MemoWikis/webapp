@@ -68,11 +68,5 @@ namespace TrueOrFalse.View.Web.Views.Api
                             imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
                         }, JsonRequestBehavior.AllowGet);
         }
-
-        public string GetUrl(string categoryName)
-        {
-            var category = _categoryRepo.GetByName(categoryName);
-            return Links.CategoryDetail(category);
-        }
     }
 }

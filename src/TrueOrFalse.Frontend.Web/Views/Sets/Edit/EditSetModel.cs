@@ -34,7 +34,7 @@ public class EditSetModel : BaseModel
     [DisplayName("Beschreibung")]
     public string Text { get; set; }
 
-    public IEnumerable<string> Categories = new List<string>(); 
+    public IList<Category> Categories = new List<Category>(); 
 
     public string Username;
 
@@ -60,7 +60,7 @@ public class EditSetModel : BaseModel
         ImageUrl_206px = QuestionSetImageSettings.Create(set.Id).GetUrl_206px_square().Url;
         Username = new SessionUser().User.Name;
         QuestionsInSet = set.QuestionsInSet;
-        Categories = (from cat in set.Categories select cat.Name).ToList();
+        Categories = set.Categories;
         Set = set;
     }
 
@@ -76,9 +76,7 @@ public class EditSetModel : BaseModel
 
         FillCategoriesFromPostData(HttpContext.Current.Request.Form);
 
-        set.Categories.Clear();
-        foreach (var categoryName in Categories)
-            AddCategory(set, categoryName);
+        set.Categories = Categories;
 
         return set;
     }
@@ -101,18 +99,9 @@ public class EditSetModel : BaseModel
         return _sessionUser.IsOwner(userId);
     }
 
-    private void FillCategoriesFromPostData(NameValueCollection postData)
+    public void FillCategoriesFromPostData(NameValueCollection postData)
     {
-        Categories = (from key in postData.AllKeys where key.StartsWith("cat") select postData[key]).ToList();
+        Categories = RelatedCategoriesUtils.GetReleatedCategoriesFromPostData(postData);
     }
 
-    private void AddCategory(Set set, string categoryName)
-    {
-        var category = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
-
-        if (category == null)
-            throw new InvalidDataException();
-
-        set.Categories.Add(category);
-    }
 }

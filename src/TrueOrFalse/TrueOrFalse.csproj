@@ -482,6 +482,7 @@
     <Compile Include="Web\Filters\SetMenuAttribute.cs" />
     <Compile Include="Web\HtmlLabelExtensions.cs" />
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
+    <Compile Include="Web\RelatedCategoriesUtils.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionInvoker.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptView.cs" />

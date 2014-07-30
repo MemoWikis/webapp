@@ -145,8 +145,8 @@
                                     <%foreach (var category in Model.ParentCategories) { %>
                                         $("#txtNewRelatedCategory")
                                             .val('<%=category.Name %>')
-                                            .data('category-id', '<%=category.Id %>');
-                                        $("#txtNewRelatedCategory").trigger("initCategoryFromTxt");
+                                            .data('category-id', '<%=category.Id %>')
+                                            .trigger("initCategoryFromTxt");
                                     <% } %>
                                 });
                             </script>
