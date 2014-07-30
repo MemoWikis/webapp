@@ -1,14 +1,6 @@
 ﻿
 var ui: any;
 
-function escape_regexp(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-}
-
-$.expr[':'].textEquals = function (a, i, m) {
-    return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i")) != null;
-};
-
 enum AutoCompleteFilterType {
     None,
     Daily, 
@@ -75,6 +67,7 @@ class AutocompleteCategories {
             }
 
             elemInput.val('');
+            $(inputSelector).data('category-id', '');
             $("#delete-cat-" + catIdx).click(function (e) {
                 e.preventDefault();
                 if (self.OnRemove != null)
@@ -123,7 +116,7 @@ class AutocompleteCategories {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
-                if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length > 0) {
+                if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length > 0) {
                     return false;
                 }
 
@@ -150,19 +143,12 @@ class AutocompleteCategories {
 
         var animating = false;
         function checkText() {
-            var text = $(inputSelector).val();
-            //var matchesInAutomcompleteList = elemContainer.find($(".ui-autocomplete li .cat-name:textEquals('" + text + "')"));
-            var alreadyAddedCategory = elemContainer.find(".added-cat:textEquals('" + text + "')");
+            var id = $(inputSelector).data('category-id');
+            var alreadyAddedCategories = self.GetAlreadyAddedCategories(elemContainer, id);
 
-            //if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
-            //    if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
-            //        $(inputSelector).val(matchesInAutomcompleteList.text());
-            //    }
-            //}
-
-            if (!animating && alreadyAddedCategory.length != 0) {
+            if (!animating && alreadyAddedCategories.length != 0) {
                 animating = true;
-                alreadyAddedCategory.effect('bounce', null, 'fast', function () { animating = false; });
+                alreadyAddedCategories.closest(".added-cat").effect('bounce', null, 'fast', function () { animating = false; });
             }
             setTimeout(checkText, 250);
         }
@@ -177,7 +163,7 @@ class AutocompleteCategories {
 
                     checkText();
 
-                    if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
+                    if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length == 0) {
                         addCat();
                     }
                 }
@@ -187,6 +173,10 @@ class AutocompleteCategories {
         $(inputSelector).keypress(fnCheckTextAndAdd);
         $(inputSelector).bind("initCategoryFromTxt", addCat);        
 
+    }
+
+    GetAlreadyAddedCategories(container : JQuery, id : string) : JQuery {
+        return container.find(".added-cat input[value='" + id + "']");
     }
 }
 

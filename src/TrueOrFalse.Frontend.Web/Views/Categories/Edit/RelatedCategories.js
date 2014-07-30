@@ -1,13 +1,5 @@
 ﻿var ui;
 
-function escape_regexp(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-}
-
-$.expr[':'].textEquals = function (a, i, m) {
-    return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i")) != null;
-};
-
 var AutoCompleteFilterType;
 (function (AutoCompleteFilterType) {
     AutoCompleteFilterType[AutoCompleteFilterType["None"] = 0] = "None";
@@ -56,6 +48,7 @@ var AutocompleteCategories = (function () {
             }
 
             elemInput.val('');
+            $(inputSelector).data('category-id', '');
             $("#delete-cat-" + catIdx).click(function (e) {
                 e.preventDefault();
                 if (self.OnRemove != null)
@@ -102,7 +95,7 @@ var AutocompleteCategories = (function () {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
-                if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length > 0) {
+                if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length > 0) {
                     return false;
                 }
 
@@ -120,19 +113,12 @@ var AutocompleteCategories = (function () {
 
         var animating = false;
         function checkText() {
-            var text = $(inputSelector).val();
+            var id = $(inputSelector).data('category-id');
+            var alreadyAddedCategories = self.GetAlreadyAddedCategories(elemContainer, id);
 
-            //var matchesInAutomcompleteList = elemContainer.find($(".ui-autocomplete li .cat-name:textEquals('" + text + "')"));
-            var alreadyAddedCategory = elemContainer.find(".added-cat:textEquals('" + text + "')");
-
-            //if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
-            //    if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
-            //        $(inputSelector).val(matchesInAutomcompleteList.text());
-            //    }
-            //}
-            if (!animating && alreadyAddedCategory.length != 0) {
+            if (!animating && alreadyAddedCategories.length != 0) {
                 animating = true;
-                alreadyAddedCategory.effect('bounce', null, 'fast', function () {
+                alreadyAddedCategories.closest(".added-cat").effect('bounce', null, 'fast', function () {
                     animating = false;
                 });
             }
@@ -147,7 +133,7 @@ var AutocompleteCategories = (function () {
                 if (ui != undefined) {
                     checkText();
 
-                    if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
+                    if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length == 0) {
                         addCat();
                     }
                 }
@@ -157,6 +143,9 @@ var AutocompleteCategories = (function () {
         $(inputSelector).keypress(fnCheckTextAndAdd);
         $(inputSelector).bind("initCategoryFromTxt", addCat);
     }
+    AutocompleteCategories.prototype.GetAlreadyAddedCategories = function (container, id) {
+        return container.find(".added-cat input[value='" + id + "']");
+    };
     return AutocompleteCategories;
 })();
 
