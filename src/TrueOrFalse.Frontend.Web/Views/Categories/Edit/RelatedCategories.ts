@@ -49,6 +49,7 @@ class AutocompleteCategories {
             var catIdx = nextCatIdx.toString();
             nextCatIdx++;
             var catText = $(inputSelector).val();
+            var catId = $(inputSelector).data('category-id');
 
             if (self.OnAdd != null)
                 self.OnAdd();
@@ -57,8 +58,8 @@ class AutocompleteCategories {
                 catIdx = inputSelector.substring(1);
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" +
-                        "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "'>" + catText + "</a>" +
-                        "<input id='hdd" + catIdx + "' type='hidden' value='" + catText + "'name='" + "hdd" + catIdx + "'/> " +
+                        "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" +
+                        "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " +
                         "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +
                     "</div> ");
                 elemInput.attr("type", "hidden").hide();
@@ -67,9 +68,9 @@ class AutocompleteCategories {
             } else {
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
-                    "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "' >" + catText + "</a>" +
-                    "<input type='hidden' value='" + catText + "' name='cat-" + catIdx + "'/>" +
-                    "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
+                        "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" +
+                        "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" +
+                        "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
                     "</div> ");                
             }
 
@@ -118,11 +119,6 @@ class AutocompleteCategories {
                     response(data);
                 });
             },
-            //focus: function (event, ui) {
-            //    $(inputSelector).data("category-id", ui.item.id);
-            //    $(inputSelector).val(ui.item.name);
-            //    return false;
-            //},
             select: function(event, ui) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
@@ -142,8 +138,13 @@ class AutocompleteCategories {
 
             return $("<li></li>")
                 .data("ui-autocomplete-item", item)
-                .append("<a class='CatListItem'><img src='" + item.imageUrl + "'/><div class='CatDescription'><span class='cat-name'>"
-                + item.name + "</span><span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span></div></a>")
+                .append("<a class='CatListItem'>" +
+                            "<img src='" + item.imageUrl + "'/>" +
+                            "<div class='CatDescription'>" +
+                                "<span class='cat-name'>" + item.name + "</span>" +
+                                "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" +
+                            "</div>" +
+                        "</a>")
                 .appendTo(ul);
         };
 
