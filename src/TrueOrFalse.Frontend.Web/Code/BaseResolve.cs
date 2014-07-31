@@ -6,4 +6,9 @@ public class BaseResolve
     {
         return ServiceLocator.Resolve<T>();
     }
+
+    protected T R<T>()
+    {
+        return Resolve<T>();
+    }
 }

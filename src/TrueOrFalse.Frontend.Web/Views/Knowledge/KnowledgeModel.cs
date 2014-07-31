@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Web.Mvc;
+using TrueOrFalse;
 using TrueOrFalse.Web.Context;
 
 public class KnowledgeModel : BaseModel
 {
-    private new readonly SessionUser _sessionUser;
-
     public string UserName
     {
         get
@@ -16,16 +16,38 @@ public class KnowledgeModel : BaseModel
         }
     }
 
-    public int TotalAnswerThisWeek;
-    public int TotalAnswerThisMonth;
-    public int TotalAnswerPreviousWeek;
-    public int TotalAnswerLastMonth;
+    public GetAnswerStatsInPeriodResult AnswersThisWeek;
+    public GetAnswerStatsInPeriodResult AnswersThisMonth;
+    public GetAnswerStatsInPeriodResult AnswersThisYear;
+    public GetAnswerStatsInPeriodResult AnswersLastMonth;
+    public GetAnswerStatsInPeriodResult AnswersLastWeek;
+    public GetAnswerStatsInPeriodResult AnswersLastYear;
+    public GetAnswerStatsInPeriodResult AnswersEver;
 
     public int QuestionsCount;
-    public int QuestionsSetCount;
+    public int SetCount;
 
-    public KnowledgeModel(SessionUser sessionUser)
+    public KnowledgeModel()
     {
-        _sessionUser = sessionUser;
+        var sp = Stopwatch.StartNew();
+
+        if (IsLoggedIn)
+        {
+            Loggly.Send("Dashboard-Probability-Start: " + sp.Elapsed, LogglyCategories.Performance);
+            R<ProbabilityForUserUpdate>().Run(UserId);
+            Loggly.Send("Dashboard-Probability-Stop: " + sp.Elapsed, LogglyCategories.Performance);            
+        }
+
+        QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
+        SetCount = R<GetWishSetCount>().Run(UserId);
+
+        var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
+        AnswersThisWeek = getAnswerStatsInPeriod.RunForThisWeek(UserId);
+        AnswersThisMonth = getAnswerStatsInPeriod.RunForThisMonth(UserId);
+        AnswersThisYear = getAnswerStatsInPeriod.RunForThisYear(UserId);
+        AnswersLastWeek = getAnswerStatsInPeriod.RunForLastWeek(UserId);
+        AnswersLastMonth = getAnswerStatsInPeriod.RunForLastMonth(UserId);
+        AnswersLastYear = getAnswerStatsInPeriod.RunForLastYear(UserId);
+        AnswersEver = getAnswerStatsInPeriod.Run(UserId);
     }
 }

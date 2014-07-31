@@ -6,7 +6,7 @@ public static class DateTimeUtils
         return DateTime.Now.Date.AddDays(-(int) DateTime.Now.Date.DayOfWeek + 1);
     }
 
-    public static DateTime FirstDayOfPreviousWeek(){
+    public static DateTime FirstDayOfLastWeek(){
         return DateTime.Now.Date.AddDays(-(int)DateTime.Now.Date.DayOfWeek -6);
     }
 
@@ -14,7 +14,15 @@ public static class DateTimeUtils
         return new DateTime(DateTime.Now.Year,DateTime.Now.Month, 1); 
     }
 
-    public static DateTime FirstDayOfPreviousMonth(){
+    public static DateTime FirstDayOfThisYear(){
+        return new DateTime(DateTime.Now.Year, 1, 1); 
+    }
+
+    public static DateTime FirstDayOfLastYear(){
+        return new DateTime(DateTime.Now.Year - 1, 1, 1);
+    }
+
+    public static DateTime FirstDayOfLastMonth(){
         return new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(-1);
     }
 }

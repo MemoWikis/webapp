@@ -30,9 +30,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string QuestionsMineAction = "QuestionsMine";
         public const string QuestionsWishAction = "QuestionsWish";
 
-        public static string QuestionsAll(UrlHelper url) { return url.Action(Questions, QuestionsController); }
-        public static string QuestionsMine(UrlHelper url) { return url.Action(QuestionsMineAction, QuestionsController); }
-        public static string QuestionsWish(UrlHelper url) { return url.Action(QuestionsWishAction, QuestionsController); }
+        public static string QuestionsAll() { return GetUrlHelper().Action(Questions, QuestionsController); }
+        public static string QuestionsMine() { return GetUrlHelper().Action(QuestionsMineAction, QuestionsController); }
+        public static string QuestionsWish() { return GetUrlHelper().Action(QuestionsWishAction, QuestionsController); }
 
         public static string QuestionWithCategoryFilter(UrlHelper url, MenuModelCategoryItem modelCategoryItem){
             return modelCategoryItem.SearchUrl + "Kat__" + modelCategoryItem.Category.Name + "__";
@@ -92,9 +92,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string SetsAction = "Sets";
         public const string SetsWishAction = "SetsWish";
         public const string SetsMineAction = "SetsMine";
-        public static string Sets(UrlHelper url) { return url.Action(SetsAction, SetsController); }
-        public static string SetsWish(UrlHelper url) { return url.Action(SetsWishAction, SetsController); }
-        public static string SetsMine(UrlHelper url) { return url.Action(SetsMineAction, SetsController); }
+        public static string Sets() { return GetUrlHelper().Action(SetsAction, SetsController); }
+        public static string SetsWish() { return GetUrlHelper().Action(SetsWishAction, SetsController); }
+        public static string SetsMine() { return GetUrlHelper().Action(SetsMineAction, SetsController); }
 
         public static string SetDetail(UrlHelper url, SetMini setMini){
             return SetDetail(url, setMini.Name, setMini.Id);

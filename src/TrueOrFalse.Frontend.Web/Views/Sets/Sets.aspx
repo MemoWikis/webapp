@@ -16,13 +16,13 @@
                 <div class="boxtainer-header">
                     <ul class="nav nav-tabs">
                         <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
-                            <a href="<%= Links.Sets(Url) %>" >Alle Fragesätze (<%= Model.TotalSets %>)</a>
+                            <a href="<%= Links.Sets() %>" >Alle Fragesätze (<%= Model.TotalSets %>)</a>
                         </li>
                         <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
-                            <a href="<%= Links.SetsWish(Url) %>">Mein Wunschwissen (<span class="tabWishKnowledgeCount"><%= Model.TotalWish %></span>)</a>
+                            <a href="<%= Links.SetsWish() %>">Mein Wunschwissen (<span class="tabWishKnowledgeCount"><%= Model.TotalWish %></span>)</a>
                         </li>
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
-                            <a href="<%= Links.SetsMine(Url) %>">
+                            <a href="<%= Links.SetsMine() %>">
                                 Meine Fragesätze (<%= Model.TotalMine %>)
                                 <i class="fa fa-question-circle show-tooltip" title="Fragesätze die von Dir erstellt wurden"></i>
                             </a>

@@ -14,28 +14,46 @@ namespace TrueOrFalse
         public GetAnswerStatsInPeriodResult RunForThisWeek(int userId){
             return Run(userId, DateTimeUtils.FirstDayOfThisWeek(), DateTime.Now);
         }
-        
-        public GetAnswerStatsInPeriodResult RunForPreviousWeek(int userId){
-            return Run(userId, DateTimeUtils.FirstDayOfPreviousWeek(), DateTimeUtils.FirstDayOfThisWeek());
-        }
 
         public GetAnswerStatsInPeriodResult RunForThisMonth(int userId){
             return Run(userId, DateTimeUtils.FirstDayOfThisMonth(), DateTime.Now);
         }
 
-        public GetAnswerStatsInPeriodResult RunForPreviousMonth(int userId){
-            return Run(userId, DateTimeUtils.FirstDayOfPreviousMonth(), DateTimeUtils.FirstDayOfThisMonth());
+        public GetAnswerStatsInPeriodResult RunForThisYear(int userId){
+            return Run(userId, DateTimeUtils.FirstDayOfThisYear(), DateTime.Now);
         }
 
-        public GetAnswerStatsInPeriodResult Run(int userId, DateTime from, DateTime to)
+        public GetAnswerStatsInPeriodResult RunForLastWeek(int userId){
+            return Run(userId, DateTimeUtils.FirstDayOfLastWeek(), DateTimeUtils.FirstDayOfThisWeek());
+        }
+
+        public GetAnswerStatsInPeriodResult RunForLastMonth(int userId){
+            return Run(userId, DateTimeUtils.FirstDayOfLastMonth(), DateTimeUtils.FirstDayOfThisMonth());
+        }
+
+        public GetAnswerStatsInPeriodResult RunForLastYear(int userId){
+            return Run(userId, DateTimeUtils.FirstDayOfLastYear(), DateTimeUtils.FirstDayOfThisYear());
+        }
+
+        public GetAnswerStatsInPeriodResult Run(int userId)
+        {
+            return Run(userId, null, null);
+        }
+
+        public GetAnswerStatsInPeriodResult Run(int userId, DateTime? from, DateTime? to)
         {
             var query = "SELECT " +
                         " COUNT(ah) as total," +
                         " SUM(AnswerredCorrectly) as totalCorrect " +
                         "FROM AnswerHistory ah " +
-                        "WHERE UserId = " + userId + " " +
-                        "AND DateCreated >= '" + from.ToString("yyy-MM-dd HH:mm:ss") + "' " +
-                        "AND DateCreated < '" + to.ToString("yyy-MM-dd HH:mm:ss") + "'";
+                        "WHERE UserId = " + userId + " ";
+
+            if (from.HasValue && to.HasValue)
+            {
+                query +=
+                        "AND DateCreated >= '" + ((DateTime)from).ToString("yyy-MM-dd HH:mm:ss") + "' " +
+                        "AND DateCreated < '" + ((DateTime)to).ToString("yyy-MM-dd HH:mm:ss") + "'";    
+            }
 
             var result = (object[])_session.CreateQuery(query).UniqueResult();
 
