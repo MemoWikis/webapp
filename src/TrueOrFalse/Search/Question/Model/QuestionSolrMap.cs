@@ -34,6 +34,9 @@ namespace TrueOrFalse.Search
         [SolrField("Categories")]
         public ICollection<string> Categories { get; set; }
 
+        [SolrField("CategoryIds")]
+        public ICollection<int> CategoryIds { get; set; }
+
         [SolrField("Quality")]
         public int AvgQuality { get; set; }
 

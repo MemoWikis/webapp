@@ -105,8 +105,8 @@
                                             <%foreach (var category in Model.Categories) { %>
                                             $("#txtNewRelatedCategory")
                                                 .val('<%=category.Name %>')
-                                                    .data('category-id', '<%=category.Id %>')
-                                                    .trigger("initCategoryFromTxt");
+                                                .data('category-id', '<%=category.Id %>')
+                                                .trigger("initCategoryFromTxt");
                                             <% } %>
                                         });
                                     </script>
