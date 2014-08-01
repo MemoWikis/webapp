@@ -773,6 +773,7 @@
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
       <DependentUpon>Comment.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Questions\QuestionsSearchResultModel.cs" />
     <Compile Include="Views\Sets\Detail\SetQuestionRow.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
@@ -972,6 +973,9 @@
     <Content Include="Views\Questions\Edit\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Js\QuestionsSearch.js">
+      <DependentUpon>QuestionsSearch.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Questions.css">
       <DependentUpon>Questions.less</DependentUpon>
     </Content>
@@ -1008,6 +1012,7 @@
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Scripts\RowPin.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionsSearch.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
@@ -1254,6 +1259,10 @@
     </Content>
     <Content Include="Views\Questions\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\QuestionsSearchResult.ascx" />
+    <Content Include="Views\Questions\Js\QuestionsSearch.js.map">
+      <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

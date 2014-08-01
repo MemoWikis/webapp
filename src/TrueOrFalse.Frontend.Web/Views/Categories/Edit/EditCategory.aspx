@@ -5,7 +5,6 @@
 
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
     <link href="/Views/Categories/Edit/EditCategory.css" rel="stylesheet" />
     <%= Styles.Render("~/bundles/category") %>
     <%= Scripts.Render("~/bundles/fileUploader") %>

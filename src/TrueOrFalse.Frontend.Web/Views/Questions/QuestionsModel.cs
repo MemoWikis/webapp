@@ -12,6 +12,7 @@ public class QuestionsModel : BaseModel
 
     public string SearchTerm { get; set; }
     public string SearchUrl { get; set; }
+    public IList<Category> FilteredCategories = new List<Category>();
 
     public int TotalWishKnowledge;
     public int TotalQuestionsInResult;
@@ -31,6 +32,8 @@ public class QuestionsModel : BaseModel
     public IEnumerable<string> Suggestions = new List<string>();
 
     public bool NotAllowed;
+
+    public QuestionsSearchResultModel SearchResultModel;
 
     public QuestionsModel(){
         QuestionRows = Enumerable.Empty<QuestionRowModel>();
@@ -80,13 +83,13 @@ public class QuestionsModel : BaseModel
 
         if (ActiveTabAll){
             Pager.Action = Action = Links.Questions;
-            SearchUrl = "/Fragen/Suche/";
+            SearchUrl = "/Fragen/Suche";
         }else if (ActiveTabWish){
             Pager.Action = Action = Links.QuestionsWishAction;
-            SearchUrl = "/Fragen/Wunschwissen/Suche/";
+            SearchUrl = "/Fragen/Wunschwissen/Suche";
         }else if (ActiveTabMine){
             Pager.Action = Action = Links.QuestionsMineAction;
-            SearchUrl = "/Fragen/Meine/Suche/";
+            SearchUrl = "/Fragen/Meine/Suche";
         }
 
         MenuLeftModel.Categories = questions.GetAllCategories()
@@ -97,5 +100,7 @@ public class QuestionsModel : BaseModel
                                         Category = g.First(), OnPageCount = g.Count()
                                     })
                                     .ToList();
+
+        SearchResultModel = new QuestionsSearchResultModel(this);
     }
 }

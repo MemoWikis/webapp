@@ -115,16 +115,14 @@
             
             <% if(!Model.NotAllowed){ %>
                 <div class="search-section">
-                    <div class="row">
-                        <div class="SearchQuestionsForm form-group">
-                        
+                    <div class="SearchQuestionsForm form-horizontal">
+                        <div class="form-group">
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                                 </span>
                             </div>
-
                             <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
                                 <div class="col-xs-12" style="padding-top: 10px; font-size: large">
                                     Oder suchst du: 
@@ -133,7 +131,23 @@
                                     </a> ?
                                 </div>
                             <% } %>
-
+                        </div>
+                        <div class="form-group">
+                            <div class="JS-RelatedCategories">
+                                <script type="text/javascript">
+                                    $(function () {
+                                        <%foreach (var category in Model.FilteredCategories) { %>
+                                        $("#txtNewRelatedCategory")
+                                            .val('<%=category.Name %>')
+                                            .data('category-id', '<%=category.Id %>')
+                                            .trigger("initCategoryFromTxt");
+                                        <% } %>
+                                    });
+                                </script>
+                                <div class="JS-CatInputContainer ControlInline">
+                                    <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -198,20 +212,9 @@
                 </div>
                 <% } %>
             <%} %>
-            <div class="box-content">
-                <% 
-                    if(Model.NotAllowed){
-                        Html.RenderPartial("RegisterOrLogin_Questions");
-                    }else{ 
-                        foreach (var row in Model.QuestionRows){
-                               Html.RenderPartial("QuestionRow", row);
-                        } 
-                    }
-                %>
+            <div id="JS-SearchResult">
+                <% Html.RenderPartial("QuestionsSearchResult", Model.SearchResultModel); %>
             </div>
-            <% if(!Model.NotAllowed){ 
-                Html.RenderPartial("Pager", Model.Pager);
-            } %>
         </div>
     </div>
 </div>

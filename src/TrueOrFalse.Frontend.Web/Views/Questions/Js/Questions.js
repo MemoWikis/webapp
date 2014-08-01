@@ -9,29 +9,6 @@
         return "123, <b>456</b>";  
     }
 
-    function SubmitSearch() {
-        window.location.href = $('#txtSearch').attr("formUrl") + 
-            $('#txtSearch').val()
-                .replace("Kat:\"", "Kat__")
-                .replace("kat:\"", "Kat__")
-                .replace("Ersteller:\"", "Ersteller__")
-                .replace("\"", "__")
-                .replace("'", "__")
-                .replace(":", "___")
-                .replace("&", "_and_");
-    }
-
-    $('#btnSearch').click(function () { SubmitSearch(); });
-    
-    $(function () {
-        $("#txtSearch").keypress(function (e) {
-            var code = (e.keyCode ? e.keyCode : e.which);
-            if (code === 13) {
-                SubmitSearch();
-                e.preventDefault();
-            }
-        });
-    });
 });
 
 /************************/

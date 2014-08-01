@@ -6,7 +6,6 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
-    <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
     <link href="/Views/Questions/Edit/EditQuestion.css" rel="stylesheet" />
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/markdown") %>

@@ -25,7 +25,7 @@ namespace TrueOrFalse
 
         public ActionResult QuestionSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
-            SetSearchSearchTerm(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
+            SetSearchTerm(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
             return Questions(page, model, orderBy);
         }
 
@@ -43,8 +43,27 @@ namespace TrueOrFalse
 
         public ActionResult QuestionsMineSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
-            SetSearchSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
+            SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
             return QuestionsMine(page, model, orderBy);
+        }
+
+        public JsonResult QuestionsMineSearchApi(string searchTerm)
+        {
+            var model = new QuestionsModel();
+            SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    Html = ViewRenderer.RenderPartialView(
+                        "QuestionsSearchResult", 
+                        new QuestionsSearchResultModel(
+                            GetQuestionsModel(_sessionUiData.SearchSpecQuestionMine.CurrentPage, model, "")), 
+                        this.ControllerContext)
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
         }
 
         [SetMenu(MenuEntry.Questions)]
@@ -55,19 +74,28 @@ namespace TrueOrFalse
                     new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), isTabMineActive: true));
             }
 
+            var questionsModel = GetQuestionsModel(page, model, orderBy);
+
+            return View("Questions", questionsModel);
+
+        }
+
+        private QuestionsModel GetQuestionsModel(int? page, QuestionsModel model, string orderBy)
+        {
             SetSearchSpecVars(_sessionUiData.SearchSpecQuestionMine, page, model, orderBy);
             _sessionUiData.SearchSpecQuestionMine.Filter.CreatorId = _sessionUser.User.Id;
 
-            return View("Questions",
-                new QuestionsModel(
-                    _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionMine),
-                    _sessionUiData.SearchSpecQuestionMine, 
-                    isTabMineActive: true));
+            var questionsModel = new QuestionsModel(
+                _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionMine),
+                _sessionUiData.SearchSpecQuestionMine,
+                isTabMineActive: true);
+
+            return questionsModel;
         }
 
         public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
-            SetSearchSearchTerm(_sessionUiData.SearchSpecQuestionWish, model, searchTerm);
+            SetSearchTerm(_sessionUiData.SearchSpecQuestionWish, model, searchTerm);
             return QuestionsWish(page, model, orderBy);
         }
 
@@ -140,7 +168,7 @@ namespace TrueOrFalse
             }};
         }
 
-        public void SetSearchSearchTerm(QuestionSearchSpec searchSpec, QuestionsModel model, string searchTerm)
+        public void SetSearchTerm(QuestionSearchSpec searchSpec, QuestionsModel model, string searchTerm)
         {
             if (searchSpec.Filter.SearchTerm != searchTerm)
                 searchSpec.CurrentPage = 1;

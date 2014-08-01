@@ -499,6 +499,7 @@
     <Compile Include="Web\Uris\UriSanitizer.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
+    <Compile Include="Web\ViewRenderer.cs" />
     <Content Include="Utilities\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
