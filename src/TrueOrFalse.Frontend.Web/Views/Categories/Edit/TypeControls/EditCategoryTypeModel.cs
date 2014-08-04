@@ -44,39 +44,9 @@ public class EditCategoryTypeModel : BaseModel
 
         PopulateFromCategory(category);
 
-        if (category.Type == CategoryType.Book)
-            Model = CategoryTypeBook.FromJson(category.TypeJson, category);
-
-        if (category.Type == CategoryType.Daily)
-            Model = CategoryTypeDaily.FromJson(category.TypeJson, category);
-        
-        if (category.Type == CategoryType.DailyArticle)
-            Model = CategoryTypeDailyArticle.FromJson(category.TypeJson, category);
-
-        if (category.Type == CategoryType.DailyIssue)
-            Model = CategoryTypeDailyIssue.FromJson(category.TypeJson, category);
-
-        if (category.Type == CategoryType.Magazine)
-            Model = CategoryTypeMagazine.FromJson(category.TypeJson, category);
-
-        if (category.Type == CategoryType.MagazineArticle)
-            Model = CategoryTypeMagazineArticle.FromJson(category.TypeJson, category);
-        
-        if (category.Type == CategoryType.MagazineIssue)
-            Model = CategoryTypeMagazineIssue.FromJson(category.TypeJson, category);
-        
-        if (category.Type == CategoryType.VolumeChapter)
-            Model = CategoryTypeVolumeChapter.FromJson(category.TypeJson, category);
-
-        if (category.Type == CategoryType.Website)
-            Model = CategoryTypeWebsite.FromJson(category.TypeJson, category);
-
-        if (category.Type == CategoryType.WebsiteArticle)
-            Model = CategoryTypeWebsiteArticle.FromJson(category.TypeJson, category);
-        
-        if (category.Type == CategoryType.WebsiteVideo)
-            Model = CategoryTypeWebsiteVideo.FromJson(category.TypeJson, category);
+        Model = category.GetTypeModel();
     }
+
 
     private void PopulateFromCategory(Category category)
     {

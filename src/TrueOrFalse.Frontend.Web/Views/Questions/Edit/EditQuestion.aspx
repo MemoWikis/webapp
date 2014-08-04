@@ -6,7 +6,6 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
-    <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
     <link href="/Views/Questions/Edit/EditQuestion.css" rel="stylesheet" />
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/markdown") %>
@@ -159,8 +158,10 @@
                         <script type="text/javascript">
                             $(function () {
                                 <%foreach (var category in Model.Categories) { %>
-                                $("#txtNewRelatedCategory").val('<%=category %>');
-                                $("#txtNewRelatedCategory").trigger("initCategoryFromTxt");
+                                $("#txtNewRelatedCategory")
+                                    .val('<%=category.Name %>')
+                                    .data('category-id', '<%=category.Id %>')
+                                    .trigger("initCategoryFromTxt");
                                 <% } %>
                             });
                         </script>

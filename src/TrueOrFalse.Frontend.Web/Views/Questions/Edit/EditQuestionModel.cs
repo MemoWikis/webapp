@@ -39,7 +39,7 @@ public class EditQuestionModel : BaseModel
 
     public int Id = -1;
 
-    public IList<string> Categories = new List<string>();
+    public IList<Category> Categories = new List<Category>();
 
     public string PageTitle;
     public string FormTitle;
@@ -91,7 +91,7 @@ public class EditQuestionModel : BaseModel
         QuestionExtended = question.TextExtended;
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
-        Categories = (from cat in question.Categories select cat.Name).ToList();
+        Categories = question.Categories;
         ImageUrl_128 = QuestionImageSettings.Create(question.Id).GetUrl_500px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
         Visibility = question.Visibility;
@@ -99,7 +99,7 @@ public class EditQuestionModel : BaseModel
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
     {
-        Categories = (from key in postData.AllKeys where key.StartsWith("cat") select postData[key]).ToList();
+        Categories = RelatedCategoriesUtils.GetReleatedCategoriesFromPostData(postData);
     }
 
     public void SetToCreateModel()
@@ -122,6 +122,6 @@ public class EditQuestionModel : BaseModel
         Id = -1;
         Question = "";
         Description = "";
-        Categories = new string[]{};
+        Categories = new List<Category>();
     }
 }

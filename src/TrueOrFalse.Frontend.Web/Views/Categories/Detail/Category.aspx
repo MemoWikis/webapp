@@ -13,13 +13,7 @@
     <div class="row">
         <div class="xxs-stack col-xs-12">
             <div class="row">
-                <div class="PageHeader col-xs-9 xxs-stack category">
-                    <% if (Model.Type != "Standard") {%>
-                        <h3 class="CategoryType"><%= Model.Type%></h3>
-                    <% } %>
-                    <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredBottomBorder Category"><%= Model.Name %></span></h2>
-                </div>
-                <div class="col-xs-3 xxs-stack">
+                <div class="col-xs-3 col-xs-push-9 xxs-stack">
                     <div class="navLinks">
                         <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
                         <% if(Model.IsOwnerOrAdmin){ %>
@@ -28,6 +22,13 @@
                         <a href="<%= Links.CreateQuestion(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
                     </div>
                 </div>
+                <div class="PageHeader col-xs-9 col-xs-pull-3 xxs-stack category">
+                    <% if (Model.Type != "Standard") {%>
+                        <h3 class="CategoryType"><%= Model.Type%></h3>
+                    <% } %>
+                    <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredBottomBorder Category"><%= Model.Name %></span></h2>
+                </div>
+                
             </div>
         </div>
         <div class="col-xs-12">
@@ -37,7 +38,8 @@
                     <div style="margin-bottom: 12px;">
                         <%= Model.Description %>
                     </div>
-            <% } %>
+                    <% } %>
+                    <% Html.RenderPartial("Reference", Model.Category);%>
                 </div>
             </div>
         </div>
@@ -55,21 +57,25 @@
         </div>
         <div class="col-xs-9 col-xs-pull-3 xxs-stack">
             <div class="CategoryRelations well">
-                <% if(Model.CategoriesParent.Count > 0){ %>
+                <% if (Model.CategoriesParent.Count > 0)
+                   { %>
                     <h4 style="margin-top: 0;">Elternkategorien</h4>
                     <div>
-                        <% foreach(var category in Model.CategoriesParent){ %>
+                        <% foreach (var category in Model.CategoriesParent)
+                           { %>
                             <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
                         <% } %>
                     </div>
-                    <div class="RelationArrow"><i class="fa fa-arrow-down"></i></div>
-                <% } %>
+                <% }
+                   else { %>
+                    <h4 style="margin-top: 0;">keine Elternkategorien</h4>
+                <%  } %>
+
+                <div class="RelationArrow"><i class="fa fa-arrow-down"></i></div>
                 <div class="MainCategory"><span class="label label-category"><%= Model.Name %></span></div>
-            
+                <div class="RelationArrow"><i class="fa fa-arrow-down"></i></div>
+
                 <% if(Model.CategoriesChildren.Count > 0){ %>
-                    <div class="RelationArrow">
-                        <i class="fa fa-arrow-down"></i>
-                    </div>
                     <h4 style="margin-top: 0;">
                         Kindkategorien
                     </h4>
@@ -79,10 +85,12 @@
                         <% } %>
                         <i class="fa fa-plus-circle show-tooltip cat-color add-new" 
                            style="font-size: 14px; color: #99ccff; cursor: pointer"
-                           onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Name %>'; return false; " 
+                           onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Id%>'; return false; " 
                            data-original-title="Neue Kindkategorie erstellen"></i>
                     </div>
-                <% } %>
+                <% } else { %>
+                    <h4 style="margin-top: 0;">keine Kindkategorien</h4>
+                <%  } %>
             </div>
             <% if(Model.CountQuestions > 0){ %>
                 <h4 style="margin-top: 0;">Fragen (<%=Model.CountQuestions %>)</h4>                    

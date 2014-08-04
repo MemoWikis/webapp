@@ -6,7 +6,7 @@
 %>
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.MagazineArticle.GetName() %></h4>
-    
+<input class="form-control" name="Name" type="hidden" value="<%= Model.Name %>">
 <div id="JS-MagazineSelect" class="form-group">
     <label class="RequiredField columnLabel control-label" for="">
         Zeitschrift

@@ -10,6 +10,7 @@
                         <a id="MenuButton"><i class="fa fa-bars"></i><span class="caret"></span></a>
                         <a class="block title" href="/">
                             <h1><span id="m">M</span>EM<span id="uch">uch</span>O<span id="logo"></span></h1>
+                            <img id="memo" src="/Images/Memo.png" />
                         </a>
                     </div>
                     <div class="col-xs-6 col-LoginAndHelp">

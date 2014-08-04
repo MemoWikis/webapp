@@ -25,7 +25,6 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/message")
                 .Include("~/Views/Messages/*.css"));
 
-            /* JS */
             bundles.Add(new ScriptBundle("~/bundles/shared")
                 .IncludeDirectory("~/Scripts/", "*.js")
                 .IncludeDirectory("~/Scripts/vendor", "*.js"));
@@ -44,11 +43,13 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/questions")
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js")
-                .Include("~/Scripts/ValuationPerRow.js"));
+                .Include("~/Scripts/ValuationPerRow.js")
+                .Include("~/Views/Categories/Edit/RelatedCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
-                .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js")
+                .Include("~/Views/Categories/Edit/RelatedCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Sets")
                 .IncludeDirectory("~/Views/Sets/Js/", "*.js"));
@@ -58,7 +59,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
-                .Include("~/Views/Shared/ImageUpload/ImageUpload.js"));
+                .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
+                .Include("~/Views/Categories/Edit/RelatedCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
@@ -68,7 +70,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")
                 .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
-                .Include("~/Views/Shared/ImageUpload/ImageUpload.js"));
+                .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
+                .Include("~/Views/Categories/Edit/RelatedCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Set")
                 .IncludeDirectory("~/Views/Sets/Detail/Js/", "*.js"));

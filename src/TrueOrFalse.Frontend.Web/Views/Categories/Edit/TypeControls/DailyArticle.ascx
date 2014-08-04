@@ -6,7 +6,7 @@
 %>
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.DailyArticle.GetName() %></h4>
-    
+<input class="form-control" name="Name" type="hidden" value="<%= Model.Name %>">
 <div id="JS-DailySelect" class="form-group">
     <label class="RequiredField columnLabel control-label" for="">
         Tageszeitung

@@ -19,6 +19,7 @@
     SEARCH SECTION
     CONTAINER
     ROWS
+    REFERENCES DEFAULT
     VENDOR ADAPTATIONS
         Font-awesome icons
         UI
@@ -298,6 +299,49 @@ img {
         height: @masterHeaderMainRowHeight-xs;
     }
 }
+
+//Alternative memo logos start
+
+.use-alternative-memo-logo(true);
+.use-alternative-memo-logo-without-body(false);
+.use-new-memo-logo(false);
+
+.use-alternative-memo-logo(@use-alternative-memo-logo) when (@use-alternative-memo-logo) {
+    #MasterHeader span#logo {
+        background-image: url('/images/memo_liegend_bearbeitet4.png');
+        background-size: 83% !important;
+    }
+}    
+
+.use-alternative-memo-logo-without-body(@use-alternative-memo-logo-without-body) when (@use-alternative-memo-logo-without-body) {
+    
+    #MasterHeader span#logo {
+        background-image: url('/images/memo_mit_laptop_ohne_koerper.png');
+        background-size: 73% !important;
+    }
+}
+
+.use-new-memo-logo(@use-new-memo-logo) when (@use-new-memo-logo) {
+    #logo {
+        display: none !important;
+    }
+
+    #memo {
+        position: absolute;
+        top: -2px;
+        left: 220px;
+        z-index: 10000;
+        width: 30px;
+        height: auto;
+    }
+}
+
+.use-new-memo-logo(@use-new-memo-logo) when (default()) {
+    #memo {
+        display: none;
+    }
+}
+//Alternative memo logos end
 
 
 #loginAndHelp {
@@ -1019,8 +1063,6 @@ div.box-main .box-content {
     height: 36px;
     width: 100px;
 }
-
-
    
  /*VENDOR ADAPTATIONS
 ---------------------------------------------------------*/

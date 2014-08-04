@@ -311,6 +311,9 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
+    <Content Include="Images\Memo.png" />
+    <Content Include="Images\memo_liegend_bearbeitet4.png" />
+    <Content Include="Images\memo_mit_laptop_ohne_koerper.png" />
     <Content Include="Images\no-category-picture-206.png" />
     <Content Include="Images\no-category-picture-350.png" />
     <Content Include="Images\no-question-128.png" />
@@ -770,6 +773,7 @@
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
       <DependentUpon>Comment.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Questions\QuestionsSearchResultModel.cs" />
     <Compile Include="Views\Sets\Detail\SetQuestionRow.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
     <Compile Include="Views\Sets\Detail\SetController.cs" />
@@ -787,7 +791,7 @@
     <Compile Include="Views\Messages\MessageModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
-    <Compile Include="Views\Categories\Edit\EditCategoryModel_Category_Exists.cs" />
+    <Compile Include="Views\Categories\Edit\CategoryNameAllowed.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
     <Compile Include="Views\Questions\QuestionRowModel.cs" />
     <Compile Include="Views\Questions\QuestionsController.cs" />
@@ -969,6 +973,9 @@
     <Content Include="Views\Questions\Edit\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Js\QuestionsSearch.js">
+      <DependentUpon>QuestionsSearch.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Questions.css">
       <DependentUpon>Questions.less</DependentUpon>
     </Content>
@@ -1005,6 +1012,7 @@
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Scripts\RowPin.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionsSearch.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
@@ -1076,6 +1084,7 @@
     <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\Reference.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
     <Content Include="Views\Users\Js\Users.js">
@@ -1250,6 +1259,10 @@
     </Content>
     <Content Include="Views\Questions\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\QuestionsSearchResult.ascx" />
+    <Content Include="Views\Questions\Js\QuestionsSearch.js.map">
+      <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

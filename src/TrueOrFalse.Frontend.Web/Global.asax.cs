@@ -39,6 +39,7 @@ namespace TrueOrFalse.Frontend.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles); 
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
+            ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
         }

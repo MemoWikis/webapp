@@ -23,7 +23,7 @@ public class EditCategoryController : BaseController
         var model = new EditCategoryModel {Name = name ?? ""};
 
         if (!String.IsNullOrEmpty(parent))
-            model.ParentCategories.Add(_categoryRepository.GetByName(parent).Name);
+            model.ParentCategories.Add(_categoryRepository.GetById(Convert.ToInt32(parent)));
 
         return View(_viewPath, model);
     }
@@ -48,16 +48,14 @@ public class EditCategoryController : BaseController
         var category = _categoryRepository.GetById(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
 
-        var categoryExists = new EditCategoryModel_Category_Exists();
-        if (model.Name != category.Name && categoryExists.Yes(model))
-        {
+        var categoryAllowed = new CategoryNameAllowed();
+
+        model.FillReleatedCategoriesFromPostData(Request.Form);
+        model.UpdateCategory(category);
+        if (model.Name != category.Name && categoryAllowed.No(model, category.Type)){
             model.Message = new ErrorMessage(string.Format("Es existiert bereits eine Kategorie mit dem Namen <strong>'{0}'</strong>.",
-                                                           categoryExists.ExistingCategory.Name));
-        }
-        else
-        {
-            model.FillReleatedCategoriesFromPostData(Request.Form);
-            model.UpdateCategory(category);
+                                                            categoryAllowed.ExistingCategories.First().Name));
+        } else {
             _categoryRepository.Update(category);
 
             model.Message = new SuccessMessage("Die Kategorie wurde gespeichert.");
@@ -89,14 +87,14 @@ public class EditCategoryController : BaseController
         var category = convertResult.Category;
         category.Creator = _sessionUser.User;
 
-        var categoryExists = new EditCategoryModel_Category_Exists();
-        if (categoryExists.Yes(category.Name))
+        var categoryNameAllowed = new CategoryNameAllowed();
+        if (categoryNameAllowed.No(category))
         {
             model.Message = new ErrorMessage(
                 string.Format("Die Kategorie <strong>'{0}'</strong> existiert bereits. " +
                               "Klicke <a href=\"{1}\">hier</a>, um sie zu bearbeiten.",
-                              categoryExists.ExistingCategory.Name,
-                              Url.Action("Edit", new { id = categoryExists.ExistingCategory.Id })));
+                              categoryNameAllowed.ExistingCategories.First().Name,
+                              Url.Action("Edit", new { id = categoryNameAllowed.ExistingCategories.First().Id })));
 
             return View(_viewPath, model);
         }

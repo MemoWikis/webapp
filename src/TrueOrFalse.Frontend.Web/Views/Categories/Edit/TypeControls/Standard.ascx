@@ -1,9 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
-<%
-    var model = Model.Model == null ? 
-            new CategoryTypeStandard() : 
-            (CategoryTypeStandard)Model.Model;
-%>
+
 <h4 class="CategoryTypeHeader">Standardkategorie</h4>
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" for="Name">Name</label>

@@ -28,7 +28,7 @@ public class EditQuestionController : BaseController
 
         model.SetToCreateModel();
         if(categoryId != null)
-            model.Categories.Add(Resolve<CategoryRepository>().GetById((int)categoryId).Name);
+            model.Categories.Add(Resolve<CategoryRepository>().GetById((int)categoryId));
 
         return View(_viewLocation, model);
     }
@@ -71,12 +71,6 @@ public class EditQuestionController : BaseController
     {
         model.FillCategoriesFromPostData(Request.Form);
         
-        var categoriesExist = Resolve<CategoryNamesExist>();
-        if (categoriesExist.No(model.Categories)){
-            model.Message = categoriesExist.GetErrorMsg(Url);
-            return View(_viewLocation, model);
-        }
-
         var question = Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
 
         question.Creator = _sessionUser.User;

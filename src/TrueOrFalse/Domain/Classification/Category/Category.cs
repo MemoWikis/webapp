@@ -34,5 +34,46 @@ namespace TrueOrFalse
         public Category(string name) : this(){
             Name = name;
         }
+
+        public virtual object GetTypeModel()
+        {
+            if (Type == CategoryType.Standard)
+                return CategoryTypeStandard.FromJson(this);
+
+            if (Type == CategoryType.Book)
+                return CategoryTypeBook.FromJson(this);
+
+            if (Type == CategoryType.Daily)
+                return CategoryTypeDaily.FromJson(this);
+
+            if (Type == CategoryType.DailyArticle)
+                return CategoryTypeDailyArticle.FromJson(this);
+
+            if (Type == CategoryType.DailyIssue)
+                return CategoryTypeDailyIssue.FromJson(this);
+
+            if (Type == CategoryType.Magazine)
+                return CategoryTypeMagazine.FromJson(this);
+
+            if (Type == CategoryType.MagazineArticle)
+                return CategoryTypeMagazineArticle.FromJson(this);
+
+            if (Type == CategoryType.MagazineIssue)
+                return CategoryTypeMagazineIssue.FromJson(this);
+
+            if (Type == CategoryType.VolumeChapter)
+                return CategoryTypeVolumeChapter.FromJson(this);
+
+            if (Type == CategoryType.Website)
+                return CategoryTypeWebsite.FromJson(this);
+
+            if (Type == CategoryType.WebsiteArticle)
+                return CategoryTypeWebsiteArticle.FromJson(this);
+
+            if (Type == CategoryType.WebsiteVideo)
+                return CategoryTypeWebsiteVideo.FromJson(this);
+
+            throw new Exception("Invalid type.");
+        }
     }
 }

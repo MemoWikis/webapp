@@ -1,13 +1,5 @@
 ﻿var ui;
 
-function escape_regexp(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-}
-
-$.expr[':'].textEquals = function (a, i, m) {
-    return $(a).text().match(new RegExp("^" + escape_regexp(m[3]) + "$", "i")) != null;
-};
-
 var AutoCompleteFilterType;
 (function (AutoCompleteFilterType) {
     AutoCompleteFilterType[AutoCompleteFilterType["None"] = 0] = "None";
@@ -18,10 +10,10 @@ var AutoCompleteFilterType;
 })(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParentName) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
         if (typeof filterType === "undefined") { filterType = 0 /* None */; }
-        if (typeof selectorParentName === "undefined") { selectorParentName = ""; }
+        if (typeof selectorParent === "undefined") { selectorParent = ""; }
         this._filterType = filterType;
 
         var self = this;
@@ -40,21 +32,23 @@ var AutocompleteCategories = (function () {
             var catIdx = nextCatIdx.toString();
             nextCatIdx++;
             var catText = $(inputSelector).val();
+            var catId = $(inputSelector).data('category-id');
 
             if (self.OnAdd != null)
                 self.OnAdd();
 
             if (self._isSingleSelect) {
                 catIdx = inputSelector.substring(1);
-                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catText + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
+                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
                 elemInput.attr("type", "hidden").hide();
                 var validator = $("#EditCategoryForm").validate();
                 validator.element(elemInput);
             } else {
-                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ByName?name=" + encodeURIComponent(catText) + "' >" + catText + "</a>" + "<input type='hidden' value='" + catText + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
+                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
             }
 
             elemInput.val('');
+            $(inputSelector).data('category-id', '');
             $("#delete-cat-" + catIdx).click(function (e) {
                 e.preventDefault();
                 if (self.OnRemove != null)
@@ -82,7 +76,7 @@ var AutocompleteCategories = (function () {
                 }
 
                 if (self._filterType == 2 /* DailyIssue */) {
-                    params = "&type=DailyIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
+                    params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
                 if (self._filterType == 3 /* Magazine */) {
@@ -90,23 +84,18 @@ var AutocompleteCategories = (function () {
                 }
 
                 if (self._filterType == 4 /* MagazineIssue */) {
-                    params = "&type=MagazineIssue&parentName=" + $("#hdd" + selectorParentName.substring(1)).val();
+                    params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + params, function (data) {
                     response(data);
                 });
             },
-            //focus: function (event, ui) {
-            //    $(inputSelector).data("category-id", ui.item.id);
-            //    $(inputSelector).val(ui.item.name);
-            //    return false;
-            //},
             select: function (event, ui) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
-                if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length > 0) {
+                if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length > 0) {
                     return false;
                 }
 
@@ -119,24 +108,17 @@ var AutocompleteCategories = (function () {
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
-            return $("<li></li>").data("ui-autocomplete-item", item).append("<a class='CatListItem'><img src='" + item.imageUrl + "'/><div class='CatDescription'><span class='cat-name'>" + item.name + "</span><span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span></div></a>").appendTo(ul);
+            return $("<li></li>").data("ui-autocomplete-item", item).append("<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + "<span class='cat-name'>" + item.name + "</span>" + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>").appendTo(ul);
         };
 
         var animating = false;
         function checkText() {
-            var text = $(inputSelector).val();
+            var id = $(inputSelector).data('category-id');
+            var alreadyAddedCategories = self.GetAlreadyAddedCategories(elemContainer, id);
 
-            //var matchesInAutomcompleteList = elemContainer.find($(".ui-autocomplete li .cat-name:textEquals('" + text + "')"));
-            var alreadyAddedCategory = elemContainer.find(".added-cat:textEquals('" + text + "')");
-
-            //if (matchesInAutomcompleteList.length != 0 && alreadyAddedCategory.length == 0) {
-            //    if ($(inputSelector).val() != matchesInAutomcompleteList.text()) {
-            //        $(inputSelector).val(matchesInAutomcompleteList.text());
-            //    }
-            //}
-            if (!animating && alreadyAddedCategory.length != 0) {
+            if (!animating && alreadyAddedCategories.length != 0) {
                 animating = true;
-                alreadyAddedCategory.effect('bounce', null, 'fast', function () {
+                alreadyAddedCategories.closest(".added-cat").effect('bounce', null, 'fast', function () {
                     animating = false;
                 });
             }
@@ -151,7 +133,7 @@ var AutocompleteCategories = (function () {
                 if (ui != undefined) {
                     checkText();
 
-                    if (elemContainer.find(".added-cat:textEquals('" + ui.item.name + "')").length == 0) {
+                    if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length == 0) {
                         addCat();
                     }
                 }
@@ -161,6 +143,9 @@ var AutocompleteCategories = (function () {
         $(inputSelector).keypress(fnCheckTextAndAdd);
         $(inputSelector).bind("initCategoryFromTxt", addCat);
     }
+    AutocompleteCategories.prototype.GetAlreadyAddedCategories = function (container, id) {
+        return container.find(".added-cat input[value='" + id + "']");
+    };
     return AutocompleteCategories;
 })();
 

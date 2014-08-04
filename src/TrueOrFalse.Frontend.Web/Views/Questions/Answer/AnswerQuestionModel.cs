@@ -112,7 +112,7 @@ public class AnswerQuestionModel : BaseModel
         SourceIsTabWish = QuestionSearchSpecSession.KeyPagerWish == searchSpec.KeyOverviewPage;
 
         if (searchSpec.Filter.HasCategoryFilter()){
-            SourceCategory = Resolve<CategoryRepository>().GetByName(searchSpec.Filter.CategoryFilter());
+            SourceCategory = Resolve<CategoryRepository>().GetByName(searchSpec.Filter.CategoryFilter()).First();
             if (SourceCategory != null)
                 SourceIsCategory = true;
         }

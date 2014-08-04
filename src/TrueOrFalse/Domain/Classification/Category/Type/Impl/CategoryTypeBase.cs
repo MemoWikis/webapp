@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using TrueOrFalse;
 
 [Serializable]
-public abstract class CategoryTypeBase<T> : ICategoryTypeBase
+public abstract class CategoryTypeBase<T> : ICategoryTypeBase where T : new()  
 {
     [JsonIgnore]
     public Category Category { get; set; }
@@ -15,9 +15,12 @@ public abstract class CategoryTypeBase<T> : ICategoryTypeBase
         return JsonConvert.SerializeObject(this);
     }
 
-    public static T FromJson(string json, Category category = null)
+    public static T FromJson(Category category)
     {
-        var result = JsonConvert.DeserializeObject<T>(json);
+        if (category.TypeJson == null)
+            return new T();
+
+        var result = JsonConvert.DeserializeObject<T>(category.TypeJson);
         ((ICategoryTypeBase)result).Category = category;
         return result;
     }

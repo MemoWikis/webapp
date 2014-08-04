@@ -81,7 +81,8 @@
         <field name="SolutionType" type="int" indexed="true" stored="false" multiValued="false" />
 
         <field name="Categories" type="textExact" indexed="true" stored="false" multiValued="true"/>
-
+        <field name="CategoryIds" type="int" indexed="true" stored="false" required="false" multiValued="true" />
+      
         <field name="Quality" type="int" indexed="true" stored="false" multiValued="false" />
 		    <field name="Valuation" type="int" indexed="true" stored="false" multiValued="false" />
         <field name="Views" type="int" indexed="true" stored="false" multiValued="false"/>

@@ -5,7 +5,6 @@
 
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <script src="/Views/Categories/Edit/RelatedCategories.js" type="text/javascript"></script>
     <link href="/Views/Categories/Edit/EditCategory.css" rel="stylesheet" />
     <%= Styles.Render("~/bundles/category") %>
     <%= Scripts.Render("~/bundles/fileUploader") %>
@@ -143,12 +142,16 @@
                             <script type="text/javascript">
                                 $(function () {
                                     <%foreach (var category in Model.ParentCategories) { %>
-                                        $("#txtNewRelatedCategory").val('<%=category %>');
-                                        $("#txtNewRelatedCategory").trigger("initCategoryFromTxt");
+                                        $("#txtNewRelatedCategory")
+                                            .val('<%=category.Name %>')
+                                            .data('category-id', '<%=category.Id %>')
+                                            .trigger("initCategoryFromTxt");
                                     <% } %>
                                 });
                             </script>
-                            <div class="JS-CatInputContainer ControlInline"><input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  /></div>
+                            <div class="JS-CatInputContainer ControlInline">
+                                <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
+                            </div>
                         </div>
                     </div>
                 </div>

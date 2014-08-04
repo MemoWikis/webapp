@@ -21,10 +21,7 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         question.TextExtended = model.QuestionExtended;
 
         question.Description = model.Description;
-        question.Categories.Clear();
-
-        foreach (var category in model.Categories)
-            AddCategory(question, category);
+        question.Categories = model.Categories;
 
         question.SolutionType = (SolutionType) Enum.Parse(typeof(SolutionType), model.SolutionType);
 
@@ -56,13 +53,4 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         return question;
     }
 
-    private void AddCategory(Question question, string categoryName)
-    {
-        var category = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
-
-        if (category == null)
-            throw new InvalidDataException();
-
-        question.Categories.Add(category);
-    }
 }

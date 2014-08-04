@@ -51,6 +51,39 @@ div.question-row{background-color:silver;}*/
     width: 50%;
   }
 }
+.SearchQuestionsForm .form-group:before,
+.SearchQuestionsForm .form-group:after {
+  content: " ";
+  display: table;
+}
+.SearchQuestionsForm .form-group:after {
+  clear: both;
+}
+.SearchQuestionsForm .form-group:before,
+.SearchQuestionsForm .form-group:after {
+  content: " ";
+  display: table;
+}
+.SearchQuestionsForm .form-group:after {
+  clear: both;
+}
+.JS-RelatedCategories {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (max-width: 479px) {
+  .JS-RelatedCategories {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
 .btnAddQuestion {
   margin-bottom: 10px;
 }

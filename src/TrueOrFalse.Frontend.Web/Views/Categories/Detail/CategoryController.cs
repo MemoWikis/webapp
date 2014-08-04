@@ -25,10 +25,10 @@ public class CategoryController : BaseController
         return View(_viewLocation, new CategoryModel(category));
     }
 
-    public void ByName()
+    public void ById()
     {
-        var name = HttpUtility.UrlDecode((Request["name"]));
-        Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetByName(name)));
+        var id = Convert.ToInt32(Request["id"]);
+        Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));
     }
 
 }
