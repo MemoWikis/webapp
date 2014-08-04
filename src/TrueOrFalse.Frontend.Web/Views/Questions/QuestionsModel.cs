@@ -43,13 +43,13 @@ public class QuestionsModel : BaseModel
         IList<Question> questions, 
         QuestionSearchSpec questionSearchSpec, 
         bool isTabAllActive = false,
-        bool isTabWishActice = false,
+        bool isTabWishActive = false,
         bool isTabMineActive = false
     )
     {
         ActiveTabAll = isTabAllActive;
         ActiveTabMine = isTabMineActive;
-        ActiveTabWish = isTabWishActice;
+        ActiveTabWish = isTabWishActive;
 
         int currentUserId = _sessionUser.IsLoggedIn ? _sessionUser.User.Id : -1;
         NotAllowed = !_sessionUser.IsLoggedIn && (ActiveTabWish || ActiveTabMine);
