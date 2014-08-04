@@ -1,4 +1,9 @@
-﻿/*
+﻿/*REFERENCES DEFAULT
+---------------------------------------------------------*/
+.Reference div.Title {
+  font-weight: bold;
+}
+/*
     Next:
         MasterHeader: integrate mobile button
         MasterHeader: LoginHelp XXS: button like menubutton

@@ -19,6 +19,13 @@
   font-size: 145%;
   margin-top: 5px;
 }
+.Reference {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.Reference.Book .Title {
+  display: none;
+}
 .CategoryRelations {
   text-align: center;
 }

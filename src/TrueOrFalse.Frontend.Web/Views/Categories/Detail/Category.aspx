@@ -34,12 +34,13 @@
         <div class="col-xs-12">
             <div class="row">
                 <div class="col-xs-9 xxs-stack">
-                    <% if(!String.IsNullOrEmpty(Model.Description)){ %>
-                    <div style="margin-bottom: 12px;">
-                        <%= Model.Description %>
-                    </div>
-                    <% } %>
-                    <% Html.RenderPartial("Reference", Model.Category);%>
+                    <% if (Model.Type == "Standard") {
+                        if(!String.IsNullOrEmpty(Model.Description)){ %>
+                            <div style="margin-bottom: 12px;"><%= Model.Description %></div>
+                        <% } %>
+                    <% } else { %>
+                        <% Html.RenderPartial("Reference", Model.Category);
+                    } %>
                 </div>
             </div>
         </div>
