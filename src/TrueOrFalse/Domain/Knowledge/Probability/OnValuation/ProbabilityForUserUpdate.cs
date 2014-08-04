@@ -27,7 +27,8 @@ namespace TrueOrFalse
         {
 
             var questionValuation =
-                _questionValuationRepository.GetBy(questionId, userId) ?? new QuestionValuation();
+                _questionValuationRepository.GetBy(questionId, userId) ?? 
+                new QuestionValuation{QuestionId = questionId, UserId = userId};
 
             Run(questionValuation);
         }
