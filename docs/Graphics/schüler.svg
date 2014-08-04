@@ -15,8 +15,8 @@
    height="297mm"
    id="svg70412"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="schüler.svg">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="schüler.svg">
   <defs
      id="defs3">
     <clipPath
@@ -10368,13 +10368,13 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.1337885"
      inkscape:cx="343.39065"
-     inkscape:cy="540.91135"
+     inkscape:cy="598.58767"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1301"
-     inkscape:window-height="744"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
+     inkscape:window-width="1600"
+     inkscape:window-height="837"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata4">
@@ -10951,7 +10951,7 @@
     </g>
     <g
        id="g11284"
-       transform="translate(519.57404,-83.171771)">
+       transform="translate(519.57404,-47.171771)">
       <path
          style="fill:#000000;fill-opacity:1;stroke:none"
          d="m 374.39541,20.22562 4.01765,-3.51545 4.48381,7.766182 -3.72148,6.445796 5.82134,5.821337 c -1.27199,2.922582 -1.34717,0.861878 -3.10795,0.651657 -1.80738,-0.215786 -5.20718,0.425624 -2.17304,-2.307249 l -4.85919,-2.805458 4.24914,-7.359729 -4.71028,-4.697086 z"
@@ -10981,7 +10981,7 @@
     </g>
     <g
        id="g24213"
-       transform="translate(-20.16425,-368.03285)">
+       transform="translate(-20.16425,-332.03285)">
       <path
          style="fill:#000000;stroke:none"
          d="m 490.55355,86.385164 c 0,0 7.7723,-12.741335 18.3709,-12.496309 10.59859,0.245025 14.36697,-0.735079 19.78403,3.92041 5.41706,4.655488 10.36306,10.781131 10.36306,10.781131 l 0.5182,0.274919 c 0,0 -16.35621,-3.483865 -24.6615,-3.894276 -8.12835,-0.401666 -24.37469,1.414125 -24.37469,1.414125 z"
@@ -11019,7 +11019,7 @@
     </g>
     <g
        id="g28512"
-       transform="matrix(1.3757672,0,0,1.3757672,-124.16123,407.5167)">
+       transform="matrix(1.3757672,0,0,1.3757672,-124.16123,443.5167)">
       <path
          sodipodi:type="arc"
          style="fill:#000000;stroke:none"
@@ -11047,7 +11047,7 @@
        id="layer5-3"
        inkscape:label="mund"
        style="display:inline"
-       transform="matrix(12.036354,0,0,12.036354,-51.43918,158.24429)">
+       transform="matrix(12.036354,0,0,12.036354,-51.43918,194.24429)">
       <g
          id="g7349-1"
          transform="translate(15.899396,-28.433583)">
@@ -11070,7 +11070,7 @@
     </g>
     <g
        id="g10955"
-       transform="translate(519.57404,-83.171771)">
+       transform="translate(519.57404,-47.171771)">
       <g
          transform="translate(-671.03662,57.282179)"
          id="g32686">

@@ -27,6 +27,8 @@ public class KnowledgeModel : BaseModel
     public int QuestionsCount;
     public int SetCount;
 
+    public KnowledgeSummary KnowledgeSummary;
+
     public KnowledgeModel()
     {
         var sp = Stopwatch.StartNew();
@@ -35,7 +37,7 @@ public class KnowledgeModel : BaseModel
         {
             Loggly.Send("Dashboard-Probability-Start: " + sp.Elapsed, LogglyCategories.Performance);
             R<ProbabilityForUserUpdate>().Run(UserId);
-            Loggly.Send("Dashboard-Probability-Stop: " + sp.Elapsed, LogglyCategories.Performance);            
+            Loggly.Send("Dashboard-Probability-Stop: " + sp.Elapsed, LogglyCategories.Performance);
         }
 
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
@@ -49,5 +51,7 @@ public class KnowledgeModel : BaseModel
         AnswersLastMonth = getAnswerStatsInPeriod.RunForLastMonth(UserId);
         AnswersLastYear = getAnswerStatsInPeriod.RunForLastYear(UserId);
         AnswersEver = getAnswerStatsInPeriod.Run(UserId);
+
+        KnowledgeSummary = R<KnowledgeSummaryLoader>().Run(UserId);
     }
 }
