@@ -107,9 +107,9 @@ public class AnswerQuestionModel : BaseModel
         NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new {pager = PagerKey});
         PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new {pager = PagerKey});
 
-        SourceIsTabAll = QuestionSearchSpecSession.KeyPagerAll == searchSpec.KeyOverviewPage;
-        SourceIsTabMine = QuestionSearchSpecSession.KeyPagerMine == searchSpec.KeyOverviewPage;
-        SourceIsTabWish = QuestionSearchSpecSession.KeyPagerWish == searchSpec.KeyOverviewPage;
+        SourceIsTabAll = SearchTab.All.ToString() == searchSpec.KeyOverviewPage;
+        SourceIsTabMine = SearchTab.Mine.ToString() == searchSpec.KeyOverviewPage;
+        SourceIsTabWish = SearchTab.Wish.ToString() == searchSpec.KeyOverviewPage;
 
         if (searchSpec.Filter.HasCategoryFilter()){
             SourceCategory = Resolve<CategoryRepository>().GetByName(searchSpec.Filter.CategoryFilter()).First();

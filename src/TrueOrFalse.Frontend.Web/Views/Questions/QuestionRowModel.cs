@@ -45,7 +45,7 @@ public class QuestionRowModel : BaseModel
         QuestionValuation questionValuation,
         int indexInResultSet, 
         int currentUserid,
-        string pagerKey) 
+        SearchTab searchTab) 
     {
 
         ImageUrl = QuestionImageSettings.Create(question.Id).GetUrl_128px_square().Url;
@@ -57,7 +57,7 @@ public class QuestionRowModel : BaseModel
         CreatorUrlName = UriSegmentFriendlyUser.Run(question.Creator.Name);
         CreatorId = question.Creator.Id;
 
-        AnswerQuestionLink = urlHelper => Links.AnswerQuestion(urlHelper, question, indexInResultSet, pagerKey);
+        AnswerQuestionLink = urlHelper => Links.AnswerQuestion(urlHelper, question, indexInResultSet, searchTab.ToString());
         UserLink = urlHelper => Links.UserDetail(urlHelper, question.Creator.Name, question.Creator.Id);
         
         IndexInResulSet = indexInResultSet;

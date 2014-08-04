@@ -284,6 +284,7 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalPerUser.cs" />
+    <Compile Include="Domain\Question\Question.Persistence\SearchTab.cs" />
     <Compile Include="Domain\Question\SolutionType\Date\DateAnswer.cs" />
     <Compile Include="Domain\Question\Answer\GetQuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />

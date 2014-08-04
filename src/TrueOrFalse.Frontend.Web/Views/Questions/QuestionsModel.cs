@@ -6,6 +6,7 @@ using TrueOrFalse;
 
 public class QuestionsModel : BaseModel
 {
+    private readonly SearchTab _searchTab;
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
 
     public PagerModel Pager { get; set; }
@@ -41,18 +42,18 @@ public class QuestionsModel : BaseModel
 
     public QuestionsModel(
         IList<Question> questions, 
-        QuestionSearchSpec questionSearchSpec, 
-        bool isTabAllActive = false,
-        bool isTabWishActive = false,
-        bool isTabMineActive = false
+        QuestionSearchSpec questionSearchSpec,
+        SearchTab searchTab
     )
     {
-        ActiveTabAll = isTabAllActive;
-        ActiveTabMine = isTabMineActive;
-        ActiveTabWish = isTabWishActive;
+        ActiveTabAll = _searchTab == SearchTab.All;
+        ActiveTabMine = _searchTab == SearchTab.Mine;
+        ActiveTabWish = _searchTab == SearchTab.Wish;
+
+        _searchTab = searchTab;
 
         int currentUserId = _sessionUser.IsLoggedIn ? _sessionUser.User.Id : -1;
-        NotAllowed = !_sessionUser.IsLoggedIn && (ActiveTabWish || ActiveTabMine);
+        NotAllowed = !_sessionUser.IsLoggedIn && (searchTab == SearchTab.Wish || searchTab == SearchTab.Mine);
 
         var totalsForCurrentUser = Resolve<TotalsPersUserLoader>().Run(currentUserId, questions);
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>().GetBy(questions.GetIds(), currentUserId);
@@ -68,7 +69,7 @@ public class QuestionsModel : BaseModel
                                     NotNull.Run(questionValutionsForCurrentUser.ByQuestionId(question.Id)),
                                     ((questionSearchSpec.CurrentPage - 1) * questionSearchSpec.PageSize) + ++counter, 
                                     currentUserId,
-                                    QuestionSearchSpecSession.GetKey(ActiveTabAll, ActiveTabMine, ActiveTabWish)
+                                    searchTab
                                   );
 
         TotalQuestionsInSystem = Resolve<GetTotalQuestionCount>().Run();
@@ -81,13 +82,13 @@ public class QuestionsModel : BaseModel
         OrderByLabel = questionSearchSpec.OrderBy.ToText();
         SearchTerm = questionSearchSpec.Filter.SearchTerm;
 
-        if (ActiveTabAll){
+        if (searchTab == SearchTab.All){
             Pager.Action = Action = Links.Questions;
             SearchUrl = "/Fragen/Suche";
-        }else if (ActiveTabWish){
+        }else if (searchTab == SearchTab.Wish){
             Pager.Action = Action = Links.QuestionsWishAction;
             SearchUrl = "/Fragen/Wunschwissen/Suche";
-        }else if (ActiveTabMine){
+        }else if (searchTab == SearchTab.Mine){
             Pager.Action = Action = Links.QuestionsMineAction;
             SearchUrl = "/Fragen/Meine/Suche";
         }

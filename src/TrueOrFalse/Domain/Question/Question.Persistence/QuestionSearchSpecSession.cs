@@ -10,10 +10,6 @@ namespace TrueOrFalse
 {
     public class QuestionSearchSpecSession : IRegisterAsInstancePerLifetime
     {
-        public static string KeyPagerAll = "all";
-        public static string KeyPagerMine = "mine";
-        public static string KeyPagerWish = "wish";
-
         private readonly SessionUiData _sessionUiData;
 
         public QuestionSearchSpecSession(SessionUiData sessionUiData){
@@ -50,19 +46,10 @@ namespace TrueOrFalse
             return result;
         }
 
-        public static string GetKey(bool isTabAll, bool isTabMine, bool isTabWish)
+        public static string GetUrl(SearchTab searchTab)
         {
-            if (isTabAll) return KeyPagerAll;
-            if (isTabMine) return KeyPagerMine;
-            if (isTabWish) return KeyPagerWish;
-
-            throw new Exception("invalid combination");
-        }
-
-        public static string GetUrl(string key)
-        {
-            if (key == KeyPagerMine) return Links.QuestionsMine();
-            if (key == KeyPagerWish) return Links.QuestionsWish();
+            if (searchTab == SearchTab.Mine) return Links.QuestionsMine();
+            if (searchTab == SearchTab.Wish) return Links.QuestionsWish();
             return Links.QuestionsAll();
         }
     }
