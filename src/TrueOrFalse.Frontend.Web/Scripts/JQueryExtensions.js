@@ -12,3 +12,5 @@
     });
     return this;
 };
+
+$.fn.sparkline = function (){}

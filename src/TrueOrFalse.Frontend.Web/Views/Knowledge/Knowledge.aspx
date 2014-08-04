@@ -12,7 +12,7 @@
                     {
                         type: 'pie',
                         sliceColors: ['#3e7700', '#B13A48', '#EFEFEF'],
-                        tooltipFormat: '{{offset:slice}} ({{percent.1}}%)',
+                        tooltipFormat: '{{offset:slice}} {{value}} ({{percent.1}}%)',
                         tooltipValueLookups: {'slice': titles},
                     }
             );
@@ -84,10 +84,10 @@
         
         <div class="column">
             <h3>Wissenstand</h3>
-            <div style="padding-bottom: 10px;">Dein Wissenstand entspricht ca. 83% Deines Wunschwissens.</div>
-            <div>Gewusst: 70% (217 Fragen) </div>
-            <div>Nicht gewusst 12% (xx Fragen)  </div>
-            <div>Unbekannt 18% (xx Fragen)</div>
+            <div class="show-tooltip" title="Die Menge der gewussten Fragen" style="padding-bottom: 10px;">Dein Wissenstand entspricht ca. <%= Model.KnowledgeSummary.SecurePercentage %>% Deines Wunschwissens.</div>
+            <div class="show-tooltip" title="Als 'gewusst' gilt eine Frage dann, wenn die Wahrscheinlichkeit, dass Du die Frage richtig beantworten wirst, bei über 90% liegt.">Gewusst: <%= Model.KnowledgeSummary.SecurePercentage %>% (<%= Model.KnowledgeSummary.Secure %> Fragen) </div>
+            <div class="show-tooltip" title="Als 'nicht gewusst' gilt eine Frage dann, wenn die Wahrscheinlichkeit, dass Du die Frage richtig beantworten wirst, bei unter 90% liegt.">Nicht gewusst: <%= Model.KnowledgeSummary.WeakPercentage %>% (<%= Model.KnowledgeSummary.Weak %> Fragen)  </div>
+            <div class="show-tooltip" title="Wenn Du die Frage seltener als 4x beantwortet hast, ist unbekannt ob sie als gewust und">Unbekannt: <%= Model.KnowledgeSummary.UnknownPercentage %>% (<%= Model.KnowledgeSummary.Unknown %> Fragen)</div>
         </div>
 
         <div class="column">
@@ -134,7 +134,7 @@
         </div>
         <div style="clear:both;"></div>
         
-        <div style="padding-top:20px; height: 200px; ">
+<%--        <div style="padding-top:20px; height: 200px; ">
         
             <div class="column">
                 <h3>Fragen (175)</h3>
@@ -164,6 +164,6 @@
                     </tr>
                 </table>
             </div>
-        </div>
+        </div>--%>
     <% } %>
 </asp:Content>
