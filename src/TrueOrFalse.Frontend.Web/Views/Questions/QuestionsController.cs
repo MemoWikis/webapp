@@ -7,6 +7,7 @@ using Seedworks.Lib;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Search;
+using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
@@ -15,18 +16,22 @@ namespace TrueOrFalse
     {
         private readonly QuestionRepository _questionRepository;
         private readonly QuestionsControllerSearch _questionsControllerSearch;
+        private readonly QuestionsControllerUtil _util;
 
-        public QuestionsController(QuestionRepository questionRepository,
-                                   QuestionsControllerSearch questionsControllerSearch)
+        public QuestionsController(
+            QuestionRepository questionRepository,
+            QuestionsControllerSearch questionsControllerSearch)
         {
             _questionRepository = questionRepository;
             _questionsControllerSearch = questionsControllerSearch;
+
+            _util = new QuestionsControllerUtil(questionsControllerSearch, ControllerContext);
         }
 
         [SetMenu(MenuEntry.Questions)]
         public ActionResult Questions(int? page, QuestionsModel model, string orderBy)
         {
-            SetSearchSpecVars(_sessionUiData.SearchSpecQuestionAll, page, model, orderBy);
+            _util.SetSearchSpecVars(_sessionUiData.SearchSpecQuestionAll, page, model, orderBy);
 
             return View("Questions",
                 new QuestionsModel(
@@ -37,7 +42,7 @@ namespace TrueOrFalse
 
         public ActionResult QuestionsSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
-            SetSearchTerm(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
+            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
             return Questions(page, model, orderBy);
         }
 
@@ -49,12 +54,12 @@ namespace TrueOrFalse
                     new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), isTabMineActive: true));
             }
 
-            return View("Questions", GetQuestionsModel(page, model, orderBy, _sessionUiData.SearchSpecQuestionMine, isTabMineActive: true));
+            return View("Questions", _util.GetQuestionsModel(page, model, orderBy, _sessionUiData.SearchSpecQuestionMine, isTabMineActive: true));
         }
 
         public ActionResult QuestionsMineSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
-            SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
+            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
             return QuestionsMine(page, model, orderBy);
         }
 
@@ -63,61 +68,9 @@ namespace TrueOrFalse
         public JsonResult QuestionsMineSearchApi(string searchTerm)
         {
             var model = new QuestionsModel();
-            SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
+            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
 
-            return SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, isTabMineActive: true);
-        }
-
-        public JsonResult SearchApi(
-            string searchTerm, 
-            QuestionSearchSpec searchSpec,
-            bool isTabAllActive = false,
-            bool isTabWishActive = false,
-            bool isTabMineActive = false)
-        {
-            var model = new QuestionsModel();
-            SetSearchTerm(searchSpec, model, searchTerm);
-
-            return new JsonResult
-            {
-                Data = new
-                {
-                    Html = ViewRenderer.RenderPartialView(
-                        "QuestionsSearchResult",
-                        new QuestionsSearchResultModel(
-                            GetQuestionsModel(
-                                searchSpec.CurrentPage, model,
-                                "",
-                                searchSpec,
-                                isTabAllActive,
-                                isTabWishActive,
-                                isTabMineActive
-                                )),
-                        this.ControllerContext)
-                },
-            };
-        }
-
-        private QuestionsModel GetQuestionsModel(
-            int? page, 
-            QuestionsModel model, 
-            string orderBy, 
-            QuestionSearchSpec searchSpec,
-            bool isTabAllActive = false,
-            bool isTabWishActive = false,
-            bool isTabMineActive = false)
-        {
-            SetSearchSpecVars(searchSpec, page, model, orderBy);
-            searchSpec.Filter.CreatorId = _sessionUser.User.Id;
-
-            var questionsModel = new QuestionsModel(
-                _questionsControllerSearch.Run(searchSpec),
-                searchSpec,
-                isTabAllActive,
-                isTabWishActive,
-                isTabMineActive);
-
-            return questionsModel;
+            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, isTabMineActive: true);
         }
 
         [SetMenu(MenuEntry.Questions)]
@@ -128,7 +81,7 @@ namespace TrueOrFalse
                     new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), isTabWishActive: true));
             }
 
-            SetSearchSpecVars(_sessionUiData.SearchSpecQuestionWish, page, model, orderBy);
+            _util.SetSearchSpecVars(_sessionUiData.SearchSpecQuestionWish, page, model, orderBy);
             _sessionUiData.SearchSpecQuestionWish.Filter.ValuatorId = _sessionUser.User.Id;
 
             return View("Questions",
@@ -140,16 +93,16 @@ namespace TrueOrFalse
 
         public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
-            SetSearchTerm(_sessionUiData.SearchSpecQuestionWish, model, searchTerm);
+            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionWish, model, searchTerm);
             return QuestionsWish(page, model, orderBy);
         }
 
         public JsonResult QuestionsWishSearchApi(string searchTerm)
         {
             var model = new QuestionsModel();
-            SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
+            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
 
-            return SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, isTabWishActive: true);
+            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, isTabWishActive: true);
         }
 
         [HttpPost]
@@ -202,21 +155,72 @@ namespace TrueOrFalse
                 QuestionAlreadyInSet = result.AmountOfQuestionsAlreadyInSet
             }};
         }
+    }
 
-        public void SetSearchTerm(QuestionSearchSpec searchSpec, QuestionsModel model, string searchTerm)
+    public class QuestionsControllerUtil
+    {
+        private readonly QuestionsControllerSearch _questionsControllerSearch;
+        private readonly ControllerContext _controllerContext;
+
+        public QuestionsControllerUtil(
+            QuestionsControllerSearch questionsControllerSearch, 
+            ControllerContext controllerContext)
         {
-            if (searchSpec.Filter.SearchTerm != searchTerm)
-                searchSpec.CurrentPage = 1;
+            _questionsControllerSearch = questionsControllerSearch;
+            _controllerContext = controllerContext;
+        }
 
-            if(!String.IsNullOrEmpty(searchTerm))
-                searchTerm = searchTerm
-                    .Replace("Kat__", "Kat:\"")
-                    .Replace("Ersteller__", "Ersteller:\"")
-                    .Replace("__", "\"")
-                    .Replace("___", ":")
-                    .Replace("_and_", "&");
+        public QuestionsModel GetQuestionsModel(
+            int? page,
+            QuestionsModel model,
+            string orderBy,
+            QuestionSearchSpec searchSpec,
+            bool isTabAllActive = false,
+            bool isTabWishActive = false,
+            bool isTabMineActive = false)
+        {
+            SetSearchSpecVars(searchSpec, page, model, orderBy);
+            searchSpec.Filter.CreatorId = Sl.Resolve<SessionUser>().UserId;
 
-            searchSpec.Filter.SearchTerm = model.SearchTerm = searchTerm;
+            var questionsModel = new QuestionsModel(
+                _questionsControllerSearch.Run(searchSpec),
+                searchSpec,
+                isTabAllActive,
+                isTabWishActive,
+                isTabMineActive);
+
+            return questionsModel;
+        }
+
+        public JsonResult SearchApi(
+            string searchTerm,
+            QuestionSearchSpec searchSpec,
+            bool isTabAllActive = false,
+            bool isTabWishActive = false,
+            bool isTabMineActive = false)
+        {
+            var model = new QuestionsModel();
+            SetSearchTerm(searchSpec, model, searchTerm);
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    Html = ViewRenderer.RenderPartialView(
+                        "QuestionsSearchResult",
+                        new QuestionsSearchResultModel(
+                            GetQuestionsModel(
+                                searchSpec.CurrentPage, model,
+                                "",
+                                searchSpec,
+                                isTabAllActive,
+                                isTabWishActive,
+                                isTabMineActive
+                                )),
+                        _controllerContext),
+                    Total = searchSpec.TotalItems
+                },
+            };
         }
 
         public void SetSearchSpecVars(QuestionSearchSpec searchSpec, int? page, QuestionsModel model,
@@ -227,7 +231,23 @@ namespace TrueOrFalse
             if (page.HasValue)
                 searchSpec.CurrentPage = page.Value;
 
-            SetOrderBy(searchSpec, orderBy, defaultOrder);        
+            SetOrderBy(searchSpec, orderBy, defaultOrder);
+        }
+
+        public void SetSearchTerm(QuestionSearchSpec searchSpec, QuestionsModel model, string searchTerm)
+        {
+            if (searchSpec.Filter.SearchTerm != searchTerm)
+                searchSpec.CurrentPage = 1;
+
+            if (!String.IsNullOrEmpty(searchTerm))
+                searchTerm = searchTerm
+                    .Replace("Kat__", "Kat:\"")
+                    .Replace("Ersteller__", "Ersteller:\"")
+                    .Replace("__", "\"")
+                    .Replace("___", ":")
+                    .Replace("_and_", "&");
+
+            searchSpec.Filter.SearchTerm = model.SearchTerm = searchTerm;
         }
 
         public void SetOrderBy(QuestionSearchSpec searchSpec, string orderByCommand, string defaultOrder)
@@ -240,6 +260,13 @@ namespace TrueOrFalse
             else if (orderByCommand == "byDateCreated") searchSpec.OrderBy.OrderByCreationDate.Desc();
             else if (orderByCommand == "byViews") searchSpec.OrderBy.OrderByViews.Desc();
         }
+    }
+
+    public enum SearchTab
+    {
+        All, 
+        Mine, 
+        Wish
     }
 
 }
