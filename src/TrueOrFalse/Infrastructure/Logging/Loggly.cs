@@ -38,6 +38,9 @@ public class Loggly
     {
         var logglyKey = OverwrittenConfig.LogglyKey();
 
+        if (String.IsNullOrEmpty(logglyKey))
+            return;
+
         Task.Factory.StartNew(() =>
         {
             var request = WebRequest.Create("https://logs.loggly.com/inputs/" + logglyKey);

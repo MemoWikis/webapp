@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NHibernate.Event;
+using NUnit.Framework;
 using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
