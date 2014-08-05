@@ -40,14 +40,14 @@ public static class CategoryTypeExts
         {
             case CategoryType.Standard: return "Standard";
 
-            case CategoryType.Book: return "Buch (auch eBooks)";
+            case CategoryType.Book: return "Buch";
             case CategoryType.VolumeChapter: return "Beitrag in Sammelband";
             case CategoryType.Daily: return "Tageszeitung";
-            case CategoryType.DailyIssue: return "Tageszeitung: Ausgabe";
-            case CategoryType.DailyArticle: return "Tageszeitung: Artikel";
+            case CategoryType.DailyIssue: return "Ausgabe Tageszeitung";
+            case CategoryType.DailyArticle: return "Artikel in Tageszeitung";
             case CategoryType.Magazine: return "Zeitschrift";
-            case CategoryType.MagazineIssue: return "Zeitschrift: Ausgabe";
-            case CategoryType.MagazineArticle: return "Zeitschrift: Artikel";
+            case CategoryType.MagazineIssue: return "Ausgabe Zeitschrift";
+            case CategoryType.MagazineArticle: return "Artikel in Zeitschrift";
 
             case CategoryType.Website: return "Webseite";
             case CategoryType.WebsiteArticle: return "Online-Artikel";
