@@ -225,53 +225,21 @@ img {
   text-decoration: none;
 }
 #MasterHeader h1 {
-  font-weight: 800;
   margin: 0;
   border: none;
-  background: url('/images/toflogo.png') no-repeat right;
-  font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
-  color: #afd534;
-  font-size: 28px;
   display: inline-block;
   height: 100%;
-  line-height: 34px;
   background: none;
   position: relative;
-  padding-left: 0px;
+  padding-left: 0;
   -webkit-text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
   text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
-}
-@media (min-width: 480px) {
-  #MasterHeader h1 {
-    font-size: 32px;
-  }
-}
-@media (min-width: 768px) {
-  #MasterHeader h1 {
-    font-size: 40px;
-    padding-top: 2px;
-  }
+  line-height: 34px;
+  color: #afd534;
 }
 #MasterHeader h1:hover {
   -webkit-text-shadow: rgba(0, 0, 0, 0.5) 3px 1px 1px;
   text-shadow: rgba(0, 0, 0, 0.5) 3px 1px 1px;
-}
-#MasterHeader h1 span#m {
-  padding-right: 3px;
-}
-#MasterHeader h1 span#uch {
-  color: #e7ecf6;
-  font-size: 20px;
-}
-@media (min-width: 480px) {
-  #MasterHeader h1 span#uch {
-    font-size: 24px;
-  }
-}
-@media (min-width: 768px) {
-  #MasterHeader h1 span#uch {
-    font-size: 30px;
-  }
 }
 #MasterHeader span#logo {
   display: inline-block;

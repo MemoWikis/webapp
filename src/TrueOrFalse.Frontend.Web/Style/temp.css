@@ -1,4 +1,232 @@
-﻿/*REFERENCES DEFAULT
+﻿/*Logo
+---------------------------------------------------------*/
+.title-mixed-colors span#uch {
+  color: #e7ecf6;
+}
+.title-uch-candy span#uch {
+  font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
+}
+.title-old {
+  font-weight: 800;
+  font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
+  font-size: 28px;
+  text-transform: uppercase;
+}
+@media (min-width: 480px) {
+  .title-old {
+    font-size: 32px;
+  }
+}
+@media (min-width: 768px) {
+  .title-old {
+    font-size: 40px;
+    padding-top: 2px;
+  }
+}
+.title-old span#m {
+  padding-right: 3px;
+}
+.title-old span#uch {
+  font-size: 20px;
+  text-transform: lowercase;
+}
+@media (min-width: 480px) {
+  .title-old span#uch {
+    font-size: 24px;
+  }
+}
+@media (min-width: 768px) {
+  .title-old span#uch {
+    font-size: 30px;
+  }
+}
+.title-new-candy-pure {
+  font-size: 40px;
+  font-weight: 800;
+  padding-top: 0;
+  font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
+  line-height: 30px !important;
+}
+.title-new-candy-pure #uch {
+  vertical-align: 3px;
+  display: inline-block;
+  margin-right: -2px;
+}
+.title-new-candy-pure #uch span {
+  display: inline-block;
+  font-size: 35px !important;
+}
+.title-new-candy-pure #uch span:first-child {
+  -moz-transform: rotate(-10deg);
+  -ms-transform: rotate(-10deg);
+  -o-transform: rotate(-10deg);
+  -webkit-transform: rotate(-10deg);
+  transform: rotate(-10deg);
+  vertical-align: -3px;
+}
+.title-new-candy-pure #uch span:nth-child(3) {
+  -moz-transform: rotate(10deg);
+  -ms-transform: rotate(10deg);
+  -o-transform: rotate(10deg);
+  -webkit-transform: rotate(10deg);
+  transform: rotate(10deg);
+  vertical-align: -3px;
+}
+.title-new-roboto-slab {
+  font-size: 40px;
+  font-weight: 800;
+  padding-top: 0;
+  font-family: 'Roboto slab', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive !important;
+  line-height: 32px !important;
+}
+.title-new-roboto-slab #uch {
+  vertical-align: 3px;
+  display: inline-block;
+  margin-right: -2px;
+}
+.title-new-roboto-slab #uch span {
+  display: inline-block;
+  font-size: 35px !important;
+}
+.title-new-roboto-slab #uch span:first-child {
+  -moz-transform: rotate(-10deg);
+  -ms-transform: rotate(-10deg);
+  -o-transform: rotate(-10deg);
+  -webkit-transform: rotate(-10deg);
+  transform: rotate(-10deg);
+  vertical-align: -3px;
+}
+.title-new-roboto-slab #uch span:nth-child(3) {
+  -moz-transform: rotate(10deg);
+  -ms-transform: rotate(10deg);
+  -o-transform: rotate(10deg);
+  -webkit-transform: rotate(10deg);
+  transform: rotate(10deg);
+  vertical-align: -3px;
+}
+.title-new-roboto-slab #m {
+  margin-right: -1px;
+}
+.title-new-roboto {
+  font-size: 40px;
+  font-weight: 800;
+  padding-top: 0;
+  font-family: 'Roboto', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive !important;
+  line-height: 32px !important;
+  font-weight: normal;
+}
+.title-new-roboto #uch {
+  vertical-align: 3px;
+  display: inline-block;
+  margin-right: -2px;
+}
+.title-new-roboto #uch span {
+  display: inline-block;
+  font-size: 35px !important;
+}
+.title-new-roboto #uch span:first-child {
+  -moz-transform: rotate(-10deg);
+  -ms-transform: rotate(-10deg);
+  -o-transform: rotate(-10deg);
+  -webkit-transform: rotate(-10deg);
+  transform: rotate(-10deg);
+  vertical-align: -3px;
+}
+.title-new-roboto #uch span:nth-child(3) {
+  -moz-transform: rotate(10deg);
+  -ms-transform: rotate(10deg);
+  -o-transform: rotate(10deg);
+  -webkit-transform: rotate(10deg);
+  transform: rotate(10deg);
+  vertical-align: -3px;
+}
+.title-new-roboto #uch {
+  font-weight: bold;
+}
+.title-new-roboto #m {
+  margin-right: -1px;
+}
+.title-new {
+  font-size: 40px;
+  font-weight: 800;
+  padding-top: 0;
+}
+.title-new #uch {
+  vertical-align: 3px;
+  display: inline-block;
+  margin-right: -2px;
+}
+.title-new #uch span {
+  display: inline-block;
+  font-size: 35px !important;
+}
+.title-new #uch span:first-child {
+  -moz-transform: rotate(-10deg);
+  -ms-transform: rotate(-10deg);
+  -o-transform: rotate(-10deg);
+  -webkit-transform: rotate(-10deg);
+  transform: rotate(-10deg);
+  vertical-align: -3px;
+}
+.title-new #uch span:nth-child(3) {
+  -moz-transform: rotate(10deg);
+  -ms-transform: rotate(10deg);
+  -o-transform: rotate(10deg);
+  -webkit-transform: rotate(10deg);
+  transform: rotate(10deg);
+  vertical-align: -3px;
+}
+.fixed-height-header .HeaderMainRow {
+  height: 37px !important;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+.HeaderMainRow {
+  height: 37px !important;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+.block.title h1 {
+  font-weight: 800;
+  font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
+  font-size: 28px;
+  text-transform: uppercase;
+}
+@media (min-width: 480px) {
+  .block.title h1 {
+    font-size: 32px;
+  }
+}
+@media (min-width: 768px) {
+  .block.title h1 {
+    font-size: 40px;
+    padding-top: 2px;
+  }
+}
+.block.title h1 span#m {
+  padding-right: 3px;
+}
+.block.title h1 span#uch {
+  font-size: 20px;
+  text-transform: lowercase;
+}
+@media (min-width: 480px) {
+  .block.title h1 span#uch {
+    font-size: 24px;
+  }
+}
+@media (min-width: 768px) {
+  .block.title h1 span#uch {
+    font-size: 30px;
+  }
+}
+.block.title h1 span#uch {
+  font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
+}
+.block.title h1 span#uch {
+  color: #e7ecf6;
+}
+/*REFERENCES DEFAULT
 ---------------------------------------------------------*/
 .Reference div.Title {
   font-weight: bold;

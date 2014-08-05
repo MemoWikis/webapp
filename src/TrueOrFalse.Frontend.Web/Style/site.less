@@ -213,54 +213,25 @@ img {
     }
 
     h1 {
-        font-weight: 800;
         margin: 0;
         border: none;
-        background: url('/images/toflogo.png') no-repeat right;
-        font-family: 'Emilys Candy', 'MS Serif', 'Palatino Linotype', 'Book Antiqua', cursive;
-        color: @memo-green;
-        font-size: 28px;
         display: inline-block;
         height: 100%;
-        line-height: @masterHeaderMainRowHeight-xs;
-
-
-        @media (min-width: @screen-xs-min) {
-            font-size: 32px;
-        }
-
-        @media (min-width: @screen-sm-min) {
-            font-size: 40px; padding-top: 2px;
-        }
-
         background: none;
         position: relative;
-        padding-left: 0px;
+        padding-left: 0;
         -webkit-text-shadow: rgba(0,0,0,0.5) 1px 1px 1px;
         text-shadow: rgba(0,0,0,0.5) 1px 1px 1px;
+        line-height: @masterHeaderMainRowHeight-xs;
+        color: @memo-green;
 
         &:hover {
             -webkit-text-shadow: rgba(0,0,0,0.5) 3px 1px 1px;
             text-shadow: rgba(0,0,0,0.5) 3px 1px 1px;
         }
-
-        span#m {
-            padding-right: 3px;
-        }
-
-        span#uch {
-            color: @light-blue;
-            font-size: 20px;
-
-            @media (min-width: @screen-xs-min) {
-                font-size: 24px;
-            }
-
-            @media (min-width: @screen-sm-min) {
-                font-size: 30px;
-            }
-        }
     }
+
+    
 
     span#logo {
         display: inline-block;
