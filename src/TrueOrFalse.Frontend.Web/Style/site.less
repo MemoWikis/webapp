@@ -310,6 +310,15 @@ img {
     #MasterHeader span#logo {
         background-image: url('/images/memo_liegend_bearbeitet4.png');
         background-size: 83% !important;
+        -moz-transition: background-size 0.2s ease-in;
+        -o-transition: background-size 0.2s ease-in;
+        -webkit-transition: background-size 0.2s ease-in;
+        transition: background-size 0.2s ease-in;
+
+
+        &:hover {
+            background-size: 100% !important;
+        }
     }
 }    
 
