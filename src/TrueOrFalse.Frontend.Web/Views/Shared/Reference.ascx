@@ -98,7 +98,7 @@
                 if (!String.IsNullOrEmpty(daily.Publisher)){
                     %><div class="Publisher"><span><%= daily.Publisher %></span></div>       
                 <% }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL)){
+                if (!String.IsNullOrEmpty(daily.Url)){
                     %><div class="Url"><a href="<%= daily.Url %>"><span><%= daily.Url %></span></a></div><%
                 }
                 if (!String.IsNullOrEmpty(Model.WikipediaURL)){
@@ -116,17 +116,21 @@
             var dailyArticle = (CategoryTypeDailyArticle) type;
 %>
            <div class="Reference DailyArticle">
-                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
-               <%-- <% if (!String.IsNullOrEmpty(Model.Name)){
+               <%-- <div class="Icon"><i class="fa fa-file-text-o"></i></div>
+                <% if (!String.IsNullOrEmpty(dailyArticle.Author))
+                   {
+                       var htmlAuthors = dailyArticle.Author
+                           .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                           .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
+                        <div class="Author"><span><%= htmlAuthors %></span></div>
+                <% }
+                if (!String.IsNullOrEmpty(Model.Name)){
                     %><div class="Title"><span><%= Model.Name %></span></div><%
                 } 
-                if (!String.IsNullOrEmpty(daily.ISSN)){
-                    %><div class="Issn"><span>ISSN: <%= daily.ISSN %></span></div>       
+                if (!String.IsNullOrEmpty(dailyArticle.DailyIssue.Name)){
+                    %><div class="DailyIssue"><span><%= dailyArticle.DailyIssue.Name %></span></div>       
                 <% }
-                if (!String.IsNullOrEmpty(daily.Publisher)){
-                    %><div class="Publisher"><span><%= daily.Publisher %></span></div>       
-                <% }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL)){
+                if (!String.IsNullOrEmpty(dailyArticle.)){
                     %><div class="Url"><a href="<%= daily.Url %>"><span><%= daily.Url %></span></a></div><%
                 }
                 if (!String.IsNullOrEmpty(Model.WikipediaURL)){

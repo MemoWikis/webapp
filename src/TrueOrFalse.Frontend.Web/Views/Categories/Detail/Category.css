@@ -23,7 +23,8 @@
   font-size: 20px;
   margin-bottom: 15px;
 }
-.Reference.Book .Title {
+.Reference.Book .Title,
+.Reference.Daily .Title {
   display: none;
 }
 .CategoryRelations {
