@@ -85,14 +85,14 @@
                                     <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
                                     <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeMedia %>" >
                                         <optgroup label="Druckmedien und eBooks">
-                                            <option value="Book"><%= CategoryType.Book.GetName() %></option>
+                                            <option value="Book">Buch (auch eBooks)</option>
                                             <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>
                                             <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
-                                            <option value="DailyIssue"><%= CategoryType.DailyIssue.GetName() %></option>
-                                            <option value="DailyArticle"><%= CategoryType.DailyArticle.GetName() %></option>
+                                            <option value="DailyIssue">Tageszeitung: Ausgabe</option>
+                                            <option value="DailyArticle">Tageszeitung: Artikel</option>
                                             <option value="Magazine"><%= CategoryType.Magazine.GetName() %></option>
-                                            <option value="MagazineIssue"><%= CategoryType.MagazineIssue.GetName() %></option>
-                                            <option value="MagazineArticle"><%= CategoryType.MagazineArticle.GetName() %></option>
+                                            <option value="MagazineIssue">Zeitschrift: Ausgabe</option>
+                                            <option value="MagazineArticle">Zeitschrift: Artikel</option>
                                         </optgroup>
                                         <optgroup label="Internet">
                                             <%--<option value="Website"><%= CategoryType.Website.GetName() %></option>--%>

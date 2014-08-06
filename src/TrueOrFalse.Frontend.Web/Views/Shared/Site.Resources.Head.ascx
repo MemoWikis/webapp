@@ -8,6 +8,8 @@
 <% if (!OverwrittenConfig.DevelopOffline()){ %>
     <link href='http://fonts.googleapis.com/css?family=Emilys+Candy' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:500' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
 <% } %>
 
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">

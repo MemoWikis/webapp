@@ -19,7 +19,16 @@
   font-size: 145%;
   margin-top: 5px;
 }
+.Reference {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.Reference.Book .Title,
+.Reference.Daily .Title {
+  display: none;
+}
 .CategoryRelations {
+  margin-top: 10px;
   text-align: center;
 }
 .RelationArrow {

@@ -172,6 +172,8 @@ public class EditCategoryModel : BaseModel
             category.Name = request["Title"];
         else
             category.Name = request["Title"] + " – " + request["Subtitle"];
+        
+        //category.Name += " (" + category.Type.GetName() + ")";
 
         return result;
     }
