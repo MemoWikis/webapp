@@ -152,6 +152,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain.Userlytics\GetRandomLogoCssClass.cs" />
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />

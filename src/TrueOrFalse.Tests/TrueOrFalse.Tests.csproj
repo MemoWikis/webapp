@@ -185,6 +185,7 @@
     <Compile Include="1 View\MarkdownTests.cs" />
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
+    <Compile Include="2 Domain.Userlytics\GetRandomLogoCssClassTest.cs" />
     <Compile Include="2 Domain\Comment\Comment_persistence.cs" />
     <Compile Include="2 Domain\Comment\Setup\ContextComment.cs" />
     <Compile Include="2 Domain\Image\ImageLicenceInfo_from_wikimedia.cs" />
