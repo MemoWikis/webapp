@@ -213,7 +213,9 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = request["Url"]
+            Url = request["Url"],
+            PagesArticleFrom = request["PagesArticleFrom"],
+            PagesArticleTo = request["PagesArticleTo"]
         };
 
         category.TypeJson = categoryDailyArticle.ToJson();
@@ -286,7 +288,9 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = request["Url"]
+            Url = request["Url"],
+            PagesArticleFrom = request["PagesArticleFrom"],
+            PagesArticleTo = request["PagesArticleTo"]
         };
 
         category.TypeJson = categoryMagazineArticle.ToJson();

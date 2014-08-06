@@ -73,13 +73,13 @@
     
     <div class="columnControlsFull">
         <div class="JS-ValidationGroup">
-            <label class="control-label LabelInline" for="PagesChapterFrom">von</label>
+            <label class="control-label LabelInline" for="PagesArticleFrom">von</label>
             <div class="ControlInline">
-                <input class="form-control InputPageNo JS-ValidationGroupMember" name="PagesChapterFrom" type="text" value="<%= model.PagesChapterFrom%>">
+                <input class="form-control InputPageNo JS-ValidationGroupMember" name="PagesArticleFrom" type="text" value="<%= model.PagesArticleFrom%>">
             </div>
-            <label class="control-label LabelInline" for="PagesChapterTo">bis</label>
+            <label class="control-label LabelInline" for="PagesArticleTo">bis</label>
             <div style="" class="ControlInline">
-                <input class="form-control InputPageNo JS-ValidationGroupMember" style="" name="PagesChapterTo" type="text" value="<%= model.PagesChapterTo %>">
+                <input class="form-control InputPageNo JS-ValidationGroupMember" style="" name="PagesArticleTo" type="text" value="<%= model.PagesArticleTo %>">
             </div>
         </div>
     </div>    

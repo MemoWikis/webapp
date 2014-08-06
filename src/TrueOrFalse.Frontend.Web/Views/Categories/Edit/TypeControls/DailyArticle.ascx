@@ -69,6 +69,22 @@
     </div>
 </div>
 <div class="form-group">
+    <label class="columnLabel control-label">Seiten Artikel</label>
+    
+    <div class="columnControlsFull">
+        <div class="JS-ValidationGroup">
+            <label class="control-label LabelInline" for="PagesArticleFrom">von</label>
+            <div class="ControlInline">
+                <input class="form-control InputPageNo JS-ValidationGroupMember" name="PagesArticleFrom" type="text" value="<%= model.PagesArticleFrom%>">
+            </div>
+            <label class="control-label LabelInline" for="PagesArticleTo">bis</label>
+            <div style="" class="ControlInline">
+                <input class="form-control InputPageNo JS-ValidationGroupMember" style="" name="PagesArticleTo" type="text" value="<%= model.PagesArticleTo %>">
+            </div>
+        </div>
+    </div>    
+</div>
+<div class="form-group">
     <label class="columnLabel control-label" for="Description">
         Beschreibung
         <i class="fa fa-question-circle show-tooltip" 
