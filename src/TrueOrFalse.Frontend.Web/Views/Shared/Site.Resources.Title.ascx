@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TitleModel>"  %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>        
 
-<header id="MasterHeader">
+<header id="MasterHeader" class="<%= GetRandomLogoCssClass.Run() %>">
     <div class="container">
         <div class="row">
             <div class="col-md-12">

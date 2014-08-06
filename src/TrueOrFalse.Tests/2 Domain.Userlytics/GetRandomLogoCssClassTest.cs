@@ -16,7 +16,7 @@ namespace TrueOrFalse.Tests
         {
             //Arrange + //Act
             var results = new List<string>();
-            for (var i = 0; i < 100; i++)
+            for (var i = 0; i < 300; i++)
                 results.Add(GetRandomLogoCssClass.Run(DateTime.Now.AddDays(i)));
 
             //Assert
