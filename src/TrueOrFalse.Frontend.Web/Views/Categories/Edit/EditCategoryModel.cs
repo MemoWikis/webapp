@@ -123,7 +123,7 @@ public class EditCategoryModel : BaseModel
             return FillBook(category, request, result);
 
         if (category.Type == CategoryType.Daily)
-            category.TypeJson = new CategoryTypeDaily { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"] }.ToJson();
+            return FillDaily(category, request, result);
 
         if (category.Type == CategoryType.DailyIssue)
             return FillDailyIssue(category, request, result);
@@ -178,7 +178,21 @@ public class EditCategoryModel : BaseModel
         return result;
     }
 
-    private ConvertToCategoryResult FillDailyIssue(Category category, HttpRequest request, ConvertToCategoryResult result)
+    private static ConvertToCategoryResult FillDaily(Category category, HttpRequest request, ConvertToCategoryResult result)
+    {
+        category.TypeJson = new CategoryTypeDaily
+        { Title = request["Title"],
+            ISSN = request["ISSN"],
+            Publisher = request["Publisher"],
+            Url = request["Url"] 
+        }.ToJson();
+
+        category.Name = request["Title"];
+
+        return result;
+    }
+
+    private static ConvertToCategoryResult FillDailyIssue(Category category, HttpRequest request, ConvertToCategoryResult result)
     {
         var categoryDailyIssue = new CategoryTypeDailyIssue
         {
