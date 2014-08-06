@@ -436,6 +436,9 @@
       <DependentUpon>shared.less</DependentUpon>
     </Content>
     <Content Include="Style\includes\shared.less" />
+    <Content Include="Style\logo.css">
+      <DependentUpon>logo.less</DependentUpon>
+    </Content>
     <Content Include="Style\temp.css">
       <DependentUpon>temp.less</DependentUpon>
     </Content>
@@ -644,6 +647,10 @@
       <DependentUpon>z_mixins_for_buttons_2.3.2.less</DependentUpon>
     </Content>
     <Content Include="Style\z_mixins_for_buttons_2.3.2.less" />
+    <Content Include="Style\logo.less" />
+    <Content Include="Style\logo.css.map">
+      <DependentUpon>logo.css</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
