@@ -46,11 +46,9 @@ public class QuestionsModel : BaseModel
         SearchTab searchTab
     )
     {
-        ActiveTabAll = _searchTab == SearchTab.All;
-        ActiveTabMine = _searchTab == SearchTab.Mine;
-        ActiveTabWish = _searchTab == SearchTab.Wish;
-
-        _searchTab = searchTab;
+        ActiveTabAll = searchTab == SearchTab.All;
+        ActiveTabMine = searchTab == SearchTab.Mine;
+        ActiveTabWish = searchTab == SearchTab.Wish;
 
         int currentUserId = _sessionUser.IsLoggedIn ? _sessionUser.User.Id : -1;
         NotAllowed = !_sessionUser.IsLoggedIn && (searchTab == SearchTab.Wish || searchTab == SearchTab.Mine);

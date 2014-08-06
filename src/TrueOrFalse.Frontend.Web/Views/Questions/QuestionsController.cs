@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using NHibernate.Criterion;
+using NHibernate.Hql.Ast.ANTLR;
 using Seedworks.Lib;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
@@ -25,7 +27,7 @@ namespace TrueOrFalse
             _questionRepository = questionRepository;
             _questionsControllerSearch = questionsControllerSearch;
 
-            _util = new QuestionsControllerUtil(questionsControllerSearch, ControllerContext);
+            _util = new QuestionsControllerUtil(questionsControllerSearch);
         }
 
         [SetMenu(MenuEntry.Questions)]
@@ -63,14 +65,12 @@ namespace TrueOrFalse
             return QuestionsMine(page, model, orderBy);
         }
 
-
-
         public JsonResult QuestionsMineSearchApi(string searchTerm)
         {
             var model = new QuestionsModel();
             _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
 
-            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, SearchTab.Mine);
+            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, SearchTab.Mine, ControllerContext);
         }
 
         [SetMenu(MenuEntry.Questions)]
@@ -81,14 +81,7 @@ namespace TrueOrFalse
                     new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), SearchTab.Wish));
             }
 
-            _util.SetSearchSpecVars(_sessionUiData.SearchSpecQuestionWish, page, model, orderBy);
-            _sessionUiData.SearchSpecQuestionWish.Filter.ValuatorId = _sessionUser.User.Id;
-
-            return View("Questions",
-                new QuestionsModel(
-                    _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionWish),
-                    _sessionUiData.SearchSpecQuestionWish,
-                    SearchTab.Wish));
+            return View("Questions", _util.GetQuestionsModel(page, model, orderBy, _sessionUiData.SearchSpecQuestionWish, SearchTab.Wish));
         }
 
         public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
@@ -100,9 +93,9 @@ namespace TrueOrFalse
         public JsonResult QuestionsWishSearchApi(string searchTerm)
         {
             var model = new QuestionsModel();
-            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
+            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionWish, model, searchTerm);
 
-            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, SearchTab.Wish);
+            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionWish, SearchTab.Wish, ControllerContext);
         }
 
         [HttpPost]
@@ -160,14 +153,9 @@ namespace TrueOrFalse
     public class QuestionsControllerUtil
     {
         private readonly QuestionsControllerSearch _ctlSearch;
-        private readonly ControllerContext _controllerContext;
 
-        public QuestionsControllerUtil(
-            QuestionsControllerSearch ctlSearch, 
-            ControllerContext controllerContext)
-        {
+        public QuestionsControllerUtil(QuestionsControllerSearch ctlSearch){
             _ctlSearch = ctlSearch;
-            _controllerContext = controllerContext;
         }
 
         public QuestionsModel GetQuestionsModel(
@@ -188,11 +176,12 @@ namespace TrueOrFalse
         public JsonResult SearchApi(
             string searchTerm,
             QuestionSearchSpec searchSpec,
-            SearchTab searchTab)
+            SearchTab searchTab, 
+            ControllerContext controllerContext)
         {
             var model = new QuestionsModel();
             SetSearchTerm(searchSpec, model, searchTerm);
-
+             
             return new JsonResult
             {
                 Data = new
@@ -206,8 +195,9 @@ namespace TrueOrFalse
                                 searchSpec,
                                 searchTab
                                 )),
-                        _controllerContext),
-                    Total = searchSpec.TotalItems
+                        controllerContext),
+                    Total = searchSpec.TotalItems,
+                    Tab = searchTab
                 },
             };
         }

@@ -22,9 +22,9 @@ namespace TrueOrFalse
                 return _sessionUiData.SearchSpecQuestions.First(x => x.Key == key);
 
             QuestionSearchSpec activeSearchSpec;                
-            if (key == "mine")
+            if (key == SearchTab.Mine.ToString())
                 activeSearchSpec = _sessionUiData.SearchSpecQuestionMine;
-            else if (key == "wish")
+            else if (key == SearchTab.Wish.ToString())
                 activeSearchSpec = _sessionUiData.SearchSpecQuestionWish;
             else
                 activeSearchSpec = _sessionUiData.SearchSpecQuestionAll;
