@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 [Serializable]
 public class CategoryTypeMagazine : CategoryTypeBase<CategoryTypeMagazine>
 {
+    public string Title;
     public string ISSN;
     public string Publisher;
     public string Url;

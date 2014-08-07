@@ -449,6 +449,7 @@
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs061.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs060.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs059.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs058.cs" />

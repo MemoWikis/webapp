@@ -132,7 +132,7 @@ public class EditCategoryModel : BaseModel
             return FillDailyArticle(category, request, result);
         
         if (category.Type == CategoryType.Magazine)
-            category.TypeJson = new CategoryTypeMagazine { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"] }.ToJson();
+            return FillMagazine(category, request, result);
 
         if (category.Type == CategoryType.MagazineIssue)
             return FillMagazineIssue(category, request, result);
@@ -262,6 +262,21 @@ public class EditCategoryModel : BaseModel
         if (addParentDailyIssue.HasError)
             return addParentDailyIssue.Result;
         
+        return result;
+    }
+
+    private static ConvertToCategoryResult FillMagazine(Category category, HttpRequest request, ConvertToCategoryResult result)
+    {
+        category.TypeJson = new CategoryTypeMagazine
+        {
+            Title = request["Title"],
+            ISSN = request["ISSN"],
+            Publisher = request["Publisher"],
+            Url = request["Url"]
+        }.ToJson();
+
+        category.Name = request["Title"];
+
         return result;
     }
 
