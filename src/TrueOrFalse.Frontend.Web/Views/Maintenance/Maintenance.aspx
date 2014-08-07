@@ -69,8 +69,8 @@
     </a> /
     <a href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>">
         <i class="fa fa-retweet"></i>Nutzer
-    </a>        
-        
+    </a>
+    
         
     <br/><br/>
 

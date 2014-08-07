@@ -18,4 +18,4 @@ $(function () {
         });
     });
 });
-//# sourceMappingURL=Categories.js.map
+//# sourceMappingURL=categories.js.map
