@@ -44,6 +44,7 @@ public class EditCategoryTypeModel : BaseModel
 
         PopulateFromCategory(category);
 
+
         Model = category.GetTypeModel();
     }
 
