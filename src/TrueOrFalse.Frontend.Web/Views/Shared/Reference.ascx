@@ -171,7 +171,7 @@
                     %><div class="Title"><span><%= Model.Name %></span></div><%
                 }
                 if (!String.IsNullOrEmpty(dailyIssue.Volume) || !String.IsNullOrEmpty(dailyIssue.No)){
-                    %><div> <%
+                    %><div class="VolumeNo"> <%
                         if (!String.IsNullOrEmpty(dailyIssue.Volume))
                         {
                             %><span>Jg. <%= dailyIssue.Volume %></span><%
@@ -183,23 +183,24 @@
                         } else {%><span>Nr. <%= dailyIssue.No %></span> <%}
                     %></div>       
                 <% }
-                
-                   %>
-                <%--if (!String.IsNullOrEmpty(daily.Publisher)){
-                    %><div class="Publisher"><span><%= daily.Publisher %></span></div>       
-                <% }
-                if (!String.IsNullOrEmpty(daily.Url)){
-                    %><div class="Url"><a href="<%= daily.Url %>"><span><%= daily.Url %></span></a></div><%
-                }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL)){
-                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
-                }
+
+                DateTime date;
+                if (DateTime.TryParse(dailyIssue.PublicationDateYear + "-" + dailyIssue.PublicationDateMonth + "-" + dailyIssue.PublicationDateDay, out date))
+                {%>
+                    <div class="PublicationDate">
+                        <span>erschienen am 
+                        <%= date.ToString("dd.MM.yyyy")%>
+                        </span>
+                    </div>   
+                <%}
                 if (!String.IsNullOrEmpty(Model.Description)){
                     %><div class="Description"><span><%= Model.Description %></span></div><%
-                } %>--%>
+                } %>
             </div>
 <%
         break;
+        
+        
     }
 %> 
 
