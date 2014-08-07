@@ -1,10 +1,12 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TrueOrFalse.Category>" %>
 <%@ Import Namespace="System.Activities.Statements" %>
 <%@ Import Namespace="System.Web.Razor.Parser.SyntaxTree" %>
+<%@ Import Namespace="Microsoft.Ajax.Utilities" %>
 <%@ Import Namespace="TrueOrFalse" %>
 
 <%
     object type = Model.GetTypeModel();
+    DateTime date;
     switch (Model.Type)
     {
         case CategoryType.Book:
@@ -90,7 +92,7 @@
            <div class="Reference Daily">
                 <div class="Icon"><i class="fa fa-file-text-o"></i></div>
                 <% if (!String.IsNullOrEmpty(Model.Name)){
-                    %><div class="Title"><span><%= Model.Name %></span></div><%
+                    %><div class="Name"><span><%= Model.Name %></span></div><%
                 } 
                 if (!String.IsNullOrEmpty(daily.ISSN)){
                     %><div class="Issn"><span>ISSN: <%= daily.ISSN %></span></div>       
@@ -168,7 +170,7 @@
            <div class="Reference DailyIssue">
                 <div class="Icon"><i class="fa fa-file-text-o"></i></div>
                 <% if (!String.IsNullOrEmpty(Model.Name)){
-                    %><div class="Title"><span><%= Model.Name %></span></div><%
+                    %><div class="Name"><span><%= Model.Name %></span></div><%
                 }
                 if (!String.IsNullOrEmpty(dailyIssue.Volume) || !String.IsNullOrEmpty(dailyIssue.No)){
                     %><div class="VolumeNo"> <%
@@ -184,7 +186,6 @@
                     %></div>       
                 <% }
 
-                DateTime date;
                 if (DateTime.TryParse(dailyIssue.PublicationDateYear + "-" + dailyIssue.PublicationDateMonth + "-" + dailyIssue.PublicationDateDay, out date))
                 {%>
                     <div class="PublicationDate">
@@ -200,9 +201,71 @@
 <%
         break;
         
-        
+        case CategoryType.Magazine:
+            var magazine = (CategoryTypeMagazine) type;
+%>
+           <div class="Reference Magazine">
+                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
+                <% if (!String.IsNullOrEmpty(Model.Name)){
+                    %><div class="Name"><span><%= Model.Name %></span></div><%
+                } 
+                if (!String.IsNullOrEmpty(magazine.ISSN)){
+                    %><div class="Issn"><span>ISSN: <%= magazine.ISSN %></span></div>       
+                <% }
+                if (!String.IsNullOrEmpty(magazine.Publisher)){
+                    %><div class="Publisher"><span><%= magazine.Publisher %></span></div>       
+                <% }
+                if (!String.IsNullOrEmpty(magazine.Url)){
+                    %><div class="Url"><a href="<%= magazine.Url %>"><span><%= magazine.Url %></span></a></div><%
+                }
+                if (!String.IsNullOrEmpty(Model.WikipediaURL)){
+                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
+                }
+                if (!String.IsNullOrEmpty(Model.Description)){
+                    %><div class="Description"><span><%= Model.Description %></span></div><%
+                } %>
+            </div>
+<%
+
+            break;
+            
+            case CategoryType.MagazineIssue:
+            var magazineIssue = (CategoryTypeMagazineIssue) type;
+        %>
+           <div class="Reference MagazineIssue">
+                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
+                <% if (!String.IsNullOrEmpty(Model.Name)){
+                    %><div class="Name"><span><%= Model.Name %></span></div><%
+                }
+                if (!String.IsNullOrEmpty(magazineIssue.Title))
+                {
+                    %><div class="Title"><span>"<%= magazineIssue.Title %>"</span></div><%
+                }
+                if (DateTime.TryParse(magazineIssue.PublicationDateYear + "-" + magazineIssue.PublicationDateMonth + "-" + magazineIssue.PublicationDateDay, out date))
+                {%>
+                    <div class="PublicationDate">
+                        <span>erschienen am 
+                        <%= date.ToString("dd.MM.yyyy")%>
+                        </span>
+                    </div>   
+                <%}
+                if (!String.IsNullOrEmpty(magazineIssue.Volume))
+                {
+                    %><div class="Volume"><span>Jg. <%= magazineIssue.Volume %></span></div><%
+                }
+                if (!String.IsNullOrEmpty(Model.Description)){
+                    %><div class="Description"><span><%= Model.Description %></span></div><%
+                } %>
+            </div><%
+
+            break;
+
     }
+    //Urls!
+    
 %> 
+
+                  
 
 
 
