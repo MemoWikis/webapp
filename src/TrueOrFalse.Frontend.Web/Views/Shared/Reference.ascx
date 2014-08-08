@@ -240,7 +240,7 @@
                            .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
                         <div class="Author"><span><%= htmlAuthors %></span></div>
                 <% }
-                   if (!String.IsNullOrEmpty(magazineArticle.Title))
+                if (!String.IsNullOrEmpty(magazineArticle.Title))
                 {
                     %><div class="Title"><%
                     if (!String.IsNullOrEmpty(magazineArticle.Subtitle))
@@ -253,24 +253,23 @@
                     }
                     %></div><%
                 }
-                   if (!String.IsNullOrEmpty(magazineArticle.MagazineIssue.Name))
-                   {
-                    %><div class="ParentIssue">
-                        <span><%= magazineArticle.MagazineIssue.Name %></span><%
-                       if (!String.IsNullOrEmpty(magazineArticle.PagesArticleFrom))
-                        {
-                        %><span class="Pages">
-                            (S. <%= magazineArticle.PagesArticleFrom %><%
-                            if (!String.IsNullOrEmpty(magazineArticle.PagesArticleTo))
-                            {%>–<%= magazineArticle.PagesArticleTo %><%}
-                         %>)</span><%
-                        }
+                if (!String.IsNullOrEmpty(magazineArticle.MagazineIssue.Name))
+                {
+                %><div class="ParentIssue">
+                    <span><%= magazineArticle.MagazineIssue.Name %></span><%
+                    if (!String.IsNullOrEmpty(magazineArticle.PagesArticleFrom))
+                    {
+                    %><span class="Pages">
+                        (S. <%= magazineArticle.PagesArticleFrom %><%
+                        if (!String.IsNullOrEmpty(magazineArticle.PagesArticleTo))
+                        {%>–<%= magazineArticle.PagesArticleTo %><%}
+                        %>)</span><%
+                    }
                                               
-                    %></div>       
+                %></div>       
                 <% }
-
-                   if (!String.IsNullOrEmpty(magazineArticle.Url))
-                   {
+                if (!String.IsNullOrEmpty(magazineArticle.Url))
+                {
                     %><div class="Url"><a href="<%= magazineArticle.Url %>"><span><%= magazineArticle.Url %></span></a></div><%
                 }
                 if (!String.IsNullOrEmpty(Model.Description)){
@@ -309,6 +308,115 @@
                 } %>
             </div><%
 
+            break;
+            
+            case CategoryType.VolumeChapter:
+            var volumeChapter = (CategoryTypeVolumeChapter) type;
+%>
+            <div class="Reference VolumeChapter">
+                <div class="Icon"><i class="fa fa-book"></i></div>
+                <% if (!String.IsNullOrEmpty(volumeChapter.Author))
+                   {
+                       var htmlAuthors = volumeChapter.Author
+                           .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                           .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
+                        <div class="Author"><span><%= htmlAuthors %></span></div>
+                <% }
+                if (!String.IsNullOrEmpty(volumeChapter.Title))
+                {
+                    %><div class="Title"><%
+                    if (!String.IsNullOrEmpty(volumeChapter.Subtitle))
+                    {
+                        %><span><%= volumeChapter.Title %> – <%= volumeChapter.Subtitle %></span><%
+                    }
+                    else
+                    {
+                        %><span><%= volumeChapter.Title %></span><% 
+                    }
+                    %></div><%
+                }
+                if (!String.IsNullOrEmpty(volumeChapter.TitleVolume))
+                {
+                    %><div>erschienen in:</div><%
+                }
+                if (!String.IsNullOrEmpty(volumeChapter.Editor))
+                   {
+                       var htmlEditors = volumeChapter.Editor
+                           .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                           .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
+                        <div class="Editor"><span><%= htmlEditors %> (Hrsg.)</span></div>
+                <% }
+                if (!String.IsNullOrEmpty(volumeChapter.TitleVolume))
+                {
+                    %><div class="TitleVolume"><%
+                    if (!String.IsNullOrEmpty(volumeChapter.SubtitleVolume))
+                    {
+                        %><span><%= volumeChapter.TitleVolume %> – <%= volumeChapter.SubtitleVolume %></span><%
+                    }
+                    else
+                    {
+                        %><span><%= volumeChapter.TitleVolume %></span><% 
+                    }
+                    %></div><%
+                }
+                if (!String.IsNullOrEmpty(volumeChapter.PagesChapterFrom))
+                {
+                    %><span class="Pages">
+                        (S. <%= volumeChapter.PagesChapterFrom %><%
+                        if (!String.IsNullOrEmpty(volumeChapter.PagesChapterTo))
+                        {%>–<%= volumeChapter.PagesChapterTo %><%}
+                    %>)</span><%
+                }
+                if (!String.IsNullOrEmpty(volumeChapter.PublicationCity) ||
+                    !String.IsNullOrEmpty(volumeChapter.Publisher) ||
+                    !String.IsNullOrEmpty(volumeChapter.PublicationYear))
+                { %>
+                    <div class="PublicationInfo">
+                        <%
+                        if (!String.IsNullOrEmpty(volumeChapter.PublicationCity))
+                            {
+                                if (!String.IsNullOrEmpty(volumeChapter.Publisher))
+                                { %>
+                                <span class="PublicationCity"><%= volumeChapter.PublicationCity %>: </span><%
+                                }
+                                else
+                                { %> 
+                                <span class="PublicationCity"><%= volumeChapter.PublicationCity %></span><%
+                                }
+                            }
+                            if (!String.IsNullOrEmpty(volumeChapter.Publisher))
+                            { %>
+                            <span class="Publisher"><%= volumeChapter.Publisher %></span><%
+                            }
+                            if (!String.IsNullOrEmpty(volumeChapter.PublicationYear))
+                            {
+                                if (!String.IsNullOrEmpty(volumeChapter.PublicationCity) ||
+                                    !String.IsNullOrEmpty(volumeChapter.Publisher))
+                                {
+                                    %><span class="PublicationYear">, <%= volumeChapter.PublicationYear %></span><%
+                                }
+                                else
+                                {
+                                    %><span class="PublicationYear"><%= volumeChapter.PublicationYear %></span><%
+                                }
+                            } %>
+                    </div>
+                <% } %>
+                    
+                <% if (!String.IsNullOrEmpty(volumeChapter.ISBN))
+                   {
+                %><div class="Isbn"><span>ISBN: <%= volumeChapter.ISBN %></span></div>       
+                <% }
+                if (!String.IsNullOrEmpty(Model.WikipediaURL))
+                {
+                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
+                }
+                if (!String.IsNullOrEmpty(Model.Description))
+                {
+                    %><div class="Description"><span><%= Model.Description %></span></div><%
+                } %>
+            </div>
+<%
             break;
 
     }
