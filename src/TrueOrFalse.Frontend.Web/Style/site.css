@@ -49,7 +49,8 @@ h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+.Reference .Title {
   font-family: 'Open Sans', Arial, sans-serif;
 }
 /*Links*/
@@ -1373,7 +1374,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.Reference .Title {
   font-family: 'Lato', sans-serif;
 }
 span.smaller {

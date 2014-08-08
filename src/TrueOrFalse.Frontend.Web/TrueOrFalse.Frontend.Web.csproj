@@ -419,6 +419,9 @@
     <Content Include="Style\grid.css">
       <DependentUpon>grid.less</DependentUpon>
     </Content>
+    <Content Include="Style\includes\extends.css">
+      <DependentUpon>extends.less</DependentUpon>
+    </Content>
     <Content Include="Style\includes\imports.css">
       <DependentUpon>imports.less</DependentUpon>
     </Content>
@@ -651,6 +654,7 @@
     <Content Include="Style\logo.css.map">
       <DependentUpon>logo.css</DependentUpon>
     </Content>
+    <Content Include="Style\includes\extends.less" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />

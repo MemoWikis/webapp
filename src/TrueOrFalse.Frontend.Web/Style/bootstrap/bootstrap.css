@@ -216,12 +216,14 @@ th {
   }
   p,
   h2,
-  h3 {
+  h3,
+  .Reference .Title {
     orphans: 3;
     widows: 3;
   }
   h2,
-  h3 {
+  h3,
+  .Reference .Title {
     page-break-after: avoid;
   }
   select {
@@ -353,7 +355,8 @@ h6,
 .h3,
 .h4,
 .h5,
-.h6 {
+.h6,
+.Reference .Title {
   font-family: inherit;
   font-weight: 500;
   line-height: 1.1;
@@ -392,7 +395,8 @@ h1,
 h2,
 .h2,
 h3,
-.h3 {
+.h3,
+.Reference .Title {
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -438,7 +442,8 @@ h1,
   font-size: 36px;
 }
 h2,
-.h2 {
+.h2,
+.Reference .Title {
   font-size: 30px;
 }
 h3,
