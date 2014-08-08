@@ -140,7 +140,7 @@
                     %></div><%
                 }
                 if (!String.IsNullOrEmpty(dailyArticle.DailyIssue.Name)){
-                    %><div class="DailyIssue">
+                    %><div class="ParentIssue">
                         <span><%= dailyArticle.DailyIssue.Name %></span><%
                         if (!String.IsNullOrEmpty(dailyArticle.PagesArticleFrom))
                         {
@@ -150,7 +150,6 @@
                             {%>–<%= dailyArticle.PagesArticleTo %><%}
                          %>)</span><%
                         }
-                                              
                     %></div>       
                 <% }
                 
@@ -228,6 +227,58 @@
 <%
 
             break;
+            
+             case CategoryType.MagazineArticle:
+            var magazineArticle = (CategoryTypeMagazineArticle) type;
+%>
+           <div class="Reference MagazineArticle">
+                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
+                <% if (!String.IsNullOrEmpty(magazineArticle.Author))
+                   {
+                       var htmlAuthors = magazineArticle.Author
+                           .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                           .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
+                        <div class="Author"><span><%= htmlAuthors %></span></div>
+                <% }
+                   if (!String.IsNullOrEmpty(magazineArticle.Title))
+                {
+                    %><div class="Title"><%
+                    if (!String.IsNullOrEmpty(magazineArticle.Subtitle))
+                    {
+                        %><span><%= magazineArticle.Title %> – <%= magazineArticle.Subtitle %></span><%
+                    }
+                    else
+                    {
+                        %><span><%= magazineArticle.Title %></span><% 
+                    }
+                    %></div><%
+                }
+                   if (!String.IsNullOrEmpty(magazineArticle.MagazineIssue.Name))
+                   {
+                    %><div class="ParentIssue">
+                        <span><%= magazineArticle.MagazineIssue.Name %></span><%
+                       if (!String.IsNullOrEmpty(magazineArticle.PagesArticleFrom))
+                        {
+                        %><span class="Pages">
+                            (S. <%= magazineArticle.PagesArticleFrom %><%
+                            if (!String.IsNullOrEmpty(magazineArticle.PagesArticleTo))
+                            {%>–<%= magazineArticle.PagesArticleTo %><%}
+                         %>)</span><%
+                        }
+                                              
+                    %></div>       
+                <% }
+
+                   if (!String.IsNullOrEmpty(magazineArticle.Url))
+                   {
+                    %><div class="Url"><a href="<%= magazineArticle.Url %>"><span><%= magazineArticle.Url %></span></a></div><%
+                }
+                if (!String.IsNullOrEmpty(Model.Description)){
+                    %><div class="Description"><span><%= Model.Description %></span></div><%
+                } %>
+            </div>
+<%
+        break;
             
             case CategoryType.MagazineIssue:
             var magazineIssue = (CategoryTypeMagazineIssue) type;
