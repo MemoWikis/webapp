@@ -19,13 +19,67 @@
   font-size: 145%;
   margin-top: 5px;
 }
+/*REFERENCES DEFAULT
+---------------------------------------------------------*/
+.Reference.Daily .Url,
+.Reference.Magazine .Url {
+  float: left;
+}
+.Reference.Daily .Url + *:not(.WikiUrl),
+.Reference.Magazine .Url + *:not(.WikiUrl) {
+  clear: left;
+}
+.Reference.Daily .Url + .WikiUrl:before,
+.Reference.Magazine .Url + .WikiUrl:before {
+  content: ", ";
+}
+.Reference.MagazineIssue .Url {
+  float: left;
+}
+.Reference.MagazineIssue .Url + *:not(.WikiUrl) {
+  clear: left;
+}
+.Reference.MagazineIssue .Url + .WikiUrl:before {
+  content: ", ";
+}
+.Reference.DailyIssue .PublicationDate {
+  display: none;
+}
 .Reference {
-  font-size: 20px;
   margin-bottom: 15px;
 }
 .Reference.Book .Title,
-.Reference.Daily .Title {
+.Reference.Daily .Name,
+.Reference.DailyArticle .Title,
+.Reference.DailyIssue .Name,
+.Reference.Magazine .Name,
+.Reference.MagazineIssue .Name,
+.Reference.VolumeChapter .Title,
+.Reference.WebsiteArticle .Title {
   display: none;
+}
+.Reference.VolumeChapter .Editor,
+.Reference.VolumeChapter .TitleVolume {
+  font-size: 16px;
+}
+.Reference.VolumeChapter .TitleVolume {
+  margin-bottom: 10px;
+}
+.Reference.WebsiteArticle .Url {
+  font-size: 16px;
+}
+.Reference.WebsiteArticle .PublicationDate + .Url {
+  margin-top: 10px;
+}
+.Reference .Author {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.Reference .Icon {
+  display: none;
+}
+.Reference .Description {
+  margin-top: 10px;
 }
 .CategoryRelations {
   margin-top: 10px;
