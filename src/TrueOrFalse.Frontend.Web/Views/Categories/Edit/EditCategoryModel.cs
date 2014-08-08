@@ -211,7 +211,7 @@ public class EditCategoryModel : BaseModel
                 category, 
                 categoryDailyIssue,
                 parentCategoryType: CategoryType.Daily,
-                htmlInputName: "hddTxtDaily",
+                htmlInputId: "hddTxtDaily",
                 errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Tageszeitung aus.");
 
@@ -244,7 +244,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryDailyArticle,
                 parentCategoryType: CategoryType.Daily,
-                htmlInputName: "hddTxtDaily",
+                htmlInputId: "hddTxtDaily",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Tageszeitung aus.");
 
@@ -253,7 +253,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryDailyArticle,
                 parentCategoryType: CategoryType.DailyIssue,
-                htmlInputName: "hddTxtDailyIssue",
+                htmlInputId: "hddTxtDailyIssue",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Ausgabe der Tageszeitung aus.");
 
@@ -300,7 +300,7 @@ public class EditCategoryModel : BaseModel
                category,
                categoryMagazineIssue,
                parentCategoryType: CategoryType.Magazine,
-               htmlInputName: "hddTxtMagazine",
+               htmlInputId: "hddTxtMagazine",
                errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
                "Um zu speichern, wähle bitte eine Zeitschrift aus.");
 
@@ -334,7 +334,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryMagazineArticle,
                 parentCategoryType: CategoryType.Magazine,
-                htmlInputName: "hddTxtMagazine",
+                htmlInputId: "hddTxtMagazine",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Zeitschrift aus.");
 
@@ -343,7 +343,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryMagazineArticle,
                 parentCategoryType: CategoryType.MagazineIssue,
-                htmlInputName: "hddTxtMagazineIssue",
+                htmlInputId: "hddTxtMagazineIssue",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Ausgabe der Zeitschrift aus.");
 
@@ -409,17 +409,18 @@ public class EditCategoryModel : BaseModel
         public readonly ConvertToCategoryResult Result;
         public readonly string FieldValue;
 
-        public AddParentCategoryFromInput(Category category, ICategoryTypeBase typeModel, CategoryType parentCategoryType, string htmlInputName, string errorMessage)
+        public AddParentCategoryFromInput(Category category, ICategoryTypeBase typeModel, CategoryType parentCategoryType, string htmlInputId, string errorMessage)
         {
             var request = HttpContext.Current.Request;
-            var parentCategoryName = FieldValue = request[htmlInputName];
-            var isNullOrEmptyError = String.IsNullOrEmpty(parentCategoryName);
+            var parentCategoryIdText = FieldValue = request[htmlInputId];
+            var parentCategoryId = -1;
+            var isError = (String.IsNullOrEmpty(parentCategoryIdText) || !Int32.TryParse(parentCategoryIdText, out parentCategoryId));
 
             Category parentFromDb = null;
-            if (!isNullOrEmptyError)
-                parentFromDb = Sl.Resolve<CategoryRepository>().GetByName(parentCategoryName).First();
+            if (!isError)
+                parentFromDb = Sl.Resolve<CategoryRepository>().GetById(parentCategoryId);
 
-            if (isNullOrEmptyError || parentFromDb == null || parentFromDb.Type != parentCategoryType)
+            if (isError || parentFromDb == null || parentFromDb.Type != parentCategoryType)
             {
                 {
                     Result = new ConvertToCategoryResult
