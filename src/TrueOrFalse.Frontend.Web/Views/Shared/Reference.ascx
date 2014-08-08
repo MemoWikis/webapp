@@ -418,6 +418,50 @@
             </div>
 <%
             break;
+            
+            case CategoryType.WebsiteArticle:
+            var websiteArticle = (CategoryTypeWebsiteArticle) type;
+%>
+           <div class="Reference WebsiteArticle">
+                <div class="Icon"><i class="fa fa-laptop"></i></div>
+                <% if (!String.IsNullOrEmpty(websiteArticle.Author))
+                   {
+                       var htmlAuthors = websiteArticle.Author
+                           .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                           .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
+                        <div class="Author"><span><%= htmlAuthors %></span></div>
+                <% }
+                if (!String.IsNullOrEmpty(websiteArticle.Title))
+                {
+                    %><div class="Title"><%
+                    if (!String.IsNullOrEmpty(websiteArticle.Subtitle))
+                    {
+                        %><span><%= websiteArticle.Title %> – <%= websiteArticle.Subtitle %></span><%
+                    }
+                    else
+                    {
+                        %><span><%= websiteArticle.Title %></span><% 
+                    }
+                    %></div><%
+                }
+                if (!String.IsNullOrEmpty(websiteArticle.Url))
+                {
+                    %><div class="Url"><a href="<%= websiteArticle.Url %>"><span><%= websiteArticle.Url %></span></a></div><%
+                }
+                if (DateTime.TryParse(websiteArticle.PublicationDateYear + "-" + websiteArticle.PublicationDateMonth + "-" + websiteArticle.PublicationDateDay, out date))
+                {%>
+                    <div class="PublicationDate">
+                        <span>erschienen am 
+                        <%= date.ToString("dd.MM.yyyy")%>
+                        </span>
+                    </div>   
+                <%}
+                if (!String.IsNullOrEmpty(Model.Description)){
+                    %><div class="Description"><span><%= Model.Description %></span></div><%
+                } %>
+            </div>
+<%
+            break;
 
     }
     //Urls!
