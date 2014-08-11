@@ -44,6 +44,11 @@ public class DraftsController : Controller
         return View(new WelcomeModel());
     }
 
+    public ActionResult Reference()
+    {
+        return View(new WelcomeModel());
+    }
+
     public ActionResult temp()
     {
         return View(new WelcomeModel());
