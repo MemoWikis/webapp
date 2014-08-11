@@ -92,37 +92,38 @@ a.SimpleTextLink .TextSpan {
   vertical-align: middle;
 }
 /*Headings*/
-.ColoredBottomBorder {
+.ColoredUnderline {
   border-bottom: solid 2px #afd534;
+  line-height: 130%;
 }
-span.ColoredBottomBorder {
+span.ColoredUnderline {
   display: inline-block;
 }
-h3.ColoredBottomBorder,
-h3 *.ColoredBottomBorder {
+h3.ColoredUnderline,
+h3 *.ColoredUnderline {
   border-bottom-width: 3px;
 }
-h2.ColoredBottomBorder,
-h2 *.ColoredBottomBorder {
+h2.ColoredUnderline,
+h2 *.ColoredUnderline {
   border-bottom-width: 3px;
 }
-h1.ColoredBottomBorder,
-h1 *.ColoredBottomBorder {
+h1.ColoredUnderline,
+h1 *.ColoredUnderline {
   border-bottom-width: 4px;
 }
-.ColoredBottomBorder.Knowledge {
+.ColoredUnderline.Knowledge {
   border-bottom-color: #b13a48;
 }
-.ColoredBottomBorder.Category {
+.ColoredUnderline.Category {
   border-bottom-color: #5bc0de;
 }
-.ColoredBottomBorder.Set {
+.ColoredUnderline.Set {
   border-bottom-color: #ffd700;
 }
-.ColoredBottomBorder.User {
+.ColoredUnderline.User {
   border-bottom-color: #2c5fb2;
 }
-.ColoredBottomBorder.Message {
+.ColoredUnderline.Message {
   border-bottom-color: #ffa500;
 }
 .ColoredText.Knowledge {

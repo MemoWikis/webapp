@@ -24,27 +24,18 @@
                 </div>
                 <div class="PageHeader col-xs-9 col-xs-pull-3 xxs-stack category">
                     
-                        <h3 class="CategoryType">Artikel in Tageszeitung</h3>
+                    <%--<h3 class="CategoryType">Artikel: TestArtikel – Untertitel</h3>--%>
                     
-                    <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredBottomBorder Category">TestArtikel – Untertitel</span></h2>
-                </div>
-                
-            </div>
-        </div>
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-9 xxs-stack">
-                    
-           <div class="Reference DailyArticle">
-                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
-                <div class="Title"><span>TestArtikel – Untertitel</span></div>
-                    <div class="Author"><span>von Grube, Claire;&nbsp;Kante, Anna</span></div>
-                <div class="ParentIssue">
-                        <span>TestZeitung vom 01.07.2014</span><span class="Pages">
-                            (S. 1–2)</span></div>       
-                <div class="Url"><a href="zeitung.de/artikel"><span>zeitung.de/artikel</span></a></div><div class="Description"><span>Beschreibung lorem ipsum</span></div>
-            </div>
-
+                    <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredUnderline Category"> TestArtikel – Untertitel</span> <span style="font-size: 80%;">(Artikel)</span></h2>
+                    <div class="Reference DailyArticle">
+                        <div class="Icon"><i class="fa fa-file-text-o"></i></div>
+                        <div class="Title"><span>TestArtikel – Untertitel</span></div>
+                            <div class="Author"><span>von Grube, Claire;&nbsp;Kante, Anna</span></div>
+                        <div class="ParentIssue">
+                                <span>TestZeitung vom 01.07.2014</span><span class="Pages">
+                                    (S. 1–2)</span></div>       
+                        <div class="Url"><a href="zeitung.de/artikel"><span>zeitung.de/artikel</span></a></div><div class="Description"><span>Beschreibung lorem ipsum</span></div>
+                    </div>
                 </div>
             </div>
         </div>

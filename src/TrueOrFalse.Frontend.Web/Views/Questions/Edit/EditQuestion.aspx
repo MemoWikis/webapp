@@ -21,7 +21,7 @@
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { id="EditQuestionForm", enctype = "multipart/form-data", style="margin:0px;" })){ %>
     <div class="row">
         <div class="PageHeader col-xs-12">
-            <h2 class="pull-left"><span class="ColoredBottomBorder"><%=Model.FormTitle %></span></h2>
+            <h2 class="pull-left"><span class="ColoredUnderline"><%=Model.FormTitle %></span></h2>
             
             <div class="headerControls pull-right">
                 <div>

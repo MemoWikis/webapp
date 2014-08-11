@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-9 PageHeader">
             <h2>
-                <span class="ColoredBottomBorder Category">
+                <span class="ColoredUnderline Category">
                     <% if (Model.IsEditing) { %>
                     Kategorie bearbeiten
                     <% } else { %>
