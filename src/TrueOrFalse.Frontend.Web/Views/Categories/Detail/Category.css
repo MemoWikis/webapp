@@ -2,9 +2,9 @@
   width: 33%;
   float: left;
 }
-.CategoryType {
-  color: #5bc0de;
-  margin-top: 0;
+span.CategoryType {
+  font-size: 80%;
+  white-space: nowrap;
 }
 .CategoryImage {
   margin-bottom: 10px;
@@ -21,68 +21,94 @@
 }
 /*REFERENCES DEFAULT
 ---------------------------------------------------------*/
-.Reference.Daily .Url,
-.Reference.Magazine .Url {
-  float: left;
+.Reference {
+  /*&.Daily, &.Magazine {
+        .Url {
+            float: left;
+
+            + *:not(.WikiUrl){
+                clear: left;
+            }
+
+            + .WikiUrl {
+                &:before {
+                    content: ", ";
+                }
+            }
+        }
+    }
+
+    &.MagazineIssue {
+        .Url {
+            float: left;
+
+            + *:not(.WikiUrl){
+                clear: left;
+            }
+
+            + .WikiUrl {
+                &:before {
+                    content: ", ";
+                }
+            }
+        }
+    }*/
 }
-.Reference.Daily .Url + *:not(.WikiUrl),
-.Reference.Magazine .Url + *:not(.WikiUrl) {
-  clear: left;
+.Reference:before,
+.Reference:after {
+  content: " ";
+  display: table;
 }
-.Reference.Daily .Url + .WikiUrl:before,
-.Reference.Magazine .Url + .WikiUrl:before {
-  content: ", ";
-}
-.Reference.MagazineIssue .Url {
-  float: left;
-}
-.Reference.MagazineIssue .Url + *:not(.WikiUrl) {
-  clear: left;
-}
-.Reference.MagazineIssue .Url + .WikiUrl:before {
-  content: ", ";
+.Reference:after {
+  clear: both;
 }
 .Reference.DailyIssue .PublicationDate {
   display: none;
 }
 .Reference {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+  /*&.VolumeChapter {
+        .Editor, .TitleVolume {
+            font-size: 16px;
+        }
+
+        .TitleVolume {
+            margin-bottom: 10px;
+        }
+    }*/
+  /*&.WebsiteArticle { 
+        .Url {
+            font-size: 16px;
+        }
+
+        .PublicationDate + .Url {
+            margin-top: 10px;
+        }
+    }*/
 }
 .Reference.Book .Title,
 .Reference.Daily .Name,
 .Reference.DailyArticle .Title,
 .Reference.DailyIssue .Name,
 .Reference.Magazine .Name,
+.Reference.MagazineArticle .Title,
 .Reference.MagazineIssue .Name,
 .Reference.VolumeChapter .Title,
 .Reference.WebsiteArticle .Title {
-  display: none;
-}
-.Reference.VolumeChapter .Editor,
-.Reference.VolumeChapter .TitleVolume {
-  font-size: 16px;
-}
-.Reference.VolumeChapter .TitleVolume {
-  margin-bottom: 10px;
-}
-.Reference.WebsiteArticle .Url {
-  font-size: 16px;
-}
-.Reference.WebsiteArticle .PublicationDate + .Url {
-  margin-top: 10px;
+  display: none !important;
 }
 .Reference .Author {
-  font-size: 20px;
+  font-size: 18px;
+  margin-top: -4px;
   margin-bottom: 5px;
 }
 .Reference .Icon {
-  display: none;
+  display: none !important;
 }
 .Reference .Description {
   margin-top: 10px;
 }
 .CategoryRelations {
-  margin-top: 10px;
   text-align: center;
 }
 .RelationArrow {

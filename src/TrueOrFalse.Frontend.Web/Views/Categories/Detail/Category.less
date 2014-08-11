@@ -3,9 +3,9 @@
 
 div.column  { width: 33%; float: left;}
 
-.CategoryType {
-    color: @color-category;
-    margin-top: 0;
+span.CategoryType {
+    font-size: 80%;
+    white-space: nowrap;
 }
 
 .CategoryImage {
@@ -24,7 +24,10 @@ div.column  { width: 33%; float: left;}
 /*REFERENCES DEFAULT
 ---------------------------------------------------------*/
 .Reference {
-    &.Daily, &.Magazine {
+
+    .Clearfix;
+
+    /*&.Daily, &.Magazine {
         .Url {
             float: left;
 
@@ -54,16 +57,18 @@ div.column  { width: 33%; float: left;}
                 }
             }
         }
-    }
+    }*/
 
-    &.DailyIssue .PublicationDate {
-        display: none;
+    &.DailyIssue {
+        .PublicationDate {
+            display: none;
+        }
+
     }
 }
 
 .Reference {
-    //font-size: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 
     span.Text.show-tooltip:hover {
  //       font-weight: bold;
@@ -74,14 +79,15 @@ div.column  { width: 33%; float: left;}
     &.DailyArticle .Title,
     &.DailyIssue .Name,
     &.Magazine .Name,
+    &.MagazineArticle .Title,
     &.MagazineIssue .Name,
     &.VolumeChapter .Title,
     &.WebsiteArticle .Title
     {
-        display: none;
+        display: none !important;
     }
 
-    &.VolumeChapter {
+    /*&.VolumeChapter {
         .Editor, .TitleVolume {
             font-size: 16px;
         }
@@ -89,9 +95,9 @@ div.column  { width: 33%; float: left;}
         .TitleVolume {
             margin-bottom: 10px;
         }
-    }
+    }*/
 
-    &.WebsiteArticle { 
+    /*&.WebsiteArticle { 
         .Url {
             font-size: 16px;
         }
@@ -99,15 +105,16 @@ div.column  { width: 33%; float: left;}
         .PublicationDate + .Url {
             margin-top: 10px;
         }
-    }
+    }*/
 
     .Author {
-        font-size: 20px;
+        font-size: 18px;
+        margin-top: -4px;
         margin-bottom: 5px;
     }
 
     .Icon {
-        display: none;
+        display: none !important;
     }
 
     .Description {
@@ -117,7 +124,6 @@ div.column  { width: 33%; float: left;}
 }
 
 .CategoryRelations {
-    margin-top: 10px;
     text-align: center;
 }
 

@@ -44,7 +44,7 @@ public class CategoryModel : BaseModel
         Id = category.Id;
         Name = category.Name;
         Description = category.Description;
-        Type = category.Type.GetName();
+        Type = category.Type.GetShortName();
         IsOwnerOrAdmin = _sessionUser.IsOwnerOrAdmin(category.Creator.Id);
 
         CountQuestions = category.CountQuestions;

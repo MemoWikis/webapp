@@ -1,5 +1,25 @@
-﻿/*Logo
+﻿/*Reference
 ---------------------------------------------------------*/
+.Reference {
+  /*div {
+        float: left;
+    }
+
+    .Author + div, .Description {
+        clear: left;
+    }*/
+  /*div:not(.Author) + div:not(.Description):not(.Author) {
+        &:before {
+            content: ", ";
+        }
+    }*/
+}
+.Reference div:not(.Author) {
+  display: inline;
+}
+.Reference div:not(:last-child):not(.Author):not(.NoSeperator):after {
+  content: ",\0000a0";
+}
 /*
     Next:
         MasterHeader: integrate mobile button
