@@ -66,6 +66,7 @@ class ReferenceUi
 {
     constructor() {
         var references = new Array<Reference>();
+        //references.push(new ReferenceBook());
         for (var reference in references) {
             this.AddReference(reference);
         }

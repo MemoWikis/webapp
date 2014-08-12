@@ -66,6 +66,9 @@ namespace TrueOrFalse.View.Web.Views.Api
                             name = c.Name,
                             numberOfQuestions = c.CountQuestions,
                             imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
+                            type = c.Type.ToString(),
+                            html = c.Type == CategoryType.Book ? 
+                                ViewRenderer.RenderPartialView("Reference",c ,ControllerContext) : ""
                         }, JsonRequestBehavior.AllowGet);
         }
     }

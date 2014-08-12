@@ -1,12 +1,34 @@
 ﻿
 var ui: any;
 
+interface CategoryItem {
+    id: number;
+    name: string;
+    numberOfQuestions: number;
+    imageUrl: string;
+    type: string;
+    html: string;
+}
+
 enum AutoCompleteFilterType {
     None,
+    Book,
     Daily, 
     DailyIssue,
     Magazine,
     MagazineIssue
+}
+
+class CompareType {
+    static AreEqual(name: string, type: AutoCompleteFilterType) : boolean {
+        if (name == "Daily" && type == AutoCompleteFilterType.Daily)
+            return true;
+
+        if (name == "Book" && type == AutoCompleteFilterType.Book)
+            return true;
+
+        return false;
+    }
 }
 
 class AutocompleteCategories {
@@ -129,19 +151,32 @@ class AutocompleteCategories {
             }
         });
 
-        autocomplete.data("ui-autocomplete")._renderItem = function (ul, item): any {
+        autocomplete.data("ui-autocomplete")._renderItem = function (ul, item: CategoryItem): any {
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
-            return $("<li></li>")
-                .data("ui-autocomplete-item", item)
-                .append("<a class='CatListItem'>" +
+
+            var html;
+            if (CompareType.AreEqual(item.type, AutoCompleteFilterType.Book)) {
+                html = "<a class='CatListItem'>" +
+                            "<img src='" + item.imageUrl + "'/>" +
+                            "<div class='CatDescription'>" +
+                                item.html+
+                            "</div>" +
+                        "</a>";
+            } else {
+                html = "<a class='CatListItem'>" +
                             "<img src='" + item.imageUrl + "'/>" +
                             "<div class='CatDescription'>" +
                                 "<span class='cat-name'>" + item.name + "</span>" +
                                 "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" +
                             "</div>" +
-                        "</a>")
+                        "</a>";
+            }
+
+            return $("<li></li>")
+                .data("ui-autocomplete-item", item)
+                .append(html)
                 .appendTo(ul);
         };
 

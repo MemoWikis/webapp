@@ -60,6 +60,7 @@ var ReferenceUi = (function () {
     function ReferenceUi() {
         var _this = this;
         var references = new Array();
+
         for (var reference in references) {
             this.AddReference(reference);
         }
