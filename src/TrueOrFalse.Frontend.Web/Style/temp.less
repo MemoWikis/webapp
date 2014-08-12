@@ -3,30 +3,7 @@
 /*Reference
 ---------------------------------------------------------*/
 
-.Reference {
-    div:not(.Author) {
-        display: inline;
-    }
-    /*div {
-        float: left;
-    }
 
-    .Author + div, .Description {
-        clear: left;
-    }*/
-
-    div:not(:last-child):not(.Author):not(.NoSeperator) {
-        &:after {
-            content: ",\0000a0";
-        }
-    }
-
-    /*div:not(.Author) + div:not(.Description):not(.Author) {
-        &:before {
-            content: ", ";
-        }
-    }*/
-}
 
 
 

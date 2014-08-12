@@ -22,60 +22,12 @@ span.CategoryType {
     white-space: normal;
 }
 
-/*REFERENCES DEFAULT
----------------------------------------------------------*/
-.Reference {
-
-    .Clearfix;
-
-    /*&.Daily, &.Magazine {
-        .Url {
-            float: left;
-
-            + *:not(.WikiUrl){
-                clear: left;
-            }
-
-            + .WikiUrl {
-                &:before {
-                    content: ", ";
-                }
-            }
-        }
-    }
-
-    &.MagazineIssue {
-        .Url {
-            float: left;
-
-            + *:not(.WikiUrl){
-                clear: left;
-            }
-
-            + .WikiUrl {
-                &:before {
-                    content: ", ";
-                }
-            }
-        }
-    }*/
-
-    &.DailyIssue {
-        .PublicationDate {
-            display: none;
-        }
-
-    }
-}
+.ReferenceAllInlineButAuthorStyle;
 
 .Reference {
     margin-bottom: 5px;
 
-    span.Text.show-tooltip:hover {
- //       font-weight: bold;
-    }
-
-    &.Book .Title,
+    .Icon,
     &.Daily .Name,
     &.DailyArticle .Title,
     &.DailyIssue .Name,
@@ -88,40 +40,11 @@ span.CategoryType {
         display: none !important;
     }
 
-    /*&.VolumeChapter {
-        .Editor, .TitleVolume {
-            font-size: 16px;
-        }
-
-        .TitleVolume {
-            margin-bottom: 10px;
-        }
-    }*/
-
-    /*&.WebsiteArticle { 
-        .Url {
-            font-size: 16px;
-        }
-
-        .PublicationDate + .Url {
-            margin-top: 10px;
-        }
-    }*/
-
     .Author {
         font-size: 18px;
         margin-top: -4px;
         margin-bottom: 5px;
     }
-
-    .Icon {
-        display: none !important;
-    }
-
-    .Description {
-        margin-top: 10px;
-    }
-
 }
 
 .CategoryRelations {

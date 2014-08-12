@@ -13,6 +13,7 @@
     Special styles
         Modified styles from bootstrap website (not part of framework) / .bs-callout
         Form grid/columns conditional mixin
+        Reference styles
 
 [Imports:]
 --------------------------------------------------------*/
@@ -334,3 +335,32 @@
 
     .FormColumnGridConditional(@labels-stacked);
 }
+
+/*Reference styles*/
+
+.ReferenceDefault{
+    .Reference {
+
+        &.DailyIssue {
+            .PublicationDate {
+                display: none;
+            }
+        }
+    }
+}
+
+.ReferenceAllInlineButAuthorStyle{
+
+    .ReferenceDefault;
+
+    .Reference {
+        div:not(.Author) {
+            display: inline;
+        }
+        div:not(:last-child):not(.Author):not(.NoSeperator):after {
+            content: ",\0000a0";
+        }
+    }
+}
+
+
