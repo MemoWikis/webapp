@@ -15,7 +15,7 @@
     <div class="row">
         <div class="xxs-stack col-xs-9">
             <h2 style="margin-top:0px;">
-                <span style="margin-right: 15px;" class="ColoredBottomBorder Set"><%= Model.Name %></span>
+                <span style="margin-right: 15px;" class="ColoredUnderline Set"><%= Model.Name %></span>
                 <span style="display: inline-block; font-size: 20px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>

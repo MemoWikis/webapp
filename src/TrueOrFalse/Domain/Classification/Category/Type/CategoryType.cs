@@ -66,5 +66,14 @@ public static class CategoryTypeExts
             case CategoryType.Certification: return "Zertifizierung";
         }
         throw new Exception("invalid type");
-    }    
+    }
+
+    public static string GetShortName(this CategoryType e)
+    {
+        if (e == CategoryType.DailyArticle || e == CategoryType.MagazineArticle)
+            return "Artikel";
+
+        return e.GetName();
+    }
+
 }

@@ -2,9 +2,9 @@
   width: 33%;
   float: left;
 }
-.CategoryType {
-  color: #5bc0de;
-  margin-top: 0;
+span.CategoryType {
+  font-size: 80%;
+  display: inline-block;
 }
 .CategoryImage {
   margin-bottom: 10px;
@@ -18,17 +18,34 @@
   color: #31b0d5;
   font-size: 145%;
   margin-top: 5px;
+  white-space: normal;
+}
+.Reference div:not(.Author) {
+  display: inline;
+}
+.Reference div:not(:last-child):not(.Author):not(.NoSeperator):after {
+  content: ",\0000a0";
 }
 .Reference {
-  font-size: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
-.Reference.Book .Title,
-.Reference.Daily .Title {
-  display: none;
+.Reference .Icon,
+.Reference.Daily .Name,
+.Reference.DailyArticle .Title,
+.Reference.DailyIssue .Name,
+.Reference.Magazine .Name,
+.Reference.MagazineArticle .Title,
+.Reference.MagazineIssue .Name,
+.Reference.VolumeChapter .Title,
+.Reference.WebsiteArticle .Title {
+  display: none !important;
+}
+.Reference .Author {
+  font-size: 18px;
+  margin-top: -4px;
+  margin-bottom: 5px;
 }
 .CategoryRelations {
-  margin-top: 10px;
   text-align: center;
 }
 .RelationArrow {

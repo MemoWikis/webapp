@@ -6,12 +6,13 @@
 %>
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.Magazine.GetName() %></h4>
+<input class="form-control" name="Name" type="hidden" value="<%= Model.Name %>">
 <div class="form-group">
-    <label class="RequiredField columnLabel control-label" for="Name">
+    <label class="RequiredField columnLabel control-label" for="Title">
         Zeitschriftentitel
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Name" type="text" value="<%= Model.Name %>">
+        <input class="form-control" name="Title" type="text" value="<%= model.Title %>">
     </div>
 </div>
 <div class="form-group">

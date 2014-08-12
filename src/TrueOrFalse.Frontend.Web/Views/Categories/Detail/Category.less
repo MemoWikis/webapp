@@ -3,9 +3,9 @@
 
 div.column  { width: 33%; float: left;}
 
-.CategoryType {
-    color: @color-category;
-    margin-top: 0;
+span.CategoryType {
+    font-size: 80%;
+    display: inline-block; //To prevent line break inside span when situated next to category name
 }
 
 .CategoryImage {
@@ -19,24 +19,35 @@ div.column  { width: 33%; float: left;}
     color: @color-category-dark;
     font-size: 145%;
     margin-top: 5px;
+    white-space: normal;
 }
 
-.Reference {
-    font-size: 20px;
-    margin-bottom: 15px;
+.ReferenceAllInlineButAuthorStyle;
 
-    span.Text.show-tooltip:hover {
- //       font-weight: bold;
+.Reference {
+    margin-bottom: 5px;
+
+    .Icon,
+    &.Daily .Name,
+    &.DailyArticle .Title,
+    &.DailyIssue .Name,
+    &.Magazine .Name,
+    &.MagazineArticle .Title,
+    &.MagazineIssue .Name,
+    &.VolumeChapter .Title,
+    &.WebsiteArticle .Title
+    {
+        display: none !important;
     }
 
-    &.Book .Title,
-    &.Daily .Title {
-        display: none;
+    .Author {
+        font-size: 18px;
+        margin-top: -4px;
+        margin-bottom: 5px;
     }
 }
 
 .CategoryRelations {
-    margin-top: 10px;
     text-align: center;
 }
 

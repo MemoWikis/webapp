@@ -13,12 +13,14 @@
     Special styles
         Modified styles from bootstrap website (not part of framework) / .bs-callout
         Form grid/columns conditional mixin
+        Reference styles
 
 [Imports:]
 --------------------------------------------------------*/
 
 @import 'variables.less';
 @import 'colors.less';
+@import 'extends.less';
 //@import (reference) '../bootstrap/bootstrap.less';
 @import '../font-awesome-4.1.0/less/font-awesome.less';
 
@@ -68,6 +70,7 @@
 
 .ColoredBottomBorder (@color: @memo-green; @border-width: 2px) {
     border-bottom: solid @border-width @color;
+    line-height: 130%;
 }
 
 
@@ -332,3 +335,32 @@
 
     .FormColumnGridConditional(@labels-stacked);
 }
+
+/*Reference styles*/
+
+.ReferenceDefault{
+    .Reference {
+
+        &.DailyIssue {
+            .PublicationDate {
+                display: none;
+            }
+        }
+    }
+}
+
+.ReferenceAllInlineButAuthorStyle{
+
+    .ReferenceDefault;
+
+    .Reference {
+        div:not(.Author) {
+            display: inline;
+        }
+        div:not(:last-child):not(.Author):not(.NoSeperator):after {
+            content: ",\0000a0";
+        }
+    }
+}
+
+

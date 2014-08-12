@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using Microsoft.Ajax.Utilities;
+using NHibernate.Linq.Functions;
 using NHibernate.Proxy.Poco;
 using TrueOrFalse;
 using TrueOrFalse.Web;
@@ -111,13 +112,29 @@ public class EditCategoryModel : BaseModel
         return !Int32.TryParse(input, out outInt) ? String.Empty : input;
     }
 
+    private static string ToUrlWithProtocol(string input)
+    {
+        if (input.Substring(0, 7).ToLower() == "http://")
+            return "http://" + input.Substring(7);
+
+        if (input.Substring(0, 8).ToLower() == "https://")
+            return "https://" + input.Substring(8);
+        
+        return "http://" + input;
+    }
+
+    public static string T_ToUrlWithProtocol(string input)
+    {
+        return ToUrlWithProtocol(input);
+    }
+
     private ConvertToCategoryResult FillFromRequest(Category category)
     {
         var request = HttpContext.Current.Request;
         var result = new ConvertToCategoryResult {Category = category};
 
         if (request["WikipediaUrl"] != null)
-            category.WikipediaURL = request["WikipediaUrl"];
+            category.WikipediaURL = ToUrlWithProtocol(request["WikipediaUrl"]);
 
         if (category.Type == CategoryType.Book)
             return FillBook(category, request, result);
@@ -132,7 +149,7 @@ public class EditCategoryModel : BaseModel
             return FillDailyArticle(category, request, result);
         
         if (category.Type == CategoryType.Magazine)
-            category.TypeJson = new CategoryTypeMagazine { ISSN = request["ISSN"], Publisher = request["Publisher"], Url = request["Url"] }.ToJson();
+            return FillMagazine(category, request, result);
 
         if (category.Type == CategoryType.MagazineIssue)
             return FillMagazineIssue(category, request, result);
@@ -144,13 +161,13 @@ public class EditCategoryModel : BaseModel
             return FillVolumeChapter(category, request, result);
 
         if (category.Type == CategoryType.Website)
-            category.TypeJson = new CategoryTypeWebsite { Url = request["Url"] }.ToJson();
+            category.TypeJson = new CategoryTypeWebsite { Url = ToUrlWithProtocol(request["Url"]) }.ToJson();
 
         if (category.Type == CategoryType.WebsiteArticle)
             return FillWebsiteArticle(category, request, result);
 
         if (category.Type == CategoryType.WebsiteVideo)
-            category.TypeJson = new CategoryTypeWebsiteVideo {Url = request["YoutubeUrl"]}.ToJson();
+            category.TypeJson = new CategoryTypeWebsiteVideo {Url = ToUrlWithProtocol(request["YoutubeUrl"])}.ToJson();
 
         return result;
     }
@@ -184,7 +201,7 @@ public class EditCategoryModel : BaseModel
         { Title = request["Title"],
             ISSN = request["ISSN"],
             Publisher = request["Publisher"],
-            Url = request["Url"] 
+            Url = ToUrlWithProtocol(request["Url"])
         }.ToJson();
 
         category.Name = request["Title"];
@@ -211,7 +228,7 @@ public class EditCategoryModel : BaseModel
                 category, 
                 categoryDailyIssue,
                 parentCategoryType: CategoryType.Daily,
-                htmlInputName: "hddTxtDaily",
+                htmlInputId: "hddTxtDaily",
                 errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Tageszeitung aus.");
 
@@ -227,7 +244,7 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = request["Url"],
+            Url = ToUrlWithProtocol(request["Url"]),
             PagesArticleFrom = request["PagesArticleFrom"],
             PagesArticleTo = request["PagesArticleTo"]
         };
@@ -244,7 +261,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryDailyArticle,
                 parentCategoryType: CategoryType.Daily,
-                htmlInputName: "hddTxtDaily",
+                htmlInputId: "hddTxtDaily",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Tageszeitung aus.");
 
@@ -253,7 +270,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryDailyArticle,
                 parentCategoryType: CategoryType.DailyIssue,
-                htmlInputName: "hddTxtDailyIssue",
+                htmlInputId: "hddTxtDailyIssue",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Ausgabe der Tageszeitung aus.");
 
@@ -262,6 +279,21 @@ public class EditCategoryModel : BaseModel
         if (addParentDailyIssue.HasError)
             return addParentDailyIssue.Result;
         
+        return result;
+    }
+
+    private static ConvertToCategoryResult FillMagazine(Category category, HttpRequest request, ConvertToCategoryResult result)
+    {
+        category.TypeJson = new CategoryTypeMagazine
+        {
+            Title = request["Title"],
+            ISSN = request["ISSN"],
+            Publisher = request["Publisher"],
+            Url = ToUrlWithProtocol(request["Url"])
+        }.ToJson();
+
+        category.Name = request["Title"];
+
         return result;
     }
 
@@ -285,7 +317,7 @@ public class EditCategoryModel : BaseModel
                category,
                categoryMagazineIssue,
                parentCategoryType: CategoryType.Magazine,
-               htmlInputName: "hddTxtMagazine",
+               htmlInputId: "hddTxtMagazine",
                errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
                "Um zu speichern, wähle bitte eine Zeitschrift aus.");
 
@@ -302,7 +334,7 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = request["Url"],
+            Url = ToUrlWithProtocol(request["Url"]),
             PagesArticleFrom = request["PagesArticleFrom"],
             PagesArticleTo = request["PagesArticleTo"]
         };
@@ -319,7 +351,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryMagazineArticle,
                 parentCategoryType: CategoryType.Magazine,
-                htmlInputName: "hddTxtMagazine",
+                htmlInputId: "hddTxtMagazine",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Zeitschrift aus.");
 
@@ -328,7 +360,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryMagazineArticle,
                 parentCategoryType: CategoryType.MagazineIssue,
-                htmlInputName: "hddTxtMagazineIssue",
+                htmlInputId: "hddTxtMagazineIssue",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Ausgabe der Zeitschrift aus.");
 
@@ -377,7 +409,7 @@ public class EditCategoryModel : BaseModel
                 PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
                 PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
                 PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
-                Url = request["Url"]
+                Url = ToUrlWithProtocol(request["Url"])
             }.ToJson();
 
         if (String.IsNullOrEmpty(request["Subtitle"]))
@@ -394,17 +426,18 @@ public class EditCategoryModel : BaseModel
         public readonly ConvertToCategoryResult Result;
         public readonly string FieldValue;
 
-        public AddParentCategoryFromInput(Category category, ICategoryTypeBase typeModel, CategoryType parentCategoryType, string htmlInputName, string errorMessage)
+        public AddParentCategoryFromInput(Category category, ICategoryTypeBase typeModel, CategoryType parentCategoryType, string htmlInputId, string errorMessage)
         {
             var request = HttpContext.Current.Request;
-            var parentCategoryName = FieldValue = request[htmlInputName];
-            var isNullOrEmptyError = String.IsNullOrEmpty(parentCategoryName);
+            var parentCategoryIdText = FieldValue = request[htmlInputId];
+            var parentCategoryId = -1;
+            var isError = (String.IsNullOrEmpty(parentCategoryIdText) || !Int32.TryParse(parentCategoryIdText, out parentCategoryId));
 
             Category parentFromDb = null;
-            if (!isNullOrEmptyError)
-                parentFromDb = Sl.Resolve<CategoryRepository>().GetByName(parentCategoryName).First();
+            if (!isError)
+                parentFromDb = Sl.Resolve<CategoryRepository>().GetById(parentCategoryId);
 
-            if (isNullOrEmptyError || parentFromDb == null || parentFromDb.Type != parentCategoryType)
+            if (isError || parentFromDb == null || parentFromDb.Type != parentCategoryType)
             {
                 {
                     Result = new ConvertToCategoryResult

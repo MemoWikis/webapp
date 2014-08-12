@@ -16,7 +16,7 @@
         <div class="col-md-9">
         
             <h2 style="margin-top: 0; margin-bottom: 20px;">
-                <span class="ColoredBottomBorder Message" style="padding-right: 3px;">Nachrichten</span>
+                <span class="ColoredUnderline Message" style="padding-right: 3px;">Nachrichten</span>
             </h2>    
 
             <% foreach(var msg in Model.Rows){ %>

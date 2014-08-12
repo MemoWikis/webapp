@@ -12,7 +12,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <div class="xxs-stack col-xs-12">
-            <div class="row">
+            <div class="row" style="margin-bottom: 20px;">
                 <div class="col-xs-3 col-xs-push-9 xxs-stack">
                     <div class="navLinks">
                         <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
@@ -23,27 +23,23 @@
                     </div>
                 </div>
                 <div class="PageHeader col-xs-9 col-xs-pull-3 xxs-stack category">
-                    <% if (Model.Type != "Standard") {%>
-                        <h3 class="CategoryType"><%= Model.Type%></h3>
-                    <% } %>
-                    <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredBottomBorder Category"><%= Model.Name %></span></h2>
-                </div>
-                
-            </div>
-        </div>
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-9 xxs-stack">
-                    <% if (Model.Type == "Standard") {
-                        if(!String.IsNullOrEmpty(Model.Description)){ %>
-                            <div style="margin-bottom: 12px;"><%= Model.Description %></div>
-                        <% } %>
-                    <% } else { %>
-                        <% Html.RenderPartial("Reference", Model.Category);
+                    <% if (Model.Type == "Standard") {%>
+                        <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredUnderline Category"><%= Model.Name %></span></h2>
+                    <% } else {%>
+                        <h2 style="margin-top: 0; margin-bottom: 10px;"><span style="display: inline-block;"><span class="ColoredUnderline Category" style="display: inline; margin-right: 5px;"><%= Model.Name %></span><span class="CategoryType">(<%= Model.Type %>)</span></span></h2>
+                    <% }
+                    if (Model.Type != "Standard") {
+                        Html.RenderPartial("Reference", Model.Category);
+                    }
+                    if (!String.IsNullOrEmpty(Model.Description))
+                    {
+                    %><div class="Description"><span><%= Model.Description %></span></div><%
                     } %>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-xs-3 col-xs-push-9 xxs-stack">
             <div class="CategoryImage">
                 <img src="<%= Model.ImageUrl %>" class="img-responsive" style="-ms-border-radius:5px; border-radius:5px;" />

@@ -46,7 +46,6 @@ namespace TrueOrFalse
             return GetByIds(questionIds.ToArray());
         }
 
-
         public IList<Category> GetChildren(
             CategoryType parentType, 
             CategoryType childrenType, 

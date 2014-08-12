@@ -21,15 +21,22 @@ namespace TrueOrFalse
             if (_sessionUiData.SearchSpecQuestions.Any(x => x.Key == key))
                 return _sessionUiData.SearchSpecQuestions.First(x => x.Key == key);
 
-            QuestionSearchSpec activeSearchSpec;                
+            QuestionSearchSpec activeSearchSpec;
             if (key == SearchTab.Mine.ToString())
+            {
                 activeSearchSpec = _sessionUiData.SearchSpecQuestionMine;
+                activeSearchSpec.SearchTab = SearchTab.Mine;                                
+            }
             else if (key == SearchTab.Wish.ToString())
+            {
                 activeSearchSpec = _sessionUiData.SearchSpecQuestionWish;
+                activeSearchSpec.SearchTab = SearchTab.Wish;
+            }
             else
+            {
                 activeSearchSpec = _sessionUiData.SearchSpecQuestionAll;
-
-            activeSearchSpec.KeyOverviewPage = key;
+                activeSearchSpec.SearchTab = SearchTab.All;
+            }
 
             return CloneAndAddToSession(activeSearchSpec);
         }

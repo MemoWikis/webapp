@@ -18,7 +18,7 @@ namespace TrueOrFalse
         }
 
         public string Key;
-        public string KeyOverviewPage;
+        public SearchTab SearchTab;
         public SpellCheckResult SpellCheck;
 
         public QuestionHistoryItem HistoryItem;
