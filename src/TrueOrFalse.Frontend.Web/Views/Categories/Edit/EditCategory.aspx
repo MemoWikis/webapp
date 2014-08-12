@@ -125,8 +125,6 @@
                     </div>
                 </div>
                 <% } %>
-<%--temporariliy included partial:--%>
-           <%--  <%Html.RenderPartial("~/Views/Categories/Edit/TypeControls/VolumeChapter.ascx", new EditCategoryTypeModel(Model.Category));%>    --%>
                 <div class="FormSection">
                     <div id="CategoryDetailsBody">
                         <h4 class="CategoryTypeHeader">Formular wird geladen...</h4>                    

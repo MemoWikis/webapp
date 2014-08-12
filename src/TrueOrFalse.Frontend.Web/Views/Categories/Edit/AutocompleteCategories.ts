@@ -55,8 +55,12 @@ class AutocompleteCategories {
                         "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +
                     "</div> ");
                 elemInput.attr("type", "hidden").hide();
-                var validator = $("#EditCategoryForm").validate();
-                validator.element(elemInput);
+
+                if ($("#EditCategoryForm").length > 0) {
+                    var validator = $("#EditCategoryForm").validate();
+                    validator.element(elemInput);                    
+                }
+
             } else {
                 elemInput.closest(".JS-CatInputContainer").before(
                     "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
@@ -96,7 +100,7 @@ class AutocompleteCategories {
                     params = "&type=Daily";
                 }
 
-                if (self._filterType == AutoCompleteFilterType.DailyIssue) {
+                if (self._filterType == AutoCompleteFilterType.DailyIssue || selectorParent!="") {
                     params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
@@ -104,7 +108,7 @@ class AutocompleteCategories {
                     params = "&type=Magazine";
                 }
 
-                if (self._filterType == AutoCompleteFilterType.MagazineIssue) {
+                if (self._filterType == AutoCompleteFilterType.MagazineIssue || selectorParent != "") {
                     params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 

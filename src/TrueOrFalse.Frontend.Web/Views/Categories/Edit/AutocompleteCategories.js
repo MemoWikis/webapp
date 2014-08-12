@@ -41,8 +41,11 @@ var AutocompleteCategories = (function () {
                 catIdx = inputSelector.substring(1);
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
                 elemInput.attr("type", "hidden").hide();
-                var validator = $("#EditCategoryForm").validate();
-                validator.element(elemInput);
+
+                if ($("#EditCategoryForm").length > 0) {
+                    var validator = $("#EditCategoryForm").validate();
+                    validator.element(elemInput);
+                }
             } else {
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
             }
@@ -75,7 +78,7 @@ var AutocompleteCategories = (function () {
                     params = "&type=Daily";
                 }
 
-                if (self._filterType == 2 /* DailyIssue */) {
+                if (self._filterType == 2 /* DailyIssue */ || selectorParent != "") {
                     params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
@@ -83,7 +86,7 @@ var AutocompleteCategories = (function () {
                     params = "&type=Magazine";
                 }
 
-                if (self._filterType == 4 /* MagazineIssue */) {
+                if (self._filterType == 4 /* MagazineIssue */ || selectorParent != "") {
                     params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
@@ -152,4 +155,4 @@ var AutocompleteCategories = (function () {
 $(function () {
     new AutocompleteCategories("#txtNewRelatedCategory");
 });
-//# sourceMappingURL=RelatedCategories.js.map
+//# sourceMappingURL=AutocompleteCategories.js.map
