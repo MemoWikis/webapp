@@ -423,8 +423,6 @@
             break;
 
     }
-    //Urls!
-    //Links for ParentCategories
     
 %> 
 

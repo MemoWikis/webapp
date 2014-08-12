@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 using Microsoft.Ajax.Utilities;
+using NHibernate.Linq.Functions;
 using NHibernate.Proxy.Poco;
 using TrueOrFalse;
 using TrueOrFalse.Web;
@@ -111,13 +112,29 @@ public class EditCategoryModel : BaseModel
         return !Int32.TryParse(input, out outInt) ? String.Empty : input;
     }
 
+    private static string ToUrlWithProtocol(string input)
+    {
+        if (input.Substring(0, 7).ToLower() == "http://")
+            return "http://" + input.Substring(7);
+
+        if (input.Substring(0, 8).ToLower() == "https://")
+            return "https://" + input.Substring(8);
+        
+        return "http://" + input;
+    }
+
+    public static string T_ToUrlWithProtocol(string input)
+    {
+        return ToUrlWithProtocol(input);
+    }
+
     private ConvertToCategoryResult FillFromRequest(Category category)
     {
         var request = HttpContext.Current.Request;
         var result = new ConvertToCategoryResult {Category = category};
 
         if (request["WikipediaUrl"] != null)
-            category.WikipediaURL = request["WikipediaUrl"];
+            category.WikipediaURL = ToUrlWithProtocol(request["WikipediaUrl"]);
 
         if (category.Type == CategoryType.Book)
             return FillBook(category, request, result);
@@ -144,13 +161,13 @@ public class EditCategoryModel : BaseModel
             return FillVolumeChapter(category, request, result);
 
         if (category.Type == CategoryType.Website)
-            category.TypeJson = new CategoryTypeWebsite { Url = request["Url"] }.ToJson();
+            category.TypeJson = new CategoryTypeWebsite { Url = ToUrlWithProtocol(request["Url"]) }.ToJson();
 
         if (category.Type == CategoryType.WebsiteArticle)
             return FillWebsiteArticle(category, request, result);
 
         if (category.Type == CategoryType.WebsiteVideo)
-            category.TypeJson = new CategoryTypeWebsiteVideo {Url = request["YoutubeUrl"]}.ToJson();
+            category.TypeJson = new CategoryTypeWebsiteVideo {Url = ToUrlWithProtocol(request["YoutubeUrl"])}.ToJson();
 
         return result;
     }
@@ -184,7 +201,7 @@ public class EditCategoryModel : BaseModel
         { Title = request["Title"],
             ISSN = request["ISSN"],
             Publisher = request["Publisher"],
-            Url = request["Url"] 
+            Url = ToUrlWithProtocol(request["Url"])
         }.ToJson();
 
         category.Name = request["Title"];
@@ -227,7 +244,7 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = request["Url"],
+            Url = ToUrlWithProtocol(request["Url"]),
             PagesArticleFrom = request["PagesArticleFrom"],
             PagesArticleTo = request["PagesArticleTo"]
         };
@@ -272,7 +289,7 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             ISSN = request["ISSN"],
             Publisher = request["Publisher"],
-            Url = request["Url"]
+            Url = ToUrlWithProtocol(request["Url"])
         }.ToJson();
 
         category.Name = request["Title"];
@@ -317,7 +334,7 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = request["Url"],
+            Url = ToUrlWithProtocol(request["Url"]),
             PagesArticleFrom = request["PagesArticleFrom"],
             PagesArticleTo = request["PagesArticleTo"]
         };
@@ -392,7 +409,7 @@ public class EditCategoryModel : BaseModel
                 PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
                 PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
                 PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
-                Url = request["Url"]
+                Url = ToUrlWithProtocol(request["Url"])
             }.ToJson();
 
         if (String.IsNullOrEmpty(request["Subtitle"]))
