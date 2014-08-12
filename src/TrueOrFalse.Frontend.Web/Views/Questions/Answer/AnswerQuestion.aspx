@@ -57,7 +57,7 @@
                     <% } %>
                     
                     <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
-                        <a href="<%= QuestionSearchSpecSession.GetUrl(Model.PagerKeyOverviewPage) %>">                        
+                        <a href="<%= QuestionSearchSpecSession.GetUrl(Model.SearchTabOverview) %>">                        
                             <span >
                                 <i class="fa fa-list"></i> 
                                 <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>

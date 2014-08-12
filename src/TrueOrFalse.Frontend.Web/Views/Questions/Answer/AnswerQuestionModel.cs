@@ -24,7 +24,7 @@ public class AnswerQuestionModel : BaseModel
     public string PageCurrent;
     public string PagesTotal;
     public string PagerKey;
-    public string PagerKeyOverviewPage;
+    public SearchTab SearchTabOverview;
 
     public string TotalQualityAvg;
     public string TotalQualityEntries;
@@ -100,16 +100,16 @@ public class AnswerQuestionModel : BaseModel
         PageCurrent = searchSpec.CurrentPage.ToString();
         PagesTotal = searchSpec.PageCount.ToString();
         PagerKey = searchSpec.Key;
-        PagerKeyOverviewPage = searchSpec.KeyOverviewPage;
+        SearchTabOverview = searchSpec.SearchTab;
         HasPreviousPage = searchSpec.HasPreviousPage();
         HasNextPage = searchSpec.HasNextPage();
 
         NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new {pager = PagerKey});
         PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new {pager = PagerKey});
 
-        SourceIsTabAll = SearchTab.All.ToString() == searchSpec.KeyOverviewPage;
-        SourceIsTabMine = SearchTab.Mine.ToString() == searchSpec.KeyOverviewPage;
-        SourceIsTabWish = SearchTab.Wish.ToString() == searchSpec.KeyOverviewPage;
+        SourceIsTabAll = SearchTab.All == searchSpec.SearchTab;
+        SourceIsTabMine = SearchTab.Mine == searchSpec.SearchTab;
+        SourceIsTabWish = SearchTab.Wish == searchSpec.SearchTab;
 
         if (searchSpec.Filter.HasCategoryFilter()){
             SourceCategory = Resolve<CategoryRepository>().GetByName(searchSpec.Filter.CategoryFilter()).First();
