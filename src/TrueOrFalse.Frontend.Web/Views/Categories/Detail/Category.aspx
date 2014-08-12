@@ -26,7 +26,7 @@
                     <% if (Model.Type == "Standard") {%>
                         <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredUnderline Category"><%= Model.Name %></span></h2>
                     <% } else {%>
-                        <h2 style="margin-top: 0; margin-bottom: 10px;"><span style="display: inline-block;"><span class="ColoredUnderline Category" style="margin-right: 5px;"><%= Model.Name %></span><span class="CategoryType">(<%= Model.Type %>)</span></span></h2>
+                        <h2 style="margin-top: 0; margin-bottom: 10px;"><span style="display: inline-block;"><span class="ColoredUnderline Category" style="display: inline; margin-right: 5px;"><%= Model.Name %></span><span class="CategoryType">(<%= Model.Type %>)</span></span></h2>
                     <% }
                     if (Model.Type != "Standard") {
                         Html.RenderPartial("Reference", Model.Category);

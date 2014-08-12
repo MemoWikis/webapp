@@ -5,7 +5,7 @@ div.column  { width: 33%; float: left;}
 
 span.CategoryType {
     font-size: 80%;
-    white-space: nowrap;
+    display: inline-block; //To prevent line break inside span when situated next to category name
 }
 
 .CategoryImage {
@@ -19,6 +19,7 @@ span.CategoryType {
     color: @color-category-dark;
     font-size: 145%;
     margin-top: 5px;
+    white-space: normal;
 }
 
 /*REFERENCES DEFAULT
