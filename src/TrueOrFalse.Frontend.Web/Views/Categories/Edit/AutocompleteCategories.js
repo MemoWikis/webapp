@@ -152,4 +152,4 @@ var AutocompleteCategories = (function () {
 $(function () {
     new AutocompleteCategories("#txtNewRelatedCategory");
 });
-//# sourceMappingURL=RelatedCategories.js.map
+//# sourceMappingURL=AutocompleteCategories.js.map
