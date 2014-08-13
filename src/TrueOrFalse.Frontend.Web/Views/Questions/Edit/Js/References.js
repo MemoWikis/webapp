@@ -13,7 +13,14 @@ var ReferenceType;
 
 var Reference = (function () {
     function Reference(type) {
+        this.Type = type;
     }
+    Reference.prototype.ToHtml = function () {
+        throw new Error('This method is abstract');
+    };
+    Reference.prototype.Init = function () {
+        throw new Error('This method is abstract');
+    };
     return Reference;
 })();
 
@@ -34,26 +41,38 @@ var ReferencePeriodical = (function (_super) {
     return ReferencePeriodical;
 })(Reference);
 
-var ReferenceBooks = (function (_super) {
-    __extends(ReferenceBooks, _super);
-    function ReferenceBooks() {
+var ReferenceBook = (function (_super) {
+    __extends(ReferenceBook, _super);
+    function ReferenceBook() {
         _super.call(this, 1 /* Book */);
     }
-    return ReferenceBooks;
+    ReferenceBook.prototype.ToHtml = function () {
+        return "" + "<label class='control-label LabelInline'>Buch suchen</label>" + "<div class='JS-CatInputContainer ControlInline'>" + "<input id='txtReferenceBook' class='form-control' name ='txtReferenceBook' type ='text' value ='' placeholder='Suche nach Titel oder ISSN'/>" + "</div>";
+    };
+
+    ReferenceBook.prototype.Init = function () {
+        new AutocompleteCategories("#txtReferenceBook", true, 0 /* None */);
+    };
+    return ReferenceBook;
 })(Reference);
 
 var ReferenceUi = (function () {
     function ReferenceUi() {
+        var _this = this;
         var references = new Array();
-        references.push(new ReferenceUrl("http://someUrl"));
-        references.push(new ReferenceUrl("http://someOtherUrl"));
 
         for (var reference in references) {
             this.AddReference(reference);
         }
+
+        $("#addReference").click(function (e) {
+            e.preventDefault();
+            _this.AddReference(new ReferenceBook());
+        });
     }
     ReferenceUi.prototype.AddReference = function (reference) {
-        $("#references").append($("<div class='xxs-stack col-xs-4'>").append($("<select class='form-control'>").append($("<option>Url</option>")).append($("<optgroup label='Offline'>").append($("<option>Buch</option>")).append($("<option>Zeitung/Zeitschrift</option>"))))).append($("<div class='xxs-stack col-xs-8'>").append($("<input class='form-control' type='text' />")));
+        $("#JS-References").append(reference.ToHtml());
+        reference.Init();
     };
     return ReferenceUi;
 })();

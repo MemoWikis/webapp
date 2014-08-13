@@ -151,4 +151,8 @@ select.form-control {
     border-bottom-right-radius: 0;
   }
 }
+#JS-References .LabelInline,
+#AddReferenceControls .LabelInline {
+  font-size: 111.11111111%;
+}
 /*# sourceMappingURL=EditQuestion.css.map */

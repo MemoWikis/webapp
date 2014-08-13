@@ -8,9 +8,12 @@ enum ReferenceType {
 class Reference {
     Type: ReferenceType
 
-    constructor(type : ReferenceType) {
-        
+    constructor(type: ReferenceType) {
+        this.Type = type;
     }
+
+    ToHtml(): string { throw new Error('This method is abstract'); }
+    Init(): void { throw new Error('This method is abstract'); }
 }
 
 class ReferenceUrl extends Reference {
@@ -35,7 +38,7 @@ class ReferencePeriodical extends Reference {
     }
 }
 
-class ReferenceBooks extends Reference {
+class ReferenceBook extends Reference {
     CategoryBookId: number;
     CategoryEditionId: number;
 
@@ -44,32 +47,39 @@ class ReferenceBooks extends Reference {
     constructor() {
         super(ReferenceType.Book);
     }
+
+    ToHtml() : string {
+        return "" +
+            "<label class='control-label LabelInline'>Buch suchen</label>" +
+            "<div class='JS-CatInputContainer ControlInline'>" +
+                "<input id='txtReferenceBook' class='form-control' name ='txtReferenceBook' type ='text' value ='' placeholder='Suche nach Titel oder ISSN'/>" + 
+            "</div>";
+    }
+
+    Init(): void {
+        new AutocompleteCategories("#txtReferenceBook", true, AutoCompleteFilterType.None);
+    }
+
 }
 
 class ReferenceUi
 {
     constructor() {
         var references = new Array<Reference>();
-        references.push(new ReferenceUrl("http://someUrl"));
-        references.push(new ReferenceUrl("http://someOtherUrl"));        
-
+        //references.push(new ReferenceBook());
         for (var reference in references) {
             this.AddReference(reference);
         }
+
+        $("#addReference").click((e) => {
+            e.preventDefault();
+            this.AddReference(new ReferenceBook());
+        });
     }
 
     public AddReference(reference : Reference) {
-        $("#references")
-            .append($("<div class='xxs-stack col-xs-4'>")
-                .append($("<select class='form-control'>")
-                    .append($("<option>Url</option>"))
-                    .append($("<optgroup label='Offline'>")
-                        .append($("<option>Buch</option>"))
-                        .append($("<option>Zeitung/Zeitschrift</option>"))
-                    )
-                )
-            ).append($("<div class='xxs-stack col-xs-8'>")
-                .append($("<input class='form-control' type='text' />")));                
+        $("#JS-References").append(reference.ToHtml());
+        reference.Init();
     }
 }
 

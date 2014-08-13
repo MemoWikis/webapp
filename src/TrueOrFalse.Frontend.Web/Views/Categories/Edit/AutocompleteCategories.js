@@ -3,11 +3,27 @@
 var AutoCompleteFilterType;
 (function (AutoCompleteFilterType) {
     AutoCompleteFilterType[AutoCompleteFilterType["None"] = 0] = "None";
-    AutoCompleteFilterType[AutoCompleteFilterType["Daily"] = 1] = "Daily";
-    AutoCompleteFilterType[AutoCompleteFilterType["DailyIssue"] = 2] = "DailyIssue";
-    AutoCompleteFilterType[AutoCompleteFilterType["Magazine"] = 3] = "Magazine";
-    AutoCompleteFilterType[AutoCompleteFilterType["MagazineIssue"] = 4] = "MagazineIssue";
+    AutoCompleteFilterType[AutoCompleteFilterType["Book"] = 1] = "Book";
+    AutoCompleteFilterType[AutoCompleteFilterType["Daily"] = 2] = "Daily";
+    AutoCompleteFilterType[AutoCompleteFilterType["DailyIssue"] = 3] = "DailyIssue";
+    AutoCompleteFilterType[AutoCompleteFilterType["Magazine"] = 4] = "Magazine";
+    AutoCompleteFilterType[AutoCompleteFilterType["MagazineIssue"] = 5] = "MagazineIssue";
 })(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
+
+var CompareType = (function () {
+    function CompareType() {
+    }
+    CompareType.AreEqual = function (name, type) {
+        if (name == "Daily" && type == 2 /* Daily */)
+            return true;
+
+        if (name == "Book" && type == 1 /* Book */)
+            return true;
+
+        return false;
+    };
+    return CompareType;
+})();
 
 var AutocompleteCategories = (function () {
     function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent) {
@@ -41,8 +57,11 @@ var AutocompleteCategories = (function () {
                 catIdx = inputSelector.substring(1);
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
                 elemInput.attr("type", "hidden").hide();
-                var validator = $("#EditCategoryForm").validate();
-                validator.element(elemInput);
+
+                if ($("#EditCategoryForm").length > 0) {
+                    var validator = $("#EditCategoryForm").validate();
+                    validator.element(elemInput);
+                }
             } else {
                 elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
             }
@@ -71,19 +90,19 @@ var AutocompleteCategories = (function () {
             minLength: 0,
             source: function (request, response) {
                 var params = "";
-                if (self._filterType == 1 /* Daily */) {
+                if (self._filterType == 2 /* Daily */) {
                     params = "&type=Daily";
                 }
 
-                if (self._filterType == 2 /* DailyIssue */) {
+                if (self._filterType == 3 /* DailyIssue */ || selectorParent != "") {
                     params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
-                if (self._filterType == 3 /* Magazine */) {
+                if (self._filterType == 4 /* Magazine */) {
                     params = "&type=Magazine";
                 }
 
-                if (self._filterType == 4 /* MagazineIssue */) {
+                if (self._filterType == 5 /* MagazineIssue */ || selectorParent != "") {
                     params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
@@ -108,7 +127,14 @@ var AutocompleteCategories = (function () {
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
-            return $("<li></li>").data("ui-autocomplete-item", item).append("<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + "<span class='cat-name'>" + item.name + "</span>" + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>").appendTo(ul);
+            var html;
+            if (CompareType.AreEqual(item.type, 1 /* Book */)) {
+                html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + item.html + "</div>" + "</a>";
+            } else {
+                html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + "<span class='cat-name'>" + item.name + "</span>" + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>";
+            }
+
+            return $("<li></li>").data("ui-autocomplete-item", item).append(html).appendTo(ul);
         };
 
         var animating = false;

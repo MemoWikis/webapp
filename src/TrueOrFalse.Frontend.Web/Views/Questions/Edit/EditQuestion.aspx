@@ -196,31 +196,29 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="columnLabel control-label">Quellen 
-                            <span style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</span>
+                        <%--<label class="columnLabel control-label">Frage</label>--%>
+
+                        <label class="columnLabel control-label">Quellen <br/>
+                            <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</div>
                         </label>
                     
-                        <div id="references"></div>
-                    
-    <%--                    <div class="xxs-stack col-xs-4">
-                            <select class="form-control">
-                                <option>Url</option>
-                                <optgroup label="Offline">
-                                    <option>Buch</option>
-                                    <option>Zeitung/Zeitschrift</option>
-                                </optgroup>
-
-                            </select>
-                        </div>
-                        <div class="xxs-stack col-xs-8">
-                            <input class="form-control" type="text" />
-                        </div>--%>
-
+                        <div id="JS-References" class="columnControlsFull"></div>
                     </div>
                 
-                    <div class="form-group">
-                        <div class="noLabel columnControlsFull ButtonContainer">
-                            <button class="btn" id="addChoice">Quelle hinzufügen</button>
+                    <div id="AddReferenceControls" class="form-group">
+                        <div class="noLabel columnControlsFull">
+                            <label class="control-label LabelInline">Quellen vom Typ</label> 
+                                <div class="ControlInline">
+                                    <select class="form-control">
+                                        <option><%= CategoryType.Book.GetName() %></option>                
+                                        <option>Artikel</option>                
+                                        <option><%= CategoryType.VolumeChapter.GetName() %></option>                
+                                        <option><%= CategoryType.WebsiteArticle.GetName() %></option>
+                                        <option>Freitext-Url</option> 
+                                        <option>Freitext</option> 
+                                    </select>
+                                </div>
+                            <button class="btn" id="addReference">hinzufügen</button>
                         </div>
                     </div>
                 </div>
