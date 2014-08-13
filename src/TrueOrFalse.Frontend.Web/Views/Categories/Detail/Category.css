@@ -20,10 +20,10 @@ span.CategoryType {
   margin-top: 5px;
   white-space: normal;
 }
-.Reference div:not(.Author) {
+.Reference div:not(.Title):not(.Name):not(.Author) {
   display: inline;
 }
-.Reference div:not(:last-child):not(.Author):not(.NoSeperator):after {
+.Reference div:not(:last-child):not(.Title):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
   content: ",\0000a0";
 }
 .Reference {

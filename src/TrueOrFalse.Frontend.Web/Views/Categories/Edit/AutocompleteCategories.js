@@ -6,18 +6,24 @@ var AutoCompleteFilterType;
     AutoCompleteFilterType[AutoCompleteFilterType["Book"] = 1] = "Book";
     AutoCompleteFilterType[AutoCompleteFilterType["Daily"] = 2] = "Daily";
     AutoCompleteFilterType[AutoCompleteFilterType["DailyIssue"] = 3] = "DailyIssue";
-    AutoCompleteFilterType[AutoCompleteFilterType["Magazine"] = 4] = "Magazine";
-    AutoCompleteFilterType[AutoCompleteFilterType["MagazineIssue"] = 5] = "MagazineIssue";
+    AutoCompleteFilterType[AutoCompleteFilterType["DailyArticle"] = 4] = "DailyArticle";
+    AutoCompleteFilterType[AutoCompleteFilterType["Magazine"] = 5] = "Magazine";
+    AutoCompleteFilterType[AutoCompleteFilterType["MagazineIssue"] = 6] = "MagazineIssue";
+    AutoCompleteFilterType[AutoCompleteFilterType["WebsiteArticle"] = 7] = "WebsiteArticle";
 })(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
 
 var CompareType = (function () {
     function CompareType() {
     }
     CompareType.AreEqual = function (name, type) {
-        if (name == "Daily" && type == 2 /* Daily */)
+        if (name == "WebsiteArticle" && type == 7 /* WebsiteArticle */)
             return true;
 
-        if (name == "Book" && type == 1 /* Book */)
+        return false;
+    };
+
+    CompareType.IsReference = function (type) {
+        if (type == "Book" || type == "Daily" || type == "DailyIssue" || type == "DailyArticle" || type == "Magazine" || type == "MagazineIssue" || type == "MagazineArticle" || type == "VolumeChapter" || type == "WebsiteArticle")
             return true;
 
         return false;
@@ -98,11 +104,11 @@ var AutocompleteCategories = (function () {
                     params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
-                if (self._filterType == 4 /* Magazine */) {
+                if (self._filterType == 5 /* Magazine */) {
                     params = "&type=Magazine";
                 }
 
-                if (self._filterType == 5 /* MagazineIssue */ || selectorParent != "") {
+                if (self._filterType == 6 /* MagazineIssue */ || selectorParent != "") {
                     params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
 
@@ -128,8 +134,20 @@ var AutocompleteCategories = (function () {
                 return "";
 
             var html;
-            if (CompareType.AreEqual(item.type, 1 /* Book */)) {
-                html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + item.html + "</div>" + "</a>";
+            debugger;
+            if (CompareType.IsReference(item.type)) {
+                var jqueryReference = $(item.html);
+                if (CompareType.AreEqual(item.type, 7 /* WebsiteArticle */)) {
+                    var linkContent = jqueryReference.find('.Url').text();
+                    jqueryReference.find('.Url').text(linkContent);
+                } else {
+                    jqueryReference.find('.Url').remove();
+                }
+                jqueryReference.find('.WikiUrl').remove();
+
+                var jqueryReferenceHtml = $('<div></div>').append(jqueryReference).html();
+
+                html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + jqueryReferenceHtml + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>";
             } else {
                 html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + "<span class='cat-name'>" + item.name + "</span>" + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>";
             }

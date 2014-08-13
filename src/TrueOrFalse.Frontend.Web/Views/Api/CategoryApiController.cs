@@ -59,6 +59,9 @@ namespace TrueOrFalse.View.Web.Views.Api
                 var categoryIds = _searchCategories.Run(term, searchStartingWith: true, pageSize: 5).CategoryIds;
                 categories = _categoryRepo.GetByIds(categoryIds.ToArray());
             }
+            
+
+            
 
             return Json(from c in categories
                         select new {
@@ -67,8 +70,17 @@ namespace TrueOrFalse.View.Web.Views.Api
                             numberOfQuestions = c.CountQuestions,
                             imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
                             type = c.Type.ToString(),
-                            html = c.Type == CategoryType.Book ? 
-                                ViewRenderer.RenderPartialView("Reference",c ,ControllerContext) : ""
+                            html = c.Type == CategoryType.Book ||
+                                    c.Type == CategoryType.Daily ||
+                                    c.Type == CategoryType.DailyIssue ||
+                                    c.Type == CategoryType.DailyArticle ||
+                                    c.Type == CategoryType.Magazine ||
+                                    c.Type == CategoryType.MagazineIssue ||
+                                    c.Type == CategoryType.MagazineArticle ||
+                                    c.Type == CategoryType.VolumeChapter ||
+                                    c.Type == CategoryType.WebsiteArticle ?
+                                    ViewRenderer.RenderPartialView("Reference",c, ControllerContext) :
+                                    ""
                         }, JsonRequestBehavior.AllowGet);
         }
     }

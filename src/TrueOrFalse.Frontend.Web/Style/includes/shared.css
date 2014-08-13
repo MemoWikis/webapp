@@ -1704,10 +1704,22 @@
 .ReferenceAllInlineButAuthorStyle .Reference.DailyIssue .PublicationDate {
   display: none;
 }
-.ReferenceAllInlineButAuthorStyle .Reference div:not(.Author) {
+.ReferenceAllInlineButAuthorStyle .Reference div:not(.Title):not(.Name):not(.Author) {
   display: inline;
 }
-.ReferenceAllInlineButAuthorStyle .Reference div:not(:last-child):not(.Author):not(.NoSeperator):after {
+.ReferenceAllInlineButAuthorStyle .Reference div:not(:last-child):not(.Title):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
   content: ",\0000a0";
+}
+.ReferenceAllInlineStyle .Reference.DailyIssue .PublicationDate {
+  display: none;
+}
+.ReferenceAllInlineStyle .Reference div:not(.Title):not(.Name) {
+  display: inline;
+}
+.ReferenceAllInlineStyle .Reference div:not(:last-child):not(.Title):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+  content: ",\0000a0";
+}
+.ReferenceAllInlineStyle .Reference div.Author:after {
+  content: ".\0000a0";
 }
 /*# sourceMappingURL=shared.css.map */

@@ -15,16 +15,31 @@ enum AutoCompleteFilterType {
     Book,
     Daily, 
     DailyIssue,
+    DailyArticle,
     Magazine,
-    MagazineIssue
+    MagazineIssue,
+    WebsiteArticle
 }
 
 class CompareType {
     static AreEqual(name: string, type: AutoCompleteFilterType) : boolean {
-        if (name == "Daily" && type == AutoCompleteFilterType.Daily)
+        if (name == "WebsiteArticle" && type == AutoCompleteFilterType.WebsiteArticle)
             return true;
 
-        if (name == "Book" && type == AutoCompleteFilterType.Book)
+        return false;
+    }
+
+    static IsReference(type: string) : boolean {
+        if (type == "Book" ||
+            type == "Daily" ||
+            type == "DailyIssue" ||
+            type == "DailyArticle" ||
+            type == "Magazine" ||
+            type == "MagazineIssue" ||
+            type == "MagazineArticle" ||
+            type == "VolumeChapter" ||
+            type == "WebsiteArticle"
+        )
             return true;
 
         return false;
@@ -155,13 +170,26 @@ class AutocompleteCategories {
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
-
             var html;
-            if (CompareType.AreEqual(item.type, AutoCompleteFilterType.Book)) {
+            debugger;
+            if (CompareType.IsReference(item.type))
+                {
+                var jqueryReference = $(item.html);
+                if (CompareType.AreEqual(item.type, AutoCompleteFilterType.WebsiteArticle)) {//Render link as plain text to avoid nested anchors
+                    var linkContent = jqueryReference.find('.Url').text();
+                    jqueryReference.find('.Url').text(linkContent);
+                } else {
+                    jqueryReference.find('.Url').remove();    
+                }
+                jqueryReference.find('.WikiUrl').remove();
+                
+                var jqueryReferenceHtml = $('<div></div>').append(jqueryReference).html(); 
+
                 html = "<a class='CatListItem'>" +
                             "<img src='" + item.imageUrl + "'/>" +
                             "<div class='CatDescription'>" +
-                                item.html+
+                                jqueryReferenceHtml +
+                                "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" +
                             "</div>" +
                         "</a>";
             } else {

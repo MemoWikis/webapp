@@ -155,4 +155,19 @@ select.form-control {
 #AddReferenceControls .LabelInline {
   font-size: 111.11111111%;
 }
+.ui-autocomplete .Reference.DailyIssue .PublicationDate {
+  display: none;
+}
+.ui-autocomplete .Reference div:not(.Title):not(.Name):not(.Author) {
+  display: inline;
+}
+.ui-autocomplete .Reference div:not(:last-child):not(.Title):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+  content: ",\0000a0";
+}
+.ui-autocomplete a.CatListItem .Reference span {
+  display: inline;
+}
+.ui-autocomplete .Reference div:not(.Title):not(.Name) {
+  font-size: 80%;
+}
 /*# sourceMappingURL=EditQuestion.css.map */
