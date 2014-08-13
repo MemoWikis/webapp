@@ -13,6 +13,7 @@ public class QuestionsModel : BaseModel
 
     public string SearchTerm { get; set; }
     public string SearchUrl { get; set; }
+    public string SearchTab;
     public IList<Category> FilteredCategories = new List<Category>();
 
     public int TotalWishKnowledge;
@@ -29,7 +30,7 @@ public class QuestionsModel : BaseModel
 
     public string Action;
 
-    public string Suggestion; 
+    public string Suggestion;
     public IEnumerable<string> Suggestions = new List<string>();
 
     public bool NotAllowed;
@@ -46,12 +47,13 @@ public class QuestionsModel : BaseModel
         SearchTab searchTab
     )
     {
-        ActiveTabAll = searchTab == SearchTab.All;
-        ActiveTabMine = searchTab == SearchTab.Mine;
-        ActiveTabWish = searchTab == SearchTab.Wish;
+        SearchTab = searchTab.ToString();
+        ActiveTabAll = searchTab == TrueOrFalse.SearchTab.All;
+        ActiveTabMine = searchTab == TrueOrFalse.SearchTab.Mine;
+        ActiveTabWish = searchTab == TrueOrFalse.SearchTab.Wish;
 
         int currentUserId = _sessionUser.IsLoggedIn ? _sessionUser.User.Id : -1;
-        NotAllowed = !_sessionUser.IsLoggedIn && (searchTab == SearchTab.Wish || searchTab == SearchTab.Mine);
+        NotAllowed = !_sessionUser.IsLoggedIn && (searchTab == TrueOrFalse.SearchTab.Wish || searchTab == TrueOrFalse.SearchTab.Mine);
 
         var totalsForCurrentUser = Resolve<TotalsPersUserLoader>().Run(currentUserId, questions);
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>().GetBy(questions.GetIds(), currentUserId);
@@ -80,13 +82,13 @@ public class QuestionsModel : BaseModel
         OrderByLabel = questionSearchSpec.OrderBy.ToText();
         SearchTerm = questionSearchSpec.Filter.SearchTerm;
 
-        if (searchTab == SearchTab.All){
+        if (searchTab == TrueOrFalse.SearchTab.All){
             Pager.Action = Action = Links.Questions;
             SearchUrl = "/Fragen/Suche";
-        }else if (searchTab == SearchTab.Wish){
+        }else if (searchTab == TrueOrFalse.SearchTab.Wish){
             Pager.Action = Action = Links.QuestionsWishAction;
             SearchUrl = "/Fragen/Wunschwissen/Suche";
-        }else if (searchTab == SearchTab.Mine){
+        }else if (searchTab == TrueOrFalse.SearchTab.Mine){
             Pager.Action = Action = Links.QuestionsMineAction;
             SearchUrl = "/Fragen/Meine/Suche";
         }

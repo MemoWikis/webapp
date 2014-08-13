@@ -158,7 +158,7 @@ namespace TrueOrFalse
         }
     }
 
-    public class QuestionsControllerUtil
+    public class QuestionsControllerUtil : BaseUtil
     {
         private readonly QuestionsControllerSearch _ctlSearch;
 
@@ -176,9 +176,9 @@ namespace TrueOrFalse
             SetSearchSpecVars(searchSpec, page, model, orderBy);
 
             if (searchTab == SearchTab.Mine){
-                searchSpec.Filter.CreatorId = Sl.Resolve<SessionUser>().UserId;
+                searchSpec.Filter.CreatorId = _sessionUser.UserId;
             }else if (searchTab == SearchTab.Wish){
-                searchSpec.Filter.ValuatorId = Sl.Resolve<SessionUser>().UserId;
+                searchSpec.Filter.ValuatorId = _sessionUser.UserId;
             }
 
             var questionsModel = new QuestionsModel(_ctlSearch.Run(searchSpec), searchSpec, searchTab);
@@ -194,7 +194,14 @@ namespace TrueOrFalse
         {
             var model = new QuestionsModel();
             SetSearchTerm(searchSpec, model, searchTerm);
-             
+
+            var totalInSystem = 0;
+            switch (searchTab){
+                case SearchTab.All: totalInSystem = R<GetTotalQuestionCount>().Run(); break;
+                case SearchTab.Mine: totalInSystem = R<GetTotalQuestionCount>().Run(_sessionUser.UserId); break;
+                case SearchTab.Wish: totalInSystem = R<GetWishQuestionCountCached>().Run(_sessionUser.UserId); break;
+            }
+
             return new JsonResult
             {
                 Data = new
@@ -209,8 +216,9 @@ namespace TrueOrFalse
                                 searchTab
                                 )),
                         controllerContext),
-                    Total = searchSpec.TotalItems,
-                    Tab = searchTab
+                    TotalInResult = searchSpec.TotalItems,
+                    TotalInSystem = totalInSystem,
+                    Tab = searchTab.ToString()
                 },
             };
         }

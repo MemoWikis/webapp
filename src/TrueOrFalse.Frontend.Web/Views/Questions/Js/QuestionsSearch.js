@@ -22,6 +22,13 @@
 
         $.post($('#txtSearch').attr("formUrl") + "Api", { searchTerm: $('#txtSearch').val() }, function (data) {
             _this._elemContainer.html(data.Html);
+
+            var tabAmount = data.TotalInResult.toString() + " von " + data.TotalInSystem.toString();
+            if (data.TotalInResult == data.TotalInSystem) {
+                tabAmount = data.TotalInSystem.toString();
+            }
+
+            $(".JS-TabsUl").find("li.JS-" + data.Tab).find("span.JS-Amount").html(tabAmount);
         });
     };
     return QuestionsSearch;
