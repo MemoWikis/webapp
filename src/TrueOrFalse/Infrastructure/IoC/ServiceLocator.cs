@@ -8,6 +8,7 @@ namespace TrueOrFalse
     public class Sl
     {
         public static T Resolve<T>(){return ServiceLocator.Resolve<T>();}
+        public static T R<T>() { return ServiceLocator.Resolve<T>(); }
     }
 
     public class ServiceLocator

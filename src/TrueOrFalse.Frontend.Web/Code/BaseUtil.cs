@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using TrueOrFalse;
+﻿using TrueOrFalse;
 using TrueOrFalse.Web.Context;
 
-
-public class BaseController : Controller
+public class BaseUtil
 {
-    protected SessionUser _sessionUser{ get { return Resolve<SessionUser>(); } }
+    protected SessionUser _sessionUser { get { return Resolve<SessionUser>(); } }
     protected SessionUiData _sessionUiData { get { return Resolve<SessionUiData>(); } }
 
     protected T Resolve<T>()
@@ -20,5 +14,5 @@ public class BaseController : Controller
     protected T R<T>()
     {
         return ServiceLocator.Resolve<T>();
-    }
+    }    
 }

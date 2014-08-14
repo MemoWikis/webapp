@@ -215,6 +215,7 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\BaseResolve.cs" />
+    <Compile Include="Code\BaseUtil.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />

@@ -1,4 +1,11 @@
-﻿class QuestionsSearch {
+﻿interface QuestionSearchResult {
+    Html : string;
+    TotalInResult: number;
+    TotalInSystem: number;
+    Tab : string;
+}
+
+class QuestionsSearch {
 
     _elemContainer: JQuery;
 
@@ -27,7 +34,19 @@
             "</div>");
 
         $.post($('#txtSearch').attr("formUrl") + "Api", { searchTerm: $('#txtSearch').val() },
-            (data) => { this._elemContainer.html(data.Html); }
+            (data: QuestionSearchResult) => {
+                this._elemContainer.html(data.Html);
+
+                var tabAmount = data.TotalInResult.toString() + " von " + data.TotalInSystem.toString();
+                if (data.TotalInResult == data.TotalInSystem) {
+                    tabAmount = data.TotalInSystem.toString();
+                }
+
+                $(".JS-TabsUl")
+                    .find("li.JS-" + data.Tab)
+                    .find("span.JS-Amount")
+                    .html(tabAmount);
+            }
         );
 
     }
