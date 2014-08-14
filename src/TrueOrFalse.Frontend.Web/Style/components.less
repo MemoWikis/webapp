@@ -39,11 +39,34 @@ ul.ui-autocomplete {
 
             &.NumberQuestions {
                 font-style: italic;
+                font-size: 80%;
             }
 
         }
     }
+
+    .ReferenceAllInlineButAuthorStyle;
+
+    a.CatListItem .Reference span {
+        display: inline;
+    }
+
+    .Reference {
+        max-width: 300px;
+        div:not(.Name):not(.Icon) {
+            font-size: 80%;
+        }
+        .Url {
+            //word-break: break-word;
+            overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
 }
+
 
 /* MESSAGES + COMMENTS
 ----------------------------------------------------------*/

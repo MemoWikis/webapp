@@ -354,10 +354,10 @@
     .ReferenceDefault;
 
     .Reference {
-        div:not(.Title):not(.Name):not(.Author) {
+        div:not(.Name):not(.Author) {
             display: inline;
         }
-        div:not(:last-child):not(.Title):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+        div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
             content: ",\0000a0";
         }
     }
@@ -368,10 +368,14 @@
     .ReferenceDefault;
 
     .Reference {
-        div:not(.Title):not(.Name) {
+        div:not(.Name):not(.Icon) {
             display: inline;
         }
-        div:not(:last-child):not(.Title):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+        .Icon {
+            float: left;
+            margin-right: 5px;
+        }
+        div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
             content: ",\0000a0";
         }
         div.Author:after {

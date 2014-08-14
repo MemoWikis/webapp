@@ -13,11 +13,11 @@
             var book = (CategoryTypeBook) type;
 %>
             <div class="Reference Book">
-                <div class="Icon"><i class="fa fa-book"></i></div>
+                <div class="Icon show-tooltip" title="<%= CategoryType.Book.GetName() %>"><i class="fa fa-book"></i></div><% 
                 
-                <% if (!String.IsNullOrEmpty(book.Title))
+                if (!String.IsNullOrEmpty(book.Title))
                 {
-                    %><div class="Title"><%
+                    %><div class="Name"><%
                     if (!String.IsNullOrEmpty(book.Subtitle))
                     {
                         %><span><%= book.Title %> – <%= book.Subtitle %></span><%
@@ -32,15 +32,15 @@
                    {
                        var htmlAuthors = book.Author
                            .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                           .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
-                        <div class="Author"><span>von <%= htmlAuthors %></span></div><% 
+                           .Aggregate((a, b) => (a + ";&nbsp" + b));
+                        %><div class="Author"><span>von <%= htmlAuthors %></span></div><% 
                 }
                 if (!String.IsNullOrEmpty(book.PublicationCity) ||
                     !String.IsNullOrEmpty(book.Publisher) ||
                     !String.IsNullOrEmpty(book.PublicationYear))
                 { 
-                    %><div class="PublicationInfo">
-                        <%if (!String.IsNullOrEmpty(book.PublicationCity))
+                    %><div class="PublicationInfo"><%
+                        if (!String.IsNullOrEmpty(book.PublicationCity))
                         {
                             if (!String.IsNullOrEmpty(book.Publisher))
                             { 
@@ -67,13 +67,13 @@
                                 %><span class="PublicationYear"><%= book.PublicationYear %></span><%
                             }
                         } 
-                    %></div>
-                <% } %>
+                    %></div><% 
+                }
                     
-                <% if (!String.IsNullOrEmpty(book.ISBN))
+                if (!String.IsNullOrEmpty(book.ISBN))
                    {
-                %><div class="Isbn"><span>ISBN: <%= book.ISBN %></span></div>       
-                <% }
+                %><div class="Isbn"><span>ISBN: <%= book.ISBN %></span></div><% 
+                }
                 if (!String.IsNullOrEmpty(Model.WikipediaURL))
                 {
                     %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
@@ -86,8 +86,8 @@
             var daily = (CategoryTypeDaily) type;
 %>
            <div class="Reference Daily">
-                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
-                <% if (!String.IsNullOrEmpty(Model.Name)){
+                <div class="Icon show-tooltip" title="<%= CategoryType.Daily.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
+                if (!String.IsNullOrEmpty(Model.Name)){
                     %><div class="Name"><span><%= Model.Name %></span></div><%
                 }
                 if (!String.IsNullOrEmpty(daily.Publisher)){
@@ -111,10 +111,10 @@
             var dailyArticle = (CategoryTypeDailyArticle) type;
 %>
            <div class="Reference DailyArticle">
-                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
-                <% if (!String.IsNullOrEmpty(dailyArticle.Title))
+                <div class="Icon show-tooltip" title="<%= CategoryType.DailyArticle.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
+                if (!String.IsNullOrEmpty(dailyArticle.Title))
                 {
-                    %><div class="Title"><%
+                    %><div class="Name"><%
                     if (!String.IsNullOrEmpty(dailyArticle.Subtitle))
                     {
                         %><span><%= dailyArticle.Title %> – <%= dailyArticle.Subtitle %></span><%
@@ -129,13 +129,12 @@
                 {
                     var htmlAuthors = dailyArticle.Author
                         .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                        .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
-                    <div class="Author"><span>von <%= htmlAuthors %></span></div><%
+                        .Aggregate((a, b) => (a + ";&nbsp" + b)); 
+                    %><div class="Author"><span>von <%= htmlAuthors %></span></div><%
                 }
                 
                 if (!String.IsNullOrEmpty(dailyArticle.DailyIssue.Name)){
-                    %><div class="ParentIssue">
-                        <span><%= dailyArticle.DailyIssue.Name %></span><%
+                    %><div class="ParentIssue"><span><%= dailyArticle.DailyIssue.Name %></span><%
                         if (!String.IsNullOrEmpty(dailyArticle.PagesArticleFrom))
                         {
                         %><span class="Pages">
@@ -153,14 +152,14 @@
                 
             %></div>
 <%
-        break;
+            break;
 
         case CategoryType.DailyIssue:
             var dailyIssue = (CategoryTypeDailyIssue) type;
-        %>
+%>
            <div class="Reference DailyIssue">
-                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
-                <% if (!String.IsNullOrEmpty(Model.Name)){
+                <div class="Icon show-tooltip" title="<%= CategoryType.DailyIssue.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
+                if (!String.IsNullOrEmpty(Model.Name)){
                     %><div class="Name"><span><%= Model.Name %></span></div><%
                 }
                 if (DateTime.TryParse(dailyIssue.PublicationDateYear + "-" + dailyIssue.PublicationDateMonth + "-" + dailyIssue.PublicationDateDay, out date))
@@ -168,7 +167,7 @@
                     %><div class="PublicationDate"><span>erschienen am <%= date.ToString("dd.MM.yyyy")%></span></div><%
                 }
                 if (!String.IsNullOrEmpty(dailyIssue.Volume) || !String.IsNullOrEmpty(dailyIssue.No)){
-                    %><div class="VolumeNo"> <%
+                    %><div class="VolumeNo"><%
                         if (!String.IsNullOrEmpty(dailyIssue.Volume))
                         {
                             %><span>Jahrgang <%= dailyIssue.Volume %></span><%
@@ -176,19 +175,19 @@
                             {
                                 %><span>, Nr. <%= dailyIssue.No %></span><%                                   
                             }
-                        } else {%><span>Nr. <%= dailyIssue.No %></span> <%}
+                        } else {%><span>Nr. <%= dailyIssue.No %></span><%}
                     %></div><%
                 }
             %></div>
 <%
-        break;
+            break;
         
         case CategoryType.Magazine:
             var magazine = (CategoryTypeMagazine) type;
 %>
             <div class="Reference Magazine">
-                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
-                <% if (!String.IsNullOrEmpty(Model.Name)){
+                <div class="Icon show-tooltip" title="<%= CategoryType.Magazine.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
+                if (!String.IsNullOrEmpty(Model.Name)){
                     %><div class="Name"><span><%= Model.Name %></span></div><%
                 }
                 if (!String.IsNullOrEmpty(magazine.Publisher)){
@@ -205,17 +204,16 @@
                 }
             %></div>
 <%
-
             break;
             
-             case CategoryType.MagazineArticle:
+        case CategoryType.MagazineArticle:
             var magazineArticle = (CategoryTypeMagazineArticle) type;
 %>
            <div class="Reference MagazineArticle">
-                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
-                <% if (!String.IsNullOrEmpty(magazineArticle.Title))
+                <div class="Icon show-tooltip" title="<%= CategoryType.Magazine.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
+                if (!String.IsNullOrEmpty(magazineArticle.Title))
                 {
-                    %><div class="Title"><%
+                    %><div class="Name"><%
                     if (!String.IsNullOrEmpty(magazineArticle.Subtitle))
                     {
                         %><span><%= magazineArticle.Title %> – <%= magazineArticle.Subtitle %></span><%
@@ -235,8 +233,7 @@
                 }
                 if (!String.IsNullOrEmpty(magazineArticle.MagazineIssue.Name))
                 {
-                %><div class="ParentIssue">
-                    <span><%= magazineArticle.MagazineIssue.Name %></span><%
+                %><div class="ParentIssue"><span><%= magazineArticle.MagazineIssue.Name %></span><%
                     if (!String.IsNullOrEmpty(magazineArticle.PagesArticleFrom))
                     {
                     %><span class="Pages">
@@ -245,7 +242,6 @@
                         {%>–<%= magazineArticle.PagesArticleTo %><%}
                         %>)</span><%
                     }
-                                              
                 %></div><%
                 }
                 if (!String.IsNullOrEmpty(magazineArticle.Url))
@@ -254,14 +250,14 @@
                 }
             %></div>
 <%
-        break;
+            break;
             
-            case CategoryType.MagazineIssue:
+        case CategoryType.MagazineIssue:
             var magazineIssue = (CategoryTypeMagazineIssue) type;
-        %>
+%>
            <div class="Reference MagazineIssue">
-                <div class="Icon"><i class="fa fa-file-text-o"></i></div>
-                <% if (!String.IsNullOrEmpty(Model.Name)){
+                <div class="Icon show-tooltip" title="<%= CategoryType.MagazineIssue.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
+                if (!String.IsNullOrEmpty(Model.Name)){
                     %><div class="Name"><span><%= Model.Name %></span></div><%
                 }
                 if (!String.IsNullOrEmpty(magazineIssue.Title))
@@ -276,18 +272,18 @@
                 {
                     %><div class="Volume"><span>Jahrgang <%= magazineIssue.Volume %></span></div><%
                 }
-            %></div><%
-
+            %></div>
+<%
             break;
             
-            case CategoryType.VolumeChapter:
+        case CategoryType.VolumeChapter:
             var volumeChapter = (CategoryTypeVolumeChapter) type;
 %>
             <div class="Reference VolumeChapter">
-                <div class="Icon"><i class="fa fa-book"></i></div>
-                <% if (!String.IsNullOrEmpty(volumeChapter.Title))
+                <div class="Icon show-tooltip" title="<%= CategoryType.VolumeChapter.GetName() %>"><i class="fa fa-book"></i></div><% 
+                if (!String.IsNullOrEmpty(volumeChapter.Title))
                 {
-                    %><div class="Title"><%
+                    %><div class="Name"><%
                     if (!String.IsNullOrEmpty(volumeChapter.Subtitle))
                     {
                         %><span><%= volumeChapter.Title %> – <%= volumeChapter.Subtitle %></span><%
@@ -302,9 +298,9 @@
                    {
                        var htmlAuthors = volumeChapter.Author
                            .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                           .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
-                        <div class="Author"><span>von <%= htmlAuthors %></span></div>
-                <% }
+                           .Aggregate((a, b) => (a + ";&nbsp" + b));
+                        %><div class="Author"><span>von <%= htmlAuthors %></span></div><% 
+                }
                 if (!String.IsNullOrEmpty(volumeChapter.TitleVolume))
                 {
                     %><div class="NoSeperator">erschienen in:</div><%
@@ -313,8 +309,8 @@
                    {
                        var htmlEditors = volumeChapter.Editor
                            .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                           .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
-                        <div class="Editor"><span><%= htmlEditors %> (Hrsg.)</span></div><%
+                           .Aggregate((a, b) => (a + ";&nbsp" + b));
+                        %><div class="Editor"><span><%= htmlEditors %> (Hrsg.)</span></div><%
                 }
                 if (!String.IsNullOrEmpty(volumeChapter.TitleVolume))
                 {
@@ -365,8 +361,8 @@
                     %></div><%
                 }
                 if (!String.IsNullOrEmpty(volumeChapter.ISBN))
-                   {
-                %><div class="Isbn"><span>ISBN: <%= volumeChapter.ISBN %></span></div><%
+                {
+                    %><div class="Isbn"><span>ISBN: <%= volumeChapter.ISBN %></span></div><%
                 }
                 if (!String.IsNullOrEmpty(volumeChapter.PagesChapterFrom))
                 {
@@ -383,15 +379,14 @@
 <%
             break;
             
-            case CategoryType.WebsiteArticle:
+        case CategoryType.WebsiteArticle:
             var websiteArticle = (CategoryTypeWebsiteArticle) type;
 %>
            <div class="Reference WebsiteArticle">
-                <div class="Icon"><i class="fa fa-laptop"></i></div>
-                <%
+                <div class="Icon show-tooltip" title="<%= CategoryType.WebsiteArticle.GetName() %>"><i class="fa fa-laptop"></i></div><%
                 if (!String.IsNullOrEmpty(websiteArticle.Title))
                 {
-                    %><div class="Title"><%
+                    %><div class="Name"><%
                     if (!String.IsNullOrEmpty(websiteArticle.Subtitle))
                     {
                         %><span><%= websiteArticle.Title %> – <%= websiteArticle.Subtitle %></span><%
@@ -416,14 +411,12 @@
                 }
                 if (!String.IsNullOrEmpty(websiteArticle.Url))
                 {
-                    %><div class="Url"><a href="<%= websiteArticle.Url %>"><span><%= websiteArticle.Url %></span></a></div><%
+                    %><div class="Url show-tooltip" title="<%= websiteArticle.Url %>"><a href="<%= websiteArticle.Url %>"><span><%= websiteArticle.Url %></span></a></div><%
                 }
             %></div>
 <%
             break;
-
     }
-    
 %> 
 
                   

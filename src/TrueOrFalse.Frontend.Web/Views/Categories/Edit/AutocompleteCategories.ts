@@ -23,6 +23,13 @@ enum AutoCompleteFilterType {
 
 class CompareType {
     static AreEqual(name: string, type: AutoCompleteFilterType) : boolean {
+        
+        if (name == "DailyIssue" && type == AutoCompleteFilterType.DailyIssue)
+            return true;
+
+        if (name == "MagazineIssue" && type == AutoCompleteFilterType.MagazineIssue)
+            return true;
+
         if (name == "WebsiteArticle" && type == AutoCompleteFilterType.WebsiteArticle)
             return true;
 
@@ -163,6 +170,9 @@ class AutocompleteCategories {
 
                 addCat();
                 return false;
+            },
+            open: function(event, ui) {
+                $('.show-tooltip').tooltip();
             }
         });
 
@@ -171,7 +181,7 @@ class AutocompleteCategories {
                 return "";
 
             var html;
-            debugger;
+            //debugger;
             if (CompareType.IsReference(item.type))
                 {
                 var jqueryReference = $(item.html);
@@ -181,6 +191,10 @@ class AutocompleteCategories {
                 } else {
                     jqueryReference.find('.Url').remove();    
                 }
+                if (CompareType.AreEqual(item.type, AutoCompleteFilterType.DailyIssue) ||
+                    CompareType.AreEqual(item.type, AutoCompleteFilterType.MagazineIssue))
+                    jqueryReference.find('.PublicationDate').remove();
+                    
                 jqueryReference.find('.WikiUrl').remove();
                 
                 var jqueryReferenceHtml = $('<div></div>').append(jqueryReference).html(); 

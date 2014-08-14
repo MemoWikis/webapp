@@ -114,8 +114,6 @@
                 Kommentare
             </div>
         </div>
-        
-        
     </div>
 
         

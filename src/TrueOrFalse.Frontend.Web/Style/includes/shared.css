@@ -1704,19 +1704,23 @@
 .ReferenceAllInlineButAuthorStyle .Reference.DailyIssue .PublicationDate {
   display: none;
 }
-.ReferenceAllInlineButAuthorStyle .Reference div:not(.Title):not(.Name):not(.Author) {
+.ReferenceAllInlineButAuthorStyle .Reference div:not(.Name):not(.Author) {
   display: inline;
 }
-.ReferenceAllInlineButAuthorStyle .Reference div:not(:last-child):not(.Title):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+.ReferenceAllInlineButAuthorStyle .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
   content: ",\0000a0";
 }
 .ReferenceAllInlineStyle .Reference.DailyIssue .PublicationDate {
   display: none;
 }
-.ReferenceAllInlineStyle .Reference div:not(.Title):not(.Name) {
+.ReferenceAllInlineStyle .Reference div:not(.Name):not(.Icon) {
   display: inline;
 }
-.ReferenceAllInlineStyle .Reference div:not(:last-child):not(.Title):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+.ReferenceAllInlineStyle .Reference .Icon {
+  float: left;
+  margin-right: 5px;
+}
+.ReferenceAllInlineStyle .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
   content: ",\0000a0";
 }
 .ReferenceAllInlineStyle .Reference div.Author:after {

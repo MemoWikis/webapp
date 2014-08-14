@@ -16,6 +16,12 @@ var CompareType = (function () {
     function CompareType() {
     }
     CompareType.AreEqual = function (name, type) {
+        if (name == "DailyIssue" && type == 3 /* DailyIssue */)
+            return true;
+
+        if (name == "MagazineIssue" && type == 6 /* MagazineIssue */)
+            return true;
+
         if (name == "WebsiteArticle" && type == 7 /* WebsiteArticle */)
             return true;
 
@@ -126,6 +132,9 @@ var AutocompleteCategories = (function () {
 
                 addCat();
                 return false;
+            },
+            open: function (event, ui) {
+                $('.show-tooltip').tooltip();
             }
         });
 
@@ -134,7 +143,8 @@ var AutocompleteCategories = (function () {
                 return "";
 
             var html;
-            debugger;
+
+            //debugger;
             if (CompareType.IsReference(item.type)) {
                 var jqueryReference = $(item.html);
                 if (CompareType.AreEqual(item.type, 7 /* WebsiteArticle */)) {
@@ -143,6 +153,9 @@ var AutocompleteCategories = (function () {
                 } else {
                     jqueryReference.find('.Url').remove();
                 }
+                if (CompareType.AreEqual(item.type, 3 /* DailyIssue */) || CompareType.AreEqual(item.type, 6 /* MagazineIssue */))
+                    jqueryReference.find('.PublicationDate').remove();
+
                 jqueryReference.find('.WikiUrl').remove();
 
                 var jqueryReferenceHtml = $('<div></div>').append(jqueryReference).html();
