@@ -187,7 +187,13 @@ class AutocompleteCategories {
                 var jqueryReference = $(item.html);
                 if (CompareType.AreEqual(item.type, AutoCompleteFilterType.WebsiteArticle)) {//Render link as plain text to avoid nested anchors
                     var linkContent = jqueryReference.find('.Url').text();
-                    jqueryReference.find('.Url').text(linkContent);
+                    var truncatedLinkContent = "";
+                    if (linkContent.length > 50) {
+                        truncatedLinkContent = linkContent.substring(0, 44) + "...";
+                    } else {
+                        truncatedLinkContent = linkContent;
+                    }
+                    jqueryReference.find('.Url').text(truncatedLinkContent);
                 } else {
                     jqueryReference.find('.Url').remove();    
                 }

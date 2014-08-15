@@ -48,11 +48,18 @@ ul.ui-autocomplete a.CatListItem span.NumberQuestions {
 ul.ui-autocomplete .Reference.DailyIssue .PublicationDate {
   display: none;
 }
-ul.ui-autocomplete .Reference div:not(.Name):not(.Author) {
+ul.ui-autocomplete .Reference div:not(.Name):not(.Icon) {
   display: inline;
 }
-ul.ui-autocomplete .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+ul.ui-autocomplete .Reference .Icon {
+  float: left;
+  margin-right: 5px;
+}
+ul.ui-autocomplete .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
   content: ",\0000a0";
+}
+ul.ui-autocomplete .Reference div.Author:after {
+  content: ".\0000a0";
 }
 ul.ui-autocomplete a.CatListItem .Reference span {
   display: inline;
@@ -64,11 +71,7 @@ ul.ui-autocomplete .Reference div:not(.Name):not(.Icon) {
   font-size: 80%;
 }
 ul.ui-autocomplete .Reference .Url {
-  overflow: hidden;
-  -ms-text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: inline-block !important;
 }
 /* MESSAGES + COMMENTS
 ----------------------------------------------------------*/

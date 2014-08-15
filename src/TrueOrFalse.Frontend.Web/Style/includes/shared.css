@@ -1707,7 +1707,7 @@
 .ReferenceAllInlineButAuthorStyle .Reference div:not(.Name):not(.Author) {
   display: inline;
 }
-.ReferenceAllInlineButAuthorStyle .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+.ReferenceAllInlineButAuthorStyle .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
   content: ",\0000a0";
 }
 .ReferenceAllInlineStyle .Reference.DailyIssue .PublicationDate {
@@ -1720,7 +1720,7 @@
   float: left;
   margin-right: 5px;
 }
-.ReferenceAllInlineStyle .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+.ReferenceAllInlineStyle .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
   content: ",\0000a0";
 }
 .ReferenceAllInlineStyle .Reference div.Author:after {

@@ -151,19 +151,6 @@ select.form-control {
     border-bottom-right-radius: 0;
   }
 }
-.Reference div:not(.Name):not(.Icon) {
-  display: inline;
-}
-.Reference .Icon {
-  float: left;
-  margin-right: 5px;
-}
-.Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
-  content: ",\0000a0";
-}
-.Reference div.Author:after {
-  content: ".\0000a0";
-}
 #JS-References .LabelInline,
 #AddReferenceControls .LabelInline {
   font-size: 111.11111111%;

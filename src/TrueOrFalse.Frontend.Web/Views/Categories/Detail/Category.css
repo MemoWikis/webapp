@@ -23,7 +23,7 @@ span.CategoryType {
 .Reference div:not(.Name):not(.Author) {
   display: inline;
 }
-.Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+.Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
   content: ",\0000a0";
 }
 .Reference {

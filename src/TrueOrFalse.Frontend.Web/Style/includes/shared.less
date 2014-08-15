@@ -357,7 +357,7 @@
         div:not(.Name):not(.Author) {
             display: inline;
         }
-        div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+        div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
             content: ",\0000a0";
         }
     }
@@ -375,7 +375,7 @@
             float: left;
             margin-right: 5px;
         }
-        div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):after {
+        div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
             content: ",\0000a0";
         }
         div.Author:after {
