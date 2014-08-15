@@ -102,6 +102,10 @@ var AutocompleteCategories = (function () {
             minLength: 0,
             source: function (request, response) {
                 var params = "";
+                if (self._filterType == 1 /* Book */) {
+                    params = "&type=Book";
+                }
+
                 if (self._filterType == 2 /* Daily */) {
                     params = "&type=Daily";
                 }

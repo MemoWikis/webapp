@@ -13,6 +13,8 @@ var ReferenceType;
 
 var Reference = (function () {
     function Reference(type) {
+        this.LabelText = "";
+        this.SearchFieldPlaceholder = "";
         this.Type = type;
     }
     Reference.prototype.ToHtml = function () {
@@ -45,14 +47,10 @@ var ReferenceBook = (function (_super) {
     __extends(ReferenceBook, _super);
     function ReferenceBook() {
         _super.call(this, 1 /* Book */);
+        this.FilterType = 1 /* Book */;
+        this.LabelText = "Buch suchen";
+        this.SearchFieldPlaceholder = "Suche nach Buchtitel oder ISBN";
     }
-    ReferenceBook.prototype.ToHtml = function () {
-        return "" + "<label class='control-label LabelInline'>Buch suchen</label>" + "<div class='JS-CatInputContainer ControlInline'>" + "<input id='txtReferenceBook' class='form-control' name ='txtReferenceBook' type ='text' value ='' placeholder='Suche nach Titel oder ISSN'/>" + "</div>";
-    };
-
-    ReferenceBook.prototype.Init = function () {
-        new AutocompleteCategories("#txtReferenceBook", true, 0 /* None */);
-    };
     return ReferenceBook;
 })(Reference);
 
@@ -62,17 +60,25 @@ var ReferenceUi = (function () {
         var references = new Array();
 
         for (var reference in references) {
-            this.AddReference(reference);
+            this.AddReferenceSearch(reference);
         }
 
-        $("#addReference").click(function (e) {
+        $("#AddReference").click(function (e) {
             e.preventDefault();
-            _this.AddReference(new ReferenceBook());
+            $('#JS-ReferenceSearch').empty();
+            var referenceType = $('#ReferenceType option:selected').attr('value');
+            if (referenceType == "Book")
+                _this.AddReferenceSearch(new ReferenceBook());
         });
     }
-    ReferenceUi.prototype.AddReference = function (reference) {
-        $("#JS-References").append(reference.ToHtml());
-        reference.Init();
+    ReferenceUi.prototype.AddReferenceSearch = function (reference) {
+        debugger;
+        $("#JS-ReferenceSearch").append("<label class='control-label LabelInline'>" + reference.LabelText + "</label>" + "<div class='JS-CatInputContainer ControlInline'>" + "<input id='txtReference' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" + "</div>");
+        this.Init(reference.FilterType);
+    };
+
+    ReferenceUi.prototype.Init = function (filterType) {
+        new AutocompleteCategories("#txtReference", true, filterType);
     };
     return ReferenceUi;
 })();

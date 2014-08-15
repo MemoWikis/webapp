@@ -7,6 +7,10 @@ enum ReferenceType {
 
 class Reference {
     Type: ReferenceType
+    FilterType: AutoCompleteFilterType;
+    LabelText = "";
+    SearchFieldPlaceholder = "";
+
 
     constructor(type: ReferenceType) {
         this.Type = type;
@@ -39,27 +43,14 @@ class ReferencePeriodical extends Reference {
 }
 
 class ReferenceBook extends Reference {
-    CategoryBookId: number;
-    CategoryEditionId: number;
 
-    Title: number;
+    FilterType = AutoCompleteFilterType.Book;
+    LabelText = "Buch suchen";
+    SearchFieldPlaceholder = "Suche nach Buchtitel oder ISBN";
 
     constructor() {
         super(ReferenceType.Book);
     }
-
-    ToHtml() : string {
-        return "" +
-            "<label class='control-label LabelInline'>Buch suchen</label>" +
-            "<div class='JS-CatInputContainer ControlInline'>" +
-                "<input id='txtReferenceBook' class='form-control' name ='txtReferenceBook' type ='text' value ='' placeholder='Suche nach Titel oder ISSN'/>" + 
-            "</div>";
-    }
-
-    Init(): void {
-        new AutocompleteCategories("#txtReferenceBook", true, AutoCompleteFilterType.None);
-    }
-
 }
 
 class ReferenceUi
@@ -68,18 +59,30 @@ class ReferenceUi
         var references = new Array<Reference>();
         //references.push(new ReferenceBook());
         for (var reference in references) {
-            this.AddReference(reference);
+            this.AddReferenceSearch(reference);
         }
 
-        $("#addReference").click((e) => {
+        $("#AddReference").click((e) => {
             e.preventDefault();
-            this.AddReference(new ReferenceBook());
+            $('#JS-ReferenceSearch').empty();
+            var referenceType = $('#ReferenceType option:selected').attr('value');
+            if(referenceType == "Book")
+                this.AddReferenceSearch(new ReferenceBook());
         });
     }
 
-    public AddReference(reference : Reference) {
-        $("#JS-References").append(reference.ToHtml());
-        reference.Init();
+    public AddReferenceSearch(reference: Reference) {
+        debugger;
+        $("#JS-ReferenceSearch")
+            .append("<label class='control-label LabelInline'>" + reference.LabelText + "</label>" +
+                        "<div class='JS-CatInputContainer ControlInline'>" +
+                "<input id='txtReference' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" +
+                "</div>");
+        this.Init(reference.FilterType);
+    }
+
+    public Init(filterType: AutoCompleteFilterType) {
+        new AutocompleteCategories("#txtReference", true, filterType);
     }
 }
 

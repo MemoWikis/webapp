@@ -202,15 +202,17 @@
                             <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</div>
                         </label>
                     
-                        <div id="JS-References" class="columnControlsFull"></div>
+                        <div id="JS-References" class="columnControlsFull">
+                            <div id="JS-ReferenceSearch"></div>
+                        </div>
                     </div>
                 
                     <div id="AddReferenceControls" class="form-group">
                         <div class="noLabel columnControlsFull">
                             <label class="control-label LabelInline">Quellen vom Typ</label> 
                                 <div class="ControlInline">
-                                    <select class="form-control">
-                                        <option><%= CategoryType.Book.GetName() %></option>                
+                                    <select id="ReferenceType" class="form-control">
+                                        <option value="Book"><%= CategoryType.Book.GetName() %></option>                
                                         <option>Artikel</option>                
                                         <option><%= CategoryType.VolumeChapter.GetName() %></option>                
                                         <option><%= CategoryType.WebsiteArticle.GetName() %></option>
@@ -218,7 +220,7 @@
                                         <option>Freitext</option> 
                                     </select>
                                 </div>
-                            <button class="btn" id="addReference">hinzufügen</button>
+                            <button class="btn" id="AddReference">hinzufügen</button>
                         </div>
                     </div>
                 </div>

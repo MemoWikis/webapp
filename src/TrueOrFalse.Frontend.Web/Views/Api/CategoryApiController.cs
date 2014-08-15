@@ -29,7 +29,16 @@ namespace TrueOrFalse.View.Web.Views.Api
 
             string searchTerm = "%" + term + "%";
 
-            if (type == "Daily")
+            if (type == "Book")
+            {
+                categories = _categoryRepo.Session
+                    .QueryOver<Category>()
+                    .Where(c => c.Type == CategoryType.Book)
+                    .WhereRestrictionOn(c => c.Name)
+                    .IsLike(searchTerm)
+                    .List();
+            }
+            else if (type == "Daily")
             {
                 categories = _categoryRepo.Session
                     .QueryOver<Category>()

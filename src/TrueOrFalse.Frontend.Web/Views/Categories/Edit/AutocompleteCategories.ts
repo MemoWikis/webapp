@@ -140,6 +140,10 @@ class AutocompleteCategories {
             source: function(request, response) {
 
                 var params = "";
+                if (self._filterType == AutoCompleteFilterType.Book) {
+                    params = "&type=Book";
+                }
+
                 if (self._filterType == AutoCompleteFilterType.Daily) {
                     params = "&type=Daily";
                 }
