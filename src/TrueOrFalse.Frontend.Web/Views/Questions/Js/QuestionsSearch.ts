@@ -8,8 +8,21 @@
 class QuestionsSearch {
 
     _elemContainer: JQuery;
+    _categories: Array<number> = [];
 
     constructor() {
+
+        var autoCompleteCategories = new AutocompleteCategories("#txtCategoryFilter");
+        autoCompleteCategories.OnAdd = (categoryId) => {
+            this._categories.push(categoryId);
+            this.SubmitSearch();
+        };
+
+        autoCompleteCategories.OnRemove = (categoryId) => {
+            this._categories = $.grep(this._categories, (x) => { return x != categoryId; });
+            this.SubmitSearch();
+        };
+
         this._elemContainer = $("#JS-SearchResult");
         var _self = this;
 
@@ -33,7 +46,15 @@ class QuestionsSearch {
                 "<i class='fa fa-spinner fa-spin'></i>" +
             "</div>");
 
-        $.post($('#txtSearch').attr("formUrl") + "Api", { searchTerm: $('#txtSearch').val() },
+        $.ajax({
+            url: $('#txtSearch').attr("formUrl") + "Api",
+            data: {
+                searchTerm: $('#txtSearch').val(),
+                categories: this._categories
+            },
+            traditional: true,
+            type: 'json',
+            success:
             (data: QuestionSearchResult) => {
                 this._elemContainer.html(data.Html);
 
@@ -46,13 +67,13 @@ class QuestionsSearch {
                 Utils.SetElementValue2($(".JS-Tabs")
                     .find(".JS-" + data.Tab)
                     .find("span.JS-Amount"), tabAmount);
-                
+
             }
-        );
+        });
 
     }
 }
 
-$(function() {
+$(function () {
     new QuestionsSearch();
 })

@@ -138,7 +138,7 @@
                                 <script type="text/javascript">
                                     $(function () {
                                         <%foreach (var category in Model.FilteredCategories) { %>
-                                        $("#txtNewRelatedCategory")
+                                        $("#txtCategoryFilter")
                                             .val('<%=category.Name %>')
                                             .data('category-id', '<%=category.Id %>')
                                             .trigger("initCategoryFromTxt");
@@ -146,7 +146,7 @@
                                     });
                                 </script>
                                 <div class="JS-CatInputContainer ControlInline">
-                                    <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
+                                    <input id="txtCategoryFilter" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
                                 </div>
                             </div>
                         </div>

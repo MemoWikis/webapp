@@ -63,7 +63,7 @@ var AutocompleteCategories = (function () {
             var catId = $(inputSelector).data('category-id');
 
             if (self.OnAdd != null)
-                self.OnAdd();
+                self.OnAdd(catId);
 
             if (self._isSingleSelect) {
                 catIdx = inputSelector.substring(1);
@@ -83,7 +83,7 @@ var AutocompleteCategories = (function () {
             $("#delete-cat-" + catIdx).click(function (e) {
                 e.preventDefault();
                 if (self.OnRemove != null)
-                    self.OnRemove();
+                    self.OnRemove(catId);
                 animating = true;
                 $("#cat-" + catIdx).stop(true).animate({ opacity: 0 }, 250, function () {
                     $(this).hide("blind", { direction: "horizontal" }, function () {

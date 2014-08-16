@@ -48,7 +48,7 @@ namespace TrueOrFalse
             return Questions(page, model, orderBy);
         }
 
-        public JsonResult QuestionsSearchApi(string searchTerm)
+        public JsonResult QuestionsSearchApi(string searchTerm, List<Int32> categories)
         {
             var model = new QuestionsModel();
             _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);

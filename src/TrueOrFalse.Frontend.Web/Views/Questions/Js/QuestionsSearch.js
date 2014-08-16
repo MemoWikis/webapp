@@ -1,6 +1,20 @@
 ﻿var QuestionsSearch = (function () {
     function QuestionsSearch() {
         var _this = this;
+        this._categories = [];
+        var autoCompleteCategories = new AutocompleteCategories("#txtCategoryFilter");
+        autoCompleteCategories.OnAdd = function (categoryId) {
+            _this._categories.push(categoryId);
+            _this.SubmitSearch();
+        };
+
+        autoCompleteCategories.OnRemove = function (categoryId) {
+            _this._categories = $.grep(_this._categories, function (x) {
+                return x != categoryId;
+            });
+            _this.SubmitSearch();
+        };
+
         this._elemContainer = $("#JS-SearchResult");
         var _self = this;
 
@@ -20,16 +34,25 @@
         var _this = this;
         this._elemContainer.html("<div style='text-align:center; padding-top: 30px;'>" + "<i class='fa fa-spinner fa-spin'></i>" + "</div>");
 
-        $.post($('#txtSearch').attr("formUrl") + "Api", { searchTerm: $('#txtSearch').val() }, function (data) {
-            _this._elemContainer.html(data.Html);
+        $.ajax({
+            url: $('#txtSearch').attr("formUrl") + "Api",
+            data: {
+                searchTerm: $('#txtSearch').val(),
+                categories: this._categories
+            },
+            traditional: true,
+            type: 'json',
+            success: function (data) {
+                _this._elemContainer.html(data.Html);
 
-            var tabAmount = data.TotalInResult.toString() + " von " + data.TotalInSystem.toString();
-            if (data.TotalInResult == data.TotalInSystem) {
-                tabAmount = data.TotalInSystem.toString();
+                var tabAmount = data.TotalInResult.toString() + " von " + data.TotalInSystem.toString();
+                if (data.TotalInResult == data.TotalInSystem) {
+                    tabAmount = data.TotalInSystem.toString();
+                }
+
+                Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Fragen");
+                Utils.SetElementValue2($(".JS-Tabs").find(".JS-" + data.Tab).find("span.JS-Amount"), tabAmount);
             }
-
-            Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Fragen");
-            Utils.SetElementValue2($(".JS-Tabs").find(".JS-" + data.Tab).find("span.JS-Amount"), tabAmount);
         });
     };
     return QuestionsSearch;

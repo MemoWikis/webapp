@@ -58,8 +58,8 @@ class AutocompleteCategories {
     private _isSingleSelect: boolean;
     private _filterType: AutoCompleteFilterType;
 
-    OnAdd: any;
-    OnRemove: any;
+    OnAdd: (categoryId?: number) => void;
+    OnRemove: (categoryId?  : number) => void;
     
     constructor(
         inputSelector: string,
@@ -88,7 +88,7 @@ class AutocompleteCategories {
             var catId = $(inputSelector).data('category-id');
 
             if (self.OnAdd != null)
-                self.OnAdd();
+                self.OnAdd(catId);
 
             if (self._isSingleSelect) {
                 catIdx = inputSelector.substring(1);
@@ -119,7 +119,7 @@ class AutocompleteCategories {
             $("#delete-cat-" + catIdx).click(function (e) {
                 e.preventDefault();
                 if (self.OnRemove != null)
-                    self.OnRemove();
+                    self.OnRemove(catId);
                 animating = true;
                 $("#cat-" + catIdx).stop(true).animate({ opacity: 0 }, 250, function () {
                     $(this).hide("blind", { direction: "horizontal" }, function () {
