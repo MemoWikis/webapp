@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NHibernate.Mapping;
 using Seedworks.Lib.Persistence;
 using SolrNet.Impl;
 using SpellCheckResult = TrueOrFalse.Search.SpellCheckResult;
@@ -30,11 +31,6 @@ namespace TrueOrFalse
 
             return SpellCheck.GetSuggestion();
         }
-
-        public void SetCategoryFilter(string category)
-        {
-            Filter.SearchTerm = "Kat:\"" + category + "\"";
-        }
     }
 
     [Serializable]
@@ -44,6 +40,8 @@ namespace TrueOrFalse
         public int CreatorId = -1;
         public int ValuatorId = -1;
         public bool IgnorePrivates = true;
+
+        public IList<int> Categories = new List<int>();
 
         public bool HasCategoryFilter()
         {

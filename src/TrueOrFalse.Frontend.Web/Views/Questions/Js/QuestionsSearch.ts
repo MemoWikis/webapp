@@ -12,7 +12,10 @@ class QuestionsSearch {
 
     constructor() {
 
-        var autoCompleteCategories = new AutocompleteCategories("#txtCategoryFilter");
+        var self = this;
+
+        var filterSelector = "#txtCategoryFilter";
+        var autoCompleteCategories = new AutocompleteCategories(filterSelector);
         autoCompleteCategories.OnAdd = (categoryId) => {
             this._categories.push(categoryId);
             this.SubmitSearch();
@@ -22,6 +25,10 @@ class QuestionsSearch {
             this._categories = $.grep(this._categories, (x) => { return x != categoryId; });
             this.SubmitSearch();
         };
+
+        $(filterSelector).on("initCategoryIds", function (e, categoryId) {
+            self._categories.push(categoryId);
+        });
 
         this._elemContainer = $("#JS-SearchResult");
         var _self = this;

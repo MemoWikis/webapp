@@ -57,8 +57,12 @@ public class AnswerQuestionController : BaseController
 
         if (String.IsNullOrEmpty(category))
         {
-            activeSearchSpec.SetCategoryFilter(category);
-            activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+            var categoryDb = R<CategoryRepository>().GetById(Convert.ToInt32(category));
+            if (categoryDb != null)
+            {
+                activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
+                activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+            }
         }
             
 

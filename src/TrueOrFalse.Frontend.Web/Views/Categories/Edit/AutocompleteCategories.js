@@ -48,6 +48,9 @@ var AutocompleteCategories = (function () {
         this._isSingleSelect = isSingleSelect;
 
         var elemInput = $(inputSelector);
+        if (elemInput.length == 0)
+            return;
+
         var elemContainer = elemInput.closest(".JS-RelatedCategories");
 
         var isCategoryEdit = $("#isCategoryEdit").length == 1;
@@ -56,13 +59,19 @@ var AutocompleteCategories = (function () {
             categoryName = $("#Name").val();
 
         var nextCatIdx = 1;
-        function addCat() {
+
+        function addCatWithoutTriggers() {
+            addCat(true);
+        }
+
+        function addCat(withoutTriggers) {
+            if (typeof withoutTriggers === "undefined") { withoutTriggers = false; }
             var catIdx = nextCatIdx.toString();
             nextCatIdx++;
             var catText = $(inputSelector).val();
             var catId = $(inputSelector).data('category-id');
 
-            if (self.OnAdd != null)
+            if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
 
             if (self._isSingleSelect) {
@@ -204,7 +213,7 @@ var AutocompleteCategories = (function () {
         };
 
         $(inputSelector).keypress(fnCheckTextAndAdd);
-        $(inputSelector).bind("initCategoryFromTxt", addCat);
+        $(inputSelector).bind("initCategoryFromTxt", addCatWithoutTriggers);
     }
     AutocompleteCategories.prototype.GetAlreadyAddedCategories = function (container, id) {
         return container.find(".added-cat input[value='" + id + "']");
