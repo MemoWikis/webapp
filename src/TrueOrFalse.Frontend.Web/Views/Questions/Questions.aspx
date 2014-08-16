@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Fragen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -33,31 +34,31 @@
                 </div>
             </div>
             <div class="container">
-                <div id="MainFilterBar" class="btn-group btn-group-justified">
+                <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
                 
-                    <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %> JS-<%= Model.SearchTab%>">
+                    <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %> JS-<%= SearchTab.All.ToString() %>">
                         <a  href="<%= Links.QuestionsAll() %>" type="button" class="btn btn-default">
                             <%  string von = "";
                                 if (Model.ActiveTabAll && Model.TotalQuestionsInSystem != Model.TotalQuestionsInResult)
                                 von = Model.TotalQuestionsInResult + " von ";  %>
-                                Alle (<%= von + Model.TotalQuestionsInSystem %>)
+                                Alle (<span class="JS-Amount"><%= von + Model.TotalQuestionsInSystem %></span>)
                         </a>
                     </div>
-                    <div id="WuWiQuestions" class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-<%= Model.SearchTab%>">
+                    <div id="WuWiQuestions" class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-<%= SearchTab.Wish.ToString() %>">
                         <a  href="<%= Links.QuestionsWish() %>" type="button" class="btn btn-default">
                             <% von = "";
                             if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                             von = Model.TotalQuestionsInResult + " von "; %>
-                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount"><%= von + Model.TotalWishKnowledge %></span>)
+                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)
                             <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Wissen das Du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
                         </a>
                     </div>
-                    <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-<%= Model.SearchTab%>">
+                    <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-<%= SearchTab.Mine.ToString() %>">
                         <a href="<%= Links.QuestionsMine() %>" type="button" class="btn btn-default">
                         <%  von = "";
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
                                 von = Model.TotalQuestionsInResult + " von "; %>                        
-                        Meine (<%= von + Model.TotalQuestionsMine %>)
+                        Meine (<span class="JS-Amount"><%= von + Model.TotalQuestionsMine %></span>)
                             <i class="fa fa-question-circle show-tooltip" title="Fragen die von Dir erstellt wurden." data-placement="right"></i>
                         </a>
                     </div>
@@ -80,8 +81,8 @@
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>
-            <ul class="nav nav-tabs JS-TabsUl">
-                <li class="<%= Model.ActiveTabAll ? "active" : ""  %> JS-<%= Model.SearchTab%>">
+            <ul class="nav nav-tabs JS-Tabs">
+                <li class="<%= Model.ActiveTabAll ? "active" : ""  %> JS-<%= SearchTab.All.ToString() %>">
                     <a href="<%= Links.QuestionsAll() %>">
                         <%  string von = "";
                             if (Model.ActiveTabAll && Model.TotalQuestionsInSystem != Model.TotalQuestionsInResult)
@@ -89,17 +90,17 @@
                         Alle Fragen (<span class="JS-Amount"><%= von + Model.TotalQuestionsInSystem %></span>)
                     </a>
                 </li>
-                <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-<%= Model.SearchTab%>">
+                <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-<%= SearchTab.Wish.ToString() %>">
                     <a href="<%= Links.QuestionsWish() %>">
                         <% von = "";
                            if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                                von = Model.TotalQuestionsInResult + " von "; %>
-                        Mein Wunschwissen <span class="tabWishKnowledgeCount">(<span class="JS-Amount"><%= von + Model.TotalWishKnowledge %>)</span></span>
+                        Mein Wunschwissen <span class="tabWishKnowledgeCount">(<span class="JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)</span>
                         <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
                            title="Wissen das Du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
                     </a>
                 </li>
-                <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-<%= Model.SearchTab%>">
+                <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-<%= SearchTab.Mine.ToString() %>">
                     <a href="<%= Links.QuestionsMine() %>">
                         <%  von = "";
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
@@ -206,7 +207,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <div class="pull-right" style="font-size: 14px; margin-right: 7px; margin-top: 2px;"><%= Model.TotalQuestionsInResult %> Fragen</div>
+                            <div class="pull-right" id="resultCount" style="font-size: 14px; margin-right: 7px; margin-top: 2px;"><%= Model.TotalQuestionsInResult %> Fragen</div>
                         </div>
                     </div>
                 </div>

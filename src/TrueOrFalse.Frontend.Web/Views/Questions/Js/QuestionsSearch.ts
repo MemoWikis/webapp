@@ -42,10 +42,11 @@ class QuestionsSearch {
                     tabAmount = data.TotalInSystem.toString();
                 }
 
-                $(".JS-TabsUl")
-                    .find("li.JS-" + data.Tab)
-                    .find("span.JS-Amount")
-                    .html(tabAmount);
+                Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Fragen");
+                Utils.SetElementValue2($(".JS-Tabs")
+                    .find(".JS-" + data.Tab)
+                    .find("span.JS-Amount"), tabAmount);
+                
             }
         );
 
