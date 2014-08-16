@@ -13,11 +13,13 @@ interface CategoryItem {
 enum AutoCompleteFilterType {
     None,
     Book,
+    Article,
     Daily, 
     DailyIssue,
     DailyArticle,
     Magazine,
     MagazineIssue,
+    VolumeChapter,
     WebsiteArticle
 }
 
@@ -143,21 +145,26 @@ class AutocompleteCategories {
                 if (self._filterType == AutoCompleteFilterType.Book) {
                     params = "&type=Book";
                 }
-
+                if (self._filterType == AutoCompleteFilterType.Article) {
+                    params = "&type=Article";
+                }
                 if (self._filterType == AutoCompleteFilterType.Daily) {
                     params = "&type=Daily";
                 }
-
-                if (self._filterType == AutoCompleteFilterType.DailyIssue || selectorParent!="") {
+                if (self._filterType == AutoCompleteFilterType.DailyIssue) {
                     params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
-
                 if (self._filterType == AutoCompleteFilterType.Magazine) {
                     params = "&type=Magazine";
                 }
-
-                if (self._filterType == AutoCompleteFilterType.MagazineIssue || selectorParent != "") {
+                if (self._filterType == AutoCompleteFilterType.MagazineIssue) {
                     params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
+                }
+                if (self._filterType == AutoCompleteFilterType.VolumeChapter) {
+                    params = "&type=VolumeChapter";
+                }
+                if (self._filterType == AutoCompleteFilterType.WebsiteArticle) {
+                    params = "&type=WebsiteArticle";
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + params, function(data) {

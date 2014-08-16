@@ -38,6 +38,15 @@ namespace TrueOrFalse.View.Web.Views.Api
                     .IsLike(searchTerm)
                     .List();
             }
+            else if (type == "Article")
+            {
+                categories = _categoryRepo.Session
+                    .QueryOver<Category>()
+                    .Where(c => c.Type == CategoryType.DailyArticle || c.Type == CategoryType.MagazineArticle)
+                    .WhereRestrictionOn(c => c.Name)
+                    .IsLike(searchTerm)
+                    .List();
+            }
             else if (type == "Daily")
             {
                 categories = _categoryRepo.Session
@@ -62,6 +71,24 @@ namespace TrueOrFalse.View.Web.Views.Api
             else if (type == "MagazineIssue")
             {
                 categories = _categoryRepo.GetChildren(CategoryType.Magazine, CategoryType.MagazineIssue, parentId.Value, searchTerm);
+            }
+            else if (type == "VolumeChapter")
+            {
+                categories = _categoryRepo.Session
+                    .QueryOver<Category>()
+                    .Where(c => c.Type == CategoryType.VolumeChapter)
+                    .WhereRestrictionOn(c => c.Name)
+                    .IsLike(searchTerm)
+                    .List();
+            }
+            else if (type == "WebsiteArticle")
+            {
+                categories = _categoryRepo.Session
+                    .QueryOver<Category>()
+                    .Where(c => c.Type == CategoryType.WebsiteArticle)
+                    .WhereRestrictionOn(c => c.Name)
+                    .IsLike(searchTerm)
+                    .List();
             }
             else
             {

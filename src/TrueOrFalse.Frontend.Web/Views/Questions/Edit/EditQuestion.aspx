@@ -209,13 +209,13 @@
                 
                     <div id="AddReferenceControls" class="form-group">
                         <div class="noLabel columnControlsFull">
-                            <label class="control-label LabelInline">Quellen vom Typ</label> 
+                            <label class="control-label LabelInline">Quelle vom Typ</label> 
                                 <div class="ControlInline">
                                     <select id="ReferenceType" class="form-control">
                                         <option value="Book"><%= CategoryType.Book.GetName() %></option>                
-                                        <option>Artikel</option>                
-                                        <option><%= CategoryType.VolumeChapter.GetName() %></option>                
-                                        <option><%= CategoryType.WebsiteArticle.GetName() %></option>
+                                        <option value="Article">Artikel</option>                
+                                        <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>                
+                                        <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
                                         <option>Freitext-Url</option> 
                                         <option>Freitext</option> 
                                     </select>

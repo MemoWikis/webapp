@@ -4,25 +4,27 @@ var AutoCompleteFilterType;
 (function (AutoCompleteFilterType) {
     AutoCompleteFilterType[AutoCompleteFilterType["None"] = 0] = "None";
     AutoCompleteFilterType[AutoCompleteFilterType["Book"] = 1] = "Book";
-    AutoCompleteFilterType[AutoCompleteFilterType["Daily"] = 2] = "Daily";
-    AutoCompleteFilterType[AutoCompleteFilterType["DailyIssue"] = 3] = "DailyIssue";
-    AutoCompleteFilterType[AutoCompleteFilterType["DailyArticle"] = 4] = "DailyArticle";
-    AutoCompleteFilterType[AutoCompleteFilterType["Magazine"] = 5] = "Magazine";
-    AutoCompleteFilterType[AutoCompleteFilterType["MagazineIssue"] = 6] = "MagazineIssue";
-    AutoCompleteFilterType[AutoCompleteFilterType["WebsiteArticle"] = 7] = "WebsiteArticle";
+    AutoCompleteFilterType[AutoCompleteFilterType["Article"] = 2] = "Article";
+    AutoCompleteFilterType[AutoCompleteFilterType["Daily"] = 3] = "Daily";
+    AutoCompleteFilterType[AutoCompleteFilterType["DailyIssue"] = 4] = "DailyIssue";
+    AutoCompleteFilterType[AutoCompleteFilterType["DailyArticle"] = 5] = "DailyArticle";
+    AutoCompleteFilterType[AutoCompleteFilterType["Magazine"] = 6] = "Magazine";
+    AutoCompleteFilterType[AutoCompleteFilterType["MagazineIssue"] = 7] = "MagazineIssue";
+    AutoCompleteFilterType[AutoCompleteFilterType["VolumeChapter"] = 8] = "VolumeChapter";
+    AutoCompleteFilterType[AutoCompleteFilterType["WebsiteArticle"] = 9] = "WebsiteArticle";
 })(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
 
 var CompareType = (function () {
     function CompareType() {
     }
     CompareType.AreEqual = function (name, type) {
-        if (name == "DailyIssue" && type == 3 /* DailyIssue */)
+        if (name == "DailyIssue" && type == 4 /* DailyIssue */)
             return true;
 
-        if (name == "MagazineIssue" && type == 6 /* MagazineIssue */)
+        if (name == "MagazineIssue" && type == 7 /* MagazineIssue */)
             return true;
 
-        if (name == "WebsiteArticle" && type == 7 /* WebsiteArticle */)
+        if (name == "WebsiteArticle" && type == 9 /* WebsiteArticle */)
             return true;
 
         return false;
@@ -105,21 +107,26 @@ var AutocompleteCategories = (function () {
                 if (self._filterType == 1 /* Book */) {
                     params = "&type=Book";
                 }
-
-                if (self._filterType == 2 /* Daily */) {
+                if (self._filterType == 2 /* Article */) {
+                    params = "&type=Article";
+                }
+                if (self._filterType == 3 /* Daily */) {
                     params = "&type=Daily";
                 }
-
-                if (self._filterType == 3 /* DailyIssue */ || selectorParent != "") {
+                if (self._filterType == 4 /* DailyIssue */) {
                     params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
-
-                if (self._filterType == 5 /* Magazine */) {
+                if (self._filterType == 6 /* Magazine */) {
                     params = "&type=Magazine";
                 }
-
-                if (self._filterType == 6 /* MagazineIssue */ || selectorParent != "") {
+                if (self._filterType == 7 /* MagazineIssue */) {
                     params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
+                }
+                if (self._filterType == 8 /* VolumeChapter */) {
+                    params = "&type=VolumeChapter";
+                }
+                if (self._filterType == 9 /* WebsiteArticle */) {
+                    params = "&type=WebsiteArticle";
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + params, function (data) {
@@ -151,7 +158,7 @@ var AutocompleteCategories = (function () {
             //debugger;
             if (CompareType.IsReference(item.type)) {
                 var jqueryReference = $(item.html);
-                if (CompareType.AreEqual(item.type, 7 /* WebsiteArticle */)) {
+                if (CompareType.AreEqual(item.type, 9 /* WebsiteArticle */)) {
                     var linkContent = jqueryReference.find('.Url').text();
                     var truncatedLinkContent = "";
                     if (linkContent.length > 50) {
@@ -163,7 +170,7 @@ var AutocompleteCategories = (function () {
                 } else {
                     jqueryReference.find('.Url').remove();
                 }
-                if (CompareType.AreEqual(item.type, 3 /* DailyIssue */) || CompareType.AreEqual(item.type, 6 /* MagazineIssue */))
+                if (CompareType.AreEqual(item.type, 4 /* DailyIssue */) || CompareType.AreEqual(item.type, 7 /* MagazineIssue */))
                     jqueryReference.find('.PublicationDate').remove();
 
                 jqueryReference.find('.WikiUrl').remove();

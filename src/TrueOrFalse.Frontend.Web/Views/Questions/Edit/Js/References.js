@@ -4,54 +4,57 @@
     __.prototype = b.prototype;
     d.prototype = new __();
 };
-var ReferenceType;
-(function (ReferenceType) {
-    ReferenceType[ReferenceType["Url"] = 0] = "Url";
-    ReferenceType[ReferenceType["Book"] = 1] = "Book";
-    ReferenceType[ReferenceType["Periodicals"] = 2] = "Periodicals";
-})(ReferenceType || (ReferenceType = {}));
-
 var Reference = (function () {
-    function Reference(type) {
+    function Reference() {
+        this.FilterType = 0 /* None */;
         this.LabelText = "";
         this.SearchFieldPlaceholder = "";
-        this.Type = type;
     }
-    Reference.prototype.ToHtml = function () {
-        throw new Error('This method is abstract');
-    };
-    Reference.prototype.Init = function () {
-        throw new Error('This method is abstract');
-    };
     return Reference;
 })();
-
-var ReferenceUrl = (function (_super) {
-    __extends(ReferenceUrl, _super);
-    function ReferenceUrl(url) {
-        _super.call(this, 0 /* Url */);
-        this.Url = url;
-    }
-    return ReferenceUrl;
-})(Reference);
-
-var ReferencePeriodical = (function (_super) {
-    __extends(ReferencePeriodical, _super);
-    function ReferencePeriodical() {
-        _super.call(this, 2 /* Periodicals */);
-    }
-    return ReferencePeriodical;
-})(Reference);
 
 var ReferenceBook = (function (_super) {
     __extends(ReferenceBook, _super);
     function ReferenceBook() {
-        _super.call(this, 1 /* Book */);
+        _super.apply(this, arguments);
         this.FilterType = 1 /* Book */;
         this.LabelText = "Buch suchen";
         this.SearchFieldPlaceholder = "Suche nach Buchtitel oder ISBN";
     }
     return ReferenceBook;
+})(Reference);
+
+var ReferenceArticle = (function (_super) {
+    __extends(ReferenceArticle, _super);
+    function ReferenceArticle() {
+        _super.apply(this, arguments);
+        this.FilterType = 2 /* Article */;
+        this.LabelText = "Artikel suchen";
+        this.SearchFieldPlaceholder = "Suche nach Titel oder Zeitschrift/Zeitung";
+    }
+    return ReferenceArticle;
+})(Reference);
+
+var ReferenceVolumeChapter = (function (_super) {
+    __extends(ReferenceVolumeChapter, _super);
+    function ReferenceVolumeChapter() {
+        _super.apply(this, arguments);
+        this.FilterType = 8 /* VolumeChapter */;
+        this.LabelText = "Beitrag in Sammelband suchen";
+        this.SearchFieldPlaceholder = "Suche nach Titel oder Autor";
+    }
+    return ReferenceVolumeChapter;
+})(Reference);
+
+var ReferenceWebsiteArticle = (function (_super) {
+    __extends(ReferenceWebsiteArticle, _super);
+    function ReferenceWebsiteArticle() {
+        _super.apply(this, arguments);
+        this.FilterType = 9 /* WebsiteArticle */;
+        this.LabelText = "Online-Artikel suchen";
+        this.SearchFieldPlaceholder = "Suche nach Titel oder Autor";
+    }
+    return ReferenceWebsiteArticle;
 })(Reference);
 
 var ReferenceUi = (function () {
@@ -65,15 +68,22 @@ var ReferenceUi = (function () {
 
         $("#AddReference").click(function (e) {
             e.preventDefault();
-            $('#JS-ReferenceSearch').empty();
+
+            //$('#JS-ReferenceSearch').empty();
             var referenceType = $('#ReferenceType option:selected').attr('value');
             if (referenceType == "Book")
                 _this.AddReferenceSearch(new ReferenceBook());
+            if (referenceType == "Article")
+                _this.AddReferenceSearch(new ReferenceArticle());
+            if (referenceType == "VolumeChapter")
+                _this.AddReferenceSearch(new ReferenceVolumeChapter());
+            if (referenceType == "WebsiteArticle")
+                _this.AddReferenceSearch(new ReferenceWebsiteArticle());
         });
     }
     ReferenceUi.prototype.AddReferenceSearch = function (reference) {
-        debugger;
-        $("#JS-ReferenceSearch").append("<label class='control-label LabelInline'>" + reference.LabelText + "</label>" + "<div class='JS-CatInputContainer ControlInline'>" + "<input id='txtReference' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" + "</div>");
+        //$("#JS-ReferenceSearch")
+        $("#JS-References").append("<div class='well'>" + "<a class='close' data-dismiss='well' href ='#'>×</a>" + "<label class='control-label LabelInline'>" + reference.LabelText + "</label>" + "<div class='JS-CatInputContainer ControlInline'>" + "<input id='txtReference' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" + "</div></div>");
         this.Init(reference.FilterType);
     };
 

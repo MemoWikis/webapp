@@ -210,7 +210,7 @@
             var magazineArticle = (CategoryTypeMagazineArticle) type;
 %>
            <div class="Reference MagazineArticle">
-                <div class="Icon show-tooltip" title="<%= CategoryType.Magazine.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
+                <div class="Icon show-tooltip" title="<%= CategoryType.MagazineArticle.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
                 if (!String.IsNullOrEmpty(magazineArticle.Title))
                 {
                     %><div class="Name"><%
