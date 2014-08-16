@@ -40,10 +40,11 @@ var CompareType = (function () {
 })();
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent, onSelect) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
         if (typeof filterType === "undefined") { filterType = 0 /* None */; }
         if (typeof selectorParent === "undefined") { selectorParent = ""; }
+        if (typeof onSelect === "undefined") { onSelect = null; }
         this._filterType = filterType;
 
         var self = this;
@@ -67,17 +68,21 @@ var AutocompleteCategories = (function () {
             if (self.OnAdd != null)
                 self.OnAdd();
 
-            if (self._isSingleSelect) {
-                catIdx = inputSelector.substring(1);
-                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
-                elemInput.attr("type", "hidden").hide();
+            if (onSelect == null) {
+                if (self._isSingleSelect) {
+                    catIdx = inputSelector.substring(1);
+                    elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
+                    elemInput.attr("type", "hidden").hide();
 
-                if ($("#EditCategoryForm").length > 0) {
-                    var validator = $("#EditCategoryForm").validate();
-                    validator.element(elemInput);
+                    if ($("#EditCategoryForm").length > 0) {
+                        var validator = $("#EditCategoryForm").validate();
+                        validator.element(elemInput);
+                    }
+                } else {
+                    elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
                 }
             } else {
-                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
+                new onSelect();
             }
 
             elemInput.val('');
@@ -134,14 +139,19 @@ var AutocompleteCategories = (function () {
                 });
             },
             select: function (event, ui) {
-                $(inputSelector).data("category-id", ui.item.id);
-                $(inputSelector).val(ui.item.name);
+                //debugger;
+                if (onSelect == null) {
+                    $(inputSelector).data("category-id", ui.item.id);
+                    $(inputSelector).val(ui.item.name);
 
-                if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length > 0) {
-                    return false;
+                    if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length > 0) {
+                        return false;
+                    }
+
+                    addCat();
+                } else {
+                    new onSelect();
                 }
-
-                addCat();
                 return false;
             },
             open: function (event, ui) {

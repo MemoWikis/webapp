@@ -88,7 +88,9 @@ var ReferenceUi = (function () {
     };
 
     ReferenceUi.prototype.Init = function (filterType) {
-        new AutocompleteCategories("#txtReference", true, filterType);
+        new AutocompleteCategories("#txtReference", true, filterType, "", function () {
+            alert('CatAdd!');
+        });
     };
     return ReferenceUi;
 })();

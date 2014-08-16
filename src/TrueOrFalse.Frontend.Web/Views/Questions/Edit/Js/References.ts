@@ -71,7 +71,9 @@ class ReferenceUi
     }
 
     public Init(filterType: AutoCompleteFilterType) {
-        new AutocompleteCategories("#txtReference", true, filterType);
+        new AutocompleteCategories("#txtReference", true, filterType, ""
+            , function () { alert('CatAdd!'); }
+            );
     }
 }
 
