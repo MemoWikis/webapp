@@ -202,9 +202,7 @@
                             <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</div>
                         </label>
                     
-                        <div id="JS-References" class="columnControlsFull">
-                            <div id="JS-ReferenceSearch"></div>
-                        </div>
+                        <div id="JS-References" class="columnControlsFull"></div>
                     </div>
                 
                     <div id="AddReferenceControls" class="form-group">

@@ -83,14 +83,20 @@ var ReferenceUi = (function () {
         });
     }
     ReferenceUi.prototype.AddReferenceSearch = function (reference) {
-        var refSelector = "txtReference-" + this._nextRefIdx;
+        var refIdx = this._nextRefIdx;
+        var refSelector = "txtReference-" + refIdx;
         this._nextRefIdx++;
 
         //$("#JS-ReferenceSearch")
-        $("#JS-References").append("<div class='JS-ReferenceContainer well'>" + "<a class='close' data-dismiss='well' href ='#'>×</a>" + "<label class='control-label LabelInline'>" + reference.LabelText + "</label>" + "<div class='JS-CatInputContainer ControlInline'>" + "<input id='" + refSelector + "' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" + "</div></div>");
+        $("#JS-References").append("<div class='JS-ReferenceContainer well'>" + "<a id='delete-ref-" + refIdx + "'" + " class='close' href ='#'>×</a>" + "<div class='JS-ReferenceSearch'>" + "<label class='control-label LabelInline'>" + reference.LabelText + "</label>" + "<div class='JS-CatInputContainer ControlInline'>" + "<input id='" + refSelector + "' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" + "</div>" + "</div></div>");
         new AutocompleteCategories("#" + refSelector, true, reference.FilterType, "", function (catId, catIdx, catName) {
             alert('Add cat "' + catName + "");
         }, true);
+
+        $("#delete-ref-" + refIdx).click(function (e) {
+            e.preventDefault();
+            $("#delete-ref-" + refIdx).closest('.JS-ReferenceContainer').remove();
+        });
         //this.Init(reference.FilterType);
     };
 

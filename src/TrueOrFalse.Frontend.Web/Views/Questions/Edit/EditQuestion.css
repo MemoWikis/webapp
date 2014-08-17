@@ -155,23 +155,25 @@ select.form-control {
 #AddReferenceControls .LabelInline {
   font-size: 111.11111111%;
 }
-#JS-References .well,
-#AddReferenceControls .well {
+#JS-References .JS-ReferenceContainer,
+#AddReferenceControls .JS-ReferenceContainer {
   background-color: #e7ecf6;
 }
-#JS-References .well:before,
-#AddReferenceControls .well:before,
-#JS-References .well:after,
-#AddReferenceControls .well:after {
+#JS-References .JS-ReferenceContainer:before,
+#AddReferenceControls .JS-ReferenceContainer:before,
+#JS-References .JS-ReferenceContainer:after,
+#AddReferenceControls .JS-ReferenceContainer:after {
   content: " ";
   display: table;
 }
-#JS-References .well:after,
-#AddReferenceControls .well:after {
+#JS-References .JS-ReferenceContainer:after,
+#AddReferenceControls .JS-ReferenceContainer:after {
   clear: both;
 }
-#JS-References .well .close,
-#AddReferenceControls .well .close {
-  padding-top: 7px;
+#JS-References .JS-ReferenceContainer .close,
+#AddReferenceControls .JS-ReferenceContainer .close {
+  position: relative;
+  top: -14px;
+  right: -10px;
 }
 /*# sourceMappingURL=EditQuestion.css.map */

@@ -82,38 +82,35 @@ var AutocompleteCategories = (function () {
                 } else {
                     elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
                 }
+
+                elemInput.val('');
+                $(inputSelector).data('category-id', '');
+                $("#delete-cat-" + catIdx).click(function (e) {
+                    e.preventDefault();
+                    if (self.OnRemove != null)
+                        self.OnRemove(catId);
+                    animating = true;
+                    $("#cat-" + catIdx).stop(true).animate({ opacity: 0 }, 250, function () {
+                        $(this).hide("blind", { direction: "horizontal" }, function () {
+                            $(this).remove();
+                            animating = false;
+                        });
+                    });
+
+                    if (self._isSingleSelect)
+                        elemInput.attr("type", "").show();
+                });
+                $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
             } else {
-                //new onSelect(catId, catIdx, catText);
-                //elemInput.closest('.well').prepend("<div class='Reference Book'><div class='Icon show-tooltip' title='' data-original-title='Buch'><i class='fa fa-book'></i></div><div class='Name'><span>Titel – Untertitel</span></div><div class='Author'><span>von asdfsdafsda</span></div><div class='PublicationInfo'><span class='PublicationCity'>Ort: </span><span class='Publisher'>Verlag</span><span class='PublicationYear'>, 2014</span></div><div class='Isbn'><span>ISBN: 1234111111</span></div></div>");
-                //elemInput.closest('.JS-CatInputContainer').hide().siblings('label.LabelInline').hide();
                 $.ajax({
                     url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
                     type: 'GET',
                     success: function (data) {
-                        elemInput.closest('.JS-ReferenceContainer').html(data);
-                        //$("#answer-body").html(data);
+                        elemInput.closest('.JS-ReferenceContainer').append(data).append("<input type='hidden' value='" + catId + "' name='ref-" + catIdx + "'/>");
+                        elemInput.closest('.JS-ReferenceSearch').remove();
                     }
                 });
             }
-
-            elemInput.val('');
-            $(inputSelector).data('category-id', '');
-            $("#delete-cat-" + catIdx).click(function (e) {
-                e.preventDefault();
-                if (self.OnRemove != null)
-                    self.OnRemove(catId);
-                animating = true;
-                $("#cat-" + catIdx).stop(true).animate({ opacity: 0 }, 250, function () {
-                    $(this).hide("blind", { direction: "horizontal" }, function () {
-                        $(this).remove();
-                        animating = false;
-                    });
-                });
-
-                if (self._isSingleSelect)
-                    elemInput.attr("type", "").show();
-            });
-            $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
         }
 
         var autocomplete = $(inputSelector).autocomplete({
