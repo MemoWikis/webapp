@@ -204,6 +204,12 @@
                     
                         <div id="JS-References" class="columnControlsFull"></div>
                     </div>
+                    <%--<div class="form-group">
+                        <label class="columnLabel control-label" for="">Ergänzungen zur Quelle</label>
+                        <div class="columnControlsFull">
+                            <input type="text" placeholder="Seitenangaben etc."/>
+                        </div>
+                    </div>--%>
                 
                     <div id="AddReferenceControls" class="form-group">
                         <div class="noLabel columnControlsFull">

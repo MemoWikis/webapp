@@ -112,6 +112,10 @@ label {
     right: 0;
   }
 }
+.InputRefAddition {
+  max-width: none !important;
+  width: 100%;
+}
 .ControlInline {
   padding-right: 10px;
   float: left;
