@@ -40,11 +40,12 @@ var CompareType = (function () {
 })();
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent, onSelect) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent, onSelect, isReference) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
         if (typeof filterType === "undefined") { filterType = 0 /* None */; }
         if (typeof selectorParent === "undefined") { selectorParent = ""; }
         if (typeof onSelect === "undefined") { onSelect = null; }
+        if (typeof isReference === "undefined") { isReference = false; }
         this._filterType = filterType;
 
         var self = this;
@@ -68,7 +69,7 @@ var AutocompleteCategories = (function () {
             if (self.OnAdd != null)
                 self.OnAdd(catId);
 
-            if (onSelect == null) {
+            if (isReference == false) {
                 if (self._isSingleSelect) {
                     catIdx = inputSelector.substring(1);
                     elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
@@ -82,7 +83,17 @@ var AutocompleteCategories = (function () {
                     elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
                 }
             } else {
-                new onSelect();
+                //new onSelect(catId, catIdx, catText);
+                //elemInput.closest('.well').prepend("<div class='Reference Book'><div class='Icon show-tooltip' title='' data-original-title='Buch'><i class='fa fa-book'></i></div><div class='Name'><span>Titel – Untertitel</span></div><div class='Author'><span>von asdfsdafsda</span></div><div class='PublicationInfo'><span class='PublicationCity'>Ort: </span><span class='Publisher'>Verlag</span><span class='PublicationYear'>, 2014</span></div><div class='Isbn'><span>ISBN: 1234111111</span></div></div>");
+                //elemInput.closest('.JS-CatInputContainer').hide().siblings('label.LabelInline').hide();
+                $.ajax({
+                    url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
+                    type: 'GET',
+                    success: function (data) {
+                        elemInput.closest('.JS-ReferenceContainer').html(data);
+                        //$("#answer-body").html(data);
+                    }
+                });
             }
 
             elemInput.val('');
@@ -140,18 +151,20 @@ var AutocompleteCategories = (function () {
             },
             select: function (event, ui) {
                 //debugger;
-                if (onSelect == null) {
-                    $(inputSelector).data("category-id", ui.item.id);
-                    $(inputSelector).val(ui.item.name);
+                //if (onSelect == null) {
+                $(inputSelector).data("category-id", ui.item.id);
+                $(inputSelector).val(ui.item.name);
 
-                    if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length > 0) {
-                        return false;
-                    }
-
-                    addCat();
-                } else {
-                    new onSelect();
+                if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length > 0) {
+                    return false;
                 }
+
+                addCat();
+
+                //}
+                //else {
+                //    new onSelect(catId, catIdx, catText);
+                //}
                 return false;
             },
             open: function (event, ui) {

@@ -34,6 +34,8 @@ class ReferenceWebsiteArticle extends Reference {
 
 class ReferenceUi
 {
+    private _nextRefIdx = 1;
+
     constructor() {
         var references = new Array<Reference>();
         //references.push(new ReferenceBook());
@@ -57,23 +59,27 @@ class ReferenceUi
         });
     }
 
+
     public AddReferenceSearch(reference: Reference) {
+        var refSelector = "txtReference-" + this._nextRefIdx;
+        this._nextRefIdx++;
         //$("#JS-ReferenceSearch")
         $("#JS-References")
             .append
-            ("<div class='well'>" +
+            ("<div class='JS-ReferenceContainer well'>" +
             "<a class='close' data-dismiss='well' href ='#'>×</a>" +
             "<label class='control-label LabelInline'>" + reference.LabelText + "</label>" +
             "<div class='JS-CatInputContainer ControlInline'>" +
-            "<input id='txtReference' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" +
+            "<input id='" + refSelector + "' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" +
             "</div></div>");
-        this.Init(reference.FilterType);    
+        new AutocompleteCategories("#" + refSelector, true, reference.FilterType, ""
+            , function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); }, true
+            );
+        //this.Init(reference.FilterType);    
     }
 
     public Init(filterType: AutoCompleteFilterType) {
-        new AutocompleteCategories("#txtReference", true, filterType, ""
-            , function () { alert('CatAdd!'); }
-            );
+       
     }
 }
 

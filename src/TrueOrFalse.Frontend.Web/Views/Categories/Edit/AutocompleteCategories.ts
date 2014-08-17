@@ -68,7 +68,8 @@ class AutocompleteCategories {
         isSingleSelect: boolean = false,
         filterType: AutoCompleteFilterType = AutoCompleteFilterType.None,
         selectorParent: string = "",
-        onSelect: () => void = null) {
+        onSelect: (catId : string, catIdx: string, catName: string) => void = null,
+        isReference : boolean = false) {
 
         this._filterType = filterType;
 
@@ -93,7 +94,7 @@ class AutocompleteCategories {
             if (self.OnAdd != null)
                 self.OnAdd(catId);
 
-            if (onSelect == null) {
+            if (isReference == false) {
 
                 if (self._isSingleSelect) {
                     catIdx = inputSelector.substring(1);
@@ -118,8 +119,23 @@ class AutocompleteCategories {
                         "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
                         "</div> ");
                 }
+
+
+
             } else {
-                new onSelect();
+                //new onSelect(catId, catIdx, catText);
+                //elemInput.closest('.well').prepend("<div class='Reference Book'><div class='Icon show-tooltip' title='' data-original-title='Buch'><i class='fa fa-book'></i></div><div class='Name'><span>Titel – Untertitel</span></div><div class='Author'><span>von asdfsdafsda</span></div><div class='PublicationInfo'><span class='PublicationCity'>Ort: </span><span class='Publisher'>Verlag</span><span class='PublicationYear'>, 2014</span></div><div class='Isbn'><span>ISBN: 1234111111</span></div></div>");
+                //elemInput.closest('.JS-CatInputContainer').hide().siblings('label.LabelInline').hide();
+
+                $.ajax({
+                    url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
+                    type: 'GET',
+                    success: function(data) {
+                        elemInput.closest('.JS-ReferenceContainer').html(data);
+
+                        //$("#answer-body").html(data);
+                    }
+                });
             }
 
             elemInput.val('');
@@ -179,7 +195,7 @@ class AutocompleteCategories {
             },
             select: function (event, ui) {
                 //debugger;
-                if (onSelect == null) {
+                //if (onSelect == null) {
                     $(inputSelector).data("category-id", ui.item.id);
                     $(inputSelector).val(ui.item.name);
 
@@ -188,9 +204,10 @@ class AutocompleteCategories {
                     }
 
                     addCat();
-                } else {
-                    new onSelect();
-                }
+                //}
+                //else {
+                //    new onSelect(catId, catIdx, catText);
+                //}
                 return false;
             },
             open: function(event, ui) {
