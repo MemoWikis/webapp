@@ -19,9 +19,6 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/markdownCss")
                 .Include("~/Style/markdown-editor.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/category")
-                .Include("~/Views/Categories/Detail/*.css"));
-
             bundles.Add(new StyleBundle("~/bundles/message")
                 .Include("~/Views/Messages/*.css"));
 

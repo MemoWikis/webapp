@@ -150,6 +150,12 @@ public class EditQuestionController : BaseController
         return View(string.Format(_viewLocationBody, type), model);
     }
 
+    public ActionResult ReferencePartial(int catId)
+    {
+        var category = R<CategoryRepository>().GetById(catId);
+        return View("Reference", category);
+    }
+
     private void UpdateSound(HttpPostedFileBase soundfile, int questionId)
     {
         if (soundfile == null) return;

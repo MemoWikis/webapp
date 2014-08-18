@@ -155,4 +155,25 @@ select.form-control {
 #AddReferenceControls .LabelInline {
   font-size: 111.11111111%;
 }
+#JS-References .JS-ReferenceContainer,
+#AddReferenceControls .JS-ReferenceContainer {
+  background-color: #e7ecf6;
+}
+#JS-References .JS-ReferenceContainer:before,
+#AddReferenceControls .JS-ReferenceContainer:before,
+#JS-References .JS-ReferenceContainer:after,
+#AddReferenceControls .JS-ReferenceContainer:after {
+  content: " ";
+  display: table;
+}
+#JS-References .JS-ReferenceContainer:after,
+#AddReferenceControls .JS-ReferenceContainer:after {
+  clear: both;
+}
+#JS-References .JS-ReferenceContainer .close,
+#AddReferenceControls .JS-ReferenceContainer .close {
+  position: relative;
+  top: -14px;
+  right: -10px;
+}
 /*# sourceMappingURL=EditQuestion.css.map */

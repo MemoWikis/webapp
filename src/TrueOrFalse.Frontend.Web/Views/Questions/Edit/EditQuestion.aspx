@@ -204,21 +204,27 @@
                     
                         <div id="JS-References" class="columnControlsFull"></div>
                     </div>
+                    <%--<div class="form-group">
+                        <label class="columnLabel control-label" for="">Ergänzungen zur Quelle</label>
+                        <div class="columnControlsFull">
+                            <input type="text" placeholder="Seitenangaben etc."/>
+                        </div>
+                    </div>--%>
                 
                     <div id="AddReferenceControls" class="form-group">
                         <div class="noLabel columnControlsFull">
-                            <label class="control-label LabelInline">Quellen vom Typ</label> 
+                            <label class="control-label LabelInline">Quelle vom Typ</label> 
                                 <div class="ControlInline">
-                                    <select class="form-control">
-                                        <option><%= CategoryType.Book.GetName() %></option>                
-                                        <option>Artikel</option>                
-                                        <option><%= CategoryType.VolumeChapter.GetName() %></option>                
-                                        <option><%= CategoryType.WebsiteArticle.GetName() %></option>
+                                    <select id="ReferenceType" class="form-control">
+                                        <option value="Book"><%= CategoryType.Book.GetName() %></option>                
+                                        <option value="Article">Artikel</option>                
+                                        <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>                
+                                        <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
                                         <option>Freitext-Url</option> 
                                         <option>Freitext</option> 
                                     </select>
                                 </div>
-                            <button class="btn" id="addReference">hinzufügen</button>
+                            <button class="btn" id="AddReference">hinzufügen</button>
                         </div>
                     </div>
                 </div>

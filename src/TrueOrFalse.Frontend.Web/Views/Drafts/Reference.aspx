@@ -30,7 +30,7 @@
                     <div class="Reference DailyArticle">
                         <div class="Icon"><i class="fa fa-file-text-o"></i></div>
                         <div class="Title"><span>TestArtikel – Untertitel</span></div>
-                            <div class="Author"><span>von Grube, Claire;&nbsp;Kante, Anna</span></div>
+                        <div class="Author"><span>von Grube, Claire;&nbsp;Kante, Anna</span></div>
                         <div class="ParentIssue">
                                 <span>TestZeitung vom 01.07.2014</span><span class="Pages">
                                     (S. 1–2)</span></div>       

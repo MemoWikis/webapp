@@ -5,7 +5,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/bundles/category") %>
+    <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" />
     <title>Kategorie - <%=Model.Name %> </title>
 </asp:Content>
 

@@ -4,25 +4,27 @@ var AutoCompleteFilterType;
 (function (AutoCompleteFilterType) {
     AutoCompleteFilterType[AutoCompleteFilterType["None"] = 0] = "None";
     AutoCompleteFilterType[AutoCompleteFilterType["Book"] = 1] = "Book";
-    AutoCompleteFilterType[AutoCompleteFilterType["Daily"] = 2] = "Daily";
-    AutoCompleteFilterType[AutoCompleteFilterType["DailyIssue"] = 3] = "DailyIssue";
-    AutoCompleteFilterType[AutoCompleteFilterType["DailyArticle"] = 4] = "DailyArticle";
-    AutoCompleteFilterType[AutoCompleteFilterType["Magazine"] = 5] = "Magazine";
-    AutoCompleteFilterType[AutoCompleteFilterType["MagazineIssue"] = 6] = "MagazineIssue";
-    AutoCompleteFilterType[AutoCompleteFilterType["WebsiteArticle"] = 7] = "WebsiteArticle";
+    AutoCompleteFilterType[AutoCompleteFilterType["Article"] = 2] = "Article";
+    AutoCompleteFilterType[AutoCompleteFilterType["Daily"] = 3] = "Daily";
+    AutoCompleteFilterType[AutoCompleteFilterType["DailyIssue"] = 4] = "DailyIssue";
+    AutoCompleteFilterType[AutoCompleteFilterType["DailyArticle"] = 5] = "DailyArticle";
+    AutoCompleteFilterType[AutoCompleteFilterType["Magazine"] = 6] = "Magazine";
+    AutoCompleteFilterType[AutoCompleteFilterType["MagazineIssue"] = 7] = "MagazineIssue";
+    AutoCompleteFilterType[AutoCompleteFilterType["VolumeChapter"] = 8] = "VolumeChapter";
+    AutoCompleteFilterType[AutoCompleteFilterType["WebsiteArticle"] = 9] = "WebsiteArticle";
 })(AutoCompleteFilterType || (AutoCompleteFilterType = {}));
 
 var CompareType = (function () {
     function CompareType() {
     }
     CompareType.AreEqual = function (name, type) {
-        if (name == "DailyIssue" && type == 3 /* DailyIssue */)
+        if (name == "DailyIssue" && type == 4 /* DailyIssue */)
             return true;
 
-        if (name == "MagazineIssue" && type == 6 /* MagazineIssue */)
+        if (name == "MagazineIssue" && type == 7 /* MagazineIssue */)
             return true;
 
-        if (name == "WebsiteArticle" && type == 7 /* WebsiteArticle */)
+        if (name == "WebsiteArticle" && type == 9 /* WebsiteArticle */)
             return true;
 
         return false;
@@ -38,10 +40,12 @@ var CompareType = (function () {
 })();
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent, onSelect, isReference) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
         if (typeof filterType === "undefined") { filterType = 0 /* None */; }
         if (typeof selectorParent === "undefined") { selectorParent = ""; }
+        if (typeof onSelect === "undefined") { onSelect = null; }
+        if (typeof isReference === "undefined") { isReference = false; }
         this._filterType = filterType;
 
         var self = this;
@@ -74,57 +78,77 @@ var AutocompleteCategories = (function () {
             if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
 
-            if (self._isSingleSelect) {
-                catIdx = inputSelector.substring(1);
-                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
-                elemInput.attr("type", "hidden").hide();
+            if (isReference == false) {
+                if (self._isSingleSelect) {
+                    catIdx = inputSelector.substring(1);
+                    elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
+                    elemInput.attr("type", "hidden").hide();
 
-                if ($("#EditCategoryForm").length > 0) {
-                    var validator = $("#EditCategoryForm").validate();
-                    validator.element(elemInput);
+                    if ($("#EditCategoryForm").length > 0) {
+                        var validator = $("#EditCategoryForm").validate();
+                        validator.element(elemInput);
+                    }
+                } else {
+                    elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
                 }
-            } else {
-                elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" + "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" + "</div> ");
-            }
 
-            elemInput.val('');
-            $(inputSelector).data('category-id', '');
-            $("#delete-cat-" + catIdx).click(function (e) {
-                e.preventDefault();
-                if (self.OnRemove != null)
-                    self.OnRemove(catId);
-                animating = true;
-                $("#cat-" + catIdx).stop(true).animate({ opacity: 0 }, 250, function () {
-                    $(this).hide("blind", { direction: "horizontal" }, function () {
-                        $(this).remove();
-                        animating = false;
+                elemInput.val('');
+                $(inputSelector).data('category-id', '');
+                $("#delete-cat-" + catIdx).click(function (e) {
+                    e.preventDefault();
+                    if (self.OnRemove != null)
+                        self.OnRemove(catId);
+                    animating = true;
+                    $("#cat-" + catIdx).stop(true).animate({ opacity: 0 }, 250, function () {
+                        $(this).hide("blind", { direction: "horizontal" }, function () {
+                            $(this).remove();
+                            animating = false;
+                        });
                     });
-                });
 
-                if (self._isSingleSelect)
-                    elemInput.attr("type", "").show();
-            });
-            $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
+                    if (self._isSingleSelect)
+                        elemInput.attr("type", "").show();
+                });
+                $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
+            } else {
+                $.ajax({
+                    url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
+                    type: 'GET',
+                    success: function (data) {
+                        elemInput.closest('.JS-ReferenceContainer').append(data).append("<div class='form-group'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input type='hidden' value='" + catId + "' name='ref-" + catIdx + "'/>");
+                        elemInput.closest('.JS-ReferenceSearch').remove();
+                    }
+                });
+            }
         }
 
         var autocomplete = $(inputSelector).autocomplete({
             minLength: 0,
             source: function (request, response) {
                 var params = "";
-                if (self._filterType == 2 /* Daily */) {
+                if (self._filterType == 1 /* Book */) {
+                    params = "&type=Book";
+                }
+                if (self._filterType == 2 /* Article */) {
+                    params = "&type=Article";
+                }
+                if (self._filterType == 3 /* Daily */) {
                     params = "&type=Daily";
                 }
-
-                if (self._filterType == 3 /* DailyIssue */ || selectorParent != "") {
+                if (self._filterType == 4 /* DailyIssue */) {
                     params = "&type=DailyIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
                 }
-
-                if (self._filterType == 5 /* Magazine */) {
+                if (self._filterType == 6 /* Magazine */) {
                     params = "&type=Magazine";
                 }
-
-                if (self._filterType == 6 /* MagazineIssue */ || selectorParent != "") {
+                if (self._filterType == 7 /* MagazineIssue */) {
                     params = "&type=MagazineIssue&parentId=" + $("#hdd" + selectorParent.substring(1)).val();
+                }
+                if (self._filterType == 8 /* VolumeChapter */) {
+                    params = "&type=VolumeChapter";
+                }
+                if (self._filterType == 9 /* WebsiteArticle */) {
+                    params = "&type=WebsiteArticle";
                 }
 
                 $.get("/Api/Category/ByName?term=" + request.term + params, function (data) {
@@ -132,6 +156,8 @@ var AutocompleteCategories = (function () {
                 });
             },
             select: function (event, ui) {
+                //debugger;
+                //if (onSelect == null) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
@@ -140,6 +166,11 @@ var AutocompleteCategories = (function () {
                 }
 
                 addCat();
+
+                //}
+                //else {
+                //    new onSelect(catId, catIdx, catText);
+                //}
                 return false;
             },
             open: function (event, ui) {
@@ -156,7 +187,7 @@ var AutocompleteCategories = (function () {
             //debugger;
             if (CompareType.IsReference(item.type)) {
                 var jqueryReference = $(item.html);
-                if (CompareType.AreEqual(item.type, 7 /* WebsiteArticle */)) {
+                if (CompareType.AreEqual(item.type, 9 /* WebsiteArticle */)) {
                     var linkContent = jqueryReference.find('.Url').text();
                     var truncatedLinkContent = "";
                     if (linkContent.length > 50) {
@@ -168,7 +199,7 @@ var AutocompleteCategories = (function () {
                 } else {
                     jqueryReference.find('.Url').remove();
                 }
-                if (CompareType.AreEqual(item.type, 3 /* DailyIssue */) || CompareType.AreEqual(item.type, 6 /* MagazineIssue */))
+                if (CompareType.AreEqual(item.type, 4 /* DailyIssue */) || CompareType.AreEqual(item.type, 7 /* MagazineIssue */))
                     jqueryReference.find('.PublicationDate').remove();
 
                 jqueryReference.find('.WikiUrl').remove();

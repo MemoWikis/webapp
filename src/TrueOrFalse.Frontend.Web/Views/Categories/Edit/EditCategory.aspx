@@ -6,7 +6,6 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Categories/Edit/EditCategory.css" rel="stylesheet" />
-    <%= Styles.Render("~/bundles/category") %>
     <%= Scripts.Render("~/bundles/fileUploader") %>
     <%= Scripts.Render("~/bundles/CategoryEdit") %>
 </asp:Content>
