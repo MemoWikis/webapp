@@ -1726,4 +1726,14 @@
 .ReferenceAllInlineStyle .Reference div.Author:after {
   content: ".\0000a0";
 }
+.ReferenceAllInlineStyle .Reference .Url,
+.ReferenceAllInlineStyle .Reference .WikiUrl {
+  display: inline-block !important;
+  max-width: 100%;
+  overflow-x: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
 /*# sourceMappingURL=shared.css.map */

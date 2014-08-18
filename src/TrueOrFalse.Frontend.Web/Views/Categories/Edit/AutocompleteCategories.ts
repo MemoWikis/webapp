@@ -155,6 +155,7 @@ class AutocompleteCategories {
                                     "</div>")
                             .append("<input type='hidden' value='" + catId + "' name='ref-" + catIdx + "'/>");
                         elemInput.closest('.JS-ReferenceSearch').remove();
+                        $('.show-tooltip').tooltip();
                     }
                 });
             }
@@ -227,13 +228,7 @@ class AutocompleteCategories {
                 var jqueryReference = $(item.html);
                 if (CompareType.AreEqual(item.type, AutoCompleteFilterType.WebsiteArticle)) {//Render link as plain text to avoid nested anchors
                     var linkContent = jqueryReference.find('.Url').text();
-                    var truncatedLinkContent = "";
-                    if (linkContent.length > 50) {
-                        truncatedLinkContent = linkContent.substring(0, 44) + "...";
-                    } else {
-                        truncatedLinkContent = linkContent;
-                    }
-                    jqueryReference.find('.Url').text(truncatedLinkContent);
+                    jqueryReference.find('.Url').text(linkContent);
                 } else {
                     jqueryReference.find('.Url').remove();    
                 }

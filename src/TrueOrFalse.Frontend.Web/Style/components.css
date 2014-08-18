@@ -61,6 +61,16 @@ ul.ui-autocomplete .Reference div:not(:last-child):not(.Name):not(.Author):not(.
 ul.ui-autocomplete .Reference div.Author:after {
   content: ".\0000a0";
 }
+ul.ui-autocomplete .Reference .Url,
+ul.ui-autocomplete .Reference .WikiUrl {
+  display: inline-block !important;
+  max-width: 100%;
+  overflow-x: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
 ul.ui-autocomplete a.CatListItem .Reference span {
   display: inline;
 }
@@ -72,6 +82,51 @@ ul.ui-autocomplete .Reference div:not(.Name):not(.Icon) {
 }
 ul.ui-autocomplete .Reference .Url {
   display: inline-block !important;
+}
+#JS-References .Reference.DailyIssue .PublicationDate {
+  display: none;
+}
+#JS-References .Reference div:not(.Name):not(.Icon) {
+  display: inline;
+}
+#JS-References .Reference .Icon {
+  float: left;
+  margin-right: 5px;
+}
+#JS-References .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
+  content: ",\0000a0";
+}
+#JS-References .Reference div.Author:after {
+  content: ".\0000a0";
+}
+#JS-References .Reference .Url,
+#JS-References .Reference .WikiUrl {
+  display: inline-block !important;
+  max-width: 100%;
+  overflow-x: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+#JS-References .Reference {
+  /*display: -webkit-flex;
+	    display: flex;
+	    -webkit-flex-flow: row wrap;
+	    flex-flow: row wrap;
+
+        div:not(.Name) {
+            -webkit-flex: initial;
+	        flex: initial;
+        }
+
+        .Name:after {
+            content: "\000a";
+        }*/
+}
+#JS-References .Reference .Icon,
+#JS-References .Reference .Name {
+  font-size: 111.11111111%;
 }
 /* MESSAGES + COMMENTS
 ----------------------------------------------------------*/
