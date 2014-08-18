@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
+using NHibernate.Linq;
 using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;
@@ -30,6 +33,7 @@ namespace TrueOrFalse.Search
                 searchSpec.Filter.CreatorId,
                 searchSpec.Filter.ValuatorId,
                 searchSpec.Filter.IgnorePrivates,
+                searchSpec.Filter.Categories,
                 orderBy: orderBy
             );
 
@@ -48,6 +52,7 @@ namespace TrueOrFalse.Search
             int creatorId = -1, 
             int valuatorId = -1,
             bool ignorePrivates = true,
+            IList<Int32> categories = null, 
             SearchQuestionsOrderBy orderBy = SearchQuestionsOrderBy.None)
         {
             var sqb = new SearchQueryBuilder();
@@ -76,6 +81,10 @@ namespace TrueOrFalse.Search
                 .Add("FullTextExact", searchTerm)
                 .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
                 .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
+
+            if (categories != null)
+                categories.ForEach(x => sqb.Add("CategoryIds", x.ToString(), isAndCondition: true, exact: true));
+
 
             if (ignorePrivates)
                 sqb.Add("IsPrivate", "false", exact:true, isAndCondition:true);

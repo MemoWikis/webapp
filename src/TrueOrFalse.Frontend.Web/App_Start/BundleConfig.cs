@@ -42,6 +42,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js")
                 .Include("~/Scripts/ValuationPerRow.js")
                 .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
+                
 
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
                 .Include("~/Views/Shared/ImageUpload/ImageUpload.js")

@@ -52,6 +52,9 @@ public class QuestionsModel : BaseModel
         ActiveTabMine = searchTab == TrueOrFalse.SearchTab.Mine;
         ActiveTabWish = searchTab == TrueOrFalse.SearchTab.Wish;
 
+        if (questionSearchSpec.Filter.Categories != null)
+            FilteredCategories = R<CategoryRepository>().GetByIds(questionSearchSpec.Filter.Categories.ToArray());
+
         int currentUserId = _sessionUser.IsLoggedIn ? _sessionUser.User.Id : -1;
         NotAllowed = !_sessionUser.IsLoggedIn && (searchTab == TrueOrFalse.SearchTab.Wish || searchTab == TrueOrFalse.SearchTab.Mine);
 

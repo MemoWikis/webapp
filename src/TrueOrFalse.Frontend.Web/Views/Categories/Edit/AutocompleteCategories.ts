@@ -77,6 +77,9 @@ class AutocompleteCategories {
         this._isSingleSelect = isSingleSelect;
 
         var elemInput = $(inputSelector);
+        if (elemInput.length == 0)
+            return; 
+
         var elemContainer = elemInput.closest(".JS-RelatedCategories");
 
         var isCategoryEdit = $("#isCategoryEdit").length == 1;
@@ -85,13 +88,18 @@ class AutocompleteCategories {
             categoryName = $("#Name").val();
 
         var nextCatIdx = 1;
-        function addCat() {
+
+        function addCatWithoutTriggers() {
+            addCat(true);
+        }
+
+        function addCat(withoutTriggers : boolean = false) {
             var catIdx = nextCatIdx.toString();
             nextCatIdx++;
             var catText = $(inputSelector).val();
             var catId = $(inputSelector).data('category-id');
 
-            if (self.OnAdd != null)
+            if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
 
             if (isReference == false) {
@@ -293,7 +301,7 @@ class AutocompleteCategories {
         }
 
         $(inputSelector).keypress(fnCheckTextAndAdd);
-        $(inputSelector).bind("initCategoryFromTxt", addCat);        
+        $(inputSelector).bind("initCategoryFromTxt", addCatWithoutTriggers);
          
     }
 

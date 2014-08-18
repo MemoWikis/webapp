@@ -2,7 +2,10 @@
     function QuestionsSearch() {
         var _this = this;
         this._categories = [];
-        var autoCompleteCategories = new AutocompleteCategories("#txtCategoryFilter");
+        var self = this;
+
+        var filterSelector = "#txtCategoryFilter";
+        var autoCompleteCategories = new AutocompleteCategories(filterSelector);
         autoCompleteCategories.OnAdd = function (categoryId) {
             _this._categories.push(categoryId);
             _this.SubmitSearch();
@@ -14,6 +17,10 @@
             });
             _this.SubmitSearch();
         };
+
+        $(filterSelector).on("initCategoryIds", function (e, categoryId) {
+            self._categories.push(categoryId);
+        });
 
         this._elemContainer = $("#JS-SearchResult");
         var _self = this;
@@ -52,6 +59,11 @@
 
                 Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Fragen");
                 Utils.SetElementValue2($(".JS-Tabs").find(".JS-" + data.Tab).find("span.JS-Amount"), tabAmount);
+
+                var page = new Page();
+                page.Init();
+
+                $('.show-tooltip').tooltip();
             }
         });
     };

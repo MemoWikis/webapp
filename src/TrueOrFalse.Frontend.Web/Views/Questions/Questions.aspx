@@ -141,12 +141,13 @@
                                         $("#txtCategoryFilter")
                                             .val('<%=category.Name %>')
                                             .data('category-id', '<%=category.Id %>')
-                                            .trigger("initCategoryFromTxt");
+                                            .trigger('initCategoryFromTxt')
+                                            .trigger('initCategoryIds', '<%=category.Id %>');
                                         <% } %>
                                     });
                                 </script>
                                 <div class="JS-CatInputContainer ControlInline">
-                                    <input id="txtCategoryFilter" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
+                                    <input id="txtCategoryFilter" class="form-control .JS-ValidationIgnore" type="text" placeholder="Filtere nach einer Kategorie"  />
                                 </div>
                             </div>
                         </div>
