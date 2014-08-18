@@ -111,8 +111,8 @@ public class AnswerQuestionModel : BaseModel
         SourceIsTabMine = SearchTab.Mine == searchSpec.SearchTab;
         SourceIsTabWish = SearchTab.Wish == searchSpec.SearchTab;
 
-        if (searchSpec.Filter.HasCategoryFilter()){
-            SourceCategory = Resolve<CategoryRepository>().GetByName(searchSpec.Filter.CategoryFilter()).First();
+        if (searchSpec.Filter.IsOneCategoryFilter()){
+            SourceCategory = Resolve<CategoryRepository>().GetById(searchSpec.Filter.Categories.First());
             if (SourceCategory != null)
                 SourceIsCategory = true;
         }
