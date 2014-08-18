@@ -31,7 +31,7 @@ namespace TrueOrFalse
         }
 
         [SetMenu(MenuEntry.Questions)]
-        public ActionResult Questions(int? page, QuestionsModel model, string orderBy)
+        public ActionResult Questions(int? page, QuestionsModel model, string orderBy = "byRelevance")
         {
             _util.SetSearchSpecVars(_sessionUiData.SearchSpecQuestionAll, page, model, orderBy);
 
@@ -46,6 +46,13 @@ namespace TrueOrFalse
         {
             _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
             return Questions(page, model, orderBy);
+        }
+
+        public ActionResult QuestionsSearchCategoryFilter(string categoryName, int categoryId)
+        {
+            _sessionUiData.SearchSpecQuestionAll.Filter.Clear();
+            _sessionUiData.SearchSpecQuestionAll.Filter.Categories.Add(categoryId);
+            return Questions(1, new QuestionsModel());
         }
 
         public JsonResult QuestionsSearchApi(string searchTerm, List<Int32> categories)

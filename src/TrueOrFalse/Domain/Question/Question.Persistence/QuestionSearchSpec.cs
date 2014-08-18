@@ -74,6 +74,17 @@ namespace TrueOrFalse
             }
             return filter;
         }
+
+        public void Clear()
+        {
+            SearchTerm = "";
+            CreatorId = -1;
+            ValuatorId = -1;
+            IgnorePrivates = true;
+            Categories.Clear();
+
+            base.Clear();
+        }
     }
 
     [Serializable]
