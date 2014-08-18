@@ -59,6 +59,11 @@
 
                 Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Fragen");
                 Utils.SetElementValue2($(".JS-Tabs").find(".JS-" + data.Tab).find("span.JS-Amount"), tabAmount);
+
+                var page = new Page();
+                page.Init();
+
+                $('.show-tooltip').tooltip();
             }
         });
     };

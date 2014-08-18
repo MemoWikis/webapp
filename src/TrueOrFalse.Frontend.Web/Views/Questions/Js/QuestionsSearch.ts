@@ -75,6 +75,10 @@ class QuestionsSearch {
                     .find(".JS-" + data.Tab)
                     .find("span.JS-Amount"), tabAmount);
 
+                var page = new Page();
+                page.Init();
+        
+                $('.show-tooltip').tooltip();
             }
         });
 

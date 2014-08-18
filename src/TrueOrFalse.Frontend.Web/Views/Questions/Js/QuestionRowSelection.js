@@ -1,4 +1,4 @@
-/// <reference path="Page.ts" />
+﻿/// <reference path="Page.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -174,27 +174,4 @@ var RowSelector = (function () {
     };
     return RowSelector;
 })();
-
-$(function () {
-    $('.selectQuestion').change(function () {
-        _page.RowSelector.Toggle(new Checkbox($(this)));
-    });
-    $('#selectAll').click(function () {
-        _page.RowSelector.SelectAll();
-    });
-    $('#selectNone').click(function () {
-        _page.RowSelector.DeselecttAll();
-    });
-    $('#selectMemorizedByMe').click(function () {
-        _page.RowSelector.SelectAllMemorizedByMe();
-    });
-    $('#selectCreatedByMe').click(function () {
-        _page.RowSelector.SelectAllWhereIAmOwner();
-    });
-    $('#selectedNotMemorizedByMe').click(function () {
-    });
-    $('#selectNotCraetedByMe').click(function () {
-        _page.RowSelector.SelectAllWhereIAmNotOwner();
-    });
-});
 //# sourceMappingURL=QuestionRowSelection.js.map
