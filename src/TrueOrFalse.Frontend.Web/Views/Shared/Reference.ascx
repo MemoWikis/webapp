@@ -137,7 +137,7 @@
                     %><div class="ParentIssue"><span><%= dailyArticle.DailyIssue.Name %></span><%
                         if (!String.IsNullOrEmpty(dailyArticle.PagesArticleFrom))
                         {
-                        %><span class="Pages">(S. <%= dailyArticle.PagesArticleFrom %><%
+                        %> <span class="Pages">(S. <%= dailyArticle.PagesArticleFrom %><%
                              if (!String.IsNullOrEmpty(dailyArticle.PagesArticleTo))
                             {%>–<%= dailyArticle.PagesArticleTo %><%}
                          %>)</span><%
@@ -235,8 +235,7 @@
                 %><div class="ParentIssue"><span><%= magazineArticle.MagazineIssue.Name %></span><%
                     if (!String.IsNullOrEmpty(magazineArticle.PagesArticleFrom))
                     {
-                    %><span class="Pages">
-                        (S. <%= magazineArticle.PagesArticleFrom %><%
+                    %> <span class="Pages">(S. <%= magazineArticle.PagesArticleFrom %><%
                         if (!String.IsNullOrEmpty(magazineArticle.PagesArticleTo))
                         {%>–<%= magazineArticle.PagesArticleTo %><%}
                         %>)</span><%
@@ -302,7 +301,7 @@
                 }
                 if (!String.IsNullOrEmpty(volumeChapter.TitleVolume))
                 {
-                    %><div class="NoSeperator">erschienen in:</div><%
+                    %><div class="NoSeperator">Erschienen in: </div><%
                 }
                 if (!String.IsNullOrEmpty(volumeChapter.Editor))
                    {

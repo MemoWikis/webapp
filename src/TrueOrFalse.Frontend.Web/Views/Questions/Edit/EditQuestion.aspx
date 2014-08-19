@@ -198,8 +198,9 @@
                     <div class="form-group">
                         <%--<label class="columnLabel control-label">Frage</label>--%>
 
-                        <label class="columnLabel control-label">Quellen <br/>
-                            <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</div>
+                        <label class="columnLabel control-label">Quellen 
+                            <%--<br/>
+                            <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</div>--%>
                         </label>
                     
                         <div id="JS-References" class="columnControlsFull"></div>

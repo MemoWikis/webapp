@@ -176,4 +176,8 @@ select.form-control {
   top: -14px;
   right: -10px;
 }
+#JS-References .Reference,
+#AddReferenceControls .Reference {
+  margin-bottom: 5px;
+}
 /*# sourceMappingURL=EditQuestion.css.map */

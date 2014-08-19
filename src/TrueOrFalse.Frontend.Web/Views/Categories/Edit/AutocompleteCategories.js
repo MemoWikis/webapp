@@ -115,7 +115,7 @@ var AutocompleteCategories = (function () {
                     url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
                     type: 'GET',
                     success: function (data) {
-                        elemInput.closest('.JS-ReferenceContainer').append(data).append("<div class='form-group'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input type='hidden' value='" + catId + "' name='ref-" + catIdx + "'/>");
+                        elemInput.closest('.JS-ReferenceContainer').append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input type='hidden' value='" + catId + "' name='ref-" + catIdx + "'/>");
                         elemInput.closest('.JS-ReferenceSearch').remove();
                         $('.show-tooltip').tooltip();
                     }
