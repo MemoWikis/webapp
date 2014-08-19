@@ -261,6 +261,6 @@
     </div>
     <% } %>
     
-    <% Html.RenderPartial("../Shared/ImageUpload/ImageUpload"); %>
+    <% Html.RenderPartial("~/Views/Shared/ImageUpload/ImageUpload.ascx"); %>
 
 </asp:Content>

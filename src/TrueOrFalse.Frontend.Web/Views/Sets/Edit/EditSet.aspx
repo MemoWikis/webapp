@@ -168,7 +168,7 @@
     <% } %>
 </div>
     
-<% Html.RenderPartial("../Shared/ImageUpload/ImageUpload"); %>
+<% Html.RenderPartial("~/Views/Shared/ImageUpload/ImageUpload.ascx"); %>
     
 <div id="modalRevertAction" class="modal">
     <div class="modal-dialog">
