@@ -37,15 +37,8 @@ class ReferenceUi
     private _nextRefIdx = 1;
 
     constructor() {
-        var references = new Array<Reference>();
-        //references.push(new ReferenceBook());
-        for (var reference in references) {
-            this.AddReferenceSearch(reference);
-        }
-
         $("#AddReference").click((e) => {
             e.preventDefault();
-            //$('#JS-ReferenceSearch').empty();
 
             var referenceType = $('#ReferenceType option:selected').attr('value');
             if(referenceType == "Book")
@@ -59,35 +52,34 @@ class ReferenceUi
         });
     }
 
-
     public AddReferenceSearch(reference: Reference) {
         var refIdx = this._nextRefIdx;
         var refSelector = "txtReference-" + refIdx;
         this._nextRefIdx++;
-        //$("#JS-ReferenceSearch")
         $("#JS-References")
             .append
             ("<div class='JS-ReferenceContainer well'>" +
-            "<a id='delete-ref-" + refIdx + "'" + " class='close' href ='#'>×</a>" +
-            "<div class='JS-ReferenceSearch'>" +
-            "<label class='control-label LabelInline'>" + reference.LabelText + "</label>" +
-            "<div class='JS-CatInputContainer ControlInline'>" +
-            "<input id='" + refSelector + "' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" +
-            "</div>" +
-            "</div></div>");
-        new AutocompleteCategories("#" + refSelector, true, reference.FilterType, ""
-            , function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); }, true
-            );
+                "<a id='delete-ref-" + refIdx + "'" + " class='close' href ='#'>×</a>" +
+                "<div class='JS-ReferenceSearch'>" +
+                    "<label class='control-label LabelInline'>" + reference.LabelText + "</label>" +
+                    "<div class='JS-CatInputContainer ControlInline'>" +
+                        "<input id='" + refSelector + "' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" +
+                    "</div>" +
+                "</div>" +
+            "</div>");
+        new AutocompleteCategories(
+            "#" + refSelector,
+            true,
+            reference.FilterType,
+            "",
+            function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); },
+            true
+        );
 
         $("#delete-ref-" + refIdx).click(function (e) {
             e.preventDefault();
             $("#delete-ref-" + refIdx).closest('.JS-ReferenceContainer').remove();
         });
-        //this.Init(reference.FilterType);    
-    }
-
-    public Init(filterType: AutoCompleteFilterType) {
-       
     }
 }
 

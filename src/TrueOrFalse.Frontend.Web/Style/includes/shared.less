@@ -367,23 +367,35 @@
     }
 }
 
-.ReferenceAllInlineStyle{
-
+.ReferenceAllInlineStyle {
     .ReferenceDefault;
 
     .Reference {
         div:not(.Name):not(.Icon) {
             display: inline;
         }
+
         .Icon {
             float: left;
             margin-right: 5px;
         }
+
         div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
             content: ",\0000a0";
         }
+
         div.Author:after {
             content: ".\0000a0";
+        }
+
+        .Url, .WikiUrl {
+            display: inline-block !important;
+            max-width: 100%;
+            overflow-x: hidden;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            vertical-align: bottom; //http://stackoverflow.com/questions/20566710/overflowhidden-displayinline-block-moves-text-upwards#answer-20566810
         }
     }
 }

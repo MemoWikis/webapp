@@ -61,16 +61,9 @@ var ReferenceUi = (function () {
     function ReferenceUi() {
         var _this = this;
         this._nextRefIdx = 1;
-        var references = new Array();
-
-        for (var reference in references) {
-            this.AddReferenceSearch(reference);
-        }
-
         $("#AddReference").click(function (e) {
             e.preventDefault();
 
-            //$('#JS-ReferenceSearch').empty();
             var referenceType = $('#ReferenceType option:selected').attr('value');
             if (referenceType == "Book")
                 _this.AddReferenceSearch(new ReferenceBook());
@@ -86,9 +79,7 @@ var ReferenceUi = (function () {
         var refIdx = this._nextRefIdx;
         var refSelector = "txtReference-" + refIdx;
         this._nextRefIdx++;
-
-        //$("#JS-ReferenceSearch")
-        $("#JS-References").append("<div class='JS-ReferenceContainer well'>" + "<a id='delete-ref-" + refIdx + "'" + " class='close' href ='#'>×</a>" + "<div class='JS-ReferenceSearch'>" + "<label class='control-label LabelInline'>" + reference.LabelText + "</label>" + "<div class='JS-CatInputContainer ControlInline'>" + "<input id='" + refSelector + "' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" + "</div>" + "</div></div>");
+        $("#JS-References").append("<div class='JS-ReferenceContainer well'>" + "<a id='delete-ref-" + refIdx + "'" + " class='close' href ='#'>×</a>" + "<div class='JS-ReferenceSearch'>" + "<label class='control-label LabelInline'>" + reference.LabelText + "</label>" + "<div class='JS-CatInputContainer ControlInline'>" + "<input id='" + refSelector + "' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" + "</div>" + "</div>" + "</div>");
         new AutocompleteCategories("#" + refSelector, true, reference.FilterType, "", function (catId, catIdx, catName) {
             alert('Add cat "' + catName + "");
         }, true);
@@ -97,10 +88,6 @@ var ReferenceUi = (function () {
             e.preventDefault();
             $("#delete-ref-" + refIdx).closest('.JS-ReferenceContainer').remove();
         });
-        //this.Init(reference.FilterType);
-    };
-
-    ReferenceUi.prototype.Init = function (filterType) {
     };
     return ReferenceUi;
 })();

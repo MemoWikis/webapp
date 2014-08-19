@@ -117,6 +117,7 @@ var AutocompleteCategories = (function () {
                     success: function (data) {
                         elemInput.closest('.JS-ReferenceContainer').append(data).append("<div class='form-group'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input type='hidden' value='" + catId + "' name='ref-" + catIdx + "'/>");
                         elemInput.closest('.JS-ReferenceSearch').remove();
+                        $('.show-tooltip').tooltip();
                     }
                 });
             }
@@ -189,13 +190,7 @@ var AutocompleteCategories = (function () {
                 var jqueryReference = $(item.html);
                 if (CompareType.AreEqual(item.type, 9 /* WebsiteArticle */)) {
                     var linkContent = jqueryReference.find('.Url').text();
-                    var truncatedLinkContent = "";
-                    if (linkContent.length > 50) {
-                        truncatedLinkContent = linkContent.substring(0, 44) + "...";
-                    } else {
-                        truncatedLinkContent = linkContent;
-                    }
-                    jqueryReference.find('.Url').text(truncatedLinkContent);
+                    jqueryReference.find('.Url').text(linkContent);
                 } else {
                     jqueryReference.find('.Url').remove();
                 }

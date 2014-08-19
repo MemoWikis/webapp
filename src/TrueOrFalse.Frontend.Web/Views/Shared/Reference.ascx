@@ -137,8 +137,7 @@
                     %><div class="ParentIssue"><span><%= dailyArticle.DailyIssue.Name %></span><%
                         if (!String.IsNullOrEmpty(dailyArticle.PagesArticleFrom))
                         {
-                        %><span class="Pages">
-                            (S. <%= dailyArticle.PagesArticleFrom %><%
+                        %><span class="Pages">(S. <%= dailyArticle.PagesArticleFrom %><%
                              if (!String.IsNullOrEmpty(dailyArticle.PagesArticleTo))
                             {%>–<%= dailyArticle.PagesArticleTo %><%}
                          %>)</span><%
