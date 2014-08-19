@@ -43,16 +43,6 @@ namespace TrueOrFalse
 
         public IList<int> Categories = new List<int>();
 
-        public bool HasCategoryFilter()
-        {
-            return !String.IsNullOrEmpty(GetCategoryFilterValue(SearchTerm));
-        }
-
-        public string CategoryFilter()
-        {
-            return GetCategoryFilterValue(SearchTerm);
-        }
-
         public static string GetCategoryFilterValue(string searchTerm)
         {
             return GetFilter("Kat", searchTerm);
@@ -84,6 +74,11 @@ namespace TrueOrFalse
             Categories.Clear();
 
             base.Clear();
+        }
+
+        public bool IsOneCategoryFilter()
+        {
+            return Categories.Count == 1 && SearchTerm == "";
         }
     }
 
