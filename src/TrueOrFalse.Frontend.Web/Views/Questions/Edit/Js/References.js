@@ -61,20 +61,38 @@ var ReferenceUi = (function () {
     function ReferenceUi() {
         var _this = this;
         this._nextRefIdx = 1;
-        $("#AddReference").click(function (e) {
-            e.preventDefault();
-
+        //$("#AddReference").click((e) => {
+        //    e.preventDefault();
+        //    var referenceType = $('#ReferenceType option:selected').attr('value');
+        //    if(referenceType == "Book")
+        //        this.AddReferenceSearch(new ReferenceBook());
+        //    if (referenceType == "Article")
+        //        this.AddReferenceSearch(new ReferenceArticle());
+        //    if (referenceType == "VolumeChapter")
+        //        this.AddReferenceSearch(new ReferenceVolumeChapter());
+        //    if (referenceType == "WebsiteArticle")
+        //        this.AddReferenceSearch(new ReferenceWebsiteArticle());
+        //});
+        $("#ReferenceType").change(function () {
+            //debugger;
             var referenceType = $('#ReferenceType option:selected').attr('value');
             if (referenceType == "Book")
-                _this.AddReferenceSearch(new ReferenceBook());
+                _this.AddReferenceSearchX(new ReferenceBook());
             if (referenceType == "Article")
-                _this.AddReferenceSearch(new ReferenceArticle());
+                _this.AddReferenceSearchX(new ReferenceArticle());
             if (referenceType == "VolumeChapter")
-                _this.AddReferenceSearch(new ReferenceVolumeChapter());
+                _this.AddReferenceSearchX(new ReferenceVolumeChapter());
             if (referenceType == "WebsiteArticle")
-                _this.AddReferenceSearch(new ReferenceWebsiteArticle());
+                _this.AddReferenceSearchX(new ReferenceWebsiteArticle());
         });
     }
+    ReferenceUi.prototype.AddReferenceSearchX = function (reference) {
+        $('#txtReference').attr('placeholder', reference.SearchFieldPlaceholder);
+        new AutocompleteCategories("#txtReference", true, reference.FilterType, "", function (catId, catIdx, catName) {
+            alert('Add cat "' + catName + "");
+        }, true);
+    };
+
     ReferenceUi.prototype.AddReferenceSearch = function (reference) {
         var refIdx = this._nextRefIdx;
         var refSelector = "txtReference-" + refIdx;
@@ -94,5 +112,6 @@ var ReferenceUi = (function () {
 
 $(function () {
     new ReferenceUi();
+    $("#ReferenceType").trigger('change');
 });
 //# sourceMappingURL=References.js.map

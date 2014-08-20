@@ -37,19 +37,44 @@ class ReferenceUi
     private _nextRefIdx = 1;
 
     constructor() {
-        $("#AddReference").click((e) => {
-            e.preventDefault();
+        //$("#AddReference").click((e) => {
+        //    e.preventDefault();
+
+        //    var referenceType = $('#ReferenceType option:selected').attr('value');
+        //    if(referenceType == "Book")
+        //        this.AddReferenceSearch(new ReferenceBook());
+        //    if (referenceType == "Article")
+        //        this.AddReferenceSearch(new ReferenceArticle());
+        //    if (referenceType == "VolumeChapter")
+        //        this.AddReferenceSearch(new ReferenceVolumeChapter());
+        //    if (referenceType == "WebsiteArticle")
+        //        this.AddReferenceSearch(new ReferenceWebsiteArticle());
+        //});
+        $("#ReferenceType").change(() => {
+            //debugger;
 
             var referenceType = $('#ReferenceType option:selected').attr('value');
             if(referenceType == "Book")
-                this.AddReferenceSearch(new ReferenceBook());
+                this.AddReferenceSearchX(new ReferenceBook());
             if (referenceType == "Article")
-                this.AddReferenceSearch(new ReferenceArticle());
+                this.AddReferenceSearchX(new ReferenceArticle());
             if (referenceType == "VolumeChapter")
-                this.AddReferenceSearch(new ReferenceVolumeChapter());
+                this.AddReferenceSearchX(new ReferenceVolumeChapter());
             if (referenceType == "WebsiteArticle")
-                this.AddReferenceSearch(new ReferenceWebsiteArticle());
+                this.AddReferenceSearchX(new ReferenceWebsiteArticle());
         });
+    }
+
+    public AddReferenceSearchX(reference: Reference) {
+        $('#txtReference').attr('placeholder', reference.SearchFieldPlaceholder);
+        new AutocompleteCategories(
+            "#txtReference",
+            true,
+            reference.FilterType,
+            "",
+            function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); },
+            true
+            );
     }
 
     public AddReferenceSearch(reference: Reference) {
@@ -85,4 +110,5 @@ class ReferenceUi
 
 $(function () {
     new ReferenceUi();
+    $("#ReferenceType").trigger('change');
 });
