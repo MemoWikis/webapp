@@ -207,7 +207,7 @@
                     </div>
                     <div id="AddReferenceControls" class="form-group">
                         <div class="noLabel columnControlsFull">
-                            <%--<label class="control-label LabelInline">Quelle vom Typ</label> 
+                            <label class="control-label LabelInline">Quelle vom Typ</label> 
                                 <div class="ControlInline">
                                     <select id="ReferenceType" class="form-control">
                                         <option value="Book"><%= CategoryType.Book.GetName() %></option>                
@@ -218,8 +218,8 @@
                                         <option>Freitext</option> 
                                     </select>
                                 </div>
-                            <button class="btn" id="AddReference">hinzufügen</button>--%>
-                            <label class="control-label LabelInline">Quelle hinzufügen</label> 
+                            <button class="btn" id="AddReference">hinzufügen</button>
+                            <%--<label class="control-label LabelInline">Quelle hinzufügen</label> 
                             <div class="ControlInline" style="width: 200px;">
                                 <select id="ReferenceType" class="form-control">
                                     <option value="Book"><%= CategoryType.Book.GetName() %></option>                
@@ -232,7 +232,7 @@
                             </div>
                             <div id="JS-ReferenceSearchControls" class="JS-CatInputContainer ControlInline" style="width: 250px;">
                                 <input id='txtReference' class='form-control' name ='txtReference' type ='text' value ='' placeholder='Suche nach allen Quellentypen'/>
-                            </div>
+                            </div>--%>
                         </div>
                     </div>
                 </div>

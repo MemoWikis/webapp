@@ -61,30 +61,31 @@ var ReferenceUi = (function () {
     function ReferenceUi() {
         var _this = this;
         this._nextRefIdx = 1;
-        //$("#AddReference").click((e) => {
-        //    e.preventDefault();
-        //    var referenceType = $('#ReferenceType option:selected').attr('value');
-        //    if(referenceType == "Book")
-        //        this.AddReferenceSearch(new ReferenceBook());
-        //    if (referenceType == "Article")
-        //        this.AddReferenceSearch(new ReferenceArticle());
-        //    if (referenceType == "VolumeChapter")
-        //        this.AddReferenceSearch(new ReferenceVolumeChapter());
-        //    if (referenceType == "WebsiteArticle")
-        //        this.AddReferenceSearch(new ReferenceWebsiteArticle());
-        //});
-        $("#ReferenceType").change(function () {
-            //debugger;
+        $("#AddReference").click(function (e) {
+            e.preventDefault();
+
             var referenceType = $('#ReferenceType option:selected').attr('value');
             if (referenceType == "Book")
-                _this.AddReferenceSearchX(new ReferenceBook());
+                _this.AddReferenceSearch(new ReferenceBook());
             if (referenceType == "Article")
-                _this.AddReferenceSearchX(new ReferenceArticle());
+                _this.AddReferenceSearch(new ReferenceArticle());
             if (referenceType == "VolumeChapter")
-                _this.AddReferenceSearchX(new ReferenceVolumeChapter());
+                _this.AddReferenceSearch(new ReferenceVolumeChapter());
             if (referenceType == "WebsiteArticle")
-                _this.AddReferenceSearchX(new ReferenceWebsiteArticle());
+                _this.AddReferenceSearch(new ReferenceWebsiteArticle());
         });
+        //    $("#ReferenceType").change(() => {
+        //        //debugger;
+        //        var referenceType = $('#ReferenceType option:selected').attr('value');
+        //        if(referenceType == "Book")
+        //            this.AddReferenceSearchX(new ReferenceBook());
+        //        if (referenceType == "Article")
+        //            this.AddReferenceSearchX(new ReferenceArticle());
+        //        if (referenceType == "VolumeChapter")
+        //            this.AddReferenceSearchX(new ReferenceVolumeChapter());
+        //        if (referenceType == "WebsiteArticle")
+        //            this.AddReferenceSearchX(new ReferenceWebsiteArticle());
+        //    });
     }
     ReferenceUi.prototype.AddReferenceSearchX = function (reference) {
         $('#txtReference').attr('placeholder', reference.SearchFieldPlaceholder);
@@ -112,6 +113,5 @@ var ReferenceUi = (function () {
 
 $(function () {
     new ReferenceUi();
-    $("#ReferenceType").trigger('change');
 });
 //# sourceMappingURL=References.js.map

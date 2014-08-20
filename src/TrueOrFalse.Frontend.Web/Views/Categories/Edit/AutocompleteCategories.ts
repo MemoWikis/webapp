@@ -153,14 +153,7 @@ class AutocompleteCategories {
                     url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
                     type: 'GET',
                     success: function (data) {
-                        $("#JS-References")
-                            .append
-                            ("<div id='Ref-" + catIdx + "' class='JS-ReferenceContainer well'>" +
-                                "<a id='delete-ref-" + catIdx + "'" + " class='close' href ='#'>×</a>" +
-                            "</div>");
-                        elemInput.val("");
-                        $('#Ref-' + catIdx)
-                        //elemInput.closest('.JS-ReferenceContainer')
+                        elemInput.closest('.JS-ReferenceContainer')
                             .append(data)
                             .append("<div class='form-group' style='margin-bottom: 0;'>" +
                                         "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" +
