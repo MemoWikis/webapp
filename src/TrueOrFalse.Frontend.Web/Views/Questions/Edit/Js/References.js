@@ -64,32 +64,62 @@ var ReferenceUi = (function () {
         $("#AddReference").click(function (e) {
             e.preventDefault();
 
-            var referenceType = $('#ReferenceType option:selected').attr('value');
-            if (referenceType == "Book")
-                _this.AddReferenceSearch(new ReferenceBook());
-            if (referenceType == "Article")
-                _this.AddReferenceSearch(new ReferenceArticle());
-            if (referenceType == "VolumeChapter")
-                _this.AddReferenceSearch(new ReferenceVolumeChapter());
-            if (referenceType == "WebsiteArticle")
-                _this.AddReferenceSearch(new ReferenceWebsiteArticle());
+            //var referenceType = $('#ReferenceType option:selected').attr('value');
+            //if(referenceType == "Book")
+            //    this.AddReferenceSearch(new ReferenceBook());
+            //if (referenceType == "Article")
+            //    this.AddReferenceSearch(new ReferenceArticle());
+            //if (referenceType == "VolumeChapter")
+            //    this.AddReferenceSearch(new ReferenceVolumeChapter());
+            //if (referenceType == "WebsiteArticle")
+            //    this.AddReferenceSearch(new ReferenceWebsiteArticle());
+            $('#JS-ReferenceSearch').show();
+            $('#AddReferenceControls').hide();
+
+            $("#ReferenceType").change(function () {
+                //debugger;
+                var referenceType = $('#ReferenceType option:selected').attr('value');
+                if (referenceType == "Book")
+                    _this.AddReferenceSearchXX(new ReferenceBook());
+                if (referenceType == "Article")
+                    _this.AddReferenceSearchXX(new ReferenceArticle());
+                if (referenceType == "VolumeChapter")
+                    _this.AddReferenceSearchXX(new ReferenceVolumeChapter());
+                if (referenceType == "WebsiteArticle")
+                    _this.AddReferenceSearchXX(new ReferenceWebsiteArticle());
+            });
+
+            $("#ReferenceType").trigger('change');
         });
-        //    $("#ReferenceType").change(() => {
-        //        //debugger;
-        //        var referenceType = $('#ReferenceType option:selected').attr('value');
-        //        if(referenceType == "Book")
-        //            this.AddReferenceSearchX(new ReferenceBook());
-        //        if (referenceType == "Article")
-        //            this.AddReferenceSearchX(new ReferenceArticle());
-        //        if (referenceType == "VolumeChapter")
-        //            this.AddReferenceSearchX(new ReferenceVolumeChapter());
-        //        if (referenceType == "WebsiteArticle")
-        //            this.AddReferenceSearchX(new ReferenceWebsiteArticle());
-        //    });
+
+        $('#JS-HideReferenceSearch').click(function (e) {
+            e.preventDefault();
+            $('#JS-ReferenceSearch').hide();
+            $('#AddReferenceControls').show();
+        });
+        //$("#ReferenceType").change(() => {
+        //    //debugger;
+        //    var referenceType = $('#ReferenceType option:selected').attr('value');
+        //    if(referenceType == "Book")
+        //        this.AddReferenceSearchX(new ReferenceBook());
+        //    if (referenceType == "Article")
+        //        this.AddReferenceSearchX(new ReferenceArticle());
+        //    if (referenceType == "VolumeChapter")
+        //        this.AddReferenceSearchX(new ReferenceVolumeChapter());
+        //    if (referenceType == "WebsiteArticle")
+        //        this.AddReferenceSearchX(new ReferenceWebsiteArticle());
+        //});
     }
     ReferenceUi.prototype.AddReferenceSearchX = function (reference) {
         $('#txtReference').attr('placeholder', reference.SearchFieldPlaceholder);
         new AutocompleteCategories("#txtReference", true, reference.FilterType, "", function (catId, catIdx, catName) {
+            alert('Add cat "' + catName + "");
+        }, true);
+    };
+
+    ReferenceUi.prototype.AddReferenceSearchXX = function (reference) {
+        $('#ReferenceSearchInput').attr('placeholder', reference.SearchFieldPlaceholder);
+        new AutocompleteCategories("#ReferenceSearchInput", true, reference.FilterType, "", function (catId, catIdx, catName) {
             alert('Add cat "' + catName + "");
         }, true);
     };
