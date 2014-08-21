@@ -71,6 +71,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\BDDish.0.1.2.2\lib\BDDish.dll</HintPath>
     </Reference>
+    <Reference Include="EasyNetQ.Management.Client, Version=0.35.6.302, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EasyNetQ.Management.Client.0.35.6.302\lib\net40\EasyNetQ.Management.Client.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=1.4.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
@@ -220,6 +224,7 @@
     <Compile Include="2 Domain\User\Setup\ContextRegisteredUser.cs" />
     <Compile Include="2 Domain\User\Registration\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Domain\User\Tests.PersistUser.cs" />
+    <Compile Include="3 Infrastructure\Bus\BusTests.cs" />
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />

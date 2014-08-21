@@ -66,6 +66,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.Mvc5.3.3.0\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="EasyNetQ">
+      <HintPath>..\packages\EasyNetQ.0.35.6.302\lib\net40\EasyNetQ.dll</HintPath>
+    </Reference>
+    <Reference Include="EasyNetQ.Management.Client">
+      <HintPath>..\packages\EasyNetQ.Management.Client.0.35.6.302\lib\net40\EasyNetQ.Management.Client.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=1.4.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
@@ -96,6 +102,9 @@
     </Reference>
     <Reference Include="ObjectDumper">
       <HintPath>..\packages\ObjectDumper.1.0.0.12\lib\net35-Client\ObjectDumper.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.3.2\lib\net30\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib, Version=0.8.2.17096, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -339,6 +348,8 @@
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenMap.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenRepository.cs" />
     <Compile Include="Domain\User\Ops\UserSummary.cs" />
+    <Compile Include="Infrastructure\Bus\Bus.cs" />
+    <Compile Include="Infrastructure\Bus\BusMgmt.cs" />
     <Compile Include="Infrastructure\ExecAsync.cs" />
     <Compile Include="Infrastructure\Logging\Logger.cs" />
     <Compile Include="Infrastructure\Logging\Loggly.cs" />
