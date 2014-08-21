@@ -40,16 +40,79 @@ class ReferenceUi
         $("#AddReference").click((e) => {
             e.preventDefault();
 
-            var referenceType = $('#ReferenceType option:selected').attr('value');
-            if(referenceType == "Book")
-                this.AddReferenceSearch(new ReferenceBook());
-            if (referenceType == "Article")
-                this.AddReferenceSearch(new ReferenceArticle());
-            if (referenceType == "VolumeChapter")
-                this.AddReferenceSearch(new ReferenceVolumeChapter());
-            if (referenceType == "WebsiteArticle")
-                this.AddReferenceSearch(new ReferenceWebsiteArticle());
+            //var referenceType = $('#ReferenceType option:selected').attr('value');
+            //if(referenceType == "Book")
+            //    this.AddReferenceSearch(new ReferenceBook());
+            //if (referenceType == "Article")
+            //    this.AddReferenceSearch(new ReferenceArticle());
+            //if (referenceType == "VolumeChapter")
+            //    this.AddReferenceSearch(new ReferenceVolumeChapter());
+            //if (referenceType == "WebsiteArticle")
+            //    this.AddReferenceSearch(new ReferenceWebsiteArticle());
+            $('#JS-ReferenceSearch').show();
+            $('#AddReferenceControls').hide();
+
+            $("#ReferenceType").change(() => {
+                //debugger;
+
+                var referenceType = $('#ReferenceType option:selected').attr('value');
+                if(referenceType == "Book")
+                    this.AddReferenceSearchXX(new ReferenceBook());
+                if (referenceType == "Article")
+                    this.AddReferenceSearchXX(new ReferenceArticle());
+                if (referenceType == "VolumeChapter")
+                    this.AddReferenceSearchXX(new ReferenceVolumeChapter());
+                if (referenceType == "WebsiteArticle")
+                    this.AddReferenceSearchXX(new ReferenceWebsiteArticle());
+            });
+
+            $("#ReferenceType").trigger('change');
+
         });
+
+        $('#JS-HideReferenceSearch').click((e) => {
+            e.preventDefault();
+            $('#JS-ReferenceSearch').hide();
+            $('#AddReferenceControls').show();
+        });
+
+        //$("#ReferenceType").change(() => {
+        //    //debugger;
+
+        //    var referenceType = $('#ReferenceType option:selected').attr('value');
+        //    if(referenceType == "Book")
+        //        this.AddReferenceSearchX(new ReferenceBook());
+        //    if (referenceType == "Article")
+        //        this.AddReferenceSearchX(new ReferenceArticle());
+        //    if (referenceType == "VolumeChapter")
+        //        this.AddReferenceSearchX(new ReferenceVolumeChapter());
+        //    if (referenceType == "WebsiteArticle")
+        //        this.AddReferenceSearchX(new ReferenceWebsiteArticle());
+        //});
+    }
+
+    public AddReferenceSearchX(reference: Reference) {
+        $('#txtReference').attr('placeholder', reference.SearchFieldPlaceholder);
+        new AutocompleteCategories(
+            "#txtReference",
+            true,
+            reference.FilterType,
+            "",
+            function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); },
+            true
+            );
+    }
+
+    public AddReferenceSearchXX(reference: Reference) {
+        $('#ReferenceSearchInput').attr('placeholder', reference.SearchFieldPlaceholder);
+        new AutocompleteCategories(
+            "#ReferenceSearchInput",
+            true,
+            reference.FilterType,
+            "",
+            function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); },
+            true
+            );
     }
 
     public AddReferenceSearch(reference: Reference) {

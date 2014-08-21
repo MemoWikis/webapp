@@ -153,16 +153,37 @@ class AutocompleteCategories {
                     url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
                     type: 'GET',
                     success: function (data) {
-                        elemInput.closest('.JS-ReferenceContainer')
+                        var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
+                        var refIdxes = new Array;
+                        for (var i = 0; i < existingReferences.length; i++) {
+                            refIdxes.push(parseInt($(existingReferences[i]).attr('data-ref-idx')));
+                        }
+                        var nextRefIdx = 1;
+                        if (existingReferences.length != 0) {
+                            nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
+                        }
+
+                        $("<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "class='JS-ReferenceContainer well'>" +
+                                "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" +
+                            "</div>").insertBefore('#JS-ReferenceSearch');
+                        $("#delete-ref-" + nextRefIdx).click(function (e) {
+                            e.preventDefault();
+                            $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
+                        });
+                        elemInput.val("");
+                        $('#JS-ReferenceSearch').hide();
+                        $('#AddReferenceControls').show();
+                        $('#Ref-' + nextRefIdx)
+                        //elemInput.closest('.JS-ReferenceContainer')
                             .append(data)
-                            .append("<div class='form-group'>" +
+                            .append("<div class='form-group' style='margin-bottom: 0;'>" +
                                         "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" +
                                         "<div class='columnControlsFull'>" +
-                                            "<input class='InputRefAddition form-control' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" +
+                                            "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" +
                                         "</div>" +
                                     "</div>")
-                            .append("<input type='hidden' value='" + catId + "' name='ref-" + catIdx + "'/>");
-                        elemInput.closest('.JS-ReferenceSearch').remove();
+                            .append("<input type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
+                        //elemInput.closest('.JS-ReferenceSearch').remove();
                         $('.show-tooltip').tooltip();
                     }
                 });

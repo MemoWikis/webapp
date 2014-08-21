@@ -19,6 +19,7 @@ namespace TrueOrFalse
         public virtual string SolutionMetadataJson { get; set; }
 
         public virtual IList<Category> Categories { get; set; }
+        public virtual IList<Reference> References { get; set; }
         public virtual QuestionVisibility Visibility { get; set; }
 
         public virtual User Creator { get; set; }
@@ -70,6 +71,7 @@ namespace TrueOrFalse
         public Question()
         {
             Categories = new List<Category>();
+            References = new List<Reference>();
         }
 
         public virtual string GetShortTitle(int length = 96) 

@@ -25,7 +25,7 @@ namespace TrueOrFalse.Tests
             _questionRepository = questionRepository;
         }
 
-        public ContextQuestion AddQuestion(string questionText, string solutionText)
+        public ContextQuestion AddQuestion(string questionText = "defaultText", string solutionText = "defaultSolution")
         {
             var question = new Question();
             question.Text = questionText;

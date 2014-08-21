@@ -201,6 +201,7 @@
     <Compile Include="2 Domain\Message\Message_persistence.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerDate_date_tests.cs" />
     <Compile Include="2 Domain\Question\Questions_in_Sets.cs" />
+    <Compile Include="2 Domain\Question\Reference\Reference_persistence.cs" />
     <Compile Include="2 Domain\Set\Set_manipulate.cs" />
     <Compile Include="2 Domain\Set\Set_persistence.cs" />
     <Compile Include="2 Domain\Set\Setup\ContextSet.cs" />

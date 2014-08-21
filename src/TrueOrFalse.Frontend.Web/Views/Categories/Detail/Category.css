@@ -30,14 +30,7 @@ span.CategoryType {
   margin-bottom: 5px;
 }
 .Reference .Icon,
-.Reference.Daily .Name,
-.Reference.DailyArticle .Title,
-.Reference.DailyIssue .Name,
-.Reference.Magazine .Name,
-.Reference.MagazineArticle .Title,
-.Reference.MagazineIssue .Name,
-.Reference.VolumeChapter .Title,
-.Reference.WebsiteArticle .Title {
+.Reference .Name {
   display: none !important;
 }
 .Reference .Author {
