@@ -1,4 +1,5 @@
-﻿using NHibernate.Linq;
+﻿using System.Diagnostics;
+using NHibernate.Linq;
 
 namespace TrueOrFalse
 {
@@ -25,7 +26,6 @@ namespace TrueOrFalse
 
         public void Run(int questionId, int userId)
         {
-
             var questionValuation =
                 _questionValuationRepository.GetBy(questionId, userId) ?? 
                 new QuestionValuation{QuestionId = questionId, UserId = userId};
@@ -35,6 +35,8 @@ namespace TrueOrFalse
 
         private void Run(QuestionValuation questionValuation)
         {
+            var sp = Stopwatch.StartNew();
+
             var questionId = questionValuation.QuestionId;
             var userId = questionValuation.UserId;
 
@@ -53,7 +55,9 @@ namespace TrueOrFalse
                         KnowledgeStatus.Secure : 
                         KnowledgeStatus.Weak;
 
-            _questionValuationRepository.CreateOrUpdate(questionValuation);            
+            _questionValuationRepository.CreateOrUpdate(questionValuation);
+
+            Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, questionId, userId);
         }
     }
 }

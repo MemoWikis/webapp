@@ -32,12 +32,11 @@ public class KnowledgeModel : BaseModel
     public KnowledgeModel()
     {
         var sp = Stopwatch.StartNew();
-
         if (IsLoggedIn)
         {
-            Loggly.Send("Dashboard-Probability-Start: " + sp.Elapsed, LogglyCategories.Performance);
+            Logg.r().Information("Dashboard-Probability-Start: " + sp.Elapsed);
             R<ProbabilityForUserUpdate>().Run(UserId);
-            Loggly.Send("Dashboard-Probability-Stop: " + sp.Elapsed, LogglyCategories.Performance);
+            Logg.r().Information("Dashboard-Probability-Stop: " + sp.Elapsed);
         }
 
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
