@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using ObjectDumper;
 
 namespace TrueOrFalse.Tests
 {
@@ -14,9 +15,10 @@ namespace TrueOrFalse.Tests
         [Ignore]
         public void Should_connect_to_message_queue()
         {
-            var vhosts = BusMgmt.GetVHosts();
-            var queues = BusMgmt.GetQueues();
             BusMgmt.CreateTestQueue();
+            
+            var message = new  { Test = "Hello Rabbit" };
+            Bus.Get().Publish(message);
         }
     }
 }

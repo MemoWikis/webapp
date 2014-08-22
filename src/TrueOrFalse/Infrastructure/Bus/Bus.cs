@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using EasyNetQ;
 
-class Bus
+public class Bus
 {
-    public static IBus  Get()
+    public static IBus Get()
     {
         return RabbitHutch.CreateBus("host=localhost");
     }

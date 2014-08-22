@@ -25,11 +25,11 @@ public class BusMgmt
 
     public static void CreateTestQueue()
     {
-        _client.CreateQueue(new QueueInfo("SomeQueue"), GetTestingHost());        
+        _client.CreateQueue(new QueueInfo("TestQueue"), GetVhost());        
     }
 
-    private static Vhost GetTestingHost()
+    private static Vhost GetVhost()
     {
-        return _client.CreateVirtualHost("_testingHost");
+        return _client.GetVhost("/");
     }
 }
