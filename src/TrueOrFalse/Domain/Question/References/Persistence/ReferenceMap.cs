@@ -12,7 +12,7 @@ namespace TrueOrFalse
         {
             Id(x => x.Id);
 
-            References(x => x.Question);
+            References(x => x.Question).Cascade.None();
             References(x => x.Category);
 
             Map(x => x.AdditionalInfo);

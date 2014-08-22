@@ -27,5 +27,29 @@ namespace TrueOrFalse.Tests.Persistence
             questions[0].Solution.StartsWith("Another").Should().Be.True();
             questions[1].Solution.StartsWith("Some").Should().Be.True();
         }
+
+        [Test]
+        public void bla()
+        {
+            //Arrange
+            var context = ContextQuestion.New()
+                    .AddQuestion("Q")
+                        .AddCategory("C")
+                    .Persist();
+            
+            RecycleContainer();
+
+            //Act
+            var session = R<ISession>();
+            var questionFromDb = session.QueryOver<Question>().List()[0];
+            session.Delete(questionFromDb);
+            session.Flush();
+
+            RecycleContainer();
+            
+            //Question löschen
+            //Assert
+            //categorytoquestion gelöscht, Category nicht gelöscht
+        }
     }
 }

@@ -53,6 +53,8 @@ namespace TrueOrFalse.Tests
             foreach (var question in All)
                 _questionRepository.Create(question);
 
+            _questionRepository.Flush();
+
             return this;
         }
 

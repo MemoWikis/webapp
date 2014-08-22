@@ -37,7 +37,7 @@ namespace TrueOrFalse
             Map(x => x.SolutionType);
             Map(x => x.SolutionMetadataJson);
 
-            HasMany(x => x.References).Cascade.All();
+            HasMany(x => x.References).Cascade.AllDeleteOrphan();
             HasManyToMany(x => x.Categories)
                 .Table("CategoriesToQuestions")
                 .Cascade.SaveUpdate();

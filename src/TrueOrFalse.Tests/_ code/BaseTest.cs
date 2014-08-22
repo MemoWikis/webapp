@@ -2,6 +2,7 @@
 using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
+using NHibernate;
 using NUnit.Framework;
 using SolrNet;
 using SolrNet.Impl;
@@ -32,6 +33,8 @@ namespace TrueOrFalse.Tests
 
         public void RecycleContainer()
         {
+            R<ISession>().Flush();
+            _container.Dispose();
             BuildContainer();
         }
 
