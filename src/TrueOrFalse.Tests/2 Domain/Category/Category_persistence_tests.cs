@@ -27,13 +27,14 @@ namespace TrueOrFalse.Tests.Persistence
             };
             categoryRepo.Create(category);
 
+
             var categoryFromDb = categoryRepo.GetAll().First();
-            
             Assert.That(categoryFromDb.Name, Is.EqualTo("Sports"));
             Assert.That(categoryFromDb.Type, Is.EqualTo(CategoryType.Standard));
 
-            base.RecycleContainer();
+            RecycleContainer();
 
+            categoryFromDb = categoryRepo.GetAll().First();
             var categoryFromDb2 = categoryRepo.GetById(categoryFromDb.Id);
             Assert.That(categoryFromDb2.Type, Is.EqualTo(CategoryType.Standard));
         }

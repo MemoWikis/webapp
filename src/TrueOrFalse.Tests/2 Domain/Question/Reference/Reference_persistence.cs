@@ -69,13 +69,10 @@ namespace TrueOrFalse.Tests.Persistence
             //Assert
             RecycleContainer();
 
-            var questionFromDb = R<QuestionRepository>().GetAll()[0];
+            var questionRepo = R<QuestionRepository>();
+            var questionFromDb = questionRepo.GetAll()[0];
             Assert.That(questionFromDb.References.Count, Is.EqualTo(2));
             Assert.That(questionFromDb.References[0].Question, Is.EqualTo(questionFromDb));
-
-
-            questionFromDb.References = new Reference[]{};
-            R<QuestionRepository>().Update(questionFromDb);
         }
 
         [Test]

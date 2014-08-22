@@ -78,6 +78,7 @@ namespace TrueOrFalse.Tests
 
             builder.RegisterModule(new SolrNetModule(cores));
             _container = builder.Build();
+            ServiceLocator.Init(_container);
         }
 
         public static T Resolve<T>()
