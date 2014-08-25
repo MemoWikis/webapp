@@ -3,7 +3,7 @@
         Question: {
             required: true
         },
-        Description: {
+        Text: {
             required: true
         },
         ConfirmContentRights: {
