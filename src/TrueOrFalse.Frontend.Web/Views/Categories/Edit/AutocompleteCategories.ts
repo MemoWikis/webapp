@@ -69,7 +69,7 @@ class AutocompleteCategories {
         filterType: AutoCompleteFilterType = AutoCompleteFilterType.None,
         selectorParent: string = "",
         onSelect: (catId : string, catIdx: string, catName: string) => void = null,
-        isReference : boolean = false) {
+        isReference: boolean = false) {
 
         this._filterType = filterType;
 
@@ -89,11 +89,12 @@ class AutocompleteCategories {
 
         var nextCatIdx = 1;
 
-        function addCatWithoutTriggers() {
-            addCat(true);
+        function addCatWithoutTriggers(referenceId: number = -1) {
+            debugger;
+            addCat(true, referenceId);
         }
 
-        function addCat(withoutTriggers : boolean = false) {
+        function addCat(withoutTriggers : boolean = false, referenceId : number = -1) {
             var catIdx = nextCatIdx.toString();
             nextCatIdx++;
             var catText = $(inputSelector).val();
@@ -163,7 +164,7 @@ class AutocompleteCategories {
                             nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
                         }
 
-                        $("<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "class='JS-ReferenceContainer well'>" +
+                        $("<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + referenceId + "'" + "class='JS-ReferenceContainer well'>" +
                                 "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" +
                             "</div>").insertBefore('#JS-ReferenceSearch');
                         $("#delete-ref-" + nextRefIdx).click(function (e) {
@@ -174,7 +175,6 @@ class AutocompleteCategories {
                         $('#JS-ReferenceSearch').hide();
                         $('#AddReferenceControls').show();
                         $('#Ref-' + nextRefIdx)
-                        //elemInput.closest('.JS-ReferenceContainer')
                             .append(data)
                             .append("<div class='form-group' style='margin-bottom: 0;'>" +
                                         "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" +
@@ -182,8 +182,9 @@ class AutocompleteCategories {
                                             "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" +
                                         "</div>" +
                                     "</div>")
-                            .append("<input type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
-                        //elemInput.closest('.JS-ReferenceSearch').remove();
+                            .append("<input class='JS-hddRefInput' type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
+                        $(window).trigger('referenceAdded' + referenceId);
+                        //$(window).trigger('triggered');
                         $('.show-tooltip').tooltip();
                     }
                 });
@@ -322,8 +323,7 @@ class AutocompleteCategories {
         }
 
         $(inputSelector).keypress(fnCheckTextAndAdd);
-        $(inputSelector).bind("initCategoryFromTxt", addCatWithoutTriggers);
-         
+        $(inputSelector).bind("initCategoryFromTxt", function (event, referenceId: number = -1) { addCatWithoutTriggers(referenceId); });
     }
 
     GetAlreadyAddedCategories(container : JQuery, id : string) : JQuery {

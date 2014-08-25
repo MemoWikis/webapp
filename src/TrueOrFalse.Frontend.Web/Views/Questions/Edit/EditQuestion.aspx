@@ -205,6 +205,25 @@
                     
                         <%--<div id="JS-References" class="columnControlsFull"></div>--%>
                         <div id="JS-References" class="columnControlsFull">
+                            <script type="text/javascript">
+                                $(function() {
+                                    <%foreach (var reference in Model.References) {
+                                        if (reference.Category != null) {%>
+                                            $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
+                                                $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.InputRefAddition').val('<%= reference.AdditionalInfo%>');
+                                            });
+
+                                            $("#AddReference").trigger('click');
+                                            $("#ReferenceSearchInput")
+                                                    .data('category-id', '<%=reference.Category.Id %>')
+                                                    .trigger('initCategoryFromTxt', '<%=reference.Id %>'); 
+                                        <% } else {%>
+                                        
+                                        <%}
+                                    } %>
+
+                                });
+                            </script>
                             <div id="JS-ReferenceSearch" class='JS-ReferenceContainer well' style="display: none;">
                                 <a id='JS-HideReferenceSearch' class='close' href ='#'>×</a>
                                 <div class='JS-ReferenceSearch'>

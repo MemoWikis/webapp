@@ -64,12 +64,15 @@ var AutocompleteCategories = (function () {
 
         var nextCatIdx = 1;
 
-        function addCatWithoutTriggers() {
-            addCat(true);
+        function addCatWithoutTriggers(referenceId) {
+            if (typeof referenceId === "undefined") { referenceId = -1; }
+            debugger;
+            addCat(true, referenceId);
         }
 
-        function addCat(withoutTriggers) {
+        function addCat(withoutTriggers, referenceId) {
             if (typeof withoutTriggers === "undefined") { withoutTriggers = false; }
+            if (typeof referenceId === "undefined") { referenceId = -1; }
             var catIdx = nextCatIdx.toString();
             nextCatIdx++;
             var catText = $(inputSelector).val();
@@ -125,7 +128,7 @@ var AutocompleteCategories = (function () {
                             nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
                         }
 
-                        $("<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "class='JS-ReferenceContainer well'>" + "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" + "</div>").insertBefore('#JS-ReferenceSearch');
+                        $("<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + referenceId + "'" + "class='JS-ReferenceContainer well'>" + "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" + "</div>").insertBefore('#JS-ReferenceSearch');
                         $("#delete-ref-" + nextRefIdx).click(function (e) {
                             e.preventDefault();
                             $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
@@ -133,9 +136,10 @@ var AutocompleteCategories = (function () {
                         elemInput.val("");
                         $('#JS-ReferenceSearch').hide();
                         $('#AddReferenceControls').show();
-                        $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
+                        $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input class='JS-hddRefInput' type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
+                        $(window).trigger('referenceAdded' + referenceId);
 
-                        //elemInput.closest('.JS-ReferenceSearch').remove();
+                        //$(window).trigger('triggered');
                         $('.show-tooltip').tooltip();
                     }
                 });
@@ -258,7 +262,10 @@ var AutocompleteCategories = (function () {
         };
 
         $(inputSelector).keypress(fnCheckTextAndAdd);
-        $(inputSelector).bind("initCategoryFromTxt", addCatWithoutTriggers);
+        $(inputSelector).bind("initCategoryFromTxt", function (event, referenceId) {
+            if (typeof referenceId === "undefined") { referenceId = -1; }
+            addCatWithoutTriggers(referenceId);
+        });
     }
     AutocompleteCategories.prototype.GetAlreadyAddedCategories = function (container, id) {
         return container.find(".added-cat input[value='" + id + "']");
