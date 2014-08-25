@@ -40,30 +40,20 @@ class ReferenceUi
         $("#AddReference").click((e) => {
             e.preventDefault();
 
-            //var referenceType = $('#ReferenceType option:selected').attr('value');
-            //if(referenceType == "Book")
-            //    this.AddReferenceSearch(new ReferenceBook());
-            //if (referenceType == "Article")
-            //    this.AddReferenceSearch(new ReferenceArticle());
-            //if (referenceType == "VolumeChapter")
-            //    this.AddReferenceSearch(new ReferenceVolumeChapter());
-            //if (referenceType == "WebsiteArticle")
-            //    this.AddReferenceSearch(new ReferenceWebsiteArticle());
             $('#JS-ReferenceSearch').show();
             $('#AddReferenceControls').hide();
 
             $("#ReferenceType").change(() => {
-                //debugger;
 
                 var referenceType = $('#ReferenceType option:selected').attr('value');
                 if(referenceType == "Book")
-                    this.AddReferenceSearchXX(new ReferenceBook());
+                    this.AddReferenceSearch(new ReferenceBook());
                 if (referenceType == "Article")
-                    this.AddReferenceSearchXX(new ReferenceArticle());
+                    this.AddReferenceSearch(new ReferenceArticle());
                 if (referenceType == "VolumeChapter")
-                    this.AddReferenceSearchXX(new ReferenceVolumeChapter());
+                    this.AddReferenceSearch(new ReferenceVolumeChapter());
                 if (referenceType == "WebsiteArticle")
-                    this.AddReferenceSearchXX(new ReferenceWebsiteArticle());
+                    this.AddReferenceSearch(new ReferenceWebsiteArticle());
             });
 
             $("#ReferenceType").trigger('change');
@@ -75,35 +65,9 @@ class ReferenceUi
             $('#JS-ReferenceSearch').hide();
             $('#AddReferenceControls').show();
         });
-
-        //$("#ReferenceType").change(() => {
-        //    //debugger;
-
-        //    var referenceType = $('#ReferenceType option:selected').attr('value');
-        //    if(referenceType == "Book")
-        //        this.AddReferenceSearchX(new ReferenceBook());
-        //    if (referenceType == "Article")
-        //        this.AddReferenceSearchX(new ReferenceArticle());
-        //    if (referenceType == "VolumeChapter")
-        //        this.AddReferenceSearchX(new ReferenceVolumeChapter());
-        //    if (referenceType == "WebsiteArticle")
-        //        this.AddReferenceSearchX(new ReferenceWebsiteArticle());
-        //});
     }
 
-    public AddReferenceSearchX(reference: Reference) {
-        $('#txtReference').attr('placeholder', reference.SearchFieldPlaceholder);
-        new AutocompleteCategories(
-            "#txtReference",
-            true,
-            reference.FilterType,
-            "",
-            function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); },
-            true
-            );
-    }
-
-    public AddReferenceSearchXX(reference: Reference) {
+    public AddReferenceSearch(reference: Reference) {
         $('#ReferenceSearchInput').attr('placeholder', reference.SearchFieldPlaceholder);
         new AutocompleteCategories(
             "#ReferenceSearchInput",
@@ -113,36 +77,6 @@ class ReferenceUi
             function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); },
             true
             );
-    }
-
-    public AddReferenceSearch(reference: Reference) {
-        var refIdx = this._nextRefIdx;
-        var refSelector = "txtReference-" + refIdx;
-        this._nextRefIdx++;
-        $("#JS-References")
-            .append
-            ("<div class='JS-ReferenceContainer well'>" +
-                "<a id='delete-ref-" + refIdx + "'" + " class='close' href ='#'>×</a>" +
-                "<div class='JS-ReferenceSearch'>" +
-                    "<label class='control-label LabelInline'>" + reference.LabelText + "</label>" +
-                    "<div class='JS-CatInputContainer ControlInline'>" +
-                        "<input id='" + refSelector + "' class='form-control' name ='txtReference' type ='text' value ='' placeholder='" + reference.SearchFieldPlaceholder + "'/>" +
-                    "</div>" +
-                "</div>" +
-            "</div>");
-        new AutocompleteCategories(
-            "#" + refSelector,
-            true,
-            reference.FilterType,
-            "",
-            function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); },
-            true
-        );
-
-        $("#delete-ref-" + refIdx).click(function (e) {
-            e.preventDefault();
-            $("#delete-ref-" + refIdx).closest('.JS-ReferenceContainer').remove();
-        });
     }
 }
 

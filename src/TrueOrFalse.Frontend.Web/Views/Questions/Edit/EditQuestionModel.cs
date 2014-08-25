@@ -40,6 +40,7 @@ public class EditQuestionModel : BaseModel
     public int Id = -1;
 
     public IList<Category> Categories = new List<Category>();
+    public IList<Reference> References = new List<Reference>();
 
     public string PageTitle;
     public string FormTitle;
@@ -95,11 +96,22 @@ public class EditQuestionModel : BaseModel
         ImageUrl_128 = QuestionImageSettings.Create(question.Id).GetUrl_500px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
         Visibility = question.Visibility;
+        //$temp:
+        References.Add(new Reference { Id = 1, Category = R<CategoryRepository>().GetById(73), AdditionalInfo = "Additional Info" });
+
     }
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
     {
         Categories = RelatedCategoriesUtils.GetReleatedCategoriesFromPostData(postData);
+    }
+
+    public void FillReferencesFromPostData(NameValueCollection postData)
+    {
+        //wenn create:
+        //für jedes Feld key starts with ref- neue Reference erstellen, zugehörige Felder zuordnen,
+        //zu References hinzufügen
+        //wenn edit
     }
 
     public void SetToCreateModel()
