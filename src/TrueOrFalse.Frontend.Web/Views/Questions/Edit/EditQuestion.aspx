@@ -206,22 +206,25 @@
                         <%--<div id="JS-References" class="columnControlsFull"></div>--%>
                         <div id="JS-References" class="columnControlsFull">
                             <script type="text/javascript">
-                                $(function() {
-                                    <%foreach (var reference in Model.References) {
-                                        if (reference.Category != null) {%>
-                                            $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
-                                                $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.InputRefAddition').val('<%= reference.AdditionalInfo%>');
-                                            });
-
-                                            $("#AddReference").trigger('click');
-                                            $("#ReferenceSearchInput")
-                                                    .data('category-id', '<%=reference.Category.Id %>')
-                                                    .trigger('initCategoryFromTxt', '<%=reference.Id %>'); 
-                                        <% } else {%>
+                                $(function () {
+                                    $("#AddReference").trigger('click');
+                                    <%
+                                    var i = 1;
+                                    foreach (var reference in Model.References) {%>
+                                        setTimeout(function() {
+                                            <%if (reference.Category != null) {%>
+                                                $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
+                                                    $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.InputRefAddition').val('<%= reference.AdditionalInfo%>');
+                                                });
+                                                $("#ReferenceSearchInput")
+                                                        .data('category-id', '<%=reference.Category.Id %>')
+                                                        .trigger('initCategoryFromTxt', '<%=reference.Id %>'); 
+                                            <% } else {%>
                                         
-                                        <%}
+                                            <%}%>
+                                        }, <%= i * 200 %>);<%
+                                        i++;
                                     } %>
-
                                 });
                             </script>
                             <div id="JS-ReferenceSearch" class='JS-ReferenceContainer well' style="display: none;">

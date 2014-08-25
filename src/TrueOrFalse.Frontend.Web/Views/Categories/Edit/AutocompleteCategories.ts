@@ -90,7 +90,6 @@ class AutocompleteCategories {
         var nextCatIdx = 1;
 
         function addCatWithoutTriggers(referenceId: number = -1) {
-            debugger;
             addCat(true, referenceId);
         }
 
@@ -109,9 +108,9 @@ class AutocompleteCategories {
                     catIdx = inputSelector.substring(1);
                     elemInput.closest(".JS-CatInputContainer").before(
                         "<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" +
-                        "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" +
-                        "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " +
-                        "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +
+                            "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" +
+                            "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " +
+                            "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +
                         "</div> ");
                     elemInput.attr("type", "hidden").hide();
 
@@ -123,9 +122,9 @@ class AutocompleteCategories {
                 } else {
                     elemInput.closest(".JS-CatInputContainer").before(
                         "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
-                        "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" +
-                        "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" +
-                        "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
+                            "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" +
+                            "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" +
+                            "<a href='#' id='delete-cat-" + catIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
                         "</div> ");
                 }
 
@@ -184,7 +183,6 @@ class AutocompleteCategories {
                                     "</div>")
                             .append("<input class='JS-hddRefInput' type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
                         $(window).trigger('referenceAdded' + referenceId);
-                        //$(window).trigger('triggered');
                         $('.show-tooltip').tooltip();
                     }
                 });

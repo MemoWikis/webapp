@@ -98,6 +98,8 @@ public class EditQuestionModel : BaseModel
         Visibility = question.Visibility;
         //$temp:
         References.Add(new Reference { Id = 1, Category = R<CategoryRepository>().GetById(73), AdditionalInfo = "Additional Info" });
+        References.Add(new Reference { Id = 2, Category = R<CategoryRepository>().GetById(75), AdditionalInfo = "Additional Info2" });
+        References.Add(new Reference { Id = 3, Category = R<CategoryRepository>().GetById(115), AdditionalInfo = "Additional Info3" });
 
     }
 

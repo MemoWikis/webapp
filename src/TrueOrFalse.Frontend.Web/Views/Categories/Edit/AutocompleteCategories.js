@@ -66,7 +66,6 @@ var AutocompleteCategories = (function () {
 
         function addCatWithoutTriggers(referenceId) {
             if (typeof referenceId === "undefined") { referenceId = -1; }
-            debugger;
             addCat(true, referenceId);
         }
 
@@ -138,8 +137,6 @@ var AutocompleteCategories = (function () {
                         $('#AddReferenceControls').show();
                         $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input class='JS-hddRefInput' type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
                         $(window).trigger('referenceAdded' + referenceId);
-
-                        //$(window).trigger('triggered');
                         $('.show-tooltip').tooltip();
                     }
                 });
