@@ -77,7 +77,7 @@ namespace TrueOrFalse
 
         public bool Exists(string categoryName)
         {
-            return GetByName(categoryName).Any();
+            return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);
         }
 
         public IList<Category> GetChildren(int categoryId)
