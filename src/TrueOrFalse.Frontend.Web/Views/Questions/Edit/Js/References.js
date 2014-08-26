@@ -77,6 +77,8 @@ var ReferenceUi = (function () {
                     _this.AddReferenceSearch(new ReferenceVolumeChapter());
                 if (referenceType == "WebsiteArticle")
                     _this.AddReferenceSearch(new ReferenceWebsiteArticle());
+                if (referenceType == "FreeText")
+                    _this.AddFreetextReference();
             });
 
             $("#ReferenceType").trigger('change');
@@ -89,15 +91,25 @@ var ReferenceUi = (function () {
         });
     }
     ReferenceUi.prototype.AddReferenceSearch = function (reference) {
-        $('#ReferenceSearchInput').attr('placeholder', reference.SearchFieldPlaceholder);
+        $('#AddFreeTextReference').hide();
+        $('#ReferenceSearchInput').show().attr('placeholder', reference.SearchFieldPlaceholder);
         new AutocompleteCategories("#ReferenceSearchInput", true, reference.FilterType, "", function (catId, catIdx, catName) {
             alert('Add cat "' + catName + "");
         }, true);
+    };
+
+    ReferenceUi.prototype.AddFreetextReference = function () {
+        $('#ReferenceSearchInput').hide();
+        $('#AddFreeTextReference').show();
     };
     return ReferenceUi;
 })();
 
 $(function () {
     new ReferenceUi();
+    $('#AddFreeTextReference button').click(function (e) {
+        e.preventDefault();
+        $("#ReferenceSearchInput").data('category-id', '-1').trigger('initCategoryFromTxt');
+    });
 });
 //# sourceMappingURL=References.js.map

@@ -119,6 +119,9 @@ select.form-control {
   min-width: 155px;
   text-align: left;
 }
+#choices .input-group input {
+  max-width: none;
+}
 @media (max-width: 479px) {
   #choices .input-group {
     display: block;
@@ -158,6 +161,7 @@ select.form-control {
 #JS-References .JS-ReferenceContainer,
 #AddReferenceControls .JS-ReferenceContainer {
   background-color: #e7ecf6;
+  position: relative;
 }
 #JS-References .JS-ReferenceContainer:before,
 #AddReferenceControls .JS-ReferenceContainer:before,
@@ -172,9 +176,9 @@ select.form-control {
 }
 #JS-References .JS-ReferenceContainer .close,
 #AddReferenceControls .JS-ReferenceContainer .close {
-  position: relative;
-  top: -14px;
-  right: -10px;
+  position: absolute;
+  right: 5px;
+  top: 3px;
 }
 #JS-References .Reference,
 #AddReferenceControls .Reference {

@@ -85,6 +85,10 @@
         text-align: left;
     }
 
+    .input-group input {
+        max-width: none;
+    }
+
     @media (max-width: @screen-xxs-max) {
 
         .input-group {
@@ -141,11 +145,12 @@
     .JS-ReferenceContainer {
         #Clearfix;
         background-color: @color-background-lightblue-darker;
+        position: relative;
 
         .close {
-            position: relative;
-            top: -14px;
-            right: -10px;
+            position: absolute;
+            right: 5px;
+            top: 3px;
         }
     }
 

@@ -113,33 +113,40 @@ var AutocompleteCategories = (function () {
                 });
                 $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
             } else {
-                $.ajax({
-                    url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
-                    type: 'GET',
-                    success: function (data) {
-                        var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
-                        var refIdxes = new Array;
-                        for (var i = 0; i < existingReferences.length; i++) {
-                            refIdxes.push(parseInt($(existingReferences[i]).attr('data-ref-idx')));
-                        }
-                        var nextRefIdx = 1;
-                        if (existingReferences.length != 0) {
-                            nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
-                        }
-
-                        $("<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + referenceId + "'" + "class='JS-ReferenceContainer well'>" + "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" + "</div>").insertBefore('#JS-ReferenceSearch');
-                        $("#delete-ref-" + nextRefIdx).click(function (e) {
-                            e.preventDefault();
-                            $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
-                        });
-                        elemInput.val("");
-                        $('#JS-ReferenceSearch').hide();
-                        $('#AddReferenceControls').show();
-                        $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + catId + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + catId + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input class='JS-hddRefInput' type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
-                        $(window).trigger('referenceAdded' + referenceId);
-                        $('.show-tooltip').tooltip();
-                    }
+                var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
+                var refIdxes = new Array;
+                for (var i = 0; i < existingReferences.length; i++) {
+                    refIdxes.push(parseInt($(existingReferences[i]).attr('data-ref-idx')));
+                }
+                var nextRefIdx = 1;
+                if (existingReferences.length != 0) {
+                    nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
+                }
+                var dataToAppend;
+                $("<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + referenceId + "'" + "class='JS-ReferenceContainer well'>" + "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" + "</div>").insertBefore('#JS-ReferenceSearch');
+                $("#delete-ref-" + nextRefIdx).click(function (e) {
+                    e.preventDefault();
+                    $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
                 });
+                elemInput.val("");
+                $('#JS-ReferenceSearch').hide();
+                $('#AddReferenceControls').show();
+
+                if (catId != -1) {
+                    $.ajax({
+                        url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
+                        type: 'GET',
+                        success: function (data) {
+                            $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + nextRefIdx + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input class='JS-hddRefInput' type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
+                            $(window).trigger('referenceAdded' + referenceId);
+                            $('.show-tooltip').tooltip();
+                        }
+                    });
+                } else {
+                    $('#Ref-' + nextRefIdx).append("<div class='form-group' style='margin-bottom: 0;'>" + "<div class='columnControlsFull'>" + "<textarea class='FreeTextReference form-control' name='FreeTextReference-" + nextRefIdx + "' type='text' placeholder='Freitextquelle'></textarea>" + "</div>" + "</div>");
+                    $(window).trigger('referenceAdded' + referenceId);
+                    $('.show-tooltip').tooltip();
+                }
             }
         }
 
@@ -259,6 +266,7 @@ var AutocompleteCategories = (function () {
         };
 
         $(inputSelector).keypress(fnCheckTextAndAdd);
+        $(inputSelector).unbind("initCategoryFromTxt");
         $(inputSelector).bind("initCategoryFromTxt", function (event, referenceId) {
             if (typeof referenceId === "undefined") { referenceId = -1; }
             addCatWithoutTriggers(referenceId);

@@ -19,6 +19,10 @@
     padding-right: 0;
   }
 }
+#JS-ReferenceSearch .JS-CatInputContainer {
+  width: 50%;
+  min-width: 250px;
+}
 ul.ui-autocomplete a.CatListItem {
   border: 1px transparent solid;
   padding: 5px !important;
