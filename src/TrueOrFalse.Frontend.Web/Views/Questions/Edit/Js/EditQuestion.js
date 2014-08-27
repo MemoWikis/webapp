@@ -1,4 +1,4 @@
-﻿/// <reference path="MarkdownQuestionExt.ts" />
+/// <reference path="MarkdownQuestionExt.ts" />
 /// <reference path="MarkdownDescription.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
