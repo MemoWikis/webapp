@@ -86,12 +86,6 @@
 
                                 </label>
                             </div>
-                            <div class="radio">
-                                <label style="font-weight: normal">
-                                    <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.OwnerAndFriends, new { disabled = true} )  %>
-                                    für mich und meine Freunde<br/> <span class="smaller">(private Frage <i class="fa fa-lock"></i>)</span>
-                                </label>
-                            </div>
                             <div style="background-color: lavender; padding: 0 10px;">
                                 0 von 30 privaten Fragen verwendet.
                             </div>
@@ -171,7 +165,19 @@
                     <div class="form-group">
                         <%= Html.LabelFor(m => m.SolutionType, new { @class = "columnLabel control-label" }) %>
                         <div class="columnControlsSmall">
-                            <%= Html.DropDownListFor(m => Model.SolutionType, Model.AnswerTypeData, new {@id = "ddlAnswerType", @class="form-control"})%>
+                            <%= Html.DropDownListFor(m => Model.SolutionType,
+                                                            Model.AnswerTypeData,
+                                                            Model.IsEditing ? 
+                                                                (object)new 
+                                                                {
+                                                                    @id = "ddlAnswerType", @class="form-control",
+                                                                    disabled="disabled" 
+                                                                } :
+                                                                new
+                                                                {
+                                                                    @id = "ddlAnswerType", @class="form-control",
+                                                                })%>
+                            <%--http://stackoverflow.com/questions/23159003/optionally-disable-element-rendered-via-mvc#answer-23159114--%>
                         </div>
                     </div>
                 
@@ -260,7 +266,7 @@
                     </div>
                 </div>
                 <div class="FormSection">
-                    <div class="form-group">
+                    <div id="Agreement" class="form-group">
                         <div class="noLabel columnControlsFull">
                             <div class="checkbox">
                                 <label>

@@ -75,6 +75,19 @@
 .columnControlsFull .form-control-static {
   margin-left: 20px;
 }
+.aside .columnControlsFull .radio,
+.aside .columnControlsFull .form-control-static {
+  margin-left: 0;
+}
+/*.columnControlsFull {
+
+            .radio, .form-control-static {
+                margin-left: 20px;
+                aside {
+                    margin-left: 0;
+                }
+            }
+        }*/
 .columnControlsSmall {
   position: relative;
   float: left;
