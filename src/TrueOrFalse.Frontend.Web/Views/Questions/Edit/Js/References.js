@@ -93,9 +93,7 @@ var ReferenceUi = (function () {
     ReferenceUi.prototype.AddReferenceSearch = function (reference) {
         $('#AddFreeTextReference').hide();
         $('#ReferenceSearchInput').show().attr('placeholder', reference.SearchFieldPlaceholder);
-        new AutocompleteCategories("#ReferenceSearchInput", true, reference.FilterType, "", function (catId, catIdx, catName) {
-            alert('Add cat "' + catName + "");
-        }, true);
+        new AutocompleteCategories("#ReferenceSearchInput", true, reference.FilterType, "", true);
     };
 
     ReferenceUi.prototype.AddFreetextReference = function () {
@@ -103,6 +101,48 @@ var ReferenceUi = (function () {
         $('#AddFreeTextReference').show();
     };
     return ReferenceUi;
+})();
+
+var OnSelectForReference = (function () {
+    function OnSelectForReference() {
+    }
+    OnSelectForReference.prototype.OnSelect = function (autocomplete) {
+        var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
+        var refIdxes = new Array;
+        for (var i = 0; i < existingReferences.length; i++) {
+            refIdxes.push(parseInt($(existingReferences[i]).attr('data-ref-idx')));
+        }
+        var nextRefIdx = 1;
+        if (existingReferences.length != 0) {
+            nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
+        }
+        $("<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + autocomplete._referenceId + "'" + "class='JS-ReferenceContainer well'>" + "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" + "</div>").insertBefore('#JS-ReferenceSearch');
+        $("#delete-ref-" + nextRefIdx).click(function (e) {
+            e.preventDefault();
+            $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
+        });
+
+        autocomplete._elemInput.val("");
+        $('#JS-ReferenceSearch').hide();
+        $('#AddReferenceControls').show();
+
+        if (autocomplete._catId != -1) {
+            $.ajax({
+                url: '/Fragen/Bearbeite/ReferencePartial?catId=' + autocomplete._catId,
+                type: 'GET',
+                success: function (data) {
+                    $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + nextRefIdx + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input class='JS-hddRefCat' type='hidden' value='" + autocomplete._catId + "' name='ref-cat-" + nextRefIdx + "'/>");
+                    $(window).trigger('referenceAdded' + autocomplete._referenceId);
+                    $('.show-tooltip').tooltip();
+                }
+            });
+        } else {
+            $('#Ref-' + nextRefIdx).append("<div class='form-group' style='margin-bottom: 0;'>" + "<div class='columnControlsFull'>" + "<textarea class='FreeTextReference form-control' name='FreeTextReference-" + nextRefIdx + "' type='text' placeholder='Freitextquelle'></textarea>" + "</div>" + "</div>");
+            $(window).trigger('referenceAdded' + autocomplete._referenceId);
+            $('.show-tooltip').tooltip();
+        }
+    };
+    return OnSelectForReference;
 })();
 
 $(function () {

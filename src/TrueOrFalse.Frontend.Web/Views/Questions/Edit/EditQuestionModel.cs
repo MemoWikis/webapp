@@ -96,12 +96,6 @@ public class EditQuestionModel : BaseModel
         ImageUrl_128 = QuestionImageSettings.Create(question.Id).GetUrl_500px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
         Visibility = question.Visibility;
-        //$temp:
-        References.Add(new Reference { Id = 101, Category = R<CategoryRepository>().GetById(73), AdditionalInfo = "Additional Info" });
-        References.Add(new Reference { Id = 102, Category = R<CategoryRepository>().GetById(75), AdditionalInfo = "Additional Info2" });
-        References.Add(new Reference { Id = 103, Category = R<CategoryRepository>().GetById(115), AdditionalInfo = "Additional Info3" });
-        References.Add(new Reference { Id = 104, FreeTextReference = "Free text reference" });
-
     }
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
