@@ -157,7 +157,6 @@ class AutocompleteCategories {
                 if (existingReferences.length != 0) {
                     nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
                 }
-                var dataToAppend;
                 $(
                     "<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + referenceId + "'" + "class='JS-ReferenceContainer well'>" +
                     "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" +
@@ -184,7 +183,7 @@ class AutocompleteCategories {
                                     "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + nextRefIdx + "' type='text' placeholder='Seitenangaben etc.'/>" +
                                     "</div>" +
                                     "</div>")
-                                .append("<input class='JS-hddRefInput' type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
+                                .append("<input class='JS-hddRefCat' type='hidden' value='" + catId + "' name='ref-cat-" + nextRefIdx + "'/>");
                             $(window).trigger('referenceAdded' + referenceId);
                             $('.show-tooltip').tooltip();
                         }

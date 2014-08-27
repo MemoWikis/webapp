@@ -122,7 +122,6 @@ var AutocompleteCategories = (function () {
                 if (existingReferences.length != 0) {
                     nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
                 }
-                var dataToAppend;
                 $("<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + referenceId + "'" + "class='JS-ReferenceContainer well'>" + "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" + "</div>").insertBefore('#JS-ReferenceSearch');
                 $("#delete-ref-" + nextRefIdx).click(function (e) {
                     e.preventDefault();
@@ -137,7 +136,7 @@ var AutocompleteCategories = (function () {
                         url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
                         type: 'GET',
                         success: function (data) {
-                            $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + nextRefIdx + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input class='JS-hddRefInput' type='hidden' value='" + catId + "' name='ref-" + nextRefIdx + "'/>");
+                            $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceAddition-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + nextRefIdx + "' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>").append("<input class='JS-hddRefCat' type='hidden' value='" + catId + "' name='ref-cat-" + nextRefIdx + "'/>");
                             $(window).trigger('referenceAdded' + referenceId);
                             $('.show-tooltip').tooltip();
                         }
