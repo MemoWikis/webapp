@@ -1,4 +1,4 @@
-/// <reference path="MarkdownQuestionExt.ts" />
+﻿/// <reference path="MarkdownQuestionExt.ts" />
 /// <reference path="MarkdownDescription.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/jqueryui.d.ts" />
@@ -25,5 +25,12 @@ $(function () {
     }
     $("#ddlAnswerType").change(updateSolutionBody);
     updateSolutionBody();
+    $('[name="Visibility"]').change(function () {
+        if ($('input[name="Visibility"]:checked').val() == "Owner") {
+            $('#Agreement').hide();
+        } else {
+            $('#Agreement').show();
+        }
+    });
 });
 //# sourceMappingURL=EditQuestion.js.map

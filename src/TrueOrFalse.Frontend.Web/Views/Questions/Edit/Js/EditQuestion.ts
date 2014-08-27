@@ -25,4 +25,11 @@ $(function () {
     }
     $("#ddlAnswerType").change(updateSolutionBody);
     updateSolutionBody();
+    $('[name="Visibility"]').change(function () {
+        if ($('input[name="Visibility"]:checked').val() == "Owner") {
+            $('#Agreement').hide();
+        } else {
+            $('#Agreement').show();
+        }
+    });
 });
