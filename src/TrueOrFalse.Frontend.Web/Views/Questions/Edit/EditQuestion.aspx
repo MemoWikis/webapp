@@ -17,7 +17,7 @@
     
 <input type="hidden" id="questionId" value="<%= Model.Id %>"/>
 <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
-<input type="hidden" id="referencesJson" name="referencesJson"/>
+<input type="hidden" id="hddReferencesJson" name="hddReferencesJson"/>
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { id="EditQuestionForm", enctype = "multipart/form-data", style="margin:0px;" })){ %>
     <div class="row">

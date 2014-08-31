@@ -7,7 +7,7 @@ var EditQuestionForm = (function () {
         this.InitLicenseAgreement();
 
         $("form").submit(function (e) {
-            $("#referencesJson").val(ReferenceUi.ReferenceToJson());
+            $("#hddReferencesJson").val(ReferenceUi.ReferenceToJson());
         });
 
         $('.control-label .show-tooltip').append($("<span> <i class='fa fa-info-circle'></i></span>"));

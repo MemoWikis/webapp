@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using Seedworks.Lib;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
@@ -103,12 +105,13 @@ public class EditQuestionModel : BaseModel
         Categories = RelatedCategoriesUtils.GetReleatedCategoriesFromPostData(postData);
     }
 
-    public void FillReferencesFromPostData(NameValueCollection postData)
+    public IList<Reference> FillReferencesFromPostData(HttpRequestBase request, Question question)
     {
-        //wenn create:
-        //für jedes Feld key starts with ref- neue Reference erstellen, zugehörige Felder zuordnen,
-        //zu References hinzufügen
-        //wenn edit
+        var referencesJson = request["hddReferencesJson"];
+        if(String.IsNullOrEmpty(referencesJson))
+            References = new List<Reference>();
+
+        return References = ReferenceJson.LoadFromJson(referencesJson, question);
     }
 
     public void SetToCreateModel()
