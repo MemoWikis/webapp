@@ -274,7 +274,7 @@
                             <div class="checkbox">
                                 <label>
                                     <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
-                                    Ich stelle diesen Eintrag unter eine LGPL Lizenz. 
+                                    Ich stelle diesen Eintrag unter eine LGPL-Lizenz. 
                                     Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
                                     wie zum Beispiel bei Wikipedia-Einträgen. 
                                     <a href="" target="_blank">mehr erfahren</a> <br />
