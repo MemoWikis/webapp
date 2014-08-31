@@ -802,6 +802,7 @@
     <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
       <DependentUpon>Comment.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
     <Compile Include="Views\Questions\QuestionsSearchResultModel.cs" />
     <Compile Include="Views\Sets\Detail\SetQuestionRow.cs" />
     <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />

@@ -1,4 +1,11 @@
-﻿class Reference {
+﻿class ReferenceJson {
+    CategoryId: number;
+    ReferenceId: number;
+    AdditionalText: string;
+    FreeText : string;
+}
+
+class Reference {
     FilterType = AutoCompleteFilterType.None;
     LabelText = "";
     SearchFieldPlaceholder = "";
@@ -77,16 +84,93 @@ class ReferenceUi
             true,
             reference.FilterType,
             "",
-            function (catId: string, catIdx: string, catName: string) { alert('Add cat "' + catName + ""); },
-            true
-            );
+            reference
+        );
     }
 
     public AddFreetextReference() {
         $('#ReferenceSearchInput').hide();
         $('#AddFreeTextReference').show();
-
     }
+
+    public static ReferenceToJson() : string {
+
+        var jsonReferences: ReferenceJson[] = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)').map(function (idx, elem): ReferenceJson {
+            var elemJ = $(elem);
+            var result = new ReferenceJson();
+
+            result.CategoryId = parseInt(elemJ.attr("data-cat-id"));
+            result.ReferenceId = parseInt(elemJ.attr("data-ref-id"));
+            result.AdditionalText = elemJ.find("[name='AdditionalInfo']").val();
+            result.FreeText = elemJ.find("[name='FreeTextReference']").val();
+
+            return result;
+        }).toArray();
+
+        return JSON.stringify(jsonReferences);;
+    }
+}
+
+class OnSelectForReference implements IAutocompleteOnSelect {
+    
+    OnSelect(autocomplete : AutocompleteCategories) {
+        var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
+        var refIdxes = new Array;
+        for (var i = 0; i < existingReferences.length; i++) {
+            refIdxes.push(parseInt($(existingReferences[i]).attr('data-ref-idx')));
+        }
+        var nextRefIdx = 1;
+        if (existingReferences.length != 0) {
+            nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
+        }
+        $(
+            "<div id='Ref-" + nextRefIdx + "' " +
+                    "class='JS-ReferenceContainer well'" +
+                    "data-ref-idx='" + nextRefIdx + "'" +
+                    "data-ref-id='" + autocomplete._referenceId + "'" + 
+                    "data-cat-id='" + autocomplete._catId + "'>" + 
+                "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" +
+            "</div>").insertBefore('#JS-ReferenceSearch');
+        $("#delete-ref-" + nextRefIdx).click(function (e) {
+            e.preventDefault();
+            $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
+        });
+
+        autocomplete._elemInput.val("");
+        $('#JS-ReferenceSearch').hide();
+        $('#AddReferenceControls').show();
+
+        if (autocomplete._catId != -1) {
+            $.ajax({
+                url: '/Fragen/Bearbeite/ReferencePartial?catId=' + autocomplete._catId,
+                type: 'GET',
+                success: function (data) {
+                    $('#Ref-' + nextRefIdx)
+                        .append(data)
+                        .append(
+                        "<div class='form-group' style='margin-bottom: 0;'>" +
+                            "<label class='columnLabel control-label' for='AdditionalInfo'>Ergänzungen zur Quelle</label>" +
+                                "<div class='columnControlsFull'>" +
+                                "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben etc.'/>" +
+                            "</div>" +
+                        "</div>");
+                    $(window).trigger('referenceAdded' + autocomplete._referenceId);
+                    $('.show-tooltip').tooltip();
+                }
+            });
+        } else { /* Freetext */
+            $('#Ref-' + nextRefIdx)
+                .append(
+                "<div class='form-group' style='margin-bottom: 0;'>" +
+                    "<div class='columnControlsFull'>" +
+                        "<textarea class='FreeTextReference form-control' name='FreeTextReference' type='text' placeholder='Freitextquelle'></textarea>" +
+                    "</div>" +
+                "</div>");
+            $(window).trigger('referenceAdded' + autocomplete._referenceId);
+            $('.show-tooltip').tooltip();
+        }        
+    }
+
 }
 
 $(function () {

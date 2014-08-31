@@ -17,6 +17,8 @@ namespace TrueOrFalse.Tests
             Assert.That(EditCategoryModel.T_ToUrlWithProtocol("https://memucho.de"), Is.EqualTo("https://memucho.de"));
             Assert.That(EditCategoryModel.T_ToUrlWithProtocol("HTTPS://memucho.de"), Is.EqualTo("https://memucho.de"));
             Assert.That(EditCategoryModel.T_ToUrlWithProtocol("memucho.de"), Is.EqualTo("http://memucho.de"));
+            Assert.That(EditCategoryModel.T_ToUrlWithProtocol("x.de"), Is.EqualTo("http://x.de"));
+            Assert.That(EditCategoryModel.T_ToUrlWithProtocol(""), Is.EqualTo(""));
         }
     }
 }

@@ -114,10 +114,13 @@ public class EditCategoryModel : BaseModel
 
     private static string ToUrlWithProtocol(string input)
     {
-        if (input.Substring(0, 7).ToLower() == "http://")
+        if (String.IsNullOrEmpty(input))
+            return "";
+
+        if (input.ToLower().StartsWith("http://"))
             return "http://" + input.Substring(7);
 
-        if (input.Substring(0, 8).ToLower() == "https://")
+        if (input.ToLower().StartsWith("https://"))
             return "https://" + input.Substring(8);
         
         return "http://" + input;

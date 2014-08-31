@@ -55,32 +55,41 @@ class CompareType {
     }
 }
 
+interface IAutocompleteOnSelect {
+    OnSelect: (AutocompleteCategories) => void;
+}
+
 class AutocompleteCategories {
 
     private _isSingleSelect: boolean;
     private _filterType: AutoCompleteFilterType;
 
     OnAdd: (categoryId?: number) => void;
-    OnRemove: (categoryId?  : number) => void;
-    
+    OnRemove: (categoryId?: number) => void;
+
+    _reference : Reference;
+    _referenceId: number;
+    _catId: number;
+    _elemInput: JQuery;
+
     constructor(
         inputSelector: string,
         isSingleSelect: boolean = false,
         filterType: AutoCompleteFilterType = AutoCompleteFilterType.None,
         selectorParent: string = "",
-        onSelect: (catId : string, catIdx: string, catName: string) => void = null,
-        isReference: boolean = false) {
+        reference: Reference = null) {
 
         this._filterType = filterType;
+        this._reference = reference;
 
         var self = this;
         this._isSingleSelect = isSingleSelect;
 
-        var elemInput = $(inputSelector);
-        if (elemInput.length == 0)
+        this._elemInput = $(inputSelector);
+        if (this._elemInput.length == 0)
             return; 
 
-        var elemContainer = elemInput.closest(".JS-RelatedCategories");
+        var elemContainer = this._elemInput.closest(".JS-RelatedCategories");
 
         var isCategoryEdit = $("#isCategoryEdit").length == 1;
         var categoryName = "";
@@ -93,34 +102,39 @@ class AutocompleteCategories {
             addCat(true, referenceId);
         }
 
-        function addCat(withoutTriggers : boolean = false, referenceId : number = -1) {
+        function addCat(withoutTriggers: boolean = false, referenceId: number = -1) {
+
             var catIdx = nextCatIdx.toString();
             nextCatIdx++;
             var catText = $(inputSelector).val();
             var catId = $(inputSelector).data('category-id');
 
+            self._referenceId = referenceId;
+            self._catId = catId;
+
+
             if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
 
-            if (isReference == false) {
+            if (reference == null) {
 
                 if (self._isSingleSelect) {
                     catIdx = inputSelector.substring(1);
-                    elemInput.closest(".JS-CatInputContainer").before(
+                    self._elemInput.closest(".JS-CatInputContainer").before(
                         "<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" +
                             "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" +
                             "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " +
                             "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" +
                         "</div> ");
-                    elemInput.attr("type", "hidden").hide();
+                    self._elemInput.attr("type", "hidden").hide();
 
                     if ($("#EditCategoryForm").length > 0) {
                         var validator = $("#EditCategoryForm").validate();
-                        validator.element(elemInput);
+                        validator.element(self._elemInput);
                     }
 
                 } else {
-                    elemInput.closest(".JS-CatInputContainer").before(
+                    self._elemInput.closest(".JS-CatInputContainer").before(
                         "<div class='added-cat' id='cat-" + catIdx + "' style='display: none;'>" +
                             "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" +
                             "<input type='hidden' value='" + catId + "' name='cat-" + catIdx + "'/>" +
@@ -128,7 +142,7 @@ class AutocompleteCategories {
                         "</div> ");
                 }
 
-                elemInput.val('');
+                self._elemInput.val('');
                 $(inputSelector).data('category-id', '');
                 $("#delete-cat-" + catIdx).click(function (e) {
                     e.preventDefault();
@@ -143,62 +157,12 @@ class AutocompleteCategories {
                     });
 
                     if (self._isSingleSelect)
-                        elemInput.attr("type", "").show();
+                        self._elemInput.attr("type", "").show();
 
                 });
                 $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
             } else {
-                var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
-                var refIdxes = new Array;
-                for (var i = 0; i < existingReferences.length; i++) {
-                    refIdxes.push(parseInt($(existingReferences[i]).attr('data-ref-idx')));
-                }
-                var nextRefIdx = 1;
-                if (existingReferences.length != 0) {
-                    nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
-                }
-                $(
-                    "<div id='Ref-" + nextRefIdx + "' " + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + referenceId + "'" + "class='JS-ReferenceContainer well'>" +
-                    "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" +
-                    "</div>").insertBefore('#JS-ReferenceSearch');
-                $("#delete-ref-" + nextRefIdx).click(function (e) {
-                    e.preventDefault();
-                    $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
-                });
-                elemInput.val("");
-                $('#JS-ReferenceSearch').hide();
-                $('#AddReferenceControls').show();
-
-                if (catId != -1) {
-                    $.ajax({
-                        url: '/Fragen/Bearbeite/ReferencePartial?catId=' + catId,
-                        type: 'GET',
-                        success: function(data) {
-                            $('#Ref-' + nextRefIdx)
-                                .append(data)
-                                .append(
-                                    "<div class='form-group' style='margin-bottom: 0;'>" +
-                                    "<label class='columnLabel control-label' for='ReferenceAddition-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" +
-                                    "<div class='columnControlsFull'>" +
-                                    "<input class='InputRefAddition form-control input-sm' name='ReferenceAddition-" + nextRefIdx + "' type='text' placeholder='Seitenangaben etc.'/>" +
-                                    "</div>" +
-                                    "</div>")
-                                .append("<input class='JS-hddRefCat' type='hidden' value='" + catId + "' name='ref-cat-" + nextRefIdx + "'/>");
-                            $(window).trigger('referenceAdded' + referenceId);
-                            $('.show-tooltip').tooltip();
-                        }
-                    });
-                } else {
-                    $('#Ref-' + nextRefIdx)
-                        .append(
-                            "<div class='form-group' style='margin-bottom: 0;'>" +
-                            "<div class='columnControlsFull'>" +
-                            "<textarea class='FreeTextReference form-control' name='FreeTextReference-" + nextRefIdx + "' type='text' placeholder='Freitextquelle'></textarea>" +
-                            "</div>" +
-                        "</div>");
-                    $(window).trigger('referenceAdded' + referenceId);
-                    $('.show-tooltip').tooltip();
-                }
+                new OnSelectForReference().OnSelect(self);
             }
         }
 

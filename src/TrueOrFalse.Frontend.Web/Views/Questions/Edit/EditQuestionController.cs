@@ -55,6 +55,7 @@ public class EditQuestionController : BaseController
 
         model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
+        model.FillReferencesFromPostData(Request, question);
         model.SetToUpdateModel();
         _questionRepository.Update(
             Resolve<EditQuestionModel_to_Question>()
@@ -70,10 +71,11 @@ public class EditQuestionController : BaseController
     public ActionResult Create(EditQuestionModel model, HttpPostedFileBase soundfile)
     {
         model.FillCategoriesFromPostData(Request.Form);
-        
         var question = Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
 
+        question.References = model.FillReferencesFromPostData(Request, question);
         question.Creator = _sessionUser.User;
+
         _questionRepository.Create(question);
         
         UpdateSound(soundfile, question.Id);
