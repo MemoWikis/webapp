@@ -59,13 +59,14 @@
                                 <label style="font-weight: normal">
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
                                         für alle <span class="smaller">(öffentliche Frage)</span>
-                                        <i class="fa fa-question-circle show-tooltip" title="" data-placement="right" 
+                                        <i class="fa fa-question-circle show-tooltip" title="" data-placement="<%= CssJs.TooltipPlacementLabel %>" 
                                            data-html="true"
                                            data-original-title="
-                                            <ul class='show-tooltip-ul'>
-                                                <li>Die Frage ist für alle auffindbar.</li>
-                                                <li>Jeder kann die Frage in sein Wunschwissen aufnehmen.</li>
-                                            </ul>">
+                                                <ul class='show-tooltip-ul'>
+                                                    <li>Die Frage ist für alle auffindbar.</li>
+                                                    <li>Jeder kann die Frage in sein Wunschwissen aufnehmen.</li>
+                                                    <li>Die Frage steht unter einer LGPL-Lizenz und kann frei weiterverwendet werden.</li>
+                                                </ul>">
                                         </i>
                                         <br/>
 
@@ -76,13 +77,13 @@
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
                                         für mich <span class="smaller">(<i class="fa fa-lock"></i> private Frage)</span> &nbsp;&nbsp;
                                         (Die Frage ist nur von Dir nutzbar.)
-                                        <i class="fa fa-question-circle show-tooltip tooltip-width-200" title="" data-placement="right" 
+                                        <i class="fa fa-question-circle show-tooltip tooltip-width-200" title="" data-placement="top" 
                                            data-html="true"
                                            data-original-title="
-                                            <ul class='show-tooltip-ul'>
-                                                <li>Die Frage kann nur von Dir genutzt werden.</li>
-                                                <li>Niemand anders hat jemals Zugriff auf die Frage.</li>
-                                            </ul>">
+                                                <ul class='show-tooltip-ul'>
+                                                    <li>Die Frage kann nur von Dir genutzt werden.</li>
+                                                    <li>Niemand anders hat jemals Zugriff auf die Frage.</li>
+                                                </ul>">
                                         </i>
 
                                 </label>
@@ -144,7 +145,7 @@
                 </div>--%>
                 <div class="form-group">    
                     <label class="columnLabel control-label">
-                        <span class="show-tooltip" data-toggle="tooltip" title = "Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen die Fragen wiederzufinden." data-placement = "top">Kategorien</span>
+                        <span class="show-tooltip" data-toggle="tooltip" title = "Kategorien helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du eine gesuchte Kategorie nicht findest, kannst du sie in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Kategorien</span>
                     </label>
 
                     <div class="JS-RelatedCategories columnControlsFull">
@@ -158,13 +159,15 @@
                                 <% } %>
                             });
                         </script>
-                        <div class="JS-CatInputContainer"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
+                        <div class="JS-CatInputContainer ControlInline"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
                     </div>
                 </div>
                 </div>
                 <div class="FormSection">
                     <div class="form-group">
-                        <%= Html.LabelFor(m => m.SolutionType, new { @class = "columnLabel control-label" }) %>
+                        <label class="columnLabel control-label" for="SolutionType">
+                            <span <%= Model.IsEditing ? "class='show-tooltip'  title = 'Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : ""%>>Abfragetyp</span>
+                        </label>
                         <div class="columnControlsSmall">
                             <%= Html.DropDownListFor(m => Model.SolutionType,
                                                             Model.AnswerTypeData,
@@ -178,7 +181,7 @@
                                                                 {
                                                                     @id = "ddlAnswerType", @class="form-control",
                                                                 })%>
-                            <%--http://stackoverflow.com/questions/23159003/optionally-disable-element-rendered-via-mvc#answer-23159114--%>
+                                                                <%--http://stackoverflow.com/questions/23159003/optionally-disable-element-rendered-via-mvc#answer-23159114--%>
                         </div>
                     </div>
                 
@@ -187,33 +190,33 @@
                 <div class="FormSection">
 
                     <div class="form-group markdown">
-                        <label class="columnLabel control-label">
-                            <span class="show-tooltip"  title = "Je ausführlicher die Erklärung, desto besser! Verwende Links u. Bilder aber achte auf die Urheberrechte." data-placement = "top">Erklärungen und Ergänzungen</span>
+                        <label class="columnLabel control-label" for="Description">
+                            <span class="show-tooltip"  title = "Erscheinen nach dem Beantworten der Frage zusammen mit der richtigen Lösung und sollen beim Einordnen und Merken der abgefragten Fakten helfen. Oft wird eine Frage erst durch informative Zusatzangaben so richtig gut." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Ergänzungen</span>
                         </label>
                         <div class="columnControlsFull">
                             <div class="wmd-panel">
                                 <div id="wmd-button-bar-2"></div>
                                 <%= Html.TextAreaFor(m => m.Description, new 
-                                    { @class= "form-control wmd-input", id="wmd-input-2", placeholder = "Erklärung der Antwort und Quellen.", rows = 4 })%>
+                                    { @class= "form-control wmd-input", id="wmd-input-2", placeholder = "Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.", rows = 4 })%>
                             </div>
                             <div id="wmd-preview-2" class="wmd-panel wmd-preview"></div>
                         </div>
                     </div>
                     
                     <div class="form-group" style="margin-bottom: 0;">
-                        <%--<label class="columnLabel control-label">Frage</label>--%>
-
-                        <label class="columnLabel control-label">Quellen 
+                        <label class="columnLabel control-label"> 
                             <%--<br/>
-                            <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten noch besser!)</div>--%>
+                            <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten nochbesser!)</div>--%>
+                            <span class="show-tooltip" data-toggle="tooltip" title = "Bitte belege die von dir angeführten Fakten mit Quellen und mache wörtliche und auch indirekte Zitate als solche erkennbar. Bitte gehe sparsam mit wörtlichen Zitaten um und formuliere wenn möglich mit eigenen Worten. Du kannst in Frage, Anwort und Ergänzungen auf die hier eingefügten Quellen verweisen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">
+                                Quellen
+                            </span>
                         </label>
                     
-                        <%--<div id="JS-References" class="columnControlsFull"></div>--%>
                         <div id="JS-References" class="columnControlsFull">
                             <script type="text/javascript">
                                 $(function () {
                                     $("#AddReference").trigger('click');
-                                    <%
+                                    <%                                                            
                                     var i = 1;
                                     foreach (var reference in Model.References) {%>
                                         setTimeout(function() {
