@@ -67,18 +67,20 @@ class AutocompleteCategories {
     OnAdd: (categoryId?: number) => void;
     OnRemove: (categoryId?: number) => void;
 
+    _reference : Reference;
     _referenceId: number;
     _catId: number;
-    _elemInput : JQuery;
+    _elemInput: JQuery;
 
     constructor(
         inputSelector: string,
         isSingleSelect: boolean = false,
         filterType: AutoCompleteFilterType = AutoCompleteFilterType.None,
         selectorParent: string = "",
-        isReference: boolean = false) {
+        reference: Reference = null) {
 
         this._filterType = filterType;
+        this._reference = reference;
 
         var self = this;
         this._isSingleSelect = isSingleSelect;
@@ -114,7 +116,7 @@ class AutocompleteCategories {
             if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
 
-            if (isReference == false) {
+            if (reference == null) {
 
                 if (self._isSingleSelect) {
                     catIdx = inputSelector.substring(1);

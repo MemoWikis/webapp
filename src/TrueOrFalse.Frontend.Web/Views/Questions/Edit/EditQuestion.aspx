@@ -17,6 +17,7 @@
     
 <input type="hidden" id="questionId" value="<%= Model.Id %>"/>
 <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
+<input type="hidden" id="referencesJson" name="referencesJson"/>
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { id="EditQuestionForm", enctype = "multipart/form-data", style="margin:0px;" })){ %>
     <div class="row">
@@ -285,7 +286,7 @@
                 <% if(Model.IsLoggedIn){ %>
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
-                            <button type="submit" class="btn btn-primary" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
                             <% if (Model.ShowSaveAndNewButton){ %>
                                 <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
                             <% } %>                        

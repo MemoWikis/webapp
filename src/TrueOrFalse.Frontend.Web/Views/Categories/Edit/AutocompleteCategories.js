@@ -40,12 +40,13 @@ var CompareType = (function () {
 })();
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent, isReference) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent, reference) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
         if (typeof filterType === "undefined") { filterType = 0 /* None */; }
         if (typeof selectorParent === "undefined") { selectorParent = ""; }
-        if (typeof isReference === "undefined") { isReference = false; }
+        if (typeof reference === "undefined") { reference = null; }
         this._filterType = filterType;
+        this._reference = reference;
 
         var self = this;
         this._isSingleSelect = isSingleSelect;
@@ -82,7 +83,7 @@ var AutocompleteCategories = (function () {
             if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
 
-            if (isReference == false) {
+            if (reference == null) {
                 if (self._isSingleSelect) {
                     catIdx = inputSelector.substring(1);
                     self._elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
