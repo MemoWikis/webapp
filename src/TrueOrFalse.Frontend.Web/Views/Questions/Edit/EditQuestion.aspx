@@ -144,7 +144,7 @@
                 </div>--%>
                 <div class="form-group">    
                     <label class="columnLabel control-label">
-                        <span class="show-tooltip" data-toggle="tooltip" title = "Kategorien helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Kategorien</span>
+                        <span class="show-tooltip" data-toggle="tooltip" title = "Kategorien helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du eine gesuchte Kategorie nicht findest, kannst du sie in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Kategorien</span>
                     </label>
 
                     <div class="JS-RelatedCategories columnControlsFull">
@@ -190,7 +190,7 @@
 
                     <div class="form-group markdown">
                         <label class="columnLabel control-label" for="Description">
-                            <span class="show-tooltip"  title = "Erscheinen nach dem Beantworten der Frage zusammen mit der richtigen Lösung und sollen beim Einordnen und Merken der abgefragten Fakten helfen. Oft wird eine Frage erst so richtig gut durch informative Zusatzangaben." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Ergänzungen</span>
+                            <span class="show-tooltip"  title = "Erscheinen nach dem Beantworten der Frage zusammen mit der richtigen Lösung und sollen beim Einordnen und Merken der abgefragten Fakten helfen. Oft wird eine Frage erst durch informative Zusatzangaben so richtig gut." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Ergänzungen</span>
                         </label>
                         <div class="columnControlsFull">
                             <div class="wmd-panel">
@@ -206,7 +206,7 @@
                         <label class="columnLabel control-label"> 
                             <%--<br/>
                             <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten nochbesser!)</div>--%>
-                            <span class="show-tooltip" data-toggle="tooltip" title = "Bitte belege die von dir angeführten Fakten mit Quellen und mache wörtliche und auch indirekte Zitate als solche erkennbar. Du kannst in Frage, Anwort und Ergänzungen auf die hier eingefügten Quellen verweisen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">
+                            <span class="show-tooltip" data-toggle="tooltip" title = "Bitte belege die von dir angeführten Fakten mit Quellen und mache wörtliche und auch indirekte Zitate als solche erkennbar. Bitte gehe sparsam mit wörtlichen Zitaten um und formuliere wenn möglich mit eigenen Worten. Du kannst in Frage, Anwort und Ergänzungen auf die hier eingefügten Quellen verweisen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">
                                 Quellen
                             </span>
                         </label>
