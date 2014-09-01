@@ -17,9 +17,11 @@
     
 <input type="hidden" id="questionId" value="<%= Model.Id %>"/>
 <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
-<input type="hidden" id="hddReferencesJson" name="hddReferencesJson"/>
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { id="EditQuestionForm", enctype = "multipart/form-data", style="margin:0px;" })){ %>
+    
+    <input type="hidden" id="hddReferencesJson" name="hddReferencesJson"/>
+
     <div class="row">
         <div class="PageHeader col-xs-12">
             <h2 class="pull-left"><span class="ColoredUnderline"><%=Model.FormTitle %></span></h2>
@@ -166,16 +168,16 @@
                 <div class="FormSection">
                     <div class="form-group">
                         <label class="columnLabel control-label" for="SolutionType">
-                            <span <%= Model.IsEditing ? "class='show-tooltip'  title = 'Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : ""%>>Abfragetyp</span>
+                            <span <%= Model.IsEditing ? "class='show-tooltip' title='Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : ""%>>Abfragetyp</span>
                         </label>
-                        <div class="columnControlsSmall">
+                        <div <%= Model.IsEditing ? "class='columnControlsSmall show-tooltip' data-toggle='tooltip' title='Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : "class='columnControlsSmall'"%>>
                             <%= Html.DropDownListFor(m => Model.SolutionType,
                                                             Model.AnswerTypeData,
                                                             Model.IsEditing ? 
                                                                 (object)new 
                                                                 {
                                                                     @id = "ddlAnswerType", @class="form-control",
-                                                                    disabled="disabled" 
+                                                                    disabled="disabled"
                                                                 } :
                                                                 new
                                                                 {
@@ -183,6 +185,9 @@
                                                                 })%>
                                                                 <%--http://stackoverflow.com/questions/23159003/optionally-disable-element-rendered-via-mvc#answer-23159114--%>
                         </div>
+                        <% if(Model.IsEditing){ %>
+                            <input type="hidden" name="SolutionType" value="<%= Model.SolutionType %>"/>
+                        <% } %>
                     </div>
                 
                     <div id="answer-body"></div>
@@ -214,31 +219,33 @@
                     
                         <div id="JS-References" class="columnControlsFull">
                             <script type="text/javascript">
-                                $(function () {
-                                    $("#AddReference").trigger('click');
-                                    <%                                                            
-                                    var i = 1;
-                                    foreach (var reference in Model.References) {%>
-                                        setTimeout(function() {
-                                            <%if (reference.Category != null) {%>
-                                                $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
-                                                    $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.InputRefAddition').val('<%= reference.AdditionalInfo%>');
-                                                });
-                                                $("#ReferenceSearchInput")
-                                                    .data('category-id', '<%=reference.Category.Id %>')
-                                                    .trigger('initCategoryFromTxt', '<%=reference.Id %>'); 
-                                            <% } else {%>
-                                                $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
-                                                    $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.FreeTextReference').html('<%= reference.FreeTextReference%>');
-                                                });
-                                                $("#ReferenceSearchInput")
-                                                    .data('category-id', '-1')
-                                                    .trigger('initCategoryFromTxt', '<%=reference.Id %>');
-                                            <%}%>
-                                        }, <%= i * 200 %>);<%
-                                        i++;
-                                    } %>
-                                });
+                                <%if(Model.References.Count != 0){%>
+                                    $(function () {
+                                        $("#AddReference").trigger('click');
+                                        <%                                                            
+                                        var i = 1;
+                                        foreach (var reference in Model.References) {%>
+                                            setTimeout(function() {
+                                                <%if (reference.Category != null) {%>
+                                                    $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
+                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.InputRefAddition').val('<%= reference.AdditionalInfo%>');
+                                                    });
+                                                    $("#ReferenceSearchInput")
+                                                        .data('category-id', '<%=reference.Category.Id %>')
+                                                        .trigger('initCategoryFromTxt', '<%=reference.Id %>'); 
+                                                <% } else {%>
+                                                    $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
+                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.FreeTextReference').html('<%= reference.FreeTextReference%>');
+                                                    });
+                                                    $("#ReferenceSearchInput")
+                                                        .data('category-id', '-1')
+                                                        .trigger('initCategoryFromTxt', '<%=reference.Id %>');
+                                                <%}%>
+                                            }, <%= i * 200 %>);<%
+                                            i++;
+                                        } %>
+                                    });
+                                <%}%>
                             </script>
                             <div id="JS-ReferenceSearch" class='JS-ReferenceContainer well' style="display: none;">
                                 <a id='JS-HideReferenceSearch' class='close' href ='#'>×</a>
