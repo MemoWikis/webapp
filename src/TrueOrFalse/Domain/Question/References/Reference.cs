@@ -1,7 +1,9 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using System;
+using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
 {
+    [Serializable]
     public class Reference : DomainEntity
     {
         public virtual Question Question { get; set; }

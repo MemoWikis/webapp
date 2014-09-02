@@ -23,6 +23,7 @@ public class ReferenceJson
         {
             return new Reference
             {
+                Id = refJson.ReferenceId,
                 Question = question,
                 Category = catRepo.GetById(refJson.CategoryId),
                 AdditionalInfo = refJson.AdditionalText,

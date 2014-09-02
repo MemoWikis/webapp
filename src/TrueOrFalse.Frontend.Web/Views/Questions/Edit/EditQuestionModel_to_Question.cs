@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
+using WebGrease.Css.Extensions;
 
 public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
 {
@@ -24,6 +25,8 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         question.Categories = model.Categories;
 
         question.SolutionType = (SolutionType) Enum.Parse(typeof(SolutionType), model.SolutionType);
+
+        question.UpdateReferences(model.References);
 
         question.Visibility = model.Visibility;
 

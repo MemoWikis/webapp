@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Newtonsoft.Json;
+using NHibernate.Linq;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Infrastructure;
 
@@ -82,6 +84,21 @@ namespace TrueOrFalse
         public virtual bool IsPrivate()
         {
             return Visibility != QuestionVisibility.All;
+        }
+
+        public virtual void UpdateReferences(IList<Reference> references)
+        {
+            var newReferences = references.Where(r => r.Id == -1 || r.Id == 0).ToArray();
+            var removedReferences = References.Where(r => references.Any(r2 => r2.Id == r.Id)).ToArray();
+
+            for (var i = 0; i < newReferences.Count(); i++)
+            {
+                newReferences[i].Id = default(Int32);
+                References.Add(newReferences[i]);
+            }
+
+            for (var i = 0; i < removedReferences.Count(); i++)
+                References.Remove(removedReferences[i]);
         }
     }
 }

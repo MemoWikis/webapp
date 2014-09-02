@@ -95,6 +95,7 @@ public class EditQuestionModel : BaseModel
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
         Categories = question.Categories;
+        References = question.References;
         ImageUrl_128 = QuestionImageSettings.Create(question.Id).GetUrl_500px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
         Visibility = question.Visibility;

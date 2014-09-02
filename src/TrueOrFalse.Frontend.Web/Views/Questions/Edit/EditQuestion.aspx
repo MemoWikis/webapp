@@ -223,16 +223,20 @@
                                     $(function () {
                                         $("#AddReference").trigger('click');
                                         <%                                                            
-                                        var i = 1;
+                                        var i = 0;
                                         foreach (var reference in Model.References) {%>
                                             setTimeout(function() {
                                                 <%if (reference.Category != null) {%>
-                                                    $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
-                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.InputRefAddition').val('<%= reference.AdditionalInfo%>');
+                                                    $(window).bind('referenceAdded<%= reference.Id%>', function() {
+                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]')
+                                                            .find('.InputRefAddition')
+                                                            .val('<%= reference.AdditionalInfo%>');
                                                     });
+                                    
                                                     $("#ReferenceSearchInput")
                                                         .data('category-id', '<%=reference.Category.Id %>')
                                                         .trigger('initCategoryFromTxt', '<%=reference.Id %>'); 
+                                                    
                                                 <% } else {%>
                                                     $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
                                                         $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.FreeTextReference').html('<%= reference.FreeTextReference%>');
