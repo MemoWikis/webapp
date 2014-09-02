@@ -89,7 +89,7 @@ namespace TrueOrFalse
         public virtual void UpdateReferences(IList<Reference> references)
         {
             var newReferences = references.Where(r => r.Id == -1 || r.Id == 0).ToArray();
-            var removedReferences = References.Where(r => references.Any(r2 => r2.Id == r.Id)).ToArray();
+            var removedReferences = References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
 
             for (var i = 0; i < newReferences.Count(); i++)
             {
