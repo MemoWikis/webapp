@@ -90,6 +90,12 @@ namespace TrueOrFalse
         {
             var newReferences = references.Where(r => r.Id == -1 || r.Id == 0).ToArray();
             var removedReferences = References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
+            var existingReferenes = references.Where(r => References.Any(r2 => r2.Id == r.Id)).ToArray();
+
+            newReferences.ForEach(r => { 
+                r.DateCreated = DateTime.Now;
+                r.DateModified = DateTime.Now;
+            });
 
             for (var i = 0; i < newReferences.Count(); i++)
             {
@@ -99,6 +105,14 @@ namespace TrueOrFalse
 
             for (var i = 0; i < removedReferences.Count(); i++)
                 References.Remove(removedReferences[i]);
+
+            for (var i = 0; i < existingReferenes.Count(); i++)
+            {
+                var reference = References.First(r => r.Id == existingReferenes[i].Id);
+                reference.DateModified = DateTime.Now;
+                reference.AdditionalInfo = existingReferenes[i].AdditionalInfo;
+                reference.FreeTextReference = existingReferenes[i].FreeTextReference;
+            }
         }
     }
 }
