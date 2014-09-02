@@ -129,7 +129,7 @@ var ReferenceUi = (function () {
 var OnSelectForReference = (function () {
     function OnSelectForReference() {
     }
-    OnSelectForReference.prototype.OnSelect = function (autocomplete) {
+    OnSelectForReference.prototype.OnSelect = function (autocomplete, referenceId) {
         var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
         var refIdxes = new Array;
         for (var i = 0; i < existingReferences.length; i++) {
@@ -155,7 +155,8 @@ var OnSelectForReference = (function () {
                 type: 'GET',
                 success: function (data) {
                     $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='AdditionalInfo'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>");
-                    $(window).trigger('referenceAdded' + autocomplete._referenceId);
+
+                    $(window).trigger('referenceAdded' + referenceId);
                     $('.show-tooltip').tooltip();
                 }
             });

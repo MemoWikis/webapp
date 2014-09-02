@@ -113,7 +113,7 @@ class ReferenceUi
 
 class OnSelectForReference implements IAutocompleteOnSelect {
     
-    OnSelect(autocomplete : AutocompleteCategories) {
+    OnSelect(autocomplete : AutocompleteCategories, referenceId : number) {
         var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
         var refIdxes = new Array;
         for (var i = 0; i < existingReferences.length; i++) {
@@ -154,7 +154,8 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                                 "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben etc.'/>" +
                             "</div>" +
                         "</div>");
-                    $(window).trigger('referenceAdded' + autocomplete._referenceId);
+
+                    $(window).trigger('referenceAdded' + referenceId);
                     $('.show-tooltip').tooltip();
                 }
             });

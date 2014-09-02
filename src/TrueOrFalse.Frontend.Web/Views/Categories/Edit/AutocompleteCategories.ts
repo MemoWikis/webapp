@@ -56,7 +56,7 @@ class CompareType {
 }
 
 interface IAutocompleteOnSelect {
-    OnSelect: (AutocompleteCategories) => void;
+    OnSelect: (AutocompleteCategories, referenceId) => void;
 }
 
 class AutocompleteCategories {
@@ -162,7 +162,7 @@ class AutocompleteCategories {
                 });
                 $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
             } else {
-                new OnSelectForReference().OnSelect(self);
+                new OnSelectForReference().OnSelect(self, referenceId);
             }
         }
 
@@ -201,8 +201,7 @@ class AutocompleteCategories {
                 });
             },
             select: function (event, ui) {
-                //debugger;
-                //if (onSelect == null) {
+                
                     $(inputSelector).data("category-id", ui.item.id);
                     $(inputSelector).val(ui.item.name);
 
@@ -211,10 +210,7 @@ class AutocompleteCategories {
                     }
 
                     addCat();
-                //}
-                //else {
-                //    new onSelect(catId, catIdx, catText);
-                //}
+                
                 return false;
             },
             open: function(event, ui) {
@@ -227,7 +223,6 @@ class AutocompleteCategories {
                 return "";
 
             var html;
-            //debugger;
             if (CompareType.IsReference(item.type))
                 {
                 var jqueryReference = $(item.html);

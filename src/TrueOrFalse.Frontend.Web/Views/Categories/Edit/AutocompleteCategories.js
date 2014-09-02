@@ -116,7 +116,7 @@ var AutocompleteCategories = (function () {
                 });
                 $("#cat-" + catIdx).show("blind", { direction: "horizontal" });
             } else {
-                new OnSelectForReference().OnSelect(self);
+                new OnSelectForReference().OnSelect(self, referenceId);
             }
         }
 
@@ -154,8 +154,6 @@ var AutocompleteCategories = (function () {
                 });
             },
             select: function (event, ui) {
-                //debugger;
-                //if (onSelect == null) {
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
@@ -165,10 +163,6 @@ var AutocompleteCategories = (function () {
 
                 addCat();
 
-                //}
-                //else {
-                //    new onSelect(catId, catIdx, catText);
-                //}
                 return false;
             },
             open: function (event, ui) {
@@ -181,8 +175,6 @@ var AutocompleteCategories = (function () {
                 return "";
 
             var html;
-
-            //debugger;
             if (CompareType.IsReference(item.type)) {
                 var jqueryReference = $(item.html);
                 if (CompareType.AreEqual(item.type, 9 /* WebsiteArticle */)) {
