@@ -33,9 +33,10 @@ public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIs
     [JsonIgnore]
     public override CategoryType Type { get { return CategoryType.MagazineIssue; } }
 
-    public string BuildTitle(string magazineName)
+    public string BuildTitle(string magazineId)
     {
         var name = "";
+        var magazineName = ServiceLocator.Resolve<CategoryRepository>().GetById(Int32.Parse(magazineId)).Name;
         if (!String.IsNullOrEmpty(No) && !String.IsNullOrEmpty(PublicationDateYear))
         {
             name = magazineName + " " + No + "/" + PublicationDateYear;

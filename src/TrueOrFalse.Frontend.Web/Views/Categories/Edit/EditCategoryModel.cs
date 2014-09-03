@@ -231,7 +231,7 @@ public class EditCategoryModel : BaseModel
                 category, 
                 categoryDailyIssue,
                 parentCategoryType: CategoryType.Daily,
-                htmlInputId: "hddTxtDaily",
+                htmlInputId: "hddDailyId",
                 errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Tageszeitung aus.");
 
@@ -264,7 +264,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryDailyArticle,
                 parentCategoryType: CategoryType.Daily,
-                htmlInputId: "hddTxtDaily",
+                htmlInputId: "hddDailyId",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Tageszeitung aus.");
 
@@ -273,7 +273,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryDailyArticle,
                 parentCategoryType: CategoryType.DailyIssue,
-                htmlInputId: "hddTxtDailyIssue",
+                htmlInputId: "hddDailyIssueId",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Ausgabe der Tageszeitung aus.");
 
@@ -320,7 +320,7 @@ public class EditCategoryModel : BaseModel
                category,
                categoryMagazineIssue,
                parentCategoryType: CategoryType.Magazine,
-               htmlInputId: "hddTxtMagazine",
+               htmlInputId: "hddMagazineId",
                errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
                "Um zu speichern, wähle bitte eine Zeitschrift aus.");
 
@@ -354,7 +354,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryMagazineArticle,
                 parentCategoryType: CategoryType.Magazine,
-                htmlInputId: "hddTxtMagazine",
+                htmlInputId: "hddMagazineId",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Zeitschrift aus.");
 
@@ -363,7 +363,7 @@ public class EditCategoryModel : BaseModel
                 category,
                 categoryMagazineArticle,
                 parentCategoryType: CategoryType.MagazineIssue,
-                htmlInputId: "hddTxtMagazineIssue",
+                htmlInputId: "hddMagazineIssueId",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
                 "Um zu speichern, wähle bitte eine Ausgabe der Zeitschrift aus.");
 

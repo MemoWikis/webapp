@@ -31,9 +31,11 @@ public class CategoryTypeDailyIssue : CategoryTypeBase<CategoryTypeDailyIssue>
     [JsonIgnore]
     public override CategoryType Type { get { return CategoryType.DailyIssue; } }
 
-    public string BuildTitle(string dailyName)
+    public string BuildTitle(string dailyId)
     {
         var name = "";
+        var dailyName = ServiceLocator.Resolve<CategoryRepository>().GetById(Int32.Parse(dailyId)).Name;
+
         if (!String.IsNullOrEmpty(PublicationDateMonth) && !String.IsNullOrEmpty(PublicationDateDay)) {
             var publicationDate = new DateTime(Convert.ToInt32(PublicationDateYear), Convert.ToInt32(PublicationDateMonth),
             Convert.ToInt32(PublicationDateDay));

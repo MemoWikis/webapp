@@ -8,7 +8,7 @@
 <h4 class="CategoryTypeHeader"><%= CategoryType.MagazineIssue.GetName() %></h4>
 <input class="form-control" name="Name" type="hidden" value="<%= Model.Name %>">
 <div class="form-group">
-    <label class="RequiredField columnLabel control-label" style="font-weight: bold;" for="xxx">
+    <label class="RequiredField columnLabel control-label" style="font-weight: bold;" for="">
         Zeitschrift
     </label>
     <div class="JS-RelatedCategories columnControlsFull">
@@ -19,7 +19,7 @@
                 <span>
                     <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
                 </span>
-                <input id="hddTxtMagazine" class="form-control" name="hddTxtMagazine" type="hidden" value="<%= model.Magazine.Id %>">
+                <input id="hddMagazineId" class="form-control" name="hddMagazineId" type="hidden" value="<%= model.Magazine.Id %>">
             </p>
 
         <% }else{ %>
