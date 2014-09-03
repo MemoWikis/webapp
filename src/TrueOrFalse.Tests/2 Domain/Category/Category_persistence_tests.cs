@@ -34,6 +34,7 @@ namespace TrueOrFalse.Tests.Persistence
 
             RecycleContainer();
 
+            categoryRepo = Resolve<CategoryRepository>();
             categoryFromDb = categoryRepo.GetAll().First();
             var categoryFromDb2 = categoryRepo.GetById(categoryFromDb.Id);
             Assert.That(categoryFromDb2.Type, Is.EqualTo(CategoryType.Standard));
