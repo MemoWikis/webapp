@@ -18,7 +18,7 @@
             <span>
                 <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
             </span>
-            <input id="hddDailyId" class="form-control" name="hddDailyId" type="hidden" value="<%= model.Daily.Id %>">
+            <input id="hddTxtDaily" class="form-control" name="hddTxtDaily" type="hidden" value="<%= model.Daily.Id %>">
         </p>
         <% }else{ %>
             <div class="JS-CatInputContainer ControlInline">
@@ -39,7 +39,7 @@
                 <span>
                     <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung/Ausgabe lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
                 </span>
-                <input id="hddDailyIssueId" class="form-control" name="hddDailyIssueId" type="hidden" value="<%= model.DailyIssue.Id %>">
+                <input id="hddTxtDailyIssue" class="form-control" name="hddTxtDailyIssue" type="hidden" value="<%= model.DailyIssue.Id %>">
             </p>
         </div>
     </div>
