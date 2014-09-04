@@ -105,7 +105,7 @@
     </div>
     
     <%
-        if (Model.NotAllowed){
+        if (!Model.NotAllowed){
             Html.RenderPartial("Modals/DeleteSet");
         }
     %>
