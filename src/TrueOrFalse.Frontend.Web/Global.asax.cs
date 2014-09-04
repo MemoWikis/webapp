@@ -59,27 +59,28 @@ namespace TrueOrFalse.Frontend.Web
             builder.RegisterModule<AutofacCoreModule>();
 
             var solrUrl = WebConfigSettings.SolrUrl;
+            var solrSuffix = WebConfigSettings.SolrCoresSuffix;
 
             var cores = new SolrServers {
                                 new SolrServerElement {
                                         Id = "question",
                                         DocumentType = typeof (QuestionSolrMap).AssemblyQualifiedName,
-                                        Url = solrUrl + "tofQuestion"
+                                        Url = solrUrl + "tofQuestion" + solrSuffix
                                     },
                                 new SolrServerElement {   
                                         Id = "set",
                                         DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
-                                        Url = solrUrl + "tofSet"
+                                        Url = solrUrl + "tofSet" + solrSuffix
                                     },
                                 new SolrServerElement {   
                                         Id = "category",
                                         DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
-                                        Url = solrUrl + "tofCategory"
+                                        Url = solrUrl + "tofCategory" + solrSuffix
                                     },
                                 new SolrServerElement {   
                                         Id = "users",
                                         DocumentType = typeof (UserSolrMap).AssemblyQualifiedName,
-                                        Url = solrUrl + "tofUser"
+                                        Url = solrUrl + "tofUser" + solrSuffix
                                     }
                             };
 

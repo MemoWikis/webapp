@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using NHibernate.Linq;
 using TrueOrFalse.Infrastructure;
@@ -15,13 +10,19 @@ namespace TrueOrFalse.Updates
     {
         private static string _solrUrl;
         private static string _solrPath;
+        private static string _coreSuffix { get { return WebConfigSettings.SolrCoresSuffix; } }
 
-        private static readonly string[] _coreNames = { "Category", "Question", "Set", "User" };
+        private static readonly string[] _coreNames = { 
+                "Category" + _coreSuffix, 
+                "Question" + _coreSuffix, 
+                "Set" + _coreSuffix, 
+                "User" + _coreSuffix 
+        };
 
-        public static void ReloadCategory() { RefreshSchema("Category"); }
-        public static void ReloadQuestion() { RefreshSchema("Question"); }
-        public static void ReloadSet() { RefreshSchema("Set"); }
-        public static void ReloadUser() { RefreshSchema("User"); }
+        public static void ReloadCategory() { RefreshSchema("Category" + _coreSuffix); }
+        public static void ReloadQuestion() { RefreshSchema("Question" + _coreSuffix); }
+        public static void ReloadSet() { RefreshSchema("Set" + _coreSuffix); }
+        public static void ReloadUser() { RefreshSchema("User" + _coreSuffix); }
 
         static SolrCoreReload()
         {

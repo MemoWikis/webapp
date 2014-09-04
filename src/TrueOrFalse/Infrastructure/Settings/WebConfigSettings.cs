@@ -10,28 +10,30 @@ namespace TrueOrFalse.Infrastructure
     {
         private static readonly AppSettingsReader _settingReader = new AppSettingsReader();
 
-        public static string SolrUrl
-        {
-            get
-            {
-                var overwrittenValue = OverwrittenConfig.SolrUrl();
-                if (overwrittenValue.HasValue)
-                    return overwrittenValue.Value;
-
-                return Get<string>("SolrUrl");
+        public static string SolrUrl{
+            get{
+                return GetValue(OverwrittenConfig.SolrUrl(), "SolrUrl");
             }
         }
 
-        public static string SolrPath
-        {
-            get
-            {
-                var overwrittenValue = OverwrittenConfig.SolrPath();
-                if (overwrittenValue.HasValue)
-                    return overwrittenValue.Value;
-
-                return Get<string>("SolrPath");
+        public static string SolrPath{
+            get {
+                return GetValue(OverwrittenConfig.SolrPath(), "SolrPath");
             }
+        }
+
+        public static string SolrCoresSuffix{
+            get{
+                return GetValue(OverwrittenConfig.SolrCoresSuffix(), "SolrCoresSuffix");
+            }
+        }
+
+        private static string GetValue(OverwrittenConfigValueResult overwrittenConfigValueResult, string configKey)
+        {
+            if (overwrittenConfigValueResult.HasValue)
+                return overwrittenConfigValueResult.Value;
+
+            return Get<string>(configKey);
         }
 
         private static T Get<T>(string settingKey){
