@@ -10,24 +10,9 @@ namespace TrueOrFalse.Infrastructure
     {
         private static readonly AppSettingsReader _settingReader = new AppSettingsReader();
 
-        public static string SolrUrl{
-            get{
-                return GetValue(OverwrittenConfig.SolrUrl(), "SolrUrl");
-            }
-        }
-
-        public static string SolrPath{
-            get {
-                return GetValue(OverwrittenConfig.SolrPath(), "SolrPath");
-            }
-        }
-
-        public static string SolrCoresSuffix{
-            get{
-                return GetValue(OverwrittenConfig.SolrCoresSuffix(), "SolrCoresSuffix");
-            }
-        }
-
+        public static string SolrUrl;
+        public static string SolrPath;
+        public static string SolrCoresSuffix;
         public static bool GoogleKeyIsSet = false;
         public static string GoogleKey = "";
 
@@ -47,6 +32,9 @@ namespace TrueOrFalse.Infrastructure
         {
             GoogleKey = Get<string>("GoogleAnalyticsKey");
             GoogleKeyIsSet = !String.IsNullOrEmpty(GoogleKey);
+            SolrCoresSuffix = GetValue(OverwrittenConfig.SolrCoresSuffix(), "SolrCoresSuffix");
+            SolrPath = GetValue(OverwrittenConfig.SolrPath(), "SolrPath");
+            SolrUrl = GetValue(OverwrittenConfig.SolrUrl(), "SolrUrl");
         }
     }
 }   
