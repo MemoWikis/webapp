@@ -28,6 +28,9 @@ namespace TrueOrFalse.Infrastructure
             }
         }
 
+        public static bool GoogleKeyIsSet = false;
+        public static string GoogleKey = "";
+
         private static string GetValue(OverwrittenConfigValueResult overwrittenConfigValueResult, string configKey)
         {
             if (overwrittenConfigValueResult.HasValue)
@@ -38,6 +41,12 @@ namespace TrueOrFalse.Infrastructure
 
         private static T Get<T>(string settingKey){
             return (T)_settingReader.GetValue(settingKey, typeof(T));
+        }
+
+        static WebConfigSettings()
+        {
+            GoogleKey = Get<string>("GoogleAnalyticsKey");
+            GoogleKeyIsSet = !String.IsNullOrEmpty(GoogleKey);
         }
     }
 }   

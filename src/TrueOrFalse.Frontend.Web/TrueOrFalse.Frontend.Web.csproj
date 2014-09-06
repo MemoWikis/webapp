@@ -1283,7 +1283,6 @@
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Style\z_mixins_for_buttons_2.3.2.css.map">
       <DependentUpon>z_mixins_for_buttons_2.3.2.css</DependentUpon>
     </Content>
