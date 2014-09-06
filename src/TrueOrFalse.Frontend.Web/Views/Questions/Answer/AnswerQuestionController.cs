@@ -7,7 +7,6 @@ using TrueOrFalse;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 
-[HandleError]
 public class AnswerQuestionController : BaseController
 {
     private readonly QuestionRepository _questionRepository;

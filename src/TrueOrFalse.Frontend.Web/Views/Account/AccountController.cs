@@ -2,7 +2,6 @@
 using TrueOrFalse;
 using TrueOrFalse.Web.Context;
 
-[HandleError]
 public class AccountController : Controller
 {
     private readonly SessionUser _sessionUser;

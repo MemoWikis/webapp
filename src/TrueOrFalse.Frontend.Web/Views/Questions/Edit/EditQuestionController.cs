@@ -8,7 +8,6 @@ using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 
-[HandleError]
 public class EditQuestionController : BaseController
 {
     private readonly QuestionRepository _questionRepository;

@@ -6,7 +6,6 @@ using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
 
-[HandleError]
 public class DraftsController : Controller
 {
     public ActionResult bootstrap()
