@@ -31,16 +31,14 @@ public class KnowledgeModel : BaseModel
 
     public KnowledgeModel()
     {
-        var sp = Stopwatch.StartNew();
-        if (IsLoggedIn)
-        {
-            Logg.r().Information("Dashboard-Probability-Start: " + sp.Elapsed);
-            R<ProbabilityForUserUpdate>().Run(UserId);
-            Logg.r().Information("Dashboard-Probability-Stop: " + sp.Elapsed);
-        }
-
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetCount = R<GetWishSetCount>().Run(UserId);
+
+        if (IsLoggedIn)
+        {
+            var msg = new RecalcProbabilitiesMsg {UserId = UserId};
+            Bus.Get().Publish(msg);
+        }
 
         var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
         AnswersThisWeek = getAnswerStatsInPeriod.RunForThisWeek(UserId);
