@@ -32,7 +32,7 @@ public class EditQuestionModel : BaseModel
     public string SolutionType { get; set; }
 
     [DataType(DataType.MultilineText)]
-    [DisplayName("Erklärungen")]
+    [DisplayName("Ergänzungen")]
     public string Description { get; set; }
 
     [DisplayName("Content rights")]

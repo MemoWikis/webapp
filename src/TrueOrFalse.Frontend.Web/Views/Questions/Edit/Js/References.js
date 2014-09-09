@@ -154,7 +154,7 @@ var OnSelectForReference = (function () {
                 url: '/Fragen/Bearbeite/ReferencePartial?catId=' + autocomplete._catId,
                 type: 'GET',
                 success: function (data) {
-                    $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='AdditionalInfo'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben etc.'/>" + "</div>" + "</div>");
+                    $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='AdditionalInfo'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben, Zugriffsdatum etc.'/>" + "</div>" + "</div>");
 
                     $(window).trigger('referenceAdded' + referenceId);
                     $('.show-tooltip').tooltip();

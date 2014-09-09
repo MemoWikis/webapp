@@ -151,7 +151,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                         "<div class='form-group' style='margin-bottom: 0;'>" +
                             "<label class='columnLabel control-label' for='AdditionalInfo'>Ergänzungen zur Quelle</label>" +
                                 "<div class='columnControlsFull'>" +
-                                "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben etc.'/>" +
+                                "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben, Zugriffsdatum etc.'/>" +
                             "</div>" +
                         "</div>");
 
