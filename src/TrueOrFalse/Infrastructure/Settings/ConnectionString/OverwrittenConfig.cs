@@ -21,6 +21,10 @@ namespace TrueOrFalse.Infrastructure
             return Value("pathToSolr");
         }
 
+        public static OverwrittenConfigValueResult SolrCoresSuffix(){
+            return Value("solrCoresSuffix");
+        }
+
         public static bool DevelopOffline(){
             var result = Value("developOffline");
             if (!result.HasValue)

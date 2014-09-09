@@ -40,6 +40,11 @@ namespace TrueOrFalse.Web.Context
             return IsOwner(userId) || IsInstallationAdmin;
         }
 
+        public bool IsOwnerOrAdmin()
+        {
+            return IsOwnerOrAdmin(UserId);
+        }
+
         public void Login(User user)
         {
             IsLoggedIn = true;

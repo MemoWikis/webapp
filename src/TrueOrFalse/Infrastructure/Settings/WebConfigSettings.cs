@@ -10,32 +10,31 @@ namespace TrueOrFalse.Infrastructure
     {
         private static readonly AppSettingsReader _settingReader = new AppSettingsReader();
 
-        public static string SolrUrl
+        public static string SolrUrl;
+        public static string SolrPath;
+        public static string SolrCoresSuffix;
+        public static bool GoogleKeyIsSet = false;
+        public static string GoogleKey = "";
+
+        private static string GetValue(OverwrittenConfigValueResult overwrittenConfigValueResult, string configKey)
         {
-            get
-            {
-                var overwrittenValue = OverwrittenConfig.SolrUrl();
-                if (overwrittenValue.HasValue)
-                    return overwrittenValue.Value;
+            if (overwrittenConfigValueResult.HasValue)
+                return overwrittenConfigValueResult.Value;
 
-                return Get<string>("SolrUrl");
-            }
-        }
-
-        public static string SolrPath
-        {
-            get
-            {
-                var overwrittenValue = OverwrittenConfig.SolrPath();
-                if (overwrittenValue.HasValue)
-                    return overwrittenValue.Value;
-
-                return Get<string>("SolrPath");
-            }
+            return Get<string>(configKey);
         }
 
         private static T Get<T>(string settingKey){
             return (T)_settingReader.GetValue(settingKey, typeof(T));
+        }
+
+        static WebConfigSettings()
+        {
+            GoogleKey = Get<string>("GoogleAnalyticsKey");
+            GoogleKeyIsSet = !String.IsNullOrEmpty(GoogleKey);
+            SolrCoresSuffix = GetValue(OverwrittenConfig.SolrCoresSuffix(), "SolrCoresSuffix");
+            SolrPath = GetValue(OverwrittenConfig.SolrPath(), "SolrPath");
+            SolrUrl = GetValue(OverwrittenConfig.SolrUrl(), "SolrUrl");
         }
     }
 }   
