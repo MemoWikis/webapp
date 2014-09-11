@@ -4,12 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NHibernate.Exceptions;
 using NHibernate.Transform;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse.View.Web.Views.Api
 {
+    public class CategoryJsonResult
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public int numberOfQuestions { get; set; }
+        public string imageUrl { get; set; }
+        public string type { get; set; }
+        public string html { get; set; }
+    }
+
     public class CategoryApiController : Controller
     {
         private readonly SearchCategories _searchCategories;
@@ -95,29 +106,28 @@ namespace TrueOrFalse.View.Web.Views.Api
                 var categoryIds = _searchCategories.Run(term, searchStartingWith: true, pageSize: 5).CategoryIds;
                 categories = _categoryRepo.GetByIds(categoryIds.ToArray());
             }
-            
 
-            
+            var result = categories.Select(c => 
+                    new CategoryJsonResult {
+                        id = c.Id, 
+                        name = c.Name, 
+                        numberOfQuestions = c.CountQuestions, 
+                        imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
+                        type = c.Type.ToString(), 
+                        html = c.Type == CategoryType.Book ? ViewRenderer.RenderPartialView("Reference",c, ControllerContext) : ""
+                    }
+                ).ToList();
 
-            return Json(from c in categories
-                        select new {
-                            id = c.Id,
-                            name = c.Name,
-                            numberOfQuestions = c.CountQuestions,
-                            imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
-                            type = c.Type.ToString(),
-                            html = c.Type == CategoryType.Book ||
-                                    c.Type == CategoryType.Daily ||
-                                    c.Type == CategoryType.DailyIssue ||
-                                    c.Type == CategoryType.DailyArticle ||
-                                    c.Type == CategoryType.Magazine ||
-                                    c.Type == CategoryType.MagazineIssue ||
-                                    c.Type == CategoryType.MagazineArticle ||
-                                    c.Type == CategoryType.VolumeChapter ||
-                                    c.Type == CategoryType.WebsiteArticle ?
-                                    ViewRenderer.RenderPartialView("Reference",c, ControllerContext) :
-                                    ""
-                        }, JsonRequestBehavior.AllowGet);
+            if (TermExistsAsCategory(term, result)) { 
+                result.Add(new CategoryJsonResult{ type = "CreateCategoryLink" });
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private static bool TermExistsAsCategory(string term, List<CategoryJsonResult> result)
+        {
+            return result.All(c => term != null && !String.Equals(c.name, term, StringComparison.CurrentCultureIgnoreCase));
         }
     }
 }

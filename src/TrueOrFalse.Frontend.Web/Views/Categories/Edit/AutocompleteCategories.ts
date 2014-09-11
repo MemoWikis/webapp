@@ -238,7 +238,7 @@ class AutocompleteCategories {
                     
                 jqueryReference.find('.WikiUrl').remove();
                 
-                var jqueryReferenceHtml = $('<div></div>').append(jqueryReference).html(); 
+                var jqueryReferenceHtml = $('<div></div>').append(jqueryReference).html();
 
                 html = "<a class='CatListItem'>" +
                             "<img src='" + item.imageUrl + "'/>" +
@@ -247,7 +247,17 @@ class AutocompleteCategories {
                                 "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" +
                             "</div>" +
                         "</a>";
-            } else {
+            }
+           // else if (CompareType.AreEqual(item.type, AutoCompleteFilterType.CreateCategoryLink)) {
+            else if (item.type == "CreateCategoryLink") {
+                html = "<a class='CatListItem'>" +
+                            "<div class='CatDescription'>" +
+                                "Kategorie in neuem Tab erstellen." +
+                            "</div>" +
+                        "</a>";
+            }
+            
+            else {
                 html = "<a class='CatListItem'>" +
                             "<img src='" + item.imageUrl + "'/>" +
                             "<div class='CatDescription'>" +

@@ -191,6 +191,8 @@ var AutocompleteCategories = (function () {
                 var jqueryReferenceHtml = $('<div></div>').append(jqueryReference).html();
 
                 html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + jqueryReferenceHtml + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>";
+            } else if (item.type == "CreateCategoryLink") {
+                html = "<a class='CatListItem'>" + "<div class='CatDescription'>" + "Kategorie in neuem Tab erstellen." + "</div>" + "</a>";
             } else {
                 html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + "<span class='cat-name'>" + item.name + "</span>" + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>";
             }
