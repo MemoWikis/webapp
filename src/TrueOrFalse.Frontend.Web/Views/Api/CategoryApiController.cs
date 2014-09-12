@@ -19,6 +19,8 @@ namespace TrueOrFalse.View.Web.Views.Api
         public string imageUrl { get; set; }
         public string type { get; set; }
         public string html { get; set; }
+
+        public bool isOnlyResult = false;
     }
 
     public class CategoryApiController : Controller
@@ -118,16 +120,19 @@ namespace TrueOrFalse.View.Web.Views.Api
                     }
                 ).ToList();
 
-            if (TermExistsAsCategory(term, result)) { 
-                result.Add(new CategoryJsonResult{ type = "CreateCategoryLink" });
-            }
+            if (TermExistsAsCategory(term, result))
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            result.Insert(0, result.Count == 0
+                ? new CategoryJsonResult {type = "CreateCategoryLink", isOnlyResult = true}
+                : new CategoryJsonResult {type = "CreateCategoryLink"});
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        private static bool TermExistsAsCategory(string term, List<CategoryJsonResult> result)
+        public static bool TermExistsAsCategory(string term, IEnumerable<CategoryJsonResult> result)
         {
-            return result.All(c => term != null && !String.Equals(c.name, term, StringComparison.CurrentCultureIgnoreCase));
+            return (term != null && result.Any(c => String.Equals(c.name, term, StringComparison.CurrentCultureIgnoreCase)));
         }
     }
 }
