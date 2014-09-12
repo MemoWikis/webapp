@@ -8,6 +8,7 @@ interface CategoryItem {
     imageUrl: string;
     type: string;
     html: string;
+    isOnlyResult: boolean;
 }
 
 enum AutoCompleteFilterType {
@@ -67,7 +68,7 @@ class AutocompleteCategories {
     OnAdd: (categoryId?: number) => void;
     OnRemove: (categoryId?: number) => void;
 
-    _reference : Reference;
+    _isReference : boolean;
     _referenceId: number;
     _catId: number;
     _elemInput: JQuery;
@@ -77,10 +78,10 @@ class AutocompleteCategories {
         isSingleSelect: boolean = false,
         filterType: AutoCompleteFilterType = AutoCompleteFilterType.None,
         selectorParent: string = "",
-        reference: Reference = null) {
+        isReference: boolean = false) {
 
         this._filterType = filterType;
-        this._reference = reference;
+        this._isReference = isReference;
 
         var self = this;
         this._isSingleSelect = isSingleSelect;
@@ -116,7 +117,7 @@ class AutocompleteCategories {
             if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
 
-            if (reference == null) {
+            if (isReference == false) {
 
                 if (self._isSingleSelect) {
                     catIdx = inputSelector.substring(1);
@@ -201,7 +202,11 @@ class AutocompleteCategories {
                 });
             },
             select: function (event, ui) {
-                
+
+                    if (ui.item.type == "CreateCategoryLink") {
+                        return false;
+                    }
+
                     $(inputSelector).data("category-id", ui.item.id);
                     $(inputSelector).val(ui.item.name);
 
@@ -248,13 +253,28 @@ class AutocompleteCategories {
                             "</div>" +
                         "</a>";
             }
-           // else if (CompareType.AreEqual(item.type, AutoCompleteFilterType.CreateCategoryLink)) {
             else if (item.type == "CreateCategoryLink") {
-                html = "<a class='CatListItem'>" +
-                            "<div class='CatDescription'>" +
-                                "Kategorie in neuem Tab erstellen." +
-                            "</div>" +
-                        "</a>";
+
+                var resultInfo = "Kein Treffer? Bitte weitertippen oder ";
+
+                if (item.isOnlyResult)
+                    resultInfo = "Leider kein Treffer. Bitte anderen Suchbegriff verwenden oder ";
+
+                var linkText = "Kategorie in neuem Tab erstellen."; 
+
+                if(self._isReference) {
+                    linkText = "Quelle in neuem Tab erstellen.";
+                } 
+
+                html = "<a class='CatListItem'>" + linkText + "</a>";
+
+                html = "<div class='CatListItem'>" +
+                    resultInfo +
+                    "<a href='#' class='PlainLink'>" +
+                    linkText +
+                    "</a>" +
+                    "</div>";
+
             }
             
             else {
@@ -272,6 +292,16 @@ class AutocompleteCategories {
                 .append(html)
                 .appendTo(ul);
         };
+
+        autocomplete.data("ui-autocomplete")._resizeMenu = function () {
+            var left = self._elemInput.offset().left;
+            var maxWidth = 420;
+            var maxPossibleWidth = $(window).outerWidth() - left - 20;
+            if(maxPossibleWidth < maxWidth)
+                maxWidth = maxPossibleWidth;
+            $(this.menu.element).css('max-width', maxWidth + 'px');
+            $(this.menu.element).css('min-width', self._elemInput.outerWidth() + 'px');
+        }
 
         var animating = false;
         function checkText() {

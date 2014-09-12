@@ -99,7 +99,7 @@ var ReferenceUi = (function () {
     ReferenceUi.prototype.AddReferenceSearch = function (reference) {
         $('#AddFreeTextReference').hide();
         $('#ReferenceSearchInput').show().attr('placeholder', reference.SearchFieldPlaceholder);
-        new AutocompleteCategories("#ReferenceSearchInput", true, reference.FilterType, "", reference);
+        new AutocompleteCategories("#ReferenceSearchInput", true, reference.FilterType, "", true);
     };
 
     ReferenceUi.prototype.AddFreetextReference = function () {

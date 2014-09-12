@@ -23,31 +23,49 @@
   width: 50%;
   min-width: 250px;
 }
-ul.ui-autocomplete a.CatListItem {
+ul.ui-autocomplete li {
+  float: left;
+  width: 100%;
+}
+ul.ui-autocomplete .CatListItem {
+  border-radius: 4px;
+  background: none !important;
   border: 1px transparent solid;
   padding: 5px !important;
 }
-ul.ui-autocomplete a.CatListItem:before,
-ul.ui-autocomplete a.CatListItem:after {
+ul.ui-autocomplete .CatListItem:before,
+ul.ui-autocomplete .CatListItem:after {
   content: " ";
   display: table;
 }
-ul.ui-autocomplete a.CatListItem:after {
+ul.ui-autocomplete .CatListItem:after {
   clear: both;
 }
-ul.ui-autocomplete a.CatListItem img {
+ul.ui-autocomplete .CatListItem img {
   float: left;
   border-radius: 4px;
 }
-ul.ui-autocomplete a.CatListItem .CatDescription {
+ul.ui-autocomplete .CatListItem .CatDescription {
   margin-left: 55px;
 }
-ul.ui-autocomplete a.CatListItem span {
+ul.ui-autocomplete .CatListItem span {
   display: block;
 }
-ul.ui-autocomplete a.CatListItem span.NumberQuestions {
+ul.ui-autocomplete .CatListItem span.NumberQuestions {
   font-style: italic;
   font-size: 80%;
+}
+ul.ui-autocomplete .CatListItem a.PlainLink {
+  color: #2c5fb2;
+  padding: 0;
+  display: inline;
+}
+ul.ui-autocomplete .CatListItem a.PlainLink:hover {
+  color: #2c5fb2;
+}
+ul.ui-autocomplete a.CatListItem:hover,
+ul.ui-autocomplete a.CatListItem:focus {
+  background-color: #efefef !important;
 }
 ul.ui-autocomplete .Reference.DailyIssue .PublicationDate {
   display: none;
@@ -75,7 +93,7 @@ ul.ui-autocomplete .Reference .WikiUrl {
   text-overflow: ellipsis;
   vertical-align: bottom;
 }
-ul.ui-autocomplete a.CatListItem .Reference span {
+ul.ui-autocomplete .CatListItem .Reference span {
   display: inline;
 }
 ul.ui-autocomplete .Reference {

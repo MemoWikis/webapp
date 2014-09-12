@@ -84,7 +84,7 @@ class ReferenceUi
             true,
             reference.FilterType,
             "",
-            reference
+            true
         );
     }
 

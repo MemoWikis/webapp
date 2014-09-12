@@ -40,13 +40,13 @@ var CompareType = (function () {
 })();
 
 var AutocompleteCategories = (function () {
-    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent, reference) {
+    function AutocompleteCategories(inputSelector, isSingleSelect, filterType, selectorParent, isReference) {
         if (typeof isSingleSelect === "undefined") { isSingleSelect = false; }
         if (typeof filterType === "undefined") { filterType = 0 /* None */; }
         if (typeof selectorParent === "undefined") { selectorParent = ""; }
-        if (typeof reference === "undefined") { reference = null; }
+        if (typeof isReference === "undefined") { isReference = false; }
         this._filterType = filterType;
-        this._reference = reference;
+        this._isReference = isReference;
 
         var self = this;
         this._isSingleSelect = isSingleSelect;
@@ -83,7 +83,7 @@ var AutocompleteCategories = (function () {
             if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
 
-            if (reference == null) {
+            if (isReference == false) {
                 if (self._isSingleSelect) {
                     catIdx = inputSelector.substring(1);
                     self._elemInput.closest(".JS-CatInputContainer").before("<div class='added-cat SingleSelect' id='cat-" + catIdx + "' style='display: none;'>" + "<a href='/Kategorien/ById?id=" + catId + "'>" + catText + "</a>" + "<input id='hdd" + catIdx + "' type='hidden' value='" + catId + "'name='" + "hdd" + catIdx + "'/> " + "<a href='#' id='delete-cat-" + catIdx + "'><i class='fa fa-pencil'></i></a>" + "</div> ");
@@ -154,6 +154,10 @@ var AutocompleteCategories = (function () {
                 });
             },
             select: function (event, ui) {
+                if (ui.item.type == "CreateCategoryLink") {
+                    return false;
+                }
+
                 $(inputSelector).data("category-id", ui.item.id);
                 $(inputSelector).val(ui.item.name);
 
@@ -192,12 +196,35 @@ var AutocompleteCategories = (function () {
 
                 html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + jqueryReferenceHtml + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>";
             } else if (item.type == "CreateCategoryLink") {
-                html = "<a class='CatListItem'>" + "<div class='CatDescription'>" + "Kategorie in neuem Tab erstellen." + "</div>" + "</a>";
+                var resultInfo = "Kein Treffer? Bitte weitertippen oder ";
+
+                if (item.isOnlyResult)
+                    resultInfo = "Leider kein Treffer. Bitte anderen Suchbegriff verwenden oder ";
+
+                var linkText = "Kategorie in neuem Tab erstellen.";
+
+                if (self._isReference) {
+                    linkText = "Quelle in neuem Tab erstellen.";
+                }
+
+                html = "<a class='CatListItem'>" + linkText + "</a>";
+
+                html = "<div class='CatListItem'>" + resultInfo + "<a href='#' class='PlainLink'>" + linkText + "</a>" + "</div>";
             } else {
                 html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + "<span class='cat-name'>" + item.name + "</span>" + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>";
             }
 
             return $("<li></li>").data("ui-autocomplete-item", item).append(html).appendTo(ul);
+        };
+
+        autocomplete.data("ui-autocomplete")._resizeMenu = function () {
+            var left = self._elemInput.offset().left;
+            var maxWidth = 420;
+            var maxPossibleWidth = $(window).outerWidth() - left - 20;
+            if (maxPossibleWidth < maxWidth)
+                maxWidth = maxPossibleWidth;
+            $(this.menu.element).css('max-width', maxWidth + 'px');
+            $(this.menu.element).css('min-width', self._elemInput.outerWidth() + 'px');
         };
 
         var animating = false;

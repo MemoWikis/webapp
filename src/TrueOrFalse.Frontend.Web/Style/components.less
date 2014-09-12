@@ -23,7 +23,15 @@
 
 ul.ui-autocomplete {
 
-    a.CatListItem {
+    li {
+        float: left;
+        width: 100%;
+    }
+
+    .CatListItem {
+
+        border-radius: 4px;
+        background: none !important;//to override jquery-ui styles
 
         #Clearfix;
         border: 1px transparent solid;
@@ -47,11 +55,24 @@ ul.ui-autocomplete {
             }
 
         }
+
+        a.PlainLink {
+            .link;
+            padding: 0;
+            display: inline;
+        }
+
+    }
+
+    a.CatListItem{
+        &:hover, &:focus {
+            background-color: @background-grey !important;//to override previous !important rule
+        }
     }
 
     .ReferenceAllInlineStyle;
 
-    a.CatListItem .Reference span {
+    .CatListItem .Reference span {
         display: inline;
     }
 
