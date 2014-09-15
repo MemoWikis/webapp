@@ -304,14 +304,12 @@ class AutocompleteCategories {
                     linkText = "Quelle in neuem Tab erstellen.";
                 } 
 
-                html = "<a class='CatListItem'>" + linkText + "</a>";
-
-                html = "<div class='CatListItem'>" +
-                    resultInfo +
-                    "<a href='#' class='PlainLink'>" +
-                    linkText +
-                    "</a>" +
-                    "</div>";
+                html =  "<div class='CatListItem'>" +
+                            resultInfo +
+                            "<a href='/Kategorien/Erstelle/' target='_blank' class='TextLink'>" +
+                                linkText +
+                            "</a>" +
+                        "</div>";
             }
             
             else {

@@ -245,9 +245,7 @@ var AutocompleteCategories = (function () {
                     linkText = "Quelle in neuem Tab erstellen.";
                 }
 
-                html = "<a class='CatListItem'>" + linkText + "</a>";
-
-                html = "<div class='CatListItem'>" + resultInfo + "<a href='#' class='PlainLink'>" + linkText + "</a>" + "</div>";
+                html = "<div class='CatListItem'>" + resultInfo + "<a href='/Kategorien/Erstelle/' target='_blank' class='TextLink'>" + linkText + "</a>" + "</div>";
             } else {
                 html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + "<span class='cat-name'>" + item.name + "</span>" + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>";
             }
