@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<a class="helpLink SimpleTextLink" href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">
+<a class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">
     <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
     <span class="TextSpan Help">Hilfe & mehr</span>
 </a> 
@@ -16,7 +16,7 @@
 %>
         <div class="dropdown" style="display: inline-block;">
             <span>Hallo</span>
-            <a class="SimpleTextLink dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
+            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
                 <span class="userName TextSpan"><b><%= userSession.User.Name%></b></span>
                 <b class="caret"></b>
                 <img class="userImage" src="<%= imageSetttings.GetUrl_30px_square(userSession.User.EmailAddress).Url %>" /> 
@@ -35,7 +35,7 @@
 <%
     }else {
 %> 
-        <a class="SimpleTextLink" href="<%=Url.Action("Login", Links.WelcomeController) %>" title="Anmelden"><i class="fa fa-sign-in"></i> <span class="TextSpan">Anmelden</span></a>
+        <a class="TextLinkWithIcon" href="<%=Url.Action("Login", Links.WelcomeController) %>" title="Anmelden"><i class="fa fa-sign-in"></i> <span class="TextSpan">Anmelden</span></a>
 <%
     }
 %>    

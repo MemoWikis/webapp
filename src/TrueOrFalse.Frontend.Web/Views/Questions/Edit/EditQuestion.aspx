@@ -28,7 +28,7 @@
             
             <div class="headerControls pull-right">
                 <div>
-                    <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" class="SimpleTextLink" style="font-size: 12px;
+                    <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" class="TextLinkWithIcon" style="font-size: 12px;
                         margin: 0;"><i class="fa fa-list"></i> <span class="TextSpan">zur Übersicht</span></a>
                 </div>
                 <% if (!Model.ShowSaveAndNewButton){ %>
@@ -121,7 +121,7 @@
                     <div class="columnControlsFull">
                         <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 3})%>
                         <div style="padding-top: 4px;">
-                            <a href="#" id="openExtendedQuestion" class="SimpleTextLink"><i class="fa fa-plus-circle"></i> <span class="TextSpan">Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</span></a> 
+                            <a href="#" id="openExtendedQuestion" class="TextLinkWithIcon"><i class="fa fa-plus-circle"></i> <span class="TextSpan">Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</span></a> 
                         </div>    
                     </div>
                 </div>

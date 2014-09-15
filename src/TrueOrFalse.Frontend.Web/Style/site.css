@@ -59,36 +59,39 @@ a {
 a:hover {
   color: #2c5fb2;
 }
-a.SimpleTextLink {
+a.TextLink:hover {
+  text-decoration: underline;
+}
+a.TextLinkWithIcon {
   text-decoration: none;
   display: inline-block;
 }
 @media (max-width: 767px) {
-  a.SimpleTextLink {
+  a.TextLinkWithIcon {
     line-height: 25px;
   }
 }
-a.SimpleTextLink:hover {
+a.TextLinkWithIcon:hover {
   text-decoration: none;
 }
-a.SimpleTextLink:hover .TextSpan {
+a.TextLinkWithIcon:hover .TextSpan {
   text-decoration: underline;
 }
-a.SimpleTextLink:focus {
+a.TextLinkWithIcon:focus {
   text-decoration: none;
 }
-a.SimpleTextLink:focus .TextSpan {
+a.TextLinkWithIcon:focus .TextSpan {
   text-decoration: underline;
 }
-a.SimpleTextLink i {
+a.TextLinkWithIcon i {
   vertical-align: middle;
 }
 @media (max-width: 767px) {
-  a.SimpleTextLink i {
+  a.TextLinkWithIcon i {
     font-size: 25px;
   }
 }
-a.SimpleTextLink .TextSpan {
+a.TextLinkWithIcon .TextSpan {
   vertical-align: middle;
 }
 /*Headings*/
@@ -348,17 +351,17 @@ img {
 #loginAndHelp span {
   vertical-align: middle;
 }
-#loginAndHelp a.SimpleTextLink {
+#loginAndHelp a.TextLinkWithIcon {
   color: #e7ecf6;
 }
-#loginAndHelp a.SimpleTextLink:hover,
-#loginAndHelp a.SimpleTextLink:active,
-#loginAndHelp a.SimpleTextLink:focus {
+#loginAndHelp a.TextLinkWithIcon:hover,
+#loginAndHelp a.TextLinkWithIcon:active,
+#loginAndHelp a.TextLinkWithIcon:focus {
   color: #afd534;
 }
-#loginAndHelp a.SimpleTextLink:hover *,
-#loginAndHelp a.SimpleTextLink:active *,
-#loginAndHelp a.SimpleTextLink:focus * {
+#loginAndHelp a.TextLinkWithIcon:hover *,
+#loginAndHelp a.TextLinkWithIcon:active *,
+#loginAndHelp a.TextLinkWithIcon:focus * {
   text-decoration: none;
 }
 @media (min-width: 480px) {
@@ -1315,8 +1318,8 @@ div.box-main .box-content {
 i:hover {
   text-decoration: none;
 }
-.SimpleTextLink .fa-check-square-o,
-.SimpleTextLink .fa-square-o {
+.TextLinkWithIcon .fa-check-square-o,
+.TextLinkWithIcon .fa-square-o {
   margin-top: 1px;
 }
 /*UI*/

@@ -70,7 +70,13 @@ a {
             //height: @icon-size-touch;
         }
 
-    &.SimpleTextLink {
+    &.TextLink {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &.TextLinkWithIcon {
         text-decoration: none;
         display: inline-block;
         @media (max-width: @screen-xs-max) {
@@ -373,7 +379,7 @@ img {
         vertical-align: middle;
     }
 
-    a.SimpleTextLink {
+    a.TextLinkWithIcon {
         color: @light-blue;
 
         &:hover, &:active, &:focus {
@@ -1054,7 +1060,7 @@ div.box-main .box-content {
 i:hover {text-decoration: none;}
 
     
-.SimpleTextLink {
+.TextLinkWithIcon {
     .fa-check-square-o, .fa-square-o {
         margin-top: 1px;
     }
