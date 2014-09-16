@@ -23,23 +23,27 @@
   width: 50%;
   min-width: 250px;
 }
-ul.ui-autocomplete li {
+ul.ui-autocomplete {
+  border-radius: 4px;
+}
+ul.ui-autocomplete li.ui-menu-item {
   float: left;
   width: 100%;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0;
+}
+ul.ui-autocomplete li.ui-menu-item.ui-state-focus,
+ul.ui-autocomplete li.ui-menu-item.ui-state-hover {
+  background: none !important;
 }
 ul.ui-autocomplete .CatListItem {
-  border-radius: 4px;
-  background: none !important;
   border: 1px transparent solid;
   padding: 5px !important;
-}
-ul.ui-autocomplete .CatListItem:before,
-ul.ui-autocomplete .CatListItem:after {
-  content: " ";
-  display: table;
-}
-ul.ui-autocomplete .CatListItem:after {
-  clear: both;
+  margin: 2px;
+  border-radius: 4px;
+  display: block;
+  overflow: hidden;
 }
 ul.ui-autocomplete .CatListItem img {
   float: left;
@@ -55,17 +59,17 @@ ul.ui-autocomplete .CatListItem span.NumberQuestions {
   font-style: italic;
   font-size: 80%;
 }
-ul.ui-autocomplete .CatListItem a.PlainLink {
+ul.ui-autocomplete .CatListItem a.TextLink {
   color: #2c5fb2;
   padding: 0;
   display: inline;
 }
-ul.ui-autocomplete .CatListItem a.PlainLink:hover {
+ul.ui-autocomplete .CatListItem a.TextLink:hover {
   color: #2c5fb2;
 }
 ul.ui-autocomplete a.CatListItem:hover,
 ul.ui-autocomplete a.CatListItem:focus {
-  background-color: #efefef !important;
+  background-color: #efefef;
 }
 ul.ui-autocomplete .Reference.DailyIssue .PublicationDate {
   display: none;

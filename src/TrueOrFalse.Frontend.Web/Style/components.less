@@ -23,19 +23,29 @@
 
 ul.ui-autocomplete {
 
-    li {
+    border-radius: 4px;
+
+    li.ui-menu-item {
         float: left;
         width: 100%;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0;
+
+        &.ui-state-focus, &.ui-state-hover{
+            background: none !important;//to override jquery-ui styles
+        }
     }
 
     .CatListItem {
-
-        border-radius: 4px;
-        background: none !important;//to override jquery-ui styles
-
-        #Clearfix;
+        
         border: 1px transparent solid;
         padding: 5px !important;
+        margin: 2px;
+        border-radius: 4px;
+
+        display: block;
+        overflow: hidden;//replaces clearfix which causes layout bug
 
         img {
             float: left;
@@ -53,20 +63,18 @@ ul.ui-autocomplete {
                 font-style: italic;
                 font-size: 80%;
             }
-
         }
 
-        a.PlainLink {
+        a.TextLink {
             .link;
             padding: 0;
             display: inline;
         }
-
     }
 
-    a.CatListItem{
+    a.CatListItem{//"a" is needed to exclude div.CatListItem
         &:hover, &:focus {
-            background-color: @background-grey !important;//to override previous !important rule
+            background-color: @background-grey;
         }
     }
 

@@ -13,7 +13,8 @@ namespace TrueOrFalse.View
                   "~/Style/bootstrap/bootstrap.css",
                   "~/Style/includes/shared.css",
                   "~/Style/*.css",
-                  "~/Style/smoothness/jquery-ui.css", 
+                  "~/Style/jquery-ui/jquery-ui.structure.css", 
+                  "~/Style/jquery-ui/jquery-ui.theme.css", 
                   "~/Style/zocial/css/zocial.css"));
 
             bundles.Add(new StyleBundle("~/bundles/markdownCss")
