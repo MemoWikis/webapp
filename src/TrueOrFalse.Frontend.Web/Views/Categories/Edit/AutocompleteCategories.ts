@@ -262,6 +262,7 @@ class AutocompleteCategories {
         });
 
         autocomplete.data("ui-autocomplete")._renderItem = function (ul, item: CategoryItem): any {
+            //debugger;
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
@@ -298,15 +299,18 @@ class AutocompleteCategories {
                 if (item.isOnlyResult)
                     resultInfo = "Leider kein Treffer. Bitte anderen Suchbegriff verwenden oder ";
 
-                var linkText = "Kategorie in neuem Tab erstellen."; 
+                var linkText = "Kategorie in neuem Tab erstellen.";
+                var urlCategory = "";
 
-                if(self._isReference) {
+                if (self._isReference) {
                     linkText = "Quelle in neuem Tab erstellen.";
+                    urlCategory = "Book";
                 } 
+
 
                 html =  "<div class='CatListItem'>" +
                             resultInfo +
-                            "<a href='/Kategorien/Erstelle/' target='_blank' class='TextLink'>" +
+                            "<a href='/Kategorien/Erstelle/" + urlCategory + "' target='_blank' class='TextLink'>" +
                                 linkText +
                             "</a>" +
                         "</div>";

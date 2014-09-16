@@ -18,9 +18,9 @@ public class EditCategoryController : BaseController
         ActionInvoker = new JavaScriptActionInvoker();
     }
 
-    public ViewResult Create(string name, string parent)
+    public ViewResult Create(string name, string parent, string type)
     {
-        var model = new EditCategoryModel {Name = name ?? ""};
+        var model = new EditCategoryModel {Name = name ?? "", PreselectedType = !String.IsNullOrEmpty(type) ? (CategoryType)Enum.Parse(typeof(CategoryType), type) : CategoryType.Standard };
 
         if (!String.IsNullOrEmpty(parent))
             model.ParentCategories.Add(_categoryRepository.GetById(Convert.ToInt32(parent)));

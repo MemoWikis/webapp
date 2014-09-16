@@ -213,6 +213,7 @@ var AutocompleteCategories = (function () {
         });
 
         autocomplete.data("ui-autocomplete")._renderItem = function (ul, item) {
+            //debugger;
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
@@ -240,12 +241,14 @@ var AutocompleteCategories = (function () {
                     resultInfo = "Leider kein Treffer. Bitte anderen Suchbegriff verwenden oder ";
 
                 var linkText = "Kategorie in neuem Tab erstellen.";
+                var urlCategory = "";
 
                 if (self._isReference) {
                     linkText = "Quelle in neuem Tab erstellen.";
+                    urlCategory = "Book";
                 }
 
-                html = "<div class='CatListItem'>" + resultInfo + "<a href='/Kategorien/Erstelle/' target='_blank' class='TextLink'>" + linkText + "</a>" + "</div>";
+                html = "<div class='CatListItem'>" + resultInfo + "<a href='/Kategorien/Erstelle/" + urlCategory + "' target='_blank' class='TextLink'>" + linkText + "</a>" + "</div>";
             } else {
                 html = "<a class='CatListItem'>" + "<img src='" + item.imageUrl + "'/>" + "<div class='CatDescription'>" + "<span class='cat-name'>" + item.name + "</span>" + "<span class='NumberQuestions'>(" + item.numberOfQuestions + " Fragen)</span>" + "</div>" + "</a>";
             }

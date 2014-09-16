@@ -34,6 +34,8 @@ public class EditCategoryModel : BaseModel
 
     public Category Category;
 
+    public CategoryType PreselectedType;
+
     public string rdoCategoryTypeGroup { get; set; }
     public string ddlCategoryTypeMedia { get; set; }
     public string ddlCategoryTypeEducation { get; set; }

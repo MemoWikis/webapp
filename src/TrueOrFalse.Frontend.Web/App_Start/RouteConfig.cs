@@ -74,7 +74,7 @@ namespace TrueOrFalse
             routes.MapRoute("Categories_SearchTerm", "Kategorien/Suche/{searchTerm}", new { controller = "Categories", action = "Search", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Categories_ById", "Kategorien/ById", new { controller = "Category", action = "ById" });
             routes.MapRoute("Categories", "Kategorien", new { controller = "Categories", action = "Categories" });
-            routes.MapRoute("Categories_Create", "Kategorien/Erstelle", new { controller = "EditCategory", action = "Create" });
+            routes.MapRoute("Categories_Create", "Kategorien/Erstelle/{type}", new { controller = "EditCategory", action = "Create", type = UrlParameter.Optional });
             routes.MapRoute("Categories_Edit", "Kategorien/Bearbeite/{id}", new { controller = "EditCategory", action = "Edit" });
             routes.MapRoute("Categories_Delete", "Kategorien/Loesche/{id}", new { controller = "Categories", action = "Delete" });
             routes.MapRoute("Category_Detail", "Kategorien/{text}/{id}/{elementOnPage}", new { controller = "Category", action = "Category" });

@@ -62,7 +62,8 @@
 
                 <% Html.Message(Model.Message); %>
             
-                <%if(!Model.IsEditing){ %>
+                <% if (!Model.IsEditing)
+                   { %>
                 <div id="CategoryTypeSelect" class="FormSection">
                     <div class="form-group">
                         <label class="columnLabel control-label">
@@ -71,14 +72,14 @@
                         <div class="columnControlsFull">
                             <div class="radio">
                                 <label style="font-weight: normal">
-                                    <input type="radio" name="rdoCategoryTypeGroup" value="standard" <%= Model.rdoCategoryTypeGroup == "standard" ? "checked" : "" %>>
+                                    <input type="radio" name="rdoCategoryTypeGroup" value="standard" <%= Model.rdoCategoryTypeGroup == "standard" ? "checked" : "" %> />
                                     Standard
                                     <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themenkategorien" data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
                                 </label>
                             </div>
                             <div class="radio">
                                 <label style="font-weight: normal">
-                                    <input type="radio" name="rdoCategoryTypeGroup" value="media" <%= Model.rdoCategoryTypeGroup == "media" ? "checked" : "" %>>
+                                    <input type="radio" name="rdoCategoryTypeGroup" value="media" <%= Model.rdoCategoryTypeGroup == "media" ? "checked" : "" %> />
                                     Medien
                                     <i class="fa fa-question-circle show-tooltip" title="Kategorietyp für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen und für Quellenangaben in Fragen." data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
                                     <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
@@ -108,7 +109,7 @@
                             </div>
                             <div class="radio">
                                 <label style="font-weight: normal">
-                                    <input type="radio" name="rdoCategoryTypeGroup" value="education" <%= Model.rdoCategoryTypeGroup == "education" ? "checked" : "" %>>
+                                    <input type="radio" name="rdoCategoryTypeGroup" value="education" <%= Model.rdoCategoryTypeGroup == "education" ? "checked" : "" %> />
                                     Aus- und Weiterbildung
                                     <br/><span style="font-weight: normal;">(Studiengänge, Schulfächer, Klassenstufen etc.)</span>
                                     <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeEducation %>">
@@ -122,6 +123,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
                 <% } %>
                 <div class="FormSection">
@@ -139,10 +141,10 @@
                             <script type="text/javascript">
                                 $(function () {
                                     <%foreach (var category in Model.ParentCategories) { %>
-                                        $("#txtNewRelatedCategory")
-                                            .val('<%=category.Name %>')
-                                            .data('category-id', '<%=category.Id %>')
-                                            .trigger("initCategoryFromTxt");
+                                    $("#txtNewRelatedCategory")
+                                        .val('<%=category.Name %>')
+                                        .data('category-id', '<%=category.Id %>')
+                                        .trigger("initCategoryFromTxt");
                                     <% } %>
                                 });
                             </script>
@@ -175,6 +177,25 @@
 
 <% } %>
     
-<% Html.RenderPartial("~/Views/Shared/ImageUpload/ImageUpload.ascx"); %>
+<%  if (!Model.IsEditing) {%>
+    <script type="text/javascript">
+        <% if (Model.PreselectedType == CategoryType.Book ||
+                Model.PreselectedType == CategoryType.DailyArticle ||
+                Model.PreselectedType == CategoryType.MagazineArticle ||
+                Model.PreselectedType == CategoryType.VolumeChapter ||
+                Model.PreselectedType == CategoryType.WebsiteArticle)
+                {%>
+                    $(function () {
+                        $('[name="rdoCategoryTypeGroup"][value="media"]').prop('checked', true);
+                        $("input[name=rdoCategoryTypeGroup]:radio").trigger('change');
+                        $('#ddlCategoryTypeMedia').val('<%= Model.PreselectedType %>').trigger('change');
+
+                    });
+
+        <% } %>
+    </script>
+<% } 
+    Html.RenderPartial("~/Views/Shared/ImageUpload/ImageUpload.ascx"); %>
+
 
 </asp:Content>
