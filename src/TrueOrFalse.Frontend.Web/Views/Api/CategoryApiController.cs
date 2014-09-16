@@ -116,7 +116,17 @@ namespace TrueOrFalse.View.Web.Views.Api
                         numberOfQuestions = c.CountQuestions, 
                         imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
                         type = c.Type.ToString(), 
-                        html = c.Type == CategoryType.Book ? ViewRenderer.RenderPartialView("Reference",c, ControllerContext) : ""
+                        html =  c.Type == CategoryType.Book ||
+                                c.Type == CategoryType.Daily ||
+                                c.Type == CategoryType.DailyIssue ||
+                                c.Type == CategoryType.DailyArticle ||
+                                c.Type == CategoryType.Magazine ||
+                                c.Type == CategoryType.MagazineIssue ||
+                                c.Type == CategoryType.MagazineArticle ||
+                                c.Type == CategoryType.VolumeChapter ||
+                                c.Type == CategoryType.WebsiteArticle ?
+                                ViewRenderer.RenderPartialView("Reference",c, ControllerContext) : 
+                                ""
                     }
                 ).ToList();
 
@@ -124,8 +134,8 @@ namespace TrueOrFalse.View.Web.Views.Api
                 return Json(result, JsonRequestBehavior.AllowGet);
 
             result.Insert(0, result.Count == 0
-                ? new CategoryJsonResult {type = "CreateCategoryLink", isOnlyResult = true}
-                : new CategoryJsonResult {type = "CreateCategoryLink"});
+                ? new CategoryJsonResult {name = "", type = "CreateCategoryLink", isOnlyResult = true}
+                : new CategoryJsonResult {name = "", type = "CreateCategoryLink" });
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
