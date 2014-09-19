@@ -177,21 +177,21 @@
 
 <% } %>
     
-<%  if (!Model.IsEditing) {%>
+<%  if (!Model.IsEditing) { %>
     <script type="text/javascript">
-        <% if (Model.PreselectedType == CategoryType.Book ||
-                Model.PreselectedType == CategoryType.DailyArticle ||
-                Model.PreselectedType == CategoryType.MagazineArticle ||
-                Model.PreselectedType == CategoryType.VolumeChapter ||
-                Model.PreselectedType == CategoryType.WebsiteArticle)
-                {%>
-                    $(function () {
-                        $('[name="rdoCategoryTypeGroup"][value="media"]').prop('checked', true);
-                        $("input[name=rdoCategoryTypeGroup]:radio").trigger('change');
-                        $('#ddlCategoryTypeMedia').val('<%= Model.PreselectedType %>').trigger('change');
-
-                    });
-
+        <% if (Model.PreselectedType.GetCategoryTypeGroup() == CategoryTypeGroup.Standard)
+        { %>
+            $(function() {
+                $("input:radio[name='rdoCategoryTypeGroup']").trigger('change', [false, 'Standard']);
+            });
+               
+        <% } else if (Model.PreselectedType.GetCategoryTypeGroup() == CategoryTypeGroup.Media)
+        {%>
+            $(function () {
+                $('[name="rdoCategoryTypeGroup"][value="media"]').prop('checked', true);
+                $("input[name=rdoCategoryTypeGroup]:radio").trigger('change', [true]);
+                $('#ddlCategoryTypeMedia').val('<%= Model.PreselectedType %>').trigger('change', ['<%= Model.PreselectedType%>']);
+            });
         <% } %>
     </script>
 <% } 

@@ -43,6 +43,7 @@ public class EditCategoryModel : BaseModel
     public EditCategoryModel()
     {
         rdoCategoryTypeGroup = "standard";
+        PreselectedType = CategoryType.Standard;
     }
 
     public EditCategoryModel(Category category) : this()

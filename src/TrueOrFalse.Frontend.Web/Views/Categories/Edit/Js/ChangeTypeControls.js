@@ -7,19 +7,21 @@
         var ddlCategoryTypeEducation = $($("select[name='ddlCategoryTypeEducation']")[0]);
 
         if (this._isCreating) {
-            $("input[name=rdoCategoryTypeGroup]:radio").change(function () {
-                self.UpdateTypeBody();
+            $("input[name=rdoCategoryTypeGroup]:radio").change(function (e, changeControlsOnly, type) {
+                if (typeof changeControlsOnly === "undefined") { changeControlsOnly = false; }
+                if (!changeControlsOnly)
+                    self.UpdateTypeBody(type);
             });
-            ddlCategoryTypeMedia.change(function () {
-                self.UpdateTypeBody();
+            ddlCategoryTypeMedia.change(function (e, type) {
+                self.UpdateTypeBody(type);
             });
             ddlCategoryTypeEducation.change(function () {
                 self.UpdateTypeBody();
             });
 
+            //Rendering of initial type partial is triggered by change event in script rendered in the view
             self.InitGroupBehaviour();
 
-            $("input:radio[name='rdoCategoryTypeGroup']:checked").trigger("change");
             var selectedRdo = $($("input:radio[name='rdoCategoryTypeGroup']:checked")[0]);
 
             if (selectedRdo.val() == "media") {
@@ -33,17 +35,21 @@
             this.UpdateTypeBody();
         }
     }
-    ChangeTypeControls.prototype.UpdateTypeBody = function () {
-        var selectedValue;
-        if (!this._isCreating) {
-            selectedValue = $("#categoryType").val();
+    ChangeTypeControls.prototype.UpdateTypeBody = function (type) {
+        var selectedValue = "";
+        if (type) {
+            selectedValue = type;
         } else {
-            if ($("input:radio[name=rdoCategoryTypeGroup]:checked").val() == 'standard')
-                selectedValue = 'Standard';
-            if ($("input:radio[name=rdoCategoryTypeGroup]:checked").val() == 'media')
-                selectedValue = $("select[name=ddlCategoryTypeMedia]").val();
-            if ($("input:radio[name='rdoCategoryTypeGroup']:checked").val() == 'education')
-                selectedValue = $("select[name='ddlCategoryTypeEducation']").val();
+            if (!this._isCreating) {
+                selectedValue = $("#categoryType").val();
+            } else {
+                if ($("input:radio[name=rdoCategoryTypeGroup]:checked").val() == 'standard')
+                    selectedValue = 'Standard';
+                if ($("input:radio[name=rdoCategoryTypeGroup]:checked").val() == 'media')
+                    selectedValue = $("select[name=ddlCategoryTypeMedia]").val();
+                if ($("input:radio[name='rdoCategoryTypeGroup']:checked").val() == 'education')
+                    selectedValue = $("select[name='ddlCategoryTypeEducation']").val();
+            }
         }
 
         $('.JS-ShowWithPartial').hide();
