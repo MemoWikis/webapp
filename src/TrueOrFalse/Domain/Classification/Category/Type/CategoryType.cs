@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrueOrFalse;
 
 public enum CategoryType
 {
@@ -31,6 +32,13 @@ public enum CategoryType
     SchoolSubject = 17,
     Course = 18,
     Certification = 19,
+}
+
+public enum CategoryTypeGroup
+{
+    Standard = 1,
+    Media = 2,
+    Education = 3,
 }
 public static class CategoryTypeExts
 {
@@ -66,6 +74,44 @@ public static class CategoryTypeExts
             case CategoryType.Certification: return "Zertifizierung";
         }
         throw new Exception("invalid type");
+    }
+
+    public static CategoryTypeGroup GetCategoryTypeGroup(this CategoryType e)
+    {
+
+        if (e == CategoryType.Standard)
+            return CategoryTypeGroup.Standard;
+        
+        if (e == CategoryType.Book ||
+            e == CategoryType.Daily ||
+            e == CategoryType.DailyArticle ||
+            e == CategoryType.DailyIssue ||
+            e == CategoryType.Magazine ||
+            e == CategoryType.MagazineArticle ||
+            e == CategoryType.MagazineIssue ||
+            e == CategoryType.Movie ||
+            e == CategoryType.TvShow ||
+            e == CategoryType.TvShowEpisode ||
+            e == CategoryType.VolumeChapter ||
+            e == CategoryType.Website ||
+            e == CategoryType.WebsiteArticle ||
+            e == CategoryType.WebsiteOther ||
+            e == CategoryType.WebsiteVideo)
+        {
+            return CategoryTypeGroup.Media;
+        }
+
+        if (e == CategoryType.Certification ||
+            e == CategoryType.Course ||
+            e == CategoryType.FieldOfStudy ||
+            e == CategoryType.FieldStudyTrade ||
+            e == CategoryType.SchoolSubject)
+        {
+            return CategoryTypeGroup.Education;
+        }
+
+        throw new Exception("CategoryType isn't assigned to any CategoryTypeGroup.");
+
     }
 
     public static string GetShortName(this CategoryType e)
