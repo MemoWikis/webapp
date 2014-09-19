@@ -36,7 +36,7 @@ var ReferenceArticle = (function (_super) {
         _super.apply(this, arguments);
         this.FilterType = 2 /* Article */;
         this.LabelText = "Artikel suchen";
-        this.SearchFieldPlaceholder = "Suche nach Titel oder Zeitschrift/Zeitung";
+        this.SearchFieldPlaceholder = "Suche nach Titel / Zeitschrift / Zeitung";
     }
     return ReferenceArticle;
 })(Reference);
@@ -45,7 +45,7 @@ var ReferenceVolumeChapter = (function (_super) {
     __extends(ReferenceVolumeChapter, _super);
     function ReferenceVolumeChapter() {
         _super.apply(this, arguments);
-        this.FilterType = 8 /* VolumeChapter */;
+        this.FilterType = 7 /* VolumeChapter */;
         this.LabelText = "Beitrag in Sammelband suchen";
         this.SearchFieldPlaceholder = "Suche nach Titel oder Autor";
     }
@@ -56,7 +56,7 @@ var ReferenceWebsiteArticle = (function (_super) {
     __extends(ReferenceWebsiteArticle, _super);
     function ReferenceWebsiteArticle() {
         _super.apply(this, arguments);
-        this.FilterType = 9 /* WebsiteArticle */;
+        this.FilterType = 8 /* WebsiteArticle */;
         this.LabelText = "Online-Artikel suchen";
         this.SearchFieldPlaceholder = "Suche nach Titel oder Autor";
     }

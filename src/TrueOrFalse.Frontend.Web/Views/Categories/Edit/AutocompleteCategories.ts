@@ -7,6 +7,7 @@ interface CategoryItem {
     numberOfQuestions: number;
     imageUrl: string;
     type: string;
+    typeGroup: string;
     html: string;
     isOnlyResult: boolean;
 }
@@ -17,7 +18,6 @@ enum AutoCompleteFilterType {
     Article,
     Daily, 
     DailyIssue,
-    DailyArticle,
     Magazine,
     MagazineIssue,
     VolumeChapter,
@@ -34,22 +34,6 @@ class CompareType {
             return true;
 
         if (name == "WebsiteArticle" && type == AutoCompleteFilterType.WebsiteArticle)
-            return true;
-
-        return false;
-    }
-
-    static IsReference(type: string) : boolean {
-        if (type == "Book" ||
-            type == "Daily" ||
-            type == "DailyIssue" ||
-            type == "DailyArticle" ||
-            type == "Magazine" ||
-            type == "MagazineIssue" ||
-            type == "MagazineArticle" ||
-            type == "VolumeChapter" ||
-            type == "WebsiteArticle"
-        )
             return true;
 
         return false;
@@ -267,7 +251,7 @@ class AutocompleteCategories {
                 return "";
 
             var html;
-            if (CompareType.IsReference(item.type))
+            if (item.typeGroup == "Media")
                 {
                 var jqueryReference = $(item.html);
                 if (CompareType.AreEqual(item.type, AutoCompleteFilterType.WebsiteArticle)) {//Render link as plain text to avoid nested anchors
@@ -307,6 +291,45 @@ class AutocompleteCategories {
                     urlCategory = "Book";
                 } 
 
+                switch (self._filterType) {
+                    case AutoCompleteFilterType.Book:
+                        linkText = "Buch in neuem Tab erstellen.";
+                        urlCategory = "Book";
+                        break;
+
+                    case AutoCompleteFilterType.Daily:
+                        linkText = "Tageszeitung in neuem Tab erstellen.";
+                        urlCategory = "Daily";
+                        break;
+
+                    case AutoCompleteFilterType.DailyIssue:
+                        linkText = "Ausgabe Tageszeitung in neuem Tab erstellen.";
+                        urlCategory = "DailyIssue";
+                        break;
+
+                    //Cases DailyArticle and MagazineArticle are treated below (outside switch)
+
+                    case AutoCompleteFilterType.Magazine:
+                        linkText = "Zeitschrift in neuem Tab erstellen.";
+                        urlCategory = "Magazine";
+                        break;
+
+                    case AutoCompleteFilterType.MagazineIssue:
+                        linkText = "Ausgabe Zeitschrift in neuem Tab erstellen.";
+                        urlCategory = "MagazineIssue";
+                        break;
+
+                    case AutoCompleteFilterType.VolumeChapter:
+                        linkText = "Beitrag in Sammelband in neuem Tab erstellen.";
+                        urlCategory = "VolumeChapter";
+                        break;
+
+                    case AutoCompleteFilterType.WebsiteArticle:
+                        linkText = "Online-Artikel in neuem Tab erstellen.";
+                        urlCategory = "WebsiteArticle";
+                        break;
+
+                }
 
                 html =  "<div class='CatListItem'>" +
                             resultInfo +
@@ -314,9 +337,21 @@ class AutocompleteCategories {
                                 linkText +
                             "</a>" +
                         "</div>";
-            }
-            
-            else {
+
+                if (self._filterType == AutoCompleteFilterType.Article) {
+                    html =  "<div class='CatListItem'>" +
+                                resultInfo + "in neuem Tab " +
+                                "<a href='/Kategorien/Erstelle/DailyArticle' target='_blank' class='TextLink'>" +
+                                    "Artikel in Tageszeitung" +
+                                "</a>" +
+                                " oder " +
+                                "<a href='/Kategorien/Erstelle/MagazineArticle' target='_blank' class='TextLink'>" +
+                                    "Artikel in Zeitschrift" +
+                                "</a>" +
+                                " erstellen." +
+                            "</div>";
+                }
+            } else {
                 html = "<a class='CatListItem'>" +
                             "<img src='" + item.imageUrl + "'/>" +
                             "<div class='CatDescription'>" +

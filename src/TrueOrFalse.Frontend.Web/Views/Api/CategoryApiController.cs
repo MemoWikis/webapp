@@ -18,6 +18,7 @@ namespace TrueOrFalse.View.Web.Views.Api
         public int numberOfQuestions { get; set; }
         public string imageUrl { get; set; }
         public string type { get; set; }
+        public string typeGroup { get; set; }
         public string html { get; set; }
 
         public bool isOnlyResult = false;
@@ -115,16 +116,9 @@ namespace TrueOrFalse.View.Web.Views.Api
                         name = c.Name, 
                         numberOfQuestions = c.CountQuestions, 
                         imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
-                        type = c.Type.ToString(), 
-                        html =  c.Type == CategoryType.Book ||
-                                c.Type == CategoryType.Daily ||
-                                c.Type == CategoryType.DailyIssue ||
-                                c.Type == CategoryType.DailyArticle ||
-                                c.Type == CategoryType.Magazine ||
-                                c.Type == CategoryType.MagazineIssue ||
-                                c.Type == CategoryType.MagazineArticle ||
-                                c.Type == CategoryType.VolumeChapter ||
-                                c.Type == CategoryType.WebsiteArticle ?
+                        type = c.Type.ToString(),
+                        typeGroup = c.Type.GetCategoryTypeGroup().ToString(),
+                        html =  c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media ?
                                 ViewRenderer.RenderPartialView("Reference",c, ControllerContext) : 
                                 ""
                     }

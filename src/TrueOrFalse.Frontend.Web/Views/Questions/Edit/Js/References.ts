@@ -22,7 +22,7 @@ class ReferenceArticle extends Reference {
 
     FilterType = AutoCompleteFilterType.Article;
     LabelText = "Artikel suchen";
-    SearchFieldPlaceholder = "Suche nach Titel oder Zeitschrift/Zeitung";
+    SearchFieldPlaceholder = "Suche nach Titel / Zeitschrift / Zeitung";
 }
 
 class ReferenceVolumeChapter extends Reference {
