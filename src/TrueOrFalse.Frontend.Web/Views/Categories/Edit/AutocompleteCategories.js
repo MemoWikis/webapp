@@ -69,9 +69,11 @@ var AutocompleteCategories = (function () {
             nextCatIdx++;
             var catText = $(inputSelector).val();
             var catId = $(inputSelector).data('category-id');
+            var referenceType = $(inputSelector).data('referenceType');
 
             self._referenceId = referenceId;
             self._catId = catId;
+            self._referenceType = referenceType;
 
             if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
@@ -112,7 +114,7 @@ var AutocompleteCategories = (function () {
                     $("#cat-" + catIdx).css('min-width', parseInt($("#cat-" + catIdx).css('width')) + 1 + 'px'); //Workaround for jquery ui effect wrapper width rounding error
                 });
             } else {
-                new OnSelectForReference().OnSelect(self, referenceId);
+                new OnSelectForReference().OnSelect(self, referenceId, referenceType);
             }
         }
 
@@ -252,7 +254,7 @@ var AutocompleteCategories = (function () {
                         break;
 
                     case 4 /* DailyIssue */:
-                        linkText = "Ausgabe Tageszeitung in neuem Tab erstellen.";
+                        linkText = "Ausgabe der Tageszeitung in neuem Tab erstellen.";
                         urlCategory = "DailyIssue";
                         break;
 
@@ -262,7 +264,7 @@ var AutocompleteCategories = (function () {
                         break;
 
                     case 6 /* MagazineIssue */:
-                        linkText = "Ausgabe Zeitschrift in neuem Tab erstellen.";
+                        linkText = "Ausgabe der Zeitschrift in neuem Tab erstellen.";
                         urlCategory = "MagazineIssue";
                         break;
 

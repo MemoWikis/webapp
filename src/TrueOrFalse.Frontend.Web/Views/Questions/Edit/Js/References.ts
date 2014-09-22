@@ -53,6 +53,7 @@ class ReferenceUi
             $("#ReferenceType").change(() => {
 
                 var referenceType = $('#ReferenceType option:selected').attr('value');
+
                 if(referenceType == "Book")
                     this.AddReferenceSearch(new ReferenceBook());
                 if(referenceType == "Article")
@@ -63,6 +64,8 @@ class ReferenceUi
                     this.AddReferenceSearch(new ReferenceWebsiteArticle());
                 if (referenceType == "FreeText")
                     this.AddFreetextReference();
+                if (referenceType == "Url")
+                    this.AddUrlReference();
             });
 
             $("#ReferenceType").trigger('change');
@@ -77,7 +80,7 @@ class ReferenceUi
     }
 
     public AddReferenceSearch(reference: Reference) {
-        $('#AddFreeTextReference').hide();
+        $('#AddFreeTextReference, #AddUrlReference').hide();
         $('#ReferenceSearchInput').show().attr('placeholder', reference.SearchFieldPlaceholder);
         new AutocompleteCategories(
             "#ReferenceSearchInput",
@@ -89,8 +92,13 @@ class ReferenceUi
     }
 
     public AddFreetextReference() {
-        $('#ReferenceSearchInput').hide();
+        $('#ReferenceSearchInput, #AddUrlReference').hide();
         $('#AddFreeTextReference').show();
+    }
+
+    public AddUrlReference() {
+        $('#ReferenceSearchInput, #AddFreeTextReference').hide();
+        $('#AddUrlReference').show();
     }
 
     public static ReferenceToJson() : string {
@@ -113,7 +121,7 @@ class ReferenceUi
 
 class OnSelectForReference implements IAutocompleteOnSelect {
     
-    OnSelect(autocomplete : AutocompleteCategories, referenceId : number) {
+    OnSelect(autocomplete : AutocompleteCategories, referenceId : number, referenceType: string) {
         var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
         var refIdxes = new Array;
         for (var i = 0; i < existingReferences.length; i++) {
@@ -140,7 +148,8 @@ class OnSelectForReference implements IAutocompleteOnSelect {
         $('#JS-ReferenceSearch').hide();
         $('#AddReferenceControls').show();
 
-        if (autocomplete._catId != -1) {
+        if (autocomplete._referenceType != "FreeTextReference" && autocomplete._referenceType != "UrlReference") {
+        //if (autocomplete._catId != -1) {
             $.ajax({
                 url: '/Fragen/Bearbeite/ReferencePartial?catId=' + autocomplete._catId,
                 type: 'GET',
@@ -150,7 +159,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                         .append(
                         "<div class='form-group' style='margin-bottom: 0;'>" +
                             "<label class='columnLabel control-label' for='AdditionalInfo'>Ergänzungen zur Quelle</label>" +
-                                "<div class='columnControlsFull'>" +
+                            "<div class='columnControlsFull'>" +
                                 "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben, Zugriffsdatum etc.'/>" +
                             "</div>" +
                         "</div>");
@@ -160,13 +169,25 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                 }
             });
         } else { /* Freetext */
-            $('#Ref-' + nextRefIdx)
-                .append(
-                "<div class='form-group' style='margin-bottom: 0;'>" +
-                    "<div class='columnControlsFull'>" +
+            if (referenceType == "FreeTextReference") {
+                $('#Ref-' + nextRefIdx)
+                    .append(
+                        "<div class='form-group' style='margin-bottom: 0;'>" +
+                        "<div class='columnControlsFull'>" +
                         "<textarea class='FreeTextReference form-control' name='FreeTextReference' type='text' placeholder='Freitextquelle'></textarea>" +
+                        "</div>" +
+                        "</div>");
+            }
+            if (referenceType == "UrlReference") {
+                $('#Ref-' + nextRefIdx)
+                    .append(
+                    "<div class='form-group' style='margin-bottom: 0;'>" +
+                    "<div class='columnControlsFull'>" +
+                    "<input class='UrlReference form-control' name='UrlReference' type='text' placeholder='Url'/>" +
                     "</div>" +
-                "</div>");
+                    "</div>");
+            }
+            $('#ReferenceSearchInput').data('referenceType', '');
             $(window).trigger('referenceAdded' + autocomplete._referenceId);
             $('.show-tooltip').tooltip();
         }        
@@ -180,6 +201,14 @@ $(function () {
         e.preventDefault();
         $("#ReferenceSearchInput")
             .data('category-id', '-1')
+            .data('referenceType', 'FreeTextReference')
+            .trigger('initCategoryFromTxt');
+    });
+    $('#AddUrlReference button').click(function (e) {
+        e.preventDefault();
+        $("#ReferenceSearchInput")
+            .data('category-id', '-1')
+            .data('referenceType', 'UrlReference')
             .trigger('initCategoryFromTxt');
     });
 });

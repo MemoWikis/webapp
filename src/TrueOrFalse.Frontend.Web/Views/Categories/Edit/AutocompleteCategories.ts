@@ -41,7 +41,7 @@ class CompareType {
 }
 
 interface IAutocompleteOnSelect {
-    OnSelect: (AutocompleteCategories, referenceId) => void;
+    OnSelect: (AutocompleteCategories, referenceId, referenceType) => void;
 }
 
 class AutocompleteCategories {
@@ -54,6 +54,7 @@ class AutocompleteCategories {
 
     _isReference : boolean;
     _referenceId: number;
+    _referenceType: string;
     _catId: number;
     _elemInput: JQuery;
 
@@ -95,10 +96,11 @@ class AutocompleteCategories {
             nextCatIdx++;
             var catText = $(inputSelector).val();
             var catId = $(inputSelector).data('category-id');
+            var referenceType = $(inputSelector).data('referenceType');
 
             self._referenceId = referenceId;
             self._catId = catId;
-
+            self._referenceType = referenceType;
 
             if (self.OnAdd != null && !withoutTriggers)
                 self.OnAdd(catId);
@@ -151,7 +153,7 @@ class AutocompleteCategories {
                     $("#cat-" + catIdx).css('min-width', parseInt($("#cat-" + catIdx).css('width')) + 1 + 'px');//Workaround for jquery ui effect wrapper width rounding error
                 });
             } else {
-                new OnSelectForReference().OnSelect(self, referenceId);
+                new OnSelectForReference().OnSelect(self, referenceId, referenceType);
             }
         }
 
@@ -303,7 +305,7 @@ class AutocompleteCategories {
                         break;
 
                     case AutoCompleteFilterType.DailyIssue:
-                        linkText = "Ausgabe Tageszeitung in neuem Tab erstellen.";
+                        linkText = "Ausgabe der Tageszeitung in neuem Tab erstellen.";
                         urlCategory = "DailyIssue";
                         break;
 
@@ -315,7 +317,7 @@ class AutocompleteCategories {
                         break;
 
                     case AutoCompleteFilterType.MagazineIssue:
-                        linkText = "Ausgabe Zeitschrift in neuem Tab erstellen.";
+                        linkText = "Ausgabe der Zeitschrift in neuem Tab erstellen.";
                         urlCategory = "MagazineIssue";
                         break;
 

@@ -243,6 +243,7 @@
                                                     });
                                                     $("#ReferenceSearchInput")
                                                         .data('category-id', '-1')
+                                                        .data('referenceType', 'FreeTextReference')
                                                         .trigger('initCategoryFromTxt', '<%=reference.Id %>');
                                                 <%}%>
                                             }, <%= i * 200 %>);<%
@@ -260,7 +261,7 @@
                                             <option value="Article">Artikel</option>          
                                             <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>                
                                             <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
-                                            <option value="FreeTextUrl">Freitext-Url</option> 
+                                            <option value="Url">Url</option>
                                             <option value="FreeText">Freitext</option>
                                         </select>
                                     </div>
@@ -269,6 +270,9 @@
                                     </div>
                                      <div  id="AddFreeTextReference" class='ControlInline' style="display: none;">
                                         <button class="btn">Freitextquelle hinzufügen</button>
+                                    </div>
+                                    <div  id="AddUrlReference" class='ControlInline' style="display: none;">
+                                        <button class="btn">Url als Quelle hinzufügen</button>
                                     </div>
                                 </div>
                             </div>

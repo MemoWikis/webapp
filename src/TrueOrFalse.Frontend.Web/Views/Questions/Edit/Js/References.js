@@ -75,6 +75,7 @@ var ReferenceUi = (function () {
 
             $("#ReferenceType").change(function () {
                 var referenceType = $('#ReferenceType option:selected').attr('value');
+
                 if (referenceType == "Book")
                     _this.AddReferenceSearch(new ReferenceBook());
                 if (referenceType == "Article")
@@ -85,6 +86,8 @@ var ReferenceUi = (function () {
                     _this.AddReferenceSearch(new ReferenceWebsiteArticle());
                 if (referenceType == "FreeText")
                     _this.AddFreetextReference();
+                if (referenceType == "Url")
+                    _this.AddUrlReference();
             });
 
             $("#ReferenceType").trigger('change');
@@ -97,14 +100,19 @@ var ReferenceUi = (function () {
         });
     }
     ReferenceUi.prototype.AddReferenceSearch = function (reference) {
-        $('#AddFreeTextReference').hide();
+        $('#AddFreeTextReference, #AddUrlReference').hide();
         $('#ReferenceSearchInput').show().attr('placeholder', reference.SearchFieldPlaceholder);
         new AutocompleteCategories("#ReferenceSearchInput", true, reference.FilterType, "", true);
     };
 
     ReferenceUi.prototype.AddFreetextReference = function () {
-        $('#ReferenceSearchInput').hide();
+        $('#ReferenceSearchInput, #AddUrlReference').hide();
         $('#AddFreeTextReference').show();
+    };
+
+    ReferenceUi.prototype.AddUrlReference = function () {
+        $('#ReferenceSearchInput, #AddFreeTextReference').hide();
+        $('#AddUrlReference').show();
     };
 
     ReferenceUi.ReferenceToJson = function () {
@@ -129,7 +137,7 @@ var ReferenceUi = (function () {
 var OnSelectForReference = (function () {
     function OnSelectForReference() {
     }
-    OnSelectForReference.prototype.OnSelect = function (autocomplete, referenceId) {
+    OnSelectForReference.prototype.OnSelect = function (autocomplete, referenceId, referenceType) {
         var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
         var refIdxes = new Array;
         for (var i = 0; i < existingReferences.length; i++) {
@@ -149,7 +157,8 @@ var OnSelectForReference = (function () {
         $('#JS-ReferenceSearch').hide();
         $('#AddReferenceControls').show();
 
-        if (autocomplete._catId != -1) {
+        if (autocomplete._referenceType != "FreeTextReference" && autocomplete._referenceType != "UrlReference") {
+            //if (autocomplete._catId != -1) {
             $.ajax({
                 url: '/Fragen/Bearbeite/ReferencePartial?catId=' + autocomplete._catId,
                 type: 'GET',
@@ -161,7 +170,13 @@ var OnSelectForReference = (function () {
                 }
             });
         } else {
-            $('#Ref-' + nextRefIdx).append("<div class='form-group' style='margin-bottom: 0;'>" + "<div class='columnControlsFull'>" + "<textarea class='FreeTextReference form-control' name='FreeTextReference' type='text' placeholder='Freitextquelle'></textarea>" + "</div>" + "</div>");
+            if (referenceType == "FreeTextReference") {
+                $('#Ref-' + nextRefIdx).append("<div class='form-group' style='margin-bottom: 0;'>" + "<div class='columnControlsFull'>" + "<textarea class='FreeTextReference form-control' name='FreeTextReference' type='text' placeholder='Freitextquelle'></textarea>" + "</div>" + "</div>");
+            }
+            if (referenceType == "UrlReference") {
+                $('#Ref-' + nextRefIdx).append("<div class='form-group' style='margin-bottom: 0;'>" + "<div class='columnControlsFull'>" + "<input class='UrlReference form-control' name='UrlReference' type='text' placeholder='Url'/>" + "</div>" + "</div>");
+            }
+            $('#ReferenceSearchInput').data('referenceType', '');
             $(window).trigger('referenceAdded' + autocomplete._referenceId);
             $('.show-tooltip').tooltip();
         }
@@ -173,7 +188,11 @@ $(function () {
     new ReferenceUi();
     $('#AddFreeTextReference button').click(function (e) {
         e.preventDefault();
-        $("#ReferenceSearchInput").data('category-id', '-1').trigger('initCategoryFromTxt');
+        $("#ReferenceSearchInput").data('category-id', '-1').data('referenceType', 'FreeTextReference').trigger('initCategoryFromTxt');
+    });
+    $('#AddUrlReference button').click(function (e) {
+        e.preventDefault();
+        $("#ReferenceSearchInput").data('category-id', '-1').data('referenceType', 'UrlReference').trigger('initCategoryFromTxt');
     });
 });
 //# sourceMappingURL=References.js.map
