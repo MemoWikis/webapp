@@ -29,7 +29,6 @@ public class EditSetModel : BaseModel
     [DisplayName("Titel")]
     public string Title { get; set;  }
 
-    [Required]
     [DataType(DataType.MultilineText)]
     [DisplayName("Beschreibung")]
     public string Text { get; set; }

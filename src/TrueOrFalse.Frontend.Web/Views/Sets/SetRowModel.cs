@@ -42,7 +42,7 @@ public class SetRowModel
         Name = set.Name;
         CreatorId = set.Creator.Id;
 
-        DescriptionShort = set.Text.Wrap(150);
+        DescriptionShort = !String.IsNullOrEmpty(set.Text) ? (set.Text.Wrap(150)) : "";
         
         QuestionCount = set.QuestionsInSet.Count;
         CreatorName = set.Creator.Name;
