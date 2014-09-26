@@ -22,6 +22,13 @@
 #JS-ReferenceSearch .JS-CatInputContainer {
   width: 50%;
   min-width: 250px;
+  padding-right: 10px;
+}
+#JS-ReferenceSearch {
+  padding-bottom: 0;
+}
+#JS-ReferenceSearch .ControlInline {
+  padding-bottom: 19px;
 }
 ul.ui-autocomplete {
   border-radius: 4px;

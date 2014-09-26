@@ -254,26 +254,24 @@
                             </script>
                             <div id="JS-ReferenceSearch" class='JS-ReferenceContainer well' style="display: none;">
                                 <a id='JS-HideReferenceSearch' class='close' href ='#'>×</a>
-                                <div class='JS-ReferenceSearch'>
-                                    <div class="ControlInline" style="width: 50%; min-width: 250px;">
-                                        <select id="ReferenceType" class="form-control">
-                                            <option value="Book"><%= CategoryType.Book.GetName() %></option>                
-                                            <option value="Article">Artikel</option>          
-                                            <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>                
-                                            <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
-                                            <option value="Url">Url</option>
-                                            <option value="FreeText">Freitext</option>
-                                        </select>
-                                    </div>
-                                    <div class='JS-CatInputContainer ControlInline'>
-                                        <input id='ReferenceSearchInput' class='form-control' name ='txtReference' type ='text' value ='' placeholder=''/>
-                                    </div>
-                                     <div  id="AddFreeTextReference" class='ControlInline' style="display: none;">
-                                        <button class="btn">Freitextquelle hinzufügen</button>
-                                    </div>
-                                    <div  id="AddUrlReference" class='ControlInline' style="display: none;">
-                                        <button class="btn">Url als Quelle hinzufügen</button>
-                                    </div>
+                                <div class="ControlInline" style="width: 50%; min-width: 250px;">
+                                    <select id="ReferenceType" class="form-control">
+                                        <option value="Book"><%= CategoryType.Book.GetName() %></option>                
+                                        <option value="Article">Artikel</option>          
+                                        <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>                
+                                        <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
+                                        <option value="Url">Url</option>
+                                        <option value="FreeText">Freitext</option>
+                                    </select>
+                                </div>
+                                <div class='JS-CatInputContainer ControlInline'>
+                                    <input id='ReferenceSearchInput' class='form-control' name ='txtReference' type ='text' value ='' placeholder=''/>
+                                </div>
+                                    <div  id="AddFreeTextReference" class='ControlInline' style="display: none;">
+                                    <button class="btn">Freitextquelle hinzufügen</button>
+                                </div>
+                                <div  id="AddUrlReference" class='ControlInline' style="display: none;">
+                                    <button class="btn">Url als Quelle hinzufügen</button>
                                 </div>
                             </div>
                         </div>
