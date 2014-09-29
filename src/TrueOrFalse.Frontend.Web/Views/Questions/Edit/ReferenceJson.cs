@@ -10,8 +10,10 @@ public class ReferenceJson
 {
     public int CategoryId;
     public int ReferenceId;
+    public int Index;
+    public ReferenceType ReferenceType;
     public string AdditionalText;
-    public string FreeText;
+    public string ReferenceText;
 
     public static IList<Reference> LoadFromJson(string json, Question question)
     {
@@ -24,10 +26,12 @@ public class ReferenceJson
             return new Reference
             {
                 Id = refJson.ReferenceId,
+                Index = refJson.Index,
+                ReferenceType = refJson.ReferenceType,
                 Question = question,
                 Category = catRepo.GetById(refJson.CategoryId),
                 AdditionalInfo = refJson.AdditionalText,
-                FreeTextReference = refJson.FreeText
+                ReferenceText = refJson.ReferenceText
             };
         }).ToList();
     }

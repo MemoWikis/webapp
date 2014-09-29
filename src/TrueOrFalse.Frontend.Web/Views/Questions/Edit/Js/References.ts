@@ -1,8 +1,10 @@
 ﻿class ReferenceJson {
     CategoryId: number;
     ReferenceId: number;
+    ReferenceIndex: number;
+    ReferenceType: ReferenceType;
     AdditionalText: string;
-    FreeText : string;
+    ReferenceText : string;
 }
 
 class Reference {
@@ -39,8 +41,15 @@ class ReferenceWebsiteArticle extends Reference {
     SearchFieldPlaceholder = "Suche nach Titel oder Autor";
 }
 
+enum ReferenceType {
+    MediaCategoryReference = 1,
+    FreeTextreference = 2,
+    UrlReference = 3,
+}
+
 class ReferenceUi
 {
+    private _referenceType: ReferenceType;
 
     constructor() {
         $("#AddReference").click((e) => {
@@ -61,9 +70,9 @@ class ReferenceUi
                     this.AddReferenceSearch(new ReferenceVolumeChapter());
                 if(referenceType == "WebsiteArticle")
                     this.AddReferenceSearch(new ReferenceWebsiteArticle());
-                if (referenceType == "FreeText")
+                if(referenceType == "FreeText")
                     this.AddFreetextReference();
-                if (referenceType == "Url")
+                if(referenceType == "Url")
                     this.AddUrlReference();
             });
 
@@ -111,8 +120,10 @@ class ReferenceUi
 
             result.CategoryId = parseInt(elemJ.attr("data-cat-id"));
             result.ReferenceId = parseInt(elemJ.attr("data-ref-id"));
-            result.AdditionalText = elemJ.find("[name='AdditionalInfo']").val();
-            result.FreeText = elemJ.find("[name='FreeTextReference']").val();
+            //result.ReferenceIndex
+            result.ReferenceType = this._referenceType;
+            result.AdditionalText = elemJ.find("[name^='AdditionalInfo']").val();
+            result.ReferenceText = elemJ.find("[name^='ReferenceText']").val();
 
             return result;
         }).toArray();
@@ -160,41 +171,64 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                         .append(data)
                         .append(
                         "<div class='form-group' style='margin-bottom: 0;'>" +
-                            "<label class='columnLabel control-label' for='AdditionalInfo'>Ergänzungen zur Quelle</label>" +
-                            "<div class='columnControlsFull'>" +
-                                "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben, Zugriffsdatum etc.'/>" +
-                            "</div>" +
+                        "<label class='columnLabel control-label' for='AdditionalInfo-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" +
+                        "<div class='columnControlsFull'>" +
+                        "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Seitenangaben, Zugriffsdatum etc.'/>" +
+                        "</div>" +
                         "</div>");
 
                     $(window).trigger('referenceAdded' + referenceId);
                     $('.show-tooltip').tooltip();
                 }
             });
-        } else { /* Freetext */
+        } else { /* No Category */
             if (referenceType == "FreeTextReference") {
                 $('#Ref-' + nextRefIdx)
                     .append(
-                        "<div class='form-group' style='margin-bottom: 0;'>" +
-                        "<div class='columnControlsFull'>" +
-                        "<textarea class='FreeTextReference form-control' name='FreeTextReference' type='text' placeholder='Freitextquelle'></textarea>" +
-                        "</div>" +
-                        "</div>");
+                    "<div class='form-group' style='margin-bottom: 0;'>" +
+                    "<label class='columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Freitextquelle</label>" +
+                    "<div class='columnControlsFull'>" +
+                    "<textarea class='FreeTextReference form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Quellenangabe'></textarea>" +
+                    "</div>" +
+                    "</div>");
             }
             if (referenceType == "UrlReference") {
                 $('#Ref-' + nextRefIdx)
                     .append(
                     "<div class='form-group' style='margin-bottom: 0;'>" +
-                    "<div class='columnControlsFull'>" +
-                    "<input class='UrlReference form-control' name='UrlReference' type='text' placeholder='Url'/>" +
-                    "</div>" +
+                        "<label class='columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Url</label>" +
+                        "<div class='columnControlsFull'>" +
+                            "<input class='UrlReference form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Bitte hier nur die Url eingeben'/>" +
+                            "<a href='#' id='TestLink-" + nextRefIdx + "' style='display: none;' target='_blank'>Link testen (in neuem Tab öffnen)</a>" +
+                        "</div>" +
+                    "</div>"+
+                    "<div class='form-group' style='margin-bottom: 0;'>" +
+                    "<label class='columnLabel control-label' for='AdditionalInfo-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" +
+                        "<div class='columnControlsFull'>" +
+                            //"<input class='UrlReference form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Zugriffsdatum etc.'/>" +
+                            "<textarea class='UrlReference form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Zugriffsdatum etc.'></textarea>" +
+                        "</div>" +
                     "</div>");
+
+                var inputReferenceText = $('[name=ReferenceText-' + nextRefIdx + ']');
+                inputReferenceText.bind('input blur', function (e) {
+                    if ($(this).val() == "") {
+                        $('#TestLink-' + nextRefIdx).hide();
+                    } else if (e.type == "blur") {
+                        var urlValue = inputReferenceText.val();
+                        if (inputReferenceText.val().substring(0, 7) != "http://" && inputReferenceText.val().substring(0, 8) != "https://") {
+                            urlValue = "http://" + urlValue;
+                        }
+                        inputReferenceText.val(urlValue);
+                        $('#TestLink-' + nextRefIdx).show().attr('href', urlValue);
+                    }
+                });
             }
             $('#ReferenceSearchInput').data('referenceType', '');
             $(window).trigger('referenceAdded' + autocomplete._referenceId);
             $('.show-tooltip').tooltip();
         }        
     }
-
 }
 
 $(function () {

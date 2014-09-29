@@ -63,10 +63,16 @@ var ReferenceWebsiteArticle = (function (_super) {
     return ReferenceWebsiteArticle;
 })(Reference);
 
+var ReferenceType;
+(function (ReferenceType) {
+    ReferenceType[ReferenceType["MediaCategoryReference"] = 1] = "MediaCategoryReference";
+    ReferenceType[ReferenceType["FreeTextreference"] = 2] = "FreeTextreference";
+    ReferenceType[ReferenceType["UrlReference"] = 3] = "UrlReference";
+})(ReferenceType || (ReferenceType = {}));
+
 var ReferenceUi = (function () {
     function ReferenceUi() {
         var _this = this;
-        this._nextRefIdx = 1;
         $("#AddReference").click(function (e) {
             e.preventDefault();
 
@@ -101,17 +107,20 @@ var ReferenceUi = (function () {
     }
     ReferenceUi.prototype.AddReferenceSearch = function (reference) {
         $('#AddFreeTextReference, #AddUrlReference').hide();
-        $('#ReferenceSearchInput').show().attr('placeholder', reference.SearchFieldPlaceholder);
+        $('#ReferenceSearchInput').closest('.JS-CatInputContainer').show();
+        $('#ReferenceSearchInput').attr('placeholder', reference.SearchFieldPlaceholder);
         new AutocompleteCategories("#ReferenceSearchInput", true, reference.FilterType, "", true);
     };
 
     ReferenceUi.prototype.AddFreetextReference = function () {
-        $('#ReferenceSearchInput, #AddUrlReference').hide();
+        $('#ReferenceSearchInput').closest('.JS-CatInputContainer').hide();
+        $('#AddUrlReference').hide();
         $('#AddFreeTextReference').show();
     };
 
     ReferenceUi.prototype.AddUrlReference = function () {
-        $('#ReferenceSearchInput, #AddFreeTextReference').hide();
+        $('#ReferenceSearchInput').closest('.JS-CatInputContainer').hide();
+        $('#AddFreeTextReference').hide();
         $('#AddUrlReference').show();
     };
 
@@ -122,8 +131,11 @@ var ReferenceUi = (function () {
 
             result.CategoryId = parseInt(elemJ.attr("data-cat-id"));
             result.ReferenceId = parseInt(elemJ.attr("data-ref-id"));
-            result.AdditionalText = elemJ.find("[name='AdditionalInfo']").val();
-            result.FreeText = elemJ.find("[name='FreeTextReference']").val();
+
+            //result.ReferenceIndex
+            result.ReferenceType = this._referenceType;
+            result.AdditionalText = elemJ.find("[name^='AdditionalInfo']").val();
+            result.ReferenceText = elemJ.find("[name^='ReferenceText']").val();
 
             return result;
         }).toArray();
@@ -147,7 +159,7 @@ var OnSelectForReference = (function () {
         if (existingReferences.length != 0) {
             nextRefIdx = Math.max.apply(Math, refIdxes) + 1;
         }
-        $("<div id='Ref-" + nextRefIdx + "' " + "class='JS-ReferenceContainer well'" + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + autocomplete._referenceId + "'" + "data-cat-id='" + autocomplete._catId + "'>" + "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" + "</div>").insertBefore('#JS-ReferenceSearch');
+        $("<div id='Ref-" + nextRefIdx + "' " + "class='JS-ReferenceContainer well'" + "data-ref-idx='" + nextRefIdx + "'" + "data-ref-id='" + autocomplete._referenceId + "'" + "data-cat-id='" + autocomplete._catId + "'>" + "<a id='delete-ref-" + nextRefIdx + "' class='close show-tooltip' href ='#' data-toggle='tooltip' title = 'Quellenangabe löschen' data-placement = 'top'>×</a>" + "</div>").insertBefore('#JS-ReferenceSearch');
         $("#delete-ref-" + nextRefIdx).click(function (e) {
             e.preventDefault();
             $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
@@ -163,7 +175,7 @@ var OnSelectForReference = (function () {
                 url: '/Fragen/Bearbeite/ReferencePartial?catId=' + autocomplete._catId,
                 type: 'GET',
                 success: function (data) {
-                    $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='AdditionalInfo'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo' type='text' placeholder='Seitenangaben, Zugriffsdatum etc.'/>" + "</div>" + "</div>");
+                    $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='AdditionalInfo-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Seitenangaben, Zugriffsdatum etc.'/>" + "</div>" + "</div>");
 
                     $(window).trigger('referenceAdded' + referenceId);
                     $('.show-tooltip').tooltip();
@@ -171,10 +183,24 @@ var OnSelectForReference = (function () {
             });
         } else {
             if (referenceType == "FreeTextReference") {
-                $('#Ref-' + nextRefIdx).append("<div class='form-group' style='margin-bottom: 0;'>" + "<div class='columnControlsFull'>" + "<textarea class='FreeTextReference form-control' name='FreeTextReference' type='text' placeholder='Freitextquelle'></textarea>" + "</div>" + "</div>");
+                $('#Ref-' + nextRefIdx).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Freitextquelle</label>" + "<div class='columnControlsFull'>" + "<textarea class='FreeTextReference form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Quellenangabe'></textarea>" + "</div>" + "</div>");
             }
             if (referenceType == "UrlReference") {
-                $('#Ref-' + nextRefIdx).append("<div class='form-group' style='margin-bottom: 0;'>" + "<div class='columnControlsFull'>" + "<input class='UrlReference form-control' name='UrlReference' type='text' placeholder='Url'/>" + "</div>" + "</div>");
+                $('#Ref-' + nextRefIdx).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Url</label>" + "<div class='columnControlsFull'>" + "<input class='UrlReference form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Bitte hier nur die Url eingeben'/>" + "<a href='#' id='TestLink-" + nextRefIdx + "' style='display: none;' target='_blank'>Link testen (in neuem Tab öffnen)</a>" + "</div>" + "</div>" + "<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='AdditionalInfo-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<textarea class='UrlReference form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Zugriffsdatum etc.'></textarea>" + "</div>" + "</div>");
+
+                var inputReferenceText = $('[name=ReferenceText-' + nextRefIdx + ']');
+                inputReferenceText.bind('input blur', function (e) {
+                    if ($(this).val() == "") {
+                        $('#TestLink-' + nextRefIdx).hide();
+                    } else if (e.type == "blur") {
+                        var urlValue = inputReferenceText.val();
+                        if (inputReferenceText.val().substring(0, 7) != "http://" && inputReferenceText.val().substring(0, 8) != "https://") {
+                            urlValue = "http://" + urlValue;
+                        }
+                        inputReferenceText.val(urlValue);
+                        $('#TestLink-' + nextRefIdx).show().attr('href', urlValue);
+                    }
+                });
             }
             $('#ReferenceSearchInput').data('referenceType', '');
             $(window).trigger('referenceAdded' + autocomplete._referenceId);
