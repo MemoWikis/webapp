@@ -22,7 +22,7 @@ namespace TrueOrFalse.Tests.Persistence
             reference.Question = contextQuestion.All.First();
             reference.Category = contextCategory.All.First();
             reference.AdditionalInfo = "Additional Info";
-            reference.FreeTextReference = "Free text reference";
+            reference.ReferenceText = "Free text reference";
 
             R<ReferenceRepository>().Create(reference);
 
@@ -38,7 +38,7 @@ namespace TrueOrFalse.Tests.Persistence
             var reference = new Reference();
             reference.Question = contextQuestion.All.First();
             reference.AdditionalInfo = "Additional Info";
-            reference.FreeTextReference = "Free text reference";
+            reference.ReferenceText = "Free text reference";
 
             R<ReferenceRepository>().Create(reference);
 
@@ -60,7 +60,7 @@ namespace TrueOrFalse.Tests.Persistence
             //Arange
             var contextQuestion = ContextQuestion.New().AddQuestion().Persist();
             var question = contextQuestion.All[0];
-            question.References.Add(new Reference{FreeTextReference = "FTR"});
+            question.References.Add(new Reference{ReferenceText = "FTR"});
             question.References.Add(new Reference{AdditionalInfo = "AI"});
 
             //Act

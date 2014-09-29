@@ -90,7 +90,7 @@ namespace TrueOrFalse.Tests.Persistence
             reference.Question = contextQuestion.All.First();
             reference.Category = contextCategory.All.First();
             reference.AdditionalInfo = "Additional Info";
-            reference.FreeTextReference = "Free text reference";
+            reference.ReferenceText = "Reference Text";
             return reference;
         }
     }

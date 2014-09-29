@@ -239,7 +239,7 @@
                                                     
                                                 <% } else {%>
                                                     $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
-                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.FreeTextReference').html('<%= reference.FreeTextReference%>');
+                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.FreeTextReference').html('<%= reference.ReferenceText%>');
                                                     });
                                                     $("#ReferenceSearchInput")
                                                         .data('category-id', '-1')
@@ -304,7 +304,7 @@
                         <div class="noLabel columnControlsFull">
                             <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
                             <% if (Model.ShowSaveAndNewButton){ %>
-                                <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern & Neu</button>&nbsp;
+                                <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern &amp; neu</button>&nbsp;
                             <% } %>                        
                         </div>
                     </div>

@@ -311,6 +311,7 @@
     <Compile Include="Domain\Classification\Category\Persistence\CategoryMap.cs" />
     <Compile Include="Domain\Question\References\Persistence\ReferenceRepository.cs" />
     <Compile Include="Domain\Question\References\Reference.cs" />
+    <Compile Include="Domain\Question\References\ReferenceType.cs" />
     <Compile Include="Domain\Question\SolutionType\Date\DateAnswer.cs" />
     <Compile Include="Domain\Question\Answer\GetQuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
@@ -478,6 +479,7 @@
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs063.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs062.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs061.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs060.cs" />

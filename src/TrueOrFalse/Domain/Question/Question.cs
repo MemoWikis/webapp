@@ -111,7 +111,7 @@ namespace TrueOrFalse
                 var reference = References.First(r => r.Id == existingReferenes[i].Id);
                 reference.DateModified = DateTime.Now;
                 reference.AdditionalInfo = existingReferenes[i].AdditionalInfo;
-                reference.FreeTextReference = existingReferenes[i].FreeTextReference;
+                reference.ReferenceText = existingReferenes[i].ReferenceText;
             }
         }
     }
