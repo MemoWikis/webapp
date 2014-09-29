@@ -193,6 +193,10 @@ select.form-control {
   right: 5px;
   top: 3px;
 }
+#JS-References .JS-ReferenceContainer .form-group + .form-group,
+#AddReferenceControls .JS-ReferenceContainer .form-group + .form-group {
+  margin-top: 15px;
+}
 #JS-References .Reference,
 #AddReferenceControls .Reference {
   margin-bottom: 5px;
