@@ -41,7 +41,6 @@ class ReferenceWebsiteArticle extends Reference {
 
 class ReferenceUi
 {
-    private _nextRefIdx = 1;
 
     constructor() {
         $("#AddReference").click((e) => {
@@ -81,7 +80,8 @@ class ReferenceUi
 
     public AddReferenceSearch(reference: Reference) {
         $('#AddFreeTextReference, #AddUrlReference').hide();
-        $('#ReferenceSearchInput').show().attr('placeholder', reference.SearchFieldPlaceholder);
+        $('#ReferenceSearchInput').closest('.JS-CatInputContainer').show();
+        $('#ReferenceSearchInput').attr('placeholder', reference.SearchFieldPlaceholder);
         new AutocompleteCategories(
             "#ReferenceSearchInput",
             true,
@@ -92,12 +92,14 @@ class ReferenceUi
     }
 
     public AddFreetextReference() {
-        $('#ReferenceSearchInput, #AddUrlReference').hide();
+        $('#ReferenceSearchInput').closest('.JS-CatInputContainer').hide();
+        $('#AddUrlReference').hide();
         $('#AddFreeTextReference').show();
     }
 
     public AddUrlReference() {
-        $('#ReferenceSearchInput, #AddFreeTextReference').hide();
+        $('#ReferenceSearchInput').closest('.JS-CatInputContainer').hide();
+        $('#AddFreeTextReference').hide();
         $('#AddUrlReference').show();
     }
 
@@ -137,7 +139,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                     "data-ref-idx='" + nextRefIdx + "'" +
                     "data-ref-id='" + autocomplete._referenceId + "'" + 
                     "data-cat-id='" + autocomplete._catId + "'>" + 
-                "<a id='delete-ref-" + nextRefIdx + "'" + " class='close' href ='#'>×</a>" +
+            "<a id='delete-ref-" + nextRefIdx + "' class='close show-tooltip' href ='#' data-toggle='tooltip' title = 'Quellenangabe löschen' data-placement = 'top'>×</a>" +
             "</div>").insertBefore('#JS-ReferenceSearch');
         $("#delete-ref-" + nextRefIdx).click(function (e) {
             e.preventDefault();
