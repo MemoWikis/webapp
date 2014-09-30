@@ -12,5 +12,20 @@ namespace TrueOrFalse
         public virtual ReferenceType ReferenceType { get; set; }
         public virtual string AdditionalInfo { get; set; }
         public virtual string ReferenceText { get; set; }
+
+        public static ReferenceType GetReferenceType(string referenceTypeString)
+        {
+            if (referenceTypeString == "MediaCategoryReference")
+                return ReferenceType.MediaCategoryReference;
+
+            if (referenceTypeString == "FreeTextReference")
+                return ReferenceType.FreeTextreference;
+
+            if (referenceTypeString == "UrlReference")
+                return ReferenceType.UrlReference;
+
+            throw new Exception("invalid type");
+
+        }
     }
 }

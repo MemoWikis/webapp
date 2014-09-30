@@ -2,7 +2,7 @@
     CategoryId: number;
     ReferenceId: number;
     ReferenceIndex: number;
-    ReferenceType: ReferenceType;
+    ReferenceType: string;
     AdditionalText: string;
     ReferenceText : string;
 }
@@ -41,16 +41,14 @@ class ReferenceWebsiteArticle extends Reference {
     SearchFieldPlaceholder = "Suche nach Titel oder Autor";
 }
 
-enum ReferenceType {
-    MediaCategoryReference = 1,
-    FreeTextreference = 2,
-    UrlReference = 3,
-}
+//enum ReferenceType {
+//    MediaCategoryReference = 1,
+//    FreeTextReference = 2,
+//    UrlReference = 3,
+//}
 
 class ReferenceUi
 {
-    private _referenceType: ReferenceType;
-
     constructor() {
         $("#AddReference").click((e) => {
             e.preventDefault();
@@ -60,19 +58,19 @@ class ReferenceUi
 
             $("#ReferenceType").change(() => {
 
-                var referenceType = $('#ReferenceType option:selected').attr('value');
+                var referenceSearchType = $('#ReferenceType option:selected').attr('value');
 
-                if(referenceType == "Book")
+                if(referenceSearchType == "Book")
                     this.AddReferenceSearch(new ReferenceBook());
-                if(referenceType == "Article")
+                if(referenceSearchType == "Article")
                     this.AddReferenceSearch(new ReferenceArticle());
-                if(referenceType == "VolumeChapter")
+                if(referenceSearchType == "VolumeChapter")
                     this.AddReferenceSearch(new ReferenceVolumeChapter());
-                if(referenceType == "WebsiteArticle")
+                if(referenceSearchType == "WebsiteArticle")
                     this.AddReferenceSearch(new ReferenceWebsiteArticle());
-                if(referenceType == "FreeText")
+                if(referenceSearchType == "FreeText")
                     this.AddFreetextReference();
-                if(referenceType == "Url")
+                if(referenceSearchType == "Url")
                     this.AddUrlReference();
             });
 
@@ -90,7 +88,7 @@ class ReferenceUi
     public AddReferenceSearch(reference: Reference) {
         $('#AddFreeTextReference, #AddUrlReference').hide();
         $('#ReferenceSearchInput').closest('.JS-CatInputContainer').show();
-        $('#ReferenceSearchInput').attr('placeholder', reference.SearchFieldPlaceholder);
+        $('#ReferenceSearchInput').attr('placeholder', reference.SearchFieldPlaceholder).data('referenceType', 'MediaCategoryReference');
         new AutocompleteCategories(
             "#ReferenceSearchInput",
             true,
@@ -121,7 +119,7 @@ class ReferenceUi
             result.CategoryId = parseInt(elemJ.attr("data-cat-id"));
             result.ReferenceId = parseInt(elemJ.attr("data-ref-id"));
             //result.ReferenceIndex
-            result.ReferenceType = this._referenceType;
+            result.ReferenceType = elemJ.attr("data-ref-type");
             result.AdditionalText = elemJ.find("[name^='AdditionalInfo']").val();
             result.ReferenceText = elemJ.find("[name^='ReferenceText']").val();
 
@@ -134,7 +132,7 @@ class ReferenceUi
 
 class OnSelectForReference implements IAutocompleteOnSelect {
     
-    OnSelect(autocomplete : AutocompleteCategories, referenceId : number, referenceType: string) {
+    OnSelect(autocomplete: AutocompleteCategories, referenceId: number, referenceType: string) {
         var existingReferences = $('.JS-ReferenceContainer:not(#JS-ReferenceSearch)');
         var refIdxes = new Array;
         for (var i = 0; i < existingReferences.length; i++) {
@@ -149,6 +147,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                     "class='JS-ReferenceContainer well'" +
                     "data-ref-idx='" + nextRefIdx + "'" +
                     "data-ref-id='" + autocomplete._referenceId + "'" + 
+                    "data-ref-type='" + referenceType + "'" + 
                     "data-cat-id='" + autocomplete._catId + "'>" + 
             "<a id='delete-ref-" + nextRefIdx + "' class='close show-tooltip' href ='#' data-toggle='tooltip' title = 'Quellenangabe löschen' data-placement = 'top'>×</a>" +
             "</div>").insertBefore('#JS-ReferenceSearch');
@@ -161,8 +160,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
         $('#JS-ReferenceSearch').hide();
         $('#AddReferenceControls').show();
 
-        if (autocomplete._referenceType != "FreeTextReference" && autocomplete._referenceType != "UrlReference") {
-        //if (autocomplete._catId != -1) {
+        if (referenceType == "MediaCategoryReference") {
             $.ajax({
                 url: '/Fragen/Bearbeite/ReferencePartial?catId=' + autocomplete._catId,
                 type: 'GET',
@@ -188,7 +186,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                     "<div class='form-group' style='margin-bottom: 0;'>" +
                     "<label class='columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Freitextquelle</label>" +
                     "<div class='columnControlsFull'>" +
-                    "<textarea class='FreeTextReference form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Quellenangabe'></textarea>" +
+                    "<textarea class='ReferenceText form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Quellenangabe'></textarea>" +
                     "</div>" +
                     "</div>");
             }
@@ -198,7 +196,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                     "<div class='form-group' style='margin-bottom: 0;'>" +
                         "<label class='columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Url</label>" +
                         "<div class='columnControlsFull'>" +
-                            "<input class='UrlReference form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Bitte hier nur die Url eingeben'/>" +
+                            "<input class='ReferenceText form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Bitte hier nur die Url eingeben'/>" +
                             "<a href='#' id='TestLink-" + nextRefIdx + "' style='display: none;' target='_blank'>Link testen (in neuem Tab öffnen)</a>" +
                         "</div>" +
                     "</div>"+
@@ -206,7 +204,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                     "<label class='columnLabel control-label' for='AdditionalInfo-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" +
                         "<div class='columnControlsFull'>" +
                             //"<input class='UrlReference form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Zugriffsdatum etc.'/>" +
-                            "<textarea class='UrlReference form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Zugriffsdatum etc.'></textarea>" +
+                            "<textarea class='AdditionalInfo form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Zugriffsdatum etc.'></textarea>" +
                         "</div>" +
                     "</div>");
 

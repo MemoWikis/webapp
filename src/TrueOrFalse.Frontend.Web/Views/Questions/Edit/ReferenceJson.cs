@@ -10,8 +10,8 @@ public class ReferenceJson
 {
     public int CategoryId;
     public int ReferenceId;
-    public int Index;
-    public ReferenceType ReferenceType;
+    public int ReferenceIndex;
+    public string ReferenceType;
     public string AdditionalText;
     public string ReferenceText;
 
@@ -26,8 +26,8 @@ public class ReferenceJson
             return new Reference
             {
                 Id = refJson.ReferenceId,
-                Index = refJson.Index,
-                ReferenceType = refJson.ReferenceType,
+                Index = refJson.ReferenceIndex,
+                ReferenceType = Reference.GetReferenceType(refJson.ReferenceType),
                 Question = question,
                 Category = catRepo.GetById(refJson.CategoryId),
                 AdditionalInfo = refJson.AdditionalText,

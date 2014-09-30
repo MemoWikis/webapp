@@ -73,7 +73,7 @@ public static class CategoryTypeExts
             case CategoryType.Course: return "Kurs/Seminar";
             case CategoryType.Certification: return "Zertifizierung";
         }
-        throw new Exception("invalid type");
+        throw new Exception("invalid category type");
     }
 
     public static CategoryTypeGroup GetCategoryTypeGroup(this CategoryType e)
