@@ -222,43 +222,46 @@
                                 <%if(Model.References.Count != 0){%>
                                     $(function () {
                                         $("#AddReference").trigger('click');
-                                        <%
-                                      var i = 0;
-                                        foreach (var reference in Model.References) {%>
-                                        setTimeout(function() {
+                                        <% for (var i = 0; i < Model.References.Count; i++){ %>
                                             var catId = -1;
-                                            <%switch (reference.ReferenceType) {
+                                            <% switch (Model.References[i].ReferenceType){
 
-                                                case ReferenceType.MediaCategoryReference:%>
-                                                    $(window).bind('referenceAdded<%= reference.Id%>', function() {
-                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]')
+                                                case ReferenceType.MediaCategoryReference: %>
+                                                    $(window).bind('referenceAdded<%= Model.References[i].Id %>', function() {
+                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= Model.References[i].Id %>' + '"]')
                                                             .find('.InputRefAddition')
-                                                            .val('<%= reference.AdditionalInfo%>');
+                                                            .val('<%= Model.References[i].AdditionalInfo %>');
                                                     });
 
-                                                    catId = <%=reference.Category.Id %>;
-                                                    <%break;
+                                                    catId = <%= Model.References[i].Category.Id %>;
+                                                    <% break;
 
-                                                case ReferenceType.FreeTextreference:%>
-                                                    $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
-                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.ReferenceText').val('<%= reference.ReferenceText%>');
+                                                case ReferenceType.FreeTextreference: %>
+                                                    $(window).bind('referenceAdded' + '<%= Model.References[i].Id %>', function() {
+                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= Model.References[i].Id %>' + '"]').find('.ReferenceText').val('<%= Model.References[i].ReferenceText %>');
                                                     });
                                                     <% break;
-                                                   
-                                                case ReferenceType.UrlReference:%>
-                                                    $(window).bind('referenceAdded' + '<%= reference.Id%>', function() {
-                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.ReferenceText').val('<%= reference.ReferenceText%>').trigger('blur');
-                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= reference.Id%>' + '"]').find('.AdditionalInfo').val('<%= reference.AdditionalInfo%>');
+
+                                                case ReferenceType.UrlReference: %>
+                                                    $(window).bind('referenceAdded' + '<%= Model.References[i].Id %>', function() {
+                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= Model.References[i].Id %>' + '"]').find('.ReferenceText').val('<%= Model.References[i].ReferenceText %>').trigger('blur');
+                                                        $('.JS-ReferenceContainer[data-ref-id="' + '<%= Model.References[i].Id %>' + '"]').find('.AdditionalInfo').val('<%= Model.References[i].AdditionalInfo %>');
                                                     });
                                                     <% break;
-                                              }%>
-                                            $("#ReferenceSearchInput")
+                                            } %>
+                                            <% if (i == 0){%>
+                                                $("#ReferenceSearchInput")
                                                         .data('category-id', catId)
-                                                        .data('referenceType', '<%= reference.ReferenceType.GetName() %>')
-                                                        .trigger('initCategoryFromTxt', '<%=reference.Id %>');
-                                                
-                                            }, <%= i * 200 %>);<%
-                                            i++;
+                                                        .data('referenceType', '<%= Model.References[i].ReferenceType.GetName() %>')
+                                                        .trigger('initCategoryFromTxt', '<%= Model.References[i].Id %>');       
+                                            <%} else {%>
+                                                $(window).bind('referenceAdded' + '<%= Model.References[i-1].Id%>', function() {
+                                                    $("#ReferenceSearchInput")
+                                                        .data('category-id', catId)
+                                                        .data('referenceType', '<%= Model.References[i].ReferenceType.GetName() %>')
+                                                        .trigger('initCategoryFromTxt', '<%= Model.References[i].Id %>');                                                
+                                                });
+                                            <%}
                                         } %>
                                     });
                                 <%}%>
