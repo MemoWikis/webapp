@@ -1,7 +1,6 @@
 ﻿class ReferenceJson {
     CategoryId: number;
     ReferenceId: number;
-    ReferenceIndex: number;
     ReferenceType: string;
     AdditionalText: string;
     ReferenceText : string;
@@ -118,7 +117,6 @@ class ReferenceUi
 
             result.CategoryId = parseInt(elemJ.attr("data-cat-id"));
             result.ReferenceId = parseInt(elemJ.attr("data-ref-id"));
-            //result.ReferenceIndex
             result.ReferenceType = elemJ.attr("data-ref-type");
             result.AdditionalText = elemJ.find("[name^='AdditionalInfo']").val();
             result.ReferenceText = elemJ.find("[name^='ReferenceText']").val();

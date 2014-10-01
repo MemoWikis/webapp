@@ -15,7 +15,6 @@ namespace TrueOrFalse
             References(x => x.Question).Cascade.None();
             References(x => x.Category);
 
-            Map(x => x.Index);
             Map(x => x.ReferenceType);
             Map(x => x.AdditionalInfo);
             Map(x => x.ReferenceText);
