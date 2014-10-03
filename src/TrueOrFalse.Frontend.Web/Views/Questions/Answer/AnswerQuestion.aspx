@@ -108,13 +108,19 @@
             
                 <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
 
-                <div class="alert alert-info" id="divCorrectAnswer" style="display: none; background-color: white; color:#2E487B;">
-                    <b>Antwort:</b>
-                    <span id="spanCorrectAnswer"></span>
-                    <p style="padding-top:10px;">
-                        <b>Erklärung:</b>
-                        <span id="spanAnswerDescription"></span>
-                    </p>
+                <div class="alert alert-info" id="SolutionDetails" style="display: none; background-color: white; color:#2E487B;">
+                    <div id="Solution" class="Detail">
+                        <div class="Label">Antwort:</div>
+                        <div class="Content"></div>
+                    </div>
+                    <div id="Description" class="Detail" style="display: none;">
+                        <div class="Label">Ergänzungen:</div>
+                        <div class="Content"></div>
+                    </div>
+                     <div id="References" class="Detail" style="display: none;">
+                        <div class="Label">Quellen:</div>
+                        <div class="Content"></div>
+                    </div>
                 </div>
         
                 <div class="alert alert-danger" id="divWrongAnswer" style="display: none">

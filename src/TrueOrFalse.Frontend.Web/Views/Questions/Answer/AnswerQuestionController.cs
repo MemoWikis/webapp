@@ -146,13 +146,21 @@ public class AnswerQuestionController : BaseController
         var question = _questionRepository.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
         return new JsonResult
-                   {
-                       Data = new
-                                  {
-                                      correctAnswer = solution.CorrectAnswer(),
-                                      correctAnswerDesc = MardownInit.Run().Transform(question.Description)
-                                  }
-                   };
+        {
+            Data = new
+            {
+                correctAnswer = solution.CorrectAnswer(),
+                correctAnswerDesc = MardownInit.Run().Transform(question.Description),
+                correctAnswerReferences = question.References.Select( r => new
+                {
+                    referenceId = r.Id,
+                    categoryId = r.Category == null ? -1 : r.Category.Id,
+                    referenceType = r.ReferenceType.GetName(),
+                    additionalInfo = r.AdditionalInfo ?? "",
+                    referenceText = r.ReferenceText ?? ""
+                }),
+            }
+        };
     }
 
     [HttpPost]

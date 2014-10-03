@@ -190,11 +190,52 @@ var InputFeedback = (function () {
     InputFeedback.ShowCorrectAnswer = function () {
         InputFeedback.ShowNextAnswer();
         $("#divWrongAnswer").hide();
-        $("#divCorrectAnswer").show();
+        $("#SolutionDetails").show();
 
         ajaxGetAnswer(function (result) {
-            $("#spanCorrectAnswer").html(result.correctAnswer);
-            $("#spanAnswerDescription").html(result.correctAnswerDesc);
+            $("#Solution .Content").html(result.correctAnswer);
+            if (result.correctAnswerDesc) {
+                $("#Description").show().find('.Content').html(result.correctAnswerDesc);
+            }
+            if (result.correctAnswerReferences.length != 0) {
+                $("#References").show();
+                for (var i = 0; i < result.correctAnswerReferences.length; i++) {
+                    var reference = result.correctAnswerReferences[i];
+                    var referenceHtml = $('<div class="ReferenceDetails"></div>');
+                    referenceHtml.appendTo('#References .Content');
+
+                    var fn = function (div, ref) {
+                        if (ref.referenceText) {
+                            if (ref.referenceType == 'UrlReference') {
+                                $('<div class="ReferenceText"><a href="' + ref.referenceText + '">' + ref.referenceText + '</a></div>').appendTo(div);
+                            } else
+                                $('<div class="ReferenceText">' + ref.referenceText + '</div>').appendTo(div);
+                        }
+                        if (ref.additionalInfo) {
+                            $('<div class="AdditionalInfo">' + ref.additionalInfo + '</div>').appendTo(div);
+                        }
+                    };
+
+                    var fnAjaxCall = function (div, ref) {
+                        $.ajax({
+                            url: '/Fragen/Bearbeite/ReferencePartial?catId=' + ref.categoryId,
+                            type: 'GET',
+                            success: function (data) {
+                                div.prepend(data);
+                                fn(div, ref);
+
+                                $('.show-tooltip').tooltip();
+                            }
+                        });
+                    };
+
+                    if (reference.categoryId != -1) {
+                        fnAjaxCall(referenceHtml, reference);
+                    } else {
+                        fn(referenceHtml, reference);
+                    }
+                }
+            }
         });
     };
 
@@ -231,4 +272,4 @@ function ajaxGetAnswer(onSuccessAction) {
         }
     });
 }
-//# sourceMappingURL=AnswerQuestion.js.map
+//# sourceMappingURL=answerquestion.js.map
