@@ -248,7 +248,7 @@ class AutocompleteCategories {
         });
 
         autocomplete.data("ui-autocomplete")._renderItem = function (ul, item: CategoryItem): any {
-            //debugger;
+
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 

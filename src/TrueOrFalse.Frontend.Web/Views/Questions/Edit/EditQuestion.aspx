@@ -253,7 +253,8 @@
                                                 $("#ReferenceSearchInput")
                                                         .data('category-id', catId)
                                                         .data('referenceType', '<%= Model.References[i].ReferenceType.GetName() %>')
-                                                        .trigger('initCategoryFromTxt', '<%= Model.References[i].Id %>');       
+                                                        .trigger('initCategoryFromTxt', '<%= Model.References[i].Id %>');
+
                                             <%} else {%>
                                                 $(window).bind('referenceAdded' + '<%= Model.References[i-1].Id%>', function() {
                                                     $("#ReferenceSearchInput")
