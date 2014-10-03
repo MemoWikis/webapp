@@ -207,7 +207,6 @@ var AutocompleteCategories = (function () {
         });
 
         autocomplete.data("ui-autocomplete")._renderItem = function (ul, item) {
-            //debugger;
             if (isCategoryEdit && categoryName == item.name)
                 return "";
 
