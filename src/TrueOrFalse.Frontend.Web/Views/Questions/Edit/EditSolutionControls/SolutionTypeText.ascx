@@ -93,7 +93,7 @@
 
 <div class="form-group">
     
-    <%= Html.LabelFor(m => m.Text, new { @class = "columnLabel control-label" })%>
+    <%= Html.LabelFor(m => m.Text, new { @class = "RequiredField columnLabel control-label" })%>
     <div class="columnControlsFull">
         <%= Html.TextBoxFor(m => m.Text, new { @class="form-control", @id = "Answer", @style = "float: left;", placeholder = "Antwort eingeben." })%>
     </div>

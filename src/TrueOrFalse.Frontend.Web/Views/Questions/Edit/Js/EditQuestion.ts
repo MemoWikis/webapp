@@ -9,7 +9,7 @@ class EditQuestionForm
         this.InitUpdateType();
         this.InitLicenseAgreement();
 
-        $("form").submit(function(e) {
+        $("form").submit(function (e) {
             $("#hddReferencesJson").val(ReferenceUi.ReferenceToJson());
         });
 

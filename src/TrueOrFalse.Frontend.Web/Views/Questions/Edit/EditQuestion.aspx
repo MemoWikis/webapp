@@ -117,7 +117,7 @@
                 <div class="FormSection">
 
                 <div class="form-group">
-                    <%= Html.LabelFor(m => m.Question, new { @class = "columnLabel control-label" })%>
+                    <%= Html.LabelFor(m => m.Question, new { @class = "RequiredField columnLabel control-label" })%>
                     <div class="columnControlsFull">
                         <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 3})%>
                         <div style="padding-top: 4px;">

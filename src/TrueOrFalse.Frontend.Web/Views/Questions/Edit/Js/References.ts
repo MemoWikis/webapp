@@ -178,21 +178,35 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                 }
             });
         } else { /* No Category */
+
+            var fnInitReferenceTextValidation = function() {
+                $('.ReferenceText').each(function () {//neccessary if several elements by one selector
+                    $(this).rules('add', {
+                        required: true,
+                        messages: {
+                            required: "Bitte fülle dieses Pflichtfeld aus (oder lösche diese Quelle)."
+                        }
+                    });
+                });
+            }
+
             if (referenceType == "FreeTextReference") {
                 $('#Ref-' + nextRefIdx)
                     .append(
                     "<div class='form-group' style='margin-bottom: 0;'>" +
-                    "<label class='columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Freitextquelle</label>" +
+                    "<label class='RequiredField columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Freitextquelle</label>" +
                     "<div class='columnControlsFull'>" +
                     "<textarea class='ReferenceText form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Quellenangabe'></textarea>" +
                     "</div>" +
                     "</div>");
+                fnInitReferenceTextValidation();
+
             }
             if (referenceType == "UrlReference") {
                 $('#Ref-' + nextRefIdx)
                     .append(
                     "<div class='form-group' style='margin-bottom: 0;'>" +
-                        "<label class='columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Url</label>" +
+                        "<label class='RequiredField columnLabel control-label' for='ReferenceText-" + nextRefIdx + "'>Url</label>" +
                         "<div class='columnControlsFull'>" +
                             "<input class='ReferenceText form-control input-sm' name='ReferenceText-" + nextRefIdx + "' type='text' placeholder='Bitte hier nur die Url eingeben'/>" +
                             "<a href='#' id='TestLink-" + nextRefIdx + "' style='display: none;' target='_blank'>Link testen (in neuem Tab öffnen)</a>" +
@@ -205,6 +219,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                             "<textarea class='AdditionalInfo form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Zugriffsdatum etc.'></textarea>" +
                         "</div>" +
                     "</div>");
+                fnInitReferenceTextValidation();
 
                 var inputReferenceText = $('[name=ReferenceText-' + nextRefIdx + ']');
                 inputReferenceText.bind('input blur', function (e) {
@@ -223,8 +238,11 @@ class OnSelectForReference implements IAutocompleteOnSelect {
             $('#ReferenceSearchInput').data('referenceType', '');
             $(window).trigger('referenceAdded' + autocomplete._referenceId);
             $('.show-tooltip').tooltip();
-        }        
+        }
+        
+           
     }
+
 }
 
 $(function () {
