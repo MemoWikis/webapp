@@ -985,6 +985,9 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
+      <DependentUpon>AnswerQuestion.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
     <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
@@ -1295,6 +1298,10 @@
     <Content Include="Views\Questions\QuestionsSearchResult.ascx" />
     <Content Include="Views\Questions\Js\QuestionsSearch.js.map">
       <DependentUpon>QuestionsSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestion.less" />
+    <Content Include="Views\Questions\Answer\AnswerQuestion.css.map">
+      <DependentUpon>AnswerQuestion.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

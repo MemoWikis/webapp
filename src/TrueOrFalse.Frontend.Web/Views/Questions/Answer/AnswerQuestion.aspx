@@ -6,6 +6,7 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <title>Frage - <%= Model.QuestionText %></title>    
+    <link href="/Views/Questions/Answer/AnswerQuestion.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/AnswerQuestion") %>
 
     <style type="text/css">

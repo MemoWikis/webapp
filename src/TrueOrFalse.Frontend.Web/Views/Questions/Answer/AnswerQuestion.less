@@ -1,0 +1,29 @@
+﻿@import (reference) '../../../Style/includes/imports.less';
+
+#SolutionDetails {
+
+    .Detail {
+        #Clearfix;
+        + .Detail {margin-top: 10px;}
+    }
+
+    .Label{
+        font-weight: bold;
+        clear: left;
+        padding-right: 5px;
+    }
+
+    #Solution .Label {
+        float: left;
+    }
+
+    .ReferenceDetails + .ReferenceDetails {
+        margin-top: 10px;
+    }
+
+    #References .Content {
+        font-size: 90%;
+    }
+    
+    .ReferenceAllInlineStyle;     
+}
