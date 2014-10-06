@@ -211,7 +211,7 @@ var OnSelectForReference = (function () {
                 });
             }
             $('#ReferenceSearchInput').data('referenceType', '');
-            $(window).trigger('referenceAdded' + autocomplete._referenceId);
+            $(window).trigger('referenceAdded' + referenceId);
             $('.show-tooltip').tooltip();
         }
     };

@@ -236,13 +236,10 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                 });
             }
             $('#ReferenceSearchInput').data('referenceType', '');
-            $(window).trigger('referenceAdded' + autocomplete._referenceId);
+            $(window).trigger('referenceAdded' + referenceId);
             $('.show-tooltip').tooltip();
         }
-        
-           
     }
-
 }
 
 $(function () {
