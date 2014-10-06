@@ -204,7 +204,7 @@ var InputFeedback = (function () {
                     var referenceHtml = $('<div class="ReferenceDetails"></div>');
                     referenceHtml.appendTo('#References .Content');
 
-                    var fn = function (div, ref) {
+                    var fnRenderReference = function (div, ref) {
                         if (ref.referenceText) {
                             if (ref.referenceType == 'UrlReference') {
                                 $('<div class="ReferenceText"><a href="' + ref.referenceText + '">' + ref.referenceText + '</a></div>').appendTo(div);
@@ -222,7 +222,7 @@ var InputFeedback = (function () {
                             type: 'GET',
                             success: function (data) {
                                 div.prepend(data);
-                                fn(div, ref);
+                                fnRenderReference(div, ref);
 
                                 $('.show-tooltip').tooltip();
                             }
@@ -232,7 +232,7 @@ var InputFeedback = (function () {
                     if (reference.categoryId != -1) {
                         fnAjaxCall(referenceHtml, reference);
                     } else {
-                        fn(referenceHtml, reference);
+                        fnRenderReference(referenceHtml, reference);
                     }
                 }
             }
@@ -253,8 +253,8 @@ var InputFeedback = (function () {
     InputFeedback.ErrMsgs = [
         "Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
         "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
-        "Weiter, weiter nicht aufgeben.",
-        "Übung macht den Meister, Du bist auf dem richtigen Weg.",
+        "Weiter, weiter, nicht aufgeben.",
+        "Übung macht den Meister. Du bist auf dem richtigen Weg.",
         "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden."
     ];
 

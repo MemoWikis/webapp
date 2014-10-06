@@ -7,7 +7,7 @@
   clear: both;
 }
 #SolutionDetails .Detail + .Detail {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 #SolutionDetails .Label {
   font-weight: bold;
@@ -18,7 +18,10 @@
   float: left;
 }
 #SolutionDetails .ReferenceDetails + .ReferenceDetails {
-  margin-top: 10px;
+  margin-top: 15px;
+}
+#SolutionDetails #References .Label {
+  margin-bottom: 5px;
 }
 #SolutionDetails #References .Content {
   font-size: 90%;
