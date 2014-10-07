@@ -82,6 +82,12 @@ select.form-control {
 [data-is-editing="True"] .JS-RelatedCategories div.tooltip {
   font-weight: normal;
 }
+[data-is-editing="True"] .ParentCategories .form-control-static {
+  font-weight: bold;
+}
+[data-is-editing="True"] .ParentCategories .form-control-static div.tooltip {
+  font-weight: normal;
+}
 [data-is-editing="True"] input[type="text"],
 [data-is-editing="True"] textarea[type="text"] {
   font-weight: bold;

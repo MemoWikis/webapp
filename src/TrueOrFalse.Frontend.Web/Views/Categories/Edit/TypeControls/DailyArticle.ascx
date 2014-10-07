@@ -7,56 +7,57 @@
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.DailyArticle.GetName() %></h4>
 <input class="form-control" name="Name" type="hidden" value="<%= Model.Name %>">
-<div id="JS-DailySelect" class="form-group">
-    <label class="RequiredField columnLabel control-label" for="">
-        Tageszeitung
-    </label>
-    <div class="JS-RelatedCategories columnControlsFull">
-        <% if(Model.IsEditing){ %>
-        <p class="form-control-static">
-            <%= model.Daily.Name %>
-            <span>
-                <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
-            </span>
-            <input id="hddTxtDaily" class="form-control" name="hddTxtDaily" type="hidden" value="<%= model.Daily.Id %>">
-        </p>
-        <% }else{ %>
-            <div class="JS-CatInputContainer ControlInline">
-                <input id="TxtDaily" class="form-control" name="TxtDaily" type="" value="" placeholder="Suche nach Titel oder ISSN">    
-            </div>
-        <% } %>
-            
-    </div>
-</div>
-<% if(Model.IsEditing){ %>
-    <div class="form-group">
+<div class="ParentCategories">
+    <div id="JS-DailySelect" class="form-group">
         <label class="RequiredField columnLabel control-label" for="">
-            Ausgabe
+            Tageszeitung
         </label>
-        <div class="columnControlsFull">
+        <div class="JS-RelatedCategories columnControlsFull">
+            <% if(Model.IsEditing){ %>
             <p class="form-control-static">
-                <%= model.DailyIssue.Name %>
+                <%= model.Daily.Name %>
                 <span>
-                    <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung/Ausgabe lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+                    <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
                 </span>
-                <input id="hddTxtDailyIssue" class="form-control" name="hddTxtDailyIssue" type="hidden" value="<%= model.DailyIssue.Id %>">
+                <input id="hddTxtDaily" class="form-control" name="hddTxtDaily" type="hidden" value="<%= model.Daily.Id %>">
             </p>
+            <% }else{ %>
+                <div class="JS-CatInputContainer ControlInline">
+                    <input id="TxtDaily" class="form-control" name="TxtDaily" type="" value="" placeholder="Suche nach Titel oder ISSN">    
+                </div>
+            <% } %>
+            
         </div>
     </div>
-<% } %>
-
+    <% if(Model.IsEditing){ %>
+        <div id="DailyIssue" class="form-group">
+            <label class="RequiredField columnLabel control-label" for="">
+                Ausgabe
+            </label>
+            <div class="columnControlsFull">
+                <p class="form-control-static">
+                    <%= model.DailyIssue.Name %>
+                    <span>
+                        <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitung/Ausgabe lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+                    </span>
+                    <input id="hddTxtDailyIssue" class="form-control" name="hddTxtDailyIssue" type="hidden" value="<%= model.DailyIssue.Id %>">
+                </p>
+            </div>
+        </div>
+    <% } %>
+</div>
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" for="Title">
         Titel des Artikels
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Title" type="text" value="<%= model.Title %>">
+        <textarea class="form-control" name="Title" type="text"><%= model.Title %></textarea>
     </div>
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Subtitle">Untertitel</label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Subtitle" type="text" value="<%= model.Subtitle %>">
+        <textarea class="form-control" name="Subtitle" type="text"><%= model.Subtitle %></textarea>
     </div>
 </div>
 <div class="form-group">

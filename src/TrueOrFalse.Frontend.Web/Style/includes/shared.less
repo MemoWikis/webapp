@@ -432,7 +432,15 @@
             font-weight: normal;
         }
 
-        input[type="text"], textarea[type="text"] { //Code redundancy because of rules with &-selector not being output when inside called mixin
+        .ParentCategories .form-control-static {
+            font-weight: bold;
+
+            div.tooltip {
+                font-weight: normal;
+            }
+        }
+
+        input[type="text"], textarea[type="text"] { //Code redundancy because of rules with &-selector not being output when inside called mixin (https://github.com/less/less.js/issues/1979)
             font-weight: bold;
         }
 

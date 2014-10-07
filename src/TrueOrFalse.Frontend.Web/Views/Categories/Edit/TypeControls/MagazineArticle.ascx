@@ -7,56 +7,58 @@
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.MagazineArticle.GetName() %></h4>
 <input class="form-control" name="Name" type="hidden" value="<%= Model.Name %>">
-<div id="JS-MagazineSelect" class="form-group">
-    <label class="RequiredField columnLabel control-label" for="">
-        Zeitschrift
-    </label>
-    <div class="JS-RelatedCategories columnControlsFull">
-        <% if(Model.IsEditing){ %>
-        <p class="form-control-static">
-            <%= model.Magazine.Name %>
-            <span>
-                <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitschrift lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
-            </span>
-            <input id="hddTxtMagazine" class="form-control" name="hddTxtMagazine" type="hidden" value="<%= model.Magazine.Id %>">
-        </p>
-        <% }else{ %>
-            <div class="JS-CatInputContainer ControlInline">
-                <input id="TxtMagazine" class="form-control" name="TxtMagazine" type="" value="" placeholder="Suche nach Titel oder ISSN">    
-            </div>
-        <% } %>
-            
-    </div>
-</div>
-<% if(Model.IsEditing){ %>
-    <div class="form-group">
+<div class="ParentCategories">
+    <div id="JS-MagazineSelect" class="form-group">
         <label class="RequiredField columnLabel control-label" for="">
-            Ausgabe
+            Zeitschrift
         </label>
-        <div class="columnControlsFull">
+        <div class="JS-RelatedCategories columnControlsFull">
+            <% if(Model.IsEditing){ %>
             <p class="form-control-static">
-                <%= model.MagazineIssue.Name %>
+                <%= model.Magazine.Name %>
                 <span>
-                    <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitschrift/Ausgabe lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+                    <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitschrift lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
                 </span>
-                <input id="hddTxtMagazineIssue" class="form-control" name="hddTxtMagazineIssue" type="hidden" value="<%= model.MagazineIssue.Id %>">
+                <input id="hddTxtMagazine" class="form-control" name="hddTxtMagazine" type="hidden" value="<%= model.Magazine.Id %>">
             </p>
+            <% }else{ %>
+                <div class="JS-CatInputContainer ControlInline">
+                    <input id="TxtMagazine" class="form-control" name="TxtMagazine" type="" value="" placeholder="Suche nach Titel oder ISSN">    
+                </div>
+            <% } %>
+            
         </div>
     </div>
-<% } %>
+    <% if(Model.IsEditing){ %>
+        <div class="form-group">
+            <label class="RequiredField columnLabel control-label" for="">
+                Ausgabe
+            </label>
+            <div class="columnControlsFull">
+                <p class="form-control-static">
+                    <%= model.MagazineIssue.Name %>
+                    <span>
+                        <i class="fa fa-question-circle show-tooltip" title="Dieses Feld kannst du leider nicht mehr bearbeiten. Für eine andere Zeitschrift/Ausgabe lege bitte eine neue Kategorie an." data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
+                    </span>
+                    <input id="hddTxtMagazineIssue" class="form-control" name="hddTxtMagazineIssue" type="hidden" value="<%= model.MagazineIssue.Id %>">
+                </p>
+            </div>
+        </div>
+    <% } %>
+</div>
 
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" for="Title">
         Titel des Artikels
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Title" type="text" value="<%= model.Title %>">
+        <textarea class="form-control" name="Title" type="text"><%= model.Title %></textarea>
     </div>
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Subtitle">Untertitel</label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Subtitle" type="text" value="<%= model.Subtitle %>">
+        <textarea class="form-control" name="Subtitle" type="text"><%= model.Subtitle %></textarea>
     </div>
 </div>
 <div class="form-group">
@@ -123,7 +125,7 @@
                         "</label>" +
                         "<div class='JS-RelatedCategories columnControlsFull'>" +
                             "<div class='JS-CatInputContainer ControlInline'>" +
-                                "<input id='TxtMagazineIssue' class='form-control' name='TxtMagazineIssue' type='' value='' placeholder='Suche nach Ausgabe'>" +
+                                "<input id='TxtMagazineIssue' class='form-control' name='TxtMagazineIssue' type='' value='' placeholder='Suche nach Ausgabe (z.B. mit Jahr)'>" +
                             "</div>" +
                         "</div>" +
                     "</div>"

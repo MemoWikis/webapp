@@ -12,13 +12,13 @@
         Titel des Artikels
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Title" type="text" value="<%= model.Title %>">
+        <textarea class="form-control" name="Title" type="text"><%= model.Title %></textarea>
     </div>
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Subtitle">Untertitel</label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Subtitle" type="text" value="<%= model.Subtitle %>">
+        <textarea class="form-control" name="Subtitle" type="text"><%= model.Subtitle %></textarea>
     </div>
 </div>
 <div class="form-group">
