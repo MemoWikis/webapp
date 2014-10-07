@@ -415,4 +415,41 @@
     }
 }
 
+/*Have user inputs/existing data in forms bold when in editing mode*/
 
+.MakeContentsBoldInEditingForm() {
+     
+    [data-is-editing="True"] {
+        .RequiredField {
+            font-weight: normal;
+        }
+
+        .JS-RelatedCategories {
+            font-weight: bold;
+        }
+
+         .JS-RelatedCategories div.tooltip {
+            font-weight: normal;
+        }
+
+        input[type="text"], textarea[type="text"] { //Code redundancy because of rules with &-selector not being output when inside called mixin
+            font-weight: bold;
+        }
+
+        input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { /* WebKit browsers */
+            font-weight: normal;
+        }
+
+        input:-moz-placeholder, textarea:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            font-weight: normal;  
+        }
+
+        input::-moz-placeholder, textarea::-moz-placeholder { /* Mozilla Firefox 19+ */
+            font-weight: normal;
+        }
+
+        input:-ms-input-placeholder, textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
+            font-weight: normal;
+        }
+    }
+}

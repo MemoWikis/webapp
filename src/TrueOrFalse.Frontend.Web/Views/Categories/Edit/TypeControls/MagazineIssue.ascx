@@ -8,7 +8,7 @@
 <h4 class="CategoryTypeHeader"><%= CategoryType.MagazineIssue.GetName() %></h4>
 <input class="form-control" name="Name" type="hidden" value="<%= Model.Name %>">
 <div class="form-group">
-    <label class="RequiredField columnLabel control-label" style="font-weight: bold;" for="xxx">
+    <label class="RequiredField columnLabel control-label" for="xxx">
         Zeitschrift
     </label>
     <div class="JS-RelatedCategories columnControlsFull">

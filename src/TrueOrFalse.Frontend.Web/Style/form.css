@@ -83,9 +83,6 @@ label {
 .RequiredField {
   font-weight: bold;
 }
-[data-is-editing="True"] .RequiredField {
-  font-weight: normal;
-}
 .RequiredField:after {
   content: '*';
 }
