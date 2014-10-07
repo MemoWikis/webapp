@@ -44,6 +44,7 @@ public class EditCategoryModel : BaseModel
     {
         rdoCategoryTypeGroup = "standard";
         PreselectedType = CategoryType.Standard;
+        ImageUrl = new CategoryImageSettings(-1).GetUrl_350px_square().Url;
     }
 
     public EditCategoryModel(Category category) : this()
