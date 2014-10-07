@@ -311,8 +311,8 @@ public class EditCategoryModel : BaseModel
             Volume = ToNumericalString(request["Volume"]),
             No = ToNumericalStringWithLeadingZeros(request["No"]),
             IssuePeriod = request["IssuePeriod"],
-            PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
-            PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
+            PublicationDateMonth = ToNumericalStringWithLeadingZeros(request["PublicationDateMonth"]),
+            PublicationDateDay = ToNumericalStringWithLeadingZeros(request["PublicationDateDay"]),
             Title = request["Title"]
         };
 
