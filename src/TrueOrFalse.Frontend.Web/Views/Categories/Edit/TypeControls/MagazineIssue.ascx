@@ -29,7 +29,7 @@
         <% } %>
     </div>
 </div>
-<div class="form-group">
+<div class="form-group FormGroupInline">
     <label class="RequiredField columnLabel control-label">
         Ausgabe
     </label>
@@ -42,10 +42,15 @@
             <input class="form-control InputIssueNo JS-ValidationGroupMember" name="No" type="text" value="<%= model.No %>">
         </div>
         <label class="control-label LabelInline" for="PublicationDateYear">
-            / Jahr
+            / 
         </label>
-        <div class="ControlInline">
-            <input class="form-control InputYear JS-ValidationGroupMember" name="PublicationDateYear" type="text" value="<%= model.PublicationDateYear %>">
+        <div class="ControlGroupInline">
+            <label class="control-label LabelInline" for="PublicationDateYear">
+                Jahr
+            </label>
+            <div class="ControlInline">
+                <input class="form-control InputYear JS-ValidationGroupMember" name="PublicationDateYear" type="text" value="<%= model.PublicationDateYear %>">
+            </div>
         </div>
     </div>
 </div>
@@ -68,7 +73,7 @@
     </div>
 </div>
 
-<div class="form-group">
+<div class="form-group FormGroupInline">
     <label class="columnLabel control-label">
         Erscheinungsdatum
         <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
@@ -78,9 +83,11 @@
         <div class="ControlInline">
             <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>">
         </div>
-        <label class="control-label LabelInline" for="PublicationDateMonth">Monat</label>
-        <div class="ControlInline">
-            <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>">
+        <div class="ControlGroupInline">
+            <label class="control-label LabelInline" for="PublicationDateMonth">Monat</label>
+            <div class="ControlInline">
+                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>">
+            </div>
         </div>
     </div>
 </div>

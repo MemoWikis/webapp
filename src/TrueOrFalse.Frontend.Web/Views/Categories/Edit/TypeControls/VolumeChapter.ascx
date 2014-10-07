@@ -30,7 +30,7 @@
             <textarea class="form-control" name="Author" type="text" placeholder="Nachname, Vorname"><%= model.Author %></textarea>
     </div>
 </div>
-<div class="form-group">
+<div class="form-group FormGroupInline">
     <label class="columnLabel control-label">Seiten Beitrag</label>
     
     <div class="columnControlsFull">
@@ -39,9 +39,11 @@
             <div class="ControlInline">
                 <input class="form-control InputPageNo JS-ValidationGroupMember" name="PagesChapterFrom" type="text" value="<%= model.PagesChapterFrom%>">
             </div>
-            <label class="control-label LabelInline" for="PagesChapterTo">bis</label>
-            <div style="" class="ControlInline">
-                <input class="form-control InputPageNo JS-ValidationGroupMember" style="" name="PagesChapterTo" type="text" value="<%= model.PagesChapterTo %>">
+            <div class="ControlGroupInline">
+                <label class="control-label LabelInline" for="PagesChapterTo">bis</label>
+                <div style="" class="ControlInline">
+                    <input class="form-control InputPageNo JS-ValidationGroupMember" style="" name="PagesChapterTo" type="text" value="<%= model.PagesChapterTo %>">
+                </div>
             </div>
         </div>
     </div>    

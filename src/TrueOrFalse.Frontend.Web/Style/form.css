@@ -116,6 +116,7 @@ label {
 .ControlInline {
   padding-right: 10px;
   float: left;
+  margin-bottom: 15px;
 }
 .ControlInline:before,
 .ControlInline:after {
@@ -131,12 +132,29 @@ label {
 .LabelInline {
   float: left;
   padding-right: 10px;
+  height: 34px;
+  margin-bottom: 15px !important;
+}
+.ControlGroupInline {
+  float: left;
+}
+.form-group.FormGroupInline {
+  margin-bottom: 0;
 }
 h2.PageHeader,
 .PageHeader > h2 {
   padding-top: 0;
   margin-top: 0;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+}
+@media (min-width: 768px) {
+  h2.PageHeader,
+  .PageHeader > h2 {
+    margin-bottom: 30px;
+  }
+}
+.headerControls {
+  margin-bottom: 15px;
 }
 h3.form-sub-title {
   padding: 30px 0 0 100px;

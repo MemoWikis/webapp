@@ -65,6 +65,7 @@ label {
     //width: 250px;//overwrite with custom width
     padding-right: @grid-gutter-width/2;
     float: left;
+    margin-bottom: 15px;
     #Clearfix;
     &.xxs-stack {
         padding-right: 0;
@@ -75,16 +76,34 @@ label {
     //min-width: 64px;
     float: left;
     padding-right: @grid-gutter-width/2;
+    height: @input-height-base;
+    margin-bottom: 15px !important;
     //.form-group .control-label& {text-align: left;}
 
+}
+
+.ControlGroupInline {
+    float: left;
+}
+
+.form-group.FormGroupInline {
+    margin-bottom: 0;
 }
 
 .PageHeader{
     h2&, & > h2{
         padding-top: 0;
         margin-top: 0;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
+        
+        .media-sm-up ({
+            margin-bottom: 30px;
+        });
     }
+}
+
+.headerControls {
+    margin-bottom: 15px;
 }
 
 h3.form-sub-title { 

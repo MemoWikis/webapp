@@ -15,8 +15,8 @@
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
     FormMethod.Post, new { enctype = "multipart/form-data", id="EditCategoryForm", data_is_editing=Model.IsEditing })){%>
     <div class="row">
-        <div class="col-md-9 PageHeader">
-            <h2>
+        <div class="PageHeader col-xs-12">
+            <h2 class="pull-left">
                 <span class="ColoredUnderline Category">
                     <% if (Model.IsEditing) { %>
                     Kategorie bearbeiten
@@ -26,17 +26,17 @@
 
                 </span>
             </h2>
-        </div>
-        <div class="col-md-3">
-            <div class="pull-right">
-                <% if(Model.IsEditing){ %>
-                    <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0;">
-                        <i class="fa fa-list"></i>&nbsp;zur Übersicht
-                    </a><br/>
-                    <a href="<%= Links.CategoryDetail(Model.Category) %>" style="font-size: 12px;">
-                        <i class="fa fa-eye"></i>&nbsp;Detailansicht
-                    </a> 
-                <% } %>            
+            <div class="headerControls pull-right">
+                <div>
+                    <% if(Model.IsEditing){ %>
+                        <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0;">
+                            <i class="fa fa-list"></i>&nbsp;zur Übersicht
+                        </a><br/>
+                        <a href="<%= Links.CategoryDetail(Model.Category) %>" style="font-size: 12px;">
+                            <i class="fa fa-eye"></i>&nbsp;Detailansicht
+                        </a> 
+                    <% } %>            
+                </div>
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
         <div class="aside col-md-3 col-md-push-9">
             <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
             <div style="margin-top: 10px;">
-                <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
+                <a href="#" style="position: relative; top: -6px; font-size: 90%;" id="aImageUpload">[Verwende ein anderes Bild]</a>
             </div>
         </div>
         <div class="col-md-9 col-md-pull-3">

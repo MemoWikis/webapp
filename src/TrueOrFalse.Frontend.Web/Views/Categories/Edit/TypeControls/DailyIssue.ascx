@@ -29,7 +29,7 @@
         <% } %>
     </div>
 </div>
-<div class="form-group">
+<div class="form-group FormGroupInline">
     <label class="RequiredField columnLabel control-label">
         Erscheinungsdatum
         <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>

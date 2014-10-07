@@ -30,7 +30,7 @@
             <textarea class="form-control" name="Author" type="text" placeholder="Name, Vorname"><%= model.Author %></textarea>
     </div>
 </div>
-<div class="form-group">
+<div class="form-group FormGroupInline">
     <label class="columnLabel control-label">
         Erscheinungsdatum
         <i class="fa fa-question-circle show-tooltip" title='Bitte als Zahl angeben.'  data-placement="<%= CssJs.TooltipPlacementLabel %>"></i>
@@ -42,14 +42,18 @@
                 <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay %>" placeholder="TT">
             </div>
             <label class="control-label LabelInline">.</label>
-            <label class="sr-only" for="PublicationDateMonth">Monat</label>
-            <div style="" class="ControlInline">
-                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>" placeholder="MM">
+            <div class="ControlGroupInline">
+                <label class="sr-only" for="PublicationDateMonth">Monat</label>
+                <div style="" class="ControlInline">
+                    <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth %>" placeholder="MM">
+                </div>
+                <label class="control-label LabelInline">.</label>
             </div>
-            <label class="control-label LabelInline">.</label>
-            <label class="sr-only" for="PublicationDateYear">Jahr</label>
-            <div style="" class="ControlInline">
-                <input class="form-control InputYear JS-ValidationGroupMember" name="PublicationDateYear" type="text" value="<%= model.PublicationDateYear %>" placeholder="JJJJ">
+            <div class="ControlGroupInline">
+                <label class="sr-only" for="PublicationDateYear">Jahr</label>
+                <div style="" class="ControlInline">
+                    <input class="form-control InputYear JS-ValidationGroupMember" name="PublicationDateYear" type="text" value="<%= model.PublicationDateYear %>" placeholder="JJJJ">
+                </div>
             </div>
         </div>
     </div>
