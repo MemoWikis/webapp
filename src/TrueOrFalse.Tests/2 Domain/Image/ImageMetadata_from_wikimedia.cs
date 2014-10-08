@@ -21,9 +21,9 @@ namespace TrueOrFalse.Tests
             Assert.That(result2.ImageNotFound, Is.False);
             Assert.That(result2.ImageTitle, Is.EqualTo("File:Berlin relief location map-names.png"));
 
-            var result3 = Resolve<WikiImageMetaLoader>().Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg?lang=de");
-            Assert.That(result3.ImageNotFound, Is.False);
-            Assert.That(result3.ImageTitle, Is.EqualTo("File:Platichthys flesus Vääna-Jõesuu in Estonia.jpg"));
+            //var result3 = Resolve<WikiImageMetaLoader>().Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg?lang=de");
+            //Assert.That(result3.ImageNotFound, Is.False);
+            //Assert.That(result3.ImageTitle, Is.EqualTo("File:Platichthys flesus Vääna-Jõesuu in Estonia.jpg"));
         }
 
 
