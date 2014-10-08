@@ -28,10 +28,19 @@ namespace TrueOrFalse
         public static string ExtractFileNameFromUrl(string filePath)
         {
             //remove query string
-            filePath = filePath.Split('?')[0];
+            //filePath = filePath.Split('?')[0];
 
+            if (filePath.Contains("?"))
+                filePath = filePath.Split('?')[1];
+
+            //Get file name from mediaviewer url (http://commons.wikimedia.org/wiki/Main_Page#mediaviewer/File:Liguus_virgineus_01.JPG) and details page url (http://commons.wikimedia.org/wiki/File:Liguus_virgineus_01.JPG)  
             if (filePath.Contains("File:"))
-                return filePath.Split(new[] { "File:" }, StringSplitOptions.None)[1];
+                //return filePath.Split(new[] { "File:" }, StringSplitOptions.None)[1];
+                return filePath.Split(new[] { "File:" }, StringSplitOptions.None).Last();
+
+            //Get file name from file url (http://upload.wikimedia.org/wikipedia/commons/0/02/Liguus_virgineus_01.JPG)
+            if (filePath.Contains("upload.wikimedia.org"))
+                return filePath.Split('/').Last();
 
             return filePath;
         }

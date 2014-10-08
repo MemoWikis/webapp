@@ -36,14 +36,18 @@
                 <%-- Wikimedia --%>
                 <div id="divWikimedia">
                     <div class="Clearfix" style="margin-top:10px;">
-                        In Wikipedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. 
-                        Auf <a href="http://commons.wikimedia.org/wiki/Hauptseite?uselang=de">Wiki-Commons</a> kann gezielt nach Inhalten gesucht werden. 
-                        Oder: Wenn Du auf Wikipedia auf ein Bild klickst, gelangst Du auf die Bild-Detailseite. Gib die URL der Detailseite hier an: 
+                        <p>
+                            Bei Wikipedia/ Wikimedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. 
+                            Auf <a href="http://commons.wikimedia.org/wiki/Hauptseite?uselang=de">Wikimedia-Commons</a> kannst du gezielt nach Inhalten suchen. 
+                        </p>
+                        <p>
+                            Tipp: Wenn du bei Wikipedia oder Wikimedia-Commons auf das gewünschte Bild klickst, kommst du zur Detailansicht. Kopiere einfach die Url dieser Seite.
+                        </p>
                     </div>
         
                     <form class="form-horizontal" style="margin-top: 15px;">
                         <div class="form-group">
-                            <label class="col-xs-4 col-sm-3 xxs-stack">Wikipedia-URL:</label>
+                            <label class="col-xs-4 col-sm-3 xxs-stack">Wikimedia-URL <i id="tttemp" class="fa fa-question-circle show-tooltip" title="Hier kann für Bilder von Wikipedia/ Wikimedia wahlweise die Url der Detailseite, die Url der Bildanzeige im Media Viewer, die Url der Bilddatei oder der Dateiname (inkl. Dateiendung) angegeben werden." data-placement="top"></i></label>
                             <div class="col-xs-8 col-sm-9 xxs-stack">
                                 <input class="input-sm" style="width: 100%" id="txtWikimediaUrl" type="text" placeholder="http://">
                             </div>
