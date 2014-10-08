@@ -47,7 +47,7 @@
         
                     <form class="form-horizontal" style="margin-top: 15px;">
                         <div class="form-group">
-                            <label class="col-xs-4 col-sm-3 xxs-stack">Wikimedia-URL <i id="tttemp" class="fa fa-question-circle show-tooltip" title="Hier kann für Bilder von Wikipedia/ Wikimedia wahlweise die Url der Detailseite, die Url der Bildanzeige im Media Viewer, die Url der Bilddatei oder der Dateiname (inkl. Dateiendung) angegeben werden." data-placement="top"></i></label>
+                            <label class="col-xs-4 col-sm-3 xxs-stack">Wikimedia-URL <i class="fa fa-question-circle show-tooltip tooltip-min-200" title="Hier kann für Bilder von Wikipedia/ Wikimedia wahlweise die Url der Detailseite, die Url der Bildanzeige im Media Viewer, die Url der Bilddatei oder der Dateiname (inkl. Dateiendung) angegeben werden." data-placement="top"></i></label>
                             <div class="col-xs-8 col-sm-9 xxs-stack">
                                 <input class="input-sm" style="width: 100%" id="txtWikimediaUrl" type="text" placeholder="http://">
                             </div>

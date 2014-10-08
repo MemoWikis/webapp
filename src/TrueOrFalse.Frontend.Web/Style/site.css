@@ -1335,6 +1335,9 @@ ul.ui-autocomplete {
   cursor: pointer;
 }
 /*Tooltips*/
+.tooltip-inner {
+  max-width: 400px;
+}
 .tooltip-text-left + .tooltip > .tooltip-inner {
   text-align: left;
   background-color: ghostwhite;
@@ -1345,7 +1348,7 @@ ul.ui-autocomplete {
 .tooltip-date + .tooltip > .tooltip-inner {
   min-width: 300px;
 }
-.tooltip-width-200 + .tooltip > .tooltip-inner {
+.tooltip-min-200 + .tooltip > .tooltip-inner {
   min-width: 200px;
 }
 ul.show-tooltip-ul {
