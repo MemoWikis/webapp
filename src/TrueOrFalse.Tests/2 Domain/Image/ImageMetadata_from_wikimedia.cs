@@ -21,9 +21,29 @@ namespace TrueOrFalse.Tests
             Assert.That(result2.ImageNotFound, Is.False);
             Assert.That(result2.ImageTitle, Is.EqualTo("File:Berlin relief location map-names.png"));
 
-            //var result3 = Resolve<WikiImageMetaLoader>().Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg?lang=de");
-            //Assert.That(result3.ImageNotFound, Is.False);
-            //Assert.That(result3.ImageTitle, Is.EqualTo("File:Platichthys flesus Vääna-Jõesuu in Estonia.jpg"));
+            var result3 = Resolve<WikiImageMetaLoader>().Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg?lang=de");
+            Assert.That(result3.ImageNotFound, Is.False);
+            Assert.That(result3.ImageTitle, Is.EqualTo("File:Platichthys flesus Vääna-Jõesuu in Estonia.jpg"));
+
+            var result4 = Resolve<WikiImageMetaLoader>().Run("http://commons.wikimedia.org/wiki/Hauptseite?uselang=de#mediaviewer/File:Liguus_virgineus_01.JPG");
+            Assert.That(result4.ImageNotFound, Is.False);
+            Assert.That(result4.ImageTitle, Is.EqualTo("File:Liguus virgineus 01.JPG"));
+
+            var result5 = Resolve<WikiImageMetaLoader>().Run("http://commons.wikimedia.org/wiki/File:Liguus_virgineus_01.JPG?uselang=de");
+            Assert.That(result5.ImageNotFound, Is.False);
+            Assert.That(result5.ImageTitle, Is.EqualTo("File:Liguus virgineus 01.JPG"));
+
+            var result6 = Resolve<WikiImageMetaLoader>().Run("http://upload.wikimedia.org/wikipedia/commons/0/02/Liguus_virgineus_01.JPG");
+            Assert.That(result6.ImageNotFound, Is.False);
+            Assert.That(result6.ImageTitle, Is.EqualTo("File:Liguus virgineus 01.JPG"));
+
+            var result7 = Resolve<WikiImageMetaLoader>().Run("http://upload.wikimedia.org/wikipedia/commons/0/02/Liguus_virgineus_01.JPG?uselang=de");
+            Assert.That(result7.ImageNotFound, Is.False);
+            Assert.That(result7.ImageTitle, Is.EqualTo("File:Liguus virgineus 01.JPG"));
+
+            var result8 = Resolve<WikiImageMetaLoader>().Run("Liguus virgineus 01.JPG");
+            Assert.That(result8.ImageNotFound, Is.False);
+            Assert.That(result8.ImageTitle, Is.EqualTo("File:Liguus virgineus 01.JPG"));
         }
 
 

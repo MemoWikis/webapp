@@ -27,15 +27,21 @@ namespace TrueOrFalse
 
         public static string ExtractFileNameFromUrl(string filePath)
         {
-            //remove query string
-            //filePath = filePath.Split('?')[0];
+            //Must be able to handle both
+            //http://commons.wikimedia.org/wiki/File:Liguus_virgineus_01.JPG?uselang=de
+            //and
+            //http://commons.wikimedia.org/wiki/Hauptseite?uselang=de#mediaviewer/File:Liguus_virgineus_01.JPG
 
-            if (filePath.Contains("?"))
-                filePath = filePath.Split('?')[1];
+            //remove query string if no file name comes after
+            if (filePath.Contains("?")){
+                var filePathSplit = filePath.Split(new char[] { '?' }, 2);
+                if (!filePathSplit[1].Contains("File:"))
+                    filePath = filePathSplit[0];
+            }
 
-            //Get file name from mediaviewer url (http://commons.wikimedia.org/wiki/Main_Page#mediaviewer/File:Liguus_virgineus_01.JPG) and details page url (http://commons.wikimedia.org/wiki/File:Liguus_virgineus_01.JPG)  
+            //Get file name from mediaviewer url (http://commons.wikimedia.org/wiki/Main_Page#mediaviewer/File:Liguus_virgineus_01.JPG)
+            //and details page url (http://commons.wikimedia.org/wiki/File:Liguus_virgineus_01.JPG)  
             if (filePath.Contains("File:"))
-                //return filePath.Split(new[] { "File:" }, StringSplitOptions.None)[1];
                 return filePath.Split(new[] { "File:" }, StringSplitOptions.None).Last();
 
             //Get file name from file url (http://upload.wikimedia.org/wikipedia/commons/0/02/Liguus_virgineus_01.JPG)
@@ -43,6 +49,8 @@ namespace TrueOrFalse
                 return filePath.Split('/').Last();
 
             return filePath;
+
+            //http://upload.wikimedia.org/wikipedia/commons/4/4f/Oboe_modern.jpg?uselang=de
         }
 
         public static string ExtractDomain(string filePath)

@@ -26,7 +26,7 @@ namespace TrueOrFalse
                 "&iilimit=1" + //return 1 revision
                 "&iiextmetadatalanguage=de" +
                 "&iiurlwidth=" + thumbUrlWidth +
-                "&titles=Image:" + HttpUtility.UrlEncode(fileName);
+                "&titles=File:" + HttpUtility.UrlEncode(fileName);
 
             var webRequest = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
             webRequest.UserAgent = "TrueOrFalseBot/1.0 (http://www.memucho.de/)";
