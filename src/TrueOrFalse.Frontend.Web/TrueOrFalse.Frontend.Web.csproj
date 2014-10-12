@@ -110,7 +110,6 @@
     <Reference Include="MarkdownSharp">
       <HintPath>..\libs\MarkdownSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -141,6 +140,9 @@
     </Reference>
     <Reference Include="RabbitMQ.Client">
       <HintPath>..\packages\RabbitMQ.Client.3.3.2\lib\net30\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="RollbarSharp">
+      <HintPath>..\packages\RollbarSharp.0.3.1.0\lib\net40\RollbarSharp.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib, Version=0.8.2.17096, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -241,6 +243,7 @@
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
     <Compile Include="Views\Dates\DatesController.cs" />
     <Compile Include="Views\Dates\DatesModel.cs" />
+    <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
@@ -750,6 +753,7 @@
     <Content Include="Views\Drafts\Reference.aspx" />
     <Content Include="Views\Drafts\Templates.aspx" />
     <Content Include="Views\Drafts\temp.aspx" />
+    <Content Include="Views\Error\Test.aspx" />
     <Content Include="Views\Help\UrheberrechtInhalte.aspx" />
     <Content Include="Views\Help\Wissen.aspx" />
     <Content Include="Views\Help\Reputation.aspx" />
@@ -965,6 +969,7 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Maintenance\Tools.aspx" />
     <Content Include="Views\Maintenance\Messages.aspx" />
     <Content Include="Views\Maintenance\Images.aspx" />
     <Content Include="Views\Messages\Js\Message.js">
@@ -1015,6 +1020,7 @@
     <Content Include="Views\Questions\Questions.css">
       <DependentUpon>Questions.less</DependentUpon>
     </Content>
+    <Content Include="Views\Error\_404.aspx" />
     <Content Include="Views\Shared\HistoryAndProbability.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
@@ -1347,7 +1353,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
-    <Content Include="Views\Shared\Error.aspx" />
+    <Content Include="Views\Error\_500.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
     <Content Include="Views\Shared\Site.MenuLeft.Master" />
     <Content Include="packages.config">

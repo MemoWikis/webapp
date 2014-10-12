@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Web;
@@ -10,6 +11,7 @@ using Autofac.Integration.Mvc;
 using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
+using RollbarSharp;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
@@ -96,5 +98,27 @@ namespace TrueOrFalse.Frontend.Web
                 Sl.Resolve<LoginFromCookie>().Run();
         }
 
+        protected void Application_Error(Object sender, EventArgs e)
+        {
+            var exception = Server.GetLastError();
+            if (exception == null)
+                return;
+
+            var code = (exception is HttpException) ? (exception as HttpException).GetHttpCode() : 500;
+
+            if (code != 404)
+            {
+                try
+                {
+                    (new RollbarClient()).SendException(exception);
+                }
+                catch{}
+            }
+
+            Response.Clear();
+            Server.ClearError();
+
+            Response.Redirect(string.Format("~/Fehler/{0}", code), false);
+        }
     }
 }

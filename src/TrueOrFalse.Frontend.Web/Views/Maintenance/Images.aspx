@@ -11,6 +11,7 @@
                     <li><a href="/Maintenance">Allgemein</a></li>
                     <li class="active"><a href="/Maintenance/Images">Bilder</a></li>
                     <li><a href="/Maintenance/Messages">Nachrichten</a></li>
+                    <li><a href="/Maintenance/Tools">Tools</a></li>
                 </ul>
             </div>
         </nav>

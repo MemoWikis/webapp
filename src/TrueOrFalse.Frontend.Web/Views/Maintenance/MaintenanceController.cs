@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
@@ -123,5 +124,17 @@ public class MaintenanceController : BaseController
 
         model.Message = new SuccessMessage("Message was sent");
         return View("Messages", model);
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult Tools()
+    {
+        return View(new MaintenanceModel());
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult Throw500()
+    {
+        throw new Exception("Some random exception");
     }
 }

@@ -97,9 +97,10 @@ namespace TrueOrFalse
 
             routes.MapRoute("ImageUpload", "ImageUpload/{action}", new { controller = "ImageUpload" });
 
-            routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
+            routes.MapRoute("404", "Fehler/404", new { controller = "Error", action = "_404" });
+            routes.MapRoute("500", "Fehler/500", new { controller = "Error", action = "_500" });
 
-            
+            routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
         }
     }
 }
