@@ -16,7 +16,7 @@ public class ReferenceJson
 
     public static IList<Reference> LoadFromJson(string json, Question question)
     {
-        var referencesJson= JsonConvert.DeserializeObject<IEnumerable<ReferenceJson>>(json);
+        var referencesJson = JsonConvert.DeserializeObject<IEnumerable<ReferenceJson>>(json);
 
         var catRepo = Sl.Resolve<CategoryRepository>();
 
@@ -24,7 +24,7 @@ public class ReferenceJson
         {
             return new Reference
             {
-                Id = refJson.ReferenceId,
+                Id = refJson.ReferenceId == -1 ? default(int) : refJson.ReferenceId,
                 ReferenceType = Reference.GetReferenceType(refJson.ReferenceType),
                 Question = question,
                 Category = catRepo.GetById(refJson.CategoryId),

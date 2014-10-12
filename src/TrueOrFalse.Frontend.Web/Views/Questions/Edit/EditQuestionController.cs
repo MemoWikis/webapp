@@ -72,11 +72,16 @@ public class EditQuestionController : BaseController
         model.FillCategoriesFromPostData(Request.Form);
         var question = Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
 
-        question.References = model.FillReferencesFromPostData(Request, question);
         question.Creator = _sessionUser.User;
-
         _questionRepository.Create(question);
-        
+
+
+        var references = model.FillReferencesFromPostData(Request, question);
+        foreach (var reference in references)
+            question.References.Add(reference);
+
+        _questionRepository.Update(question);
+
         UpdateSound(soundfile, question.Id);
 
         if (Request["btnSave"] == "saveAndNew")
