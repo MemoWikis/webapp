@@ -100,6 +100,11 @@ namespace TrueOrFalse.Frontend.Web
 
         protected void Application_Error(Object sender, EventArgs e)
         {
+            if (Request.IsLocal)
+            {
+                return;
+            }
+
             var exception = Server.GetLastError();
             if (exception == null)
                 return;
