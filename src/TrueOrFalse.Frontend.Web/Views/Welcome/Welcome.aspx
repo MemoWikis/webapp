@@ -19,7 +19,7 @@
             </a>            
             <ul style="margin-top: 0px; margin-bottom: 0px; padding-top: 3px; ">                
                 <li><a href="#teaser1" style="font-size: 15px;">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
-                <li><a href="#teaser2" style="font-size: 15px;">Wikipedia Prinzip und Open und Source &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+                <li><a href="#teaser2" style="font-size: 15px;">Wikipedia-Prinzip und Open Source &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
                 <li><a href="#teaser3" style="font-size: 15px;">Wer sind wir? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
             </ul>
         </div>
@@ -83,46 +83,44 @@
         </div>
         <div class="well">
             <h3><a name="teaser1">MEMuchO hilft dir ...</a></h3>
-            <p>
-                <ul>
-                    <li>
-                        <b>...schneller zu lernen.</b>
-                        <p>
-                            MEMuchO analysiert dein Lernverhalten und 
-                            versucht den optimalen Zeitpunkt für eine 
-                            benötigte Wiederholung von Wissen zu ermitteln. 
-                            So kannst du schneller lernen.
-                        </p>
-                        <p>
-                            (Die Analyse von Lernverhalten funktioniert nur wenn wir viele Daten sammeln: 
-                            Zu diesem Thema mehr hier: <a href="/Hilfe/DatenSicherheit">Hilfe Datenansicht</a>)
-                        </p>
-                    </li>
-                    <li>
-                        <b>...zu überblicken, was du weißt und was du wissen möchtest.</b>
-                        <p>
-                            Du möchtest dir 50, 500, 5000 (oder mehr) Fakten merken. 
-                            Wir helfen dir dabei den Überblick zu behalten. 
-                        </p>
-                    </li>
-                    <li>
-                        <b>...zu einem bestimmten Termin zu lernen.</b>
-                        <p>
-                            Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? 
-                            Du kannst Termine anlegen und bestimmen, was du zu diesem Termin
-                            als Faktenwissen abrufen möchtest.
-                        </p>
-                        <p>
-                            Dabei hast du genau im Blick, welches Wissen du schon sicher kannst und
-                            wo du noch weiter üben musst. 
-                        </p> 
-                        <p>
-                            MEMuchO erinnert dich an Termine und 
-                            informiert dich darüber, was es noch zu lernen gibt. 
-                        </p>
-                    </li>
-                </ul>
-            </p>
+            <ul>
+                <li>
+                    <b>...schneller zu lernen.</b>
+                    <p>
+                        MEMuchO analysiert dein Lernverhalten und 
+                        versucht den optimalen Zeitpunkt für eine 
+                        benötigte Wiederholung von Wissen zu ermitteln. 
+                        So kannst du schneller lernen.
+                    </p>
+                    <p>
+                        (Die Analyse von Lernverhalten funktioniert nur wenn wir viele Daten sammeln: 
+                        Zu diesem Thema mehr hier: <a href="/Hilfe/DatenSicherheit">Hilfe Datenansicht</a>)
+                    </p>
+                </li>
+                <li>
+                    <b>...zu überblicken, was du weißt und was du wissen möchtest.</b>
+                    <p>
+                        Du möchtest dir 50, 500, 5000 (oder mehr) Fakten merken. 
+                        Wir helfen dir dabei den Überblick zu behalten. 
+                    </p>
+                </li>
+                <li>
+                    <b>...zu einem bestimmten Termin zu lernen.</b>
+                    <p>
+                        Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? 
+                        Du kannst Termine anlegen und bestimmen, was du zu diesem Termin
+                        als Faktenwissen abrufen möchtest.
+                    </p>
+                    <p>
+                        Dabei hast du genau im Blick, welches Wissen du schon sicher kannst und
+                        wo du noch weiter üben musst. 
+                    </p> 
+                    <p>
+                        MEMuchO erinnert dich an Termine und 
+                        informiert dich darüber, was es noch zu lernen gibt. 
+                    </p>
+                </li>
+            </ul>
         </div>
         <div class="well">
 
