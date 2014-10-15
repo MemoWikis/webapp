@@ -260,7 +260,15 @@
 
         .columnControlsSmall {
             .make-xs-column(6);
-            .xxs-stack;
+            .xxs-stack; //not put out, replacement: see below
+        }
+
+        @media (max-width: (@screen-xs-min - 1px)) { //replacement for xxs-stack-mixin
+            .columnControlsSmall {
+                float: none;
+                width: 100%;
+                margin-left: 0;
+            }
         }
 
         .noLabel {

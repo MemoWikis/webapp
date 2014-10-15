@@ -170,7 +170,7 @@
                         <label class="columnLabel control-label" for="SolutionType">
                             <span <%= Model.IsEditing ? "class='show-tooltip' title='Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : ""%>>Abfragetyp</span>
                         </label>
-                        <div <%= Model.IsEditing ? "class='columnControlsSmall show-tooltip' data-toggle='tooltip' title='Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : "class='columnControlsSmall'"%>>
+                        <div id="SolutionTypeContainer" <%= Model.IsEditing ? "class='columnControlsFull show-tooltip' data-toggle='tooltip' title='Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : "class='columnControlsFull'"%>>
                             <%= Html.DropDownListFor(m => Model.SolutionType,
                                                             Model.AnswerTypeData,
                                                             Model.IsEditing ? 
@@ -270,7 +270,7 @@
                             </script>
                             <div id="JS-ReferenceSearch" class='JS-ReferenceContainer well' style="display: none;">
                                 <a id='JS-HideReferenceSearch' class='close' href ='#'>×</a>
-                                <div class="ControlInline" style="width: 50%; min-width: 250px;">
+                                <div class="ControlInline ReferenceSearchControl">
                                     <select id="ReferenceType" class="form-control">
                                         <option value="Book"><%= CategoryType.Book.GetName() %></option>                
                                         <option value="Article">Artikel</option>          
@@ -280,10 +280,10 @@
                                         <option value="FreeText">Freitext</option>
                                     </select>
                                 </div>
-                                <div class='JS-CatInputContainer ControlInline'>
+                                <div class='JS-CatInputContainer ControlInline ReferenceSearchControl'>
                                     <input id='ReferenceSearchInput' class='form-control' name ='txtReference' type ='text' value ='' placeholder=''/>
                                 </div>
-                                    <div  id="AddFreeTextReference" class='ControlInline' style="display: none;">
+                                <div  id="AddFreeTextReference" class='ControlInline' style="display: none;">
                                     <button class="btn">Freitextquelle hinzufügen</button>
                                 </div>
                                 <div  id="AddUrlReference" class='ControlInline' style="display: none;">

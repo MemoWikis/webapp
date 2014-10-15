@@ -48,6 +48,13 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+@media (max-width: 479px) {
+  .columnControlsSmall {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
 .noLabel {
   margin-left: 0;
 }

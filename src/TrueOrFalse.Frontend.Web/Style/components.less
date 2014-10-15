@@ -16,8 +16,6 @@
         padding-right: 0;
     });
     #JS-ReferenceSearch & {
-        width: 50%;
-        min-width: 250px;
         padding-right: 10px;
     }
 }
@@ -25,12 +23,16 @@
 #JS-ReferenceSearch {
     padding-bottom: 0;
 
-    .ControlInline {
-        padding-bottom: 19px;
+    .ReferenceSearchControl {
+
+        width: 100%;
+
+        .media-xs-up({
+            min-width: 250px;
+            width: 50%;
+        });
     }
 }
-
- 
 
 ul.ui-autocomplete {
 
