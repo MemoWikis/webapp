@@ -57,6 +57,8 @@ class MarkdownQuestionExt
                     });
                 });
 
+                $('#modalImageUploadDismiss').click(callback(null));//To dismiss markdown image upload dialogue together with modal
+
                 $("#modalImageUpload").modal('show');
 
                 return true; // tell the editor that we'll take care of getting the image url

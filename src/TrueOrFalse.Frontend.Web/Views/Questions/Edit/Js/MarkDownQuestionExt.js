@@ -48,6 +48,8 @@ var MarkdownQuestionExt = (function () {
                 });
             });
 
+            $('#modalImageUploadDismiss').click(callback(null)); //To dismiss markdown image upload dialogue together with modal
+
             $("#modalImageUpload").modal('show');
 
             return true;
