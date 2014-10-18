@@ -22,7 +22,7 @@ public class StoreImages
                 ResizeImage.Run(image, imageSettings.ServerPathAndId(), size, isSquare: true);
             }
 
-            foreach (var width in imageSettings.SizesFixedWidth){
+            foreach (var width in imageSettings.SizesFixedWidth){//$temp: hier werden die verschiedenen Bildgroessen abgelegt
                 ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare: false);
             }
         }

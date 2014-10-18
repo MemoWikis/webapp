@@ -23,7 +23,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         _imgMetaRepo = imgMetaRepo;
     }
 
-    public void RunWikimedia<T>(
+    public int RunWikimedia<T>(
         string imageWikiFileName, 
         int typeId, 
         ImageType imageType,
@@ -35,12 +35,15 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         imageSettings.Init(typeId);
 
         using (var stream = wikiMetaData.GetStream()){
-            StoreImages.Run(stream, imageSettings);
+            StoreImages.Run(stream, imageSettings);//$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
         }
 
         var licenceInfo = _wikiImageLicenceLoader.Run(wikiMetaData.ImageTitle, wikiMetaData.ApiHost);
 
         _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData, licenceInfo);
+
+        return wikiMetaData.ImageWidth;
+
     }
 
     public void RunUploaded<T>(TmpImage tmpImage, int typeId, int userId, string licenceGiverName) where T : IImageSettings
@@ -49,7 +52,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         imageSettings.Init(typeId);
 
         using (var stream = tmpImage.GetStream()){
-            StoreImages.Run(stream, imageSettings);    
+            StoreImages.Run(stream, imageSettings);
         }
 
         _imgMetaRepo.StoreSetUploaded(typeId, userId, licenceGiverName);

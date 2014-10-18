@@ -123,11 +123,12 @@ public class EditQuestionController : BaseController
             newQuestionId = questionId = question.Id;
         }
 
+        var originalWidth = -1;
         if (imageSource == "wikimedia"){
-            Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
+            originalWidth = Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
                 wikiFileName, questionId, ImageType.Question, _sessionUser.User.Id);
         }
-        
+
         if (imageSource == "upload"){
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
                 _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id, uploadImageLicenceOwner);
@@ -137,7 +138,9 @@ public class EditQuestionController : BaseController
 
         return new JsonResult{
             Data = new{
-                PreviewUrl = imageSettings.GetUrl_435px().UrlWithoutTime(),
+                PreviewUrl =    originalWidth >= 435 ? 
+                                imageSettings.GetUrl_435px().UrlWithoutTime() :
+                                imageSettings.GetUrl_OrigSize().UrlWithoutTime(),
                 NewQuestionId = newQuestionId
             }
         };
