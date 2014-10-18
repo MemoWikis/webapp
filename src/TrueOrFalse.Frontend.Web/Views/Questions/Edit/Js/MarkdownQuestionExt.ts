@@ -57,7 +57,7 @@ class MarkdownQuestionExt
                     });
                 });
 
-                $('#modalImageUploadDismiss').click(callback(null));//To dismiss markdown image upload dialogue together with modal
+                $('#modalImageUploadDismiss').click(function() { callback(null); });//To dismiss markdown image upload dialogue together with modal
 
                 $("#modalImageUpload").modal('show');
 
