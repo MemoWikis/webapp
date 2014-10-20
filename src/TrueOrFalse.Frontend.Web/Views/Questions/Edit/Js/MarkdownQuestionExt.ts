@@ -40,14 +40,14 @@ class MarkdownQuestionExt
                 var sourceString = imageUploadModal.Mode == ImageUploadModalMode.Wikimedia ? "wikimedia" : "upload";
 
                 $.post("/Fragen/Bearbeite/StoreImage",
-                {
-                    "imageSource": sourceString,
-                    "questionId": $("#questionId").val(),
-                    "wikiFileName": imageUploadModal.WikimediaPreview.ImageName,
-                    "uploadImageGuid": imageUploadModal.ImageGuid,
-                    "uploadImageLicenceOwner": imageUploadModal.LicenceOwner,
-                    "markupEditor" : ""
-                },
+                    {
+                        "imageSource": sourceString,
+                        "questionId": $("#questionId").val(),
+                        "wikiFileName": imageUploadModal.WikimediaPreview.ImageName,
+                        "uploadImageGuid": imageUploadModal.ImageGuid,
+                        "uploadImageLicenceOwner": imageUploadModal.LicenceOwner,
+                        "markupEditor" : ""
+                    },
                     function (result) {
                         if (result.NewQuestionId != -1) {
                             $("questionId").val(result.NewQuestionId);
@@ -58,9 +58,9 @@ class MarkdownQuestionExt
                 });
 
 
-                $("#modalImageUpload").modal('show');
+            $("#modalImageUpload").modal('show');
 
-                return true; // tell the editor that we'll take care of getting the image url
+            return true; // tell the editor that we'll take care of getting the image url
         });
 
         editor.run();
