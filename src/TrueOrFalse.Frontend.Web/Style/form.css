@@ -210,6 +210,9 @@ div.control-group.markdown label {
     left: auto !important;
   }
 }
+.wmd-prompt-background {
+  display: none;
+}
 /*Form Section style (conditional mixins)*/
 .FormSection {
   margin: 20px 0;
