@@ -54,7 +54,9 @@ class MarkdownQuestionExt
                         }   
 
                         callback(result.PreviewUrl);
-                    });
+                })
+                .fail(function () {
+                    alert('Das Bild konnte leider nicht gespeichert werden.');
                 });
 
 
