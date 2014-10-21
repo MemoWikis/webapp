@@ -30,27 +30,31 @@ var MarkdownQuestionExt = (function () {
         editor.hooks.set("insertImageDialog", function (callback) {
             var imageUploadModal = new ImageUploadModal();
             imageUploadModal.OnSave(function (url) {
-                var sourceString = imageUploadModal.Mode == 0 /* Wikimedia */ ? "wikimedia" : "upload";
+                var sourceString = imageUploadModal.Mode == ImageUploadModalMode.Wikimedia ? "wikimedia" : "upload";
 
-                $.post("/Fragen/Bearbeite/StoreImage", {
-                    "imageSource": sourceString,
-                    "questionId": $("#questionId").val(),
-                    "wikiFileName": imageUploadModal.WikimediaPreview.ImageName,
-                    "uploadImageGuid": imageUploadModal.ImageGuid,
-                    "uploadImageLicenceOwner": imageUploadModal.LicenceOwner,
-                    "markupEditor": ""
-                }, function (result) {
-                    if (result.NewQuestionId != -1) {
-                        $("questionId").val(result.NewQuestionId);
+                $.ajax({
+                    type: "POST",
+                    url: "/Fragen/Bearbeite/StoreImage",
+                    data: {
+                        imageSource: sourceString,
+                        questionId: $("#questionId").val(),
+                        wikiFileName: imageUploadModal.WikimediaPreview.ImageName,
+                        uploadImageGuid: imageUploadModal.ImageGuid,
+                        uploadImageLicenceOwner: imageUploadModal.LicenceOwner,
+                        markupEditor: ""
+                    },
+                    success: function (result) {
+                        if (result.NewQuestionId != -1) {
+                            $("questionId").val(result.NewQuestionId);
+                        }
+
+                        callback(result.PreviewUrl);
+                    },
+                    error: function (x, y) {
+                        alert('Das Bild konnte leider nicht gespeichert werden.');
                     }
-
-                    callback(result.PreviewUrl);
                 });
             });
-
-            $('#modalImageUploadDismiss').click(function () {
-                callback(null);
-            }); //To dismiss markdown image upload dialogue together with modal
 
             $("#modalImageUpload").modal('show');
 
