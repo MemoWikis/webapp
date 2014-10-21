@@ -61,7 +61,7 @@ public class EditQuestionController : BaseController
                 .Update(model, question, Request.Form)
         );
         UpdateSound(soundfile, id);
-        model.Message = new SuccessMessage("Die Frage wurde gespeichert");
+        model.Message = new SuccessMessage("Die Frage wurde gespeichert.");
 
         return View(_viewLocation, model);
     }
