@@ -11,6 +11,10 @@ var EditQuestionForm = (function () {
         });
 
         $('.control-label .show-tooltip').append($("<span> <i class='fa fa-info-circle'></i></span>"));
+
+        $('[name="Visibility"]').trigger('change');
+
+        $("#ConfirmContentRights").prop("checked", false);
     }
     EditQuestionForm.prototype.InitUpdateType = function () {
         function updateSolutionBody() {
