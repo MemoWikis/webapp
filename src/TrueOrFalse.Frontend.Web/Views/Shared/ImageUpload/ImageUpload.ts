@@ -169,7 +169,7 @@ class SaveWikipediaImage
 {
     static Run(wikiMediaPreview: WikimediaPreview, fnOnSave: Function) {
         if (!wikiMediaPreview.SuccessfullyLoaded) {
-            alert("Bitte lade ein Bild ueber eine Wikipedia URL.");
+            alert("Bitte lade ein Bild ueber eine Wikipedia URL.");//bei diesem Fehler bleibt wmd pane
         } else {
             fnOnSave(wikiMediaPreview.ImageThumbUrl);
             $("#modalImageUpload").modal("hide");
@@ -180,6 +180,11 @@ class SaveWikipediaImage
 class SaveUploadedImage
 {
     static Run(imageThumbUrl : string, fnOnSave: Function) {
+
+        if ($('#divLegalInfo:hidden').length != 0) {
+            alert("Hups, bitte wähle zuerst ein Bild aus.");
+            return;
+        }
 
         if (!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) {
             alert("Bitte waehle eine andere Lizenz");

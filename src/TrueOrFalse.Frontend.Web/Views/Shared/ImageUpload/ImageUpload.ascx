@@ -79,8 +79,8 @@
                         <div style="margin-top:18px;">
                             <b>Urheberrechtsinformation:</b><br/>
                             Wir benötigen Urheberrechtsinformationen für dieses Bild, damit wir sicherstellen können, 
-                            dass Inhalte auf Richtig-oder-Falsch legal frei weiterverwendet werden können. 
-                            Richtig-oder-Falsch folgt dem Wikipedia Prinzip [mehr erfahren].
+                            dass Inhalte auf MEMuchO frei weiterverwendet werden können. 
+                            MEMuchO folgt dem Wikipedia Prinzip [mehr erfahren].
                         </div>
         
                         <div style="width: 100%">
