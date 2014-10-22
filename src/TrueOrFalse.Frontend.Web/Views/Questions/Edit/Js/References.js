@@ -159,6 +159,7 @@ var OnSelectForReference = (function () {
         $("#delete-ref-" + nextRefIdx).click(function (e) {
             e.preventDefault();
             $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
+            $(window).trigger('referencesChanged');
         });
 
         autocomplete._elemInput.val("");
@@ -173,6 +174,7 @@ var OnSelectForReference = (function () {
                     $('#Ref-' + nextRefIdx).append(data).append("<div class='form-group' style='margin-bottom: 0;'>" + "<label class='columnLabel control-label' for='AdditionalInfo-" + nextRefIdx + "'>Ergänzungen zur Quelle</label>" + "<div class='columnControlsFull'>" + "<input class='InputRefAddition form-control input-sm' name='AdditionalInfo-" + nextRefIdx + "' type='text' placeholder='Seitenangaben, Zugriffsdatum etc.'/>" + "</div>" + "</div>");
 
                     $(window).trigger('referenceAdded' + referenceId);
+                    $(window).trigger('referencesChanged');
                     $('.show-tooltip').tooltip();
                 }
             });
@@ -212,6 +214,7 @@ var OnSelectForReference = (function () {
             }
             $('#ReferenceSearchInput').data('referenceType', '');
             $(window).trigger('referenceAdded' + referenceId);
+            $(window).trigger('referencesChanged');
             $('.show-tooltip').tooltip();
         }
     };

@@ -152,6 +152,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
         $("#delete-ref-" + nextRefIdx).click(function (e) {
             e.preventDefault();
             $("#delete-ref-" + nextRefIdx).closest('.JS-ReferenceContainer').remove();
+            $(window).trigger('referencesChanged');
         });
 
         autocomplete._elemInput.val("");
@@ -174,6 +175,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
                         "</div>");
 
                     $(window).trigger('referenceAdded' + referenceId);
+                    $(window).trigger('referencesChanged');
                     $('.show-tooltip').tooltip();
                 }
             });
@@ -237,6 +239,7 @@ class OnSelectForReference implements IAutocompleteOnSelect {
             }
             $('#ReferenceSearchInput').data('referenceType', '');
             $(window).trigger('referenceAdded' + referenceId);
+            $(window).trigger('referencesChanged');
             $('.show-tooltip').tooltip();
         }
     }

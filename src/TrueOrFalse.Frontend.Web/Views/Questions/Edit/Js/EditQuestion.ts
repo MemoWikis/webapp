@@ -8,6 +8,7 @@ class EditQuestionForm
 
         this.InitUpdateType();
         this.InitLicenseAgreement();
+        this.InitButtonTextUpdate();
 
         $("form").submit(function (e) {
             $("#hddReferencesJson").val(ReferenceUi.ReferenceToJson());
@@ -16,6 +17,8 @@ class EditQuestionForm
         $('.control-label .show-tooltip').append($("<span> <i class='fa fa-info-circle'></i></span>"));
 
         $('[name="Visibility"]').trigger('change');
+
+        $(window).trigger('referencesChanged');
 
         $("#ConfirmContentRights").prop("checked", false);
     }
@@ -41,6 +44,17 @@ class EditQuestionForm
                 $('#Agreement').show();
             }
         });        
+    }
+
+    public InitButtonTextUpdate() {
+        $(window).bind('referencesChanged', function () {
+            if ($('#JS-References .JS-ReferenceContainer[id^="Ref-"]').length == 0) {
+                $('#AddReference').html('Eine Quelle hinzufügen');
+            } else {
+                $('#AddReference').html('Weitere Quelle hinzufügen');
+            }
+            
+        });
     }
 
 }
