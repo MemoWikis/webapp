@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Frage erstellen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="ViewPage<EditQuestionModel>" ValidateRequest="false" %>
-
+ 
 <%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
