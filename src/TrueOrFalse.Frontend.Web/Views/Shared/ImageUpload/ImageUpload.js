@@ -181,12 +181,12 @@ var SaveUploadedImage = (function () {
         }
 
         if (!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) {
-            alert("Bitte waehle eine andere Lizenz");
+            alert("Bitte wähle eine andere Lizenz");
             return;
         }
 
         if ($("#rdoLicenceForeign").is(':checked')) {
-            alert("Bitte waehle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
+            alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
             return;
         }
 
