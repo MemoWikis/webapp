@@ -1,4 +1,4 @@
-/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.scrollTo.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/fineUploader.d.ts" />
@@ -182,7 +182,7 @@ class SaveUploadedImage
     static Run(imageThumbUrl : string, fnOnSave: Function) {
 
         if ($('#divLegalInfo:hidden').length != 0) {
-            alert("Hups, bitte w�hle zuerst ein Bild aus.");
+            alert("Hups, bitte wähle zuerst ein Bild aus.");
             return;
         }
 

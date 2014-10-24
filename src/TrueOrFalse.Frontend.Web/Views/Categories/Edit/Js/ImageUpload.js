@@ -9,13 +9,13 @@ $(function () {
     imageUploadModal.OnSave(function (url) {
         $("#categoryImg").attr("src", url);
 
-        if (imageUploadModal.Mode == ImageUploadModalMode.Wikimedia) {
+        if (imageUploadModal.Mode == 0 /* Wikimedia */) {
             $("#ImageIsNew").val("true");
             $("#ImageSource").val("wikimedia");
             $("#ImageWikiFileName").val(imageUploadModal.WikimediaPreview.ImageName);
         }
 
-        if (imageUploadModal.Mode == ImageUploadModalMode.Upload) {
+        if (imageUploadModal.Mode == 1 /* Upload */) {
             $("#ImageIsNew").val("true");
             $("#ImageSource").val("upload");
             $("#ImageGuid").val(imageUploadModal.ImageGuid);

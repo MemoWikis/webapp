@@ -30,7 +30,7 @@ var MarkdownQuestionExt = (function () {
         editor.hooks.set("insertImageDialog", function (callback) {
             var imageUploadModal = new ImageUploadModal();
             imageUploadModal.OnSave(function (url) {
-                var sourceString = imageUploadModal.Mode == ImageUploadModalMode.Wikimedia ? "wikimedia" : "upload";
+                var sourceString = imageUploadModal.Mode == 0 /* Wikimedia */ ? "wikimedia" : "upload";
 
                 $.ajax({
                     type: "POST",

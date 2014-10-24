@@ -1,4 +1,4 @@
-
+ï»¿
 class EditQuestionForm
 {
     constructor() {
@@ -49,16 +49,15 @@ class EditQuestionForm
     public InitButtonTextUpdate() {
         $(window).bind('referencesChanged', function () {
             if ($('#JS-References .JS-ReferenceContainer[id^="Ref-"]').length == 0) {
-                $('#AddReference').html('Eine Quelle hinzufügen');
+                $('#AddReference').html('Eine Quelle hinzufÃ¼gen');
             } else {
-                $('#AddReference').html('Weitere Quelle hinzufügen');
+                $('#AddReference').html('Weitere Quelle hinzufÃ¼gen');
             }
             
         });
     }
 
 }
-
 
 $(function () {
     new EditQuestionForm();
