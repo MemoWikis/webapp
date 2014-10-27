@@ -19,34 +19,34 @@ namespace TrueOrFalse.WikiMarkup
             result.InfoTemplate = new Template(ParseTemplate.Run(markup, "Information"));
 
             Care_about_description_and_author(result);
-            Care_about_licence_template(markup, result);
+            Care_about_license_template(markup, result);
 
             return result;
         }
 
-        private static void Care_about_licence_template(string markup, ParseImageMarkupResult result)
+        private static void Care_about_license_template(string markup, ParseImageMarkupResult result)
         {
             //http://en.wikipedia.org/wiki/Template:Self
             var selfTemplate = new Template(ParseTemplate.Run(markup, "self"));
             if (selfTemplate.IsSet)
             {
-                var allLicenceTemplates = selfTemplate.Parameters.Where(x => !x.HasKey).ToList();
+                var allLicenseTemplates = selfTemplate.Parameters.Where(x => !x.HasKey).ToList();
 
                 Func<Parameter, string, bool> fnPredicate = (x, startsWith) => x.Value.ToLower().StartsWith(startsWith);
-                if (allLicenceTemplates.Any(x => fnPredicate(x, "pd")))
+                if (allLicenseTemplates.Any(x => fnPredicate(x, "pd")))
                 {
-                    result.LicenceIsPublicDomain = true;
-                    result.LicenceTemplateString = allLicenceTemplates.First(x => fnPredicate(x, "pd")).Value;
+                    result.LicenseIsPublicDomain = true;
+                    result.LicenceTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "pd")).Value;
                 }
-                else if (allLicenceTemplates.Any(x => fnPredicate(x, "gfdl")))
+                else if (allLicenseTemplates.Any(x => fnPredicate(x, "gfdl")))
                 {
-                    result.LicenceIsGFDL = true;
-                    result.LicenceTemplateString = allLicenceTemplates.First(x => fnPredicate(x, "gfdl")).Value;
+                    result.LicenseIsGFDL = true;
+                    result.LicenceTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "gfdl")).Value;
                 }
-                else if (allLicenceTemplates.Any(x => fnPredicate(x, "cc-")))
+                else if (allLicenseTemplates.Any(x => fnPredicate(x, "cc-")))
                 {
                     result.LicenceIsCreativeCommons = true;
-                    result.LicenceTemplateString = allLicenceTemplates.First(x => fnPredicate(x, "cc-")).Value;
+                    result.LicenceTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "cc-")).Value;
                 }
 
             }            

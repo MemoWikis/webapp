@@ -54,7 +54,7 @@
                 <%: Html.HiddenFor(m => m.ImageSource) %>
                 <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
                 <%: Html.HiddenFor(m => m.ImageGuid) %>
-                <%: Html.HiddenFor(m => m.ImageLicenceOwner) %>
+                <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
                 <input type="hidden" id="isCategoryEdit" value="true"/>
                 <input type="hidden" id="isEditing" value="<%= Model.IsEditing ?  "true" : "false" %>"/>
                 <input type="hidden" id="categoryId" value="<%= Model.IsEditing ?  Model.Category.Id.ToString() : "" %>"/>

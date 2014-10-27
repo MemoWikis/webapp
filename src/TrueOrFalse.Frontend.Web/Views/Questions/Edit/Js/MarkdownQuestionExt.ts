@@ -47,7 +47,7 @@ class MarkdownQuestionExt
                         questionId: $("#questionId").val(),
                         wikiFileName: imageUploadModal.WikimediaPreview.ImageName,
                         uploadImageGuid: imageUploadModal.ImageGuid,
-                        uploadImageLicenceOwner: imageUploadModal.LicenceOwner,
+                        uploadImageLicenseOwner: imageUploadModal.LicenseOwner,
                         markupEditor: ""
                     },
                     success: function (result) {

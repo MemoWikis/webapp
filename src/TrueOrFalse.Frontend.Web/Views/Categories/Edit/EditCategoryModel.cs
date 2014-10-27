@@ -30,7 +30,7 @@ public class EditCategoryModel : BaseModel
     public string ImageWikiFileName { get; set; }
 
     public string ImageGuid { get; set; }
-    public string ImageLicenceOwner { get; set; }
+    public string ImageLicenseOwner { get; set; }
 
     public Category Category;
 

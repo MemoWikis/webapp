@@ -210,7 +210,7 @@
     <Compile Include="2 Domain.Userlytics\GetRandomLogoCssClassTest.cs" />
     <Compile Include="2 Domain\Comment\Comment_persistence.cs" />
     <Compile Include="2 Domain\Comment\Setup\ContextComment.cs" />
-    <Compile Include="2 Domain\Image\ImageLicenceInfo_from_wikimedia.cs" />
+    <Compile Include="2 Domain\Image\ImageLicenseInfo_from_Wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageMetadata_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\Image_persistence.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_probability.cs" />

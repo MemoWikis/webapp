@@ -1,6 +1,6 @@
 namespace TrueOrFalse
 {
-    public class WikiImageLicenceInfo   
+    public class WikiImageLicenseInfo   
     {
         public string AuthorName;
         public string Description;

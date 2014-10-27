@@ -22,7 +22,7 @@ $(function () {
             $("#ImageIsNew").val("true");
             $("#ImageSource").val("upload");
             $("#ImageGuid").val(imageUploadModal.ImageGuid);
-            $("#ImageLicenceOwner").val(imageUploadModal.LicenceOwner);
+            $("#ImageLicenseOwner").val(imageUploadModal.LicenseOwner);
         }
     });
 
@@ -30,5 +30,5 @@ $(function () {
         $("#modalImageUpload").modal('show');
     }); 
 
-    $("#txtLicenceOwner").val("Vorname Nachname");
+    $("#txtLicenseOwner").val("Vorname Nachname");
 });

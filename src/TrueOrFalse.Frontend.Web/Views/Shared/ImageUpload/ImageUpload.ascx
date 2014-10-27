@@ -86,11 +86,11 @@
                         <div style="width: 100%">
                             <div class="radio">
                                 <label >
-                                    <input type="radio" name="imgLiceneType" id="rdoLicenceByUloader"/>Diese Bild ist meine eigene Arbeit.
+                                    <input type="radio" name="imgLicenseType" id="rdoLicenseByUloader"/>Diese Bild ist meine eigene Arbeit.
                                 </label>                                 
                             </div>
-                            <div id="divLicenceUploader" style="padding-left: 20px;" class="hide2">
-                                Ich, <input type="text" class="form-control" id="txtLicenceOwner" name="txtLicenceOwner" 
+                            <div id="divLicenseUploader" style="padding-left: 20px;" class="hide2">
+                                Ich, <input type="text" class="form-control" id="txtLicenseOwner" name="txtLicenseOwner" 
                                         style="height: 19px; font-size: 13px; display: inline; width: 200px; margin-bottom: 0px; position: relative; top: -2px;"/> 
                                 , der Rechteinhaber dieses Werks gewähre unwiderruflich jedem das Recht, 
                                 es gemäß der „Creative Commons“-Lizenz „Namensnennung, Weitergabe 
@@ -101,11 +101,11 @@
                         <div style="width: 100%">
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="imgLiceneType" id="rdoLicenceForeign" />Dieses Bild ist nicht meine eigene Arbeit. 
+                                    <input type="radio" name="imgLicenseType" id="rdoLicenseForeign" />Dieses Bild ist nicht meine eigene Arbeit. 
                                 </label>                                
                             </div>
 
-                            <div id="divLicenceForeign" style="padding-left: 20px;" class="hide2">
+                            <div id="divLicenseForeign" style="padding-left: 20px;" class="hide2">
                                 Wir bitten Dich das Bild auf <a href="http://commons.wikimedia.org">Wikimedia</a> hochzuladen und so einzubinden. 
                             </div>
                         </div>                

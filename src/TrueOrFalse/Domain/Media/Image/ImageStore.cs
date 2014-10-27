@@ -10,16 +10,16 @@ using TrueOrFalse;
 public class ImageStore : IRegisterAsInstancePerLifetime
 {
     private readonly WikiImageMetaLoader _metaLoader;
-    private readonly WikiImageLicenceLoader _wikiImageLicenceLoader;
+    private readonly WikiImageLicenceLoader _wikiImageLicenseLoader;
     private readonly ImageMetaDataRepository _imgMetaRepo;
 
     public ImageStore(
         WikiImageMetaLoader metaLoader,
-        WikiImageLicenceLoader wikiImageLicenceLoader,
+        WikiImageLicenceLoader wikiImageLicenseLoader,
         ImageMetaDataRepository imgMetaRepo)
     {
         _metaLoader = metaLoader;
-        _wikiImageLicenceLoader = wikiImageLicenceLoader;
+        _wikiImageLicenseLoader = wikiImageLicenseLoader;
         _imgMetaRepo = imgMetaRepo;
     }
 
@@ -38,15 +38,15 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             StoreImages.Run(stream, imageSettings);//$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
         }
 
-        var licenceInfo = _wikiImageLicenceLoader.Run(wikiMetaData.ImageTitle, wikiMetaData.ApiHost);
+        var licenseInfo = _wikiImageLicenseLoader.Run(wikiMetaData.ImageTitle, wikiMetaData.ApiHost);
 
-        _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData, licenceInfo);
+        _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData, licenseInfo);
 
         return wikiMetaData.ImageWidth;
 
     }
 
-    public void RunUploaded<T>(TmpImage tmpImage, int typeId, int userId, string licenceGiverName) where T : IImageSettings
+    public void RunUploaded<T>(TmpImage tmpImage, int typeId, int userId, string licenseGiverName) where T : IImageSettings
     {
         var imageSettings = Activator.CreateInstance<T>();
         imageSettings.Init(typeId);
@@ -55,7 +55,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             StoreImages.Run(stream, imageSettings);
         }
 
-        _imgMetaRepo.StoreSetUploaded(typeId, userId, licenceGiverName);
+        _imgMetaRepo.StoreSetUploaded(typeId, userId, licenseGiverName);
     }
 
 }

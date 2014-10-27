@@ -18,7 +18,7 @@
     </div>
     <% Html.Message(Model.Message); %>
         
-    <a href="/Maintenance/ImageUpdateLicenceData" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;">Lizenzinformation laden von Wikimedia</a>
+    <a href="/Maintenance/ImageUpdateLicenseData" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;">Lizenzinformation laden von Wikimedia</a>
     <a href="/Maintenance/ImageUpdateMarkupFromDb" class="btn btn-primary" style="margin-bottom: 10px; margin-top: -5px;">Lizenzinformation update von lokaler DB</a>
         
 
@@ -27,7 +27,7 @@
             <th style="width: 75px;"></th>
             <th style="width: 70px;">Info</th>
             <th>Author</th>
-            <th>Licence</th>
+            <th>License</th>
             <th>Description</th>
         </tr>
         <%  var index = 0;

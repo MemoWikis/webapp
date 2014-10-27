@@ -75,7 +75,7 @@ public class EditSetController : BaseController
             if (Request["ImageSource"] == "upload")
             {
                 Resolve<ImageStore>().RunUploaded<QuestionSetImageSettings>(
-                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), setId, _sessionUser.User.Id,Request["ImageLicenceOwner"]);
+                    _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), setId, _sessionUser.User.Id,Request["ImageLicenseOwner"]);
             }
         }
     }

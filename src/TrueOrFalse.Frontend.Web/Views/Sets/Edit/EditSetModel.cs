@@ -20,7 +20,7 @@ public class EditSetModel : BaseModel
     public string ImageSource { get; set; }
     public string ImageWikiFileName { get; set; }
     public string ImageGuid { get; set; }
-    public string ImageLicenceOwner { get; set; }
+    public string ImageLicenseOwner { get; set; }
 
     public int Id { get; set; }
     public bool IsEditing { get; set; }

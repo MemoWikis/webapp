@@ -17,16 +17,16 @@ public class MaintenanceController : BaseController
         return View(new MaintenanceImagesModel());
     }
 
-    public ActionResult ImageUpdateLicenceData()
+    public ActionResult ImageUpdateLicenseData()
     {
         Resolve<LoadImageMarkups>().Run();
-        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Licence data has been updated") });
+        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("License data has been updated") });
     }
 
     public ActionResult ImageUpdateMarkupFromDb()
     {
         Resolve<UpdateMarkupFromDb>().Run();
-        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Licence data has been updated") });
+        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("License data has been updated") });
     }
 
     [AccessOnlyAsAdmin]

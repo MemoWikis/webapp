@@ -1,4 +1,4 @@
-var EditQuestionForm = (function () {
+﻿var EditQuestionForm = (function () {
     function EditQuestionForm() {
         new MarkdownQuestionExt();
         new MarkdownDescription();

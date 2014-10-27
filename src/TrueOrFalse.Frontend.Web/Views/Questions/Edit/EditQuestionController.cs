@@ -108,7 +108,7 @@ public class EditQuestionController : BaseController
         int questionId,
         string wikiFileName,
         string uploadImageGuid,
-        string uploadImageLicenceOwner,
+        string uploadImageLicenseOwner,
         string markupEditor
         )
     {
@@ -131,7 +131,7 @@ public class EditQuestionController : BaseController
 
         if (imageSource == "upload"){
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id, uploadImageLicenceOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id, uploadImageLicenseOwner);
         }
 
         var imageSettings = new QuestionImageSettings(questionId);

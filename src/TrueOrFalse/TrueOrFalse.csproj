@@ -212,6 +212,8 @@
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\UpdateImageTypes.cs" />
     <Compile Include="Domain\Media\Image\ResizeImage.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\License.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseRepository.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\UpdateMarkupFromDb.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Markup2Html\Markup2Html.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Model.Parameter.cs" />
@@ -222,8 +224,8 @@
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseTemplateParameters.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\LoadImageMarkups.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiApiUtils.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceInfo.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\WikiImageLicenceLoader.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseInfo.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenceLoader.cs" />
     <Compile Include="Domain\Message\BaseSendMessage.cs" />
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Ops\GetUnreadMessageCount.cs" />

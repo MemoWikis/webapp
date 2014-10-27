@@ -11,14 +11,14 @@ using TrueOrFalse.WikiMarkup;
 
 namespace TrueOrFalse.Tests._2_Domain.Image
 {
-    internal class ImageLicenceInfo_from_wikimedia : BaseTest
+    internal class ImageLicenseInfo_from_Wikimedia : BaseTest
     {
         [Test]
-        public void Get_licence_info()
+        public void Get_license_info()
         {
-            var licenceInfoLoader = Resolve<WikiImageLicenceLoader>();
-            var licenceInfo = licenceInfoLoader.Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg", "commons.wikimedia.org");
-            Assert.That(licenceInfo.AuthorName, Is.EqualTo("Tiit Hunt"));
+            var licenseInfoLoader = Resolve<WikiImageLicenceLoader>();
+            var licenseInfo = licenseInfoLoader.Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg", "commons.wikimedia.org");
+            Assert.That(licenseInfo.AuthorName, Is.EqualTo("Tiit Hunt"));
         }
 
         [Test]

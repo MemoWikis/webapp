@@ -25,10 +25,10 @@ namespace TrueOrFalse.Maintenance
 
             foreach (var img in allImages)
             {
-                var licenceInfo = ParseImageMarkup.Run(img.Markup);
+                var licenseInfo = ParseImageMarkup.Run(img.Markup);
 
-                img.Author = licenceInfo.AuthorName;
-                img.Description = licenceInfo.Description;
+                img.Author = licenseInfo.AuthorName;
+                img.Description = licenseInfo.Description;
 
                 _imgRepo.Update(img);
             }

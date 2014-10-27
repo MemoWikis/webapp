@@ -15,8 +15,8 @@ namespace TrueOrFalse
                            .SingleOrDefault<ImageMetaData>();
         }
         
-        public void StoreSetUploaded(int questionSetId, int userId, string licenceGiverName){
-            StoreUploaded(questionSetId, userId, ImageType.QuestionSet, licenceGiverName);
+        public void StoreSetUploaded(int questionSetId, int userId, string licenseGiverName){
+            StoreUploaded(questionSetId, userId, ImageType.QuestionSet, licenseGiverName);
         }
 
         public void StoreWiki(
@@ -24,7 +24,7 @@ namespace TrueOrFalse
             ImageType imageType, 
             int userId, 
             WikiImageMeta wikiMetaData,
-            WikiImageLicenceInfo licenceInfo)
+            WikiImageLicenseInfo licenseInfo)
         {
             var imageMeta = GetBy(typeId, imageType);
             if (imageMeta == null)
@@ -53,7 +53,7 @@ namespace TrueOrFalse
             }            
         }
 
-        private void StoreUploaded(int typeId, int userId, ImageType imageType, string licenceGiverName)
+        private void StoreUploaded(int typeId, int userId, ImageType imageType, string licenseGiverName)
         {
             var imageMeta = GetBy(typeId, imageType);
             if (imageMeta == null)
@@ -64,7 +64,7 @@ namespace TrueOrFalse
                         TypeId = typeId,
                         Type = imageType,
                         Source = ImageSource.User,
-                        ApiResult = licenceGiverName,
+                        ApiResult = licenseGiverName,
                         UserId = userId
                     }
                 );
@@ -73,7 +73,7 @@ namespace TrueOrFalse
             {
                 imageMeta.Source = ImageSource.User;
                 imageMeta.UserId = userId;
-                imageMeta.ApiResult = licenceGiverName;
+                imageMeta.ApiResult = licenseGiverName;
 
                 Update(imageMeta);
             }                        

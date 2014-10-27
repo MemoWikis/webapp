@@ -10,14 +10,14 @@ namespace TrueOrFalse.Maintenance
     public class LoadImageMarkups : IRegisterAsInstancePerLifetime
     {
         private readonly ImageMetaDataRepository _imgRepo;
-        private readonly WikiImageLicenceLoader _wikiImageLicenceLoader;
+        private readonly WikiImageLicenceLoader _wikiImageLicenseLoader;
 
         public LoadImageMarkups(
             ImageMetaDataRepository imgRepo, 
-            WikiImageLicenceLoader wikiImageLicenceLoader)
+            WikiImageLicenceLoader wikiImageLicenseLoader)
         {
             _imgRepo = imgRepo;
-            _wikiImageLicenceLoader = wikiImageLicenceLoader;
+            _wikiImageLicenseLoader = wikiImageLicenseLoader;
         }
 
         public void Run()
@@ -30,11 +30,11 @@ namespace TrueOrFalse.Maintenance
             foreach (var img in allImages)
             {
                 var fileName = img.SourceUrl.Split('/').Last();
-                var licenceInfo = _wikiImageLicenceLoader.Run(fileName, img.ApiHost);
+                var licenseInfo = _wikiImageLicenseLoader.Run(fileName, img.ApiHost);
 
-                img.Author = licenceInfo.AuthorName;
-                img.Description = licenceInfo.Description;
-                img.Markup = licenceInfo.Markup;
+                img.Author = licenseInfo.AuthorName;
+                img.Description = licenseInfo.Description;
+                img.Markup = licenseInfo.Markup;
 
                 _imgRepo.Update(img);
             }

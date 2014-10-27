@@ -59,7 +59,7 @@ var ImageUploadModal = (function () {
         this.Mode = 0 /* Wikimedia */;
         this.InitUploader();
         this.InitTypeRadios();
-        this.InitLicenceRadio();
+        this.InitLicenseRadio();
 
         var self = this;
         $("#txtWikimediaUrl").change(function () {
@@ -93,7 +93,7 @@ var ImageUploadModal = (function () {
 
             self.ImageThumbUrl = responseJSON.FilePath;
             self.ImageGuid = responseJSON.Guid;
-            self.LicenceOwner = $("#txtLicenceOwner").val();
+            self.LicenseOwner = $("#txtLicenseOwner").val();
         }).on('progress', function (event, id, filename, uploadedBytes, totalBytes) {
             $("#previewImage").hide();
             $("#divUploadProgress").show();
@@ -121,18 +121,18 @@ var ImageUploadModal = (function () {
         });
     };
 
-    ImageUploadModal.prototype.InitLicenceRadio = function () {
-        $("#rdoLicenceByUloader").change(function () {
+    ImageUploadModal.prototype.InitLicenseRadio = function () {
+        $("#rdoLicenseByUloader").change(function () {
             if ($(this).is(':checked')) {
-                $("#divLicenceUploader").show();
-                $("#divLicenceForeign").hide();
+                $("#divLicenseUploader").show();
+                $("#divLicenseForeign").hide();
             }
         });
 
-        $("#rdoLicenceForeign").change(function () {
+        $("#rdoLicenseForeign").change(function () {
             if ($(this).is(':checked')) {
-                $("#divLicenceUploader").hide();
-                $("#divLicenceForeign").show();
+                $("#divLicenseUploader").hide();
+                $("#divLicenseForeign").show();
             }
         });
     };
@@ -180,19 +180,19 @@ var SaveUploadedImage = (function () {
             return;
         }
 
-        if (!$("#rdoLicenceForeign").is(':checked') && !$("#rdoLicenceByUloader").is(':checked')) {
+        if (!$("#rdoLicenseForeign").is(':checked') && !$("#rdoLicenseByUloader").is(':checked')) {
             alert("Bitte wähle eine andere Lizenz");
             return;
         }
 
-        if ($("#rdoLicenceForeign").is(':checked')) {
+        if ($("#rdoLicenseForeign").is(':checked')) {
             alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
             return;
         }
 
-        if ($("#rdoLicenceByUloader").is(':checked')) {
-            var licenceOwner = $("#txtLicenceOwner").val();
-            if (licenceOwner.trim() == "") {
+        if ($("#rdoLicenseByUloader").is(':checked')) {
+            var licenseOwner = $("#txtLicenseOwner").val();
+            if (licenseOwner.trim() == "") {
                 alert("Bitte gib Deinen Namen als Lizenzgeber an.");
                 return;
             }

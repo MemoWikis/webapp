@@ -61,7 +61,7 @@
         <%: Html.HiddenFor(m => m.ImageSource) %>
         <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
         <%: Html.HiddenFor(m => m.ImageGuid) %>
-        <%: Html.HiddenFor(m => m.ImageLicenceOwner) %>
+        <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
 
         <div class="form-horizontal">
             <div class="box box-main">
