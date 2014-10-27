@@ -10,11 +10,11 @@ namespace TrueOrFalse.Maintenance
     public class LoadImageMarkups : IRegisterAsInstancePerLifetime
     {
         private readonly ImageMetaDataRepository _imgRepo;
-        private readonly WikiImageLicenceLoader _wikiImageLicenseLoader;
+        private readonly WikiImageLicenseLoader _wikiImageLicenseLoader;
 
         public LoadImageMarkups(
             ImageMetaDataRepository imgRepo, 
-            WikiImageLicenceLoader wikiImageLicenseLoader)
+            WikiImageLicenseLoader wikiImageLicenseLoader)
         {
             _imgRepo = imgRepo;
             _wikiImageLicenseLoader = wikiImageLicenseLoader;
@@ -24,11 +24,11 @@ namespace TrueOrFalse.Maintenance
         {
             var allImages = _imgRepo.Session
                 .QueryOver<ImageMetaData>()
-//                .Where(x => x.Source == ImageSource.WikiMedia)
-                .Where(x => x.Id == 19
+                .Where(x => x.Source == ImageSource.WikiMedia)
+//                .Where(x => x.Id == 19
 //                    || x.Id == 6
 //                    || x.Id == 7
-                    )
+//                    )
                 .List<ImageMetaData>();
 
             foreach (var img in allImages)

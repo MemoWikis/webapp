@@ -36,17 +36,17 @@ namespace TrueOrFalse.WikiMarkup
                 if (allLicenseTemplates.Any(x => fnPredicate(x, "pd")))
                 {
                     result.LicenseIsPublicDomain = true;
-                    result.LicenceTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "pd")).Value;
+                    result.LicenseTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "pd")).Value;
                 }
                 else if (allLicenseTemplates.Any(x => fnPredicate(x, "gfdl")))
                 {
                     result.LicenseIsGFDL = true;
-                    result.LicenceTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "gfdl")).Value;
+                    result.LicenseTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "gfdl")).Value;
                 }
                 else if (allLicenseTemplates.Any(x => fnPredicate(x, "cc-")))
                 {
-                    result.LicenceIsCreativeCommons = true;
-                    result.LicenceTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "cc-")).Value;
+                    result.LicenseIsCreativeCommons = true;
+                    result.LicenseTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "cc-")).Value;
                 }
 
             }            

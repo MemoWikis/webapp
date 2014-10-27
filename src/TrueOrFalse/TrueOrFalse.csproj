@@ -225,7 +225,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\LoadImageMarkups.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiApiUtils.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseInfo.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenceLoader.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseLoader.cs" />
     <Compile Include="Domain\Message\BaseSendMessage.cs" />
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Ops\GetUnreadMessageCount.cs" />

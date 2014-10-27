@@ -5,7 +5,7 @@ using TrueOrFalse.WikiMarkup;
 
 namespace TrueOrFalse
 {
-    public class WikiImageLicenceLoader : IRegisterAsInstancePerLifetime
+    public class WikiImageLicenseLoader : IRegisterAsInstancePerLifetime
     {
         public WikiImageLicenseInfo Run(string imageTitle, string apiHost)
         {

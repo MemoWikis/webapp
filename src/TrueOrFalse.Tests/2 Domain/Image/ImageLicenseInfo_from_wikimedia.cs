@@ -16,7 +16,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
         [Test]
         public void Get_license_info()
         {
-            var licenseInfoLoader = Resolve<WikiImageLicenceLoader>();
+            var licenseInfoLoader = Resolve<WikiImageLicenseLoader>();
             var licenseInfo = licenseInfoLoader.Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg", "commons.wikimedia.org");
             Assert.That(licenseInfo.AuthorName, Is.EqualTo("Tiit Hunt"));
         }
@@ -77,8 +77,8 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             Assert.That(parsedImageMakup.AuthorName_Raw, Is.EqualTo("[[User:Tiithunt|Tiit Hunt]]"));
             Assert.That(parsedImageMakup.AuthorName, Is.EqualTo("Tiit Hunt"));
 
-            Assert.That(parsedImageMakup.LicenceIsCreativeCommons, Is.EqualTo(true));
-            Assert.That(parsedImageMakup.LicenceTemplateString, Is.EqualTo("cc-by-sa-3.0"));
+            Assert.That(parsedImageMakup.LicenseIsCreativeCommons, Is.EqualTo(true));
+            Assert.That(parsedImageMakup.LicenseTemplateString, Is.EqualTo("cc-by-sa-3.0"));
         }
 
         [Test]

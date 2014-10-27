@@ -18,7 +18,7 @@ namespace TrueOrFalse.WikiMarkup
         public Template InfoTemplate;
 
         public bool LicenseIsPublicDomain;
-        public bool LicenceIsCreativeCommons;
+        public bool LicenseIsCreativeCommons;
 
         /// <summary>http://en.wikipedia.org/wiki/GNU_Free_Documentation_License</summary>
         public bool LicenseIsGFDL;
@@ -26,10 +26,10 @@ namespace TrueOrFalse.WikiMarkup
         /// <summary>
         /// e.g.: {{PD-USGov-Military-Air Force}}
         /// </summary>
-        public string LicenceTemplateString;
+        public string LicenseTemplateString;
 
         public bool IsUnknown(){ 
-            return !LicenseIsPublicDomain && !LicenceIsCreativeCommons && !LicenseIsGFDL;
+            return !LicenseIsPublicDomain && !LicenseIsCreativeCommons && !LicenseIsGFDL;
         }
 
         public bool HasDescription(){ return !String.IsNullOrEmpty(DescriptionDE_Raw); }
