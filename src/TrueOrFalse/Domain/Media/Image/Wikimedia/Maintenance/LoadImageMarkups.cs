@@ -24,7 +24,11 @@ namespace TrueOrFalse.Maintenance
         {
             var allImages = _imgRepo.Session
                 .QueryOver<ImageMetaData>()
-                .Where(x => x.Source == ImageSource.WikiMedia)
+//                .Where(x => x.Source == ImageSource.WikiMedia)
+                .Where(x => x.Id == 19
+//                    || x.Id == 6
+//                    || x.Id == 7
+                    )
                 .List<ImageMetaData>();
 
             foreach (var img in allImages)
