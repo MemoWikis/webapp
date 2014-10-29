@@ -11,7 +11,7 @@ namespace TrueOrFalse.WikiMarkup
     {
         public static string Run(string markup, string templateName)
         {
-            string[] markupTokenized = Regex.Split(markup, "({{|}}|\\r|\\n|\\|)"); ;
+            string[] markupTokenized = TokenizeMarkup(markup);
 
             bool collect = false;
             var sbCollected = new StringBuilder();
@@ -42,5 +42,10 @@ namespace TrueOrFalse.WikiMarkup
 
             return sbCollected.ToString();
         }
+
+        public static string[] TokenizeMarkup(string markup)
+        {
+            return Regex.Split(markup, "({{|}}|\\r|\\n|\\|)");
+        } 
     }
 }

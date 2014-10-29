@@ -127,5 +127,50 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             var parsedImageMakup = ParseImageMarkup.Run(demoText);
             Assert.That(parsedImageMakup.DescriptionDE_Raw, Is.EqualTo("Rita Süssmuth auf der 50. Verleihung der Adolf-Grimme-Preise in Marl am 4. April 2014."));
         }
+
+        [Test]
+        public void Should_parse_licenses()
+        {
+            const string markup = @"=={{int:filedesc}}==
+                            {{Information
+                            |description=
+                            {{en|1=Dalian, Liaoning, China: Two elderly Chinese guys enjoying the sea at  Xinghai Bay}}
+                            {{fr|1=Deux chinois âgés regardant la mer dans la baie de Xinghai à [[:fr:Dalian|Dalian]], province du Liaoning, en Chine.}}
+                            {{zh|1=两个中国老人坐在星海湾码头
+                            }}
+                            |date=2009-05-21
+                            |source={{own}}
+                            |author=[[User:Cccefalon|CEphoto, Uwe Aranas]]
+                            |permission={{User:Cccefalon/permission}}
+                            |other_versions=
+                            |other_fields={{User:Cccefalon/attribution}}
+                            }}
+                            {{Object location dec|38.875052|121.584854|region:CN-21}}
+                            {{User:Cccefalon/no-new-version}}
+                            {{Assessments|featured=1}}
+                            {{picture of the day|year=2014|month=10|day=27}}
+
+                            =={{int:license-header}}==
+                            {{self|cc-by-sa-3.0|GFDL|attribution={{User:Cccefalon/attribution1}} }}
+
+                            [[Category:Dalian]]
+                            [[Category:Images by Cccefalon]]
+                            [[Category:Quality images by Cccefalon]]
+                            [[Category:Quality images of people by User:Cccefalon]]
+                            [[Category:Quality images of China]]
+                            [[Category:People of Dalian]]
+                            [[Category:People of Liaoning]]
+                            [[Category:Old people of China]]
+                            [[Category:Quality images of China by User:Cccefalon]]
+                            [[Category:Images of China by User:Cccefalon]]
+                            [[Category:Images of people by User:Cccefalon]]
+                            [[Category:Featured pictures by Cccefalon]]
+                            [[Category:Featured pictures of people]]
+                            [[Category:Featured pictures of China]]
+                            {{QualityImage}}";
+
+            Assert.That(LicenseRepository.GetAll().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.SearchString) && registeredLicense.SearchString.ToLower() == "cc-by-sa-3.0"), Is.True);
+            Assert.That(LicenseParser.Run(markup).Any(parsedLicense => parsedLicense.SearchString.ToLower() == "cc-by-sa-3.0"), Is.True);
+        }
     }
 }
