@@ -25,10 +25,6 @@ namespace TrueOrFalse.Maintenance
             var allImages = _imgRepo.Session
                 .QueryOver<ImageMetaData>()
                 .Where(x => x.Source == ImageSource.WikiMedia)
-//                .Where(x => x.Id == 19
-//                    || x.Id == 6
-//                    || x.Id == 7
-//                    )
                 .List<ImageMetaData>();
 
             foreach (var img in allImages)
@@ -43,5 +39,20 @@ namespace TrueOrFalse.Maintenance
                 _imgRepo.Update(img);
             }
         }
+
+        public ImageMetaData GetImageMetaDataById(int imageId)
+        {
+            return _imgRepo.Session
+                .QueryOver<ImageMetaData>()
+                .Where(x => x.Id == imageId)
+                .List<ImageMetaData>()
+                .First(); 
+        }
+
+        public void tempRunOnSingleImage()
+        {
+            
+        }
+
     }
 }

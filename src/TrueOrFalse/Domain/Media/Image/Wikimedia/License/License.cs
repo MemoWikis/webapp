@@ -83,13 +83,11 @@ public class GetLicenseComponents
             CcJurisdictionPortsToken = Regex.Match(license.WikiSearchString, @"(?<=cc-((\w){2}-){1,2}(\d)(\.)(\d)-)(\w){2}\b", RegexOptions.IgnoreCase).Value.ToLower();
         }
 
-        if (license.WikiSearchString.ToLower().StartsWith("pd"))
+        else if (license.WikiSearchString.ToLower().StartsWith("pd"))
             LicenseGroup = "PD";
 
-        if (license.WikiSearchString.ToLower().StartsWith("gfdl"))
-        {
+        else if (license.WikiSearchString.ToLower().StartsWith("gfdl"))
             LicenseGroup = "GFDL";
-        }
     }
 }
 

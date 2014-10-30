@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Linq;
+using NHibernate;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
@@ -7,7 +8,7 @@ namespace TrueOrFalse
     {
         public ImageMetaDataRepository(ISession session) : base(session){}
 
-        public ImageMetaData GetBy(int questionSetId, ImageType imageType)
+        public ImageMetaData GetBy(int questionSetId, ImageType imageType)//$temp: "questionSetId" ist zu speziell, oder?
         {
             return _session.QueryOver<ImageMetaData>()
                            .Where(x => x.TypeId == questionSetId)
@@ -28,26 +29,36 @@ namespace TrueOrFalse
         {
             var imageMeta = GetBy(typeId, imageType);
             if (imageMeta == null)
-            {
+            {   
+                //$temp: Identisches hier oben?
                 Create(
                     new ImageMetaData
                     {
                         Type = imageType,
                         TypeId = typeId,
-                        Source = ImageSource.WikiMedia,
                         ApiHost = wikiMetaData.ApiHost,
+                        Source = ImageSource.WikiMedia,
                         SourceUrl = wikiMetaData.ImageUrl,
                         ApiResult = wikiMetaData.JSonResult,
-                        UserId = userId
+                        UserId = userId,
+                        //$temp neu (vorher nur unter LoadImageMarkups):
+                        Author = licenseInfo.AuthorName,
+                        Description = licenseInfo.Description,
+                        Markup = licenseInfo.Markup,
+                        //$temp Ganz neu:
+                        MainLicense = LicenseParser.GetMainLicenseId(licenseInfo.Markup),
+                        AllRegisteredLicenses = string.Join(", ", LicenseParser.GetAllLicenses(licenseInfo.Markup).Select(x => x.Id.ToString())),
                     }
                 );
             }
             else
             {
-                imageMeta.SourceUrl = wikiMetaData.ImageUrl;
+                //$temp: warum hier kein ApiHost?
                 imageMeta.Source = ImageSource.WikiMedia;
+                imageMeta.SourceUrl = wikiMetaData.ImageUrl;
                 imageMeta.ApiResult = wikiMetaData.JSonResult;
                 imageMeta.UserId = userId;
+                //$temp: neue von oben übernehmen oder übergreifend deklarieren
 
                 Update(imageMeta);
             }            

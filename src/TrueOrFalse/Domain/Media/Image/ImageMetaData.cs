@@ -21,5 +21,7 @@ namespace TrueOrFalse
         public virtual string Author { get; set; }
         public virtual string Description { get; set; }
         public virtual string Markup { get; set; }
+        public virtual int MainLicense { get; set; }
+        public virtual string AllRegisteredLicenses { get; set; }
     }
 }
