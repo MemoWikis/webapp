@@ -75,7 +75,8 @@ public class LicenseParser
         return licenseList
             .OrderBy(license => license.GetLicenseCategory().GetIntValue())
             .ThenByDescending(license => new GetLicenseComponents(license).CcVersion)
-            .ThenBy(license => PriotizeByCcJurisdictionToken(license))
+            .ThenBy(PriotizeByCcJurisdictionToken)
+            .ThenBy(license => license.WikiSearchString)
             .ToList();
     }
 

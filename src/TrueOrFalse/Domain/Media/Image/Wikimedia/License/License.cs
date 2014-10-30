@@ -53,11 +53,14 @@ public class License
         if (WikiSearchString.ToLower().StartsWith("cc-sa-"))
             return LicenseCategory.Cc_Sa;
 
+        if (WikiSearchString.ToLower().StartsWith("cc-zero"))
+            return LicenseCategory.Cc0;
+
         if (WikiSearchString.ToLower().StartsWith("pd"))
             return LicenseCategory.PD;
 
-        if (WikiSearchString.ToLower().StartsWith("GFDL"))
-            return LicenseCategory.Cc_Sa;
+        if (WikiSearchString.ToLower().StartsWith("gfdl"))
+            return LicenseCategory.GFDL;
 
         return LicenseCategory.NoCategory;
     }
@@ -77,9 +80,7 @@ public class GetLicenseComponents
         {
             LicenseGroup = "CC";
             CcVersion = Regex.Match(license.WikiSearchString, @"(?<=cc-((\w){2}-){1,2})(\d)(\.)(\d)\b", RegexOptions.IgnoreCase).Value;
-            CcJurisdictionPortsToken = Regex.Match(license.WikiSearchString, @"(?<=cc-((\w){2}-){1,2}(\d)(\.)(\d)-)(\w){2}\b", RegexOptions.IgnoreCase).Success ?
-                                        Regex.Match(license.WikiSearchString, @"(?<=cc-((\w){2}-){1,2}(\d)(\.)(\d)-)(\w){2}\b", RegexOptions.IgnoreCase).Value.ToLower():
-                                        "";
+            CcJurisdictionPortsToken = Regex.Match(license.WikiSearchString, @"(?<=cc-((\w){2}-){1,2}(\d)(\.)(\d)-)(\w){2}\b", RegexOptions.IgnoreCase).Value.ToLower();
         }
 
         if (license.WikiSearchString.ToLower().StartsWith("pd"))
@@ -97,7 +98,7 @@ public enum LicenseCategory
     //Order by priority (order can be changed, not written to db), add identifier method to GetLicenseCategory:
     Cc_Sa = 0,
     Cc_By_Sa = 1,
-    Cc_0 = 2,
+    Cc0 = 2,
     PD = 3,
     GFDL = 4,
 

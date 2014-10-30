@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -169,8 +170,35 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                             [[Category:Featured pictures of China]]
                             {{QualityImage}}";
 
-            Assert.That(LicenseRepository.GetAll().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.SearchString) && registeredLicense.SearchString.ToLower() == "cc-by-sa-3.0"), Is.True);
-            Assert.That(LicenseParser.Run(markup).Any(parsedLicense => parsedLicense.SearchString.ToLower() == "cc-by-sa-3.0"), Is.True);
+            Assert.That(LicenseRepository.GetAll().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
+            Assert.That(LicenseParser.GetApplicableLicenses(markup).Any(parsedLicense => parsedLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True,"GetApplicable failed");
+        }
+
+        [Test]
+        public void Should_find_main_license()
+        {
+
+            var sortedLicenses = new List<License>()
+            {
+                new License {WikiSearchString = "other"},
+                new License {WikiSearchString = "gfdl"},
+                new License {WikiSearchString = "cc-by-sa-3.0"},
+                new License {WikiSearchString = "pd"},
+                new License {WikiSearchString = "cc-by-sa-3.0-fr"},
+                new License {WikiSearchString = "cc-sa-3.0"},
+                new License {WikiSearchString = "cc-by-sa-2.5"},
+                new License {WikiSearchString = "cc-by-sa-3.0-de"},
+                new License {WikiSearchString = "alternative"},
+
+            };
+
+            sortedLicenses = LicenseParser.SortLicenses(sortedLicenses);
+
+            var sortedLicenseStrings = sortedLicenses.Select(l => l.WikiSearchString).Aggregate((a, b) => a + ", " + b);
+            const string expectedResult = "cc-sa-3.0, cc-by-sa-3.0, cc-by-sa-3.0-de, cc-by-sa-3.0-fr, cc-by-sa-2.5, pd, gfdl, alternative, other";
+
+            Assert.That(sortedLicenseStrings.Equals(expectedResult),
+                        String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, sortedLicenseStrings));
         }
     }
 }
