@@ -16,17 +16,12 @@ public class LicenseRepository
     public static List<License> GetAll()
     {
         return new List<License>()
-        {
+        { 
             //Don't change IDs!
             new License(true) {Id = 1, Name = "test", WikiSearchString = "cc-by-sa-3.0"},
             new License(true) {Id = 2, Name = "test", WikiSearchString = "cc-by-sa-3.0,2.5,2.0,1.0"},
-            new License {Id = 991, Name = "CC", AuthorRequired = true},
-            new License {Id = 992, Name = "KOREAN-STAMPS", AuthorRequired = true},
-            //cc-by-sa-3.0,2.5,2.0,1.0
         };
     }
-
-    
 
     public static List<License> GetAllApplicable()
     {
@@ -36,14 +31,13 @@ public class LicenseRepository
 
     public static License GetById(int id)
     {
-        return GetAll().First(license => license.Id != null && license.Id == id);
+        return GetAll().First(license => license.Id == id);
     }
 }
 
-
 public class LicenseParser
 {
-    public static IList<License> GetAllLicenses(string wikiMarkup)
+    public static List<License> GetAllLicenses(string wikiMarkup)
     {
         return LicenseRepository.GetAll()
             .Where(license => ParseTemplate.TokenizeMarkup(wikiMarkup).Any(x => !String.IsNullOrEmpty(license.WikiSearchString)
@@ -51,7 +45,7 @@ public class LicenseParser
             .ToList();
     } 
 
-    public static IList<License> GetApplicableLicenses(string wikiMarkup)
+    public static List<License> GetApplicableLicenses(string wikiMarkup)
     {
         return LicenseRepository.GetAllApplicable()
             .Where(license => ParseTemplate.TokenizeMarkup(wikiMarkup).Any(x => !String.IsNullOrEmpty(license.WikiSearchString) 
@@ -59,19 +53,25 @@ public class LicenseParser
             .ToList();
     }
 
+    public static List<License> GetApplicableLicenses(List<License> allLicenses)
+    {
+        return LicenseRepository.GetAllApplicable()
+            .Where(license => allLicenses.Any(x => x.Id == license.Id))
+            .ToList();
+    }
+
     public static IList<License> GetNonApplicableLicenses(string wikiMarkup)
     {
         return GetAllLicenses(wikiMarkup).Except(GetApplicableLicenses(wikiMarkup)).ToList();
     }
-
     
     public static License GetMainLicense(string wikiMarkup)
     {
-        var licenseList = GetAllLicenses(wikiMarkup).ToList();
+        var applicableLicenseList = GetApplicableLicenses(wikiMarkup).ToList();
 
-        SortLicenses(licenseList);
+        SortLicenses(applicableLicenseList);
         
-        return licenseList.FirstOrDefault();
+        return applicableLicenseList.FirstOrDefault();
     }
 
     public static int GetMainLicenseId(string wikiMarkup)

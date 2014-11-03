@@ -30,7 +30,7 @@ namespace TrueOrFalse
             var imageMeta = GetBy(typeId, imageType);
             if (imageMeta == null)
             {   
-                //$temp: Identisches hier oben?
+                //$temp: Identisches hier oben (statt doppelt unter Create und Update)?
                 Create(
                     new ImageMetaData
                     {
@@ -45,9 +45,9 @@ namespace TrueOrFalse
                         Author = licenseInfo.AuthorName,
                         Description = licenseInfo.Description,
                         Markup = licenseInfo.Markup,
-                        //$temp Ganz neu:
-                        MainLicense = LicenseParser.GetMainLicenseId(licenseInfo.Markup),
-                        AllRegisteredLicenses = string.Join(", ", LicenseParser.GetAllLicenses(licenseInfo.Markup).Select(x => x.Id.ToString())),
+                        //$temp Ganz neu (ergänzen unter LoadImageMarkups?):
+                       // MainLicense = LicenseParser.GetMainLicenseId(licenseInfo.Markup),
+                        //AllRegisteredLicenses = string.Join(",", LicenseParser.GetAllLicenses(licenseInfo.Markup).Select(x => x.Id.ToString())),
                     }
                 );
             }

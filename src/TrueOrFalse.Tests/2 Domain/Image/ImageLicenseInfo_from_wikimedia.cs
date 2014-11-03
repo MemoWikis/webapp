@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using TrueOrFalse.Tests;
 using TrueOrFalse.WikiMarkup;
 
@@ -199,6 +200,70 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 
             Assert.That(sortedLicenseStrings.Equals(expectedResult),
                         String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, sortedLicenseStrings));
+        }
+
+        [Test]
+        public void Should_find_other_possible_license_strings()
+        {
+            //$todo: refine together with tested method
+            const string markup = "cc-by-sa-3.0|cc-by-sa-9.0|pd-phantasie|pd|lkjlkjlj";
+
+            var otherPossibleLicenseStrings = LicenseParser.GetOtherPossibleLicenseStrings(markup).Aggregate((a, b) => a + ", " + b);
+            const string expectedResult = "cc-by-sa-9.0, pd-phantasie";
+
+            Assert.That(otherPossibleLicenseStrings.Equals(expectedResult),
+                        String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, otherPossibleLicenseStrings));
+        }
+
+        [Test]
+        public void TempFillImageData()
+        {   
+            //Later RunWikiMedia/StoreWiki should be tested instead
+            const string markup = @"== {{int:license-header}} ==
+                                    {{self|GFDL|cc-by-sa-3.0,2.5,2.0,1.0|cc-by-sa-3.0}}
+                                    {{svg|sport}}";
+
+            var mainLicense = LicenseParser.GetMainLicenseId(markup);
+            var allRegisteredLicenses = string.Join(",", LicenseParser.GetAllLicenses(markup).Select(x => x.Id.ToString()));
+
+            Console.WriteLine("Main license id: " + mainLicense);
+            Console.WriteLine("Ids: " + allRegisteredLicenses);
+
+        }
+
+        [Test]
+        public void Registered_licenses_should_not_contain_duplicates()
+        {
+            var duplicateIdLicenses =
+                LicenseRepository.GetAll()
+                    .GroupBy(l => l.Id)
+                    .Where(grp => grp.Count() > 1)
+                    .SelectMany(grp => grp)
+                    .ToList();
+
+            var duplicateSearchStringLicenses =
+                LicenseRepository.GetAll()
+                    .GroupBy(l => l.WikiSearchString)
+                    .Where(grp => grp.Count() > 1)
+                    .SelectMany(grp => grp)
+                    .ToList();
+
+            var messageDuplicateSearchStrings = "Duplicate search strings: " + Environment.NewLine;
+
+            foreach (var duplicateSearchStringLicense in duplicateSearchStringLicenses)
+            {
+                messageDuplicateSearchStrings += String.Format("{0} (Id: {1})" + Environment.NewLine,
+                                                    duplicateSearchStringLicense.WikiSearchString,
+                                                    duplicateSearchStringLicense.Id);
+            }
+            
+            Assert.That(
+                !LicenseRepository.GetAll().GroupBy(l => l.Id).Any(grp => grp.Count() > 1),
+                "Duplicate ID(s):" + Environment.NewLine + String.Join(Environment.NewLine, duplicateIdLicenses.Select(license => license.Id).ToList()));
+
+            Assert.That(
+                !LicenseRepository.GetAll().GroupBy(l => l.WikiSearchString).Any(grp => grp.Count() > 1),
+                messageDuplicateSearchStrings);
         }
     }
 }

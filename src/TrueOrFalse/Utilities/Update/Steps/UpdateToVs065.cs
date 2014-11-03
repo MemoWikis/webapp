@@ -14,11 +14,8 @@ namespace TrueOrFalse.Updates
             ServiceLocator.Resolve<ISession>().CreateSQLQuery(
                 @"ALTER TABLE `imagemetadata`
 	                ADD COLUMN `MainLicense` INT(11) NULL DEFAULT NULL AFTER `Markup`,
-	                ADD COLUMN `ApplicableLicenses` VARCHAR(1000) NULL DEFAULT NULL AFTER `MainLicense`,
-	                ADD COLUMN `OtherLicenses` VARCHAR(1000) NULL DEFAULT NULL AFTER `ApplicableLicenses`,
-	                ADD COLUMN `LicenseStatus` INT(11) NULL DEFAULT NULL AFTER `OtherLicenses`")
+	                ADD COLUMN `AllRegisteredLicenses` VARCHAR(1000) NULL DEFAULT NULL AFTER `MainLicense`")
                  .ExecuteUpdate();
-            //'OtherLicenses' für erfasste Licenses/ID oder geparste mögliche License strings?
         } 
     }
 }
