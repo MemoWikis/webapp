@@ -6,63 +6,66 @@ using NHibernate.Mapping;
 public class License
 {
     public int Id;
-    public string Name;
     public string WikiSearchString;
-    public string LicenseDisplayName;
-    /// <summary>
-    /// Page where the license can be found online
-    /// </summary>
-    public string Url;
+    public string LicenseLongName;
+    public string LicenseShortName;
 
     public LicenseApplicability LicenseApplicability;
 
-    public bool AuthorRequired;
-    public bool CopyOfLicenseTextRequired;
+    public bool? AuthorRequired;
+    public bool? LicenseLinkRequired;
+    /// <summary>
+    /// Page where the license can be found online
+    /// </summary>
+    public string LicenseLink;
+    public string LicenseShortDescriptionLink;
+    public bool? CopyOfLicenseTextRequired;
     public string CopyOfLicenseTextUrl;
 
-    public bool IsCC;
-    public bool IsCC_BY_SA;
-    public bool IsPD;//Also: CC0
-    public bool IsGFDL;
-
+    public LicenseRequirementsType LicenseRequirementsType;
+    
     public List<string> WikipediaTemplateNames;
 
-    public License() { }
-
-    public License(bool isCC_BY_SA)
+    public void InitLicenseSettings()
     {
-        IsCC_BY_SA = isCC_BY_SA;
-        
-        if (isCC_BY_SA)
+        //Init requirements settings
+        if (LicenseRequirementsType == LicenseRequirementsType.Cc_By_Sa)
         {
-            LicenseApplicability = LicenseApplicability.LicenseIsSafelyApplicable;
-            IsCC = true;
             AuthorRequired = true;
+            LicenseLinkRequired = true;
+            CopyOfLicenseTextRequired = false;
+        }
+
+        else if (LicenseRequirementsType == LicenseRequirementsType.Cc_Sa)
+        {
+            AuthorRequired = false;
+            LicenseLinkRequired = true;
+            CopyOfLicenseTextRequired = false;
         }
     }
 
-    public LicenseCategory GetLicenseCategory()
+    public LicenseRequirementsType ParseLicenseRequirementsType()
     {
         if (String.IsNullOrEmpty(WikiSearchString))
-            return LicenseCategory.NoCategory;
+            return LicenseRequirementsType.NoCategory;
 
         if (WikiSearchString.ToLower().StartsWith("cc-by-sa-")
             || WikiSearchString.ToLower().StartsWith("cc-by-"))
-            return LicenseCategory.Cc_By_Sa;
+            return LicenseRequirementsType.Cc_By_Sa;
 
         if (WikiSearchString.ToLower().StartsWith("cc-sa-"))
-            return LicenseCategory.Cc_Sa;
+            return LicenseRequirementsType.Cc_Sa;
 
         if (WikiSearchString.ToLower().StartsWith("cc-zero"))
-            return LicenseCategory.Cc0;
+            return LicenseRequirementsType.Cc0;
 
         if (WikiSearchString.ToLower().StartsWith("pd"))
-            return LicenseCategory.PD;
+            return LicenseRequirementsType.PD;
 
         if (WikiSearchString.ToLower().StartsWith("gfdl"))
-            return LicenseCategory.GFDL;
+            return LicenseRequirementsType.GFDL;
 
-        return LicenseCategory.NoCategory;
+        return LicenseRequirementsType.NoCategory;
     }
 }
 
@@ -91,23 +94,31 @@ public class GetLicenseComponents
     }
 }
 
-public enum LicenseCategory
+public enum LicenseRequirementsType
 {
-    //Order by priority (order can be changed, not written to db), add identifier method to GetLicenseCategory:
-    Cc_Sa = 0,
-    Cc_By_Sa = 1,
-    Cc0 = 2,
-    PD = 3,
-    GFDL = 4,
+    //Order by priority (order can be changed, not written to db), add requirements to InitLicenseSettings()  (and maybe identifier method to ParseLicenseRequirementsType):
+    
+    NoCategory = 0, //Rank: 999
 
-    NoCategory = 99
+    Cc_Sa = 1,
+    Cc_By_Sa = 2,
+    Cc0 = 3,
+    PD = 4,
+    GFDL = 5,
+
 }
 
-public static class LicenseCategoryExts
+public static class LicenseRequirementsTypeExts
 {
-    public static int GetIntValue(this LicenseCategory e)
+    public static int GetIntValue(this LicenseRequirementsType e)
     {
-        return (int)Enum.Parse(typeof(LicenseCategory), Enum.GetName(typeof(LicenseCategory), e));
+        return (int)Enum.Parse(typeof(LicenseRequirementsType), Enum.GetName(typeof(LicenseRequirementsType), e));
     }
+
+    public static int GetRank(this LicenseRequirementsType e)
+    {
+        return e.GetIntValue() == 0 ? 999 : e.GetRank();
+    }
+
 }
 

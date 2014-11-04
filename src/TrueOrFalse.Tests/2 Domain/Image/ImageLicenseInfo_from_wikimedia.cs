@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
+using SolrNet.Utils;
 using TrueOrFalse.Tests;
 using TrueOrFalse.WikiMarkup;
 
@@ -171,12 +172,12 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                             [[Category:Featured pictures of China]]
                             {{QualityImage}}";
 
-            Assert.That(LicenseRepository.GetAll().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
-            Assert.That(LicenseParser.GetApplicableLicenses(markup).Any(parsedLicense => parsedLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True,"GetApplicable failed");
+            Assert.That(LicenseRepository.GetAllRegisteredLicenses().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
+            Assert.That(LicenseParser.GetAuthorizedParsedLicenses(markup).Any(parsedLicense => parsedLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True,"GetApplicable failed");
         }
 
         [Test]
-        public void Should_find_main_license()
+        public void Should_sort_licenses()
         {
 
             var sortedLicenses = new List<License>()
@@ -202,6 +203,11 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                         String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, sortedLicenseStrings));
         }
 
+        public void Should_find_main_license()
+        {
+            
+        }
+
         [Test]
         public void Should_find_other_possible_license_strings()
         {
@@ -224,7 +230,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                                     {{svg|sport}}";
 
             var mainLicense = LicenseParser.GetMainLicenseId(markup);
-            var allRegisteredLicenses = string.Join(",", LicenseParser.GetAllLicenses(markup).Select(x => x.Id.ToString()));
+            var allRegisteredLicenses = string.Join(",", LicenseParser.GetAllParsedLicenses(markup).Select(x => x.Id.ToString()));
 
             Console.WriteLine("Main license id: " + mainLicense);
             Console.WriteLine("Ids: " + allRegisteredLicenses);
@@ -232,37 +238,74 @@ namespace TrueOrFalse.Tests._2_Domain.Image
         }
 
         [Test]
+        public void Authorized_licenses_should_contain_all_necessary_information()
+        {
+            var allAuthorizedLicenses = LicenseRepository.GetAllAuthorizedLicenses();
+
+            //Check for licenses without valid id
+            Assert.That(allAuthorizedLicenses.All(license => license.Id > 0), 
+                        CreateErrorMessage(allAuthorizedLicenses.Where(license => !(license.Id > 0)),
+                                            "No valid id assigned for:"));
+            
+            //Check for licenses without search string
+            Assert.That(allAuthorizedLicenses.All(license => !String.IsNullOrEmpty(license.WikiSearchString)),
+                        CreateErrorMessage(allAuthorizedLicenses.Where(license => String.IsNullOrEmpty(license.WikiSearchString)),
+                                            "No search string found for:"));
+
+            //Check for licenses without information about author requirement
+            Assert.That(allAuthorizedLicenses.All(license => license.AuthorRequired.HasValue),
+                        CreateErrorMessage(allAuthorizedLicenses.Where(license => !license.AuthorRequired.HasValue),
+                                            "No information about author requirement provided for:"));
+
+            //Check for licenses without sufficient license link information
+            Assert.That(allAuthorizedLicenses.All(license => license.LicenseLinkRequired.HasValue),
+                        CreateErrorMessage(allAuthorizedLicenses.Where(license => !license.LicenseLinkRequired.HasValue),
+                                            "No information about license link requirement provided for:"));
+
+            Assert.That(allAuthorizedLicenses.Where(license => license.LicenseLinkRequired.IsTrue()).All(license => !String.IsNullOrEmpty(license.LicenseLink)),
+                        CreateErrorMessage(allAuthorizedLicenses.Where(license => license.LicenseLinkRequired.IsTrue() && String.IsNullOrEmpty(license.LicenseLink)),
+                                            "Necessary license link not provided for:"));
+
+            Assert.That(allAuthorizedLicenses.Where(license => license.CopyOfLicenseTextRequired.IsTrue()).All(license => !String.IsNullOrEmpty(license.CopyOfLicenseTextUrl)),
+                        CreateErrorMessage(allAuthorizedLicenses.Where(license => license.CopyOfLicenseTextRequired.IsTrue() && String.IsNullOrEmpty(license.CopyOfLicenseTextUrl)),
+                                            "Necessary url of local license copy not provided for:"));
+        }
+
+        public static string CreateErrorMessage(IEnumerable<License> erroneousLicenses, string messageSeed)
+        {
+            return erroneousLicenses.Aggregate(messageSeed + Environment.NewLine,
+                        (current, license) => current + String.Format("Id: {0}, SearchString: {1}" + Environment.NewLine,
+                            license.Id, license.WikiSearchString));
+        }
+
+        [Test]
         public void Registered_licenses_should_not_contain_duplicates()
         {
             var duplicateIdLicenses =
-                LicenseRepository.GetAll()
+                LicenseRepository.GetAllRegisteredLicenses()
                     .GroupBy(l => l.Id)
                     .Where(grp => grp.Count() > 1)
                     .SelectMany(grp => grp)
                     .ToList();
 
             var duplicateSearchStringLicenses =
-                LicenseRepository.GetAll()
+                LicenseRepository.GetAllRegisteredLicenses()
                     .GroupBy(l => l.WikiSearchString)
                     .Where(grp => grp.Count() > 1)
                     .SelectMany(grp => grp)
                     .ToList();
 
-            var messageDuplicateSearchStrings = "Duplicate search strings: " + Environment.NewLine;
+            var messageDuplicateSearchStrings = duplicateSearchStringLicenses
+                                                .Aggregate("Duplicate search strings: " + Environment.NewLine,
+                                                            (current, duplicateSearchStringLicense) => current + String.Format("{0} (Id: {1})" + Environment.NewLine,
+                                                                duplicateSearchStringLicense.WikiSearchString, duplicateSearchStringLicense.Id));
 
-            foreach (var duplicateSearchStringLicense in duplicateSearchStringLicenses)
-            {
-                messageDuplicateSearchStrings += String.Format("{0} (Id: {1})" + Environment.NewLine,
-                                                    duplicateSearchStringLicense.WikiSearchString,
-                                                    duplicateSearchStringLicense.Id);
-            }
-            
             Assert.That(
-                !LicenseRepository.GetAll().GroupBy(l => l.Id).Any(grp => grp.Count() > 1),
+                !LicenseRepository.GetAllRegisteredLicenses().GroupBy(l => l.Id).Any(grp => grp.Count() > 1),
                 "Duplicate ID(s):" + Environment.NewLine + String.Join(Environment.NewLine, duplicateIdLicenses.Select(license => license.Id).ToList()));
 
             Assert.That(
-                !LicenseRepository.GetAll().GroupBy(l => l.WikiSearchString).Any(grp => grp.Count() > 1),
+                !LicenseRepository.GetAllRegisteredLicenses().GroupBy(l => l.WikiSearchString).Any(grp => grp.Count() > 1),
                 messageDuplicateSearchStrings);
         }
     }

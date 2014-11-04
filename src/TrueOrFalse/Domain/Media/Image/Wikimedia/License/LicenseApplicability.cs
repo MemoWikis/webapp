@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 public enum LicenseApplicability
 {
-    LicenseIsNotApplicable = 0,
-    LicenseIsSafelyApplicable = 1,
-    LicenseIsConditionallyApplicable = 2,
+    LicenseIsNotEvaluated = 0,
+    LicenseAuthorizedAndAllRequirementsRecorded = 1,
+    LicenseIsNotApplicable = 2,
+    LicenseIsConditionallyApplicable = 3,
 }
