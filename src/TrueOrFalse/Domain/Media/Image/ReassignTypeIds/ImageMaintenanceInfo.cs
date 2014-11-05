@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Web;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
+using NHibernate.Mapping;
 
 namespace TrueOrFalse
 {
@@ -19,6 +22,16 @@ namespace TrueOrFalse
 
         public string Url_128;
 
+        //new
+        public License MainLicense;
+        public List<License> AllLicenses;
+        public string LicenseStateHtmlList;
+
+        public bool AllRequiredMainLicenseInfosPresent;
+
+        public List<string> PossibleLicenseStrings;
+
+
         public ImageMaintenanceInfo(ImageMetaData imageMetaData)
         {
             var categoryImgBasePath = new CategoryImageSettings().BasePath;
@@ -28,6 +41,15 @@ namespace TrueOrFalse
             ImageId = imageMetaData.Id;
             MetaData = imageMetaData;
             TypeId = imageMetaData.TypeId;
+            //new
+            MainLicense = LicenseParser.GetMainLicense(imageMetaData.Markup);
+            AllLicenses = LicenseParser.GetAllParsedLicenses(imageMetaData.Markup);
+            LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList(AllLicenses, MetaData.Markup)) ?
+                //"<ul>" + 
+                ToLicenseStateHtmlList(AllLicenses, MetaData.Markup)
+               // + "</ul>" 
+                : "";
+
             InCategoryFolder = File.Exists(HttpContext.Current.Server.MapPath(
                 categoryImgBasePath + imageMetaData.TypeId + ".jpg"));
             InQuestionFolder = File.Exists(HttpContext.Current.Server.MapPath(
@@ -98,6 +120,22 @@ namespace TrueOrFalse
             }
 
             throw new Exception("no clear type");
+        }
+
+        public static string ToLicenseStateHtmlList(List<License> licenseList, string wikiMarkup)
+        {
+            return licenseList.Count > 0
+                ? "<ul>" + 
+                    licenseList
+                        .Aggregate("",
+                            (current, license) =>
+                                current + "<li>" +
+                                (!String.IsNullOrEmpty(license.LicenseShortName)
+                                    ? license.LicenseShortName
+                                    : license.WikiSearchString) + " (" +
+                                LicenseParser.CheckLicenseState(license, wikiMarkup) + ")</li>")
+                    + "</ul>"
+                : "";
         }
     }
 }

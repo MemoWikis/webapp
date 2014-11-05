@@ -224,6 +224,21 @@ public class LicenseParser
         return licenseNotifications;
     }
 
+    public static string CheckLicenseState(License license, string wikiMarkup)
+    {
+        if (LicenseRepository.GetAllRegisteredLicenses().Any(l => l.Id == license.Id))
+        {
+            if (LicenseRepository.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
+            {
+                return CheckLicenseRequirements(license, wikiMarkup).AllRequirementsMet ? "verwendbar" : "zugelassen, aber Angaben fehlen";
+            }
+            return "nicht zugelassen";
+        }
+        return "nicht registriert";
+    }
+
+
+
     public static int PriotizeByCcJurisdictionToken(License license)
     {
         var licenseComponents = new GetLicenseComponents(license);
@@ -249,6 +264,8 @@ public class LicenseParser
             .Except(GetAllParsedLicenses(wikiMarkup).Select(license => license.WikiSearchString))
             .ToList();
     }
+
+    
 }
 
 public class LicenseNotifications
@@ -258,3 +275,4 @@ public class LicenseNotifications
     public bool LicenseLinkIsMissing;
     public bool LocalCopyOfLicenseUrlMissing;
 }
+

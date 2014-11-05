@@ -45,7 +45,7 @@ namespace TrueOrFalse.WikiMarkup
 
         public static string[] TokenizeMarkup(string markup)
         {
-            return Regex.Split(markup, "({{|}}|\\r|\\n|\\|)");
+            return String.IsNullOrEmpty(markup) ? new string[] {}: (Regex.Split(markup, "({{|}}|\\r|\\n|\\|)"));
         } 
     }
 }
