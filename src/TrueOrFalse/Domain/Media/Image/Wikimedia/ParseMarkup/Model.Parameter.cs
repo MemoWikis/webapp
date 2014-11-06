@@ -59,10 +59,10 @@ namespace TrueOrFalse.WikiMarkup
         {
             parameters = parameters.ToList();
 
-            if (parameters.All(x => x.Key != key))
+            if (parameters.All(x => x.Key.ToLower() != key.ToLower()))
                 return null;
 
-            return parameters.First(x => x.Key == key);
+            return parameters.First(x => x.Key.ToLower() == key.ToLower());
         }
     }
 }
