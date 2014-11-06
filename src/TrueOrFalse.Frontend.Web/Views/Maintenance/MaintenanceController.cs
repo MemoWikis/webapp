@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
@@ -136,5 +137,15 @@ public class MaintenanceController : BaseController
     public ActionResult Throw500()
     {
         throw new Exception("Some random exception");
+    }
+
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    public ActionResult GetImageMarkup(int imgId)
+    {
+        var imageMaintenanceInfo =
+            Resolve<GetImageMaintenanceInfos>()
+                .Run().FirstOrDefault(imageInfo => imageInfo.ImageId == imgId);
+        return View("Markup", imageMaintenanceInfo);
     }
 }

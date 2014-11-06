@@ -70,6 +70,7 @@
                         Keine Lizenzen gefunden.
                     <% } %>
                     
+                    <br/><a href="<%= "/Bilder/GetImageMarkup?imgId=" + imageMaintenanceInfo.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
                     <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(imageMaintenanceInfo.MetaData.SourceUrl))){
                     %> <br/><a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(imageMaintenanceInfo.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a><% } %>
                 </td>

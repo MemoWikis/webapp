@@ -172,5 +172,11 @@ public class EditQuestionController : BaseController
         new StoreSound().Run(soundfile.InputStream, Path.Combine(Server.MapPath("/Sounds/Questions/"), questionId + ".m4a"));
     }
 
-
+    public ActionResult GetImageMarkup(int imgId)
+    {
+        var imageMaintenanceInfo =
+            Resolve<GetImageMaintenanceInfos>()
+                .Run().FirstOrDefault(imageInfo => imageInfo.ImageId == imgId);
+        return View("Markup", imageMaintenanceInfo);
+    }
 }
