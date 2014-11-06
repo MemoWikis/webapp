@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
@@ -224,20 +225,35 @@ public class LicenseParser
         return licenseNotifications;
     }
 
-    public static string CheckLicenseState(License license, string wikiMarkup)
+    public static ImageLicenseState CheckImageLicenseState(License license, string wikiMarkup)
     {
         if (LicenseRepository.GetAllRegisteredLicenses().Any(l => l.Id == license.Id))
         {
             if (LicenseRepository.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
             {
-                return CheckLicenseRequirements(license, wikiMarkup).AllRequirementsMet ? "verwendbar" : "zugelassen, aber Angaben fehlen";
+                return CheckLicenseRequirements(license, wikiMarkup).AllRequirementsMet ? ImageLicenseState.LicenseIsApplicableForImage : ImageLicenseState.LicenseAuthorizedButInfoMissing;
             }
-            return "nicht zugelassen";
+            return ImageLicenseState.LicenseIsNotAuthorized;
         }
-        return "nicht registriert";
+        return ImageLicenseState.NotSpecified;
     }
 
+    public static string GetImageLicenseStateMessage(License license, string wikiMarkup)
+    {
+        switch (CheckImageLicenseState(license, wikiMarkup))
+        {
+            case ImageLicenseState.LicenseIsApplicableForImage:
+                return "verwendbar";
 
+            case ImageLicenseState.LicenseAuthorizedButInfoMissing:
+                return "zugelassen, aber benötigte Angaben unvollständig";
+
+            case ImageLicenseState.LicenseIsNotAuthorized:
+                return "nicht zugelassen";
+        }
+
+        return "unbekannt";
+    }
 
     public static int PriotizeByCcJurisdictionToken(License license)
     {
@@ -265,7 +281,12 @@ public class LicenseParser
             .ToList();
     }
 
-    
+    public static string GetWikiDetailsPageFromSourceUrl(string sourceUrl)
+    {
+        return !String.IsNullOrEmpty(sourceUrl) && sourceUrl.StartsWith("http://upload.wikimedia.org")
+            ? "http://commons.wikimedia.org/wiki/File:" + Regex.Split(sourceUrl, "/").Last()
+            : "";
+    }
 }
 
 public class LicenseNotifications
@@ -274,5 +295,14 @@ public class LicenseNotifications
     public bool AuthorIsMissing;
     public bool LicenseLinkIsMissing;
     public bool LocalCopyOfLicenseUrlMissing;
+}
+
+public enum ImageLicenseState
+{
+    NotSpecified = 0,
+    LicenseIsApplicableForImage = 1,
+    LicenseAuthorizedButInfoMissing = 2,
+    LicenseIsNotAuthorized = 3,
+
 }
 

@@ -27,8 +27,6 @@ namespace TrueOrFalse
         public List<License> AllLicenses;
         public string LicenseStateHtmlList;
 
-        public bool AllRequiredMainLicenseInfosPresent;
-
         public List<string> PossibleLicenseStrings;
 
 
@@ -65,6 +63,17 @@ namespace TrueOrFalse
 
             if (MetaData.Type == ImageType.QuestionSet)
                 Url_128 = QuestionSetImageSettings.Create(MetaData.TypeId).GetUrl_128px_square().Url;
+        }
+
+        public string GetImageLicenseStateCssClass()
+        {
+            if (MainLicense != null)
+                return "success";
+
+            if (AllLicenses.Any(license => LicenseParser.CheckImageLicenseState(license, MetaData.Markup) == ImageLicenseState.LicenseAuthorizedButInfoMissing))
+                return "warning";
+
+            return "danger";
         }
 
         private int GetAmountMatches()
@@ -133,7 +142,7 @@ namespace TrueOrFalse
                                 (!String.IsNullOrEmpty(license.LicenseShortName)
                                     ? license.LicenseShortName
                                     : license.WikiSearchString) + " (" +
-                                LicenseParser.CheckLicenseState(license, wikiMarkup) + ")</li>")
+                                LicenseParser.GetImageLicenseStateMessage(license, wikiMarkup) + ")</li>")
                     + "</ul>"
                 : "";
         }

@@ -27,13 +27,13 @@
         <tr>
             <th class="ColumnImage"></th>
             <th class="ColumnInfo">Info</th>
-            <th class="ColumnAuthor">Author</th>
-            <th class="ColumnLicense">License</th>
-            <th class="ColumnDescription">Description</th>
+            <th class="ColumnAuthor">Autor</th>
+            <th class="ColumnLicense">Lizenz</th>
+            <th class="ColumnDescription">Beschreibung</th>
         </tr>
         <%  var index = 0;
             foreach(var imageMaintenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
-            <tr class="<%=imageMaintenanceInfo.GetCssClass() %>">
+            <tr class="<%=imageMaintenanceInfo.GetImageLicenseStateCssClass() %>">
                 <td class="ColumnImage">
                     <img src="<%= imageMaintenanceInfo.Url_128 %>" style="width: 50px" />
                 </td>                    
@@ -44,9 +44,10 @@
                 </td>
                 <td class="ColumnAuthor"><%= imageMaintenanceInfo.MetaData.Author %></td>
                 <td class="ColumnLicense">
-                    Main License:<br/>
+                    
                     <% if (imageMaintenanceInfo.MainLicense != null)
                        {
+                           %>Hauptlizenz:<br/><%
                            if (!String.IsNullOrEmpty(imageMaintenanceInfo.MainLicense.LicenseShortName))
                            {%><%=
                            imageMaintenanceInfo.MainLicense.LicenseShortName%>
@@ -55,19 +56,22 @@
                             <%}%>
                                
                        <%} else {%>
-                        none
+                        Keine (verwendbare) Lizenz gefunden.
                         
                     <%}%>
                     <br/>
                     <%
                        if (!String.IsNullOrEmpty(imageMaintenanceInfo.LicenseStateHtmlList))
                        { %>
-                        <a href="#" tabindex="0" class="AllLicenses" data-trigger="hover" data-html="true" data-content="<%= Html.Raw(imageMaintenanceInfo.LicenseStateHtmlList)%>">All licenses</a>
+                        <a href="#" tabindex="0" class="AllLicenses" data-content="<%= Html.Raw(imageMaintenanceInfo.LicenseStateHtmlList)%>">Alle gefundenen Lizenzen</a>
                     <% }
                        else
                        { %>
                         Keine Lizenzen gefunden.
                     <% } %>
+                    
+                    <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(imageMaintenanceInfo.MetaData.SourceUrl))){
+                    %> <br/><a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(imageMaintenanceInfo.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a><% } %>
                 </td>
                 <td class="ColumnDescription"></td>
             </tr>
@@ -80,12 +84,11 @@
                 e.preventDefault();
             });
             $('.AllLicenses').popover(
-                //{
-                //animation: "fade",
-                //delay: "200",
-                //trigger: "focus",
-                //placement: "right"
-                //}
+                {
+                trigger: "focus",
+                placement: "right",
+                html: "true",
+                }
             );
         }
             );

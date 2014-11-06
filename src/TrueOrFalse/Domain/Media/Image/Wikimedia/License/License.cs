@@ -36,12 +36,23 @@ public class License
             CopyOfLicenseTextRequired = false;
         }
 
+        else if (LicenseRequirementsType == LicenseRequirementsType.Cc_By)
+        {
+            AuthorRequired = true;
+            LicenseLinkRequired = true;
+            CopyOfLicenseTextRequired = false;
+        }
+
         else if (LicenseRequirementsType == LicenseRequirementsType.Cc_Sa)
         {
             AuthorRequired = false;
             LicenseLinkRequired = true;
             CopyOfLicenseTextRequired = false;
         }
+
+       //$Todo: complete
+
+
     }
 
     public LicenseRequirementsType ParseLicenseRequirementsType()
@@ -100,11 +111,12 @@ public enum LicenseRequirementsType
     
     NoCategory = 0, //Rank: 999
 
-    Cc_Sa = 1,
+    Cc_By = 1,
     Cc_By_Sa = 2,
-    Cc0 = 3,
-    PD = 4,
-    GFDL = 5,
+    Cc_Sa = 3,//License is retired
+    Cc0 = 4,
+    PD = 5,
+    GFDL = 6,
 
 }
 

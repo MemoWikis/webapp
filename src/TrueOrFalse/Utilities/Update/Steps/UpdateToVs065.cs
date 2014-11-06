@@ -15,6 +15,10 @@ namespace TrueOrFalse.Updates
                 @"ALTER TABLE `imagemetadata`
 	                ADD COLUMN `MainLicense` INT(11) NULL DEFAULT NULL AFTER `Markup`,
 	                ADD COLUMN `AllRegisteredLicenses` VARCHAR(1000) NULL DEFAULT NULL AFTER `MainLicense`")
+                    //'AllAuthorizedLicenses'?
+                    //'ManuallyUpdated'?
+                    //'Other attribution?'
+                    //'Manually excluded'
                  .ExecuteUpdate();
         } 
     }

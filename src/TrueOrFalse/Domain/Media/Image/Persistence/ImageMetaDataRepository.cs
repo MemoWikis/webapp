@@ -46,8 +46,8 @@ namespace TrueOrFalse
                         Description = licenseInfo.Description,
                         Markup = licenseInfo.Markup,
                         //$temp Ganz neu (ergänzen unter LoadImageMarkups?):
-                       // MainLicense = LicenseParser.GetMainLicenseId(licenseInfo.Markup),
-                        //AllRegisteredLicenses = string.Join(",", LicenseParser.GetAllLicenses(licenseInfo.Markup).Select(x => x.Id.ToString())),
+                        MainLicense = LicenseParser.GetMainLicense(licenseInfo.Markup),
+                        AllRegisteredLicenses = string.Join(",", LicenseParser.GetAllParsedLicenses(licenseInfo.Markup).Select(x => x.Id.ToString())),
                     }
                 );
             }
