@@ -139,7 +139,6 @@ public class MaintenanceController : BaseController
         throw new Exception("Some random exception");
     }
 
-    [HttpPost]
     [AccessOnlyAsAdmin]
     public ActionResult GetImageMarkup(int imgId)
     {
