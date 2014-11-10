@@ -15,8 +15,10 @@ namespace TrueOrFalse.WikiMarkup
     {
         public static ParseImageMarkupResult Run(string markup)
         {
-            var result = new ParseImageMarkupResult();
-            result.InfoTemplate = new Template(ParseTemplate.Run(markup, "Information"));
+            var result = new ParseImageMarkupResult
+            {
+                InfoTemplate = ParseTemplate.GetTemplateByName(markup, "Information")
+            };
 
             Care_about_description_and_author(result);
             Care_about_license_template(markup, result);
@@ -27,7 +29,7 @@ namespace TrueOrFalse.WikiMarkup
         private static void Care_about_license_template(string markup, ParseImageMarkupResult result)
         {
             //http://en.wikipedia.org/wiki/Template:Self
-            var selfTemplate = new Template(ParseTemplate.Run(markup, "self"));
+            var selfTemplate = ParseTemplate.GetTemplateByName(markup, "self");
             if (selfTemplate.IsSet)
             {
                 var allLicenseTemplates = selfTemplate.Parameters.Where(x => !x.HasKey).ToList();
@@ -71,29 +73,66 @@ namespace TrueOrFalse.WikiMarkup
             }
         }
 
-        private static void SetDescription(ParseImageMarkupResult result, Parameter descnParameter)
+        private static void SetDescription(ParseImageMarkupResult result, Parameter descrParameter)
         {
-            var mldSection = new Template(ParseTemplate.Run(descnParameter.Value, "mld"));
-            if (mldSection.Parameters.Any(x => x.Key == "de"))
+            var preferredLanguages = new List<string>
             {
-                var deParamValue = mldSection.ParamByKey("de").Value;
-                result.DescriptionDE_Raw = deParamValue;
-                result.Description = Markup2Html.Run(deParamValue);
-                return;
+                //Markup is parsed for description in the following languages (ordered by priority)
+                "de", "en", "fr", "ca", "ru", "hu"
+            };
+
+            var i = 0;
+            var paramValue = "";
+            var mldSection = ParseTemplate.GetTemplateByName(descrParameter.Value, "Multilingual description").IsSet ?
+                ParseTemplate.GetTemplateByName(descrParameter.Value, "Multilingual description") :
+                ParseTemplate.GetTemplateByName(descrParameter.Value, "mld");
+
+            while (i < preferredLanguages.Count()) {
+
+                //Parse for "multilingual description"/"mld"
+
+
+                //Check for description in preferred languages (ordered by priority) in "multilingual description"/"mld"
+                if (mldSection.Parameters.Any(x => x.Key == preferredLanguages[i]))
+                {
+                    paramValue = mldSection.ParamByKey(preferredLanguages[i]).Value;
+                    break;
+                }
+
+                //Check for preferred languages in seperate description templates
+                var langSection = ParseTemplate.GetTemplateByName(descrParameter.Value, preferredLanguages[i]);
+                if(langSection.IsSet)
+                {
+                    if (langSection.Parameters.Any())
+                    {
+                        paramValue = langSection.Parameters.First().Value;
+                        break;
+                    }
+                }
+
+                i++;
             }
 
-            var deSection = new Template(ParseTemplate.Run(descnParameter.Value, "de"));
-            if(deSection.IsSet)
+            //If no description in preferred languages is found, search for descriptions in other languages and take the first of them
+            if (String.IsNullOrEmpty(paramValue))
             {
-                if (deSection.Parameters.Any())
+                //Search in "multilingual description"/"mld"
+                if (mldSection.Parameters.Any())
                 {
-                    var deParamValue = deSection.Parameters.First().Value;
-                    result.DescriptionDE_Raw = deParamValue;
-                    result.Description = Markup2Html.Run(deParamValue);
+                    paramValue = mldSection.Parameters.First().Value;
                 }
-                return;
+                //Search in seperate description templates
+                else if (ParseTemplate.GetDescriptionInAllAvailableLanguages(descrParameter.Value).Any())
+                {
+                    paramValue = ParseTemplate.GetDescriptionInAllAvailableLanguages(descrParameter.Value).Select(d => d.Raw).First();
+                }
+
+            }
+
+            if (!String.IsNullOrEmpty(paramValue)) { 
+                result.Description_Raw = paramValue;
+                result.Description = Markup2Html.Run(paramValue);
             }
         }
-
     }
 }

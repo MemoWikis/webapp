@@ -10,13 +10,15 @@ namespace TrueOrFalse.WikiMarkup
     [DebuggerDisplay("Raw={Raw}")]
     public class Template
     {
+        public string TemplateName;
         public string Raw;
         public List<Parameter> Parameters = new List<Parameter>();
 
         public bool IsSet{ get { return !String.IsNullOrEmpty(Raw); } }
 
-        public Template(string text)
+        public Template(string text, string templateName)
         {
+            TemplateName = templateName;
             Raw = text;
             Parameters = ParseTemplateParameters.Run(text);
         }

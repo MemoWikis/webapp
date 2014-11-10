@@ -224,6 +224,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseTemplate.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseTemplateParameters.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\LoadImageMarkups.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\WikiLanguage.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiApiUtils.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseInfo.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseLoader.cs" />

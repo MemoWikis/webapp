@@ -9,7 +9,7 @@ namespace TrueOrFalse.WikiMarkup
     public class ParseImageMarkupResult
     {
         /// <summary>May contain wiki markup</summary>
-        public string DescriptionDE_Raw;
+        public string Description_Raw;
         public string Description;
 
         public string AuthorName_Raw;
@@ -32,7 +32,7 @@ namespace TrueOrFalse.WikiMarkup
             return !LicenseIsPublicDomain && !LicenseIsCreativeCommons && !LicenseIsGFDL;
         }
 
-        public bool HasDescription(){ return !String.IsNullOrEmpty(DescriptionDE_Raw); }
+        public bool HasDescription(){ return !String.IsNullOrEmpty(Description_Raw); }
         public bool HasAuthorname() { return !String.IsNullOrEmpty(AuthorName); }
     }
 }

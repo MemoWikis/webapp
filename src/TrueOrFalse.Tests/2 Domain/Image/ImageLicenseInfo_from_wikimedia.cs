@@ -71,7 +71,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             Assert.That(infoSectionParams[1].Key, Is.EqualTo("Date"));
             Assert.That(infoSectionParams[1].Value, Is.EqualTo("2010-01-06"));
 
-            Assert.That(parsedImageMakup.DescriptionDE_Raw,
+            Assert.That(parsedImageMakup.Description_Raw,
                 Is.EqualTo(
                     "Eine [[:de:Flunder|Flunder]], ''Platichthys flesus'', nahe dem estnischen Dorf [[:de:Vääna-Jõesuu|Vääna-Jõesuu]]"));
             Assert.That(parsedImageMakup.Description,
@@ -128,7 +128,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             }";
 
             var parsedImageMakup = ParseImageMarkup.Run(demoText);
-            Assert.That(parsedImageMakup.DescriptionDE_Raw, Is.EqualTo("Rita Süssmuth auf der 50. Verleihung der Adolf-Grimme-Preise in Marl am 4. April 2014."));
+            Assert.That(parsedImageMakup.Description_Raw, Is.EqualTo("Rita Süssmuth auf der 50. Verleihung der Adolf-Grimme-Preise in Marl am 4. April 2014."));
         }
 
         [Test]
