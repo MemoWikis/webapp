@@ -20,7 +20,6 @@ public class WikiLanguage
         var tokenList = new List<string>()
         {
             "aa", "ab", "af", "ak", "als", "am", "an", "ang", "ar", "arc", "as", "ast", "av", "ay", "az", "ba", "be", "be-tarask", "bg", "bh", "bi", "bm", "bn", "bo", "br", "bs", "ca", "ce", "ceb", "ch", "cho", "chr", "chy", "co", "cr", "cs", "csb", "cv", "cy", "da", "de", "dv", "dz", "el", "en", "eo", "es", "et", "eu", "fa", "ff", "fi", "fil", "fiu-vro", "fj", "fo", "fr", "fur", "fy", "ga", "gd", "gl", "gn", "got", "gu", "gv", "ha", "haw", "he", "hi", "ho", "hr", "ht", "hu", "hy", "hz", "ia", "id", "ie", "ig", "ii", "ik", "io", "is", "it", "iu", "ja", "jbo", "jv", "ka", "kg", "ki", "kj", "kk", "kl", "km", "kn", "ko", "kr", "ks", "ku", "kv", "kw", "ky", "la", "lad", "lb", "lez", "lg", "li", "ln", "lo", "lt", "lv", "mg", "mh", "mi", "mk", "ml", "mn", "mo", "mr", "ms", "mt", "mus", "mwl", "my", "mzn", "na", "nah", "nap", "nb", "nds", "nds-nl", "ne", "ng", "nl", "nn", "no", "nrm", "nv", "ny", "oc", "om", "or", "os", "pa", "pam", "pdt", "pi", "pl", "ps", "pt", "qu", "rm", "rn", "ro", "ru", "rup", "rw", "sa", "sc", "scn", "sco", "sd", "se", "sg", "sh", "si", "sk", "sl", "sm", "sn", "so", "sq", "sr", "ss", "st", "su", "sv", "sw", "ta", "te", "tg", "tgl", "tglg", "th", "ti", "tk", "tn", "to", "tokipona", "tpi", "tr", "ts", "tt", "tum", "tw", "ty", "ug", "uk", "ur", "uz", "ve", "vec", "vi", "vo", "wa", "war", "wo", "xh", "yi", "yo", "za", "zh", "zh-min-nan", "zu"
-
         };
 
         var languageNames = new List<string>()
@@ -31,9 +30,8 @@ public class WikiLanguage
         var allLanguages = new List<WikiLanguage>();
         int i;
         for (i = 0; i < tokenList.Count(); i++)
-        {
             allLanguages.Add(new WikiLanguage(tokenList[i], languageNames[i]));
-        }
+        
 
         return allLanguages;
     }

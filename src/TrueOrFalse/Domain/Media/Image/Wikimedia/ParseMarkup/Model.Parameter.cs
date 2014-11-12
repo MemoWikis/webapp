@@ -18,6 +18,8 @@ namespace TrueOrFalse.WikiMarkup
 
         public bool HasKey{ get { return !String.IsNullOrEmpty(Key); } }
 
+        public List<Template> Subtemplates = new List<Template>();
+
         public Parameter(List<string> currentParameterTokens)
         {
             Raw = currentParameterTokens.Aggregate((a,b) => a + ' ' + b);
@@ -50,6 +52,12 @@ namespace TrueOrFalse.WikiMarkup
             {
                 Value = Raw;
             }
+
+            Subtemplates = ParseTemplate.GetParameterSubtemplates(this);
+            foreach (var subtemplate in Subtemplates)
+            {
+                subtemplate.SuperordinateParameter = this;
+            }       
         }
     }
 

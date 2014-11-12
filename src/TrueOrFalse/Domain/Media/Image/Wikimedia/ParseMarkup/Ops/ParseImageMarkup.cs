@@ -13,15 +13,26 @@ namespace TrueOrFalse.WikiMarkup
 {
     public class ParseImageMarkup
     {
+        
         public static ParseImageMarkupResult Run(string markup)
         {
-            var result = new ParseImageMarkupResult
+            var result = new ParseImageMarkupResult();
+            var templateFound = false;
+            foreach (var infoBoxTemplate in InfoBoxTemplate.GetAllInfoBoxTemplates())
             {
-                InfoTemplate = ParseTemplate.GetTemplateByName(markup, "Information")
+                if (ParseTemplate.GetTemplateByName(markup, infoBoxTemplate.TemplateName).IsSet)
+                {
+                    result.InfoTemplate = ParseTemplate.GetTemplateByName(markup, infoBoxTemplate.TemplateName);
+                    result.InfoBoxTemplate = infoBoxTemplate;
+                    templateFound = true;
+                    break;
+                }
             };
 
-            Care_about_description_and_author(result);
-            Care_about_license_template(markup, result);
+            if (templateFound) {
+                Care_about_description_and_author(result);
+                Care_about_license_template(markup, result);
+            }
 
             return result;
         }
@@ -56,16 +67,11 @@ namespace TrueOrFalse.WikiMarkup
 
         private static void Care_about_description_and_author(ParseImageMarkupResult result)
         {
-            var paramDesc = result.InfoTemplate.ParamByKey("Description");
+            var paramDesc = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.DescriptionParamaterName);
             if (paramDesc != null)
                 SetDescription(result, paramDesc);
-            else
-            {
-                result.InfoTemplate.ParamByKey("BArch-image");
 
-            }
-
-            var paramAuthor = result.InfoTemplate.ParamByKey("Author");
+            var paramAuthor = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
             if (paramAuthor != null)
             {
                 result.AuthorName_Raw = paramAuthor.Value;
@@ -78,7 +84,7 @@ namespace TrueOrFalse.WikiMarkup
             var preferredLanguages = new List<string>
             {
                 //Markup is parsed for description in the following languages (ordered by priority)
-                "de", "en", "fr", "ca", "ru", "hu"
+                "de", "en", "fr", "es", "ca", "ru", "hu"
             };
 
             var i = 0;
@@ -122,9 +128,9 @@ namespace TrueOrFalse.WikiMarkup
                     paramValue = mldSection.Parameters.First().Value;
                 }
                 //Search in seperate description templates
-                else if (ParseTemplate.GetDescriptionInAllAvailableLanguages(descrParameter.Value).Any())
+                else if (GetDescriptionInAllAvailableLanguages(descrParameter.Value).Any())
                 {
-                    paramValue = ParseTemplate.GetDescriptionInAllAvailableLanguages(descrParameter.Value).Select(d => d.Raw).First();
+                    paramValue = GetDescriptionInAllAvailableLanguages(descrParameter.Value).Select(d => d.Raw).First();
                 }
 
             }
@@ -132,7 +138,20 @@ namespace TrueOrFalse.WikiMarkup
             if (!String.IsNullOrEmpty(paramValue)) { 
                 result.Description_Raw = paramValue;
                 result.Description = Markup2Html.Run(paramValue);
+            } 
+            else if (!String.IsNullOrEmpty(descrParameter.Value)
+                       && !descrParameter.Value.Contains("{{")
+                       && !descrParameter.Value.Contains("}}"))
+            {
+                //If description doesn't contain any templates, just plain text
+                result.Description_Raw = descrParameter.Value;
+                result.Description = Markup2Html.Run(descrParameter.Value);
             }
+        }
+
+        public static List<Template> GetDescriptionInAllAvailableLanguages(string dscrTemplate)
+        {
+            return ParseTemplate.GetAllMatchingTemplates(dscrTemplate, WikiLanguage.GetAllLanguages().Select(l => l.LanguageToken).ToList());
         }
     }
 }

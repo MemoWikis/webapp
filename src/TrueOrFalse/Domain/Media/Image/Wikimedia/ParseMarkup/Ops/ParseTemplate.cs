@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace TrueOrFalse.WikiMarkup
                     continue;
                 }
 
+                //$temp: müsste nicht hier indent nicht eher wie bei Beginn des Templates sein (oder bei Beginn auch 0)?
                 if (token == "}}" && indent == 0)
                     collect = false;
 
@@ -43,91 +45,13 @@ namespace TrueOrFalse.WikiMarkup
             return new Template(sbCollected.ToString(), templateName);
         }
 
-        public static string GetFirstMatchingTemplate(string markup, List<string> templateNames)
-        {
-            string[] markupTokenized = TokenizeMarkup(markup);
-
-            bool collect = false;
-            bool templateRunning = false;
-            var sbCollected = new StringBuilder();
-            int indent = 0;
-            var previousToken = "";
-            foreach (var token in markupTokenized)
-            {
-                if (token == "{{")
-                    indent++;
-
-                if (token == "}}")
-                    indent--;
-
-                if (templateNames.Any(templateName => previousToken + token == "{{" + templateName))
-                {
-                    collect = true;
-                    templateRunning = true;
-                    continue;
-                }
-
-
-                if (token == "}}" && indent == 0)
-                {
-                    collect = false;
-                    if(templateRunning)
-                        break;
-                }
-
-                if (collect)
-                    sbCollected.Append(token);
-
-                previousToken = token;
-            }
-
-            return sbCollected.ToString();
-        }
-
-        //public static List<Template> GetAllMatchingTemplates(string markup, List<string> templateNames)
-        //{
-        //    string[] markupTokenized = TokenizeMarkup(markup);
-
-        //    bool collect = false;
-        //    var sbCollected = new StringBuilder();
-        //    var parsedTemplates = new List<string>();
-        //    int indent = 0;
-        //    var previousToken = "";
-        //    foreach (var token in markupTokenized)
-        //    {
-        //        if (token == "{{")
-        //            indent++;
-
-        //        if (token == "}}")
-        //            indent--;
-
-        //        if (templateNames.Any(templateName => previousToken + token == "{{" + templateName))
-        //        {
-        //            collect = true;
-        //        }
-
-        //        if (collect && token == "}}" && indent == 0)
-        //        {
-        //            collect = false;
-        //            parsedTemplates.Add(sbCollected.ToString());
-        //            sbCollected = new StringBuilder();
-        //        }
-
-        //        if (collect)
-        //            sbCollected.Append(token);
-                
-        //        previousToken = token;
-        //    }
-
-        //    return parsedTemplates;
-        //}
 
         public static List<Template> GetAllMatchingTemplates(string markup, List<string> templateNames)
         {
             string[] markupTokenized = TokenizeMarkup(markup);
 
             bool collect = false;
-            var languageToken = "";
+            var templateToken = "";
             var sbCollected = new StringBuilder();
             var parsedTemplates = new List<Template>();
             int indent = 0;
@@ -142,7 +66,7 @@ namespace TrueOrFalse.WikiMarkup
 
                 if (templateNames.Any(templateName => previousToken + token == "{{" + templateName))
                 {
-                    languageToken = token;
+                    templateToken = token;
                     collect = true;
                     continue;
                 }
@@ -150,64 +74,93 @@ namespace TrueOrFalse.WikiMarkup
                 if (collect && token == "}}" && indent == 0)
                 {
                     collect = false;
-                    parsedTemplates.Add(new Template(sbCollected.ToString(), languageToken));
+                    parsedTemplates.Add(new Template(sbCollected.ToString(), templateToken));
                     sbCollected = new StringBuilder();
                 }
 
                 if (collect)
                     sbCollected.Append(token);
 
+                //$temp: müsste das nicht oben stehen in den Fällen, in denen der Schleifendurchlauf unterbrochen wird?
                 previousToken = token;
             }
 
             return parsedTemplates;
         }
 
-        public static List<Template> GetDescriptionInAllAvailableLanguages(string dscrTemplate)
+        public static List<Template> GetParameterSubtemplates(Parameter parameter)
         {
-            return GetAllMatchingTemplates(dscrTemplate, WikiLanguage.GetAllLanguages().Select(l => l.LanguageToken).ToList());
+            string[] markupTokenized = TokenizeMarkup(parameter.Value);
+
+            bool collectRawText = false;
+            bool collectToken = false;
+            var rawTextCollected = new StringBuilder();
+            var tokenCollected = new StringBuilder();
+            var parsedTemplates = new List<Template>();
+            int indent = 0;
+            foreach (var token in markupTokenized)
+            {
+                if (token == "{{")
+                {
+                    indent++;
+
+                    if (collectToken)
+                    {
+                        collectToken = false;
+                        collectRawText = true;
+                        continue;
+                    }
+
+                    if (indent == 1)
+                    {
+                        collectToken = true;
+                        continue;
+                    }
+                }
+
+                if (token == "|")
+                {
+                    if (collectToken)
+                    {
+                        collectToken = false;
+                        collectRawText = true;
+                    }
+                }
+
+                if (token == "}}")
+                {
+                    indent--;
+
+                    if (collectToken)
+                    {
+                        collectToken = false;
+                        collectRawText = false;
+                        parsedTemplates.Add(new Template(tokenCollected.ToString(), ""));//sic: what seemed to be token must be raw text, no token present
+                        rawTextCollected = new StringBuilder();
+                        tokenCollected = new StringBuilder();
+                        continue;
+                    }
+                    
+                    if (indent == 0 && collectRawText)
+                    {
+                        collectRawText = false;
+                        parsedTemplates.Add(new Template(rawTextCollected.ToString(), tokenCollected.ToString()));
+                        rawTextCollected = new StringBuilder();
+                        tokenCollected = new StringBuilder();
+                        continue;
+                    }
+                }
+
+                if (collectRawText)
+                    rawTextCollected.Append(token);
+
+                if (collectToken)
+                    tokenCollected.Append(token);
+
+            }
+
+            return parsedTemplates;
         }
-
-        //public static List<DescriptionInLanguage> GetDescriptionInAllAvailableLanguages(string dscrTemplate)
-        //{
-        //    string[] markupTokenized = TokenizeMarkup(dscrTemplate);
-
-        //    bool collect = false;
-        //    var languageToken = "";
-        //    var sbCollected = new StringBuilder();
-        //    var parsedDescriptions = new List<DescriptionInLanguage>();
-        //    int indent = 0;
-        //    var previousToken = "";
-        //    foreach (var token in markupTokenized)
-        //    {
-        //        if (token == "{{")
-        //            indent++;
-
-        //        if (token == "}}")
-        //            indent--;
-
-        //        if (WikiLanguage.GetAllLanguages().Select(l => l.LanguageToken).Any(templateName => previousToken + token == "{{" + templateName))
-        //        {
-        //            languageToken = token;
-        //            collect = true;
-        //            continue;
-        //        }
-
-        //        if (collect && token == "}}" && indent == 0)
-        //        {
-        //            collect = false;
-        //            parsedDescriptions.Add(new DescriptionInLanguage(languageToken, sbCollected.ToString()));
-        //            sbCollected = new StringBuilder();
-        //        }
-
-        //        if (collect)
-        //            sbCollected.Append(token);
-
-        //        previousToken = token;
-        //    }
-
-        //    return parsedDescriptions;
-        //}
 
         public static string[] TokenizeMarkup(string markup)
         {
@@ -215,17 +168,4 @@ namespace TrueOrFalse.WikiMarkup
         } 
     }
 }
-
-public class DescriptionInLanguage
-{
-    public string LanguageToken;
-    public string DescriptionString;
-
-    public DescriptionInLanguage(string languageToken, string descriptionString)
-    {
-        LanguageToken = languageToken;
-        DescriptionString = descriptionString;
-    }
-}
-
 

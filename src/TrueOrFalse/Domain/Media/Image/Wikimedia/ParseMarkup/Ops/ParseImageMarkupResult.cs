@@ -16,6 +16,7 @@ namespace TrueOrFalse.WikiMarkup
         public string AuthorName;
 
         public Template InfoTemplate;
+        public InfoBoxTemplate InfoBoxTemplate;
 
         public bool LicenseIsPublicDomain;
         public bool LicenseIsCreativeCommons;
