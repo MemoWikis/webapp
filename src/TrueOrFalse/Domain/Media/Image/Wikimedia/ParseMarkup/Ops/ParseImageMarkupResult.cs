@@ -29,6 +29,8 @@ namespace TrueOrFalse.WikiMarkup
         /// </summary>
         public string LicenseTemplateString;
 
+        public string Notifications;
+
         public bool IsUnknown(){ 
             return !LicenseIsPublicDomain && !LicenseIsCreativeCommons && !LicenseIsGFDL;
         }

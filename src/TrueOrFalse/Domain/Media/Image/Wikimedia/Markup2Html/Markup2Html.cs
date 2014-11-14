@@ -19,6 +19,7 @@ namespace TrueOrFalse.WikiMarkup
             markup = Regex.Replace(markup, "\\[(.*?)\\]", match => match.Groups[1].Value);
             //finds "''displayName''" transforms to "<i>displayName</i>"
             markup = Regex.Replace(markup, "''(.*?)''", match => "<i>" + match.Groups[1].Value + "</i>");
+            //$temp: Add //finds "[http://link.com  diplayname]" transforms to ... ?
 
             return markup;
         }

@@ -61,7 +61,6 @@ namespace TrueOrFalse.WikiMarkup
                     result.LicenseIsCreativeCommons = true;
                     result.LicenseTemplateString = allLicenseTemplates.First(x => fnPredicate(x, "cc-")).Value;
                 }
-
             }            
         }
 
@@ -73,10 +72,7 @@ namespace TrueOrFalse.WikiMarkup
 
             var paramAuthor = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
             if (paramAuthor != null)
-            {
-                result.AuthorName_Raw = paramAuthor.Value;
-                result.AuthorName = Markup2Html.Run(paramAuthor.Value);
-            }
+                SetAuthor(result, paramAuthor);
         }
 
         private static void SetDescription(ParseImageMarkupResult result, Parameter descrParameter)
@@ -132,7 +128,6 @@ namespace TrueOrFalse.WikiMarkup
                 {
                     paramValue = GetDescriptionInAllAvailableLanguages(descrParameter.Value).Select(d => d.Raw).First();
                 }
-
             }
 
             if (!String.IsNullOrEmpty(paramValue)) { 
@@ -147,6 +142,93 @@ namespace TrueOrFalse.WikiMarkup
                 result.Description_Raw = descrParameter.Value;
                 result.Description = Markup2Html.Run(descrParameter.Value);
             }
+        }
+
+        private static void SetAuthor(ParseImageMarkupResult result, Parameter paramAuthor)
+        {
+            
+            //$temp: Cases left to match:
+
+            //[[:en:William Simpson (artist)|William Simpson]]<br/>Published by Paul & Dominic Colnaghi & Co. --> William Simpson<br/>Published by Paul & Dominic Colnaghi & Co.
+            //war bisher abgedeckt durch Markup2Html.Run
+
+            //Mehrteilig:
+            //http://commons.wikimedia.org/wiki/File:13-01-15-leipzig-hauptbahnhof-by-RalfR-33.jpg
+            //|Author=[[User:Ralf Roletschek|Ralf Roletschek]] ([[User talk:Ralf Roletschek|<span class="signature-talk">talk</span>]]) - [http://www.fahrradmonteur.de Infos über Fahrräder auf fahrradmonteur.de]
+            //Gerendert: Ralf Roletschek (talk) - Infos über Fahrräder auf fahrradmonteur.de (mit Links auf User, talk und link)
+            //Use this file > attribution: By Ralf Roletschek (talk) - Infos über Fahrräder auf fahrradmonteur.de (Own work) [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0-2.5-2.0-1.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons
+
+            //spezielle Attribution templates (nicht am Author erkennbar, nur unter Licenses)
+            //...
+            //|Author={{User:Noaa/Author}}
+            //...
+            //== {{int:license}} ==
+            //{{self|User:Noaa/AttributionTemplate}}
+            //Template can be found here: http://commons.wikimedia.org/wiki/User:Noaa/AttributionTemplate
+
+            if (paramAuthor != null)
+            {
+                //Templates of type "[[User:Username|Displayname]]", match display name
+                //http://commons.wikimedia.org/wiki/File:Friedhof_G%C3%BCstebieser_Loose_15.JPG
+                //|Author=Picture taken by [[User:Marcus Cyron|Marcus Cyron]]
+                var regexMatch_UserTemplate = Regex.Match(paramAuthor.Value, "^\\[\\[User:.*?\\|(.*?)\\]\\]$");
+
+                //Templates of type "{{User:XRay/Templates/Author}}" (user custom templates), match "User:XRay/Templates/Author"
+                //http://commons.wikimedia.org/wiki/File:Unho%C5%A1%C5%A5,_hlavn%C3%AD_t%C5%99%C3%ADda.JPG
+                //|Author={{User:Aktron/Author2}}
+                //Link to template: http://commons.wikimedia.org/wiki/User:Aktron/Author2
+                var regexMatch_UserAttributionTemplate = Regex.Match(paramAuthor.Value, "^{{(User:\\w*/.*)}}$");
+
+                //Templates of type "[http:// www.geograph.org.uk/profile/27834 Adrian Rothery]", match link + link text)
+                var regexMatch_Link = Regex.Match(paramAuthor.Value, "^\\[(http://[\\S]*)\\s(.*)\\]$");
+
+                if (!CheckForMarkupSyntaxContained(paramAuthor.Value))//If no brackets are contained
+                {
+                    SetAuthorIfNoMarkupSyntaxLeft(Markup2Html.Run(paramAuthor.Value), result, paramAuthor.Value);
+                }
+                else
+                {
+                    if (regexMatch_UserTemplate.Success)
+                    {
+                        SetAuthorIfNoMarkupSyntaxLeft(Markup2Html.Run(paramAuthor.Value), result, paramAuthor.Value);
+                    }
+                    else if (regexMatch_Link.Success) 
+                    {
+                        SetAuthorIfNoMarkupSyntaxLeft(regexMatch_Link.Groups[2].Value + ", " + regexMatch_Link.Groups[1].Value, result, paramAuthor.Value);
+                       //Results in "Adrian Rothery, http://www.geograph.org.uk/profile/27834"
+                    }
+                    else if (regexMatch_UserAttributionTemplate.Success)
+                    {
+                        result.Notifications +=
+                            String.Format(
+                                "-Benutzerdefiniertes Template: Bitte aus Template \"{0}\" gerenderten Text als Autor von der Bilddetailsseite oder unter <a href=\"{1}\">{1}</a> manuell übernehmen.-",
+                                paramAuthor.Value, "http://commons.wikimedia.org/wiki/" + regexMatch_UserAttributionTemplate.Groups[1]);
+                    }
+                    else
+                    {
+                        GiveNotificationOfNoParsedAuthor(result, paramAuthor.Value);
+                    }
+                }
+            }
+        }
+
+        public static bool CheckForMarkupSyntaxContained(string text)
+        {
+            return Regex.IsMatch(text, "[{}//[//]]"); //Check for "{", "}", "[" or "]"
+        }
+
+        public static void SetAuthorIfNoMarkupSyntaxLeft(string suggestedAuthorName, ParseImageMarkupResult result, string parsedText)
+        {
+            if (!CheckForMarkupSyntaxContained(suggestedAuthorName))
+            {
+                result.AuthorName_Raw = parsedText;
+                result.AuthorName = suggestedAuthorName;
+            }
+        }
+
+        private static void GiveNotificationOfNoParsedAuthor(ParseImageMarkupResult result, string parsedText)
+        {
+            result.Notifications += String.Format("-Aus \"{0}\" konnte leider kein Autor geparsed werden.-", parsedText);
         }
 
         public static List<Template> GetDescriptionInAllAvailableLanguages(string dscrTemplate)
