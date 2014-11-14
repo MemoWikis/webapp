@@ -13,7 +13,6 @@ namespace TrueOrFalse.WikiMarkup
         public string TemplateName;
         public string Raw;
         public List<Parameter> Parameters = new List<Parameter>();
-        public Parameter SuperordinateParameter;
 
         public bool IsSet{ get { return !String.IsNullOrEmpty(Raw); } }
 

@@ -54,10 +54,6 @@ namespace TrueOrFalse.WikiMarkup
             }
 
             Subtemplates = ParseTemplate.GetParameterSubtemplates(this);
-            foreach (var subtemplate in Subtemplates)
-            {
-                subtemplate.SuperordinateParameter = this;
-            }       
         }
     }
 
@@ -67,10 +63,10 @@ namespace TrueOrFalse.WikiMarkup
         {
             parameters = parameters.ToList();
 
-            if (parameters.All(x => x.Key.ToLower() != key.ToLower()))
+            if (parameters.Where(x => x.HasKey).All(x => x.Key.ToLower() != key.ToLower()))
                 return null;
 
-            return parameters.First(x => x.Key.ToLower() == key.ToLower());
+            return parameters.Where(x => x.HasKey).First(x => x.Key.ToLower() == key.ToLower());
         }
     }
 }
