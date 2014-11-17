@@ -13,7 +13,6 @@ namespace TrueOrFalse.WikiMarkup
 {
     public class ParseImageMarkup
     {
-        
         public static ParseImageMarkupResult Run(string markup)
         {
             var result = new ParseImageMarkupResult();
@@ -146,7 +145,6 @@ namespace TrueOrFalse.WikiMarkup
 
         private static void SetAuthor(ParseImageMarkupResult result, Parameter paramAuthor)
         {
-            
             //$temp: Cases left to match:
 
             //[[:en:William Simpson (artist)|William Simpson]]<br/>Published by Paul & Dominic Colnaghi & Co. --> William Simpson<br/>Published by Paul & Dominic Colnaghi & Co.
@@ -166,11 +164,15 @@ namespace TrueOrFalse.WikiMarkup
             //{{self|User:Noaa/AttributionTemplate}}
             //Template can be found here: http://commons.wikimedia.org/wiki/User:Noaa/AttributionTemplate
 
+            //Erweitert mit Text
+            //http://commons.wikimedia.org/wiki/File:Friedhof_G%C3%BCstebieser_Loose_15.JPG
+            //|Author=Picture taken by [[User:Marcus Cyron|Marcus Cyron]]
+
             if (paramAuthor != null)
             {
                 //Templates of type "[[User:Username|Displayname]]", match display name
-                //http://commons.wikimedia.org/wiki/File:Friedhof_G%C3%BCstebieser_Loose_15.JPG
-                //|Author=Picture taken by [[User:Marcus Cyron|Marcus Cyron]]
+                //http://commons.wikimedia.org/wiki/File:20100723_liege07.JPG
+                //|Author=[[User:Jeanhousen|Jean Housen]]
                 var regexMatch_UserTemplate = Regex.Match(paramAuthor.Value, "^\\[\\[User:.*?\\|(.*?)\\]\\]$");
 
                 //Templates of type "{{User:XRay/Templates/Author}}" (user custom templates), match "User:XRay/Templates/Author"
@@ -214,7 +216,7 @@ namespace TrueOrFalse.WikiMarkup
 
         public static bool CheckForMarkupSyntaxContained(string text)
         {
-            return Regex.IsMatch(text, "[{}//[//]]"); //Check for "{", "}", "[" or "]"
+            return Regex.IsMatch(text, "[{}\\[\\]]"); //Check for "{", "}", "[" or "]"
         }
 
         public static void SetAuthorIfNoMarkupSyntaxLeft(string suggestedAuthorName, ParseImageMarkupResult result, string parsedText)
