@@ -73,8 +73,7 @@ namespace TrueOrFalse.WikiMarkup
                 SetDescription(result, paramDesc);
 
             var paramAuthor = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
-            if (paramAuthor != null)
-                SetAuthor(result, paramAuthor);
+            SetAuthor(result, paramAuthor);
         }
 
         private static void SetDescription(ParseImageMarkupResult result, Parameter descrParameter)
@@ -178,51 +177,69 @@ namespace TrueOrFalse.WikiMarkup
             //$temp:
             //Message setzen, wenn paramAuthor == null
 
-            if (paramAuthor != null)
-            {
-                var authorText = Markup2Html.TransformAll(paramAuthor.Value);
+            var parseImageNotifications = ParseImageNotifications.FromJson(result.Notifications);
 
-                //Templates of type "{{User:XRay/Templates/Author}}" (user custom templates), match "User:XRay/Templates/Author"
-                //http://commons.wikimedia.org/wiki/File:Unho%C5%A1%C5%A5,_hlavn%C3%AD_t%C5%99%C3%ADda.JPG
-                //|Author={{User:Aktron/Author2}}
-                //Link to template: http://commons.wikimedia.org/wiki/User:Aktron/Author2
-
-
-                var parseImageNotifications = ParseImageNotifications.FromJson(result.Notifications);
-
-                var regexMatch_UserAttributionTemplate = Regex.Match(authorText, "{{(User:\\w*/.*)}}");
-                if (regexMatch_UserAttributionTemplate.Success)
+            if (paramAuthor == null){
+                parseImageNotifications.Author.Add(new Notification()
                 {
-                    parseImageNotifications.Author.Add(new Notification()
-                    {
-                        Name = "asdsaf",
-                        NotificationText = String.Format(
-                            "-Benutzerdefiniertes Template: Bitte aus Template \"{0}\" gerenderten Text als Autor von der Bilddetailsseite oder unter <a href=\"{1}\">{1}</a> manuell übernehmen.-",
-                            regexMatch_UserAttributionTemplate.Groups[0],
-                            "http://commons.wikimedia.org/wiki/" + regexMatch_UserAttributionTemplate.Groups[1])
-                    });
-                    
-                    result.Notifications = parseImageNotifications.ToJson();
-                    return;
-                }
-                if (CheckForMarkupSyntaxContained(authorText))
-                {
-                    parseImageNotifications.Author.Add(new Notification()
-                    {
-                        Name = "adsfasfa",
-                        NotificationText =
-                            String.Format(
-                                "-Das Markup für den Autor konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Angaben für den Autor manuell übernehmen.-",
-                                authorText)
-                    });
+                    Name = "No author parameter found",
+                    NotificationText = "Es konnte kein Parameter für den Autor gefunden werden."
+                });
 
-                    result.Notifications = parseImageNotifications.ToJson();
-                    return;
-                }
-
-                result.AuthorName_Raw = paramAuthor.Value;
-                result.AuthorName = authorText;
+                result.Notifications = parseImageNotifications.ToJson();
+                return;
             }
+
+            if (String.IsNullOrEmpty(paramAuthor.Value))
+            {
+                parseImageNotifications.Author.Add(new Notification()
+                {
+                    Name = "Author parameter empty",
+                    NotificationText = "Der Parameter für den Autor ist leer."
+                });
+
+                result.Notifications = parseImageNotifications.ToJson();
+                return;
+            }
+
+            var authorText = Markup2Html.TransformAll(paramAuthor.Value);
+
+            //Handle templates of type "{{User:XRay/Templates/Author}}" (user custom templates), match "User:XRay/Templates/Author"
+            //http://commons.wikimedia.org/wiki/File:Unho%C5%A1%C5%A5,_hlavn%C3%AD_t%C5%99%C3%ADda.JPG
+            //|Author={{User:Aktron/Author2}}
+            //Link to template: http://commons.wikimedia.org/wiki/User:Aktron/Author2
+            var regexMatch_UserAttributionTemplate = Regex.Match(authorText, "{{(User:\\w*/.*)}}");
+            if (regexMatch_UserAttributionTemplate.Success)
+            {
+                parseImageNotifications.Author.Add(new Notification()
+                {
+                    Name = "Custom wiki user template",
+                    NotificationText = String.Format(
+                        "Bitte aus Template \"{0}\" gerenderten Text manuell als Autor von der Bilddetailsseite oder unter <a href=\"{1}\">{1}</a> übernehmen.",
+                        regexMatch_UserAttributionTemplate.Groups[0],
+                        "http://commons.wikimedia.org/wiki/" + regexMatch_UserAttributionTemplate.Groups[1])
+                });
+                    
+                result.Notifications = parseImageNotifications.ToJson();
+                return;
+            }
+            if (CheckForMarkupSyntaxContained(authorText))
+            {
+                parseImageNotifications.Author.Add(new Notification()
+                {
+                    Name = "Manual entry for author required",
+                    NotificationText =
+                        String.Format(
+                            "Das Markup für den Autor konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Angaben für den Autor manuell übernehmen.",
+                            authorText)
+                });
+
+                result.Notifications = parseImageNotifications.ToJson();
+                return;
+            }
+
+            result.AuthorName_Raw = paramAuthor.Value;
+            result.AuthorName = authorText;
         }
 
         public static bool CheckForMarkupSyntaxContained(string text)
