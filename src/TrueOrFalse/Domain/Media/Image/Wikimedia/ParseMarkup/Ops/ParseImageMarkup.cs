@@ -69,8 +69,7 @@ namespace TrueOrFalse.WikiMarkup
         private static void Care_about_description_and_author(ParseImageMarkupResult result)
         {
             var paramDesc = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.DescriptionParamaterName);
-            if (paramDesc != null)
-                SetDescription(result, paramDesc);
+            SetDescription(result, paramDesc);
 
             var paramAuthor = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
             SetAuthor(result, paramAuthor);
@@ -78,6 +77,32 @@ namespace TrueOrFalse.WikiMarkup
 
         private static void SetDescription(ParseImageMarkupResult result, Parameter descrParameter)
         {
+            var parseImageNotifications = ParseImageNotifications.FromJson(result.Notifications);
+
+            if (descrParameter == null)
+            {
+                parseImageNotifications.Description.Add(new Notification()
+                {
+                    Name = "No description parameter found",
+                    NotificationText = "Es konnte kein Parameter für die Beschreibung gefunden werden."
+                });
+
+                result.Notifications = parseImageNotifications.ToJson();
+                return;
+            }
+
+            if (String.IsNullOrEmpty(descrParameter.Value))
+            {
+                parseImageNotifications.Description.Add(new Notification()
+                {
+                    Name = "Description parameter empty",
+                    NotificationText = "Der Parameter für die Beschreibung ist leer."
+                });
+
+                result.Notifications = parseImageNotifications.ToJson();
+                return;
+            }
+            
             var preferredLanguages = new List<string>
             {
                 //Markup is parsed for description in the following languages (ordered by priority)
@@ -85,21 +110,23 @@ namespace TrueOrFalse.WikiMarkup
             };
 
             var i = 0;
-            var paramValue = "";
+            var selectedDescrValue = "";
+
+            //Parse for "multilingual description"/"mld"
             var mldSection = ParseTemplate.GetTemplateByName(descrParameter.Value, "Multilingual description").IsSet ?
                 ParseTemplate.GetTemplateByName(descrParameter.Value, "Multilingual description") :
                 ParseTemplate.GetTemplateByName(descrParameter.Value, "mld");
 
             while (i < preferredLanguages.Count()) {
 
-                //Parse for "multilingual description"/"mld"
-
-
                 //Check for description in preferred languages (ordered by priority) in "multilingual description"/"mld"
-                if (mldSection.Parameters.Any(x => x.Key == preferredLanguages[i]))
+                if (mldSection.IsSet && mldSection.Parameters.Any(x => x.Key == preferredLanguages[i]))
                 {
-                    paramValue = mldSection.ParamByKey(preferredLanguages[i]).Value;
-                    break;
+                    if (!String.IsNullOrEmpty(mldSection.ParamByKey(preferredLanguages[i]).Value))
+                    {
+                        selectedDescrValue = mldSection.ParamByKey(preferredLanguages[i]).Value;
+                        break;
+                    }
                 }
 
                 //Check for preferred languages in seperate description templates
@@ -108,40 +135,51 @@ namespace TrueOrFalse.WikiMarkup
                 {
                     if (langSection.Parameters.Any())
                     {
-                        paramValue = langSection.Parameters.First().Value;
-                        break;
+                        if (!String.IsNullOrEmpty(langSection.Parameters.First().Value))
+                        {
+                            selectedDescrValue = langSection.Parameters.First().Value;
+                            break;
+                        }
                     }
                 }
-
                 i++;
             }
 
             //If no description in preferred languages is found, search for descriptions in other languages and take the first of them
-            if (String.IsNullOrEmpty(paramValue))
+            if (String.IsNullOrEmpty(selectedDescrValue))
             {
-                //Search in "multilingual description"/"mld"
-                if (mldSection.Parameters.Any())
+                //Search in "multilingual description"/"mld" parameters
+                if (mldSection.Parameters.Any(x => !String.IsNullOrEmpty(x.Value)))
                 {
-                    paramValue = mldSection.Parameters.First().Value;
+                    selectedDescrValue = mldSection.Parameters.Select(x => x.Value).First(x => !String.IsNullOrEmpty(x));
                 }
                 //Search in seperate description templates
-                else if (GetDescriptionInAllAvailableLanguages(descrParameter.Value).Any())
+                else if (GetDescriptionInAllAvailableLanguages(descrParameter.Value).Any(x => x.IsSet))
                 {
-                    paramValue = GetDescriptionInAllAvailableLanguages(descrParameter.Value).Select(d => d.Raw).First();
+                    selectedDescrValue = GetDescriptionInAllAvailableLanguages(descrParameter.Value).First(x => x.IsSet).Raw;
                 }
             }
-
-            if (!String.IsNullOrEmpty(paramValue)) { 
-                result.Description_Raw = paramValue;
-                result.Description = Markup2Html.TransformAll(paramValue);
-            } 
+            //If suitable mld paramater or description language template has been found
+            if (!String.IsNullOrEmpty(selectedDescrValue)) {
+                result.Description_Raw = selectedDescrValue;
+                result.Description = Markup2Html.TransformAll(selectedDescrValue);
+            }
             else if (!String.IsNullOrEmpty(descrParameter.Value)
-                       && !descrParameter.Value.Contains("{{")
-                       && !descrParameter.Value.Contains("}}"))
+                    && !CheckForMarkupSyntaxContained(Markup2Html.TransformAll(descrParameter.Value)))
+            //If transformed description doesn't contain any templates or markup
             {
-                //If description doesn't contain any templates, just plain text
                 result.Description_Raw = descrParameter.Value;
                 result.Description = Markup2Html.TransformAll(descrParameter.Value);
+            }
+            else
+            {
+                parseImageNotifications.Description.Add(new Notification()
+                {
+                    Name = "Manual entry for description required",
+                    NotificationText = String.Format("Das Markup für die Beschreibung konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Beschreibung manuell übernehmen.", Markup2Html.TransformAll(descrParameter.Value))
+                });
+
+                result.Notifications = parseImageNotifications.ToJson();
             }
         }
 
