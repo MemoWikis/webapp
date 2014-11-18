@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.UI;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NHibernate.Impl;
 using SolrNet.Mapping.Validation;
 
@@ -131,7 +134,7 @@ namespace TrueOrFalse.WikiMarkup
 
             if (!String.IsNullOrEmpty(paramValue)) { 
                 result.Description_Raw = paramValue;
-                result.Description = Markup2Html.Run(paramValue);
+                result.Description = Markup2Html.TransformAll(paramValue);
             } 
             else if (!String.IsNullOrEmpty(descrParameter.Value)
                        && !descrParameter.Value.Contains("{{")
@@ -139,7 +142,7 @@ namespace TrueOrFalse.WikiMarkup
             {
                 //If description doesn't contain any templates, just plain text
                 result.Description_Raw = descrParameter.Value;
-                result.Description = Markup2Html.Run(descrParameter.Value);
+                result.Description = Markup2Html.TransformAll(descrParameter.Value);
             }
         }
 
@@ -164,73 +167,67 @@ namespace TrueOrFalse.WikiMarkup
             //{{self|User:Noaa/AttributionTemplate}}
             //Template can be found here: http://commons.wikimedia.org/wiki/User:Noaa/AttributionTemplate
 
+//          Link unter Autor sollte vielleicht nicht einfach verschwinden
+            //https://commons.wikimedia.org/wiki/File:Cavalryatbalaklava2.jpg
+            //|Author=[[:en:William Simpson (artist)|William Simpson]]<br/>Published by Paul & Dominic Colnaghi & Co.
+
             //Erweitert mit Text
             //http://commons.wikimedia.org/wiki/File:Friedhof_G%C3%BCstebieser_Loose_15.JPG
             //|Author=Picture taken by [[User:Marcus Cyron|Marcus Cyron]]
 
+            //$temp:
+            //Message setzen, wenn paramAuthor == null
+
             if (paramAuthor != null)
             {
-                //Templates of type "[[User:Username|Displayname]]", match display name
-                //http://commons.wikimedia.org/wiki/File:20100723_liege07.JPG
-                //|Author=[[User:Jeanhousen|Jean Housen]]
-                var regexMatch_UserTemplate = Regex.Match(paramAuthor.Value, "^\\[\\[User:.*?\\|(.*?)\\]\\]$");
+                var authorText = Markup2Html.TransformAll(paramAuthor.Value);
 
                 //Templates of type "{{User:XRay/Templates/Author}}" (user custom templates), match "User:XRay/Templates/Author"
                 //http://commons.wikimedia.org/wiki/File:Unho%C5%A1%C5%A5,_hlavn%C3%AD_t%C5%99%C3%ADda.JPG
                 //|Author={{User:Aktron/Author2}}
                 //Link to template: http://commons.wikimedia.org/wiki/User:Aktron/Author2
-                var regexMatch_UserAttributionTemplate = Regex.Match(paramAuthor.Value, "^{{(User:\\w*/.*)}}$");
 
-                //Templates of type "[http:// www.geograph.org.uk/profile/27834 Adrian Rothery]", match link + link text)
-                var regexMatch_Link = Regex.Match(paramAuthor.Value, "^\\[(http://[\\S]*)\\s(.*)\\]$");
 
-                if (!CheckForMarkupSyntaxContained(paramAuthor.Value))//If no brackets are contained
+                var parseImageNotifications = ParseImageNotifications.FromJson(result.Notifications);
+
+                var regexMatch_UserAttributionTemplate = Regex.Match(authorText, "{{(User:\\w*/.*)}}");
+                if (regexMatch_UserAttributionTemplate.Success)
                 {
-                    SetAuthorIfNoMarkupSyntaxLeft(Markup2Html.Run(paramAuthor.Value), result, paramAuthor.Value);
+                    parseImageNotifications.Author.Add(new Notification()
+                    {
+                        Name = "asdsaf",
+                        NotificationText = String.Format(
+                            "-Benutzerdefiniertes Template: Bitte aus Template \"{0}\" gerenderten Text als Autor von der Bilddetailsseite oder unter <a href=\"{1}\">{1}</a> manuell übernehmen.-",
+                            regexMatch_UserAttributionTemplate.Groups[0],
+                            "http://commons.wikimedia.org/wiki/" + regexMatch_UserAttributionTemplate.Groups[1])
+                    });
+                    
+                    result.Notifications = parseImageNotifications.ToJson();
+                    return;
                 }
-                else
+                if (CheckForMarkupSyntaxContained(authorText))
                 {
-                    if (regexMatch_UserTemplate.Success)
+                    parseImageNotifications.Author.Add(new Notification()
                     {
-                        SetAuthorIfNoMarkupSyntaxLeft(Markup2Html.Run(paramAuthor.Value), result, paramAuthor.Value);
-                    }
-                    else if (regexMatch_Link.Success) 
-                    {
-                        SetAuthorIfNoMarkupSyntaxLeft(regexMatch_Link.Groups[2].Value + ", " + regexMatch_Link.Groups[1].Value, result, paramAuthor.Value);
-                       //Results in "Adrian Rothery, http://www.geograph.org.uk/profile/27834"
-                    }
-                    else if (regexMatch_UserAttributionTemplate.Success)
-                    {
-                        result.Notifications +=
+                        Name = "adsfasfa",
+                        NotificationText =
                             String.Format(
-                                "-Benutzerdefiniertes Template: Bitte aus Template \"{0}\" gerenderten Text als Autor von der Bilddetailsseite oder unter <a href=\"{1}\">{1}</a> manuell übernehmen.-",
-                                paramAuthor.Value, "http://commons.wikimedia.org/wiki/" + regexMatch_UserAttributionTemplate.Groups[1]);
-                    }
-                    else
-                    {
-                        GiveNotificationOfNoParsedAuthor(result, paramAuthor.Value);
-                    }
+                                "-Das Markup für den Autor konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Angaben für den Autor manuell übernehmen.-",
+                                authorText)
+                    });
+
+                    result.Notifications = parseImageNotifications.ToJson();
+                    return;
                 }
+
+                result.AuthorName_Raw = paramAuthor.Value;
+                result.AuthorName = authorText;
             }
         }
 
         public static bool CheckForMarkupSyntaxContained(string text)
         {
             return Regex.IsMatch(text, "[{}\\[\\]]"); //Check for "{", "}", "[" or "]"
-        }
-
-        public static void SetAuthorIfNoMarkupSyntaxLeft(string suggestedAuthorName, ParseImageMarkupResult result, string parsedText)
-        {
-            if (!CheckForMarkupSyntaxContained(suggestedAuthorName))
-            {
-                result.AuthorName_Raw = parsedText;
-                result.AuthorName = suggestedAuthorName;
-            }
-        }
-
-        private static void GiveNotificationOfNoParsedAuthor(ParseImageMarkupResult result, string parsedText)
-        {
-            result.Notifications += String.Format("-Aus \"{0}\" konnte leider kein Autor geparsed werden.-", parsedText);
         }
 
         public static List<Template> GetDescriptionInAllAvailableLanguages(string dscrTemplate)

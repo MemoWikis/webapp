@@ -221,6 +221,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseImageMarkup.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Model.Section.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseImageMarkupResult.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseImageNotifications.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseTemplate.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseTemplateParameters.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\LoadImageMarkups.cs" />
