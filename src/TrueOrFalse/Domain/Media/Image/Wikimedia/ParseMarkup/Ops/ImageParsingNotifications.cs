@@ -8,8 +8,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 [Serializable]
-public class ParseImageNotifications
+public class ImageParsingNotifications
 {
+    public List<Notification> InfoTemplate = new List<Notification>(); 
     public List<Notification> Author = new List<Notification>();
     public List<Notification> Description = new List<Notification>();
 
@@ -36,12 +37,12 @@ public class ParseImageNotifications
         return jObject.ToString();
     }
 
-    public static ParseImageNotifications FromJson(string json)
+    public static ImageParsingNotifications FromJson(string json)
     {
         if (json == null)
             json = "";
         
-        return JsonConvert.DeserializeObject<ParseImageNotifications>(json) ?? new ParseImageNotifications();
+        return JsonConvert.DeserializeObject<ImageParsingNotifications>(json) ?? new ImageParsingNotifications();
     }
 
 }

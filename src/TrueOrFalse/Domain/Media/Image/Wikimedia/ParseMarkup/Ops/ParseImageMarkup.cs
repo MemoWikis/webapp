@@ -29,13 +29,22 @@ namespace TrueOrFalse.WikiMarkup
                     templateFound = true;
                     break;
                 }
-            };
+            }
 
             if (templateFound) {
                 Care_about_description_and_author(result);
                 Care_about_license_template(markup, result);
+
+                return result;
             }
 
+            var imageParsingNotifications = ImageParsingNotifications.FromJson(result.Notifications);
+            imageParsingNotifications.InfoTemplate.Add(new Notification()
+            {
+                Name = "No information template found",
+                NotificationText = "Es wurde kein Information template gefunden.",
+            });
+            result.Notifications = imageParsingNotifications.ToJson();
             return result;
         }
 
@@ -77,29 +86,29 @@ namespace TrueOrFalse.WikiMarkup
 
         private static void SetDescription(ParseImageMarkupResult result, Parameter descrParameter)
         {
-            var parseImageNotifications = ParseImageNotifications.FromJson(result.Notifications);
+            var imageParsingNotifications = ImageParsingNotifications.FromJson(result.Notifications);
 
             if (descrParameter == null)
             {
-                parseImageNotifications.Description.Add(new Notification()
+                imageParsingNotifications.Description.Add(new Notification()
                 {
                     Name = "No description parameter found",
                     NotificationText = "Es konnte kein Parameter für die Beschreibung gefunden werden."
                 });
 
-                result.Notifications = parseImageNotifications.ToJson();
+                result.Notifications = imageParsingNotifications.ToJson();
                 return;
             }
 
             if (String.IsNullOrEmpty(descrParameter.Value))
             {
-                parseImageNotifications.Description.Add(new Notification()
+                imageParsingNotifications.Description.Add(new Notification()
                 {
                     Name = "Description parameter empty",
                     NotificationText = "Der Parameter für die Beschreibung ist leer."
                 });
 
-                result.Notifications = parseImageNotifications.ToJson();
+                result.Notifications = imageParsingNotifications.ToJson();
                 return;
             }
             
@@ -173,14 +182,14 @@ namespace TrueOrFalse.WikiMarkup
             }
             else
             {
-                parseImageNotifications.Description.Add(new Notification()
+                imageParsingNotifications.Description.Add(new Notification()
                 {
                     Name = "Manual entry for description required",
                     NotificationText = String.Format("Das Markup für die Beschreibung konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Beschreibung manuell übernehmen.", 
                                                         Markup2Html.TransformAll(descrParameter.Value))
                 });
 
-                result.Notifications = parseImageNotifications.ToJson();
+                result.Notifications = imageParsingNotifications.ToJson();
             }
         }
 
@@ -213,28 +222,28 @@ namespace TrueOrFalse.WikiMarkup
             //$temp:
             //Message setzen, wenn paramAuthor == null
 
-            var parseImageNotifications = ParseImageNotifications.FromJson(result.Notifications);
+            var imageParsingNotifications = ImageParsingNotifications.FromJson(result.Notifications);
 
             if (paramAuthor == null){
-                parseImageNotifications.Author.Add(new Notification()
+                imageParsingNotifications.Author.Add(new Notification()
                 {
                     Name = "No author parameter found",
                     NotificationText = "Es konnte kein Parameter für den Autor gefunden werden."
                 });
 
-                result.Notifications = parseImageNotifications.ToJson();
+                result.Notifications = imageParsingNotifications.ToJson();
                 return;
             }
 
             if (String.IsNullOrEmpty(paramAuthor.Value))
             {
-                parseImageNotifications.Author.Add(new Notification()
+                imageParsingNotifications.Author.Add(new Notification()
                 {
                     Name = "Author parameter empty",
                     NotificationText = "Der Parameter für den Autor ist leer."
                 });
 
-                result.Notifications = parseImageNotifications.ToJson();
+                result.Notifications = imageParsingNotifications.ToJson();
                 return;
             }
 
@@ -247,7 +256,7 @@ namespace TrueOrFalse.WikiMarkup
             var regexMatch_UserAttributionTemplate = Regex.Match(authorText, "{{(User:\\w*/.*)}}");
             if (regexMatch_UserAttributionTemplate.Success)
             {
-                parseImageNotifications.Author.Add(new Notification()
+                imageParsingNotifications.Author.Add(new Notification()
                 {
                     Name = "Custom wiki user template",
                     NotificationText = String.Format(
@@ -256,12 +265,12 @@ namespace TrueOrFalse.WikiMarkup
                         "http://commons.wikimedia.org/wiki/" + regexMatch_UserAttributionTemplate.Groups[1])
                 });
                     
-                result.Notifications = parseImageNotifications.ToJson();
+                result.Notifications = imageParsingNotifications.ToJson();
                 return;
             }
             if (CheckForMarkupSyntaxContained(authorText))
             {
-                parseImageNotifications.Author.Add(new Notification()
+                imageParsingNotifications.Author.Add(new Notification()
                 {
                     Name = "Manual entry for author required",
                     NotificationText =
@@ -270,7 +279,7 @@ namespace TrueOrFalse.WikiMarkup
                             authorText)
                 });
 
-                result.Notifications = parseImageNotifications.ToJson();
+                result.Notifications = imageParsingNotifications.ToJson();
                 return;
             }
 

@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using SolrNet.Utils;
@@ -16,44 +20,6 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 {
     internal class ImageInfo_from_Wikimedia : BaseTest
     {
-        public static string GetMarkupDemoText_mld_template()
-        {
-            return @"
-                    {{Information
-                    |Description    = {{mld
-                    | cs = [[:cs:Platýs bradavičnatý|Platýs bradavičnatý]] blízko estonské vesnice Vääna Jöesuu
-                    | de = Eine [[:de:Flunder|Flunder]], ''Platichthys flesus'', nahe dem estnischen Dorf [[:de:Vääna-Jõesuu|Vääna-Jõesuu]]
-                    | en = ''{{W|European flounder|Platichthys flesus}}'' near {{W|Vääna-Jõesuu}} in [[:w:Estonia|Estonia]].
-                    | et = Vääna-Jõesuu rannikumere lest
-                    | fr = Flet commun, ''Platichthys flesus'', près de Vääna-Jöesuu en [[:Estonie|Estonie]].
-                    | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].
-                    }}
-                    |Date           = 2010-01-06
-                    |Source         = {{own}}
-                    |Author         = [[User:Tiithunt|Tiit Hunt]]
-                    |Permission     = 
-                    |Other versions = 
-                    |Other fields   = 
-                    }}
-                    {{HELP 2011}}
-                    {{Assessments|featured=1|com-nom=Lest.jpg}}
-                    {{picture of the day|year=2013|month=02|day=18}}
-                    {{QualityImage}}
-
-                    =={{int:license-header}}==
-                    {{self|cc-by-sa-3.0}}
-
-                    [[Category:Platichthys flesus]]
-                    [[Category:Fish of Estonia]]
-                    [[Category:Vääna-Jõesuu]]
-                    [[Category:Unassessed QI candidates]]
-                    [[Category:Featured pictures of Estonia]]
-                    [[Category:Featured pictures supported by Wikimedia Eesti]]
-                    [[Category:Taken with Canon EOS 5D Mark II]]
-                    [[Category:Quality images of animals in Estonia]]
-                    [[Category:Uploaded with UploadWizard]]";
-        }
-
         public static string GetMarkupDemoText_several_languages_with_de()
         {
             return @"{{Information
@@ -96,6 +62,44 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                         [[Category:August 1997 in the United States]]
                         [[Category:Featured pictures of Utah]]
                         [[Category:Featured pictures taken on film]]";
+        }
+
+        public static string GetMarkupDemoText_mld_template()
+        {
+            return @"
+                    {{Information
+                    |Description    = {{mld
+                    | cs = [[:cs:Platýs bradavičnatý|Platýs bradavičnatý]] blízko estonské vesnice Vääna Jöesuu
+                    | de = Eine [[:de:Flunder|Flunder]], ''Platichthys flesus'', nahe dem estnischen Dorf [[:de:Vääna-Jõesuu|Vääna-Jõesuu]]
+                    | en = ''{{W|European flounder|Platichthys flesus}}'' near {{W|Vääna-Jõesuu}} in [[:w:Estonia|Estonia]].
+                    | et = Vääna-Jõesuu rannikumere lest
+                    | fr = Flet commun, ''Platichthys flesus'', près de Vääna-Jöesuu en [[:Estonie|Estonie]].
+                    | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].
+                    }}
+                    |Date           = 2010-01-06
+                    |Source         = {{own}}
+                    |Author         = [[User:Tiithunt|Tiit Hunt]]
+                    |Permission     = 
+                    |Other versions = 
+                    |Other fields   = 
+                    }}
+                    {{HELP 2011}}
+                    {{Assessments|featured=1|com-nom=Lest.jpg}}
+                    {{picture of the day|year=2013|month=02|day=18}}
+                    {{QualityImage}}
+
+                    =={{int:license-header}}==
+                    {{self|cc-by-sa-3.0}}
+
+                    [[Category:Platichthys flesus]]
+                    [[Category:Fish of Estonia]]
+                    [[Category:Vääna-Jõesuu]]
+                    [[Category:Unassessed QI candidates]]
+                    [[Category:Featured pictures of Estonia]]
+                    [[Category:Featured pictures supported by Wikimedia Eesti]]
+                    [[Category:Taken with Canon EOS 5D Mark II]]
+                    [[Category:Quality images of animals in Estonia]]
+                    [[Category:Uploaded with UploadWizard]]";
         }
 
         public static string GetMarkupDemoText_no_preferred_language_contained()
@@ -181,13 +185,99 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                     |other_fields={{Information field|name=Construction number|value=2120}}
                     }}";
         }
+
+        public static string GetMarkupDemoText_author_has_custom_user_template()
+        {
+            return @"== {{int:filedesc}} ==
+                    {{Information
+                        |description    = 
+                    {{de|Sonnenaufgang im Morgennebel nahe [[:de:Dülmen|Dülmen]], Nordrhein-Westfalen, Deutschland}}
+                    {{en|Sunrise in morning mist near [[:en:Dülmen|Dülmen]], North Rhine-Westphalia, Germany}}
+                    {{fr|1=Des rayons de soleil matinaux sont visibles entre des arbres bordant une route près de [[:fr:Dülmen|Dülmen]], en Rhénanie du Nord-Westphalie, Allemagne.}}
+                        |date           = 2012-09-16 08:08:42
+                        |source         = {{own}}
+                        |author         = {{User:XRay/Templates/Author}}
+                        |permission     = {{User:XRay/Templates/Credits/cc-by-sa}}
+                        |other_versions =
+                        |other_fields   = {{User:XRay/Templates/Credits/Attribution}}
+                    }}
+                    {{Location dec|51.821097|7.258872|}}
+
+                    == {{Assessment}} ==
+                    {{Assessments|featured=1|quality=1}}
+                    {{picture of the day|year=2014|month=11|day=13}}
+
+                    == {{anchor|ImgLic}}{{int:license-header}} ==
+                    {{self|author={{User:XRay/Templates/Author}}|cc-by-sa-3.0|cc-by-sa-3.0-de|cc-by-sa-4.0}}
+
+                    {{User:XRay/Templates/Notes}}
+
+                    [[Category:Golden hour (photography)]]
+                    [[Category:Nature of Dülmen]]
+                    [[Category:Streets in Dülmen]]
+                    [[Category:Summer 2012 in Germany]]
+                    [[Category:Sunlight through trees]]
+                    [[Category:Sunrises of North Rhine-Westphalia]]
+                    [[Category:Trees at sunset]]
+                    [[Category:2012 in Dülmen]]
+                    [[Category:Summer in Dülmen]]
+                    [[Category:September 2012 in Germany]]
+                    [[Category:Photographs taken on 2012-09-16]]
+                    [[Category:Taken with Canon EF-S 18-135mm F3.5-5.6 IS]]
+                    [[Category:Taken with Canon EOS 600D]]
+                    [[Category:Featured pictures of Dülmen]]
+                    [[Category:Featured pictures of landscapes]]
+                    [[Category:Quality images of Dülmen]]
+                    [[Category:Quality images of landscapes]]
+                    [[Category:Photographs by Dietmar Rabich/Dülmen]]
+                    [[Category:Photographs by Dietmar Rabich/Featured pictures]]
+                    [[Category:Photographs by Dietmar Rabich/Quality images]]
+
+                    ";
+        }
+
+        public static string GetMarkupDemoText_author_has_internal_wiki_link()
+        {
+            return @"
+                    == {{int:filedesc}} ==
+                    {{Information
+                    |Description={{en|1=Print shows the Enniskillen Dragoons and the 5th Dragoon Guards engaging the Russian cavalry in the midst of the camp of the light cavalry brigade which is being plundered by the Russian troops during the battle of Balaklava.}}
+                    {{it|1=Stampa rappresentante la carica della brigata pesante alla [[:it:Battaglia di Balaklava|battaglia di Balaklava]].}}
+                    {{fr|1=Charge de la la cavalerie lourde de Lord Scarlett à la [[:fr:Bataille_de_Balaklava|bataille de Balaklava]].}}
+                    |Source={{LOC-Image|id=ppmsca.05669|division=pnp}}
+                    |Author=[[:en:William Simpson (artist)|William Simpson]]<br/>Published by Paul & Dominic Colnaghi & Co.
+                    |Date=1855-01-18
+                    |Permission=
+                    |other_versions=
+                    <gallery>
+                    File:Cavalryatbalaklava.jpg|Fully restored version;  Rotated and cropped, dirt removed.  Discolored and damaged areas corrected.  Colors and histogram adjusted. 
+                    File:Cavalryatbalaklava1.tif|tif (partial restoration) 
+                    File:Cavalryatbalaklava2.tif|tif (full restoration, uncompressed).
+                    File:Charge of the heavy cavalry brigade, 25th Octr. 1854.jpg|jpg cropped
+                    </gallery>
+                    }}
+                    {{Assessments|POTY=c|POTYyear=2010|featured=1|trwiki=1|enwiki=1|enwiki-nom=Cavalry At Balaklava|wallpaper=1}}
+
+                    == {{int:license-header}} ==
+                    {{PD-old-100}}
+
+                    [[Category:William Simpson]]
+                    [[Category:Battle of Balaklava]]
+                    [[Category:Balaklava in art]]
+                    [[Category:Cavalry regiments of the British Army]]
+                    [[Category:1855 lithographs]]
+                    [[Category:19th-century cavalry - United Kingdom and the British Empire|UK1850s]]
+                    [[Category:Featured pictures of Sevastopol]]
+                    [[Category:Featured pictures from the Library of Congress]]
+                    "; 
+        }
         
         [Test]
         public void License_loader_should_get_license_info()
         {
             var licenseInfoLoader = Resolve<WikiImageLicenseLoader>();
             var licenseInfo = licenseInfoLoader.Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg", "commons.wikimedia.org");
-            Assert.That(licenseInfo.AuthorName, Is.EqualTo("Tiit Hunt"));
+            Assert.That(licenseInfo.AuthorName, Is.EqualTo("Tiit Hunt (User: Tiithunt)"));
         }
 
         [Test]
@@ -195,49 +285,25 @@ namespace TrueOrFalse.Tests._2_Domain.Image
         {
             var demoText = GetMarkupDemoText_mld_template();
 
-            var parsedImageMakup = ParseImageMarkup.Run(demoText);
-            var infoSectionParams = parsedImageMakup.InfoTemplate.Parameters;
+            var parsedImageMarkup = ParseImageMarkup.Run(demoText);
+            var infoSectionParams = parsedImageMarkup.InfoTemplate.Parameters;
 
             Assert.That(infoSectionParams.Count, Is.EqualTo(7));
             Assert.That(infoSectionParams[0].Key, Is.EqualTo("Description"));
             Assert.That(infoSectionParams[1].Key, Is.EqualTo("Date"));
             Assert.That(infoSectionParams[1].Value, Is.EqualTo("2010-01-06"));
 
-            Assert.That(parsedImageMakup.Description_Raw,
+            Assert.That(parsedImageMarkup.Description_Raw,
                 Is.EqualTo(
                     "Eine [[:de:Flunder|Flunder]], ''Platichthys flesus'', nahe dem estnischen Dorf [[:de:Vääna-Jõesuu|Vääna-Jõesuu]]"));
-            Assert.That(parsedImageMakup.Description,
-                Is.EqualTo("Eine Flunder, <i>Platichthys flesus</i>, nahe dem estnischen Dorf Vääna-Jõesuu"));
+            Assert.That(parsedImageMarkup.Description,
+                Is.EqualTo("Eine Flunder (http://de.wikipedia.org/wiki/Flunder), <i>Platichthys flesus</i>, nahe dem estnischen Dorf Vääna-Jõesuu (http://de.wikipedia.org/wiki/Vääna-Jõesuu)"));
 
-            Assert.That(parsedImageMakup.AuthorName_Raw, Is.EqualTo("[[User:Tiithunt|Tiit Hunt]]"));
-            Assert.That(parsedImageMakup.AuthorName, Is.EqualTo("Tiit Hunt"));
+            Assert.That(parsedImageMarkup.AuthorName_Raw, Is.EqualTo("[[User:Tiithunt|Tiit Hunt]]"));
+            Assert.That(parsedImageMarkup.AuthorName, Is.EqualTo("Tiit Hunt (User: Tiithunt)"));
 
-            Assert.That(parsedImageMakup.LicenseIsCreativeCommons, Is.EqualTo(true));
-            Assert.That(parsedImageMakup.LicenseTemplateString, Is.EqualTo("cc-by-sa-3.0"));
-        }
-
-        [Test]
-        public void Should_parse_markup()
-        {
-            const string demoText = @"
-                == {{int:filedesc}} ==
-                {{Uploaded with en.wp UW marker|year=2013|month=01|day=16}}
-                {{Information
-                |Description = {{en|A source code example that shows classes, methods, and inheritance.
-                This is NOT THE Mint Programming Language because Mint absolutely cannot perform a 'return this' implicitly at the end of a particular function.}}
-                |Source = Taking a screenshot, then editing using Paint.NET
-                |Date = 2013-01-16
-                |Author = [[User:Carrot Lord|Carrot Lord]]
-                }}
-
-                == {{int:license-header}} ==
-                {{self|GFDL|cc-by-sa-3.0|migration=redundant}}
-
-                [[Category:Programming languages]]";
-
-            var parsedImageMakup = ParseImageMarkup.Run(demoText);
-            Assert.That(parsedImageMakup.AuthorName_Raw, Is.EqualTo("[[User:Carrot Lord|Carrot Lord]]"));
-            Assert.That(parsedImageMakup.AuthorName, Is.EqualTo("Carrot Lord"));
+            Assert.That(parsedImageMarkup.LicenseIsCreativeCommons, Is.EqualTo(true));
+            Assert.That(parsedImageMarkup.LicenseTemplateString, Is.EqualTo("cc-by-sa-3.0"));
         }
 
         [Test]
@@ -250,71 +316,47 @@ namespace TrueOrFalse.Tests._2_Domain.Image
         }
 
         [Test]
-        public void Should_parse_template_with_parameters_and_subtemplates()
+        public void Should_parse_author_and_description()
         {
-            
+            var markup = "";
+            var parseImageMarkupResult = ParseImageMarkup.Run(markup);
+            Assert.That(parseImageMarkupResult.InfoTemplate == null, Is.True,
+                "InfoTemplate missing - template null expected");
+            Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).InfoTemplate
+                .Any(notification => notification.Name == "No information template found"), Is.True,
+                "InfoTemplate missing - notification expected");
 
+            markup = @"{{Information
+                        |Source={{own}}, Collection [[User:Michael Gäbler|Michael Gäbler]]
+                        ";
+            parseImageMarkupResult = ParseImageMarkup.Run(markup);
+            Assert.That(parseImageMarkupResult.Description == null, Is.True,
+                  "Description parameter missing - description null expected");
+            Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Description
+                  .Any(notification => notification.Name == "No description parameter found"), Is.True,
+                  "Description parameter missing - notification expected");
+            Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
+                  "Author parameter missing - AuthorName null expected");
+            Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
+                  .Any(notification => notification.Name == "No author parameter found"), Is.True,
+                  "Author parameter missing - notification expected");
 
+            markup = @"{{Information
+                        |Description=
+                        |Author=
+                        ";
+            parseImageMarkupResult = ParseImageMarkup.Run(markup);
+            Assert.That(parseImageMarkupResult.Description == null, Is.True,
+                        "Description parameter empty - description null expected");
+            Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Description
+                        .Any(notification => notification.Name == "Description parameter empty"), Is.True,
+                        "Description parameter empty - notification expected");
+            Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
+                        "Author parameter empty - author null expected");
+            Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
+                        .Any(notification => notification.Name == "Author parameter empty"), Is.True,
+                        "Author parameter empty - notification expected");
+            //$temp: To be continued...
         }
-
-        [Test]
-        public void Should_parse_licenses()
-        {
-            const string markup = @"=={{int:filedesc}}==
-                            {{Information
-                            |description=
-                            {{en|1=Dalian, Liaoning, China: Two elderly Chinese guys enjoying the sea at  Xinghai Bay}}
-                            {{fr|1=Deux chinois âgés regardant la mer dans la baie de Xinghai à [[:fr:Dalian|Dalian]], province du Liaoning, en Chine.}}
-                            {{zh|1=两个中国老人坐在星海湾码头
-                            }}
-                            |date=2009-05-21
-                            |source={{own}}
-                            |author=[[User:Cccefalon|CEphoto, Uwe Aranas]]
-                            |permission={{User:Cccefalon/permission}}
-                            |other_versions=
-                            |other_fields={{User:Cccefalon/attribution}}
-                            }}
-                            {{Object location dec|38.875052|121.584854|region:CN-21}}
-                            {{User:Cccefalon/no-new-version}}
-                            {{Assessments|featured=1}}
-                            {{picture of the day|year=2014|month=10|day=27}}
-
-                            =={{int:license-header}}==
-                            {{self|cc-by-sa-3.0|GFDL|attribution={{User:Cccefalon/attribution1}} }}
-
-                            [[Category:Dalian]]
-                            [[Category:Images by Cccefalon]]
-                            [[Category:Quality images by Cccefalon]]
-                            [[Category:Quality images of people by User:Cccefalon]]
-                            [[Category:Quality images of China]]
-                            [[Category:People of Dalian]]
-                            [[Category:People of Liaoning]]
-                            [[Category:Old people of China]]
-                            [[Category:Quality images of China by User:Cccefalon]]
-                            [[Category:Images of China by User:Cccefalon]]
-                            [[Category:Images of people by User:Cccefalon]]
-                            [[Category:Featured pictures by Cccefalon]]
-                            [[Category:Featured pictures of people]]
-                            [[Category:Featured pictures of China]]
-                            {{QualityImage}}";
-
-            Assert.That(LicenseRepository.GetAllRegisteredLicenses().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
-            Assert.That(LicenseParser.GetAuthorizedParsedLicenses(markup).Any(parsedLicense => parsedLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True,"GetApplicable failed");
-        }
-
-        [Test]
-        public void TempFillImageData()
-        {   
-            //Later RunWikiMedia/StoreWiki should be tested instead
-            const string markup = @"== {{int:license-header}} ==
-                                    {{self|GFDL|cc-by-sa-3.0,2.5,2.0,1.0|cc-by-sa-3.0}}
-                                    {{svg|sport}}";
-
-            var mainLicense = LicenseParser.GetMainLicenseId(markup);
-            var allRegisteredLicenses = string.Join(",", LicenseParser.GetAllParsedLicenses(markup).Select(x => x.Id.ToString()));
-
-            Console.WriteLine("Main license id: " + mainLicense);
-            Console.WriteLine("Ids: " + allRegisteredLicenses);
-
-        }
-
+    }
+}

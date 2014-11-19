@@ -23,9 +23,9 @@ namespace TrueOrFalse.WikiMarkup
             //Overview wikimedia markup formatting: https://www.mediawiki.org/wiki/Help:Formatting
             
             //finds "''''displayName''''" transforms to "<i><b>displayName</b></i>"
-            markup = Regex.Replace(markup, "''(.*?)''", match => "<i><b>" + match.Groups[1].Value + "</b></i>");
+            markup = Regex.Replace(markup, "''''(.*?)''''", match => "<i><b>" + match.Groups[1].Value + "</b></i>");
             //finds "'''displayName'''" transforms to "<b>displayName</b>"
-            markup = Regex.Replace(markup, "''(.*?)''", match => "<b>" + match.Groups[1].Value + "</b>");
+            markup = Regex.Replace(markup, "'''(.*?)'''", match => "<b>" + match.Groups[1].Value + "</b>");
             //finds "''displayName''" transforms to "<i>displayName</i>"
             markup = Regex.Replace(markup, "''(.*?)''", match => "<i>" + match.Groups[1].Value + "</i>");
 
