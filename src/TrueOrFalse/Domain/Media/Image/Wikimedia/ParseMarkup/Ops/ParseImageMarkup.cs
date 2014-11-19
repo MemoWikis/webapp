@@ -176,7 +176,8 @@ namespace TrueOrFalse.WikiMarkup
                 parseImageNotifications.Description.Add(new Notification()
                 {
                     Name = "Manual entry for description required",
-                    NotificationText = String.Format("Das Markup für die Beschreibung konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Beschreibung manuell übernehmen.", Markup2Html.TransformAll(descrParameter.Value))
+                    NotificationText = String.Format("Das Markup für die Beschreibung konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Beschreibung manuell übernehmen.", 
+                                                        Markup2Html.TransformAll(descrParameter.Value))
                 });
 
                 result.Notifications = parseImageNotifications.ToJson();
@@ -187,13 +188,10 @@ namespace TrueOrFalse.WikiMarkup
         {
             //$temp: Cases left to match:
 
-            //[[:en:William Simpson (artist)|William Simpson]]<br/>Published by Paul & Dominic Colnaghi & Co. --> William Simpson<br/>Published by Paul & Dominic Colnaghi & Co.
-            //war bisher abgedeckt durch Markup2Html.Run
-
             //Mehrteilig:
             //http://commons.wikimedia.org/wiki/File:13-01-15-leipzig-hauptbahnhof-by-RalfR-33.jpg
             //|Author=[[User:Ralf Roletschek|Ralf Roletschek]] ([[User talk:Ralf Roletschek|<span class="signature-talk">talk</span>]]) - [http://www.fahrradmonteur.de Infos über Fahrräder auf fahrradmonteur.de]
-            //Gerendert: Ralf Roletschek (talk) - Infos über Fahrräder auf fahrradmonteur.de (mit Links auf User, talk und link)
+            //Gerendert auf Wikimedia: Ralf Roletschek (talk) - Infos über Fahrräder auf fahrradmonteur.de (mit Links auf User, talk und link)
             //Use this file > attribution: By Ralf Roletschek (talk) - Infos über Fahrräder auf fahrradmonteur.de (Own work) [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0-2.5-2.0-1.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons
 
             //spezielle Attribution templates (nicht am Author erkennbar, nur unter Licenses)
