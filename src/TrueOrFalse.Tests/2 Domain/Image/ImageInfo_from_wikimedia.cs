@@ -137,33 +137,6 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                     [[Category:Uploaded with UploadWizard]]";
         }
 
-        public static string GetMarkupDemoText_description_is_plain_text()
-        {
-            return @"{{SupersededPNG|File:Clarinet.png}}
-                    == {{int:filedesc}} ==
-                    {{Information
-                    |Description=Clarinet with a Boehm System.
-                    |Source=[http://www.777life.com/photos/index.html] ; uploaded on [http://fr.wikipedia.org fr.wikipedia]; description page is/was [http://fr.wikipedia.org/w/index.php?title=Image%3AClarinette.jpg here].
-                    |Date={{original upload date|2004-04-24}}; 2007-01-05 (last version)
-                    |Author=[[:fr:User:Ratigan|Ratigan]] at [http://fr.wikipedia.org fr.wikipedia], and it was the same file as [[User:Mezzofortist|Mezzofortist]] uploaded here. Later versions were uploaded by [[:fr:User:Luna04|Luna04]], [[:fr:User:Iunity|Iunity]] at [http://fr.wikipedia.org fr.wikipedia]. This is a cropped version of Iunity's version.
-                    |Permission=''unlimited free use'', so this image is in the [[public domain]].
-                    |other_versions={{DerivativeVersions|Clarinet flopped.png}}
-                    }}
-
-                    == {{int:license-header}} ==
-                    {{Atelier graphique}}
-                    {{Copyrighted free use}}
-
-                    == Original upload log on fr.wikipedia ==
-                    (All user names refer to fr.wikipedia)
-                    * 2007-01-05 17:17 [[:fr:User:Iunity|Iunity]] 300×1200×8 (25012 bytes) ''<nowiki>détourage</nowiki>''
-                    * 2004-10-22 19:49 [[:fr:User:Luna04|Luna04]] 300×1200×8 (48031 bytes) ''<nowiki>clarinette - source http://www.777life.com/photos/instruments/JM_Clarinet.jpg (''unlimited free use'') - {{DomainePublic}}</nowiki>''
-                    * 2004-04-24 18:55 [[:fr:User:Ratigan|Ratigan]] 603×123×8 (19113 bytes) ''<nowiki>Photo d'une clarinette</nowiki>''
-
-                    [[Category:Clarinets]]
-                    [[Category:Musical instruments on white background]]";
-        }
-
         public string GetMarkupDemoText_special_instead_of_information_template()
         {
             return @"=={{int:filedesc}}==
@@ -236,44 +209,8 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                     ";
         }
 
-        public static string GetMarkupDemoText_author_has_internal_wiki_link()
-        {
-            return @"
-                    == {{int:filedesc}} ==
-                    {{Information
-                    |Description={{en|1=Print shows the Enniskillen Dragoons and the 5th Dragoon Guards engaging the Russian cavalry in the midst of the camp of the light cavalry brigade which is being plundered by the Russian troops during the battle of Balaklava.}}
-                    {{it|1=Stampa rappresentante la carica della brigata pesante alla [[:it:Battaglia di Balaklava|battaglia di Balaklava]].}}
-                    {{fr|1=Charge de la la cavalerie lourde de Lord Scarlett à la [[:fr:Bataille_de_Balaklava|bataille de Balaklava]].}}
-                    |Source={{LOC-Image|id=ppmsca.05669|division=pnp}}
-                    |Author=[[:en:William Simpson (artist)|William Simpson]]<br/>Published by Paul & Dominic Colnaghi & Co.
-                    |Date=1855-01-18
-                    |Permission=
-                    |other_versions=
-                    <gallery>
-                    File:Cavalryatbalaklava.jpg|Fully restored version;  Rotated and cropped, dirt removed.  Discolored and damaged areas corrected.  Colors and histogram adjusted. 
-                    File:Cavalryatbalaklava1.tif|tif (partial restoration) 
-                    File:Cavalryatbalaklava2.tif|tif (full restoration, uncompressed).
-                    File:Charge of the heavy cavalry brigade, 25th Octr. 1854.jpg|jpg cropped
-                    </gallery>
-                    }}
-                    {{Assessments|POTY=c|POTYyear=2010|featured=1|trwiki=1|enwiki=1|enwiki-nom=Cavalry At Balaklava|wallpaper=1}}
-
-                    == {{int:license-header}} ==
-                    {{PD-old-100}}
-
-                    [[Category:William Simpson]]
-                    [[Category:Battle of Balaklava]]
-                    [[Category:Balaklava in art]]
-                    [[Category:Cavalry regiments of the British Army]]
-                    [[Category:1855 lithographs]]
-                    [[Category:19th-century cavalry - United Kingdom and the British Empire|UK1850s]]
-                    [[Category:Featured pictures of Sevastopol]]
-                    [[Category:Featured pictures from the Library of Congress]]
-                    "; 
-        }
-        
         [Test]
-        public void License_loader_should_get_license_info()
+        public void License_loader_should_get_image_info()
         {
             var licenseInfoLoader = Resolve<WikiImageLicenseLoader>();
             var licenseInfo = licenseInfoLoader.Run("Platichthys_flesus_Vääna-Jõesuu_in_Estonia.jpg", "commons.wikimedia.org");
@@ -307,7 +244,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
         }
 
         [Test]
-        public void Should_parse_de()
+        public void Should_parse_de_description()
         {
             var demoText = GetMarkupDemoText_several_languages_with_de();
 
@@ -356,7 +293,48 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
                         .Any(notification => notification.Name == "Author parameter empty"), Is.True,
                         "Author parameter empty - notification expected");
-            //$temp: To be continued...
+
+            markup = @"{{Information
+                        |Description=
+                        |Author={{User:XRay/Templates/Author}}
+                        ";
+            parseImageMarkupResult = ParseImageMarkup.Run(markup);
+            Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
+                            "Custom wiki user template - author null expected");
+            Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
+                        .Any(notification => notification.Name == "Custom wiki user template"), Is.True,
+                        "Custom wiki user template - notification expected");
+
+            markup = @"{{Information
+                        |Description=Plain text
+                        |Author=Plain text
+                        ";
+
+            parseImageMarkupResult = ParseImageMarkup.Run(markup);
+            Assert.That(parseImageMarkupResult.Description == "Plain text", Is.True,
+                           "Description: Take plain text as is");
+            Assert.That(parseImageMarkupResult.AuthorName == "Plain text", Is.True,
+                           "Author: Take plain text as is");
+
+            markup = @"{{Information
+                        |Description=[[undefined internal wiki link]]
+                        |Author=[[undefined internal wiki link]]
+                        ";
+            parseImageMarkupResult = ParseImageMarkup.Run(markup);
+            Assert.That(parseImageMarkupResult.Description == null, Is.True,
+                           "Unparsed wiki markup - description null expected");
+            Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Description
+                        .Any(notification => notification.Name == "Manual entry for description required"), Is.True,
+                        "Description: Unparsed wiki markup - notification expected");
+            Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
+                            "Unparsed wiki markup - author null expected");
+            Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
+                        .Any(notification => notification.Name == "Manual entry for author required"), Is.True,
+                        "Author: Unparsed wiki markup - notification expected");
+            new License(){}.InitLicenseSettings();
         }
+
+//        [Test]
+
     }
 }

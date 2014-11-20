@@ -39,7 +39,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by/1.0/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung 1.0 Generic",
                 LicenseShortName = "CC BY 1.0",
-
             },
 
             new License()
@@ -54,7 +53,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by/2.0/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung 2.0 Generic",
                 LicenseShortName = "CC BY 2.0",
-
             },
 
             new License()
@@ -69,7 +67,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by/2.5/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung 2.5 Generic",
                 LicenseShortName = "CC BY 2.5",
-
             },
 
             new License()
@@ -84,7 +81,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by/3.0/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung 3.0 Unported",
                 LicenseShortName = "CC BY 3.0",
-
             },
 
             new License()
@@ -99,7 +95,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by/3.0/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung 3.0 Unported",
                 LicenseShortName = "CC BY 3.0",
-
             },
 
             new License()
@@ -114,7 +109,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/sa/1.0/deed.de",
                 LicenseLongName = "Creative Commons: Weitergabe unter gleichen Bedingungen 1.0 Generic",
                 LicenseShortName = "CC SA 1.0",
-
             },
 
             new License()
@@ -129,7 +123,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/1.0/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 1.0 Generic",
                 LicenseShortName = "CC BY-SA 1.0",
-
             },
 
             new License()
@@ -144,7 +137,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/2.0/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 2.0 Generic",
                 LicenseShortName = "CC BY-SA 2.0",
-
             },
 
             new License()
@@ -159,7 +151,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/2.5/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 2.5 Generic",
                 LicenseShortName = "CC BY-SA 2.5",
-
             },
 
             new License()
@@ -167,7 +158,6 @@ public class LicenseRepository
                 Id = 10,
                 WikiSearchString = "cc-by-sa-3.0",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
-                
 
                 LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
                 LicenseLink = "http://creativecommons.org/licenses/by-sa/3.0/legalcode",
@@ -189,7 +179,6 @@ public class LicenseRepository
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/3.0/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported",
                 LicenseShortName = "CC BY-SA 3.0",
-
             },
 
             //Template for CC-BY-SA licenses:
@@ -197,7 +186,7 @@ public class LicenseRepository
             //{
             //    Id = 2,
             //    WikiSearchString = "cc-by-sa-3.0,2.5,2.0,1.0",
-            //    LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+            //    LicenseApplicability = LicenseApplicability.,//Requirements should be recorded under License > InitLicenseSettings()
                 
             //    LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
             //    LicenseLink = "http://creativecommons.org/licenses/by-sa/3.0/legalcode",
@@ -205,14 +194,15 @@ public class LicenseRepository
             //    LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/3.0/deed.de",
             //    LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported",
             //    LicenseShortName = "CC BY-SA 3.0",
-
             //},
+
             //Template general:
             //new License()
             //{
             //    Id = ,
             //    WikiSearchString = "",
-                
+             
+            //    Choose RequirementsType or add requirements manually
             //    LicenseRequirementsType = LicenseRequirementsType.,
             //        //LicenseLink = ,
             //        //CopyOfLicenseTextUrl = ,
@@ -253,7 +243,7 @@ public class LicenseParser
             .Where(license => ParseTemplate.TokenizeMarkup(wikiMarkup).Any(x => !String.IsNullOrEmpty(license.WikiSearchString)
                                                         && x.ToLower() == license.WikiSearchString.ToLower()))
             .ToList();
-    } 
+    }
 
     public static List<License> GetAuthorizedParsedLicenses(string wikiMarkup)
     {
@@ -292,8 +282,9 @@ public class LicenseParser
     {
         return licenseList
             .OrderBy(license => license.LicenseRequirementsType.GetRank())
-            .ThenByDescending(license => new GetLicenseComponents(license).CcVersion)
+            .ThenByDescending(license => new GetCcLicenseComponents(license).CcVersion)
             .ThenBy(PriotizeByCcJurisdictionToken)
+            .ThenBy(license => String.IsNullOrEmpty(license.WikiSearchString))//To have empty strings/null at the end
             .ThenBy(license => license.WikiSearchString)
             .ToList();
     }
@@ -349,9 +340,9 @@ public class LicenseParser
         return "unbekannt";
     }
 
-    public static int PriotizeByCcJurisdictionToken(License license)
+    public static int PriotizeByCcJurisdictionToken(License license)    
     {
-        var licenseComponents = new GetLicenseComponents(license);
+        var licenseComponents = new GetCcLicenseComponents(license);
 
         if (licenseComponents.CcJurisdictionPortsToken == "")
             return 1;

@@ -17,51 +17,6 @@ namespace TrueOrFalse.Tests._2_Domain.Image
     internal class ImageLicenses_from_wikimedia : BaseTest
     {
         [Test]
-        public void Should_sort_licenses()
-        {
-
-            var sortedLicenses = new List<License>()
-            {
-                new License {WikiSearchString = "other"},
-                new License {WikiSearchString = "gfdl"},
-                new License {WikiSearchString = "cc-by-sa-3.0"},
-                new License {WikiSearchString = "pd"},
-                new License {WikiSearchString = "cc-by-sa-3.0-fr"},
-                new License {WikiSearchString = "cc-sa-3.0"},
-                new License {WikiSearchString = "cc-by-sa-2.5"},
-                new License {WikiSearchString = "cc-by-sa-3.0-de"},
-                new License {WikiSearchString = "alternative"},
-
-            };
-
-            sortedLicenses = LicenseParser.SortLicenses(sortedLicenses);
-
-            var sortedLicenseStrings = sortedLicenses.Select(l => l.WikiSearchString).Aggregate((a, b) => a + ", " + b);
-            const string expectedResult = "cc-sa-3.0, cc-by-sa-3.0, cc-by-sa-3.0-de, cc-by-sa-3.0-fr, cc-by-sa-2.5, pd, gfdl, alternative, other";
-
-            Assert.That(sortedLicenseStrings.Equals(expectedResult),
-                        String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, sortedLicenseStrings));
-        }
-
-        public void Should_find_main_license()
-        {
-
-        }
-
-        [Test]
-        public void Should_find_other_possible_license_strings()
-        {
-            //$todo: refine together with tested method
-            const string markup = "cc-by-sa-3.0|cc-by-sa-9.0|pd-phantasie|pd|lkjlkjlj";
-
-            var otherPossibleLicenseStrings = LicenseParser.GetOtherPossibleLicenseStrings(markup).Aggregate((a, b) => a + ", " + b);
-            const string expectedResult = "cc-by-sa-9.0, pd-phantasie";
-
-            Assert.That(otherPossibleLicenseStrings.Equals(expectedResult),
-                        String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, otherPossibleLicenseStrings));
-        }
-
-        [Test]
         public void Authorized_licenses_should_contain_all_necessary_information()
         {
             var allAuthorizedLicenses = LicenseRepository.GetAllAuthorizedLicenses();
@@ -102,6 +57,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                             license.Id, license.WikiSearchString));
         }
 
+
         [Test]
         public void Registered_licenses_should_not_contain_duplicates()
         {
@@ -131,6 +87,121 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             Assert.That(
                 !LicenseRepository.GetAllRegisteredLicenses().GroupBy(l => l.WikiSearchString).Any(grp => grp.Count() > 1),
                 messageDuplicateSearchStrings);
+        }
+        
+        [Test]
+        public void Should_sort_licenses()
+        {
+
+            var sortedLicenses = new List<License>()
+            {
+                new License {WikiSearchString = "other"},
+                new License {WikiSearchString = "gfdl", LicenseRequirementsType = LicenseRequirementsType.GFDL},
+                new License {WikiSearchString = "cc-by-sa-3.0", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
+                new License {WikiSearchString = "pd", LicenseRequirementsType = LicenseRequirementsType.PD},
+                new License {WikiSearchString = "cc-by-sa-3.0-fr", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
+                new License {WikiSearchString = "cc-sa-3.0", LicenseRequirementsType = LicenseRequirementsType.Cc_Sa},
+                new License {WikiSearchString = "cc-by-sa-2.5", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
+                new License {WikiSearchString = "cc-by-sa-3.0-de", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
+                new License {WikiSearchString = "alternative"},
+            };
+
+            sortedLicenses = LicenseParser.SortLicenses(sortedLicenses);
+
+            var rankList =
+                sortedLicenses.Select(
+                    l => new
+                    {
+                        LReqType = l.LicenseRequirementsType.GetRank(),
+                        CcVersion = new GetCcLicenseComponents(l).CcVersion,
+                        PrioByCcJurisdictionToken = LicenseParser.PriotizeByCcJurisdictionToken(l),
+                        WikiSearchstring = l.WikiSearchString,
+                    }).ToList();
+            
+            var sortedLicenseStrings = sortedLicenses.Select(l => l.WikiSearchString).Aggregate((a, b) => a + ", " + b);
+            const string expectedResult = "cc-by-sa-3.0, cc-by-sa-3.0-de, cc-by-sa-3.0-fr, cc-by-sa-2.5, cc-sa-3.0, pd, gfdl, alternative, other";
+
+            Assert.That(sortedLicenseStrings.Equals(expectedResult),
+                        String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, sortedLicenseStrings));
+        }
+
+        public void Should_find_main_license()
+        {
+
+        }
+
+        [Test]
+        public void Should_parse_licenses()
+        {
+            const string markup = @"=={{int:filedesc}}==
+                            {{Information
+                            |description=
+                            {{en|1=Dalian, Liaoning, China: Two elderly Chinese guys enjoying the sea at  Xinghai Bay}}
+                            {{fr|1=Deux chinois âgés regardant la mer dans la baie de Xinghai à [[:fr:Dalian|Dalian]], province du Liaoning, en Chine.}}
+                            {{zh|1=两个中国老人坐在星海湾码头
+                            }}
+                            |date=2009-05-21
+                            |source={{own}}
+                            |author=[[User:Cccefalon|CEphoto, Uwe Aranas]]
+                            |permission={{User:Cccefalon/permission}}
+                            |other_versions=
+                            |other_fields={{User:Cccefalon/attribution}}
+                            }}
+                            {{Object location dec|38.875052|121.584854|region:CN-21}}
+                            {{User:Cccefalon/no-new-version}}
+                            {{Assessments|featured=1}}
+                            {{picture of the day|year=2014|month=10|day=27}}
+
+                            =={{int:license-header}}==
+                            {{self|cc-by-sa-3.0|GFDL|attribution={{User:Cccefalon/attribution1}} }}
+
+                            [[Category:Dalian]]
+                            [[Category:Images by Cccefalon]]
+                            [[Category:Quality images by Cccefalon]]
+                            [[Category:Quality images of people by User:Cccefalon]]
+                            [[Category:Quality images of China]]
+                            [[Category:People of Dalian]]
+                            [[Category:People of Liaoning]]
+                            [[Category:Old people of China]]
+                            [[Category:Quality images of China by User:Cccefalon]]
+                            [[Category:Images of China by User:Cccefalon]]
+                            [[Category:Images of people by User:Cccefalon]]
+                            [[Category:Featured pictures by Cccefalon]]
+                            [[Category:Featured pictures of people]]
+                            [[Category:Featured pictures of China]]
+                            {{QualityImage}}";
+
+            Assert.That(LicenseRepository.GetAllRegisteredLicenses().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
+            Assert.That(LicenseParser.GetAuthorizedParsedLicenses(markup).Any(parsedLicense => parsedLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAuthorizedParsedLicenses failed");
+        }
+
+        [Test]
+        public void Should_find_other_possible_license_strings()
+        {
+            //$todo: refine together with tested method
+            const string markup = "cc-by-sa-3.0|cc-by-sa-9.0|pd-phantasie|pd|lkjlkjlj";
+
+            var otherPossibleLicenseStrings = LicenseParser.GetOtherPossibleLicenseStrings(markup).Aggregate((a, b) => a + ", " + b);
+            const string expectedResult = "cc-by-sa-9.0, pd-phantasie";
+
+            Assert.That(otherPossibleLicenseStrings.Equals(expectedResult),
+                        String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, otherPossibleLicenseStrings));
+        }
+
+        [Test]
+        public void TempFillImageData()
+        {
+            //Later RunWikiMedia/StoreWiki should be tested instead
+            const string markup = @"== {{int:license-header}} ==
+                                    {{self|GFDL|cc-by-sa-3.0,2.5,2.0,1.0|cc-by-sa-3.0}}
+                                    {{svg|sport}}";
+
+            var mainLicense = LicenseParser.GetMainLicenseId(markup);
+            var allRegisteredLicenses = string.Join(",", LicenseParser.GetAllParsedLicenses(markup).Select(x => x.Id.ToString()));
+
+            Console.WriteLine("Main license id: " + mainLicense);
+            Console.WriteLine("Ids: " + allRegisteredLicenses);
+
         }
     }
 }

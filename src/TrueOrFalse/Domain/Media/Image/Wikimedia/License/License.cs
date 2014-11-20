@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using FluentNHibernate.Conventions.AcceptanceCriteria;
 using NHibernate.Mapping;
 
 public class License
@@ -50,9 +51,19 @@ public class License
             CopyOfLicenseTextRequired = false;
         }
 
-       //$Todo: complete
+        else if (LicenseRequirementsType == LicenseRequirementsType.GFDL)//http://commons.wikimedia.org/wiki/Commons:Weiterverwendung#GFDL
+        {
+            AuthorRequired = true;
+            LicenseLinkRequired = true;
+            CopyOfLicenseTextRequired = true;
+        }
 
-
+        else if (LicenseRequirementsType == LicenseRequirementsType.PD)//http://commons.wikimedia.org/wiki/Commons:Weiterverwendung#Rechtefreie_.28gemeinfreie.29_Inhalte
+        {
+            AuthorRequired = false;
+            LicenseLinkRequired = false;
+            CopyOfLicenseTextRequired = false;
+        }
     }
 
     public LicenseRequirementsType ParseLicenseRequirementsType()
@@ -80,34 +91,32 @@ public class License
     }
 }
 
-public class GetLicenseComponents
+public class GetCcLicenseComponents
 {
-    public string LicenseGroup;
+    public bool IsCC;
     public string CcJurisdictionPortsToken;
     public string CcVersion;
 
-    public GetLicenseComponents(License license)
+    public GetCcLicenseComponents(License license)
     {
         if (String.IsNullOrEmpty(license.WikiSearchString)) return;
 
-        if (license.WikiSearchString.ToLower().StartsWith("cc-"))
+        if (license.WikiSearchString.ToLower().StartsWith("cc-") &&
+            (license.LicenseRequirementsType == LicenseRequirementsType.Cc0 ||
+             license.LicenseRequirementsType == LicenseRequirementsType.Cc_By ||
+             license.LicenseRequirementsType == LicenseRequirementsType.Cc_By_Sa ||
+             license.LicenseRequirementsType == LicenseRequirementsType.Cc_Sa))
         {
-            LicenseGroup = "CC";
-            CcVersion = Regex.Match(license.WikiSearchString, @"(?<=cc-((\w){2}-){1,2})(\d)(\.)(\d)\b", RegexOptions.IgnoreCase).Value;
-            CcJurisdictionPortsToken = Regex.Match(license.WikiSearchString, @"(?<=cc-((\w){2}-){1,2}(\d)(\.)(\d)-)(\w){2}\b", RegexOptions.IgnoreCase).Value.ToLower();
+            IsCC = true;
+            CcVersion = Regex.Match(license.WikiSearchString, "(?<=cc-([a-z]{2}-){1,2})\\d\\.\\d\\b", RegexOptions.IgnoreCase).Value;
+            CcJurisdictionPortsToken = Regex.Match(license.WikiSearchString, "(?<=cc-([a-z]{2}-){1,2}\\d\\.\\d-)[a-z]{2,}\\b", RegexOptions.IgnoreCase).Value.ToLower();
         }
-
-        else if (license.WikiSearchString.ToLower().StartsWith("pd"))
-            LicenseGroup = "PD";
-
-        else if (license.WikiSearchString.ToLower().StartsWith("gfdl"))
-            LicenseGroup = "GFDL";
     }
 }
 
 public enum LicenseRequirementsType
 {
-    //Order by priority (order can be changed, not written to db), add requirements to InitLicenseSettings()  (and maybe identifier method to ParseLicenseRequirementsType):
+    //Order by priority (order can be changed, not written to db, adjust test), add requirements to InitLicenseSettings()  (and maybe identifier method to ParseLicenseRequirementsType):
     
     NoCategory = 0, //Rank: 999
 
@@ -117,7 +126,6 @@ public enum LicenseRequirementsType
     Cc0 = 4,
     PD = 5,
     GFDL = 6,
-
 }
 
 public static class LicenseRequirementsTypeExts
@@ -129,7 +137,7 @@ public static class LicenseRequirementsTypeExts
 
     public static int GetRank(this LicenseRequirementsType e)
     {
-        return e.GetIntValue() == 0 ? 999 : e.GetRank();
+        return e.GetIntValue() == 0 ? 999 : e.GetIntValue();
     }
 
 }
