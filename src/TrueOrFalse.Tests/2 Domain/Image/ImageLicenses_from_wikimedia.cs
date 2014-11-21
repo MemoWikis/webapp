@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using BDDish;
 using NUnit.Framework;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using SolrNet.Utils;
@@ -125,9 +126,36 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                         String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, sortedLicenseStrings));
         }
 
+        [Test]
         public void Should_find_main_license()
         {
+            var markup = @"
+                            {{Information
+                            |Author         = [[User:Tiithunt|Tiit Hunt]]
+                            }}
+                            =={{int:license-header}}==
+                            {{self|cc-by-sa-3.0|pd-old|gfdl}}";
 
+            ShowAllLicensesWithNotifications(markup);
+            Assert.That(LicenseParser.GetMainLicense(markup).WikiSearchString, Is.EqualTo("cc-by-sa-3.0"));
+
+            markup = @"
+                        {{Information
+                        }}
+                        =={{int:license-header}}==
+                        {{self|cc-by-sa-3.0|pd-old|gfdl}}";
+
+            ShowAllLicensesWithNotifications(markup);
+            Assert.That(LicenseParser.GetMainLicense(markup).WikiSearchString, Is.EqualTo("pd-old"));
+
+            markup = @"
+                        {{Information
+                        }}
+                        =={{int:license-header}}==
+                        {{self|cc-by-sa-3.0|gfdl}}";
+
+            ShowAllLicensesWithNotifications(markup);
+            Assert.That(LicenseParser.GetMainLicense(markup), Is.Null);
         }
 
         [Test]
@@ -188,20 +216,25 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                         String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, otherPossibleLicenseStrings));
         }
 
-        [Test]
-        public void TempFillImageData()
+        public void ShowAllLicensesWithNotifications(string markup)
         {
-            //Later RunWikiMedia/StoreWiki should be tested instead
-            const string markup = @"== {{int:license-header}} ==
-                                    {{self|GFDL|cc-by-sa-3.0,2.5,2.0,1.0|cc-by-sa-3.0}}
-                                    {{svg|sport}}";
-
-            var mainLicense = LicenseParser.GetMainLicenseId(markup);
-            var allRegisteredLicenses = string.Join(",", LicenseParser.GetAllParsedLicenses(markup).Select(x => x.Id.ToString()));
-
-            Console.WriteLine("Main license id: " + mainLicense);
-            Console.WriteLine("Ids: " + allRegisteredLicenses);
-
+            var mainLicense = LicenseParser.GetMainLicense(markup) != null ?
+                                LicenseParser.GetMainLicense(markup).WikiSearchString :
+                                "none";
+            Console.WriteLine("Main license: " + mainLicense);
+            
+            var allRegisteredLicenses = string.Join(", ", LicenseParser.GetAllParsedLicenses(markup).Select(x => x.WikiSearchString.ToString()));
+            Console.WriteLine("All registered parsed licenses: " + Environment.NewLine + allRegisteredLicenses);
+            
+            Console.WriteLine(Environment.NewLine + "All authorized parsed licenses: ");
+            LicenseParser.GetAuthorizedParsedLicenses(markup).ForEach(x => Console.WriteLine(Environment.NewLine + x.WikiSearchString + ":"
+                + Environment.NewLine + "AllRequirementsMet:" + LicenseParser.CheckLicenseRequirements(x, markup).AllRequirementsMet
+                + Environment.NewLine + "AuthorIsMissing:" + LicenseParser.CheckLicenseRequirements(x, markup).AuthorIsMissing
+                + Environment.NewLine + "LicenseLinkIsMissing:" + LicenseParser.CheckLicenseRequirements(x, markup).LicenseLinkIsMissing
+                + Environment.NewLine + "LocalCopyOfLicenseUrlMissing:" + LicenseParser.CheckLicenseRequirements(x, markup).LocalCopyOfLicenseUrlMissing
+                ));
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }

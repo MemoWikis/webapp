@@ -181,6 +181,27 @@ public class LicenseRepository
                 LicenseShortName = "CC BY-SA 3.0",
             },
 
+            //new License()
+            //{
+            //    Id = 100,
+            //    WikiSearchString = "gfdl",
+            //    LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+            //    LicenseRequirementsType = LicenseRequirementsType.GFDL,
+
+            //},
+
+            new License()
+            {
+                Id = 200,
+                WikiSearchString = "pd-old",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.PD
+            }
+
+
+
             //Template for CC-BY-SA licenses:
             //new License()
             //{
@@ -247,7 +268,7 @@ public class LicenseParser
 
     public static List<License> GetAuthorizedParsedLicenses(string wikiMarkup)
     {
-        return LicenseRepository.GetAllAuthorizedLicenses()
+         return LicenseRepository.GetAllAuthorizedLicenses()
             .Where(license => ParseTemplate.TokenizeMarkup(wikiMarkup).Any(x => !String.IsNullOrEmpty(license.WikiSearchString) 
                                                         && x.ToLower() == license.WikiSearchString.ToLower()))
             .ToList();
