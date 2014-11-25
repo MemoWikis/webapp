@@ -39,10 +39,7 @@ public class ImageParsingNotifications
 
     public static ImageParsingNotifications FromJson(string json)
     {
-        if (json == null)
-            json = "";
-        
-        return JsonConvert.DeserializeObject<ImageParsingNotifications>(json) ?? new ImageParsingNotifications();
+        return JsonConvert.DeserializeObject<ImageParsingNotifications>(json ?? "") ?? new ImageParsingNotifications();
     }
 
 }

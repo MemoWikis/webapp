@@ -137,7 +137,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                             {{self|cc-by-sa-3.0|pd-old|gfdl}}";
 
             ShowAllLicensesWithNotifications(markup);
-            Assert.That(LicenseParser.GetMainLicense(markup).WikiSearchString, Is.EqualTo("cc-by-sa-3.0"));
+            Assert.That(LicenseParser.GetMainLicense(new ImageMetaData{Markup = markup}).WikiSearchString, Is.EqualTo("cc-by-sa-3.0"));
 
             markup = @"
                         {{Information
@@ -146,7 +146,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                         {{self|cc-by-sa-3.0|pd-old|gfdl}}";
 
             ShowAllLicensesWithNotifications(markup);
-            Assert.That(LicenseParser.GetMainLicense(markup).WikiSearchString, Is.EqualTo("pd-old"));
+            Assert.That(LicenseParser.GetMainLicense(new ImageMetaData { Markup = markup }).WikiSearchString, Is.EqualTo("pd-old"));
 
             markup = @"
                         {{Information
@@ -155,7 +155,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                         {{self|cc-by-sa-3.0|gfdl}}";
 
             ShowAllLicensesWithNotifications(markup);
-            Assert.That(LicenseParser.GetMainLicense(markup), Is.Null);
+            Assert.That(LicenseParser.GetMainLicense(new ImageMetaData { Markup = markup }), Is.Null);
         }
 
         [Test]
@@ -218,8 +218,8 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 
         public void ShowAllLicensesWithNotifications(string markup)
         {
-            var mainLicense = LicenseParser.GetMainLicense(markup) != null ?
-                                LicenseParser.GetMainLicense(markup).WikiSearchString :
+            var mainLicense = LicenseParser.GetMainLicense(new ImageMetaData{Markup = markup}) != null ?
+                                LicenseParser.GetMainLicense(new ImageMetaData{Markup = markup}).WikiSearchString :
                                 "none";
             Console.WriteLine("Main license: " + mainLicense);
             
@@ -228,10 +228,10 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             
             Console.WriteLine(Environment.NewLine + "All authorized parsed licenses: ");
             LicenseParser.GetAuthorizedParsedLicenses(markup).ForEach(x => Console.WriteLine(Environment.NewLine + x.WikiSearchString + ":"
-                + Environment.NewLine + "AllRequirementsMet:" + LicenseParser.CheckLicenseRequirements(x, markup).AllRequirementsMet
-                + Environment.NewLine + "AuthorIsMissing:" + LicenseParser.CheckLicenseRequirements(x, markup).AuthorIsMissing
-                + Environment.NewLine + "LicenseLinkIsMissing:" + LicenseParser.CheckLicenseRequirements(x, markup).LicenseLinkIsMissing
-                + Environment.NewLine + "LocalCopyOfLicenseUrlMissing:" + LicenseParser.CheckLicenseRequirements(x, markup).LocalCopyOfLicenseUrlMissing
+                + Environment.NewLine + "AllRequirementsMet:" + LicenseParser.CheckLicenseRequirements(x, new ImageMetaData{Markup = markup}).AllRequirementsMet
+                + Environment.NewLine + "AuthorIsMissing:" + LicenseParser.CheckLicenseRequirements(x, new ImageMetaData{Markup = markup}).AuthorIsMissing
+                + Environment.NewLine + "LicenseLinkIsMissing:" + LicenseParser.CheckLicenseRequirements(x, new ImageMetaData{Markup = markup}).LicenseLinkIsMissing
+                + Environment.NewLine + "LocalCopyOfLicenseUrlMissing:" + LicenseParser.CheckLicenseRequirements(x, new ImageMetaData{Markup = markup}).LocalCopyOfLicenseUrlMissing
                 ));
             Console.WriteLine();
             Console.WriteLine();

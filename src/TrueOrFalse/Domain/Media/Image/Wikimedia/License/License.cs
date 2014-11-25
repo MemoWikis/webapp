@@ -89,6 +89,10 @@ public class License
 
         return LicenseRequirementsType.NoCategory;
     }
+    public static string ToLicenseIdList(List<License> licenses)
+    {
+        return string.Join(",", licenses.Select(x => x.Id.ToString()));
+    } 
 }
 
 public class GetCcLicenseComponents

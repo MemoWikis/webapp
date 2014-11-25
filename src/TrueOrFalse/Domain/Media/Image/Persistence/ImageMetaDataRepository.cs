@@ -8,10 +8,10 @@ namespace TrueOrFalse
     {
         public ImageMetaDataRepository(ISession session) : base(session){}
 
-        public ImageMetaData GetBy(int questionSetId, ImageType imageType)//$temp: "questionSetId" ist zu speziell, oder?
+        public ImageMetaData GetBy(int typeId, ImageType imageType)
         {
             return _session.QueryOver<ImageMetaData>()
-                           .Where(x => x.TypeId == questionSetId)
+                           .Where(x => x.TypeId == typeId)
                            .And(x => x.Type == imageType)
                            .SingleOrDefault<ImageMetaData>();
         }
@@ -34,7 +34,7 @@ namespace TrueOrFalse
                 Create(
                     new ImageMetaData
                     {
-                        Type = imageType,
+                        Type = imageType, 
                         TypeId = typeId,
                         ApiHost = wikiMetaData.ApiHost,
                         Source = ImageSource.WikiMedia,
@@ -46,8 +46,9 @@ namespace TrueOrFalse
                         DescriptionParsed = licenseInfo.Description,
                         Markup = licenseInfo.Markup,
                         //$temp Ganz neu (ergänzen unter LoadImageMarkups?):
-                        MainLicense = LicenseParser.GetMainLicense(licenseInfo.Markup),
-                        AllRegisteredLicenses = string.Join(",", LicenseParser.GetAllParsedLicenses(licenseInfo.Markup).Select(x => x.Id.ToString())),
+                        //alt: MainLicense = LicenseParser.GetMainLicense(licenseInfo.Markup),
+                        //MainLicenseInfo = LicenseParser.GetMainLicense(licenseInfo.Markup),
+                        AllRegisteredLicenses = License.ToLicenseIdList(LicenseParser.GetAllParsedLicenses(licenseInfo.Markup)),
                     }
                 );
             }
@@ -61,8 +62,16 @@ namespace TrueOrFalse
                 //$temp: neue von oben übernehmen oder übergreifend deklarieren
 
                 Update(imageMeta);
-            }            
+            }
         }
+
+        //public static void UpdateMainLicense(ImageMetaData imageMetaData)
+        //{
+        //    var mainLicenseInfo = MainLicenseInfo.FromJson(imageMetaData.MainLicenseInfo);
+        //    if(mainLicenseInfo.MainLicenseId == 0 ||
+        //        imageMetaData.AllRegisteredLicenses
+        //        .First(license => license.)) 
+        //}
 
         private void StoreUploaded(int typeId, int userId, ImageType imageType, string licenseGiverName)
         {

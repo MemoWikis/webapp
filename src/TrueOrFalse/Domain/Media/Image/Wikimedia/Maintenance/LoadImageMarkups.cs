@@ -39,20 +39,5 @@ namespace TrueOrFalse.Maintenance
                 _imgRepo.Update(img);
             }
         }
-
-        public ImageMetaData GetImageMetaDataById(int imageId)
-        {
-            return _imgRepo.Session
-                .QueryOver<ImageMetaData>()
-                .Where(x => x.Id == imageId)
-                .List<ImageMetaData>()
-                .First(); 
-        }
-
-        public void tempRunOnSingleImage()
-        {
-            
-        }
-
     }
 }

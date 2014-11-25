@@ -14,11 +14,11 @@ namespace TrueOrFalse
             var url = String.Format("http://" + apiHost + "/w/index.php?title=File:{0}&action=raw", imageTitle);
             var markup = WikiApiUtils.GetWebpage(url);
 
-            var parsedImageMakup = ParseImageMarkup.Run(markup);
+            var parsedImageMarkup = ParseImageMarkup.Run(markup);
             var licenseInfo = new WikiImageLicenseInfo
             {
-                AuthorName = parsedImageMakup.AuthorName,
-                Description = parsedImageMakup.Description,
+                AuthorName = parsedImageMarkup.AuthorName,
+                Description = parsedImageMarkup.Description,
                 Markup = markup
             };
 

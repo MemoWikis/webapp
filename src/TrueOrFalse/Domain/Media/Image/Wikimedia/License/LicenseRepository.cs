@@ -252,7 +252,7 @@ public class LicenseRepository
 
     public static License GetById(int id)
     {
-        return GetAllRegisteredLicenses().First(license => license.Id == id);
+        return GetAllRegisteredLicenses().FirstOrDefault(license => license.Id == id);
     }
 }
 
@@ -286,17 +286,18 @@ public class LicenseParser
         return GetAllParsedLicenses(wikiMarkup).Except(GetAuthorizedParsedLicenses(wikiMarkup)).ToList();
     }
     
-    public static License GetMainLicense(string wikiMarkup)
+    public static License GetMainLicense(ImageMetaData imageMetaData)
     {
-        return GetAuthorizedParsedLicenses(wikiMarkup)
-                .Where(license => CheckLicenseRequirements(license, wikiMarkup).AllRequirementsMet)
+        return GetAuthorizedParsedLicenses(imageMetaData.Markup)
+                .Where(license => CheckLicenseRequirements(license, imageMetaData).AllRequirementsMet)
                 .ToList()
                 .FirstOrDefault();
     }
 
-    public static int GetMainLicenseId(string wikiMarkup)
+    public static int GetMainLicenseId(ImageMetaData imageMetaData)
     {
-        return GetMainLicense(wikiMarkup) != null ? GetMainLicense(wikiMarkup).Id : -1;
+        return GetMainLicense(imageMetaData) != null ? GetMainLicense(imageMetaData).Id : -1;
+    }
     }
 
     public static List<License> SortLicenses(List<License> licenseList)
@@ -310,10 +311,12 @@ public class LicenseParser
             .ToList();
     }
 
-    public static LicenseNotifications CheckLicenseRequirements(License license, string wikiMarkup)
+    public static LicenseNotifications CheckLicenseRequirements(License license, ImageMetaData imageMetaData)
     {
         var licenseNotifications = new LicenseNotifications();
-        if (license.AuthorRequired.IsTrue() && String.IsNullOrEmpty(ParseImageMarkup.Run(wikiMarkup).AuthorName))
+        if (license.AuthorRequired.IsTrue() &&
+            String.IsNullOrEmpty(ParseImageMarkup.Run(imageMetaData.Markup).AuthorName) && //$temp: hier vielleicht nicht parsen, sondern aus der Datenbank, wenn schon gespeichert?
+            String.IsNullOrEmpty(ManualImageData.FromJson(imageMetaData.ManualEntries).AuthorManuallyAdded))
         {
             licenseNotifications.AuthorIsMissing = true;
             licenseNotifications.AllRequirementsMet = false;
@@ -331,22 +334,22 @@ public class LicenseParser
         return licenseNotifications;
     }
 
-    public static ImageLicenseState CheckImageLicenseState(License license, string wikiMarkup)
+    public static ImageLicenseState CheckImageLicenseState(License license, ImageMetaData imageMetaData)
     {
         if (LicenseRepository.GetAllRegisteredLicenses().Any(l => l.Id == license.Id))
         {
             if (LicenseRepository.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
             {
-                return CheckLicenseRequirements(license, wikiMarkup).AllRequirementsMet ? ImageLicenseState.LicenseIsApplicableForImage : ImageLicenseState.LicenseAuthorizedButInfoMissing;
+                return CheckLicenseRequirements(license, imageMetaData).AllRequirementsMet ? ImageLicenseState.LicenseIsApplicableForImage : ImageLicenseState.LicenseAuthorizedButInfoMissing;
             }
             return ImageLicenseState.LicenseIsNotAuthorized;
         }
         return ImageLicenseState.NotSpecified;
     }
 
-    public static string GetImageLicenseStateMessage(License license, string wikiMarkup)
+    public static string GetImageLicenseStateMessage(License license, ImageMetaData imageMetaData)
     {
-        switch (CheckImageLicenseState(license, wikiMarkup))
+        switch (CheckImageLicenseState(license, imageMetaData))
         {
             case ImageLicenseState.LicenseIsApplicableForImage:
                 return "verwendbar";

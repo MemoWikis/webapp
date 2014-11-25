@@ -40,11 +40,11 @@ namespace TrueOrFalse
             MetaData = imageMetaData;
             TypeId = imageMetaData.TypeId;
             //new
-            MainLicense = LicenseParser.GetMainLicense(imageMetaData.Markup);
+            MainLicense = LicenseParser.GetMainLicense(imageMetaData);
             AllLicenses = LicenseParser.GetAllParsedLicenses(imageMetaData.Markup);
-            LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList(AllLicenses, MetaData.Markup)) ?
+            LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList(AllLicenses, MetaData)) ?
                 //"<ul>" + 
-                ToLicenseStateHtmlList(AllLicenses, MetaData.Markup)
+                ToLicenseStateHtmlList(AllLicenses, MetaData)
                // + "</ul>" 
                 : "";
 
@@ -70,7 +70,7 @@ namespace TrueOrFalse
             if (MainLicense != null)
                 return "success";
 
-            if (AllLicenses.Any(license => LicenseParser.CheckImageLicenseState(license, MetaData.Markup) == ImageLicenseState.LicenseAuthorizedButInfoMissing))
+            if (AllLicenses.Any(license => LicenseParser.CheckImageLicenseState(license, MetaData) == ImageLicenseState.LicenseAuthorizedButInfoMissing))
                 return "warning";
 
             return "danger";
@@ -131,7 +131,7 @@ namespace TrueOrFalse
             throw new Exception("no clear type");
         }
 
-        public static string ToLicenseStateHtmlList(List<License> licenseList, string wikiMarkup)
+        public static string ToLicenseStateHtmlList(List<License> licenseList, ImageMetaData imageMetaData)
         {
             return licenseList.Count > 0
                 ? "<ul>" + 
@@ -142,7 +142,7 @@ namespace TrueOrFalse
                                 (!String.IsNullOrEmpty(license.LicenseShortName)
                                     ? license.LicenseShortName
                                     : license.WikiSearchString) + " (" +
-                                LicenseParser.GetImageLicenseStateMessage(license, wikiMarkup) + ")</li>")
+                                LicenseParser.GetImageLicenseStateMessage(license, imageMetaData) + ")</li>")
                     + "</ul>"
                 : "";
         }
