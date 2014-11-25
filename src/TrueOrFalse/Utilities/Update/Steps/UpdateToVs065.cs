@@ -13,10 +13,12 @@ namespace TrueOrFalse.Updates
         {
             ServiceLocator.Resolve<ISession>().CreateSQLQuery(
                 @"ALTER TABLE `imagemetadata`
-	                ADD COLUMN `MainLicense` INT(11) NULL DEFAULT NULL AFTER `Markup`,
-	                ADD COLUMN `AllRegisteredLicenses` VARCHAR(1000) NULL DEFAULT NULL AFTER `MainLicense`,
-	                ADD COLUMN `Notifications` VARCHAR(1000) NULL DEFAULT NULL AFTER `AllRegisteredLicenses`,
-	                ADD COLUMN `ManualEntries` VARCHAR(5000) NULL DEFAULT NULL AFTER `Notifications`")
+	                ADD COLUMN `MarkupDownloadDate` DATETIME NULL DEFAULT NULL AFTER `Markup`,
+	                ADD COLUMN `ManualEntries` TEXT NULL AFTER `MarkupDownloadDate`
+	                ADD COLUMN `MainLicenseInfo` TEXT NULL AFTER `ManualEntries`,
+	                ADD COLUMN `AllRegisteredLicenses` VARCHAR(1000) NULL DEFAULT NULL AFTER `MainLicenseInfo`,
+	                ADD COLUMN `Notifications` TEXT NULL AFTER `AllRegisteredLicenses`,
+")
                     //'AllAuthorizedLicenses'?
                     //'ManuallyUpdated'?
                     //'Other attribution?'

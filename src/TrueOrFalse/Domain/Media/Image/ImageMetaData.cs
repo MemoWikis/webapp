@@ -21,7 +21,10 @@ namespace TrueOrFalse
         public virtual string AuthorParsed { get; set; }
         public virtual string DescriptionParsed { get; set; }
         public virtual string Markup { get; set; }
-        public virtual License MainLicense { get; set; }
+        public virtual DateTime MarkupDownloadDateTime { get; set; }
+        public virtual string ManualEntries { get; set; }
+        public virtual string MainLicenseInfo { get; set; }
         public virtual string AllRegisteredLicenses { get; set; }
+        public virtual string Notifications { get; set; }
     }
 }
