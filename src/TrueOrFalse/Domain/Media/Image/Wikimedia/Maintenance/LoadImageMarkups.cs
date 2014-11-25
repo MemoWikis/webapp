@@ -32,8 +32,8 @@ namespace TrueOrFalse.Maintenance
                 var fileName = img.SourceUrl.Split('/').Last();
                 var licenseInfo = _wikiImageLicenseLoader.Run(fileName, img.ApiHost);
 
-                img.Author = licenseInfo.AuthorName;
-                img.Description = licenseInfo.Description;
+                img.AuthorParsed = licenseInfo.AuthorName;
+                img.DescriptionParsed = licenseInfo.Description;
                 img.Markup = licenseInfo.Markup;
 
                 _imgRepo.Update(img);

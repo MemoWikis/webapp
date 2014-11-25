@@ -18,8 +18,8 @@ namespace TrueOrFalse
         public virtual string ApiResult { get; set; }
         public virtual string ApiHost { get; set; }
         public virtual int UserId { get; set; }
-        public virtual string Author { get; set; }
-        public virtual string Description { get; set; }
+        public virtual string AuthorParsed { get; set; }
+        public virtual string DescriptionParsed { get; set; }
         public virtual string Markup { get; set; }
         public virtual License MainLicense { get; set; }
         public virtual string AllRegisteredLicenses { get; set; }

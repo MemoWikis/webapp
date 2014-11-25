@@ -42,8 +42,8 @@ namespace TrueOrFalse
                         ApiResult = wikiMetaData.JSonResult,
                         UserId = userId,
                         //$temp neu (vorher nur unter LoadImageMarkups):
-                        Author = licenseInfo.AuthorName,
-                        Description = licenseInfo.Description,
+                        AuthorParsed = licenseInfo.AuthorName,
+                        DescriptionParsed = licenseInfo.Description,
                         Markup = licenseInfo.Markup,
                         //$temp Ganz neu (ergänzen unter LoadImageMarkups?):
                         MainLicense = LicenseParser.GetMainLicense(licenseInfo.Markup),

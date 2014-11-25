@@ -27,8 +27,8 @@ namespace TrueOrFalse.Maintenance
             {
                 var licenseInfo = ParseImageMarkup.Run(img.Markup);
 
-                img.Author = licenseInfo.AuthorName;
-                img.Description = licenseInfo.Description;
+                img.AuthorParsed = licenseInfo.AuthorName;
+                img.DescriptionParsed = licenseInfo.Description;
 
                 _imgRepo.Update(img);
             }

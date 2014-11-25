@@ -25,8 +25,8 @@ namespace TrueOrFalse
             Map(x => x.ApiResult).Length(Constants.VarCharMaxLength);
             Map(x => x.ApiHost);
 
-            Map(x => x.Author);
-            Map(x => x.Description);
+            Map(x => x.AuthorParsed).Column("Author");
+            Map(x => x.DescriptionParsed).Column("Description");
             Map(x => x.Markup);
 
             Map(x => x.DateCreated);

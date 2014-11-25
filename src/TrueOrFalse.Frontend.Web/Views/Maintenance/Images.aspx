@@ -42,7 +42,7 @@
                     ImageId: <%= imageMaintenanceInfo.ImageId %><br/>
                     TypeId: <%= imageMaintenanceInfo.TypeId %>
                 </td>
-                <td class="ColumnAuthor"><%= imageMaintenanceInfo.MetaData.Author %></td>
+                <td class="ColumnAuthor"><%= imageMaintenanceInfo.MetaData.AuthorParsed %></td>
                 <td class="ColumnLicense">
                     
                     <% if (imageMaintenanceInfo.MainLicense != null)
