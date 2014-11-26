@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NHibernate;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse.Maintenance;
 
 namespace TrueOrFalse
 {
@@ -24,33 +26,29 @@ namespace TrueOrFalse
             int typeId, 
             ImageType imageType, 
             int userId, 
-            WikiImageMeta wikiMetaData,
-            WikiImageLicenseInfo licenseInfo)
+            WikiImageMeta wikiMetaData)
         {
             var imageMeta = GetBy(typeId, imageType);
             if (imageMeta == null)
             {   
-                //$temp: Identisches hier oben (statt doppelt unter Create und Update)?
-                Create(
-                    new ImageMetaData
-                    {
-                        Type = imageType, 
-                        TypeId = typeId,
-                        ApiHost = wikiMetaData.ApiHost,
-                        Source = ImageSource.WikiMedia,
-                        SourceUrl = wikiMetaData.ImageUrl,
-                        ApiResult = wikiMetaData.JSonResult,
-                        UserId = userId,
-                        //$temp neu (vorher nur unter LoadImageMarkups):
-                        AuthorParsed = licenseInfo.AuthorName,
-                        DescriptionParsed = licenseInfo.Description,
-                        Markup = licenseInfo.Markup,
-                        //$temp Ganz neu (ergänzen unter LoadImageMarkups?):
-                        //alt: MainLicense = LicenseParser.GetMainLicense(licenseInfo.Markup),
-                        //MainLicenseInfo = LicenseParser.GetMainLicense(licenseInfo.Markup),
-                        AllRegisteredLicenses = License.ToLicenseIdList(LicenseParser.GetAllParsedLicenses(licenseInfo.Markup)),
-                    }
-                );
+                var newImageMetaData = new ImageMetaData
+                {
+                    Type = imageType,
+                    TypeId = typeId,
+                    ApiHost = wikiMetaData.ApiHost,
+                    Source = ImageSource.WikiMedia,
+                    SourceUrl = wikiMetaData.ImageUrl,
+                    ApiResult = wikiMetaData.JSonResult,
+                    UserId = userId,
+                };
+
+                ServiceLocator.Resolve<LoadImageMarkups>().Run(newImageMetaData);
+                newImageMetaData.AllRegisteredLicenses =
+                    License.ToLicenseIdList(
+                        LicenseParser.SortLicenses(LicenseParser.GetAllParsedLicenses(newImageMetaData.Markup)));
+                LicenseParser.SetMainLicenseInfo(newImageMetaData);//$temp: ergänzen unter LoadImageMarkups?
+
+                Create(newImageMetaData);
             }
             else
             {
@@ -59,19 +57,34 @@ namespace TrueOrFalse
                 imageMeta.SourceUrl = wikiMetaData.ImageUrl;
                 imageMeta.ApiResult = wikiMetaData.JSonResult;
                 imageMeta.UserId = userId;
-                //$temp: neue von oben übernehmen oder übergreifend deklarieren
+
+                ServiceLocator.Resolve<LoadImageMarkups>().Run(imageMeta);
+                imageMeta.AllRegisteredLicenses =
+                    License.ToLicenseIdList(
+                        LicenseParser.SortLicenses(LicenseParser.GetAllParsedLicenses(imageMeta.Markup)));
+                UpdateMainLicenseInfo(imageMeta);
 
                 Update(imageMeta);
+                //$temp: beim Update werden nur die aufgeführten member überschrieben, oder?
             }
         }
 
-        //public static void UpdateMainLicense(ImageMetaData imageMetaData)
-        //{
-        //    var mainLicenseInfo = MainLicenseInfo.FromJson(imageMetaData.MainLicenseInfo);
-        //    if(mainLicenseInfo.MainLicenseId == 0 ||
-        //        imageMetaData.AllRegisteredLicenses
-        //        .First(license => license.)) 
-        //}
+        public static void UpdateMainLicenseInfo(ImageMetaData imageMetaData)
+        {
+            var mainLicenseInfo = MainLicenseInfo.FromJson(imageMetaData.MainLicenseInfo);
+            var manuallyAddedAuthor = ManualImageData.FromJson(imageMetaData.ManualEntries).AuthorManuallyAdded;
+            if (mainLicenseInfo.MainLicenseId != 0)//Don't update if MainLicense already exists AND ...
+            {
+                if(mainLicenseInfo.MainLicenseId == License.FromLicenseIdList(imageMetaData.AllRegisteredLicenses)
+                                                    .Where(license => license.LicenseApplicability == LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded)
+                                                    .Select(license => license.Id)
+                                                    .FirstOrDefault()//... current main license is most highly ranked of authorized parsed licenses OR...
+                    || !String.IsNullOrEmpty(manuallyAddedAuthor))//...Author has been added manually
+                return;
+            } //If no MainLicense exists
+                
+            LicenseParser.SetMainLicenseInfo(imageMetaData);
+        }
 
         private void StoreUploaded(int typeId, int userId, ImageType imageType, string licenseGiverName)
         {

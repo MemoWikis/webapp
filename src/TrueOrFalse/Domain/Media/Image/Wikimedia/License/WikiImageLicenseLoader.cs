@@ -19,7 +19,8 @@ namespace TrueOrFalse
             {
                 AuthorName = parsedImageMarkup.AuthorName,
                 Description = parsedImageMarkup.Description,
-                Markup = markup
+                Markup = markup,
+                MarkupDownloadDateTime = DateTime.Now,
             };
 
             return licenseInfo;

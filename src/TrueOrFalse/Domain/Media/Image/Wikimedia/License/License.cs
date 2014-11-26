@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
 using NHibernate.Mapping;
+using Seedworks.Lib;
 
 public class License
 {
@@ -89,6 +91,17 @@ public class License
 
         return LicenseRequirementsType.NoCategory;
     }
+
+    public static List<License> FromLicenseIdList(string idList)
+    {
+        int y;
+        return Regex.Split(idList, ", ")
+            .ToList()
+            .Where(x => Int32.TryParse(x, out y))
+            .Select(id => LicenseRepository.GetById(id.ToInt32()))
+            .ToList();
+    }
+
     public static string ToLicenseIdList(List<License> licenses)
     {
         return string.Join(",", licenses.Select(x => x.Id.ToString()));

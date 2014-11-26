@@ -20,23 +20,34 @@ namespace TrueOrFalse.Maintenance
             _wikiImageLicenseLoader = wikiImageLicenseLoader;
         }
 
-        public void Run()
+
+        public void Run(ImageMetaData imageMetaData)
+        {
+            if(imageMetaData.Source != ImageSource.WikiMedia) return;
+
+            var fileName = imageMetaData.SourceUrl.Split('/').Last();
+            var licenseInfo = _wikiImageLicenseLoader.Run(fileName, imageMetaData.ApiHost);
+
+            imageMetaData.AuthorParsed = licenseInfo.AuthorName;
+            imageMetaData.DescriptionParsed = licenseInfo.Description;
+            imageMetaData.Markup = licenseInfo.Markup;
+            imageMetaData.MarkupDownloadDateTime = licenseInfo.MarkupDownloadDateTime;
+
+        }
+
+        //$temp: wird dieses globale (Nach-)Laden des Markups überhaupt benötigt, wenn Daten gleich beim ersten Speichern mit abgerufen werden?
+        public void UpdateAll()
         {
             var allImages = _imgRepo.Session
                 .QueryOver<ImageMetaData>()
                 .Where(x => x.Source == ImageSource.WikiMedia)
                 .List<ImageMetaData>();
 
-            foreach (var img in allImages)
+            foreach (var imageMetaData in allImages)
             {
-                var fileName = img.SourceUrl.Split('/').Last();
-                var licenseInfo = _wikiImageLicenseLoader.Run(fileName, img.ApiHost);
+                Run(imageMetaData);
 
-                img.AuthorParsed = licenseInfo.AuthorName;
-                img.DescriptionParsed = licenseInfo.Description;
-                img.Markup = licenseInfo.Markup;
-
-                _imgRepo.Update(img);
+                _imgRepo.Update(imageMetaData);
             }
         }
     }

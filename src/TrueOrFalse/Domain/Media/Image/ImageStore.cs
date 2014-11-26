@@ -38,9 +38,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             StoreImages.Run(stream, imageSettings);//$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
         }
 
-        var licenseInfo = _wikiImageLicenseLoader.Run(wikiMetaData.ImageTitle, wikiMetaData.ApiHost);
-
-        _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData, licenseInfo);
+        _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
 
         return wikiMetaData.ImageWidth;
 

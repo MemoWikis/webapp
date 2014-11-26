@@ -20,7 +20,7 @@ public class MaintenanceController : BaseController
 
     public ActionResult ImageUpdateLicenseData()
     {
-        Resolve<LoadImageMarkups>().Run();
+        Resolve<LoadImageMarkups>().UpdateAll();
         return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("License data has been updated") });
     }
 

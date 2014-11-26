@@ -285,7 +285,7 @@ public class LicenseParser
     {
         return GetAllParsedLicenses(wikiMarkup).Except(GetAuthorizedParsedLicenses(wikiMarkup)).ToList();
     }
-    
+
     public static License GetMainLicense(ImageMetaData imageMetaData)
     {
         return GetAuthorizedParsedLicenses(imageMetaData.Markup)
@@ -298,6 +298,23 @@ public class LicenseParser
     {
         return GetMainLicense(imageMetaData) != null ? GetMainLicense(imageMetaData).Id : -1;
     }
+
+    public static void SetMainLicenseInfo(ImageMetaData imageMetaData)
+    {
+        if (imageMetaData == null) return;
+        var mainLicense = GetMainLicense(imageMetaData);
+        var manualEntries = ManualImageData.FromJson(imageMetaData.ManualEntries);
+        if (mainLicense == null) return;
+        var mainLicenseInfo = new MainLicenseInfo
+        {
+            MainLicenseId = mainLicense.Id,
+            Author = !String.IsNullOrEmpty(manualEntries.AuthorManuallyAdded) ?
+                manualEntries.AuthorManuallyAdded :
+                imageMetaData.AuthorParsed,
+            Markup = imageMetaData.Markup,
+            MarkupDownloadDateTime = imageMetaData.MarkupDownloadDateTime,
+        };
+        imageMetaData.MainLicenseInfo = mainLicenseInfo.ToJson();
     }
 
     public static List<License> SortLicenses(List<License> licenseList)
