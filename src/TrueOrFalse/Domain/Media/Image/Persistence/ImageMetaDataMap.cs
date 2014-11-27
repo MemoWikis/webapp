@@ -28,6 +28,13 @@ namespace TrueOrFalse
             Map(x => x.AuthorParsed).Column("Author");
             Map(x => x.DescriptionParsed).Column("Description");
             Map(x => x.Markup);
+            Map(x => x.MarkupDownloadDate);
+
+            Map(x => x.ManualEntries);
+            Map(x => x.MainLicenseInfo);
+            Map(x => x.AllRegisteredLicenses);
+
+            Map(x => x.Notifications);
 
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
