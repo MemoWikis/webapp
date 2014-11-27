@@ -86,7 +86,7 @@
                         <div style="width: 100%">
                             <div class="radio">
                                 <label >
-                                    <input type="radio" name="imgLicenseType" id="rdoLicenseByUloader"/>Diese Bild ist meine eigene Arbeit.
+                                    <input type="radio" name="imgLicenseType" id="rdoLicenseByUploader"/>Diese Bild ist meine eigene Arbeit.
                                 </label>                                 
                             </div>
                             <div id="divLicenseUploader" style="padding-left: 20px;" class="hide2">

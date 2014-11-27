@@ -122,7 +122,7 @@ var ImageUploadModal = (function () {
     };
 
     ImageUploadModal.prototype.InitLicenseRadio = function () {
-        $("#rdoLicenseByUloader").change(function () {
+        $("#rdoLicenseByUploader").change(function () {
             if ($(this).is(':checked')) {
                 $("#divLicenseUploader").show();
                 $("#divLicenseForeign").hide();
@@ -162,10 +162,10 @@ var SaveWikipediaImage = (function () {
     }
     SaveWikipediaImage.Run = function (wikiMediaPreview, fnOnSave) {
         if (!wikiMediaPreview.SuccessfullyLoaded) {
-            alert("Bitte lade ein Bild ueber eine Wikipedia URL."); //bei diesem Fehler bleibt wmd pane
+            alert("Bitte lade ein Bild über eine Wikipedia URL.");
         } else {
             fnOnSave(wikiMediaPreview.ImageThumbUrl);
-            $("#modalImageUpload").modal("hide");
+            $("#modalImageUpload").modal("hide"); //$temp: Sollte erst geschlossen werden, wenn save abgeschlossen (oder andere Überbrückung überlegen)
         }
     };
     return SaveWikipediaImage;
@@ -180,7 +180,7 @@ var SaveUploadedImage = (function () {
             return;
         }
 
-        if (!$("#rdoLicenseForeign").is(':checked') && !$("#rdoLicenseByUloader").is(':checked')) {
+        if (!$("#rdoLicenseForeign").is(':checked') && !$("#rdoLicenseByUploader").is(':checked')) {
             alert("Bitte wähle eine andere Lizenz");
             return;
         }
@@ -190,7 +190,7 @@ var SaveUploadedImage = (function () {
             return;
         }
 
-        if ($("#rdoLicenseByUloader").is(':checked')) {
+        if ($("#rdoLicenseByUploader").is(':checked')) {
             var licenseOwner = $("#txtLicenseOwner").val();
             if (licenseOwner.trim() == "") {
                 alert("Bitte gib Deinen Namen als Lizenzgeber an.");
