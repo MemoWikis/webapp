@@ -7,6 +7,6 @@ namespace TrueOrFalse
         public string AuthorName;
         public string Description;
         public string Markup;
-        public DateTime MarkupDownloadDateTime;
+        public DateTime MarkupDownloadDate;
     }
 }

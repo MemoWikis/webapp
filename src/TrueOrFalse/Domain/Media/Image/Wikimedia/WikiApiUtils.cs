@@ -27,6 +27,8 @@ namespace TrueOrFalse
 
         public static string ExtractFileNameFromUrl(string filePath)
         {
+            //Wiki file names are case sensitive (including file extension, excluding first character)
+
             //Must be able to handle both
             //http://commons.wikimedia.org/wiki/File:Liguus_virgineus_01.JPG?uselang=de
             //and

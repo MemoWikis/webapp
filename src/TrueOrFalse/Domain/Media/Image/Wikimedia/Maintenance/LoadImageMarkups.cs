@@ -31,8 +31,7 @@ namespace TrueOrFalse.Maintenance
             imageMetaData.AuthorParsed = licenseInfo.AuthorName;
             imageMetaData.DescriptionParsed = licenseInfo.Description;
             imageMetaData.Markup = licenseInfo.Markup;
-            imageMetaData.MarkupDownloadDateTime = licenseInfo.MarkupDownloadDateTime;
-
+            imageMetaData.MarkupDownloadDate = licenseInfo.MarkupDownloadDate;
         }
 
         //$temp: wird dieses globale (Nach-)Laden des Markups überhaupt benötigt, wenn Daten gleich beim ersten Speichern mit abgerufen werden?

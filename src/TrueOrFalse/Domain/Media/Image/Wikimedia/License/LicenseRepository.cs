@@ -303,7 +303,7 @@ public class LicenseParser
     {
         if (imageMetaData == null) return;
         var mainLicense = GetMainLicense(imageMetaData);
-        var manualEntries = ManualImageData.FromJson(imageMetaData.ManualEntries);
+        var manualEntries = imageMetaData.ManualEntriesFromJson();
         if (mainLicense == null) return;
         var mainLicenseInfo = new MainLicenseInfo
         {
@@ -312,7 +312,7 @@ public class LicenseParser
                 manualEntries.AuthorManuallyAdded :
                 imageMetaData.AuthorParsed,
             Markup = imageMetaData.Markup,
-            MarkupDownloadDateTime = imageMetaData.MarkupDownloadDateTime,
+            MarkupDownloadDate = imageMetaData.MarkupDownloadDate,
         };
         imageMetaData.MainLicenseInfo = mainLicenseInfo.ToJson();
     }
@@ -333,7 +333,7 @@ public class LicenseParser
         var licenseNotifications = new LicenseNotifications();
         if (license.AuthorRequired.IsTrue() &&
             String.IsNullOrEmpty(ParseImageMarkup.Run(imageMetaData.Markup).AuthorName) && //$temp: hier vielleicht nicht parsen, sondern aus der Datenbank, wenn schon gespeichert?
-            String.IsNullOrEmpty(ManualImageData.FromJson(imageMetaData.ManualEntries).AuthorManuallyAdded))
+            String.IsNullOrEmpty(imageMetaData.ManualEntriesFromJson().AuthorManuallyAdded))
         {
             licenseNotifications.AuthorIsMissing = true;
             licenseNotifications.AllRequirementsMet = false;

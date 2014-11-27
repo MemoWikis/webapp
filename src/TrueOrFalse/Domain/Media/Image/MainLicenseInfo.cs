@@ -11,7 +11,7 @@ public class MainLicenseInfo
     public int MainLicenseId;
     public string Author;
     public string Markup;
-    public DateTime MarkupDownloadDateTime;
+    public DateTime MarkupDownloadDate;
 
     [JsonIgnore]
     public License MainLicense;

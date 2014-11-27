@@ -72,14 +72,14 @@ namespace TrueOrFalse
         public static void UpdateMainLicenseInfo(ImageMetaData imageMetaData)
         {
             var mainLicenseInfo = MainLicenseInfo.FromJson(imageMetaData.MainLicenseInfo);
-            var manuallyAddedAuthor = ManualImageData.FromJson(imageMetaData.ManualEntries).AuthorManuallyAdded;
+            var manuallyAddedAuthor = imageMetaData.ManualEntriesFromJson().AuthorManuallyAdded;
             if (mainLicenseInfo.MainLicenseId != 0)//Don't update if MainLicense already exists AND ...
             {
                 if(mainLicenseInfo.MainLicenseId == License.FromLicenseIdList(imageMetaData.AllRegisteredLicenses)
                                                     .Where(license => license.LicenseApplicability == LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded)
                                                     .Select(license => license.Id)
                                                     .FirstOrDefault()//... current main license is most highly ranked of authorized parsed licenses OR...
-                    || !String.IsNullOrEmpty(manuallyAddedAuthor))//...Author has been added manually
+                    || !String.IsNullOrEmpty(manuallyAddedAuthor))//... Author has been added manually
                 return;
             } //If no MainLicense exists
                 
