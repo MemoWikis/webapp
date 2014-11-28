@@ -28,7 +28,7 @@ namespace TrueOrFalse
         //
         public virtual string Notifications { get; set; }
 
-        public ManualImageData ManualEntriesFromJson()
+        public virtual ManualImageData ManualEntriesFromJson()
         {
             return ManualImageData.FromJson(ManualEntries);
         }
