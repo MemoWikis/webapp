@@ -8,6 +8,9 @@ using TrueOrFalse;
 public class QuestionRowModel : BaseModel
 {
     public string ImageUrl;
+
+    public ImageMetaData ImageMetaData;
+
     public string CreatorName { get; private set; }
     public string QuestionShort { get; private set; }
     public int QuestionId { get; private set; }
@@ -47,8 +50,11 @@ public class QuestionRowModel : BaseModel
         int currentUserid,
         SearchTab searchTab) 
     {
-
         ImageUrl = QuestionImageSettings.Create(question.Id).GetUrl_128px_square().Url;
+        ImageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
+
+        //ImageUrl = QuestionImageSettings.Create(question.Id - 1).GetUrl_128px_square().Url;
+        //ImageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id - 1, ImageType.Question);
 
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;

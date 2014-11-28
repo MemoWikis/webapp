@@ -5,10 +5,12 @@
 <div class="rowBase question-row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
     <div class="column-Image">
         <div class="image-container">
-            <img src="<%= Model.ImageUrl%>">
+            <img src="<%= Model.ImageUrl%>" style="position: relative;">
             <label class="checkbox selectQuestion">
+                <span><%=Model.ImageMetaData != null ? (Model.ImageMetaData.AuthorParsed ?? "") : ""%></span>
                 <input type="checkbox"> auswählen
             </label>
+            <img src="../../Images/Licenses/cc-by-sa.png" style="width: 75px; height: auto; position: absolute; right: 20px; bottom: 10px;"/>
         </div>
     </div>
 
@@ -23,6 +25,7 @@
         </div>
         
         <div class="QuestionText">
+            <%= Model.QuestionId %>
             <% if(Model.IsPrivate){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
             <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
         </div>   
