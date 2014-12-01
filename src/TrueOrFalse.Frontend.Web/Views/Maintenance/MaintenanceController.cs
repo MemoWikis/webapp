@@ -140,7 +140,7 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
-    public ActionResult GetImageMarkup(int imgId)
+    public ActionResult ImageMarkup(int imgId)
     {
         var imageMaintenanceInfo =
             Resolve<GetImageMaintenanceInfos>()

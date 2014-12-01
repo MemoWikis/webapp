@@ -84,7 +84,6 @@ namespace TrueOrFalse
 
             routes.MapRoute("Knowledge", "Wissen/{action}", new { controller = "Knowledge", action = "Knowledge" });
 
-            routes.MapRoute("Maintenance_GetImageMarkup", "Maintenance/ImageMarkup", new { controller = "Maintenance", action = "GetImageMarkup" });
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
             routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
