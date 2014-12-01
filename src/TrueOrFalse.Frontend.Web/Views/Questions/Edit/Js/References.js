@@ -137,7 +137,6 @@ var ReferenceUi = (function () {
         }).toArray();
 
         return JSON.stringify(jsonReferences);
-        ;
     };
     return ReferenceUi;
 })();

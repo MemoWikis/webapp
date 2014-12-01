@@ -124,7 +124,7 @@ class ReferenceUi
             return result;
         }).toArray();
 
-        return JSON.stringify(jsonReferences);;
+        return JSON.stringify(jsonReferences);
     }
 }
 
