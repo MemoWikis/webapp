@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MaintenanceImagesModel>" %>
 <%@ Import Namespace="System.Activities.Statements" %>
+<%@ Import Namespace="Newtonsoft.Json" %>
 <%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -22,7 +23,6 @@
     <a href="/Maintenance/ImageUpdateLicenseData" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;">Lizenzinformation laden von Wikimedia</a>
     <a href="/Maintenance/ImageUpdateMarkupFromDb" class="btn btn-primary" style="margin-bottom: 10px; margin-top: -5px;">Lizenzinformation update von lokaler DB</a>
         
-
     <table class="ImageTable table">
         <tr>
             <th class="ColumnImage"></th>
@@ -73,26 +73,43 @@
                     <br/><a href="<%= "/Maintenance/ImageMarkup?imgId=" + imageMaintenanceInfo.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
                     <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(imageMaintenanceInfo.MetaData.SourceUrl))){
                     %> <br/><a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(imageMaintenanceInfo.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a><% } %>
+                    
+                    <br/><a data-image-id ="<%= imageMaintenanceInfo.ImageId %>" class="ImageModal" href="#">ImageModal</a>
                 </td>
                 <td class="ColumnDescription"></td>
             </tr>
 
         <% } %>
     </table>
+
     <script type="text/javascript">
         $(function () {
-            $('.AllLicenses').click(function(e) {
-                e.preventDefault();
-            });
-            $('.AllLicenses').popover(
-                {
-                trigger: "focus",
-                placement: "right",
-                html: "true",
-                }
-            );
-        }
-            );
-    </script>
+                $('.ImageModal').click(
+                    function (e) {
+                        e.preventDefault();
+                        $.ajax({
+                            type: 'POST',
+                            url: "/Maintenance/ImageModal?imgId=" + $(this).attr('data-image-id'),
+                            success: function (result) {
+                                $('#modalImageMaintenance').remove();
+                                $(result).insertAfter($('table.ImageTable'));
+                                $('#modalImageMaintenance').modal('show');
+                            },
+                        });
+                    }
+                );
 
+                $('.AllLicenses').click(function(e) {
+                    e.preventDefault();
+                });
+                $('.AllLicenses').popover(
+                    {
+                        trigger: "focus",
+                        placement: "right",
+                        html: "true",
+                    }
+                );
+            }
+        );
+    </script>
 </asp:Content>

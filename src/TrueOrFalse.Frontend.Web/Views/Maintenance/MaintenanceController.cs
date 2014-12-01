@@ -147,4 +147,11 @@ public class MaintenanceController : BaseController
                 .Run().FirstOrDefault(imageInfo => imageInfo.ImageId == imgId);
         return View("Markup", imageMaintenanceInfo);
     }
+
+    [AccessOnlyAsAdmin]
+    public string ImageModal(int imgId)
+    {
+        var imageMetaData = Resolve<ImageMetaDataRepository>().GetById(imgId);
+        return ViewRenderer.RenderPartialView("ImageMaintenanceModal", imageMetaData, ControllerContext);
+    }
 }
