@@ -33,51 +33,8 @@
         </tr>
         <%  var index = 0;
             foreach(var imageMaintenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
-            <tr class="<%=imageMaintenanceInfo.GetImageLicenseStateCssClass() %>">
-                <td class="ColumnImage">
-                    <img src="<%= imageMaintenanceInfo.Url_128 %>" style="width: 50px" />
-                </td>                    
-                <td class="ColumnInfo">
-                    <%=  Enum.Parse(typeof(ImageType), imageMaintenanceInfo.MetaData.Type.ToString())  %><br/>
-                    ImageId: <%= imageMaintenanceInfo.ImageId %><br/>
-                    TypeId: <%= imageMaintenanceInfo.TypeId %>
-                </td>
-                <td class="ColumnAuthor"><%= imageMaintenanceInfo.MetaData.AuthorParsed %></td>
-                <td class="ColumnLicense">
-                    
-                    <% if (imageMaintenanceInfo.MainLicense != null)
-                       {
-                           %>Hauptlizenz:<br/><%
-                           if (!String.IsNullOrEmpty(imageMaintenanceInfo.MainLicense.LicenseShortName))
-                           {%><%=
-                           imageMaintenanceInfo.MainLicense.LicenseShortName%>
-                           <%} else {%>
-                                <%= imageMaintenanceInfo.MainLicense.WikiSearchString %>
-                            <%}%>
-                               
-                       <%} else {%>
-                        Keine (verwendbare) Lizenz gefunden.
-                        
-                    <%}%>
-                    <br/>
-                    <%
-                       if (!String.IsNullOrEmpty(imageMaintenanceInfo.LicenseStateHtmlList))
-                       { %>
-                        <a href="#" tabindex="0" class="AllLicenses" data-content="<%= Html.Raw(imageMaintenanceInfo.LicenseStateHtmlList)%>">Alle gefundenen Lizenzen</a>
-                    <% }
-                       else
-                       { %>
-                        Keine Lizenzen gefunden.
-                    <% } %>
-                    
-                    <br/><a href="<%= "/Maintenance/ImageMarkup?imgId=" + imageMaintenanceInfo.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
-                    <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(imageMaintenanceInfo.MetaData.SourceUrl))){
-                    %> <br/><a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(imageMaintenanceInfo.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a><% } %>
-                    
-                    <br/><a data-image-id ="<%= imageMaintenanceInfo.ImageId %>" class="ImageModal" href="#">ImageModal</a>
-                </td>
-                <td class="ColumnDescription"></td>
-            </tr>
+        
+               <% Html.RenderPartial("ImageMaintenanceRow", imageMaintenanceInfo); %>
 
         <% } %>
     </table>

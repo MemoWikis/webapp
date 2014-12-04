@@ -974,6 +974,7 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Maintenance\ImageMaintenanceRow.ascx" />
     <Content Include="Views\Maintenance\ImageMaintenanceModal.ascx" />
     <Content Include="Views\Maintenance\Markup.ascx" />
     <Content Include="Views\Maintenance\Tools.aspx" />
