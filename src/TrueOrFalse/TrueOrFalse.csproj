@@ -208,8 +208,11 @@
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummary.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryLoader.cs" />
+    <Compile Include="Domain\Media\Image\ManualImageEvaluation.cs" />
+    <Compile Include="Domain\Media\Image\ImageLicenseState.cs" />
     <Compile Include="Domain\Media\Image\MainLicenseInfo.cs" />
     <Compile Include="Domain\Media\Image\ManualImageData.cs" />
+    <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageDeployability.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageMaintenanceInfo.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\UpdateImageTypes.cs" />
@@ -219,6 +222,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseNotifications.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseParser.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseRepository.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\TempHelperLicenseInfoFromDbOrSetNew.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\UpdateMarkupFromDb.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\Markup2Html.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Model.Parameter.cs" />

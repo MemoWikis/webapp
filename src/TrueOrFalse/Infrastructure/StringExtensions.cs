@@ -14,12 +14,16 @@ public static class StringExtensions
     
     public static string TruncateAtWord(this string input, int length)
     {
+        return input.TruncateAtWordWithEllipsisText(length, "...");
+    }
+
+    public static string TruncateAtWordWithEllipsisText(this string input, int length, string ellipsisText)
+    {
         if (input == null || input.Length < length)
             return input;
         int iNextSpace = input.LastIndexOf(" ", length);
-        return string.Format("{0}...", input.Substring(0, (iNextSpace > 0) ? iNextSpace : length).Trim());
+        return input.Substring(0, (iNextSpace > 0) ? iNextSpace : length).Trim() + ellipsisText;
     }
-
 
     public static string LineBreaksToBRs(this string input)
     {

@@ -71,7 +71,6 @@
                                                 </ul>">
                                         </i>
                                         <br/>
-
                                 </label>
                             </div>
                             <div class="radio">

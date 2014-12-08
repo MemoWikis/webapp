@@ -976,6 +976,9 @@
     <Content Include="Views\Drafts\RangeSlider.css" />
     <Content Include="Views\Maintenance\ImageMaintenanceRow.ascx" />
     <Content Include="Views\Maintenance\ImageMaintenanceModal.ascx" />
+    <Content Include="Views\Maintenance\Images.css">
+      <DependentUpon>Images.less</DependentUpon>
+    </Content>
     <Content Include="Views\Maintenance\Markup.ascx" />
     <Content Include="Views\Maintenance\Tools.aspx" />
     <Content Include="Views\Maintenance\Messages.aspx" />
@@ -1316,6 +1319,10 @@
     <Content Include="Views\Questions\Answer\AnswerQuestion.less" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.css.map">
       <DependentUpon>AnswerQuestion.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Images.less" />
+    <Content Include="Views\Maintenance\Images.css.map">
+      <DependentUpon>Images.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

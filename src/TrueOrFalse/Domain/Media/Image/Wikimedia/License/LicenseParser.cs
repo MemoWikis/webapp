@@ -122,23 +122,6 @@ public class LicenseParser
         return ImageLicenseState.NotSpecified;
     }
 
-    public static string GetImageLicenseStateMessage(License license, ImageMetaData imageMetaData)
-    {
-        switch (CheckImageLicenseState(license, imageMetaData))
-        {
-            case ImageLicenseState.LicenseIsApplicableForImage:
-                return "verwendbar";
-
-            case ImageLicenseState.LicenseAuthorizedButInfoMissing:
-                return "zugelassen, aber benötigte Angaben unvollständig";
-
-            case ImageLicenseState.LicenseIsNotAuthorized:
-                return "nicht zugelassen";
-        }
-
-        return "unbekannt";
-    }
-
     public static int PriotizeByCcJurisdictionToken(License license)    
     {
         var licenseComponents = new GetCcLicenseComponents(license);

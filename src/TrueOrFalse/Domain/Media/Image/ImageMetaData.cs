@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse
@@ -10,7 +11,6 @@ namespace TrueOrFalse
     public class ImageMetaData : DomainEntity
     {
         public virtual ImageType Type { get; set; }
-        
         /// <summary>E.g questionId, questionSetId, ... </summary>
         public virtual int TypeId { get; set; }
         public virtual ImageSource Source { get; set; }
@@ -27,7 +27,7 @@ namespace TrueOrFalse
         public virtual string AllRegisteredLicenses { get; set; }
         //
         public virtual string Notifications { get; set; }
-
+        
         public virtual ManualImageData ManualEntriesFromJson()
         {
             return ManualImageData.FromJson(ManualEntries);

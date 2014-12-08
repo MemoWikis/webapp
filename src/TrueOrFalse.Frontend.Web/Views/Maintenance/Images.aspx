@@ -1,7 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MaintenanceImagesModel>" %>
 <%@ Import Namespace="System.Activities.Statements" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="Newtonsoft.Json" %>
 <%@ Import Namespace="TrueOrFalse" %>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <%= Styles.Render("~/Views/Maintenance/Images.css") %>
+</asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
    
@@ -28,8 +33,8 @@
             <th class="ColumnImage"></th>
             <th class="ColumnInfo">Info</th>
             <th class="ColumnAuthor">Autor</th>
-            <th class="ColumnLicense">Lizenz</th>
             <th class="ColumnDescription">Beschreibung</th>
+            <th class="ColumnLicense">Lizenz</th>
         </tr>
         <%  var index = 0;
             foreach(var imageMaintenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
@@ -41,31 +46,43 @@
 
     <script type="text/javascript">
         $(function () {
-                $('.ImageModal').click(
-                    function (e) {
-                        e.preventDefault();
-                        $.ajax({
-                            type: 'POST',
-                            url: "/Maintenance/ImageModal?imgId=" + $(this).attr('data-image-id'),
-                            success: function (result) {
-                                $('#modalImageMaintenance').remove();
-                                $(result).insertAfter($('table.ImageTable'));
-                                $('#modalImageMaintenance').modal('show');
-                            },
-                        });
-                    }
-                );
-
-                $('.AllLicenses').click(function(e) {
+            $('.ImageModal').click(
+                function (e) {
                     e.preventDefault();
-                });
-                $('.AllLicenses').popover(
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Maintenance/ImageModal?imgId=" + $(this).attr('data-image-id'),
+                        success: function (result) {
+                            $('#modalImageMaintenance').remove();
+                            $(result).insertAfter($('table.ImageTable'));
+                            $('#modalImageMaintenance').modal('show');
+                        },
+                    });
+                }
+            );
+
+            $('.PopoverFocus')
+                .click(function (e) {
+                    e.preventDefault();
+                })
+                .popover(
                     {
                         trigger: "focus",
                         placement: "right",
                         html: "true",
                     }
                 );
+            $('.PopoverHover')
+                .click(function (e) {
+                    e.preventDefault();
+                })
+                .popover(
+                {
+                    trigger: "hover",
+                    placement: "right",
+                    html: "true",
+                }
+            );
             }
         );
     </script>

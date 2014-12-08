@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using System.Web;
+using EasyNetQ.Events;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
+using NHibernate.Loader.Custom;
 using NHibernate.Mapping;
 
 namespace TrueOrFalse
@@ -19,16 +23,28 @@ namespace TrueOrFalse
         public bool InSetFolder;
 
         public ImageMetaData MetaData;
+        public ManualImageData ManualImageData;
 
         public string Url_128;
 
         //new
+        public string Author;
+        public string Description;
+
         public License MainLicense;
         public List<License> AllLicenses;
+        public ImageDeployability ImageDeployability;
+        public string GlobalLicenseStateMessage;
+        public string LicenseStateCssClass;
         public string LicenseStateHtmlList;
+
 
         public List<string> PossibleLicenseStrings;
 
+        public ImageMaintenanceInfo(int typeId, ImageType imageType)
+            : this(ServiceLocator.Resolve<ImageMetaDataRepository>().GetBy(typeId, imageType))
+        {
+        }
 
         public ImageMaintenanceInfo(ImageMetaData imageMetaData)
         {
@@ -39,14 +55,27 @@ namespace TrueOrFalse
             ImageId = imageMetaData.Id;
             MetaData = imageMetaData;
             TypeId = imageMetaData.TypeId;
+            ManualImageData = ManualImageData.FromJson(MetaData.ManualEntries);
+            
             //new
-            MainLicense = LicenseParser.GetMainLicense(imageMetaData);
-            AllLicenses = LicenseParser.GetAllParsedLicenses(imageMetaData.Markup);
-            LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList(AllLicenses, MetaData)) ?
-                //"<ul>" + 
-                ToLicenseStateHtmlList(AllLicenses, MetaData)
-               // + "</ul>" 
-                : "";
+            Author = !String.IsNullOrEmpty(ManualImageData.AuthorManuallyAdded)
+                        ? ManualImageData.AuthorManuallyAdded
+                        : (MetaData.AuthorParsed);
+            Description = !String.IsNullOrEmpty(MetaData.SourceUrl)
+                            ? "Datei: " + Regex.Split(MetaData.SourceUrl, "/").Last() + "<br/>"
+                            : "";
+            Description += !String.IsNullOrEmpty(ManualImageData.DescriptionManuallyAdded)
+                           ? ManualImageData.DescriptionManuallyAdded
+                           : (MetaData.DescriptionParsed);
+
+            TempHelperLicenseInfoFromDbOrSetNew.Run(MetaData);
+            MainLicense = MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).GetMainLicense();
+            AllLicenses = License.FromLicenseIdList(MetaData.AllRegisteredLicenses);
+            LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList()) ?
+                                    ToLicenseStateHtmlList() : 
+                                    "";
+            EvaluateImageDeployability();
+            SetLicenseStateCssClass();
 
             InCategoryFolder = File.Exists(HttpContext.Current.Server.MapPath(
                 categoryImgBasePath + imageMetaData.TypeId + ".jpg"));
@@ -65,15 +94,87 @@ namespace TrueOrFalse
                 Url_128 = QuestionSetImageSettings.Create(MetaData.TypeId).GetUrl_128px_square().Url;
         }
 
-        public string GetImageLicenseStateCssClass()
+        public void EvaluateImageDeployability()
         {
+            if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageManuallyRuledOut)
+            {
+                ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+                GlobalLicenseStateMessage = "Bild wurde manuell von der Nutzung ausgeschlossen.";
+                return;
+            }
+            
             if (MainLicense != null)
-                return "success";
+            {
+                GlobalLicenseStateMessage += "Lizenzangaben vollständig. ";
 
-            if (AllLicenses.Any(license => LicenseParser.CheckImageLicenseState(license, MetaData) == ImageLicenseState.LicenseAuthorizedButInfoMissing))
-                return "warning";
+                if (ManualImageData.ManualImageEvaluation ==
+                    ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
+                {
+                    ImageDeployability = ImageDeployability.ImageIsReadyToUse;
+                    GlobalLicenseStateMessage += "Auf spezielle Attributierungsanforderungen überprüft und zugelassen.";
+                    return;
+                }
+                if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.NotAllRequirementsMetYet)
+                {
+                    ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+                    GlobalLicenseStateMessage += "Manuell festgestellt: derzeit nicht alle Attributierungsanforderungen erfüllt.";
+                    return;
+                }
+                if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageNotEvaluated)
+                {
+                    ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+                    GlobalLicenseStateMessage += "Bitte auf spezielle Attributierungsanforderungen überprüfen und wenn möglich freigeben.";
+                    return;
+                }
+            }
 
-            return "danger";
+            if (AllLicenses.Any(license =>
+                        LicenseParser.CheckImageLicenseState(license, MetaData) ==
+                        ImageLicenseState.LicenseAuthorizedButInfoMissing))
+            {
+                ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+                GlobalLicenseStateMessage = "Autorisierte Lizenz vorhanden, aber Angaben fehlen. Bitte ergänzen. ";
+
+                if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.NotAllRequirementsMetYet)
+                {
+                    ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+                    GlobalLicenseStateMessage += "Manuell festgestellt: derzeit nicht alle Attributierungsanforderungen erfüllt.";
+                    return;
+                }
+                if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageNotEvaluated)
+                {
+                    ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+                    GlobalLicenseStateMessage += "Bitte auf spezielle Attributierungsanforderungen überprüfen und wenn möglich freigeben.";
+                    return;
+                }
+
+                return;
+            }
+
+            ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+            GlobalLicenseStateMessage = "Keine (autorisierte) Lizenz automatisch ermittelt.";
+        }
+
+        public void SetLicenseStateCssClass()
+        {
+            switch (ImageDeployability)
+            {
+                case ImageDeployability.ImageIsReadyToUse:
+                    LicenseStateCssClass = "success";
+                    break;
+
+                case ImageDeployability.FurtherActionRequired:
+                    LicenseStateCssClass = "warning";
+                    break;
+
+                case ImageDeployability.ImageCurrentlyNotDeployable:
+                    LicenseStateCssClass = "warning";
+                    break;
+
+                case ImageDeployability.ImageRuledOutManually:
+                    LicenseStateCssClass = "danger";
+                    break;
+            }
         }
 
         private int GetAmountMatches()
@@ -131,20 +232,37 @@ namespace TrueOrFalse
             throw new Exception("no clear type");
         }
 
-        public static string ToLicenseStateHtmlList(List<License> licenseList, ImageMetaData imageMetaData)
+        public string ToLicenseStateHtmlList()
         {
-            return licenseList.Count > 0
+            return AllLicenses.Count > 0
                 ? "<ul>" + 
-                    licenseList
+                    AllLicenses
                         .Aggregate("",
                             (current, license) =>
                                 current + "<li>" +
                                 (!String.IsNullOrEmpty(license.LicenseShortName)
                                     ? license.LicenseShortName
                                     : license.WikiSearchString) + " (" +
-                                LicenseParser.GetImageLicenseStateMessage(license, imageMetaData) + ")</li>")
+                                GetSingleLicenseStateMessage(license) + ")</li>")
                     + "</ul>"
                 : "";
+        }
+
+        public string GetSingleLicenseStateMessage(License license)
+        {
+            switch (LicenseParser.CheckImageLicenseState(license, MetaData))
+            {
+                case ImageLicenseState.LicenseIsApplicableForImage:
+                    return "verwendbar";
+
+                case ImageLicenseState.LicenseAuthorizedButInfoMissing:
+                    return "zugelassen, aber benötigte Angaben unvollständig";
+
+                case ImageLicenseState.LicenseIsNotAuthorized:
+                    return "nicht zugelassen";
+            }
+
+            return "unbekannt";
         }
     }
 }
