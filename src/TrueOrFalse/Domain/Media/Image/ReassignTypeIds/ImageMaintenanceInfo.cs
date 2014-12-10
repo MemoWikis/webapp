@@ -15,6 +15,8 @@ namespace TrueOrFalse
 {
     public class ImageMaintenanceInfo
     {
+        public string Test = "";
+        
         public int ImageId;
         public int TypeId;
 

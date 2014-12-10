@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TrueOrFalse.ImageMaintenanceInfo>" %>
 <%@ Import Namespace="TrueOrFalse" %>
 
-<tr class="<%=Model.LicenseStateCssClass %>">
+<tr id="ImgId-<%= Model.MetaData.Id %>" class="<%=Model.LicenseStateCssClass %>">
     <td class="ColumnImage">
         <img src="<%= Model.Url_128 %>" style="width: 50px" />
     </td>                    
@@ -9,6 +9,7 @@
         <%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %><br/>
         ImageId: <%= Model.ImageId %><br/>
         TypeId: <%= Model.TypeId %>
+        <br/>TEST: <%= Model.Test %>
     </td>
     <td class="ColumnAuthor">
         <% if (!String.IsNullOrEmpty(Model.Author))

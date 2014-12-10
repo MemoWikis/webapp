@@ -151,7 +151,45 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public string ImageModal(int imgId)
     {
-        var imageMetaData = Resolve<ImageMetaDataRepository>().GetById(imgId);
-        return ViewRenderer.RenderPartialView("ImageMaintenanceModal", imageMetaData, ControllerContext);
+        var imageMaintenanceInfo = new ImageMaintenanceInfo(Resolve<ImageMetaDataRepository>().GetById(imgId));
+        return ViewRenderer.RenderPartialView("ImageMaintenanceModal", imageMaintenanceInfo, ControllerContext);
+    }
+
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    //public ActionResult UpdateImage(int imgId, MaintenanceImagesModel maintenanceImagesModel)
+    public string UpdateImage(int id, string authorManuallyAdded, string descriptionManuallyAdded, string imageApproval)
+    {
+
+        var imageMetaDataFromDb = Resolve<ImageMetaDataRepository>().GetById(id);
+        //var request = Request.Form;
+        //var a = request["AuthorManuallyAdded"];
+        //var b = request["DescriptionManuallyAdded"];
+        //var c = request["ImageApproval"];
+
+        
+
+
+
+
+        //model.Id = id;
+        //model.FillCategoriesFromPostData(Request.Form);
+        //model.FillReferencesFromPostData(Request, question);
+        //model.SetToUpdateModel();
+        //Resolve<ImageMetaDataRepository>().Update();
+        //UpdateSound(soundfile, id);
+        //model.Message = new SuccessMessage("Die Frage wurde gespeichert.");
+
+        //if (
+        //    //Submit über Button "Nächstes unvollständiges Bild bearbeiten"
+        //    true == false
+        //)
+        //    //Modal für nächstes unvollständiges Bild anzeigen. Wie? Interaktion mit Javascript...
+        //    return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Die Bilddaten wurden erfolgreich aktualisiert.") });
+
+        //return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Die Bilddaten wurden erfolgreich aktualisiert.") });
+        var imageMaintenanceInfo = new ImageMaintenanceInfo(imageMetaDataFromDb);
+        imageMaintenanceInfo.Test = "klappt!";
+        return ViewRenderer.RenderPartialView("ImageMaintenanceRow", imageMaintenanceInfo, ControllerContext);
     }
 }

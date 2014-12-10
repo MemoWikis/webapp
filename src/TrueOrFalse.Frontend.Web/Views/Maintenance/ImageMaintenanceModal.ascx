@@ -1,11 +1,9 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TrueOrFalse.ImageMaintenanceInfo>" %>
+<%@ Import Namespace="TrueOrFalse" %>
 
 <div id="modalImageMaintenance" class="modal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-<% using (Html.BeginForm("UpdateImage", "Maintenance", null, FormMethod.Post, new {id = "EditQuestionForm", enctype = "multipart/form-data", style = "margin:0px;"}))
-   { %>
-               
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
                 <h3 class="modal-title">Bildverwaltung</h3>
@@ -26,11 +24,26 @@
                         <% } %>
                     </p>
                     <p>
+                        <b>Autor/Attribution manuell:</b>
+                        <input id="AuthorManuallyAdded" class="form-control" name="AuthorManuallyAdded" type="text" value="<%= 
+                                                        !String.IsNullOrEmpty(Model.ManualImageData.AuthorManuallyAdded) ?
+                                                        Model.ManualImageData.AuthorManuallyAdded :
+                                                        "" %>">
+                    </p>
+                    <p>
                         <b>Beschreibung geparsed:</b>
                         <% if (!String.IsNullOrEmpty(Model.MetaData.DescriptionParsed))
                         { %>
                             <%= Model.MetaData.DescriptionParsed %>
                         <% } %>
+                    </p>
+                     <p>
+                        <b>Beschreibung manuell:</b>
+                        <textarea id="DescriptionManuallyAdded" class="form-control" name="DescriptionManuallyAdded" type="text" value=""><%=
+                                !String.IsNullOrEmpty(Model.ManualImageData.DescriptionManuallyAdded) ?
+                                Model.ManualImageData.DescriptionManuallyAdded:
+                                ""
+                        %></textarea>
                     </p>
                 </div>
                 <div class="LicenseInfo <%= Model.LicenseStateCssClass%>">
@@ -64,10 +77,23 @@
                             Keine Lizenzen gefunden.
                         <% } %>
                     </p>
-                    <a href="<%= "/Maintenance/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
+                    <p>
+                        <a href="<%= "/Maintenance/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
+                    </p>
                     <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl))){%>
-                        <br/><a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a>
+                    <p>
+                        <a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a> (Achtung: gespeichertes Markup ist in der Regel älter!)
+                    </p>
                     <% } %>
+                    <p>
+                        <b>Freigabe:</b>
+                        <select  id="ImageApproval" class="form-control" name="ImageApproval">
+                            <option value="<%= ManualImageEvaluation.ImageNotEvaluated %>">Nicht freigegeben</option>
+                            <option value="<%= ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized %>">Bild freigegeben</option>
+                            <option value="<%= ManualImageEvaluation.NotAllRequirementsMetYet %>">(Noch) nicht alle Anforderungen erfüllt</option>
+                            <option value="<%= ManualImageEvaluation.ImageManuallyRuledOut %>">Bild ausgeschlossen</option>
+                        </select>
+                    </p>
                 </div>
                 
                 <div class="form-horizontal">
@@ -79,36 +105,16 @@
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
                 <div class="ButtonContainer float-none-xxs">
                     <a href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
-                    <a href="#" class="btn btn-primary" id="aSaveImage">Bilddaten speichern</a>
+                    <%--<button type="submit" class="btn btn-primary" id="SaveImageData">Bilddaten speichern</button>--%>
+                    <button type="submit" class="btn btn-primary" id="SaveImageDataAndClose">Bilddaten speichern und schließen</button>
                 </div>
             </div>
-            <% } %>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(function () {
-        $('.PopoverFocus')
-            .click(function (e) {
-                e.preventDefault();
-            })
-            .popover(
-                {
-                    trigger: "focus",
-                    placement: "right",
-                    html: "true",
-                }
-            );
-        $('.PopoverHover')
-            .click(function (e) {
-                e.preventDefault();
-            })
-            .popover(
-            {
-                trigger: "hover",
-                placement: "right",
-                html: "true",
-            }
-        );
+<script id="ModalScript" type="text/javascript">
+    $(function() {
+        fnInitPopover($('#modalImageMaintenance'));
+        new ImageMaintenanceModal(<%= Model.ImageId %>);
     });
 </script>

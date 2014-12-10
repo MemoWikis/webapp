@@ -1,6 +1,7 @@
 ﻿using System.Reflection.Emit;
 using System.Web;
 using System.Web.Optimization;
+using FluentNHibernate.Conventions.Inspections;
 
 namespace TrueOrFalse.View
 {
@@ -82,6 +83,10 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/Markdown.Converter.js",
                          "~/Scripts/Markdown.Sanitizer.js", 
                          "~/Scripts/Markdown.Editor.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Maintenance")
+               .Include("~/Views/Maintenance/ImageMaintenance.js")
+               .Include("~/Scripts/BootstrapCustomUtils.js"));
 
 #if RELEASE
                 BundleTable.EnableOptimizations = true;

@@ -350,6 +350,7 @@
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
     <Content Include="img\wmd-buttons.png" />
+    <Content Include="Scripts\BootstrapCustomUtils.js" />
     <Content Include="Scripts\CategoryApi.js">
       <DependentUpon>CategoryApi.ts</DependentUpon>
     </Content>
@@ -974,6 +975,9 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Maintenance\ImageMaintenance.js">
+      <DependentUpon>ImageMaintenance.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Maintenance\ImageMaintenanceRow.ascx" />
     <Content Include="Views\Maintenance\ImageMaintenanceModal.ascx" />
     <Content Include="Views\Maintenance\Images.css">
@@ -1053,6 +1057,7 @@
       <DependentUpon>Set.less</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\Maintenance\ImageMaintenance.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
@@ -1323,6 +1328,9 @@
     <Content Include="Views\Maintenance\Images.less" />
     <Content Include="Views\Maintenance\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\ImageMaintenance.js.map">
+      <DependentUpon>ImageMaintenance.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

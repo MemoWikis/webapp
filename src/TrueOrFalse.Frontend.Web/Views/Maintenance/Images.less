@@ -34,29 +34,35 @@
 }
 
 //Modal
-.ImageInfo {
-    .Clearfix;
-}
 
-.LicenseInfo {
+#modalImageMaintenance {
 
-    padding: 10px;
-    margin-top: 10px;
-    clear: left;
+    .FormColumnGrid (@labels-stacked: true; @label-width-variable: false; 3);
 
-    &.success {
-        background-color: @light-green;
+    .ImageInfo {
+        .Clearfix;
     }
 
-    &.warning {
-        background-color: #ffef99;
-    }
+    .LicenseInfo {
 
-    &.danger {
-        background-color: #f4dbe0;
-    }
+        padding: 10px;
+        margin-top: 10px;
+        clear: left;
 
-    h4 {
-        margin-top: 0;
+        &.success {
+            background-color: @light-green;
+        }
+
+        &.warning {
+            background-color: #ffef99;
+        }
+
+        &.danger {
+            background-color: #f4dbe0;
+        }
+
+        h4 {
+            margin-top: 0;
+        }
     }
 }

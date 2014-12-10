@@ -6,6 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/Views/Maintenance/Images.css") %>
+    <%= Scripts.Render("~/bundles/Maintenance") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -46,44 +47,8 @@
 
     <script type="text/javascript">
         $(function () {
-            $('.ImageModal').click(
-                function (e) {
-                    e.preventDefault();
-                    $.ajax({
-                        type: 'POST',
-                        url: "/Maintenance/ImageModal?imgId=" + $(this).attr('data-image-id'),
-                        success: function (result) {
-                            $('#modalImageMaintenance').remove();
-                            $(result).insertAfter($('table.ImageTable'));
-                            $('#modalImageMaintenance').modal('show');
-                        },
-                    });
-                }
-            );
-
-            $('.PopoverFocus')
-                .click(function (e) {
-                    e.preventDefault();
-                })
-                .popover(
-                    {
-                        trigger: "focus",
-                        placement: "right",
-                        html: "true",
-                    }
-                );
-            $('.PopoverHover')
-                .click(function (e) {
-                    e.preventDefault();
-                })
-                .popover(
-                {
-                    trigger: "hover",
-                    placement: "right",
-                    html: "true",
-                }
-            );
-            }
-        );
+            fnInitModal($('.ImageModal'));
+            fnInitPopover($('body'));
+        });
     </script>
 </asp:Content>
