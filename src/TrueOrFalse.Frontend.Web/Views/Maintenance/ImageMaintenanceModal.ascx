@@ -48,9 +48,6 @@
                 </div>
                 <div class="LicenseInfo <%= Model.LicenseStateCssClass%>">
                     <h4>Lizenzen</h4>
-                    <p><b>Status:</b>
-                        <%= Model.GlobalLicenseStateMessage %>
-                    </p>
                     <p>
                         <% if (Model.MainLicense != null)
                         {%>
@@ -85,14 +82,25 @@
                         <a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a> (Achtung: gespeichertes Markup ist in der Regel älter!)
                     </p>
                     <% } %>
+                    <p><b>Status:</b>
+                        <%= Model.GlobalLicenseStateMessage %>
+                    </p>
                     <p>
                         <b>Freigabe:</b>
-                        <select  id="ImageApproval" class="form-control" name="ImageApproval">
+                        <select  id="ManualImageEvaluation" class="form-control" name="ManualImageEvaluation">
                             <option value="<%= ManualImageEvaluation.ImageNotEvaluated %>">Nicht freigegeben</option>
                             <option value="<%= ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized %>">Bild freigegeben</option>
                             <option value="<%= ManualImageEvaluation.NotAllRequirementsMetYet %>">(Noch) nicht alle Anforderungen erfüllt</option>
                             <option value="<%= ManualImageEvaluation.ImageManuallyRuledOut %>">Bild ausgeschlossen</option>
                         </select>
+                    </p>
+                    <p>
+                        <b>Anmerkungen:</b>
+                        <textarea id="Remarks" class="form-control" name="Remarks" type="text" value=""><%=
+                                !String.IsNullOrEmpty(Model.ManualImageData.ManualRemarks) ?
+                                Model.ManualImageData.ManualRemarks:
+                                ""
+                        %></textarea>
                     </p>
                 </div>
                 
@@ -115,6 +123,6 @@
 <script id="ModalScript" type="text/javascript">
     $(function() {
         fnInitPopover($('#modalImageMaintenance'));
-        new ImageMaintenanceModal(<%= Model.ImageId %>);
+        new ImageMaintenanceModal(<%= Model.ImageId %>, '<%=Model.ManualImageData.ManualImageEvaluation.ToString() %>');
     });
 </script>

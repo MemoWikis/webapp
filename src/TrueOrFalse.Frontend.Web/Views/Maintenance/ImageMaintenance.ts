@@ -1,5 +1,7 @@
-﻿var fnInitModal = function (jobject) {
-    jobject.each(function() {
+﻿declare function fnInitPopover(jObject: JQuery): void;
+
+var fnInitModal = function (jObject: JQuery) {
+    jObject.each(function() {
         $(this).click(
             function(e) {
                 e.preventDefault();
@@ -21,7 +23,9 @@
 
 class ImageMaintenanceModal {
 
-    constructor(imgId : number) {
+    constructor(imgId: number, manualImageEvaluationStringVal: string) {
+
+        $('#ManualImageEvaluation').val(manualImageEvaluationStringVal);
 
         $('#SaveImageDataAndClose').click(function (e) {
             e.preventDefault();
@@ -33,12 +37,14 @@ class ImageMaintenanceModal {
                     id: imgId,
                     authorManuallyAdded: $('#AuthorManuallyAdded').val(),
                     descriptionManuallyAdded: $('#DescriptionManuallyAdded').val(),
-                    imageApproval: $("#ImageApproval").val()
+                    manualImageEvaluation: $("#ManualImageEvaluation").val(),
+                    remarks: $("#Remarks").val()
                 },
                 success: function (result) {
                     var html = $(result);
                     $('tr#ImgId-' + imgId).replaceWith(html);
                     fnInitModal($('tr#ImgId-' + imgId + ' .ImageModal'));
+                    fnInitPopover($('tr#ImgId-' + imgId));
                     $('#modalImageMaintenance').modal('hide');
                 },
                 //error: function (x, y) {

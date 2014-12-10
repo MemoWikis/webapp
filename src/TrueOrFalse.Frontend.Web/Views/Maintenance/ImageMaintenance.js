@@ -1,5 +1,5 @@
-﻿var fnInitModal = function (jobject) {
-    jobject.each(function () {
+﻿var fnInitModal = function (jObject) {
+    jObject.each(function () {
         $(this).click(function (e) {
             e.preventDefault();
             $.ajax({
@@ -18,7 +18,9 @@
 };
 
 var ImageMaintenanceModal = (function () {
-    function ImageMaintenanceModal(imgId) {
+    function ImageMaintenanceModal(imgId, manualImageEvaluationStringVal) {
+        $('#ManualImageEvaluation').val(manualImageEvaluationStringVal);
+
         $('#SaveImageDataAndClose').click(function (e) {
             e.preventDefault();
 
@@ -29,12 +31,14 @@ var ImageMaintenanceModal = (function () {
                     id: imgId,
                     authorManuallyAdded: $('#AuthorManuallyAdded').val(),
                     descriptionManuallyAdded: $('#DescriptionManuallyAdded').val(),
-                    imageApproval: $("#ImageApproval").val()
+                    manualImageEvaluation: $("#ManualImageEvaluation").val(),
+                    remarks: $("#Remarks").val()
                 },
                 success: function (result) {
                     var html = $(result);
                     $('tr#ImgId-' + imgId).replaceWith(html);
                     fnInitModal($('tr#ImgId-' + imgId + ' .ImageModal'));
+                    fnInitPopover($('tr#ImgId-' + imgId));
                     $('#modalImageMaintenance').modal('hide');
                 }
             });

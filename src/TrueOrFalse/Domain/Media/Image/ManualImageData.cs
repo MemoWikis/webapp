@@ -13,7 +13,7 @@ public class ManualImageData
     public string AuthorManuallyAdded;
     public string DescriptionManuallyAdded;
     public ManualImageEvaluation ManualImageEvaluation;
-    public string ManualNotification;
+    public string ManualRemarks;
 
     public string ToJson()
     {

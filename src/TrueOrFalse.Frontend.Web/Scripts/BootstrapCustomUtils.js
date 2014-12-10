@@ -1,5 +1,5 @@
-﻿var fnInitPopover = function(jobject) {
-    jobject.each(function() {
+﻿var fnInitPopover = function(jObject) {
+    jObject.each(function() {
         $(this).find($('.PopoverFocus'))
             .click(function (e) {
                 e.preventDefault();

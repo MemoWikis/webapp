@@ -157,39 +157,29 @@ public class MaintenanceController : BaseController
 
     [HttpPost]
     [AccessOnlyAsAdmin]
-    //public ActionResult UpdateImage(int imgId, MaintenanceImagesModel maintenanceImagesModel)
-    public string UpdateImage(int id, string authorManuallyAdded, string descriptionManuallyAdded, string imageApproval)
+    public string UpdateImage(
+        int id,
+        string authorManuallyAdded,
+        string descriptionManuallyAdded,
+        string manualImageEvaluation,
+        string remarks)
     {
+        var imageMetaData = Resolve<ImageMetaDataRepository>().GetById(id);
+        var manualEntries = imageMetaData.ManualEntriesFromJson();
 
-        var imageMetaDataFromDb = Resolve<ImageMetaDataRepository>().GetById(id);
-        //var request = Request.Form;
-        //var a = request["AuthorManuallyAdded"];
-        //var b = request["DescriptionManuallyAdded"];
-        //var c = request["ImageApproval"];
-
+        manualEntries.ManualImageEvaluation = (ManualImageEvaluation)Enum.Parse(typeof(ManualImageEvaluation), manualImageEvaluation);
+        manualEntries.AuthorManuallyAdded = authorManuallyAdded;
+        manualEntries.DescriptionManuallyAdded = descriptionManuallyAdded;
+        manualEntries.ManualRemarks = remarks;
         
+        imageMetaData.ManualEntries = manualEntries.ToJson();
 
+        Resolve<ImageMetaDataRepository>().Update(imageMetaData);
 
-
-
-        //model.Id = id;
-        //model.FillCategoriesFromPostData(Request.Form);
-        //model.FillReferencesFromPostData(Request, question);
-        //model.SetToUpdateModel();
-        //Resolve<ImageMetaDataRepository>().Update();
-        //UpdateSound(soundfile, id);
-        //model.Message = new SuccessMessage("Die Frage wurde gespeichert.");
-
-        //if (
-        //    //Submit über Button "Nächstes unvollständiges Bild bearbeiten"
-        //    true == false
-        //)
-        //    //Modal für nächstes unvollständiges Bild anzeigen. Wie? Interaktion mit Javascript...
-        //    return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Die Bilddaten wurden erfolgreich aktualisiert.") });
-
-        //return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("Die Bilddaten wurden erfolgreich aktualisiert.") });
-        var imageMaintenanceInfo = new ImageMaintenanceInfo(imageMetaDataFromDb);
+        //$temp:
+        var imageMaintenanceInfo = new ImageMaintenanceInfo(imageMetaData);
         imageMaintenanceInfo.Test = "klappt!";
+
         return ViewRenderer.RenderPartialView("ImageMaintenanceRow", imageMaintenanceInfo, ControllerContext);
     }
 }
