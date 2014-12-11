@@ -38,7 +38,8 @@ class ImageMaintenanceModal {
                     authorManuallyAdded: $('#AuthorManuallyAdded').val(),
                     descriptionManuallyAdded: $('#DescriptionManuallyAdded').val(),
                     manualImageEvaluation: $("#ManualImageEvaluation").val(),
-                    remarks: $("#Remarks").val()
+                    remarks: $("#Remarks").val(),
+                    selectedMainLicenseId: $("#SelectedMainLicenseId").val()
                 },
                 success: function (result) {
                     var html = $(result);

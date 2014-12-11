@@ -44,7 +44,7 @@ public class LicenseParser
         return GetAllParsedLicenses(wikiMarkup).Except(GetAuthorizedParsedLicenses(wikiMarkup)).ToList();
     }
 
-    public static License GetMainLicense(ImageMetaData imageMetaData)
+    public static License SuggestMainLicense(ImageMetaData imageMetaData)
     {
         return GetAuthorizedParsedLicenses(imageMetaData.Markup)
                 .Where(license => CheckLicenseRequirements(license, imageMetaData).AllRequirementsMet)
@@ -52,28 +52,10 @@ public class LicenseParser
                 .FirstOrDefault();
     }
 
-    public static int GetMainLicenseId(ImageMetaData imageMetaData)
+    public static List<License> ParseAllRegisteredLicenses(ImageMetaData imageMeta)
     {
-        return GetMainLicense(imageMetaData) != null ? GetMainLicense(imageMetaData).Id : -1;
-    }
-
-    public static void SetMainLicenseInfo(ImageMetaData imageMetaData)
-    {
-        if (imageMetaData == null) return;
-        var mainLicense = GetMainLicense(imageMetaData);
-        var manualEntries = imageMetaData.ManualEntriesFromJson();
-        if (mainLicense == null) return;
-        var mainLicenseInfo = new MainLicenseInfo
-        {
-            MainLicenseId = mainLicense.Id,
-            Author = !String.IsNullOrEmpty(manualEntries.AuthorManuallyAdded) ?
-                manualEntries.AuthorManuallyAdded :
-                imageMetaData.AuthorParsed,
-            Markup = imageMetaData.Markup,
-            MarkupDownloadDate = imageMetaData.MarkupDownloadDate,
-        };
-        imageMetaData.MainLicenseInfo = mainLicenseInfo.ToJson();
-    }
+        return SortLicenses(GetAllParsedLicenses(imageMeta.Markup));
+    } 
 
     public static List<License> SortLicenses(List<License> licenseList)
     {

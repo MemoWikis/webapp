@@ -6,8 +6,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Mvc;
 using EasyNetQ.Events;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
+using FluentNHibernate.Testing.Values;
 using NHibernate.Loader.Custom;
 using NHibernate.Mapping;
 
@@ -34,6 +36,7 @@ namespace TrueOrFalse
         public string Description;
 
         public License MainLicense;
+        public License SuggestedMainLicense;
         public List<License> AllLicenses;
         public ImageDeployability ImageDeployability;
         public string GlobalLicenseStateMessage;
@@ -42,6 +45,15 @@ namespace TrueOrFalse
 
 
         public List<string> PossibleLicenseStrings;
+
+        private readonly List<License> _offeredLicenses;
+
+        public int SelectedMainLicenseId { get; set; }
+
+        public IEnumerable<SelectListItem> ParsedLicenses
+        {
+            get { return new SelectList(_offeredLicenses, "Id", "WikiSearchString"); }
+        }
 
         public ImageMaintenanceInfo(int typeId, ImageType imageType)
             : this(ServiceLocator.Resolve<ImageMetaDataRepository>().GetBy(typeId, imageType))
@@ -70,9 +82,16 @@ namespace TrueOrFalse
                            ? ManualImageData.DescriptionManuallyAdded
                            : (MetaData.DescriptionParsed);
 
-            TempHelperLicenseInfoFromDbOrSetNew.Run(MetaData);
+            _offeredLicenses = new List<License> {new License {Id = -1, WikiSearchString = "Geparste autorisierte Lizenzen"}}
+                .Concat(License.FromLicenseIdList(MetaData.AllRegisteredLicenses).Where(x => LicenseRepository.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
+                .Concat(new List<License> { new License { Id = -2, WikiSearchString = "Sonstige autorisierte Lizenzen" } })
+                .Concat((LicenseRepository.GetAllAuthorizedLicenses()).Where(x => License.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
+                .ToList();
             MainLicense = MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).GetMainLicense();
+            SuggestedMainLicense = LicenseParser.SuggestMainLicense(imageMetaData);
+            SelectedMainLicenseId = (MetaData.MainLicenseInfo != null && MainLicenseInfo.FromJson(MetaData.MainLicenseInfo) != null) ? MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).MainLicenseId : (SuggestedMainLicense != null ? SuggestedMainLicense.Id : -1);
             AllLicenses = License.FromLicenseIdList(MetaData.AllRegisteredLicenses);
+            TempHelperLicenseInfoFromDbOrSetNew.Run(MetaData);
             LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList()) ?
                                     ToLicenseStateHtmlList() : 
                                     "";
@@ -100,7 +119,7 @@ namespace TrueOrFalse
         {
             if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageManuallyRuledOut)
             {
-                ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+                ImageDeployability = ImageDeployability.ImageRuledOutManually;
                 GlobalLicenseStateMessage = "Bild wurde manuell von der Nutzung ausgeschlossen.";
                 return;
             }

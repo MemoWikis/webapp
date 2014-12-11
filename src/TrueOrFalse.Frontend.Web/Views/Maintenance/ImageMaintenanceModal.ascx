@@ -50,18 +50,26 @@
                     <h4>Lizenzen</h4>
                     <p>
                         <% if (Model.MainLicense != null)
-                        {%>
-                            <b>Hauptlizenz: </b><%
-                            if (!String.IsNullOrEmpty(Model.MainLicense.LicenseShortName))
-                            {%><%=
+                            {
+                                %><b>Hauptlizenz: </b><%
+                                if (!String.IsNullOrEmpty(Model.MainLicense.LicenseShortName))
+                                {%><%=
                                 Model.MainLicense.LicenseShortName%>
-                            <%} else {%>
-                                <%= Model.MainLicense.WikiSearchString %>
-                            <%}%>
+                                <%} else {%>
+                                    <%= Model.MainLicense.WikiSearchString %>
+                                <%}%>
                                
-                        <%} else {%>
-                        Keine (verwendbare) Lizenz gefunden.
-                        <%}%>
+                            <%} else if(Model.SuggestedMainLicense != null) {
+                                  %><b>vorgeschlagene Hauptlizenz: </b><%
+                                if (!String.IsNullOrEmpty(Model.SuggestedMainLicense.LicenseShortName))
+                                {%><%=
+                                Model.SuggestedMainLicense.LicenseShortName%>
+                                <%} else {%>
+                                    <%= Model.SuggestedMainLicense.WikiSearchString %>
+                                <%}
+                            } else { %>
+                            Keine (verwendbare) Lizenz gefunden.
+                         <%}%>
                     </p>
                     <p>
                         <%
@@ -86,9 +94,15 @@
                         <%= Model.GlobalLicenseStateMessage %>
                     </p>
                     <p>
+                        <b>Hauptlizenz ändern</b>
+                        <%= Html.DropDownListFor(m => m.SelectedMainLicenseId, Model.ParsedLicenses, new { @class = "form-control" })%>
+                        <br/>Hauptlizenz wird nur gespeichert, wenn Bild gleichzeitig freigegeben wird.
+                        
+                    </p>
+                    <p>
                         <b>Freigabe:</b>
                         <select  id="ManualImageEvaluation" class="form-control" name="ManualImageEvaluation">
-                            <option value="<%= ManualImageEvaluation.ImageNotEvaluated %>">Nicht freigegeben</option>
+                            <option value="<%= ManualImageEvaluation.ImageNotEvaluated %>">Nicht evaluiert</option>
                             <option value="<%= ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized %>">Bild freigegeben</option>
                             <option value="<%= ManualImageEvaluation.NotAllRequirementsMetYet %>">(Noch) nicht alle Anforderungen erfüllt</option>
                             <option value="<%= ManualImageEvaluation.ImageManuallyRuledOut %>">Bild ausgeschlossen</option>
@@ -102,6 +116,7 @@
                                 ""
                         %></textarea>
                     </p>
+                    
                 </div>
                 
                 <div class="form-horizontal">

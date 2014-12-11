@@ -38,10 +38,17 @@
                     <%= Model.MainLicense.WikiSearchString %>
                 <%}%>
                                
-            <%} else {%>
+            <%} else if(Model.SuggestedMainLicense != null) {
+                  %>vorgeschlagene Hauptlizenz:<br/><%
+                if (!String.IsNullOrEmpty(Model.SuggestedMainLicense.LicenseShortName))
+                {%><%=
+                Model.SuggestedMainLicense.LicenseShortName%>
+                <%} else {%>
+                    <%= Model.SuggestedMainLicense.WikiSearchString %>
+                <%}
+            } else { %>
             Keine (verwendbare) Lizenz gefunden.
-                        
-        <%}%>
+         <%}%>
         <br/>
         <%
             if (!String.IsNullOrEmpty(Model.LicenseStateHtmlList))

@@ -137,7 +137,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                             {{self|cc-by-sa-3.0|pd-old|gfdl}}";
 
             ShowAllLicensesWithNotifications(markup);
-            Assert.That(LicenseParser.GetMainLicense(new ImageMetaData{Markup = markup}).WikiSearchString, Is.EqualTo("cc-by-sa-3.0"));
+            Assert.That(LicenseParser.SuggestMainLicense(new ImageMetaData{Markup = markup}).WikiSearchString, Is.EqualTo("cc-by-sa-3.0"));
 
             markup = @"
                         {{Information
@@ -146,7 +146,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                         {{self|cc-by-sa-3.0|pd-old|gfdl}}";
 
             ShowAllLicensesWithNotifications(markup);
-            Assert.That(LicenseParser.GetMainLicense(new ImageMetaData { Markup = markup }).WikiSearchString, Is.EqualTo("pd-old"));
+            Assert.That(LicenseParser.SuggestMainLicense(new ImageMetaData { Markup = markup }).WikiSearchString, Is.EqualTo("pd-old"));
 
             markup = @"
                         {{Information
@@ -155,7 +155,7 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                         {{self|cc-by-sa-3.0|gfdl}}";
 
             ShowAllLicensesWithNotifications(markup);
-            Assert.That(LicenseParser.GetMainLicense(new ImageMetaData { Markup = markup }), Is.Null);
+            Assert.That(LicenseParser.SuggestMainLicense(new ImageMetaData { Markup = markup }), Is.Null);
         }
 
         [Test]
@@ -218,8 +218,8 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 
         public void ShowAllLicensesWithNotifications(string markup)
         {
-            var mainLicense = LicenseParser.GetMainLicense(new ImageMetaData{Markup = markup}) != null ?
-                                LicenseParser.GetMainLicense(new ImageMetaData{Markup = markup}).WikiSearchString :
+            var mainLicense = LicenseParser.SuggestMainLicense(new ImageMetaData{Markup = markup}) != null ?
+                                LicenseParser.SuggestMainLicense(new ImageMetaData{Markup = markup}).WikiSearchString :
                                 "none";
             Console.WriteLine("Main license: " + mainLicense);
             

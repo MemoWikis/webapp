@@ -162,7 +162,8 @@ public class MaintenanceController : BaseController
         string authorManuallyAdded,
         string descriptionManuallyAdded,
         string manualImageEvaluation,
-        string remarks)
+        string remarks,
+        int selectedMainLicenseId)
     {
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetById(id);
         var manualEntries = imageMetaData.ManualEntriesFromJson();
@@ -173,6 +174,12 @@ public class MaintenanceController : BaseController
         manualEntries.ManualRemarks = remarks;
         
         imageMetaData.ManualEntries = manualEntries.ToJson();
+
+        var currentMainLicenseId = imageMetaData.MainLicenseInfo != null
+            ? MainLicenseInfo.FromJson(imageMetaData.MainLicenseInfo).MainLicenseId
+            : -1;
+
+        ImageMetaDataRepository.SetMainLicenseInfo(imageMetaData, selectedMainLicenseId < 0 ? currentMainLicenseId : selectedMainLicenseId);
 
         Resolve<ImageMetaDataRepository>().Update(imageMetaData);
 

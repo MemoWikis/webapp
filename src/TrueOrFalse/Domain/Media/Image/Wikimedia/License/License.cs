@@ -8,8 +8,8 @@ using Seedworks.Lib;
 
 public class License
 {
-    public int Id;
-    public string WikiSearchString;
+    public int Id { get; set; }
+    public string WikiSearchString { get; set; }
     public string LicenseLongName;
     public string LicenseShortName;
 

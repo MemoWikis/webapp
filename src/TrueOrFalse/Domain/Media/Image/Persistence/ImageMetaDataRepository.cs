@@ -6,7 +6,7 @@ using TrueOrFalse.Maintenance;
 
 namespace TrueOrFalse
 {
-    public class ImageMetaDataRepository : RepositoryDb<ImageMetaData> 
+    public class ImageMetaDataRepository : RepositoryDb<ImageMetaData>
     {
         public ImageMetaDataRepository(ISession session) : base(session){}
 
@@ -43,10 +43,7 @@ namespace TrueOrFalse
                 };
 
                 ServiceLocator.Resolve<LoadImageMarkups>().Run(newImageMetaData);
-                newImageMetaData.AllRegisteredLicenses =
-                    License.ToLicenseIdList(
-                        LicenseParser.SortLicenses(LicenseParser.GetAllParsedLicenses(newImageMetaData.Markup)));
-                LicenseParser.SetMainLicenseInfo(newImageMetaData);//$temp: ergänzen unter LoadImageMarkups?
+                SetAllParsedLicenses(newImageMetaData);
 
                 Create(newImageMetaData);
             }
@@ -59,31 +56,36 @@ namespace TrueOrFalse
                 imageMeta.UserId = userId;
 
                 ServiceLocator.Resolve<LoadImageMarkups>().Run(imageMeta);
-                imageMeta.AllRegisteredLicenses =
-                    License.ToLicenseIdList(
-                        LicenseParser.SortLicenses(LicenseParser.GetAllParsedLicenses(imageMeta.Markup)));
-                UpdateMainLicenseInfo(imageMeta);
+               
+                SetAllParsedLicenses(imageMeta);
 
                 Update(imageMeta);
-                //$temp: beim Update werden nur die aufgeführten member überschrieben, oder?
             }
         }
 
-        public static void UpdateMainLicenseInfo(ImageMetaData imageMetaData)
+        public static void SetMainLicenseInfo(ImageMetaData imageMetaData, int MainLicenseId)
         {
-            var mainLicenseInfo = MainLicenseInfo.FromJson(imageMetaData.MainLicenseInfo);
-            var manuallyAddedAuthor = imageMetaData.ManualEntriesFromJson().AuthorManuallyAdded;
-            if (mainLicenseInfo.MainLicenseId != 0)//Don't update if MainLicense already exists AND ...
+            if (imageMetaData == null) return;
+            if (LicenseRepository.GetAllAuthorizedLicenses().All(x => x.Id != MainLicenseId)) return;
+            if (!LicenseParser.CheckLicenseRequirements(LicenseRepository.GetById(MainLicenseId), imageMetaData).AllRequirementsMet) return;
+            var manualEntries = imageMetaData.ManualEntriesFromJson();
+            var mainLicenseInfo = new MainLicenseInfo
             {
-                if(mainLicenseInfo.MainLicenseId == License.FromLicenseIdList(imageMetaData.AllRegisteredLicenses)
-                                                    .Where(license => license.LicenseApplicability == LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded)
-                                                    .Select(license => license.Id)
-                                                    .FirstOrDefault()//... current main license is most highly ranked of authorized parsed licenses OR...
-                    || !String.IsNullOrEmpty(manuallyAddedAuthor))//... Author has been added manually
-                return;
-            } //If no MainLicense exists
-                
-            LicenseParser.SetMainLicenseInfo(imageMetaData);
+                MainLicenseId = MainLicenseId,
+                Author = !String.IsNullOrEmpty(manualEntries.AuthorManuallyAdded) ?
+                    manualEntries.AuthorManuallyAdded :
+                    imageMetaData.AuthorParsed,
+                Markup = imageMetaData.Markup,
+                MarkupDownloadDate = imageMetaData.MarkupDownloadDate,
+            };
+            imageMetaData.MainLicenseInfo = mainLicenseInfo.ToJson();
+        }
+
+        public static void SetAllParsedLicenses(ImageMetaData imageMeta)
+        {
+            imageMeta.AllRegisteredLicenses =
+                   License.ToLicenseIdList(
+                       LicenseParser.ParseAllRegisteredLicenses(imageMeta));
         }
 
         private void StoreUploaded(int typeId, int userId, ImageType imageType, string licenseGiverName)

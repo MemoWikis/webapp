@@ -12,8 +12,5 @@ public class TempHelperLicenseInfoFromDbOrSetNew
         if(imageMetaData.AllRegisteredLicenses == null)
             imageMetaData.AllRegisteredLicenses = License.ToLicenseIdList(
                         LicenseParser.SortLicenses(LicenseParser.GetAllParsedLicenses(imageMetaData.Markup)));
-
-        if(imageMetaData.MainLicenseInfo == null)
-            LicenseParser.SetMainLicenseInfo(imageMetaData);
     }
 }
