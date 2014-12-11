@@ -96,14 +96,13 @@
                     <p>
                         <b>Hauptlizenz ändern</b>
                         <%= Html.DropDownListFor(m => m.SelectedMainLicenseId, Model.ParsedLicenses, new { @class = "form-control" })%>
-                        <br/>Hauptlizenz wird nur gespeichert, wenn Bild gleichzeitig freigegeben wird.
-                        
+                        Hauptlizenz wird nur gespeichert, wenn Bild gleichzeitig freigegeben wird.
                     </p>
                     <p>
                         <b>Freigabe:</b>
                         <select  id="ManualImageEvaluation" class="form-control" name="ManualImageEvaluation">
                             <option value="<%= ManualImageEvaluation.ImageNotEvaluated %>">Nicht evaluiert</option>
-                            <option value="<%= ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized %>">Bild freigegeben</option>
+                            <option value="<%= ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized %>">Bild geprüft(!) und freigegeben</option>
                             <option value="<%= ManualImageEvaluation.NotAllRequirementsMetYet %>">(Noch) nicht alle Anforderungen erfüllt</option>
                             <option value="<%= ManualImageEvaluation.ImageManuallyRuledOut %>">Bild ausgeschlossen</option>
                         </select>

@@ -84,7 +84,7 @@ namespace TrueOrFalse
 
             _offeredLicenses = new List<License> {new License {Id = -1, WikiSearchString = "Geparste autorisierte Lizenzen"}}
                 .Concat(License.FromLicenseIdList(MetaData.AllRegisteredLicenses).Where(x => LicenseRepository.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
-                .Concat(new List<License> { new License { Id = -2, WikiSearchString = "Sonstige autorisierte Lizenzen" } })
+                .Concat(new List<License> { new License { Id = -2, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
                 .Concat((LicenseRepository.GetAllAuthorizedLicenses()).Where(x => License.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
                 .ToList();
             MainLicense = MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).GetMainLicense();
