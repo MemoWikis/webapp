@@ -195,7 +195,6 @@ public class MaintenanceController : BaseController
 
         //$temp:
         var imageMaintenanceInfo = new ImageMaintenanceInfo(imageMetaData);
-        imageMaintenanceInfo.Test = "klappt!";
 
         return ViewRenderer.RenderPartialView("ImageMaintenanceRow", imageMaintenanceInfo, ControllerContext);
     }

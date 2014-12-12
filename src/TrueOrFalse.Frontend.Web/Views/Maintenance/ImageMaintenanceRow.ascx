@@ -9,7 +9,6 @@
         <%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %><br/>
         ImageId: <%= Model.ImageId %><br/>
         TypeId: <%= Model.TypeId %>
-        <br/>TEST: <%= Model.Test %>
     </td>
     <td class="ColumnAuthor">
         <% if (!String.IsNullOrEmpty(Model.Author))
