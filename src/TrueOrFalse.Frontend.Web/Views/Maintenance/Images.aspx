@@ -26,8 +26,9 @@
     </div>
     <% Html.Message(Model.Message); %>
         
-    <a href="/Maintenance/ImageUpdateLicenseData" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;">Lizenzinformation laden von Wikimedia</a>
-    <a href="/Maintenance/ImageUpdateMarkupFromDb" class="btn btn-primary" style="margin-bottom: 10px; margin-top: -5px;">Lizenzinformation update von lokaler DB</a>
+    <a href="/Maintenance/LoadMarkupAndParse" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;">Markup von Wikimedia für Bilder ohne Hauptlizenz laden und parsen</a>
+    <br/><a href="/Maintenance/LoadMarkupAndParseAll" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;">Markup von Wikimedia für alle laden und parsen</a>
+    <br/><a href="/Maintenance/ParseMarkupFromDb" class="btn btn-primary" style="margin-bottom: 10px; margin-top: -5px;">Markup aus lokaler DB parsen</a>
         
     <table class="ImageTable table">
         <tr>

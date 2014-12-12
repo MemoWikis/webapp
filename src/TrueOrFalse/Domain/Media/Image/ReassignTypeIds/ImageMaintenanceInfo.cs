@@ -97,7 +97,6 @@ namespace TrueOrFalse
             SuggestedMainLicense = LicenseParser.SuggestMainLicenseFromParsedList(imageMetaData) ?? //Checked for requirements
                                    AllAuthorizedLicenses.FirstOrDefault(); //not checked
             SelectedMainLicenseId = (MetaData.MainLicenseInfo != null && MainLicenseInfo.FromJson(MetaData.MainLicenseInfo) != null) ? MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).MainLicenseId : (SuggestedMainLicense != null ? SuggestedMainLicense.Id : -1);
-            TempHelperLicenseInfoFromDbOrSetNew.Run(MetaData);
             LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList()) ?
                                     ToLicenseStateHtmlList() : 
                                     "";

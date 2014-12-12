@@ -21,6 +21,7 @@ namespace TrueOrFalse
                 Description = parsedImageMarkup.Description,
                 Markup = markup,
                 MarkupDownloadDate = DateTime.Now,
+                AllRegisteredLicenses = parsedImageMarkup.AllRegisteredLicenses
             };
 
             return licenseInfo;

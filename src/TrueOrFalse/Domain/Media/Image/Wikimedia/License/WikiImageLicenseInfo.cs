@@ -8,5 +8,6 @@ namespace TrueOrFalse
         public string Description;
         public string Markup;
         public DateTime MarkupDownloadDate;
+        public string AllRegisteredLicenses;
     }
 }

@@ -7,11 +7,11 @@ using TrueOrFalse.WikiMarkup;
 
 namespace TrueOrFalse.Maintenance
 {
-    public class UpdateMarkupFromDb : IRegisterAsInstancePerLifetime
+    public class ParseMarkupFromDb : IRegisterAsInstancePerLifetime
     {
         private readonly ImageMetaDataRepository _imgRepo;
 
-        public UpdateMarkupFromDb(ImageMetaDataRepository imgRepo)
+        public ParseMarkupFromDb(ImageMetaDataRepository imgRepo)
         {
             _imgRepo = imgRepo;
         }
@@ -29,6 +29,7 @@ namespace TrueOrFalse.Maintenance
 
                 img.AuthorParsed = licenseInfo.AuthorName;
                 img.DescriptionParsed = licenseInfo.Description;
+                img.AllRegisteredLicenses = licenseInfo.AllRegisteredLicenses;
 
                 _imgRepo.Update(img);
             }

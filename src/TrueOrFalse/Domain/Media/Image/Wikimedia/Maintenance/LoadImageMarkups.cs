@@ -13,7 +13,7 @@ namespace TrueOrFalse.Maintenance
         private readonly WikiImageLicenseLoader _wikiImageLicenseLoader;
 
         public LoadImageMarkups(
-            ImageMetaDataRepository imgRepo, 
+            ImageMetaDataRepository imgRepo,
             WikiImageLicenseLoader wikiImageLicenseLoader)
         {
             _imgRepo = imgRepo;
@@ -30,6 +30,7 @@ namespace TrueOrFalse.Maintenance
 
             imageMetaData.AuthorParsed = licenseInfo.AuthorName;
             imageMetaData.DescriptionParsed = licenseInfo.Description;
+            imageMetaData.AllRegisteredLicenses = licenseInfo.AllRegisteredLicenses;
             imageMetaData.Markup = licenseInfo.Markup;
             imageMetaData.MarkupDownloadDate = licenseInfo.MarkupDownloadDate;
         }
@@ -41,8 +42,25 @@ namespace TrueOrFalse.Maintenance
                 .QueryOver<ImageMetaData>()
                 .Where(x => x.Source == ImageSource.WikiMedia)
                 .List<ImageMetaData>();
+            
+            Update(allImages);
+        }
 
-            foreach (var imageMetaData in allImages)
+        public void UpdateAllWithoutAuthorizedMainLicense()
+        {
+            var imagesToUpdate = _imgRepo.Session
+                .QueryOver<ImageMetaData>()
+                .Where(x => x.Source == ImageSource.WikiMedia)
+                .And(x => x.MainLicenseInfo == null ||
+                        x.ManualEntriesFromJson().ManualImageEvaluation == ManualImageEvaluation.ImageNotEvaluated)
+                .List<ImageMetaData>();
+
+            Update(imagesToUpdate);
+        }
+
+        private void Update(IEnumerable<ImageMetaData> imageList)
+        {
+            foreach (var imageMetaData in imageList)
             {
                 Run(imageMetaData);
 

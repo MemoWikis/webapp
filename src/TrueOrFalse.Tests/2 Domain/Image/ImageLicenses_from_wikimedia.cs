@@ -236,13 +236,5 @@ namespace TrueOrFalse.Tests._2_Domain.Image
             Console.WriteLine();
             Console.WriteLine();
         }
-
-        [Test]
-        public void jljljljl()
-        {
-            var x =
-                ManualImageData.FromJson(
-                    "{\"AuthorManuallyAdded\":\"test\",\"DescriptionManuallyAdded\":\"test\",\"ManualImageEvaluation\":3,\"ManualNotification\":\"test2\"}");
-        }
     }
 }

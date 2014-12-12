@@ -18,15 +18,21 @@ public class MaintenanceController : BaseController
         return View(new MaintenanceImagesModel());
     }
 
-    public ActionResult ImageUpdateLicenseData()
+    public ActionResult LoadMarkupAndParse()
+    {
+        Resolve<LoadImageMarkups>().UpdateAllWithoutAuthorizedMainLicense();
+        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("License data has been updated") });
+    }
+
+    public ActionResult LoadMarkupAndParseAll()
     {
         Resolve<LoadImageMarkups>().UpdateAll();
         return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("License data has been updated") });
     }
 
-    public ActionResult ImageUpdateMarkupFromDb()
+    public ActionResult ParseMarkupFromDb()
     {
-        Resolve<UpdateMarkupFromDb>().Run();
+        Resolve<ParseMarkupFromDb>().Run();
         return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("License data has been updated") });
     }
 

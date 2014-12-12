@@ -43,7 +43,6 @@ namespace TrueOrFalse
                 };
 
                 ServiceLocator.Resolve<LoadImageMarkups>().Run(newImageMetaData);
-                SetAllParsedLicenses(newImageMetaData);
 
                 Create(newImageMetaData);
             }
@@ -57,8 +56,6 @@ namespace TrueOrFalse
 
                 ServiceLocator.Resolve<LoadImageMarkups>().Run(imageMeta);
                
-                SetAllParsedLicenses(imageMeta);
-
                 Update(imageMeta);
             }
         }
@@ -79,13 +76,6 @@ namespace TrueOrFalse
                 MarkupDownloadDate = imageMetaData.MarkupDownloadDate,
             };
             imageMetaData.MainLicenseInfo = mainLicenseInfo.ToJson();
-        }
-
-        public static void SetAllParsedLicenses(ImageMetaData imageMeta)
-        {
-            imageMeta.AllRegisteredLicenses =
-                   License.ToLicenseIdList(
-                       LicenseParser.ParseAllRegisteredLicenses(imageMeta));
         }
 
         private void StoreUploaded(int typeId, int userId, ImageType imageType, string licenseGiverName)

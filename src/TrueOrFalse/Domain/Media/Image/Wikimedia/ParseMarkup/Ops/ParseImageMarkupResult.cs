@@ -20,22 +20,9 @@ namespace TrueOrFalse.WikiMarkup
         public Template InfoTemplate;
         public InfoBoxTemplate InfoBoxTemplate;
 
-        public bool LicenseIsPublicDomain;
-        public bool LicenseIsCreativeCommons;
-
-        /// <summary>http://en.wikipedia.org/wiki/GNU_Free_Documentation_License</summary>
-        public bool LicenseIsGFDL;
-
-        /// <summary>
-        /// e.g.: {{PD-USGov-Military-Air Force}}
-        /// </summary>
-        public string LicenseTemplateString;
+        public string AllRegisteredLicenses;
 
         public string Notifications;
-
-        public bool IsUnknown(){ 
-            return !LicenseIsPublicDomain && !LicenseIsCreativeCommons && !LicenseIsGFDL;
-        }
 
         public bool HasDescription(){ return !String.IsNullOrEmpty(Description_Raw); }
         public bool HasAuthorname() { return !String.IsNullOrEmpty(AuthorName); }

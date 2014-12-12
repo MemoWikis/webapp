@@ -60,9 +60,9 @@ public class LicenseParser
                 .FirstOrDefault();
     }
 
-    public static List<License> ParseAllRegisteredLicenses(ImageMetaData imageMeta)
+    public static List<License> ParseAllRegisteredLicenses(string markup)
     {
-        return SortLicenses(GetAllParsedLicenses(imageMeta.Markup));
+        return SortLicenses(GetAllParsedLicenses(markup));
     } 
 
     public static List<License> SortLicenses(List<License> licenseList)

@@ -222,8 +222,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseNotifications.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseParser.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseRepository.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\License\TempHelperLicenseInfoFromDbOrSetNew.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\UpdateMarkupFromDb.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\ParseMarkupFromDb.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\Markup2Html.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Model.Parameter.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseImageMarkup.cs" />

@@ -238,9 +238,6 @@ namespace TrueOrFalse.Tests._2_Domain.Image
 
             Assert.That(parsedImageMarkup.AuthorName_Raw, Is.EqualTo("[[User:Tiithunt|Tiit Hunt]]"));
             Assert.That(parsedImageMarkup.AuthorName, Is.EqualTo("Tiit Hunt (User: Tiithunt)"));
-
-            Assert.That(parsedImageMarkup.LicenseIsCreativeCommons, Is.EqualTo(true));
-            Assert.That(parsedImageMarkup.LicenseTemplateString, Is.EqualTo("cc-by-sa-3.0"));
         }
 
         [Test]
