@@ -44,10 +44,18 @@ public class LicenseParser
         return GetAllParsedLicenses(wikiMarkup).Except(GetAuthorizedParsedLicenses(wikiMarkup)).ToList();
     }
 
-    public static License SuggestMainLicense(ImageMetaData imageMetaData)
+    public static License SuggestMainLicenseFromMarkup(ImageMetaData imageMetaData)
     {
         return GetAuthorizedParsedLicenses(imageMetaData.Markup)
-                .Where(license => CheckLicenseRequirements(license, imageMetaData).AllRequirementsMet)
+                .Where(license => CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet)
+                .ToList()
+                .FirstOrDefault();
+    }
+
+    public static License SuggestMainLicenseFromParsedList(ImageMetaData imageMetaData)
+    {
+        return GetAuthorizedParsedLicenses(License.FromLicenseIdList(imageMetaData.AllRegisteredLicenses))
+            .Where(license => CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet)
                 .ToList()
                 .FirstOrDefault();
     }
@@ -68,11 +76,29 @@ public class LicenseParser
             .ToList();
     }
 
-    public static LicenseNotifications CheckLicenseRequirements(License license, ImageMetaData imageMetaData)
+    public static LicenseNotifications CheckLicenseRequirementsWithMarkup(License license, ImageMetaData imageMetaData)
+    {
+        return CheckLicenseRequirements(
+            license,
+            imageMetaData,
+            !String.IsNullOrEmpty(ParseImageMarkup.Run(imageMetaData.Markup).AuthorName)
+                ? ParseImageMarkup.Run(imageMetaData.Markup).AuthorName
+                : "");
+    }
+
+    public static LicenseNotifications CheckLicenseRequirementsWithDb(License license, ImageMetaData imageMetaData)
+    {
+        return CheckLicenseRequirements(
+            license,
+            imageMetaData,
+            imageMetaData.AuthorParsed);
+    }
+
+    private static LicenseNotifications CheckLicenseRequirements(License license, ImageMetaData imageMetaData, string author)
     {
         var licenseNotifications = new LicenseNotifications();
         if (license.AuthorRequired.IsTrue() &&
-            String.IsNullOrEmpty(ParseImageMarkup.Run(imageMetaData.Markup).AuthorName) && //$temp: hier vielleicht nicht parsen, sondern aus der Datenbank, wenn schon gespeichert?
+            String.IsNullOrEmpty(author) &&
             String.IsNullOrEmpty(imageMetaData.ManualEntriesFromJson().AuthorManuallyAdded))
         {
             licenseNotifications.AuthorIsMissing = true;
@@ -97,7 +123,7 @@ public class LicenseParser
         {
             if (LicenseRepository.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
             {
-                return CheckLicenseRequirements(license, imageMetaData).AllRequirementsMet ? ImageLicenseState.LicenseIsApplicableForImage : ImageLicenseState.LicenseAuthorizedButInfoMissing;
+                return CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet ? ImageLicenseState.LicenseIsApplicableForImage : ImageLicenseState.LicenseAuthorizedButInfoMissing;
             }
             return ImageLicenseState.LicenseIsNotAuthorized;
         }

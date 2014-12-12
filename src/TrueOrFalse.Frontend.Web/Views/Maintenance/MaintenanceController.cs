@@ -179,8 +179,11 @@ public class MaintenanceController : BaseController
             ? MainLicenseInfo.FromJson(imageMetaData.MainLicenseInfo).MainLicenseId
             : -1;
 
-        if(manualEntries.ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
-            ImageMetaDataRepository.SetMainLicenseInfo(imageMetaData, selectedMainLicenseId < 0 ? currentMainLicenseId : selectedMainLicenseId);
+        if (manualEntries.ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
+            ImageMetaDataRepository.SetMainLicenseInfo(imageMetaData,
+                selectedMainLicenseId < 0 ? currentMainLicenseId : selectedMainLicenseId);
+        else
+            imageMetaData.MainLicenseInfo = null;
 
         Resolve<ImageMetaDataRepository>().Update(imageMetaData);
 

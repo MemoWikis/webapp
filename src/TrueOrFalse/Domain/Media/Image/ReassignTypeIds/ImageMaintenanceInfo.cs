@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using EasyNetQ.Events;
+using FluentNHibernate.Conventions;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
 using FluentNHibernate.Testing.Values;
 using NHibernate.Loader.Custom;
@@ -37,7 +38,8 @@ namespace TrueOrFalse
 
         public License MainLicense;
         public License SuggestedMainLicense;
-        public List<License> AllLicenses;
+        public List<License> AllRegisteredLicenses;
+        public List<License> AllAuthorizedLicenses;
         public ImageDeployability ImageDeployability;
         public string GlobalLicenseStateMessage;
         public string LicenseStateCssClass;
@@ -88,9 +90,13 @@ namespace TrueOrFalse
                 .Concat((LicenseRepository.GetAllAuthorizedLicenses()).Where(x => License.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
                 .ToList();
             MainLicense = MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).GetMainLicense();
-            SuggestedMainLicense = LicenseParser.SuggestMainLicense(imageMetaData);
+            AllRegisteredLicenses = License.FromLicenseIdList(MetaData.AllRegisteredLicenses);
+            AllAuthorizedLicenses = AllRegisteredLicenses
+                                    .Where(x => LicenseRepository.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id))
+                                    .ToList();
+            SuggestedMainLicense = LicenseParser.SuggestMainLicenseFromParsedList(imageMetaData) ?? //Checked for requirements
+                                   AllAuthorizedLicenses.FirstOrDefault(); //not checked
             SelectedMainLicenseId = (MetaData.MainLicenseInfo != null && MainLicenseInfo.FromJson(MetaData.MainLicenseInfo) != null) ? MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).MainLicenseId : (SuggestedMainLicense != null ? SuggestedMainLicense.Id : -1);
-            AllLicenses = License.FromLicenseIdList(MetaData.AllRegisteredLicenses);
             TempHelperLicenseInfoFromDbOrSetNew.Run(MetaData);
             LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList()) ?
                                     ToLicenseStateHtmlList() : 
@@ -117,63 +123,97 @@ namespace TrueOrFalse
 
         public void EvaluateImageDeployability()
         {
+            ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+
             if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageManuallyRuledOut)
             {
                 ImageDeployability = ImageDeployability.ImageRuledOutManually;
                 GlobalLicenseStateMessage = "Bild wurde manuell von der Nutzung ausgeschlossen.";
                 return;
             }
-            
-            if (MainLicense != null)
-            {
-                GlobalLicenseStateMessage += "Lizenzangaben vollständig. ";
 
-                if (ManualImageData.ManualImageEvaluation ==
-                    ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
-                {
-                    ImageDeployability = ImageDeployability.ImageIsReadyToUse;
-                    GlobalLicenseStateMessage += "Auf spezielle Attributierungsanforderungen überprüft und zugelassen.";
-                    return;
-                }
-                if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.NotAllRequirementsMetYet)
-                {
-                    ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
-                    GlobalLicenseStateMessage += "Manuell festgestellt: derzeit nicht alle Attributierungsanforderungen erfüllt.";
-                    return;
-                }
-                if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageNotEvaluated)
-                {
-                    ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
-                    GlobalLicenseStateMessage += "Bitte auf spezielle Attributierungsanforderungen überprüfen und wenn möglich freigeben.";
-                    return;
-                }
-            }
-
-            if (AllLicenses.Any(license =>
-                        LicenseParser.CheckImageLicenseState(license, MetaData) ==
-                        ImageLicenseState.LicenseAuthorizedButInfoMissing))
+            if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.NotAllRequirementsMetYet)
             {
                 ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
-                GlobalLicenseStateMessage = "Autorisierte Lizenz vorhanden, aber Angaben fehlen. Bitte ergänzen. ";
-
-                if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.NotAllRequirementsMetYet)
-                {
-                    ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
-                    GlobalLicenseStateMessage += "Manuell festgestellt: derzeit nicht alle Attributierungsanforderungen erfüllt.";
-                    return;
-                }
-                if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageNotEvaluated)
-                {
-                    ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
-                    GlobalLicenseStateMessage += "Bitte auf spezielle Attributierungsanforderungen überprüfen und wenn möglich freigeben.";
-                    return;
-                }
-
+                GlobalLicenseStateMessage += "Manuell festgestellt: derzeit nicht alle Attributierungsanforderungen erfüllt.";
                 return;
             }
 
-            ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+            if (EvaluateMainLicensePresence() &&
+                EvaluateLicenseRequirements(MainLicense) &&
+                EvaluateManualApproval())
+            {
+                ImageDeployability = ImageDeployability.ImageIsReadyToUse;
+                GlobalLicenseStateMessage = "Alles klar (Hauptlizenz vorhanden, Angaben vollständig, Bild freigegeben).";
+                return;
+            }
+
+            if (EvaluateMainLicensePresence())
+            {
+                GlobalLicenseStateMessage = "Hauptlizenz vorhanden. ";
+                EvaluateLicenseRequirements(MainLicense);
+                EvaluateManualApproval();
+                return;
+            }
+
+            if (LicenseParser.SuggestMainLicenseFromParsedList(MetaData) != null) {
+
+                    GlobalLicenseStateMessage = String.Format(
+                        "Keine Hauptlizenz festgelegt, aber verwendbare geparste Lizenz ({0}) vorhanden. Bitte überprüfen und freigeben.",
+                        LicenseParser.SuggestMainLicenseFromParsedList(MetaData).WikiSearchString);
+                    return;
+            }
+
+            if (AllAuthorizedLicenses.Any())
+            {
+                GlobalLicenseStateMessage =
+                    String.Format("Keine Hauptlizenz festgelegt. Geparste Lizenzen vorhanden. Vorschlag: {0}. ",
+                        AllAuthorizedLicenses.First().WikiSearchString);
+                EvaluateLicenseRequirements(AllAuthorizedLicenses.First());
+                return;
+            }
+
             GlobalLicenseStateMessage = "Keine (autorisierte) Lizenz automatisch ermittelt.";
+        }
+
+        private bool EvaluateLicenseRequirements(License license)
+        {
+            var requirementsCheck = LicenseParser.CheckLicenseRequirementsWithDb(license, MetaData);
+            if (requirementsCheck.AllRequirementsMet)
+                return true;
+
+            var missingDataList = new List<string>
+            {
+                requirementsCheck.AuthorIsMissing ? "Autor" : "",
+                requirementsCheck.LicenseLinkIsMissing ? "Lizenzlink" : "",
+                requirementsCheck.LocalCopyOfLicenseUrlMissing ? "Lizenzkopie" : ""
+            };
+
+            ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+            GlobalLicenseStateMessage += String.Format("Angaben fehlen ({0}). ",
+                missingDataList.Where(x => x != "").Aggregate((a, b) => a + ", " + b));
+
+            return false;
+        }
+
+        private bool EvaluateManualApproval()
+        {
+            if(ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
+                return true;
+
+            ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+            GlobalLicenseStateMessage += "Bild wurde (noch) nicht zugelassen. ";
+
+            return false;
+        }
+
+        public bool EvaluateMainLicensePresence()
+        {
+            if (MainLicense != null)
+                return true;
+            ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+            GlobalLicenseStateMessage += "Keine Hauptlizenz vorhanden. ";
+            return false;
         }
 
         public void SetLicenseStateCssClass()
@@ -255,9 +295,9 @@ namespace TrueOrFalse
 
         public string ToLicenseStateHtmlList()
         {
-            return AllLicenses.Count > 0
+            return AllRegisteredLicenses.Count > 0
                 ? "<ul>" + 
-                    AllLicenses
+                    AllRegisteredLicenses
                         .Aggregate("",
                             (current, license) =>
                                 current + "<li>" +

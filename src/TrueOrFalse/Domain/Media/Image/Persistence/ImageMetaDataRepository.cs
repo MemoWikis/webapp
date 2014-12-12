@@ -67,7 +67,7 @@ namespace TrueOrFalse
         {
             if (imageMetaData == null) return;
             if (LicenseRepository.GetAllAuthorizedLicenses().All(x => x.Id != MainLicenseId)) return;
-            if (!LicenseParser.CheckLicenseRequirements(LicenseRepository.GetById(MainLicenseId), imageMetaData).AllRequirementsMet) return;
+            if (!LicenseParser.CheckLicenseRequirementsWithDb(LicenseRepository.GetById(MainLicenseId), imageMetaData).AllRequirementsMet) return;
             var manualEntries = imageMetaData.ManualEntriesFromJson();
             var mainLicenseInfo = new MainLicenseInfo
             {
