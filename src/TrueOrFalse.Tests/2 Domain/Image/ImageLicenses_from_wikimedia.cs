@@ -126,37 +126,38 @@ namespace TrueOrFalse.Tests._2_Domain.Image
                         String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, sortedLicenseStrings));
         }
 
-//        [Test]
-//        public void Should_find_main_license()
-//        {
-//            var markup = @"
-//                            {{Information
-//                            |Author         = [[User:Tiithunt|Tiit Hunt]]
-//                            }}
-//                            =={{int:license-header}}==
-//                            {{self|cc-by-sa-3.0|pd-old|gfdl}}";
+        [Test]
+        public void Should_find_main_license() //$todo: rewrite, store image in testDb, use SuggestMainLicenseFromParsedList() instead of
+                                                //SuggestMainLicenseFromMarkup(), remove SuggestMainLicenseFromMarkup()
+        {
+            var markup = @"
+                            {{Information
+                            |Author         = [[User:Tiithunt|Tiit Hunt]]
+                            }}
+                            =={{int:license-header}}==
+                            {{self|cc-by-sa-3.0|pd-old|gfdl}}";
 
-//            ShowAllLicensesWithNotifications(markup);
-//            Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData{Markup = markup}).WikiSearchString, Is.EqualTo("cc-by-sa-3.0"));
+            ShowAllLicensesWithNotifications(markup);
+            Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData{Markup = markup}).WikiSearchString, Is.EqualTo("cc-by-sa-3.0"));
 
-//            markup = @"
-//                        {{Information
-//                        }}
-//                        =={{int:license-header}}==
-//                        {{self|cc-by-sa-3.0|pd-old|gfdl}}";
+            markup = @"
+                        {{Information
+                        }}
+                        =={{int:license-header}}==
+                        {{self|cc-by-sa-3.0|pd-old|gfdl}}";
 
-//            ShowAllLicensesWithNotifications(markup);
-//            Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData { Markup = markup }).WikiSearchString, Is.EqualTo("pd-old"));
+            ShowAllLicensesWithNotifications(markup);
+            Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData { Markup = markup }).WikiSearchString, Is.EqualTo("pd-old"));
 
-//            markup = @"
-//                        {{Information
-//                        }}
-//                        =={{int:license-header}}==
-//                        {{self|cc-by-sa-3.0|gfdl}}";
+            markup = @"
+                        {{Information
+                        }}
+                        =={{int:license-header}}==
+                        {{self|cc-by-sa-3.0|gfdl}}";
 
-//            ShowAllLicensesWithNotifications(markup);
-//            Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData { Markup = markup }), Is.Null);
-//        }
+            ShowAllLicensesWithNotifications(markup);
+            Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData { Markup = markup }), Is.Null);
+        }
 
         [Test]
         public void Should_parse_licenses()

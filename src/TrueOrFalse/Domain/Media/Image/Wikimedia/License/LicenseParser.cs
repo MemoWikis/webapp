@@ -47,7 +47,7 @@ public class LicenseParser
     public static License SuggestMainLicenseFromMarkup(ImageMetaData imageMetaData)
     {
         return GetAuthorizedParsedLicenses(imageMetaData.Markup)
-                .Where(license => CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet)
+                .Where(license => CheckLicenseRequirementsWithMarkup(license, imageMetaData).AllRequirementsMet)
                 .ToList()
                 .FirstOrDefault();
     }
