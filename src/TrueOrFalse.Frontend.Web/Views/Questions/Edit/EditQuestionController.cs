@@ -123,9 +123,8 @@ public class EditQuestionController : BaseController
             newQuestionId = questionId = question.Id;
         }
 
-        var originalWidth = -1;
         if (imageSource == "wikimedia"){
-            originalWidth = Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
+            Resolve<ImageStore>().RunWikimedia<QuestionImageSettings>(
                 wikiFileName, questionId, ImageType.Question, _sessionUser.User.Id);
         }
 
@@ -138,9 +137,7 @@ public class EditQuestionController : BaseController
 
         return new JsonResult{
             Data = new{
-                PreviewUrl =    originalWidth >= 435 ? 
-                                imageSettings.GetUrl_435px().UrlWithoutTime() :
-                                imageSettings.GetUrl_OrigSize().UrlWithoutTime(),
+                PreviewUrl =    imageSettings.GetUrl_435px().UrlWithoutTime(),
                 NewQuestionId = newQuestionId
             }
         };
