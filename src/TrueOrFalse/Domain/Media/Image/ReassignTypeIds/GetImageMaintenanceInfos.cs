@@ -21,12 +21,9 @@ namespace TrueOrFalse
         public List<ImageMaintenanceInfo> Run()
         {
             var imageMetaDatas = _session.QueryOver<ImageMetaData>().List();
-            var result = new List<ImageMaintenanceInfo>();
 
-            foreach (var imageMetaData in imageMetaDatas)
-                result.Add(new ImageMaintenanceInfo(imageMetaData));
-
-            return result;
+            return imageMetaDatas.Select(imageMetaData => new ImageMaintenanceInfo(imageMetaData)).ToList();
         }
     }
 }
+ 
