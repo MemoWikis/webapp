@@ -43,17 +43,18 @@ namespace TrueOrFalse.Maintenance
                 .Where(x => x.Source == ImageSource.WikiMedia)
                 .List<ImageMetaData>();
             
-            Update(allImages);
+            //Update(allImages);
         }
 
         public void UpdateAllWithoutAuthorizedMainLicense()
         {
-            var imagesToUpdate = _imgRepo.Session
+            var allImages = _imgRepo.Session
                 .QueryOver<ImageMetaData>()
                 .Where(x => x.Source == ImageSource.WikiMedia)
-                .And(x => x.MainLicenseInfo == null ||
-                        x.ManualEntriesFromJson().ManualImageEvaluation == ManualImageEvaluation.ImageNotEvaluated)
                 .List<ImageMetaData>();
+
+            var imagesToUpdate = allImages.Where(x => x.MainLicenseInfo == null ||
+                x.ManualEntriesFromJson().ManualImageEvaluation == ManualImageEvaluation.ImageNotEvaluated);
 
             Update(imagesToUpdate);
         }

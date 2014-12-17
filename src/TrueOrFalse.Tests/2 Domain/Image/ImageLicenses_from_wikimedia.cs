@@ -127,7 +127,8 @@ namespace TrueOrFalse.Tests._2_Domain.Image
         }
 
         [Test]
-        public void Should_find_main_license()
+        public void Should_find_main_license() //$todo: rewrite, store image in testDb, use SuggestMainLicenseFromParsedList() instead of
+                                                //SuggestMainLicenseFromMarkup(), remove SuggestMainLicenseFromMarkup()
         {
             var markup = @"
                             {{Information

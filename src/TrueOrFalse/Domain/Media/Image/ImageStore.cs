@@ -23,7 +23,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         _imgMetaRepo = imgMetaRepo;
     }
 
-    public int RunWikimedia<T>(
+    public void RunWikimedia<T>(
         string imageWikiFileName, 
         int typeId, 
         ImageType imageType,
@@ -39,9 +39,6 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         }
 
         _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
-
-        return wikiMetaData.ImageWidth;
-
     }
 
     public void RunUploaded<T>(TmpImage tmpImage, int typeId, int userId, string licenseGiverName) where T : IImageSettings

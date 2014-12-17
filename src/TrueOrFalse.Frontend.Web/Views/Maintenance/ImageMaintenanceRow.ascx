@@ -6,10 +6,10 @@
         <img src="<%= Model.Url_128 %>" style="width: 50px" />
     </td>                    
     <td class="ColumnInfo">
+        <input id="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" class="form-control" name="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" type="hidden" value="<%= !String.IsNullOrEmpty(Model.ImageMaintenanceRowMessage) ? Model.ImageMaintenanceRowMessage : "" %>" />
+        Image-Id: <b><%= Model.ImageId %></b><br/>
         <%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %><br/>
-        ImageId: <%= Model.ImageId %><br/>
         TypeId: <%= Model.TypeId %>
-        <br/>TEST: <%= Model.Test %>
     </td>
     <td class="ColumnAuthor">
         <% if (!String.IsNullOrEmpty(Model.Author))
@@ -28,14 +28,14 @@
     <td class="ColumnLicense">
         <a href="#" tabindex="0" class="PopoverHover" data-content="<%= !String.IsNullOrEmpty(Model.GlobalLicenseStateMessage) ? Html.Raw(Model.GlobalLicenseStateMessage).ToString() : ""%>">Status</a>
         <br/>
-        <% if (Model.MainLicense != null)
+        <% if (Model.MainLicenseAuthorized != null)
             {
                 %>Hauptlizenz:<br/><%
-                if (!String.IsNullOrEmpty(Model.MainLicense.LicenseShortName))
+                if (!String.IsNullOrEmpty(Model.MainLicenseAuthorized.LicenseShortName))
                 {%><%=
-                Model.MainLicense.LicenseShortName%>
+                Model.MainLicenseAuthorized.LicenseShortName%>
                 <%} else {%>
-                    <%= Model.MainLicense.WikiSearchString %>
+                    <%= Model.MainLicenseAuthorized.WikiSearchString %>
                 <%}%>
                                
             <%} else if(Model.SuggestedMainLicense != null) {

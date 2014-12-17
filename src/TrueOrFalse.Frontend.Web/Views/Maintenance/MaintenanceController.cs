@@ -71,7 +71,7 @@ public class MaintenanceController : BaseController
     public ActionResult DeleteValuationsForRemovedSets()
     {
         Resolve<DeleteValuationsForNonExisitingSets>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Valutions for deleted sets are removed.") });
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Valuations for deleted sets are removed.") });
     }
 
     [AccessOnlyAsAdmin]
@@ -173,29 +173,52 @@ public class MaintenanceController : BaseController
     {
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetById(id);
         var manualEntries = imageMetaData.ManualEntriesFromJson();
+        var selectedEvaluation = (ManualImageEvaluation)Enum.Parse(typeof(ManualImageEvaluation), manualImageEvaluation);
 
-        manualEntries.ManualImageEvaluation = (ManualImageEvaluation)Enum.Parse(typeof(ManualImageEvaluation), manualImageEvaluation);
         manualEntries.AuthorManuallyAdded = authorManuallyAdded;
         manualEntries.DescriptionManuallyAdded = descriptionManuallyAdded;
         manualEntries.ManualRemarks = remarks;
         
+        var message = "";
+
+        if (selectedMainLicenseId == -1)
+        {
+            if (selectedEvaluation == ManualImageEvaluation.ImageManuallyRuledOut)
+            {
+                manualEntries.ManualImageEvaluation = selectedEvaluation;
+                imageMetaData.MainLicenseInfo = null;
+            }
+            else
+            {
+                message += "Um Hauptlizenz zu löschen, bitte gleichzeitig unter Freigabe Bild ausschließen. Freigabe wurde nicht geändert.";
+            }
+        }
+
+        else if (selectedEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
+        {
+            if (selectedMainLicenseId < -1)
+            {
+                message += "Die gewählte Lizenz ist nicht gültig. Hauptlizenz und Freigabe wurden nicht geändert. ";
+            }
+            else
+            {
+                ImageMetaDataRepository.SetMainLicenseInfo(imageMetaData, selectedMainLicenseId);
+                manualEntries.ManualImageEvaluation = selectedEvaluation;
+            }
+        }
+
+        else //If not authorized
+        {
+            message += "Das Bild wurde nicht freigegeben. Die Hauptlizenz wurde nicht geändert. ";
+            manualEntries.ManualImageEvaluation = selectedEvaluation;
+        }
+
         imageMetaData.ManualEntries = manualEntries.ToJson();
-
-        var currentMainLicenseId = imageMetaData.MainLicenseInfo != null
-            ? MainLicenseInfo.FromJson(imageMetaData.MainLicenseInfo).MainLicenseId
-            : -1;
-
-        if (manualEntries.ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
-            ImageMetaDataRepository.SetMainLicenseInfo(imageMetaData,
-                selectedMainLicenseId < 0 ? currentMainLicenseId : selectedMainLicenseId);
-        else
-            imageMetaData.MainLicenseInfo = null;
-
+        
         Resolve<ImageMetaDataRepository>().Update(imageMetaData);
 
-        //$temp:
         var imageMaintenanceInfo = new ImageMaintenanceInfo(imageMetaData);
-        imageMaintenanceInfo.Test = "klappt!";
+        imageMaintenanceInfo.ImageMaintenanceRowMessage = message;
 
         return ViewRenderer.RenderPartialView("ImageMaintenanceRow", imageMaintenanceInfo, ControllerContext);
     }

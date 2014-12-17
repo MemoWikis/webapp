@@ -12,6 +12,9 @@ public class ResizeImage
 {
     public static void Run(Image image, string basePathAndId, int width, bool isSquare)
     {
+        if (image.Width < width)
+            width = image.Width;
+        
         if (!isSquare)
         {
             var scale = (float)width / image.Width;
@@ -51,6 +54,7 @@ public class ResizeImage
                     graphics.DrawImage(image, 0, -(image.Height * scale - width) / 2, width, image.Height * scale);
                 }
             }
+
             resized.Save(basePathAndId + "_" + width + ImageUrl.SquareSuffix(true) + ".jpg", ImageFormat.Jpeg);
         }
 

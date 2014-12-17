@@ -18,40 +18,49 @@ public class ImageUrl
 
     public static ImageUrl Get(
         IImageSettings imageSettings,
-        int width,
+        int requestedWidth,
         bool isSquare,
         Func<int, string> getFallBackImage)
     {
-        var requestedImagePath = width == -1 ? 
-            imageSettings.ServerPathAndId() + ".jpg" :
-            imageSettings.ServerPathAndId() + "_" + width + SquareSuffix(isSquare) + ".jpg";
+        var requestedImagePath = imageSettings.ServerPathAndId() + "_" + requestedWidth + SquareSuffix(isSquare) + ".jpg";
 
         if (imageSettings.Id != -1)
         {
             if (File.Exists(requestedImagePath))
-                return GetResult(imageSettings, width, isSquare);
+                return GetResult(imageSettings, requestedWidth, isSquare);
 
             //we guess the biggest file has a width of 512
-            var biggestAvailableImage = string.Format("{0}_512.jpg", imageSettings.ServerPathAndId());
-            if (File.Exists(biggestAvailableImage)){
-                using(var image = Image.FromFile(biggestAvailableImage)){
-                    ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare);
+            var image512 = string.Format("{0}_512.jpg", imageSettings.ServerPathAndId());
+            if (File.Exists(image512))
+            {
+                using (var image = Image.FromFile(image512))
+                {
+                    ResizeImage.Run(image, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
                 }
-                return GetResult(imageSettings, width, isSquare);
+                return GetResult(imageSettings, requestedWidth, isSquare);
             }
 
             //we search for the biggest file
-            var files = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), string.Format("{0}_*.jpg", imageSettings.Id));
-            if (files.Any()){
-                var maxFileWidth = files.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('_').Last().Replace(".jpg", ""))).OrderByDescending(x => x).First();
-                using (var image = Image.FromFile(string.Format("{0}_{1}.jpg", imageSettings.ServerPathAndId(), maxFileWidth))){
-                    ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare);
+            var fileNames = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), string.Format("{0}_*.jpg", imageSettings.Id));
+            if (fileNames.Any()){
+                var maxFileWidth = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('_').Last().Replace(".jpg", ""))).OrderByDescending(x => x).First();
+
+                using (var biggestAvailableImage = Image.FromFile(string.Format("{0}_{1}.jpg", imageSettings.ServerPathAndId(), maxFileWidth)))
+                {
+                    if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
+                    {
+                        requestedWidth = biggestAvailableImage.Width;
+                    }
+                    else
+                    {
+                        ResizeImage.Run(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
+                    }
                 }
-                return GetResult(imageSettings, width, isSquare);
+                return GetResult(imageSettings, requestedWidth, isSquare);
             }
         }
 
-        return new ImageUrl { Url = getFallBackImage(width), HasUploadedImage = false};
+        return new ImageUrl { Url = getFallBackImage(requestedWidth), HasUploadedImage = false};
     }
 
     private static ImageUrl GetResult(IImageSettings imageSettings, int width, bool isSquare)

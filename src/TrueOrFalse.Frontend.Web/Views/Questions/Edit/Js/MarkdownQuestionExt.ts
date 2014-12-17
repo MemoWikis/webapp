@@ -54,7 +54,6 @@ class MarkdownQuestionExt
                         if (result.NewQuestionId != -1) {
                             $("questionId").val(result.NewQuestionId);
                         }
-
                         callback(result.PreviewUrl);
                     },
                     error: function (x, y) {

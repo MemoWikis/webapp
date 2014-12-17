@@ -47,6 +47,21 @@ class ImageMaintenanceModal {
                     fnInitModal($('tr#ImgId-' + imgId + ' .ImageModal'));
                     fnInitPopover($('tr#ImgId-' + imgId));
                     $('#modalImageMaintenance').modal('hide');
+
+                    $('.ImageRowAlert').closest('tr').remove();
+                    var message = html.find('#hddImageMaintenanceRowMessage-' + imgId).val() != null
+                        ? html.find('#hddImageMaintenanceRowMessage-' + imgId).val()
+                        : "";
+                    if (message != "") {
+                        var alert = $('<tr><td colspan = "5" style="padding-left: 0; padding-right: 0;">' +
+                            '<div class="ImageRowAlert alert alert-info alert-dismissible" style="margin-bottom: 0;" role="alert">' +
+                            '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+                            'Image ' + imgId + ': ' + message + '</div></td></tr>');
+                        alert.insertAfter(html);
+                        $('.ImageRowAlert').on('close.bs.alert', function() {
+                            $('.ImageRowAlert').closest('tr').remove();
+                        });
+                    }
                 },
                 //error: function (x, y) {
                 //    alert('Das Bild konnte leider nicht gespeichert werden.');

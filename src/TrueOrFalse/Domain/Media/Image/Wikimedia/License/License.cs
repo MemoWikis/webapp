@@ -133,7 +133,7 @@ public class GetCcLicenseComponents
 
 public enum LicenseRequirementsType
 {
-    //Order by priority (order can be changed, not written to db, adjust test), add requirements to InitLicenseSettings()  (and maybe identifier method to ParseLicenseRequirementsType):
+    //Order by priority (order can be changed, not written to db, adjust test), add requirements to InitLicenseSettings() (and maybe identifier method to ParseLicenseRequirementsType):
     
     NoCategory = 0, //Rank: 999
 
