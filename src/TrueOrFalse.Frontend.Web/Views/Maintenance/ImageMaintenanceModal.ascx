@@ -49,14 +49,14 @@
                 <div class="LicenseInfo <%= Model.LicenseStateCssClass%>">
                     <h4>Lizenzen</h4>
                     <p>
-                        <% if (Model.MainLicense != null)
+                        <% if (Model.MainLicenseAuthorized != null)
                             {
                                 %><b>Hauptlizenz: </b><%
-                                if (!String.IsNullOrEmpty(Model.MainLicense.LicenseShortName))
+                                if (!String.IsNullOrEmpty(Model.MainLicenseAuthorized.LicenseShortName))
                                 {%><%=
-                                Model.MainLicense.LicenseShortName%>
+                                Model.MainLicenseAuthorized.LicenseShortName%>
                                 <%} else {%>
-                                    <%= Model.MainLicense.WikiSearchString %>
+                                    <%= Model.MainLicenseAuthorized.WikiSearchString %>
                                 <%}%>
                                
                             <%} else if(Model.SuggestedMainLicense != null) {

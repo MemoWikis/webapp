@@ -34,7 +34,7 @@ namespace TrueOrFalse
         public string Author;
         public string Description;
 
-        public License MainLicense;
+        public License MainLicenseAuthorized;
         public License SuggestedMainLicense;
         public List<License> AllRegisteredLicenses;
         public List<License> AllAuthorizedLicenses;
@@ -43,8 +43,9 @@ namespace TrueOrFalse
         public string LicenseStateCssClass;
         public string LicenseStateHtmlList;
 
+        public string ImageMaintenanceRowMessage;
 
-        public List<string> PossibleLicenseStrings;
+        public ImageFrontendData ImageFrontendData;
 
         private readonly List<License> _offeredLicenses;
 
@@ -82,19 +83,35 @@ namespace TrueOrFalse
                            ? ManualImageData.DescriptionManuallyAdded
                            : (MetaData.DescriptionParsed);
 
-            _offeredLicenses = new List<License> {new License {Id = -1, WikiSearchString = "Geparste autorisierte Lizenzen"}}
-                .Concat(License.FromLicenseIdList(MetaData.AllRegisteredLicenses).Where(x => LicenseRepository.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
-                .Concat(new List<License> { new License { Id = -2, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
-                .Concat((LicenseRepository.GetAllAuthorizedLicenses()).Where(x => License.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
-                .ToList();
-            MainLicense = MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).GetMainLicense();
+            _offeredLicenses = new List<License> {new License { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
+                .Concat(new List<License> { new License { Id = -1, WikiSearchString = "Hauptlizenz löschen" } }).ToList();
+            if (License.FromLicenseIdList(MetaData.AllRegisteredLicenses).Any(x => LicenseRepository.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
+            {
+                _offeredLicenses = _offeredLicenses.Concat(new List<License>{new License { Id = -3, WikiSearchString = "Geparste autorisierte Lizenzen" } })
+                                                    .Concat(License.FromLicenseIdList(MetaData.AllRegisteredLicenses).Where(x => LicenseRepository.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
+                                                    .ToList();
+            }
+
+            if (
+                LicenseRepository.GetAllAuthorizedLicenses()
+                    .Any(x => License.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
+            {
+                _offeredLicenses = _offeredLicenses.Concat(new List<License>{ new License { Id = -4, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
+                                                    .Concat(LicenseRepository.GetAllAuthorizedLicenses().Where(x => License.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
+                                                    .ToList();
+            }
+                
+            MainLicenseAuthorized = MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).GetMainLicense();
             AllRegisteredLicenses = License.FromLicenseIdList(MetaData.AllRegisteredLicenses);
             AllAuthorizedLicenses = AllRegisteredLicenses
                                     .Where(x => LicenseRepository.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id))
                                     .ToList();
             SuggestedMainLicense = LicenseParser.SuggestMainLicenseFromParsedList(imageMetaData) ?? //Checked for requirements
                                    AllAuthorizedLicenses.FirstOrDefault(); //not checked
-            SelectedMainLicenseId = (MetaData.MainLicenseInfo != null && MainLicenseInfo.FromJson(MetaData.MainLicenseInfo) != null) ? MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).MainLicenseId : (SuggestedMainLicense != null ? SuggestedMainLicense.Id : -1);
+            SelectedMainLicenseId = (MetaData.MainLicenseInfo != null 
+                                        && MainLicenseInfo.FromJson(MetaData.MainLicenseInfo) != null)
+                                        ? MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).MainLicenseId
+                                        : (SuggestedMainLicense != null ? SuggestedMainLicense.Id : -2);
             LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList()) ?
                                     ToLicenseStateHtmlList() : 
                                     "";
@@ -116,6 +133,8 @@ namespace TrueOrFalse
 
             if (MetaData.Type == ImageType.QuestionSet)
                 Url_128 = QuestionSetImageSettings.Create(MetaData.TypeId).GetUrl_128px_square().Url;
+
+            ImageFrontendData = new ImageFrontendData(MetaData);
         }
 
         public void EvaluateImageDeployability()
@@ -137,7 +156,7 @@ namespace TrueOrFalse
             }
 
             if (EvaluateMainLicensePresence() &&
-                EvaluateLicenseRequirements(MainLicense) &&
+                EvaluateLicenseRequirements(MainLicenseAuthorized) &&
                 EvaluateManualApproval())
             {
                 ImageDeployability = ImageDeployability.ImageIsReadyToUse;
@@ -148,7 +167,7 @@ namespace TrueOrFalse
             if (EvaluateMainLicensePresence())
             {
                 GlobalLicenseStateMessage = "Hauptlizenz vorhanden. ";
-                EvaluateLicenseRequirements(MainLicense);
+                EvaluateLicenseRequirements(MainLicenseAuthorized);
                 EvaluateManualApproval();
                 return;
             }
@@ -206,7 +225,7 @@ namespace TrueOrFalse
 
         public bool EvaluateMainLicensePresence()
         {
-            if (MainLicense != null)
+            if (MainLicenseAuthorized != null)
                 return true;
             ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
             GlobalLicenseStateMessage += "Keine Hauptlizenz vorhanden. ";
