@@ -84,12 +84,21 @@ namespace TrueOrFalse
                            : (MetaData.DescriptionParsed);
 
             _offeredLicenses = new List<License> {new License { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
-                .Concat(new List<License> { new License { Id = -1, WikiSearchString = "Hauptlizenz löschen" } }).ToList();
+                .Concat(new List<License> { new License { Id = -1, WikiSearchString = "Hauptlizenz löschen" } })
+                .ToList();
+            
             if (License.FromLicenseIdList(MetaData.AllRegisteredLicenses).Any(x => LicenseRepository.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
             {
-                _offeredLicenses = _offeredLicenses.Concat(new List<License>{new License { Id = -3, WikiSearchString = "Geparste autorisierte Lizenzen" } })
-                                                    .Concat(License.FromLicenseIdList(MetaData.AllRegisteredLicenses).Where(x => LicenseRepository.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
-                                                    .ToList();
+                _offeredLicenses = _offeredLicenses
+                    .Concat(new List<License>{new License { Id = -3, WikiSearchString = "Geparste autorisierte Lizenzen" } })
+                    .Concat(
+                        License.FromLicenseIdList(MetaData.AllRegisteredLicenses)
+                            .Where(x => 
+                                LicenseRepository.GetAllAuthorizedLicenses()
+                                .Any(y => x.Id == y.Id)
+                            )
+                    )
+                    .ToList();
             }
 
             if (
