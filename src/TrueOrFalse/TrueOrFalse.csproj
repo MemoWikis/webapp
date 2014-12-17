@@ -208,6 +208,7 @@
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummary.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryLoader.cs" />
+    <Compile Include="Domain\Media\Image\ImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\ManualImageEvaluation.cs" />
     <Compile Include="Domain\Media\Image\ImageLicenseState.cs" />
     <Compile Include="Domain\Media\Image\MainLicenseInfo.cs" />
