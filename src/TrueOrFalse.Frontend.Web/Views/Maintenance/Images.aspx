@@ -26,7 +26,9 @@
     </div>
     <% Html.Message(Model.Message); %>
         
-    <a href="/Maintenance/LoadMarkupAndParse" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;">Markup von Wikimedia für Bilder ohne Hauptlizenz laden und parsen</a>
+    <a href="/Maintenance/LoadMarkupAndParse" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;">
+        Markup von Wikimedia für Bilder ohne Hauptlizenz laden und parsen
+    </a>
         
     <table class="ImageTable table">
         <tr>
