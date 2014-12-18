@@ -94,6 +94,9 @@ public class License
 
     public static List<License> FromLicenseIdList(string idList)
     {
+        if (idList == null)
+            return new List<License>();
+
         int y;
         return Regex.Split(idList, ", ")
             .ToList()
