@@ -30,9 +30,9 @@ namespace TrueOrFalse
 
         public string Url_128;
 
-        //new
-        public string Author;
+        public string FileName;
         public string Description;
+        public string Author;
 
         public License MainLicenseAuthorized;
         public License SuggestedMainLicense;
@@ -73,15 +73,15 @@ namespace TrueOrFalse
             ManualImageData = ManualImageData.FromJson(MetaData.ManualEntries);
             
             //new
+            FileName = !String.IsNullOrEmpty(MetaData.SourceUrl)
+                            ? Regex.Split(MetaData.SourceUrl, "/").Last()
+                            : "";
+            Description = !String.IsNullOrEmpty(ManualImageData.DescriptionManuallyAdded)
+                           ? ManualImageData.DescriptionManuallyAdded
+                           : (MetaData.DescriptionParsed);
             Author = !String.IsNullOrEmpty(ManualImageData.AuthorManuallyAdded)
                         ? ManualImageData.AuthorManuallyAdded
                         : (MetaData.AuthorParsed);
-            Description = !String.IsNullOrEmpty(MetaData.SourceUrl)
-                            ? "Datei: " + Regex.Split(MetaData.SourceUrl, "/").Last() + "<br/>"
-                            : "";
-            Description += !String.IsNullOrEmpty(ManualImageData.DescriptionManuallyAdded)
-                           ? ManualImageData.DescriptionManuallyAdded
-                           : (MetaData.DescriptionParsed);
 
             _offeredLicenses = new List<License> {new License { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
                 .Concat(new List<License> { new License { Id = -1, WikiSearchString = "Hauptlizenz löschen" } })

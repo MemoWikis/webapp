@@ -19,7 +19,7 @@ public class CategoryRowModel : BaseModel
 
     public CategoryRowModel(Category category, int indexInResultSet)
     {
-        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_85px_square().Url;
+        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px_square().Url;
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";

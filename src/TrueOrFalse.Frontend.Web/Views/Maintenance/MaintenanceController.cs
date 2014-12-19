@@ -155,7 +155,14 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
-    public string ImageModal(int imgId)
+    public string ImageDetailModal(int imgId)
+    {
+        var imageFrontendData = new ImageFrontendData(Resolve<ImageMetaDataRepository>().GetById(imgId));
+        return ViewRenderer.RenderPartialView("ImageDetailModal", imageFrontendData, ControllerContext);
+    }
+
+    [AccessOnlyAsAdmin]
+    public string ImageMaintenanceModal(int imgId)
     {
         var imageMaintenanceInfo = new ImageMaintenanceInfo(Resolve<ImageMetaDataRepository>().GetById(imgId));
         return ViewRenderer.RenderPartialView("ImageMaintenanceModal", imageMaintenanceInfo, ControllerContext);

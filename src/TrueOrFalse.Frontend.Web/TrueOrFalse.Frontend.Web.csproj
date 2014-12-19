@@ -975,9 +975,13 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Maintenance\ImageDetail.js">
+      <DependentUpon>ImageDetail.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Maintenance\ImageMaintenance.js">
       <DependentUpon>ImageMaintenance.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Maintenance\ImageDetailModal.ascx" />
     <Content Include="Views\Maintenance\ImageMaintenanceRow.ascx" />
     <Content Include="Views\Maintenance\ImageMaintenanceModal.ascx" />
     <Content Include="Views\Maintenance\Images.css">
@@ -1057,6 +1061,7 @@
       <DependentUpon>Set.less</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\Maintenance\ImageDetail.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ImageMaintenance.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
@@ -1331,6 +1336,9 @@
     </Content>
     <Content Include="Views\Maintenance\ImageMaintenance.js.map">
       <DependentUpon>ImageMaintenance.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\ImageDetail.js.map">
+      <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

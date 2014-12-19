@@ -10,7 +10,7 @@
                 <span><%=Model.ImageMetaData != null ? (Model.ImageMetaData.AuthorParsed ?? "") : ""%></span>
                 <input type="checkbox"> auswählen
             </label>
-            <img src="../../Images/Licenses/cc-by-sa.png" style="width: 75px; height: auto; position: absolute; right: 20px; bottom: 10px;"/>
+            <%= Model.ImageFrontendData.RenderImageDetailModalLink("Lizenz") %>
         </div>
     </div>
 

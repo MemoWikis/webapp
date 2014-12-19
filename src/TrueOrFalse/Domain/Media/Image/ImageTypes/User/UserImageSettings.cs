@@ -12,6 +12,7 @@ public class UserImageSettings : IImageSettings
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 100, 500 }; } }
 
     public string BasePath { get { return "/Images/Users/"; } }
+    public string BaseDummyUrl { get { return "Images/no-profile-picture-"; } }
 
     public UserImageSettings(int id){
         Id = id;
@@ -46,7 +47,7 @@ public class UserImageSettings : IImageSettings
                 BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant() + "?s=" + width + "&d=" +
                 Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" +
                                      HttpContext.Current.Request.Url.Host +
-                                     HttpContext.Current.Request.ApplicationPath + "Images/no-profile-picture-") + width + ".png";
+                                     HttpContext.Current.Request.ApplicationPath + BaseDummyUrl) + width + ".png";
     }
 
 

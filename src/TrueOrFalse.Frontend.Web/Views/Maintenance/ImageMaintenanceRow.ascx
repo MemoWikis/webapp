@@ -64,7 +64,7 @@
         <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl))){
         %> <br/><a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a><% } %>
                     
-        <br/><a data-image-id ="<%= Model.ImageId %>" class="ImageModal" href="#">Verwaltung (ImageModal)</a>
+        <br/><a data-image-id ="<%= Model.ImageId %>" class="ImageMaintenanceModal" href="#">Verwaltung (ImageModal)</a>
     </td>
 </tr>
             

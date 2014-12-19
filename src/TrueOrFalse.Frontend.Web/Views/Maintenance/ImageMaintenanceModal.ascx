@@ -134,7 +134,7 @@
         </div>
     </div>
 </div>
-<script id="ModalScript" type="text/javascript">
+<script id="ImageMaintenanceModalScript" type="text/javascript">
     $(function() {
         fnInitPopover($('#modalImageMaintenance'));
         new ImageMaintenanceModal(<%= Model.ImageId %>, '<%=Model.ManualImageData.ManualImageEvaluation.ToString() %>');
