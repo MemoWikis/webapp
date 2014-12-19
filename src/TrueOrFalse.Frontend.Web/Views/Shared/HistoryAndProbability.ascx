@@ -1,9 +1,11 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<HistoryAndProbabilityModel>" %>
 
-<div style="padding-bottom: 2px;">
+<div class="StatsRow">
     <% Html.RenderPartial("AnswerHistory", Model.AnswerHistory); %> 
 </div>
-<% Html.RenderPartial("CorrectnessProbability", Model.CorrectnessProbability); %>
+<div class="StatsRow">
+    <% Html.RenderPartial("CorrectnessProbability", Model.CorrectnessProbability); %>
+</div>
 
 <% if(Model.LoadJs){ %>
     <script type="text/javascript">

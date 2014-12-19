@@ -158,17 +158,20 @@ div.selected-row:hover {
 }
 .column-Image .image-container {
   margin-bottom: 5px;
+  position: relative;
 }
 .column-Image .image-container img {
   width: 105px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
   border-radius: 5px;
   max-width: 100%;
 }
 .column-Image .image-container .selectQuestion {
   font-size: 12px;
   position: absolute;
-  left: 5px;
   bottom: 1px;
+  bottom: 10px;
   width: 105px;
   color: black;
   background-color: white;
@@ -206,6 +209,11 @@ div.selected-row:hover {
     width: 572px;
   }
 }
+@media (max-width: 767px) {
+  .MainContentUpper {
+    min-height: 60px;
+  }
+}
 .QuestionText {
   font-weight: normal;
   font-size: large;
@@ -228,7 +236,6 @@ div.selected-row:hover {
 }
 @media (min-width: 480px) and (max-width: 767px) {
   .column-Additional {
-    padding-left: 16.66666667%;
     margin-left: 10px;
   }
 }
@@ -241,6 +248,12 @@ div.selected-row:hover {
   display: inline-block;
   width: 20px;
   text-align: center;
+}
+@media (min-width: 768px) {
+  .NumberTimesStats {
+    margin-top: 7px;
+    padding-bottom: 20px;
+  }
 }
 /*.QuestionAuthor {
 
