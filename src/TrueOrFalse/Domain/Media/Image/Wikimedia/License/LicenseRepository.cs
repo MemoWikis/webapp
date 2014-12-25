@@ -181,6 +181,20 @@ public class LicenseRepository
                 LicenseShortName = "CC BY-SA 3.0",
             },
 
+            new License()
+            {
+                Id = 12,
+                WikiSearchString = "cc-by-sa-4.0",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                
+                LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
+                LicenseLink = "http://creativecommons.org/licenses/by-sa/4.0/legalcode",
+                
+                LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/4.0/deed.de",
+                LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International",
+                LicenseShortName = "CC BY-SA 4.0",
+            },
+
             //new License()
             //{
             //    Id = 100,

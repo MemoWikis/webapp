@@ -33,10 +33,10 @@
     <table class="ImageTable table">
         <tr>
             <th class="ColumnImage"></th>
-            <th class="ColumnInfo">Info</th>
-            <th class="ColumnAuthor">Autor</th>
+            <th class="ColumnInfo"></th>
             <th class="ColumnDescription">Beschreibung</th>
-            <th class="ColumnLicense">Lizenz</th>
+            <th class="ColumnAuthor">Lizenzinfos</th>
+            <th class="ColumnLicense">Lizenzverwaltung</th>
         </tr>
         <%  var index = 0;
             foreach(var imageMaintenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
@@ -51,7 +51,7 @@
 
     <script type="text/javascript">
         $(function () {
-            fnInitModal($('.ImageModal'));
+            fnInitImageMaintenanceModal($('.ImageMaintenanceModal'));
             fnInitPopover($('body'));
         });
     </script>

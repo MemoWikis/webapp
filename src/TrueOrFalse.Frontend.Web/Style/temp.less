@@ -1,11 +1,52 @@
 ﻿@import (reference) 'includes/imports.less';
 
 
-
-/*xxx
+/*Question row flex
 ---------------------------------------------------------*/
 
+.media-below-sm ({
+    .column-Additional {
+        display: flex;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 
+    .StatsGroup {
+         display: flex;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        //justify-content: space-between;
+    }
+});
+
+
+.media-sm-up ({
+
+    .rowBase.question-row {
+        display: flex;
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+});
+
+.column-MainContent {
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+.ImageLicenseInfo {
+    //position: absolute; bottom: 0; left: 0; right: 0;
+    font-size: 10px;
+    padding-bottom: 3px;
+}
+
+
+ .StatsRow {
+     height: 20px;
+ }
 
 
 /*.added-cat {

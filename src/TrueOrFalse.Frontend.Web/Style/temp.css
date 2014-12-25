@@ -1,5 +1,38 @@
-﻿/*xxx
+﻿/*Question row flex
 ---------------------------------------------------------*/
+@media (max-width: 767px) {
+  .column-Additional {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .StatsGroup {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+@media (min-width: 768px) {
+  .rowBase.question-row {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+.column-MainContent {
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.ImageLicenseInfo {
+  font-size: 10px;
+  padding-bottom: 3px;
+}
+.StatsRow {
+  height: 20px;
+}
 /*.added-cat {
     position: relative;
     a {position: relative;}

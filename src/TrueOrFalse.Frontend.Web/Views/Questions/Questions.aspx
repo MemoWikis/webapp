@@ -7,6 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Questions/Questions.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/questions") %>
+    <%= Scripts.Render("~/bundles/Maintenance") %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">
@@ -241,5 +242,9 @@
         </div>
     </div>
 </div>
-
+ <script type="text/javascript">
+     $(function () {
+         fnInitImageDetailModal($('.ImageDetailModal'));
+     });
+</script>
 </asp:Content>

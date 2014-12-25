@@ -9,6 +9,7 @@ public class QuestionSetImageSettings : IImageSettings
     public IEnumerable<int> SizesSquare { get { return new[] { 206, 20 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500 }; } }
     public string BasePath { get { return "/Images/QuestionSets/"; } }
+    public string BaseDummyUrl { get { return "/Images/no-set-"; } }
     
     public string ServerPathAndId(){
         return HttpContext.Current.Server.MapPath(BasePath + Id);
@@ -39,7 +40,7 @@ public class QuestionSetImageSettings : IImageSettings
             this,
             width, 
             isSquare,
-            arg => "/Images/no-set-" + width + ".png"
+            arg => BaseDummyUrl + width + ".png"
         ).SetSuffix(imageMeta);
     }
 }

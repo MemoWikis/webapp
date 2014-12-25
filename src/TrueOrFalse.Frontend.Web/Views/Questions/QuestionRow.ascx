@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="rowBase question-row" style="position: relative;" data-questionId="<%= Model.QuestionId %>" data-userIsOwner="<%= Model.IsOwner? "true" : "false" %>">
+<div class="rowBase question-row" style="position: relative;" data-questionid="<%= Model.QuestionId %>" data-userisowner="<%= Model.IsOwner? "true" : "false" %>">
     <div class="column-Image">
         <div class="image-container">
             <img src="<%= Model.ImageUrl%>" style="position: relative;">
@@ -10,48 +10,52 @@
                 <span><%=Model.ImageMetaData != null ? (Model.ImageMetaData.AuthorParsed ?? "") : ""%></span>
                 <input type="checkbox"> auswählen
             </label>
-            <img src="../../Images/Licenses/cc-by-sa.png" style="width: 75px; height: auto; position: absolute; right: 20px; bottom: 10px;"/>
+            <%= Model.ImageFrontendData.RenderImageDetailModalLink("Lizenz") %>
         </div>
     </div>
 
     <div class="column-MainContent">
-        
-        <div class="Pin" data-question-id="<%= Model.QuestionId %>">
-            <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
-                <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
-                <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
-            </a>
-        </div>
-        
-        <div class="QuestionText">
-            <%= Model.QuestionId %>
-            <% if(Model.IsPrivate){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
-            <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
-        </div>   
-        <div>
-            <% foreach (var category in Model.Categories){ %>
-                <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
-            <% } %>
-        </div>
-        <% if(Model.SetCount > 0){ %>
-        <div style="margin-top: 3px;">
-            <% foreach (var setMini in Model.SetMinis){ %>
-                <a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
-            <% } %>
+        <div class="MainContentUpper">
+            <div class="QuestionText">
             
-            <% if (Model.SetCount > 5){ %>
-                <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount -5 %> weitere</a>
+                    <div class="Pin" data-question-id="<%= Model.QuestionId %>">
+                    <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                        <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
+                        <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
+                        <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+                    </a>
+                </div>
+
+                <%= Model.QuestionId %>
+                <% if(Model.IsPrivate){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
+                <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
+            </div>   
+            <div>
+                <% foreach (var category in Model.Categories){ %>
+                    <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
+                <% } %>
+            </div>
+            <% if(Model.SetCount > 0){ %>
+            <div style="margin-top: 3px;">
+                <% foreach (var setMini in Model.SetMinis){ %>
+                    <a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
+                <% } %>
+            
+                <% if (Model.SetCount > 5){ %>
+                    <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount -5 %> weitere</a>
+                <% } %>
+            </div>
             <% } %>
         </div>
-        <% } %>
-        
+        <div class="ImageLicenseInfo">
+            <%= !String.IsNullOrEmpty(Model.ImageFrontendData.AttributionHtmlString) ? Model.ImageFrontendData.AttributionHtmlString : "" %>
+        </div>
     </div>
 
-    <div class="column-Additional col-xs-10 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>" style="height: 100%;" >
+    <div class="column-Additional col-xs-12 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>" style="height: 100%;" >
         <div class="StatsGroup NumberTimesStats">
             
-            <div class="timesAdded" style="margin-top: 7px;">
+            <div class="timesAdded StatsRow">
                 <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
                     <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
                     <span class="totalPins NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
@@ -64,10 +68,7 @@
                     <span class="NumberTimes"><%= Model.Views %>x</span>
                 </span>
             </div>
-                        
-            <div style="padding-top: 12px; padding-bottom: 19px;">
-                <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
-            </div>
+            <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
         </div>
         <div class="StatsGroup QuestionAuthor">
             <a href="<%= Model.UserLink(Url)  %>" class="userPopover show-tooltip" rel="popover" data-creater-id="<%= Model.CreatorId %>" 

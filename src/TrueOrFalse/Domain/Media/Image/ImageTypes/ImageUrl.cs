@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
 using TrueOrFalse;
 
@@ -88,5 +89,37 @@ public class ImageUrl
 
         Url += urlSuffix ;
         return this;
+    }
+
+    public static string GetFallbackImageUrl(IImageSettings imageSettings, int width)
+    {
+        if (File.Exists(HttpContext.Current.Server.MapPath(imageSettings.BaseDummyUrl) + width + ".png"))
+            return imageSettings.BaseDummyUrl + width + ".png";
+
+        //Get next bigger image or maximum size image
+        var fileNameTrunk = imageSettings.BaseDummyUrl.Split('/').Last();
+        var fileDirectory = imageSettings.BaseDummyUrl.Split(new string[] {fileNameTrunk}, StringSplitOptions.None).First();
+        var fileNames = Directory.GetFiles(HttpContext.Current.Server.MapPath(fileDirectory), fileNameTrunk + "*.png");
+        if (fileNames.Any())
+        {
+            var fileWidths = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('-').Last().Replace(".png", ""))).OrderByDescending(x => x).ToList();
+            var fileWidth = 0;
+            for (var i = 0; i < fileWidths.Count(); i++)
+            {
+                if (fileWidths[i] < width) {
+                    fileWidth = i == 0 ? fileWidths[0] : fileWidths[i - 1];
+                    break;
+                }
+            }
+            if (fileWidth == 0)
+            {
+                fileWidth = fileWidths.Last();
+            }
+            if (File.Exists(HttpContext.Current.Server.MapPath(imageSettings.BaseDummyUrl) + fileWidth + ".png"))
+            {
+                return imageSettings.BaseDummyUrl + fileWidth + ".png";
+            }
+        }
+        return "";
     }
 }

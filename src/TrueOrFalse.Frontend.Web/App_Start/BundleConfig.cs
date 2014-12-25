@@ -86,6 +86,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/Maintenance")
                .Include("~/Views/Maintenance/ImageMaintenance.js")
+               .Include("~/Views/Maintenance/ImageDetail.js")
                .Include("~/Scripts/BootstrapCustomUtils.js"));
 
 #if RELEASE

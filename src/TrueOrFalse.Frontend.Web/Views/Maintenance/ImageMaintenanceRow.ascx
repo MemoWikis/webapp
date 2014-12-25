@@ -11,20 +11,36 @@
         <%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %><br/>
         TypeId: <%= Model.TypeId %>
     </td>
+    <td class="ColumnDescription">
+        <b>Datei: </b>
+        <% if (!String.IsNullOrEmpty(Model.FileName))
+        {%>
+            <div tabindex="0" class="PopoverHover" data-content="<%= Html.Raw(Model.FileName)%>">
+                <%= Model.FileName.TruncateAtWordWithEllipsisText(75, "... <i>[Hover für Volltext]</i>") %>
+            </div>
+        <%}%>
+        <b>Beschreibung: </b>
+        <% if (!String.IsNullOrEmpty(Model.Description))
+        {%>
+            <div tabindex="0" class="Description PopoverHover" data-content="<%= Html.Raw(Model.Description)%>">
+                <%= Model.Description.TruncateAtWordWithEllipsisText(100, "... <i>[Hover für Volltext]</i>") %>
+            </div>
+        <%}%>
+    </td>
     <td class="ColumnAuthor">
+        <b>Autor: </b>
         <% if (!String.IsNullOrEmpty(Model.Author))
         {%>
             <%= Model.Author %>
         <%}%>
-    </td>
-     <td class="ColumnDescription">
-        <% if (!String.IsNullOrEmpty(Model.Description))
+        <br/>
+        <b>Attributierung: </b>
+        <% if (!String.IsNullOrEmpty(Model.ImageFrontendData.AttributionHtmlString))
         {%>
-            <div tabindex="0" class="Description PopoverHover" data-content="<%= Html.Raw(Model.Description)%>">
-                <%= Model.Description.TruncateAtWordWithEllipsisText(150, "... [Hover für Volltext]") %>
-            </div>
+            <%= Model.ImageFrontendData.AttributionHtmlString %>
         <%}%>
     </td>
+    
     <td class="ColumnLicense">
         <a href="#" tabindex="0" class="PopoverHover" data-content="<%= !String.IsNullOrEmpty(Model.GlobalLicenseStateMessage) ? Html.Raw(Model.GlobalLicenseStateMessage).ToString() : ""%>">Status</a>
         <br/>
@@ -64,7 +80,7 @@
         <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl))){
         %> <br/><a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a><% } %>
                     
-        <br/><a data-image-id ="<%= Model.ImageId %>" class="ImageModal" href="#">Verwaltung (ImageModal)</a>
+        <br/><a data-image-id ="<%= Model.ImageId %>" class="ImageMaintenanceModal" href="#">Verwaltung (ImageModal)</a>
     </td>
 </tr>
             

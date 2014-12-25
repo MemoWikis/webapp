@@ -13,6 +13,8 @@ public class QuestionImageSettings : IImageSettings
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500, 435, 100 }; } }
 
     public string BasePath { get { return "/Images/Questions/"; } }
+    public string BaseDummyUrl { get { return "/Images/no-question-"; } }
+
 
     public string ServerPathAndId(){
         return HttpContext.Current.Server.MapPath("/Images/Questions/" + Id);
@@ -34,7 +36,7 @@ public class QuestionImageSettings : IImageSettings
     public ImageUrl GetUrl_500px() { return GetUrl(500); }
 
     private ImageUrl GetUrl(int width, bool isSquare = false){
-        return ImageUrl.Get(this, width, isSquare, arg => "/Images/no-question-" + width + ".png");
+        return ImageUrl.Get(this, width, isSquare, arg => BaseDummyUrl + width + ".png");
     }
 
     public static QuestionImageSettings Create(int questionId)

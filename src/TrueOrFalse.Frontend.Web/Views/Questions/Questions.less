@@ -85,7 +85,6 @@ div.selected-row:hover { background-color: #d6e0f4;}
 .column { display: inline-block;}
 
 .column-Image {
-
     float: left;
     padding-top: @question-row-image-padding;
     padding-left: @question-row-image-padding;
@@ -94,30 +93,33 @@ div.selected-row:hover { background-color: #d6e0f4;}
     .media-below-xs ({
         position: absolute !important;
     });
-
     .make-xs-column(2);
 
     .media-sm-up({
         width: @column-Image-sm-width;
     });
 
-    .image-container{
-
+    .image-container {
         margin-bottom: 5px;
+        position: relative;
 
-        img{
+        img {
             width: 105px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
             border-radius: 5px;
             max-width: 100%;
         }
 
-        .selectQuestion{
-            font-size: 12px; 
-            position: absolute; left:5px; bottom: 1px; 
-            width: 105px; 
-            color: black; 
-            background-color: white; 
-            opacity:0.7; 
+        .selectQuestion {
+            font-size: 12px;
+            position: absolute;
+            bottom: 1px;
+        bottom: 10px;
+            width: 105px;
+            color: black;
+            background-color: white;
+            opacity: 0.7;
             display: none;
         }
     }
@@ -150,6 +152,11 @@ div.selected-row:hover { background-color: #d6e0f4;}
     });
 }
 
+.MainContentUpper {
+    .media-below-sm ({
+        min-height: 60px;
+    });
+}
 
 .QuestionText {
 
@@ -173,7 +180,6 @@ div.selected-row:hover { background-color: #d6e0f4;}
     });
 
     .media-xs ({
-        padding-left: 16.66666667%;
         margin-left: 10px;
     });
 
@@ -188,6 +194,12 @@ div.selected-row:hover { background-color: #d6e0f4;}
     text-align: center;
 }
 
+.NumberTimesStats {
+    .media-sm-up ({
+        margin-top: 7px;
+        padding-bottom: 20px;
+    });
+}
 
 
 /*.QuestionAuthor {

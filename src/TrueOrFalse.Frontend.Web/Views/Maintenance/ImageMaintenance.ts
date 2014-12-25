@@ -1,16 +1,16 @@
 ﻿declare function fnInitPopover(jObject: JQuery): void;
 
-var fnInitModal = function (jObject: JQuery) {
+var fnInitImageMaintenanceModal = function (jObject: JQuery) {
     jObject.each(function() {
         $(this).click(
             function(e) {
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url: "/Maintenance/ImageModal?imgId=" + $(this).attr('data-image-id'),
+                    url: "/Maintenance/ImageMaintenanceModal?imgId=" + $(this).attr('data-image-id'),
                     success: function(result) { 
                         $('#modalImageMaintenance').remove();
-                        $('#ModalScript').remove();
+                        $('#ImageMaintenanceModalScript').remove();
                         $('.modal-backdrop.in').remove();
                         $(result).insertAfter($('table.ImageTable'));
                         $('#modalImageMaintenance').modal('show');
@@ -44,7 +44,7 @@ class ImageMaintenanceModal {
                 success: function (result) {
                     var html = $(result);
                     $('tr#ImgId-' + imgId).replaceWith(html);
-                    fnInitModal($('tr#ImgId-' + imgId + ' .ImageModal'));
+                    fnInitImageMaintenanceModal($('tr#ImgId-' + imgId + ' .ImageMaintenanceModal'));
                     fnInitPopover($('tr#ImgId-' + imgId));
                     $('#modalImageMaintenance').modal('hide');
 

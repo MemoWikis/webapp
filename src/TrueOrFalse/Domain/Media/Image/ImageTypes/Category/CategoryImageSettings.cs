@@ -9,6 +9,7 @@ public class CategoryImageSettings : IImageSettings
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500 }; } }
 
     public string BasePath { get { return "/Images/Categories/"; } }
+    public string BaseDummyUrl { get { return "/Images/no-category-picture-"; } }
 
     public CategoryImageSettings(){}
 
@@ -26,7 +27,7 @@ public class CategoryImageSettings : IImageSettings
 
     public ImageUrl GetUrl_50px(bool asSquare = false) { return GetUrl(50, asSquare); }
     public ImageUrl GetUrl_128px(bool asSquare = false) { return GetUrl(128, asSquare); }
-    public ImageUrl GetUrl_85px_square() { return GetUrl(85, isSquare: true); }
+    public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
 
     public ImageUrl GetUrl_206px_square() { return GetUrl(206, isSquare: true); }
 
@@ -38,6 +39,6 @@ public class CategoryImageSettings : IImageSettings
     }
 
     private string GetFallbackImage(int width){
-        return "/Images/no-category-picture-" + width + ".png";
+        return BaseDummyUrl + width + ".png";
     }
 }
