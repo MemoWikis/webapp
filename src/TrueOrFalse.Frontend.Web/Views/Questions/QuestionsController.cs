@@ -24,7 +24,7 @@ namespace TrueOrFalse
         }
 
         [SetMenu(MenuEntry.Questions)]
-        public ActionResult Questions(int? page, QuestionsModel model, string orderBy = "byRelevance")
+        public ActionResult Questions(int? page, QuestionsModel model, string orderBy)
         {
             _util.SetSearchSpecVars(_sessionUiData.SearchSpecQuestionAll, page, model, orderBy);
 
@@ -37,7 +37,7 @@ namespace TrueOrFalse
 
         public ActionResult QuestionsSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
-            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
+            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
             return Questions(page, model, orderBy);
         }
 
@@ -45,13 +45,13 @@ namespace TrueOrFalse
         {
             _sessionUiData.SearchSpecQuestionAll.Filter.Clear();
             _sessionUiData.SearchSpecQuestionAll.Filter.Categories.Add(categoryId);
-            return Questions(1, new QuestionsModel());
+            return Questions(1, new QuestionsModel(), null);
         }
 
         public JsonResult QuestionsSearchApi(string searchTerm, List<Int32> categories)
         {
             var model = new QuestionsModel();
-            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionAll, model, searchTerm, categories ?? new List<int>());
+            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionAll, model, searchTerm, categories ?? new List<int>());
 
             return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionAll, SearchTab.All, ControllerContext);
         }
@@ -69,14 +69,14 @@ namespace TrueOrFalse
 
         public ActionResult QuestionsMineSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
-            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
+            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionMine, model, searchTerm);
             return QuestionsMine(page, model, orderBy);
         }
 
         public JsonResult QuestionsMineSearchApi(string searchTerm, List<Int32> categories)
         {
             var model = new QuestionsModel();
-            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionMine, model, searchTerm, categories ?? new List<int>());
+            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionMine, model, searchTerm, categories ?? new List<int>());
 
             return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, SearchTab.Mine, ControllerContext);
         }
@@ -94,14 +94,14 @@ namespace TrueOrFalse
 
         public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
-            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionWish, model, searchTerm);
+            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionWish, model, searchTerm);
             return QuestionsWish(page, model, orderBy);
         }
 
         public JsonResult QuestionsWishSearchApi(string searchTerm, List<Int32> categories)
         {
             var model = new QuestionsModel();
-            _util.SetSearchTerm(_sessionUiData.SearchSpecQuestionWish, model, searchTerm, categories ?? new List<int>());
+            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionWish, model, searchTerm, categories ?? new List<int>());
 
             return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionWish, SearchTab.Wish, ControllerContext);
         }
@@ -193,7 +193,7 @@ namespace TrueOrFalse
             ControllerContext controllerContext)
         {
             var model = new QuestionsModel();
-            SetSearchTerm(searchSpec, model, searchTerm);
+            SetSearchFilter(searchSpec, model, searchTerm);
 
             var totalInSystem = 0;
             switch (searchTab){
@@ -223,8 +223,12 @@ namespace TrueOrFalse
             };
         }
 
-        public void SetSearchSpecVars(QuestionSearchSpec searchSpec, int? page, QuestionsModel model,
-            string orderBy, string defaultOrder = "byRelevance")
+        public void SetSearchSpecVars(
+            QuestionSearchSpec searchSpec, 
+            int? page, 
+            QuestionsModel model,
+            string orderBy, 
+            string defaultOrder = "byRelevance")
         {
             searchSpec.PageSize = 20;
 
@@ -234,7 +238,11 @@ namespace TrueOrFalse
             SetOrderBy(searchSpec, orderBy, defaultOrder);
         }
 
-        public void SetSearchTerm(QuestionSearchSpec searchSpec, QuestionsModel model, string searchTerm, List<int> categories = null)
+        public void SetSearchFilter(
+            QuestionSearchSpec searchSpec, 
+            QuestionsModel model, 
+            string searchTerm, 
+            List<int> categories = null)
         {
             if (searchSpec.Filter.SearchTerm != searchTerm)
                 searchSpec.CurrentPage = 1;
