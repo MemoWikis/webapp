@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Hosting;
+﻿using System.Collections.Generic;
 using SolrNet;
 
 namespace TrueOrFalse.Search
@@ -47,14 +41,8 @@ namespace TrueOrFalse.Search
                 _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));
             else
             {
-                var sp = Stopwatch.StartNew();
-                Loggly.Send("Question2SearchIndex-Start: " + sp.Elapsed, LogglyCategories.Performance);
-
                 var solrQuestion = ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id));
-                ExecAsync.Go(() => _solrOperations.Add(solrQuestion, new AddParameters { CommitWithin = 10000 }));
-
-                Loggly.Send("Question2SearchIndex-Stop: " + sp.Elapsed, LogglyCategories.Performance);
-                
+                ExecAsync.Go(() => _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 10000}));
             }
 
             _solrOperations.Commit();

@@ -37,7 +37,7 @@ class MarkdownQuestionExt
             var imageUploadModal = new ImageUploadModal();
             imageUploadModal.OnSave(function (url: string) {
 
-                var sourceString = imageUploadModal.Mode == ImageUploadModalMode.Wikimedia ? "wikimedia" : "upload";
+                var sourceString = imageUploadModal.Mode === ImageUploadModalMode.Wikimedia ? "wikimedia" : "upload";
 
                 $.ajax({
                     type: "POST",
@@ -51,13 +51,13 @@ class MarkdownQuestionExt
                         markupEditor: ""
                     },
                     success: function (result) {
-                        if (result.NewQuestionId != -1) {
+                        if (result.NewQuestionId !== -1) {
                             $("questionId").val(result.NewQuestionId);
                         }
                         callback(result.PreviewUrl);
                     },
                     error: function (x, y) {
-                        alert('Das Bild konnte leider nicht gespeichert werden.');
+                        window.alert('Das Bild konnte leider nicht gespeichert werden.');
                     }
                 });
             });

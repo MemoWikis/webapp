@@ -75,7 +75,6 @@ public class EditQuestionController : BaseController
         question.Creator = _sessionUser.User;
         _questionRepository.Create(question);
 
-
         var references = model.FillReferencesFromPostData(Request, question);
         foreach (var reference in references)
             question.References.Add(reference);
