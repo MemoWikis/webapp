@@ -17,7 +17,7 @@
     <div class="column-MainContent">
         <div class="MainContentUpper">
             <div class="QuestionText">
-                    <div class="Pin" data-question-id="<%= Model.QuestionId %>">
+                <div class="Pin" data-question-id="<%= Model.QuestionId %>">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
                         <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
