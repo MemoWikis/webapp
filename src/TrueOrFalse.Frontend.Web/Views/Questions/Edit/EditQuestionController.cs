@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,12 +11,12 @@ using TrueOrFalse.Web.Context;
 
 public class EditQuestionController : BaseController
 {
-    private readonly QuestionRepository _questionRepository;
+    private readonly QuestionRepository _questionRepo;
     private const string _viewLocation = "~/Views/Questions/Edit/EditQuestion.aspx";
     private const string _viewLocationBody = "~/Views/Questions/Edit/EditSolutionControls/SolutionType{0}.ascx";
 
-    public EditQuestionController(QuestionRepository questionRepository){
-        _questionRepository = questionRepository;
+    public EditQuestionController(QuestionRepository questionRepo){
+        _questionRepo = questionRepo;
     }
 
     public ActionResult Create(int? categoryId)
@@ -34,7 +35,7 @@ public class EditQuestionController : BaseController
 
     public ViewResult Edit(int id)
     {
-        var question = _questionRepository.GetById(id);
+        var question = _questionRepo.GetById(id);
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, HistoryItemType.Edit));
         var model = new EditQuestionModel(question);
         
@@ -49,14 +50,14 @@ public class EditQuestionController : BaseController
     [HttpPost]
     public ActionResult Edit(int id, EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
     {
-        var question = _questionRepository.GetById(id);
+        var question = _questionRepo.GetById(id);
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, HistoryItemType.Edit));
 
         model.Id = id;
         model.FillCategoriesFromPostData(Request.Form);
         model.FillReferencesFromPostData(Request, question);
         model.SetToUpdateModel();
-        _questionRepository.Update(
+        _questionRepo.Update(
             Resolve<EditQuestionModel_to_Question>()
                 .Update(model, question, Request.Form)
         );
@@ -70,16 +71,25 @@ public class EditQuestionController : BaseController
     public ActionResult Create(EditQuestionModel model, HttpPostedFileBase soundfile)
     {
         model.FillCategoriesFromPostData(Request.Form);
-        var question = Resolve<EditQuestionModel_to_Question>().Create(model, Request.Form);
 
-        question.Creator = _sessionUser.User;
-        _questionRepository.Create(question);
+        Question question;
+        if (!String.IsNullOrEmpty(Request["questionId"]))
+        {
+            question = _questionRepo.GetById(Convert.ToInt32(Request["questionId"]));
+            _questionRepo.Update(R<EditQuestionModel_to_Question>().Update(model, question, Request.Form));
+        }
+        else
+        {
+            question = R<EditQuestionModel_to_Question>().Create(model, Request.Form);
+            question.Creator = _sessionUser.User;
+            _questionRepo.Create(question);
+        }
 
         var references = model.FillReferencesFromPostData(Request, question);
         foreach (var reference in references)
             question.References.Add(reference);
 
-        _questionRepository.Update(question);
+        _questionRepo.Update(question);
 
         UpdateSound(soundfile, question.Id);
 
@@ -117,7 +127,7 @@ public class EditQuestionController : BaseController
             var question = new Question();
             question.Text = Request["Question"];
             question.Creator = _sessionUser.User;
-            _questionRepository.Create(question);
+            _questionRepo.Create(question);
 
             newQuestionId = questionId = question.Id;
         }
@@ -148,7 +158,7 @@ public class EditQuestionController : BaseController
 
         if (questionId.HasValue && questionId.Value > 0)
         {
-            var question = _questionRepository.GetById(questionId.Value);
+            var question = _questionRepo.GetById(questionId.Value);
             model = new GetQuestionSolution().Run(question);
         }
 

@@ -52,7 +52,7 @@ class MarkdownQuestionExt
                     },
                     success: function (result) {
                         if (result.NewQuestionId !== -1) {
-                            $("questionId").val(result.NewQuestionId);
+                            $("#questionId").val(result.NewQuestionId);
                         }
                         callback(result.PreviewUrl);
                     },

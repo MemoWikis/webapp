@@ -14,13 +14,12 @@
 </asp:Content>
 
 <asp:Content ID="aboutContent" ContentPlaceHolderID="MainContent" runat="server">
-    
-<input type="hidden" id="questionId" value="<%= Model.Id %>"/>
-<input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
-    
+
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditQuestion", null, FormMethod.Post, new { id="EditQuestionForm", enctype = "multipart/form-data", style="margin:0px;" })){ %>
     
     <input type="hidden" id="hddReferencesJson" name="hddReferencesJson"/>
+    <input type="hidden" id="questionId" name="questionId" value="<%= Model.Id %>"/>
+    <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
 
     <div class="row">
         <div class="PageHeader col-xs-12">
