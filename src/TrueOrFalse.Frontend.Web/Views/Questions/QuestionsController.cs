@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using NHibernate.Criterion;
-using NHibernate.Hql.Ast.ANTLR;
 using Seedworks.Lib;
-using Seedworks.Lib.Persistence;
-using TrueOrFalse;
 using TrueOrFalse.Search;
-using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
-
     public class QuestionsController : BaseController
     {
         private readonly QuestionRepository _questionRepository;

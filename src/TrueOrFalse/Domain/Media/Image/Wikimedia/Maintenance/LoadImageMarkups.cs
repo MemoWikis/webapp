@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Gibraltar.Agent.Windows;
 
 namespace TrueOrFalse.Maintenance
 {
@@ -35,7 +33,8 @@ namespace TrueOrFalse.Maintenance
             imageMetaData.MarkupDownloadDate = licenseInfo.MarkupDownloadDate;
         }
 
-        //$temp: wird dieses globale (Nach-)Laden des Markups überhaupt benötigt, wenn Daten gleich beim ersten Speichern mit abgerufen werden?
+        //$temp: wird dieses globale (Nach-)Laden des Markups überhaupt benötigt, 
+        //wenn Daten gleich beim ersten Speichern mit abgerufen werden?
         public void UpdateAll()
         {
             var allImages = _imgRepo.Session
@@ -43,7 +42,7 @@ namespace TrueOrFalse.Maintenance
                 .Where(x => x.Source == ImageSource.WikiMedia)
                 .List<ImageMetaData>();
             
-            //Update(allImages);
+            Update(allImages);
         }
 
         public void UpdateAllWithoutAuthorizedMainLicense()
@@ -65,7 +64,17 @@ namespace TrueOrFalse.Maintenance
             {
                 Run(imageMetaData);
 
-                _imgRepo.Update(imageMetaData);
+                try
+                {
+                    Logg.r().Information("Processing {Id} {Type}", imageMetaData.Id, imageMetaData.Type);
+                    _imgRepo.Update(imageMetaData);
+                    _imgRepo.Flush();
+                }
+                catch (Exception e)
+                {
+                    Logg.r().Error(e, "Error when saving imageMetaData {@ImageId}", imageMetaData.Id);
+                    throw;
+                }
             }
         }
     }
