@@ -28,13 +28,21 @@ namespace TrueOrFalse.Search
         public void Update(IList<Question> questions)
         {
             foreach (var question in questions)
+            {
+                if(question.IsWorkInProgress)
+                    continue;
+
                 _solrOperations.Add(ToQuestionSolrMap.Run(
-                    question, _questionValuationRepo.GetBy(question.Id)));
+                    question, _questionValuationRepo.GetBy(question.Id)));                
+            }
         }
 
         public void Update(Question question, bool commitDelayed = true)
         {
             if (question == null)
+                return;
+
+            if (question.IsWorkInProgress)
                 return;
 
             if (!commitDelayed)

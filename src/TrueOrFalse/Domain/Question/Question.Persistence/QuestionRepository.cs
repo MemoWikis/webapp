@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using Remotion.Linq.Clauses.ResultOperators;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 

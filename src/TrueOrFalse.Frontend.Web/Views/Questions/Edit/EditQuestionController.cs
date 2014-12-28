@@ -1,13 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using NHibernate.Mapping;
 using TrueOrFalse;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 
 public class EditQuestionController : BaseController
 {
@@ -121,12 +117,14 @@ public class EditQuestionController : BaseController
         string markupEditor
         )
     {
-
         int newQuestionId = -1;
-        if (questionId == -1){
+        if (questionId == -1)
+        {    
             var question = new Question();
-            question.Text = Request["Question"];
+            question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
+            question.Solution = "Temporäre Frage";
             question.Creator = _sessionUser.User;
+            question.IsWorkInProgress = true;
             _questionRepo.Create(question);
 
             newQuestionId = questionId = question.Id;
