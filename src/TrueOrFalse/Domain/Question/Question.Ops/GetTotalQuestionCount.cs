@@ -23,7 +23,9 @@ namespace TrueOrFalse
         public int Run(int creatorId)
         {
             return _session.QueryOver<Question>()
-                .Where(s => s.Creator.Id == creatorId)
+                .Where(s => 
+                    s.Creator.Id == creatorId && 
+                    s.IsWorkInProgress == false)
                 .Select(Projections.RowCount())
                 .FutureValue<int>()
                 .Value;

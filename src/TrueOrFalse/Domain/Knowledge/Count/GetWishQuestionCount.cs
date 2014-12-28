@@ -13,10 +13,10 @@ namespace TrueOrFalse
 
         public int Run(int userId)
         {
-            return (int)_session.CreateQuery("SELECT count(qv) FROM QuestionValuation qv " +
-                                             "WHERE UserId = " + userId +
-                                             "AND RelevancePersonal > -1 ")
-                                .UniqueResult<Int64>();
+            return (int)_session.CreateQuery(
+                "SELECT count(qv) FROM QuestionValuation qv " +
+                "WHERE UserId = " + userId +
+                "AND RelevancePersonal > -1 ").UniqueResult<Int64>();
         }
     }
 }
