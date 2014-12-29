@@ -65,7 +65,7 @@ namespace TrueOrFalse
         {
             var categoryImgBasePath = new CategoryImageSettings().BasePath;
             var questionImgBasePath = new QuestionImageSettings().BasePath;
-            var setImgBasePath = new QuestionSetImageSettings().BasePath;
+            var setImgBasePath = new SetImageSettings().BasePath;
 
             ImageId = imageMetaData.Id;
             MetaData = imageMetaData;
@@ -141,7 +141,7 @@ namespace TrueOrFalse
                 Url_128 = new QuestionImageSettings(MetaData.TypeId).GetUrl_128px_square().Url;
 
             if (MetaData.Type == ImageType.QuestionSet)
-                Url_128 = QuestionSetImageSettings.Create(MetaData.TypeId).GetUrl_128px_square().Url;
+                Url_128 = SetImageSettings.Create(MetaData.TypeId).GetUrl_128px_square().Url;
 
             ImageFrontendData = new ImageFrontendData(MetaData);
         }

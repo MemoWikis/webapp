@@ -16,7 +16,7 @@ public class StoreImages
 
         using (var image = Image.FromStream(inputStream)){
             
-            image.Save(imageSettings.ServerPathAndId() + ".jpg", ImageFormat.Jpeg);
+            image.Save(imageSettings.ServerPathAndId() + "_" + image.Width + ".jpg", ImageFormat.Jpeg);
 
             foreach (var size in imageSettings.SizesSquare){
                 ResizeImage.Run(image, imageSettings.ServerPathAndId(), size, isSquare: true);

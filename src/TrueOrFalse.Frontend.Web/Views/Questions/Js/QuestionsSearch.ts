@@ -61,8 +61,7 @@ class QuestionsSearch {
             },
             traditional: true,
             type: 'json',
-            success:
-            (data: QuestionSearchResult) => {
+            success: (data: QuestionSearchResult) => {
                 this._elemContainer.html(data.Html);
 
                 var tabAmount = data.TotalInResult.toString() + " von " + data.TotalInSystem.toString();

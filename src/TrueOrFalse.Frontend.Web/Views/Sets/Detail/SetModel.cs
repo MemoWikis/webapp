@@ -54,7 +54,7 @@ public class SetModel : BaseModel
         CreationDate = set.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = TimeElapsedAsText.Run(set.DateCreated);
 
-        ImageUrl = QuestionSetImageSettings.Create(set.Id).GetUrl_350px_square().Url;
+        ImageUrl = SetImageSettings.Create(set.Id).GetUrl_350px_square().Url;
 
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>()
             .GetBy(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);

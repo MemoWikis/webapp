@@ -1,24 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 
-public class CategoryImageSettings : IImageSettings
+public class CategoryImageSettings : ImageSettingsBase, IImageSettings
 {
-    public int Id { get; private set; }
+    public override int Id { get; set; }
 
     public IEnumerable<int> SizesSquare{ get { return new[] { 206, 50 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500 }; } }
 
-    public string BasePath { get { return "/Images/Categories/"; } }
+    public override string BasePath { get { return "/Images/Categories/"; } }
     public string BaseDummyUrl { get { return "/Images/no-category-picture-"; } }
 
     public CategoryImageSettings(){}
 
     public CategoryImageSettings(int categoryId){
         Id = categoryId;
-    }
-
-    public string ServerPathAndId(){
-        return HttpContext.Current.Server.MapPath(BasePath + Id);
     }
 
     public void Init(int categoryId){

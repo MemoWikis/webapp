@@ -57,7 +57,7 @@ public class SetRowModel
         DetailLink = urlHelper => Links.SetDetail(urlHelper, set, indexInResultSet);
         UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);
 
-        ImageUrl = QuestionSetImageSettings.Create(set.Id).GetUrl_128px_square().Url;
+        ImageUrl = SetImageSettings.Create(set.Id).GetUrl_128px_square().Url;
         Categories = set.Categories;
     }
 

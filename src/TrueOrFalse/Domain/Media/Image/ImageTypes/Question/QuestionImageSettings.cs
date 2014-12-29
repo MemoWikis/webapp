@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Collections.Generic;
 
-public class QuestionImageSettings : IImageSettings
+public class QuestionImageSettings : ImageSettingsBase, IImageSettings
 {
-    public int Id { get; private set; }
+    public override int Id { get; set; }
 
     public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 50, 20 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500, 435, 100 }; } }
 
-    public string BasePath { get { return "/Images/Questions/"; } }
+    public override string BasePath { get { return "/Images/Questions/"; } }
     public string BaseDummyUrl { get { return "/Images/no-question-"; } }
-
-
-    public string ServerPathAndId(){
-        return HttpContext.Current.Server.MapPath("/Images/Questions/" + Id);
-    }
 
     public QuestionImageSettings(){}
 

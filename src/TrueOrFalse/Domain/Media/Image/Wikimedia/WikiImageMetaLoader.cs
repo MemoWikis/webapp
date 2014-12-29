@@ -10,7 +10,7 @@ namespace TrueOrFalse
 {
     public class WikiImageMetaLoader : IRegisterAsInstancePerLifetime
     {
-        public WikiImageMeta Run(string fileNameOrUrl, int thumbUrlWidth = 1024, string host = "commons.wikimedia.org")
+        public WikiImageMeta Run(string fileNameOrUrl, int imgWidth = 1024, string host = "commons.wikimedia.org")
         {
             fileNameOrUrl = HttpUtility.UrlDecode(fileNameOrUrl);
             
@@ -25,7 +25,7 @@ namespace TrueOrFalse
                 "&iiprop=timestamp|user|userid|url|size|metadata|sha1" +
                 "&iilimit=1" + //return 1 revision
                 "&iiextmetadatalanguage=de" +
-                "&iiurlwidth=" + thumbUrlWidth +
+                "&iiurlwidth=" + imgWidth +
                 "&titles=File:" + HttpUtility.UrlEncode(fileName);
 
             var webRequest = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
@@ -52,7 +52,7 @@ namespace TrueOrFalse
                 {
                     var newTryHost = WikiApiUtils.ExtractDomain(fileNameOrUrl);
                     if (!String.IsNullOrEmpty(newTryHost) && newTryHost != "commons.wikimedia.org")
-                        return Run(fileNameOrUrl, thumbUrlWidth, newTryHost);
+                        return Run(fileNameOrUrl, imgWidth, newTryHost);
                 }
                 return new WikiImageMeta { ImageNotFound = true };
             }

@@ -2,22 +2,18 @@
 using System.Web;
 using TrueOrFalse;
 
-public class QuestionSetImageSettings : IImageSettings
+public class SetImageSettings : ImageSettingsBase, IImageSettings
 {
-    public int Id { get; private set; }
+    public override int Id { get; set; }
 
     public IEnumerable<int> SizesSquare { get { return new[] { 206, 20 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500 }; } }
-    public string BasePath { get { return "/Images/QuestionSets/"; } }
+    public override string BasePath { get { return "/Images/QuestionSets/"; } }
     public string BaseDummyUrl { get { return "/Images/no-set-"; } }
-    
-    public string ServerPathAndId(){
-        return HttpContext.Current.Server.MapPath(BasePath + Id);
-    }
 
-    public static QuestionSetImageSettings Create(int questionSetId)
+    public static SetImageSettings Create(int questionSetId)
     {
-        var result =  new QuestionSetImageSettings();
+        var result =  new SetImageSettings();
         result.Init(questionSetId);
         return result;
     }
