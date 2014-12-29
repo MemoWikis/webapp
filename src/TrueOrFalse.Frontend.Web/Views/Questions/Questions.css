@@ -98,6 +98,10 @@ div.question-row{background-color:silver;}*/
     top: 5px;
   }
 }
+#menu1 ul.dropdown-menu {
+  left: auto;
+  right: 0;
+}
 .question-row {
   margin-left: -10px;
   margin-right: -10px;
@@ -149,6 +153,7 @@ div.selected-row:hover {
 @media (max-width: 479px) {
   .column-Image {
     position: absolute !important;
+    z-index: 1;
   }
 }
 @media (min-width: 768px) {
@@ -177,6 +182,9 @@ div.selected-row:hover {
   background-color: white;
   opacity: 0.7;
   display: none;
+}
+.column-Image a.ImageDetailModal {
+  display: block;
 }
 .column-MainContent {
   padding-right: 20px;
@@ -232,6 +240,8 @@ div.selected-row:hover {
 @media (max-width: 479px) {
   .column-Additional {
     padding-left: 76.15625px;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
   }
 }
 @media (min-width: 480px) and (max-width: 767px) {
@@ -352,6 +362,8 @@ div.column-Additional div.row {
 @media (max-width: 479px) {
   .Pin {
     float: left;
+    padding-left: 0;
+    padding-right: 10px;
   }
 }
 /*# sourceMappingURL=Questions.css.map */

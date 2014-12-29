@@ -6,11 +6,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
-                <h3 class="modal-title">Bilddetailanzeige</h3>
+                <h3 class="modal-title">Bilddetails</h3>
             </div>
 
             <div class="modal-body" id="modalBody">
-                <img src="<%= Model.GetImageUrl(1000).Url %>" style="display: block; float: left; padding-right: 10px; padding-bottom: 5px;"/>
+                <div class="ImageContainer">
+                    <img src="<%= Model.GetImageUrl(1000).Url %>" style="padding-bottom: 5px;"/>
+                    <div class="ImageInfo">
+                        <% if (!String.IsNullOrEmpty(Model.AttributionHtmlString))
+                        {%>
+                           <%= Model.AttributionHtmlString %>    
+                        <% } %>   
+                    </div>
+                </div>
             </div>
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
                 <div class="ButtonContainer float-none-xxs">

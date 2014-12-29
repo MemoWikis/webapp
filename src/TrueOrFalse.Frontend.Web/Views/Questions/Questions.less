@@ -53,6 +53,13 @@ div.question-row{background-color:silver;}*/
     });
 }
 
+#menu1 {
+    ul.dropdown-menu {
+        left: auto;
+        right: 0;
+    }
+}
+
 
 .question-row {
 
@@ -92,6 +99,7 @@ div.selected-row:hover { background-color: #d6e0f4;}
 
     .media-below-xs ({
         position: absolute !important;
+        z-index: 1;//To have image column clickable
     });
     .make-xs-column(2);
 
@@ -122,6 +130,10 @@ div.selected-row:hover { background-color: #d6e0f4;}
             opacity: 0.7;
             display: none;
         }
+    }
+
+    a.ImageDetailModal {
+        display: block;
     }
 }
 
@@ -169,23 +181,30 @@ div.selected-row:hover { background-color: #d6e0f4;}
 }
 
 .column-Additional {
-
     float: left;
     padding-top: 5px;
     line-height: 15px;
     font-size: 90%;
 
-    .media-below-xs ({
+    .media-below-xs ( {
         padding-left: 76.15625px;
-    });
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
 
-    .media-xs ({
+    );
+
+    .media-xs ( {
         margin-left: 10px;
-    });
+    }
 
-    .media-sm-up ({
+    );
+
+    .media-sm-up ( {
         width: @column-Additional-sm-width;
-    });
+    }
+
+    );
 }
 
 .NumberTimes {
@@ -293,5 +312,7 @@ div.column-Additional div.row {
 
     .media-below-xs ({
         float: left;
+        padding-left: 0;
+        padding-right: 10px;
     });
 } 

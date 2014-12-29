@@ -37,7 +37,7 @@ var Checkbox = (function (_super) {
     __extends(Checkbox, _super);
     function Checkbox(ckbContainer) {
         this.CkbContainer = ckbContainer;
-        this._ckb = $(this.CkbContainer.children()[0]);
+        this._ckb = $(this.CkbContainer.find('input[type="checkbox"]'));
         _super.call(this, ckbContainer.closest(".question-row"));
     }
     Checkbox.prototype.IsChecked = function () {

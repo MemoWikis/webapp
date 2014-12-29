@@ -984,7 +984,7 @@
     <Content Include="Views\Maintenance\ImageDetailModal.ascx" />
     <Content Include="Views\Maintenance\ImageMaintenanceRow.ascx" />
     <Content Include="Views\Maintenance\ImageMaintenanceModal.ascx" />
-    <Content Include="Views\Maintenance\Images.css">
+    <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\Markup.ascx" />
@@ -1330,8 +1330,8 @@
     <Content Include="Views\Questions\Answer\AnswerQuestion.css.map">
       <DependentUpon>AnswerQuestion.css</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Images.less" />
-    <Content Include="Views\Maintenance\Images.css.map">
+    <Content Include="Style\Images.less" />
+    <Content Include="Style\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\ImageMaintenance.js.map">

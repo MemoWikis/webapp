@@ -39,7 +39,7 @@ class Checkbox extends QuestionRow
 
     constructor(ckbContainer) { 
         this.CkbContainer = ckbContainer; 	    
-        this._ckb = $(this.CkbContainer.children()[0]);
+        this._ckb = $(this.CkbContainer.find('input[type="checkbox"]'));
 		super(ckbContainer.closest(".question-row"));
     }
  	

@@ -1,4 +1,33 @@
-﻿.ImageTable {
+﻿/*Image detail modal
+---------------------------------------------------------*/
+#modalImageDetail .modal-body:before,
+#modalImageDetail .modal-body:after {
+  content: " ";
+  display: table;
+}
+#modalImageDetail .modal-body:after {
+  clear: both;
+}
+#modalImageDetail .modal-body:before,
+#modalImageDetail .modal-body:after {
+  content: " ";
+  display: table;
+}
+#modalImageDetail .modal-body:after {
+  clear: both;
+}
+#modalImageDetail .ImageContainer {
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+}
+#modalImageDetail .ImageInfo {
+  display: table-caption;
+  caption-side: bottom;
+}
+/*Image maintenance
+---------------------------------------------------------*/
+.ImageTable {
   table-layout: fixed;
 }
 .ImageTable td {

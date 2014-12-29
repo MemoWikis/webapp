@@ -1,4 +1,28 @@
-﻿@import '../../Style/includes/imports.less';
+﻿@import 'includes/imports.less';
+
+/*Image detail modal
+---------------------------------------------------------*/
+
+#modalImageDetail {
+    .modal-body {
+        .clearfix;
+    }
+
+    .ImageContainer {
+        //max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+    }
+
+    .ImageInfo {
+         display: table-caption; //Have the caption have the same width as the image without specifying it: http://stackoverflow.com/a/11652170
+         caption-side: bottom;
+    }
+}
+
+/*Image maintenance
+---------------------------------------------------------*/
 
 //Table
 .ImageTable {
@@ -33,7 +57,7 @@
     }
 }
 
-//Modal
+//ImageMaintenanceModal
 
 #modalImageMaintenance {
 
@@ -66,3 +90,4 @@
         }
     }
 }
+

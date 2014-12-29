@@ -5,7 +5,6 @@
 <%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/Views/Maintenance/Images.css") %>
     <%= Scripts.Render("~/bundles/Maintenance") %>
 </asp:Content>
 

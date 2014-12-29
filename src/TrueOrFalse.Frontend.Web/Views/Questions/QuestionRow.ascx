@@ -6,19 +6,30 @@
     <div class="column-Image">
         <div class="image-container">
             <img src="<%= Model.ImageUrl%>" style="position: relative;">
-            <label class="checkbox selectQuestion">
-                <span><%=Model.ImageMetaData != null ? (Model.ImageMetaData.AuthorParsed ?? "") : ""%></span>
+            <%--<label class="checkbox selectQuestion">
                 <input type="checkbox"> auswählen
-            </label>
-            <%= Model.ImageFrontendData.RenderImageDetailModalLink("Lizenz") %>
+            </label>--%>
+           
+            <div class="SelectAreaUpper">
+                <div id="CheckBoxIconContainer">
+                    <i id="Checked-Icon" class="fa fa-check-square-o"></i>
+                    <i id="Unchecked-Icon" class="fa fa-square-o"></i>
+                    <div class="CheckboxText">Frage auswählen</div>
+                </div>
+            </div>
+            <div class="SelectAreaLower">
+                 <div class="HoverMessage">
+                    Bildinfos
+                </div>
+            </div>
         </div>
+        <%= Model.ImageFrontendData.RenderImageDetailModalLink("Bild- und Lizenzinfos") %>
     </div>
 
     <div class="column-MainContent">
         <div class="MainContentUpper">
             <div class="QuestionText">
-            
-                    <div class="Pin" data-question-id="<%= Model.QuestionId %>">
+                <div class="Pin" data-question-id="<%= Model.QuestionId %>">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
                         <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
@@ -47,8 +58,7 @@
             </div>
             <% } %>
         </div>
-        <div class="ImageLicenseInfo">
-            <%= !String.IsNullOrEmpty(Model.ImageFrontendData.AttributionHtmlString) ? Model.ImageFrontendData.AttributionHtmlString : "" %>
+        <div class="ImageLower">
         </div>
     </div>
 
