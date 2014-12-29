@@ -1,4 +1,4 @@
-﻿/// <reference path="ToQuestionSet.ts" />
+/// <reference path="ToQuestionSet.ts" />
 /// <reference path="QuestionRowSelection.ts" />
 
 var Page = (function () {
