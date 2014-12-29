@@ -9,4 +9,9 @@ public abstract class ImageSettingsBase
     {
         return HttpContext.Current.Server.MapPath(BasePath + Id);
     }
+
+    public string ServerPath()
+    {
+        return HttpContext.Current.Server.MapPath(BasePath);
+    }
 }

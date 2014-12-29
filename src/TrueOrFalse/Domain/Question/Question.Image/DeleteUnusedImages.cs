@@ -11,14 +11,14 @@ namespace TrueOrFalse.Web
         {
             var searchString = "/images/questions/" + questionId;
 
-            if (markup.ToLower().Contains(searchString))
+            if (!string.IsNullOrEmpty(markup) && markup.ToLower().Contains(searchString))
                 return;
 
             var imageSettings = new QuestionImageSettings();
             
-            var filesToDelete = Directory.GetFiles(imageSettings.BasePath, questionId + "_*");
+            var filesToDelete = Directory.GetFiles(imageSettings.ServerPath(), questionId + "_*");
             foreach (var file in filesToDelete)
-                File.Exists(file);
+                File.Delete(file);
 
             var imageRepo = ServiceLocator.R<ImageMetaDataRepository>();
             var imageToDelete = imageRepo.GetBy(questionId, ImageType.Question);

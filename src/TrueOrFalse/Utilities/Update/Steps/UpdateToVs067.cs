@@ -13,10 +13,10 @@ namespace TrueOrFalse.Updates
     {
         public static void Run()
         {
-            RenameFiles(new QuestionImageSettings().BasePath);
-            RenameFiles(new SetImageSettings().BasePath);
-            RenameFiles(new UserImageSettings(-1).BasePath);
-            RenameFiles(new CategoryImageSettings().BasePath);
+            RenameFiles(new QuestionImageSettings().ServerPath());
+            RenameFiles(new SetImageSettings().ServerPath());
+            RenameFiles(new UserImageSettings(-1).ServerPath());
+            RenameFiles(new CategoryImageSettings().ServerPath());
         }
 
         private static void RenameFiles(string basePath)
