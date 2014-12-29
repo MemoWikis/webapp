@@ -1,6 +1,9 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text;
+using System.Xml;
 using TrueOrFalse.WikiMarkup;
 
 namespace TrueOrFalse
@@ -13,6 +16,7 @@ namespace TrueOrFalse
 
             var url = String.Format("http://" + apiHost + "/w/index.php?title=File:{0}&action=raw", imageTitle);
             var markup = WikiApiUtils.GetWebpage(url);
+            markup = RemoveTroublesomeCharacters(markup);
 
             var parsedImageMarkup = ParseImageMarkup.Run(markup);
             var licenseInfo = new WikiImageLicenseInfo
@@ -26,5 +30,11 @@ namespace TrueOrFalse
 
             return licenseInfo;
         }
+
+        public static string RemoveTroublesomeCharacters(string inString)
+        {
+            return new string(inString.Where(XmlConvert.IsXmlChar).ToArray());
+        }
+
     }
 }

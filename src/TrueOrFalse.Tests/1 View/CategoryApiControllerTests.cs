@@ -22,9 +22,6 @@ namespace TrueOrFalse.Tests
                 new CategoryJsonResult(),
                 new CategoryJsonResult()
             }); //empty category names
-
-
-
         }
     }
 }

@@ -45,6 +45,8 @@ namespace TrueOrFalse
             Map(x => x.SetsAmount);
             Map(x => x.SetsTop5Json);
 
+            Map(x => x.IsWorkInProgress);
+
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
         }

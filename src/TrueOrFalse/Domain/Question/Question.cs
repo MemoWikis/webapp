@@ -70,6 +70,8 @@ namespace TrueOrFalse
             set { SetsTop5Json = JsonConvert.SerializeObject(value);  }
         }
 
+        public virtual bool IsWorkInProgress { get; set; }
+
         public Question()
         {
             Categories = new List<Category>();

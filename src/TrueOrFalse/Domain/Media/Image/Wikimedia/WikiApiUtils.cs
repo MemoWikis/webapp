@@ -60,7 +60,6 @@ namespace TrueOrFalse
             if (!filePath.Contains("."))
                 return null;
 
-            filePath = filePath.Trim();
             filePath = filePath.Replace("http://", "");
 
             if (filePath.Contains("/"))

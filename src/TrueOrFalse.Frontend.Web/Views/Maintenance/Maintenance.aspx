@@ -71,8 +71,7 @@
     <a href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>">
         <i class="fa fa-retweet"></i>Nutzer
     </a>
-    
-        
+
     <br/><br/>
 
 </asp:Content>

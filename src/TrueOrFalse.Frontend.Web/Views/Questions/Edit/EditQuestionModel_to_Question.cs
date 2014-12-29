@@ -29,6 +29,7 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
         question.UpdateReferences(model.References);
 
         question.Visibility = model.Visibility;
+        question.IsWorkInProgress = false;
 
         var serializer = new JavaScriptSerializer();
         switch (question.SolutionType)

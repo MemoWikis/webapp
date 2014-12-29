@@ -36,8 +36,6 @@
                         <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
                     </a>
                 </div>
-
-                <%= Model.QuestionId %>
                 <% if(Model.IsPrivate){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
                 <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
             </div>   
