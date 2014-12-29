@@ -242,9 +242,4 @@
         </div>
     </div>
 </div>
- <script type="text/javascript">
-     $(function () {
-         fnInitImageDetailModal($('.ImageDetailModal'));
-     });
-</script>
 </asp:Content>

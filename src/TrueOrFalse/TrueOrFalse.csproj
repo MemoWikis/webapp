@@ -209,6 +209,7 @@
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummary.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryLoader.cs" />
     <Compile Include="Domain\Media\Image\ImageFrontendData.cs" />
+    <Compile Include="Domain\Media\Image\ImageTypes\ImageSettingsBase.cs" />
     <Compile Include="Domain\Media\Image\ManualImageEvaluation.cs" />
     <Compile Include="Domain\Media\Image\ImageLicenseState.cs" />
     <Compile Include="Domain\Media\Image\MainLicenseInfo.cs" />
@@ -267,7 +268,7 @@
     <Compile Include="Domain\Media\Image\ImageTypes\User\UserImageSettings.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\User\UserImageStore.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\ImageUrl.cs" />
-    <Compile Include="Domain\Media\Image\ImageTypes\QuestionSet\QuestionSetImageSettings.cs" />
+    <Compile Include="Domain\Media\Image\ImageTypes\QuestionSet\SetImageSettings.cs" />
     <Compile Include="Domain\Media\Image\ImageStore.cs" />
     <Compile Include="Domain\Media\Image\TmpImage\TmpImage.cs" />
     <Compile Include="Domain\Media\Image\TmpImage\TmpImageStore.cs" />
@@ -493,6 +494,7 @@
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs067.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs066.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs065.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs064.cs" />

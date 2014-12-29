@@ -32,6 +32,8 @@ class Page
 
         new Pin(PinRowType.Question);
         new QuestionDelete();
+
+        fnInitImageDetailModal($('.ImageDetailModal'));
     }
   
 }

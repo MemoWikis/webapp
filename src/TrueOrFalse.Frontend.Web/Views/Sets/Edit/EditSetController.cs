@@ -69,12 +69,12 @@ public class EditSetController : BaseController
         {
             if (Request["ImageSource"] == "wikimedia")
             {
-                Resolve<ImageStore>().RunWikimedia<QuestionSetImageSettings>(
+                Resolve<ImageStore>().RunWikimedia<SetImageSettings>(
                     Request["ImageWikiFileName"], setId, ImageType.QuestionSet, _sessionUser.User.Id);
             }
             if (Request["ImageSource"] == "upload")
             {
-                Resolve<ImageStore>().RunUploaded<QuestionSetImageSettings>(
+                Resolve<ImageStore>().RunUploaded<SetImageSettings>(
                     _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), setId, _sessionUser.User.Id,Request["ImageLicenseOwner"]);
             }
         }

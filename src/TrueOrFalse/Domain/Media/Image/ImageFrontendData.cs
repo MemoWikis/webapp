@@ -153,7 +153,7 @@ public class ImageFrontendData
 
         else if (ImageMetaData.Type == ImageType.QuestionSet)
         {
-            imageSettings = QuestionSetImageSettings.Create(ImageMetaData.TypeId);
+            imageSettings = SetImageSettings.Create(ImageMetaData.TypeId);
         }
 
         else //Default: question
