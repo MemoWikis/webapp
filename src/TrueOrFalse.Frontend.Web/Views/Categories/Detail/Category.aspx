@@ -90,7 +90,7 @@
                 <%  } %>
             </div>
             <% if(Model.CountQuestions > 0){ %>
-                <h4 style="margin-top: 0;">Fragen (<%=Model.CountQuestions %>)</h4>                    
+                <h4 style="margin-top: 0;">Alle Fragen (<%=Model.CountQuestions %>)</h4>
                 <%
                     var index = 0;
                     foreach(var question in Model.TopQuestions){ 
@@ -105,8 +105,14 @@
                 </a>
             <% } %>
             
+            <% if(Model.CountQuestions > 0){ %>
+                <h4 style="margin-top: 0;">Dein Wunschwissen (<%=Model.CountQuestions %>)</h4>
+            
+            <% } %>
+            
             <% if(Model.CountSets > 0){ %>    
-                <h4>Fragesätze (<%=Model.CountSets %>)</h4>
+                <h4><%if(Model.CountSets == 1){ %> In einem Fragesatz <% }
+                      else{ %> In <%=Model.CountSets %> Fragesätzen<% } %></h4>
                 <% foreach(var set in Model.TopSets){ %>
                     <div>
                         - <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>

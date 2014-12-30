@@ -20,13 +20,13 @@
             if (questionValuation == null)
             {
                 var newQuestionVal = new QuestionValuation
-                                         {
-                                             QuestionId = questionId, 
-                                             UserId = userId, 
-                                             Quality = quality, 
-                                             RelevancePersonal = relevancePeronal, 
-                                             RelevanceForAll = relevanceForAll
-                                         };
+                {
+                    Question = Sl.R<QuestionRepository>().GetById(questionId), 
+                    User = Sl.R<UserRepository>().GetById(userId), 
+                    Quality = quality, 
+                    RelevancePersonal = relevancePeronal, 
+                    RelevanceForAll = relevanceForAll
+                };
 
                 _questionValuationRepository.Create(newQuestionVal);
             }

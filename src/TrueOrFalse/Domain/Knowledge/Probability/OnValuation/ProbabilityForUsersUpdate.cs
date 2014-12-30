@@ -26,8 +26,8 @@ namespace TrueOrFalse
                 _session.QueryOver<QuestionValuation>()
                     .Where(qv => qv.RelevancePersonal >= 0)
                     .Select(
-                        qv => qv.QuestionId,
-                        qv => qv.UserId)
+                        qv => qv.Question.Id,
+                        qv => qv.User.Id)
                     .List<object[]>();
 
             foreach (var item in questionValuationRecords)

@@ -6,29 +6,39 @@ namespace TrueOrFalse
     public class ProbabilityForUserUpdate : IRegisterAsInstancePerLifetime
     {
         private readonly AnswerHistoryRepository _answerHistoryRepository;
-        private readonly QuestionValuationRepository _questionValuationRepository;
+        private readonly QuestionValuationRepository _questionValuationRepo;
         private readonly ProbabilityCalc _probabilityCalc;
+        private readonly QuestionRepository _questionRepo;
+        private readonly UserRepository _userRepo;
 
         public ProbabilityForUserUpdate(
             AnswerHistoryRepository answerHistoryRepository,
-            QuestionValuationRepository questionValuationRepository,
-            ProbabilityCalc probabilityCalc)
+            QuestionValuationRepository questionValuationRepo,
+            ProbabilityCalc probabilityCalc, 
+            QuestionRepository questionRepo,
+            UserRepository userRepo)
         {
             _answerHistoryRepository = answerHistoryRepository;
-            _questionValuationRepository = questionValuationRepository;
+            _questionValuationRepo = questionValuationRepo;
             _probabilityCalc = probabilityCalc;
+            _questionRepo = questionRepo;
+            _userRepo = userRepo;
         }
 
         public void Run(int userId)
         {
-            _questionValuationRepository.GetByUser(userId).ForEach(Run);
+            _questionValuationRepo.GetByUser(userId).ForEach(Run);
         }
 
         public void Run(int questionId, int userId)
         {
             var questionValuation =
-                _questionValuationRepository.GetBy(questionId, userId) ?? 
-                new QuestionValuation{QuestionId = questionId, UserId = userId};
+                _questionValuationRepo.GetBy(questionId, userId) ??
+                    new QuestionValuation
+                    {
+                        Question = _questionRepo.GetById(questionId), 
+                        User = _userRepo.GetById(userId)
+                    };
 
             Run(questionValuation);
         }
@@ -37,14 +47,12 @@ namespace TrueOrFalse
         {
             var sp = Stopwatch.StartNew();
 
-            var questionId = questionValuation.QuestionId;
-            var userId = questionValuation.UserId;
+            var questionId = questionValuation.Question.Id;
+            var userId = questionValuation.User.Id;
 
             var answerHistoryItems = _answerHistoryRepository.GetBy(questionId, userId);
             int correctnessProbability = _probabilityCalc.Run(answerHistoryItems);
 
-            questionValuation.QuestionId = questionId;
-            questionValuation.UserId = userId;
             questionValuation.CorrectnessProbability = correctnessProbability;
 
             if (answerHistoryItems.Count <= 4)
@@ -55,7 +63,7 @@ namespace TrueOrFalse
                         KnowledgeStatus.Secure : 
                         KnowledgeStatus.Weak;
 
-            _questionValuationRepository.CreateOrUpdate(questionValuation);
+            _questionValuationRepo.CreateOrUpdate(questionValuation);
 
             Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, questionId, userId);
         }

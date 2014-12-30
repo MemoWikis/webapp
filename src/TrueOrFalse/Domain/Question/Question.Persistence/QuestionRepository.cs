@@ -52,6 +52,11 @@ namespace TrueOrFalse
                 .List<Question>();
         }
 
+        public IList<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
+        {
+            return new List<Question>();
+        }
+
         public IList<Question> GetByIds(List<int> questionIds)
         {
             return GetByIds(questionIds.ToArray());

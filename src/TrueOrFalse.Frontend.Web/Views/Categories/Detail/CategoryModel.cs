@@ -32,6 +32,7 @@ public class CategoryModel : BaseModel
     public bool IsOwnerOrAdmin;
 
     public int CountQuestions;
+    public int CountWishQuestions;
     public int CountSets;
     public int CountCreators;
 
@@ -50,6 +51,8 @@ public class CategoryModel : BaseModel
         CountQuestions = category.CountQuestions;
         CountSets = category.CountSets;
         CountCreators = category.CountCreators;
+
+        //CountWishQuestions = category.
 
         TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id, 5);
         TopSets = Resolve<SetRepository>().GetForCategory(category.Id);

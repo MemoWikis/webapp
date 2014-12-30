@@ -80,13 +80,15 @@ namespace TrueOrFalse.Tests
                 .AddQuestion("Juliane Misdom", "Answer3").AddCategory("B")
                 .Persist();
 
+            var user = context.Creator;
+
             Resolve<QuestionValuationRepository>().Create(new List<QuestionValuation>{
-                new QuestionValuation { RelevancePersonal = 70, QuestionId = context.All[0].Id, UserId = 2 },
-                new QuestionValuation { RelevancePersonal = 15, QuestionId = context.All[1].Id, UserId = 2 },
+                new QuestionValuation { RelevancePersonal = 70, Question = context.All[0], User = user },
+                new QuestionValuation { RelevancePersonal = 15, Question = context.All[1], User = user },
             });
 
-            Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager(), valuatorId:2).Count, Is.EqualTo(0));
-            Assert.That(Resolve<SearchQuestions>().Run("Question", new Pager(), valuatorId: 2).Count, Is.EqualTo(2));
+            Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager(), valuatorId: user.Id).Count, Is.EqualTo(0));
+            Assert.That(Resolve<SearchQuestions>().Run("Question", new Pager(), valuatorId: user.Id).Count, Is.EqualTo(2));
         }
 
         [Test]
