@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse.Infrastructure.Persistence;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse
@@ -52,9 +53,28 @@ namespace TrueOrFalse
                 .List<Question>();
         }
 
-        public IList<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
+        public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
         {
-            return new List<Question>();
+            var query = _session.QueryOver<QuestionValuation>()
+                .Where(q =>
+                    q.RelevancePersonal != -1 &&
+                    q.User.Id == userId)
+                .JoinQueryOver(q => q.Question)
+                .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
+                .ThenBy(x => x.DateCreated).Desc
+                .JoinQueryOver<Category>(q => q.Categories)
+                .Where(c => c.Id == categoryId);
+
+            return new PagedResult<Question>
+            {
+                PageSize = resultCount,
+                Total = query.RowCount(),
+                Items = query
+                    .Take(resultCount)
+                    .List<QuestionValuation>()
+                    .Select(qv => qv.Question)
+                    .ToList()
+            };
         }
 
         public IList<Question> GetByIds(List<int> questionIds)

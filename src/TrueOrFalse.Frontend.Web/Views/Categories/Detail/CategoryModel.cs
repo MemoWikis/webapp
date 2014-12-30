@@ -15,7 +15,8 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesChildren;
 
     public IList<Set> TopSets;
-    public IList<Question> TopQuestions = new List<Question>();
+    public IList<Question> TopQuestions;
+    public IList<Question> TopWishQuestions;
     public IList<User> TopCreaters;
 
     public User Creator;
@@ -48,13 +49,16 @@ public class CategoryModel : BaseModel
         Type = category.Type.GetShortName();
         IsOwnerOrAdmin = _sessionUser.IsOwnerOrAdmin(category.Creator.Id);
 
+        var questionRepo = Resolve<QuestionRepository>();
+        var wishQuestions = questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
+
         CountQuestions = category.CountQuestions;
         CountSets = category.CountSets;
         CountCreators = category.CountCreators;
+        CountWishQuestions = wishQuestions.Total;
 
-        //CountWishQuestions = category.
-
-        TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id, 5);
+        TopQuestions = questionRepo.GetForCategory(category.Id, 5);
+        TopWishQuestions = wishQuestions.Items;
         TopSets = Resolve<SetRepository>().GetForCategory(category.Id);
 
         CategoriesParent = category.ParentCategories;
