@@ -73,7 +73,7 @@ public class EditQuestionController : BaseController
         model.FillCategoriesFromPostData(Request.Form);
 
         Question question;
-        if (!String.IsNullOrEmpty(Request["questionId"]))
+        if (!String.IsNullOrEmpty(Request["questionId"]) && Request["questionId"] != "-1")
         {
             question = _questionRepo.GetById(Convert.ToInt32(Request["questionId"]));
             _questionRepo.Update(R<EditQuestionModel_to_Question>().Update(model, question, Request.Form));
