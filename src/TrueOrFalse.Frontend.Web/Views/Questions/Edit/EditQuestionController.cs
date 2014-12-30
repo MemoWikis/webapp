@@ -53,10 +53,14 @@ public class EditQuestionController : BaseController
         model.FillCategoriesFromPostData(Request.Form);
         model.FillReferencesFromPostData(Request, question);
         model.SetToUpdateModel();
+
+        DeleteUnusedImages.Run(model.QuestionExtended, id);
+
         _questionRepo.Update(
             Resolve<EditQuestionModel_to_Question>()
                 .Update(model, question, Request.Form)
         );
+
         UpdateSound(soundfile, id);
         model.Message = new SuccessMessage("Die Frage wurde gespeichert.");
 
@@ -84,6 +88,8 @@ public class EditQuestionController : BaseController
         var references = model.FillReferencesFromPostData(Request, question);
         foreach (var reference in references)
             question.References.Add(reference);
+
+        DeleteUnusedImages.Run(model.QuestionExtended, question.Id);
 
         _questionRepo.Update(question);
 
