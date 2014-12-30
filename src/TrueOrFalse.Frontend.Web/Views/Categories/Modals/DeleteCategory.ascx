@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="alert alert-danger">
                     Die Kategorie <b>'<span id="spanCategoryTitle"></span>'</b> wird unwiederbringlich gelöscht. 
-                    Alle damit verknüpften Daten werden entfernt! 
+                    Alle damit verknüpften Daten werden entfernt (Fragen werden nicht gelöscht)! 
                 </div>
             </div>
             <div class="modal-footer">

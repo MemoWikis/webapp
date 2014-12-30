@@ -9,8 +9,8 @@
             </div>
             <div class="modal-body">
                 <div class="alert-danger">
-                    Der Fragesatz <b>'<span id="spanSetTitle"></span>'</b> wird unwiederbringlich gelöscht. 
-                    Alle damit verknüpften Daten werden entfernt! 
+                    Achtung: Der Fragesatz <b>'<span id="spanSetTitle"></span>'</b> wird unwiederbringlich gelöscht. 
+                    Alle damit verknüpften Daten werden entfernt (Fragen werden nicht gelöscht)! 
                 </div>
             </div>
             <div class="modal-footer">
