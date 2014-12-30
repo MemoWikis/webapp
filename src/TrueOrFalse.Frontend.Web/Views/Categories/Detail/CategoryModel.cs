@@ -52,7 +52,8 @@ public class CategoryModel : BaseModel
         var questionRepo = Resolve<QuestionRepository>();
         var wishQuestions = questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
-        CountQuestions = category.CountQuestions;
+        CountQuestions = category.CountQuestions +
+            R<GetQuestionCount>().Run(UserId, category.Id, new[] { QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends });
         CountSets = category.CountSets;
         CountCreators = category.CountCreators;
         CountWishQuestions = wishQuestions.Total;
