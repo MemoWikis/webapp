@@ -42,11 +42,12 @@ namespace TrueOrFalse
             base.Delete(question);
         }
 
-        public IList<Question> GetForCategory(int categoryId, int resultCount)
+        public IList<Question> GetForCategory(int categoryId, int resultCount, int currentUser)
         {
             return _session.QueryOver<Question>()
                 .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
                 .ThenBy(x => x.DateCreated).Desc
+                .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
                 .JoinQueryOver<Category>(q => q.Categories)
                 .Where(c => c.Id == categoryId)
                 .Take(resultCount)

@@ -57,7 +57,7 @@ public class CategoryModel : BaseModel
         CountCreators = category.CountCreators;
         CountWishQuestions = wishQuestions.Total;
 
-        TopQuestions = questionRepo.GetForCategory(category.Id, 5);
+        TopQuestions = questionRepo.GetForCategory(category.Id, 5, UserId);
         TopWishQuestions = wishQuestions.Items;
         TopSets = Resolve<SetRepository>().GetForCategory(category.Id);
 

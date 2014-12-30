@@ -197,8 +197,8 @@ namespace TrueOrFalse
 
             var totalInSystem = 0;
             switch (searchTab){
-                case SearchTab.All: totalInSystem = R<GetTotalQuestionCount>().Run(); break;
-                case SearchTab.Mine: totalInSystem = R<GetTotalQuestionCount>().Run(_sessionUser.UserId); break;
+                case SearchTab.All: totalInSystem = R<GetQuestionCount>().Run(); break;
+                case SearchTab.Mine: totalInSystem = R<GetQuestionCount>().Run(_sessionUser.UserId); break;
                 case SearchTab.Wish: totalInSystem = R<GetWishQuestionCountCached>().Run(_sessionUser.UserId); break;
             }
 
