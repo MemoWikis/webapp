@@ -7,8 +7,8 @@ namespace TrueOrFalse
     {
         public virtual int Id { get; set; }
 
-        public virtual int UserId { get; set; }
-        public virtual int QuestionId { get; set; }
+        public virtual User User { get; set; }
+        public virtual Question Question { get; set; }
 
         public virtual int Quality { get; set; }
         public virtual int RelevancePersonal { get; set; }

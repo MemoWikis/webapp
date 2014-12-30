@@ -13,12 +13,13 @@ namespace TrueOrFalse.Tests
                 .AddQuestion("QuestionA", "AnswerA").AddCategory("A")
                 .Persist();
 
-            var questionId = contextQuestion.All.First().Id;
+            var question = contextQuestion.All.First();
+            var user = contextQuestion.Creator;
             var updateTotals = Resolve<UpdateQuestionTotals>();
 
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, QuestionId = questionId, UserId = 2 });
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, QuestionId = questionId, UserId = 2 });
-            updateTotals.Run(new QuestionValuation { QuestionId = questionId, UserId = 2 });
+            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, Question = question, User = user });
+            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, Question = question, User = user });
+            updateTotals.Run(new QuestionValuation { Question = question, User = user });
 
             Assert.That(Resolve<GetWishQuestionCount>().Run(userId:2), Is.EqualTo(2));
         }

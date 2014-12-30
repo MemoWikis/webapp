@@ -27,11 +27,11 @@ namespace TrueOrFalse
 
             var sb = new StringBuilder();
 
-            sb.Append(GenerateQualityQuery(questionValuation.QuestionId));
-            sb.Append(GenerateRelevanceAllQuery(questionValuation.QuestionId));
+            sb.Append(GenerateQualityQuery(questionValuation.Question.Id));
+            sb.Append(GenerateRelevanceAllQuery(questionValuation.Question.Id));
 
-            sb.Append(GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.QuestionId));
-            sb.Append(GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.QuestionId));    
+            sb.Append(GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));
+            sb.Append(GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));    
             
             _session.CreateSQLQuery(sb.ToString()).ExecuteUpdate();
             _session.Flush();

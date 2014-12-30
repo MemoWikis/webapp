@@ -27,15 +27,15 @@ namespace TrueOrFalse
         {
             return _session.QueryOver<QuestionValuation>()
                            .Where(q => 
-                               q.UserId == userId && 
-                               q.QuestionId == questionId)
+                               q.User.Id == userId && 
+                               q.Question.Id == questionId)
                            .SingleOrDefault();
         }
 
         public IList<QuestionValuation> GetBy(int questionId)
         {
             return _session.QueryOver<QuestionValuation>()
-                           .Where(q => q.QuestionId == questionId)
+                           .Where(q => q.Question.Id == questionId)
                            .List<QuestionValuation>();
         }
 
@@ -43,7 +43,7 @@ namespace TrueOrFalse
         {
             return _session.QueryOver<QuestionValuation>()
                            .Where(q => 
-                               q.UserId == userId &&
+                               q.User.Id == userId &&
                                q.RelevancePersonal >= 0)
                            .List<QuestionValuation>();            
         }
@@ -53,20 +53,10 @@ namespace TrueOrFalse
             if(!questionIds.Any())
                 return new List<QuestionValuation>();
 
-            var sb = new StringBuilder();
-            sb.Append("SELECT * FROM QuestionValuation WHERE UserId = " + userId + " ");
-            sb.Append("AND (QuestionId = " + questionIds[0]);
-
-            for(int i = 1; i < questionIds.Count(); i++){
-                sb.Append(" OR QuestionId = " + questionIds[i]);
-            }
-            sb.Append(")");
-
-            Console.Write(sb.ToString());
-
-            return _session.CreateSQLQuery(sb.ToString())
-                           .SetResultTransformer(Transformers.AliasToBean(typeof(QuestionValuation)))
-                           .List<QuestionValuation>();
+            return _session.QueryOver<QuestionValuation>()
+                .Where(qv => qv.User.Id == userId)
+                .AndRestrictionOn(qv => qv.Question.Id).IsIn(questionIds.ToArray())
+                .List<QuestionValuation>();
         }
 
         public override void Create(IList<QuestionValuation> questionValuations)
@@ -78,19 +68,19 @@ namespace TrueOrFalse
         public override void Create(QuestionValuation questionValuation)
         {
             base.Create(questionValuation);
-            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.QuestionId));
+            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.Question.Id));
         }
 
         public override void CreateOrUpdate(QuestionValuation questionValuation)
         {
             base.CreateOrUpdate(questionValuation);
-            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.QuestionId));
+            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.Question.Id));
         }
 
         public override void Update(QuestionValuation questionValuation)
         {
             base.Update(questionValuation);
-            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.QuestionId));
+            _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.Question.Id));
         }
     }
 }

@@ -26,7 +26,7 @@ public class KnowledgeSummaryLoader : IRegisterAsInstancePerLifetime
                     Projections.Count<QuestionValuation>(x => x.KnowledgeStatus)
                 )
                 .Where(x => 
-                    x.UserId == userId && 
+                    x.User.Id == userId && 
                     x.RelevancePersonal != -1
                 ).List<object[]>();
 

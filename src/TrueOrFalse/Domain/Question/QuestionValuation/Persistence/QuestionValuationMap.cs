@@ -7,8 +7,8 @@ namespace TrueOrFalse
         public QuestionValuationMap()
         {
             Id(x => x.Id);
-            Map(x => x.UserId);
-            Map(x => x.QuestionId);
+            References(x => x.User).Column("UserId");
+            References(x => x.Question).Column("QuestionId");
 
             Map(x => x.Quality);
             Map(x => x.RelevancePersonal);

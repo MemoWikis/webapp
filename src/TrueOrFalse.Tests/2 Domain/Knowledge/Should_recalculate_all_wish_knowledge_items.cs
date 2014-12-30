@@ -18,18 +18,18 @@ namespace TrueOrFalse.Tests
                 .Persist();
 
             var updateTotals = Resolve<UpdateQuestionTotals>();
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, QuestionId = context.All[0].Id, UserId = 2 });
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, QuestionId = context.All[1].Id, UserId = 2 });
-            updateTotals.Run(new QuestionValuation { QuestionId = context.All[2].Id, UserId = 2 });
+            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, Question = context.All[0], User = context.Creator});
+            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, Question = context.All[1], User = context.Creator});
+            updateTotals.Run(new QuestionValuation { Question = context.All[2], User = context.Creator});
 
             Resolve<ISession>().Flush();
 
             Resolve<ProbabilityForUsersUpdate>().Run();
-            Assert.That(Resolve<GetWishQuestionCount>().Run(userId: 2), Is.EqualTo(2));
+            Assert.That(Resolve<GetWishQuestionCount>().Run(context.Creator.Id), Is.EqualTo(2));
 
             Resolve<ISession>().Flush();
 
-            var summary = Resolve<KnowledgeSummaryLoader>().Run(userId: 2);
+            var summary = Resolve<KnowledgeSummaryLoader>().Run(context.Creator.Id);
             Assert.That(summary.Total, Is.EqualTo(2));
             Assert.That(summary.Unknown, Is.EqualTo(2));
         }
