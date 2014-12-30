@@ -4,11 +4,11 @@ using NHibernate.Criterion;
 
 namespace TrueOrFalse
 {
-    public class GetTotalQuestionCount : IRegisterAsInstancePerLifetime
+    public class GetQuestionCount : IRegisterAsInstancePerLifetime
     {
         private readonly ISession _session;
 
-        public GetTotalQuestionCount(ISession session){
+        public GetQuestionCount(ISession session){
             _session = session;
         }
 
@@ -26,6 +26,20 @@ namespace TrueOrFalse
                 .Where(s => 
                     s.Creator.Id == creatorId && 
                     s.IsWorkInProgress == false)
+                .Select(Projections.RowCount())
+                .FutureValue<int>()
+                .Value;
+        }
+
+        public int Run(int creatorId, int categoryId, QuestionVisibility[] visibility)
+        {
+            return _session.QueryOver<Question>()
+                .Where(q =>
+                    q.Creator.Id == creatorId &&
+                    q.IsWorkInProgress == false)
+                    .AndRestrictionOn(q => q.Visibility).IsIn(visibility)
+                .JoinQueryOver<Category>(q => q.Categories)
+                .Where(c => c.Id == categoryId)
                 .Select(Projections.RowCount())
                 .FutureValue<int>()
                 .Value;

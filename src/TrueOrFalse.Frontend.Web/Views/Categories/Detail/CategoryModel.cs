@@ -47,11 +47,12 @@ public class CategoryModel : BaseModel
         Type = category.Type.GetShortName();
         IsOwnerOrAdmin = _sessionUser.IsOwnerOrAdmin(category.Creator.Id);
 
-        CountQuestions = category.CountQuestions;
+        CountQuestions = category.CountQuestions + 
+            R<GetQuestionCount>().Run(UserId, category.Id, new[] { QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends });
         CountSets = category.CountSets;
         CountCreators = category.CountCreators;
 
-        TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id, 5);
+        TopQuestions = Resolve<QuestionRepository>().GetForCategory(category.Id, 5, UserId);
         TopSets = Resolve<SetRepository>().GetForCategory(category.Id);
 
         CategoriesParent = category.ParentCategories;

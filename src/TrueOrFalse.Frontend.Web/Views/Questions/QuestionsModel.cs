@@ -75,8 +75,8 @@ public class QuestionsModel : BaseModel
                                     searchTab
                                   );
 
-        TotalQuestionsInSystem = Resolve<GetTotalQuestionCount>().Run();
-        TotalQuestionsMine = Resolve<GetTotalQuestionCount>().Run(currentUserId);
+        TotalQuestionsInSystem = Resolve<GetQuestionCount>().Run();
+        TotalQuestionsMine = Resolve<GetQuestionCount>().Run(currentUserId);
         TotalWishKnowledge = Resolve<GetWishQuestionCountCached>().Run(currentUserId);
 
         TotalQuestionsInResult = questionSearchSpec.TotalItems;

@@ -336,7 +336,7 @@
     <Compile Include="Domain\Question\Question.Ops\GetTotalSetCount.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
     <Compile Include="Domain\NotNull.cs" />
-    <Compile Include="Domain\Question\Question.Ops\GetTotalQuestionCount.cs" />
+    <Compile Include="Domain\Question\Question.Ops\GetQuestionCount.cs" />
     <Compile Include="Domain\QuestionSet\SetMini.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionSearchSpecSession.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\CreateOrUpdateQuestionValue.cs" />
