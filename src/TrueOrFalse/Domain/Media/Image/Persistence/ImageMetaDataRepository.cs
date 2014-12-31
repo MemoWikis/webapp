@@ -28,36 +28,22 @@ namespace TrueOrFalse
             int userId, 
             WikiImageMeta wikiMetaData)
         {
-            var imageMeta = GetBy(typeId, imageType);
-            if (imageMeta == null)
-            {   
-                var newImageMetaData = new ImageMetaData
-                {
-                    Type = imageType,
-                    TypeId = typeId,
-                    ApiHost = wikiMetaData.ApiHost,
-                    Source = ImageSource.WikiMedia,
-                    SourceUrl = wikiMetaData.ImageUrl,
-                    ApiResult = wikiMetaData.JSonResult,
-                    UserId = userId,
-                };
+            var imageMeta = GetBy(typeId, imageType) ?? new ImageMetaData();
 
-                ServiceLocator.Resolve<LoadImageMarkups>().Run(newImageMetaData);
+            imageMeta.Type = imageType;
+            imageMeta.TypeId = typeId;
+            imageMeta.ApiHost = wikiMetaData.ApiHost;
+            imageMeta.Source = ImageSource.WikiMedia;
+            imageMeta.SourceUrl = wikiMetaData.ImageUrl;
+            imageMeta.ApiResult = wikiMetaData.JSonResult;
+            imageMeta.UserId = userId;
 
-                Create(newImageMetaData);
-            }
-            else
-            {
-                //$temp: warum hier kein ApiHost?
-                imageMeta.Source = ImageSource.WikiMedia;
-                imageMeta.SourceUrl = wikiMetaData.ImageUrl;
-                imageMeta.ApiResult = wikiMetaData.JSonResult;
-                imageMeta.UserId = userId;
+            ServiceLocator.Resolve<LoadImageMarkups>().Run(imageMeta);
 
-                ServiceLocator.Resolve<LoadImageMarkups>().Run(imageMeta);
-               
+            if(imageMeta.Id > 0 )
                 Update(imageMeta);
-            }
+            else
+                Create(imageMeta);
         }
 
         public static void SetMainLicenseInfo(ImageMetaData imageMetaData, int MainLicenseId)
