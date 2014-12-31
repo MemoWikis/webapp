@@ -24,14 +24,14 @@ namespace TrueOrFalse.Registration
         {
             var mail = new MailMessage();
             mail.To.Add(user.EmailAddress);
-            mail.From = new MailAddress("willkommen@richtig-oder-falsch.de");
+            mail.From = new MailAddress("willkommen@memucho.de");
 
             var emailBody = new StringBuilder();
-            emailBody.AppendLine("Schön dass Du dabei bist.");
-            emailBody.AppendLine("Um Dein Benutzerkonto zu bestätigen,");
+            emailBody.AppendLine("Schön dass du dabei bist.");
+            emailBody.AppendLine("Um dein Benutzerkonto zu bestätigen,");
             emailBody.AppendLine("folge bitte diesem Link: " + _createEmailConfirmationLink.Run(user));
 
-            mail.Subject = "Willkommen bei True Or False";
+            mail.Subject = "Willkommen bei MEMuchO";
             mail.Body = emailBody.ToString();
             
             _sendEmail.Run(mail);
