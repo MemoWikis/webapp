@@ -27,17 +27,11 @@ var QuestionRow = (function () {
 
     QuestionRow.prototype.Check = function () {
         this.Row.addClass("selected-row");
-
-        //this.Row.find('.CheckboxIcon').removeClass('fa-square-o');
-        //this.Row.find('.CheckboxIcon').addClass('fa-check-square-o');
         this.Row.find('.CheckboxText').html('Auswahl entfernen');
     };
 
     QuestionRow.prototype.Uncheck = function () {
         this.Row.removeClass("selected-row");
-
-        //this.Row.find('.CheckboxIcon').removeClass('fa-check-square-o');
-        //this.Row.find('.CheckboxIcon').addClass('fa-square-o');
         this.Row.find('.CheckboxText').html('Auswählen');
     };
     return QuestionRow;

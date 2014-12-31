@@ -33,16 +33,12 @@ class QuestionRow
     Check() 
     {  
         this.Row.addClass("selected-row");
-        //this.Row.find('.CheckboxIcon').removeClass('fa-square-o');
-        //this.Row.find('.CheckboxIcon').addClass('fa-check-square-o');
         this.Row.find('.CheckboxText').html('Auswahl entfernen');
     }
 
     Uncheck() 
     {  
         this.Row.removeClass("selected-row");
-        //this.Row.find('.CheckboxIcon').removeClass('fa-check-square-o');
-        //this.Row.find('.CheckboxIcon').addClass('fa-square-o');
         this.Row.find('.CheckboxText').html('Auswählen');
     }
 }
