@@ -106,7 +106,6 @@ public class AnswerQuestionController : BaseController
 
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
-
         var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
 
         if (searchSpec.HistoryItem != null){

@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Web;
+using NHibernate;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse
@@ -26,6 +27,10 @@ namespace TrueOrFalse
 
         public void Run(Question question, int userId)
         {
+            if (userId != -1) //if user is logged in, always log
+                if (HttpContext.Current != null && HttpContext.Current.Request.Browser.Crawler)
+                    return;
+
             _questionViewRepo.Create(new QuestionView{QuestionId = question.Id, UserId = userId});
             _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
                 ExecuteUpdate();
