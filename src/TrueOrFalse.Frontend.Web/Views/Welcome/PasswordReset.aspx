@@ -11,7 +11,7 @@
         </div>
         <div class="form-horizontal col-md-9">
             <fieldset>
-                <legend>Setze Dein neues Passwort</legend>
+                <legend>Setze dein neues Passwort</legend>
 
                 <% Html.ValidationSummary(true, "Bitte überprüfe Deine Eingaben");  %>
                                                 
@@ -21,25 +21,27 @@
                 
                     <%: Html.HiddenFor(x => x.Token) %>
 
-                    <div class="control-group">
+                    <div class="form-group">
                         <%: Html.LabelFor(model => model.NewPassword1, new { @class = "col-sm-2 control-label" }) %>
-                        <div class="controls">
+                        <div class="col-sm-3">
                             <%: Html.PasswordFor(model => model.NewPassword1) %>
                             <%: Html.ValidationMessageFor(model => model.NewPassword1) %>
                         </div>
                     </div>
                 
-                    <div class="control-group">
+                    <div class="form-group">
                         <%: Html.LabelFor(model => model.NewPassword2, new { @class = "col-sm-2 control-label" }) %>
-                        <div class="controls">
+                        <div class="col-sm-3">
                             <%: Html.PasswordFor(model => model.NewPassword2) %>
                             <%: Html.ValidationMessageFor(model => model.NewPassword2) %>
                         </div>
                     </div>
                 
-                    <div class="form-actions">
-                        <input type="submit" value="Speichern" class="btn btn-primary" />&nbsp;
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" value="Speichern" class="btn btn-primary" />&nbsp;
                     </div>
+                </div>
 
                 <%} %>
 

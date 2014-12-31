@@ -63,7 +63,6 @@ public class AnswerQuestionController : BaseController
                 activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
             }
         }
-            
 
         if (text == null && id == null && elementOnPage == null)
             return GetViewBySearchSpec(activeSearchSpec);
