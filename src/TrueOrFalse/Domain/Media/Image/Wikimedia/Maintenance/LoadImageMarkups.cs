@@ -18,7 +18,6 @@ namespace TrueOrFalse.Maintenance
             _wikiImageLicenseLoader = wikiImageLicenseLoader;
         }
 
-
         public void Run(ImageMetaData imageMetaData)
         {
             if(imageMetaData.Source != ImageSource.WikiMedia) return;
