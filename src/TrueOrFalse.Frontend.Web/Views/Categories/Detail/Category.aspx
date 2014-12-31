@@ -91,11 +91,7 @@
             </div>
             <% if(Model.CountQuestions > 0){ %>
                 <h4 style="margin-top: 0;">Alle Fragen (<%=Model.CountQuestions %>)</h4>
-                <%
-                    var index = 0;
-                    foreach(var question in Model.TopQuestions){ 
-                        index++;
-                %>
+                <% var index = 0; foreach(var question in Model.TopQuestions){ index++;%>
                     <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
                         - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>"><%= question.GetShortTitle(150) %></a>
                     </div>
@@ -105,8 +101,13 @@
                 </a>
             <% } %>
             
-            <% if(Model.CountQuestions > 0){ %>
-                <h4 style="margin-top: 0;">Dein Wunschwissen (<%=Model.CountQuestions %>)</h4>
+            <% if(Model.CountWishQuestions > 0){ %>
+                <h4 style="margin-top: 0;">In deinem <a href="/Wissen">Wunschwissen</a> (<%=Model.CountWishQuestions %>)</h4>
+                <% var index = 0; foreach(var question in Model.TopWishQuestions){index++; %>
+                    <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
+                        - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>"><%= question.GetShortTitle(150) %></a>
+                    </div>
+                <% } %>
             
             <% } %>
             
