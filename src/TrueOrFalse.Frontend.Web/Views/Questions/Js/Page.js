@@ -1,4 +1,4 @@
-/// <reference path="ToQuestionSet.ts" />
+﻿/// <reference path="ToQuestionSet.ts" />
 /// <reference path="QuestionRowSelection.ts" />
 
 var Page = (function () {
@@ -8,7 +8,7 @@ var Page = (function () {
         this.RowSelector = new RowSelector();
         this.ToQuestionSetModal = new ToQuestionSetModal();
 
-        $(".column-Image .image-container").hover(function () {
+        $(".column-Image .ImageContainer").hover(function () {
             $(this).find("label").show();
         }, function () {
             if (!$($(this).find("input")[0]).prop('checked')) {
@@ -16,8 +16,8 @@ var Page = (function () {
             }
         });
 
-        $('.selectQuestion').change(function () {
-            _page.RowSelector.Toggle(new Checkbox($(this)));
+        $('.SelectAreaUpper').click(function () {
+            _page.RowSelector.Toggle(new QuestionRow($(this).closest('.question-row')));
         });
         $('#selectAll').click(function () {
             _page.RowSelector.SelectAll();

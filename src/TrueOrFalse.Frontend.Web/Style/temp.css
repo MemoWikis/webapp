@@ -1,4 +1,4 @@
-﻿#CheckBoxIconContainer {
+﻿.CheckboxIconContainer {
   position: absolute;
   padding-left: 5px;
   padding-top: 5px;
@@ -24,26 +24,31 @@
         margin-right: -0.25em;
     }*/
 }
-#CheckBoxIconContainer .CheckboxText {
+.CheckboxIconContainer .CheckboxText {
   padding-right: 10px;
   font-size: 10px;
   float: right;
   width: 60%;
   text-align: center;
 }
-.SelectAreaUpper:hover #CheckBoxIconContainer .CheckboxText {
+.SelectAreaUpper:hover .CheckboxIconContainer .CheckboxText {
   color: black;
 }
-#Checked-Icon,
-#Unchecked-Icon {
+.Checked-Icon,
+.Unchecked-Icon {
   font-size: 36px;
-  color: red;
+  color: #203256;
   /*vertical-align: middle;*/
 }
-#Checked-Icon {
+.CheckboxIcon {
+  display: none;
+  font-size: 36px;
+  color: red;
+}
+.Checked-Icon {
   display: none;
 }
-#Unchecked-Icon {
+.Unchecked-Icon {
   /*display: inline-block;*/
   visibility: hidden;
 }
@@ -53,20 +58,34 @@
   right: 0;
   top: 0;
   height: 40%;
+  cursor: pointer;
 }
-.SelectAreaUpper:hover #Unchecked-Icon {
+.SelectAreaUpper:hover .Unchecked-Icon {
   visibility: visible;
 }
-.SelectAreaUpper:hover #Checked-Icon {
+.SelectAreaUpper:hover .Checked-Icon {
   display: none;
 }
-.SelectAreaUpper:hover:active #Unchecked-Icon {
+.SelectAreaUpper:hover:active .Unchecked-Icon {
   display: none;
 }
-.SelectAreaUpper:hover:active #Checked-Icon {
+.SelectAreaUpper:hover:active .Checked-Icon {
   display: inline-block;
 }
+.selected-row .SelectAreaUpper .Unchecked-Icon {
+  display: none;
+}
+.selected-row .SelectAreaUpper .Checked-Icon {
+  display: inline-block;
+}
+.selected-row .SelectAreaUpper:hover:active .Unchecked-Icon {
+  display: inline-block;
+}
+.selected-row .SelectAreaUpper:hover:active .Checked-Icon {
+  display: none;
+}
 .SelectAreaLower {
+  display: none !important;
   position: absolute;
   left: 0;
   right: 0;
@@ -437,7 +456,7 @@ ul {
     border-bottom-right-radius: 4px;
   }
 }
-@media temp-disabled gradient #808080 {
+@media temp-disabled gradient grey {
   #MasterSection {
     background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #efefef 100%);
     /* FF3.6+ */

@@ -13,7 +13,7 @@ class Page
         this.ToQuestionSetModal = new ToQuestionSetModal();
 
 
-        $(".column-Image .image-container").hover(
+        $(".column-Image .ImageContainer").hover(
             function () { $(this).find("label").show(); },
             function () {
                 if (!$($(this).find("input")[0]).prop('checked')) {
@@ -22,7 +22,7 @@ class Page
             }
             );
 
-        $('.selectQuestion').change(function () { _page.RowSelector.Toggle(new Checkbox($(this))); });
+        $('.SelectAreaUpper').click(function () { _page.RowSelector.Toggle(new QuestionRow($(this).closest('.question-row'))); });
         $('#selectAll').click(function () { _page.RowSelector.SelectAll(); });
         $('#selectNone').click(function () { _page.RowSelector.DeselecttAll(); });
         $('#selectMemorizedByMe').click(function () { _page.RowSelector.SelectAllMemorizedByMe(); });
@@ -41,5 +41,4 @@ class Page
 $(function () {
     _page = new Page();
     _page.Init();
-
 });
