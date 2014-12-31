@@ -42,6 +42,7 @@ class MarkdownQuestionExt
                 $.ajax({
                     type: "POST",
                     url: "/Fragen/Bearbeite/StoreImage",
+                    async: false,
                     data: {
                         imageSource: sourceString,
                         questionId: $("#questionId").val(),

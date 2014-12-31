@@ -116,7 +116,10 @@
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
                 <div class="ButtonContainer float-none-xxs">
                     <a id="modalImageUploadDismiss" href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
-                    <a href="#" class="btn btn-primary" id="aSaveImage">Bild speichern</a>
+                    <a href="#" class="btn btn-primary" id="aSaveImage">
+                        <i class="fa fa-refresh fa-spin" style="display: none;"></i>
+                        Bild speichern
+                    </a>
                 </div>
             </div>
         </div>

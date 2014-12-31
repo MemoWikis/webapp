@@ -1,4 +1,4 @@
-/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/markdown.d.ts" />
 /// <reference path="../../../Shared/ImageUpload/ImageUpload.ts" />
@@ -35,6 +35,7 @@ var MarkdownQuestionExt = (function () {
                 $.ajax({
                     type: "POST",
                     url: "/Fragen/Bearbeite/StoreImage",
+                    async: false,
                     data: {
                         imageSource: sourceString,
                         questionId: $("#questionId").val(),
