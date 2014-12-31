@@ -25,7 +25,7 @@ namespace TrueOrFalse.Registration
                 return new PasswordRecoveryResult { TheEmailDoesNotExist = true, Success = false };
 
             var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
-            var passwortResetUrl = "http://richtig-oder-falsch.de/Welcome/PasswordReset/" + token;
+            var passwortResetUrl = "http://memucho.de/Welcome/PasswordReset/" + token;
 
             _tokenRepository.Create(new PasswordRecoveryToken{ Email = email, Token = token });
             _sendMailMessage.Run(GetMailMessage(email, passwortResetUrl));
@@ -37,16 +37,16 @@ namespace TrueOrFalse.Registration
         {
             var mailMessage = new MailMessage();
             mailMessage.To.Add(new MailAddress(emailAdresse));
-            mailMessage.From = new MailAddress("team@richtig-oder-falsch.de");
+            mailMessage.From = new MailAddress("team@memucho.de");
             mailMessage.Subject =
-                "Dein neues Passwort für TrueOrFalse";
+                "Dein neues Passwort für MEMuchO";
             mailMessage.Body = @"
 Um ein neues Passwort zu setzen, folge diesem Link: {0}
 
 Der Link ist 72 Stunden lang gültig.
 
 Viele Grüße
-Dein Riofa Team
+Dein MEMuchO Team
 ".Replace("{0}", passwortResetUrl);
 
             return mailMessage;

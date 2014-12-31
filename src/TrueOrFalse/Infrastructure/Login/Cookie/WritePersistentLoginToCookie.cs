@@ -16,7 +16,7 @@ namespace TrueOrFalse
         {
             var loginGuid = _createPersistentLogin.Run(userId);
 
-            var cookie = new HttpCookie("richtig-oder-falsch");
+            var cookie = new HttpCookie("memucho");
             cookie.Values.Add("persistentLogin", userId + "-x-" + loginGuid);
             cookie.Expires = DateTime.Now.AddDays(45);
             HttpContext.Current.Response.Cookies.Add(cookie);

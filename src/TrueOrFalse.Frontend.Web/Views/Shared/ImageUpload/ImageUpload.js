@@ -25,8 +25,8 @@ var WikimediaPreview = (function () {
             url: "/ImageUpload/FromWikimedia/",
             data: "url=" + url,
             error: function (error) {
-                console.log(error);
-                alert("Ein Fehler ist aufgetreten.");
+                window.console.log(error);
+                window.alert("Ein Fehler ist aufgetreten.");
             },
             success: function (responseJSON) {
                 $("#divWikimediaSpinner").hide();
@@ -61,11 +61,17 @@ var ImageUploadModal = (function () {
         this.InitTypeRadios();
         this.InitLicenseRadio();
 
+        this.SaveButton = $("#aSaveImage");
+        this.SaveButtonSpinner = this.SaveButton.find("i");
+
+        this.SaveButton.removeAttr("disabled");
+        this.SaveButtonSpinner.hide();
+
         var self = this;
         $("#txtWikimediaUrl").change(function () {
             self.WikimediaPreview.Load();
         });
-        $("#aSaveImage").click(function () {
+        this.SaveButton.click(function () {
             self.SaveImage();
         });
     }
@@ -82,8 +88,8 @@ var ImageUploadModal = (function () {
                 sizeLimit: 2097152
             }
         }).on('error', function (event, id, filename, reason) {
-            console.log(event + " " + id + " " + filename + " " + reason);
-            alert("Ein Fehler ist aufgetreten");
+            window.console.log(event + " " + id + " " + filename + " " + reason);
+            window.alert("Ein Fehler ist aufgetreten");
         }).on('complete', function (event, id, filename, responseJSON) {
             $("#divUploadProgress").hide();
             $("#previewImage").html('<b>Bildvorschau:</b><br/><img src="' + responseJSON.FilePath + '"> ');
@@ -138,11 +144,14 @@ var ImageUploadModal = (function () {
     };
 
     ImageUploadModal.prototype.SaveImage = function () {
-        if (this.Mode == 0 /* Wikimedia */) {
+        this.SaveButton.attr("disabled", "disabled");
+        this.SaveButtonSpinner.show();
+
+        if (this.Mode === 0 /* Wikimedia */) {
             SaveWikipediaImage.Run(this.WikimediaPreview, this._onSave);
         }
 
-        if (this.Mode == 1 /* Upload */) {
+        if (this.Mode === 1 /* Upload */) {
             SaveUploadedImage.Run(this.ImageThumbUrl, this._onSave);
         }
     };
@@ -162,10 +171,13 @@ var SaveWikipediaImage = (function () {
     }
     SaveWikipediaImage.Run = function (wikiMediaPreview, fnOnSave) {
         if (!wikiMediaPreview.SuccessfullyLoaded) {
-            alert("Bitte lade ein Bild über eine Wikipedia URL.");
+            window.alert("Bitte lade ein Bild über eine Wikipedia URL.");
         } else {
             fnOnSave(wikiMediaPreview.ImageThumbUrl);
-            $("#modalImageUpload").modal("hide"); //$temp: Sollte erst geschlossen werden, wenn save abgeschlossen (oder andere Überbrückung überlegen)
+
+            //$temp: Sollte erst geschlossen werden,
+            //wenn save abgeschlossen(oder andere Überbrückung überlegen)
+            $("#modalImageUpload").modal("hide");
         }
     };
     return SaveWikipediaImage;
@@ -175,25 +187,25 @@ var SaveUploadedImage = (function () {
     function SaveUploadedImage() {
     }
     SaveUploadedImage.Run = function (imageThumbUrl, fnOnSave) {
-        if ($('#divLegalInfo:hidden').length != 0) {
-            alert("Hups, bitte wähle zuerst ein Bild aus.");
+        if ($('#divLegalInfo:hidden').length !== 0) {
+            window.alert("Hups, bitte wähle zuerst ein Bild aus.");
             return;
         }
 
         if (!$("#rdoLicenseForeign").is(':checked') && !$("#rdoLicenseByUploader").is(':checked')) {
-            alert("Bitte wähle eine andere Lizenz");
+            window.alert("Bitte wähle eine andere Lizenz");
             return;
         }
 
         if ($("#rdoLicenseForeign").is(':checked')) {
-            alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
+            window.alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
             return;
         }
 
         if ($("#rdoLicenseByUploader").is(':checked')) {
             var licenseOwner = $("#txtLicenseOwner").val();
-            if (licenseOwner.trim() == "") {
-                alert("Bitte gib Deinen Namen als Lizenzgeber an.");
+            if (licenseOwner.trim() === "") {
+                window.alert("Bitte gib Deinen Namen als Lizenzgeber an.");
                 return;
             }
 

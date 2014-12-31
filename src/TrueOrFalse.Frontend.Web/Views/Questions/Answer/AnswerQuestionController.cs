@@ -63,7 +63,6 @@ public class AnswerQuestionController : BaseController
                 activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
             }
         }
-            
 
         if (text == null && id == null && elementOnPage == null)
             return GetViewBySearchSpec(activeSearchSpec);
@@ -106,7 +105,6 @@ public class AnswerQuestionController : BaseController
 
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
-
         var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
 
         if (searchSpec.HistoryItem != null){
