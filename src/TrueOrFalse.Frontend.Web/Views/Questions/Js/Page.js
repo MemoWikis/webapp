@@ -1,4 +1,4 @@
-﻿/// <reference path="ToQuestionSet.ts" />
+/// <reference path="ToQuestionSet.ts" />
 /// <reference path="QuestionRowSelection.ts" />
 
 var Page = (function () {
@@ -28,10 +28,11 @@ var Page = (function () {
         $('#selectMemorizedByMe').click(function () {
             _page.RowSelector.SelectAllMemorizedByMe();
         });
+        $('#selectedNotMemorizedByMe').click(function () {
+            _page.RowSelector.SelectAllNotMemorizedByMe();
+        });
         $('#selectCreatedByMe').click(function () {
             _page.RowSelector.SelectAllWhereIAmOwner();
-        });
-        $('#selectedNotMemorizedByMe').click(function () {
         });
         $('#selectNotCraetedByMe').click(function () {
             _page.RowSelector.SelectAllWhereIAmNotOwner();
