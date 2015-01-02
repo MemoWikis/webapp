@@ -53,34 +53,31 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
     {
-        using (MiniProfiler.Current.Step("AnswerQuestion"))
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+
+        if (String.IsNullOrEmpty(category))
         {
-            var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-
-            if (String.IsNullOrEmpty(category))
+            var categoryDb = R<CategoryRepository>().GetById(Convert.ToInt32(category));
+            if (categoryDb != null)
             {
-                var categoryDb = R<CategoryRepository>().GetById(Convert.ToInt32(category));
-                if (categoryDb != null)
-                {
-                    activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
-                    activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
-                }
+                activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
+                activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
             }
-
-            if (text == null && id == null && elementOnPage == null)
-                return GetViewBySearchSpec(activeSearchSpec);
-
-            var question = _questionRepository.GetById((int)id);
-
-            activeSearchSpec.PageSize = 1;
-            if ((int)elementOnPage != -1)
-                activeSearchSpec.CurrentPage = (int)elementOnPage;
-
-            _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
-            _saveQuestionView.Run(question, _sessionUser.User);
-
-            return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec));
         }
+
+        if (text == null && id == null && elementOnPage == null)
+            return GetViewBySearchSpec(activeSearchSpec);
+
+        var question = _questionRepository.GetById((int)id);
+
+        activeSearchSpec.PageSize = 1;
+        if ((int)elementOnPage != -1)
+            activeSearchSpec.CurrentPage = (int)elementOnPage;
+
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
+        _saveQuestionView.Run(question, _sessionUser.User);
+
+        return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec));
     }
 
     public ActionResult Next(string pager, int? setId, int? questionId)

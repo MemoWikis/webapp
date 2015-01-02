@@ -403,5 +403,4 @@
             </div>
         </div>
     </div>
-    <%= MiniProfiler.RenderIncludes() %>
 </asp:Content>
