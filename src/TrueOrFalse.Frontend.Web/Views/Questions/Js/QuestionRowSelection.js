@@ -1,11 +1,5 @@
 /// <reference path="Page.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var QuestionRow = (function () {
     function QuestionRow(divRow) {
         this.Row = divRow;
@@ -19,10 +13,6 @@ var QuestionRow = (function () {
         this.Row.removeClass("selected-row");
     };
 
-    QuestionRow.prototype.GetCheckbox = function () {
-        return new Checkbox($(this.Row.find(".selectQuestion")));
-    };
-
     QuestionRow.prototype.IsUserOwner = function () {
         return this.Row.attr("data-userIsOwner") == "true";
     };
@@ -30,31 +20,22 @@ var QuestionRow = (function () {
     QuestionRow.prototype.IsMemorizedByUser = function () {
         return !(this.Row.find(".sliderValue").text() == "-1");
     };
+
+    QuestionRow.prototype.IsChecked = function () {
+        return this.Row.hasClass("selected-row");
+    };
+
+    QuestionRow.prototype.Check = function () {
+        this.Row.addClass("selected-row");
+        this.Row.find('.CheckboxText').html('Auswahl entfernen');
+    };
+
+    QuestionRow.prototype.Uncheck = function () {
+        this.Row.removeClass("selected-row");
+        this.Row.find('.CheckboxText').html('Auswählen');
+    };
     return QuestionRow;
 })();
-
-var Checkbox = (function (_super) {
-    __extends(Checkbox, _super);
-    function Checkbox(ckbContainer) {
-        this.CkbContainer = ckbContainer;
-        this._ckb = $(this.CkbContainer.find('input[type="checkbox"]'));
-        _super.call(this, ckbContainer.closest(".question-row"));
-    }
-    Checkbox.prototype.IsChecked = function () {
-        return this._ckb.is(':checked');
-    };
-
-    Checkbox.prototype.Check = function () {
-        this._ckb.attr("checked", true);
-        this.SetCssClassSelected();
-    };
-
-    Checkbox.prototype.Uncheck = function () {
-        this._ckb.attr("checked", false);
-        this.RemoveCssClassSelected();
-    };
-    return Checkbox;
-})(QuestionRow);
 
 var RowSelector = (function () {
     function RowSelector() {
@@ -64,15 +45,15 @@ var RowSelector = (function () {
         return this.Rows.length;
     };
 
-    RowSelector.prototype.Toggle = function (ckb) {
-        if (ckb.IsChecked()) {
-            this.Rows.push(ckb);
-            ckb.SetCssClassSelected();
+    RowSelector.prototype.Toggle = function (row) {
+        if (!row.IsChecked()) {
+            this.Rows.push(row);
+            row.Check();
         } else {
             this.Rows = jQuery.grep(this.Rows, function (value) {
-                return value.QuestionId != ckb.QuestionId;
+                return value.QuestionId != row.QuestionId;
             });
-            ckb.RemoveCssClassSelected();
+            row.Uncheck();
         }
 
         this.UpdateToolbar();
@@ -154,7 +135,7 @@ var RowSelector = (function () {
         $(".question-row").each(function () {
             var checkbox = new QuestionRow($(this)).GetCheckbox();
 
-            console.log(checkbox.IsMemorizedByUser());
+            window.console.log(checkbox.IsMemorizedByUser());
 
             if (!checkbox.IsChecked() && checkbox.IsMemorizedByUser()) {
                 checkbox.Check();

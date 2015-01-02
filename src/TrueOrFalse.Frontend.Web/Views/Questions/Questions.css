@@ -142,6 +142,7 @@ div.selected-row:hover {
 .column-Image {
   padding-top: 5px;
   padding-left: 5px;
+  padding-bottom: 5px;
   min-width: 75.15625px;
   position: relative;
   float: left;
@@ -161,18 +162,17 @@ div.selected-row:hover {
     width: 125px;
   }
 }
-.column-Image .image-container {
-  margin-bottom: 5px;
+.column-Image .ImageContainer {
   position: relative;
 }
-.column-Image .image-container img {
+.column-Image .ImageContainer img {
   width: 105px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
   max-width: 100%;
 }
-.column-Image .image-container .selectQuestion {
+.column-Image .ImageContainer .selectQuestion {
   font-size: 12px;
   position: absolute;
   bottom: 1px;

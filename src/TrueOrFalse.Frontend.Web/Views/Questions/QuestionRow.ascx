@@ -4,22 +4,18 @@
 
 <div class="rowBase question-row" style="position: relative;" data-questionid="<%= Model.QuestionId %>" data-userisowner="<%= Model.IsOwner? "true" : "false" %>">
     <div class="column-Image">
-        <div class="image-container">
+        <div class="ImageContainer">
             <img src="<%= Model.ImageUrl%>" style="position: relative;">
-            <%--<label class="checkbox selectQuestion">
-                <input type="checkbox"> auswählen
-            </label>--%>
-           
             <div class="SelectAreaUpper">
-                <div id="CheckBoxIconContainer">
-                    <i id="Checked-Icon" class="fa fa-check-square-o"></i>
-                    <i id="Unchecked-Icon" class="fa fa-square-o"></i>
-                    <div class="CheckboxText">Frage auswählen</div>
+                <div class="CheckboxIconContainer">
+                    <i class="Checked-Icon fa fa-check-square-o"></i>
+                    <i class="Unchecked-Icon fa fa-square-o"></i>
+                    <div class="CheckboxText">Auswählen</div>
                 </div>
             </div>
             <div class="SelectAreaLower">
                  <div class="HoverMessage">
-                    Bildinfos
+                    Bild- und Lizenzinfos
                 </div>
             </div>
         </div>

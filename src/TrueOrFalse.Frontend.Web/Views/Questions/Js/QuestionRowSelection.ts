@@ -19,62 +19,47 @@ class QuestionRow
         this.Row.removeClass("selected-row");
     }
 
-    GetCheckbox() { 
-        return new Checkbox($(this.Row.find(".selectQuestion")))
-    }
 
     IsUserOwner() { 
         return this.Row.attr("data-userIsOwner") == "true";
     }
 
-    IsMemorizedByUser() { 
-        return !(this.Row.find(".sliderValue").text() == "-1")
-    }
-}
-
-class Checkbox extends QuestionRow
-{
-    CkbContainer: JQuery;
-    private _ckb;
-
-    constructor(ckbContainer) { 
-        this.CkbContainer = ckbContainer; 	    
-        this._ckb = $(this.CkbContainer.find('input[type="checkbox"]'));
-		super(ckbContainer.closest(".question-row"));
+    IsMemorizedByUser() {
+        return !(this.Row.find(".sliderValue").text() == "-1");
     }
  	
-    IsChecked() {  return this._ckb.is(':checked') }
+    IsChecked() { return this.Row.hasClass("selected-row"); }
     
     Check() 
     {  
-        this._ckb.attr("checked", true); 
-        this.SetCssClassSelected()
+        this.Row.addClass("selected-row");
+        this.Row.find('.CheckboxText').html('Auswahl entfernen');
     }
 
     Uncheck() 
     {  
-        this._ckb.attr("checked", false); 
-        this.RemoveCssClassSelected()
+        this.Row.removeClass("selected-row");
+        this.Row.find('.CheckboxText').html('Auswählen');
     }
 }
 
 class RowSelector{
     
-    Rows = new Array();
+    Rows = new Array<QuestionRow>();
 
     Count() { 
         return this.Rows.length;
     }
 
-    Toggle(ckb: Checkbox) {
-        if (ckb.IsChecked()) {
-            this.Rows.push(ckb)
-            ckb.SetCssClassSelected();
+    Toggle(row: QuestionRow) {
+        if (!row.IsChecked()) {
+            this.Rows.push(row);
+            row.Check();
         } else {
-            this.Rows = jQuery.grep(this.Rows, function (value) {
-                return value.QuestionId != ckb.QuestionId;
+            this.Rows = jQuery.grep(this.Rows, function (value: QuestionRow) {
+                return value.QuestionId != row.QuestionId;
             });
-            ckb.RemoveCssClassSelected();
+            row.Uncheck();
         }
 
         this.UpdateToolbar();
@@ -104,14 +89,14 @@ class RowSelector{
 
     SelectAll() {
         this.Rows = new Array();
-        var rows = this.Rows
+        var rows = this.Rows;
         
         $(".question-row").each(function () {
             var questionRow = new QuestionRow($(this));
             rows.push(questionRow);
             questionRow.GetCheckbox().Check();
         });
-        this.UpdateToolbar()
+        this.UpdateToolbar();
     }
 
     DeselecttAll() {
@@ -119,7 +104,7 @@ class RowSelector{
             new QuestionRow($(this)).GetCheckbox().Uncheck();
         });
         this.Rows = new Array();
-        this.UpdateToolbar()
+        this.UpdateToolbar();
     }
     
     SelectAllWhereIAmOwner() { 
@@ -133,7 +118,7 @@ class RowSelector{
             }
         });
 
-        this.UpdateToolbar()
+        this.UpdateToolbar();
     }
 
     SelectAllWhereIAmNotOwner() { 
@@ -147,7 +132,7 @@ class RowSelector{
             }
         });
 
-        this.UpdateToolbar()
+        this.UpdateToolbar();
     }
 
     SelectAllMemorizedByMe() { 
@@ -156,7 +141,7 @@ class RowSelector{
         $(".question-row").each(function () {
             var checkbox = new QuestionRow($(this)).GetCheckbox();
 
-            console.log(checkbox.IsMemorizedByUser());
+            window.console.log(checkbox.IsMemorizedByUser());
 
             if (!checkbox.IsChecked() && checkbox.IsMemorizedByUser()) { 
                 checkbox.Check();
@@ -164,7 +149,7 @@ class RowSelector{
             }
         });
 
-        this.UpdateToolbar()
+        this.UpdateToolbar();
     }
 
     private IsSelected(row : QuestionRow) { 
