@@ -1,4 +1,4 @@
-/// <reference path="Page.ts" />
+﻿/// <reference path="Page.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
 class QuestionRow 
@@ -38,7 +38,7 @@ class QuestionRow
     Uncheck() 
     {  
         this.Row.removeClass("selected-row");
-        this.Row.find('.CheckboxText').html('Ausw�hlen');
+        this.Row.find('.CheckboxText').html('Auswählen');
     }
 }
 

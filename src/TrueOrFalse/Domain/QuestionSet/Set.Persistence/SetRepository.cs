@@ -53,5 +53,10 @@ namespace TrueOrFalse
                 .List<Set>();
         }
 
+        public override void Delete(Set set)
+        {
+            base.Delete(set);
+            Flush();
+        }
     }
 }

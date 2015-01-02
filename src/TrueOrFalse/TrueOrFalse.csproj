@@ -300,7 +300,9 @@
     <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSetListExts.cs" />
     <Compile Include="Domain\QuestionSet\Set.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
-    <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepository.cs" />
+    <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepository.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemory.cs" />
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemoryLoader.cs" />
@@ -333,7 +335,7 @@
     <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionExact.cs" />
-    <Compile Include="Domain\Question\Question.Ops\GetTotalSetCount.cs" />
+    <Compile Include="Domain\Question\Question.Ops\UpdateSetDataForQuestion.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
     <Compile Include="Domain\NotNull.cs" />
     <Compile Include="Domain\Question\Question.Ops\GetQuestionCount.cs" />

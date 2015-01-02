@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Helpers;
 using Newtonsoft.Json;
 using NHibernate;
-using NHibernate.Criterion;
 
 namespace TrueOrFalse
 {
@@ -25,9 +20,18 @@ namespace TrueOrFalse
 
         public void Run()
         {
-            foreach (var question in _questionRepo.GetAll()){
+            Run(_questionRepo.GetAll());
+        }
+
+        public void Run(IList<QuestionInSet> questionsInSet)
+        {
+            Run(questionsInSet.Select(c => c.Question));
+        }
+
+        public void Run(IEnumerable<Question> questions)
+        {
+            foreach (var question in questions)
                 Run(question);
-            }
         }
 
         public void Run(Question question)
