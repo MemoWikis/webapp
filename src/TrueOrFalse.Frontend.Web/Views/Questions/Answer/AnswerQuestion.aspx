@@ -3,6 +3,7 @@
 <%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Web" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="StackExchange.Profiling" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <title>Frage - <%= Model.QuestionText %></title>    
@@ -402,4 +403,5 @@
             </div>
         </div>
     </div>
+    <%= MiniProfiler.RenderIncludes() %>
 </asp:Content>

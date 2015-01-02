@@ -12,6 +12,7 @@ using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using RollbarSharp;
+using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
@@ -50,7 +51,17 @@ namespace TrueOrFalse.Frontend.Web
         private void Application_BeginRequest()
         {
             Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("de-DE");
-            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-DE");            
+            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-DE");
+#if DEBUG
+            MiniProfiler.Start();
+#endif
+        }
+
+        protected void Application_EndRequest()
+        {
+#if DEBUG
+            MiniProfiler.Stop();
+#endif
         }
 
         private void InitializeAutofac()

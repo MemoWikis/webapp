@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using FluentNHibernate.Utils;
+using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
@@ -52,31 +53,34 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
     {
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-
-        if (String.IsNullOrEmpty(category))
+        using (MiniProfiler.Current.Step("AnswerQuestion"))
         {
-            var categoryDb = R<CategoryRepository>().GetById(Convert.ToInt32(category));
-            if (categoryDb != null)
+            var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+
+            if (String.IsNullOrEmpty(category))
             {
-                activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
-                activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+                var categoryDb = R<CategoryRepository>().GetById(Convert.ToInt32(category));
+                if (categoryDb != null)
+                {
+                    activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
+                    activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+                }
             }
+
+            if (text == null && id == null && elementOnPage == null)
+                return GetViewBySearchSpec(activeSearchSpec);
+
+            var question = _questionRepository.GetById((int)id);
+
+            activeSearchSpec.PageSize = 1;
+            if ((int)elementOnPage != -1)
+                activeSearchSpec.CurrentPage = (int)elementOnPage;
+
+            _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
+            _saveQuestionView.Run(question, _sessionUser.User);
+
+            return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec));
         }
-
-        if (text == null && id == null && elementOnPage == null)
-            return GetViewBySearchSpec(activeSearchSpec);
-
-        var question = _questionRepository.GetById((int)id);
-
-        activeSearchSpec.PageSize = 1;
-        if ((int)elementOnPage != -1)
-            activeSearchSpec.CurrentPage = (int)elementOnPage;
-
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
-        _saveQuestionView.Run(question, _sessionUser.User);
-
-        return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec));
     }
 
     public ActionResult Next(string pager, int? setId, int? questionId)
@@ -105,22 +109,25 @@ public class AnswerQuestionController : BaseController
 
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
-        var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
+        using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
+        {
+            var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
 
-        if (searchSpec.HistoryItem != null){
-            if (searchSpec.HistoryItem.Question != null){
-                if (searchSpec.HistoryItem.Question.Id != question.Id){
-                    question = Resolve<QuestionRepository>().GetById(searchSpec.HistoryItem.Question.Id);
+            if (searchSpec.HistoryItem != null){
+                if (searchSpec.HistoryItem.Question != null){
+                    if (searchSpec.HistoryItem.Question.Id != question.Id){
+                        question = Resolve<QuestionRepository>().GetById(searchSpec.HistoryItem.Question.Id);
+                    }
                 }
+
+                searchSpec.HistoryItem = null;
             }
 
-            searchSpec.HistoryItem = null;
+            _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, searchSpec));
+            _saveQuestionView.Run(question, _sessionUser.UserId);
+
+            return View(_viewLocation, new AnswerQuestionModel(question, searchSpec));
         }
-
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, searchSpec));
-        _saveQuestionView.Run(question, _sessionUser.UserId);
-
-        return View(_viewLocation, new AnswerQuestionModel(question, searchSpec));
     }
 
     [HttpPost]
