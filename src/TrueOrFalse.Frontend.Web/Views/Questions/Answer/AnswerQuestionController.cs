@@ -130,7 +130,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult SendAnswer(int id, string answer)
     {
-        var result = _answerQuestion.Run(id, answer, _sessionUser.User.Id);
+        var result = _answerQuestion.Run(id, answer, UserId);
 
         return new JsonResult
                    {
