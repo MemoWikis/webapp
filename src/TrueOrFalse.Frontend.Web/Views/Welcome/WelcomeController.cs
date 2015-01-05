@@ -117,7 +117,7 @@ public class WelcomeController : Controller
         if(!ModelState.IsValid)
         {
             model.TokenFound = true;
-            model.Message = new ErrorMessage("Bitte prüfe Deine Eingabe.");
+            model.Message = new ErrorMessage("Bitte prüfe deine Eingabe.");
             return View(model);
         }
 

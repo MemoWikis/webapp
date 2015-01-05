@@ -197,7 +197,7 @@
 
     <div class="jumbotron row" style="padding: 50px 50px 30px 50px; margin-top: -20px;" >
         <h1 style="font-size:50px;">Willkommen</h1>
-        <p>Schön, dass Du da bist. Entscheide, was Dir wichtig ist und merke es Dir - für immer!</p>
+        <p>Schön, dass du da bist. Entscheide, was dir wichtig ist und merke es dir - für immer!</p>
         <p><a class="btn primary large">Mehr Erfahren &raquo;</a></p>
     </div>
     

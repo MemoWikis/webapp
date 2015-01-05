@@ -3,7 +3,7 @@
 <span class="show-tooltip" data-html="true"
     title="
         <div style='text-align:left;'>
-            <b><%: Model.CPPersonal %>%</b> Wahrscheinlichkeit, dass Du die Frage korrekt beantwortest<br /><br />
+            <b><%: Model.CPPersonal %>%</b> Wahrscheinlichkeit, dass du die Frage korrekt beantwortest<br /><br />
                         
             Alle Nutzer: <%: Model.CPPersonal + Model.CPDerivation %>%<br />
             Deine Abweichung: <%: Model.CPDerivationSign %> <%: Model.CPDerivation %>%

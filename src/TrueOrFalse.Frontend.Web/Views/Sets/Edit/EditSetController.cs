@@ -31,7 +31,7 @@ public class EditSetController : BaseController
         model = new EditSetModel();
         model.SetToCreateModel();
         model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert, " +
-                                           "nun kannst Du einen neuen Fragesatz erstellen.");
+                                           "du kannst nun einen neuen Fragesatz erstellen.");
 
         StoreImage(set.Id);
 

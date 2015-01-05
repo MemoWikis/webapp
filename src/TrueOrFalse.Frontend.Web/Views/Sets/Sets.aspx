@@ -24,7 +24,7 @@
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
                             <a href="<%= Links.SetsMine() %>">
                                 Meine Fragesätze (<%= Model.TotalMine %>)
-                                <i class="fa fa-question-circle show-tooltip" title="Fragesätze die von Dir erstellt wurden"></i>
+                                <i class="fa fa-question-circle show-tooltip" title="Fragesätze die von dir erstellt wurden"></i>
                             </a>
                         </li>
                     </ul>

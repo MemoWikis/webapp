@@ -259,7 +259,7 @@
         </div>
     
         <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h4 class="media-heading">Erkennst Du diese Vögel?</h4></div>
+            <div class="col-md-12"><h4 class="media-heading">Erkennst du diese Vögel?</h4></div>
         </div>
         <div class="row">
             <div class="col-md-6"><img class="media-object" src="http://lorempixel.com/120/120/transport" alt="..."></div>

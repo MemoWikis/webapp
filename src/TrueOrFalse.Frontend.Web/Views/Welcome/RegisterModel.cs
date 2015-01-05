@@ -4,13 +4,13 @@ using TrueOrFalse;
 
 public class RegisterModel : BaseModel
 {
-    [Required(ErrorMessage="Wir benötigen Deinen Benutzernamen.")]
+    [Required(ErrorMessage="Wir benötigen deinen Benutzernamen.")]
         
     [StringLength(20, MinimumLength=4, ErrorMessage = "Sollte aus Vornamen und Nachnamen bestehen. ")]
     [DisplayName("Ihre Name")]
     public string Name { get; set; }
 
-    [Required(ErrorMessage = "Wir benötigen Deine E-Mail Adresse.")]
+    [Required(ErrorMessage = "Wir benötigen deine E-Mail Adresse.")]
     [RegularExpression(Regexes.Email, ErrorMessage = "Wir benötigen eine gültige E-Mail Adresse.")]
     [DisplayName("Email")]  
     public string Email { get; set; }

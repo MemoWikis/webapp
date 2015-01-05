@@ -106,7 +106,7 @@
                             </div>
 
                             <div id="divLicenseForeign" style="padding-left: 20px;" class="hide2">
-                                Wir bitten Dich das Bild auf <a href="http://commons.wikimedia.org">Wikimedia</a> hochzuladen und so einzubinden. 
+                                Wir bitten dich das Bild auf <a href="http://commons.wikimedia.org">Wikimedia</a> hochzuladen und so einzubinden. 
                             </div>
                         </div>                
                     </div>

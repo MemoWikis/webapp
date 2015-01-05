@@ -51,7 +51,7 @@
                             if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                             von = Model.TotalQuestionsInResult + " von "; %>
                             Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)
-                            <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Wissen das Du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
+                            <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Wissen, das du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
                         </a>
                     </div>
                     <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-<%= SearchTab.Mine.ToString() %>">
@@ -60,7 +60,7 @@
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
                                 von = Model.TotalQuestionsInResult + " von "; %>                        
                         Meine (<span class="JS-Amount"><%= von + Model.TotalQuestionsMine %></span>)
-                            <i class="fa fa-question-circle show-tooltip" title="Fragen die von Dir erstellt wurden." data-placement="right"></i>
+                            <i class="fa fa-question-circle show-tooltip" title="Fragen die von dir erstellt wurden." data-placement="right"></i>
                         </a>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                                von = Model.TotalQuestionsInResult + " von "; %>
                         Mein Wunschwissen <span class="tabWishKnowledgeCount">(<span class="JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)</span>
                         <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
-                           title="Wissen das Du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
+                           title="Wissen, das du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
                     </a>
                 </li>
                 <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-<%= SearchTab.Mine.ToString() %>">
@@ -107,7 +107,7 @@
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
                                von = Model.TotalQuestionsInResult + " von "; %>                        
                         Meine Fragen (<span class="JS-Amount"><%= von + Model.TotalQuestionsMine %></span>)
-                        <i class="fa fa-question-circle show-tooltip" title="Fragen die von Dir erstellt wurden." data-placement="right"></i>
+                        <i class="fa fa-question-circle show-tooltip" title="Fragen die von dir erstellt wurden." data-placement="right"></i>
                     </a>
                 </li>
             </ul>
@@ -233,7 +233,7 @@
                 <h3>Hilfe: Tab - Mein Wunschwissen</h3>
             </div>
             <div class="modal-body">
-                Es werden nur die Fragen gezeigt, die Du Dir <b>merken</b> möchtest, also Fragen deren Antworten zu Deinem Wunschwissen gehören. 
+                Es werden nur die Fragen gezeigt, die du dir <b>merken</b> möchtest, also Fragen, die zu deinem Wunschwissen gehören. 
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-warning" data-dismiss="modal">Mmh, nicht ganz klar.</a>

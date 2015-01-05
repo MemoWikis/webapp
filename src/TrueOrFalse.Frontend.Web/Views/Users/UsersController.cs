@@ -47,7 +47,7 @@ public class UsersController : BaseController
         _sessionUser.IsInstallationAdmin = true;
 
         var model = new UsersModel();
-        model.Message = new SuccessMessage("Nun Bist Du angemeldet als <b>\"" + user.Name +  "\"</b>");
+        model.Message = new SuccessMessage("Nun bist du angemeldet als <b>\"" + user.Name +  "\"</b>");
         return Users(null, model);
     }
 

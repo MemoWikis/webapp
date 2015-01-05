@@ -17,11 +17,11 @@ public class MessagesController : BaseController
                 {
                     Subject = "Hallo Unbekannte(r)!",
                     Body = @"<p>
-                                schön das Du bei uns vorbeischaust. 
+                                schön, dass du bei uns vorbeischaust. 
                                 Eigentlich gibt es hier nichts zu sehen, 
-                                wenn Du nicht angemeldet ist.
+                                wenn du nicht angemeldet ist.
                             </p>
-                            <p>Wir wünschen Dir weiter viel Spass beim Stöbern.</p>
+                            <p>Wir wünschen dir weiter viel Spaß beim Stöbern.</p>
                             <p>
                                 Viele Grüße<br>
                                 Jule & Robert

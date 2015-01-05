@@ -14,14 +14,14 @@
             
         <h5>Kontakt</h5>
         <p>
-            Hast Du mehr Fragen, dann Freuen wir uns über Deine Email an: <a href="mailto:team@richtig-oder-falsch.de">team@richtig-oder-falsch.de</a>
+            Hast du mehr Fragen, dann Freuen wir uns über deine Email an: <a href="mailto:team@richtig-oder-falsch.de">team@richtig-oder-falsch.de</a>
         </p>
         <p>
-            Robert kannst Du auch per Skype ansprechen (Skype-name: "robert-mischke"). Oder per Handy unter 0178 18 668 48.
+            Robert kannst du auch per Skype ansprechen (Skype-name: "robert-mischke"). Oder per Handy unter 0178 18 668 48.
         </p>
         <p>
-            Jeden Montag ab 15Uhr kannst Du uns auch im Büro besuchen: Falls Du Fragen hast, prüfen möchtest, 
-            ob was wir dokumentieren auch tatsächlich umgesetzt wird oder bei Anliegen anderer Art:
+            Jeden Montag ab 15 Uhr kannst du uns auch im Büro besuchen: Falls du Fragen hast, du prüfen möchtest, 
+            ob das, was wir dokumentieren auch tatsächlich umgesetzt wird oder bei Anliegen anderer Art:
         </p>
                 
         Wir sind Untermieter bei der<br/>
@@ -30,7 +30,7 @@
         D-10999 Berlin<br/>
         Aufgang: Portal 3A, 4.OG<br/>
         <br/>
-        (Bitte melde Dich vorher an.)
+        (Bitte melde dich vorher an.)
     </div>
 </div>
 

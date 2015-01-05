@@ -66,7 +66,7 @@
                 <% } else { %>
                     <div style="padding-top: 10px; padding-bottom: 10px;">--
                         <%= Model.IsCurrentUser ?  
-                            "Du hast keine Fragesätze zu Deinem Wunschwissen hinzugefügt" : 
+                            "Du hast keine Fragesätze zu deinem Wunschwissen hinzugefügt" : 
                              Model.Name + " hat keine Fragesätze zum Wunschwissen hinzugefügt." %> --
                     </div>
                 <% } %>
@@ -82,7 +82,7 @@
                 <% } else { %>
                     <div style="padding-top: 10px; padding-bottom: 10px;">--
                         <%= Model.IsCurrentUser ?  
-                            "Du hast keine Fragen zu Deinem Wunschwissen hinzugefügt" :
+                            "Du hast keine Fragen zu deinem Wunschwissen hinzugefügt" :
                             Model.Name + " hat keine Fragen zum Wunschwissen hinzugefügt."  %> --
                     </div>
                 <% } %>

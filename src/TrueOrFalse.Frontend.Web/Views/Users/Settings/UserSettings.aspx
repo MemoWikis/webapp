@@ -21,7 +21,7 @@
                             &nbsp;(Reputation: <%=Model.ReputationTotal %> - Rang <%= Model.ReputationRank %>)
                         </span>
 
-                        <i class="fa fa-wrench show-tooltip" title="Hier kannst Du Deine Einstellungen bearbeiten"></i>
+                        <i class="fa fa-wrench show-tooltip" title="Hier kannst du deine Einstellungen bearbeiten."></i>
                     </h2>
                 </div>
                 <div class="col-xs-3 xxs-stack">

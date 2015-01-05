@@ -206,14 +206,14 @@ class SaveUploadedImage
         }
 
         if ($("#rdoLicenseForeign").is(':checked')) {
-            window.alert("Bitte wähle eine andere Lizenz. Wir bitten Dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
+            window.alert("Bitte wähle eine andere Lizenz. Wir bitten dich das Bild auf Wikimedia hochzuladen und so einzubinden.");
             return;
         }
 
         if ($("#rdoLicenseByUploader").is(':checked')) {
             var licenseOwner = $("#txtLicenseOwner").val();
             if (licenseOwner.trim() === "") {
-                window.alert("Bitte gib Deinen Namen als Lizenzgeber an.");
+                window.alert("Bitte gib deinen Namen als Lizenzgeber an.");
                 return;
             }
 

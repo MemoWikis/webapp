@@ -23,7 +23,7 @@ namespace TrueOrFalse
         {
             string body = String.Format(@"
 <p>Hallo {0}, </p>
-<p>wir begrüßen Dich herzlich bei MEMuchO. Solltest Du irgendwelche Fragen haben, helfen wir Dir gerne.</p>
+<p>wir begrüßen dich herzlich bei MEMuchO. Solltest du irgendwelche Fragen haben, helfen wir dir gerne.</p>
 
 <p>Viele Grüße<br>
 Jule & Robert</p>

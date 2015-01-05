@@ -76,13 +76,13 @@
                                 <label style="font-weight: normal">
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
                                         für mich <span class="smaller">(<i class="fa fa-lock"></i> private Frage)</span> &nbsp;&nbsp;
-                                        (Die Frage ist nur von Dir nutzbar.)
+                                        (Die Frage ist nur von dir nutzbar.)
                                         <i class="fa fa-question-circle show-tooltip tooltip-min-200" title="" data-placement="top" 
                                            data-html="true"
                                            data-original-title="
                                                 <ul class='show-tooltip-ul'>
-                                                    <li>Die Frage kann nur von Dir genutzt werden.</li>
-                                                    <li>Niemand anders hat jemals Zugriff auf die Frage.</li>
+                                                    <li>Die Frage kann nur von dir genutzt werden.</li>
+                                                    <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
                                                 </ul>">
                                         </i>
 

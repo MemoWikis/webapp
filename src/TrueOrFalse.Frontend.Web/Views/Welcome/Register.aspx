@@ -12,12 +12,12 @@
         </div>
         <div class="form-horizontal col-md-9">
             <fieldset>
-                <legend>Registriere Dich</legend>
+                <legend>Registriere dich</legend>
 
                 <% Html.ValidationSummary(true, "Bitte überprüfen Sie Ihre eingaben"); %>
                 
                 <div class="alert alert-info">
-                    Wir gehen sorgfältig mit Deinen Daten um.
+                    Wir gehen sorgfältig mit deinen Daten um.
                 </div>
        
                 <div class="form-group">

@@ -93,7 +93,7 @@
                             <div class="form-group">
                                 
                                 <label class="col-sm-3 control-label">
-                                    <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung des Fragesatzes u. ermöglichen Dir und anderen Fragesätze wiederzufinden." data-placement = "left">
+                                    <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung des Fragesatzes und ermöglichen dir und anderen Fragesätze wiederzufinden." data-placement = "left">
                                         Kategorien
                                     </span>
                                 </label>        

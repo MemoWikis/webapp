@@ -15,7 +15,7 @@
             </div>
             <div class="modal-body hide2" id="tqsBody">
                 <div id="tqsTextSelectSet" class="alert-info" style="padding: 5px;">
-                  <strong>Bitte wähle einen Deiner Fragesätze</strong> 
+                  <strong>Bitte wähle einen deiner Fragesätze.</strong> 
                 </div>
                 <div style="margin-top: 11px;">
                     <b>Filter:</b> &nbsp;<input type="text" style="width: 210px;" id="txtTqsSetFilter" />
@@ -41,7 +41,7 @@
             <div class="modal-body hide2" id="tqsNoSetsBody">
                 <div class="alert">
                   <strong>Noch keine Fragesätze angelegt.</strong> 
-                    Um Fragen zu Fragesätzen hinzufügen zu können, erstelle jetzt Deinen ersten Fragesatz: 
+                    Um Fragen zu Fragesätzen hinzufügen zu können, erstelle jetzt deinen ersten Fragesatz: 
                 </div>        
             </div>
             <div class="modal-footer hide2" id="tqsNoSetsFooter">

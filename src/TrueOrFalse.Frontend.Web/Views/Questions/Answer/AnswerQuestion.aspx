@@ -222,7 +222,7 @@
             <% } else { %>
                 <div class="row">
                     <div class="col-xs-12" style="padding-top: 10px; color: darkgray">
-                        Um zu kommentieren, mußt Du angemeldet sein.
+                        Um zu kommentieren, musst du angemeldet sein.
                     </div>                     
                 </div>
             <% } %>

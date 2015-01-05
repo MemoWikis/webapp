@@ -80,12 +80,12 @@
 
         <h5><a name="passwortSicherheit">Passwort Sicherheit</a></h5>
         <p>
-            Es gibt für uns keine Möglichkeiten Dein Passwort zu ermitteln. 
+            Es gibt für uns keine Möglichkeiten dein Passwort zu ermitteln. 
             Dein geheimes Passwort ist also bei uns sicher. 
         </p>
         <p>
             Technisch: Passworte werden gehashed und mit einem SALT abgelegt gespeichert. 
-            Die Implementierung kannst Du Dir auf Github ansehen: 
+            Die Implementierung kannst du dir auf Github ansehen: 
             <a href="https://github.com/TrueOrFalse/TrueOrFalse/tree/master/src/TrueOrFalse/Domain/User/Registration">
                 Link auf Github
             </a>
@@ -94,12 +94,12 @@
         <h5><a name="teamVonRioafZugriff">Team von RIOFA Zugriff auf Nutzerkonto erlauben</a></h5>
         <p>
             Um Fehler zu finden oder Probleme nachzuvollziehen, 
-            kann es nützlich sein, das wir uns in Deinem Konto einloggen.
-            <b>Das geschieht jedoch ausschliesslich mit Deiner Zustimmung.</b> 
+            kann es nützlich sein, dass wir uns in dein Konto einloggen.
+            <b>Das geschieht jedoch ausschliesslich mit deiner Zustimmung.</b> 
             Solange es keinen konkreten Anlass gibt, wird der Zugriff nicht benötigt und es gibt 
             keinen Grund das Häkchen zu setzen. Sollte es jedoch mal ein Problem geben, 
-            kannst Du uns nach Rücksprache Zugang gewähren - ohne das wir Dein Passwort erfahren. 
-            Dafür gibt es unter Deinen Einstellungen eine Checkbox, mit der Du uns den Zugang erlauben kannst. 
+            kannst Du uns nach Rücksprache Zugang gewähren - ohne dass wir dein Passwort erfahren. 
+            Dafür gibt es unter deinen Einstellungen eine Checkbox, mit der du uns den Zugang erlauben kannst. 
         </p>
     </div>
 </div>
