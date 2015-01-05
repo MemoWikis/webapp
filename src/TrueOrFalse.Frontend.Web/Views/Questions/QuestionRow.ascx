@@ -37,13 +37,13 @@
             </div>   
             <div>
                 <% foreach (var category in Model.Categories){ %>
-                    <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
+                    <a href="<%= Links.CategoryDetail(category) %>" class="show-tooltip" title="Kategorie:" data-placement="top"><span class="label label-category"><%= category.Name %></span></a>
                 <% } %>
             </div>
             <% if(Model.SetCount > 0){ %>
             <div style="margin-top: 3px;">
                 <% foreach (var setMini in Model.SetMinis){ %>
-                    <a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
+                    <a href="<%= Links.SetDetail(Url, setMini) %>" class="show-tooltip" title="Fragesatz:" data-placement="top"><span class="label label-set"><%: setMini.Name %></span></a>
                 <% } %>
             
                 <% if (Model.SetCount > 5){ %>
