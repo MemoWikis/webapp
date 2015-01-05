@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using FluentNHibernate.Utils;
+using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
@@ -105,28 +106,31 @@ public class AnswerQuestionController : BaseController
 
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
-        var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
+        using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
+        {
+            var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
 
-        if (searchSpec.HistoryItem != null){
-            if (searchSpec.HistoryItem.Question != null){
-                if (searchSpec.HistoryItem.Question.Id != question.Id){
-                    question = Resolve<QuestionRepository>().GetById(searchSpec.HistoryItem.Question.Id);
+            if (searchSpec.HistoryItem != null){
+                if (searchSpec.HistoryItem.Question != null){
+                    if (searchSpec.HistoryItem.Question.Id != question.Id){
+                        question = Resolve<QuestionRepository>().GetById(searchSpec.HistoryItem.Question.Id);
+                    }
                 }
+
+                searchSpec.HistoryItem = null;
             }
 
-            searchSpec.HistoryItem = null;
+            _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, searchSpec));
+            _saveQuestionView.Run(question, _sessionUser.UserId);
+
+            return View(_viewLocation, new AnswerQuestionModel(question, searchSpec));
         }
-
-        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, searchSpec));
-        _saveQuestionView.Run(question, _sessionUser.UserId);
-
-        return View(_viewLocation, new AnswerQuestionModel(question, searchSpec));
     }
 
     [HttpPost]
     public JsonResult SendAnswer(int id, string answer)
     {
-        var result = _answerQuestion.Run(id, answer, _sessionUser.User.Id);
+        var result = _answerQuestion.Run(id, answer, UserId);
 
         return new JsonResult
                    {

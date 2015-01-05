@@ -18,10 +18,10 @@ namespace TrueOrFalse
         public void Run(int setId)
         {
             var set = _setRepo.GetById(setId);
-            _searchIndexSet.Delete(set);
             _setRepo.Delete(set);
 
-            Sl.Resolve<SetValuationRepository>().DeleteWhereSetIdIs(setId);
+            Sl.R<SetValuationRepository>().DeleteWhereSetIdIs(setId);
+            Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
 
             _searchIndexSet.Delete(set);
         }

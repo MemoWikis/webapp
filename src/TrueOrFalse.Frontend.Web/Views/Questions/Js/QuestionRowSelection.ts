@@ -1,4 +1,4 @@
-/// <reference path="Page.ts" />
+﻿/// <reference path="Page.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 
 class QuestionRow 
@@ -19,13 +19,12 @@ class QuestionRow
         this.Row.removeClass("selected-row");
     }
 
-
     IsUserOwner() { 
-        return this.Row.attr("data-userIsOwner") == "true";
+        return this.Row.attr("data-userIsOwner") === "true";
     }
 
     IsMemorizedByUser() {
-        return !(this.Row.find(".sliderValue").text() == "-1");
+        return this.Row.find(".iAdded:visible").length > 0;
     }
  	
     IsChecked() { return this.Row.hasClass("selected-row"); }
@@ -39,7 +38,7 @@ class QuestionRow
     Uncheck() 
     {  
         this.Row.removeClass("selected-row");
-        this.Row.find('.CheckboxText').html('Ausw�hlen');
+        this.Row.find('.CheckboxText').html('Auswählen');
     }
 }
 
@@ -94,62 +93,52 @@ class RowSelector{
         $(".question-row").each(function () {
             var questionRow = new QuestionRow($(this));
             rows.push(questionRow);
-            questionRow.GetCheckbox().Check();
+            questionRow.Check();
         });
         this.UpdateToolbar();
     }
 
     DeselecttAll() {
         $(".question-row").each(function () {
-            new QuestionRow($(this)).GetCheckbox().Uncheck();
+            new QuestionRow($(this)).Uncheck();
         });
         this.Rows = new Array();
         this.UpdateToolbar();
     }
     
     SelectAllWhereIAmOwner() { 
-        var rows = this.Rows;
-        
-        $(".question-row").each(function () {
-            var checkbox = new QuestionRow($(this)).GetCheckbox();
-            if (!checkbox.IsChecked() && checkbox.IsUserOwner()) { 
-                checkbox.Check();
-                rows.push(checkbox);
-            }
-        });
-
-        this.UpdateToolbar();
+        this.SelectWhereConditionApplies((questionRow: QuestionRow) =>
+            (!questionRow.IsChecked() && questionRow.IsUserOwner()));
     }
 
     SelectAllWhereIAmNotOwner() { 
-        var rows = this.Rows;
-        
-        $(".question-row").each(function () {
-            var checkbox = new QuestionRow($(this)).GetCheckbox();
-            if (!checkbox.IsChecked() && !checkbox.IsUserOwner()) { 
-                checkbox.Check();
-                rows.push(checkbox);
-            }
-        });
-
-        this.UpdateToolbar();
+        this.SelectWhereConditionApplies((questionRow: QuestionRow) =>
+            (!questionRow.IsChecked() && !questionRow.IsUserOwner()));
     }
 
-    SelectAllMemorizedByMe() { 
+    SelectAllNotMemorizedByMe() {
+        this.SelectWhereConditionApplies((questionRow: QuestionRow) =>
+            (!questionRow.IsChecked() && !questionRow.IsMemorizedByUser()));
+    }
+
+    SelectAllMemorizedByMe() {
+        this.SelectWhereConditionApplies((questionRow: QuestionRow) =>
+            (!questionRow.IsChecked() && questionRow.IsMemorizedByUser()));
+    }
+
+    SelectWhereConditionApplies(conditionApplies : Function) {
         var rows = this.Rows;
-        
+
         $(".question-row").each(function () {
-            var checkbox = new QuestionRow($(this)).GetCheckbox();
+            var questionRow = new QuestionRow($(this));
 
-            window.console.log(checkbox.IsMemorizedByUser());
-
-            if (!checkbox.IsChecked() && checkbox.IsMemorizedByUser()) { 
-                checkbox.Check();
-                rows.push(checkbox);
+            if (conditionApplies(questionRow)) {
+                questionRow.Check();
+                rows.push(questionRow);
             }
         });
 
-        this.UpdateToolbar();
+        this.UpdateToolbar();        
     }
 
     private IsSelected(row : QuestionRow) { 

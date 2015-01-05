@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SolrNet;
+using StackExchange.Profiling;
 
 namespace TrueOrFalse.Search
 {
@@ -37,7 +38,7 @@ namespace TrueOrFalse.Search
             }
         }
 
-        public void Update(Question question, bool commitDelayed = true)
+        public void Update(Question question, bool softCommit = true)
         {
             if (question == null)
                 return;
@@ -45,15 +46,16 @@ namespace TrueOrFalse.Search
             if (question.IsWorkInProgress)
                 return;
 
-            if (!commitDelayed)
+            if (!softCommit)
+            {
                 _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));
+                _solrOperations.Commit();    
+            }
             else
             {
                 var solrQuestion = ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id));
-                ExecAsync.Go(() => _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 10000}));
+                ExecAsync.Go(() => _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 5000}));
             }
-
-            _solrOperations.Commit();
         }
 
         public void Delete(Question question)

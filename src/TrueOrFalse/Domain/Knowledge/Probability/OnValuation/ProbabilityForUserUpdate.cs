@@ -32,6 +32,9 @@ namespace TrueOrFalse
 
         public void Run(int questionId, int userId)
         {
+            if (userId == -1)
+                return;
+
             var questionValuation =
                 _questionValuationRepo.GetBy(questionId, userId) ??
                     new QuestionValuation

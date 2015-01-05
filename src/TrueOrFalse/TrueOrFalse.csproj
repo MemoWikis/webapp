@@ -92,6 +92,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="MiniProfiler">
+      <HintPath>..\packages\MiniProfiler.3.1.1.140\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -300,7 +303,9 @@
     <Compile Include="Domain\QuestionSet\QuestionInSet\QuestionInSetListExts.cs" />
     <Compile Include="Domain\QuestionSet\Set.cs" />
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetMap.cs" />
-    <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepository.cs" />
+    <Compile Include="Domain\QuestionSet\Set.Persistence\SetRepository.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemory.cs" />
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemoryLoader.cs" />
@@ -333,7 +338,7 @@
     <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionExact.cs" />
-    <Compile Include="Domain\Question\Question.Ops\GetTotalSetCount.cs" />
+    <Compile Include="Domain\Question\Question.Ops\UpdateSetDataForQuestion.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionDeleter.cs" />
     <Compile Include="Domain\NotNull.cs" />
     <Compile Include="Domain\Question\Question.Ops\GetQuestionCount.cs" />
