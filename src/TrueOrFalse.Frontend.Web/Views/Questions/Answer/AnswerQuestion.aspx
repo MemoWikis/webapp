@@ -80,18 +80,19 @@
             </ul>
         </div>
 
-        <div class="col-xs-3">
+        <div class="col-xs-3 xxs-stack">
             <% if(Model.IsOwner){ %>
-                <div>            
-                    <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>" style="">
-                        <i class="fa fa-pencil pull-right" style="font-size: 19px; position: relative; top: 5px; opacity: 0.4"></i>
+                <div id="EditQuestion">
+                    <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>" class="TextLinkWithIcon">
+                        <i class="fa fa-pencil"></i>
+                        <span class="TextSpan">Frage bearbeiten</span>
                     </a>
                 </div>
             <% } %>
         </div>
     </div>
-    <div class="row">
 
+    <div class="row">
         <div class="col-lg-9 col-xs-9 xxs-stack">
             <div class="well">
                                 
