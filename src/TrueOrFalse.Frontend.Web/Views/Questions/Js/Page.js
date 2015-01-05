@@ -1,4 +1,4 @@
-/// <reference path="ToQuestionSet.ts" />
+﻿/// <reference path="ToQuestionSet.ts" />
 /// <reference path="QuestionRowSelection.ts" />
 
 var Page = (function () {
@@ -41,6 +41,7 @@ var Page = (function () {
         new Pin(0 /* Question */);
         new QuestionDelete();
 
+        FillSparklineTotals();
         fnInitImageDetailModal($('.ImageDetailModal'));
     };
     return Page;

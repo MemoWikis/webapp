@@ -33,6 +33,7 @@ class Page
         new Pin(PinRowType.Question);
         new QuestionDelete();
 
+        FillSparklineTotals();
         fnInitImageDetailModal($('.ImageDetailModal'));
     }
   
