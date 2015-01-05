@@ -73,6 +73,32 @@
                 <% } %>
             <% } %>
 
+            <a class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>">
+                <i class="fa fa-caret-right"></i> Kategorien
+                
+                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" 
+                    onclick="window.location = '<%= Url.Action("Create", "EditCategory") %>'; return false; "
+                    title="Neue Kategorie erstellen"></i>             
+            </a>
+       
+            <% var visitedC = new SessionUiData().VisitedCategories;
+               index = 0; 
+               foreach (var categoryHistoryItem in visitedC){ index++; %>
+                 <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.CategoryDetail); } %>
+
+                 <% if(categoryHistoryItem.Type == HistoryItemType.Edit){ %>
+                    <a href="<%= Links.CategoryEdit( Url, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie bearbeiten: <%=categoryHistoryItem.Name%>" data-placement="right">
+                        <i class="fa fa-caret-right"></i> 
+                        <%=categoryHistoryItem.Name%>
+                        <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i> 
+                    </a>
+                 <% }else{ %>
+                    <a href="<%= Links.CategoryDetail(categoryHistoryItem.Name, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie: <%=categoryHistoryItem.Name%>" data-placement="right">
+                        <i class="fa fa-caret-right"></i> <%=categoryHistoryItem.Name%>
+                    </a>
+                <% } %>
+            <% } %>
+            
             <a class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets")%>">
                 <i class="fa fa-caret-right"></i> Fragesätze
                 
@@ -99,37 +125,11 @@
                     <% } %>
             <% } %>
         
-            <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates(Url) %>">
+            <%--<a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates(Url) %>">
                 <i class="fa fa-caret-right"></i> Termine
-            </a>
-                    
-            <a class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" style="margin-top: 10px;" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>">
-                <i class="fa fa-caret-right"></i> Kategorien
-                
-                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" 
-                    onclick="window.location = '<%= Url.Action("Create", "EditCategory") %>'; return false; "
-                    title="Neue Kategorie erstellen"></i>             
-            </a>
-       
-            <% var visitedC = new SessionUiData().VisitedCategories;
-               index = 0; 
-               foreach (var categoryHistoryItem in visitedC){ index++; %>
-                 <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.CategoryDetail); } %>
+            </a>--%>
 
-                 <% if(categoryHistoryItem.Type == HistoryItemType.Edit){ %>
-                    <a href="<%= Links.CategoryEdit( Url, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie bearbeiten: <%=categoryHistoryItem.Name%>" data-placement="right">
-                        <i class="fa fa-caret-right"></i> 
-                        <%=categoryHistoryItem.Name%>
-                        <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i> 
-                    </a>
-                 <% }else{ %>
-                    <a href="<%= Links.CategoryDetail(categoryHistoryItem.Name, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie: <%=categoryHistoryItem.Name%>" data-placement="right">
-                        <i class="fa fa-caret-right"></i> <%=categoryHistoryItem.Name%>
-                    </a>
-                <% } %>
-            <% } %>
-
-            <a class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>">
+            <a class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="position: relative; top: -1px; left: 4px;" >
             </a>
             <%
@@ -153,9 +153,9 @@
                 </a>
             <% } %>
 
-            <a class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="#" style="margin-top: 10px;">
+            <%--<a class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="#" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Spielen
-            </a>
+            </a>--%>
         </div>
     </nav>
 </div>
