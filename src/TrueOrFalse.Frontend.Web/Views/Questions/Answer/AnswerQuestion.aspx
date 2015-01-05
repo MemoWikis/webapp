@@ -152,17 +152,15 @@
             
                 <div style="margin-bottom: 10px; margin-top: 10px;">
                     <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
-                    <div id="buttons-first-try">
-                        <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
-                        <a href="#" id="btnCheck" class="btn btn-primary pull-right">Antworten</a>
+                    <div id="buttons-first-try" class="pull-right">
+                        <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
+                        <a href="#" id="btnCheck" class="btn btn-primary" style="padding-right: 10px">Antworten</a>
                     </div>
                     
                     <div id="buttons-next-answer" style="display: none; padding-top: 20px; ">
-                    
                         <div class="" id="divAnsweredCorrect" style="display: none; float:left; margin-top:5px; width: 250px;">
                             <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
                         </div>
-                    
                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success pull-right">N&auml;chste Frage</a>
                     </div>
 

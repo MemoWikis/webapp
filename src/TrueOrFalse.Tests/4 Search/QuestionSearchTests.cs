@@ -87,6 +87,8 @@ namespace TrueOrFalse.Tests
                 new QuestionValuation { RelevancePersonal = 15, Question = context.All[1], User = user },
             });
 
+            R<ISolrOperations<QuestionSolrMap>>().Commit();
+
             Assert.That(Resolve<SearchQuestions>().Run("Juliane", new Pager(), valuatorId: user.Id).Count, Is.EqualTo(0));
             Assert.That(Resolve<SearchQuestions>().Run("Question", new Pager(), valuatorId: user.Id).Count, Is.EqualTo(2));
         }
