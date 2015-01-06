@@ -14,6 +14,17 @@ function FillSparklineTotals() {
     });    
 }
 
+function InitLabelTooltips() {
+    $('.label-category').each(function () {
+        $(this).addClass('show-tooltip');
+        $(this).attr('title', 'Kategorie:').attr('data-placement', 'top');
+    });
+    $('.label-set').each(function () {
+        $(this).addClass('show-tooltip');
+        $(this).attr('title', 'Fragesatz:').attr('data-placement', 'top');
+    });
+}
+
 $(function () {
     $("[popover-all-sets-for]").click(function (e) {
 
@@ -54,5 +65,6 @@ $(function () {
     );
 
     FillSparklineTotals();
+    InitLabelTooltips();
 });
 
