@@ -768,7 +768,7 @@ fieldset[disabled] #MenuButton:hover {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #ffffff;
+  background-color: white;
 }
 #gradientLeft {
   width: 300px;
@@ -874,7 +874,7 @@ fieldset[disabled] #MenuButton:hover {
 #MainFilterBar .btn-group .btn {
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   color: #203256;
-  text-shadow: #ffffff;
+  text-shadow: white;
   background-color: #ebf4cc;
   background-image: -moz-linear-gradient(top, #f2f8dd, #e1efb3);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f8dd), to(#e1efb3));
@@ -926,7 +926,7 @@ fieldset[disabled] #MenuButton:hover {
   }
 }
 #MainFilterBar .btn-group.active .btn {
-  text-shadow: #ffffff;
+  text-shadow: white;
   background-color: #daeca2;
   background-image: -moz-linear-gradient(top, #e1efb3, #d0e689);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e1efb3), to(#d0e689));
@@ -969,7 +969,7 @@ fieldset[disabled] #MenuButton:hover {
 /* MASTER MAIN CONTENT
 ----------------------------------------------------------*/
 #MasterMainContent {
-  background-color: #ffffff;
+  background-color: white;
   padding-top: 25px;
   padding-bottom: 20px;
 }
@@ -1267,7 +1267,7 @@ div.box-main .box-content {
 #user-main .box-with-tabs ul.nav-tabs li a:hover,
 #user-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
   background-color: #6a95da;
-  color: #ffffff;
+  color: white;
 }
 #user-main .box-with-tabs ul.nav-tabs li.active a,
 #user-main .boxtainer-outlined-tabs ul.nav-tabs li.active a {
