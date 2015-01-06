@@ -68,6 +68,8 @@ public class AnswerQuestionModel : BaseModel
     public string QuestionText { get; private set; }
     public string QuestionTextMarkdown { get; private set; }
 
+    public QuestionVisibility Visibility { get; private set; }
+
     public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
 
@@ -167,6 +169,7 @@ public class AnswerQuestionModel : BaseModel
         QuestionId = question.Id;
         QuestionText = question.Text;
         QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
+        Visibility = question.Visibility;
         SolutionType = question.SolutionType.ToString();
         SolutionModel = new GetQuestionSolution().Run(question);
 

@@ -74,7 +74,8 @@ class AnswerQuestion
         answerHistory.push(answerText);
 
         if (answerText.trim().length == 0) {
-            InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true); return false;
+            InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
+            return false;
         }
 
         $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
@@ -139,11 +140,11 @@ class InputFeedback {
         "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
     ];
 
-    private static SuccessMsgs = ["Yeah! Weiter so.", "Du bis auf einem guten Weg.", "Sauber!", "Well Done!"];
+    private static SuccessMsgs = ["Yeah! Weiter so.", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!"];
 
     public static ShowError(text = "", forceShow: boolean = false)
     {
-        if (text == "") {
+        if (text === "") {
             text = InputFeedback.ErrMsgs[Utils.Random(0, InputFeedback.ErrMsgs.length - 1)];
         }
 
@@ -187,7 +188,7 @@ class InputFeedback {
 
     static AnimateWrongAnswer() {
         $("#buttons-edit-answer").show();
-        $("#txtAnswer").animate({ backgroundColor: "#FFB6C1" }, 1000);
+        $("#txtAnswer").animate({ backgroundColor: "#efc7ce" }, 1000);
     }
 
     static AnimateNeutral() {
@@ -195,28 +196,48 @@ class InputFeedback {
     }
 
     static ShowSuccess() {
+        $("#divAnsweredCorrect").show();
         $("#buttons-next-answer").show();
         $("#buttons-edit-answer").hide();
-        $("#txtAnswer").animate({ backgroundColor: "#90EE90" }, 1000);
+        $("#txtAnswer").animate({ backgroundColor: "#D1EBA7" }, 1000);
         $("#divWrongAnswer").hide();
 
         $("#divAnsweredCorrect").show();
         $("#wellDoneMsg").html("" + InputFeedback.SuccessMsgs[Utils.Random(0, InputFeedback.SuccessMsgs.length - 1)]).show();
+
+        InputFeedback.RenderAnswerDetails();
     }
 
     static ShowCorrectAnswer() {
 
         InputFeedback.ShowNextAnswer(); 
         $("#divWrongAnswer").hide();
-        $("#SolutionDetails").show();
+        $("#txtAnswer").hide();
+
+        InputFeedback.RenderAnswerDetails();
+    }
+
+    static RenderAnswerDetails() {
+        $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
+        $('#Buttons').css('visibility', 'hidden');
+        window.setTimeout(function() { $("#SolutionDetailsSpinner").show(); }, 1000);
 
         ajaxGetAnswer(function (result) {
-            $("#Solution .Content").html(result.correctAnswer);
+            $("#Solution").show().find('.Content').html(result.correctAnswer);
             if (result.correctAnswerDesc) {
                 $("#Description").show().find('.Content').html(result.correctAnswerDesc);
             }
-            if (result.correctAnswerReferences.length != 0) {
+            //window.alert(result.correctAnswerReferences.length);
+            if (result.correctAnswerReferences.length > 0) {
                 $("#References").show();
+                var indexSuccessfulReferences = 0;
+                $(window).on('oneMoreReference', function() {
+                    indexSuccessfulReferences++;
+                    if (indexSuccessfulReferences === result.correctAnswerReferences.length) {
+                        InputFeedback.ShowAnswerDetails();
+                    }
+                    //window.alert(indexSuccessfulReferences + " of " + result.correctAnswerReferences.length);
+                });
                 for (var i = 0; i < result.correctAnswerReferences.length; i++) {
                     var reference = result.correctAnswerReferences[i];
                     var referenceHtml = $('<div class="ReferenceDetails"></div>');
@@ -243,6 +264,7 @@ class InputFeedback {
                                 fnRenderReference(div, ref);
 
                                 $('.show-tooltip').tooltip();
+                                $(window).trigger('oneMoreReference');
                             }
                         });
                     }
@@ -251,10 +273,21 @@ class InputFeedback {
                         fnAjaxCall(referenceHtml, reference);
                     } else {
                         fnRenderReference(referenceHtml, reference);
-                    }                    
+                        $(window).trigger('oneMoreReference');
+                    }
                 }
+            } else {
+                InputFeedback.ShowAnswerDetails();
             }
         });
+    }
+
+    static ShowAnswerDetails() {
+        window.setTimeout(function() {
+            $("#SolutionDetailsSpinner").remove();
+            $("#SolutionDetails").show();
+            $('#Buttons').css('visibility', 'visible');
+        }, 50);
     }
 
     private static ShowNextAnswer() {

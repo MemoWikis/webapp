@@ -1,4 +1,4 @@
-/// <reference path="../js/answerquestion.ts" />
+﻿/// <reference path="../js/answerquestion.ts" />
 var SolutionTypeDateEntry = (function () {
     function SolutionTypeDateEntry() {
         var _this = this;
@@ -43,7 +43,7 @@ var SolutionTypeDateEntry = (function () {
     SolutionTypeDateEntry.prototype.GetJsonMetaData = function () {
         var jsonVal = $("#hddSolutionMetaDataJson").val();
         if (jsonVal.length == 0) {
-            alert("Fehler: ungueltige Frage");
+            window.alert("Fehler: ungültige Frage");
             Logger.Error("no solution metaData");
         }
 

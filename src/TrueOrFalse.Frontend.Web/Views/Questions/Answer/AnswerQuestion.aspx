@@ -40,7 +40,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <div class="col-lg-9 col-xs-9 xxs-stack">
-            <ul class="pager" style="margin-top: 0;">
+            <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
                 <li class="previous <%= Model.HasPreviousPage ? "" : "disabled" %>">
                     <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
                 </li>
@@ -110,9 +110,41 @@
                 <p><%= Model.QuestionTextMarkdown %></p>
             
                 <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
-
+        
+                <div class="alert alert-info" id="divWrongAnswer" style="display: none; background-color: white; color:#2E487B;">
+                    <span style="color: #B13A48"><b>Falsche Antwort </b></span>
+                    <a href="#" id="errorTryCount" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
+                
+                    <div style="margin-top:5px;" id="answerFeedback">Du könntest es wenigstens probieren!</div>
+                
+                    <div style="margin-top:7px; display: none;" id="divAnswerHistory" >
+                        Historie:
+                        <ul style="padding-top:5px;" id="ulAnswerHistory">
+                        </ul>
+                    </div>
+                </div>
+        
+                <div id="AnswerInputSection">
+                    <input type="hidden" id="hddSolutionMetaDataJson" value="<%: Model.SolutionMetaDataJson %>"/>
+                    <%
+                        string userControl = "SolutionType" + Model.SolutionType + ".ascx";
+                        if (Model.SolutionMetadata.IsDate)
+                            userControl = "SolutionTypeDate.ascx";
+                        
+                        Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel); 
+                    %>
+                </div>
+                
+                <div id="SolutionDetailsSpinner" style="display: none;">
+                    <i class="fa fa-spinner fa-spin" style="color:#b13a48;"></i>
+                </div>
                 <div class="alert alert-info" id="SolutionDetails" style="display: none; background-color: white; color:#2E487B;">
-                    <div id="Solution" class="Detail">
+                    
+                     <div class="" id="divAnsweredCorrect" style="display: none; margin-top:5px;">
+                        <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
+                    </div>
+
+                    <div id="Solution" class="Detail" style="display: none;">
                         <div class="Label">Antwort:</div>
                         <div class="Content"></div>
                     </div>
@@ -125,51 +157,24 @@
                         <div class="Content"></div>
                     </div>
                 </div>
-        
-                <div class="alert alert-danger" id="divWrongAnswer" style="display: none">
-                    <b>Falsche Antwort </b>
-                    <a href="#" id="errorTryCount" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
-                
-                    <div style="margin-top:5px;" id="answerFeedback">Du könntest es wenigstens probieren!</div>
-                
-                    <div style="margin-top:7px; display: none;" id="divAnswerHistory" >
-                        Historie:
-                        <ul style="padding-top:5px;" id="ulAnswerHistory">
-                        </ul>
-                    </div>
-                </div>
-        
-                <div>
-                    <input type="hidden" id="hddSolutionMetaDataJson" value="<%: Model.SolutionMetaDataJson %>"/>
-                    <%
-                        string userControl = "SolutionType" + Model.SolutionType + ".ascx";
-                        if (Model.SolutionMetadata.IsDate)
-                            userControl = "SolutionTypeDate.ascx";
-                        
-                        Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel); 
-                    %>
-                </div>
             
-                <div style="margin-bottom: 10px; margin-top: 10px;">
+                <div id="Buttons" style="margin-bottom: 10px; margin-top: 10px;">
                     <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
                     <div id="buttons-first-try" class="pull-right">
                         <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
                         <a href="#" id="btnCheck" class="btn btn-primary" style="padding-right: 10px">Antworten</a>
                     </div>
                     
-                    <div id="buttons-next-answer" style="display: none; padding-top: 20px; ">
-                        <div class="" id="divAnsweredCorrect" style="display: none; float:left; margin-top:5px; width: 250px;">
-                            <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
-                        </div>
+                    <div id="buttons-next-answer" style="display: none;">
                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success pull-right">N&auml;chste Frage</a>
                     </div>
 
-                    <div id="buttons-edit-answer" style="display: none;">
-                        <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
-                        <a href="#" id="btnEditAnswer" class="btn btn-warning pull-right">Antwort &Uuml;berarbeiten</a>
+                    <div id="buttons-edit-answer" class="pull-right" style="display: none;">
+                        <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
+                        <a href="#" id="btnEditAnswer" class="btn btn-warning">Antwort &Uuml;berarbeiten</a>
                     </div>
-                    <div id="buttons-answer-again" style="display: none">
-                        <a href="#" class="selectorShowAnswer">Antwort anzeigen</a>
+                    <div id="buttons-answer-again" class="pull-right" style="display: none">
+                        <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
                         <a href="#" id="btnCheckAgain" class="btn btn-warning pull-right">Nochmal Antworten</a>
                     </div>
                     
@@ -231,7 +236,7 @@
         <div class="col-xs-3 well" style="background-color: white;">
             
             <p>
-                von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><br />
+                von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
                 vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             </p>
         

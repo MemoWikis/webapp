@@ -1,4 +1,4 @@
-/// <reference path="../js/answerquestion.ts" />
+﻿/// <reference path="../js/answerquestion.ts" />
 
 class SolutionTypeDateEntry implements ISolutionEntry {
 
@@ -47,13 +47,12 @@ class SolutionTypeDateEntry implements ISolutionEntry {
     GetJsonMetaData(): SolutionMetadataDate {
         var jsonVal = $("#hddSolutionMetaDataJson").val();
         if (jsonVal.length == 0) {
-            alert("Fehler: ungueltige Frage");
+            window.alert("Fehler: ungültige Frage");
             Logger.Error("no solution metaData");
         }
 
         return <SolutionMetadataDate>jQuery.parseJSON(jsonVal);
     }
-
 }
 
 
