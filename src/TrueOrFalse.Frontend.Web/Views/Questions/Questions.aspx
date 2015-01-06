@@ -98,7 +98,7 @@
                                von = Model.TotalQuestionsInResult + " von "; %>
                         Mein Wunschwissen <span class="tabWishKnowledgeCount">(<span class="JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)</span>
                         <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
-                           title="Wissen, das du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
+                           title="Fakten, die du dir merken möchtest." data-placement="right"></i>
                     </a>
                 </li>
                 <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-<%= SearchTab.Mine.ToString() %>">
@@ -107,7 +107,7 @@
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
                                von = Model.TotalQuestionsInResult + " von "; %>                        
                         Meine Fragen (<span class="JS-Amount"><%= von + Model.TotalQuestionsMine %></span>)
-                        <i class="fa fa-question-circle show-tooltip" title="Fragen die von dir erstellt wurden." data-placement="right"></i>
+                        <i class="fa fa-question-circle show-tooltip" title="Fragen, die von dir erstellt wurden." data-placement="right"></i>
                     </a>
                 </li>
             </ul>
