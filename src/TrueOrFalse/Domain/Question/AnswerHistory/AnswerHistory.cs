@@ -11,7 +11,7 @@ namespace TrueOrFalse
         public virtual int Id { get; set; }
         public virtual int UserId { get; set; }
         public virtual int QuestionId { get; set; }
-        public virtual bool AnswerredCorrectly { get; set; }
+        public virtual AnswerCorrectness AnswerredCorrectly { get; set; }
         public virtual string AnswerText { get; set; }
 
         /// <summary>Duration</summary>

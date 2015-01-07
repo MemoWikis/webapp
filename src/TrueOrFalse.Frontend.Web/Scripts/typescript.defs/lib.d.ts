@@ -16,5 +16,6 @@ interface JQuery {
 interface Window {
     ajaxUrl_SendAnswer: any;
     ajaxUrl_GetAnswer: any;
+    ajaxUrl_CountLastAnswerAsCorrect : any;
     questionId : any;
 }

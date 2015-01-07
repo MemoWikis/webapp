@@ -87,6 +87,12 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("GetAnswer", AnswerQuestionController, new { id = question.Id }, null);
         }
 
+        public static string CountLastAnswerAsCorrect(UrlHelper url, Question question)
+        {
+            return url.Action("CountLastAnswerAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
+        }
+        
+
         /*Set*/
         public const string SetsController = "Sets";
         public const string SetsAction = "Sets";

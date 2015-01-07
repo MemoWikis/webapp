@@ -46,9 +46,16 @@ class AnswerQuestion
             e=> {
                 e.preventDefault();
                 this.validateAnswer();
-        });
+            });
 
-        $("#errorTryCount").click(function () {
+        $("#btnCountAsCorrect").click(
+            e=> {
+                e.preventDefault();
+                self.countLastAnswerAsCorrect();
+            });
+
+        $("#errorTryCount").click(function (e) {
+            e.preventDefault();
             var divAnswerHistory = $("#divAnswerHistory");
             if (!divAnswerHistory.is(":visible"))
                 divAnswerHistory.show();
@@ -73,7 +80,7 @@ class AnswerQuestion
         amountOfTries++;
         answerHistory.push(answerText);
 
-        if (answerText.trim().length == 0) {
+        if (answerText.trim().length === 0) {
             InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
             return false;
         }
@@ -102,6 +109,15 @@ class AnswerQuestion
             }
         });
         return false;
+    }
+
+    private countLastAnswerAsCorrect() {
+        $.ajax({
+            type: 'POST',
+            url: window.ajaxUrl_CountLastAnswerAsCorrect,
+            cache: false,
+            success: function(result) {}
+        });
     }
 
     private isAnswerPossible() {

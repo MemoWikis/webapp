@@ -32,6 +32,7 @@
 
         var ajaxUrl_SendAnswer = "<%= Model.AjaxUrl_SendAnswer(Url) %>";
         var ajaxUrl_GetAnswer = "<%= Model.AjaxUrl_GetAnswer(Url) %>";
+        var ajaxUrl_CountLastAnswerAsCorrect = "<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>";
     </script>
 
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
@@ -118,7 +119,7 @@
                     <div style="margin-top:5px;" id="answerFeedback">Du könntest es wenigstens probieren!</div>
                 
                     <div style="margin-top:7px; display: none;" id="divAnswerHistory" >
-                        Historie:
+                        Deine bisherigen Antwortversuche:
                         <ul style="padding-top:5px;" id="ulAnswerHistory">
                         </ul>
                     </div>
@@ -165,7 +166,8 @@
                         <a href="#" id="btnCheck" class="btn btn-primary" style="padding-right: 10px">Antworten</a>
                     </div>
                     
-                    <div id="buttons-next-answer" style="display: none;">
+                    <div id="buttons-next-answer" class="pull-right" style="display: none;">
+                        <a href="#" id="btnCountAsCorrect" class="btn btn-info show-tooltip" title="Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!">Hab ich gewusst!</a>
                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success pull-right">N&auml;chste Frage</a>
                     </div>
 

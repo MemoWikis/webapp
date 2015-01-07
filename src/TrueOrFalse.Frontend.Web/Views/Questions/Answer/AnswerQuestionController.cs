@@ -13,15 +13,18 @@ public class AnswerQuestionController : BaseController
     private readonly QuestionRepository _questionRepository;
 
     private readonly AnswerQuestion _answerQuestion;
+    private readonly AnswerHistoryLog _answerHistoryLog;
     private readonly SaveQuestionView _saveQuestionView;
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
     public AnswerQuestionController(QuestionRepository questionRepository,
                                     AnswerQuestion answerQuestion,
+                                    AnswerHistoryLog answerHistoryLog,
                                     SaveQuestionView saveQuestionView)
     {
         _questionRepository = questionRepository;
         _answerQuestion = answerQuestion;
+        _answerHistoryLog = answerHistoryLog;
         _saveQuestionView = saveQuestionView;
     }
 
@@ -163,6 +166,12 @@ public class AnswerQuestionController : BaseController
                 }),
             }
         };
+    }
+
+    [HttpPost]
+    public void CountLastAnswerAsCorrect(int id)
+    {
+        _answerHistoryLog.CountLastAnswerAsCorrect(_questionRepository.GetById(id), _sessionUser.UserId);
     }
 
     [HttpPost]

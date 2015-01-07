@@ -256,6 +256,7 @@
     <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategory.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\AnswerCorrectness.cs" />
     <Compile Include="Domain\Question\References\Persistence\ReferenceMap.cs" />
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />

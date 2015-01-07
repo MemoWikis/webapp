@@ -34,7 +34,13 @@ var AnswerQuestion = (function () {
             _this.validateAnswer();
         });
 
-        $("#errorTryCount").click(function () {
+        $("#btnCountAsCorrect").click(function (e) {
+            e.preventDefault();
+            self.countLastAnswerAsCorrect();
+        });
+
+        $("#errorTryCount").click(function (e) {
+            e.preventDefault();
             var divAnswerHistory = $("#divAnswerHistory");
             if (!divAnswerHistory.is(":visible"))
                 divAnswerHistory.show();
@@ -59,7 +65,7 @@ var AnswerQuestion = (function () {
         amountOfTries++;
         answerHistory.push(answerText);
 
-        if (answerText.trim().length == 0) {
+        if (answerText.trim().length === 0) {
             InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
             return false;
         }
@@ -89,6 +95,16 @@ var AnswerQuestion = (function () {
             }
         });
         return false;
+    };
+
+    AnswerQuestion.prototype.countLastAnswerAsCorrect = function () {
+        $.ajax({
+            type: 'POST',
+            url: window.ajaxUrl_CountLastAnswerAsCorrect,
+            cache: false,
+            success: function (result) {
+            }
+        });
     };
 
     AnswerQuestion.prototype.isAnswerPossible = function () {
@@ -307,4 +323,4 @@ function ajaxGetAnswer(onSuccessAction) {
         }
     });
 }
-//# sourceMappingURL=answerquestion.js.map
+//# sourceMappingURL=AnswerQuestion.js.map

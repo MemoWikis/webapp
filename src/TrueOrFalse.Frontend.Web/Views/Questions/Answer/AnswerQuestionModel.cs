@@ -72,6 +72,7 @@ public class AnswerQuestionModel : BaseModel
 
     public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
+    public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
 
     public bool HasPreviousPage;
     public bool HasNextPage;
@@ -197,6 +198,7 @@ public class AnswerQuestionModel : BaseModel
 
         AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
+        AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
 
         ImageUrl_500px = QuestionImageSettings.Create(question.Id).GetUrl_128px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
