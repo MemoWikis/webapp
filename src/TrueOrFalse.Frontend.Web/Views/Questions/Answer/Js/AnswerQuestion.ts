@@ -3,8 +3,10 @@
 
 var answerResult;
 
-var answerHistory = [];
+var answersSoFar = [];
 var amountOfTries = 0;
+var atLeastOneWrongAnswer = false;
+var choices = [];
 
 interface ISolutionEntry {
     GetAnswerText(): string;
@@ -16,7 +18,7 @@ class AnswerQuestion
 {
     private _getAnswerText: () => string;
     private _getAnswerData: () => {};
-    private _onNewAnswer : () => void;
+    private _onNewAnswer: () => void;
 
     constructor(solutionEntry : ISolutionEntry)
     {
@@ -54,17 +56,18 @@ class AnswerQuestion
                 self.countLastAnswerAsCorrect();
             });
 
-        $("#errorTryCount").click(function (e) {
+        $("#CountWrongAnswers").click(function (e) {
             e.preventDefault();
-            var divAnswerHistory = $("#divAnswerHistory");
-            if (!divAnswerHistory.is(":visible"))
-                divAnswerHistory.show();
+            var divWrongAnswers = $("#divWrongAnswers");
+            if (!divWrongAnswers.is(":visible"))
+                divWrongAnswers.show();
             else
-                divAnswerHistory.hide();
+                divWrongAnswers.hide();
         });
 
         $(".selectorShowAnswer").click( ()=> {
-            InputFeedback.ShowCorrectAnswer(); return false;
+            InputFeedback.ShowCorrectAnswer();
+            return false;
         });
         $("#buttons-edit-answer").click((e) => {
             e.preventDefault();
@@ -76,38 +79,64 @@ class AnswerQuestion
 
     private validateAnswer() {
         var answerText = this._getAnswerText();
-
-        amountOfTries++;
-        answerHistory.push(answerText);
+        var self = this;
 
         if (answerText.trim().length === 0) {
-            InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
+            $('#spnWrongAnswer').hide();
+            InputFeedback.ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)", true);
+            return false;
+        } else {
+            $('#spnWrongAnswer').show();
+            amountOfTries++;
+            answersSoFar.push(answerText);
+
+            $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+
+            $.ajax({
+                type: 'POST',
+                url: window.ajaxUrl_SendAnswer,
+                data: this._getAnswerData(),
+                cache: false,
+                success: function (result) {
+                    answerResult = result;
+                    $("#buttons-first-try").hide();
+                    $("#buttons-answer-again").hide();
+                    if (result.correct) {
+                        InputFeedback.ShowSuccess();
+                    } else {
+                        InputFeedback.UpdateAnswersSoFar();
+
+                        atLeastOneWrongAnswer = true;
+                        InputFeedback.ShowError();
+
+                        if (result.choices != null) { //if multiple choice
+                            choices = result.choices;
+                            if (self.allWrongAnswersTried(answerText)) {
+                                InputFeedback.ShowCorrectAnswer();
+                            }
+                        }
+                    };
+
+                    $("#answerHistory").empty();
+                    $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
+                        $("#answerHistory").html(data);
+                    });
+                }
+            });
             return false;
         }
+    }
 
-        $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
-
-        $.ajax({
-            type: 'POST',
-            url: window.ajaxUrl_SendAnswer,
-            data: this._getAnswerData(),
-            cache: false,
-            success: function(result) {
-                answerResult = result;
-                $("#buttons-first-try").hide();
-                $("#buttons-answer-again").hide();
-                if (result.correct) {
-                    InputFeedback.ShowSuccess();
-                } else {
-                    InputFeedback.ShowError();
-                };
-
-                $("#answerHistory").empty();
-                $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId}, function(data) {
-                    $("#answerHistory").html(data);
-                });
+    private allWrongAnswersTried(answerText: string) {
+        var differentTriedAnswers = [];
+        for (var i = 0; i < answersSoFar.length; i++) {
+            if ($.inArray(answersSoFar[i], choices) !== -1 && $.inArray(answersSoFar[i], differentTriedAnswers) === -1) {
+                differentTriedAnswers.push(answersSoFar[i]);
             }
-        });
+        }
+        if (differentTriedAnswers.length + 1 === choices.length) {
+            return true;
+        }
         return false;
     }
 
@@ -116,7 +145,12 @@ class AnswerQuestion
             type: 'POST',
             url: window.ajaxUrl_CountLastAnswerAsCorrect,
             cache: false,
-            success: function(result) {}
+            success: function (result) {
+                $("#answerHistory").empty();
+                $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
+                    $("#answerHistory").html(data);
+                });
+            } 
         });
     }
 
@@ -145,6 +179,10 @@ class AnswerQuestion
             InputFeedback.AnimateNeutral();
         }
     }
+
+    public AtLeastOneWrongAnswer() {
+        atLeastOneWrongAnswer = true;
+    }
 }
 
 class InputFeedback {
@@ -158,42 +196,19 @@ class InputFeedback {
 
     private static SuccessMsgs = ["Yeah! Weiter so.", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!"];
 
-    public static ShowError(text = "", forceShow: boolean = false)
-    {
+    public static ShowError(text = "", forceShow: boolean = false) {
+
         if (text === "") {
             text = InputFeedback.ErrMsgs[Utils.Random(0, InputFeedback.ErrMsgs.length - 1)];
         }
 
-        var errorTryText;
-        var amountOfTriesText = ["ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"];
-
-        switch (amountOfTries) {
-            case 1:
-                errorTryText = amountOfTriesText[amountOfTries - 1]; break;
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                errorTryText = amountOfTriesText[amountOfTries - 1] + " Versuche"; break;
-            case 6:
-            case 7:
-                errorTryText = amountOfTriesText[amountOfTries - 1]; break;
-            default:
-                errorTryText = amountOfTriesText[6];
-        }
-        $("#errorTryCount").html("(" + errorTryText + ")");
-
-        $('#ulAnswerHistory').html("");
-        $.each(answerHistory, function (index, val) {
-            $('#ulAnswerHistory').append(
-                $('<li>' + val + '</li>'));
-        });
+        this.UpdateAnswersSoFar();
 
         $("#divWrongAnswer").show();
         $("#buttons-first-try").hide();
         $("#buttons-answer-again").hide();
 
-        if (forceShow || Utils.Random(1, 10) % 4 == 0) {
+        if (forceShow || Utils.Random(1, 10) % 4 === 0) {
             $("#answerFeedback").html(text).show();
         } else {
             $("#answerFeedback").html(text).hide();
@@ -212,6 +227,7 @@ class InputFeedback {
     }
 
     static ShowSuccess() {
+
         $("#divAnsweredCorrect").show();
         $("#buttons-next-answer").show();
         $("#buttons-edit-answer").hide();
@@ -227,8 +243,13 @@ class InputFeedback {
     static ShowCorrectAnswer() {
 
         InputFeedback.ShowNextAnswer(); 
-        $("#divWrongAnswer").hide();
-        $("#txtAnswer").hide();
+        if (!atLeastOneWrongAnswer) {
+            $("#txtAnswer").hide();
+        }
+
+        $("#txtAnswer").attr('disabled', 'true').addClass('disabled');
+        $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antworten:');
+        $("#divWrongAnswers").show();
 
         InputFeedback.RenderAnswerDetails();
     }
@@ -243,7 +264,6 @@ class InputFeedback {
             if (result.correctAnswerDesc) {
                 $("#Description").show().find('.Content').html(result.correctAnswerDesc);
             }
-            //window.alert(result.correctAnswerReferences.length);
             if (result.correctAnswerReferences.length > 0) {
                 $("#References").show();
                 var indexSuccessfulReferences = 0;
@@ -252,7 +272,6 @@ class InputFeedback {
                     if (indexSuccessfulReferences === result.correctAnswerReferences.length) {
                         InputFeedback.ShowAnswerDetails();
                     }
-                    //window.alert(indexSuccessfulReferences + " of " + result.correctAnswerReferences.length);
                 });
                 for (var i = 0; i < result.correctAnswerReferences.length; i++) {
                     var reference = result.correctAnswerReferences[i];
@@ -306,10 +325,42 @@ class InputFeedback {
         }, 50);
     }
 
+    static UpdateAnswersSoFar() {
+
+        var errorTryText;
+        var amountOfTriesText = ["0 Versuche", "ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"];
+
+        switch (amountOfTries) {
+            case 0:
+            case 1:
+                errorTryText = amountOfTriesText[amountOfTries]; break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                errorTryText = amountOfTriesText[amountOfTries] + " Versuche"; break;
+            case 6:
+            case 7:
+                errorTryText = amountOfTriesText[amountOfTries]; break;
+            default:
+                errorTryText = amountOfTriesText[7];
+        }
+        $("#CountWrongAnswers").html("(" + errorTryText + ")");
+
+        $('#ulAnswerHistory').html("");
+
+        $.each(answersSoFar, function (index, val) {
+            $('#ulAnswerHistory').append(
+                $('<li>' + val + '</li>'));
+        });
+    }
+
     private static ShowNextAnswer() {
-        $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
 
         $("#buttons-next-answer").show();
+        if (atLeastOneWrongAnswer) {
+            $("#btnCountAsCorrect").show();
+        }
 
         $("#answerFeedback").hide();
 

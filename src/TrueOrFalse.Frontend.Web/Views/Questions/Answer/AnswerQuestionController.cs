@@ -134,13 +134,16 @@ public class AnswerQuestionController : BaseController
     public JsonResult SendAnswer(int id, string answer)
     {
         var result = _answerQuestion.Run(id, answer, UserId);
+        var question = _questionRepository.GetById(id);
+        var solution = new GetQuestionSolution().Run(question);
 
         return new JsonResult
                    {
                        Data = new
                                   {
                                       correct = result.IsCorrect,
-                                      correctAnswer = result.CorrectAnswer
+                                      correctAnswer = result.CorrectAnswer,
+                                      choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ? ((QuestionSolutionMultipleChoice)solution).Choices : null
                                   }
                    };
     }
@@ -163,7 +166,7 @@ public class AnswerQuestionController : BaseController
                     referenceType = r.ReferenceType.GetName(),
                     additionalInfo = r.AdditionalInfo ?? "",
                     referenceText = r.ReferenceText ?? ""
-                }),
+                })
             }
         };
     }
