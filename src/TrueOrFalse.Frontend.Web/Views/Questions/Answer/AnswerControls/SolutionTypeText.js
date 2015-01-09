@@ -19,6 +19,7 @@ var SolutionTypeTextEntry = (function () {
     SolutionTypeTextEntry.prototype.OnNewAnswer = function () {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
+        $("#txtAnswer").select();
     };
     return SolutionTypeTextEntry;
 })();
