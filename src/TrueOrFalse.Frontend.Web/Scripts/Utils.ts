@@ -1,11 +1,22 @@
 class Utils
 {
+    static UIMessageHtml(text: string, type: string): string {
+        var cssClass = "info";
+
+        if (type === "danger"
+            || type === "warning"
+            || type === "success") {
+            cssClass = type;
+        }
+
+        return  "<div class='alert alert-" + cssClass + " fade in'><a class='close' data-dismiss='alert' href='#'>×</a>" + text + "</div>";
+    }
+
     static Random(minVal: any, maxVal: any, floatVal: any = 'undefined'): number
     {
         var randVal = minVal + (Math.random() * (maxVal - minVal));
         return <number>(typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal));
     }
-
 
     static SetElementValue(selector: string, newValue: string) {
         Utils.SetElementValue2($(selector), newValue);

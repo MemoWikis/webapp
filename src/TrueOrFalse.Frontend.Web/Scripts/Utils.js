@@ -1,6 +1,16 @@
-var Utils = (function () {
+﻿var Utils = (function () {
     function Utils() {
     }
+    Utils.UIMessageHtml = function (text, type) {
+        var cssClass = "info";
+
+        if (type === "danger" || type === "warning" || type === "success") {
+            cssClass = type;
+        }
+
+        return "<div class='alert alert-" + cssClass + " fade in'><a class='close' data-dismiss='alert' href='#'>×</a>" + text + "</div>";
+    };
+
     Utils.Random = function (minVal, maxVal, floatVal) {
         if (typeof floatVal === "undefined") { floatVal = 'undefined'; }
         var randVal = minVal + (Math.random() * (maxVal - minVal));

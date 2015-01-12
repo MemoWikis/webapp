@@ -131,7 +131,8 @@ var AnswerQuestion = (function () {
             url: window.ajaxUrl_CountLastAnswerAsCorrect,
             cache: false,
             success: function (result) {
-                //Rückmeldung
+                $(Utils.UIMessageHtml("Die Frage wurde als richtig beantwortet gewertet.", "success")).insertBefore('#Buttons');
+                $('#btnCountAsCorrect').attr('disabled', 'true');
                 $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
                     $("#answerHistory").html(data);
@@ -227,9 +228,16 @@ var InputFeedback = (function () {
         }
 
         $("#txtAnswer").attr('disabled', 'true').addClass('disabled');
-        $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antworten:');
-        $("#divWrongAnswers").show();
-
+        if (answersSoFar.length === 1) {
+            $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antwort:');
+            if ($("#txtAnswer").val() !== answersSoFar[0]) {
+                $("#divWrongAnswers").show();
+            }
+        }
+        if (answersSoFar.length > 1) {
+            $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antworten:');
+            $("#divWrongAnswers").show();
+        }
         InputFeedback.RenderAnswerDetails();
     };
 
@@ -341,7 +349,7 @@ var InputFeedback = (function () {
         //$("#txtAnswer").animate({ backgroundColor: "white" }, 200);
         $("#buttons-next-answer").show();
         if (atLeastOneWrongAnswer) {
-            $("#btnCountAsCorrect").show();
+            $("#btnCountAsCorrect").removeAttr('disabled').show();
         }
 
         $("#answerFeedback").hide();
