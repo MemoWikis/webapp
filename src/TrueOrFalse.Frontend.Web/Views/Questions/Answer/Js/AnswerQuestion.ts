@@ -146,7 +146,7 @@ class AnswerQuestion
             url: window.ajaxUrl_CountLastAnswerAsCorrect,
             cache: false,
             success: function (result) {
-                $(Utils.UIMessageHtml("Die Frage wurde als richtig beantwortet gewertet.", "success")).insertBefore('#Buttons');
+                $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
                 $('#btnCountAsCorrect').attr('disabled', 'true');
                 $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
