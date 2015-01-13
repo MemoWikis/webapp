@@ -2,8 +2,10 @@
 /// <reference path="../../../../scripts/utils.ts" />
 var answerResult;
 
-var answerHistory = [];
+var answersSoFar = [];
 var amountOfTries = 0;
+var atLeastOneWrongAnswer = false;
+var choices = [];
 
 var AnswerQuestion = (function () {
     function AnswerQuestion(solutionEntry) {
@@ -39,13 +41,13 @@ var AnswerQuestion = (function () {
             self.countLastAnswerAsCorrect();
         });
 
-        $("#errorTryCount").click(function (e) {
+        $("#CountWrongAnswers").click(function (e) {
             e.preventDefault();
-            var divAnswerHistory = $("#divAnswerHistory");
-            if (!divAnswerHistory.is(":visible"))
-                divAnswerHistory.show();
+            var divWrongAnswers = $("#divWrongAnswers");
+            if (!divWrongAnswers.is(":visible"))
+                divWrongAnswers.show();
             else
-                divAnswerHistory.hide();
+                divWrongAnswers.hide();
         });
 
         $(".selectorShowAnswer").click(function () {
@@ -61,39 +63,65 @@ var AnswerQuestion = (function () {
     }
     AnswerQuestion.prototype.validateAnswer = function () {
         var answerText = this._getAnswerText();
-
-        amountOfTries++;
-        answerHistory.push(answerText);
+        var self = this;
 
         if (answerText.trim().length === 0) {
-            InputFeedback.ShowError("Du könntest es es ja wenigstens probieren! Tzzzz... ", true);
+            $('#spnWrongAnswer').hide();
+            InputFeedback.ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)", true);
+            return false;
+        } else {
+            $('#spnWrongAnswer').show();
+            amountOfTries++;
+            answersSoFar.push(answerText);
+
+            $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+
+            $.ajax({
+                type: 'POST',
+                url: window.ajaxUrl_SendAnswer,
+                data: this._getAnswerData(),
+                cache: false,
+                success: function (result) {
+                    answerResult = result;
+                    $("#buttons-first-try").hide();
+                    $("#buttons-answer-again").hide();
+                    if (result.correct) {
+                        InputFeedback.ShowSuccess();
+                    } else {
+                        InputFeedback.UpdateAnswersSoFar();
+
+                        atLeastOneWrongAnswer = true;
+                        InputFeedback.ShowError();
+
+                        if (result.choices != null) {
+                            choices = result.choices;
+                            if (self.allWrongAnswersTried(answerText)) {
+                                InputFeedback.ShowCorrectAnswer();
+                            }
+                        }
+                    }
+                    ;
+
+                    $("#answerHistory").empty();
+                    $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
+                        $("#answerHistory").html(data);
+                    });
+                }
+            });
             return false;
         }
+    };
 
-        $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
-
-        $.ajax({
-            type: 'POST',
-            url: window.ajaxUrl_SendAnswer,
-            data: this._getAnswerData(),
-            cache: false,
-            success: function (result) {
-                answerResult = result;
-                $("#buttons-first-try").hide();
-                $("#buttons-answer-again").hide();
-                if (result.correct) {
-                    InputFeedback.ShowSuccess();
-                } else {
-                    InputFeedback.ShowError();
-                }
-                ;
-
-                $("#answerHistory").empty();
-                $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
-                    $("#answerHistory").html(data);
-                });
+    AnswerQuestion.prototype.allWrongAnswersTried = function (answerText) {
+        var differentTriedAnswers = [];
+        for (var i = 0; i < answersSoFar.length; i++) {
+            if ($.inArray(answersSoFar[i], choices) !== -1 && $.inArray(answersSoFar[i], differentTriedAnswers) === -1) {
+                differentTriedAnswers.push(answersSoFar[i]);
             }
-        });
+        }
+        if (differentTriedAnswers.length + 1 === choices.length) {
+            return true;
+        }
         return false;
     };
 
@@ -103,6 +131,11 @@ var AnswerQuestion = (function () {
             url: window.ajaxUrl_CountLastAnswerAsCorrect,
             cache: false,
             success: function (result) {
+                //Rückmeldung
+                $("#answerHistory").empty();
+                $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
+                    $("#answerHistory").html(data);
+                });
             }
         });
     };
@@ -131,6 +164,10 @@ var AnswerQuestion = (function () {
             InputFeedback.AnimateNeutral();
         }
     };
+
+    AnswerQuestion.prototype.AtLeastOneWrongAnswer = function () {
+        atLeastOneWrongAnswer = true;
+    };
     return AnswerQuestion;
 })();
 
@@ -144,38 +181,13 @@ var InputFeedback = (function () {
             text = InputFeedback.ErrMsgs[Utils.Random(0, InputFeedback.ErrMsgs.length - 1)];
         }
 
-        var errorTryText;
-        var amountOfTriesText = ["ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"];
-
-        switch (amountOfTries) {
-            case 1:
-                errorTryText = amountOfTriesText[amountOfTries - 1];
-                break;
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                errorTryText = amountOfTriesText[amountOfTries - 1] + " Versuche";
-                break;
-            case 6:
-            case 7:
-                errorTryText = amountOfTriesText[amountOfTries - 1];
-                break;
-            default:
-                errorTryText = amountOfTriesText[6];
-        }
-        $("#errorTryCount").html("(" + errorTryText + ")");
-
-        $('#ulAnswerHistory').html("");
-        $.each(answerHistory, function (index, val) {
-            $('#ulAnswerHistory').append($('<li>' + val + '</li>'));
-        });
+        this.UpdateAnswersSoFar();
 
         $("#divWrongAnswer").show();
         $("#buttons-first-try").hide();
         $("#buttons-answer-again").hide();
 
-        if (forceShow || Utils.Random(1, 10) % 4 == 0) {
+        if (forceShow || Utils.Random(1, 10) % 4 === 0) {
             $("#answerFeedback").html(text).show();
         } else {
             $("#answerFeedback").html(text).hide();
@@ -208,8 +220,15 @@ var InputFeedback = (function () {
 
     InputFeedback.ShowCorrectAnswer = function () {
         InputFeedback.ShowNextAnswer();
-        $("#divWrongAnswer").hide();
-        $("#txtAnswer").hide();
+
+        //$("#divWrongAnswer").hide();
+        if (!atLeastOneWrongAnswer) {
+            $("#txtAnswer").hide();
+        }
+
+        $("#txtAnswer").attr('disabled', 'true').addClass('disabled');
+        $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antworten:');
+        $("#divWrongAnswers").show();
 
         InputFeedback.RenderAnswerDetails();
     };
@@ -226,8 +245,6 @@ var InputFeedback = (function () {
             if (result.correctAnswerDesc) {
                 $("#Description").show().find('.Content').html(result.correctAnswerDesc);
             }
-
-            //window.alert(result.correctAnswerReferences.length);
             if (result.correctAnswerReferences.length > 0) {
                 $("#References").show();
                 var indexSuccessfulReferences = 0;
@@ -236,7 +253,6 @@ var InputFeedback = (function () {
                     if (indexSuccessfulReferences === result.correctAnswerReferences.length) {
                         InputFeedback.ShowAnswerDetails();
                     }
-                    //window.alert(indexSuccessfulReferences + " of " + result.correctAnswerReferences.length);
                 });
                 for (var i = 0; i < result.correctAnswerReferences.length; i++) {
                     var reference = result.correctAnswerReferences[i];
@@ -290,10 +306,43 @@ var InputFeedback = (function () {
         }, 50);
     };
 
-    InputFeedback.ShowNextAnswer = function () {
-        $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
+    InputFeedback.UpdateAnswersSoFar = function () {
+        var errorTryText;
+        var amountOfTriesText = ["0 Versuche", "ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"];
 
+        switch (amountOfTries) {
+            case 0:
+            case 1:
+                errorTryText = amountOfTriesText[amountOfTries];
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                errorTryText = amountOfTriesText[amountOfTries] + " Versuche";
+                break;
+            case 6:
+            case 7:
+                errorTryText = amountOfTriesText[amountOfTries];
+                break;
+            default:
+                errorTryText = amountOfTriesText[7];
+        }
+        $("#CountWrongAnswers").html("(" + errorTryText + ")");
+
+        $('#ulAnswerHistory').html("");
+
+        $.each(answersSoFar, function (index, val) {
+            $('#ulAnswerHistory').append($('<li>' + val + '</li>'));
+        });
+    };
+
+    InputFeedback.ShowNextAnswer = function () {
+        //$("#txtAnswer").animate({ backgroundColor: "white" }, 200);
         $("#buttons-next-answer").show();
+        if (atLeastOneWrongAnswer) {
+            $("#btnCountAsCorrect").show();
+        }
 
         $("#answerFeedback").hide();
 
@@ -323,4 +372,4 @@ function ajaxGetAnswer(onSuccessAction) {
         }
     });
 }
-//# sourceMappingURL=AnswerQuestion.js.map
+//# sourceMappingURL=answerquestion.js.map

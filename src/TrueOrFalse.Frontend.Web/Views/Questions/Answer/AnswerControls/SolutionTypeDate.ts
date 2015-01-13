@@ -23,6 +23,7 @@ class SolutionTypeDateEntry implements ISolutionEntry {
     OnNewAnswer() {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
+        $("#txtAnswer").select();
     }
 
     SetDateUi() {

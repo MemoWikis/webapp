@@ -113,13 +113,13 @@
                 <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
         
                 <div class="alert alert-info" id="divWrongAnswer" style="display: none; background-color: white; color:#2E487B;">
-                    <span style="color: #B13A48"><b>Falsche Antwort </b></span>
-                    <a href="#" id="errorTryCount" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
+                    <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsche Antwort </b></span>
+                    <a href="#" id="CountWrongAnswers" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
                 
                     <div style="margin-top:5px;" id="answerFeedback">Du könntest es wenigstens probieren!</div>
                 
-                    <div style="margin-top:7px; display: none;" id="divAnswerHistory" >
-                        Deine bisherigen Antwortversuche:
+                    <div style="margin-top:7px; display: none;" id="divWrongAnswers" >
+                        <span class="WrongAnswersHeading">Deine bisherigen Antwortversuche:</span>
                         <ul style="padding-top:5px;" id="ulAnswerHistory">
                         </ul>
                     </div>
@@ -139,14 +139,14 @@
                 <div id="SolutionDetailsSpinner" style="display: none;">
                     <i class="fa fa-spinner fa-spin" style="color:#b13a48;"></i>
                 </div>
-                <div class="alert alert-info" id="SolutionDetails" style="display: none; background-color: white; color:#2E487B;">
+                <div id="SolutionDetails" class="alert alert-info" style="display: none; background-color: white; color:#2E487B;">
                     
                      <div class="" id="divAnsweredCorrect" style="display: none; margin-top:5px;">
                         <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
                     </div>
 
                     <div id="Solution" class="Detail" style="display: none;">
-                        <div class="Label">Antwort:</div>
+                        <div class="Label">Richtige Antwort:</div>
                         <div class="Content"></div>
                     </div>
                     <div id="Description" class="Detail" style="display: none;">
@@ -167,7 +167,7 @@
                     </div>
                     
                     <div id="buttons-next-answer" class="pull-right" style="display: none;">
-                        <a href="#" id="btnCountAsCorrect" class="btn btn-info show-tooltip" title="Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!">Hab ich gewusst!</a>
+                        <a href="#" id="btnCountAsCorrect" class="btn btn-info show-tooltip" title="Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!" style="display: none;">Hab ich gewusst!</a>
                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success pull-right">N&auml;chste Frage</a>
                     </div>
 

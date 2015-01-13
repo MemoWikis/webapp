@@ -20,6 +20,7 @@ class SolutionTypeTextEntry implements ISolutionEntry
     OnNewAnswer() {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
+        $("#txtAnswer").select();
     }
 };
 

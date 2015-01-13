@@ -15,5 +15,6 @@
     function newAnswer() {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
+        $("#txtAnswer").select();
     }
 </script>

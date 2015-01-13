@@ -24,6 +24,7 @@ var SolutionTypeDateEntry = (function () {
     SolutionTypeDateEntry.prototype.OnNewAnswer = function () {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
+        $("#txtAnswer").select();
     };
 
     SolutionTypeDateEntry.prototype.SetDateUi = function () {
