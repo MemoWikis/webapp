@@ -30,5 +30,13 @@ namespace TrueOrFalse
                                     questionId).ExecuteUpdate();
         }
 
+        public void ChangeOneWrongAnswerToCorrect(int questionId)
+        {
+            _session.CreateSQLQuery("UPDATE Question SET TotalTrueAnswers = TotalTrueAnswers + 1 where Id = " +
+                                   questionId).ExecuteUpdate();
+            _session.CreateSQLQuery("UPDATE Question SET TotalFalseAnswers = TotalFalseAnswers - 1 where Id = " +
+                                    questionId).ExecuteUpdate();
+        }
+
     }
 }

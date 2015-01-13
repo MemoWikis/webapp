@@ -44,7 +44,7 @@ namespace TrueOrFalse
         {
             var query = "SELECT " +
                         " COUNT(ah) as total," +
-                        " SUM(AnswerredCorrectly) as totalCorrect " +
+                        " SUM(CASE WHEN AnswerredCorrectly = 1 THEN 1 WHEN AnswerredCorrectly = 2 THEN 1 ELSE 0 END) as totalCorrect " +
                         "FROM AnswerHistory ah " +
                         "WHERE UserId = " + userId + " ";
 

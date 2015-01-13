@@ -19,18 +19,17 @@ namespace TrueOrFalse
             _session.CreateSQLQuery("UPDATE Question SET TotalTrueAnswers = 0 WHERE TotalTrueAnswers is null").ExecuteUpdate();
             _session.CreateSQLQuery("UPDATE Question SET TotalFalseAnswers = 0 WHERE TotalFalseAnswers is null ").ExecuteUpdate();
 
-            _session.CreateSQLQuery(@"UPDATE 
-                                        Question q,
-	                                    (SELECT 
-	                                        QuestionId, 
-		                                    COUNT(QuestionId) -SUM(AnswerredCorrectly) AS WrongAnswers,
-		                                    SUM(AnswerredCorrectly) as CorrectAnswers
-	                                    FROM AnswerHistory
-	                                    GROUP BY QuestionId) s
-                                      SET
-	                                      TotalTrueAnswers = s.CorrectAnswers, 
-	                                      TotalFalseAnswers = s.WrongAnswers
-                                      WHERE q.Id = s.QuestionId").ExecuteUpdate();
+            _session.CreateSQLQuery(@"UPDATE question as q
+                                    SET q.TotalTrueAnswers = (SELECT count(*) as AnswerredCorrectly
+	                                     FROM AnswerHistory as aw
+	                                     WHERE (AnswerredCorrectly = 2 OR AnswerredCorrectly = 1)
+	                                     AND aw.QuestionId = q.Id),
+                                    q.TotalFalseAnswers = (SELECT count(*) as AnswerredCorrectly
+	                                     FROM AnswerHistory as aw
+	                                     WHERE AnswerredCorrectly = 0
+	                                     AND aw.QuestionId = q.Id) 
+                                    where q.Id <> -1").ExecuteUpdate();
         }
     }
 }
+

@@ -47,9 +47,9 @@ namespace TrueOrFalse
             
             var query = String.Format(
                 @"SELECT 
-	                  QuestionId, 
-	                  CAST(SUM(AnswerredCorrectly)AS signed INTEGER) as TotalTrue,
-	                  CAST(COUNT(QuestionId) - SUM(AnswerredCorrectly) AS signed INTEGER) as TotalFalse
+	                  QuestionId,
+	                  CAST(SUM(CASE WHEN AnswerredCorrectly = 1 THEN 1 WHEN AnswerredCorrectly = 2 THEN 1 ELSE 0 END) AS signed INTEGER) as TotalTrue,
+	                  CAST(SUM(CASE WHEN AnswerredCorrectly = 0 THEN 1 ELSE 0 END) AS signed INTEGER) as TotalFalse
                   FROM AnswerHistory
                   WHERE UserId = {0}
                   GROUP BY QuestionId, UserId
