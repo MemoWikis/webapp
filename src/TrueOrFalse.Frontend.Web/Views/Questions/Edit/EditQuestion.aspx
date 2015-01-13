@@ -75,8 +75,7 @@
                             <div class="radio">
                                 <label style="font-weight: normal">
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                                        für mich <span class="smaller">(<i class="fa fa-lock"></i> private Frage)</span> &nbsp;&nbsp;
-                                        (Die Frage ist nur von dir nutzbar.)
+                                        für mich <span class="smaller">(<i class="fa fa-lock"></i> private Frage)</span>
                                         <i class="fa fa-question-circle show-tooltip tooltip-min-200" title="" data-placement="top" 
                                            data-html="true"
                                            data-original-title="
