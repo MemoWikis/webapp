@@ -116,10 +116,14 @@
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
                 <div class="ButtonContainer float-none-xxs">
                     <a id="modalImageUploadDismiss" href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
-                    <a href="#" class="btn btn-primary" id="aSaveImage">
+                    <a href="#" class="btn btn-primary disabled" id="aSaveImage">
                         <i class="fa fa-refresh fa-spin" style="display: none;"></i>
-                        Bild speichern
+                        <span>Vorschau laden</span>
                     </a>
+                    <%-- <button class="btn btn-primary" id="btnSaveImage" disabled="true">
+                        <i class="fa fa-refresh fa-spin" style="display: none;"></i>
+                        Vorschau laden
+                    </button>--%>
                 </div>
             </div>
         </div>

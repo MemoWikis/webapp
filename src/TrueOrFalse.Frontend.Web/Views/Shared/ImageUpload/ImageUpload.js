@@ -12,8 +12,7 @@ var WikimediaPreview = (function () {
     function WikimediaPreview() {
         this.SuccessfullyLoaded = false;
     }
-    WikimediaPreview.prototype.Load = function () {
-        $("#divWikimediaSpinner").show();
+    WikimediaPreview.prototype.Load = function (onSuccess, onError) {
         $("#divWikimediaError").hide();
         $("#previewWikimediaImage").hide();
 
@@ -29,12 +28,14 @@ var WikimediaPreview = (function () {
                 window.alert("Ein Fehler ist aufgetreten.");
             },
             success: function (responseJSON) {
-                $("#divWikimediaSpinner").hide();
+                onSuccess();
 
                 if (responseJSON.ImageNotFound) {
                     $("#divWikimediaError").show();
-                    self.SuccessfullyLoadedImageUrl = "";
-                    self.SuccessfullyLoaded = false;
+
+                    //self.SuccessfullyLoadedImageUrl = "";
+                    //self.SuccessfullyLoaded = false;
+                    onError();
                     return;
                 }
 
@@ -64,15 +65,42 @@ var ImageUploadModal = (function () {
         this.SaveButton = $("#aSaveImage");
         this.SaveButtonSpinner = this.SaveButton.find("i");
 
-        this.SaveButton.removeAttr("disabled");
         this.SaveButtonSpinner.hide();
 
         var self = this;
-        $("#txtWikimediaUrl").change(function () {
-            self.WikimediaPreview.Load();
+
+        this._onPreviewLoadSuccess = function () {
+            self.SaveButtonSpinner.hide();
+            self.SaveButton.removeClass('disabled').find($('span')).html('Bild speichern');
+            self.PreviewLoadOngoing = false;
+        };
+
+        this._onPreviewLoadError = function () {
+            self.ResetModal();
+        };
+
+        $('#modalImageUploadDismiss').click(function () {
+            self.ResetModal(true);
         });
-        this.SaveButton.click(function () {
-            self.SaveImage();
+
+        $('#txtWikimediaUrl').on('input', function () {
+            if ($('#txtWikimediaUrl').val() !== "") {
+                self.SaveButton.removeClass('disabled');
+            } else {
+                self.SaveButton.addClass('disabled');
+            }
+        });
+        $("#txtWikimediaUrl").change(function () {
+            self.StartPreviewLoad();
+        });
+        this.SaveButton.click(function (e) {
+            if (!$(e.target).hasClass('disabled')) {
+                if (self.WikimediaPreview.SuccessfullyLoaded) {
+                    self.SaveImage();
+                } else if (!self.PreviewLoadOngoing) {
+                    self.StartPreviewLoad();
+                }
+            }
         });
     }
     ImageUploadModal.prototype.InitUploader = function () {
@@ -143,17 +171,44 @@ var ImageUploadModal = (function () {
         });
     };
 
-    ImageUploadModal.prototype.SaveImage = function () {
-        this.SaveButton.attr("disabled", "disabled");
+    ImageUploadModal.prototype.StartPreviewLoad = function () {
+        this.SaveButton.addClass("disabled");
         this.SaveButtonSpinner.show();
-
-        if (this.Mode === 0 /* Wikimedia */) {
-            SaveWikipediaImage.Run(this.WikimediaPreview, this._onSave);
+        if (!this.PreviewLoadOngoing) {
+            this.WikimediaPreview = new WikimediaPreview();
+            this.WikimediaPreview.Load(this._onPreviewLoadSuccess, this._onPreviewLoadError);
+            this.PreviewLoadOngoing = true;
+            $('#txtWikimediaUrl').attr('disabled', 'disabled');
         }
+    };
 
-        if (this.Mode === 1 /* Upload */) {
-            SaveUploadedImage.Run(this.ImageThumbUrl, this._onSave);
+    ImageUploadModal.prototype.SaveImage = function () {
+        this.SaveButtonSpinner.show();
+        this.SaveButton.addClass("disabled");
+
+        window.setTimeout(function () {
+            if (this.Mode === 0 /* Wikimedia */) {
+                SaveWikipediaImage.Run(this.WikimediaPreview, this._onSave);
+            }
+
+            if (this.Mode === 1 /* Upload */) {
+                SaveUploadedImage.Run(this.ImageThumbUrl, this._onSave);
+            }
+        }, 20);
+    };
+
+    ImageUploadModal.prototype.ResetModal = function (resetInput) {
+        if (typeof resetInput === "undefined") { resetInput = false; }
+        this.WikimediaPreview = new WikimediaPreview();
+        this.SaveButtonSpinner.hide();
+        $('#previewWikimediaImage').html('');
+        if (resetInput) {
+            $('#txtWikimediaUrl').val('');
         }
+        $('#txtWikimediaUrl').removeAttr('disabled').trigger('input');
+
+        this.SaveButton.find($('span')).html('Vorschau laden');
+        this.PreviewLoadOngoing = false;
     };
 
     ImageUploadModal.prototype.OnSave = function (func) {
@@ -166,18 +221,33 @@ var ImageUploadModal = (function () {
     return ImageUploadModal;
 })();
 
+//class SaveButton {
+//    Button: JQuery;
+//    SavesPreview: boolean;
+//    constructor() {
+//        this.Button = $("#aSaveImage");
+//    }
+//    Enable() {
+//        this.Button.removeClass('disabled');
+//    }
+//    Disable() {
+//        this.Button.addClass('disabled');
+//    }
+//    MakePreviewLoadButton() {
+//        this.Button.html('Vorschau laden');
+//    }
+//    MakeImageSaveButton() {
+//        this.Button.html('Bild speichern');
+//    }
+//}
 var SaveWikipediaImage = (function () {
     function SaveWikipediaImage() {
     }
     SaveWikipediaImage.Run = function (wikiMediaPreview, fnOnSave) {
         if (!wikiMediaPreview.SuccessfullyLoaded) {
-            window.alert("Bitte lade ein Bild über eine Wikipedia URL.");
+            window.alert("Bitte lade ein Bild über eine Wikipedia-URL.");
         } else {
             fnOnSave(wikiMediaPreview.ImageThumbUrl);
-
-            //$temp: Sollte erst geschlossen werden,
-            //wenn save abgeschlossen(oder andere Überbrückung überlegen)
-            $("#modalImageUpload").modal("hide");
         }
     };
     return SaveWikipediaImage;

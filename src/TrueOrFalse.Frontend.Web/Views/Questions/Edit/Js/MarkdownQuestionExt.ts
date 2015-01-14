@@ -56,9 +56,12 @@ class MarkdownQuestionExt
                             $("#questionId").val(result.NewQuestionId);
                         }
                         callback(result.PreviewUrl);
+                        $("#modalImageUpload").modal("hide");
+
                     },
                     error: function (x, y) {
                         window.alert('Das Bild konnte leider nicht gespeichert werden.');
+                        $("#modalImageUpload").modal("hide");
                     }
                 });
             });
