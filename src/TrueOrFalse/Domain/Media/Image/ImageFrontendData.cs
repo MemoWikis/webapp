@@ -165,13 +165,19 @@ public class ImageFrontendData
     }
 
 
-    public string RenderImageDetailModalLink(string linkText)
+    public string RenderImageDetailModalLinkCaption(string linkText)
     {
         return ImageMetaDataExists
-            ? "<a data-image-id ='" + ImageMetaData.Id + "' class='ImageDetailModal' href='#' style='font-size: 10px;'>" + linkText + "</a>"
+            ? "<a data-image-id ='" + ImageMetaData.Id + "' class='JS-ImageDetailModal' href='#' style='font-size: 10px;'>" + linkText + "</a>"
             : "";
     }
 
+    public string RenderImageDetailModalLinkHover(string linkText)
+    {
+        return ImageMetaDataExists
+            ? "<div data-image-id ='" + ImageMetaData.Id + "' class='HoverMessage JS-ImageDetailModal'>" + linkText + "</div>"
+            : "";
+    }
     private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType)
     {
         return ServiceLocator.Resolve<ImageMetaDataRepository>().GetBy(typeId, imageType);

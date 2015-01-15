@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionRowModel>" %>
+<%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
@@ -13,13 +14,20 @@
                     <div class="CheckboxText">Auswählen</div>
                 </div>
             </div>
-            <div class="SelectAreaLower">
-                 <div class="HoverMessage">
-                    Bild- und Lizenzinfos
-                </div>
+            <% if (Model.ImageFrontendData.ImageMetaDataExists)
+            { %>
+            <div class="SelectAreaLower ImageDetailModal">
+                 
+                <%= Model.ImageFrontendData.RenderImageDetailModalLinkHover("Bild- und Lizenzinfos") %>
             </div>
+            <% } %>
         </div>
-        <%= Model.ImageFrontendData.RenderImageDetailModalLink("Bild- und Lizenzinfos") %>
+        <% if (Model.ImageFrontendData.ImageMetaDataExists)
+        { %>
+        <%= Model.ImageFrontendData.RenderImageDetailModalLinkCaption("Bild- und Lizenzinfos") %>
+        <% } %>
+
+
     </div>
 
     <div class="column-MainContent">

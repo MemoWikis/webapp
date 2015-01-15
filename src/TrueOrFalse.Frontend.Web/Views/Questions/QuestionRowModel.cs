@@ -50,9 +50,11 @@ public class QuestionRowModel : BaseModel
         int currentUserid,
         SearchTab searchTab) 
     {
-        ImageUrl = QuestionImageSettings.Create(question.Id).GetUrl_128px_square().Url;
         ImageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
         ImageFrontendData = new ImageFrontendData(ImageMetaData);
+        ImageUrl = ImageFrontendData.ImageCanBeDisplayed
+                    ? QuestionImageSettings.Create(question.Id).GetUrl_128px_square().Url
+                    : "/Images/no-question-128.png";
 
         //ImageUrl = QuestionImageSettings.Create(question.Id - 1).GetUrl_128px_square().Url;
         //ImageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id - 1, ImageType.Question);
