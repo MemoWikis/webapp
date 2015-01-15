@@ -122,7 +122,7 @@
             </div>
             <div class="answerHistoryRow">
                 <div>
-                    Diese Jahr 
+                    Dieses Jahr 
                     <span class="answerAmount"><%= Model.AnswersThisYear.TotalAnswers %></span> 
                     <span id="answeredThisYearSparkle"></span>
                     
