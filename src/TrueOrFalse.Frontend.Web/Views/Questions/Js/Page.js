@@ -8,13 +8,7 @@ var Page = (function () {
         this.RowSelector = new RowSelector();
         this.ToQuestionSetModal = new ToQuestionSetModal();
 
-        $(".column-Image .ImageContainer").hover(function () {
-            $(this).find("label").show();
-        }, function () {
-            if (!$($(this).find("input")[0]).prop('checked')) {
-                $(this).find("label").hide();
-            }
-        });
+        fnInitImages();
 
         $('.SelectAreaUpper').click(function () {
             _page.RowSelector.Toggle(new QuestionRow($(this).closest('.question-row')));
@@ -42,7 +36,7 @@ var Page = (function () {
         new QuestionDelete();
 
         FillSparklineTotals();
-        fnInitImageDetailModal($('.ImageDetailModal'));
+        fnInitImageDetailModal($('.JS-ImageDetailModal'));
     };
     return Page;
 })();

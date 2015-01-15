@@ -138,46 +138,47 @@ public class ImageFrontendData
         }
     }
 
-    public ImageUrl GetImageUrl(int width, bool asSquare = false)
+    public ImageUrl GetImageUrl(int width, bool asSquare = false, bool getDummy = false, ImageType imageTypeForDummy = ImageType.Question)
     {
         IImageSettings imageSettings;
-        if (ImageMetaData.Type == ImageType.Category)
+        var typeId = getDummy ? -1 : (ImageMetaDataExists ? ImageMetaData.TypeId : -1);
+        var imageType = ImageMetaDataExists ? ImageMetaData.Type : imageTypeForDummy;
+
+        if (imageType == ImageType.Category)
         {
-            imageSettings = new CategoryImageSettings(ImageMetaData.TypeId);
-        }
-            
-        else if (ImageMetaData.Type == ImageType.User)
-        {
-            imageSettings = new UserImageSettings(ImageMetaData.TypeId);
+            imageSettings = new CategoryImageSettings(typeId);
         }
 
-        else if (ImageMetaData.Type == ImageType.QuestionSet)
+        else if (imageType == ImageType.User)
         {
-            imageSettings = SetImageSettings.Create(ImageMetaData.TypeId);
+            imageSettings = new UserImageSettings(typeId);
+        }
+
+        else if (imageType == ImageType.QuestionSet)
+        {
+            imageSettings = SetImageSettings.Create(typeId);
         }
 
         else //Default: question
         {
-            imageSettings = new QuestionImageSettings(ImageMetaData.TypeId);
+            imageSettings = new QuestionImageSettings(typeId);
         }
 
         return ImageUrl.Get(imageSettings, width, asSquare, arg => ImageUrl.GetFallbackImageUrl(imageSettings, width));
     }
 
-
-    public string RenderImageDetailModalLinkCaption(string linkText)
+    public string RenderHtmlImageBasis(int width, bool asSquare, string additionalCssClasses = "", ImageType imageTypeForDummies = ImageType.Question)
     {
-        return ImageMetaDataExists
-            ? "<a data-image-id ='" + ImageMetaData.Id + "' class='JS-ImageDetailModal' href='#' style='font-size: 10px;'>" + linkText + "</a>"
-            : "";
+        var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
+        var cssClasses = additionalCssClasses == "" ? "LicensedImage" : "LicensedImage " + additionalCssClasses;
+        var cssClassesDummy = additionalCssClasses;
+
+        return (ImageMetaDataExists && imageUrl.HasUploadedImage)
+            ? "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='" + cssClasses + //Dummy url gets replaced by javascript (look for class: LicensedImage)
+              "' data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url + "' />"
+            : "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='" + cssClassesDummy + "' />";
     }
 
-    public string RenderImageDetailModalLinkHover(string linkText)
-    {
-        return ImageMetaDataExists
-            ? "<div data-image-id ='" + ImageMetaData.Id + "' class='HoverMessage JS-ImageDetailModal'>" + linkText + "</div>"
-            : "";
-    }
     private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType)
     {
         return ServiceLocator.Resolve<ImageMetaDataRepository>().GetBy(typeId, imageType);

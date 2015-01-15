@@ -326,6 +326,7 @@
     </Content>
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
+    <TypeScriptCompile Include="Scripts\Images.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
     <TypeScriptCompile Include="Scripts\SetsApi.ts" />

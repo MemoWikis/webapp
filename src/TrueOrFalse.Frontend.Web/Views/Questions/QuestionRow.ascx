@@ -6,27 +6,8 @@
 <div class="rowBase question-row" style="position: relative;" data-questionid="<%= Model.QuestionId %>" data-userisowner="<%= Model.IsOwner? "true" : "false" %>">
     <div class="column-Image">
         <div class="ImageContainer">
-            <img src="<%= Model.ImageUrl%>" style="position: relative;">
-            <div class="SelectAreaUpper">
-                <div class="CheckboxIconContainer">
-                    <i class="Checked-Icon fa fa-check-square-o"></i>
-                    <i class="Unchecked-Icon fa fa-square-o"></i>
-                    <div class="CheckboxText">Auswählen</div>
-                </div>
-            </div>
-            <% if (Model.ImageFrontendData.ImageMetaDataExists)
-            { %>
-            <div class="SelectAreaLower ImageDetailModal">
-                 
-                <%= Model.ImageFrontendData.RenderImageDetailModalLinkHover("Bild- und Lizenzinfos") %>
-            </div>
-            <% } %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, "ItemRowImage") %>
         </div>
-        <% if (Model.ImageFrontendData.ImageMetaDataExists)
-        { %>
-        <%= Model.ImageFrontendData.RenderImageDetailModalLinkCaption("Bild- und Lizenzinfos") %>
-        <% } %>
-
 
     </div>
 

@@ -183,7 +183,7 @@ div.selected-row:hover {
   opacity: 0.7;
   display: none;
 }
-.column-Image a.ImageDetailModal {
+.column-Image a.JS-ImageDetailModal {
   display: block;
 }
 .column-MainContent {

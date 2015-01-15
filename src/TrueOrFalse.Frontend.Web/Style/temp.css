@@ -1,4 +1,12 @@
-﻿.CheckboxIconContainer {
+/*Question row image
+---------------------------------------------------------*/
+.ItemRowImage {
+  position: relative;
+}
+.ImageLicenseCaption {
+  font-size: 10px;
+}
+.CheckboxIconContainer {
   position: absolute;
   left: 0;
   right: 0;
@@ -12,6 +20,11 @@
   float: right;
   width: 60%;
   text-align: center;
+}
+@media (max-width: 767px) {
+  .CheckboxIconContainer .CheckboxText {
+    display: none;
+  }
 }
 .SelectAreaUpper:hover .CheckboxIconContainer .CheckboxText {
   color: #203256;
@@ -34,7 +47,7 @@
 }
 .Checked-Icon {
   display: none;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.65);
 }
 .Unchecked-Icon {
   visibility: hidden;
@@ -46,6 +59,11 @@
   top: 0;
   height: 40%;
   cursor: pointer;
+}
+@media (max-width: 767px) {
+  .SelectAreaUpper {
+    height: 100%;
+  }
 }
 .SelectAreaUpper:hover .Unchecked-Icon {
   visibility: visible;
@@ -73,7 +91,6 @@
   display: none;
 }
 .SelectAreaLower {
-  display: none !important;
   position: absolute;
   left: 0;
   right: 0;
@@ -81,9 +98,14 @@
   height: 60%;
   cursor: pointer;
 }
+@media (max-width: 767px) {
+  .SelectAreaLower {
+    display: none;
+  }
+}
 .SelectAreaUpper:hover,
 .SelectAreaLower:hover {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.65);
 }
 .HoverMessage {
   font-size: 12px;

@@ -197,7 +197,7 @@ class ImageUploadModal
             this.WikimediaPreview = new WikimediaPreview();
             this.WikimediaPreview.Load(this._onPreviewLoadSuccess, this._onPreviewLoadError);
             this.PreviewLoadOngoing = true;
-            $('#txtWikimediaUrl').attr('disabled', 'disabled')
+            $('#txtWikimediaUrl').attr('disabled', 'disabled');
         }
     }
 

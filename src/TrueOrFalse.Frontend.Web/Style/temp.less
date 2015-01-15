@@ -1,6 +1,19 @@
 ﻿@import (reference) 'includes/imports.less';
 
 
+/*Question row image
+---------------------------------------------------------*/
+
+.ItemRowImage {
+    position: relative;
+}
+
+.ImageLicenseCaption {
+    font-size: 10px;
+}
+
+
+
 .CheckboxIconContainer {
     position: absolute;
     
@@ -16,6 +29,9 @@
         float: right;
         width: 60%;
         text-align: center;
+        .media-below-sm ({
+            display: none;
+        });
 
         .SelectAreaUpper:hover & {
             color: @global-text-color;
@@ -44,7 +60,7 @@ display: none;
 
 .Checked-Icon {
     display: none;
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255,255,255,0.65);
 }
 
 .Unchecked-Icon {
@@ -57,6 +73,9 @@ display: none;
     right: 0;
     top: 0;
     height: 40%;
+    .media-below-sm ({
+        height: 100%;
+    });
     cursor: pointer;
 
     &:hover {
@@ -102,19 +121,21 @@ display: none;
 
 .SelectAreaLower {
 
-display: none !important;
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     height: 60%;
     cursor: pointer;
+    .media-below-sm ({
+        display: none;
+    });
 }
 
 .SelectAreaUpper,
 .SelectAreaLower {
     &:hover {
-        background-color: rgba(255,255,255,0.7);
+        background-color: rgba(255,255,255,0.65);
     }
 }
 
