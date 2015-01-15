@@ -13,15 +13,6 @@ class Page
         this.ToQuestionSetModal = new ToQuestionSetModal();
 
 
-        $(".column-Image .ImageContainer").hover(
-            function () { $(this).find("label").show(); },
-            function () {
-                if (!$($(this).find("input")[0]).prop('checked')) {
-                    $(this).find("label").hide();
-                }
-            }
-            );
-
         $('.SelectAreaUpper').click(function () { _page.RowSelector.Toggle(new QuestionRow($(this).closest('.question-row'))); });
         $('#selectAll').click(function () { _page.RowSelector.SelectAll(); });
         $('#selectNone').click(function () { _page.RowSelector.DeselecttAll(); });
