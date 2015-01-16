@@ -119,6 +119,8 @@ namespace TrueOrFalse.Tests
                 .AddQuestion("Question3", "Answer3").TotalValuationAvg(99)
                 .Persist();
 
+            R<ISolrOperations<QuestionSolrMap>>().Commit();
+
             var result = Resolve<SearchQuestions>().Run("Question", 
                 new Pager { PageSize = 10 }, orderBy: SearchQuestionsOrderBy.Quality);
             var questions = Resolve<QuestionRepository>().GetByIds(result.QuestionIds);
