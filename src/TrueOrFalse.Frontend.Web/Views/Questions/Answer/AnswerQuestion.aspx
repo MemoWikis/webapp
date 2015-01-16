@@ -173,7 +173,7 @@
 
                     <div id="buttons-edit-answer" class="pull-right" style="display: none;">
                         <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
-                        <a href="#" id="btnEditAnswer" class="btn btn-warning">Antwort &Uuml;berarbeiten</a>
+                        <a href="#" id="btnEditAnswer" class="btn btn-warning">Antwort überarbeiten</a>
                     </div>
                     <div id="buttons-answer-again" class="pull-right" style="display: none">
                         <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>

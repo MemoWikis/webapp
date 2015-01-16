@@ -54,6 +54,7 @@ var MarkdownQuestionExt = (function () {
                     error: function (x, y) {
                         window.alert('Das Bild konnte leider nicht gespeichert werden.');
                         $("#modalImageUpload").modal("hide");
+                        imageUploadModal.ResetModal();
                     }
                 });
             });

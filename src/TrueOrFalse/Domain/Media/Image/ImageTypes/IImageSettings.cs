@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using TrueOrFalse;
 
 public interface IImageSettings
 {
     int Id { get; }
+    ImageType ImageType { get; }
     IEnumerable<int> SizesSquare { get; }
     IEnumerable<int> SizesFixedWidth { get; }
     string BasePath { get; }

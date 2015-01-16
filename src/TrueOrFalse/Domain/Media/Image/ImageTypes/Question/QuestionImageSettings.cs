@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using TrueOrFalse;
 
 public class QuestionImageSettings : ImageSettingsBase, IImageSettings
 {
     public override int Id { get; set; }
-
+    public ImageType ImageType
+    {
+        get { return ImageType.Question; }
+    }
     public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 50, 20 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500, 435, 100 }; } }
 

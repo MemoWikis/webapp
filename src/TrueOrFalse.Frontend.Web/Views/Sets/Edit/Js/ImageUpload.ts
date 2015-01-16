@@ -30,6 +30,4 @@ $(function () {
     $("#aImageUpload").click(function () { 
         $("#modalImageUpload").modal('show');
     }); 
-
-    $("#txtLicenseOwner").val("Vorname Nachname");
 });

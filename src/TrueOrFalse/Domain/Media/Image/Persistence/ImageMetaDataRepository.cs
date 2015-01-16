@@ -18,10 +18,6 @@ namespace TrueOrFalse
                            .SingleOrDefault<ImageMetaData>();
         }
         
-        public void StoreSetUploaded(int questionSetId, int userId, string licenseGiverName){
-            StoreUploaded(questionSetId, userId, ImageType.QuestionSet, licenseGiverName);
-        }
-
         public void StoreWiki(
             int typeId, 
             ImageType imageType, 
@@ -64,7 +60,7 @@ namespace TrueOrFalse
             imageMetaData.MainLicenseInfo = mainLicenseInfo.ToJson();
         }
 
-        private void StoreUploaded(int typeId, int userId, ImageType imageType, string licenseGiverName)
+        public void StoreUploaded(int typeId, int userId, ImageType imageType, string licenseGiverName)
         {
             var imageMeta = GetBy(typeId, imageType);
             if (imageMeta == null)
@@ -75,7 +71,7 @@ namespace TrueOrFalse
                         TypeId = typeId,
                         Type = imageType,
                         Source = ImageSource.User,
-                        ApiResult = licenseGiverName,
+                        AuthorParsed = licenseGiverName,
                         UserId = userId
                     }
                 );
@@ -84,7 +80,7 @@ namespace TrueOrFalse
             {
                 imageMeta.Source = ImageSource.User;
                 imageMeta.UserId = userId;
-                imageMeta.ApiResult = licenseGiverName;
+                imageMeta.AuthorParsed = licenseGiverName;
 
                 Update(imageMeta);
             }                        

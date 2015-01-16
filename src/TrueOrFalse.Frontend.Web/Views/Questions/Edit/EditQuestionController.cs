@@ -143,7 +143,7 @@ public class EditQuestionController : BaseController
 
         if (imageSource == "upload"){
             Resolve<ImageStore>().RunUploaded<QuestionImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), questionId, _sessionUser.User.Id, uploadImageLicenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, _sessionUser.User.Id, uploadImageLicenseOwner);
         }
 
         var imageSettings = new QuestionImageSettings(questionId);

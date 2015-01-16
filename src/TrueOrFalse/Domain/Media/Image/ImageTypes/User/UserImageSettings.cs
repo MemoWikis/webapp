@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using TrueOrFalse;
 
 public class UserImageSettings : ImageSettingsBase, IImageSettings
 {
     public override int Id { get; set; }
+
+    public ImageType ImageType
+    {
+        get { return ImageType.User; }
+    }
 
     public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 85, 50, 20 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 100, 500 }; } }

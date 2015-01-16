@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Web;
+using TrueOrFalse;
 
 public class CategoryImageSettings : ImageSettingsBase, IImageSettings
 {
     public override int Id { get; set; }
-
+    public ImageType ImageType
+    {
+        get { return ImageType.Category; }
+    }
     public IEnumerable<int> SizesSquare{ get { return new[] { 206, 50 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500 }; } }
 

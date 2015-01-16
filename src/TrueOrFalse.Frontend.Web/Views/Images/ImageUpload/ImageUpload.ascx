@@ -53,7 +53,7 @@
                             </div>
                         </div>
                     </form>
-                    <div class="hide2" style="padding-left:114px; margin-top: 15px;" id="divWikimediaSpinner">
+                    <div id="divWikimediaSpinner" class="hide2" style="padding-left:114px; margin-top: 15px;">
                         <i class="fa fa-spinner fa-spin fa-2x pull-left"></i><span style="position: relative; top: 1px;">Vorschau wird geladen</span>
                     </div>
                     <div class="hide2" style="padding-left:114px; margin-top: 15px;" id="divWikimediaError">
@@ -64,7 +64,7 @@
                     
                 </div>
         
-                <div id="divUpload" class="hide2">
+                <div id="divUserUpload" class="hide2">
                     <div style="margin-top:10px;">
                         <div id="fileUpload" class="btn btn-success">
                             <i class="fa fa-arrow-circle-o-up"></i> Bild upload (klicke oder verwende drag und drop)
@@ -72,7 +72,7 @@
                     </div>
         
                     <div id="previewImage" class="hide2" style="margin-top:18px;"></div>
-                    <div id="divUploadProgress" class="hide2" style="margin-top:8px;"></div>
+                    <div id="divUserUploadProgress" class="hide2" style="margin-top:8px;"></div>
 
                     <div id="divLegalInfo" class="hide2">
                 
@@ -90,7 +90,7 @@
                                 </label>                                 
                             </div>
                             <div id="divLicenseUploader" style="padding-left: 20px;" class="hide2">
-                                Ich, <input type="text" class="form-control" id="txtLicenseOwner" name="txtLicenseOwner" 
+                                Ich, <input type="text" class="form-control" id="txtLicenseOwner" name="txtLicenseOwner" placeholder="Name"
                                         style="height: 19px; font-size: 13px; display: inline; width: 200px; margin-bottom: 0px; position: relative; top: -2px;"/> 
                                 , der Rechteinhaber dieses Werks gewähre unwiderruflich jedem das Recht, 
                                 es gemäß der „Creative Commons“-Lizenz „Namensnennung, Weitergabe 
@@ -114,16 +114,19 @@
             </div>
 
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
-                <div class="ButtonContainer float-none-xxs">
-                    <a id="modalImageUploadDismiss" href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
-                    <a href="#" class="btn btn-primary disabled" id="aSaveImage">
+                <div id="ButtonsWikimedia" class="ButtonContainer float-none-xxs">
+                    <a href="#" class="modalImageUploadDismiss btn btn-default" data-dismiss="modal">Abbrechen</a>
+                    <a href="#" class="aSaveImage btn btn-primary disabled">
                         <i class="fa fa-refresh fa-spin" style="display: none;"></i>
                         <span>Vorschau laden</span>
                     </a>
-                    <%-- <button class="btn btn-primary" id="btnSaveImage" disabled="true">
+                </div>
+                <div id="ButtonsUserUpload" class="ButtonContainer float-none-xxs" style="display: none;">
+                    <a href="#" class="modalImageUploadDismiss btn btn-default" data-dismiss="modal">Abbrechen</a>
+                    <a href="#" class="aSaveImage btn btn-primary disabled">
                         <i class="fa fa-refresh fa-spin" style="display: none;"></i>
-                        Vorschau laden
-                    </button>--%>
+                        <span>Bild speichern</span>
+                    </a>
                 </div>
             </div>
         </div>

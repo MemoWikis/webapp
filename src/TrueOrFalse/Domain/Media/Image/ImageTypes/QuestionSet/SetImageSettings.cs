@@ -5,7 +5,10 @@ using TrueOrFalse;
 public class SetImageSettings : ImageSettingsBase, IImageSettings
 {
     public override int Id { get; set; }
-
+    public ImageType ImageType
+    {
+        get { return ImageType.QuestionSet; }
+    }
     public IEnumerable<int> SizesSquare { get { return new[] { 206, 20 }; } }
     public IEnumerable<int> SizesFixedWidth { get { return new[] { 500 }; } }
     public override string BasePath { get { return "/Images/QuestionSets/"; } }

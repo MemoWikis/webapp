@@ -50,7 +50,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             StoreImages.Run(stream, imageSettings);
         }
 
-        _imgMetaRepo.StoreSetUploaded(typeId, userId, licenseGiverName);
+        _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }
 
 }
