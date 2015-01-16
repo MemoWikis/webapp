@@ -195,7 +195,7 @@
         <% } %>
     </script>
 <% } 
-    Html.RenderPartial("~/Views/Shared/ImageUpload/ImageUpload.ascx"); %>
+    Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
 
 
 </asp:Content>

@@ -48,7 +48,7 @@ namespace TrueOrFalse.View
                 
 
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
-                .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
+                .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js")
                 .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
 
@@ -62,7 +62,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
-                .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
+                .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Users")
@@ -73,7 +73,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")
                 .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
-                .Include("~/Views/Shared/ImageUpload/ImageUpload.js")
+                .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Set")
@@ -91,6 +91,9 @@ namespace TrueOrFalse.View
                .Include("~/Views/Maintenance/ImageMaintenance.js")
                .Include("~/Views/Maintenance/ImageDetail.js")
                .Include("~/Scripts/BootstrapCustomUtils.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Images")
+                .IncludeDirectory("~/Views/Images/", "*.js"));
 
 #if RELEASE
                 BundleTable.EnableOptimizations = true;

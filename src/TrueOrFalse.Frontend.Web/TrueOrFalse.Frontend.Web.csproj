@@ -874,7 +874,7 @@
     <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
     <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
     <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
-    <Compile Include="Views\Shared\ImageUpload\ImageUploadController.cs" />
+    <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
     <Compile Include="Views\Shared\MenuLeftModel.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Shared\Site.Resources.TitleModel.cs" />
@@ -990,7 +990,7 @@
     <Content Include="Views\Drafts\RangeSlider.aspx" />
     <Content Include="Views\Drafts\Grid.aspx" />
     <Content Include="Views\Drafts\RangeSlider.css" />
-    <Content Include="Views\Maintenance\ImageDetail.js">
+    <Content Include="Views\Images\ImageDetail.js">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\ImageMaintenance.js">
@@ -1076,7 +1076,7 @@
       <DependentUpon>Set.less</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
-    <TypeScriptCompile Include="Views\Maintenance\ImageDetail.ts" />
+    <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ImageMaintenance.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
@@ -1157,9 +1157,9 @@
     <Content Include="Views\Shared\AnswerHistory.ascx" />
     <Content Include="Views\Shared\AudioPlayer.ascx" />
     <Content Include="Views\Shared\CorrectnessProbability.ascx" />
-    <Content Include="Views\Shared\ImageUpload\ImageUpload.ascx" />
-    <TypeScriptCompile Include="Views\Shared\ImageUpload\ImageUpload.ts" />
-    <Content Include="Views\Shared\ImageUpload\ImageUpload.js">
+    <Content Include="Views\Images\ImageUpload\ImageUpload.ascx" />
+    <TypeScriptCompile Include="Views\Images\ImageUpload\ImageUpload.ts" />
+    <Content Include="Views\Images\ImageUpload\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Reference.ascx" />
@@ -1263,7 +1263,7 @@
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js.map">
       <DependentUpon>ImageUpload.js</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\ImageUpload\ImageUpload.js.map">
+    <Content Include="Views\Images\ImageUpload\ImageUpload.js.map">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Set.less" />
@@ -1352,7 +1352,7 @@
     <Content Include="Views\Maintenance\ImageMaintenance.js.map">
       <DependentUpon>ImageMaintenance.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\ImageDetail.js.map">
+    <Content Include="Views\Images\ImageDetail.js.map">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
