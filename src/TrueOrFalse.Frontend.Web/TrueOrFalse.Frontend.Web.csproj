@@ -365,6 +365,9 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\Images.js">
+      <DependentUpon>Images.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\Log.js">
       <DependentUpon>Log.ts</DependentUpon>
     </Content>
@@ -712,6 +715,9 @@
     </Content>
     <Content Include="Scripts\shared\ItemRowPage.js.map">
       <DependentUpon>ItemRowPage.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Images.js.map">
+      <DependentUpon>Images.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
