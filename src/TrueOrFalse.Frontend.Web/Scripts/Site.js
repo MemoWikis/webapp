@@ -65,5 +65,6 @@ $(function () {
 
     FillSparklineTotals();
     InitLabelTooltips();
+    fnInitImages();
 });
 //# sourceMappingURL=Site.js.map

@@ -7,7 +7,7 @@ var fnInitImageDetailModal = function (jObject: JQuery) {
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url: "/Maintenance/ImageDetailModal?imgId=" + $(this).attr('data-image-id'),
+                    url: "/Images/ImageDetailModal?imgId=" + $(this).attr('data-image-id'),
                     success: function(result) { 
                         $('#modalImageDetail').remove();
                         $('#ModalImageDetailScript').remove();

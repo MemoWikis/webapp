@@ -327,6 +327,7 @@
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
     <TypeScriptCompile Include="Scripts\Images.ts" />
+    <TypeScriptCompile Include="Scripts\shared\ItemRowPage.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
     <TypeScriptCompile Include="Scripts\SetsApi.ts" />
@@ -375,6 +376,9 @@
     </Content>
     <Content Include="Scripts\SetsApi.js">
       <DependentUpon>SetsApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\shared\ItemRowPage.js">
+      <DependentUpon>ItemRowPage.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\Site.js">
       <DependentUpon>Site.ts</DependentUpon>
@@ -706,6 +710,9 @@
     <Content Include="Style\includes\imports.css.map">
       <DependentUpon>imports.css</DependentUpon>
     </Content>
+    <Content Include="Scripts\shared\ItemRowPage.js.map">
+      <DependentUpon>ItemRowPage.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
@@ -816,6 +823,7 @@
     <Compile Include="Views\Categories\CategoriesControllerSearch.cs" />
     <Compile Include="Views\Drafts\DraftsController.cs" />
     <Compile Include="Views\Help\HelpModel.cs" />
+    <Compile Include="Views\Images\ImagesController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Api\ExportController.cs" />
@@ -988,7 +996,7 @@
     <Content Include="Views\Maintenance\ImageMaintenance.js">
       <DependentUpon>ImageMaintenance.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\ImageDetailModal.ascx" />
+    <Content Include="Views\Images\ImageDetailModal.ascx" />
     <Content Include="Views\Maintenance\ImageMaintenanceRow.ascx" />
     <Content Include="Views\Maintenance\ImageMaintenanceModal.ascx" />
     <Content Include="Style\Images.css">

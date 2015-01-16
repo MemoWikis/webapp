@@ -66,5 +66,6 @@ $(function () {
 
     FillSparklineTotals();
     InitLabelTooltips();
+    fnInitImages();
 });
 

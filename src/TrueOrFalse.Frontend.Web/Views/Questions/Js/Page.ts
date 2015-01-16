@@ -12,8 +12,6 @@ class Page
         this.RowSelector = new RowSelector();
         this.ToQuestionSetModal = new ToQuestionSetModal();
 
-        fnInitImages();
-
         $('.SelectAreaUpper').click(function () { _page.RowSelector.Toggle(new QuestionRow($(this).closest('.question-row'))); });
         $('#selectAll').click(function () { _page.RowSelector.SelectAll(); });
         $('#selectNone').click(function () { _page.RowSelector.DeselecttAll(); });
@@ -26,7 +24,6 @@ class Page
         new QuestionDelete();
 
         FillSparklineTotals();
-        fnInitImageDetailModal($('.JS-ImageDetailModal'));
     }
 }
 

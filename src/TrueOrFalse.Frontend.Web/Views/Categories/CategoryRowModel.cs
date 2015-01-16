@@ -5,7 +5,11 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryRowModel : BaseModel
 {
+    public ImageMetaData ImageMetaData;
+    public ImageFrontendData ImageFrontendData;
+    
     public string ImageUrl;
+
     public int QuestionCount;
     public int CategoryId;
     public string CategoryName;
@@ -19,6 +23,9 @@ public class CategoryRowModel : BaseModel
 
     public CategoryRowModel(Category category, int indexInResultSet)
     {
+        ImageMetaData = Resolve<ImageMetaDataRepository>().GetBy(category.Id, ImageType.Category);
+        ImageFrontendData = new ImageFrontendData(ImageMetaData);
+
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_128px_square().Url;
         CategoryId = category.Id;
         CategoryName = category.Name;

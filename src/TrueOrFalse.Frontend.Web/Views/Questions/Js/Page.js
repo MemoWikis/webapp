@@ -8,8 +8,6 @@ var Page = (function () {
         this.RowSelector = new RowSelector();
         this.ToQuestionSetModal = new ToQuestionSetModal();
 
-        fnInitImages();
-
         $('.SelectAreaUpper').click(function () {
             _page.RowSelector.Toggle(new QuestionRow($(this).closest('.question-row')));
         });
@@ -36,7 +34,6 @@ var Page = (function () {
         new QuestionDelete();
 
         FillSparklineTotals();
-        fnInitImageDetailModal($('.JS-ImageDetailModal'));
     };
     return Page;
 })();

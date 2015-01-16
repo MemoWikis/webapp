@@ -21,4 +21,11 @@ div.column-Additional {
   float: left;
   padding-top: 5px;
 }
+.SelectAreaUpper {
+  display: none;
+}
+.SelectAreaLower {
+  height: auto;
+  top: 0;
+}
 /*# sourceMappingURL=Categories.css.map */

@@ -154,12 +154,7 @@ public class MaintenanceController : BaseController
         return View("Markup", imageMaintenanceInfo);
     }
 
-    [AccessOnlyAsAdmin]
-    public string ImageDetailModal(int imgId)
-    {
-        var imageFrontendData = new ImageFrontendData(Resolve<ImageMetaDataRepository>().GetById(imgId));
-        return ViewRenderer.RenderPartialView("ImageDetailModal", imageFrontendData, ControllerContext);
-    }
+    
 
     [AccessOnlyAsAdmin]
     public string ImageMaintenanceModal(int imgId)
@@ -210,7 +205,7 @@ public class MaintenanceController : BaseController
             else
             {
                 ImageMetaDataRepository.SetMainLicenseInfo(imageMetaData, selectedMainLicenseId);
-                manualEntries.ManualImageEvaluation = selectedEvaluation;
+                manualEntries.ManualImageEvaluation = selectedEvaluation;   
             }
         }
 

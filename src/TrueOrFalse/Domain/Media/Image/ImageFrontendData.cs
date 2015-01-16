@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TrueOrFalse;
 
-//$temp: stattdessen ImageMaintenanceInfo?
 public class ImageFrontendData
 { 
     public ImageMetaData ImageMetaData;

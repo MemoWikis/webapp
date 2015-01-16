@@ -1,10 +1,14 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<CategoryRowModel>" %>
+<%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="rowBase category-row" style="position: relative">
     
     <div class="column-Image" style="line-height: 15px; font-size: 90%;">
-        <img src="<%= Model.ImageUrl%>" width="105"/>
+        <%--<img src="<%= Model.ImageUrl%>" width="105"/>--%>
+        <div class="ImageContainer">
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, "ItemRowImage", ImageType.Category) %>
+        </div>
     </div>
     
     <div class="column-MainContent" style="height: 87px;">

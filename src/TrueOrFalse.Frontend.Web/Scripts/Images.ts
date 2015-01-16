@@ -17,7 +17,7 @@ var fnInitImagesItemRow = function() {
         "</div>").insertAfter($(this));
     });
     $('.LicensedImage.ItemRowImage').each(function() {
-        $(  "<div class='SelectAreaLower JS-ImageDetailModal'>" +
+        $(  "<div class='SelectAreaLower'>" +
                 "<div data-image-id ='" + $(this).attr('data-image-id') + "' class='HoverMessage JS-ImageDetailModal'>Bild- und Lizenzinfos</div>" +
             "</div>").insertAfter($(this).parent().find('.SelectAreaUpper'));
     });

@@ -5,6 +5,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/Views/Categories/Categories.css") %>
     <%= Scripts.Render("~/bundles/Categories") %>
+    <%= Scripts.Render("~/bundles/Maintenance") %>
+
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

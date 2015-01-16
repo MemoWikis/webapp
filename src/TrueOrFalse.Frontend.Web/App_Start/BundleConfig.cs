@@ -42,6 +42,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/questions")
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js")
+                .Include("~/Scripts/shared/ItemRowPage.js")
                 .Include("~/Scripts/ValuationPerRow.js")
                 .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
                 
@@ -55,7 +56,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Sets/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Categories")
-                .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Categories/Js/", "*.js")
+                .Include("~/Scripts/shared/ItemRowPage.js"));
+
 
             bundles.Add(new ScriptBundle("~/bundles/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")

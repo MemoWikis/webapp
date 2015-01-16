@@ -1,3 +1,8 @@
+/*temp
+---------------------------------------------------------*/
+.ImageContainer {
+  position: relative;
+}
 /*Question row image
 ---------------------------------------------------------*/
 .ItemRowImage {
@@ -110,10 +115,11 @@
 .HoverMessage {
   font-size: 12px;
   position: absolute;
-  top: 10px;
+  padding-top: 10px;
+  top: 0;
   left: 0;
   right: 0;
-  width: 105px;
+  bottom: 0;
   color: black;
   display: none;
   text-align: center;
