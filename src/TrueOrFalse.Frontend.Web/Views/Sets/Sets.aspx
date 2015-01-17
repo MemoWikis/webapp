@@ -86,7 +86,7 @@
         
                         <div style="clear:both;">
                             <% 
-                                if(Model.NotAllowed){
+                                if(Model.AccessNotAllowed){
                                     Html.RenderPartial("RegisterOrLogin_Sets");
                                 }else{ 
                                     foreach (var row in Model.Rows){
@@ -105,7 +105,7 @@
     </div>
     
     <%
-        if (!Model.NotAllowed){
+        if (!Model.AccessNotAllowed){
             Html.RenderPartial("Modals/DeleteSet");
         }
     %>

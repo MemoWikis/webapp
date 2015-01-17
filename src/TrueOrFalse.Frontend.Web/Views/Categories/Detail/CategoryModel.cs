@@ -47,7 +47,7 @@ public class CategoryModel : BaseModel
         Name = category.Name;
         Description = category.Description;
         Type = category.Type.GetShortName();
-        IsOwnerOrAdmin = _sessionUser.IsOwnerOrAdmin(category.Creator.Id);
+        IsOwnerOrAdmin = _sessionUser.IsValidUserOrAdmin(category.Creator.Id);
 
         var questionRepo = Resolve<QuestionRepository>();
         var wishQuestions = questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse
 {
-    public class SetRepository : RepositoryDb<Set>
+    public class SetRepository : RepositoryDbBase<Set>
     {
         private readonly SearchIndexSet _searchIndexSet;
 
@@ -20,8 +19,11 @@ namespace TrueOrFalse
 
         public override void Update(Set set)
         {
+            ThrowIfNot_IsUserOrAdmin(set.Id);
+
             _searchIndexSet.Update(set);
             base.Update(set);
+
 
             var categoriesToUpdate =
                 _session.CreateSQLQuery("SELECT Category_id FROM categories_to_sets WHERE Set_id =" + set.Id)
@@ -55,6 +57,8 @@ namespace TrueOrFalse
 
         public override void Delete(Set set)
         {
+            ThrowIfNot_IsUserOrAdmin(set.Id);
+
             base.Delete(set);
             Flush();
         }

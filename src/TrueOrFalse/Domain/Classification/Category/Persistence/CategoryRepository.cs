@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse
 {
-    public class CategoryRepository : RepositoryDb<Category>
+    public class CategoryRepository : RepositoryDbBase<Category>
     {
         private readonly SearchIndexCategory _searchIndexCategory;
 
@@ -27,6 +26,8 @@ namespace TrueOrFalse
 
         public override void Update(Category category)
         {
+            ThrowIfNot_IsUserOrAdmin(category.Id);
+
             _searchIndexCategory.Update(category);
             base.Update(category);
             Flush();

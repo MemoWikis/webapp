@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
+using TrueOrFalse.Web;
+using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
@@ -18,6 +20,9 @@ namespace TrueOrFalse
         public void Run(int setId)
         {
             var set = _setRepo.GetById(setId);
+
+            ThrowIfNot_IsUserOrAdmin.Run(set.Creator.Id);
+
             _setRepo.Delete(set);
 
             Sl.R<SetValuationRepository>().DeleteWhereSetIdIs(setId);

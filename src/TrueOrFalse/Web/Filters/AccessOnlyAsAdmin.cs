@@ -1,4 +1,5 @@
-﻿using TrueOrFalse.Web.Context;
+﻿using TrueOrFalse.Web;
+using TrueOrFalse.Web.Context;
 
 namespace System.Web.Mvc
 {
@@ -8,7 +9,7 @@ namespace System.Web.Mvc
         {
             var userSession = new SessionUser();
             if (!userSession.IsInstallationAdmin)
-                throw new Exception("only local access is allowed");
+                throw new InvalidAccessException();
 
             base.OnActionExecuting(filterContext);
         }

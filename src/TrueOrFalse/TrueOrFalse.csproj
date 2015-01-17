@@ -383,7 +383,9 @@
     <Compile Include="Infrastructure\ExecAsync.cs" />
     <Compile Include="Infrastructure\Logging\Logger.cs" />
     <Compile Include="Infrastructure\Logging\Loggly.cs" />
+    <Compile Include="Infrastructure\Login\ThrowIfNot_IsUserOrAdmin.cs" />
     <Compile Include="Infrastructure\Persistence\PagedResult.cs" />
+    <Compile Include="Infrastructure\Persistence\RepositoryDbBase.cs" />
     <Compile Include="Infrastructure\Persistence\Session\MySQL5FlexibleDialect.cs" />
     <Compile Include="Infrastructure\Regexes.cs" />
     <Compile Include="Search\Category\IndexOperations\ReIndexAllCategories.cs" />
@@ -553,6 +555,7 @@
     <Compile Include="Web\HtmlLabelExtensions.cs" />
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
     <Compile Include="Domain\Question\Question.Image\DeleteUnusedImages.cs" />
+    <Compile Include="Web\InvalidAccessException.cs" />
     <Compile Include="Web\RelatedCategoriesUtils.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionInvoker.cs" />

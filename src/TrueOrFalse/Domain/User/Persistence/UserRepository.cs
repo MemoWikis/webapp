@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
+using TrueOrFalse.Web;
+using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
-    public class UserRepository : RepositoryDb<User>
+    public class UserRepository : RepositoryDbBase<User>
     {
         private readonly SearchIndexUser _searchIndexUser;
 
@@ -31,6 +31,8 @@ namespace TrueOrFalse
 
         public override void Update(User user)
         {
+            ThrowIfNot_IsUserOrAdmin(user.Id);
+
             _searchIndexUser.Update(user);
             base.Update(user);
         }
@@ -44,6 +46,12 @@ namespace TrueOrFalse
         public override void Delete(int id)
         {
             var user = GetById(id);
+
+            ThrowIfNot_IsUserOrAdmin(user.Id);
+
+            if (Sl.R<SessionUser>().IsValidUserOrAdmin(user.Id))
+                throw new InvalidAccessException();
+
             _searchIndexUser.Delete(user);
             base.Delete(id);
         }

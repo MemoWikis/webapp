@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NHibernate;
+﻿using NHibernate;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse
@@ -24,6 +20,8 @@ namespace TrueOrFalse
         {
             if (category == null)
                 return;
+
+            ThrowIfNot_IsUserOrAdmin.Run(category.Id);
 
             _searchIndexCategory.Delete(category);
 
