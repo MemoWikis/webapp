@@ -20,5 +20,10 @@
         <i class="fa fa-gavel"></i>
         Exception werfen
     </a><br/>
+    
+    <a href="<%= Url.Action("CleanUpWorkInProgressQuestions", "Maintenance") %>">
+        <i class="fa fa-gavel"></i>
+        Clean up work in progress questions
+    </a><br/>
 
 </asp:Content>
