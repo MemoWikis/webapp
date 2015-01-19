@@ -3,18 +3,34 @@
 .category-row:hover{ background-color: @row-hover-blue; }
 
 
-div.column-Image { 
-    width: 115px;float: left; 
+/*div.column-Image { 
+    width: 115px;
+    float: left; 
     padding: 5px;
     img{
-        border-radius: 5px;
+        border-radius: @border-radius-row-image;
     }
 }
 div.column-MainContent { 
     width: 557px;padding-right: 10px; float: left; padding-top: 5px;
     padding-left: 15px;
 }
-div.column-Additional { width: 125px;float: left; padding-top: 5px;}
+div.column-Additional { width: 125px;float: left; padding-top: 5px;}*/
+
+.column-MainContent {
+
+    .media-sm-up ({
+        width: (722px - @column-Image-sm-width);
+    });
+    
+    .media-md-up ({
+        width: (702px - @column-Image-sm-width);
+    });
+
+    .media-lg ({
+        width: (852px - @column-Image-sm-width);
+    });
+}
 
 .SelectAreaUpper {
     display: none;
@@ -23,4 +39,5 @@ div.column-Additional { width: 125px;float: left; padding-top: 5px;}
 .SelectAreaLower {
     height: auto;
     top: 0;
+    border-radius: @border-radius-row-image;
 }

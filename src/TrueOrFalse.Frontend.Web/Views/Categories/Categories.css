@@ -1,25 +1,33 @@
 ﻿.category-row:hover {
   background-color: #f3f5f8;
 }
-div.column-Image {
-  width: 115px;
-  float: left;
-  padding: 5px;
+/*div.column-Image { 
+    width: 115px;
+    float: left; 
+    padding: 5px;
+    img{
+        border-radius: @border-radius-row-image;
+    }
 }
-div.column-Image img {
-  border-radius: 5px;
+div.column-MainContent { 
+    width: 557px;padding-right: 10px; float: left; padding-top: 5px;
+    padding-left: 15px;
 }
-div.column-MainContent {
-  width: 557px;
-  padding-right: 10px;
-  float: left;
-  padding-top: 5px;
-  padding-left: 15px;
+div.column-Additional { width: 125px;float: left; padding-top: 5px;}*/
+@media (min-width: 768px) {
+  .column-MainContent {
+    width: 597px;
+  }
 }
-div.column-Additional {
-  width: 125px;
-  float: left;
-  padding-top: 5px;
+@media (min-width: 992px) {
+  .column-MainContent {
+    width: 577px;
+  }
+}
+@media (min-width: 1200px) {
+  .column-MainContent {
+    width: 727px;
+  }
 }
 .SelectAreaUpper {
   display: none;
@@ -27,5 +35,6 @@ div.column-Additional {
 .SelectAreaLower {
   height: auto;
   top: 0;
+  border-radius: 5px;
 }
 /*# sourceMappingURL=Categories.css.map */

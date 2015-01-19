@@ -1,6 +1,5 @@
 ﻿@import (reference) '../../Style/includes/imports.less';
 
-@question-row-image-padding: 5px;
 
 /*div.column-Image { background-color: green; }
 div.column-MainContent {background-color: seashell; }
@@ -60,96 +59,21 @@ div.question-row{background-color:silver;}*/
     }
 }
 
-
-.question-row {
-
-    margin-left: -@grid-gutter-width/2;
-    margin-right: -@grid-gutter-width/2;
-    padding-left: @grid-gutter-width/2 - @question-row-image-padding;
-    padding-right: @grid-gutter-width/2 - @question-row-image-padding;
-
-    .media-sm-up ({
-        margin-left: -@question-row-image-padding;
-        margin-right: -@question-row-image-padding;
-        padding-left: 0;
-        padding-right: 0;
+.SelectAreaUpper {
+    .media-below-sm ({
+        height: 100%;
+        border-bottom-left-radius: @border-radius-row-image;
+        border-bottom-right-radius: @border-radius-row-image;
     });
-
-    &:hover{
-        background-color: #f3f5f8;
-    }
 }
 
-div.selected-row { background-color: #E7ECF6;}
-div.selected-row:hover { background-color: #d6e0f4;}
-
-.modal.fade {-webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none; transition: none}
-
-.tsqRow:hover{ background-color: #f3f5f8;cursor: pointer;}
-
-
-
-.column { display: inline-block;}
-
-.column-Image {
-    float: left;
-    padding-top: @question-row-image-padding;
-    padding-left: @question-row-image-padding;
-    padding-bottom: @question-row-image-padding;
-    min-width: (@column-Image-below-xs-width - 1px);
-
-    .media-below-xs ({
-        position: absolute !important;
-        z-index: 1;//To have image column clickable
+.SelectAreaLower {
+    .media-below-sm ({
+        display: none;
     });
-    .make-xs-column(2);
-
-    .media-sm-up({
-        width: @column-Image-sm-width;
-    });
-
-    .ImageContainer {
-        position: relative;
-
-        img {
-            width: 105px;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-            max-width: 100%;
-        }
-
-        .selectQuestion {
-            font-size: 12px;
-            position: absolute;
-            bottom: 1px;
-        bottom: 10px;
-            width: 105px;
-            color: black;
-            background-color: white;
-            opacity: 0.7;
-            display: none;
-        }
-    }
-
-    a.JS-ImageDetailModal {
-        display: block;
-    }
 }
 
 .column-MainContent {
-
-    padding-right: 20px;
-    padding-top: 5px;
-    float: left;
-    position: relative;
-
-    .make-xs-column(10);
-
-    .media-below-xs ({
-        width: 100%;
-        padding-left: 76px;
-    });
 
     .media-sm-up ({
         width: (722px - @column-Image-sm-width - @column-Additional-sm-width);
@@ -164,48 +88,66 @@ div.selected-row:hover { background-color: #d6e0f4;}
     });
 }
 
-.MainContentUpper {
-    .media-below-sm ({
-        min-height: 60px;
-    });
-}
-
-.QuestionText {
-
-    font-weight: normal;
-    font-size: large;
-
-    .media-below-xs ({
-       clear: left;
-    });
-}
-
 .column-Additional {
     float: left;
     padding-top: 5px;
     line-height: 15px;
     font-size: 90%;
+     display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    justify-content: space-between;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
 
-    .media-below-xs ( {
+    .media-below-xs ({
         padding-left: 76.15625px;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-    }
+    });
 
-    );
-
-    .media-xs ( {
+    .media-xs ({
         margin-left: 10px;
-    }
+        padding-left: 2px;
+    });
 
-    );
-
-    .media-sm-up ( {
+    .media-sm-up ({
         width: @column-Additional-sm-width;
+    });
+}
+
+.media-below-sm ({
+    .column-Additional { //Make NumberTimesStats and QuestionAuthor float in opposite directions but both align left in case of wrapping
+        -ms-flex-direction: row;
+        flex-direction: row;
     }
 
-    );
-}
+    .StatsGroup {
+        display: flex;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        justify-content: space-between;
+         -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+    .StatsRow {
+        margin-right: 5px;
+        margin-left: 5px;
+        height: 20px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .sparklineTotals {
+        margin-right: 3px;
+    }
+});
 
 .NumberTimes {
     display: inline-block;

@@ -132,4 +132,282 @@ ul.ui-autocomplete {
     .clearfix;
 }
 
+/* ItemLists/Rows (Categories, Questions, Sets etc.)
+----------------------------------------------------------*/
 
+@item-row-image-padding: 5px;
+
+
+.question-row, .category-row {
+
+    margin-left: -@grid-gutter-width/2;
+    margin-right: -@grid-gutter-width/2;
+    padding-left: @grid-gutter-width/2 - @item-row-image-padding;
+    padding-right: @grid-gutter-width/2 - @item-row-image-padding;
+
+    .media-sm-up ({
+        margin-left: -@item-row-image-padding;
+        margin-right: -@item-row-image-padding;
+        padding-left: 0;
+        padding-right: 0;
+    });
+
+    &:hover{
+        background-color: #f3f5f8;
+    }
+}
+
+div.selected-row { background-color: #E7ECF6;}
+div.selected-row:hover { background-color: #d6e0f4;}
+
+.modal.fade {-webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none; transition: none}
+
+.tsqRow:hover{ background-color: #f3f5f8;cursor: pointer;}
+
+.column { display: inline-block;}
+
+//Row contents
+
+
+.rowBase{
+    &.question-row, &.category-row {
+        .media-sm-up ({//make all columns (image, main content, additional) have the same height
+            display: flex;
+            -ms-flex-direction: row;
+            flex-direction: row;
+        });
+    }
+}
+
+.column-Image {
+    float: left;
+    padding-top: @item-row-image-padding;
+    padding-left: @item-row-image-padding;
+    padding-bottom: @item-row-image-padding;
+    min-width: (@column-Image-below-xs-width - 1px);
+
+    .media-below-xs ({
+        position: absolute !important;
+        z-index: 1;//To have image column clickable
+    });
+
+    .make-xs-column(2);
+
+    .media-sm-up({
+        width: @column-Image-sm-width;
+    });
+
+    .ImageContainer {
+        position: relative;
+
+        img {
+            width: 105px;
+            -moz-border-radius: @border-radius-row-image;
+            -webkit-border-radius: @border-radius-row-image;
+            border-radius: @border-radius-row-image;
+            max-width: 100%;
+        }
+    }
+
+    a.JS-ImageDetailModal {
+        display: block;
+    }
+
+    .ImageLicenseInfo {
+        font-size: 10px;
+        padding-bottom: 3px;
+    }
+}
+
+.ItemRowImage {
+    position: relative;
+}
+
+.ImageLicenseCaption {
+    font-size: 10px;
+}
+
+.CheckboxIconContainer {
+    position: absolute;
+    
+    left: 0;
+    right: 0;
+    color: transparent;
+    vertical-align: middle;
+
+    .CheckboxText {
+        padding-right: 10px;
+        padding-top: 5px;
+        font-size: 10px;
+        float: right;
+        width: 60%;
+        text-align: center;
+        .media-below-sm ({
+            display: none;
+        });
+
+        .SelectAreaUpper:hover & {
+            color: @global-text-color;
+        }
+    }
+}
+
+.Checked-Icon,
+.Unchecked-Icon {
+    font-size: 36px;
+    color: @global-text-color;
+    padding-top: 3px;
+    padding-right: 1px;
+    padding-left: 4px;
+    margin-top: 3px;
+    margin-left: 3px;
+    border-radius: 3px;
+}
+
+.CheckboxIcon {
+display: none;
+
+    font-size: 36px;
+    color: red;
+}
+
+.Checked-Icon {
+    display: none;
+    background-color: rgba(255,255,255,0.65);
+}
+
+.Unchecked-Icon {
+    visibility: hidden;
+}
+
+.SelectAreaUpper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 40%;
+    border-top-left-radius: @border-radius-row-image;
+    border-top-right-radius: @border-radius-row-image;
+    cursor: pointer;
+
+    &:hover {
+        .Unchecked-Icon {
+            visibility: visible;
+        }
+
+        .Checked-Icon {
+            display: none;
+            background-color: transparent;
+        }
+    }
+
+    &:hover:active {
+        .Unchecked-Icon {
+            display: none;
+        }
+
+        .Checked-Icon {
+            display: inline-block;
+        }
+    }
+}
+
+.selected-row .SelectAreaUpper {
+    .Unchecked-Icon {
+        display: none;
+    }
+
+    .Checked-Icon {
+        display: inline-block;
+    }
+    &:hover:active {
+        .Unchecked-Icon {
+            display: inline-block;
+        }
+
+        .Checked-Icon {
+            display: none;
+        }
+    }
+}
+
+.SelectAreaLower {
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60%;
+    cursor: pointer;
+    /*.media-below-sm ({
+        display: none;
+    });*/
+}
+
+.SelectAreaUpper,
+.SelectAreaLower {
+    &:hover {
+        background-color: rgba(255,255,255,0.65);
+    }
+}
+
+.HoverMessage {
+    font-size: 12px;
+    position: absolute;
+    padding-top: 10px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: black;
+    display: none;
+    text-align: center;
+
+    .SelectAreaLower:hover & {
+        display: block;
+    }
+}
+
+.column-MainContent {
+
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    float: left;
+    position: relative;
+
+    display: flex;//Make MainContentUpper and MainContentLower "float" up resp. down (if no lower part exists, make sure content is still wrapped in "upper" container)
+    -ms-flex-direction: column;
+    flex-direction: column;
+    justify-content: space-between; 
+
+    .make-xs-column(10);
+
+    .media-below-xs ({
+        width: 100%;
+        padding-left: 76px;
+    });
+
+    .media-sm-up ({
+        width: (722px - @column-Image-sm-width);
+    });
+    
+    .media-md-up ({
+        width: (702px - @column-Image-sm-width);
+    });
+
+    .media-lg ({
+        width: (852px - @column-Image-sm-width);
+    });
+
+     .TitleText {
+         //font-weight: normal;
+        font-size: large;
+     }
+}
+
+.MainContentUpper {
+    .media-below-sm ({
+        min-height: 60px;
+    });
+}

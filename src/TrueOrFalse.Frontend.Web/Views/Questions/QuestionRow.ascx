@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="rowBase question-row" style="position: relative;" data-questionid="<%= Model.QuestionId %>" data-userisowner="<%= Model.IsOwner? "true" : "false" %>">
+<div class="rowBase question-row" data-questionid="<%= Model.QuestionId %>" data-userisowner="<%= Model.IsOwner? "true" : "false" %>">
     <div class="column-Image">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, "ItemRowImage", ImageType.Question) %>
@@ -12,7 +12,7 @@
 
     <div class="column-MainContent">
         <div class="MainContentUpper">
-            <div class="QuestionText">
+            <div class="QuestionText TitleText">
                 <div class="Pin" data-question-id="<%= Model.QuestionId %>">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
@@ -40,11 +40,11 @@
             </div>
             <% } %>
         </div>
-        <div class="ImageLower">
+        <div class="MainContentLower">
         </div>
     </div>
 
-    <div class="column-Additional col-xs-12 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>" style="height: 100%;" >
+    <div class="column-Additional col-xs-12 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>">
         <div class="StatsGroup NumberTimesStats">
             
             <div class="timesAdded StatsRow">

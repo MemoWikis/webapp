@@ -102,104 +102,16 @@ div.question-row{background-color:silver;}*/
   left: auto;
   right: 0;
 }
-.question-row {
-  margin-left: -10px;
-  margin-right: -10px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-@media (min-width: 768px) {
-  .question-row {
-    margin-left: -5px;
-    margin-right: -5px;
-    padding-left: 0;
-    padding-right: 0;
+@media (max-width: 767px) {
+  .SelectAreaUpper {
+    height: 100%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
 }
-.question-row:hover {
-  background-color: #f3f5f8;
-}
-div.selected-row {
-  background-color: #E7ECF6;
-}
-div.selected-row:hover {
-  background-color: #d6e0f4;
-}
-.modal.fade {
-  -webkit-transition: none;
-  -moz-transition: none;
-  -ms-transition: none;
-  -o-transition: none;
-  transition: none;
-}
-.tsqRow:hover {
-  background-color: #f3f5f8;
-  cursor: pointer;
-}
-.column {
-  display: inline-block;
-}
-.column-Image {
-  padding-top: 5px;
-  padding-left: 5px;
-  padding-bottom: 5px;
-  min-width: 75.15625px;
-  position: relative;
-  float: left;
-  width: 16.66666667%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (max-width: 479px) {
-  .column-Image {
-    position: absolute !important;
-    z-index: 1;
-  }
-}
-@media (min-width: 768px) {
-  .column-Image {
-    width: 125px;
-  }
-}
-.column-Image .ImageContainer {
-  position: relative;
-}
-.column-Image .ImageContainer img {
-  width: 105px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  max-width: 100%;
-}
-.column-Image .ImageContainer .selectQuestion {
-  font-size: 12px;
-  position: absolute;
-  bottom: 1px;
-  bottom: 10px;
-  width: 105px;
-  color: black;
-  background-color: white;
-  opacity: 0.7;
-  display: none;
-}
-.column-Image a.JS-ImageDetailModal {
-  display: block;
-}
-.column-MainContent {
-  padding-right: 20px;
-  padding-top: 5px;
-  position: relative;
-  float: left;
-  width: 83.33333333%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (max-width: 479px) {
-  .column-MainContent {
-    width: 100%;
-    padding-left: 76px;
+@media (max-width: 767px) {
+  .SelectAreaLower {
+    display: none;
   }
 }
 @media (min-width: 768px) {
@@ -217,25 +129,17 @@ div.selected-row:hover {
     width: 572px;
   }
 }
-@media (max-width: 767px) {
-  .MainContentUpper {
-    min-height: 60px;
-  }
-}
-.QuestionText {
-  font-weight: normal;
-  font-size: large;
-}
-@media (max-width: 479px) {
-  .QuestionText {
-    clear: left;
-  }
-}
 .column-Additional {
   float: left;
   padding-top: 5px;
   line-height: 15px;
   font-size: 90%;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  justify-content: space-between;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 @media (max-width: 479px) {
   .column-Additional {
@@ -247,11 +151,40 @@ div.selected-row:hover {
 @media (min-width: 480px) and (max-width: 767px) {
   .column-Additional {
     margin-left: 10px;
+    padding-left: 2px;
   }
 }
 @media (min-width: 768px) {
   .column-Additional {
     width: 155px;
+  }
+}
+@media (max-width: 767px) {
+  .column-Additional {
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+  .StatsGroup {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    justify-content: space-between;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  .StatsRow {
+    margin-right: 5px;
+    margin-left: 5px;
+    height: 20px;
+  }
+  .StatsRow:first-child {
+    margin-left: 0;
+  }
+  .StatsRow:last-child {
+    margin-right: 0;
+  }
+  .sparklineTotals {
+    margin-right: 3px;
   }
 }
 .NumberTimes {

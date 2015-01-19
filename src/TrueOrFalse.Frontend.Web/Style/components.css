@@ -171,4 +171,255 @@ ul.ui-autocomplete .Reference .Url {
 .ReasonList:after {
   clear: both;
 }
+/* ItemLists/Rows (Categories, Questions, Sets etc.)
+----------------------------------------------------------*/
+.question-row,
+.category-row {
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+@media (min-width: 768px) {
+  .question-row,
+  .category-row {
+    margin-left: -5px;
+    margin-right: -5px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.question-row:hover,
+.category-row:hover {
+  background-color: #f3f5f8;
+}
+div.selected-row {
+  background-color: #E7ECF6;
+}
+div.selected-row:hover {
+  background-color: #d6e0f4;
+}
+.modal.fade {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+.tsqRow:hover {
+  background-color: #f3f5f8;
+  cursor: pointer;
+}
+.column {
+  display: inline-block;
+}
+@media (min-width: 768px) {
+  .rowBase.question-row,
+  .rowBase.category-row {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
+}
+.column-Image {
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  min-width: 75.15625px;
+  position: relative;
+  float: left;
+  width: 16.66666667%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (max-width: 479px) {
+  .column-Image {
+    position: absolute !important;
+    z-index: 1;
+  }
+}
+@media (min-width: 768px) {
+  .column-Image {
+    width: 125px;
+  }
+}
+.column-Image .ImageContainer {
+  position: relative;
+}
+.column-Image .ImageContainer img {
+  width: 105px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  max-width: 100%;
+}
+.column-Image a.JS-ImageDetailModal {
+  display: block;
+}
+.column-Image .ImageLicenseInfo {
+  font-size: 10px;
+  padding-bottom: 3px;
+}
+.ItemRowImage {
+  position: relative;
+}
+.ImageLicenseCaption {
+  font-size: 10px;
+}
+.CheckboxIconContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  color: transparent;
+  vertical-align: middle;
+}
+.CheckboxIconContainer .CheckboxText {
+  padding-right: 10px;
+  padding-top: 5px;
+  font-size: 10px;
+  float: right;
+  width: 60%;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .CheckboxIconContainer .CheckboxText {
+    display: none;
+  }
+}
+.SelectAreaUpper:hover .CheckboxIconContainer .CheckboxText {
+  color: #203256;
+}
+.Checked-Icon,
+.Unchecked-Icon {
+  font-size: 36px;
+  color: #203256;
+  padding-top: 3px;
+  padding-right: 1px;
+  padding-left: 4px;
+  margin-top: 3px;
+  margin-left: 3px;
+  border-radius: 3px;
+}
+.CheckboxIcon {
+  display: none;
+  font-size: 36px;
+  color: red;
+}
+.Checked-Icon {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.Unchecked-Icon {
+  visibility: hidden;
+}
+.SelectAreaUpper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 40%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+}
+.SelectAreaUpper:hover .Unchecked-Icon {
+  visibility: visible;
+}
+.SelectAreaUpper:hover .Checked-Icon {
+  display: none;
+  background-color: transparent;
+}
+.SelectAreaUpper:hover:active .Unchecked-Icon {
+  display: none;
+}
+.SelectAreaUpper:hover:active .Checked-Icon {
+  display: inline-block;
+}
+.selected-row .SelectAreaUpper .Unchecked-Icon {
+  display: none;
+}
+.selected-row .SelectAreaUpper .Checked-Icon {
+  display: inline-block;
+}
+.selected-row .SelectAreaUpper:hover:active .Unchecked-Icon {
+  display: inline-block;
+}
+.selected-row .SelectAreaUpper:hover:active .Checked-Icon {
+  display: none;
+}
+.SelectAreaLower {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60%;
+  cursor: pointer;
+  /*.media-below-sm ({
+        display: none;
+    });*/
+}
+.SelectAreaUpper:hover,
+.SelectAreaLower:hover {
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.HoverMessage {
+  font-size: 12px;
+  position: absolute;
+  padding-top: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: black;
+  display: none;
+  text-align: center;
+}
+.SelectAreaLower:hover .HoverMessage {
+  display: block;
+}
+.column-MainContent {
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  float: left;
+  width: 83.33333333%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (max-width: 479px) {
+  .column-MainContent {
+    width: 100%;
+    padding-left: 76px;
+  }
+}
+@media (min-width: 768px) {
+  .column-MainContent {
+    width: 597px;
+  }
+}
+@media (min-width: 992px) {
+  .column-MainContent {
+    width: 577px;
+  }
+}
+@media (min-width: 1200px) {
+  .column-MainContent {
+    width: 727px;
+  }
+}
+.column-MainContent .TitleText {
+  font-size: large;
+}
+@media (max-width: 767px) {
+  .MainContentUpper {
+    min-height: 60px;
+  }
+}
 /*# sourceMappingURL=components.css.map */
