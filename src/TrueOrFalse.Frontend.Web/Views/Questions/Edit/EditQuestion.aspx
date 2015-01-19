@@ -27,22 +27,36 @@
             
             <div class="headerControls pull-right">
                 <div>
-                    <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" class="TextLinkWithIcon" style="font-size: 12px;
-                        margin: 0;"><i class="fa fa-list"></i> <span class="TextSpan">zur Übersicht</span></a>
+                    <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>" class="TextLinkWithIcon"
+                        style="font-size: 12px; margin: 0;"><i class="fa fa-list"></i> <span class="TextSpan">zur Übersicht</span></a>
                 </div>
                 <% if (!Model.ShowSaveAndNewButton){ %>
                     <div style="line-height: 12px">
                         <a href="<%= Links.CreateQuestion(Url) %>" style="font-size: 12px;
-                            margin: 0px;"><i class="fa fa-plus-circle"></i> Frage erstellen</a>
+                            margin: 0;"><i class="fa fa-plus-circle"></i> Frage erstellen</a>
                     </div>
                 <%} %>
                     
                 <% if(Model.IsEditing){ %>
                     <div style="line-height: 12px; padding-top: 3px;">
                         <a href="<%= Links.AnswerQuestion(Url, Model.Question, (int)Model.Id) %>" style="font-size: 12px;
-                            margin: 0px;"><i class="fa fa-check-square"></i> Frage beantworten</a>
+                            margin: 0;"><i class="fa fa-check-square"></i> Frage beantworten</a>
                     </div>                    
                 <% } %>
+            </div>
+        </div>
+        <div class="PageHeader col-xs-12">
+            <% if(!Model.IsLoggedIn){ %>
+                <div class="bs-callout bs-callout-info" style="margin-top: 0;">
+                    <h4>Anmelden oder registrieren</h4>
+                    <p>
+                        Um Fragen zu erstellen, <br/>
+                        musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
+                    </p>
+                </div>
+            <% }%>
+            <div>
+                <% Html.Message(Model.Message); %>
             </div>
         </div>
     </div>
@@ -97,22 +111,7 @@
         </div>
         <div class="col-md-9 col-md-pull-3">
             <div class="form-horizontal" role="form">
-                
-                <% if(!Model.IsLoggedIn){ %>
-                    <div class="bs-callout bs-callout-info" style="margin-top: 0;">
-                        <h4>Anmelden oder registrieren</h4>
-                        <p>
-                            Um Fragen zu erstellen, <br/>
-                            musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
-                        </p>
-                    </div>
-                <% }%>
-
-                <div>
-                    <% Html.Message(Model.Message); %>
-                </div>
                 <div class="FormSection">
-
                 <div class="form-group">
                     <%= Html.LabelFor(m => m.Question, new { @class = "RequiredField columnLabel control-label" })%>
                     <div class="columnControlsFull">
