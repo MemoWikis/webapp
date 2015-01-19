@@ -21,7 +21,8 @@ public class SetRowModel
     public Func<UrlHelper, string> DetailLink;
     public Func<UrlHelper, string> UserLink;
 
-    public string ImageUrl;
+    public ImageMetaData ImageMetaData;
+    public ImageFrontendData ImageFrontendData;
 
     public string CreatorName;
     public int CreatorId;
@@ -49,6 +50,9 @@ public class SetRowModel
         IsOwner = currentUserid == set.Creator.Id;
         IndexInResult = indexInResultSet;
 
+        ImageMetaData = ServiceLocator.Resolve<ImageMetaDataRepository>().GetBy(set.Id, ImageType.QuestionSet);
+        ImageFrontendData = new ImageFrontendData(ImageMetaData);
+
         RelevancePersonal = setValuation.RelevancePersonal;
         IsInWishknowledge = setValuation.IsInWishknowledge();
 
@@ -57,7 +61,6 @@ public class SetRowModel
         DetailLink = urlHelper => Links.SetDetail(urlHelper, set, indexInResultSet);
         UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);
 
-        ImageUrl = SetImageSettings.Create(set.Id).GetUrl_128px_square().Url;
         Categories = set.Categories;
     }
 

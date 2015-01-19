@@ -138,7 +138,7 @@ ul.ui-autocomplete {
 @item-row-image-padding: 5px;
 
 
-.question-row, .category-row {
+.question-row, .category-row, .set-row {
 
     margin-left: -@grid-gutter-width/2;
     margin-right: -@grid-gutter-width/2;
@@ -170,7 +170,7 @@ div.selected-row:hover { background-color: #d6e0f4;}
 
 
 .rowBase{
-    &.question-row, &.category-row {
+    &.question-row, &.category-row, &.set-row {
         .media-sm-up ({//make all columns (image, main content, additional) have the same height
             display: flex;
             -ms-flex-direction: row;
@@ -370,9 +370,6 @@ display: none;
 
 .column-MainContent {
 
-    padding-right: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
     float: left;
     position: relative;
 
@@ -382,6 +379,13 @@ display: none;
     justify-content: space-between; 
 
     .make-xs-column(10);
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    .media-below-sm ({
+        padding-right: 10px;
+    });
 
     .media-below-xs ({
         width: 100%;
@@ -400,6 +404,19 @@ display: none;
         width: (852px - @column-Image-sm-width);
     });
 
+     .Pin {
+        height: 25px;
+        margin-top: -1px;
+        padding-left: 10px;
+        float: right;
+
+        .media-below-xs ({
+            float: left;
+            padding-left: 0;
+            padding-right: 10px;
+        });
+    } 
+
      .TitleText {
          //font-weight: normal;
         font-size: large;
@@ -411,3 +428,69 @@ display: none;
         min-height: 60px;
     });
 }
+
+.column-Additional {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 15px;
+    font-size: 90%;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    justify-content: space-between;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+    .media-below-xs ({
+        padding-left: 76.15625px;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    });
+
+    .media-xs ({
+        padding-left: 10px;
+        padding-right: 10px;
+    });
+
+    .media-below-sm ({//Make NumberTimesStats and QuestionAuthor float in opposite directions but both align left in case of wrapping
+         -ms-flex-direction: row;
+        flex-direction: row;
+    });
+
+    .media-sm-up ({
+        width: @column-Additional-sm-width;
+    });
+}
+
+.StatsGroup:first-child {
+    .media-sm-up ({
+        margin-top: 7px;
+    });
+}
+
+.media-below-sm ({
+
+    .StatsGroup {
+        display: flex;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        justify-content: space-between;
+         -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    }
+
+    .StatsRow {
+        margin-right: 5px;
+        margin-left: 5px;
+        height: 20px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+});

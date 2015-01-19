@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <div class="column-Additional col-xs-12 col-sm-3 col-lg-2" data-questionId="<%= Model.QuestionId %>">
+    <div class="column-Additional" data-questionId="<%= Model.QuestionId %>">
         <div class="StatsGroup NumberTimesStats">
             
             <div class="timesAdded StatsRow">
@@ -68,6 +68,7 @@
                 <%=Model.CreatorName %>
             </a>
             
+            &nbsp;
             &nbsp;
             <% if (Model.IsOwner){%>
                 <div style="position: relative; top: -1px; display: inline-block">

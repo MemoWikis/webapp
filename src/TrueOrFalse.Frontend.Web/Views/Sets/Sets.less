@@ -2,13 +2,28 @@
 
 .set-row:hover{ background-color: #f3f5f8; }
 
-div.column-Image { 
+/*div.column-Image { 
     padding: 5px;
     width: 135px; float: left;
     img{ border-radius: 5px;}
 }
 div.column-MainContent { width: 550px; padding-right: 10px; float: left; padding-top: 5px;}
-div.column-Additional { width: 155px;float: left; padding-top: 5px; height: 100px;}
+div.column-Additional { width: 155px;float: left; padding-top: 5px; height: 100px;}*/
+
+.column-MainContent {
+
+    .media-sm-up ({
+        width: (722px - @column-Image-sm-width - @column-Additional-sm-width);
+    });
+    
+    .media-md-up ({
+        width: (702px - @column-Image-sm-width - @column-Additional-sm-width);
+    });
+
+    .media-lg ({
+        width: (852px - @column-Image-sm-width - @column-Additional-sm-width);
+    });
+}
 
 .Pin {
     height: 25px;

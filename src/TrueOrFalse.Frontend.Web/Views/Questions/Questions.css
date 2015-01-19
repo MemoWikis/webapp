@@ -129,64 +129,6 @@ div.question-row{background-color:silver;}*/
     width: 572px;
   }
 }
-.column-Additional {
-  float: left;
-  padding-top: 5px;
-  line-height: 15px;
-  font-size: 90%;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  justify-content: space-between;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-@media (max-width: 479px) {
-  .column-Additional {
-    padding-left: 76.15625px;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-  }
-}
-@media (min-width: 480px) and (max-width: 767px) {
-  .column-Additional {
-    margin-left: 10px;
-    padding-left: 2px;
-  }
-}
-@media (min-width: 768px) {
-  .column-Additional {
-    width: 155px;
-  }
-}
-@media (max-width: 767px) {
-  .column-Additional {
-    -ms-flex-direction: row;
-    flex-direction: row;
-  }
-  .StatsGroup {
-    display: flex;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    justify-content: space-between;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-  }
-  .StatsRow {
-    margin-right: 5px;
-    margin-left: 5px;
-    height: 20px;
-  }
-  .StatsRow:first-child {
-    margin-left: 0;
-  }
-  .StatsRow:last-child {
-    margin-right: 0;
-  }
-  .sparklineTotals {
-    margin-right: 3px;
-  }
-}
 .NumberTimes {
   display: inline-block;
   width: 20px;
@@ -194,8 +136,12 @@ div.question-row{background-color:silver;}*/
 }
 @media (min-width: 768px) {
   .NumberTimesStats {
-    margin-top: 7px;
     padding-bottom: 20px;
+  }
+}
+@media (max-width: 767px) {
+  .sparklineTotals {
+    margin-right: 3px;
   }
 }
 /*.QuestionAuthor {
@@ -285,18 +231,5 @@ div.question-row{background-color:silver;}*/
 }
 div.column-Additional div.row {
   margin-left: 0;
-}
-.Pin {
-  height: 25px;
-  margin-top: -1px;
-  padding-left: 10px;
-  float: right;
-}
-@media (max-width: 479px) {
-  .Pin {
-    float: left;
-    padding-left: 0;
-    padding-right: 10px;
-  }
 }
 /*# sourceMappingURL=Questions.css.map */

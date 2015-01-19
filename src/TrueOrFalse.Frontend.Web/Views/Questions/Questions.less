@@ -88,67 +88,6 @@ div.question-row{background-color:silver;}*/
     });
 }
 
-.column-Additional {
-    float: left;
-    padding-top: 5px;
-    line-height: 15px;
-    font-size: 90%;
-     display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    justify-content: space-between;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-
-    .media-below-xs ({
-        padding-left: 76.15625px;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    });
-
-    .media-xs ({
-        margin-left: 10px;
-        padding-left: 2px;
-    });
-
-    .media-sm-up ({
-        width: @column-Additional-sm-width;
-    });
-}
-
-.media-below-sm ({
-    .column-Additional { //Make NumberTimesStats and QuestionAuthor float in opposite directions but both align left in case of wrapping
-        -ms-flex-direction: row;
-        flex-direction: row;
-    }
-
-    .StatsGroup {
-        display: flex;
-        -ms-flex-direction: row;
-        flex-direction: row;
-        justify-content: space-between;
-         -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-    }
-
-    .StatsRow {
-        margin-right: 5px;
-        margin-left: 5px;
-        height: 20px;
-
-        &:first-child {
-            margin-left: 0;
-        }
-        &:last-child {
-            margin-right: 0;
-        }
-    }
-
-    .sparklineTotals {
-        margin-right: 3px;
-    }
-});
-
 .NumberTimes {
     display: inline-block;
     width: 20px;
@@ -157,10 +96,17 @@ div.question-row{background-color:silver;}*/
 
 .NumberTimesStats {
     .media-sm-up ({
-        margin-top: 7px;
         padding-bottom: 20px;
     });
 }
+
+.sparklineTotals {
+    .media-below-sm ({
+            margin-right: 3px;
+    });
+}
+
+
 
 
 /*.QuestionAuthor {
@@ -244,17 +190,3 @@ div.question-row{background-color:silver;}*/
 div.column-Additional div.row {
     margin-left: 0;
 }
-
-.Pin {
-
-    height: 25px;
-    margin-top: -1px;
-    padding-left: 10px;
-    float: right;
-
-    .media-below-xs ({
-        float: left;
-        padding-left: 0;
-        padding-right: 10px;
-    });
-} 
