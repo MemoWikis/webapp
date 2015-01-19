@@ -17,7 +17,7 @@
                 <h3 class="">
                     Fragen
                 </h3>
-                <a href="<%= Links.CreateQuestion(Url) %>" class="btnAddQuestion btn btn-success btn-sm">
+                <a href="<%= Links.CreateQuestion(Url) %>" class="btnCreateItem btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>
@@ -51,7 +51,7 @@
                             if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                             von = Model.TotalQuestionsInResult + " von "; %>
                             Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)
-                            <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Wissen, das du jederzeit aktiv nutzen möchtest." data-placement="right"></i>
+                            <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Fakten, die du dir merken möchtest." data-placement="right"></i>
                         </a>
                     </div>
                     <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-<%= SearchTab.Mine.ToString() %>">
@@ -78,7 +78,7 @@
      <div class="boxtainer-outlined-tabs">
          
         <div class="boxtainer-header MobileHide">
-                <a href="<%= Links.CreateQuestion(Url) %>" class="btnAddQuestion btn btn-success btn-sm">
+                <a href="<%= Links.CreateQuestion(Url) %>" class="btnCreateItem btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>

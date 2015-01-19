@@ -1060,6 +1060,20 @@ a.button span.ui-icon {
 .btn + .tooltip + .btn {
   margin-left: 5px;
 }
+.btnCreateItem {
+  margin-bottom: 10px;
+}
+#mobilePageHeader .btnCreateItem {
+  float: right;
+}
+@media (min-width: 992px) {
+  .btnCreateItem {
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 5px;
+  }
+}
 /*  MODALS
 ----------------------------------------------------------*/
 .modal-footer .ButtonContainer {
@@ -1201,10 +1215,6 @@ div.box-main .box-content {
     border: 3px solid #d1eba7;
     border-bottom: none;
   }
-  .box-with-tabs ul.nav-tabs li.active a:hover,
-  .boxtainer-outlined-tabs ul.nav-tabs li.active a:hover {
-    background-color: white;
-  }
 }
 .box-with-tabs .boxtainer-content,
 .boxtainer-outlined-tabs .boxtainer-content {
@@ -1227,7 +1237,9 @@ div.box-main .box-content {
   border-bottom-color: #d0e689;
 }
 #question-main .box-with-tabs ul.nav-tabs li a:hover,
-#question-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
+#question-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover,
+#question-main .box-with-tabs ul.nav-tabs li a:focus,
+#question-main .boxtainer-outlined-tabs ul.nav-tabs li a:focus {
   background-color: #d0e689;
   color: #203256;
 }
@@ -1240,7 +1252,9 @@ div.box-main .box-content {
   border-bottom-color: #ffe766;
 }
 #set-main .box-with-tabs ul.nav-tabs li a:hover,
-#set-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
+#set-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover,
+#set-main .box-with-tabs ul.nav-tabs li a:focus,
+#set-main .boxtainer-outlined-tabs ul.nav-tabs li a:focus {
   background-color: #ffe766;
   color: #203256;
 }
@@ -1253,7 +1267,9 @@ div.box-main .box-content {
   border-bottom-color: #85d0e7;
 }
 #category-main .box-with-tabs ul.nav-tabs li a:hover,
-#category-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
+#category-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover,
+#category-main .box-with-tabs ul.nav-tabs li a:focus,
+#category-main .boxtainer-outlined-tabs ul.nav-tabs li a:focus {
   background-color: #85d0e7;
   color: #203256;
 }
@@ -1266,7 +1282,9 @@ div.box-main .box-content {
   border-bottom-color: #6a95da;
 }
 #user-main .box-with-tabs ul.nav-tabs li a:hover,
-#user-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover {
+#user-main .boxtainer-outlined-tabs ul.nav-tabs li a:hover,
+#user-main .box-with-tabs ul.nav-tabs li a:focus,
+#user-main .boxtainer-outlined-tabs ul.nav-tabs li a:focus {
   background-color: #6a95da;
   color: white;
 }

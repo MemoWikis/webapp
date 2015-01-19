@@ -680,12 +680,9 @@ img {
     }
 
     @media (max-width: @screen-xxs-max) {
-        //display: block;
 
         > .btn-group {
-            //display: block;
             display: table-cell !important;
-            //float: left;
         }
     }
 }
@@ -771,27 +768,43 @@ img {
 
 /* BUTTONS
 ----------------------------------------------------------*/
-    div.button {
-        margin: 15px 0 10px 0;
-    }
+div.button {
+    margin: 15px 0 10px 0;
+}
 
-    a.button {
-        padding: .3em 1em .4em 20px;
-        text-decoration: none;
-        position: relative;
-    }
+a.button {
+    padding: .3em 1em .4em 20px;
+    text-decoration: none;
+    position: relative;
+}
 
-    a.button span.ui-icon {
-        margin: 0 5px 0 0;
+a.button span.ui-icon {
+    margin: 0 5px 0 0;
+    position: absolute;
+    left: .2em;
+    top: 50%;
+    margin-top: -8px;
+}
+
+.btn + .btn, .btn + .tooltip + .btn {
+    margin-left: 5px;
+}
+
+.btnCreateItem {
+
+    margin-bottom: 10px;
+
+    #mobilePageHeader & {
+        float: right;
+    }
+    
+    .media-md-up ({
+        float: right;
         position: absolute;
-        left: .2em;
-        top: 50%;
-        margin-top: -8px;
-    }
-
-    .btn + .btn, .btn + .tooltip + .btn {
-        margin-left: 5px;
-    } 
+        right: 0;
+        top: 5px;
+    });
+}
 
 /*  MODALS
 ----------------------------------------------------------*/
@@ -952,15 +965,10 @@ div.box-main .box-content {
                     background-color: @light-green;
                 }
 
-
                 &.active {
                     a {
-                        border: 3px solid @light-green;;
-                            border-bottom: none;
-                    }
-
-                    a:hover {
-                        background-color: white;
+                        border: 3px solid @light-green;
+                        border-bottom: none;
                     }
                 }
             }

@@ -2,13 +2,43 @@
 
 .set-row:hover{ background-color: #f3f5f8; }
 
-/*div.column-Image { 
-    padding: 5px;
-    width: 135px; float: left;
-    img{ border-radius: 5px;}
+#MainFilterBar { 
+
+    .btn-group  {
+
+        .btn {
+            .buttonBackground (@color-set-button-top; @color-set-button-bottom; @global-text-color; white);
+
+            &:hover{
+                background-color: @color-set;
+                background-image: none;
+            }
+        }
+
+
+
+        @media (max-width: @screen-xs-max) {
+
+            &:first-child .btn {
+                border-left: none;
+            }
+            &:last-child .btn {
+                 border-right: none;
+            }
+        }
+    }
+
+    .btn-group.active { 
+        
+        .btn {//, .btn:hover
+
+        .buttonBackground (@color-set-button-bottom; @color-set; @global-text-color; white);
+
+        color: @global-text-color;
+        font-weight: bold;
+        }
+    }
 }
-div.column-MainContent { width: 550px; padding-right: 10px; float: left; padding-top: 5px;}
-div.column-Additional { width: 155px;float: left; padding-top: 5px; height: 100px;}*/
 
 .column-MainContent {
 

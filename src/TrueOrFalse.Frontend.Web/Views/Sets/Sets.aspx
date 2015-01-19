@@ -7,13 +7,62 @@
     <%= Scripts.Render("~/bundles/Sets") %>
 </asp:Content>
 
+<asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">
+     <div id="MobileSubHeader" class="MobileSubHeader DesktopHide">
+        <div class=" container">
+            <div id="mobilePageHeader" class="">
+                <h3 class="">
+                    Fragesätze
+                </h3>
+                <a href="<%= Url.Action("Create", "EditSet") %>" class="btnCreateItem btn btn-success btn-sm">
+                    <i class="fa fa-plus-circle"></i>
+                    Fragesatz erstellen
+                </a>
+            </div>
+            <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
+                <h4>
+                    Fragesätze
+                </h4>
+            </nav>
+        </div>
+        <div class="MainFilterBarWrapper">
+            <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <a class="btn btn-default disabled">.</a>
+                </div>
+            </div>
+            <div class="container">
+                <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
+                
+                    <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
+                        <a  href="<%= Links.Sets() %>" type="button" class="btn btn-default">
+                            Alle (<span class="JS-Amount"><%= Model.TotalSets %></span>)
+                        </a>
+                    </div>
+                    <div id="WuWiQuestions" class="btn-group <%= Model.ActiveTabWish ? "active" : "" %>">
+                        <a  href="<%= Links.SetsWish() %>" type="button" class="btn btn-default">
+                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= Model.TotalWish %></span>)
+                        </a>
+                    </div>
+                    <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %>">
+                        <a href="<%= Links.SetsMine() %>" type="button" class="btn btn-default">
+                            Meine (<span class="JS-Amount"><%= Model.TotalMine %></span>)
+                            <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die von dir erstellt wurden." data-placement="right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
     <div id="set-main">
         <% using (Html.BeginForm()) { %>
         
-             <div class="boxtainer-outlined-tabs">         
-                <div class="boxtainer-header">
+             <div class="boxtainer-outlined-tabs">       
+                <div class="boxtainer-header MobileHide">
                     <ul class="nav nav-tabs">
                         <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
                             <a href="<%= Links.Sets() %>" >Alle Fragesätze (<%= Model.TotalSets %>)</a>
@@ -24,7 +73,7 @@
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
                             <a href="<%= Links.SetsMine() %>">
                                 Meine Fragesätze (<%= Model.TotalMine %>)
-                                <i class="fa fa-question-circle show-tooltip" title="Fragesätze die von dir erstellt wurden"></i>
+                                <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die von dir erstellt wurden"></i>
                             </a>
                         </li>
                     </ul>

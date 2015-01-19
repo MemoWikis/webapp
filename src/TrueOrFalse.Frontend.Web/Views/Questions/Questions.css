@@ -84,20 +84,6 @@ div.question-row{background-color:silver;}*/
     right: 0;
   }
 }
-.btnAddQuestion {
-  margin-bottom: 10px;
-}
-#mobilePageHeader .btnAddQuestion {
-  float: right;
-}
-@media (min-width: 992px) {
-  .btnAddQuestion {
-    float: right;
-    position: absolute;
-    right: 0;
-    top: 5px;
-  }
-}
 #menu1 ul.dropdown-menu {
   left: auto;
   right: 0;
