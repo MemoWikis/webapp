@@ -326,7 +326,7 @@
     </Content>
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
-    <TypeScriptCompile Include="Scripts\Images.ts" />
+    <TypeScriptCompile Include="Views\Images\Images.ts" />
     <TypeScriptCompile Include="Scripts\shared\ItemRowPage.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
@@ -365,7 +365,7 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\Images.js">
+    <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\Log.js">
@@ -716,7 +716,7 @@
     <Content Include="Scripts\shared\ItemRowPage.js.map">
       <DependentUpon>ItemRowPage.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\Images.js.map">
+    <Content Include="Views\Images\Images.js.map">
       <DependentUpon>Images.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
