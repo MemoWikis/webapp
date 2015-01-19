@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 
 public class MaintenanceController : BaseController
@@ -146,6 +147,13 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    public ActionResult CleanUpWorkInProgressQuestions()
+    {
+        JobScheduler.StartCleanupWorkInProgressJob();
+        return View("Tools", new MaintenanceModel { Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.") });
+    }
+
+    [AccessOnlyAsAdmin]
     public ActionResult ImageMarkup(int imgId)
     {
         var imageMaintenanceInfo =
@@ -153,8 +161,6 @@ public class MaintenanceController : BaseController
                 .Run().FirstOrDefault(imageInfo => imageInfo.ImageId == imgId);
         return View("Markup", imageMaintenanceInfo);
     }
-
-    
 
     [AccessOnlyAsAdmin]
     public string ImageMaintenanceModal(int imgId)

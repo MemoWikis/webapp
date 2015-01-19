@@ -165,7 +165,7 @@ public class AnswerQuestionModel : BaseModel
         CreationDate = question.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = TimeElapsedAsText.Run(question.DateCreated);
 
-        IsOwner = _sessionUser.IsOwnerOrAdmin(question.Creator.Id);
+        IsOwner = _sessionUser.IsValidUserOrAdmin(question.Creator.Id);
 
         QuestionId = question.Id;
         QuestionText = question.Text;

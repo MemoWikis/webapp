@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Globalization;
 using System.Reflection;
 using System.Threading;
 using System.Web;
@@ -13,19 +13,16 @@ using AutofacContrib.SolrNet.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using RollbarSharp;
 using StackExchange.Profiling;
-using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
+using TrueOrFalse.Updates;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.View;
 using TrueOrFalse.Web.Context;
 using TrueOrFalse.Web.JavascriptView;
-using TrueOrFalse.Updates;
 
 namespace TrueOrFalse.Frontend.Web
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
     public class Global : HttpApplication
     {        
         protected void Application_Start()
@@ -45,13 +42,15 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
+            
+            JobScheduler.Start();
         }
 
 
         private void Application_BeginRequest()
         {
-            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("de-DE");
-            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-DE");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
 #if DEBUG
             MiniProfiler.Start();
 #endif
@@ -66,41 +65,12 @@ namespace TrueOrFalse.Frontend.Web
 
         private void InitializeAutofac()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterModelBinders(Assembly.GetExecutingAssembly());
-            builder.RegisterModule<AutofacCoreModule>();
-
-            var solrUrl = WebConfigSettings.SolrUrl;
-            var solrSuffix = WebConfigSettings.SolrCoresSuffix;
-
-            var cores = new SolrServers {
-                                new SolrServerElement {
-                                        Id = "question",
-                                        DocumentType = typeof (QuestionSolrMap).AssemblyQualifiedName,
-                                        Url = solrUrl + "tofQuestion" + solrSuffix
-                                    },
-                                new SolrServerElement {   
-                                        Id = "set",
-                                        DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
-                                        Url = solrUrl + "tofSet" + solrSuffix
-                                    },
-                                new SolrServerElement {   
-                                        Id = "category",
-                                        DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
-                                        Url = solrUrl + "tofCategory" + solrSuffix
-                                    },
-                                new SolrServerElement {   
-                                        Id = "users",
-                                        DocumentType = typeof (UserSolrMap).AssemblyQualifiedName,
-                                        Url = solrUrl + "tofUser" + solrSuffix
-                                    }
-                            };
-
-            builder.RegisterModule(new SolrNetModule(cores));
-
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            DependencyResolver.SetResolver(
+                new AutofacDependencyResolver(
+                    AutofacWebInitializer.Run(
+                        registerForAspNet: true, 
+                        assembly:Assembly.GetExecutingAssembly()
+                    )));
         }
 
         protected void Session_Start()

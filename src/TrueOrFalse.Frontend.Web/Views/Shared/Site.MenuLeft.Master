@@ -48,7 +48,7 @@
         </div>
     </footer>
     <% if(Request.IsLocal){ %>
-        <%--<%= MiniProfiler.RenderIncludes() %--%>>
+        <%--<%= MiniProfiler.RenderIncludes() %> --%>
     <% } %>
 </body>
 </html>

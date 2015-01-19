@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using Seedworks.Lib.Persistence;
-using TrueOrFalse.Infrastructure.Persistence;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse
 {
-    public class QuestionRepository : RepositoryDb<Question> 
+    public class QuestionRepository : RepositoryDbBase<Question> 
     {
         private readonly SearchIndexQuestion _searchIndexQuestion;
 
@@ -19,6 +17,8 @@ namespace TrueOrFalse
 
         public override void Update(Question question)
         {
+            ThrowIfNot_IsUserOrAdmin(question.Id);
+
             _searchIndexQuestion.Update(question);
             base.Update(question);
             Flush();

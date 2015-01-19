@@ -6,7 +6,7 @@ using TrueOrFalse.Maintenance;
 
 namespace TrueOrFalse
 {
-    public class ImageMetaDataRepository : RepositoryDb<ImageMetaData>
+    public class ImageMetaDataRepository : RepositoryDbBase<ImageMetaData>
     {
         public ImageMetaDataRepository(ISession session) : base(session){}
 
@@ -83,7 +83,7 @@ namespace TrueOrFalse
                 imageMeta.AuthorParsed = licenseGiverName;
 
                 Update(imageMeta);
-            }                        
+            }
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Seedworks.Web.State;
-using TrueOrFalse.Infrastructure;
+﻿using Seedworks.Web.State;
 
 namespace TrueOrFalse.Web.Context
 {
@@ -27,7 +22,7 @@ namespace TrueOrFalse.Web.Context
             private set { Data["user"] = value; }
         }
 
-        public bool IsOwner(int userId)
+        public bool IsValidUser(int userId)
         {
             if (!IsLoggedIn)
                 return false;
@@ -35,14 +30,9 @@ namespace TrueOrFalse.Web.Context
             return userId == User.Id;
         }
 
-        public bool IsOwnerOrAdmin(int userId)
+        public bool IsValidUserOrAdmin(int userId)
         {
-            return IsOwner(userId) || IsInstallationAdmin;
-        }
-
-        public bool IsOwnerOrAdmin()
-        {
-            return IsOwnerOrAdmin(UserId);
+            return IsValidUser(userId) || IsInstallationAdmin;
         }
 
         public void Login(User user)

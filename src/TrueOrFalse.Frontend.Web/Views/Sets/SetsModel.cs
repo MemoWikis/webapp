@@ -35,7 +35,7 @@ public class SetsModel : BaseModel
 
     public IEnumerable<SetRowModel> Rows;
 
-    public bool NotAllowed;
+    public bool AccessNotAllowed;
     
     public SetsModel(){}
 
@@ -52,7 +52,7 @@ public class SetsModel : BaseModel
         ActiveTabMine = isTabMineActive;
         ActiveTabWish = isTabWishActice;
 
-        NotAllowed = !_sessionUser.IsLoggedIn && _sessionUser.IsOwnerOrAdmin();
+        AccessNotAllowed = !_sessionUser.IsLoggedIn;
 
         OrderBy = searchSpec.OrderBy;
         OrderByLabel = searchSpec.OrderBy.ToText();

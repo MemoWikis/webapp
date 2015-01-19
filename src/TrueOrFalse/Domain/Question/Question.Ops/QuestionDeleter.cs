@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using NHibernate;
+using TrueOrFalse.Web;
+using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse
 {
@@ -25,6 +27,9 @@ namespace TrueOrFalse
         public void Run(int questionId)
         {
             var question = _questionRepository.GetById(questionId);
+
+            ThrowIfNot_IsUserOrAdmin.Run(question.Creator.Id);
+
             var categoriesToDelete = question.Categories.ToList();
             _questionRepository.Delete(question);
             _updateQuestionCountForCategory.Run(categoriesToDelete);
@@ -34,5 +39,6 @@ namespace TrueOrFalse
                 .CreateSQLQuery("DELETE FROM categoriestoquestions where Question_id = " + questionId)
                 .ExecuteUpdate();
         }
+
     }
 }

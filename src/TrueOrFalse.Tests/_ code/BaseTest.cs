@@ -9,6 +9,7 @@ using SolrNet.Impl;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
+using TrueOrFalse.Web.Context;
 
 namespace TrueOrFalse.Tests
 {
@@ -29,6 +30,9 @@ namespace TrueOrFalse.Tests
         {
             CleanEmailsFromPickupDirectory.Run();
             InitializeContainer();
+            
+            Resolve<SessionUser>().Login(new User());
+            Resolve<SessionUser>().IsInstallationAdmin = true;
         }
 
         public void RecycleContainer()

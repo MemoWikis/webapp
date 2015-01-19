@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Web;
 using NHibernate;
+using TrueOrFalse;
 
-namespace TrueOrFalse.Infrastructure.Persistence
+public class ExecuteSqlFile : IRegisterAsInstancePerLifetime
 {
-    public class ExecuteSqlFile : IRegisterAsInstancePerLifetime
+    private readonly ISession _session;
+
+    public ExecuteSqlFile(ISession session){
+        _session = session;
+    }
+
+    public void Run(string filePath)
     {
-        private readonly ISession _session;
+        if (HttpContext.Current != null)
+            filePath = HttpContext.Current.Server.MapPath("bin/" + filePath);
 
-        public ExecuteSqlFile(ISession session){
-            _session = session;
-        }
-
-        public void Run(string filePath)
-        {
-            if (HttpContext.Current != null)
-                filePath = HttpContext.Current.Server.MapPath("bin/" + filePath);
-
-            _session.CreateSQLQuery(File.ReadAllText(filePath)).ExecuteUpdate();    
-        }
+        _session.CreateSQLQuery(File.ReadAllText(filePath)).ExecuteUpdate();    
     }
 }
