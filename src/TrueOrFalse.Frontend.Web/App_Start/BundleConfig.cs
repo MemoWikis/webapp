@@ -26,7 +26,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/shared")
                 .IncludeDirectory("~/Scripts/", "*.js")
-                .IncludeDirectory("~/Scripts/vendor", "*.js"));
+                .IncludeDirectory("~/Scripts/vendor", "*.js")
+                .IncludeDirectory("~/Views/Images", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/file-uploader/header.js")
@@ -91,9 +92,6 @@ namespace TrueOrFalse.View
                .Include("~/Views/Maintenance/ImageMaintenance.js")
                .Include("~/Views/Maintenance/ImageDetail.js")
                .Include("~/Scripts/BootstrapCustomUtils.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/Images")
-                .IncludeDirectory("~/Views/Images/", "*.js"));
 
 #if RELEASE
                 BundleTable.EnableOptimizations = true;
