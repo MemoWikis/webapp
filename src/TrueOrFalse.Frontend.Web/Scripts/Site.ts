@@ -1,4 +1,4 @@
-function FillSparklineTotals() {
+﻿function FillSparklineTotals() {
     $(".sparklineTotals").each(function () {
         $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
             type: 'pie',
@@ -22,6 +22,18 @@ function InitLabelTooltips() {
     $('.label-set').each(function () {
         $(this).addClass('show-tooltip');
         $(this).attr('title', 'Gehe zu Fragesatz').attr('data-placement', 'top');
+    });
+}
+
+function InitIconTooltips(awesomeClass : string, tooltipText : string) {
+    $('i.' + awesomeClass).each(function () {
+
+        var hasTitleAttribute = jQuery.inArray(this, $.makeArray($('.' + awesomeClass + '[title]'))) !== -1 //Does title attribute exist altogether
+            && $(this).attr('title') !== "";//Is title attribute not empty
+        if (!hasTitleAttribute){
+            $(this).addClass('show-tooltip');
+            $(this).attr('title', tooltipText).attr('data-placement', 'top');
+        }
     });
 }
 
@@ -66,6 +78,8 @@ $(function () {
 
     FillSparklineTotals();
     InitLabelTooltips();
+    InitIconTooltips('fa-trash-o', 'Löschen');
+    InitIconTooltips('fa-pencil', 'Bearbeiten');
     fnInitImages();
 });
 
