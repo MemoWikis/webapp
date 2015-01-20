@@ -25,6 +25,9 @@ $(function () {
             $("#ImageGuid").val(imageUploadModal.ImageGuid);
             $("#ImageLicenseOwner").val(imageUploadModal.LicenseOwner);
         }
+
+        $("#modalImageUpload").modal("hide");
+        imageUploadModal.ResetModal();
     });
 
     $("#aImageUpload").click(function () { 

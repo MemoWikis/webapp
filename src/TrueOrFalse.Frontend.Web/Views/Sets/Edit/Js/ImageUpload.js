@@ -1,4 +1,4 @@
-/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/lib.d.ts" />
 /// <reference path="../../../Images/ImageUpload/ImageUpload.ts" />
@@ -21,6 +21,9 @@ $(function () {
             $("#ImageGuid").val(imageUploadModal.ImageGuid);
             $("#ImageLicenseOwner").val(imageUploadModal.LicenseOwner);
         }
+
+        $("#modalImageUpload").modal("hide");
+        imageUploadModal.ResetModal();
     });
 
     $("#aImageUpload").click(function () {

@@ -12,18 +12,21 @@ $(function () {
     imageUploadModal.OnSave(function (url: string) {
         $("#categoryImg").attr("src", url);
 
-        if (imageUploadModal.Mode == ImageUploadModalMode.Wikimedia) {
+        if (imageUploadModal.Mode === ImageUploadModalMode.Wikimedia) {
             $("#ImageIsNew").val("true");
             $("#ImageSource").val("wikimedia");
             $("#ImageWikiFileName").val(imageUploadModal.WikimediaPreview.ImageName);
         }
 
-        if (imageUploadModal.Mode == ImageUploadModalMode.Upload) {
+        if (imageUploadModal.Mode === ImageUploadModalMode.Upload) {
             $("#ImageIsNew").val("true");
             $("#ImageSource").val("upload");
             $("#ImageGuid").val(imageUploadModal.ImageGuid);
             $("#ImageLicenseOwner").val(imageUploadModal.LicenseOwner);
         }
+
+        $("#modalImageUpload").modal("hide");
+        imageUploadModal.ResetModal();
     });
 
     $("#aImageUpload").click(function () { 
