@@ -34,12 +34,12 @@
             <div class="container">
                 <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
                 
-                    <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
+                    <div class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
                         <a  href="<%= Links.Sets() %>" type="button" class="btn btn-default">
                             Alle (<span class="JS-Amount"><%= Model.TotalSets %></span>)
                         </a>
                     </div>
-                    <div id="WuWiQuestions" class="btn-group <%= Model.ActiveTabWish ? "active" : "" %>">
+                    <div class="btn-group <%= Model.ActiveTabWish ? "active" : "" %>">
                         <a  href="<%= Links.SetsWish() %>" type="button" class="btn btn-default">
                             Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= Model.TotalWish %></span>)
                         </a>

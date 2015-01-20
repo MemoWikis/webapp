@@ -1,5 +1,34 @@
 ﻿@import '../../Style/includes/imports.less';
 
+#MainFilterBarBackground {
+
+    .btn {
+        .gradientBar232 (desaturate(@color-category-dark, 10), desaturate(@color-category, 10));
+    }
+}
+
+#MainFilterBar { 
+
+    .btn-group  {
+
+        .btn {
+            .buttonBackground (@color-category-light; @color-category; white);
+
+            &:hover{
+                background-color: @color-category;
+                background-image: none;
+            }
+        }
+    }
+
+    .btn-group.active { 
+        
+        .btn {//, .btn:hover
+            .buttonBackground (@color-category; @color-category-dark; white);
+        }
+    }
+}
+
 .category-row:hover{ background-color: @row-hover-blue; }
 
 .column-MainContent {

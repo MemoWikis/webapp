@@ -8,6 +8,49 @@
 
 </asp:Content>
 
+<asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">
+     <div id="MobileSubHeader" class="MobileSubHeader DesktopHide">
+        <div class=" container">
+            <div id="mobilePageHeader" class="">
+                <h3 class="">
+                    Kategorien
+                </h3>
+                <a href="<%= Url.Action("Create", "EditCategory") %>" class="btnCreateItem btn btn-success btn-sm">
+                    <i class="fa fa-plus-circle"></i>
+                    Kategorie erstellen
+                </a>
+            </div>
+            <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
+                <h4>
+                    Kategorien
+                </h4>
+            </nav>
+        </div>
+        <div class="MainFilterBarWrapper">
+            <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <a class="btn btn-default disabled">.</a>
+                </div>
+            </div>
+            <div class="container">
+                <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
+                
+                    <div class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
+                        <a  href="#" type="button" class="btn btn-default">
+                            Alle (<span class="JS-Amount"><%= Model.TotalCategories %></span>)
+                        </a>
+                    </div>
+                    <div class="btn-group <%= Model.ActiveTabFollowed ? "active" : "" %>">
+                        <a  href="#" type="button" class="btn btn-default">
+                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount"> ? </span>)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <div id="category-main">
@@ -17,7 +60,7 @@
         <% using (Html.BeginForm()) { %>
         
             <div class="boxtainer-outlined-tabs">
-                <div class="boxtainer-header">
+                <div class="boxtainer-header MobileHide">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#home" >Alle Kategorien (<%= Model.TotalCategories %>)</a></li>
                         <li>

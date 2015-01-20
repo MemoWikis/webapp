@@ -854,15 +854,15 @@ fieldset[disabled] #MenuButton:hover {
 #MainFilterBarBackground .btn {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #dfe7c5;
-  background-image: -moz-linear-gradient(top, #eff3e2, #c7d59a);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#eff3e2), to(#c7d59a));
-  background-image: -webkit-linear-gradient(top, #eff3e2, #c7d59a);
-  background-image: -o-linear-gradient(top, #eff3e2, #c7d59a);
-  background-image: linear-gradient(to bottom, #eff3e2, #c7d59a);
+  background-color: #dae6b2;
+  background-image: -moz-linear-gradient(top, #cbdc93, #f0f5e0);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#cbdc93), to(#f0f5e0));
+  background-image: -webkit-linear-gradient(top, #cbdc93, #f0f5e0);
+  background-image: -o-linear-gradient(top, #cbdc93, #f0f5e0);
+  background-image: linear-gradient(to bottom, #cbdc93, #f0f5e0);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffeff3e2', endColorstr='#ffc7d59a', GradientType=0);
-  border-color: #c7d59a #c7d59a #a9be65;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffcbdc93', endColorstr='#fff0f5e0', GradientType=0);
+  border-color: #f0f5e0 #f0f5e0 #d4e2a6;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 #MainFilterBarBackground .btn-group:first-child .btn {

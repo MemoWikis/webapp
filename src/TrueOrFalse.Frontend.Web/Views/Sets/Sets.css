@@ -1,6 +1,20 @@
 ﻿.set-row:hover {
   background-color: #f3f5f8;
 }
+#MainFilterBarBackground .btn {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #f5ebb8;
+  background-image: -moz-linear-gradient(top, #f2e6a6, #f9f3d2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2e6a6), to(#f9f3d2));
+  background-image: -webkit-linear-gradient(top, #f2e6a6, #f9f3d2);
+  background-image: -o-linear-gradient(top, #f2e6a6, #f9f3d2);
+  background-image: linear-gradient(to bottom, #f2e6a6, #f9f3d2);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2e6a6', endColorstr='#fff9f3d2', GradientType=0);
+  border-color: #f9f3d2 #f9f3d2 #efe08f;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
 #MainFilterBar .btn-group .btn {
   color: #203256;
   text-shadow: white;
@@ -36,15 +50,8 @@
   background-color: #ffd700;
   background-image: none;
 }
-@media (max-width: 767px) {
-  #MainFilterBar .btn-group:first-child .btn {
-    border-left: none;
-  }
-  #MainFilterBar .btn-group:last-child .btn {
-    border-right: none;
-  }
-}
 #MainFilterBar .btn-group.active .btn {
+  color: #203256;
   text-shadow: white;
   background-color: #ffe55c;
   background-image: -moz-linear-gradient(top, #ffef99, #ffd700);
@@ -59,8 +66,6 @@
   *background-color: #ffd700;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  color: #203256;
-  font-weight: bold;
 }
 #MainFilterBar .btn-group.active .btn:hover,
 #MainFilterBar .btn-group.active .btn:focus,

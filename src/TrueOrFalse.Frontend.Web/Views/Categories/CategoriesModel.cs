@@ -10,6 +10,10 @@ using TrueOrFalse.Web.Context;
 public class CategoriesModel : BaseModel
 {
     public UIMessage Message;
+
+    public bool ActiveTabAll = true;//$temp
+    public bool ActiveTabFollowed;//$temp
+
     public IEnumerable<CategoryRowModel> CategoryRows { get; set; }
 
     public int TotalCategories { get; set; }
