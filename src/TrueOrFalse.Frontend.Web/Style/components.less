@@ -138,7 +138,7 @@ ul.ui-autocomplete {
 @item-row-image-padding: 5px;
 
 
-.question-row, .category-row, .set-row {
+.question-row, .category-row, .set-row, .user-row {
 
     margin-left: -@grid-gutter-width/2;
     margin-right: -@grid-gutter-width/2;
@@ -170,7 +170,7 @@ div.selected-row:hover { background-color: #d6e0f4;}
 
 
 .rowBase{
-    &.question-row, &.category-row, &.set-row {
+    &.question-row, &.category-row, &.set-row, &.user-row {
         .media-sm-up ({//make all columns (image, main content, additional) have the same height
             display: flex;
             -ms-flex-direction: row;
@@ -199,14 +199,14 @@ div.selected-row:hover { background-color: #d6e0f4;}
 
     .ImageContainer {
         position: relative;
+    }
 
-        img {
-            width: 105px;
-            -moz-border-radius: @border-radius-row-image;
-            -webkit-border-radius: @border-radius-row-image;
-            border-radius: @border-radius-row-image;
-            max-width: 100%;
-        }
+    img {
+        width: 105px;
+        -moz-border-radius: @border-radius-row-image;
+        -webkit-border-radius: @border-radius-row-image;
+        border-radius: @border-radius-row-image;
+        max-width: 100%;
     }
 
     a.JS-ImageDetailModal {

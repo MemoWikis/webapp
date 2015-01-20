@@ -6,22 +6,23 @@
         <img src="<%= Model.ImageUrl%>" width="105"/>
     </div>
     
-    <div class="column-MainContent" style="width: 635px; height: 87px;">
-        <div style="font-size:large;">
-            <a href="<%= Model.UserLink(Url) %>"><%= Model.Name %></a>
-            <button class="btn btn-default btn-xs" type="button" style="position: relative; top: -2px; left: 3px;">Folgen</button>
-        </div>
-        <div style="padding-top: 3px;">
-            <span style="width: 53px; display: inline-block">Rang:<%= Model.Rank %></span> 
-            Repuation:<%= Model.Reputation %>
-        </div>
-        <div>
-            <%= Model.WishCountQuestions %> öffentliches Wunschwissen (davon <%= Model.WishCountSets %> Fragesätze)
-        </div>
+    <div class="column-MainContent">
+        <div class="MainContentUpper">
+            <div style="font-size:large;">
+                <a href="<%= Model.UserLink(Url) %>"><%= Model.Name %></a>
+                <button class="btn btn-default btn-xs" type="button" style="position: relative; top: -2px; left: 3px;">Folgen</button>
+            </div>
+            <div style="padding-top: 3px;">
+                <span style="width: 53px; display: inline-block">Rang:<%= Model.Rank %></span> 
+                Repuation:<%= Model.Reputation %>
+            </div>
+            <div>
+                <%= Model.WishCountQuestions %> öffentliches Wunschwissen (davon <%= Model.WishCountSets %> Fragesätze)
+            </div>
         
-        <%= Model.DescriptionShort %>
-        
-        <div style="overflow: no-content; height: 20px; width: 130px; position: absolute; bottom:2px;">
+            <%= Model.DescriptionShort %>
+        </div>
+        <div class="MainContentLower">
             
             <%--<a data-toggle="modal" data-questionId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>--%>
             
@@ -36,8 +37,5 @@
             <%} %>
             
         </div>        
-    </div>
-    
-    <div class="column-Additional">
     </div>
 </div>

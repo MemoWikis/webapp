@@ -175,7 +175,8 @@ ul.ui-autocomplete .Reference .Url {
 ----------------------------------------------------------*/
 .question-row,
 .category-row,
-.set-row {
+.set-row,
+.user-row {
   margin-left: -10px;
   margin-right: -10px;
   padding-left: 5px;
@@ -184,7 +185,8 @@ ul.ui-autocomplete .Reference .Url {
 @media (min-width: 768px) {
   .question-row,
   .category-row,
-  .set-row {
+  .set-row,
+  .user-row {
     margin-left: -5px;
     margin-right: -5px;
     padding-left: 0;
@@ -193,7 +195,8 @@ ul.ui-autocomplete .Reference .Url {
 }
 .question-row:hover,
 .category-row:hover,
-.set-row:hover {
+.set-row:hover,
+.user-row:hover {
   background-color: #f3f5f8;
 }
 div.selected-row {
@@ -219,7 +222,8 @@ div.selected-row:hover {
 @media (min-width: 768px) {
   .rowBase.question-row,
   .rowBase.category-row,
-  .rowBase.set-row {
+  .rowBase.set-row,
+  .rowBase.user-row {
     display: flex;
     -ms-flex-direction: row;
     flex-direction: row;
@@ -251,7 +255,7 @@ div.selected-row:hover {
 .column-Image .ImageContainer {
   position: relative;
 }
-.column-Image .ImageContainer img {
+.column-Image img {
   width: 105px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;

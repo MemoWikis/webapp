@@ -10,6 +10,9 @@ public class UsersModel : BaseModel
 {
     public UIMessage Message;
 
+    public bool ActiveTabAll = true;//$temp
+    public bool ActiveTabFollowed;//$temp
+
     public int TotalUsers { get; set; }
     public int TotalMine { get; set; }
 

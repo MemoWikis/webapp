@@ -46,10 +46,6 @@
 #MainFilterBar .btn-group .btn.active {
   background-color: #ffe766 \9;
 }
-#MainFilterBar .btn-group .btn:hover {
-  background-color: #ffd700;
-  background-image: none;
-}
 #MainFilterBar .btn-group.active .btn {
   color: #203256;
   text-shadow: white;
@@ -80,6 +76,10 @@
 #MainFilterBar .btn-group.active .btn:active,
 #MainFilterBar .btn-group.active .btn.active {
   background-color: #ccac00 \9;
+}
+#MainFilterBar .btn-group .btn:hover {
+  background-color: #ffd700 !important;
+  background-image: none !important;
 }
 @media (min-width: 768px) {
   .column-MainContent {

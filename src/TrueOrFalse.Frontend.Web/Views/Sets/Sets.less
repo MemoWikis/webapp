@@ -15,11 +15,6 @@
 
         .btn {
             .buttonBackground (@color-set-button-top; @color-set-button-bottom; @global-text-color; white);
-
-            &:hover{
-                background-color: @color-set;
-                background-image: none;
-            }
         }
     }
 
@@ -29,6 +24,11 @@
             .buttonBackground (@color-set-button-bottom; @color-set; @global-text-color; white);
         }
     }
+
+    .btn-group .btn:hover{
+        background-color: @color-set !important;
+        background-image: none !important;
+    } 
 }
 
 .column-MainContent {
