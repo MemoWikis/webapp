@@ -150,7 +150,7 @@
                         <div class="Content"></div>
                     </div>
                     <div id="Description" class="Detail" style="display: none;">
-                        <div class="Label">Ergänzungen:</div>
+                        <div class="Label">Ergänzungen zur Antwort:</div>
                         <div class="Content"></div>
                     </div>
                      <div id="References" class="Detail" style="display: none;">

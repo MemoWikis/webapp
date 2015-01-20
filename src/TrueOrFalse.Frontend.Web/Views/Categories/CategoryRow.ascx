@@ -21,10 +21,10 @@
         
         <div class="MainContentLower">
             <% if(Model.UserCanEdit){ %>
-            <a data-toggle="modal" data-SetId="<%= Model.CategoryId %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>
+            <a data-toggle="modal" data-SetId="<%= Model.CategoryId %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>
 
             <a href="<%= Links.CategoryEdit(Url, Model.CategoryId) %>">
-                <img src="/Images/edit.png"/> 
+                <i class="fa fa-pencil"></i> 
             </a>
             <% } %>
             
