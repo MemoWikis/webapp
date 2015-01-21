@@ -8,7 +8,7 @@ var Page = (function () {
         this.RowSelector = new RowSelector();
         this.ToQuestionSetModal = new ToQuestionSetModal();
 
-        $('.SelectAreaUpper').click(function () {
+        $('.SelectAreaCheckbox').click(function () {
             _page.RowSelector.Toggle(new QuestionRow($(this).closest('.question-row')));
         });
         $('#selectAll').click(function () {

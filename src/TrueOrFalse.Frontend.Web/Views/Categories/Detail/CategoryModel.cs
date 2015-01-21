@@ -26,7 +26,7 @@ public class CategoryModel : BaseModel
 
     public Category Category;
 
-    public string ImageUrl;
+    public ImageFrontendData ImageFrontendData;
 
     public string WikiUrl;
 
@@ -39,7 +39,6 @@ public class CategoryModel : BaseModel
 
     public CategoryModel(Category category)
     {   
-        ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         WikiUrl = category.WikipediaURL;
         Category = category;
 
@@ -48,6 +47,9 @@ public class CategoryModel : BaseModel
         Description = category.Description;
         Type = category.Type.GetShortName();
         IsOwnerOrAdmin = _sessionUser.IsValidUserOrAdmin(category.Creator.Id);
+
+        var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(category.Id, ImageType.Category);
+        ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         var questionRepo = Resolve<QuestionRepository>();
         var wishQuestions = questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);

@@ -6,7 +6,7 @@
 <div class="rowBase question-row" data-questionid="<%= Model.QuestionId %>" data-userisowner="<%= Model.IsOwner? "true" : "false" %>">
     <div class="column-Image">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, "ItemRowImage", ImageType.Question) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Question) %>
         </div>
     </div>
 

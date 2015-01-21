@@ -7,6 +7,7 @@
     Helper Classes
     General Styles
     Layout Elements
+    Images
     Color scheme
     Media query mixins
     Own responsive utilities
@@ -1616,6 +1617,8 @@
   color: #2c5fb2;
 }
 /*  Layout elements
+----------------------------------------------------------*/
+/*  Images
 ----------------------------------------------------------*/
 /*  Color scheme
 ----------------------------------------------------------*/

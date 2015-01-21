@@ -7,6 +7,7 @@
     Helper Classes
     General Styles
     Layout Elements
+    Images
     Color scheme
     Media query mixins
     Own responsive utilities
@@ -64,6 +65,36 @@
 
 /*  Layout elements
 ----------------------------------------------------------*/
+
+/*  Images
+----------------------------------------------------------*/
+
+.ShowImageWithCheckbox () {
+
+    .SelectAreaCheckbox {
+        display: block;
+    }
+
+    .SelectAreaImageInfo {
+        height: 60%;
+        top: auto;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
+.ShowImageWithCheckbox-media-below-sm () {
+
+    .SelectAreaCheckbox {
+        height: 100%;
+        border-bottom-left-radius: @border-radius-item-image;
+        border-bottom-right-radius: @border-radius-item-image;
+    }
+
+    .SelectAreaImageInfo {
+        display: none;
+    }
+}
 
 /*  Color scheme
 ----------------------------------------------------------*/

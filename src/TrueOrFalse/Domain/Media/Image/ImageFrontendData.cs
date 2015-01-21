@@ -166,15 +166,15 @@ public class ImageFrontendData
         return ImageUrl.Get(imageSettings, width, asSquare, arg => ImageUrl.GetFallbackImageUrl(imageSettings, width));
     }
 
-    public string RenderHtmlImageBasis(int width, bool asSquare, string additionalCssClasses = "", ImageType imageTypeForDummies = ImageType.Question)
+    public string RenderHtmlImageBasis(int width, bool asSquare, ImageType imageTypeForDummies, string insertLicenseLinkAfterAncestorOfClass = "ImageContainer", string additionalCssClasses = "")
     {
         var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
-        var cssClasses = additionalCssClasses == "" ? "LicensedImage" : "LicensedImage " + additionalCssClasses;
-        var cssClassesDummy = additionalCssClasses;
+        var cssClasses = additionalCssClasses == "" ? "ItemImage LicensedImage" : "ItemImage LicensedImage " + additionalCssClasses;
+        var cssClassesDummy = additionalCssClasses == "" ? "ItemImage" : "ItemImage " + additionalCssClasses;
 
         return (ImageMetaDataExists && imageUrl.HasUploadedImage)
             ? "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='" + cssClasses + //Dummy url gets replaced by javascript (look for class: LicensedImage)
-              "' data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url + "' />"
+              "' data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' />"
             : "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='" + cssClassesDummy + "' />";
     }
 

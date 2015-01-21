@@ -327,7 +327,6 @@
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
     <TypeScriptCompile Include="Views\Images\Images.ts" />
-    <TypeScriptCompile Include="Scripts\shared\ItemRowPage.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
     <TypeScriptCompile Include="Scripts\SetsApi.ts" />
@@ -379,9 +378,6 @@
     </Content>
     <Content Include="Scripts\SetsApi.js">
       <DependentUpon>SetsApi.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\shared\ItemRowPage.js">
-      <DependentUpon>ItemRowPage.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\Site.js">
       <DependentUpon>Site.ts</DependentUpon>
@@ -712,9 +708,6 @@
     <Content Include="Style\includes\extends.less" />
     <Content Include="Style\includes\imports.css.map">
       <DependentUpon>imports.css</DependentUpon>
-    </Content>
-    <Content Include="Scripts\shared\ItemRowPage.js.map">
-      <DependentUpon>ItemRowPage.ts</DependentUpon>
     </Content>
     <Content Include="Views\Images\Images.js.map">
       <DependentUpon>Images.ts</DependentUpon>

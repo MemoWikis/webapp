@@ -6,7 +6,7 @@
     
     <div class="column-Image">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, "ItemRowImage", ImageType.Category) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category) %>
         </div>
     </div>
     

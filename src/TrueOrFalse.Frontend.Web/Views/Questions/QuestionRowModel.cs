@@ -7,7 +7,6 @@ using TrueOrFalse;
 
 public class QuestionRowModel : BaseModel
 {
-    public ImageMetaData ImageMetaData;
     public ImageFrontendData ImageFrontendData;
 
     public string CreatorName { get; private set; }
@@ -49,8 +48,8 @@ public class QuestionRowModel : BaseModel
         int currentUserid,
         SearchTab searchTab) 
     {
-        ImageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
-        ImageFrontendData = new ImageFrontendData(ImageMetaData);
+        var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
+        ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;

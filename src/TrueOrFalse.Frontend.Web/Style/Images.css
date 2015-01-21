@@ -1,4 +1,130 @@
-﻿/*Image detail modal
+﻿/*Detail Images
+---------------------------------------------------------*/
+.ImageContainer {
+  position: relative;
+}
+.ItemImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+a.JS-ImageDetailModal {
+  display: block;
+}
+.ImageLicenseCaption {
+  font-size: 10px;
+}
+.CheckboxIconContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  color: transparent;
+  vertical-align: middle;
+}
+.CheckboxIconContainer .CheckboxText {
+  padding-right: 10px;
+  padding-top: 5px;
+  font-size: 10px;
+  float: right;
+  width: 60%;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .CheckboxIconContainer .CheckboxText {
+    display: none;
+  }
+}
+.SelectAreaCheckbox:hover .CheckboxIconContainer .CheckboxText {
+  color: #203256;
+}
+.Checked-Icon,
+.Unchecked-Icon {
+  font-size: 36px;
+  color: #203256;
+  padding-top: 3px;
+  padding-right: 1px;
+  padding-left: 4px;
+  margin-top: 3px;
+  margin-left: 3px;
+  border-radius: 3px;
+}
+.CheckboxIcon {
+  display: none;
+  font-size: 36px;
+  color: red;
+}
+.Checked-Icon {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.Unchecked-Icon {
+  visibility: hidden;
+}
+.SelectAreaCheckbox {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 40%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+}
+.SelectAreaCheckbox:hover .Unchecked-Icon {
+  visibility: visible;
+}
+.SelectAreaCheckbox:hover .Checked-Icon {
+  display: none;
+  background-color: transparent;
+}
+.SelectAreaCheckbox:hover:active .Unchecked-Icon {
+  display: none;
+}
+.SelectAreaCheckbox:hover:active .Checked-Icon {
+  display: inline-block;
+}
+.selected-row .SelectAreaCheckbox .Unchecked-Icon {
+  display: none;
+}
+.selected-row .SelectAreaCheckbox .Checked-Icon {
+  display: inline-block;
+}
+.selected-row .SelectAreaCheckbox:hover:active .Unchecked-Icon {
+  display: inline-block;
+}
+.selected-row .SelectAreaCheckbox:hover:active .Checked-Icon {
+  display: none;
+}
+.SelectAreaImageInfo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.SelectAreaCheckbox:hover,
+.SelectAreaImageInfo:hover {
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.HoverMessage {
+  font-size: 12px;
+  position: absolute;
+  padding-top: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: black;
+  display: none;
+  text-align: center;
+}
+.SelectAreaImageInfo:hover .HoverMessage {
+  display: block;
+}
+/*Image detail modal
 ---------------------------------------------------------*/
 #modalImageDetail .modal-body:before,
 #modalImageDetail .modal-body:after {

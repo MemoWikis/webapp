@@ -88,15 +88,22 @@ div.question-row{background-color:silver;}*/
   left: auto;
   right: 0;
 }
+.SelectAreaCheckbox {
+  display: block;
+}
+.SelectAreaImageInfo {
+  height: 60%;
+  top: auto;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 @media (max-width: 767px) {
-  .SelectAreaUpper {
+  .SelectAreaCheckbox {
     height: 100%;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
   }
-}
-@media (max-width: 767px) {
-  .SelectAreaLower {
+  .SelectAreaImageInfo {
     display: none;
   }
 }

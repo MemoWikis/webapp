@@ -5,7 +5,7 @@
 <div class="rowBase set-row" data-setId="<%= Model.Id %>" style="position: relative">
     <div class="column-Image">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, "ItemRowImage", ImageType.QuestionSet) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.QuestionSet) %>
         </div>
     </div>
     

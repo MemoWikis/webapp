@@ -4,11 +4,12 @@
     });
 
     fnInitImagesItemRow();
+    fnInitImageDetailModal($('.JS-ImageDetailModal'));
 }
 
 var fnInitImagesItemRow = function() {
-    $('.ItemRowImage').each(function() {
-        $("<div class='SelectAreaUpper'>" +
+    $('.ItemImage').each(function() {
+        $("<div class='SelectAreaCheckbox'>" +
             "<div class='CheckboxIconContainer'>" +
                 "<i class='Checked-Icon fa fa-check-square-o'></i>" +
                 "<i class='Unchecked-Icon fa fa-square-o'></i>" +
@@ -16,13 +17,15 @@ var fnInitImagesItemRow = function() {
             "</div>" +
         "</div>").insertAfter($(this));
     });
-    $('.LicensedImage.ItemRowImage').each(function() {
-        $(  "<div class='SelectAreaLower'>" +
+    $('.LicensedImage.ItemImage').each(function() {
+        $(  "<div class='SelectAreaImageInfo'>" +
                 "<div data-image-id ='" + $(this).attr('data-image-id') + "' class='HoverMessage JS-ImageDetailModal'>Bild- und Lizenzinfos</div>" +
-            "</div>").insertAfter($(this).parent().find('.SelectAreaUpper'));
+            "</div>").insertAfter($(this).parent().find('.SelectAreaCheckbox'));
     });
-    $('.LicensedImage.ItemRowImage').each(function () {
+    $('.LicensedImage.ItemImage').each(function () {
+        var ancestorToInsertAfter = $(this).attr('data-append-image-link-to');
+        $(this).removeAttr('data-append-image-link-to');
         $("<a data-image-id ='" + $(this).attr('data-image-id') + "' class='ImageLicenseCaption JS-ImageDetailModal' href='#'>Bild- und Lizenzinfos</a>")
-            .appendTo($(this).closest(".column-Image"));
+            .insertAfter($(this).closest("." + ancestorToInsertAfter));
     });
 }

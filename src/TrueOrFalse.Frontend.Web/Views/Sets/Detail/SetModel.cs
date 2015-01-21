@@ -20,7 +20,7 @@ public class SetModel : BaseModel
     public string CreationDate;
     public string CreationDateNiceText;
 
-    public string ImageUrl;
+    public ImageFrontendData ImageFrontendData;
 
     public bool IsOwner;
 
@@ -54,7 +54,8 @@ public class SetModel : BaseModel
         CreationDate = set.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = TimeElapsedAsText.Run(set.DateCreated);
 
-        ImageUrl = SetImageSettings.Create(set.Id).GetUrl_350px_square().Url;
+        var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(set.Id, ImageType.QuestionSet);
+        ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>()
             .GetBy(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);

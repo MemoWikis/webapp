@@ -96,12 +96,8 @@
     width: 727px;
   }
 }
-.SelectAreaUpper {
-  display: none;
-}
-.SelectAreaLower {
+.SelectAreaImageInfo {
   height: auto;
   top: 0;
-  border-radius: 5px;
 }
 /*# sourceMappingURL=Categories.css.map */

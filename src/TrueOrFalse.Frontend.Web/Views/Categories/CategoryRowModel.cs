@@ -13,7 +13,6 @@ public class CategoryRowModel : BaseModel
     public Func<UrlHelper, string> DetailLink;
     public bool UserCanEdit;
 
-    public ImageMetaData ImageMetaData;
     public ImageFrontendData ImageFrontendData;
 
     public string DateCreated;
@@ -21,9 +20,6 @@ public class CategoryRowModel : BaseModel
 
     public CategoryRowModel(Category category, int indexInResultSet)
     {
-        ImageMetaData = Resolve<ImageMetaDataRepository>().GetBy(category.Id, ImageType.Category);
-        ImageFrontendData = new ImageFrontendData(ImageMetaData);
-
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";
@@ -35,5 +31,8 @@ public class CategoryRowModel : BaseModel
 
         DateCreated = category.DateCreated.ToString("dd.MM.yyyy");
         DateCreatedLong = category.DateCreated.ToString("U");//Change to "g" format?
+
+        var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(category.Id, ImageType.Category);
+        ImageFrontendData = new ImageFrontendData(imageMetaData);
     }
 }

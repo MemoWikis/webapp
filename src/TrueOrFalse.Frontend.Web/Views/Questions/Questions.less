@@ -43,19 +43,11 @@ div.question-row{background-color:silver;}*/
     }
 }
 
-.SelectAreaUpper {
-    .media-below-sm ({
-        height: 100%;
-        border-bottom-left-radius: @border-radius-row-image;
-        border-bottom-right-radius: @border-radius-row-image;
-    });
-}
+.ShowImageWithCheckbox;
+.media-below-sm ({//Necessary, because media queries in mixins are not put out
+    .ShowImageWithCheckbox-media-below-sm;
+});
 
-.SelectAreaLower {
-    .media-below-sm ({
-        display: none;
-    });
-}
 
 .column-MainContent {
 

@@ -3,6 +3,7 @@
 
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" />
@@ -35,6 +36,13 @@
                     {
                     %><div class="Description"><span><%= Model.Description %></span></div><%
                     } %>
+                    <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
+                    <div class="WikiLink" style="margin-top: 10px;">
+                        <a href="<%= Model.WikiUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
+                            <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
+                        </a>
+                    </div>
+                <% } %>
                 </div>
             </div>
         </div>
@@ -42,14 +50,9 @@
     <div class="row">
         <div class="col-xs-3 col-xs-push-9 xxs-stack">
             <div class="CategoryImage">
-                <img src="<%= Model.ImageUrl %>" class="img-responsive" style="-ms-border-radius:5px; border-radius:5px;" />
-                <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
-                    <div style="text-overflow: ellipsis; overflow: hidden;  white-space: nowrap; ">
-                        <a href="<%= Model.WikiUrl %>" style="margin-left: -3px;" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
-                            <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
-                        </a>
-                    </div>
-                <% } %>
+                <div class="ImageContainer">
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
+                </div>
             </div>
         </div>
         <div class="col-xs-9 col-xs-pull-3 xxs-stack">
