@@ -11,7 +11,7 @@
         <div class=" container">
             <div id="mobilePageHeader" class="">
                 <h3 class="">
-                    Kategorien
+                    Nutzer
                 </h3>
             </div>
         </div>
