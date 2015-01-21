@@ -81,7 +81,9 @@
         <div class="col-lg-2 col-xs-3 xxs-stack" style="margin-top: 20px;">
         
             <div>
-                <img src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
+                <div class="ImageContainer">
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.QuestionSet, "ImageContainer") %>
+                </div>
             </div>
 
             <div style="margin-top: 10px;">
