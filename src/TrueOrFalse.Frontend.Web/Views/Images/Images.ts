@@ -1,13 +1,16 @@
-﻿var fnInitImages = function () {
+﻿declare function encodeURIComponent(text : string) : any;
+
+var fnInitImages = function () {
     $('.LicensedImage').each(function () {
         $(this).attr('src', $(this).attr('data-image-url')).removeAttr('data-image-url');
     });
 
-    fnInitImagesItemRow();
+    fnInitItemImages();
     fnInitImageDetailModal($('.JS-ImageDetailModal'));
+    fnInitMarkdownImages();
 }
 
-var fnInitImagesItemRow = function() {
+var fnInitItemImages = function() {
     $('.ItemImage').each(function() {
         $("<div class='SelectAreaCheckbox'>" +
             "<div class='CheckboxIconContainer'>" +
@@ -27,5 +30,17 @@ var fnInitImagesItemRow = function() {
         $(this).removeAttr('data-append-image-link-to');
         $("<a data-image-id ='" + $(this).attr('data-image-id') + "' class='ImageLicenseCaption JS-ImageDetailModal' href='#'>Bild- und Lizenzinfos</a>")
             .insertAfter($(this).closest("." + ancestorToInsertAfter));
+    });
+}
+
+var fnInitMarkdownImages = function () {
+    $('.Markdown img').each(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Images/GetQuestionImageId?encodedPath=" + encodeURIComponent($(this).attr('src')),
+            success: function(data) {
+            } 
+        });
+        
     });
 }

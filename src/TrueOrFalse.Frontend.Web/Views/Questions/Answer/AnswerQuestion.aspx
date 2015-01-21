@@ -108,7 +108,7 @@
                     <%= Model.QuestionText %>
                 </span>
                 
-                <p><%= Model.QuestionTextMarkdown %></p>
+                <div class="Markdown"><%= Model.QuestionTextMarkdown %></div>
             
                 <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
         
