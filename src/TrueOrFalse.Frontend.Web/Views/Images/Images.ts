@@ -1,4 +1,4 @@
-﻿declare function encodeURIComponent(text : string) : any;
+﻿declare function encodeURIComponent(text: string): any;
 
 var fnInitImages = function () {
     $('.LicensedImage').each(function () {
@@ -35,18 +35,34 @@ var fnInitItemImages = function () {
 }
 
 var fnInitMarkdownImages = function () {
-    $('.Markdown img').each(function () {
+    $('.RenderedMarkdown img').each(function () {
         var self = $(this);
+
         $.ajax({
             type: "GET",
             url: "/Images/GetQuestionImageId?encodedPath=" + encodeURIComponent($(this).attr('src')),
             success: function (data) {
                 self.attr('data-image-id', data).addClass('ItemImage LicensedImage JS-InitImage').attr('data-append-image-link-to', 'ImageContainer');
-                self.wrap('<div class="ImageContainer"></div>');
+                self.wrap('<div class="MarkdownImage"><div class="ImageContainer"></div></div>');
+                fnSetMaxWidth(self); //restrict width of container to original image width
                 fnInitItemImages();
                 fnInitImageDetailModal();
             } 
         });
-        
     });
+}
+
+var fnSetMaxWidth = function (image : any, count : number = 0) {
+
+    var imgOriginalWidth;
+
+    setTimeout(function () {
+        imgOriginalWidth = image[0].naturalWidth;
+        if (imgOriginalWidth > 0) {
+            image.closest('.MarkdownImage').css('max-width', imgOriginalWidth);
+        } else if (count < 10) {
+            count++;
+            fnSetMaxWidth(image, count);
+        }
+    }, 10);
 }
