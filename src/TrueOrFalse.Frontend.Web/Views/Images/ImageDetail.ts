@@ -1,7 +1,7 @@
 ﻿declare function fnInitPopover(jObject: JQuery): void;
 
-var fnInitImageDetailModal = function (jObject: JQuery) {
-    jObject.each(function() {
+var fnInitImageDetailModal = function () {
+    $('.JS-InitImageDetailModal').each(function() {
         $(this).click(
             function (e) {
                 e.preventDefault();
@@ -17,6 +17,7 @@ var fnInitImageDetailModal = function (jObject: JQuery) {
                     },
                 });
             }
-        );
+            );
+        $(this).removeClass('JS-InitImageDetailModal');
     });
 }

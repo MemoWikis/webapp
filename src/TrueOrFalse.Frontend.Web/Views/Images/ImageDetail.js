@@ -1,5 +1,5 @@
-﻿var fnInitImageDetailModal = function (jObject) {
-    jObject.each(function () {
+﻿var fnInitImageDetailModal = function () {
+    $('.JS-InitImageDetailModal').each(function () {
         $(this).click(function (e) {
             e.preventDefault();
             $.ajax({
@@ -14,6 +14,7 @@
                 }
             });
         });
+        $(this).removeClass('JS-InitImageDetailModal');
     });
 };
 //# sourceMappingURL=ImageDetail.js.map

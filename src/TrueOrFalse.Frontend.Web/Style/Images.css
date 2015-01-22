@@ -8,10 +8,8 @@
   height: auto;
   border-radius: 5px;
 }
-a.JS-ImageDetailModal {
+a.ImageLicenseCaption {
   display: block;
-}
-.ImageLicenseCaption {
   font-size: 10px;
 }
 .CheckboxIconContainer {

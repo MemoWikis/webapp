@@ -169,8 +169,8 @@ public class ImageFrontendData
     public string RenderHtmlImageBasis(int width, bool asSquare, ImageType imageTypeForDummies, string insertLicenseLinkAfterAncestorOfClass = "ImageContainer", string additionalCssClasses = "")
     {
         var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
-        var cssClasses = additionalCssClasses == "" ? "ItemImage LicensedImage" : "ItemImage LicensedImage " + additionalCssClasses;
-        var cssClassesDummy = additionalCssClasses == "" ? "ItemImage" : "ItemImage " + additionalCssClasses;
+        var cssClasses = additionalCssClasses == "" ? "ItemImage LicensedImage JS-InitImage" : "ItemImage LicensedImage " + additionalCssClasses;
+        var cssClassesDummy = additionalCssClasses == "" ? "ItemImage JS-InitImage" : "ItemImage NotTreatedYet " + additionalCssClasses;
 
         return (ImageMetaDataExists && imageUrl.HasUploadedImage)
             ? "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='" + cssClasses + //Dummy url gets replaced by javascript (look for class: LicensedImage)
