@@ -50,7 +50,11 @@ public class ImageFrontendData
 
             if (!ImageCanBeDisplayed)
             {
-                AttributionHtmlString = "Das Bild kann aus lizenzrechtlichen Gründen leider zur Zeit nicht angezeigt werden.";
+                AttributionHtmlString = "Das Bild kann aus lizenzrechtlichen Gründen leider zur Zeit nicht angezeigt werden. ";
+                if (!String.IsNullOrEmpty(OriginalFileLink))
+                {
+                    AttributionHtmlString += "Hier findest du die <a href='" + OriginalFileLink + "' target='_blank'>Originaldatei</a>.";
+                }
             }
 
             else { //Image can be displayed
@@ -169,13 +173,24 @@ public class ImageFrontendData
     public string RenderHtmlImageBasis(int width, bool asSquare, ImageType imageTypeForDummies, string insertLicenseLinkAfterAncestorOfClass = "ImageContainer", string additionalCssClasses = "")
     {
         var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
-        var cssClasses = additionalCssClasses == "" ? "ItemImage LicensedImage JS-InitImage" : "ItemImage LicensedImage " + additionalCssClasses;
-        var cssClassesDummy = additionalCssClasses == "" ? "ItemImage JS-InitImage" : "ItemImage NotTreatedYet " + additionalCssClasses;
+        if(additionalCssClasses != "")
+            additionalCssClasses = " " + additionalCssClasses;
 
-        return (ImageMetaDataExists && imageUrl.HasUploadedImage)
-            ? "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='" + cssClasses + //Dummy url gets replaced by javascript (look for class: LicensedImage)
-              "' data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' />"
-            : "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='" + cssClassesDummy + "' />";
+        if (ImageMetaDataExists && imageUrl.HasUploadedImage)
+        {
+            if (!ImageCanBeDisplayed)
+            {
+                additionalCssClasses += " JS-CantBeDisplayed";
+                //return "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='ItemImage JS-InitImage CantBeDisplayed" + additionalCssClasses + "' />";
+            }
+
+            return "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
+                    + "' class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses
+                    + "' data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url
+                    + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' />";
+        }
+        
+        return "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='ItemImage JS-InitImage" + additionalCssClasses + "' />";
     }
 
     private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType)

@@ -1,11 +1,16 @@
 ﻿var fnInitImages = function () {
-    $('.LicensedImage').each(function () {
-        $(this).attr('src', $(this).attr('data-image-url')).removeAttr('data-image-url');
-    });
-
+    fnReplaceDummyImages();
     fnInitItemImages();
     fnInitImageDetailModal();
     fnInitMarkdownImages();
+};
+
+var fnReplaceDummyImages = function () {
+    $('.LicensedImage').each(function () {
+        if (!$(this).hasClass('JS-CantBeDisplayed')) {
+            $(this).attr('src', $(this).attr('data-image-url')).removeAttr('data-image-url');
+        }
+    });
 };
 
 var fnInitItemImages = function () {

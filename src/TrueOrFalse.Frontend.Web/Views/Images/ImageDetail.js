@@ -10,6 +10,7 @@
                     $('#ModalImageDetailScript').remove();
                     $('.modal-backdrop.in').remove();
                     $(result).appendTo($('#MasterMainColumn'));
+                    fnReplaceDummyImages();
                     $('#modalImageDetail').modal('show');
                 }
             });

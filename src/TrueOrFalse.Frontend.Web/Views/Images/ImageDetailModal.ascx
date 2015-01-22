@@ -11,7 +11,7 @@
 
             <div class="modal-body" id="modalBody">
                 <div class="ImageContainer">
-                    <img src="<%= Model.GetImageUrl(1000).Url %>" style="padding-bottom: 5px;"/>
+                    <%= Model.RenderHtmlImageBasis(1000, false, Model.ImageMetaData.Type) %>
                     <div class="ImageInfo">
                         <% if (!String.IsNullOrEmpty(Model.AttributionHtmlString))
                         {%>
