@@ -40,8 +40,12 @@ public class WelcomeController : BaseController
 
         if (!ModelState.IsValid) 
             return View(model);
-        
-        _registerUser.Run(RegisterModelToUser.Run(model));
+
+        var user = RegisterModelToUser.Run(model);
+        _registerUser.Run(user);
+
+        _sessionUser.Login(user);
+
         return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController);
     }
 
@@ -131,7 +135,7 @@ public class WelcomeController : BaseController
         SetUserPassword.Run(model.NewPassword1, user);
         userRepo.Update(user);
 
-        Sl.Resolve<SessionUser>().Login(user);
+        _sessionUser.Login(user);
 
         return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
     }

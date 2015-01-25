@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using NHibernate;
-using TrueOrFalse.Infrastructure;
+using NHibernate.Criterion;
 
 namespace TrueOrFalse.Registration
 {
@@ -31,6 +28,13 @@ namespace TrueOrFalse.Registration
 
         public void Run(User user)
         {
+            user.Reputation = 0;
+            user.ReputationPos = _userRepository.Session.QueryOver<User>()
+                .Select(
+                    Projections.ProjectionList()
+                        .Add(Projections.Max<User>(u => u.ReputationPos)))
+                .SingleOrDefault<int>() + 1;
+
             using(var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 if (!_isEmailAddressAvailable.Yes(user.EmailAddress))
@@ -44,6 +48,5 @@ namespace TrueOrFalse.Registration
             _sendRegistrationEmail.Run(user);
             _sendWelcomeMsg.Run(user);
         }
-
     }
 }
