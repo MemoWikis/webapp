@@ -21,7 +21,7 @@
                 <% if (Model.ShowWishKnowlede){ %>
                     <%= Model.WishCountQuestions %> Fragen / <%= Model.WishCountSets %> im <i class="fa fa-heart-o"></i> Wunschwissen
                 <% } else{ %>
-                    <i class="fa fa-lock show-tooltip" data-html="true"  title="Privates Wunschwissen. <br> Das Wunschwissen ist nicht einsehbar."></i>
+                    <i class="fa fa-lock show-tooltip" data-html="true" style="color: lightslategrey"  title="Privates Wunschwissen. <br> Das Wunschwissen ist nicht einsehbar."></i>
                     <%= Model.WishCountQuestions %> Fragen / <%= Model.WishCountSets %> Fragesätze im Wunschwissen
                 <% } %>
             </div>
