@@ -34,7 +34,8 @@ public class UserRowModel
     public bool IsInstallationLogin;
     public bool IsCurrentUser;
     public bool AllowsSupportiveLogin;
-
+    public bool ShowWishKnowlede;
+    
     public UserRowModel(User user, int indexInResultSet, SessionUser sessionUser)
     {
         Id = user.Id;
@@ -49,6 +50,7 @@ public class UserRowModel
         IsCurrentUser = Id == sessionUser.UserId;
         IsInstallationLogin = sessionUser.IsInstallationAdmin;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
+        ShowWishKnowlede = user.ShowWishKnowledge;
 
         DescriptionShort = "";
 
