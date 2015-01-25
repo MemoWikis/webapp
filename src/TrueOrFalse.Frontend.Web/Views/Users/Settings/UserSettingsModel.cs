@@ -21,6 +21,7 @@ public class UserSettingsModel : BaseModel
     public string Email { get; set; }
 
     public bool AllowsSupportiveLogin { get; set; }
+    public bool ShowWishKnowledge { get; set; }
 
     public string ImageUrl_200;
     public bool ImageIsCustom;
@@ -35,6 +36,7 @@ public class UserSettingsModel : BaseModel
         Name = user.Name;
         Email = user.EmailAddress;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
+        ShowWishKnowledge = user.ShowWishKnowledge;
 
         var reputation = Resolve<ReputationCalc>().Run(user);
         ReputationRank = user.ReputationPos;

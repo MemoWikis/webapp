@@ -10,18 +10,4 @@ public class BaseModel : BaseResolve
     public bool IsLoggedIn{ get { return _sessionUser.IsLoggedIn; } }
 
     public int UserId{ get { return _sessionUser.UserId;  }}
-
-    public bool IsCurrentUser
-    {
-        get
-        {
-            if (!_sessionUser.IsLoggedIn)
-                return false;
-
-            if (_sessionUser.User == null)
-                return false;
-
-            return _sessionUser.User.Id == UserId;
-        }
-    }
 }

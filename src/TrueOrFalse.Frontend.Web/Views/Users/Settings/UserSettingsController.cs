@@ -41,6 +41,7 @@ public class UserSettingsController : BaseController
         _sessionUser.User.EmailAddress = model.Email.Trim();
         _sessionUser.User.Name = model.Name.Trim();
         _sessionUser.User.AllowsSupportiveLogin = model.AllowsSupportiveLogin;
+        _sessionUser.User.ShowWishKnowledge = model.ShowWishKnowledge;
 
         _userRepo.Update(_sessionUser.User);
 

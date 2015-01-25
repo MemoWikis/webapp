@@ -49,19 +49,32 @@
                         <%= Html.TextBoxFor(m => m.Email, new {@class="form-control"} )%>
                     </div>
                 </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Wunchwissen zeigen</label>
+                    <div class="col-xs-8">
+                        <div class="checkbox">
+                            <%= Html.CheckBoxFor(m => m.ShowWishKnowledge)%>   
+                            <label for="ShowWishKnowledge">
+                                Wenn ausgewählt, ist dein gesamtes Wunschwissen für jedermann einsehbar. 
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Mitgliedschaft</h3>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Status</label>
                     <div class="col-xs-4">
-                        Kein Mitglied
+                         <p class="form-control-static">Kein Mitglied</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9">
+                    <div class="col-sm-offset-3 col-sm-8">
                         <label class="checkbox">
-                            <input type="checkbox">
                             <%= Html.CheckBoxFor(m => m.AllowsSupportiveLogin)%>
                             <label for="AllowsSupportiveLogin">
-                                Erlaube Mitarbeiten von RIOFA zur Fehlerbehebung oder zu deiner Unterstützung, 
+                                Erlaube Mitarbeiten von MEMuchO zur Fehlerbehebung oder zu deiner Unterstützung, 
                                 sich in deinem Nutzerkonto anzumelden. Das ist nur nach Rücksprache nötig. 
                                 (<a href="<%= Url.Action("DatenSicherheit","Help") %>">Mehr zur Datensicherheit</a>)
                             </label>
