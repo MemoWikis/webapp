@@ -10,32 +10,45 @@
         <div class="MainContentUpper">
             <div style="font-size:large;">
                 <a href="<%= Model.UserLink(Url) %>"><%= Model.Name %></a>
-                <button class="btn btn-default btn-xs" type="button" style="position: relative; top: -2px; left: 3px;">Folgen</button>
+                
+                <% if(!Model.IsCurrentUser){ %>
+                    <button class="btn btn-default btn-xs" type="button" style="position: relative; top: -2px; left: 3px;" onclick="alert('Noch nicht umgesetzt')">Folgen</button>
+                <% } %>
+                
+                <%--<a data-toggle="modal" data-questionId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>--%>
+            
+                <% if(Model.IsCurrentUser){ %>
+                    <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>" class="show-tooltip" title="Einstellungen bearbeiten">
+                        <img src="/Images/edit.png"/> 
+                    </a>
+                <% } %>
+        
+                <% if(!Model.IsCurrentUser && Model.AllowsSupportiveLogin && Model.IsInstallationLogin){ %>
+                    <a href="<%= Links.UserLoginAs(Url, Model.Id) %>" class="show-tooltip" title="Anmelden als dieser Nutzer" style="padding-left: 10px;"> <i class="fa fa-share" style="color: lightsteelblue"></i> </a>
+                <%} %>
+
             </div>
-            <div style="padding-top: 3px;">
-                <span style="width: 53px; display: inline-block">Rang:<%= Model.Rank %></span> 
-                Repuation:<%= Model.Reputation %>
+            <div style="padding-top: 3px; font-size: 110%">
+                <span style="width: 60px; display: inline-block">Rang: <%= Model.Rank %></span> 
+                Repuation: <%= Model.Reputation %>
             </div>
-            <div>
-                <%= Model.WishCountQuestions %> öffentliches Wunschwissen (davon <%= Model.WishCountSets %> Fragesätze)
+            <div style="padding-top: 5px;">
+                <div>
+                    Erstellt:
+                    <%= Model.CreatedQuestions %> Fragen / <%= Model.CreatedSets %> Fragesätze
+                </div>
+                
+                <div>
+                    <% if (!Model.ShowWishKnowlede){ %>
+                        <i class="fa fa-lock show-tooltip" data-html="true" style="color: lightslategrey"  title="Privates Wunschwissen. <br> Das Wunschwissen ist nicht einsehbar."></i>
+                    <% } %>
+                    Wunschwissen: <%= Model.WishCountQuestions %> Fragen / <%= Model.WishCountSets %> Fragesätze
+                </div>
+
             </div>
         
             <%= Model.DescriptionShort %>
         </div>
-        <div class="MainContentLower">
-            
-            <%--<a data-toggle="modal" data-questionId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>--%>
-            
-            <% if(Model.IsCurrentUser){ %>
-                <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>" class="show-tooltip" title="Einstellungen bearbeiten">
-                    <img src="/Images/edit.png"/> 
-                </a>
-            <% } %>
         
-            <% if(!Model.IsCurrentUser && Model.AllowsSupportiveLogin && Model.IsInstallationLogin){ %>
-                <a href="<%= Links.UserLoginAs(Url, Model.Id) %>" class="show-tooltip" title="Anmelden als dieser Nutzer"> <i class="fa fa-share"></i> </a>
-            <%} %>
-            
-        </div>        
     </div>
 </div>

@@ -11,7 +11,6 @@ namespace TrueOrFalse
     {
         private readonly ReputationCalc _reputationCalc;
         private readonly UserRepository _userRepository;
-        private readonly QuestionRepository _questioRepository;
 
         public ReputationUpdate(
             ReputationCalc reputationCalc,

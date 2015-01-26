@@ -19,6 +19,9 @@ public class UserRowModel
     public int WishCountQuestions;
     public int WishCountSets;
 
+    public int CreatedQuestions;
+    public int CreatedSets;
+
     public string DescriptionShort;
 
     public int IndexInResult;
@@ -34,7 +37,8 @@ public class UserRowModel
     public bool IsInstallationLogin;
     public bool IsCurrentUser;
     public bool AllowsSupportiveLogin;
-
+    public bool ShowWishKnowlede;
+    
     public UserRowModel(User user, int indexInResultSet, SessionUser sessionUser)
     {
         Id = user.Id;
@@ -46,9 +50,13 @@ public class UserRowModel
         WishCountQuestions = user.WishCountQuestions;
         WishCountSets = user.WishCountSets;
 
+        CreatedQuestions = Sl.R<UserSummary>().AmountCreatedQuestions(user.Id);
+        CreatedSets = Sl.R<UserSummary>().AmountCreatedSets(user.Id);
+
         IsCurrentUser = Id == sessionUser.UserId;
         IsInstallationLogin = sessionUser.IsInstallationAdmin;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
+        ShowWishKnowlede = user.ShowWishKnowledge;
 
         DescriptionShort = "";
 

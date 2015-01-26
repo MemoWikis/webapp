@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Web.Mvc;
+using System.Web.UI;
 using TrueOrFalse;
 using TrueOrFalse.Registration;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class WelcomeController : Controller
+public class WelcomeController : BaseController
 {
     private readonly RegisterUser _registerUser;
     private readonly CredentialsAreValid _credentialsAreValid;
     private readonly WritePersistentLoginToCookie _writePersistentLoginToCookie;
-    private readonly SessionUser _sessionUser;
         
     public WelcomeController(RegisterUser registerUser, 
                              CredentialsAreValid credentialsAreValid, 
-                             WritePersistentLoginToCookie writePersistentLoginToCookie, 
-                             SessionUser sessionUser)
+                             WritePersistentLoginToCookie writePersistentLoginToCookie)
     {
         _registerUser = registerUser;
         _credentialsAreValid = credentialsAreValid;
         _writePersistentLoginToCookie = writePersistentLoginToCookie;
-        _sessionUser = sessionUser;
     }
 
     public ActionResult Welcome(){
@@ -37,13 +35,18 @@ public class WelcomeController : Controller
     [HttpPost]
     public ActionResult Register(RegisterModel model){
 
-        if (ModelState.IsValid)
-        {
-            _registerUser.Run(RegisterModelToUser.Run(model));
-            return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController);
-        }
-                
-        return View(model);
+        if (!R<IsEmailAddressAvailable>().Yes(model.Email))
+            ModelState.AddModelError("Email", "Die Emailadresse ist bereits vergeben");
+
+        if (!ModelState.IsValid) 
+            return View(model);
+
+        var user = RegisterModelToUser.Run(model);
+        _registerUser.Run(user);
+
+        _sessionUser.Login(user);
+
+        return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController);
     }
 
     public ActionResult RegisterSuccess() { return View(new RegisterSuccessModel()); }
@@ -132,7 +135,7 @@ public class WelcomeController : Controller
         SetUserPassword.Run(model.NewPassword1, user);
         userRepo.Update(user);
 
-        Sl.Resolve<SessionUser>().Login(user);
+        _sessionUser.Login(user);
 
         return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
     }

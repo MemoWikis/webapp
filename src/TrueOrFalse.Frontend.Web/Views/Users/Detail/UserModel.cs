@@ -27,12 +27,16 @@ public class UserModel : BaseModel
 
     public IList<Set> WishSets;
 
+    public bool IsCurrentUser;
+
     public User User;
 
     public UserModel(User user)
     {
         User = user;
         Name = user.Name;
+
+        IsCurrentUser = user.Id == UserId && IsLoggedIn;
 
         AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id);
         AmountCreatedSets = Resolve<UserSummary>().AmountCreatedSets(user.Id);

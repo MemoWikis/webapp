@@ -6,7 +6,7 @@ public class RegisterModel : BaseModel
 {
     [Required(ErrorMessage="Wir benötigen deinen Benutzernamen.")]
         
-    [StringLength(20, MinimumLength=4, ErrorMessage = "Sollte aus Vornamen und Nachnamen bestehen. ")]
+    [StringLength(40, MinimumLength=4, ErrorMessage = "Minimum 4 Zeichen, Maximum 40 Zeichen. Sollte aus Vornamen und Nachnamen bestehen.")]
     [DisplayName("Ihre Name")]
     public string Name { get; set; }
 
@@ -16,7 +16,7 @@ public class RegisterModel : BaseModel
     public string Email { get; set; }
 
     [Required(ErrorMessage ="Ein Passwort ist Pflicht!")]
-    [StringLength(20, MinimumLength = 5, ErrorMessage = "Mind. 5 Zeichen kurz und maximal 20 Zeichen lang sein.")]
+    [StringLength(40, MinimumLength = 5, ErrorMessage = "Mind. 5 Zeichen kurz und maximal 20 Zeichen lang sein.")]
     [DisplayName("Password")]
 
     public string Password { get; set; }

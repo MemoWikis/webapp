@@ -58,35 +58,53 @@
 
                 <div style="clear: both"></div>
                 <h3 style="margin-top: 20px; margin-bottom: 4px;">Wunschwissen</h3>
-                <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #ffd700;">Fragesätze (<%= Model.WishSets.Count %>):</div>
-                <% if (Model.WishSets.Count > 0){ %>
-                    <% foreach(var set in Model.WishSets){ %>
-                        <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Text %></a></div>
-                    <% } %>
-                <% } else { %>
-                    <div style="padding-top: 10px; padding-bottom: 10px;">--
-                        <%= Model.IsCurrentUser ?  
-                            "Du hast keine Fragesätze zu deinem Wunschwissen hinzugefügt" : 
-                             Model.Name + " hat keine Fragesätze zum Wunschwissen hinzugefügt." %> --
-                    </div>
-                <% } %>
 
-                <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #afd534;">Fragen (<%= Model.WishQuestions.Count %>):</div>
-                <% if (Model.WishQuestions.Count > 0){ %>
-                    <% foreach(var question in Model.WishQuestions){ %>
-                        <div>
-                            <% if(question.IsPrivate()){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
-                            <a href="<%: Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a>
+                <% if(!Model.User.ShowWishKnowledge && !Model.IsCurrentUser){ %>
+
+                    <div class="bs-callout bs-callout-info" style="margin-top: 15px;">
+                        <h4>Nicht öffentlich</h4>
+                        <p>
+                            <%= Model.User.Name %> hat sein Wunschwissen nicht veröffentlicht.
+                        </p>
+                        
+                        <p>
+                            <a href="#" class="btn btn-default btn-sm" onclick="alert('Diese Funktion ist noch nicht umgesetzt.')">Bitte zeige mir dein Wunschwissen</a>    
+                        </p>
+                    </div>                    
+
+                <% }else{ %>
+                
+                    <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #ffd700;">Fragesätze (<%= Model.WishSets.Count %>):</div>
+                    <% if (Model.WishSets.Count > 0){ %>
+                        <% foreach(var set in Model.WishSets){ %>
+                            <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Text %></a></div>
+                        <% } %>
+                    <% } else { %>
+                        <div style="padding-top: 10px; padding-bottom: 10px;">--
+                            <%= Model.IsCurrentUser ?  
+                                "Du hast keine Fragesätze zu deinem Wunschwissen hinzugefügt" : 
+                                 Model.Name + " hat keine Fragesätze zum Wunschwissen hinzugefügt." %> --
                         </div>
                     <% } %>
-                <% } else { %>
-                    <div style="padding-top: 10px; padding-bottom: 10px;">--
-                        <%= Model.IsCurrentUser ?  
-                            "Du hast keine Fragen zu deinem Wunschwissen hinzugefügt" :
-                            Model.Name + " hat keine Fragen zum Wunschwissen hinzugefügt."  %> --
-                    </div>
+
+                    <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #afd534;">Fragen (<%= Model.WishQuestions.Count %>):</div>
+                    <% if (Model.WishQuestions.Count > 0){ %>
+                        <% foreach(var question in Model.WishQuestions){ %>
+                            <div>
+                                <% if(question.IsPrivate()){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
+                                <a href="<%: Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <div style="padding-top: 10px; padding-bottom: 10px;">--
+                            <%= Model.IsCurrentUser ?  
+                                "Du hast keine Fragen zu deinem Wunschwissen hinzugefügt" :
+                                Model.Name + " hat keine Fragen zum Wunschwissen hinzugefügt."  %> --
+                        </div>
+                    <% } %>
+
                 <% } %>
-            </div>     
+            </div>
         </div>
 
         <div class="col-lg-2 col-xs-3 xxs-stack">

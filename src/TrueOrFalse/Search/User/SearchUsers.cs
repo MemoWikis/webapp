@@ -38,7 +38,7 @@ namespace TrueOrFalse.Search
             if (orderBy == SearchUsersOrderBy.Rank)
                 orderby.Add(new SortOrder("Rank", Order.ASC));
             else if (orderBy == SearchUsersOrderBy.WishCount)
-                orderby.Add(new SortOrder("WishCountQuestions", Order.ASC));
+                orderby.Add(new SortOrder("WishCountQuestions", Order.DESC));
 
             var queryResult = _searchOperations.Query(sqb.ToString(),
                                                       new QueryOptions
