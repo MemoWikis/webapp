@@ -76,23 +76,11 @@ a.ImageLicenseCaption {
   display: none;
   background-color: transparent;
 }
-.SelectAreaCheckbox:hover:active .Unchecked-Icon {
-  display: none;
-}
-.SelectAreaCheckbox:hover:active .Checked-Icon {
-  display: inline-block;
-}
 .selected-row .SelectAreaCheckbox .Unchecked-Icon {
   display: none;
 }
 .selected-row .SelectAreaCheckbox .Checked-Icon {
   display: inline-block;
-}
-.selected-row .SelectAreaCheckbox:hover:active .Unchecked-Icon {
-  display: inline-block;
-}
-.selected-row .SelectAreaCheckbox:hover:active .Checked-Icon {
-  display: none;
 }
 .SelectAreaImageInfo {
   position: absolute;
