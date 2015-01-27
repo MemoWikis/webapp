@@ -41,11 +41,13 @@ namespace TrueOrFalse.WikiMarkup
                 return result;
             }
 
-            var imageParsingNotifications = ImageParsingNotifications.FromJson(result.Notifications);
+            var imageParsingNotifications = new ImageParsingNotifications();
             imageParsingNotifications.InfoTemplate.Add(new Notification()
             {
                 Name = "No information template found",
-                NotificationText = "Es wurde kein Information template gefunden.",
+                NotificationText = "Autor und Beschreibung konnten nicht automatisch geparsed werden: " +
+                                   "Es wurde kein Information template gefunden. " +
+                                   "Bitte Template ergänzen (Klasse InfoBoxTemplate) und/oder Angaben manuell übernehmen.",
             });
             result.Notifications = imageParsingNotifications.ToJson();
             return result;
@@ -131,7 +133,7 @@ namespace TrueOrFalse.WikiMarkup
                 i++;
             }
 
-            //If no description in preferred languages is found, search for descriptions in other languages and take the first of them
+            //If no description in preferred languages is found, search for descriptions in other languages and take the first of them (not very useful since languages are orderer alphabetically)
             if (String.IsNullOrEmpty(selectedDescrValue))
             {
                 //Search in "multilingual description"/"mld" parameters
@@ -148,26 +150,35 @@ namespace TrueOrFalse.WikiMarkup
             //If suitable mld paramater or description language template has been found
             if (!String.IsNullOrEmpty(selectedDescrValue)) {
                 result.Description_Raw = selectedDescrValue;
-                result.Description = Markup2Html.TransformAll(selectedDescrValue);
-            }
-            else if (!String.IsNullOrEmpty(descrParameter.Value)
-                    && !CheckForMarkupSyntaxContained(Markup2Html.TransformAll(descrParameter.Value)))
-            //If transformed description doesn't contain any templates or markup
-            {
-                result.Description_Raw = descrParameter.Value;
-                result.Description = Markup2Html.TransformAll(descrParameter.Value);
+                var selectedDescrValueTransformed = Markup2Html.TransformAll(selectedDescrValue);
+
+                //If transformed description doesn't contain any templates or markup
+                if (!MarkupSyntaxContained(selectedDescrValueTransformed))
+                {
+                    result.Description = selectedDescrValueTransformed;
+                }
+                else
+                {
+                    imageParsingNotifications.Description.Add(new Notification()
+                    {
+                        Name = "Manual entry for description required",
+                        NotificationText = String.Format("Das Markup für die Beschreibung konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Beschreibung manuell übernehmen.",
+                                                            selectedDescrValueTransformed)
+                    });
+                }
             }
             else
             {
                 imageParsingNotifications.Description.Add(new Notification()
                 {
                     Name = "Manual entry for description required",
-                    NotificationText = String.Format("Das Markup für die Beschreibung konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Beschreibung manuell übernehmen.", 
+                    NotificationText = String.Format("Es konnte keine Beschreibung in einer zugelassenen Sprache automatisch geparsed werden (Beschreibungstext: \"{0}\"). Bitte falls möglich Beschreibung manuell übernehmen.", 
                                                         Markup2Html.TransformAll(descrParameter.Value))
                 });
-
-                result.Notifications = imageParsingNotifications.ToJson();
             }
+
+            result.Notifications = imageParsingNotifications.ToJson();
+
         }
 
         private static void SetAuthor(ParseImageMarkupResult result, Parameter paramAuthor)
@@ -245,7 +256,7 @@ namespace TrueOrFalse.WikiMarkup
                 result.Notifications = imageParsingNotifications.ToJson();
                 return;
             }
-            if (CheckForMarkupSyntaxContained(authorText))
+            if (MarkupSyntaxContained(authorText))
             {
                 imageParsingNotifications.Author.Add(new Notification()
                 {
@@ -264,7 +275,7 @@ namespace TrueOrFalse.WikiMarkup
             result.AuthorName = authorText;
         }
 
-        public static bool CheckForMarkupSyntaxContained(string text)
+        public static bool MarkupSyntaxContained(string text)
         {
             return Regex.IsMatch(text, "[{}\\[\\]]"); //Check for "{", "}", "[" or "]"
         }
