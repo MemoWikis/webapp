@@ -32,5 +32,10 @@ namespace TrueOrFalse
         {
             return ManualImageData.FromJson(ManualEntries);
         }
+
+        public virtual ImageParsingNotifications NotificationsFromJson()
+        {
+            return ImageParsingNotifications.FromJson(Notifications);
+        }
     }
 }

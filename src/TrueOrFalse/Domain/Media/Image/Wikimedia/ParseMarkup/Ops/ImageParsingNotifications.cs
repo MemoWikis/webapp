@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NHibernate.Mapping.ByCode;
 
 [Serializable]
 public class ImageParsingNotifications
@@ -13,6 +15,23 @@ public class ImageParsingNotifications
     public List<Notification> InfoTemplate = new List<Notification>(); 
     public List<Notification> Author = new List<Notification>();
     public List<Notification> Description = new List<Notification>();
+
+    public List<Notification> GetAllNotifications()
+    {
+        var allNotifications = new List<Notification>();
+        var fields = GetType().GetFields();
+
+        foreach (FieldInfo field in fields)
+        {
+            if (field.FieldType == typeof(List<Notification>))
+            {
+                var notifications = (List<Notification>)field.GetValue(this);
+                notifications.ForEach(notification => allNotifications.Add(notification));
+            }
+        }
+
+        return allNotifications;
+    }
 
     public string ToJson()
     {

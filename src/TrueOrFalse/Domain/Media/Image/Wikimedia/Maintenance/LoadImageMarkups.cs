@@ -30,6 +30,7 @@ namespace TrueOrFalse.Maintenance
             imageMetaData.AllRegisteredLicenses = licenseInfo.AllRegisteredLicenses;
             imageMetaData.Markup = licenseInfo.Markup;
             imageMetaData.MarkupDownloadDate = licenseInfo.MarkupDownloadDate;
+            imageMetaData.Notifications = licenseInfo.Notifications;
         }
 
         //$temp: wird dieses globale (Nach-)Laden des Markups überhaupt benötigt, 

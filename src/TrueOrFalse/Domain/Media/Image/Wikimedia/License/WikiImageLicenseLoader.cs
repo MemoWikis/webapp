@@ -25,7 +25,8 @@ namespace TrueOrFalse
                 Description = parsedImageMarkup.Description,
                 Markup = markup,
                 MarkupDownloadDate = DateTime.Now,
-                AllRegisteredLicenses = parsedImageMarkup.AllRegisteredLicenses
+                AllRegisteredLicenses = parsedImageMarkup.AllRegisteredLicenses,
+                Notifications = parsedImageMarkup.Notifications
             };
 
             return licenseInfo;

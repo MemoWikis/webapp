@@ -23,6 +23,7 @@ public class ImageFrontendData
     public string LicenseLink;
     public string LicenseShortDescriptionLink;
     public string AttributionHtmlString;
+    public ImageParsingNotifications ImageParsingNotifications;
 
 
     public ImageFrontendData(int typeId, ImageType imageType) : this(PrepareConstructorArguments(typeId, imageType))
@@ -138,6 +139,8 @@ public class ImageFrontendData
                     }
                 }
             }
+
+            ImageParsingNotifications = ImageParsingNotifications.FromJson(ImageMetaData.Notifications);
         }
     }
 
