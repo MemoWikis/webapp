@@ -15,8 +15,8 @@
                     <div class="ImageInfo">
                         <% if (!String.IsNullOrEmpty(Model.AttributionHtmlString))
                         {%>
-                           <%= Model.AttributionHtmlString %>    
-                        <% } %>   
+                           <div><%= Model.AttributionHtmlString %></div>
+                        <% } %>
                     </div>
                 </div>
             </div>
