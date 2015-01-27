@@ -10,41 +10,60 @@
             </div>
 
             <div class="modal-body" id="modalBody">
+    
                 <div class="ImageInfo">
-                    <img src="<%= Model.Url_128 %>" style="display: block; float: left; padding-right: 10px; padding-bottom: 5px;"/>
-                    <p>
-                        <b>Id:</b>
-                        <%= Model.ImageId %>
-                    </p>
-                    <p>
-                        <b>Autor geparsed:</b>
-                        <% if (!String.IsNullOrEmpty(Model.MetaData.AuthorParsed))
-                        { %>
-                            <%= Model.MetaData.AuthorParsed %>
-                        <% } %>
-                    </p>
-                    <p>
-                        <b>Autor/Attribution manuell:</b>
-                        <input id="AuthorManuallyAdded" class="form-control" name="AuthorManuallyAdded" type="text" value="<%= 
-                                                        !String.IsNullOrEmpty(Model.ManualImageData.AuthorManuallyAdded) ?
-                                                        Model.ManualImageData.AuthorManuallyAdded :
-                                                        "" %>">
-                    </p>
-                    <p>
-                        <b>Beschreibung geparsed:</b>
-                        <% if (!String.IsNullOrEmpty(Model.MetaData.DescriptionParsed))
-                        { %>
-                            <%= Model.MetaData.DescriptionParsed %>
-                        <% } %>
-                    </p>
-                     <p>
-                        <b>Beschreibung manuell:</b>
-                        <textarea id="DescriptionManuallyAdded" class="form-control" name="DescriptionManuallyAdded" type="text" value=""><%=
-                                !String.IsNullOrEmpty(Model.ManualImageData.DescriptionManuallyAdded) ?
-                                Model.ManualImageData.DescriptionManuallyAdded:
-                                ""
-                        %></textarea>
-                    </p>
+                    <img src="<%= Model.ImageFrontendData.GetImageUrl(350).Url %>" />
+                    <div class="FluidColumn">
+                        <p>
+                            <b>Id:</b>
+                            <%= Model.ImageId %>
+                        </p>
+                        <p>
+                            <b>Autor geparsed:</b>
+                            <% if (!String.IsNullOrEmpty(Model.MetaData.AuthorParsed))
+                            { %>
+                                <%= Model.MetaData.AuthorParsed %>
+                            <% } %>
+                        </p>
+                        <p>
+                            <b>Autor/Attribution manuell:</b>
+                            <input id="AuthorManuallyAdded" class="form-control" name="AuthorManuallyAdded" type="text" value="<%= 
+                                                            !String.IsNullOrEmpty(Model.ManualImageData.AuthorManuallyAdded) ?
+                                                            Model.ManualImageData.AuthorManuallyAdded :
+                                                            "" %>">
+                        </p>
+                        <p>
+                            <b>Beschreibung geparsed:</b>
+                            <% if (!String.IsNullOrEmpty(Model.MetaData.DescriptionParsed))
+                            { %>
+                                <%= Model.MetaData.DescriptionParsed %>
+                            <% } %>
+                        </p>
+                         <p>
+                            <b>Beschreibung manuell:</b>
+                            <textarea id="DescriptionManuallyAdded" class="form-control" name="DescriptionManuallyAdded" type="text" value=""><%=
+                                    !String.IsNullOrEmpty(Model.ManualImageData.DescriptionManuallyAdded) ?
+                                    Model.ManualImageData.DescriptionManuallyAdded:
+                                    ""
+                            %></textarea>
+                        </p>
+                        <% if (Model.ImageFrontendData.ImageMetaDataExists
+                               && Model.ImageFrontendData.ImageParsingNotifications.GetAllNotifications().Any())
+                           {%>
+                            <div>
+                                <p>
+                                    <b>Autoparsing-Benachrichtigungen:</b><br/>
+                                </p>
+                               <% foreach (var notification in Model.ImageFrontendData.ImageParsingNotifications.GetAllNotifications()){
+                                   if(!String.IsNullOrEmpty(notification.NotificationText))%>
+                                    <ul>
+                                        <li><%= notification.NotificationText %></li>
+                                    </ul>
+                               <%}%>
+                            </div>
+                             
+                           <% } %>
+                    </div>
                 </div>
                 <div class="LicenseInfo <%= Model.LicenseStateCssClass%>">
                     <h4>Lizenzen</h4>
