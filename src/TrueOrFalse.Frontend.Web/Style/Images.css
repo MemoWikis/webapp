@@ -140,6 +140,9 @@ a.ImageLicenseCaption {
   display: table-caption;
   caption-side: bottom;
 }
+#modalImageDetail .InfoLabel {
+  font-weight: bold;
+}
 /*Image maintenance
 ---------------------------------------------------------*/
 .ImageTable {

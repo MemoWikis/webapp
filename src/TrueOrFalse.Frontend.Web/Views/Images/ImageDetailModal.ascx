@@ -17,6 +17,10 @@
                         {%>
                            <div><%= Model.AttributionHtmlString %></div>
                         <% } %>
+                        <% if (!String.IsNullOrEmpty(Model.Description))
+                        {%>
+                           <div style="margin-top: 10px;"><span class="InfoLabel">Beschreibung:</span> <%= Model.Description %></div>
+                        <% } %>
                     </div>
                 </div>
             </div>

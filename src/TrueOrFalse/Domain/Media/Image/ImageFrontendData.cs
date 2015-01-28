@@ -19,6 +19,7 @@ public class ImageFrontendData
     public bool LicenseDataIncomplete;
     public License MainLicense;
     public string Author;
+    public string Description;
     public string LicenseName;
     public string LicenseLink;
     public string LicenseShortDescriptionLink;
@@ -47,6 +48,10 @@ public class ImageFrontendData
         
             ManualImageEvaluation = imageMetaData.ManualEntriesFromJson().ManualImageEvaluation;
             ImageCanBeDisplayed = ManualImageEvaluation != ManualImageEvaluation.ImageManuallyRuledOut;
+
+            Description = !String.IsNullOrEmpty(ImageMetaData.ManualEntriesFromJson().DescriptionManuallyAdded)
+                    ? ImageMetaData.ManualEntriesFromJson().DescriptionManuallyAdded
+                    : ImageMetaData.DescriptionParsed;
             
 
             if (!ImageCanBeDisplayed)
@@ -86,7 +91,7 @@ public class ImageFrontendData
                             : ImageMetaData.AuthorParsed;
                     }
 
-                    AttributionHtmlString = "Bild: " + (!String.IsNullOrEmpty(Author) ? Author + ", " : "");
+                    AttributionHtmlString = "<span class='InfoLabel'>Bild</span>: " + (!String.IsNullOrEmpty(Author) ? Author + ", " : "");
 
                     if (ImageMetaData.Source == ImageSource.WikiMedia)
                     {
@@ -122,7 +127,7 @@ public class ImageFrontendData
                 else //No authorized main license
                 {
                     Author = ImageMetaData.AuthorParsed;
-                    AttributionHtmlString = "Bild: " + (!String.IsNullOrEmpty(Author) ? Author + ", " : "");
+                    AttributionHtmlString = "<span class='InfoLabel'>Bild:</span> " + (!String.IsNullOrEmpty(Author) ? Author + ", " : "");
 
                     if (ImageMetaData.Source == ImageSource.WikiMedia)
                     {
