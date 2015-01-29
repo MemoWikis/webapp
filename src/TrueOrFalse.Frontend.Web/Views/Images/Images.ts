@@ -1,7 +1,6 @@
 ﻿declare function encodeURIComponent(text: string): any;
 
 var fnInitImages = function () {
-
     fnReplaceDummyImages();
     fnInitItemImages();
     fnInitImageDetailModal();

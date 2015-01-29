@@ -27,6 +27,9 @@
 .columnControlsFull .form-control-static {
   margin-left: 20px;
 }
+.columnControlsFull .form-control-static {
+  padding-top: 0;
+}
 .aside .columnControlsFull .radio,
 .aside .columnControlsFull .form-control-static {
   margin-left: 0;
