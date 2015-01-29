@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
-    <title>Kategorie - <%=Model.Name %> </title>
+    <title>Benutzer <%=Model.Name %> </title>
     <style>
         .column{ width: 33%;float: left; padding-right: 4px;}
     </style>

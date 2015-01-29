@@ -53,6 +53,10 @@
     margin-left: 25%;
   }
 }
+.FormSection h3 {
+  padding-top: 20px;
+  margin-top: 0;
+}
 input[type="text"],
 input[type="password"],
 input[type="datetime"],

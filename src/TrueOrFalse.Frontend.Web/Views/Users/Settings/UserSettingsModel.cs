@@ -24,6 +24,7 @@ public class UserSettingsModel : BaseModel
     public bool ShowWishKnowledge { get; set; }
 
     public string ImageUrl_200;
+    public ImageFrontendData ImageFrontendData;
     public bool ImageIsCustom;
 
     public int ReputationRank;

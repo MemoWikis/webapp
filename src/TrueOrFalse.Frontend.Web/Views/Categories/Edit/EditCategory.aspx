@@ -41,6 +41,11 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-9 xxs-stack">
+            <% Html.Message(Model.Message); %>
+        </div>
+    </div>
+    <div class="row">
         <div class="aside col-md-3 col-md-push-9">
             <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
             <div style="margin-top: 10px;">
@@ -60,8 +65,6 @@
                 <input type="hidden" id="categoryId" value="<%= Model.IsEditing ?  Model.Category.Id.ToString() : "" %>"/>
                 <input type="hidden" id="categoryType" value="<%= Model.IsEditing ? Model.Category.Type.ToString() : "" %>"/>
 
-                <% Html.Message(Model.Message); %>
-            
                 <% if (!Model.IsEditing)
                    { %>
                 <div id="CategoryTypeSelect" class="FormSection">

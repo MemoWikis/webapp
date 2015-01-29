@@ -1,4 +1,4 @@
-﻿var fnValidateForm = function (formSelector, customSettings, resetValidator = false) {
+﻿var fnValidateForm = function (formSelector : string, customSettings : any, resetValidator = false) {
 
     var validationSettings = {
         highlight: function(element, errorClass, validClass) {

@@ -364,6 +364,9 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
+    <Content Include="Style\pages.css">
+      <DependentUpon>pages.less</DependentUpon>
+    </Content>
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
     </Content>
@@ -712,6 +715,10 @@
     <Content Include="Views\Images\Images.js.map">
       <DependentUpon>Images.ts</DependentUpon>
     </Content>
+    <Content Include="Style\pages.less" />
+    <Content Include="Style\pages.css.map">
+      <DependentUpon>pages.css</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
@@ -910,6 +917,7 @@
     <Compile Include="Views\Welcome\WelcomeModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <TypeScriptCompile Include="Views\Users\Settings\Validation.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -1167,6 +1175,12 @@
     <Content Include="Views\Users\Js\Users.js">
       <DependentUpon>Users.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Settings\UserSettings.css">
+      <DependentUpon>UserSettings.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Settings\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Users.css">
       <DependentUpon>Users.less</DependentUpon>
     </Content>
@@ -1353,6 +1367,13 @@
     </Content>
     <Content Include="Views\Images\ImageDetail.js.map">
       <DependentUpon>ImageDetail.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Settings\UserSettings.less" />
+    <Content Include="Views\Users\Settings\UserSettings.css.map">
+      <DependentUpon>UserSettings.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Settings\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
