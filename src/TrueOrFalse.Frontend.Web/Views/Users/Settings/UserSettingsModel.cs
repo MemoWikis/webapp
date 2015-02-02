@@ -27,9 +27,6 @@ public class UserSettingsModel : BaseModel
     public ImageFrontendData ImageFrontendData;
     public bool ImageIsCustom;
 
-    public int ReputationRank;
-    public int ReputationTotal;
-
     public UserSettingsModel(){}
 
     public UserSettingsModel(User user)
@@ -38,10 +35,6 @@ public class UserSettingsModel : BaseModel
         Email = user.EmailAddress;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         ShowWishKnowledge = user.ShowWishKnowledge;
-
-        var reputation = Resolve<ReputationCalc>().Run(user);
-        ReputationRank = user.ReputationPos;
-        ReputationTotal = reputation.TotalRepuation;
 
         var imageResult = new UserImageSettings(user.Id).GetUrl_200px(user.EmailAddress);
         ImageUrl_200 = imageResult.Url;

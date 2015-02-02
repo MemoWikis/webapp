@@ -18,10 +18,6 @@
                 <h2 class="pull-left" style="margin-bottom: 10px; margin-top: 0;  font-size: 30px;">
                     <span class="ColoredUnderline User"><%= Model.Name%> - Dein Nutzerprofil</span>
                     <i class="fa fa-wrench show-tooltip" title="Hier kannst du deine Einstellungen bearbeiten."></i>
-                    <br/>
-                    <span style="display: inline-block; font-size: 20px; font-weight: normal;">
-                        (Reputation: <%=Model.ReputationTotal%> - Rang <%= Model.ReputationRank%>)
-                    </span>
                 </h2>
             </div>
 
