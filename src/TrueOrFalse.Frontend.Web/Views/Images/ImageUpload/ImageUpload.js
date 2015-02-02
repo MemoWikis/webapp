@@ -58,6 +58,7 @@ var ImageUploadModal = (function () {
     function ImageUploadModal() {
         this.WikimediaPreview = new WikimediaPreview();
         this.AllowedExtensions = ['jpeg', 'jpg', 'png'];
+        this.MaxImageSize = 10485760;
         this.Mode = 0 /* Wikimedia */;
         this.InitUploader();
         this.InitTypeRadios();
@@ -124,7 +125,6 @@ var ImageUploadModal = (function () {
         });
     }
     ImageUploadModal.prototype.InitUploader = function () {
-        var allowedExtensions = this.AllowedExtensions;
         var self = this;
         $('#fileUpload').fineUploader({
             uploaderType: 'basic',
@@ -133,12 +133,16 @@ var ImageUploadModal = (function () {
             multiple: false,
             debug: false,
             validation: {
-                allowedExtensions: allowedExtensions,
-                sizeLimit: 10485760
+                allowedExtensions: self.AllowedExtensions,
+                sizeLimit: self.MaxImageSize
             }
         }).on('error', function (event, id, filename, reason) {
             window.console.log(event + " " + id + " " + filename + " " + reason);
-            window.alert("Ein Fehler ist aufgetreten");
+            if (reason.indexOf('is too large, maximum file size is') !== -1) {
+                window.alert("Das Bild ist leider zu groß. Die maximal erlaubte Größe ist " + self.MaxImageSize / 1048576 + " MB.");
+            } else {
+                window.alert("Ein Fehler ist aufgetreten");
+            }
         }).on('complete', function (event, id, filename, responseJSON) {
             self.SaveButtonUpload.removeClass('disabled');
             $("#divUserUploadProgress").hide();

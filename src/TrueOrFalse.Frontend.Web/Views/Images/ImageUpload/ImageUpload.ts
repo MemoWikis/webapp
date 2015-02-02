@@ -74,6 +74,7 @@ class ImageUploadModal
     _onPreviewLoadError: Function;
 
     AllowedExtensions = ['jpeg', 'jpg', 'png'];
+    MaxImageSize = 10485760; //10MB (in bytes)
 
     constructor() {
         this.Mode = ImageUploadModalMode.Wikimedia;
@@ -145,7 +146,6 @@ class ImageUploadModal
     }
 
     InitUploader() {
-        var allowedExtensions = this.AllowedExtensions;
         var self = this;
         $('#fileUpload').fineUploader({
             uploaderType: 'basic',
@@ -154,13 +154,17 @@ class ImageUploadModal
             multiple: false,
             debug: false,
             validation: {
-                allowedExtensions: allowedExtensions,
-                sizeLimit: 10485760 // 10MB (in bytes)
-            }
+                allowedExtensions: self.AllowedExtensions,
+                sizeLimit: self.MaxImageSize
+    }
         })
         .on('error', function (event, id, filename, reason) {
             window.console.log(event + " " + id + " " + filename + " " + reason);
-            window.alert("Ein Fehler ist aufgetreten");
+            if (reason.indexOf('is too large, maximum file size is') !== -1) {
+                window.alert("Das Bild ist leider zu groß. Die maximal erlaubte Größe ist " + self.MaxImageSize / 1048576 + " MB.");
+            } else {
+                window.alert("Ein Fehler ist aufgetreten");
+            }
         })
         .on('complete', function (event, id, filename, responseJSON) {
             self.SaveButtonUpload.removeClass('disabled');
