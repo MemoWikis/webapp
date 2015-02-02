@@ -146,7 +146,7 @@ class ImageUploadModal
             debug: false,
             validation: {
                 allowedExtensions: ['jpeg', 'jpg', 'png'],
-                sizeLimit: 2097152 // 2MB = 2048 * 1024 bytes
+                sizeLimit: 10485760 // 10MB (in bytes)
             }
         })
         .on('error', function (event, id, filename, reason) {

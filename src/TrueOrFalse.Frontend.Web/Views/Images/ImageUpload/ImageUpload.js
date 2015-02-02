@@ -127,8 +127,8 @@ var ImageUploadModal = (function () {
             multiple: false,
             debug: false,
             validation: {
-                allowedExtensions: ['jpeg', 'jpg', 'png'],
-                sizeLimit: 2097152
+                allowedExtensions: ['jpeg', 'jpg', 'png', 'svg'],
+                sizeLimit: 10485760
             }
         }).on('error', function (event, id, filename, reason) {
             window.console.log(event + " " + id + " " + filename + " " + reason);
