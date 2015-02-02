@@ -20,11 +20,7 @@ public class UserSettingsController : BaseController
     [HttpGet]
     public ViewResult UserSettings()
     {
-        var imageResult = new UserImageSettings(_sessionUser.User.Id).GetUrl_200px(_sessionUser.User.EmailAddress);
-        return View(_viewLocation, new UserSettingsModel(_sessionUser.User){
-                                           ImageUrl_200 = imageResult.Url,
-                                           ImageIsCustom = imageResult.HasUploadedImage
-                                       });
+        return View(_viewLocation, new UserSettingsModel(_sessionUser.User));
     }
 
     [HttpPost]
@@ -45,7 +41,7 @@ public class UserSettingsController : BaseController
 
         _userRepo.Update(_sessionUser.User);
 
-        return View(_viewLocation, model);
+        return View(_viewLocation, new UserSettingsModel(_sessionUser.User));
     }
 
     [HttpPost]

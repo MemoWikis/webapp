@@ -42,5 +42,10 @@ public class UserSettingsModel : BaseModel
         var reputation = Resolve<ReputationCalc>().Run(user);
         ReputationRank = user.ReputationPos;
         ReputationTotal = reputation.TotalRepuation;
+
+        var imageResult = new UserImageSettings(user.Id).GetUrl_200px(user.EmailAddress);
+        ImageUrl_200 = imageResult.Url;
+        ImageIsCustom = imageResult.HasUploadedImage;
+
     }
 }
