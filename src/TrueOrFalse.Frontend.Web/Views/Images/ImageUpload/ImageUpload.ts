@@ -55,6 +55,7 @@ class WikimediaPreview
 
 class ImageUploadModal
 {
+
     Mode: ImageUploadModalMode;
     WikimediaPreview = new WikimediaPreview();
 
@@ -71,6 +72,8 @@ class ImageUploadModal
 
     _onPreviewLoadSuccess: Function;
     _onPreviewLoadError: Function;
+
+    AllowedExtensions = ['jpeg', 'jpg', 'png'];
 
     constructor() {
         this.Mode = ImageUploadModalMode.Wikimedia;
@@ -109,7 +112,12 @@ class ImageUploadModal
             }
         });
         $("#txtWikimediaUrl").change(function () {
-            self.StartPreviewLoad();
+            if (self.ExtensionIsAllowed($("#txtWikimediaUrl").val())) {
+                self.StartPreviewLoad();
+            } else {
+                window.alert('Zur Zeit können leider nur Bilder in folgenden Dateiformaten hochgeladen werden: ' + self.AllowedExtensions.join(', ') + ".");
+            }
+
         });
         this.SaveButtonWiki.click(function (e) {
             if (!$(e.target).hasClass('disabled')) {
@@ -137,6 +145,7 @@ class ImageUploadModal
     }
 
     InitUploader() {
+        var allowedExtensions = this.AllowedExtensions;
         var self = this;
         $('#fileUpload').fineUploader({
             uploaderType: 'basic',
@@ -145,7 +154,7 @@ class ImageUploadModal
             multiple: false,
             debug: false,
             validation: {
-                allowedExtensions: ['jpeg', 'jpg', 'png'],
+                allowedExtensions: allowedExtensions,
                 sizeLimit: 10485760 // 10MB (in bytes)
             }
         })
@@ -278,6 +287,15 @@ class ImageUploadModal
     EnableSaveButtonUpload() {
         this.SaveButtonUpload.removeClass('disabled');
         this.SaveButtonUploadSpinner.hide();
+    }
+
+    ExtensionIsAllowed(fileName: string): boolean {
+        var fileExtension = fileName.toLowerCase().split(".").pop();
+
+        if (this.AllowedExtensions.indexOf(fileExtension) !== -1)
+            return true;
+
+        return false;
     }
 }
 
