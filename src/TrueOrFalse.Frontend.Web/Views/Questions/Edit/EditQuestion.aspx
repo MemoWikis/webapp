@@ -8,6 +8,7 @@
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <link href="/Views/Questions/Edit/EditQuestion.css" rel="stylesheet" />
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
+    <script type="text/javascript" src="/Scripts/vendor/jquery-watch.js"></script>
     <%= Scripts.Render("~/bundles/markdown") %>
     <%= Scripts.Render("~/bundles/questionEdit") %>
     <%= Scripts.Render("~/bundles/fileUploader") %>
@@ -116,14 +117,23 @@
                     <%= Html.LabelFor(m => m.Question, new { @class = "RequiredField columnLabel control-label" })%>
                     <div class="columnControlsFull">
                         <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 3})%>
-                        <div style="padding-top: 4px;">
-                            <a href="#" id="openExtendedQuestion" class="TextLinkWithIcon"><i class="fa fa-plus-circle"></i> <span class="TextSpan">Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</span></a> 
-                        </div>    
                     </div>
                 </div>
-
+                <div class="form-group">
+                    <div id="OpenImageUpload" class="columnControlsFull" style="padding-top: 4px;">
+                        <a href="#" class="TextLinkWithIcon"><i class="fa fa-file-image-o"></i> <span class="TextSpan">Bild hinzufügen</span></a> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div id="openExtendedQuestion" class="columnControlsFull" style="padding-top: 4px;">
+                        <a href="#" class="TextLinkWithIcon"><i class="fa fa-plus-circle"></i> <span class="TextSpan">Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</span></a> 
+                    </div>
+                </div>
                 <div class="form-group markdown" style="display: none" id="extendedQuestion">
-                    <%= Html.LabelFor(m => m.QuestionExtended, new { @class = "columnLabel control-label" })%>
+                    <label class="columnLabel control-label" for="QuestionExtended" style="max-width: 420px;">
+                        Frage erweitert
+                        <a id="hideExtendedQuestion" href="#" class="TextLinkWithIcon" style="font-size: 90%; float: right;"><i class="fa fa-minus-circle"></i> <span class="TextSpan">ausblenden</span></a>
+                    </label>
                     <div class="columnControlsFull">
                         <div class="wmd-panel">
                             <div id="wmd-button-bar-1"></div>

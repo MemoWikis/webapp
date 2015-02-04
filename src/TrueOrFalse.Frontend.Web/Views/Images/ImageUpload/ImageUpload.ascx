@@ -4,7 +4,7 @@
     <div class="modal-dialog">
         <div class="modal-content">      
             <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
+                <button class="close modalImageUploadDismiss" data-dismiss="modal">×</button>
                 <h3 class="modal-title">Bild hochladen</h3>
             </div>
 

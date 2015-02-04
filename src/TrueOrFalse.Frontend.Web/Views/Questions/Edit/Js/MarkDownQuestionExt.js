@@ -7,16 +7,42 @@ var MarkdownQuestionExt = (function () {
         var _this = this;
         $("#openExtendedQuestion").click(function (e) {
             e.preventDefault();
-            $("#extendedQuestion").toggle();
+            $("#extendedQuestion").show();
 
-            if (!_this._isOpen)
+            if (!_this._isInitialized)
                 _this.InitEditor();
+        });
+
+        $("#hideExtendedQuestion").click(function (e) {
+            e.preventDefault();
+            $("#extendedQuestion").hide();
+        });
+
+        $("#OpenImageUpload").click(function (e) {
+            e.preventDefault();
+            $("#extendedQuestion").show();
+            if (!_this._isInitialized)
+                _this.InitEditor();
+            $('#wmd-image-button-1').trigger('click');
+        });
+
+        $("#extendedQuestion").watch({
+            properties: "display",
+            callback: this.ToggleButtons
         });
 
         if ($("#wmd-input-1").html().trim().length > 0) {
             $("#extendedQuestion").show();
             this.InitEditor();
         }
+
+        $("#wmd-input-1").on('input paste change', function () {
+            if ($(this).val()) {
+                $('#hideExtendedQuestion').hide();
+            } else {
+                $('#hideExtendedQuestion').show();
+            }
+        });
     }
     MarkdownQuestionExt.prototype.InitEditor = function () {
         var converter = Markdown.getSanitizingConverter();
@@ -49,6 +75,7 @@ var MarkdownQuestionExt = (function () {
                             $("#questionId").val(result.NewQuestionId);
                         }
                         callback(result.PreviewUrl);
+                        $("#wmd-input-1").trigger('change');
                         $("#modalImageUpload").modal("hide");
                     },
                     error: function (x, y) {
@@ -65,7 +92,19 @@ var MarkdownQuestionExt = (function () {
         });
 
         editor.run();
-        this._isOpen = true;
+        this._isInitialized = true;
+    };
+
+    MarkdownQuestionExt.prototype.ToggleButtons = function (data, i) {
+        if (data.vals[i] === "none") {
+            $('#openExtendedQuestion').closest('.form-group').show();
+            $('#hideExtendedQuestion').hide();
+        } else {
+            $('#openExtendedQuestion').closest('.form-group').hide();
+            if (!$('#wmd-input-1').val()) {
+                $('#hideExtendedQuestion').show();
+            }
+        }
     };
     return MarkdownQuestionExt;
 })();

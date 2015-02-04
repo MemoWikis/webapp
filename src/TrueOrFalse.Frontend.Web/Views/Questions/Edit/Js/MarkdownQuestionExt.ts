@@ -5,21 +5,50 @@
 
 class MarkdownQuestionExt
 { 
-    _isOpen: boolean;
+    _isInitialized: boolean;
 
     constructor() {
+
         $("#openExtendedQuestion").click((e) => { 
             e.preventDefault();
-            $("#extendedQuestion").toggle();
+            $("#extendedQuestion").show();
 
-            if(!this._isOpen)
+            if(!this._isInitialized)
                 this.InitEditor();
         });
+
+        $("#hideExtendedQuestion").click((e) => {
+            e.preventDefault();
+            $("#extendedQuestion").hide();
+        });
+
+        $("#OpenImageUpload").click((e) => {
+            e.preventDefault();
+            $("#extendedQuestion").show();
+            if (!this._isInitialized)
+                this.InitEditor();
+            $('#wmd-image-button-1').trigger('click');
+        });
+
+        $("#extendedQuestion").watch({
+            properties: "display",
+            callback: this.ToggleButtons
+        });
+
+        
 
         if ($("#wmd-input-1").html().trim().length > 0) {
             $("#extendedQuestion").show();
             this.InitEditor();
         }
+
+        $("#wmd-input-1").on('input paste change', function() {
+            if ($(this).val()) {
+                $('#hideExtendedQuestion').hide();
+            } else {
+                $('#hideExtendedQuestion').show();
+            } 
+        });
     }
 
     InitEditor() 
@@ -56,6 +85,7 @@ class MarkdownQuestionExt
                             $("#questionId").val(result.NewQuestionId);
                         }
                         callback(result.PreviewUrl);
+                        $("#wmd-input-1").trigger('change');
                         $("#modalImageUpload").modal("hide");
 
                     },
@@ -73,6 +103,18 @@ class MarkdownQuestionExt
         });
 
         editor.run();
-        this._isOpen = true;
+        this._isInitialized = true;
+    }
+
+    ToggleButtons(data, i) {
+        if (data.vals[i] === "none") {
+            $('#openExtendedQuestion').closest('.form-group').show();
+            $('#hideExtendedQuestion').hide();
+        } else {
+            $('#openExtendedQuestion').closest('.form-group').hide();
+            if (!$('#wmd-input-1').val()) {
+                $('#hideExtendedQuestion').show();
+            }
+        }
     }
 }
