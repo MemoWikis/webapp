@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-xs-9 xxs-stack" style="margin-bottom: 10px;">
                 <h2 class="pull-left" style="margin-bottom: 10px; margin-top: 0;  font-size: 30px;">
-                    <span class="ColoredUnderline User"><%= Model.Name%> - Dein Nutzerprofil</span>
+                    <span class="ColoredUnderline User">Dein Nutzerkonto</span>
                     <i class="fa fa-wrench show-tooltip" title="Hier kannst du deine Einstellungen bearbeiten."></i>
                 </h2>
             </div>
@@ -81,7 +81,8 @@
                                 <div class="checkbox">
                                     <%= Html.CheckBoxFor(m => m.ShowWishKnowledge)%>   
                                     <label for="ShowWishKnowledge">
-                                        Wenn ausgewählt, ist dein gesamtes Wunschwissen für jedermann einsehbar (außer private Fragen). 
+                                        Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind 
+                                        (außer private Fragen). Antwortstatistiken werden nicht angezeigt. 
                                     </label>
                                 </div>
                             </div>

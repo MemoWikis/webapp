@@ -109,26 +109,6 @@
 
         <div class="col-lg-2 col-xs-3 xxs-stack">
             <img style="width:100%; border-radius:5px;" src="<%=Model.ImageUrl_250 %>" />
-            <% if (Model.IsCurrentUser){ %>  
-                <script type="text/javascript">
-                    $(function () {
-                        $("#imageUploadLink").click(function () {
-                            $("#imageUpload").show();
-                        });
-                    })
-                </script>
-                <a id="imageUploadLink" href="#">aendern</a>
-                <div id="imageUpload" style="display: none">
-                    <% using (Html.BeginForm("UploadPicture", "User", null, FormMethod.Post, new { enctype = "multipart/form-data" })){ %>
-                        <input type="file" accept="image/*" name="file" id="file" />
-                        <input class="cancel" type="submit" value="Hochladen" />
-                    <% } %>
-                </div>
-            
-                <% if(Model.ImageIsCustom){ %>
-                    <a href="#">[x]</a>       
-                <%} %>
-            <% } %>
         
             <h4 style="margin-top: 20px;">Wunschwissen-Kategorienfilter</h4>
             <% foreach (var category in Model.WishQuestionsCategories){ %>

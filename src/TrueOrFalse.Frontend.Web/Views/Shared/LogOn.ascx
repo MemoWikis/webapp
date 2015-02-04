@@ -22,8 +22,8 @@
                 <img class="userImage" src="<%= imageSetttings.GetUrl_30px_square(userSession.User.EmailAddress).Url %>" /> 
             </a>
             <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">            
-                <li><a href="<%=Url.Action(Links.User, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>">Dein Profil</a></li>
-                <li><a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>"><i class="fa fa-wrench" title="Einstellungen"></i> Einstellungen</a></li>
+                <li><a href="<%=Url.Action(Links.User, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>"><i class="fa fa-user"></i> Deine Profilseite</a></li>
+                <li><a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>"><i class="fa fa-wrench" title="Einstellungen"></i> Konto-Einstellungen</a></li>
                 <li class="divider"></li>
                  
                 <li><a href="<%= Url.Action(Links.Logout, Links.AccountController) %>"><i class="fa fa-power-off" title="Abmelden"></i> Abmelden</a>  </li>
