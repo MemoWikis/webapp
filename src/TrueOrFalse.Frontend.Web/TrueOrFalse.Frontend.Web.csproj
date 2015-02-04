@@ -364,6 +364,7 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\vendor\jquery-watch.js" />
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
     </Content>
