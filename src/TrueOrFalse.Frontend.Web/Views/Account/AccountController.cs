@@ -17,22 +17,6 @@ public class AccountController : Controller
     private readonly CredentialsAreValid _credentialsAreValid;
     private readonly WritePersistentLoginToCookie _writePersistentLoginToCookie;
         
-    //public WelcomeController(RegisterUser registerUser, 
-    //                         CredentialsAreValid credentialsAreValid, 
-    //                         WritePersistentLoginToCookie writePersistentLoginToCookie)
-    //{
-    //    _registerUser = registerUser;
-    //    _credentialsAreValid = credentialsAreValid;
-    //    _writePersistentLoginToCookie = writePersistentLoginToCookie;
-    //}
-
-    //public AccountController(SessionUser sessionUser, 
-    //                         RemovePersistentLoginFromCookie removePersistentLoginFromCookie)
-    //{
-    //    _sessionUser = sessionUser;
-    //    _removePersistentLoginFromCookie = removePersistentLoginFromCookie;
-    //}
-
     public AccountController(RegisterUser registerUser, 
                              CredentialsAreValid credentialsAreValid, 
                              WritePersistentLoginToCookie writePersistentLoginToCookie,
@@ -79,6 +63,11 @@ public class AccountController : Controller
     }
 
     public ActionResult RegisterSuccess() { return View(new RegisterSuccessModel()); }
+
+    public ActionResult Membership()
+    {
+        return View(new MembershipModel());
+    }
 
     public ActionResult Login()
     {

@@ -239,6 +239,7 @@
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Code\BaseUtil.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Views\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
@@ -368,6 +369,7 @@
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
     </Content>
+    <Content Include="Views\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
     </Content>
