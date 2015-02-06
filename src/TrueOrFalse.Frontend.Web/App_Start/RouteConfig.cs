@@ -16,8 +16,9 @@ namespace TrueOrFalse
 
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
 
-            routes.MapRoute("Login", "Anmelden", new { controller = "Welcome", action = "Login" });
-            routes.MapRoute("Register", "Registrieren", new { controller = "Welcome", action = "Register" });
+            routes.MapRoute("Login", "Anmelden", new { controller = "Account", action = "Login" });
+            routes.MapRoute("Register", "Registrieren", new { controller = "Account", action = "Register" });
+
 
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "Willkommen" });
 
