@@ -88,7 +88,7 @@
                     <b>...schneller zu lernen.</b>
                     <p>
                         MEMuchO analysiert dein Lernverhalten und 
-                        versucht den kk optimalen Zeitpunkt für eine 
+                        versucht den optimalen Zeitpunkt für eine 
                         benötigte Wiederholung von Wissen zu ermitteln. 
                         So kannst du schneller lernen.
                     </p>
