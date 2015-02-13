@@ -70,6 +70,9 @@ namespace Tool.SolrAdmin
         private void SetSolrSettings()
         {
             var settings = SettingsRepo.Load();
+            if (string.IsNullOrEmpty(settings.SolrPath) || string.IsNullOrEmpty(settings.SolrPath))
+                return; 
+
             SolrCoreReload.Set(settings.SolrUrl, settings.SolrPath);
         }
 

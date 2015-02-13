@@ -16,7 +16,7 @@ _Re[Ss]harper.*
 
 src/TrueOrFalse.Frontend.Web/Images/*
 src/TrueOrFalse.Frontend.Web/TrueOrFalse.Frontend.Web.Publish.xml
-src/TrueOrFalse.Frontend.Web/Web.overwritten.config
+*.overwritten.config
 src/TrueOrFalse.Tests/A
 src/TrueOrFalse.Frontend.Web/Images/Categories/
 src/packages
