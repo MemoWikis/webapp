@@ -65,7 +65,7 @@
                 <div class="boxtainer-header MobileHide">
                     <ul class="nav nav-tabs">
                         <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
-                            <a href="<%= Links.Sets() %>" >Alle Fragesätze (<%= Model.TotalSets %>)</a>
+                            <a href="<%= Links.Sets() %>">Alle Fragesätze (<%= Model.TotalSets %>)</a>
                         </li>
                         <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
                             <a href="<%= Links.SetsWish() %>">Mein Wunschwissen (<span class="tabWishKnowledgeCount"><%= Model.TotalWish %></span>)</a>

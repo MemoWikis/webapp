@@ -52,7 +52,7 @@ public class SetsModel : BaseModel
         ActiveTabMine = isTabMineActive;
         ActiveTabWish = isTabWishActice;
 
-        AccessNotAllowed = !_sessionUser.IsLoggedIn;
+        AccessNotAllowed = !_sessionUser.IsLoggedIn && !ActiveTabAll;
 
         OrderBy = searchSpec.OrderBy;
         OrderByLabel = searchSpec.OrderBy.ToText();
