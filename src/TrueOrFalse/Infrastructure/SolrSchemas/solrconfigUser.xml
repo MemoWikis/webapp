@@ -109,12 +109,14 @@
       <str name="spellcheck">on</str>
       <str name="spellcheck.extendedResults">false</str>
       <str name="spellcheck.count">5</str>
-      <str name="spellcheck.alternativeTermCount">2</str>
+      <str name="spellcheck.alternativeTermCount">5</str>
       <str name="spellcheck.maxResultsForSuggest">5</str>
-      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.collate">false</str>
       <str name="spellcheck.collateExtendedResults">false</str>
       <str name="spellcheck.maxCollationTries">5</str>
       <str name="spellcheck.maxCollations">3</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.threshold">0.5</str>
     </lst>
 
     <arr name="last-components">
