@@ -36,6 +36,8 @@ namespace Tool.SolrAdmin
             lblMessage.Visibility = Visibility.Hidden;
 
             SetSolrSettings();
+
+            SolrCoreReload.Message += (sender, message) => WriteLog(message);
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -98,6 +100,18 @@ namespace Tool.SolrAdmin
         {
             SolrCoreReload.ReloadAllConfigs(testSchemas: true);
             SetMessage("TESTs: Configs wurden kopiert");
+        }
+
+        private void WriteLog(string log)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                txtLog.Text =
+                    "[" + DateTime.Now.ToString("HH:mm:ss") + "] " +
+                    log +
+                    Environment.NewLine +
+                    txtLog.Text;
+            });
         }
     }
 }
