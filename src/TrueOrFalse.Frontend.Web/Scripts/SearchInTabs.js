@@ -4,6 +4,11 @@
         this._categories = [];
         this._elemContainer = $("#JS-SearchResult");
 
+        $('#btnSearch').click(function (e) {
+            e.preventDefault();
+            _this.SubmitSearch();
+        });
+
         $("#txtSearch").typeWatch({
             callback: function (value) {
                 _this.SubmitSearch();
@@ -11,6 +16,12 @@
             wait: 500,
             highlight: true,
             captureLength: 2
+        });
+
+        $("#txtSearch").keypress(function (e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+            }
         });
     }
     SearchInTabs.prototype.SubmitSearch = function () {
@@ -40,6 +51,7 @@
                 page.Init();
 
                 $('.show-tooltip').tooltip();
+                Images.Init();
             }
         });
     };

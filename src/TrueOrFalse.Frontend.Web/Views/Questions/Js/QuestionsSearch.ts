@@ -1,7 +1,6 @@
 ﻿/* A shared class */
 class QuestionsSearch extends SearchInTabs {
 
-
     constructor() {
         super();
         var filterSelector = "#txtCategoryFilter";
@@ -19,11 +18,7 @@ class QuestionsSearch extends SearchInTabs {
         $(filterSelector).on("initCategoryIds", (e, categoryId) => {
             this._categories.push(categoryId);
         });
-
-
     }
-
-
 }
 
 $(function () {

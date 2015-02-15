@@ -77,6 +77,6 @@ $(function () {
     InitLabelTooltips();
     InitIconTooltips('fa-trash-o', 'Löschen');
     InitIconTooltips('fa-pencil', 'Bearbeiten');
-    fnInitImages();
+    Images.Init();
 });
 //# sourceMappingURL=Site.js.map

@@ -6,11 +6,22 @@
     constructor() {
         this._elemContainer = $("#JS-SearchResult");
 
+        $('#btnSearch').click((e) => {
+            e.preventDefault();
+            this.SubmitSearch();
+        });
+
         $("#txtSearch").typeWatch({
             callback: value => { this.SubmitSearch(); },
             wait: 500,
             highlight: true,
             captureLength: 2
+        });
+
+        $("#txtSearch").keypress(e => {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+            }
         });
     }
 
@@ -46,6 +57,7 @@
                 page.Init();
 
                 $('.show-tooltip').tooltip();
+                Images.Init();
             }
         });
     }
