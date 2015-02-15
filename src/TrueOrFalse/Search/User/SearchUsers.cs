@@ -20,7 +20,7 @@ namespace TrueOrFalse.Search
             else if (searchSpec.OrderBy.WishCount.IsCurrent()) orderBy = SearchUsersOrderBy.WishCount;
 
             var result = Run(searchSpec.SearchTerm, searchSpec, orderBy);
-            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking);
+            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking, searchSpec.SearchTerm);
 
             return result;
         }

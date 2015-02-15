@@ -30,7 +30,7 @@ namespace TrueOrFalse.Search
                 searchSpec.Filter.ValuatorId,
                 orderBy: orderBy);
 
-            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking);
+            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking, searchSpec.SearchTerm);
 
             return result;
         }
