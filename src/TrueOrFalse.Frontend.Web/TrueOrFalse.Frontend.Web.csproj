@@ -364,6 +364,12 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\SearchInTabs.js">
+      <DependentUpon>SearchInTabs.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SearchInTabsResult.js">
+      <DependentUpon>SearchInTabsResult.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\vendor\jquery-watch.js" />
     <Content Include="Scripts\vendor\jquery.typewatch.js" />
     <Content Include="Style\pages.css">
@@ -721,6 +727,12 @@
     <Content Include="Style\pages.css.map">
       <DependentUpon>pages.css</DependentUpon>
     </Content>
+    <Content Include="Scripts\SearchInTabs.js.map">
+      <DependentUpon>SearchInTabs.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SearchInTabsResult.js.map">
+      <DependentUpon>SearchInTabsResult.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
@@ -919,6 +931,8 @@
     <Compile Include="Views\Welcome\WelcomeModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
+    <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
     <TypeScriptCompile Include="Views\Users\Settings\Validation.ts" />
   </ItemGroup>
   <ItemGroup>
