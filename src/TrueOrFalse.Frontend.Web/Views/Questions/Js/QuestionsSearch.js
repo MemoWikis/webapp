@@ -19,7 +19,7 @@ var QuestionsSearch = (function (_super) {
 
         autoCompleteCategories.OnRemove = function (categoryId) {
             _this._categories = $.grep(_this._categories, function (x) {
-                return x != categoryId;
+                return x !== categoryId;
             });
             _this.SubmitSearch();
         };

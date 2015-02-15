@@ -15,7 +15,7 @@
             callback: value => { this.SubmitSearch(); },
             wait: 500,
             highlight: true,
-            captureLength: 2
+            captureLength: 0
         });
 
         $("#txtSearch").keypress(e => {
