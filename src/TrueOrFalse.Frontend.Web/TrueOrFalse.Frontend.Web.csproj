@@ -365,6 +365,7 @@
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\jquery-watch.js" />
+    <Content Include="Scripts\vendor\jquery.typewatch.js" />
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
     </Content>

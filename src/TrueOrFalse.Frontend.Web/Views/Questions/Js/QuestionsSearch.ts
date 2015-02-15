@@ -31,18 +31,16 @@ class QuestionsSearch {
         });
 
         this._elemContainer = $("#JS-SearchResult");
-        var _self = this;
-
         $('#btnSearch').click((e) => {
             e.preventDefault();
             this.SubmitSearch();
         } );
 
-        $("#txtSearch").keypress(function (e) {
-            if (e.keyCode === 13) {
-                e.preventDefault();
-                _self.SubmitSearch();
-            }
+        $("#txtSearch").typeWatch({
+            callback: value => { this.SubmitSearch(); },
+            wait: 500,
+            highlight: true,
+            captureLength: 2
         });
     }
 

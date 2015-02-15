@@ -23,18 +23,18 @@
         });
 
         this._elemContainer = $("#JS-SearchResult");
-        var _self = this;
-
         $('#btnSearch').click(function (e) {
             e.preventDefault();
             _this.SubmitSearch();
         });
 
-        $("#txtSearch").keypress(function (e) {
-            if (e.keyCode === 13) {
-                e.preventDefault();
-                _self.SubmitSearch();
-            }
+        $("#txtSearch").typeWatch({
+            callback: function (value) {
+                _this.SubmitSearch();
+            },
+            wait: 500,
+            highlight: true,
+            captureLength: 2
         });
     }
     QuestionsSearch.prototype.SubmitSearch = function () {
