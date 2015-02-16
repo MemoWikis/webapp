@@ -23,4 +23,5 @@ class QuestionsSearch extends SearchInTabs {
 
 $(() => {
     new QuestionsSearch();
+    new SearchInTabs();
 })

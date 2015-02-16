@@ -56,10 +56,13 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Question_SaveRelevancePersonal", "Questions/SaveRelevancePersonal/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevancePersonal" });
             /* API */ routes.MapRoute("Question_SaveRelevanceForAll", "Questions/SaveRelevanceForAll/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevanceForAll" });
 
+            routes.MapRoute("Sets_MineSearchApi", "FrageSaetze/Meine/SucheApi", new { controller = "Sets", action = "SetsMineSearchApi" });
             routes.MapRoute("Sets_MineSearch", "FrageSaetze/Meine/Suche/{searchTerm}", new { controller = "Sets", action = "SetsMineSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets_Mine", "FrageSaetze/Meine", new { controller = "Sets", action = "SetsMine" });
+            routes.MapRoute("Sets_WishSearchApi", "FrageSaetze/Wunschwissen/SucheApi", new { controller = "Sets", action = "SetsWishSearchApi" });
             routes.MapRoute("Sets_WishSearch", "FrageSaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Sets", action = "SetsWishSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets_Wish", "FrageSaetze/Wunschwissen", new { controller = "Sets", action = "SetsWish" });
+            routes.MapRoute("Sets_SearchApi", "FrageSaetze/SucheApi", new { controller = "Sets", action = "SetsSearchApi" });
             routes.MapRoute("Sets_Search", "FrageSaetze/Suche/{searchTerm}", new { controller = "Sets", action = "SetsSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets", "FrageSaetze/{action}", new { controller = "Sets", action = "Sets" });
             /* API */ routes.MapRoute("Sets_DeleteDetails", "Sets/DeleteDetails/{setId}", new { controller = "Sets", action = "DeleteDetails" });

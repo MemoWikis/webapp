@@ -24,8 +24,14 @@ public class SetsController : BaseController
 
     public ActionResult SetsWishSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
-        _util.SetSearchFilter(_sessionUiData.SearchSpecSetAll, model, searchTerm);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetWish, model, searchTerm);
         return SetsWish(page, model, orderBy);
+    }
+
+    public ActionResult SetsWishSearchApi(string searchTerm)
+    {
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetWish, new SetsModel(), searchTerm);
+        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetWish, SearchTab.Wish, ControllerContext);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
@@ -40,9 +46,15 @@ public class SetsController : BaseController
             new SetsModel(sets, _sessionUiData.SearchSpecSetWish, SearchTab.Wish));
     }
 
+    public ActionResult SetsMineSearchApi(string searchTerm)
+    {
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetMine, new SetsModel(), searchTerm);
+        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetMine, SearchTab.Mine, ControllerContext);
+    }
+
     public ActionResult SetsMineSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
-        _util.SetSearchFilter(_sessionUiData.SearchSpecSetAll, model, searchTerm);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetMine, model, searchTerm);
         return SetsMine(page, model, orderBy);
     }
 
@@ -59,25 +71,23 @@ public class SetsController : BaseController
 
     public ActionResult SetsSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
-        _util.SetSearchFilter(_sessionUiData.SearchSpecSetAll, model, searchTerm);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetsAll, model, searchTerm);
         return Sets(page, model, orderBy);
     }
 
-    public JsonResult SetsSearchApi(string searchTerm, List<Int32> categories)
+    public JsonResult SetsSearchApi(string searchTerm)
     {
-        var model = new QuestionsModel();
-        //_util.SetSearchFilter(_sessionUiData.SearchSpecQuestionAll, model, searchTerm, categories ?? new List<int>());
-
-        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetAll, SearchTab.All, ControllerContext);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetsAll, new SetsModel(), searchTerm);
+        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetsAll, SearchTab.All, ControllerContext);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult Sets(int? page, SetsModel model, string orderBy)
     {
-        _util.SetSearchSpecVars(_sessionUiData.SearchSpecSetAll, page, orderBy);
+        _util.SetSearchSpecVars(_sessionUiData.SearchSpecSetsAll, page, orderBy);
 
-        var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetAll);
-        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetAll, SearchTab.All));
+        var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetsAll);
+        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetsAll, SearchTab.All));
     }
 
     [HttpPost]
@@ -149,7 +159,7 @@ public class SetsController : BaseController
                 Data = new
                 {
                     Html = ViewRenderer.RenderPartialView(
-                        "QuestionsSearchResult",
+                        "SetsSearchResult",
                         new SetsSearchResultModel(
                             GetSetsModel(
                                 searchSpec.CurrentPage, 

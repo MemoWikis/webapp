@@ -34,17 +34,17 @@
             <div class="container">
                 <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
                 
-                    <div class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
+                    <div class="btn-group  <%= Model.ActiveTabAll ? "active" : "" %> JS-All">
                         <a  href="<%= Links.Sets() %>" type="button" class="btn btn-default">
-                            Alle (<span class="JS-Amount"><%= Model.TotalSets %></span>)
+                            Alle (<span class="JS-Amount"><%= Model.TotalSetsInSystem %></span>)
                         </a>
                     </div>
-                    <div class="btn-group <%= Model.ActiveTabWish ? "active" : "" %>">
+                    <div class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-Wish">
                         <a  href="<%= Links.SetsWish() %>" type="button" class="btn btn-default">
                             Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= Model.TotalWish %></span>)
                         </a>
                     </div>
-                    <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %>">
+                    <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-Mine">
                         <a href="<%= Links.SetsMine() %>" type="button" class="btn btn-default">
                             Meine (<span class="JS-Amount"><%= Model.TotalMine %></span>)
                             <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die von dir erstellt wurden." data-placement="right"></i>
@@ -61,18 +61,35 @@
     <div id="set-main">
         <% using (Html.BeginForm()) { %>
         
+           <script runat="server" type="text/C#">
+                public string GetTabText(bool getText, int totalInSystem, int totalInResult)
+                {
+                    if (!getText || totalInSystem == totalInResult)
+                        return "";
+
+                    return totalInResult + " von ";
+                }
+            </script>
+        
              <div class="boxtainer-outlined-tabs">       
                 <div class="boxtainer-header MobileHide">
-                    <ul class="nav nav-tabs">
-                        <li class="<%= Model.ActiveTabAll ? "active" : ""  %>">
-                            <a href="<%= Links.Sets() %>">Alle Fragesätze (<%= Model.TotalSets %>)</a>
+                    <ul class="nav nav-tabs JS-Tabs">
+                        <li class="<%= Model.ActiveTabAll ? "active" : ""  %> JS-All">
+                            <a href="<%= Links.Sets() %>">
+                                <% string von = GetTabText(Model.ActiveTabAll, Model.TotalSetsInSystem, Model.TotalSetsInResult); %> 
+                                Alle Fragesätze (<span class="JS-Amount"><%= von + Model.TotalSetsInSystem %></span>)
+                            </a>
                         </li>
-                        <li class="<%= Model.ActiveTabWish ? "active" : ""  %>">
-                            <a href="<%= Links.SetsWish() %>">Mein Wunschwissen (<span class="tabWishKnowledgeCount"><%= Model.TotalWish %></span>)</a>
+                        <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-Wish">
+                            <a href="<%= Links.SetsWish() %>">
+                                <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalSetsInResult); %>
+                                Mein Wunschwissen (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWish %></span>)
+                            </a>
                         </li>
-                        <li class="<%= Model.ActiveTabMine ? "active" : ""  %>">
+                        <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-Mine">
                             <a href="<%= Links.SetsMine() %>">
-                                Meine Fragesätze (<%= Model.TotalMine %>)
+                                <% von = GetTabText(Model.ActiveTabMine, Model.TotalMine, Model.TotalSetsInResult); %>
+                                Meine Fragesätze (<span class="JS-Amount"><%= von + Model.TotalMine %></span>)
                                 <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die von dir erstellt wurden"></i>
                             </a>
                         </li>
@@ -89,17 +106,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="pull-left form-group">
-                                    <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+<%--                                <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
                                         <div style="padding-bottom: 10px; font-size: large">
                                             Oder suchst du: 
                                             <a href="<%= Model.SearchUrl + Model.Suggestion %>">
                                                 <%= Model.Suggestion %>
                                             </a> ?
                                         </div>
-                                    <% } %>                                
+                                    <% } %>--%>
                                 
                                     <div class="input-group">
-                                        <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch", formUrl=Model.SearchUrl}) %>
+                                        <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch", formUrl=Model.SearchUrl }) %>
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                                         </span>

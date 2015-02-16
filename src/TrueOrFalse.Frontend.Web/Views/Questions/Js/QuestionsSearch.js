@@ -33,5 +33,6 @@ var QuestionsSearch = (function (_super) {
 
 $(function () {
     new QuestionsSearch();
+    new SearchInTabs();
 });
 //# sourceMappingURL=QuestionsSearch.js.map
