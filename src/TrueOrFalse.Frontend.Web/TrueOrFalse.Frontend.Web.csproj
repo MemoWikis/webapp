@@ -886,7 +886,6 @@
     <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
     <Compile Include="Views\Shared\MenuLeftModel.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
-    <Compile Include="Views\Shared\Site.Resources.TitleModel.cs" />
     <Compile Include="Views\Users\Detail\UserController.cs" />
     <Compile Include="Views\Users\Detail\UserModel.cs" />
     <Compile Include="Views\Users\Settings\UserSettingsController.cs" />
@@ -1188,8 +1187,8 @@
       <DependentUpon>Users.less</DependentUpon>
     </Content>
     <Content Include="Views\VariousPublic\QUnit.aspx" />
-    <Content Include="Views\Shared\Site.Resources.Title.ascx" />
-    <Content Include="Views\Shared\Site.Resources.Head.ascx" />
+    <Content Include="Views\Shared\Site.Partial.MasterHeader.ascx" />
+    <Content Include="Views\Shared\Site.Partial.Head.ascx" />
     <Content Include="Views\Shared\Site.MenuNo.Master" />
     <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
@@ -1417,7 +1416,7 @@
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Account\RegisterSuccess.aspx" />
     <Content Include="Views\Welcome\Welcome.aspx" />
-    <Content Include="Views\Welcome\WelcomeFooter.ascx" />
+    <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
