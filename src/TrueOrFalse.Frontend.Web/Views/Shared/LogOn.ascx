@@ -2,9 +2,12 @@
 <%@ Import Namespace="TrueOrFalse.Web.Context" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-
+<a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
+    <i class="fa fa-thumbs-up"></i>
+    <span class="TextSpan">Werde Unterstützer</span>
+</a>
 <a class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">
-    <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
+    <i class="fa fa-question-circle"></i>
     <span class="TextSpan Help">Hilfe & mehr</span>
 </a> 
 <%

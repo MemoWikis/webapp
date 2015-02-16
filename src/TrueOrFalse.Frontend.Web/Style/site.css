@@ -44,6 +44,10 @@ body {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
   color: #203256;
+  display: flex;
+  min-height: 100vh;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 h1,
 h2,
@@ -363,6 +367,14 @@ img {
 #loginAndHelp a.TextLinkWithIcon:active *,
 #loginAndHelp a.TextLinkWithIcon:focus * {
   text-decoration: none;
+}
+#loginAndHelp #SupportUs {
+  color: #ffd700;
+}
+#loginAndHelp #SupportUs:hover,
+#loginAndHelp #SupportUs:active,
+#loginAndHelp #SupportUs:focus {
+  color: #afd534;
 }
 @media (min-width: 480px) {
   #loginAndHelp a.helpLink {
@@ -751,6 +763,8 @@ fieldset[disabled] #MenuButton:hover {
 ----------------------------------------------------------*/
 #MasterSection {
   position: relative;
+  -ms-flex: 1;
+  flex: 1;
 }
 #MasterSectionBackgroundLayer {
   position: absolute;
@@ -1005,6 +1019,7 @@ fieldset[disabled] #MenuButton:hover {
   padding-top: 20px;
   padding-left: 15px;
   padding-right: 15px;
+  padding-bottom: 20px;
   position: relative;
 }
 #MasterFooter #footerOn {

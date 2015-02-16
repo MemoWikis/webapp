@@ -379,7 +379,7 @@ img {
         vertical-align: middle;
     }
 
-    a.TextLinkWithIcon {
+    a.TextLinkWithIcon:not(.active) {
         color: @light-blue;
 
         &:hover, &:active, &:focus {
@@ -389,6 +389,23 @@ img {
                 text-decoration: none;
             }
         }
+
+        &.active {
+
+            color: 
+
+            span {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    #SupportUs {
+        color: @middle-yellow;
+
+         &:hover, &:active, &:focus {
+            color: @memo-green;
+         }
     }
 
     a.helpLink {

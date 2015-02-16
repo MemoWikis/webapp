@@ -179,9 +179,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /**/
         public const string WelcomeController = "Welcome";
-        public const string Register = "Register";
-        public const string RegisterSuccess = "RegisterSuccess";
-        public const string Login = "Login";
 
         public const string VariousController = "VariousPublic";
         public const string Impressum = "Imprint";
@@ -195,7 +192,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string HelpWunschwissen = "Willkommen";
 
         public const string AccountController = "Account";
+        public const string Register = "Register";
+        public const string RegisterSuccess = "RegisterSuccess";
+        public const string Login = "Login";
         public const string Logout = "Logout";
+        public const string Membership = "Membership";
 
         public static UrlHelper GetUrlHelper()
         {
