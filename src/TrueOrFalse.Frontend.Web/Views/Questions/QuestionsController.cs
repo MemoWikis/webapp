@@ -175,11 +175,10 @@ namespace TrueOrFalse
         {
             SetSearchSpecVars(searchSpec, page, model, orderBy);
 
-            if (searchTab == SearchTab.Mine){
+            if (searchTab == SearchTab.Mine)
                 searchSpec.Filter.CreatorId = _sessionUser.UserId;
-            }else if (searchTab == SearchTab.Wish){
+            else if (searchTab == SearchTab.Wish)
                 searchSpec.Filter.ValuatorId = _sessionUser.UserId;
-            }
 
             var questionsModel = new QuestionsModel(_ctlSearch.Run(searchSpec), searchSpec, searchTab);
 

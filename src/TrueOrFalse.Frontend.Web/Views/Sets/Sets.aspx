@@ -130,27 +130,17 @@
                                     </li>
                                 </ul>
                             </div>
-
-                        </div>
-        
-                        <div style="clear:both;">
-                            <% 
-                                if(Model.AccessNotAllowed){
-                                    Html.RenderPartial("RegisterOrLogin_Sets");
-                                }else{ 
-                                    foreach (var row in Model.Rows){
-                                        Html.RenderPartial("SetRow", row);
-                                    } 
-                                }
-                            %>
-                        </div>
-                        
-                    </div>
                     
-                    <% Html.RenderPartial("Pager", Model.Pager); %>
+                        </div>
+                    </div>
+                            
+                    <div id="JS-SearchResult">
+                        <% Html.RenderPartial("SetsSearchResult", Model.SearchResultModel); %>
+                    </div>
+              
                 </div>
-            </div>
-        <% } %>
+            <% } %>
+        </div>
     </div>
     
     <%

@@ -24,9 +24,7 @@ namespace TrueOrFalse.Search
             var result = Run(
                 searchSpec.SearchTerm,
                 searchSpec,
-                searchSpec.Filter.CreatorId.IsActive()
-                    ? Convert.ToInt32(searchSpec.Filter.CreatorId.GetValue())
-                    : -1,
+                searchSpec.Filter.CreatorId,
                 searchSpec.Filter.ValuatorId,
                 orderBy: orderBy);
 

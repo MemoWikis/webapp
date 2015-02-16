@@ -26,12 +26,8 @@ namespace TrueOrFalse
     [Serializable]
     public class SetFilter : ConditionContainer
     {
-        public ConditionInteger CreatorId;
+        public int CreatorId = -1;
         public int ValuatorId = -1;
-
-        public SetFilter(){
-            CreatorId = new ConditionInteger(this, "Creator.Id");
-        }
     }
 
     [Serializable]
