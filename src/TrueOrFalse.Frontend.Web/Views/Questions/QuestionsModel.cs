@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using FluentNHibernate.Conventions;
-using TrueOrFalse.Frontend.Web.Code;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionsModel : BaseModel
 {
-    private readonly SearchTab _searchTab;
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
 
     public PagerModel Pager { get; set; }
@@ -47,7 +45,6 @@ public class QuestionsModel : BaseModel
         SearchTab searchTab
     )
     {
-        SearchTab = searchTab.ToString();
         ActiveTabAll = searchTab == TrueOrFalse.SearchTab.All;
         ActiveTabMine = searchTab == TrueOrFalse.SearchTab.Mine;
         ActiveTabWish = searchTab == TrueOrFalse.SearchTab.Wish;

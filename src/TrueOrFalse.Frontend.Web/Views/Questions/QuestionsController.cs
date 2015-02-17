@@ -12,7 +12,7 @@ namespace TrueOrFalse
         private readonly QuestionRepository _questionRepository;
         private readonly QuestionsControllerSearch _questionsControllerSearch;
         private readonly QuestionsControllerUtil _util;
-
+         
         public QuestionsController(
             QuestionRepository questionRepository,
             QuestionsControllerSearch questionsControllerSearch)
@@ -75,9 +75,7 @@ namespace TrueOrFalse
 
         public JsonResult QuestionsMineSearchApi(string searchTerm, List<Int32> categories)
         {
-            var model = new QuestionsModel();
-            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionMine, model, searchTerm, categories ?? new List<int>());
-
+            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionMine, new QuestionsModel(), searchTerm, categories ?? new List<int>());
             return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, SearchTab.Mine, ControllerContext);
         }
 
@@ -100,9 +98,7 @@ namespace TrueOrFalse
 
         public JsonResult QuestionsWishSearchApi(string searchTerm, List<Int32> categories)
         {
-            var model = new QuestionsModel();
-            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionWish, model, searchTerm, categories ?? new List<int>());
-
+            _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionWish, new QuestionsModel(), searchTerm, categories ?? new List<int>());
             return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionWish, SearchTab.Wish, ControllerContext);
         }
 
@@ -175,11 +171,10 @@ namespace TrueOrFalse
         {
             SetSearchSpecVars(searchSpec, page, model, orderBy);
 
-            if (searchTab == SearchTab.Mine){
+            if (searchTab == SearchTab.Mine)
                 searchSpec.Filter.CreatorId = _sessionUser.UserId;
-            }else if (searchTab == SearchTab.Wish){
+            else if (searchTab == SearchTab.Wish)
                 searchSpec.Filter.ValuatorId = _sessionUser.UserId;
-            }
 
             var questionsModel = new QuestionsModel(_ctlSearch.Run(searchSpec), searchSpec, searchTab);
 
@@ -210,7 +205,8 @@ namespace TrueOrFalse
                         "QuestionsSearchResult",
                         new QuestionsSearchResultModel(
                             GetQuestionsModel(
-                                searchSpec.CurrentPage, model,
+                                searchSpec.CurrentPage, 
+                                model,
                                 "",
                                 searchSpec,
                                 searchTab

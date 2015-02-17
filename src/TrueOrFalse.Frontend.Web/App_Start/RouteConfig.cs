@@ -57,12 +57,13 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Question_SaveRelevancePersonal", "Questions/SaveRelevancePersonal/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevancePersonal" });
             /* API */ routes.MapRoute("Question_SaveRelevanceForAll", "Questions/SaveRelevanceForAll/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevanceForAll" });
 
-            routes.MapRoute("Sets_MineSearch", "Fragesaetze/Meine/Suche/{searchTerm}", new { controller = "Sets", action = "SetsMineSearch", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Sets_MineSearchApi", "Fragesaetze/Meine/SucheApi", new { controller = "Sets", action = "SetsMineSearchApi" });
             routes.MapRoute("Sets_Mine", "Fragesaetze/Meine", new { controller = "Sets", action = "SetsMine" });
             routes.MapRoute("Sets_WishSearch", "Fragesaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Sets", action = "SetsWishSearch", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Sets_Wish", "Fragesaetze/Wunschwissen", new { controller = "Sets", action = "SetsWish" });
+            routes.MapRoute("Sets_WishSearchApi", "Fragesaetze/Wunschwissen/SucheApi", new { controller = "Sets", action = "SetsWishSearchApi" });
             routes.MapRoute("Sets_Search", "Fragesaetze/Suche/{searchTerm}", new { controller = "Sets", action = "SetsSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets", "Fragesaetze/{action}", new { controller = "Sets", action = "Sets" });
+            routes.MapRoute("Sets_SearchApi", "FrageSaetze/SucheApi", new { controller = "Sets", action = "SetsSearchApi" });
             /* API */ routes.MapRoute("Sets_DeleteDetails", "Sets/DeleteDetails/{setId}", new { controller = "Sets", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Sets_Delete", "Sets/Delete/{setId}", new { controller = "Sets", action = "Delete" });
             /* API */ routes.MapRoute("Sets_SaveRelevancePersonal", "Sets/SaveRelevancePersonal/{id}/{newValue}", new { controller = "Sets", action = "SaveRelevancePersonal" });

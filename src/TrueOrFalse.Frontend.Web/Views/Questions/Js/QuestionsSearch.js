@@ -1,9 +1,15 @@
-﻿var QuestionsSearch = (function () {
+﻿var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+/* A shared class */
+var QuestionsSearch = (function (_super) {
+    __extends(QuestionsSearch, _super);
     function QuestionsSearch() {
         var _this = this;
-        this._categories = [];
-        var self = this;
-
+        _super.call(this);
         var filterSelector = "#txtCategoryFilter";
         var autoCompleteCategories = new AutocompleteCategories(filterSelector);
         autoCompleteCategories.OnAdd = function (categoryId) {
@@ -13,64 +19,20 @@
 
         autoCompleteCategories.OnRemove = function (categoryId) {
             _this._categories = $.grep(_this._categories, function (x) {
-                return x != categoryId;
+                return x !== categoryId;
             });
             _this.SubmitSearch();
         };
 
         $(filterSelector).on("initCategoryIds", function (e, categoryId) {
-            self._categories.push(categoryId);
-        });
-
-        this._elemContainer = $("#JS-SearchResult");
-        var _self = this;
-
-        $('#btnSearch').click(function (e) {
-            e.preventDefault();
-            _this.SubmitSearch();
-        });
-
-        $("#txtSearch").keypress(function (e) {
-            if (e.keyCode === 13) {
-                e.preventDefault();
-                _self.SubmitSearch();
-            }
+            _this._categories.push(categoryId);
         });
     }
-    QuestionsSearch.prototype.SubmitSearch = function () {
-        var _this = this;
-        this._elemContainer.html("<div style='text-align:center; padding-top: 30px;'>" + "<i class='fa fa-spinner fa-spin'></i>" + "</div>");
-
-        $.ajax({
-            url: $('#txtSearch').attr("formUrl") + "Api",
-            data: {
-                searchTerm: $('#txtSearch').val(),
-                categories: this._categories
-            },
-            traditional: true,
-            type: 'json',
-            success: function (data) {
-                _this._elemContainer.html(data.Html);
-
-                var tabAmount = data.TotalInResult.toString() + " von " + data.TotalInSystem.toString();
-                if (data.TotalInResult == data.TotalInSystem) {
-                    tabAmount = data.TotalInSystem.toString();
-                }
-
-                Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Fragen");
-                Utils.SetElementValue2($(".JS-Tabs").find(".JS-" + data.Tab).find("span.JS-Amount"), tabAmount);
-
-                var page = new Page();
-                page.Init();
-
-                $('.show-tooltip').tooltip();
-            }
-        });
-    };
     return QuestionsSearch;
-})();
+})(SearchInTabs);
 
 $(function () {
     new QuestionsSearch();
+    new SearchInTabs();
 });
 //# sourceMappingURL=QuestionsSearch.js.map

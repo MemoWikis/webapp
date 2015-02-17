@@ -124,14 +124,14 @@
                                     <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                                 </span>
                             </div>
-                            <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+                            <%--<% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
                                 <div class="col-xs-12" style="padding-top: 10px; font-size: large">
                                     Oder suchst du: 
                                     <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
                                         <%= Model.Suggestion %>
                                     </a> ?
                                 </div>
-                            <% } %>
+                            <% } %>--%>
                         </div>
                         <div class="form-group">
                             <div class="JS-RelatedCategories">

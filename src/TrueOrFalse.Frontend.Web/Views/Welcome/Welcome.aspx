@@ -15,9 +15,9 @@
             
         <div class="well">
             <a href="#teaser1">
-                <h1 style="margin-top: 0px; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
+                <h1 style="margin-top: 0; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
             </a>            
-            <ul style="margin-top: 0px; margin-bottom: 0px; padding-top: 3px; ">                
+            <ul style="margin-top: 0; margin-bottom: 0; padding-top: 3px; ">                
                 <li><a href="#teaser1" style="font-size: 15px;">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
                 <li><a href="#teaser2" style="font-size: 15px;">Wikipedia-Prinzip und Open Source &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
                 <li><a href="#teaser3" style="font-size: 15px;">Wer sind wir? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
@@ -88,7 +88,7 @@
                     <b>...schneller zu lernen.</b>
                     <p>
                         MEMuchO analysiert dein Lernverhalten und 
-                        versucht den kk optimalen Zeitpunkt für eine 
+                        versucht den optimalen Zeitpunkt für eine 
                         benötigte Wiederholung von Wissen zu ermitteln. 
                         So kannst du schneller lernen.
                     </p>
@@ -201,9 +201,9 @@
             if (!userSession.IsLoggedIn){
         %>
             <div class="box" style="padding: 20px; ">
-                <a href="<%= Url.Action("Login") %>" class="btn btn-success btn-lg" style="width: 100%" role="button">Anmelden</a>
+                <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-success btn-lg" style="width: 100%" role="button">Anmelden</a>
                 <br/><br/>
-                <a href="<%= Url.Action("Register") %>" class="btn btn-primary btn-lg" style="width: 100%; margins-top: 5px;" role="button">Registrieren</a>
+                <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary btn-lg" style="width: 100%;" role="button">Registrieren</a>
             </div>
         <% } %>
             
@@ -279,6 +279,7 @@
             <div class="col-md-12"><img class="media-object" src="http://lorempixel.com/260/120/g/transport/" alt="...">
         </div>
     </div>
+</div>
 </div>
 
 </asp:Content>

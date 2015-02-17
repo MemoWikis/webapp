@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 
 public class SetsModel : BaseModel
 {
@@ -16,60 +12,64 @@ public class SetsModel : BaseModel
     public bool ActiveTabMine;
     public bool ActiveTabWish;
 
-    public int TotalSets { get; private set; }
-    public int TotalMine { get; private set; }
-    public int TotalWish { get; private set; }
+    public int TotalSetsInSystem;
+    public int TotalSetsInResult;
+    public int TotalMine;
+    public int TotalWish;
 
-    public string SearchTerm { get; set;  }
-    public string SearchUrl { get; set; }
+    public string SearchTerm { get; set; }
+    public string SearchUrl;
 
-    public string OrderByLabel { get; set; }
+    public string OrderByLabel;
     public SetOrderBy OrderBy;
 
-    public bool FilterByMe { get; set; }
-    public bool FilterByAll { get; set; }
+    public bool FilterByMe;
+    public bool FilterByAll;
 
-    public PagerModel Pager { get; set; }
+    public PagerModel Pager;
 
     public string Suggestion; 
 
     public IEnumerable<SetRowModel> Rows;
+    public SetsSearchResultModel SearchResultModel;
 
     public bool AccessNotAllowed;
+
     
     public SetsModel(){}
 
     public SetsModel(
-        IEnumerable<Set> questionSets, 
+        IList<Set> questionSets, 
         SetSearchSpec searchSpec,
-        IEnumerable<SetValuation> setValutionsForCurrentUser,
-        bool isTabAllActive = false, 
-        bool isTabWishActice = false,
-        bool isTabMineActive = false
+        SearchTab searchTab
     )
     {
-        ActiveTabAll = isTabAllActive;
-        ActiveTabMine = isTabMineActive;
-        ActiveTabWish = isTabWishActice;
+        ActiveTabAll = searchTab == SearchTab.All;
+        ActiveTabMine = searchTab == SearchTab.Mine;
+        ActiveTabWish = searchTab == SearchTab.Wish;
 
-        AccessNotAllowed = !_sessionUser.IsLoggedIn;
+        AccessNotAllowed = !_sessionUser.IsLoggedIn && !ActiveTabAll;
 
         OrderBy = searchSpec.OrderBy;
         OrderByLabel = searchSpec.OrderBy.ToText();
+
+        var valuations = R<SetValuationRepository>().GetBy(questionSets.GetIds(), _sessionUser.UserId);
 
         var counter = 0;
         Rows = questionSets.Select(set => 
             new SetRowModel(
                 set,
-                NotNull.Run(setValutionsForCurrentUser.BySetId(set.Id)),
+                NotNull.Run(valuations.BySetId(set.Id)),
                 counter++, 
                 _sessionUser.UserId
             ));
 
-        TotalSets = Resolve<GetTotalSetCount>().Run();
+        TotalSetsInSystem = Resolve<GetTotalSetCount>().Run();
         TotalMine = Resolve<GetTotalSetCount>().Run(_sessionUser.UserId);
         TotalWish = Resolve<GetWishSetCount>().Run(_sessionUser.UserId);
-        
+
+        TotalSetsInResult = searchSpec.TotalItems;
+
         SearchTerm = searchSpec.SearchTerm;
         Suggestion = searchSpec.GetSuggestion();
 
@@ -77,13 +77,15 @@ public class SetsModel : BaseModel
 
         if (ActiveTabAll){
             Pager.Action = Links.SetsAction;
-            SearchUrl = "/Fragesaetze/Suche/";
+            SearchUrl = "/Fragesaetze/Suche";
         }else if (ActiveTabWish){
             Pager.Action = Links.SetsWishAction;
-            SearchUrl = "/Fragesaetze/Wunschwissen/Suche/";
+            SearchUrl = "/Fragesaetze/Wunschwissen/Suche";
         }else if (ActiveTabMine){
             Pager.Action = Links.SetsMineAction;
-            SearchUrl = "/Fragesaetze/Meine/Suche/";
+            SearchUrl = "/Fragesaetze/Meine/Suche";
         }
+
+        SearchResultModel = new SetsSearchResultModel(this);
     }
 }

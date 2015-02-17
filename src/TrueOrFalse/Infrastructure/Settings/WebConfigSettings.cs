@@ -25,7 +25,14 @@ namespace TrueOrFalse.Infrastructure
         }
 
         private static T Get<T>(string settingKey){
-            return (T)_settingReader.GetValue(settingKey, typeof(T));
+            try
+            {
+                return (T)_settingReader.GetValue(settingKey, typeof(T));
+            }
+            catch
+            {
+                return default(T);
+            }
         }
 
         static WebConfigSettings()

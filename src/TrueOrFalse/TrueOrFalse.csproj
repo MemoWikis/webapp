@@ -601,31 +601,31 @@
     <Content Include="Utilities\Update\Scripts\027-new-tbl-setValuations.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\schemaCategory.xml">
+    <Content Include="Infrastructure\SolrSchemas\schemaCategory.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\schemaQuestion.xml">
+    <Content Include="Infrastructure\SolrSchemas\schemaQuestion.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\schemaSet.xml">
+    <Content Include="Infrastructure\SolrSchemas\schemaSet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\schemaUser.xml">
+    <Content Include="Infrastructure\SolrSchemas\schemaUser.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\solr.xml">
+    <Content Include="Infrastructure\SolrSchemas\solr.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\solrconfigUser.xml">
+    <Content Include="Infrastructure\SolrSchemas\solrconfigUser.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\solrconfigSet.xml">
+    <Content Include="Infrastructure\SolrSchemas\solrconfigSet.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\solrconfigQuestion.xml">
+    <Content Include="Infrastructure\SolrSchemas\solrconfigQuestion.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Update\SolrSchemas\solrconfigCategory.xml">
+    <Content Include="Infrastructure\SolrSchemas\solrconfigCategory.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
