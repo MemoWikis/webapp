@@ -4944,8 +4944,8 @@ a.list-group-item-danger.active:focus {
   border-color: #dddddd;
 }
 .panel-default > .panel-heading {
-  color: #333333;
-  background-color: #f5f5f5;
+  color: #203256;
+  background-color: #f6f8fc;
   border-color: #dddddd;
 }
 .panel-default > .panel-heading + .panel-collapse .panel-body {

@@ -188,6 +188,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Knowledge = "Knowledge";
 
         public const string HelpController = "Help";
+        public const string HelpFAQ = "FAQ";
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
 

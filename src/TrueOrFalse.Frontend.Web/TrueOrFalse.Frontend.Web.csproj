@@ -369,6 +369,7 @@
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
     </Content>
+    <Content Include="Views\Help\Willkommen.aspx" />
     <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
@@ -787,7 +788,7 @@
     <Content Include="Views\Help\Wissen.aspx" />
     <Content Include="Views\Help\Reputation.aspx" />
     <Content Include="Views\Help\DatenSicherheit.aspx" />
-    <Content Include="Views\Help\Willkommen.aspx" />
+    <Content Include="Views\Help\FAQ.aspx" />
     <Content Include="Fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Fonts\glyphicons-halflings-regular.woff" />

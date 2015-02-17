@@ -19,7 +19,7 @@ namespace TrueOrFalse
             routes.MapRoute("Login", "Anmelden", new { controller = "Welcome", action = "Login" });
             routes.MapRoute("Register", "Registrieren", new { controller = "Welcome", action = "Register" });
 
-            routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "Willkommen" });
+            routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
 
             routes.MapRoute("UsersSearch", "Nutzer/Suche/{searchTerm}", new { controller = "Users", action = "Search", searchTerm = UrlParameter.Optional });
             routes.MapRoute("UserSettings", "Nutzer/Einstellungen", new { controller = "UserSettings", action = "UserSettings" });

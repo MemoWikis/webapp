@@ -6,7 +6,7 @@
     <i class="fa fa-thumbs-up"></i>
     <span class="TextSpan">Werde Unterstützer</span>
 </a>
-<a class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">
+<a class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">
     <i class="fa fa-question-circle"></i>
     <span class="TextSpan Help">Hilfe & mehr</span>
 </a> 
