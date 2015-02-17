@@ -239,7 +239,7 @@
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Code\BaseUtil.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
-    <Compile Include="Views\Account\MembershipModel.cs" />
+    <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
@@ -369,7 +369,7 @@
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
     </Content>
-    <Content Include="Views\Account\Membership.aspx" />
+    <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
     </Content>
@@ -834,7 +834,7 @@
     <Compile Include="Views\Help\HelpModel.cs" />
     <Compile Include="Views\Images\ImagesController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceController.cs" />
-    <Compile Include="Views\Account\AccountController.cs" />
+    <Compile Include="Views\Users\Account\AccountController.cs" />
     <Compile Include="Views\Api\ExportController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\ExportModel.cs" />
@@ -888,8 +888,8 @@
     <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Users\Detail\UserController.cs" />
     <Compile Include="Views\Users\Detail\UserModel.cs" />
-    <Compile Include="Views\Users\Settings\UserSettingsController.cs" />
-    <Compile Include="Views\Users\Settings\UserSettingsModel.cs" />
+    <Compile Include="Views\Users\Account\Settings\UserSettingsController.cs" />
+    <Compile Include="Views\Users\Account\Settings\UserSettingsModel.cs" />
     <Compile Include="Views\Users\UserRowModel.cs" />
     <Compile Include="Views\Users\UsersController.cs" />
     <Compile Include="Views\Users\UsersControllerSearch.cs" />
@@ -901,16 +901,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Account\LoginModel.cs" />
-    <Compile Include="Views\Account\PasswordRecoveryModel.cs" />
-    <Compile Include="Views\Account\PasswordResetModel.cs" />
-    <Compile Include="Views\Account\RegisterModel.cs">
+    <Compile Include="Views\Welcome\LoginModel.cs" />
+    <Compile Include="Views\Welcome\PasswordRecoveryModel.cs" />
+    <Compile Include="Views\Welcome\PasswordResetModel.cs" />
+    <Compile Include="Views\Welcome\RegisterModel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Account\RegisterModelToUser.cs">
+    <Compile Include="Views\Welcome\RegisterModelToUser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Account\RegisterSuccessModel.cs">
+    <Compile Include="Views\Welcome\RegisterSuccessModel.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\Welcome\WelcomeController.cs">
@@ -919,7 +919,7 @@
     <Compile Include="Views\Welcome\WelcomeModel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <TypeScriptCompile Include="Views\Users\Settings\Validation.ts" />
+    <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -1177,10 +1177,10 @@
     <Content Include="Views\Users\Js\Users.js">
       <DependentUpon>Users.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Settings\UserSettings.css">
+    <Content Include="Views\Users\Account\Settings\UserSettings.css">
       <DependentUpon>UserSettings.less</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Settings\Validation.js">
+    <Content Include="Views\Users\Account\Settings\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Users\Users.css">
@@ -1370,18 +1370,18 @@
     <Content Include="Views\Images\ImageDetail.js.map">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Settings\UserSettings.less" />
-    <Content Include="Views\Users\Settings\UserSettings.css.map">
+    <Content Include="Views\Users\Account\Settings\UserSettings.less" />
+    <Content Include="Views\Users\Account\Settings\UserSettings.css.map">
       <DependentUpon>UserSettings.css</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Settings\Validation.js.map">
+    <Content Include="Views\Users\Account\Settings\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Web.overwritten.config.sample" />
-    <Content Include="Views\Account\Logout.aspx" />
+    <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
     <Content Include="Views\Categories\Categories.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
@@ -1398,7 +1398,7 @@
     <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\Users\Detail\User.aspx" />
     <TypeScriptCompile Include="Views\Users\Js\Users.ts" />
-    <Content Include="Views\Users\Settings\UserSettings.aspx" />
+    <Content Include="Views\Users\Account\Settings\UserSettings.aspx" />
     <Content Include="Views\Users\UserRow.ascx" />
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
@@ -1409,12 +1409,11 @@
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
     <Content Include="Views\Welcome\Welcome.css" />
-    <Content Include="Views\Welcome\Welcome2.aspx" />
-    <Content Include="Views\Account\PasswordReset.aspx" />
-    <Content Include="Views\Account\PasswordRecovery.aspx" />
-    <Content Include="Views\Account\Login.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
-    <Content Include="Views\Account\RegisterSuccess.aspx" />
+    <Content Include="Views\Welcome\PasswordReset.aspx" />
+    <Content Include="Views\Welcome\PasswordRecovery.aspx" />
+    <Content Include="Views\Welcome\Login.aspx" />
+    <Content Include="Views\Welcome\Register.aspx" />
+    <Content Include="Views\Welcome\RegisterSuccess.aspx" />
     <Content Include="Views\Welcome\Welcome.aspx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
     <None Include="Web.config">

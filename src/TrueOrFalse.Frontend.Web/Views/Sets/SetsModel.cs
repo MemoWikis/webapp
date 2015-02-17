@@ -77,13 +77,13 @@ public class SetsModel : BaseModel
 
         if (ActiveTabAll){
             Pager.Action = Links.SetsAction;
-            SearchUrl = "/FrageSaetze/Suche/";
+            SearchUrl = "/Fragesaetze/Suche/";
         }else if (ActiveTabWish){
             Pager.Action = Links.SetsWishAction;
-            SearchUrl = "/FrageSaetze/Wunschwissen/Suche/";
+            SearchUrl = "/Fragesaetze/Wunschwissen/Suche/";
         }else if (ActiveTabMine){
             Pager.Action = Links.SetsMineAction;
-            SearchUrl = "/FrageSaetze/Meine/Suche/";
+            SearchUrl = "/Fragesaetze/Meine/Suche/";
         }
     }
 }

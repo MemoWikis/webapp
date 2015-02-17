@@ -16,14 +16,14 @@ namespace TrueOrFalse
 
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
 
-            routes.MapRoute("Login", "Anmelden", new { controller = "Account", action = "Login" });
-            routes.MapRoute("Register", "Registrieren", new { controller = "Account", action = "Register" });
-
+            routes.MapRoute("Login", "Anmelden", new { controller = "Welcome", action = "Login" });
+            routes.MapRoute("Register", "Registrieren", new { controller = "Welcome", action = "Register" });
 
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "Willkommen" });
 
             routes.MapRoute("UsersSearch", "Nutzer/Suche/{searchTerm}", new { controller = "Users", action = "Search", searchTerm = UrlParameter.Optional });
             routes.MapRoute("UserSettings", "Nutzer/Einstellungen", new { controller = "UserSettings", action = "UserSettings" });
+            routes.MapRoute("UserAccountMembership", "Nutzer/Mitgliedschaft", new { controller = "Account", action = "Membership" });
             routes.MapRoute("UserLoginAs", "Nutzer/LoginAs/{userId}", new { controller = "Users", action= "LoginAs" });
             routes.MapRoute("User", "Nutzer/{name}/{id}/{action}", new { controller = "User", action = "User" });
             routes.MapRoute("Users", "Nutzer", new { controller = "Users", action = "Users", page = UrlParameter.Optional });
@@ -57,18 +57,18 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Question_SaveRelevancePersonal", "Questions/SaveRelevancePersonal/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevancePersonal" });
             /* API */ routes.MapRoute("Question_SaveRelevanceForAll", "Questions/SaveRelevanceForAll/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevanceForAll" });
 
-            routes.MapRoute("Sets_MineSearch", "FrageSaetze/Meine/Suche/{searchTerm}", new { controller = "Sets", action = "SetsMineSearch", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Sets_Mine", "FrageSaetze/Meine", new { controller = "Sets", action = "SetsMine" });
-            routes.MapRoute("Sets_WishSearch", "FrageSaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Sets", action = "SetsWishSearch", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Sets_Wish", "FrageSaetze/Wunschwissen", new { controller = "Sets", action = "SetsWish" });
-            routes.MapRoute("Sets_Search", "FrageSaetze/Suche/{searchTerm}", new { controller = "Sets", action = "SetsSearch", searchTerm = UrlParameter.Optional });
-            routes.MapRoute("Sets", "FrageSaetze/{action}", new { controller = "Sets", action = "Sets" });
+            routes.MapRoute("Sets_MineSearch", "Fragesaetze/Meine/Suche/{searchTerm}", new { controller = "Sets", action = "SetsMineSearch", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Sets_Mine", "Fragesaetze/Meine", new { controller = "Sets", action = "SetsMine" });
+            routes.MapRoute("Sets_WishSearch", "Fragesaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Sets", action = "SetsWishSearch", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Sets_Wish", "Fragesaetze/Wunschwissen", new { controller = "Sets", action = "SetsWish" });
+            routes.MapRoute("Sets_Search", "Fragesaetze/Suche/{searchTerm}", new { controller = "Sets", action = "SetsSearch", searchTerm = UrlParameter.Optional });
+            routes.MapRoute("Sets", "Fragesaetze/{action}", new { controller = "Sets", action = "Sets" });
             /* API */ routes.MapRoute("Sets_DeleteDetails", "Sets/DeleteDetails/{setId}", new { controller = "Sets", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Sets_Delete", "Sets/Delete/{setId}", new { controller = "Sets", action = "Delete" });
             /* API */ routes.MapRoute("Sets_SaveRelevancePersonal", "Sets/SaveRelevancePersonal/{id}/{newValue}", new { controller = "Sets", action = "SaveRelevancePersonal" });
 
-            routes.MapRoute("Set_Detail", "FrageSaetze/{text}/{id}/{elementOnPage}", new { controller = "Set", action = "QuestionSet" });
-            routes.MapRoute("Sets_Edit", "FrageSaetze/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });
+            routes.MapRoute("Set_Detail", "Fragesaetze/{text}/{id}/{elementOnPage}", new { controller = "Set", action = "QuestionSet" });
+            routes.MapRoute("Sets_Edit", "Fragesaetze/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });
             /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });
             /* API */ routes.MapRoute("Set_ImageUpload", "Set/UploadImage/{id}", new { controller = "EditSet", action = "UploadImage", id = UrlParameter.Optional });
             

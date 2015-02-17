@@ -4,8 +4,8 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
-    <%= Scripts.Render("~/Views/Users/Settings/Validation.js") %>
-    <%= Styles.Render("~/Views/Users/Settings/UserSettings.css") %>
+    <%= Scripts.Render("~/Views/Users/Account/Settings/Validation.js") %>
+    <%= Styles.Render("~/Views/Users/Account/Settings/UserSettings.css") %>
     <style>
         .column{ width: 167px;float: left; padding-right: 4px;}
     </style>
