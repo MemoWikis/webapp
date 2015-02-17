@@ -54,6 +54,11 @@ body {
     font-family: @font-family-text;
     font-size: @font-size-normal;
     color: @global-text-color;
+
+    display: flex;//http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+    min-height: 100vh;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
 
 h1, h2, h3, h4, h5 {
@@ -379,7 +384,7 @@ img {
         vertical-align: middle;
     }
 
-    a.TextLinkWithIcon:not(.active) {
+    a.TextLinkWithIcon {
         color: @light-blue;
 
         &:hover, &:active, &:focus {
@@ -387,15 +392,6 @@ img {
 
             * {
                 text-decoration: none;
-            }
-        }
-
-        &.active {
-
-            color: 
-
-            span {
-                text-decoration: underline;
             }
         }
     }
@@ -531,6 +527,8 @@ img {
 #MasterSection {
     position: relative; //for z-index-positioning inside
     //overflow-x: hidden; //damit der gradientRight nicht zu einem Scroll-Effekt führt
+    -ms-flex: 1;//Make section stretch and keep footer at the bottom
+    flex: 1;
 }
 
 #MasterSectionBackgroundLayer {
@@ -740,6 +738,7 @@ img {
     padding-top: 20px;
     padding-left: 15px; //for Bootstrap .row
     padding-right: 15px; //for Bootstrap .row
+    padding-bottom: 20px;
     position: relative;
 
     #footerOn {
