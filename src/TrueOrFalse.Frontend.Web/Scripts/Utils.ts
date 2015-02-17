@@ -9,7 +9,8 @@
             cssClass = type;
         }
 
-        return  "<div class='alert alert-" + cssClass + " fade in'><a class='close' data-dismiss='alert' href='#'>×</a>" + text + "</div>";
+        return "<div class='alert alert-" + cssClass
+            + " fade in'><a class='close' data-dismiss='alert' href='#'>×</a>" + text + "</div>";
     }
 
     static Random(minVal: any, maxVal: any, floatVal: any = 'undefined'): number
