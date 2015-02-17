@@ -23,33 +23,33 @@
 
 
 <div class="row" style="padding-top:30px;">
-    <div class="col-md-3" style="padding-top:7px;">
+    <div class="BackToHome col-md-3">
         <i class="fa fa-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
     </div>
     <div class="form-horizontal col-md-9">
 
-        <h1>Impressum</h1>
+        <h2 class="PageHeader">Impressum</h2>
 
-        <p>Angaben gemäß § 5 TMG:<br/><br/></p>
+        <p style="padding-bottom: 5px;">Angaben gemäß § 5 TMG:<br/></p>
         Robert Mischke Softwareentwicklung<br />
         Warschauer Str. 62<br />
         10243 Berlin<br />
 
-        <h2>Kontakt:</h2>
+        <h3>Kontakt:</h3>
         <table><tr>
-        <td><p>Telefon:</p></td>
+        <td><p>Telefon: </p></td>
         <td><p>030 97005939</p></td></tr>
         <tr><td><p>E-Mail:</p></td>
         <td><p ><span class="mailme">robert at robert-m dot de</span></p></td>
         </tr></table>
-        <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h2>
+        <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
         <p>Robert Mischke<br />
         <br />
         Warschauer Str. 62<br />
         10243 Berlin</p>
         <p> </p>
         <p>Quelle: <i>erstellt mit dem <a href="http://www.e-recht24.de/impressum-generator.html" target="_blank">Impressum-Generator Einzelunternehmer</a> von eRecht24 u. in Teilen angepasst.</i></p>
-        <h2>Haftungsausschluss:</h2>
+        <h3>Haftungsausschluss:</h3>
         <p><strong>Haftung für Inhalte</strong></p>
         <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. 
             Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte 

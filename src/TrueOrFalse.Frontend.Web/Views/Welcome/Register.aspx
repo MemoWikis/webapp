@@ -7,7 +7,7 @@
    {%>
     
     <div class="row" style="padding-top:30px;">
-        <div class="col-md-3" style="padding-top:7px;">
+        <div class="BackToHome col-md-3">
             <i class="fa fa-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
         </div>
         <div class="form-horizontal col-md-9">

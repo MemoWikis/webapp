@@ -285,4 +285,10 @@ div.menu .tooltip-inner {
   display: inline-block;
   margin-bottom: 5px;
 }
+/* Menues on NoMenuMaster
+----------------------------------------------------------*/
+.BackToHome {
+  padding-top: 7px;
+  padding-bottom: 15px;
+}
 /*# sourceMappingURL=menu.css.map */
