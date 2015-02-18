@@ -7,7 +7,7 @@ public class RegisterModel : BaseModel
     [Required(ErrorMessage="Wir benötigen deinen Benutzernamen.")]
         
     [StringLength(40, MinimumLength=4, ErrorMessage = "Minimum 4 Zeichen, Maximum 40 Zeichen. Sollte aus Vornamen und Nachnamen bestehen.")]
-    [DisplayName("Dein Name")]
+    [DisplayName("Dein Benutzername")]
     public string Name { get; set; }
 
     [Required(ErrorMessage = "Wir benötigen deine E-Mail Adresse.")]
@@ -21,6 +21,6 @@ public class RegisterModel : BaseModel
 
     public string Password { get; set; }
 
-    [DisplayName("Bitte bestätige unsere AGBs.")]
-    public bool TermsAndConditionsApproved { get; set; }
+    //[DisplayName("Bitte bestätige unsere AGBs.")]
+    //public bool TermsAndConditionsApproved { get; set; }
 }
