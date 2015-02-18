@@ -6,7 +6,7 @@
 
 <% int index; %>
 
-<% if (Url.RequestContext.RouteData.Values["controller"].ToString() == Links.HelpController) { %>
+<%--<% if (Url.RequestContext.RouteData.Values["controller"].ToString() == Links.HelpController) { %>
     <div class="box" style="padding-left: 0px; padding-right: 0;">
         <div class="menu">
             <a href="<%= Url.Action(Links.HelpWillkommen, Links.HelpController) %>">
@@ -23,7 +23,7 @@
             <% } %>
         </div>
     </div>
-<% } %>
+<% } %>--%>
 
 <div class="mainMenuContainer">
     <nav id="mainMenu" style="display: none;">

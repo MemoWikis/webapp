@@ -6,13 +6,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <% Html.RenderPartial("Site.Resources.Head"); %> 
+    <% Html.RenderPartial("Site.Partial.Head"); %> 
     <asp:ContentPlaceHolder ID="Head" runat="server" />
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700,800&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>    
+    <% Html.RenderPartial("Site.Partial.MasterHeader"); %>    
     <section id="MasterSection">
         <div id="MasterSectionBackgroundLayer" class="MasterSectionBackgroundLayer">
             <div class="container">
@@ -41,7 +41,7 @@
             <div class="container">
                 <div class="row">
                     <%// ReSharper disable Asp.NotResolved
-                        Html.RenderPartial(UserControls.WelcomeFooter); 
+                        Html.RenderPartial(UserControls.MasterFooter); 
                         // ReSharper restore Asp.NotResolved%>
                 </div>
             </div>

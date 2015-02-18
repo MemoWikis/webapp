@@ -15,12 +15,12 @@ namespace TrueOrFalse.Search
         public int Count;
         public List<SpellCheckResultItem> Items = new List<SpellCheckResultItem>();
 
-        public SpellCheckResult(SpellCheckResults spellChecking)
+        public SpellCheckResult(SpellCheckResults spellChecking, string searchTerm)
         {
             Collation = spellChecking.Collation;
             Count = spellChecking.Count;
             foreach (var spellCheck in spellChecking)
-                Items.Add(new SpellCheckResultItem(spellCheck));
+                Items.Add(new SpellCheckResultItem(spellCheck, searchTerm));
         }
 
         public string GetSuggestion()
@@ -44,16 +44,17 @@ namespace TrueOrFalse.Search
         public int NumFound;
         public int StartOffset;
         public int EndOffset;
-        public ICollection<string> Suggestions;
+        public IList<string> Suggestions;
 
-        public SpellCheckResultItem(SolrNet.Impl.SpellCheckResult spellCheck)
+        public SpellCheckResultItem(SolrNet.Impl.SpellCheckResult spellCheck, string searchTerm)
         {
             Query = spellCheck.Query;
             NumFound = spellCheck.NumFound;
             EndOffset = spellCheck.EndOffset;
             StartOffset = spellCheck.StartOffset;
-            Suggestions = spellCheck.Suggestions;
-            
+            Suggestions = spellCheck.Suggestions
+                .Where(s => s.ToLower().Trim() != searchTerm.ToLower().Trim())
+                .ToList();
         }
     }
 }

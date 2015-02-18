@@ -19,6 +19,7 @@ src/TrueOrFalse.Frontend.Web/TrueOrFalse.Frontend.Web.Publish.xml
 *.overwritten.config
 src/TrueOrFalse.Tests/A
 src/TrueOrFalse.Frontend.Web/Images/Categories/
+src/TrueOrFalse.Frontend.Web/Imagesx/
 src/packages
 docs/diagrams-enterprise-architect.ldb
 src/TrueOrFalse.Tests/App.overwritten.config

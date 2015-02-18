@@ -20,7 +20,7 @@ namespace TrueOrFalse.Search
             else if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchCategoriesOrderBy.DateCreated;
 
             var result = Run(searchSpec.SearchTerm, searchSpec, orderBy: orderBy);
-            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking);
+            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking, searchSpec.SearchTerm);
 
             return result;
         }

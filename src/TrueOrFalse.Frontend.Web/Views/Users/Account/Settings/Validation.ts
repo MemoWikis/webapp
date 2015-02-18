@@ -1,5 +1,5 @@
-﻿/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
-/// <reference path="../../../scripts/formvalidation.ts" />
+﻿/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
+/// <reference path="../../../../scripts/formvalidation.ts" />
 
 
 var validationSettings_UserSettingsForm = {

@@ -9,7 +9,7 @@ using TrueOrFalse.Web.Context;
 
 public class UserSettingsController : BaseController
 {
-    private const string _viewLocation = "~/Views/Users/Settings/UserSettings.aspx";
+    private const string _viewLocation = "~/Views/Users/Account/Settings/UserSettings.aspx";
 
     private readonly UserRepository _userRepo;
 

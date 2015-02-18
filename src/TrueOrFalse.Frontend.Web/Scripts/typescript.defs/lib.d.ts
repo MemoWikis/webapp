@@ -11,7 +11,8 @@ interface JQuery {
     sparkline(p1: any);
     sparkline(p1: any, p2: any);
     sparkline(p1: any, p2: any, p3: any);
-    watch(p1: any)
+    watch(p1: any);
+    typeWatch(p1: any);
 }
 
 interface Window {

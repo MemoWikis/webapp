@@ -12,99 +12,35 @@
     that avoids logging every request
 -->
 
-<schema name="question" version="0.1">
-    <!-- attribute "name" is the name of this schema and is only used for display purposes.
-       version="x.y" is Solr's version number for the schema syntax and 
-       semantics.  It should not normally be changed by applications.
-
-       1.0: multiValued attribute did not exist, all fields are multiValued 
-            by nature
-       1.1: multiValued attribute introduced, false by default 
-       1.2: omitTermFreqAndPositions attribute introduced, true by default 
-            except for text fields.
-       1.3: removed optional field compress feature
-       1.4: autoGeneratePhraseQueries attribute introduced to drive QueryParser
-            behavior when a single string produces multiple tokens.  Defaults 
-            to off for version >= 1.4
-       1.5: omitNorms defaults to true for primitive field types 
-            (int, float, boolean, string...)
-     -->
-
+<schema name="category" version="0.1">
     <fields>
-        <!-- Valid attributes for fields:
-             name: mandatory - the name for the field
-             type: mandatory - the name of a field type from the 
-             <types> fieldType section
-             indexed: true if this field should be indexed (searchable or sortable)
-             stored: true if this field should be retrievable
-             multiValued: true if this field may contain multiple values per document
-             omitNorms: (expert) set to true to omit the norms associated with
-             this field (this disables length normalization and index-time
-             boosting for the field, and saves some memory).  Only full-text
-             fields or fields that need an index-time boost need norms.
-             Norms are omitted for primitive (non-analyzed) types by default.
-             termVectors: [false] set to true to store the term vector for a
-             given field.
-             When using MoreLikeThis, fields used for similarity should be
-             stored for best performance.
-             termPositions: Store position information with the term vector.  
-             This will increase storage costs.
-             termOffsets: Store offset information with the term vector. This 
-             will increase storage costs.
-             required: The field is required.  It will throw an error if the
-             value does not exist
-             default: a value that should be used if no value is specified
-             when adding a document.
-        -->
-
-        <!-- field names should consist of alphanumeric or underscore characters only and
-             not start with a digit.  This is not currently strictly enforced,
-             but other field names will not have first class support from all components
-             and back compatibility is not guaranteed.  Names with both leading and
-             trailing underscores (e.g. _version_) are reserved.
-           -->
         <field name="Id" type="int" indexed="true" stored="true" required="true" multiValued="false" />
         <field name="CreatorId" type="int" indexed="true" stored="false" required="true" multiValued="false" />
-		    <field name="ValuatorIds" type="int" indexed="true" stored="false" required="false" multiValued="true" />
 
-        <field name="IsPrivate" type="boolean" indexed="true" stored="false" required="false" multiValued="false" />
-      
-        <!-- Contains (Text, Description, Solution) -->
-		    <field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true"/>
+        <!-- Contains (Text, Description, AllQuestionTitle, AllQuestionBodies) -->
+		    <field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
+        <field name="FullTextStemmed" type="textStemmed" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
 
-        <field name="FullTextStemmed" type="textStemmed" indexed="true" stored="false" multiValued="true"/>
-
-        <field name="Text" type="string" indexed="false" stored="false" multiValued="false" />
+        <field name="Name" type="string" indexed="false" stored="false" multiValued="false" />
         <field name="Description" type="string" indexed="false" stored="false" multiValued="false" />
-        <field name="Solution" type="string" indexed="false" stored="false" multiValued="false" />
 
-        <field name="SolutionType" type="int" indexed="true" stored="false" multiValued="false" />
-
-        <field name="Categories" type="textExact" indexed="true" stored="false" multiValued="true"/>
-        <field name="CategoryIds" type="int" indexed="true" stored="false" required="false" multiValued="true" />
-      
-        <field name="Quality" type="int" indexed="true" stored="false" multiValued="false" />
-		    <field name="Valuation" type="int" indexed="true" stored="false" multiValued="false" />
-        <field name="Views" type="int" indexed="true" stored="false" multiValued="false"/>
-        
-		    <field name="DateCreated" type="date" indexed="true" stored="false" multiValued="false"/>
+        <field name="QuestionCount" type="int" indexed="true" stored="false" multiValued="false"/>
+	
+        <field name="DateCreated" type="date" indexed="true" stored="false" multiValued="false"/>
 
         <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
     </fields>
-
 
     <!-- Field to use to determine and enforce document uniqueness. 
         Unless this field is marked with required="false", it will be a required field
     -->
     <uniqueKey>Id</uniqueKey>
 
-    <copyField source="Text" dest="FullTextStemmed"/>
+    <copyField source="Name" dest="FullTextStemmed"/>
     <copyField source="Description" dest="FullTextStemmed"/>
-    <copyField source="Solution" dest="FullTextStemmed"/>
 	
-    <copyField source="Text" dest="FullTextExact"/>
+    <copyField source="Name" dest="FullTextExact"/>
     <copyField source="Description" dest="FullTextExact"/>
-    <copyField source="Solution" dest="FullTextExact"/>	
 
     <types>
 
@@ -192,9 +128,11 @@
         <fieldType name="textExact" class="solr.TextField" positionIncrementGap="0">
             <analyzer type="index">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" format="snowball" enablePositionIncrements="true"/>
             </analyzer>
             <analyzer type="query">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
             </analyzer>
         </fieldType>		
 

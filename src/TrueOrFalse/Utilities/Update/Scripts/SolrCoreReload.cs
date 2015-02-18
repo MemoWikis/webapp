@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
+using System.Text;
 using System.Web;
 using NHibernate.Linq;
 using TrueOrFalse.Infrastructure;
@@ -8,6 +10,8 @@ namespace TrueOrFalse.Updates
 {
     public class SolrCoreReload
     {
+        public static event EventHandler<string> Message = delegate {};
+
         private static string _solrUrl;
         private static string _solrPath;
         private static string _coreSuffix { get { return WebConfigSettings.SolrCoresSuffix; } }
@@ -82,7 +86,28 @@ namespace TrueOrFalse.Updates
         private static void ReoladCore(string coreName)
         {
             var url = _solrUrl + "admin/cores?wt=json&action=RELOAD&core=tof" + coreName;
-            WebRequest.Create(url).GetResponse();
+
+            try
+            {
+                using (var response = WebRequest.Create(url).GetResponse())
+                {
+                    Message(null, GetValue(response));
+                }
+            }
+            catch (WebException ex)
+            {
+                var statusCode = ((HttpWebResponse)ex.Response).StatusCode;
+                Message(null, "ERROR ->  Response Code " +  statusCode + "; Response" + GetValue(ex.Response));
+            }
+        }
+
+        private static string GetValue(WebResponse response)
+        {
+            using (var stream = response.GetResponseStream())
+            {
+                var reader = new StreamReader(stream, Encoding.UTF8);
+                return reader.ReadToEnd();
+            }
         }
     }
 }

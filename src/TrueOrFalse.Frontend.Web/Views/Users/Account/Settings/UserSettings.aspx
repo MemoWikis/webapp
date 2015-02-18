@@ -4,8 +4,8 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
-    <%= Scripts.Render("~/Views/Users/Settings/Validation.js") %>
-    <%= Styles.Render("~/Views/Users/Settings/UserSettings.css") %>
+    <%= Scripts.Render("~/Views/Users/Account/Settings/Validation.js") %>
+    <%= Styles.Render("~/Views/Users/Account/Settings/UserSettings.css") %>
     <style>
         .column{ width: 167px;float: left; padding-right: 4px;}
     </style>
@@ -52,10 +52,11 @@
                     <% } %>
                 </div>
             
-                <% if (Model.ImageIsCustom)
+                <%--noch nicht umgesetzt:
+                    <% if (Model.ImageIsCustom)
                    { %>
-                    <a href="#">[x]</a>       
-                <%} %>
+                    <a href="#"><i title="Profilbild löschen" class="fa fa-trash-o show-tooltip" data-placement="left"></i></a>       
+                <%} %>--%>
             </div>
             <div class="xxs-stack col-xs-12 col-md-9 col-md-pull-3">
                 <form id="UserSettingsForm" class="form-horizontal" method="POST">

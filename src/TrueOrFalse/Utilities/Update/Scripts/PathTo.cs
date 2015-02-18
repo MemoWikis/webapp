@@ -14,9 +14,9 @@ namespace TrueOrFalse.Updates
         public static string SolrSchema(string fileName)
         {
             if(HttpContext.Current != null)
-                return HttpContext.Current.Server.MapPath("bin/Utilities/Update/SolrSchemas/" + fileName);
+                return HttpContext.Current.Server.MapPath("bin/Infrastructure/SolrSchemas/" + fileName);
 
-            return AppDomain.CurrentDomain.BaseDirectory + "/Utilities/Update/SolrSchemas/" + fileName;
+            return AppDomain.CurrentDomain.BaseDirectory + "/Infrastructure/SolrSchemas/" + fileName;
         }
     }
 }

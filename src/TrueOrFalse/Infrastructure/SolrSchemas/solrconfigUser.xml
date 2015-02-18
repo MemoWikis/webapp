@@ -87,9 +87,9 @@
   <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
     <lst name="spellchecker">
       <str name="classname">solr.IndexBasedSpellChecker</str>
-      <str name="field">FullTextExact</str>
-      <str name="spellcheckIndexDir">./spellchecker1</str>
+      <str name="field">Name</str>
       <str name="buildOnCommit">true</str>
+      <str name="spellcheckIndexDir">./spellchecker1</str>
     </lst>
   </searchComponent>
 
@@ -105,17 +105,18 @@
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <int name="rows">10</int>
-      <str name="df">FullTextExact</str>
+      <str name="df">Name</str>
       <str name="spellcheck">on</str>
       <str name="spellcheck.extendedResults">false</str>
       <str name="spellcheck.count">5</str>
-      <str name="spellcheck.alternativeTermCount">2</str>
+      <str name="spellcheck.alternativeTermCount">5</str>
       <str name="spellcheck.maxResultsForSuggest">5</str>
       <str name="spellcheck.collate">false</str>
       <str name="spellcheck.collateExtendedResults">false</str>
       <str name="spellcheck.maxCollationTries">5</str>
       <str name="spellcheck.maxCollations">3</str>
       <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.threshold">0.5</str>
     </lst>
 
     <arr name="last-components">
@@ -129,7 +130,8 @@
       <str name="echoParams">explicit</str>
       <str name="wt">json</str>
       <str name="indent">true</str>
-      <str name="df">FullTextExact</str>
+      <str name="df">Name</str>
+      <str name="buildOnCommit">true</str>
     </lst>
   </requestHandler>
 

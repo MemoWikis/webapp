@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
-using TrueOrFalse;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
 
@@ -179,9 +173,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /**/
         public const string WelcomeController = "Welcome";
-        public const string Register = "Register";
-        public const string RegisterSuccess = "RegisterSuccess";
-        public const string Login = "Login";
 
         public const string VariousController = "VariousPublic";
         public const string Impressum = "Imprint";
@@ -191,11 +182,16 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Knowledge = "Knowledge";
 
         public const string HelpController = "Help";
+        public const string HelpFAQ = "FAQ";
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
 
         public const string AccountController = "Account";
+        public const string Register = "Register";
+        public const string RegisterSuccess = "RegisterSuccess";
+        public const string Login = "Login";
         public const string Logout = "Logout";
+        public const string Membership = "Membership";
 
         public static UrlHelper GetUrlHelper()
         {

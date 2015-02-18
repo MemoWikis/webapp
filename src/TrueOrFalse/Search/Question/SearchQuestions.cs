@@ -37,7 +37,7 @@ namespace TrueOrFalse.Search
                 orderBy: orderBy
             );
 
-            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking);
+            searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking, searchSpec.Filter.SearchTerm);
 
             return result;
         }

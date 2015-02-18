@@ -68,8 +68,8 @@
 	      <field name="ValuatorIds" type="int" indexed="true" stored="false" required="false" multiValued="true" />
 
         <!-- Contains (Text, Description, AllQuestionTitle, AllQuestionBodies) -->
-	      <field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true"/>
-        <field name="FullTextStemmed" type="textStemmed" indexed="true" stored="false" multiValued="true"/>
+	      <field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
+        <field name="FullTextStemmed" type="textStemmed" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true" />
 
         <field name="Text" type="string" indexed="false" stored="false" multiValued="false" />
         <field name="Description" type="string" indexed="false" stored="false" multiValued="false" />
@@ -88,17 +88,17 @@
     <!-- Field to use to determine and enforce document uniqueness. 
         Unless this field is marked with required="false", it will be a required field
     -->
-	<uniqueKey>Id</uniqueKey>
+	  <uniqueKey>Id</uniqueKey>
 
-	<copyField source="Text" dest="FullTextStemmed"/>
-	<copyField source="Description" dest="FullTextStemmed"/>	
-	<copyField source="AllQuestionsTitles" dest="FullTextStemmed"/>
-	<copyField source="AllQuestionsBodies" dest="FullTextStemmed"/>
+	  <copyField source="Text" dest="FullTextStemmed"/>
+	  <copyField source="Description" dest="FullTextStemmed"/>	
+	  <copyField source="AllQuestionsTitles" dest="FullTextStemmed"/>
+	  <copyField source="AllQuestionsBodies" dest="FullTextStemmed"/>
 	
-	<copyField source="Text" dest="FullTextExact"/>
-	<copyField source="Description" dest="FullTextExact"/>
-	<copyField source="AllQuestionsTitles" dest="FullTextExact"/>
-	<copyField source="AllQuestionsBodies" dest="FullTextExact"/>
+	  <copyField source="Text" dest="FullTextExact"/>
+	  <copyField source="Description" dest="FullTextExact"/>
+	  <copyField source="AllQuestionsTitles" dest="FullTextExact"/>
+	  <copyField source="AllQuestionsBodies" dest="FullTextExact"/>
 
     <types>
 
