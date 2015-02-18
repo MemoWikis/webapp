@@ -1,4 +1,4 @@
-/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/markdown.d.ts" />
 /// <reference path="../../../Images/ImageUpload/ImageUpload.ts" />
@@ -75,6 +75,12 @@ var MarkdownQuestionExt = (function () {
                             $("#questionId").val(result.NewQuestionId);
                         }
                         callback(result.PreviewUrl);
+
+                        if (window.getSelection)
+                            window.getSelection().removeAllRanges(); //Clear selection to avoid text in markdown being accidentally replaced http://stackoverflow.com/a/13415236
+                        else if (window.document.selection)
+                            window.document.selection.empty();
+
                         $("#wmd-input-1").trigger('change');
                         $("#modalImageUpload").modal("hide");
                     },
@@ -86,7 +92,13 @@ var MarkdownQuestionExt = (function () {
                 });
             });
 
-            $("#modalImageUpload").modal('show');
+            var extendedMarkupContainsImage = $("#wmd-input-1").val().toLowerCase().indexOf('/images/questions/') >= 0;
+
+            if (!extendedMarkupContainsImage) {
+                $("#modalImageUpload").modal('show');
+            } else {
+                window.alert('Zur Zeit kann leider nur ein Bild pro Frage gespeichert werden. ' + 'Um ein anderes Bild zu verwenden, lösche bitte das vorhandene (dazu den automatisch eingefügten Code aus dem Textfeld "Frage erweitert" löschen).');
+            }
 
             return true;
         });
