@@ -27,9 +27,12 @@ namespace TrueOrFalse.Registration
             mail.From = new MailAddress("willkommen@memucho.de");
 
             var emailBody = new StringBuilder();
-            emailBody.AppendLine("Schön dass du dabei bist.");
-            emailBody.AppendLine("Um dein Benutzerkonto zu bestätigen,");
-            emailBody.AppendLine("folge bitte diesem Link: " + _createEmailConfirmationLink.Run(user));
+            emailBody.AppendLine("Hallo " + user.Name + ",");
+            emailBody.AppendLine("");
+            emailBody.AppendLine("du hast dich gerade bei MEMuchO registriert, wir freuen uns, dass du dabei bist!");
+            emailBody.AppendLine("");
+            emailBody.AppendLine("Um dein Benutzerkonto zu bestätigen, folge bitte diesem Link:");
+            emailBody.AppendLine(_createEmailConfirmationLink.Run(user));
 
             mail.Subject = "Willkommen bei MEMuchO";
             mail.Body = emailBody.ToString();

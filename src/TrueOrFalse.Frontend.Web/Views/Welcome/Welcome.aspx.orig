@@ -14,13 +14,23 @@
     <div class="col-md-8">
             
         <div class="well">
+<<<<<<< HEAD
             <a href="#teaserWhatIsMemucho">
-                <h1 style="margin-top: 0; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
+                <h1 style="margin-top: 0px; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
             </a>            
-            <ul style="margin-top: 0; margin-bottom: 0; padding-top: 3px; ">                
+            <ul style="margin-top: 0px; margin-bottom: 0px; padding-top: 3px; ">                
                 <li><a href="#teaserWhatIsMemucho" style="font-size: 15px;">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
                 <li><a href="#teaserPrinciples" style="font-size: 15px;">Wikipedia-Prinzip, Vernetzung und Gemeinwohlorientierung &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
                 <li><a href="#teaserWhoWeAre" style="font-size: 15px;">Wer sind wir? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+=======
+            <a href="#teaser1">
+                <h1 style="margin-top: 0; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
+            </a>            
+            <ul style="margin-top: 0; margin-bottom: 0; padding-top: 3px; ">                
+                <li><a href="#teaser1" style="font-size: 15px;">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+                <li><a href="#teaser2" style="font-size: 15px;">Wikipedia-Prinzip und Open Source &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+                <li><a href="#teaser3" style="font-size: 15px;">Wer sind wir? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+>>>>>>> 72e85a98a8529b385f574740f67311018ab4da5d
             </ul>
         </div>
             
@@ -129,7 +139,7 @@
                 </li>
             </ul>
             <p>
-                Du willst es ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
+                Du willst es ausprobieren? <a href="/Registrieren">Registriere dich</a> und lege los! <br/>
                 Du findest das eine tolle Idee, möchtest mitmachen und uns unterstützen?
                 Werde Fördermitglied der ersten Stunde!
             </p>
@@ -185,7 +195,7 @@
                 </li>        
             </ul>
             <p>
-                Du willst es ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
+                Du willst es ausprobieren? <a href="/Registrieren">Registriere dich</a> und lege los! <br/>
                 Du findest das eine tolle Idee, möchtest mitmachen und uns unterstützen?
                 Werde Fördermitglied der ersten Stunde!
             </p>

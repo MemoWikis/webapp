@@ -44,7 +44,9 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+<%-- AGB-Checkbox: Solange es keine AGBs gibt rauslassen; Akzeptieren der AGBs wird beim Registrieren noch nicht geprüft.
+
+                    <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
                         <label class="checkbox" style="white-space:nowrap;">
@@ -53,6 +55,7 @@
                         </label>
                     </div>
                 </div>
+--%>
                 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10" style="border-top:0px; background-color:white;">
