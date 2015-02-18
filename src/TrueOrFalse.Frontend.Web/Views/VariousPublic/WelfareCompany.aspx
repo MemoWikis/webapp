@@ -10,12 +10,16 @@
     <div class="form-horizontal col-md-9">
         
         <div class="well">
-            <h2>Unsere Unternehmung soll dem Gemeinwohl dienen. </h2>
+            <h2>Wir sind ein Gemeinwohlunternehmen</h2>
         </div>
-
         <p>
-          Um dies zu dokumentieren werden wir jährlich eine <a href="http://www.gemeinwohl-oekonomie.org/">Gemeinwohl-Bilanz</a> 
-          erstellen. Hierfür veröffentlichen wir regelmäßig einen aktuellen Bericht. 
+            Unsere Unternehmung soll dem Gemeinwohl dienen und deshalb auf gemeinwohlfördernden Werten aufbauen. 
+        </p>
+        <p>
+            Als Teil der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> 
+            sind wir davon überzeugt, dass Unternehmen der Gemeinschaft dienen müssen und deshalb 
+            eine ethische, soziale und ökologische Verantwortung haben. Daher werden wir in Zukunft 
+            eine Gemeinwohlbilanz veröffentlichen.
         </p>        
 
     </div>

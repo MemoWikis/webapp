@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Register" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<RegisterModel>" %>
+﻿<%@ Page Title="Registrieren" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<RegisterModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -14,7 +14,7 @@
             <fieldset>
                 <legend>Registriere dich</legend>
 
-                <% Html.ValidationSummary(true, "Bitte überprüfen Sie Ihre eingaben"); %>
+                <% Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben"); %>
                 
                 <div class="alert alert-info">
                     Wir gehen sorgfältig mit deinen Daten um.
@@ -49,7 +49,7 @@
                         <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
                         <label class="checkbox" style="white-space:nowrap;">
                             <%: Html.CheckBoxFor(model => model.TermsAndConditionsApproved, new { @class="" }) %>
-                            AGB Bestätigen: [TODO erstellen und verlinken]
+                            Bitte bestätige unsere AGBs.
                         </label>
                     </div>
                 </div>

@@ -14,13 +14,13 @@
     <div class="col-md-8">
             
         <div class="well">
-            <a href="#teaser1">
+            <a href="#teaserWhatIsMemucho">
                 <h1 style="margin-top: 0px; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
             </a>            
             <ul style="margin-top: 0px; margin-bottom: 0px; padding-top: 3px; ">                
-                <li><a href="#teaser1" style="font-size: 15px;">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
-                <li><a href="#teaser2" style="font-size: 15px;">Wikipedia-Prinzip und Open Source &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
-                <li><a href="#teaser3" style="font-size: 15px;">Wer sind wir? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+                <li><a href="#teaserWhatIsMemucho" style="font-size: 15px;">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+                <li><a href="#teaserPrinciples" style="font-size: 15px;">Wikipedia-Prinzip, Vernetzung und Gemeinwohlorientierung &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+                <li><a href="#teaserWhoWeAre" style="font-size: 15px;">Wer sind wir? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
             </ul>
         </div>
             
@@ -82,94 +82,116 @@
            </div>
         </div>
         <div class="well">
-            <h3><a name="teaser1">MEMuchO hilft dir ...</a></h3>
+            <h3><a name="teaserWhatIsMemucho">Was ist MEMuchO?</a></h3>
+            <p>
+                MEMuchO ist eine vernetzte Lern- und Wissensplattform. <br/>
+                MEMuchO hilft dir...
+            </p>
             <ul>
                 <li>
                     <b>...schneller zu lernen.</b>
                     <p>
-                        MEMuchO analysiert dein Lernverhalten und 
-                        versucht den optimalen Zeitpunkt für eine 
-                        benötigte Wiederholung von Wissen zu ermitteln. 
-                        So kannst du schneller lernen.
-                    </p>
-                    <p>
-                        (Die Analyse von Lernverhalten funktioniert nur wenn wir viele Daten sammeln: 
-                        Zu diesem Thema mehr hier: <a href="/Hilfe/DatenSicherheit">Hilfe Datenansicht</a>)
+                        MEMuchO analysiert dein Lernverhalten und wiederholt schwierige 
+                        Fragen zum optimalen Zeitpunkt. So brauchst du weniger Zeit zum Lernen.
                     </p>
                 </li>
                 <li>
-                    <b>...zu überblicken, was du weißt und was du wissen möchtest.</b>
+                    <b>...dein Allgemein- und Spezialwissen zu erweitern.</b>
                     <p>
-                        Du möchtest dir 50, 500, 5000 (oder mehr) Fakten merken. 
-                        Wir helfen dir dabei den Überblick zu behalten. 
+                        Du möchtest gerne mehr über Politik oder über die verschiedenen 
+                        Spurbreiten von Modelleisenbahnen erfahren? Finde die passenden 
+                        Fragesätze und stelle dir dein Wunschwissen zusammen!
                     </p>
                 </li>
                 <li>
                     <b>...zu einem bestimmten Termin zu lernen.</b>
                     <p>
                         Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? 
-                        Du kannst Termine anlegen und bestimmen, was du zu diesem Termin
-                        als Faktenwissen abrufen möchtest.
+                        Lege einen Termin an und bestimme, was du bis dahin wissen musst. 
+                        Mit MEMuchO weißt du immer, was du schon sicher kannst und wo du noch 
+                        weiter üben musst.
                     </p>
+                </li>
+                <li>
+                    <b>...zu überblicken, was du weißt und was du wissen möchtest.</b>
                     <p>
-                        Dabei hast du genau im Blick, welches Wissen du schon sicher kannst und
-                        wo du noch weiter üben musst. 
-                    </p> 
+                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? 
+                        Kein Problem, mit MEMuchO behältst du den Überblick. 
+                    </p>
+                </li>
+                <li>
+                    <b>...dein Wissen mit anderen zu teilen und gemeinsam zu lernen.</b>
                     <p>
-                        MEMuchO erinnert dich an Termine und 
-                        informiert dich darüber, was es noch zu lernen gibt. 
+                        MEMuchO ist ein offenes Netzwerk, wo du dein Wissen teilen, auf das 
+                        Wissen anderer zurückgreifen und mit Freunden gemeinsam lernen kannst. 
+                        Denn Wissen wird mehr, wenn man es teilt! 
                     </p>
                 </li>
             </ul>
+            <p>
+                Du willst es ausprobieren? <a href="/Registrieren">Registriere dich</a> und lege los! <br/>
+                Du findest das eine tolle Idee, möchtest mitmachen und uns unterstützen?
+                Werde Fördermitglied der ersten Stunde!
+            </p>
         </div>
         <div class="well">
 
-            <h3><a name="teaser2">Unsere Prinzipien</a></h3>
+            <h3><a name="teaserPrinciples">Unsere Prinzipien</a></h3>
             <ul>
                 <li>
                     <b>Wikipedia-Prinzip</b>
                     <p>
-                        In MEMuchO unterliegen öffentliche Inhalte einer
-                        Creative Commons Lizenz. Genau wie die Mehrheit der Einträge auf Wikipedia.
-                            
-                        Öffentliche MEMuchO-Inhalte können also von jedermann 
-                        kostenfrei und ohne Einschränkungen verwendet werden.
-                
-                        <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.de">Zum Lizenztext: 
-                            <img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" />
-                        </a>
+                        In MEMuchO unterliegen öffentliche Inhalte einer Creative Commons Lizenz, 
+                        genau wie die Mehrheit der Einträge auf Wikipedia. Öffentliche MEMuchO-Inhalte 
+                        können also von jedem kostenfrei und ohne Einschränkungen verwendet werden 
+                        (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">Hier 
+                        erfährst du genaueres zur Lizenz CC BY 4.0.</a>). Private Inhalte sind aber privat.
                     </p>
-                </li>
-                <li>
-                    <b>Wir werden deine Daten niemals verkaufen.</b>
-                    <p>Wir nutzen Daten dafür, um MEMuchO besser zu machen.</p>
                 </li>
                 <li>
                     <b>Gemeinwohlorientierung</b><br/>
                     <p>
-                        Wir möchten unser Unternehmen auf  
-                        <a href="http://www.gemeinwohl-oekonomie.org/de">gemeinwohlfördernden Werten</a> aufbauen.
-                    </p>
-                    <p>
-                        Zu den Ideen der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> gehört zum Beispiel: 
-                        Unternehmen sollten kooperativ und <i>nicht</i> konkurenzorientiert agieren. 
-                        Daher sollten Information und Know-How geteilt werden.
+                        Wir möchten unser Unternehmen auf gemeinwohlfördernden Werten aufbauen. 
+                        Als Teil der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> 
+                        sind wir davon überzeugt, dass Unternehmen der Gemeinschaft dienen müssen und deshalb 
+                        eine ethische, soziale und ökologische Verantwortung haben. Daher werden wir in Zukunft 
+                        eine Gemeinwohlbilanz veröffentlichen.
                     </p>
                 </li>
                 <li>
-                    <b>Transparenz!</b>
+                    <b>Mitwirkung und Vernetzung</b>
+                    <p>
+                        Wir glauben, dass Wissen vernetzt sein muss. Der Vernetzungsgedanke spielt bei uns eine 
+                        große Rolle. In der aktuellen Beta-Phase ist uns euer Feedback ganz besonders wichtig, 
+                        aber auch später werden Mitglieder mitentscheiden, welche Funktionen wir als nächstes umsetzen 
+                        und aktive Mitglieder können Inhalte mitmoderieren.
+                    </p>
                 </li>
                 <li>
-                    <b>Open-Source</b>
+                    <b>Datenschutz ist uns sehr sehr wichtig</b>
                     <p>
-                        Die Software, mit der MEMuchO läuft, steht unter einer Open-Source-Lizenz.
-                        Die Quelltexte findest du auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
+                        Wir nutzen deine Daten, damit du besser lernen kannst und um MEMuchO besser zu machen. 
+                        Aber wir werden deine Daten niemals verkaufen. (Erfahre mehr über unseren Datenschutz.)
+                    </p>
+                </li>
+                <li>
+                    <b>Open-Source und Transparenz</b>
+                    <p>
+                        Die Software, mit der MEMuchO läuft, steht unter einer Open-Source-Lizenz. Die Quelltexte 
+                        sind frei verfügbar und können von allen frei verwendet werden. Du findest sie 
+                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i>Github</a>. 
+                        In Zukunft möchten wir neben der Gemeinwohlbilanz auch unsere Unternehmenszahlen veröffentlichen.
                     </p> 
                 </li>        
             </ul>
+            <p>
+                Du willst es ausprobieren? <a href="/Registrieren">Registriere dich</a> und lege los! <br/>
+                Du findest das eine tolle Idee, möchtest mitmachen und uns unterstützen?
+                Werde Fördermitglied der ersten Stunde!
+            </p>
         </div>
         <div class="well Founder">
-            <h3><a name="teaser3">Team</a></h3>
+            <h3><a name="teaserWhoWeAre">Team</a></h3>
             <div class="row">
                 
                 <div class="col-xs-6 ImageColumn">
@@ -184,8 +206,8 @@
                 </div>
                 <div class="col-xs-12" style="margin-top: 10px;">
                     <p>
-                        Eine spannende Reise: Wir möchten nicht nur <a href="#teaser1">das Lernen von Faktenwissen vereinfachen</a>, 
-                        sondern auch ein stabiles <a href="#teaser2">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
+                        Eine spannende Reise: Wir möchten nicht nur <a href="#teaserWhatIsMemucho">das Lernen von Faktenwissen vereinfachen</a>, 
+                        sondern auch ein stabiles <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
                     </p>
                     <p>
                         Wir konzipieren, programmieren und gestalten.
