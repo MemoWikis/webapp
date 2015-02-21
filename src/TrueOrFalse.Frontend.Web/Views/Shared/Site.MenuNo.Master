@@ -4,13 +4,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <% Html.RenderPartial("Site.Resources.Head"); %>
+    <% Html.RenderPartial("Site.Partial.Head"); %>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
 
 <body>
     <%--HEADER--%>
-    <% Html.RenderPartial("Site.Resources.Title", new TitleModel()); %>
+    <% Html.RenderPartial("Site.Partial.MasterHeader"); %>
     <section id="MasterSection">
         <div class="container main">
             <div id="gradientLeft"></div>
@@ -25,7 +25,7 @@
             <div class="container">
                 <div class="row">
                     <%// ReSharper disable Asp.NotResolved
-                        Html.RenderPartial(UserControls.WelcomeFooter); 
+                        Html.RenderPartial(UserControls.MasterFooter); 
                         // ReSharper restore Asp.NotResolved%>
                 </div>
             </div>

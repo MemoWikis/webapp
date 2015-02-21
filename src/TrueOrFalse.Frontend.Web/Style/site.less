@@ -54,6 +54,11 @@ body {
     font-family: @font-family-text;
     font-size: @font-size-normal;
     color: @global-text-color;
+
+    display: flex;//http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+    min-height: 100vh;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
 
 h1, h2, h3, h4, h5 {
@@ -391,6 +396,14 @@ img {
         }
     }
 
+    #SupportUs {
+        color: @middle-yellow;
+
+         &:hover, &:active, &:focus {
+            color: @memo-green;
+         }
+    }
+
     a.helpLink {
 
         @media (min-width: @screen-xs-min) {
@@ -411,7 +424,6 @@ img {
     .userImage {
         height: 30px;
         width: 30px;
-        border-radius: 2px;
         margin-left: 1px;
         border: 1px solid @memo-blue;
         border-radius: 4px;
@@ -514,6 +526,8 @@ img {
 #MasterSection {
     position: relative; //for z-index-positioning inside
     //overflow-x: hidden; //damit der gradientRight nicht zu einem Scroll-Effekt führt
+    -ms-flex: 1;//Make section stretch and keep footer at the bottom
+    flex: 1;
 }
 
 #MasterSectionBackgroundLayer {
@@ -723,6 +737,7 @@ img {
     padding-top: 20px;
     padding-left: 15px; //for Bootstrap .row
     padding-right: 15px; //for Bootstrap .row
+    padding-bottom: 20px;
     position: relative;
 
     #footerOn {

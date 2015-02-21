@@ -8,6 +8,9 @@ using TrueOrFalse;
 public class HelpController : BaseController
 {
     [SetMenu(MenuEntry.Help)]
+    public ActionResult FAQ() {return View(new HelpModel()); }
+    
+    [SetMenu(MenuEntry.Help)]
     public ActionResult Willkommen(){ AddActionToHistory(); return View(new HelpModel()); }
     [SetMenu(MenuEntry.Help)]
     public ActionResult DatenSicherheit() { AddActionToHistory(); return View(new HelpModel()); }

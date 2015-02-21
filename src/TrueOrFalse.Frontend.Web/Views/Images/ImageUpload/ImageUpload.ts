@@ -115,7 +115,7 @@ class ImageUploadModal
         $("#txtWikimediaUrl").change(function () {
             if (self.ExtensionIsAllowed($("#txtWikimediaUrl").val())) {
                 self.StartPreviewLoad();
-            } else {
+            } else if ($.trim($("#txtWikimediaUrl").val()) !== "") {
                 window.alert('Zur Zeit können leider nur Bilder in folgenden Dateiformaten hochgeladen werden: ' + self.AllowedExtensions.join(', ') + ".");
             }
 
@@ -229,7 +229,7 @@ class ImageUploadModal
             this.WikimediaPreview = new WikimediaPreview();
             this.WikimediaPreview.Load(this._onPreviewLoadSuccess, this._onPreviewLoadError);
             this.PreviewLoadOngoing = true;
-            $('#txtWikimediaUrl').attr('disabled', 'disabled');
+            //$('#txtWikimediaUrl').attr('disabled', 'disabled');
         }
     }
 

@@ -150,13 +150,13 @@ display: none;
     }
 
     .ImageContainer {
-        //max-width: 100%;
         margin-left: auto;
         margin-right: auto;
         display: table;
 
         img {
             margin-bottom: 15px;
+            width: 100%;//Fixes firefox bug (max-width: 100% not working inside table): http://stackoverflow.com/a/13363408
         }
     }
 

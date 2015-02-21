@@ -137,6 +137,7 @@ a.ImageLicenseCaption {
 }
 #modalImageDetail .ImageContainer img {
   margin-bottom: 15px;
+  width: 100%;
 }
 #modalImageDetail .ImageInfo {
   display: table-caption;
