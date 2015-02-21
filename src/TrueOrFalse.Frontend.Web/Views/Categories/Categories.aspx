@@ -34,13 +34,13 @@
             </div>
             <div class="container">
                 <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
-                
-                    <div class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
+                    <div class="btn-group  <%= Model.ActiveTabAll ? "active" : "" %> JS-All">
                         <a  href="#" type="button" class="btn btn-default">
-                            Alle (<span class="JS-Amount"><%= Model.TotalCategories %></span>)
+                            <% string von = GetTabText(Model.ActiveTabAll, Model.TotalCategoriesInSystem, Model.TotalCategoriesInResult); %> 
+                            Alle (<span class="JS-Amount"><%= von + Model.TotalCategoriesInSystem %></span>)
                         </a>
                     </div>
-                    <div class="btn-group <%= Model.ActiveTabFollowed ? "active" : "" %>">
+                    <div class="btn-group <%= Model.ActiveTabFollowed ? "active" : "" %> JS-Mine">
                         <a  href="#" type="button" class="btn btn-default">
                             Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount"> ? </span>)
                         </a>
@@ -59,11 +59,26 @@
         
         <% using (Html.BeginForm()) { %>
         
+           <script runat="server" type="text/C#">
+                public string GetTabText(bool getText, int totalInSystem, int totalInResult)
+                {
+                    if (!getText || totalInSystem == totalInResult)
+                        return "";
+
+                    return totalInResult + " von ";
+                }
+            </script>
+
             <div class="boxtainer-outlined-tabs">
                 <div class="boxtainer-header MobileHide">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#home" >Alle Kategorien (<%= Model.TotalCategories %>)</a></li>
-                        <li>
+                    <ul class="nav nav-tabs JS-Tabs">
+                        <li class="active JS-All">
+                            <a href="#home" >
+                                <% string von = GetTabText(Model.ActiveTabAll, Model.TotalCategoriesInSystem, Model.TotalCategoriesInResult); %> 
+                                Alle Kategorien  (<span class="JS-Amount"><%= von + Model.TotalCategoriesInSystem %></span>)
+                            </a>
+                        </li>
+                        <li class="JS-Mine">
                             <a href="#profile">
                                 Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
                             </a>
@@ -80,17 +95,18 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="pull-left form-group">
-                                    <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+<%--                                <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
                                         <div style="padding-bottom: 10px; font-size: large">
                                             Oder suchst du: 
                                             <a href="<%= "/Kategorien/Suche/" + Model.Suggestion %>">
                                                 <%= Model.Suggestion %>
                                             </a> ?
                                         </div>
-                                    <% } %>
+                                    <% } %>--%>
 
                                     <div class="input-group">
-                                        <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch"}) %>
+                                        <%: Html.TextBoxFor(model => model.SearchTerm, 
+                                                new {@class="form-control", id="txtSearch", formurl = "/Kategorien/Suche"}) %>
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                                         </span>
@@ -121,17 +137,11 @@
                                 <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;"><%= Model.TotalCategoriesInResult %> Treffer</div>
                             </div>
                         </div>
-                        
-                        <div style="clear: both;">
-                            <% foreach (var row in Model.CategoryRows){
-                                Html.RenderPartial("CategoryRow", row);
-                            } %>
-                        </div>
-
                     </div>
-
-
-                    <% Html.RenderPartial("Pager", Model.Pager); %>
+                    
+                    <div id="JS-SearchResult">
+                        <% Html.RenderPartial("CategoriesSearchResult", Model.SearchResultModel); %>
+                    </div>
                 </div>
             </div>
             

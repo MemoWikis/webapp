@@ -7,9 +7,9 @@
 /* A shared class */
 var QuestionsSearch = (function (_super) {
     __extends(QuestionsSearch, _super);
-    function QuestionsSearch() {
+    function QuestionsSearch(fnOnLoad) {
         var _this = this;
-        _super.call(this);
+        _super.call(this, fnOnLoad);
         var filterSelector = "#txtCategoryFilter";
         var autoCompleteCategories = new AutocompleteCategories(filterSelector);
         autoCompleteCategories.OnAdd = function (categoryId) {
@@ -32,7 +32,9 @@ var QuestionsSearch = (function (_super) {
 })(SearchInTabs);
 
 $(function () {
-    new QuestionsSearch();
-    new SearchInTabs();
+    new QuestionsSearch(function () {
+        var page = new Page();
+        page.Init();
+    });
 });
 //# sourceMappingURL=QuestionsSearch.js.map

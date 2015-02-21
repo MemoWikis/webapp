@@ -1,8 +1,13 @@
 ﻿var SearchInTabs = (function () {
-    function SearchInTabs() {
+    function SearchInTabs(fnOnLoadPage) {
         var _this = this;
         this._categories = [];
+        this._fnOnLoadPage = function () {
+        };
         this._elemContainer = $("#JS-SearchResult");
+
+        if (fnOnLoadPage != null)
+            this._fnOnLoadPage = fnOnLoadPage;
 
         $('#btnSearch').click(function (e) {
             e.preventDefault();
@@ -26,6 +31,7 @@
     }
     SearchInTabs.prototype.SubmitSearch = function () {
         var _this = this;
+        var me = this;
         this._elemContainer.html("<div style='text-align:center; padding-top: 30px;'>" + "<i class='fa fa-spinner fa-spin'></i>" + "</div>");
 
         $.ajax({
@@ -47,8 +53,7 @@
                 Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Fragen");
                 Utils.SetElementValue2($(".JS-Tabs").find(".JS-" + data.Tab).find("span.JS-Amount"), tabAmount);
 
-                var page = new Page();
-                page.Init();
+                me._fnOnLoadPage();
 
                 $('.show-tooltip').tooltip();
                 Images.Init();

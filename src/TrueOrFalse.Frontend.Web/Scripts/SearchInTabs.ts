@@ -3,8 +3,13 @@
     _elemContainer: JQuery;
     _categories: Array<number> = [];
 
-    constructor() {
+    _fnOnLoadPage : Function = () => {};
+
+    constructor(fnOnLoadPage?: Function) {
         this._elemContainer = $("#JS-SearchResult");
+
+        if(fnOnLoadPage != null)
+            this._fnOnLoadPage = fnOnLoadPage;
 
         $('#btnSearch').click((e) => {
             e.preventDefault();
@@ -26,7 +31,7 @@
     }
 
     SubmitSearch() {
-
+        var me = this;
         this._elemContainer.html(
             "<div style='text-align:center; padding-top: 30px;'>" +
             "<i class='fa fa-spinner fa-spin'></i>" +
@@ -53,8 +58,7 @@
                     .find(".JS-" + data.Tab)
                     .find("span.JS-Amount"), tabAmount);
 
-                var page = new Page();
-                page.Init();
+                me._fnOnLoadPage();
 
                 $('.show-tooltip').tooltip();
                 Images.Init();

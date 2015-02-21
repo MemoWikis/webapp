@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -14,9 +15,9 @@ public class CategoriesModel : BaseModel
     public bool ActiveTabAll = true;//$temp
     public bool ActiveTabFollowed;//$temp
 
-    public IEnumerable<CategoryRowModel> CategoryRows { get; set; }
+    public IEnumerable<CategoryRowModel> Rows { get; set; }
 
-    public int TotalCategories { get; set; }
+    public int TotalCategoriesInSystem { get; set; }
     public int TotalMine  { get; set; }
     public string SearchTerm  { get; set; }
 
@@ -28,6 +29,7 @@ public class CategoriesModel : BaseModel
     public PagerModel Pager { get; set; }
 
     public string Suggestion;
+    public CategoriesSearchResultModel SearchResultModel;
 
     public void Init(IEnumerable<Category> categories)
     {
@@ -39,7 +41,7 @@ public class CategoriesModel : BaseModel
 
         Suggestion = _sessionUiData.SearchSpecCategory.GetSuggestion();
 
-        TotalCategories = Resolve<GetTotalCategories>().Run(); ;
+        TotalCategoriesInSystem = Resolve<GetTotalCategories>().Run(); ;
         TotalMine = 0;
 
         SearchTerm = _sessionUiData.SearchSpecCategory.SearchTerm;
@@ -48,12 +50,14 @@ public class CategoriesModel : BaseModel
 
         OrderByLabel = _sessionUiData.SearchSpecCategory.OrderBy.ToText();
         OrderBy = _sessionUiData.SearchSpecCategory.OrderBy;
+
+        SearchResultModel = new CategoriesSearchResultModel(this);
     }
 
     public void SetCategories(IEnumerable<Category> categories)
     {
         var index = 0;
-        CategoryRows = from category in categories select new CategoryRowModel(category, index++);
+        Rows = from category in categories select new CategoryRowModel(category, index++);
     }
 
 }

@@ -1,8 +1,8 @@
 ﻿/* A shared class */
 class QuestionsSearch extends SearchInTabs {
 
-    constructor() {
-        super();
+    constructor(fnOnLoad : Function) {
+        super(fnOnLoad);
         var filterSelector = "#txtCategoryFilter";
         var autoCompleteCategories = new AutocompleteCategories(filterSelector);
         autoCompleteCategories.OnAdd = (categoryId) => {
@@ -22,6 +22,8 @@ class QuestionsSearch extends SearchInTabs {
 }
 
 $(() => {
-    new QuestionsSearch();
-    new SearchInTabs();
-})
+    new QuestionsSearch(() => {
+        var page = new Page();
+        page.Init();
+    });
+});

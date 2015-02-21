@@ -20,6 +20,29 @@ public class CategoriesController : BaseController
         _categorySearch = categorySearch;
     }
 
+    public ActionResult SearchApi(string searchTerm)
+    {
+        var searchSpec = _sessionUiData.SearchSpecCategory;
+        searchSpec.SearchTerm = searchTerm;
+
+        var categoriesModel = new CategoriesModel();
+        categoriesModel.Init(_categorySearch.Run());
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                Html = ViewRenderer.RenderPartialView(
+                    "CategoriesSearchResult",
+                    new CategoriesSearchResultModel(categoriesModel),
+                    ControllerContext),
+                TotalInResult = searchSpec.TotalItems,
+                TotalInSystem = R<GetTotalCategories>().Run(),
+                Tab = "All"
+            }
+        };
+    }
+
     public ActionResult Search(string searchTerm, CategoriesModel model, string orderBy = null)
     {
         _sessionUiData.SearchSpecCategory.SearchTerm = model.SearchTerm = searchTerm;
