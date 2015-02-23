@@ -1,0 +1,28 @@
+﻿.FormSection {
+  background-color: transparent;
+  padding-top: 10px;
+}
+#PriceSelection .radio {
+  margin-bottom: 20px;
+  clear: left;
+}
+#PriceSelection label .Title {
+  font-weight: bold;
+}
+#PriceSelection .bold {
+  font-weight: bold;
+}
+#PriceSelection .PriceLevelInfo {
+  margin-top: 10px;
+}
+#PriceSelection .PriceLevelInfo .Description {
+  font-size: 90%;
+  margin-bottom: 5px;
+}
+#PriceSelection .LabelInline {
+  cursor: default;
+}
+.NotInFocus {
+  color: GrayText !important;
+}
+/*# sourceMappingURL=Membership.css.map */

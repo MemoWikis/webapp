@@ -93,6 +93,9 @@ label {
 .InputYear {
   width: 80px;
 }
+.InputPrice {
+  width: 65px;
+}
 .InputDayOrMonth,
 .InputVolume,
 .InputIssueNo,
@@ -244,7 +247,7 @@ div.control-group.markdown label {
     width: 100%;
   }
 }
-label.ValidationError {
+label.ValidationError:not(#PriceSelection) {
   display: block;
   clear: left;
   color: #b13a48;
@@ -252,7 +255,7 @@ label.ValidationError {
   font-style: italic;
   font-size: 13px;
 }
-.form-group > label.ValidationError {
+.form-group > label.ValidationError:not(#PriceSelection) {
   position: relative;
   float: left;
   width: 100%;
@@ -260,36 +263,36 @@ label.ValidationError {
   padding-left: 10px;
   padding-right: 10px;
 }
-.ValidationError .help-block,
-.ValidationError .control-label,
-.ValidationError .radio,
-.ValidationError .checkbox,
-.ValidationError .radio-inline,
-.ValidationError .checkbox-inline {
+.ValidationError:not(#PriceSelection) .help-block,
+.ValidationError:not(#PriceSelection) .control-label,
+.ValidationError:not(#PriceSelection) .radio,
+.ValidationError:not(#PriceSelection) .checkbox,
+.ValidationError:not(#PriceSelection) .radio-inline,
+.ValidationError:not(#PriceSelection) .checkbox-inline {
   color: #b13a48;
 }
-.ValidationError .form-control {
+.ValidationError:not(#PriceSelection) .form-control {
   border-color: #b13a48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.ValidationError .form-control:focus {
+.ValidationError:not(#PriceSelection) .form-control:focus {
   border-color: #8b2d38;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d47d87;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d47d87;
 }
-.ValidationError .input-group-addon {
+.ValidationError:not(#PriceSelection) .input-group-addon {
   color: #b13a48;
   border-color: #b13a48;
   background-color: #f4dbe0;
 }
-.ValidationError .form-control-feedback {
+.ValidationError:not(#PriceSelection) .form-control-feedback {
   color: #b13a48;
 }
-.ValidationError .checkbox label {
+.ValidationError:not(#PriceSelection) .checkbox label {
   color: #203256;
 }
-.ValidationError .checkbox label.ValidationError {
+.ValidationError:not(#PriceSelection) .checkbox label.ValidationError {
   color: #b13a48;
 }
 /*# sourceMappingURL=form.css.map */

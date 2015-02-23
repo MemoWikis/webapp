@@ -934,6 +934,7 @@
     <Compile Include="Views\Welcome\WelcomeModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
@@ -1192,6 +1193,9 @@
     <Content Include="Views\Shared\Reference.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
+    <Content Include="Views\Users\Account\Membership.css">
+      <DependentUpon>Membership.less</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Js\Users.js">
       <DependentUpon>Users.ts</DependentUpon>
     </Content>
@@ -1394,6 +1398,10 @@
     </Content>
     <Content Include="Views\Users\Account\Settings\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Membership.less" />
+    <Content Include="Views\Users\Account\Membership.css.map">
+      <DependentUpon>Membership.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
