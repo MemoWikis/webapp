@@ -1,24 +1,6 @@
 ﻿/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 
 var validationSettings_BecomeMemberForm = {
-    rules: {
-        Name: {
-            required: true,
-        },
-        Email: {
-            required: true,
-        },
-    },
-    messages: {
-
-        Name: {
-            required: "Bitte gib einen Nutzernamen an.",
-        },
-        Email: {
-            required: "Bitte gib eine gültige Emailadresse an.",
-        },
-
-    },
     onkeyup: function(element, event) {
         if ($(element).hasClass('InputPrice')) {
             return false;
@@ -59,6 +41,9 @@ var fnAddNumberValidationMethod = function (inputField : JQuery, message : strin
 
             if (minVal && valueNumber && radioSection.find('input[type="radio"]').is(':checked') && valueNumber < minVal) {
                 return false;
+            }
+            else {
+                return true;
             }
         },
         "Bitte gib einen Mindestbetrag von " + minValString + " € ein."

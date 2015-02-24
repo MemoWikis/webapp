@@ -1,27 +1,17 @@
 ﻿/// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 var validationSettings_BecomeMemberForm = {
-    rules: {
-        Name: {
-            required: true
-        },
-        Email: {
-            required: true
-        }
-    },
-    messages: {
-        Name: {
-            required: "Bitte gib einen Nutzernamen an."
-        },
-        Email: {
-            required: "Bitte gib eine gültige Emailadresse an."
-        }
-    },
     onkeyup: function (element, event) {
         if ($(element).hasClass('InputPrice')) {
             return false;
         } else {
             return true;
         }
+    },
+    submitHandler: function (form) {
+        var chosenPriceString = $('#BecomeMemberForm').find('input[name="PriceLevel"][type="radio"]:checked').closest('.radio').find('.InputPrice').val();
+        $('#ChosenPrice').val((Math.round(100 * parseFloat(chosenPriceString.replace(',', '.'))) / 100).toFixed(2));
+        window.alert((Math.round(100 * parseFloat(chosenPriceString.replace(',', '.'))) / 100).toFixed(2));
+        //$(form).submit();
     }
 };
 
@@ -51,10 +41,9 @@ var fnAddNumberValidationMethod = function (inputField, message) {
 
         if (minVal && valueNumber && radioSection.find('input[type="radio"]').is(':checked') && valueNumber < minVal) {
             return false;
+        } else {
+            return true;
         }
-        //else {
-        //    return true;
-        //}
     }, "Bitte gib einen Mindestbetrag von " + minValString + " € ein.");
 
     inputField.rules('add', ruleName);
