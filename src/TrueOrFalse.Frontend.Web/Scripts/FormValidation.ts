@@ -41,6 +41,19 @@
         if (elemForm.data("validator") != undefined)
             elemForm.data("validator", null);    
     }
+
+    jQuery.validator.addMethod(
+        "numberCommaFormat",
+        function (value, element) {
+
+            var valueString = value.toString();
+
+            return $.trim(valueString) === ""
+                || /^\d+[,]*\d*$/.test(valueString)
+                || /^\d*[,]*\d+$/.test(valueString)
+        },
+        "Bitte verwende nur Ziffern und Komma."
+    );
     
     var validator = $(formSelector).validate(validationSettings);
 

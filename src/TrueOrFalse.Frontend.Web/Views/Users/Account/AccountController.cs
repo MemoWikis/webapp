@@ -15,6 +15,7 @@ public class AccountController : Controller
         _sessionUser = sessionUser;
     }
 
+    [SetMenu(MenuEntry.None)]
     public ActionResult Membership()
     {
         return View("~/Views/Users/Account/Membership.aspx", new MembershipModel());

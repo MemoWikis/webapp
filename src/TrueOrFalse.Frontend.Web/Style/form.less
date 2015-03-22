@@ -34,6 +34,8 @@ optgroup:disabled {
 
 label {
     font-weight: normal;
+    -ms-line-break: normal;
+    -webkit-line-break: normal;
     line-break: normal;
 }
 
@@ -52,6 +54,10 @@ label {
 
 .InputYear {
     width: 80px;
+}
+
+.InputPrice {
+    width: 65px;
 }
 
 .InputDayOrMonth, .InputVolume, .InputIssueNo, .InputPageNo {
@@ -206,7 +212,7 @@ div.control-group.markdown {
         background-color: @color-background-lightblue;
         padding-top: 10px;
         padding-bottom: 10px;
-    }
+    }c
 }
 
 .FormSection-bs-callout-Style (@FormSection-bs-callout-Style) when (@FormSection-bs-callout-Style) {
@@ -258,7 +264,7 @@ div.control-group.markdown {
 
 //Validation
 
-.ValidationError {
+.ValidationError:not(#PriceSelection) {
 
     label& {
         display: block;
