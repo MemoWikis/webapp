@@ -9,7 +9,11 @@ public class StoreImages
 {
     public static void Run(Stream inputStream, IImageSettings imageSettings)
     {
-        var oldImages = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), string.Format("{0}_*.jpg", imageSettings.Id));
+        var oldImages = Directory.GetFiles(
+            HttpContext.Current.Server.MapPath(imageSettings.BasePath), 
+            string.Format("{0}_*.", imageSettings.Id)
+        );
+
         foreach (var file in oldImages){
             File.Delete(file);
         }

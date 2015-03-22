@@ -46,6 +46,14 @@ namespace TrueOrFalse.Tests
             Assert.That(result8.ImageTitle, Is.EqualTo("File:Liguus virgineus 01.JPG"));
         }
 
+        [Test]
+        public void Should_get_for_svgs_png_url()
+        {
+            var result1 = Resolve<WikiImageMetaLoader>().Run("SVG_logo.svg");
+            Assert.That(result1.ImageNotFound, Is.False);
+            Assert.That(result1.ImageTitle, Is.EqualTo("File:SVG logo.svg"));
+            Assert.That(result1.ImageUrl, Is.StringEnding("png"));
+        }
 
         [Test]
         public void Image_not_found_should_be_indicated()

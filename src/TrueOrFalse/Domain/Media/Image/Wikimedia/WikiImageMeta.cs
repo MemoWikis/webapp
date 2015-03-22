@@ -22,26 +22,26 @@ namespace TrueOrFalse
         public DateTime ImageTimeStamp;
 
         /// <summary>Original Image Width</summary>
-        public int ImageWidth;
+        public int ImageOriginalWidth;
         /// <summary>Original Image Height</summary>
-        public int ImageHeight;
-
+        public int ImageOriginalHeight;
         /// <summary>Original Image URL</summary>
-        public string ImageUrl;
+        public string ImageOriginalUrl;
+        
         public string ImageUrlDescription;
 
-        public int ImageThumbWidth;
-        public int ImageThumbHeight;
-        public string ImageThumbUrl;
+        public int ImageWidth;
+        public int ImageHeight;
+        public string ImageUrl;
 
         public string User;
         public string UserId;
 
         public string JSonResult;
 
-        public Stream GetStream()
-        {
-            var request = (HttpWebRequest)WebRequest.Create(ImageThumbUrl);
+        public Stream GetThumbImageStream()
+        { 
+            var request = (HttpWebRequest)WebRequest.Create(ImageUrl);
             var response = (HttpWebResponse)request.GetResponse();
 
             return response.GetResponseStream();

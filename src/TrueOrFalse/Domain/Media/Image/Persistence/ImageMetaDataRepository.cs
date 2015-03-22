@@ -30,7 +30,7 @@ namespace TrueOrFalse
             imageMeta.TypeId = typeId;
             imageMeta.ApiHost = wikiMetaData.ApiHost;
             imageMeta.Source = ImageSource.WikiMedia;
-            imageMeta.SourceUrl = wikiMetaData.ImageUrl;
+            imageMeta.SourceUrl = wikiMetaData.ImageOriginalUrl;
             imageMeta.ApiResult = wikiMetaData.JSonResult;
             imageMeta.UserId = userId;
 

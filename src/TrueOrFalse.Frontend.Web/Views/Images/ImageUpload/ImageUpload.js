@@ -57,7 +57,7 @@ var WikimediaPreview = (function () {
 var ImageUploadModal = (function () {
     function ImageUploadModal() {
         this.WikimediaPreview = new WikimediaPreview();
-        this.AllowedExtensions = ['jpeg', 'jpg', 'png'];
+        this.AllowedExtensions = ['jpeg', 'jpg', 'png', 'svg'];
         this.MaxImageSize = 10485760;
         this.Mode = 0 /* Wikimedia */;
         this.InitUploader();

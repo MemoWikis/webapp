@@ -67,13 +67,13 @@ namespace TrueOrFalse
                     ImageTitle = page[pageName].title,
                     ImageRepository = page[pageName].imagerepository,
                     ImageTimeStamp = DateTime.Parse(page[pageName].imageinfo[0].timestamp.Replace('T', ' ').Replace('Z', ' ')),
-                    ImageWidth = page[pageName].imageinfo[0].width,
-                    ImageHeight = page[pageName].imageinfo[0].height,
-                    ImageUrl = page[pageName].imageinfo[0].url,
+                    ImageOriginalWidth = page[pageName].imageinfo[0].width,
+                    ImageOriginalHeight = page[pageName].imageinfo[0].height,
+                    ImageOriginalUrl = page[pageName].imageinfo[0].url,
                     ImageUrlDescription = page[pageName].imageinfo[0].descriptionurl,
-                    ImageThumbWidth = page[pageName].imageinfo[0].thumbwidth,
-                    ImageThumbHeight = page[pageName].imageinfo[0].thumbheight,
-                    ImageThumbUrl = page[pageName].imageinfo[0].thumburl,
+                    ImageWidth = page[pageName].imageinfo[0].thumbwidth,
+                    ImageHeight = page[pageName].imageinfo[0].thumbheight,
+                    ImageUrl = page[pageName].imageinfo[0].thumburl,
                     JSonResult = resultString
                 };
         }        

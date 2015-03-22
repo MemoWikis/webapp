@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHibernate.Hql.Ast.ANTLR;
 using TrueOrFalse;
-
 
 public class ImageStore : IRegisterAsInstancePerLifetime
 {
@@ -34,8 +28,9 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         var imageSettings = Activator.CreateInstance<T>();
         imageSettings.Init(typeId);
 
-        using (var stream = wikiMetaData.GetStream()){
-            StoreImages.Run(stream, imageSettings);//$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
+        using (var stream = wikiMetaData.GetThumbImageStream()){
+            //$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
+            StoreImages.Run(stream, imageSettings); 
         }
 
         _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
@@ -52,5 +47,4 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
         _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }
-
 }
