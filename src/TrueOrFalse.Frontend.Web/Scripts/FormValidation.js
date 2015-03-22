@@ -42,12 +42,6 @@
     jQuery.validator.addMethod("numberCommaFormat", function (value, element) {
         var valueString = value.toString();
 
-        //if (!($.trim(valueString) === ""
-        //    || /^\d+[,]*\d*$/.test(valueString)
-        //    || /^\d*[,]*\d+$/.test(valueString))) {
-        //    return false;
-        //};
-        //return true;
         return $.trim(valueString) === "" || /^\d+[,]*\d*$/.test(valueString) || /^\d*[,]*\d+$/.test(valueString);
     }, "Bitte verwende nur Ziffern und Komma.");
 
