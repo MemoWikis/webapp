@@ -12,12 +12,21 @@
     <%--HEADER--%>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>
     <section id="MasterSection">
-        <div class="container main">
-            <div id="gradientLeft"></div>
-            <div id="gradientRight"></div>        
-            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+        <div id="MasterSectionBackgroundLayer" class="MasterSectionBackgroundLayer">
+            <div class="container">
+                <div id="gradientLeft"></div>
+                <div id="gradientRight"></div>
+            </div>
         </div>
-    </section>
+        
+        <section id="MasterMainContent" class="container">
+            <div class="row">
+                <section id="MasterMainColumn" class="">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                </section>
+            </div>
+        </section>
+    </section>    
 
     <%-- FOOTER--%>
     <footer id="MasterFooter">
