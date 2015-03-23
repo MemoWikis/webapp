@@ -239,6 +239,7 @@
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Code\BaseUtil.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
@@ -328,6 +329,8 @@
     </Content>
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
+    <TypeScriptCompile Include="Views\Beta\Js\BetaLogin.ts" />
+    <TypeScriptCompile Include="Views\Beta\Js\BetaRequest.ts" />
     <TypeScriptCompile Include="Views\Images\Images.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
@@ -376,6 +379,12 @@
     <Content Include="Scripts\vendor\jquery.typewatch.js" />
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\BetaLogin.js">
+      <DependentUpon>BetaLogin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\BetaRequest.js">
+      <DependentUpon>BetaRequest.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
     <Content Include="Views\Help\Willkommen.aspx" />
@@ -1369,7 +1378,7 @@
     <Content Include="Views\Categories\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\VariousPublic\Beta.aspx" />
+    <Content Include="Views\Beta\Beta.aspx" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Style\z_mixins_for_buttons_2.3.2.css.map">
       <DependentUpon>z_mixins_for_buttons_2.3.2.css</DependentUpon>
@@ -1405,6 +1414,14 @@
     <Content Include="Views\Users\Account\Membership.less" />
     <Content Include="Views\Users\Account\Membership.css.map">
       <DependentUpon>Membership.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Site.Beta.Master" />
+    <Content Include="Views\Beta\Beta.css" />
+    <Content Include="Views\Beta\Js\BetaLogin.js.map">
+      <DependentUpon>BetaLogin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\BetaRequest.js.map">
+      <DependentUpon>BetaRequest.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
@@ -1496,4 +1513,9 @@
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
+  </PropertyGroup>
 </Project>

@@ -21,10 +21,5 @@ public class VariousPublicController : Controller
     {
         return View(new BaseModel());
     }
-
-    public ActionResult Beta()
-    {
-        return View();
-    }
 }
 

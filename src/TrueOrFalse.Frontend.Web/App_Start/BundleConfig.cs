@@ -52,6 +52,10 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js")
                 .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Beta")
+                .IncludeDirectory("~/Views/Beta/Js/", "*.js"));
+            //bundles.Add(new StyleBundle("~/bundles/BetaCss").Include("~/Views/Beta", "Beta.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/Sets")
                 .IncludeDirectory("~/Views/Sets/Js/", "*.js"));
 

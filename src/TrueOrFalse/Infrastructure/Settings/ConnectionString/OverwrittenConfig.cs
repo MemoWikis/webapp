@@ -27,12 +27,8 @@ namespace TrueOrFalse.Infrastructure
 
         public static bool DevelopOffline(){
             var result = Value("developOffline");
-            if (!result.HasValue)
-                return false;
-
-            return Boolean.Parse(result.Value);
+            return result.HasValue && Boolean.Parse(result.Value);
         }
-
 
         /// <summary>
         /// Develop / Stage / Live
@@ -40,19 +36,19 @@ namespace TrueOrFalse.Infrastructure
         public static string Environment()
         {
             var result = Value("environment");
-            if (!result.HasValue)
-                return "";
-
-            return result.Value;
+            return !result.HasValue ? "" : result.Value;
         }
 
         public static string LogglyKey()
         {
             var result = Value("logglyKey");
-            if (!result.HasValue)
-                return "";
+            return !result.HasValue ? "" : result.Value;
+        }
 
-            return result.Value;
+        public static string BetaCode()
+        {
+            var result = Value("betaCode");
+            return !result.HasValue ? "" : result.Value;
         }
 
         private static OverwrittenConfigValueResult Value(string itemName)

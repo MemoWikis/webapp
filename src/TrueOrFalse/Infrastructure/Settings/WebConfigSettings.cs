@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -14,7 +11,7 @@ namespace TrueOrFalse.Infrastructure
         public static string SolrPath;
         public static string SolrCoresSuffix;
         public static bool GoogleKeyIsSet = false;
-        public static string GoogleKey = "";
+        public static string GoogleKey;
 
         private static string GetValue(OverwrittenConfigValueResult overwrittenConfigValueResult, string configKey)
         {

@@ -13,9 +13,7 @@
         $(spt).after('<a href="mailto:' + addr + '" title="Send an email">' + addr + '</a>').hover(function () { window.status = "Send a letter!"; }, function () { window.status = ""; });
         $(spt).remove();
     });
-</script>
-
-    
+</script>    
 </asp:Content>
 
 

@@ -4,4 +4,5 @@
   <sorlUrl>http://localhost:8080/solr/</sorlUrl>
   <pathToSolr>C:/BitNami/apache-solr/solr</pathToSolr>
   <developOffline>false</developOffline>
+  <betaCode>betaCode</betaCode>
 </configuration>

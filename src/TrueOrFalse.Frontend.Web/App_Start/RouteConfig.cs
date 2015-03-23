@@ -90,6 +90,8 @@ namespace TrueOrFalse
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
             routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
+
+            routes.MapRoute("Beta", "Beta", new { controller = "Beta", action = "Beta" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
 
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action = "Export" });
