@@ -26,8 +26,8 @@ namespace TrueOrFalse.Infrastructure
 
             builder.RegisterModule<AutofacCoreModule>();
 
-            var solrUrl = WebConfigSettings.SolrUrl;
-            var solrSuffix = WebConfigSettings.SolrCoresSuffix;
+            var solrUrl = Settings.SolrUrl;
+            var solrSuffix = Settings.SolrCoresSuffix;
 
             var cores = new SolrServers {
                                 new SolrServerElement {

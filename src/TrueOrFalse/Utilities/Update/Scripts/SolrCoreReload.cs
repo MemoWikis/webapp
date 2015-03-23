@@ -14,7 +14,7 @@ namespace TrueOrFalse.Updates
 
         private static string _solrUrl;
         private static string _solrPath;
-        private static string _coreSuffix { get { return WebConfigSettings.SolrCoresSuffix; } }
+        private static string _coreSuffix { get { return Settings.SolrCoresSuffix; } }
 
         private static readonly string[] _coreNames = { 
                 "Category" + _coreSuffix, 
@@ -33,8 +33,8 @@ namespace TrueOrFalse.Updates
             if (HttpContext.Current == null)
                 return;
 
-            _solrUrl = WebConfigSettings.SolrUrl;
-            _solrPath = WebConfigSettings.SolrPath;
+            _solrUrl = Settings.SolrUrl;
+            _solrPath = Settings.SolrPath;
         }
 
         public static void Set(string url, string path)

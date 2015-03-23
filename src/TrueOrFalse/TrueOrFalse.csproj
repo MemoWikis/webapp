@@ -380,6 +380,7 @@
     <Compile Include="Domain\User.Reputation\ReputationUpdate.cs" />
     <Compile Include="Domain\User.Reputation\UpdateReputationsAndRank.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
+    <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
     <Compile Include="Domain\User\Ops\GetTotalUsers.cs" />
     <Compile Include="Domain\User\Ops\UpdateWishcount.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecovery.cs" />
@@ -500,13 +501,12 @@
     <Compile Include="Infrastructure\Persistence\Spec\SpecOrderByBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Settings\ConnectionString\GetConnectionString.cs" />
-    <Compile Include="Infrastructure\Settings\ConnectionString\OverwrittenConfig.cs" />
-    <Compile Include="Infrastructure\Settings\ConnectionString\OverwrittenConfigValueResult.cs" />
+    <Compile Include="Infrastructure\Settings\OverwrittenConfig\OverwrittenConfig.cs" />
+    <Compile Include="Infrastructure\Settings\OverwrittenConfig\OverwrittenConfigValueResult.cs" />
     <Compile Include="Infrastructure\Settings\DbSetting\DbSettingLoader.cs" />
     <Compile Include="Infrastructure\Settings\DbSetting\DbSettings.cs" />
     <Compile Include="Infrastructure\Settings\DbSetting\DbSettingsMap.cs" />
-    <Compile Include="Infrastructure\Settings\WebConfigSettings.cs">
+    <Compile Include="Infrastructure\Settings\Settings.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\StringExtensions.cs" />

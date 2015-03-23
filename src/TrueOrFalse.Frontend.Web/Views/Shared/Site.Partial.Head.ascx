@@ -5,7 +5,7 @@
 <%= Styles.Render("~/bundles/css") %>
 <%= Scripts.Render("~/bundles/shared") %>
 
-<% if (!OverwrittenConfig.DevelopOffline()){ %>
+<% if (!Settings.DevelopOffline()){ %>
     <link href='http://fonts.googleapis.com/css?family=Emilys+Candy' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto:500' rel='stylesheet' type='text/css'>

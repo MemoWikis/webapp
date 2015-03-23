@@ -4,7 +4,6 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
-using TrueOrFalse.Infrastructure;
 
 public class Loggly
 {
@@ -12,7 +11,7 @@ public class Loggly
     {
         var jsonMsg = new JavaScriptSerializer().Serialize(new
         {
-            environment = OverwrittenConfig.Environment(),
+            environment = Settings.Environment(),
             message = message,
             category = category.ToString()
         });
@@ -24,7 +23,7 @@ public class Loggly
     {
         var jsonMsg = new JavaScriptSerializer().Serialize(new
         {
-            environment = OverwrittenConfig.Environment(),
+            environment = Settings.Environment(),
             message = e.Message,
             stackTrace = e.StackTrace,
             source = e.Source,
@@ -36,7 +35,7 @@ public class Loggly
 
     public static void Send(string jsonMsg)
     {
-        var logglyKey = OverwrittenConfig.LogglyKey();
+        var logglyKey = Settings.LogglyKey();
 
         if (String.IsNullOrEmpty(logglyKey))
             return;

@@ -56,7 +56,7 @@ namespace TrueOrFalse.Tests
             builder.RegisterModule<AutofacCoreModule>();
             builder.RegisterModule<AutofacTestModule>();
 
-            var solrUrl = WebConfigSettings.SolrUrl;
+            var solrUrl = Settings.SolrUrl;
             var cores = new SolrServers {
                                 new SolrServerElement {
                                         Id = "question",

@@ -8,7 +8,7 @@ public class IsValidBetaCode
         if (String.IsNullOrEmpty(betaCodeIn))
             return false;
 
-        var betaCode = OverwrittenConfig.BetaCode().Replace(" ", "").ToLower();
+        var betaCode = Settings.BetaCode().Replace(" ", "").ToLower();
 
         return betaCodeIn.Replace(" ", "").ToLower() == betaCode;
     }

@@ -19,7 +19,7 @@ namespace TrueOrFalse
             return Fluently.Configure()
               .Database(
                 MySQLConfiguration.Standard
-                  .ConnectionString(GetConnectionString.Run())
+                  .ConnectionString(Settings.ConnectionString())
                   .Dialect<MySQL5FlexibleDialect>
               )
               .Mappings(m =>
@@ -43,23 +43,23 @@ namespace TrueOrFalse
 
         private static void DropAllTables()
         {
-            var sqlString = @"select name into #tables from sys.objects where type = 'U'
-                             while (select count(1) from #tables) > 0
-                             begin
-                             declare @sql varchar(max)
-                             declare @tbl varchar(255)
-                             select top 1 @tbl = name from #tables
-                             set @sql = 'drop table ' + @tbl
-                             exec(@sql)
-                             delete from #tables where name = @tbl
-                             end
-                             drop table #tables;";
+            const string sqlString = 
+                @"select name into #tables from sys.objects where type = 'U'
+                  while (select count(1) from #tables) > 0
+                  begin
+                  declare @sql varchar(max)
+                  declare @tbl varchar(255)
+                  select top 1 @tbl = name from #tables
+                  set @sql = 'drop table ' + @tbl
+                  exec(@sql)
+                  delete from #tables where name = @tbl
+                  end
+                  drop table #tables;";
 
             using (var session = _configuration.BuildSessionFactory().OpenSession())
             {
                 session.CreateSQLQuery(sqlString);
             }
         }
-
     }
 }
