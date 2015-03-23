@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
-
-public class ExportController : Controller
+public class ExportController : BaseController
 {
     private readonly QuestionRepository _questionRepository;
     private readonly CategoryRepository _categoryRepository;

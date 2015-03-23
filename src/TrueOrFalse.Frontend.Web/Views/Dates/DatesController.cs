@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 
-public class DatesController : Controller
+public class DatesController : BaseController
 {
     [SetMenu(MenuEntry.Dates)]
     public ActionResult Dates()

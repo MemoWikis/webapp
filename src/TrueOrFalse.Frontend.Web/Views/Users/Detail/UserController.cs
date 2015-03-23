@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Web.Context;
 
-public class UserController : Controller
+public class UserController : BaseController
 {
     private const string _viewLocation = "~/Views/Users/Detail/User.aspx";
 
     private readonly UserRepository _userRepository;
-    private readonly SessionUiData _sessionUiData;
-    private readonly SessionUser _sessionUser;
 
-    public UserController(UserRepository userRepository, SessionUiData sessionUiData, SessionUser sessionUser)
+    public UserController(UserRepository userRepository)
     {
         _userRepository = userRepository;
-        _sessionUiData = sessionUiData;
-        _sessionUser = sessionUser;
     }
 
     [SetMenu(MenuEntry.UserDetail)]

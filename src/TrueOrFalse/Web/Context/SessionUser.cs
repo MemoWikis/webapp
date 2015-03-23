@@ -4,6 +4,12 @@ namespace TrueOrFalse.Web.Context
 {
     public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
+        public bool HasBetaAccess
+        {
+            get { return Data.Get("isBetaLogin", false); }
+            set { Data["isBetaLogin"] = value; }
+        }
+
         public bool IsLoggedIn
         {
             get { return Data.Get("isLoggedIn", false); }
@@ -37,6 +43,7 @@ namespace TrueOrFalse.Web.Context
 
         public void Login(User user)
         {
+            HasBetaAccess = true;
             IsLoggedIn = true;
             User = user;
 

@@ -1,20 +1,8 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Registration;
-using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 
-public class AccountController : Controller
+public class AccountController : BaseController
 {
-    private readonly SessionUser _sessionUser;
-
-    public AccountController(SessionUser sessionUser)
-    {
-        _sessionUser = sessionUser;
-    }
-
     [SetMenu(MenuEntry.None)]
     public ActionResult Membership()
     {

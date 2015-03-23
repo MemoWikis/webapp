@@ -31,15 +31,11 @@
     </header>    
 
     <section id="MasterSection" style="background-color: #2c5fb2;">
-        
             <div class="container">
                 <div class="col-lg-11 text-center">
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
                 </div>
             </div>
-            
-        
-               
     </section>    
 
     <%-- FOOTER--%>

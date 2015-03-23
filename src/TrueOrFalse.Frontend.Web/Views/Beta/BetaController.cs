@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-public class BetaController : Controller
+public class BetaController : BaseController
 {
     public ActionResult Beta()
     {
@@ -9,12 +9,12 @@ public class BetaController : Controller
 
     public JsonResult IsValidBetaUser(string betacode)
     {
-        return new JsonResult
-        {
-            Data = new
-            {
-                IsValid = IsValidBetaCode.Yes(betacode)
-            }
+        var isValidBetaCode = IsValidBetaCode.Yes(betacode);
+        
+        _sessionUser.HasBetaAccess = isValidBetaCode;
+
+        return new JsonResult{
+            Data = new { IsValid = isValidBetaCode }
         };
     }
 }

@@ -1,19 +1,14 @@
 ﻿using System.Web.Mvc;
 using TrueOrFalse;
-using TrueOrFalse.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
 
-
 [AccessOnlyAsAdmin]
-public class PersonaController : Controller
+public class PersonaController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly UserRepository _userRepository;
 
-    public PersonaController(SessionUser sessionUser,
-                             UserRepository userRepository)
+    public PersonaController(UserRepository userRepository)
     {
-        _sessionUser = sessionUser;
         _userRepository = userRepository;
     }
 

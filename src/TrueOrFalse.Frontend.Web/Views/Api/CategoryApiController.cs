@@ -24,7 +24,7 @@ namespace TrueOrFalse.View.Web.Views.Api
         public bool isOnlyResult = false;
     }
 
-    public class CategoryApiController : Controller
+    public class CategoryApiController : BaseController
     {
         private readonly SearchCategories _searchCategories;
         private readonly CategoryRepository _categoryRepo;

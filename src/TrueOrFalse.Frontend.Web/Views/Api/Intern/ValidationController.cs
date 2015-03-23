@@ -6,15 +6,11 @@ using System.Web.Mvc;
 
 namespace TrueOrFalse.View.Web.Views.Api
 {
-    public class ValidationContoller : Controller
+    public class ValidationContoller : BaseController
     {
-        //
-        // GET: /Validation/
-
         public ActionResult IsEmailAddressAvailable()
         {
             return new ViewResult();
         }
-
     }
 }
