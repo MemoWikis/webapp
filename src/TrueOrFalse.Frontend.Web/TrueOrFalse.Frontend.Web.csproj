@@ -110,7 +110,6 @@
     <Reference Include="MarkdownSharp">
       <HintPath>..\libs\MarkdownSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -375,6 +374,9 @@
     </Content>
     <Content Include="Scripts\SearchInTabsResult.js">
       <DependentUpon>SearchInTabsResult.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Validations.js">
+      <DependentUpon>Validations.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\vendor\jquery-watch.js" />
     <Content Include="Scripts\vendor\jquery.typewatch.js" />
@@ -747,6 +749,9 @@
     </Content>
     <Content Include="Scripts\SearchInTabsResult.js.map">
       <DependentUpon>SearchInTabsResult.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Validations.js.map">
+      <DependentUpon>Validations.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
