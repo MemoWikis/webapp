@@ -100,13 +100,21 @@
                 Wenn du Betatester werden möchtest, schicke uns eine Anfrage.
             </p>
             
+            <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
+                Keine gültige Email.
+            </div>
+            
+            <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">
+                Deine Betatester-Anfrage wurde versendet. Wir melden uns in den nächsten Tagen bei dir.
+            </div>
+            
             <form class="form-inline" style="color: white;">
                 <div class="form-group">
                     <div class="col-sm-6">
-                        <input type="email" class="form-control" id="betaCode" placeholder="deine@email.de" style="font-size: 18px;">
+                        <input type="email" class="form-control" id="txtEmailRequester" placeholder="deine@email.de" style="font-size: 18px;">
                     </div>    
                 </div>
-                <a class="btn btn-info" href="#" style="font-size: 18px;">
+                <a class="btn btn-info shake" href="#" id="btnBetaRequest" style="font-size: 18px;">
                     <i class="fa fa-envelope-o"></i> Zugang anfragen
                 </a>
             </form> 

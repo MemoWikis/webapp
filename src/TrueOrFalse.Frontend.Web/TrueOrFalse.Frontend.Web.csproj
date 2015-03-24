@@ -328,6 +328,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
+    <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\BetaLogin.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\BetaRequest.ts" />

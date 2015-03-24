@@ -17,4 +17,9 @@ public class BetaController : BaseController
             Data = new { IsValid = isValidBetaCode }
         };
     }
+
+    public void SendBetaRequest(string email)
+    {
+        SendBetaRequestEmail.Run(email);
+    }
 }

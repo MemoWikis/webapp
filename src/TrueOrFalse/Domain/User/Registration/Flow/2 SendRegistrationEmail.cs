@@ -24,7 +24,7 @@ namespace TrueOrFalse.Registration
         {
             var mail = new MailMessage();
             mail.To.Add(user.EmailAddress);
-            mail.From = new MailAddress("willkommen@memucho.de");
+            mail.From = new MailAddress(Settings.EmailFrom);
 
             var emailBody = new StringBuilder();
             emailBody.AppendLine("Hallo " + user.Name + ",");

@@ -37,7 +37,7 @@ namespace TrueOrFalse.Registration
         {
             var mailMessage = new MailMessage();
             mailMessage.To.Add(new MailAddress(emailAdresse));
-            mailMessage.From = new MailAddress("team@memucho.de");
+            mailMessage.From = new MailAddress(Settings.EmailFrom);
             mailMessage.Subject =
                 "Dein neues Passwort für MEMuchO";
             mailMessage.Body = @"

@@ -11,6 +11,9 @@ public class Settings
     public static bool GoogleKeyIsSet = false;
     public static string GoogleKey;
 
+    public static string EmailFrom = "team@memucho.de";
+    public static string EmailTo = "team@memucho.de";
+
     public static bool DevelopOffline()
     {
         var result = OverwrittenConfig.Value("developOffline");
