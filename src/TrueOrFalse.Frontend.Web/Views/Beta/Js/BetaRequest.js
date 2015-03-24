@@ -2,7 +2,6 @@
     function BetaRequest() {
         var _this = this;
         $("#btnBetaRequest").click(function (e) {
-            window.alert("sdfsdf");
             _this.SendBetaRequest(e);
         });
 

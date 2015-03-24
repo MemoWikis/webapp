@@ -1,7 +1,6 @@
 ﻿class BetaRequest {
     constructor() {
         $("#btnBetaRequest").click(e => {
-            window.alert("sdfsdf");
             this.SendBetaRequest(e);
         });
 
