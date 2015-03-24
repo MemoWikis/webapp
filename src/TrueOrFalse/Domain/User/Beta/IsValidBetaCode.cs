@@ -1,5 +1,4 @@
 ﻿using System;
-using TrueOrFalse.Infrastructure;
 
 public class IsValidBetaCode
 {

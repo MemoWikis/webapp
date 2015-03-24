@@ -1,6 +1,18 @@
-﻿$(() => {
+﻿class BetaLogin
+{
+    constructor() {
+        $("#btnEnter").click(e => {
+            this.Login(e);
+        });
 
-    function Login(e) {
+        $("#txtBetaCode").keypress(e => {
+            if (e.which === 13) {
+                this.Login(e);
+            }
+        });        
+    }    
+
+    Login(e) {
         e.preventDefault();
 
         $.post("/Beta/IsValidBetaUser", { betacode: $("#txtBetaCode").val() }, (data) => {
@@ -11,14 +23,8 @@
             }
         });        
     }
+}
 
-    $("#btnEnter").click(e => {
-         Login(e);
-    });
-
-    $("#txtBetaCode").keypress(e => {
-        if (e.which === 13) {
-            Login(e);
-        }
-    });
+$(() => {
+    new BetaLogin();
 });
