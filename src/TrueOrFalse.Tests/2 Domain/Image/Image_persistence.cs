@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace TrueOrFalse.Tests.Persistence
-{
+
     [Category(TestCategories.Programmer)]
     public class Image_persistence : BaseTest
     {
@@ -21,4 +15,3 @@ namespace TrueOrFalse.Tests.Persistence
             Resolve<ImageMetaDataRepository>().Create(imageMetaData);
         }
     }
-}
