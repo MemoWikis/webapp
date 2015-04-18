@@ -1,10 +1,7 @@
 ﻿<%@ Page Title="Frage erstellen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="ViewPage<EditQuestionModel>" ValidateRequest="false" %>
- 
-<%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="TrueOrFalse" %>
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <link href="/Views/Questions/Edit/EditQuestion.css" rel="stylesheet" />
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />

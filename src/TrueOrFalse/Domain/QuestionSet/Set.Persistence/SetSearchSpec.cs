@@ -1,61 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
-using TrueOrFalse.Web.Context;
 
-namespace TrueOrFalse
+[Serializable]
+public class SetSearchSpec : SearchSpecificationBase<SetFilter, SetOrderBy>
 {
-    [Serializable]
-    public class SetSearchSpec : SearchSpecificationBase<SetFilter, SetOrderBy>
+    public string SearchTerm;
+
+    public SpellCheckResult SpellCheck;
+
+    public string GetSuggestion()
     {
-        public string SearchTerm;
+        return SpellCheck.GetSuggestion();
+    }
+}
 
-        public SpellCheckResult SpellCheck;
+[Serializable]
+public class SetFilter : ConditionContainer
+{
+    public int CreatorId = -1;
+    public int ValuatorId = -1;
+}
 
-        public string GetSuggestion()
-        {
-            return SpellCheck.GetSuggestion();
-        }
+[Serializable]
+public class SetOrderBy : OrderByCriteria
+{
+    public OrderBy CreationDate;
+    public OrderBy ValuationsAvg;
+    public OrderBy ValuationsCount;
+
+    public SetOrderBy()
+    {
+        CreationDate = new OrderBy("DateCreated", this);
+        ValuationsCount = new OrderBy("TotalRelevancePersonalEntries", this);
+        ValuationsAvg = new OrderBy("TotalRelevancePersonalAvg", this);
     }
 
-    [Serializable]
-    public class SetFilter : ConditionContainer
+    public string ToText()
     {
-        public int CreatorId = -1;
-        public int ValuatorId = -1;
-    }
+        if (CreationDate.IsCurrent())
+            return "Erstellungsdatum";
 
-    [Serializable]
-    public class SetOrderBy : OrderByCriteria
-    {
-        public OrderBy CreationDate;
-        public OrderBy ValuationsAvg;
-        public OrderBy ValuationsCount;
+        if (ValuationsCount.IsCurrent())
+            return "Anzahl Gemerkt";
 
-        public SetOrderBy()
-        {
-            CreationDate = new OrderBy("DateCreated", this);
-            ValuationsCount = new OrderBy("TotalRelevancePersonalEntries", this);
-            ValuationsAvg = new OrderBy("TotalRelevancePersonalAvg", this);
-        }
+        if (ValuationsAvg.IsCurrent())
+            return "Gemerkt &#216; Wichtigkeit";
 
-        public string ToText()
-        {
-            if (CreationDate.IsCurrent())
-                return "Erstellungsdatum";
-
-            if (ValuationsCount.IsCurrent())
-                return "Anzahl Gemerkt";
-
-            if (ValuationsAvg.IsCurrent())
-                return "Gemerkt &#216; Wichtigkeit";
-
-            return "";
-        }
+        return "";
     }
 }

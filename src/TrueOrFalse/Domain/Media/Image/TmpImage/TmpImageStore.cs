@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrueOrFalse.Web.Context;
 
 /// <summary>
 /// TmpImageStore is per user and stored in <see cref="SessionUiData"/> . 

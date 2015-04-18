@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public enum ReferenceType
 {
@@ -31,4 +27,3 @@ public static class ReferenceTypeExt
         throw new Exception("invalid reference type");
     }
 }
-

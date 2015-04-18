@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using TrueOrFalse.Web.Context;
 
 public class AccessBeta : ActionFilterAttribute
 {

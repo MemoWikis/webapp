@@ -32,7 +32,7 @@ namespace TrueOrFalse
                 new QuestionsModel(
                     _questionsControllerSearch.Run(_sessionUiData.SearchSpecQuestionAll), 
                     _sessionUiData.SearchSpecQuestionAll,
-                    SearchTab.All));
+                    SearchTabType.All));
         }
 
         public ActionResult QuestionsSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
@@ -53,7 +53,7 @@ namespace TrueOrFalse
             var model = new QuestionsModel();
             _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionAll, model, searchTerm, categories ?? new List<int>());
 
-            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionAll, SearchTab.All, ControllerContext);
+            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionAll, SearchTabType.All, ControllerContext);
         }
 
         [SetMenu(MenuEntry.Questions)]
@@ -61,10 +61,10 @@ namespace TrueOrFalse
         {
             if (!_sessionUser.IsLoggedIn){
                 return View("Questions",
-                    new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), SearchTab.Mine));
+                    new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), SearchTabType.Mine));
             }
 
-            return View("Questions", _util.GetQuestionsModel(page, model, orderBy, _sessionUiData.SearchSpecQuestionMine, SearchTab.Mine));
+            return View("Questions", _util.GetQuestionsModel(page, model, orderBy, _sessionUiData.SearchSpecQuestionMine, SearchTabType.Mine));
         }
 
         public ActionResult QuestionsMineSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
@@ -76,7 +76,7 @@ namespace TrueOrFalse
         public JsonResult QuestionsMineSearchApi(string searchTerm, List<Int32> categories)
         {
             _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionMine, new QuestionsModel(), searchTerm, categories ?? new List<int>());
-            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, SearchTab.Mine, ControllerContext);
+            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionMine, SearchTabType.Mine, ControllerContext);
         }
 
         [SetMenu(MenuEntry.Questions)]
@@ -84,10 +84,10 @@ namespace TrueOrFalse
         {
             if (!_sessionUser.IsLoggedIn){
                 return View("Questions",
-                    new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), SearchTab.Wish));
+                    new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), SearchTabType.Wish));
             }
 
-            return View("Questions", _util.GetQuestionsModel(page, model, orderBy, _sessionUiData.SearchSpecQuestionWish, SearchTab.Wish));
+            return View("Questions", _util.GetQuestionsModel(page, model, orderBy, _sessionUiData.SearchSpecQuestionWish, SearchTabType.Wish));
         }
 
         public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
@@ -99,7 +99,7 @@ namespace TrueOrFalse
         public JsonResult QuestionsWishSearchApi(string searchTerm, List<Int32> categories)
         {
             _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionWish, new QuestionsModel(), searchTerm, categories ?? new List<int>());
-            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionWish, SearchTab.Wish, ControllerContext);
+            return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionWish, SearchTabType.Wish, ControllerContext);
         }
 
         [HttpPost]
@@ -167,13 +167,13 @@ namespace TrueOrFalse
             QuestionsModel model,
             string orderBy,
             QuestionSearchSpec searchSpec,
-            SearchTab searchTab)
+            SearchTabType searchTab)
         {
             SetSearchSpecVars(searchSpec, page, model, orderBy);
 
-            if (searchTab == SearchTab.Mine)
+            if (searchTab == SearchTabType.Mine)
                 searchSpec.Filter.CreatorId = _sessionUser.UserId;
-            else if (searchTab == SearchTab.Wish)
+            else if (searchTab == SearchTabType.Wish)
                 searchSpec.Filter.ValuatorId = _sessionUser.UserId;
 
             var questionsModel = new QuestionsModel(_ctlSearch.Run(searchSpec), searchSpec, searchTab);
@@ -184,7 +184,7 @@ namespace TrueOrFalse
         public JsonResult SearchApi(
             string searchTerm,
             QuestionSearchSpec searchSpec,
-            SearchTab searchTab, 
+            SearchTabType searchTab, 
             ControllerContext controllerContext)
         {
             var model = new QuestionsModel();
@@ -192,9 +192,9 @@ namespace TrueOrFalse
 
             var totalInSystem = 0;
             switch (searchTab){
-                case SearchTab.All: totalInSystem = R<GetQuestionCount>().Run(); break;
-                case SearchTab.Mine: totalInSystem = R<GetQuestionCount>().Run(_sessionUser.UserId); break;
-                case SearchTab.Wish: totalInSystem = R<GetWishQuestionCountCached>().Run(_sessionUser.UserId); break;
+                case SearchTabType.All: totalInSystem = R<GetQuestionCount>().Run(); break;
+                case SearchTabType.Mine: totalInSystem = R<GetQuestionCount>().Run(_sessionUser.UserId); break;
+                case SearchTabType.Wish: totalInSystem = R<GetWishQuestionCountCached>().Run(_sessionUser.UserId); break;
             }
 
             return new JsonResult

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using Seedworks.Lib;
-using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 public class CategoriesController : BaseController

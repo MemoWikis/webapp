@@ -1,36 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NHibernate;
 
-namespace TrueOrFalse
+public class UpdateSetCountForCategory : IRegisterAsInstancePerLifetime
 {
-    public class UpdateSetCountForCategory : IRegisterAsInstancePerLifetime
+    private readonly ISession _session;
+
+    public UpdateSetCountForCategory(ISession session)
     {
-        private readonly ISession _session;
+        _session = session;
+    }
 
-        public UpdateSetCountForCategory(ISession session)
+    public void Run(IList<Category> categoryIds)
+    {
+        Run(categoryIds.Select(c => c.Id));
+    }
+
+    public void Run(IEnumerable<int> categoryIds)
+    {
+        foreach (var categoryId in categoryIds)
         {
-            _session = session;
-        }
+            var query =
+                "UPDATE category SET CountSets = " +
+                "(SELECT COUNT(*) FROM categories_to_sets WHERE Category_id = category.Id )" +
+                "WHERE Id = " + categoryId;
 
-        public void Run(IList<Category> categoryIds)
-        {
-            Run(categoryIds.Select(c => c.Id));
-        }
-
-        public void Run(IEnumerable<int> categoryIds)
-        {
-            foreach (var categoryId in categoryIds)
-            {
-                var query =
-                    "UPDATE category SET CountSets = " +
-                    "(SELECT COUNT(*) FROM categories_to_sets WHERE Category_id = category.Id )" +
-                    "WHERE Id = " + categoryId;
-
-                _session.CreateSQLQuery(query).ExecuteUpdate();
-            }
+            _session.CreateSQLQuery(query).ExecuteUpdate();
         }
     }
 }

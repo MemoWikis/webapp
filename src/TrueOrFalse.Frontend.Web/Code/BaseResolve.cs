@@ -1,6 +1,4 @@
-﻿using TrueOrFalse;
-
-public class BaseResolve
+﻿public class BaseResolve
 {
     protected T Resolve<T>()
     {

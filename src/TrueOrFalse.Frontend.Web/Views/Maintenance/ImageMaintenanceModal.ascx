@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TrueOrFalse.ImageMaintenanceInfo>" %>
-<%@ Import Namespace="TrueOrFalse" %>
 
 <div id="modalImageMaintenance" class="modal">
     <div class="modal-dialog modal-lg">

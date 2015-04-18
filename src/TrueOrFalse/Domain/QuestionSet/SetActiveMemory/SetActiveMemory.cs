@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-public class SetActiveMemory
+﻿public class SetActiveMemory
 {
     public int TotalQuestions;
     public int TotalInActiveMemory;
@@ -13,4 +7,3 @@ public class SetActiveMemory
         get { return TotalQuestions - TotalInActiveMemory; }
     }
 }
-

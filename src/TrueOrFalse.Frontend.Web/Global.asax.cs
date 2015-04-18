@@ -14,7 +14,6 @@ using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.View;
-using TrueOrFalse.Web.Context;
 using TrueOrFalse.Web.JavascriptView;
 
 namespace TrueOrFalse.Frontend.Web

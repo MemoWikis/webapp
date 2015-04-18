@@ -1,6 +1,4 @@
 ﻿using System.Web.Mvc;
-using TrueOrFalse;
-using TrueOrFalse.Infrastructure;
 
 /// <summary>
 /// LogicModule: Answers, if the left menu should be visible on the Page

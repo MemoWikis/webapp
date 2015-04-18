@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Security.Policy;
 using System.Web.Mvc;
-using Gibraltar.Agent.Configuration;
-using MarkdownSharp;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -24,7 +19,7 @@ public class AnswerQuestionModel : BaseModel
     public string PageCurrent;
     public string PagesTotal;
     public string PagerKey;
-    public SearchTab SearchTabOverview;
+    public SearchTabType SearchTabOverview;
 
     public string TotalQualityAvg;
     public string TotalQualityEntries;
@@ -110,9 +105,9 @@ public class AnswerQuestionModel : BaseModel
         NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new {pager = PagerKey});
         PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new {pager = PagerKey});
 
-        SourceIsTabAll = SearchTab.All == searchSpec.SearchTab;
-        SourceIsTabMine = SearchTab.Mine == searchSpec.SearchTab;
-        SourceIsTabWish = SearchTab.Wish == searchSpec.SearchTab;
+        SourceIsTabAll = SearchTabType.All == searchSpec.SearchTab;
+        SourceIsTabMine = SearchTabType.Mine == searchSpec.SearchTab;
+        SourceIsTabWish = SearchTabType.Wish == searchSpec.SearchTab;
 
         if (searchSpec.Filter.IsOneCategoryFilter()){
             SourceCategory = Resolve<CategoryRepository>().GetById(searchSpec.Filter.Categories.First());

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
+using TrueOrFalse;
 using TrueOrFalse.WikiMarkup;
 
 internal class ImageInfo_from_Wikimedia : BaseTest

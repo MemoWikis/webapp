@@ -1,6 +1,4 @@
-﻿using TrueOrFalse.Web.Context;
-
-public class BaseModel : BaseResolve
+﻿public class BaseModel : BaseResolve
 {
     public MenuLeftModel MenuLeftModel = new MenuLeftModel();
 

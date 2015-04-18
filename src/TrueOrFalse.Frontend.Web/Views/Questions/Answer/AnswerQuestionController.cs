@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Web.Hosting;
 using System.Web.Mvc;
-using FluentNHibernate.Utils;
 using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 
 public class AnswerQuestionController : BaseController
 {

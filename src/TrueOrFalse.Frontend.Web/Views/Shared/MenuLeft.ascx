@@ -1,7 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<MenuLeftModel>" %>
-<%@ Import Namespace="Seedworks.Lib" %>
-<%@ Import Namespace="TrueOrFalse" %>
-<%@ Import Namespace="TrueOrFalse.Web.Context" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <% int index; %>

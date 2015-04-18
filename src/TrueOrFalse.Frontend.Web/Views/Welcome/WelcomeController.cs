@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
-using System.Web.UI;
-using TrueOrFalse;
-using TrueOrFalse.Registration;
-using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web;
 
 public class WelcomeController : BaseController
 {

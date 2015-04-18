@@ -1,43 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentNHibernate.Mapping;
-using TrueOrFalse.Infrastructure.Persistence;
+﻿using FluentNHibernate.Mapping;
+using TrueOrFalse;
 
-namespace TrueOrFalse
+public class ImageMetaDataMap : ClassMap<ImageMetaData>
 {
-    public class ImageMetaDataMap : ClassMap<ImageMetaData>
+    public ImageMetaDataMap()
     {
-        public ImageMetaDataMap()
-        {
-            Id(x => x.Id);
+        Id(x => x.Id);
 
-            Map(x => x.Type);
-            Map(x => x.TypeId);
+        Map(x => x.Type);
+        Map(x => x.TypeId);
 
-            Map(x => x.UserId);
+        Map(x => x.UserId);
             
-            Map(x => x.Source);
-            Map(x => x.SourceUrl);
+        Map(x => x.Source);
+        Map(x => x.SourceUrl);
 
-            Map(x => x.ApiResult).Length(Constants.VarCharMaxLength);
-            Map(x => x.ApiHost);
+        Map(x => x.ApiResult).Length(Constants.VarCharMaxLength);
+        Map(x => x.ApiHost);
 
-            Map(x => x.AuthorParsed).Column("Author");
-            Map(x => x.DescriptionParsed).Column("Description");
-            Map(x => x.Markup);
-            Map(x => x.MarkupDownloadDate);
+        Map(x => x.AuthorParsed).Column("Author");
+        Map(x => x.DescriptionParsed).Column("Description");
+        Map(x => x.Markup);
+        Map(x => x.MarkupDownloadDate);
 
-            Map(x => x.ManualEntries);
-            Map(x => x.MainLicenseInfo);
-            Map(x => x.AllRegisteredLicenses);
+        Map(x => x.ManualEntries);
+        Map(x => x.MainLicenseInfo);
+        Map(x => x.AllRegisteredLicenses);
 
-            Map(x => x.Notifications);
+        Map(x => x.Notifications);
 
-            Map(x => x.DateCreated);
-            Map(x => x.DateModified);
-        }
+        Map(x => x.DateCreated);
+        Map(x => x.DateModified);
     }
 }

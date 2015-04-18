@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Search;
-using TrueOrFalse.Web;
 
 public class SetsApiController : BaseController
 {

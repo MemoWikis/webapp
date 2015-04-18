@@ -1,12 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TrueOrFalse
-{
-    public interface IRegisterAsInstancePerLifetime
-    {
-                    
-    }
+﻿public interface IRegisterAsInstancePerLifetime
+{               
 }

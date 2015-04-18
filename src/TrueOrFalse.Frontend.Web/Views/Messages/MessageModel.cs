@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Web;
-using NHibernate.Mapping;
 using TrueOrFalse;
 
 public class MessageModel : BaseModel

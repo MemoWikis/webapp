@@ -7,7 +7,6 @@ using NUnit.Framework;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
-using TrueOrFalse.Web.Context;
 
 [TestFixture]
 public class BaseTest

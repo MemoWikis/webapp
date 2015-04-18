@@ -1,7 +1,4 @@
 ﻿using System.Web.Mvc;
-using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
-
 
 public class AccessOnlyAsAdmin : ActionFilterAttribute
 {

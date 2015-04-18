@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 
-namespace TrueOrFalse
+public class PersistentLoginMap : ClassMap<PersistentLogin>
 {
-    public class PersistentLoginMap : ClassMap<PersistentLogin>
+    public PersistentLoginMap()
     {
-        public PersistentLoginMap()
-        {
-            Id(x => x.Id);
-            Map(x => x.UserId);
-            Map(x => x.LoginGuid);
-            Map(x => x.Created);
-        }
+        Id(x => x.Id);
+        Map(x => x.UserId);
+        Map(x => x.LoginGuid);
+        Map(x => x.Created);
     }
 }

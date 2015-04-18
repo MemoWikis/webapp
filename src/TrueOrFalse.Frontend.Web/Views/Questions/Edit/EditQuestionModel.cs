@@ -5,11 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
 using Seedworks.Lib;
-using TrueOrFalse;
-using TrueOrFalse.Infrastructure;
-using System.Linq;
 using TrueOrFalse.Web;
 
 public class EditQuestionModel : BaseModel

@@ -1,26 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrueOrFalse
+﻿public class SendCustomMsg : BaseSendMessage, IRegisterAsInstancePerLifetime
 {
-    public class SendCustomMsg : BaseSendMessage, IRegisterAsInstancePerLifetime
+    public SendCustomMsg(MessageRepository messageRepo, UserRepository userRepo) : base(messageRepo, userRepo){}
+
+    public void Run(int receiverId, string subject, string body)
     {
-        public SendCustomMsg(MessageRepository messageRepo, UserRepository userRepo) : base(messageRepo, userRepo){}
+        LoadUser(receiverId);
 
-        public void Run(int receiverId, string subject, string body)
+        _messageRepo.Create(new Message
         {
-            LoadUser(receiverId);
-
-            _messageRepo.Create(new Message
-            {
-                ReceiverId = receiverId,
-                Subject = subject,
-                Body = body,
-                MessageType = ""
-            });
-        }
+            ReceiverId = receiverId,
+            Subject = subject,
+            Body = body,
+            MessageType = ""
+        });
     }
 }

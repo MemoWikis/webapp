@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using NHibernate.Mapping;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
 
 public class CommentModel : BaseModel
 {

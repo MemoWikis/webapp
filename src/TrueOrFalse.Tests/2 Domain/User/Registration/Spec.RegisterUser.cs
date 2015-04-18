@@ -1,8 +1,6 @@
 ﻿using System;
 using BDDish.English;
 using NUnit.Framework;
-using TrueOrFalse;
-using TrueOrFalse.Registration;
 
 namespace TrueOrFalse.Tests
 {

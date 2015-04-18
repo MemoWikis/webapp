@@ -1,33 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 
-namespace TrueOrFalse
+public class CategoryMap : ClassMap<Category>
 {
-    public class CategoryMap : ClassMap<Category>
+    public CategoryMap()
     {
-        public CategoryMap()
-        {
-            Id(x => x.Id);
+        Id(x => x.Id);
 
-            Map(x => x.Name);
-            Map(x => x.Description);
-            Map(x => x.WikipediaURL);
+        Map(x => x.Name);
+        Map(x => x.Description);
+        Map(x => x.WikipediaURL);
 
-            References(x => x.Creator);
+        References(x => x.Creator);
             
-            Map(x => x.CountQuestions);
-            Map(x => x.CountSets);
-            Map(x => x.CountCreators);
+        Map(x => x.CountQuestions);
+        Map(x => x.CountSets);
+        Map(x => x.CountCreators);
 
-            Map(x => x.Type);
-            Map(x => x.TypeJson);
+        Map(x => x.Type);
+        Map(x => x.TypeJson);
 
-            Map(x => x.DateCreated);
-            Map(x => x.DateModified);
-            HasManyToMany(x => x.ParentCategories).Table("relatedcategoriestorelatedcategories").ChildKeyColumn("Related_Id");
-        }
+        Map(x => x.DateCreated);
+        Map(x => x.DateModified);
+        HasManyToMany(x => x.ParentCategories).Table("relatedcategoriestorelatedcategories").ChildKeyColumn("Related_Id");
     }
 }
