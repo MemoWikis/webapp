@@ -217,7 +217,6 @@
     <Compile Include="2 Domain\Image\ImageLicenses_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageInfo_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageMetadata_from_wikimedia.cs" />
-    <Compile Include="2 Domain\Image\Image_extract_file_name_from_url.cs" />
     <Compile Include="2 Domain\Image\Image_persistence.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_probability.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_wish_knowledge_count.cs" />

@@ -54,7 +54,6 @@ public class ImageMetadata_from_wikimedia : BaseTest
         var result3 = Resolve<WikiImageMetaLoader>().Run("http://de.wikipedia.org/wiki/Datei:Bundesministerium_f%C3%BCr_Wirtschaft_und_Energie_Logo.svg");
         Assert.That(result3.ImageNotFound, Is.False);
         Assert.That(result3.ImageTitle, Is.EqualTo("File:Bundesministerium für Wirtschaft und Energie Logo.svg"));
-        Assert.That(result3.ImageUrl, Is.EqualTo("dsdfsdf"));
     }
 
     [Test]
