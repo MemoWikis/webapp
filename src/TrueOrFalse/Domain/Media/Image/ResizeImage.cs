@@ -17,12 +17,10 @@ public class ResizeImage
             {
                 using (var graphics = Graphics.FromImage(resized))
                 {
-                    graphics.Clear(Color.White);
-                    graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    ConfigureGraphics(graphics);
                     graphics.DrawImage(image, 0, 0, width, height);
                 }
+
                 resized.Save(basePathAndId + "_" + width + ".jpg", ImageFormat.Jpeg);
             }
             return;
@@ -33,10 +31,7 @@ public class ResizeImage
         {
             using (var graphics = Graphics.FromImage(resized))
             {
-                graphics.Clear(Color.White);
-                graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                ConfigureGraphics(graphics);
                 if (image.Width > image.Height)
                 {
                     var scale = (float)width / image.Height;
@@ -51,6 +46,13 @@ public class ResizeImage
 
             resized.Save(basePathAndId + "_" + width + ImageUrl.SquareSuffix(true) + ".jpg", ImageFormat.Jpeg);
         }
+    }
 
+    public static void ConfigureGraphics(Graphics graphics)
+    {
+        graphics.Clear(Color.White);
+        graphics.SmoothingMode = SmoothingMode.AntiAlias;
+        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
     }
 }

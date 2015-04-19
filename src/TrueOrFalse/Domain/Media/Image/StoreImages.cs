@@ -18,8 +18,8 @@ public class StoreImages
         }
 
         using (var image = Image.FromStream(inputStream)){
-            
-            image.Save(imageSettings.ServerPathAndId() + "_" + image.Width + ".jpg", ImageFormat.Jpeg);
+
+            SaveOriginalSize(imageSettings, image);
 
             foreach (var size in imageSettings.SizesSquare){
                 ResizeImage.Run(image, imageSettings.ServerPathAndId(), size, isSquare: true);
@@ -31,7 +31,20 @@ public class StoreImages
         }
     }
 
- 
+    private static void SaveOriginalSize(IImageSettings imageSettings, Image image)
+    {
+        using (var resized = new Bitmap(image))
+        {
+            using (var graphics = Graphics.FromImage(resized))
+            {
+                ResizeImage.ConfigureGraphics(graphics);
+                graphics.DrawImage(image, 0, 0);
+            }
+            resized.Save(imageSettings.ServerPathAndId() + "_" + image.Width + ".jpg", ImageFormat.Jpeg);
+        }
+    }
+
+
     /// <summary>store temp images</summary>
     public static void Run(Stream inputStream, TmpImage tmpImage)
     {
