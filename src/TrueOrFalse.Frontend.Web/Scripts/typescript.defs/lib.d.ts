@@ -21,3 +21,7 @@ interface Window {
     ajaxUrl_CountLastAnswerAsCorrect : any;
     questionId : any;
 }
+
+interface SignalR {
+    brainWavesHub : any;
+}

@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <% Html.RenderPartial("Site.Partial.Head"); %> 
+    <script src='<%: ResolveClientUrl("~/signalr/hubs") %>'></script>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
 

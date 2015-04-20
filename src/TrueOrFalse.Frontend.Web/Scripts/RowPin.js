@@ -29,7 +29,7 @@ var Pin = (function () {
                 self.Pin(id);
                 elemPin.find(".iAddedNot, .iAddSpinner").toggle();
 
-                setTimeout(function () {
+                window.setTimeout(function () {
                     elemPin.find(".iAdded, .iAddSpinner").toggle();
                     self._changeInProgress = false;
 
@@ -44,7 +44,7 @@ var Pin = (function () {
                 self.UnPin(id);
                 elemPin.find(".iAdded, .iAddSpinner").toggle();
 
-                setTimeout(function () {
+                window.setTimeout(function () {
                     elemPin.find(".iAddedNot, .iAddSpinner").toggle();
                     self._changeInProgress = false;
 
