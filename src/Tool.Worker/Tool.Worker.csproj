@@ -129,9 +129,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj">
+    <ProjectReference Include="..\TrueOrFalse\Core.csproj">
       <Project>{0aa2472f-e001-45c0-ad00-2e49b1566739}</Project>
-      <Name>TrueOrFalse</Name>
+      <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

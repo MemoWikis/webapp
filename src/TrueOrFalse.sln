@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Tests", "TrueOrFalse.Tests\TrueOrFalse.Tests.csproj", "{1C9D8C0C-800E-4BBB-82B1-89E111004596}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "TrueOrFalse.Tests\Tests.csproj", "{1C9D8C0C-800E-4BBB-82B1-89E111004596}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Frontend.Web", "TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj", "{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend.Web", "TrueOrFalse.Frontend.Web\Frontend.Web.csproj", "{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse", "TrueOrFalse\TrueOrFalse.csproj", "{0AA2472F-E001-45C0-AD00-2E49B1566739}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "TrueOrFalse\Core.csproj", "{0AA2472F-E001-45C0-AD00-2E49B1566739}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{77E09CFC-EFAA-4B72-AF2F-84501668C3BD}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool.SolrAdmin", "Tool.SolrAdmin\Tool.SolrAdmin.csproj", "{422DF26E-AE10-4A0F-9B68-0C51332FD1C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool.Worker", "Tool.Worker\Tool.Worker.csproj", "{9E0A5846-AF07-4D12-AF90-6CD4CF990B28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool.Muse", "Tool.Muse\Tool.Muse.csproj", "{DC9EB0B5-6A5C-48AF-BD6A-221C8A63102F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{9E0A5846-AF07-4D12-AF90-6CD4CF990B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E0A5846-AF07-4D12-AF90-6CD4CF990B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E0A5846-AF07-4D12-AF90-6CD4CF990B28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC9EB0B5-6A5C-48AF-BD6A-221C8A63102F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC9EB0B5-6A5C-48AF-BD6A-221C8A63102F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC9EB0B5-6A5C-48AF-BD6A-221C8A63102F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC9EB0B5-6A5C-48AF-BD6A-221C8A63102F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
