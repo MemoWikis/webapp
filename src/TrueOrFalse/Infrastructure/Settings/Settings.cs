@@ -13,6 +13,8 @@ public class Settings
 
     public static string EmailFrom = "team@memucho.de";
     public static string EmailTo = "team@memucho.de";
+    
+    public static string MemuchoCookie = "memucho";
 
     public static bool DevelopOffline()
     {

@@ -14,9 +14,8 @@ public class WritePersistentLoginToCookie : IRegisterAsInstancePerLifetime
     {
         var loginGuid = _createPersistentLogin.Run(userId);
 
-        var cookie = new HttpCookie("memucho");
+        var cookie = MemuchoCookie.GetNew();
         cookie.Values.Add("persistentLogin", userId + "-x-" + loginGuid);
-        cookie.Expires = DateTime.Now.AddDays(45);
         HttpContext.Current.Response.Cookies.Add(cookie);
     }        
 }

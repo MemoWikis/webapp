@@ -4,6 +4,9 @@
 
         window.console.log(hub);
 
+        if (hub == null)
+            return;
+
         hub.client.UpdateConcentrationLevel = function (level) {
             window.alert(level);
         };

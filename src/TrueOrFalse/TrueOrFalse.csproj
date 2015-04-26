@@ -417,6 +417,9 @@
     <Compile Include="Infrastructure\ExecAsync.cs" />
     <Compile Include="Infrastructure\Logging\Logger.cs" />
     <Compile Include="Infrastructure\Logging\Loggly.cs" />
+    <Compile Include="Infrastructure\Login\MEMuchOCookie.cs" />
+    <Compile Include="Infrastructure\Login\SignalR\SignalRAuthTokenRepo.cs" />
+    <Compile Include="Infrastructure\Login\SignalR\SignalRAuthCookie.cs" />
     <Compile Include="Infrastructure\Login\ThrowIfNot_IsUserOrAdmin.cs" />
     <Compile Include="Infrastructure\Persistence\PagedResult.cs" />
     <Compile Include="Infrastructure\Persistence\RepositoryDbBase.cs" />
@@ -493,10 +496,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\IoC\ServiceLocator.cs" />
-    <Compile Include="Infrastructure\Login\Cookie\GetPersistentLoginCookieValues.cs" />
-    <Compile Include="Infrastructure\Login\Cookie\GetPersistentLoginCookieValuesResult.cs" />
-    <Compile Include="Infrastructure\Login\Cookie\RemovePersistentLoginFromCookie.cs" />
-    <Compile Include="Infrastructure\Login\Cookie\WritePersistentLoginToCookie.cs" />
+    <Compile Include="Infrastructure\Login\PersistentLoginCookie\GetPersistentLoginCookieValues.cs" />
+    <Compile Include="Infrastructure\Login\PersistentLoginCookie\GetPersistentLoginCookieValuesResult.cs" />
+    <Compile Include="Infrastructure\Login\PersistentLoginCookie\RemovePersistentLoginFromCookie.cs" />
+    <Compile Include="Infrastructure\Login\PersistentLoginCookie\WritePersistentLoginToCookie.cs" />
     <Compile Include="Infrastructure\Login\Model\Ops\CreatePersistentLogin.cs" />
     <Compile Include="Infrastructure\Login\Model\Ops\LoginFromCookie.cs" />
     <Compile Include="Infrastructure\Login\Model\PersistentLogin.cs" />

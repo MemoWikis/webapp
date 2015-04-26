@@ -5,7 +5,7 @@ public class GetPersistentLoginCookieValues : IRegisterAsInstancePerLifetime
 {
     public GetPersistentLoginCookieValuesResult Run()
     {
-        var cookie = HttpContext.Current.Request.Cookies.Get("richtig-oder-falsch");
+        var cookie = HttpContext.Current.Request.Cookies.Get(Settings.MemuchoCookie);
 
         if (cookie == null)
             return new GetPersistentLoginCookieValuesResult();
