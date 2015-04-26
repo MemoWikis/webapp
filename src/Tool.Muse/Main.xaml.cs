@@ -23,6 +23,7 @@ namespace Tool.Muse
         public Main()
         {
             InitializeComponent();
+            Log.Init(this);
         }
 
         private void BtnStartMuseIO_OnClick(object sender, RoutedEventArgs e)
@@ -30,6 +31,28 @@ namespace Tool.Muse
             Process.Start(
                 "muse-io.exe", 
                 "--preset 14  --osc osc.udp://localhost:5000");
+        }
+
+        public void AddLog(string type, string message)
+        {
+            Application.Current.Dispatcher.BeginInvoke(
+                new Action(() => lvLog.Items.Add(new { Type = type, Message = message })) );
+        }
+
+        private void BtnStartReceiver_OnClick(object sender, RoutedEventArgs e)
+        {
+            btnStopReceiver.IsEnabled = true; 
+            btnStartReceiver.IsEnabled = false;
+
+            UdpReceiver.Start();
+        }
+
+        private void BtnStopReceiver_OnClick(object sender, RoutedEventArgs e)
+        {
+            btnStopReceiver.IsEnabled = false;
+            btnStartReceiver.IsEnabled = true;
+
+            UdpReceiver.Stop();
         }
     }
 }
