@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Tool.Muse
 {
@@ -20,10 +11,60 @@ namespace Tool.Muse
     /// </summary>
     public partial class Main : Window
     {
+        private readonly UdpReceiver _updReceiver;
+
         public Main()
         {
             InitializeComponent();
+            _updReceiver = new UdpReceiver();
             Log.Init(this);
+
+            var observable = Observable.FromEventPattern<OscMessage>(
+                ev => _updReceiver.OnReceive += ev,
+                ev => _updReceiver.OnReceive -= ev);
+
+            observable.Subscribe(m =>
+            {
+                if (m.EventArgs.IsConcentrationValue)
+                    Dispatched(() => lblConcentration.Content = m.EventArgs.Data);
+
+                if (m.EventArgs.IsConcentrationMellow)
+                    Dispatched(() => lblMellow.Content = m.EventArgs.Data);
+
+                if (m.EventArgs.IsHorseHoe)
+                    Dispatched(() => lblConnctionTouch.Content = m.EventArgs.Data);
+
+                if (m.EventArgs.IsQuality)
+                    Dispatched(() => lblConnctionQuality.Content = m.EventArgs.Data);
+
+                if (m.EventArgs.IsQuality)
+                    Dispatched(() => lblConnctionQuality.Content = m.EventArgs.Data);
+
+                if (m.EventArgs.IsBattery)
+                    Dispatched(() => lblBattery.Content = m.EventArgs.Data);
+
+                if(m.EventArgs.IsOnHead)
+                    Dispatched(() =>
+                    {
+                        if (m.EventArgs.Data == "1")
+                        {
+                            lblOnHead.Content = "On Head";
+                            lblOnHead.Background = Brushes.Green;
+                        }
+                        else
+                        {
+                            lblOnHead.Content = "Not on Head";
+                            lblOnHead.Background = Brushes.Red;
+                        }
+                            
+                    });
+                    
+            });
+        }
+
+        private void Dispatched(Action action)
+        {
+            Dispatcher.BeginInvoke(action);
         }
 
         private void BtnStartMuseIO_OnClick(object sender, RoutedEventArgs e)
@@ -35,8 +76,7 @@ namespace Tool.Muse
 
         public void AddLog(string type, string message)
         {
-            Application.Current.Dispatcher.BeginInvoke(
-                new Action(() => lvLog.Items.Add(new { Type = type, Message = message })) );
+            Dispatcher.BeginInvoke(new Action(() => lvLog.Items.Insert(0, new { Type = type, Message = message })) );
         }
 
         private void BtnStartReceiver_OnClick(object sender, RoutedEventArgs e)
@@ -44,7 +84,7 @@ namespace Tool.Muse
             btnStopReceiver.IsEnabled = true; 
             btnStartReceiver.IsEnabled = false;
 
-            UdpReceiver.Start();
+            _updReceiver.Start();
         }
 
         private void BtnStopReceiver_OnClick(object sender, RoutedEventArgs e)
@@ -52,7 +92,7 @@ namespace Tool.Muse
             btnStopReceiver.IsEnabled = false;
             btnStartReceiver.IsEnabled = true;
 
-            UdpReceiver.Stop();
+            _updReceiver.Stop();
         }
     }
 }
