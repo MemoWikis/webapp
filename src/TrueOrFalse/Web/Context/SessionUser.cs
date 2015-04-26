@@ -1,4 +1,5 @@
-﻿using Seedworks.Web.State;
+﻿using System.Web.Security;
+using Seedworks.Web.State;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
@@ -47,6 +48,14 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
+
+        _signalRToken = SignalRAuth.Login(User);
+    }
+
+    public string _signalRToken
+    {
+        get { return Data.Get<string>("_signalRToken"); }
+        private set { Data["_signalRToken"] = value; }
     }
 
     public void Logout()

@@ -9,6 +9,7 @@ public class BrainWavesHub : Hub
         string userName = Context.User.Identity.Name;
         string connectionId = Context.ConnectionId;
 
+
         //var user = Users.GetOrAdd(userName, _ => new User
         //{
         //    Name = userName,
