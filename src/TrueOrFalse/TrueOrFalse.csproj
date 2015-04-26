@@ -418,8 +418,6 @@
     <Compile Include="Infrastructure\Logging\Logger.cs" />
     <Compile Include="Infrastructure\Logging\Loggly.cs" />
     <Compile Include="Infrastructure\Login\MEMuchOCookie.cs" />
-    <Compile Include="Infrastructure\Login\SignalR\SignalRAuthTokenRepo.cs" />
-    <Compile Include="Infrastructure\Login\SignalR\SignalRAuthCookie.cs" />
     <Compile Include="Infrastructure\Login\ThrowIfNot_IsUserOrAdmin.cs" />
     <Compile Include="Infrastructure\Persistence\PagedResult.cs" />
     <Compile Include="Infrastructure\Persistence\RepositoryDbBase.cs" />
