@@ -1,4 +1,5 @@
-﻿using Seedworks.Web.State;
+﻿using System.Web.Security;
+using Seedworks.Web.State;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
@@ -51,6 +52,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public void Logout()
     {
+        FormsAuthentication.SignOut();
         IsLoggedIn = false;
         User = null;
     }

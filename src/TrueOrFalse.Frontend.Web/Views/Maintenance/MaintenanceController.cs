@@ -155,15 +155,6 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
-    public ActionResult SendConcentrationLevel()
-    {
-        var context = GlobalHost.ConnectionManager.GetHubContext<BrainWavesHub>();
-        context.Clients.All.UpdateConcentrationLevel("123");
-
-        return View("Tools", new MaintenanceToolsModel { Message = new SuccessMessage("Concentration level send.") });
-    }
-
-    [AccessOnlyAsAdmin]
     public ActionResult ImageMarkup(int imgId)
     {
         var imageMaintenanceInfo =

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using System.Web.Security;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -79,6 +80,7 @@ public class WelcomeController : BaseController
             }
 
             _sessionUser.Login(_credentialsAreValid.User);
+            FormsAuthentication.SetAuthCookie(_credentialsAreValid.User.Id.ToString(), false);
 
             return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
         }

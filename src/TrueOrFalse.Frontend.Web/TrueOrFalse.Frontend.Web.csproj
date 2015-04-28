@@ -259,8 +259,11 @@
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Code\BaseUtil.cs" />
-    <Compile Include="Code\BrainWavesHub.cs" />
+    <Compile Include="Code\Hubs\BaseHub.cs" />
+    <Compile Include="Code\Hubs\BrainWavesHub.cs" />
+    <Compile Include="Code\Hubs\PlayHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
@@ -351,7 +354,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
-    <TypeScriptCompile Include="Scripts\ShowConcentrationLevel.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
@@ -395,9 +399,6 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\ShowConcentrationLevel.js">
-      <DependentUpon>ShowConcentrationLevel.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\vendor\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\SearchInTabs.js">
       <DependentUpon>SearchInTabs.ts</DependentUpon>
@@ -421,6 +422,12 @@
     </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
     <Content Include="Views\Help\Willkommen.aspx" />
+    <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
+      <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\BrainWavesHub.js">
+      <DependentUpon>BrainWavesHub.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
@@ -782,9 +789,6 @@
     </Content>
     <Content Include="Scripts\Validations.js.map">
       <DependentUpon>Validations.ts</DependentUpon>
-    </Content>
-    <Content Include="Scripts\ShowConcentrationLevel.js.map">
-      <DependentUpon>ShowConcentrationLevel.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -1461,6 +1465,12 @@
     </Content>
     <Content Include="Views\Beta\Js\BetaRequest.js.map">
       <DependentUpon>BetaRequest.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\BrainWavesHub.js.map">
+      <DependentUpon>BrainWavesHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\ToolsBrainWaveHub.js.map">
+      <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

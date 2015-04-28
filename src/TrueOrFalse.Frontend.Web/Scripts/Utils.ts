@@ -27,7 +27,7 @@
         elements
             .text(newValue)
             .animate({ opacity: 0.25 }, 100)
-            .animate({ opacity: 1.00 }, 800);        
+            .animate({ opacity: 1.00 }, 800);
     }
 
     static SetMenuPins(newAmount){

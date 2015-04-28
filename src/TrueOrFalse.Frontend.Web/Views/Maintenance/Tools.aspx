@@ -1,4 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MaintenanceToolsModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <%= Scripts.Render("~/bundles/MaintenanceTools") %>
+</asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -26,8 +31,19 @@
         Clean up work in progress questions
     </a><br/>
     
-    <h4 style="margin-top: 20px;">Broadcast concentration level</h4>
+    <h4 style="margin-top: 20px;">Update concentration level</h4>
     <div class="form-horizontal">
+        
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-9" id="msgConcentrationLevel" style="padding:10px">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-sm-2" style="text-align: right">Connected:</div>
+            <div class="col-xs-2" id="connectedUsers"></div>
+        </div>
+
         <% using (Html.BeginForm("SendConcentrationLevel", "Maintenance")){%>
         
             <div class="form-group">
@@ -36,10 +52,17 @@
                     <%= Html.TextBoxFor(m => m.TxtConcentrationLevel, new {@class="form-control"} ) %>    
                 </div>
             </div>
+        
+            <div class="form-group">
+                <%= Html.LabelFor(m => m.TxtUserId, new {@class="col-sm-2 control-label"} ) %>
+                <div class="col-xs-2">
+                    <%= Html.TextBoxFor(m => m.TxtUserId, new {@class="form-control"} ) %>    
+                </div>
+            </div>
 
             <div class="form-group" style="">
                 <div class="col-sm-offset-2 col-sm-9">
-                    <input type="submit" value="Senden" class="btn btn-primary" name="btnSave" />
+                    <input type="submit" value="Senden" class="btn btn-primary"  id="btnSendBrainWaveValue"  />
                 </div>
             </div>
 

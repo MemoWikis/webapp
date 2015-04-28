@@ -1,4 +1,5 @@
-﻿using Owin;
+﻿using Microsoft.AspNet.SignalR;
+using Owin;
 
 namespace TrueOrFalse
 {
@@ -6,7 +7,9 @@ namespace TrueOrFalse
     {
         public void Configuration(IAppBuilder app)
         {
-            app.MapSignalR();
+            var hubConfiguration = new HubConfiguration();
+            hubConfiguration.EnableDetailedErrors = true;
+            app.MapSignalR(hubConfiguration);
         }
     }    
 }

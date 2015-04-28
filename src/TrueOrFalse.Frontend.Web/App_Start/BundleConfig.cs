@@ -91,6 +91,9 @@ namespace TrueOrFalse.View
                .Include("~/Views/Maintenance/ImageDetail.js")
                .Include("~/Scripts/BootstrapCustomUtils.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/MaintenanceTools")
+                .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
+
 #if RELEASE
                 BundleTable.EnableOptimizations = true;
 #endif

@@ -96,6 +96,12 @@
             <div class="well">
                                 
                 <div style="float: right; margin-left: 10px;">
+                    
+                    <span id="brainWaveConnected">
+                        <span id="conentrationLevel">77</span>
+                        <span id="museLevel">12</span>
+                    </span>
+                    
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <i class="fa fa-heart show-tooltip <%= Model.IsInWishknowledge ? "" : "hide2" %>" id="iAdded" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
                         <i class="fa fa-heart-o show-tooltip <%= Model.IsInWishknowledge ? "hide2" : "" %>" id="iAddedNot" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>

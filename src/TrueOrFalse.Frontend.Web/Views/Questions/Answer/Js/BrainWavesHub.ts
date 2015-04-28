@@ -1,23 +1,22 @@
-﻿class ShowConcentrationLevel {
+﻿class BrainWavesHub {
     constructor() {
 
         var hub = $.connection.brainWavesHub;
 
-        window.console.log(hub);
-
         if (hub == null)
             return;
 
-        hub.client.UpdateConcentrationLevel = (level : string) => {
-            window.alert(level);
+        hub.client.UpdateConcentrationLevel = (level: string) => {
+            $("#conentrationLevel").html(level);
         };
 
         $.connection.hub.start(() => {
             window.console.log("connection started:");
         });
+
     }
 }
 
 $(() => {
-    new ShowConcentrationLevel();
+    new BrainWavesHub();
 });
