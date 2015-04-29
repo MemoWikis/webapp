@@ -6,7 +6,16 @@
             return;
 
         hub.client.UpdateConcentrationLevel = function (level) {
-            $("#conentrationLevel").html(level);
+            $("#concentrationLevel").html(level);
+        };
+
+        hub.client.UpdateMellowLevel = function (level) {
+            $("#mellowLevel").html(level);
+        };
+
+        hub.client.DisconnectEEG = function () {
+            $("#concentrationLevel").html("");
+            $("#mellowLevel").html("disconnected");
         };
 
         $.connection.hub.start(function () {

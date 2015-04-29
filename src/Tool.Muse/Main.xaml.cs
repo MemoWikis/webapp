@@ -104,7 +104,17 @@ namespace Tool.Muse
 
         private void BtnSendConcentrationValue_OnClick(object sender, RoutedEventArgs e)
         {
-            _memuchoConnection.SendConcentrationLevel(Convert.ToInt32(txtConcentrationValue.Text));
+            _memuchoConnection.SendConcentrationLevel(txtConcentrationValue.Text);
+        }
+
+        private void BtnSendMellowValue_OnClick(object sender, RoutedEventArgs e)
+        {
+            _memuchoConnection.SendMellowLevel(txtMellowValue.Text);
+        }
+
+        private void BtnShowDisconnected_OnClick(object sender, RoutedEventArgs e)
+        {
+            _memuchoConnection.SendDisconnected();
         }
     }
 }

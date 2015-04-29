@@ -58,5 +58,9 @@
 
         <TextBox x:Name="txtConcentrationValue" Height="19" Margin="181,96,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63"/>
         <Button Content="Send concentration value" x:Name="btnSendConcentrationValue" Margin="252,96,0,0" VerticalAlignment="Top" Click="BtnSendConcentrationValue_OnClick" Height="19" HorizontalAlignment="Left" Width="181"/>
+        <TextBox x:Name="txtMellowValue" Height="19" Margin="181,120,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" HorizontalAlignment="Left" Width="63"/>
+        <Button Content="Send mellow value" x:Name="btnSendMellowValue" Margin="252,120,0,0" VerticalAlignment="Top" Click="BtnSendMellowValue_OnClick" Height="19" HorizontalAlignment="Left" Width="181"/>
+        
+        <Button Content="Show disconnected" x:Name="btnShowDisconnected" Margin="252,161,0,0" VerticalAlignment="Top" Click="BtnShowDisconnected_OnClick" Height="19" HorizontalAlignment="Left" Width="115"/>
     </Grid>
 </Window>

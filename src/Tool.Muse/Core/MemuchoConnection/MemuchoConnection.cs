@@ -42,9 +42,16 @@ namespace Tool.Muse
             await _hubConnection.Start();
         }
 
-        public async void SendConcentrationLevel(int level)
-        {
-            await _hubProxy.Invoke("Send", level, _userId);
+        public async void SendConcentrationLevel(string level){
+            await _hubProxy.Invoke("SendConcentration", level, _userId);
+        }
+
+        public async void SendMellowLevel(string level){
+            await _hubProxy.Invoke("SendMellow", level, _userId);
+        }
+
+        public async void SendDisconnected(){
+            await _hubProxy.Invoke("DisconnectEEG", _userId);
         }
 
         private async Task<Tuple<bool, Cookie>> AuthenticateUser(string userName, string password, string domain)

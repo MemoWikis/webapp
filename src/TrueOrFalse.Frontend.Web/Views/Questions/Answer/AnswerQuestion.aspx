@@ -96,10 +96,10 @@
             <div class="well">
                                 
                 <div style="float: right; margin-left: 10px;">
-                    
-                    <span id="brainWaveConnected">
-                        <span id="conentrationLevel">77</span>
-                        <span id="museLevel">12</span>
+ 
+                    <span id="brainWaveConnected" style="margin-right: 5px; position:relative; top: -6px;">
+                        <span class="label label-primary" id="concentrationLevel" title="Konzentration"></span>
+                        <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
                     </span>
                     
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
