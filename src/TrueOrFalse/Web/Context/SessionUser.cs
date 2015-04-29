@@ -48,13 +48,15 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
+
+        FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
     }
 
     public void Logout()
     {
-        FormsAuthentication.SignOut();
         IsLoggedIn = false;
         User = null;
+        FormsAuthentication.SignOut();
     }
 
     public int UserId

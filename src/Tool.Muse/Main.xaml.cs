@@ -49,7 +49,7 @@ namespace Tool.Muse
                         if (m.EventArgs.Data == "1")
                         {
                             lblOnHead.Content = "On Head";
-                            lblOnHead.Background = Brushes.Green;
+                            lblOnHead.Background = Brushes.LawnGreen;
                         }
                         else
                         {
@@ -93,6 +93,18 @@ namespace Tool.Muse
             btnStartReceiver.IsEnabled = true;
 
             _updReceiver.Stop();
+        }
+
+        private MemuchoConnection _memuchoConnection;
+        private void BtnConnect_OnClick(object sender, RoutedEventArgs e)
+        {
+            _memuchoConnection = new MemuchoConnection();
+            _memuchoConnection.Start(txtUser.Text, txtPassword.Password, txtUrl.Text);    
+        }
+
+        private void BtnSendConcentrationValue_OnClick(object sender, RoutedEventArgs e)
+        {
+            _memuchoConnection.SendConcentrationLevel(Convert.ToInt32(txtConcentrationValue.Text));
         }
     }
 }

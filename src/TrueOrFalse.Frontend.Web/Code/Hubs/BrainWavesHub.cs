@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,19 +8,12 @@ using Microsoft.AspNet.SignalR;
 [Authorize]
 public class BrainWavesHub : BaseHub
 {
-    public void Send(int concentrationLevel, int userId)
+    public void Send(int concentrationLevel, int receiverId)
     {
         SignalRUser receiver;
-        if (_users.TryGetValue(userId.ToString(), out receiver))
+        if (_users.TryGetValue(receiverId.ToString(), out receiver))
         {
-            var sender = GetUser(Context.User.Identity.Name);
-
-            IEnumerable<string> allReceivers;
-            lock (receiver.ConnectionIds)
-                lock (sender.ConnectionIds)
-                    allReceivers = receiver.ConnectionIds.Concat(sender.ConnectionIds);
-
-            foreach (var connectionId in allReceivers)
+            foreach (var connectionId in receiver.ConnectionIds)
                 Clients.Client(connectionId).UpdateConcentrationLevel(concentrationLevel);
         }
     }

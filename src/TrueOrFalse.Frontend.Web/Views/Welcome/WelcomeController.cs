@@ -73,14 +73,12 @@ public class WelcomeController : BaseController
 
         if (_credentialsAreValid.Yes(loginModel.EmailAddress, loginModel.Password))
         {
-
             if (loginModel.PersistentLogin)
             {
                 _writePersistentLoginToCookie.Run(_credentialsAreValid.User.Id);
             }
 
             _sessionUser.Login(_credentialsAreValid.User);
-            FormsAuthentication.SetAuthCookie(_credentialsAreValid.User.Id.ToString(), false);
 
             return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
         }
@@ -88,6 +86,21 @@ public class WelcomeController : BaseController
         loginModel.SetToWrongCredentials();
 
         return View(loginModel);
+    }
+
+    //For Tool.Muse
+    public JsonResult RemoteLogin(string userName, string password)
+    {
+        var userId = -1;
+        if (_credentialsAreValid.Yes(userName, password))
+        {
+            _sessionUser.Login(_credentialsAreValid.User);
+            userId = _credentialsAreValid.User.Id;
+        }
+        else
+            Response.StatusCode = 401; 
+
+        return new JsonResult{Data = new {UserId = userId}};
     }
 
     public ActionResult PasswordRecovery()

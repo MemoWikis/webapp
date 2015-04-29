@@ -15,5 +15,10 @@ namespace Tool.Muse
         {
             _mainWindow.AddLog("Info", message);
         }
+
+        public static void Info(string category, string message)
+        {
+            _mainWindow.AddLog(category, message);
+        }
     }
 }
