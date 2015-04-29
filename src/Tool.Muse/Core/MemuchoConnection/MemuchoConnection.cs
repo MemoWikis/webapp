@@ -15,6 +15,8 @@ namespace Tool.Muse
         private IHubProxy _hubProxy;
         private int _userId;
 
+        public bool IsStarted;
+
         public async void Start(string userName, string password, string url)
         {
             Log.Info("Starting connection");
@@ -40,18 +42,23 @@ namespace Tool.Muse
 
             _hubProxy = _hubConnection.CreateHubProxy("BrainWavesHub");
             await _hubConnection.Start();
+
+            IsStarted = true;
         }
 
         public async void SendConcentrationLevel(string level){
-            await _hubProxy.Invoke("SendConcentration", level, _userId);
+            if(IsStarted)
+                await _hubProxy.Invoke("SendConcentration", level, _userId);
         }
 
         public async void SendMellowLevel(string level){
-            await _hubProxy.Invoke("SendMellow", level, _userId);
+            if (IsStarted)
+                await _hubProxy.Invoke("SendMellow", level, _userId);
         }
 
         public async void SendDisconnected(){
-            await _hubProxy.Invoke("DisconnectEEG", _userId);
+            if (IsStarted)
+                await _hubProxy.Invoke("DisconnectEEG", _userId);
         }
 
         private async Task<Tuple<bool, Cookie>> AuthenticateUser(string userName, string password, string domain)

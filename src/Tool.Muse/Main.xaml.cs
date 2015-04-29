@@ -12,6 +12,7 @@ namespace Tool.Muse
     public partial class Main : Window
     {
         private readonly UdpReceiver _updReceiver;
+        private bool _isEEGOnHead; 
 
         public Main()
         {
@@ -26,10 +27,18 @@ namespace Tool.Muse
             observable.Subscribe(m =>
             {
                 if (m.EventArgs.IsConcentrationValue)
+                {
                     Dispatched(() => lblConcentration.Content = m.EventArgs.Data);
+                    if (_isEEGOnHead)
+                        _memuchoConnection.SendConcentrationLevel(m.EventArgs.Data);
+                }
 
                 if (m.EventArgs.IsConcentrationMellow)
+                {
                     Dispatched(() => lblMellow.Content = m.EventArgs.Data);
+                    if (_isEEGOnHead)
+                        _memuchoConnection.SendMellowLevel(m.EventArgs.Data);
+                }
 
                 if (m.EventArgs.IsHorseHoe)
                     Dispatched(() => lblConnctionTouch.Content = m.EventArgs.Data);
@@ -41,7 +50,7 @@ namespace Tool.Muse
                     Dispatched(() => lblConnctionQuality.Content = m.EventArgs.Data);
 
                 if (m.EventArgs.IsBattery)
-                    Dispatched(() => lblBattery.Content = m.EventArgs.Data);
+                    Dispatched(() => lblBattery.Content = m.EventArgs.Data.Substring(0,2) + "%");
 
                 if(m.EventArgs.IsOnHead)
                     Dispatched(() =>
@@ -50,11 +59,14 @@ namespace Tool.Muse
                         {
                             lblOnHead.Content = "On Head";
                             lblOnHead.Background = Brushes.LawnGreen;
+                            _isEEGOnHead = true;
                         }
                         else
                         {
                             lblOnHead.Content = "Not on Head";
                             lblOnHead.Background = Brushes.Red;
+                            _memuchoConnection.SendDisconnected();
+                            _isEEGOnHead = false;
                         }
                             
                     });
