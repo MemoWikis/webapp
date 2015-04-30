@@ -29,14 +29,14 @@ namespace Tool.Muse
                 if (m.EventArgs.IsConcentrationValue)
                 {
                     Dispatched(() => lblConcentration.Content = m.EventArgs.Data);
-                    if (_isEEGOnHead)
+                    if (_isEEGOnHead && _memuchoConnection != null)
                         _memuchoConnection.SendConcentrationLevel(m.EventArgs.Data);
                 }
 
                 if (m.EventArgs.IsConcentrationMellow)
                 {
                     Dispatched(() => lblMellow.Content = m.EventArgs.Data);
-                    if (_isEEGOnHead)
+                    if (_isEEGOnHead && _memuchoConnection != null)
                         _memuchoConnection.SendMellowLevel(m.EventArgs.Data);
                 }
 
