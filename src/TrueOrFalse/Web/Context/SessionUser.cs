@@ -1,4 +1,5 @@
-﻿using System.Web.Security;
+﻿using System.Web;
+using System.Web.Security;
 using Seedworks.Web.State;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
@@ -49,14 +50,16 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
 
-        FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
+        if(HttpContext.Current != null)
+            FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
     }
 
     public void Logout()
     {
         IsLoggedIn = false;
         User = null;
-        FormsAuthentication.SignOut();
+        if (HttpContext.Current != null)
+            FormsAuthentication.SignOut();
     }
 
     public int UserId
