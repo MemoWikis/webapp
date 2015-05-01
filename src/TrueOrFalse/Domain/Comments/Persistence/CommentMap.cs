@@ -20,6 +20,6 @@ public class CommentMap : ClassMap<Comment>
         Map(x => x.Text);
 
         Map(x => x.DateCreated);
-        Map(x => x.DateModified);        
+        Map(x => x.DateModified);
     }
 }

@@ -266,6 +266,8 @@
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
+    <Compile Include="Views\Play\GamesController.cs" />
+    <Compile Include="Views\Play\GamesModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
@@ -425,6 +427,7 @@
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Play\Games.aspx" />
     <Content Include="Views\Questions\Answer\Js\BrainWavesHub.js">
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
@@ -1535,6 +1538,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Style\fontAwesome\" />
+    <Folder Include="Views\Play\Js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

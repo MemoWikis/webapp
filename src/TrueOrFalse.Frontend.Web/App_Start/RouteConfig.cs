@@ -86,6 +86,7 @@ namespace TrueOrFalse
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
             routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
+            routes.MapRoute("Play", "Spielen/{action}", new { controller = "Games", action = "Games" });
 
             routes.MapRoute("Beta", "Beta", new { controller = "Beta", action = "Beta" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });

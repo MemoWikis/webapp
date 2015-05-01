@@ -236,6 +236,10 @@
     <Compile Include="Domain\Comments\Persistence\CommentMap.cs" />
     <Compile Include="Domain\Comments\Persistence\CommentRepository.cs" />
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
+    <Compile Include="Domain\Game\Game.cs" />
+    <Compile Include="Domain\Game\GameStatus.cs" />
+    <Compile Include="Domain\Game\Persistence\GameMap.cs" />
+    <Compile Include="Domain\Game\Persistence\GameRepo.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityCalc_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityUpdate_OnQuestion.cs" />
@@ -676,9 +680,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\BrainWaves\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
