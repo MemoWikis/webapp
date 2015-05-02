@@ -16,7 +16,7 @@ public class MessagesController : BaseController
                     Body = @"<p>
                                 schön, dass du bei uns vorbeischaust. 
                                 Eigentlich gibt es hier nichts zu sehen, 
-                                wenn du nicht angemeldet ist.
+                                wenn du nicht angemeldet bist.
                             </p>
                             <p>Wir wünschen dir weiter viel Spaß beim Stöbern.</p>
                             <p>

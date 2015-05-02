@@ -144,7 +144,7 @@
                 <span id="badgeNewMessages" class="badge show-tooltip" title="Ungelesene Nachrichten" style="display:inline-block; position: relative; top: 1px;"><%= Model.UnreadMessageCount %></span>
             </a>
 
-            <a class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="#" style="margin-top: 10px;">
+            <a class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="<%= Links.Games(Url) %>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Spielen
             </a>
                             

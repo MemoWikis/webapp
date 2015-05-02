@@ -265,9 +265,11 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Games\Edit\GameModel.cs" />
+    <Compile Include="Views\Games\Edit\GameController.cs" />
     <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
-    <Compile Include="Views\Play\GamesController.cs" />
-    <Compile Include="Views\Play\GamesModel.cs" />
+    <Compile Include="Views\Games\GamesController.cs" />
+    <Compile Include="Views\Games\GamesModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
@@ -423,11 +425,15 @@
       <DependentUpon>BetaRequest.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
+    <Content Include="Views\Games\Edit\Game.aspx" />
+    <Content Include="Views\Games\Edit\Game.css">
+      <DependentUpon>Game.less</DependentUpon>
+    </Content>
     <Content Include="Views\Help\Willkommen.aspx" />
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Play\Games.aspx" />
+    <Content Include="Views\Games\Games.aspx" />
     <Content Include="Views\Questions\Answer\Js\BrainWavesHub.js">
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
@@ -1475,6 +1481,10 @@
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js.map">
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Games\Edit\Game.less" />
+    <Content Include="Views\Games\Edit\Game.css.map">
+      <DependentUpon>Game.css</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -1538,7 +1548,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Style\fontAwesome\" />
-    <Folder Include="Views\Play\Js\" />
+    <Folder Include="Views\Games\Js\" />
+    <Folder Include="Views\Games\Play\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

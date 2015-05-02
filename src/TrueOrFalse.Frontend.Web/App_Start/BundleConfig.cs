@@ -81,6 +81,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/Games")
+                .IncludeDirectory("~/Views/Games/Js/", "*.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/markdown")
                 .Include("~/Scripts/Markdown.Converter.js",
                          "~/Scripts/Markdown.Sanitizer.js", 
