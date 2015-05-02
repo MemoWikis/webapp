@@ -95,7 +95,7 @@
                         </li>
                     </ul>
                     <div style="float: right; position: absolute; right: 0; top: 5px;">
-                        <a href="<%= Url.Action("Create", "EditSet") %>" class="btn btn-default">
+                        <a href="<%= Url.Action("Create", "EditSet") %>" class="btn btn-success btn-sm">
                             <i class="fa fa-plus-circle"></i> Fragesatz erstellen
                         </a>
                     </div>
