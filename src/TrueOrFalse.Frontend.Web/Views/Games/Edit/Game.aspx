@@ -7,37 +7,42 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Games/Edit/Game.css" rel="stylesheet" />    
-    <%= Scripts.Render("~/bundles/js/Games") %>
+    <%= Scripts.Render("~/bundles/js/Game") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-<% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "Game", null, 
-    FormMethod.Post, new { enctype = "multipart/form-data", id="EditGameForm", data_is_editing=Model.IsEditing })){%>
+<% using (Html.BeginForm("Create", "Game", null, 
+    FormMethod.Post, new { enctype = "multipart/form-data", id="EditGameForm"})){%>
 
     <div class="row">
         <div class="PageHeader col-xs-12">
             <h2 class="pull-left">
-                <span class="ColoredUnderline Category">
-                    <% if (Model.IsEditing) { %>
-                        Spiel bearbeiten
-                    <% } else { %>
-                        Spiel erstellen
-                    <% } %>
+                <span class="ColoredUnderline Play">
+                    Spiel erstellen
                 </span>
             </h2>
             <div class="headerControls pull-right">
                 <div>
                     <a href="<%= Links.Games(Url) %>" style="font-size: 12px; margin: 0;">
                         <i class="fa fa-list"></i>&nbsp;zur Übersicht
-                    </a><br/>
-                    <% if(Model.IsEditing){ %>
-                        <a href="<%= Links.GameDetail(Url, Model.Id) %>" style="font-size: 12px;">
-                            <i class="fa fa-eye"></i>&nbsp;Detailansicht
-                        </a> 
-                    <% } %>            
+                    </a>          
                 </div>
             </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xs-9">
+                <% if(!Model.IsLoggedIn){ %>
+                    <div class="bs-callout bs-callout-info" style="margin-top: 0;">
+                        <h4>Anmelden oder registrieren</h4>
+                        <p>
+                            Um Spiele zu erstellen,
+                            musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
+                        </p>
+                    </div>
+                <% }%>
+            </div>            
         </div>
         
         <div class="row">
@@ -57,8 +62,8 @@
                                     </label>
                                     <div class="col-xs-11">
                                         <div class="input-group">
-                                            <input class="form-control" value="10" style="height: 30px;" />
-                                            <span class="input-group-addon">
+                                            <input class="form-control" name="StartsInMinutes" value="10" style="height: 30px;" />
+                                            <span class="input-group-addon" style="height: 30px;">
                                                 (max. 60min)
                                             </span>
                                         </div>
@@ -72,8 +77,8 @@
                                     </label>
                                     <div class="col-xs-10">
                                         <div class="input-group">
-                                            <input class="form-control" value="10" style="height: 30px;" name="amountPlayers" />
-                                            <span class="input-group-addon">
+                                            <input class="form-control" name="MaxPlayers" value="10" style="height: 30px;" name="amountPlayers" />
+                                            <span class="input-group-addon" style="height: 30px;">
                                                 (max. 30)
                                             </span>
                                         </div>
@@ -85,25 +90,27 @@
                         <div class="form-group">
                             <label class="columnLabel control-label">Fragesätze mit den gespielt wird:</label>
                             <div class="columnControlsFull">
-                                <input class="form-control"/>
+                                <input class="form-control" name="Sets"/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <%= Html.LabelFor(m => m.Comment, new { @class = "columnLabel control-label" })%>
                             <div class="columnControlsFull">
-                                <%= Html.TextAreaFor(m => m.Comment, new { @class="form-control", placeholder = "Nachricht an deine Mitspieler (optional)", rows = 3})%>
+                                <%= Html.TextAreaFor(m => m.Comment, 
+                                    new
+                                    {
+                                        @class="form-control", 
+                                        placeholder = "Nachricht an deine Mitspieler (optional)", 
+                                        rows = 3
+                                    })%>
                             </div>
                         </div>                        
                         
                         <div class="form-group">
                             <div class="noLabel columnControlsFull">
-                                <% if (Model.IsEditing){ %>
-                                    <input type="submit" value="Spiel speichern" class="btn btn-primary" name="btnSave" />
-                                    <a href="<%=Url.Action("Delete", "Game") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
-                                <% } else { %>
-                                    <input type="submit" value="Spiel erstellen " class="btn btn-primary" name="btnSave" />
-                                <% } %>
+                                <input type="submit" value="Spiel erstellen " class="btn btn-primary" name="btnSave" 
+                                    <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %> />
                             </div>
                         </div>
 

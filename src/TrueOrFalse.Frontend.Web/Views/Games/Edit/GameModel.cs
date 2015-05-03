@@ -7,13 +7,14 @@ using TrueOrFalse.Web;
 public class GameModel : BaseModel
 {
     public int Id;
-    public bool IsEditing;
     public UIMessage Message;
 
-    public IList<Set> Sets;
-    public GameStatus Status;
-    public DateTime WillStartAt;
-
+    [Required]
+    public virtual int MaxPlayers { get; set; }
+    [Required]
+    public virtual int StartsInMinutes { get; set; }
+    [Required]
+    public virtual string Sets { get; set; }
 
     [DataType(DataType.MultilineText)]
     [DisplayName("Bemerkung:")]
@@ -21,24 +22,4 @@ public class GameModel : BaseModel
 
     public GameModel() { }
 
-    public GameModel(Game game)
-    {
-        IsEditing = true;
-        Id = game.Id;
-
-        Sets = game.Sets;
-        Status = game.Status;
-        WillStartAt = game.WillStartAt;
-        Comment = game.Comment;
-    }
-
-    public Game ToGame()
-    {
-        var game = new Game();
-        game.WillStartAt = DateTime.Now.AddMinutes(10);
-        game.Comment = Comment;
-        game.Id = game.Id;
-
-        return game;
-    }
 }
