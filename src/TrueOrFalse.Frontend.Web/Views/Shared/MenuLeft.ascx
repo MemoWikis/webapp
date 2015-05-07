@@ -75,7 +75,7 @@
                 
                 <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
                     onclick="window.location = '<%= Url.Action("Create", "EditSet") %>'; return false; "
-                    title="Neuen Fragesatz erstellen"></i>                
+                    title="Neuen Fragesatz erstellen"></i>
             </a>    
             <%
                 var visitedS = new SessionUiData().VisitedSets;
@@ -146,6 +146,10 @@
 
             <a class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="<%= Links.Games(Url) %>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Spielen
+                
+                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
+                    onclick="window.location = '<%= Links.GameCreate(Url) %>'; return false; "
+                    title="Spiel erstellen"></i>
             </a>
                             
             <% if (Model.IsInstallationAdmin){ %>

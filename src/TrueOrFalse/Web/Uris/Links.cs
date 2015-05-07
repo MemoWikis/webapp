@@ -155,6 +155,10 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { id = gameId}, null);            
         }
 
+        public static string GameCreate(UrlHelper url){
+            return GetUrlHelper().Action("Create", "Game", null);
+        }
+
         public const string EditQuestionController = "EditQuestion"; 
 
         public static string CreateQuestion(UrlHelper url, int categoryId = -1)

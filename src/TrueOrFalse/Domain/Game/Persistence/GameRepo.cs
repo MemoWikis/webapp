@@ -13,7 +13,7 @@ public class GameRepo : RepositoryDbBase<Game>
         return _session.QueryOver<Game>()
             .Where(g =>
                 g.Status == GameStatus.InProgress ||
-                g.Status == GameStatus.Started)
+                g.Status == GameStatus.Ready)
             .List<Game>();
     }
 }

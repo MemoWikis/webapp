@@ -88,7 +88,7 @@
                         </div>                        
                                                                                        
                         <div class="form-group">
-                            <label class="columnLabel control-label">Fragesätze mit den gespielt wird:</label>
+                            <label class="columnLabel control-label">Fragesätze mit denen gespielt wird:</label>
                             <div class="columnControlsFull">
                                 <input class="form-control" name="Sets"/>
                             </div>

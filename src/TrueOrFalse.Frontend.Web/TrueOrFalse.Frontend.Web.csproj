@@ -267,6 +267,7 @@
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Games\Edit\GameModel.cs" />
     <Compile Include="Views\Games\Edit\GameController.cs" />
+    <Compile Include="Views\Games\GameRowModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
     <Compile Include="Views\Games\GamesModel.cs" />
@@ -429,6 +430,13 @@
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
       <DependentUpon>Game.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\GameRow.ascx" />
+    <Content Include="Views\Games\Games.css">
+      <DependentUpon>Games.less</DependentUpon>
     </Content>
     <Content Include="Views\Help\Willkommen.aspx" />
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
@@ -1485,6 +1493,13 @@
     <Content Include="Views\Games\Edit\Game.less" />
     <Content Include="Views\Games\Edit\Game.css.map">
       <DependentUpon>Game.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Games.less" />
+    <Content Include="Views\Games\Games.css.map">
+      <DependentUpon>Games.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
