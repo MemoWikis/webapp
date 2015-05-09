@@ -26,11 +26,11 @@
     </div>
     <div class="col-xs-12">
         <% if(Model.Status == GameStatus.InProgress){ %>
-            <a href="#" class="btn btn-info btn-xs" style="float:right">
+            <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-info btn-xs" style="float:right">
                 Zusehen
             </a>
         <% }else{ %>
-            <a href="#" class="btn btn-success btn-xs" style="float:right">
+            <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-success btn-xs" style="float:right">
                 Mitspielen
             </a>        
         <% } %>

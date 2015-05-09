@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
+[SetMenu(MenuEntry.Play)]
 public class GameController : BaseController
 {
     private const string _viewLocation = "~/Views/Games/Edit/Game.aspx";

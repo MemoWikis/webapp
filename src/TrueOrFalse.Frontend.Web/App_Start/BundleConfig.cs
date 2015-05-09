@@ -91,6 +91,12 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/Game")
                 .IncludeDirectory("~/Views/Games/Edit/Js/", "*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/GamePlay")
+                .IncludeDirectory("~/Views/Games/Play/Js/", "*.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/GamePlay")
+                .Include("~/Views/Games/Play/*.css"));
+
             //Markdown
             bundles.Add(new ScriptBundle("~/bundles/markdown")
                 .Include("~/Scripts/Markdown.Converter.js",

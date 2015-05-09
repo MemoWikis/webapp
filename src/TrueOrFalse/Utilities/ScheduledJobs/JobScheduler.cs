@@ -18,7 +18,19 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             _scheduler.ScheduleJob(
                 JobBuilder.Create<CleanUpWorkInProgressQuestions>().Build(), 
-                TriggerBuilder.Create().WithSimpleSchedule(x => x.WithIntervalInHours(6)).Build());
+                TriggerBuilder
+                    .Create()
+                    .WithSimpleSchedule(x => x.WithIntervalInHours(6).RepeatForever())
+                    .Build()
+            );
+             
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<StartOrCloseGames>().Build(),
+                TriggerBuilder
+                .Create()
+                .WithSimpleSchedule(x => x.WithIntervalInSeconds(20).RepeatForever())
+                .Build()
+            );
         }
 
         public static void StartCleanupWorkInProgressJob()

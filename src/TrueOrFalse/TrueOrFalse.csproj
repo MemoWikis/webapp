@@ -539,6 +539,7 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Utilities\ScheduledJobs\JobScheduler.cs" />
     <Compile Include="Utilities\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
+    <Compile Include="Utilities\ScheduledJobs\Jobs\StartOrCloseGames.cs" />
     <Compile Include="Utilities\TimeElapsedAsText.cs" />
     <Compile Include="Utilities\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />

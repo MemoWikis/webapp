@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class GameRowModel
 {
-    public string GameId;
+    public int GameId;
     public User Creator;
     public IList<User> Players;
     public IList<Set> Sets;
@@ -12,7 +12,7 @@ public class GameRowModel
 
     public GameRowModel(Game game)
     {
-        GameId = game.Id.ToString();
+        GameId = game.Id;
         Creator = game.Creator;
         Players = game.Players;
         Sets = game.Sets;

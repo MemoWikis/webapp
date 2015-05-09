@@ -268,6 +268,8 @@
     <Compile Include="Views\Games\Edit\GameModel.cs" />
     <Compile Include="Views\Games\Edit\GameController.cs" />
     <Compile Include="Views\Games\GameRowModel.cs" />
+    <Compile Include="Views\Games\Play\PlayController.cs" />
+    <Compile Include="Views\Games\Play\PlayModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
     <Compile Include="Views\Games\GamesModel.cs" />
@@ -438,6 +440,10 @@
     <Content Include="Views\Games\Games.css">
       <DependentUpon>Games.less</DependentUpon>
     </Content>
+    <Content Include="Views\Games\Play\Game.css">
+      <DependentUpon>Game.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Play.aspx" />
     <Content Include="Views\Help\Willkommen.aspx" />
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
@@ -1501,6 +1507,10 @@
     <Content Include="Views\Games\Games.css.map">
       <DependentUpon>Games.css</DependentUpon>
     </Content>
+    <Content Include="Views\Games\Play\Game.less" />
+    <Content Include="Views\Games\Play\Game.css.map">
+      <DependentUpon>Game.css</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -1565,7 +1575,7 @@
   <ItemGroup>
     <Folder Include="Style\fontAwesome\" />
     <Folder Include="Views\Games\Js\" />
-    <Folder Include="Views\Games\Play\" />
+    <Folder Include="Views\Games\Play\Js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
