@@ -5,6 +5,7 @@ using System.Text;
 using Autofac;
 using NHibernate;
 using TrueOrFalse.Infrastructure.Persistence;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -19,7 +20,6 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
                 .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"));
-
 
             try
             {

@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
+using TrueOrFalse.Infrastructure;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -10,7 +10,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         static JobScheduler()
         {
+            var container = AutofacWebInitializer.Run();
+
             _scheduler = StdSchedulerFactory.GetDefaultScheduler();
+            _scheduler.JobFactory = new AutofacJobFactory(container);
             _scheduler.Start();
         }
 
@@ -25,10 +28,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             );
              
             _scheduler.ScheduleJob(
-                JobBuilder.Create<StartOrCloseGames>().Build(),
+                JobBuilder.Create<GameLoop>().Build(),
                 TriggerBuilder
                 .Create()
-                .WithSimpleSchedule(x => x.WithIntervalInSeconds(20).RepeatForever())
+                .WithSimpleSchedule(x => x.WithIntervalInSeconds(1).RepeatForever())
                 .Build()
             );
         }

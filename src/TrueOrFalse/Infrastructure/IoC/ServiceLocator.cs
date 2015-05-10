@@ -26,6 +26,11 @@ public class ServiceLocator
         return ((AutofacDependencyResolver) DependencyResolver.Current).RequestLifetimeScope.Resolve<T>();
     }
 
+    public static IContainer GetContainer()
+    {
+        return _container;
+    }
+
     public static T R<T>(){
         return Resolve<T>();
     }
