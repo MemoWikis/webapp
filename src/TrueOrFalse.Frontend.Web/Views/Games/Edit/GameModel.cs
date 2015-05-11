@@ -9,10 +9,15 @@ public class GameModel : BaseModel
     public int Id;
     public UIMessage Message;
 
-    [Required]
+    [Required][Range(2, 30)]
     public virtual int MaxPlayers { get; set; }
+    
+    [Required][Range(1,100)]
+    public virtual int Rounds { get; set; }
+    
     [Required]
     public virtual int StartsInMinutes { get; set; }
+    
     [Required]
     public virtual string Sets { get; set; }
 

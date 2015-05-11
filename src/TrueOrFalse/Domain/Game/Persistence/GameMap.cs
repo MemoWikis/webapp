@@ -8,6 +8,7 @@ public class GameMap : ClassMap<Game>
 
         Map(x => x.WillStartAt);
         Map(x => x.MaxPlayers);
+        Map(x => x.Rounds);
         References(x => x.Creator);
 
         HasManyToMany(x => x.Players)

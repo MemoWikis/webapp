@@ -55,7 +55,7 @@
                     <div class="FormSection">
 
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in:
@@ -70,7 +70,7 @@
                                     </div>
                                 </div>                                
                             </div>
-                            <div class="col-md-5    ">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-users"></i> &nbsp; Anzahl Spieler:
@@ -85,7 +85,25 @@
                                     </div>
                                 </div>                                
                             </div>
-                        </div>                        
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="columnLabel control-label">
+                                        <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden
+                                    </label>
+                                    <div class="col-xs-11">
+                                        <div class="input-group">
+                                            <input class="form-control" name="Rounds" value="15" style="height: 30px;" />
+                                            <span class="input-group-addon" style="height: 30px;">
+                                                (max. 100) &nbsp;&nbsp;&nbsp;&nbsp; 
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
                                                                                        
                         <div class="form-group">
                             <label class="columnLabel control-label">Fragesätze mit denen gespielt wird:</label>

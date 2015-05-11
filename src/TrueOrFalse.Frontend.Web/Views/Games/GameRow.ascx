@@ -7,18 +7,18 @@
     <div class="row">
         <div class="col-xs-3 header" style="padding-bottom: 5px">
             <h4 style="display: inline; margin-right: 15px;">
-                Quiz (14 Fragen) 
+                Quiz (<%= Model.Rounds %>) 
             </h4>
         </div>
         <div class="col-xs-3 header">
             <div class="progress" >
                 <div class="progress-bar <%= Model.InProgress() ? "" : "progress-bar-success" %>" aria-valuemin="0" aria-valuemax="100" 
                     style="width: 100%;">                    
-                    <span style="font-size: 10px;">
+                    <span style="font-size: 11px;">
                         <% if (Model.InProgress()){ %>
                             Wird gerade gespielt
                         <% }else{ %>
-                            spät. in
+                            Start spät. in
                             <span data-countdown="<%= Model.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) %>"></span>                
                         <% } %>
                     </span>

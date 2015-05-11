@@ -9,6 +9,7 @@ public class GameRowModel
     public IList<Set> Sets;
     public GameStatus Status;
     public DateTime WillStartAt;
+    public int Rounds;
 
     public bool InProgress()
     {
@@ -23,5 +24,6 @@ public class GameRowModel
         Sets = game.Sets;
         Status = game.Status;
         WillStartAt = game.WillStartAt;
-    }   
+        Rounds = game.Rounds;
+    }
 }

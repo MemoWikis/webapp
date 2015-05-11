@@ -13,8 +13,12 @@ public class Game : DomainEntity
 
     public virtual int MaxPlayers { get; set; }
 
+    public virtual int Rounds { get; set; }
+
     public virtual IList<Set> Sets { get; set; }
     public virtual GameStatus Status { get; set; }
 
     public virtual string Comment { get; set; }
+
+
 }
