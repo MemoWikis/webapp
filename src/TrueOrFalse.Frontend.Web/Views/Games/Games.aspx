@@ -21,7 +21,7 @@
 
             <h3 style=" margin-bottom: 10px;">
                 <span class="ColoredUnderline Play" style="padding-right: 3px;">Laufende Spiele</span>
-            </h3>
+            </h3> 
             
             <% foreach(var game in Model.GamesInProgress){ %>
                 <% Html.RenderPartial("GameRow", game); %>

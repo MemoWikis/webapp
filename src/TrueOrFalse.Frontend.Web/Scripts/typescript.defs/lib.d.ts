@@ -13,6 +13,7 @@ interface JQuery {
     sparkline(p1: any, p2: any, p3: any);
     watch(p1: any);
     typeWatch(p1: any);
+    countdown(finalDate : string, callback : Function)
 }
 
 interface Window {

@@ -36,6 +36,7 @@ public class GameController : BaseController
         game.WillStartAt = DateTime.Now.AddMinutes(Convert.ToInt32(gameModel.StartsInMinutes));
         game.Comment = gameModel.Comment;
         game.Creator = _sessionUser.User;
+        game.Status = GameStatus.Ready;
  
         R<GameRepo>().Create(game);
 

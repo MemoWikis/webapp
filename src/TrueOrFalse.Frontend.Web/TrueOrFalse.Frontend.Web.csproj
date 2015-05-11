@@ -362,6 +362,8 @@
     </Content>
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
+    <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
@@ -1574,7 +1576,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Style\fontAwesome\" />
-    <Folder Include="Views\Games\Js\" />
     <Folder Include="Views\Games\Play\Js\" />
   </ItemGroup>
   <PropertyGroup>
