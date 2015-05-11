@@ -42,7 +42,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     }
 
                     gameRepo.Flush();
-                    Logg.r().Information("GameLoop iteration: {0} {}", watch.Elapsed, DateTime.Now);
+                    Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);
                 }
             }
             catch (Exception e)
