@@ -10,6 +10,11 @@ public class GameRowModel
     public GameStatus Status;
     public DateTime WillStartAt;
 
+    public bool InProgress()
+    {
+        return Status == GameStatus.InProgress;
+    }
+
     public GameRowModel(Game game)
     {
         GameId = game.Id;

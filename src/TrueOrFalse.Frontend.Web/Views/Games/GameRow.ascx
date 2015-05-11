@@ -2,33 +2,40 @@
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase game-row" style="position: relative;">
-    
-    <div class="progress">
-      <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-        <span class="sr-only">45% Complete</span>
-      </div>
-    </div>
-    
-    <div class="progress">
-      <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-        <span class="sr-only">40% Complete (success)</span>
-      </div>
-    </div>
+<div class="rowBase game-row" style="position: relative; padding: 5px;">
 
     <div class="row">
-        <div class="col-xs-12 header" style="padding-bottom: 5px">
+        <div class="col-xs-3 header" style="padding-bottom: 5px">
             <h4 style="display: inline; margin-right: 15px;">
                 Quiz (14 Fragen) 
             </h4>
-            
-            Startet in
-            <span style="background-color: yellowgreen"
-                data-countdown="<%= Model.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) %>"></span>
-            
-
-
-        </div>        
+        </div>
+        <div class="col-xs-3 header">
+            <div class="progress" >
+                <div class="progress-bar <%= Model.InProgress() ? "" : "progress-bar-success" %>" aria-valuemin="0" aria-valuemax="100" 
+                    style="width: 100%;">                    
+                    <span style="font-size: 10px;">
+                        <% if (Model.InProgress()){ %>
+                            Wird gerade gespielt
+                        <% }else{ %>
+                            spät. in
+                            <span data-countdown="<%= Model.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) %>"></span>                
+                        <% } %>
+                    </span>
+                </div>
+            </div>            
+        </div>
+        <div class="col-xs-6 header">
+            <% if(Model.InProgress()){ %>
+                <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-primary btn-sm " style="float: right; width: 100px;">
+                    <i class="fa fa-eye"></i>&nbsp; Zusehen
+                </a>
+            <% }else{ %>
+                <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-success btn-sm" style="float:right; width: 100px;">
+                    <i class="fa fa-play-circle"></i>&nbsp; Mitspielen
+                </a>        
+            <% } %>
+        </div>            
     </div>
     
     <div class="row">
@@ -46,25 +53,12 @@
 
     <div class="row">
         <div class="col-xs-12">
+            <i class="fa fa-users"></i>
             Spieler:
             <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.Creator.Name %></a>
             <%  foreach(var player in Model.Players){ %>
                 <a href="<%= Links.UserDetail(Url, player) %>"><%= player.Name %></a>
             <% } %>                             
-        </div>        
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <% if(Model.Status == GameStatus.InProgress){ %>
-                <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-info btn-xs" style="float:right">
-                    Zusehen
-                </a>
-            <% }else{ %>
-                <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-success btn-xs" style="float:right">
-                    Mitspielen
-                </a>        
-            <% } %>
         </div>        
     </div>
 
