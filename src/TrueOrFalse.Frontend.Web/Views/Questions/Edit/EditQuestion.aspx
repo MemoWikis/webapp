@@ -45,7 +45,7 @@
         </div>
         <div class="PageHeader col-xs-12">
             <% if(!Model.IsLoggedIn){ %>
-                <div class="bs-callout bs-callout-info" style="margin-top: 0;">
+                <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
                     <h4>Anmelden oder registrieren</h4>
                     <p>
                         Um Fragen zu erstellen, <br/>
