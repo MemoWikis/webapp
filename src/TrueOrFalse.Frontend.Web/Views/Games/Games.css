@@ -1,4 +1,17 @@
 ﻿.game-row:hover {
   background-color: #f3f5f8;
 }
+@media screen and (max-width: 992px) {
+  a.margin-bottom-sm {
+    margin-bottom: 10px;
+  }
+  .progress {
+    margin-bottom: 10px;
+  }
+}
+@media screen and (max-width: 768px) {
+  a.margin-bottom-sm {
+    width: 100%;
+  }
+}
 /*# sourceMappingURL=Games.css.map */

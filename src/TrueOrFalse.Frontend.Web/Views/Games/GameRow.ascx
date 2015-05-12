@@ -27,15 +27,17 @@
                 </div>
             </div>            
         </div>
-        <div class="col-md-offset-2 col-md-2 col-xs-12 header">
+        <div class="col-md-offset-2 col-md-2 col-sm-offset-8 col-sm-2 col-xs-12 header ">
             <% if(!Model.InProgress() && !Model.IsPlayerOrCreator ){ %>
-                <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-success btn-sm" style="float:right; width: 100px;">
+                <a href="<%= Links.GamePlay(Url, Model.GameId) %>" 
+                    class="btn btn-success btn-sm margin-bottom-sm" style="float:right; min-width: 100px;">
                     <i class="fa fa-play-circle"></i>&nbsp; Mitspielen
                 </a>
             <% } %>
         </div>
-        <div class="col-md-2 col-xs-12 header">
-            <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-primary btn-sm " style="float: right; width: 100px;">
+        <div class="col-md-2 col-sm-2 col-xs-12 header">
+            <a href="<%= Links.GamePlay(Url, Model.GameId) %>" 
+                class="btn btn-primary btn-sm margin-bottom-sm" style="float: right; min-width: 100px;">
                 <% if(Model.InProgress()){ %>
                     <i class="fa fa-eye"></i>&nbsp; Zusehen
                 <% }else{ %>
