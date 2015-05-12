@@ -5,14 +5,14 @@
 <div class="rowBase game-row" style="position: relative; padding: 5px;">
 
     <div class="row">
-        <div class="col-md-3 header" style="padding-bottom: 5px">
+        <div class="col-md-3 col-sm-7 header" style="padding-bottom: 5px">
             <h4 style="display: inline; margin-right: 15px;">
                 <a href="<%= Links.GamePlay(Url, Model.GameId) %>">
                     Quiz  <span class="show-tooltip" data-original-title="<%= Model.Rounds %> Runden" style="font-size: 13px; padding-left: 7px">(<i class="fa fa-retweet"></i> <%= Model.Rounds %> )</span>
                 </a>
             </h4>
         </div>
-        <div class="col-md-3 col-xs-12 header">
+        <div class="col-md-3 col-sm-5 col-xs-12 header">
             <div class="progress" >
                 <div class="progress-bar <%= Model.InProgress() ? "" : "progress-bar-success" %>" aria-valuemin="0" aria-valuemax="100" 
                     style="width: 100%;">                    
@@ -27,12 +27,18 @@
                 </div>
             </div>            
         </div>
-        <div class="col-md-offset-2 col-md-2 col-sm-offset-8 col-sm-2 col-xs-12 header ">
+        <div class="col-md-offset-1 col-md-3 col-sm-offset-7 col-sm-3 col-xs-12 header ">
             <% if(!Model.InProgress() && !Model.IsPlayerOrCreator ){ %>
                 <a href="<%= Links.GamePlay(Url, Model.GameId) %>" 
                     class="btn btn-success btn-sm margin-bottom-sm" style="float:right; min-width: 100px;">
                     <i class="fa fa-play-circle"></i>&nbsp; Mitspielen
                 </a>
+            <% } %>
+            <% if(!Model.InProgress() && Model.IsCreator ){ %>
+                <span class="pull-right margin-bottom-sm"><i class="fa fa-smile-o"></i>&nbsp;Du bist der Ersteller</span>
+            <% } %>
+            <% if(!Model.InProgress() && Model.IsPlayer){ %>
+                <span class="pull-right margin-bottom-sm"><i class="fa fa-smile-o"></i>&nbsp;Du bist Mitspieler</span>
             <% } %>
         </div>
         <div class="col-md-2 col-sm-2 col-xs-12 header">
