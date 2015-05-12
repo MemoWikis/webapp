@@ -13,11 +13,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="row">
-        
-        <div class="PageHeader col-xs-9">
+        <div class="PageHeader col-md-6">
             <h3 style="margin-bottom: 20px; margin-top: 0px;" class="pull-left">
                 <span class="ColoredUnderline Play" style="padding-right: 3px;">Laufende Spiele</span>
             </h3> 
+        </div>
+        <div class="col-md-3">
             <div class="headerControls pull-right">
                 <div style="padding-top: 5px;">
                     <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm pull-right">
@@ -26,7 +27,9 @@
                 </div>
             </div>
         </div>
-
+    </div>
+    
+    <div class="row">
         <div class="col-md-9">
             
             <% if(!Model.GamesInProgress.Any()){ %>
@@ -44,7 +47,7 @@
                 <% } %>
             <% } %>
 
-            <h3 style=" margin-bottom: 10px;">
+            <h3 style="margin-bottom: 10px;">
                 <span class="ColoredUnderline Play" style="padding-right: 3px;">Mitspielen:</span>
             </h3>                 
             

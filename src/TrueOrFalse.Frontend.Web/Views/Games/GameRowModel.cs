@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-public class GameRowModel
+public class GameRowModel : BaseModel
 {
     public int GameId;
     public User Creator;
@@ -10,6 +11,10 @@ public class GameRowModel
     public GameStatus Status;
     public DateTime WillStartAt;
     public int Rounds;
+
+    public bool IsCreator { get { return Creator.Id == base.UserId; } }
+    public bool IsPlayer { get { return Players.Any(p => p.Id == base.UserId); } }
+    public bool IsPlayerOrCreator { get { return IsPlayer || IsCreator; } }
 
     public bool InProgress()
     {

@@ -5,12 +5,14 @@
 <div class="rowBase game-row" style="position: relative; padding: 5px;">
 
     <div class="row">
-        <div class="col-xs-3 header" style="padding-bottom: 5px">
+        <div class="col-md-3 header" style="padding-bottom: 5px">
             <h4 style="display: inline; margin-right: 15px;">
-                Quiz (<%= Model.Rounds %>) 
+                <a href="<%= Links.GamePlay(Url, Model.GameId) %>">
+                    Quiz  <span class="show-tooltip" data-original-title="<%= Model.Rounds %> Runden" style="font-size: 13px; padding-left: 7px">(<i class="fa fa-retweet"></i> <%= Model.Rounds %> )</span>
+                </a>
             </h4>
         </div>
-        <div class="col-xs-3 header">
+        <div class="col-md-3 col-xs-12 header">
             <div class="progress" >
                 <div class="progress-bar <%= Model.InProgress() ? "" : "progress-bar-success" %>" aria-valuemin="0" aria-valuemax="100" 
                     style="width: 100%;">                    
@@ -25,21 +27,26 @@
                 </div>
             </div>            
         </div>
-        <div class="col-xs-6 header">
-            <% if(Model.InProgress()){ %>
-                <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-primary btn-sm " style="float: right; width: 100px;">
-                    <i class="fa fa-eye"></i>&nbsp; Zusehen
-                </a>
-            <% }else{ %>
+        <div class="col-md-offset-2 col-md-2 col-xs-12 header">
+            <% if(!Model.InProgress() && !Model.IsPlayerOrCreator ){ %>
                 <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-success btn-sm" style="float:right; width: 100px;">
                     <i class="fa fa-play-circle"></i>&nbsp; Mitspielen
-                </a>        
+                </a>
             <% } %>
+        </div>
+        <div class="col-md-2 col-xs-12 header">
+            <a href="<%= Links.GamePlay(Url, Model.GameId) %>" class="btn btn-primary btn-sm " style="float: right; width: 100px;">
+                <% if(Model.InProgress()){ %>
+                    <i class="fa fa-eye"></i>&nbsp; Zusehen
+                <% }else{ %>
+                    <i class="fa fa-eye"></i>&nbsp; Ansehen
+                <% } %>
+            </a>            
         </div>            
     </div>
     
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-12">
             Gespielt wird mit:
             <div style="display: inline; position: relative; top: -2px;" >
                 <%  foreach(var set in Model.Sets){ %>
@@ -52,7 +59,7 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-12">
             <i class="fa fa-users"></i>
             Spieler:
             <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.Creator.Name %></a>
