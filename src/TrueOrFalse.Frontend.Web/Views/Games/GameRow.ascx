@@ -30,7 +30,8 @@
         <div class="col-md-offset-1 col-md-3 col-sm-offset-7 col-sm-3 col-xs-12 header ">
             <% if(!Model.InProgress() && !Model.IsPlayerOrCreator ){ %>
                 <a href="<%= Links.GamePlay(Url, Model.GameId) %>" 
-                    class="btn btn-success btn-sm margin-bottom-sm" style="float:right; min-width: 100px;">
+                   data-joinGameId="<%= Model.GameId %>"
+                   class="btn btn-success btn-sm margin-bottom-sm" style="float:right; min-width: 100px;">
                     <i class="fa fa-play-circle"></i>&nbsp; Mitspielen
                 </a>
             <% } %>

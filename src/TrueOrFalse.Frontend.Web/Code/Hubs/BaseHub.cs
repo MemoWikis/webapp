@@ -2,10 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.AspNet.SignalR;
 
 public class BaseHub : Hub
 {
+    protected readonly ILifetimeScope _lifetimeScope;
+
+    public BaseHub(ILifetimeScope lifetimeScope)
+    {
+        _lifetimeScope = lifetimeScope;
+    }
+
     protected ConcurrentDictionary<string, SignalRUser> _users
     {
         get
@@ -50,7 +58,6 @@ public class BaseHub : Hub
 
         if (user != null)
         {
-
             lock (user.ConnectionIds)
             {
                 user.ConnectionIds.RemoveWhere(connId => connId.Equals(connectionId));
@@ -77,4 +84,20 @@ public class BaseHub : Hub
 
         }).Select(x => x.Key);
     }
+
+    protected SignalRUser GetUser(string username)
+    {
+        SignalRUser user;
+        _users.TryGetValue(username, out user);
+        return user;
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        //if (disposing && _lifetimeScope != null)
+        //    _lifetimeScope.Dispose();
+
+        base.Dispose(disposing);
+    }
+
 }

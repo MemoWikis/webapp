@@ -25,7 +25,7 @@
             var concentrationLevel = $("#TxtConcentrationLevel").val();
             var userId = $("#TxtUserId").val();
 
-            hub.server.send(concentrationLevel, userId).done(function () {
+            hub.server.sendConcentration(concentrationLevel, userId).done(function () {
                 _this.ShowFeedback("Success: Message send");
             }).fail(function (error) {
                 _this.ShowFeedback(error);

@@ -66,6 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.Mvc5.3.3.0\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Integration.SignalR">
+      <HintPath>..\packages\Autofac.SignalR.3.0.2\lib\net40\Autofac.Integration.SignalR.dll</HintPath>
+    </Reference>
     <Reference Include="AutofacContrib.SolrNet">
       <HintPath>..\libs\AutofacContrib.SolrNet.dll</HintPath>
     </Reference>

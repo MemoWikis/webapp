@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.AspNet.SignalR;
 
 [Authorize]
 public class BrainWavesHub : BaseHub
 {
+    public BrainWavesHub(ILifetimeScope lifetimeScope) : base(lifetimeScope){}
+
     public void SendConcentration(string concentrationLevel, int receiverId)
     {
         SendTo(receiverId, connectionId => 
@@ -41,14 +42,6 @@ public class BrainWavesHub : BaseHub
                 action(connectionId);
         }        
     }
-
-    private SignalRUser GetUser(string username)
-    {
-        SignalRUser user;
-        _users.TryGetValue(username, out user);
-        return user;
-    }
-
 
     public override Task OnConnected()
     {
