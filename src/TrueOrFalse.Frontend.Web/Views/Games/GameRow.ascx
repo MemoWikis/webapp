@@ -2,8 +2,8 @@
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase game-row" style="position: relative; padding: 5px;">
-
+<div class="rowBase game-row" style="position: relative; padding: 5px;" data-gameId="<%= Model.GameId %>">
+    
     <div class="row">
         <div class="col-md-3 col-sm-7 header" style="padding-bottom: 5px">
             <h4 style="display: inline; margin-right: 15px;">
@@ -68,11 +68,13 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <i class="fa fa-users"></i>
+        <div class="col-md-12 players" data-row-type="players">
+            <%--<i class="fa fa-users"></i>--%>
             Spieler:
+            <i class="fa fa-user"></i>
             <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.Creator.Name %></a>
             <%  foreach(var player in Model.Players){ %>
+                <i class="fa fa-user"></i>
                 <a href="<%= Links.UserDetail(Url, player) %>"><%= player.Name %></a>
             <% } %>                             
         </div>        

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 
 public class Game : DomainEntity
@@ -20,5 +19,11 @@ public class Game : DomainEntity
 
     public virtual string Comment { get; set; }
 
+    public virtual void AddPlayer(User user)
+    {
+        if (Players.Any(u => u.Id == user.Id))
+            return;
 
+        Players.Add(user);
+    }
 }

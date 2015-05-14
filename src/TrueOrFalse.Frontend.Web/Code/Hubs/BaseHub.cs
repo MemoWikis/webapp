@@ -7,11 +7,12 @@ using Microsoft.AspNet.SignalR;
 
 public class BaseHub : Hub
 {
-    protected readonly ILifetimeScope _lifetimeScope;
+    protected readonly ILifetimeScope _sl;
 
     public BaseHub(ILifetimeScope lifetimeScope)
     {
-        _lifetimeScope = lifetimeScope;
+        _sl = lifetimeScope.BeginLifetimeScope();
+        
     }
 
     protected ConcurrentDictionary<string, SignalRUser> _users
@@ -94,8 +95,8 @@ public class BaseHub : Hub
 
     protected override void Dispose(bool disposing)
     {
-        //if (disposing && _lifetimeScope != null)
-        //    _lifetimeScope.Dispose();
+        if (disposing && _sl != null)
+            _sl.Dispose();
 
         base.Dispose(disposing);
     }

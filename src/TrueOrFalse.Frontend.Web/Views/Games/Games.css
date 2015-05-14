@@ -17,4 +17,7 @@
     width: 100%;
   }
 }
+div.players a {
+  margin-right: 9px;
+}
 /*# sourceMappingURL=Games.css.map */

@@ -1,5 +1,7 @@
 ﻿var Games = (function () {
     function Games() {
+        var me = this;
+
         this.InitializeCountdown();
         this.InitializeButtons();
 
@@ -8,8 +10,10 @@
         if (this._hub == null)
             return;
 
-        this._hub.client.JoinedGame = function (customer) {
-            window.console.log(customer);
+        this._hub.client.JoinedGame = function (player) {
+            window.console.log(player);
+            var gameRow = me.GetRow(player.GameId);
+            gameRow.AddPlayer(player.Name, player.Id);
         };
 
         $.connection.hub.start(function () {
@@ -21,13 +25,13 @@
 
         $("[data-joinGameId]").click(function (e) {
             e.preventDefault();
-            var gameId = $(this).attr("data-joinGameId");
 
-            window.alert(gameId);
+            //hide button
+            //show is player (?)
+            var gameId = $(this).attr("data-joinGameId");
             me._hub.server.joinGame(gameId).done(function () {
-                //window.alert("success");
             }).fail(function (error) {
-                //window.alert(error);
+                window.alert(error);
             });
         });
     };
@@ -39,6 +43,10 @@
                 $this.html(event.strftime('%-Mm %Ss'));
             });
         });
+    };
+
+    Games.prototype.GetRow = function (gameId) {
+        return new GameRow(gameId);
     };
     return Games;
 })();

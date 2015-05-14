@@ -9,11 +9,21 @@ public class PlayHub : BaseHub
 
     public void JoinGame(int gameId)
     {
+        var userRepo = _sl.Resolve<UserRepository>();
+        var gameRepo = _sl.Resolve<GameRepo>();
+
+        var user = userRepo.GetById(Convert.ToInt32(Context.User.Identity.Name));
+        var game = gameRepo.GetById(gameId);
+
+        //game.AddPlayer(user);
+
+        gameRepo.Update(game);
+
         Clients.All.JoinedGame(new
         {
-            Id = Convert.ToInt32(Context.User.Identity.Name),
+            Id = user.Id,
             GameId = gameId,
-            Name = "Nice Name"
+            Name = user.Name
         });
     }
 

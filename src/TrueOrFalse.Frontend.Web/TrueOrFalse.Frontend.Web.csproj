@@ -368,6 +368,7 @@
     </Content>
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
     <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\BrainWavesHub.ts" />
@@ -446,6 +447,9 @@
     <Content Include="Views\Games\GameRow.ascx" />
     <Content Include="Views\Games\Games.css">
       <DependentUpon>Games.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\GameRow.js">
+      <DependentUpon>GameRow.ts</DependentUpon>
     </Content>
     <Content Include="Views\Games\Js\Games.js">
       <DependentUpon>Games.ts</DependentUpon>
@@ -1523,6 +1527,9 @@
     </Content>
     <Content Include="Views\Games\Js\Games.js.map">
       <DependentUpon>Games.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\GameRow.js.map">
+      <DependentUpon>GameRow.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
