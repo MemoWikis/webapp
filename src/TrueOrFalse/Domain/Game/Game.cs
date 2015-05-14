@@ -19,11 +19,12 @@ public class Game : DomainEntity
 
     public virtual string Comment { get; set; }
 
-    public virtual void AddPlayer(User user)
+    public virtual bool AddPlayer(User user)
     {
         if (Players.Any(u => u.Id == user.Id))
-            return;
+            return false;
 
         Players.Add(user);
+        return true;
     }
 }

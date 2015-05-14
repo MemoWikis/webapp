@@ -15,9 +15,7 @@
             return;
 
         this._hub.client.JoinedGame = (player: Player) => {
-            window.console.log(player);
-            var gameRow = me.GetRow(player.GameId);
-            gameRow.AddPlayer(player.Name, player.Id);
+            me.GetRow(player.GameId).AddPlayer(player.Name, player.Id);
         };
 
         $.connection.hub.start(() => {
@@ -31,10 +29,7 @@
         $("[data-joinGameId]").click(function(e){
             e.preventDefault();
 
-            //hide button
-            //show is player (?)
-
-            var gameId = $(this).attr("data-joinGameId");
+            var gameId = +$(this).attr("data-joinGameId");            
             me._hub.server.joinGame(gameId).done(() => {}).fail(error => {
                 window.alert(error);
             });

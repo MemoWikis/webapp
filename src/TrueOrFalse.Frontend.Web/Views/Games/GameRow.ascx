@@ -25,25 +25,27 @@
                         <% } %>
                     </span>
                 </div>
-            </div>            
+            </div>
         </div>
         <div class="col-md-offset-1 col-md-3 col-sm-offset-7 col-sm-3 col-xs-12 header ">
             <% if(!Model.InProgress() && !Model.IsPlayerOrCreator ){ %>
-                <a href="<%= Links.GamePlay(Url, Model.GameId) %>" 
-                   data-joinGameId="<%= Model.GameId %>"
-                   class="btn btn-success btn-sm margin-bottom-sm" style="float:right; min-width: 100px;">
+                <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
+                   data-joinGameId="<%= Model.GameId %>" style="float:right; min-width: 100px;"
+                   class="btn btn-success btn-sm margin-bottom-sm linkJoin">
                     <i class="fa fa-play-circle"></i>&nbsp; Mitspielen
                 </a>
             <% } %>
             <% if(!Model.InProgress() && Model.IsCreator ){ %>
                 <span class="pull-right margin-bottom-sm"><i class="fa fa-smile-o"></i>&nbsp;Du bist der Ersteller</span>
             <% } %>
-            <% if(!Model.InProgress() && Model.IsPlayer){ %>
-                <span class="pull-right margin-bottom-sm"><i class="fa fa-smile-o"></i>&nbsp;Du bist Mitspieler</span>
-            <% } %>
+            
+            <span class="pull-right margin-bottom-sm spanYouArePlayer"
+                  style="<%= Model.IsPlayer ? "" : "display:none" %>">
+                    <i class="fa fa-smile-o"></i>&nbsp;Du bist Mitspieler
+            </span>
         </div>
         <div class="col-md-2 col-sm-2 col-xs-12 header">
-            <a href="<%= Links.GamePlay(Url, Model.GameId) %>" 
+            <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
                 class="btn btn-primary btn-sm margin-bottom-sm" style="float: right; min-width: 100px;">
                 <% if(Model.InProgress()){ %>
                     <i class="fa fa-eye"></i>&nbsp; Zusehen

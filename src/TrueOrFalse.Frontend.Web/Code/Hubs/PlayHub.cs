@@ -15,7 +15,8 @@ public class PlayHub : BaseHub
         var user = userRepo.GetById(Convert.ToInt32(Context.User.Identity.Name));
         var game = gameRepo.GetById(gameId);
 
-        //game.AddPlayer(user);
+        if (!game.AddPlayer(user))
+            return;
 
         gameRepo.Update(game);
 

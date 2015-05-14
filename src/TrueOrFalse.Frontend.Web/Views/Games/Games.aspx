@@ -9,6 +9,8 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    
+    <input type="hidden" id="hddCurrentUserId" value="<%= Model.UserId %>"/>
 
     <div class="row">
         <div class="PageHeader col-md-6">
