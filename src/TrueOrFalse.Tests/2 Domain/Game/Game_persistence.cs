@@ -42,6 +42,5 @@ public class Game_persistence : BaseTest
         Assert.That(isIn.Game(user1.Id).Yes, Is.True);
         Assert.That(isIn.Game(user2.Id).Yes, Is.True);
         Assert.That(isIn.Game(user3.Id).Yes, Is.False);
-        Assert.That(isIn.Game(user1.Id).Yes, Is.False);
     }
 }
