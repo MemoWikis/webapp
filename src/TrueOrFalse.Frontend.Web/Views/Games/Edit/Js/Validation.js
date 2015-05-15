@@ -2,7 +2,7 @@
     rules: {
         StartsInMinutes: {
             required: true,
-            range: [2, 60]
+            range: [1, 60]
         },
         MaxPlayers: {
             required: true,

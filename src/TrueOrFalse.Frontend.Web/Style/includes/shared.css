@@ -1677,6 +1677,10 @@
   background-color: #f6f8fc;
   border-color: #5bc0de !important;
 }
+.bs-callout-danger {
+  background-color: #f6f8fc;
+  border-color: #ce4844 !important;
+}
 .bs-callout {
   margin: 20px 0;
   padding: 20px;

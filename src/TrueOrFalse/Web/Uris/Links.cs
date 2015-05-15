@@ -150,11 +150,6 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Games", "Games");
         }
 
-        public static string GameDetail(UrlHelper url, int gameId){
-            return GetUrlHelper().Action("Play", "Play",
-                new { id = gameId}, null);            
-        }
-
         public static string GameCreate(UrlHelper url){
             return GetUrlHelper().Action("Create", "Game", null);
         }

@@ -12,10 +12,10 @@ public class GameModel : BaseModel
     [Required][Range(2, 30)]
     public virtual int MaxPlayers { get; set; }
     
-    [Required][Range(1,100)]
+    [Required][Range(1, 100)]
     public virtual int Rounds { get; set; }
-    
-    [Required]
+
+    [Required][Range(1, 60)]
     public virtual int StartsInMinutes { get; set; }
     
     [Required]

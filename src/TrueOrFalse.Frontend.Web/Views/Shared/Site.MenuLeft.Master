@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<BaseModel>" %>
+<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -27,11 +28,21 @@
                     <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
                 </section>
                 <section id="MasterMainColumn" class="">
-                    
-                    <div class="alert alert-success" role="alert" 
-                          style="margin-top: 2px; margin-bottom: 10px; padding: 7px;">
-                        In 25min 12sec startet das <a href="">Spiel</a>, an dem Du teilnimmst.
-                    </div>
+                    <% if(Model.IsPartOfGame){ %>
+                        <div class="alert alert-success" role="alert" 
+                             id="divMsgPartOfGame" style="margin-top: 2px; margin-bottom: 10px; padding: 7px;">
+                              In <span style="font-weight: bold" 
+                                    data-countdown-game="<%= Model.UpcomingGame.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) %>"
+                                    data-game-url="<%= Links.GamePlay(Url, Model.UpcomingGame.Id) %>"
+                                  ></span> 
+                              startet ein <a style="font-weight: bold" href="<%= Links.GamePlay(Url, Model.UpcomingGame.Id) %>">Spiel</a>, 
+                              <% if(Model.IsCreatorOfGame){ %>
+                                das du erstellt hast.
+                              <% } else { %>
+                                an dem Du teilnimmst.
+                              <% } %>
+                        </div>
+                    <% } %>
 
                     <%-- MAIN CONTENT--%>
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"  />

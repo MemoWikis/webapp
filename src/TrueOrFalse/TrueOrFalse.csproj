@@ -242,7 +242,7 @@
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
     <Compile Include="Domain\Game\Game.cs" />
     <Compile Include="Domain\Game\GameStatus.cs" />
-    <Compile Include="Domain\Game\Ops\IsCurrentlyInGame.cs" />
+    <Compile Include="Domain\Game\Ops\IsCurrentlyIn.cs" />
     <Compile Include="Domain\Game\Persistence\GameMap.cs" />
     <Compile Include="Domain\Game\Persistence\GameRepo.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />

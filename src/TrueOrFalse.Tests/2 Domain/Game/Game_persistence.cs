@@ -37,11 +37,11 @@ public class Game_persistence : BaseTest
         
         RecycleContainer();
 
-        var isInGame = Resolve<IsCurrentlyInGame>();
+        var isIn = Resolve<IsCurrentlyIn>();
 
-        Assert.That(isInGame.Yes(game1.Id, user1.Id), Is.True);
-        Assert.That(isInGame.Yes(game1.Id, user2.Id), Is.True);
-        Assert.That(isInGame.Yes(game1.Id, user3.Id), Is.False);
-        Assert.That(isInGame.Yes(game2.Id, user1.Id), Is.False);
+        Assert.That(isIn.Game(user1.Id).Yes, Is.True);
+        Assert.That(isIn.Game(user2.Id).Yes, Is.True);
+        Assert.That(isIn.Game(user3.Id).Yes, Is.False);
+        Assert.That(isIn.Game(user1.Id).Yes, Is.False);
     }
 }

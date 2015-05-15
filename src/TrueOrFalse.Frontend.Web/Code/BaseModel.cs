@@ -1,4 +1,6 @@
-﻿public class BaseModel : BaseResolve
+﻿using System;
+
+public class BaseModel : BaseResolve
 {
     public MenuLeftModel MenuLeftModel = new MenuLeftModel();
 
@@ -9,8 +11,25 @@
 
     public int UserId{ get { return _sessionUser.UserId; } }
 
+    public Game UpcomingGame;
+    public bool IsPartOfGame;
+    public bool IsCreatorOfGame;
+
     public BaseModel()
     {
-        
+        if (IsLoggedIn)
+        {
+            var isInGame = R<IsCurrentlyIn>().Game(UserId);
+            if (isInGame.Yes)
+            {
+                UpcomingGame = isInGame.Game;
+                IsPartOfGame = true;
+                IsCreatorOfGame = isInGame.IsCreator;
+            }
+            else
+                UpcomingGame = new Game();
+        }
+
+
     }
 }

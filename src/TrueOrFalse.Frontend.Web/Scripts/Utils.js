@@ -22,7 +22,14 @@
     };
 
     Utils.SetElementValue2 = function (elements, newValue) {
-        elements.text(newValue).animate({ opacity: 0.25 }, 100).animate({ opacity: 1.00 }, 800);
+        elements.text(newValue);
+        Utils.Hightlight(elements);
+    };
+
+    Utils.Hightlight = function (elements) {
+        elements.animate({ opacity: 0.25 }, 100).animate({ opacity: 1.00 }, 800);
+
+        return elements;
     };
 
     Utils.SetMenuPins = function (newAmount) {

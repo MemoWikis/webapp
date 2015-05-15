@@ -367,6 +367,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
+    <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
     <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
@@ -415,6 +416,7 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\vendor\jquery.countdown.js" />
     <Content Include="Scripts\vendor\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\SearchInTabs.js">
       <DependentUpon>SearchInTabs.ts</DependentUpon>

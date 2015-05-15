@@ -41,7 +41,9 @@ public class EditSetModel : BaseModel
     public Set Set;
 
     public EditSetModel(){
-        Username = new SessionUser().User.Name;
+        if(IsLoggedIn)
+            Username = new SessionUser().User.Name;
+
         ImageUrl_206px = SetImageSettings.Create(-1).GetUrl_206px_square().Url;    
     }
 

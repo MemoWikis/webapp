@@ -60,7 +60,7 @@
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in:
                                     </label>
-                                    <div class="col-xs-11">
+                                    <div class="col-md-11 col-xs-6">
                                         <div class="input-group">
                                             <input class="form-control" name="StartsInMinutes" value="10" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
@@ -75,7 +75,7 @@
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-users"></i> &nbsp; Anzahl Spieler:
                                     </label>
-                                    <div class="col-xs-10">
+                                    <div class="col-md-10 col-xs-6">
                                         <div class="input-group">
                                             <input class="form-control" name="MaxPlayers" value="10" style="height: 30px;" name="amountPlayers" />
                                             <span class="input-group-addon" style="height: 30px;">
@@ -93,7 +93,7 @@
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden
                                     </label>
-                                    <div class="col-xs-11">
+                                    <div class="col-md-11 col-xs-6">
                                         <div class="input-group">
                                             <input class="form-control" name="Rounds" value="15" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">

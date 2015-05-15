@@ -42,7 +42,7 @@
             $this.countdown(finalDate, event => {
                 $this.html(event.strftime('%-Mm %Ss'));
             });
-        });        
+        });
     }
 
     GetRow(gameId : number) {
