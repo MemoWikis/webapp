@@ -21,6 +21,9 @@ public class Game : DomainEntity
 
     public virtual bool AddPlayer(User user)
     {
+        if(Players == null)
+            Players = new List<User>();
+
         if (Players.Any(u => u.Id == user.Id))
             return false;
 

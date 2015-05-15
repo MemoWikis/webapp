@@ -7,5 +7,10 @@
 
     public bool IsLoggedIn{ get { return _sessionUser.IsLoggedIn; } }
 
-    public int UserId{ get { return _sessionUser.UserId;  }}
+    public int UserId{ get { return _sessionUser.UserId; } }
+
+    public BaseModel()
+    {
+        
+    }
 }

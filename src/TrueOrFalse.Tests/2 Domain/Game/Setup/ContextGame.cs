@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Utils;
 using TrueOrFalse.Tests;
 
 public class ContextGame : IRegisterAsInstancePerLifetime
