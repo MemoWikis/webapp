@@ -25,7 +25,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     var gameRepo = scope.Resolve<GameRepo>();
                     foreach (var game in gamesOverDue)
                     {
-                        if (game.Players.Count <= 1)
+                        if (game.Players.Count < 1)
                         {
                             game.Status = GameStatus.NeverStarted;
                             gameRepo.Update(game);
@@ -36,8 +36,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             game.Status = GameStatus.InProgress;
                             gameRepo.Update(game);
 
-                            //redirect all players to play page
-                            //inform player
+                            //game started event!
+
                         }
                     }
 

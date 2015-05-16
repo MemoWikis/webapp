@@ -37,7 +37,7 @@ public class GameController : BaseController
         game.Comment = gameModel.Comment;
         game.Creator = _sessionUser.User;
         game.Status = GameStatus.Ready;
-        game.Rounds = gameModel.Rounds;
+        game.RoundCount = gameModel.Rounds;
  
         R<GameRepo>().Create(game);
 

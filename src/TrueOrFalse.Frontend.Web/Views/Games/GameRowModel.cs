@@ -29,6 +29,6 @@ public class GameRowModel : BaseModel
         Sets = game.Sets;
         Status = game.Status;
         WillStartAt = game.WillStartAt;
-        Rounds = game.Rounds;
+        Rounds = game.RoundCount;
     }
 }

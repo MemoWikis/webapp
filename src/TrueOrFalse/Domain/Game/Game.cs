@@ -12,11 +12,11 @@ public class Game : DomainEntity
 
     public virtual int MaxPlayers { get; set; }
 
-    public virtual int Rounds { get; set; }
+    public virtual int RoundCount { get; set; }
+    public virtual IList<GameRound> Rounds { get; set; } 
 
     public virtual IList<Set> Sets { get; set; }
     public virtual GameStatus Status { get; set; }
-
     public virtual string Comment { get; set; }
 
     public virtual bool AddPlayer(User user)
@@ -29,5 +29,20 @@ public class Game : DomainEntity
 
         Players.Add(user);
         return true;
+    }
+
+    public Game()
+    {
+        Rounds = new List<GameRound>();
+    }
+
+    public virtual Game AddRound(GameRound round)
+    {
+        round.Status = GameRoundStatus.Open;
+        round.DateCreated = DateTime.Now;
+        round.DateModified = DateTime.Now;
+        Rounds.Add(round);
+
+        return this;
     }
 }

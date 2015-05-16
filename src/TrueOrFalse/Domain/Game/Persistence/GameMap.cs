@@ -8,7 +8,7 @@ public class GameMap : ClassMap<Game>
 
         Map(x => x.WillStartAt);
         Map(x => x.MaxPlayers);
-        Map(x => x.Rounds);
+        Map(x => x.RoundCount);
         References(x => x.Creator);
 
         HasManyToMany(x => x.Players)
@@ -17,6 +17,8 @@ public class GameMap : ClassMap<Game>
         HasManyToMany(x => x.Sets)
             .Table("games_to_sets")
             .Cascade.SaveUpdate();
+        
+        HasMany(x => x.Rounds).Cascade.AllDeleteOrphan();
 
         Map(x => x.Status);
         Map(x => x.Comment);
