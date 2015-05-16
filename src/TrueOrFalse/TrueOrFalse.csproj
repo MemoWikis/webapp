@@ -115,6 +115,7 @@
     <Reference Include="Microsoft.Owin.Security">
       <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -205,6 +206,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -243,6 +245,7 @@
     <Compile Include="Domain\Game\Game.cs" />
     <Compile Include="Domain\Game\GameRound.cs" />
     <Compile Include="Domain\Game\GameStatus.cs" />
+    <Compile Include="Domain\Game\Ops\AddRoundsToGame.cs" />
     <Compile Include="Domain\Game\Ops\IsCurrentlyIn.cs" />
     <Compile Include="Domain\Game\Persistence\GameMap.cs" />
     <Compile Include="Domain\Game\Persistence\GameRepo.cs" />
@@ -426,6 +429,7 @@
     <Compile Include="Infrastructure\Bus\BusMgmt.cs" />
     <Compile Include="Infrastructure\Bus\MessageTypes\RecalcProbabilitiesMsg.cs" />
     <Compile Include="Infrastructure\ExecAsync.cs" />
+    <Compile Include="Infrastructure\ListExtensions.cs" />
     <Compile Include="Infrastructure\Logging\Logger.cs" />
     <Compile Include="Infrastructure\Logging\Loggly.cs" />
     <Compile Include="Infrastructure\Login\MEMuchOCookie.cs" />
