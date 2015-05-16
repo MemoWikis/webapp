@@ -1,10 +1,14 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using System;
+using Seedworks.Lib.Persistence;
 
 public class GameRound : DomainEntity
 {
     public virtual GameRoundStatus Status { get; set; }
     public virtual Set Set { get; set; }
     public virtual Question Question { get; set; }
+
+    public virtual DateTime? StartTime { get; set; }
+    public virtual DateTime? EndTime { get; set; }
 
     public virtual Game Game { get; set; }
 }

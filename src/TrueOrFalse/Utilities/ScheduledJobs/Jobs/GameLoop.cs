@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Autofac;
 using NHibernate;
@@ -16,30 +17,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
                 {
-                    var gamesOverDue = scope.Resolve<ISession>()
-                        .QueryOver<Game>()
-                        .Where(g => g.Status == GameStatus.Ready)
-                        .And(g => g.WillStartAt < DateTime.Now.AddSeconds(3))
-                        .List<Game>();
-
                     var gameRepo = scope.Resolve<GameRepo>();
-                    foreach (var game in gamesOverDue)
-                    {
-                        if (game.Players.Count < 1)
-                        {
-                            game.Status = GameStatus.NeverStarted;
-                            gameRepo.Update(game);
-                            //send messages
-                        }
-                        else
-                        {
-                            game.Status = GameStatus.InProgress;
-                            gameRepo.Update(game);
 
-                            //game started event!
-
-                        }
-                    }
+                    ProcessOverdueGames(gameRepo);
+                    ProcessRunningGames(gameRepo);
 
                     gameRepo.Flush();
                     Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);
@@ -49,6 +30,38 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 Logg.r().Error(e, "Job error");
                 (new RollbarClient()).SendException(e);
+            }
+        }
+
+        private static void ProcessOverdueGames(GameRepo gameRepo)
+        {
+            var gamesOverDue = gameRepo.GetOverdue();
+
+            foreach (var game in gamesOverDue)
+            {
+                if (game.Players.Count < 1)
+                {
+                    game.Status = GameStatus.NeverStarted;
+                    gameRepo.Update(game);
+                }
+                else
+                {
+                    game.Status = GameStatus.InProgress;
+                    Sl.R<AddRoundsToGame>().Run(game);
+                    gameRepo.Update(game);
+
+                    //game started event!
+                }
+            }
+        }
+
+        private static void ProcessRunningGames(GameRepo gameRepo)
+        {
+            var gamesRunning = gameRepo.GetRunningGames();
+
+            foreach (var game in gamesRunning)
+            {
+                //game.Rounds.
             }
         }
     }

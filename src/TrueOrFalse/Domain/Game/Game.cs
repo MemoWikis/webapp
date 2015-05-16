@@ -45,4 +45,26 @@ public class Game : DomainEntity
 
         return this;
     }
+
+    public virtual Game NextRound()
+    {
+        if(Rounds.Count == 0)
+            throw new Exception("Can not go to next round, game " + Id + " has no rounds.");
+
+        if (Rounds.All(r => r.Status != GameRoundStatus.Current)){
+            Rounds[0].Status = GameRoundStatus.Current;
+            return this;
+        }
+
+        var index = Rounds.IndexOf(x => x.Status == GameRoundStatus.Current);
+
+        Rounds[index].Status = GameRoundStatus.Completed;
+
+        if (index == Rounds.Count - 1)
+            return this;
+        
+        Rounds[index + 1].Status = GameRoundStatus.Current;
+
+        return this;
+    }
 }
