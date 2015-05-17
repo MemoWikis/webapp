@@ -28,6 +28,19 @@ public class PlayHub : BaseHub
         });
     }
 
+    public void NextRound(int gameId)
+    {
+        var gameRepo = _sl.Resolve<GameRepo>();
+        var game = gameRepo.GetById(gameId);
+
+        var currentRound = game.GetCurrentRound();
+
+        Clients.All.NextRound(new
+        {
+            GameId = gameId   
+        });
+    }
+
     public override Task OnConnected()
     {
         return base.OnConnected();

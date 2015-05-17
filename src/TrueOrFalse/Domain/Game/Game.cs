@@ -41,6 +41,9 @@ public class Game : DomainEntity
         round.Status = GameRoundStatus.Open;
         round.DateCreated = DateTime.Now;
         round.DateModified = DateTime.Now;
+
+        round.Number = Rounds.Count() + 1;
+
         Rounds.Add(round);
 
         return this;
@@ -53,18 +56,31 @@ public class Game : DomainEntity
 
         if (Rounds.All(r => r.Status != GameRoundStatus.Current)){
             Rounds[0].Status = GameRoundStatus.Current;
+            Rounds[0].StartTime = DateTime.Now;
             return this;
         }
 
         var index = Rounds.IndexOf(x => x.Status == GameRoundStatus.Current);
 
         Rounds[index].Status = GameRoundStatus.Completed;
+        Rounds[index].EndTime = DateTime.Now;
 
         if (index == Rounds.Count - 1)
             return this;
         
         Rounds[index + 1].Status = GameRoundStatus.Current;
+        Rounds[index + 1].StartTime = DateTime.Now;
 
         return this;
+    }
+
+    public virtual GameRound GetCurrentRound()
+    {
+        return Rounds.FirstOrDefault(x => x.Status == GameRoundStatus.Current);
+    }
+
+    public virtual bool IsLastRoundCompleted()
+    {
+        return Rounds.Last().Status == GameRoundStatus.Completed;
     }
 }

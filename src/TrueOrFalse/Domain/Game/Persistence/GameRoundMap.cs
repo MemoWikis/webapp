@@ -12,6 +12,11 @@ public class GameRoundMap : ClassMap<GameRound>
 
         Map(x => x.Status);
 
+        Map(x => x.Number);
+
+        Map(x => x.StartTime);
+        Map(x => x.EndTime);
+
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
     }

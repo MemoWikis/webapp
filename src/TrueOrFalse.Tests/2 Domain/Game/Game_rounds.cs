@@ -67,9 +67,12 @@ public class Game_rounds : BaseTest
         game.NextRound();
         Assert.That(game.Rounds[2].Status == GameRoundStatus.Current, Is.True);
         game.NextRound();
+        Assert.That(game.IsLastRoundCompleted(), Is.False);
         Assert.That(game.Rounds[3].Status == GameRoundStatus.Current, Is.True);
+        Assert.That(game.IsLastRoundCompleted(), Is.False);
         game.NextRound();
         Assert.That(game.Rounds[3].Status == GameRoundStatus.Current, Is.False);
         Assert.That(game.Rounds.Count(x => x.Status == GameRoundStatus.Current), Is.EqualTo(0));
+        Assert.That(game.IsLastRoundCompleted(), Is.True);
     }
 }

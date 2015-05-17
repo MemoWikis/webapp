@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using Autofac;
-using NHibernate;
 using Quartz;
 using RollbarSharp;
 
@@ -48,9 +46,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     game.Status = GameStatus.InProgress;
                     Sl.R<AddRoundsToGame>().Run(game);
+                    game.NextRound();
                     gameRepo.Update(game);
 
-                    //game started event!
+                    //EVENT: game started
                 }
             }
         }
@@ -61,7 +60,20 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             foreach (var game in gamesRunning)
             {
-                //game.Rounds.
+                if (game.IsLastRoundCompleted())
+                {
+                    game.Status = GameStatus.Completed;
+                    gameRepo.Update(game);
+                    continue;
+                }
+
+                var currentRound = game.GetCurrentRound();
+                if (currentRound.IsOverdue())
+                {
+                    game.NextRound();
+
+                    //EVENT: next round
+                }
             }
         }
     }

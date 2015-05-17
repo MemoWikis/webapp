@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 
 public class GameRound : DomainEntity
@@ -10,7 +11,15 @@ public class GameRound : DomainEntity
     public virtual DateTime? StartTime { get; set; }
     public virtual DateTime? EndTime { get; set; }
 
+    public virtual int Number { get; set; }
+
     public virtual Game Game { get; set; }
+
+    public virtual bool IsOverdue()
+    {
+        Debug.Assert(StartTime != null, "StartTime != null");
+        return ((DateTime)StartTime).AddSeconds(20) < DateTime.Now;
+    }
 }
 
 public enum GameRoundStatus
