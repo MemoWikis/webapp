@@ -26,6 +26,11 @@ public class Settings
     public static string Environment(){ return OverwrittenConfig.ValueString("environment"); }
     public static string LogglyKey(){ return OverwrittenConfig.ValueString("logglyKey"); }
     public static string BetaCode(){ return OverwrittenConfig.ValueString("betaCode"); }
+
+    public static string SignalrUrl() { return OverwrittenConfig.ValueString("signalrUrl"); }
+    public static string SignalrUser() { return OverwrittenConfig.ValueString("signalrUser"); }
+    public static string SignalrPassword() { return OverwrittenConfig.ValueString("signalrPassword"); }
+
     public static string ConnectionString()
     {
         var result = OverwrittenConfig.Value("connectionString");

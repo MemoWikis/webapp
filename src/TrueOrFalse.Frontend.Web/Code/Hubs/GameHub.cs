@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
 
-public class PlayHub : BaseHub
+public class GameHub : BaseHub
 {
-    public PlayHub(ILifetimeScope lifetimeScope) : base(lifetimeScope) { }
+    public GameHub(ILifetimeScope lifetimeScope) : base(lifetimeScope) { }
 
     public void JoinGame(int gameId)
     {
@@ -35,10 +35,22 @@ public class PlayHub : BaseHub
 
         var currentRound = game.GetCurrentRound();
 
+        if (currentRound == null)
+            return;
+
         Clients.All.NextRound(new
         {
-            GameId = gameId   
+            GameId = gameId,
+            Round = currentRound
         });
+    }
+
+    public void Completed(int gameId)
+    {
+        Clients.All.Completed(new
+        {
+            GameId = gameId,
+        });        
     }
 
     public override Task OnConnected()

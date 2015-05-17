@@ -99,6 +99,9 @@
     <Reference Include="MarkdownSharp">
       <HintPath>..\libs\MarkdownSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
@@ -244,6 +247,7 @@
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
     <Compile Include="Domain\Game\Game.cs" />
     <Compile Include="Domain\Game\GameRound.cs" />
+    <Compile Include="Domain\Game\Ops\GameHubConnection.cs" />
     <Compile Include="Domain\Game\GameStatus.cs" />
     <Compile Include="Domain\Game\Ops\AddRoundsToGame.cs" />
     <Compile Include="Domain\Game\Ops\IsCurrentlyIn.cs" />

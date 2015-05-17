@@ -88,9 +88,19 @@ public class WelcomeController : BaseController
         return View(loginModel);
     }
 
-    //For Tool.Muse
+    //For Tool.Muse and SignalRClients
     public JsonResult RemoteLogin(string userName, string password)
     {
+        if (userName == Settings.SignalrUser() && password == Settings.SignalrPassword())
+        {
+            _sessionUser.Login(new User{
+                Id = -1,
+                Name = "SIGNALR-LOGIN",
+                IsInstallationAdmin = false
+            });
+            return new JsonResult { Data = new { UserId = -1 } };    
+        }
+
         var userId = -1;
         if (_credentialsAreValid.Yes(userName, password))
         {

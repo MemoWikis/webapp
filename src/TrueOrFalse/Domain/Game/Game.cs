@@ -54,9 +54,11 @@ public class Game : DomainEntity
         if(Rounds.Count == 0)
             throw new Exception("Can not go to next round, game " + Id + " has no rounds.");
 
-        if (Rounds.All(r => r.Status != GameRoundStatus.Current)){
-            Rounds[0].Status = GameRoundStatus.Current;
-            Rounds[0].StartTime = DateTime.Now;
+        if (Rounds.All(r => r.Status != GameRoundStatus.Current))
+        {
+            var nextOpenRound = GetNextOpenRund();
+            nextOpenRound.Status = GameRoundStatus.Current;
+            nextOpenRound.StartTime = DateTime.Now;
             return this;
         }
 
@@ -72,6 +74,11 @@ public class Game : DomainEntity
         Rounds[index + 1].StartTime = DateTime.Now;
 
         return this;
+    }
+
+    private GameRound GetNextOpenRund()
+    {
+        return Rounds.FirstOrDefault(x => x.Status == GameRoundStatus.Open);
     }
 
     public virtual GameRound GetCurrentRound()

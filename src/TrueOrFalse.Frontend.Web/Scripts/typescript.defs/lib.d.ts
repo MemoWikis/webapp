@@ -27,5 +27,5 @@ interface Window {
 
 interface SignalR {
     brainWavesHub: any;
-    playHub: any;
+    gameHub: any;
 }

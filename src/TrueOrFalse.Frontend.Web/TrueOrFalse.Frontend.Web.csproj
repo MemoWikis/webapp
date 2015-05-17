@@ -267,7 +267,7 @@
     <Compile Include="Code\BaseUtil.cs" />
     <Compile Include="Code\Hubs\BaseHub.cs" />
     <Compile Include="Code\Hubs\BrainWavesHub.cs" />
-    <Compile Include="Code\Hubs\PlayHub.cs" />
+    <Compile Include="Code\Hubs\GameHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
@@ -371,6 +371,7 @@
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
     <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
+    <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
@@ -1596,7 +1597,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Style\fontAwesome\" />
-    <Folder Include="Views\Games\Play\Js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

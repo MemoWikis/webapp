@@ -8,14 +8,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class GameLoop : IJob, IRegisterAsInstancePerLifetime
     {
+        private GameHubConnection _gameHubConnection;
+
         public void Execute(IJobExecutionContext context)
-        {
+        { 
             var watch = Stopwatch.StartNew();
             try
             {
                 using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
                 {
                     var gameRepo = scope.Resolve<GameRepo>();
+                    _gameHubConnection = scope.Resolve<GameHubConnection>();
 
                     ProcessOverdueGames(gameRepo);
                     ProcessRunningGames(gameRepo);
@@ -27,11 +30,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             catch (Exception e)
             {
                 Logg.r().Error(e, "Job error");
-                (new RollbarClient()).SendException(e);
+                //(new RollbarClient()).SendException(e);
             }
         }
 
-        private static void ProcessOverdueGames(GameRepo gameRepo)
+        private void ProcessOverdueGames(GameRepo gameRepo)
         {
             var gamesOverDue = gameRepo.GetOverdue();
 
@@ -48,13 +51,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     Sl.R<AddRoundsToGame>().Run(game);
                     game.NextRound();
                     gameRepo.Update(game);
-
+                    
                     //EVENT: game started
                 }
             }
         }
 
-        private static void ProcessRunningGames(GameRepo gameRepo)
+        private void ProcessRunningGames(GameRepo gameRepo)
         {
             var gamesRunning = gameRepo.GetRunningGames();
 
@@ -68,11 +71,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 }
 
                 var currentRound = game.GetCurrentRound();
+                if (currentRound == null)
+                {
+                    game.NextRound();
+                    continue;
+                }
+
                 if (currentRound.IsOverdue())
                 {
                     game.NextRound();
-
-                    //EVENT: next round
+                    _gameHubConnection.SendNextRound(game.Id);
                 }
             }
         }

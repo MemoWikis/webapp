@@ -9,13 +9,17 @@
         this.InitializeCountdown();
         this.InitializeButtons();
 
-        this._hub = $.connection.playHub;
+        this._hub = $.connection.gameHub;
 
         if (this._hub == null)
             return;
 
         this._hub.client.JoinedGame = (player: Player) => {
             me.GetRow(player.GameId).AddPlayer(player.Name, player.Id);
+        };
+
+        this._hub.client.NextRound = (game: Game) => {
+            window.console.log(game);
         };
 
         $.connection.hub.start(() => {
