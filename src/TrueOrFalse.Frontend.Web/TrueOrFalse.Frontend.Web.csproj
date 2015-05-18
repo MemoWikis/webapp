@@ -464,6 +464,9 @@
     <Content Include="Views\Games\Play\Game.css">
       <DependentUpon>Game.less</DependentUpon>
     </Content>
+    <Content Include="Views\Games\Play\Js\Play.js">
+      <DependentUpon>Play.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Games\Play\Play.aspx" />
     <Content Include="Views\Help\Willkommen.aspx" />
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
@@ -1537,6 +1540,9 @@
     </Content>
     <Content Include="Views\Games\Js\GameRow.js.map">
       <DependentUpon>GameRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\Play.js.map">
+      <DependentUpon>Play.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

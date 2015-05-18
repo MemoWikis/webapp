@@ -17,6 +17,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
                 {
+                    Settings.UseWebConfig = true;
+
                     var gameRepo = scope.Resolve<GameRepo>();
                     _gameHubConnection = scope.Resolve<GameHubConnection>();
 

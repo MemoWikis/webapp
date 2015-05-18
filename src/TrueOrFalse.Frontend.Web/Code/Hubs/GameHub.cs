@@ -30,19 +30,30 @@ public class GameHub : BaseHub
 
     public void NextRound(int gameId)
     {
-        var gameRepo = _sl.Resolve<GameRepo>();
-        var game = gameRepo.GetById(gameId);
-
-        var currentRound = game.GetCurrentRound();
-
-        if (currentRound == null)
-            return;
-
-        Clients.All.NextRound(new
+        try
         {
-            GameId = gameId,
-            Round = currentRound
-        });
+            var gameRepo = _sl.Resolve<GameRepo>();
+            var game = gameRepo.GetById(gameId);
+
+            var currentRound = game.GetCurrentRound();
+
+            Logg.r().Information("GameHub: Send new round [A]");
+
+            if (currentRound == null)
+                return;
+
+            Logg.r().Information("GameHub: Send new round [B]");
+
+            Clients.All.NextRound(new
+            {
+                GameId = gameId,
+                Round = currentRound.Number
+            });
+        }
+        catch(Exception e)
+        {
+            Logg.r().Error(e, "Error sending from hub");
+        }
     }
 
     public void Completed(int gameId)

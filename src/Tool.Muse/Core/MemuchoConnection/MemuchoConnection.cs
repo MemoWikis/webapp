@@ -85,7 +85,7 @@ namespace Tool.Muse
                     type = JsonConvert.DeserializeAnonymousType(responseText, type);
                     Log.Info("Remotly logged in with user id: " + type.UserId);
                     _userId = type.UserId;
-                }                
+                }
 
                 Log.Info("SignalR", "Auth Response.StatusCode: " + response.StatusCode);
                 authCookie = response.Cookies[FormsAuthentication.FormsCookieName];

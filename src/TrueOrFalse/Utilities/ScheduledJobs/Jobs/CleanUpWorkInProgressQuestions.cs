@@ -12,6 +12,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             try
             {
+                Settings.UseWebConfig = true;
+
                 Logg.r().Information("Job start: {Job}", "CleanUpWorkInProgressQuestions ");
 
                 using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
