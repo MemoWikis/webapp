@@ -35,7 +35,7 @@ namespace TrueOrFalse
         {
             DropAllTables();
             new SchemaExport(_configuration)
-                .Create(script: false, export: true);
+                .Create(useStdOut: false, execute: true);
         }
 
         private static void DropAllTables()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
@@ -45,14 +46,14 @@ namespace TrueOrFalse.Updates
 
         public static void ReloadAllSchemas(bool testSchemas = false)
         {
-            _coreNames.ForEach(c => CopySchema(c + (testSchemas ? "Test" : "")));
-            _coreNames.ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
+            _coreNames.ToList().ForEach(c => CopySchema(c + (testSchemas ? "Test" : "")));
+            _coreNames.ToList().ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
         }
 
         public static void ReloadAllConfigs(bool testSchemas = false)
         {
-            _coreNames.ForEach(c => CopyConfig(c + (testSchemas ? "Test" : "")));
-            _coreNames.ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
+            _coreNames.ToList().ForEach(c => CopyConfig(c + (testSchemas ? "Test" : "")));
+            _coreNames.ToList().ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
         }
 
         public static void RefreshSchema(string coreName){

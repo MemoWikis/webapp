@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
 using NHibernate.Linq;
+using NHibernate.Util;
 using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;

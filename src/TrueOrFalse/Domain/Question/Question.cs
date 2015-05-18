@@ -92,7 +92,7 @@ public class Question : DomainEntity
         var removedReferences = References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
         var existingReferenes = references.Where(r => References.Any(r2 => r2.Id == r.Id)).ToArray();
 
-        newReferences.ForEach(r => { 
+        newReferences.ToList().ForEach(r => { 
             r.DateCreated = DateTime.Now;
             r.DateModified = DateTime.Now;
         });

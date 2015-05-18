@@ -30,7 +30,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             catch (Exception e)
             {
                 Logg.r().Error(e, "Job error");
-                //(new RollbarClient()).SendException(e);
+                (new RollbarClient()).SendException(e);
             }
         }
 
