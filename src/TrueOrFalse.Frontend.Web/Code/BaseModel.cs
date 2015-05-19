@@ -12,7 +12,7 @@ public class BaseModel : BaseResolve
     public int UserId{ get { return _sessionUser.UserId; } }
 
     public Game UpcomingGame;
-    public bool IsPartOfGame;
+    public bool IsInGame;
     public bool IsCreatorOfGame;
 
     public BaseModel()
@@ -23,7 +23,7 @@ public class BaseModel : BaseResolve
             if (isInGame.Yes)
             {
                 UpcomingGame = isInGame.Game;
-                IsPartOfGame = true;
+                IsInGame = true;
                 IsCreatorOfGame = isInGame.IsCreator;
             }
             else

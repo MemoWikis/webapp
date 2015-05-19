@@ -1,28 +1,17 @@
 ﻿var Play = (function () {
     function Play() {
-        this._hub = $.connection.gameHub;
-        this.InitCountDown();
+        this.Hub = $.connection.gameHub;
 
-        if (this._hub == null)
+        this._gameReady = new GameReady();
+        this._gameInProgressPlayer = new GameInProgressPlayer(this);
+
+        if (this.Hub == null)
             return;
-
-        this._hub.client.NextRound = function (game) {
-            window.console.log(game);
-        };
 
         $.connection.hub.start(function () {
             window.console.log("connection started:");
         });
     }
-    Play.prototype.InitCountDown = function () {
-        $('[data-willStartIn]').each(function () {
-            var $this = $(this), finalDate = $(this).data('willStartIn');
-
-            $this.countdown(finalDate, function (event) {
-                $this.html(event.strftime('%-Mm %Ss'));
-            });
-        });
-    };
     return Play;
 })();
 

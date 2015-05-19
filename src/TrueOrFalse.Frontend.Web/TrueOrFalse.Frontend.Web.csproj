@@ -381,7 +381,9 @@
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
     <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
+    <TypeScriptCompile Include="Views\Games\Play\Js\GameInProgressPlayer.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
+    <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />

@@ -1,32 +1,23 @@
 ﻿class Play {
 
-    private _hub: any;
+    Hub: any;
+
+    private _gameReady: GameReady;
+    private _gameInProgressPlayer: GameInProgressPlayer;
 
     constructor() {
 
-        this._hub = $.connection.gameHub;
-        this.InitCountDown();
+        this.Hub = $.connection.gameHub;
 
-        if (this._hub == null)
+        this._gameReady = new GameReady();
+        this._gameInProgressPlayer = new GameInProgressPlayer(this);
+
+        if (this.Hub == null)
             return;
-
-        this._hub.client.NextRound = (game: Game) => {
-            window.console.log(game);
-        };
 
         $.connection.hub.start(() => {
             window.console.log("connection started:");
         });        
-    }
-
-    public InitCountDown() {
-        $('[data-willStartIn]').each(function() {
-            var $this = $(this), finalDate = $(this).data('willStartIn');
-
-            $this.countdown(finalDate, event => {
-                $this.html(event.strftime('%-Mm %Ss'));
-            });
-        });
     }
 }
 

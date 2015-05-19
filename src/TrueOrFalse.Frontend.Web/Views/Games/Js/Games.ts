@@ -18,7 +18,7 @@
             me.GetRow(player.GameId).AddPlayer(player.Name, player.Id);
         };
 
-        this._hub.client.NextRound = (game: Game) => {
+        this._hub.client.NextRound = (game: Play) => {
             window.console.log(game);
         };
 
