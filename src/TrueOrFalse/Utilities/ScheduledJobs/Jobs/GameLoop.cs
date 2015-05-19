@@ -20,13 +20,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     Settings.UseWebConfig = true;
 
                     var gameRepo = scope.Resolve<GameRepo>();
-                    _gameHubConnection = scope.Resolve<GameHubConnection>();
+                    using (_gameHubConnection = scope.Resolve<GameHubConnection>())
+                    {
+                        ProcessOverdueGames(gameRepo);
+                        ProcessRunningGames(gameRepo);
 
-                    ProcessOverdueGames(gameRepo);
-                    ProcessRunningGames(gameRepo);
-
-                    gameRepo.Flush();
-                    Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);
+                        gameRepo.Flush();
+                        Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);                        
+                    }
                 }
             }
             catch (Exception e)

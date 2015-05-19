@@ -6,7 +6,7 @@ using System.Web.Security;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
 
-public class GameHubConnection : IRegisterAsInstancePerLifetime
+public class GameHubConnection : IRegisterAsInstancePerLifetime, IDisposable
 {
     private HubConnection _hubConnection;
     private IHubProxy _hubProxy;
@@ -51,12 +51,12 @@ public class GameHubConnection : IRegisterAsInstancePerLifetime
 
     public void SendNextRound(int gameId)
     {
-        Send(() => { _hubProxy.Invoke("NextRound", gameId); }); 
-}
+        Send(() => { _hubProxy.Invoke("NextRound", gameId).Wait(); }); 
+    }
 
     public void SendCompleted(int gameId)
     {   
-        Send(()=> { _hubProxy.Invoke("Completed", gameId); }); 
+        Send(() => { _hubProxy.Invoke("Completed", gameId).Wait(); }); 
     }
 
     public void Send(Action action)
@@ -104,5 +104,11 @@ public class GameHubConnection : IRegisterAsInstancePerLifetime
         }
 
         return new Tuple<bool, Cookie>(authCookie != null, authCookie);
+    }
+
+    public void Dispose()
+    {
+        if(_hubConnection != null)
+            _hubConnection.Dispose();
     }
 }
