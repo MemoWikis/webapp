@@ -1,4 +1,12 @@
 ﻿public class PlayModel : BaseModel
 {
-    public int GameId;
+    public Game Game;
+
+    public int RoundCount;
+
+    public PlayModel(Game game)
+    {
+        Game = game;
+        RoundCount = game.RoundCount;
+    }
 }

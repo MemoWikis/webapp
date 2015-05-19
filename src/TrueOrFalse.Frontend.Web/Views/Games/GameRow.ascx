@@ -21,7 +21,7 @@
                             Wird gerade gespielt
                         <% }else{ %>
                             Start spät. in
-                            <span data-countdown="<%= Model.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) %>"></span>                
+                            <span data-countdown="<%= Model.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) %>"></span>
                         <% } %>
                     </span>
                 </div>

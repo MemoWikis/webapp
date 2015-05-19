@@ -278,8 +278,14 @@
     <Compile Include="Views\Games\Edit\GameModel.cs" />
     <Compile Include="Views\Games\Edit\GameController.cs" />
     <Compile Include="Views\Games\GameRowModel.cs" />
-    <Compile Include="Views\Games\Play\PlayController.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameNeverStarted.cs" />
     <Compile Include="Views\Games\Play\PlayModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameCompleted.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameInProgressPlayer.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameInProgressWatch.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameReady.cs" />
+    <Compile Include="Views\Games\Play\PlayController.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
     <Compile Include="Views\Games\GamesModel.cs" />
@@ -461,8 +467,13 @@
     <Content Include="Views\Games\Js\Games.js">
       <DependentUpon>Games.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Games\Play\Game.css">
-      <DependentUpon>Game.less</DependentUpon>
+    <Content Include="Views\Games\Play\BodyControls\GameCompleted.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameInProgressWatch.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameInProgressPlayer.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameNeverStarted.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameReady.ascx" />
+    <Content Include="Views\Games\Play\Play.css">
+      <DependentUpon>Play.less</DependentUpon>
     </Content>
     <Content Include="Views\Games\Play\Js\Play.js">
       <DependentUpon>Play.ts</DependentUpon>
@@ -1531,9 +1542,9 @@
     <Content Include="Views\Games\Games.css.map">
       <DependentUpon>Games.css</DependentUpon>
     </Content>
-    <Content Include="Views\Games\Play\Game.less" />
-    <Content Include="Views\Games\Play\Game.css.map">
-      <DependentUpon>Game.css</DependentUpon>
+    <Content Include="Views\Games\Play\Play.less" />
+    <Content Include="Views\Games\Play\Play.css.map">
+      <DependentUpon>Play.css</DependentUpon>
     </Content>
     <Content Include="Views\Games\Js\Games.js.map">
       <DependentUpon>Games.ts</DependentUpon>

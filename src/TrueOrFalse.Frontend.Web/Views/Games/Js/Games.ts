@@ -33,7 +33,8 @@
         $("[data-joinGameId]").click(function(e){
             e.preventDefault();
 
-            var gameId = +$(this).attr("data-joinGameId");            
+            var gameId = +$(this).attr("data-joinGameId");
+            window.console.log(gameId);
             me._hub.server.joinGame(gameId).done(() => {}).fail(error => {
                 window.alert(error);
             });
