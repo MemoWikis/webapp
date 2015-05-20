@@ -30,19 +30,21 @@
         </div>
     </div>        
 </div>
-    
+
+<div id="divGameBody">
 <%
     const string path = "~/Views/Games/Play/BodyControls/";
     switch (Model.Game.Status)
     {
         case GameStatus.InProgress:
-            Html.RenderPartial(path + "GameInProgressPlayer.ascx", new GameInProgressPlayer(Model.Game)); break;
+            Html.RenderPartial(path + "GameInProgressPlayer.ascx", new GameInProgressPlayerModel(Model.Game)); break;
         case GameStatus.Completed:
-            Html.RenderPartial(path + "GameCompleted.ascx", new GameCompleted(Model.Game)); break;
+            Html.RenderPartial(path + "GameCompleted.ascx", new GameCompletedModel(Model.Game)); break;
         case GameStatus.NeverStarted:
-            Html.RenderPartial(path + "GameNeverStarted.ascx", new GameNeverStarted(Model.Game)); break;
+            Html.RenderPartial(path + "GameNeverStarted.ascx", new GameNeverStartedModel(Model.Game)); break;
         case GameStatus.Ready:
-            Html.RenderPartial(path + "GameReady.ascx", new GameReady(Model.Game)); break;
+            Html.RenderPartial(path + "GameReady.ascx", new GameReadyModel(Model.Game)); break;
     }    
- %>    
+ %>  
+</div>    
 </asp:Content>

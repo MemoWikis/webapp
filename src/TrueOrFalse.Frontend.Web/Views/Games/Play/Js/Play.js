@@ -1,17 +1,30 @@
 ﻿var Play = (function () {
     function Play() {
+        var _this = this;
         this.Hub = $.connection.gameHub;
 
         this._gameReady = new GameReady();
         this._gameInProgressPlayer = new GameInProgressPlayer(this);
 
-        if (this.Hub == null)
-            return;
+        this.Hub.client.Started = function (game) {
+            $.get("/Play/RenderGameInProgressPlayer/?gameId=" + game.GameId, function (htmlResult) {
+                _this.ChangeBody(htmlResult);
+            });
+        };
+
+        this.Hub.client.Completed = function (game) {
+            $.get("/Play/RenderGameCompleted/?gameId=" + game.GameId, function (htmlResult) {
+                _this.ChangeBody(htmlResult);
+            });
+        };
 
         $.connection.hub.start(function () {
             window.console.log("connection started:");
         });
     }
+    Play.prototype.ChangeBody = function (html) {
+        $("#divGameBody").animate({ opacity: 0.00 }, 30).empty().append(html).animate({ opacity: 1.00 }, 300);
+    };
     return Play;
 })();
 

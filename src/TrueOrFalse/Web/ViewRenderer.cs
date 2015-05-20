@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Web;
+﻿using System.IO;
 using System.Web.Mvc;
-using System.Web.Routing;
 
 /// <summary>
 /// Copied from here: http://weblog.west-wind.com/posts/2012/May/30/Rendering-ASPNET-MVC-Views-to-String

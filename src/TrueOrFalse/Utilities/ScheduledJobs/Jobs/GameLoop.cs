@@ -59,11 +59,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         gameRepo.Update(game);                        
                         gameRepo.Flush();
 
-                        _gameHubConnection.SendNextRound(game.Id);
+                        _gameHubConnection.SendStart(game.Id);
                     }
-                    
-                    
-                    //EVENT: game started
                 }
             }
         }
@@ -78,6 +75,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     game.Status = GameStatus.Completed;
                     gameRepo.Update(game);
+                    gameRepo.Flush();
+                    _gameHubConnection.SendCompleted(game.Id);
                     continue;
                 }
 

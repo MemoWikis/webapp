@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameNeverStarted>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameNeverStartedModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <h3>Das Spiel wurde nicht gestartet</h3>

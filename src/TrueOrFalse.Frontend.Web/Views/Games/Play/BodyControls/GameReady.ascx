@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameReady>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameReadyModel>" %>
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 

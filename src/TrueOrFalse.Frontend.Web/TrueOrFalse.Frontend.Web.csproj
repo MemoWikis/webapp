@@ -278,12 +278,12 @@
     <Compile Include="Views\Games\Edit\GameModel.cs" />
     <Compile Include="Views\Games\Edit\GameController.cs" />
     <Compile Include="Views\Games\GameRowModel.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameNeverStarted.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameNeverStartedModel.cs" />
     <Compile Include="Views\Games\Play\PlayModel.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameCompleted.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameInProgressPlayer.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameInProgressWatch.cs" />
-    <Compile Include="Views\Games\Play\BodyControls\GameReady.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameCompletedModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameInProgressPlayerModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameInProgressWatchModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameReadyModel.cs" />
     <Compile Include="Views\Games\Play\PlayController.cs" />
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />

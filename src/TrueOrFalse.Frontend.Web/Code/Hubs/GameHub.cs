@@ -55,6 +55,17 @@ public class GameHub : BaseHub
         });
     }
 
+    public void Started(int gameId)
+    {
+        Send(() =>
+        {
+            Clients.All.Started(new
+            {
+                GameId = gameId,
+            });
+        });        
+    }
+
     public void Completed(int gameId)
     {
         Send(() =>
