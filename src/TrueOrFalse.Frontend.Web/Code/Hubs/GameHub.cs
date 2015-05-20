@@ -9,28 +9,31 @@ public class GameHub : BaseHub
 
     public void JoinGame(int gameId)
     {
-        var userRepo = _sl.Resolve<UserRepository>();
-        var gameRepo = _sl.Resolve<GameRepo>();
-
-        var user = userRepo.GetById(Convert.ToInt32(Context.User.Identity.Name));
-        var game = gameRepo.GetById(gameId);
-
-        if (!game.AddPlayer(user))
-            return;
-
-        gameRepo.Update(game);
-
-        Clients.All.JoinedGame(new
+        Send(() =>
         {
-            Id = user.Id,
-            GameId = gameId,
-            Name = user.Name
+            var userRepo = _sl.Resolve<UserRepository>();
+            var gameRepo = _sl.Resolve<GameRepo>();
+
+            var user = userRepo.GetById(Convert.ToInt32(Context.User.Identity.Name));
+            var game = gameRepo.GetById(gameId);
+
+            if (!game.AddPlayer(user))
+                return;
+
+            gameRepo.Update(game);
+
+            Clients.All.JoinedGame(new
+            {
+                Id = user.Id,
+                GameId = gameId,
+                Name = user.Name
+            });
         });
     }
 
     public void NextRound(int gameId)
     {
-        try
+        Send(() =>
         {
             var gameRepo = _sl.Resolve<GameRepo>();
             var game = gameRepo.GetById(gameId);
@@ -48,20 +51,31 @@ public class GameHub : BaseHub
             {
                 GameId = gameId,
                 Round = currentRound.Number
-            });
-        }
-        catch(Exception e)
-        {
-            Logg.r().Error(e, "Error sending from hub");
-        }
+            });            
+        });
     }
 
     public void Completed(int gameId)
     {
-        Clients.All.Completed(new
+        Send(() =>
         {
-            GameId = gameId,
-        });        
+            Clients.All.Completed(new
+            {
+                GameId = gameId,
+            });
+        });
+    }
+
+    private void Send(Action action)
+    {
+        try
+        {
+            action();
+        }
+        catch (Exception e)
+        {
+            Logg.r().Error(e, "Error sending from hub");
+        }
     }
 
     public override Task OnConnected()

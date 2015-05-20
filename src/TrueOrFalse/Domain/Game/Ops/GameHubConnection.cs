@@ -46,7 +46,6 @@ public class GameHubConnection : IRegisterAsInstancePerLifetime, IDisposable
 
             _isConnected = true;            
         }
-
     }
 
     public void SendNextRound(int gameId)
@@ -57,6 +56,11 @@ public class GameHubConnection : IRegisterAsInstancePerLifetime, IDisposable
     public void SendCompleted(int gameId)
     {   
         Send(() => { _hubProxy.Invoke("Completed", gameId).Wait(); }); 
+    }
+
+    public void SendCompleted(int gameId)
+    {
+        Send(() => { _hubProxy.Invoke("Completed", gameId).Wait(); });
     }
 
     public void Send(Action action)

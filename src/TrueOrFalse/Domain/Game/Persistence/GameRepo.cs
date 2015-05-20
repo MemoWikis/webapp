@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNet.SignalR.Hubs;
 using NHibernate;
 
 public class GameRepo : RepositoryDbBase<Game>

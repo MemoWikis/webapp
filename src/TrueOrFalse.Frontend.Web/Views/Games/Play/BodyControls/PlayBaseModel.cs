@@ -29,7 +29,7 @@ public class PlayBaseModel : BaseModel
         else
         {
             if (game.IsCompleted)
-                CurrentRoundNum = game.Rounds.Count;
+                CurrentRoundNum = game.RoundCount;
 
             CurrentRoundNum = 1;
         }

@@ -51,9 +51,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 else
                 {
                     game.Status = GameStatus.InProgress;
-                    Sl.R<AddRoundsToGame>().Run(game);
-                    game.NextRound();
-                    gameRepo.Update(game);
+
+                    lock ("#1A23687D-4FCB-41AB-8883-B86CC6C6F994")
+                    {
+                        Sl.R<AddRoundsToGame>().Run(game);
+                        game.NextRound();
+                        gameRepo.Update(game);                        
+                        gameRepo.Flush();
+
+                        _gameHubConnection.SendNextRound(game.Id);
+                    }
+                    
                     
                     //EVENT: game started
                 }
@@ -83,6 +91,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 if (currentRound.IsOverdue())
                 {
                     game.NextRound();
+                    gameRepo.Update(game);
+                    gameRepo.Flush();
                     _gameHubConnection.SendNextRound(game.Id);
                 }
             }

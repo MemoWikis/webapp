@@ -1686,12 +1686,15 @@
   padding: 20px;
   border-left: 3px solid #eee;
 }
-.bs-callout-info h4 {
-  color: #5bc0de;
-}
 .bs-callout h4 {
   margin-top: 0;
   margin-bottom: 5px;
+}
+.bs-callout-info h4 {
+  color: #5bc0de !important;
+}
+.bs-callout-danger h4 {
+  color: #ce4844 !important;
 }
 .bs-callout p:last-child {
   margin-bottom: 0;

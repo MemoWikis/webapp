@@ -30,9 +30,10 @@
                 </div>
             </div>
         </div>
+    </div>
         
         <div class="row">
-            <div class="col-xs-9">
+            <div class="col-md-9">
                 <% if(!Model.IsLoggedIn){ %>
                     <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
                         <h4>Anmelden oder registrieren</h4>
@@ -139,7 +140,6 @@
 
         </div>
 
-    </div>
 
 <% } %>
 </asp:Content>
