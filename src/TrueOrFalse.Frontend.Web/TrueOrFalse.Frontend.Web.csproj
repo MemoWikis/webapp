@@ -429,6 +429,9 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\SiteMessages.js">
+      <DependentUpon>SiteMessages.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\vendor\jquery.countdown.js" />
     <Content Include="Scripts\vendor\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\SearchInTabs.js">
@@ -850,6 +853,9 @@
     </Content>
     <Content Include="Scripts\Validations.js.map">
       <DependentUpon>Validations.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SiteMessages.js.map">
+      <DependentUpon>SiteMessages.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />

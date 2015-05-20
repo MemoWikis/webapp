@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameReady>" %>
 <%@ Import Namespace="System.Globalization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="row">
     <div class="col-sm-6" style="font-size: 17px; vertical-align: bottom; line-height: 48px;">
@@ -8,9 +9,12 @@
         <% }else if(Model.IsInGame){ %>
             Du nimmst an diesem Spiel Teil <i class="fa fa-smile-o"></i>
         <% } else { %>
-            Teilnehmen
+            <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
+                data-joinGameId="<%= Model.GameId %>" style=""
+                class="btn btn-success btn-sm margin-bottom-sm linkJoin">
+                <i class="fa fa-play-circle"></i>&nbsp; Mitspielen
+            </a>
         <% } %>
-        
     </div>
     <div class="col-sm-6 text-right text-left-sm" style="text-align: right; font-size: 30px;">
         <% foreach(var player in Model.Players){ %>

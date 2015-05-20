@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
@@ -27,6 +28,12 @@ public class GameController : BaseController
         {
             gameModel.Message = new ErrorMessage("Bitte gib mind. einen Fragesatz ein.");
             return View(_viewLocation, gameModel);            
+        }
+
+        if (!sets.SelectMany(x => x.QuestionsInSet).Any())
+        {
+            gameModel.Message = new ErrorMessage("Die gewählten Fragesätze beinhalten keine Fragen.");
+            return View(_viewLocation, gameModel);                        
         }
 
         var game = new Game();
