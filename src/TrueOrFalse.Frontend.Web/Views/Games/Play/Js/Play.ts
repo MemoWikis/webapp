@@ -35,11 +35,14 @@
             .empty()
             .append(html)
             .animate({ opacity: 1.00 }, 600);
+
+        $(".show-tooltip").tooltip();
     }
 }
 
 class Game {
     GameId: number;
+    GameRoundCount: number;
     QuestionId: number;
     Round: number;
     RoundLength: number;

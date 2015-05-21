@@ -91,6 +91,23 @@ public class Game : DomainEntity
         return Rounds.FirstOrDefault(x => x.Status == GameRoundStatus.Current);
     }
 
+    public virtual int GetCurrentRoundNumber()
+    {
+        int CurrentRoundNum = -1;
+        var currentRound = GetCurrentRound();
+        if (currentRound != null)
+            CurrentRoundNum = currentRound.Number;
+        else
+        {
+            if (IsCompleted)
+                CurrentRoundNum = RoundCount;
+            else if (IsReady)
+                CurrentRoundNum = 1;
+        }
+
+        return CurrentRoundNum;
+    }
+
     public virtual bool IsLastRoundCompleted()
     {
         return Rounds.Last().Status == GameRoundStatus.Completed;

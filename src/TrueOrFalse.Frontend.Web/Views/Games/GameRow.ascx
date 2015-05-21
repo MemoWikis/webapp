@@ -8,7 +8,7 @@
         <div class="col-md-3 col-sm-3 header" style="padding-bottom: 5px">
             <h4 style="display: inline; margin-right: 15px;">
                 <a href="<%= Links.GamePlay(Url, Model.GameId) %>">
-                    Quiz  <span class="show-tooltip" data-original-title="<%= Model.Rounds %> Runden" style="font-size: 13px; padding-left: 7px">(<i class="fa fa-retweet"></i> <%= Model.Rounds %> )</span>
+                    Quiz  <span class="show-tooltip" data-original-title="<%= Model.RoundCount %> Runden" style="font-size: 13px; padding-left: 7px">(<i class="fa fa-retweet"></i> <%= Model.RoundCount %> )</span>
                 </a>
             </h4>
         </div>
@@ -19,6 +19,9 @@
                     <span style="font-size: 11px;">
                         <% if (Model.InProgress()){ %>
                             Wird gerade gespielt
+                            <span data-elem="currentRoundContainer" data-original-title="<%= Model.CurrentRound %> Runden von <%= Model.RoundCount %> gespielt" class="show-tooltip">
+                                <i class="fa fa-retweet"></i> <span data-elem="currentRound"><%= Model.CurrentRound %></span>/<%= Model.RoundCount %>
+                            </span>
                         <% }else{ %>
                             Start spät. in
                             <span data-countdown="<%= Model.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) %>"></span>

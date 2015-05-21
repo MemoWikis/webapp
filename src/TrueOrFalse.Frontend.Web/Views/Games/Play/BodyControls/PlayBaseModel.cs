@@ -6,7 +6,7 @@ public class PlayBaseModel : BaseModel
     public int GameId;
 
     public int RoundCount;
-    
+
     public int CurrentRoundNum;
     public GameRound CurrentRound;
 
@@ -22,17 +22,7 @@ public class PlayBaseModel : BaseModel
         Players.AddRange(game.Players);
 
         RoundCount = game.RoundCount;
-
-        CurrentRound = game.GetCurrentRound();
-        if (CurrentRound != null)
-            CurrentRoundNum = CurrentRound.Number;
-        else
-        {
-            if (game.IsCompleted)
-                CurrentRoundNum = game.RoundCount;
-
-            CurrentRoundNum = 1;
-        }
+        CurrentRoundNum = game.GetCurrentRoundNumber();
 
         WillStartAt = game.WillStartAt;
     }

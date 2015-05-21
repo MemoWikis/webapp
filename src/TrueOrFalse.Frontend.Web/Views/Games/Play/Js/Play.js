@@ -24,6 +24,8 @@
     }
     Play.prototype.ChangeBody = function (html) {
         $("#divGameBody").animate({ opacity: 0.00 }, 200).empty().append(html).animate({ opacity: 1.00 }, 600);
+
+        $(".show-tooltip").tooltip();
     };
     return Play;
 })();

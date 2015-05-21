@@ -29,8 +29,16 @@
             me.GetRow(player.GameId).AddPlayer(player.Name, player.Id);
         };
 
-        this._hub.client.NextRound = (game: Play) => {
-            window.console.log(game);
+        this._hub.client.NextRound = (game: Game) => {
+            var currentRowSelector = "[data-gameId=" + game.GameId + "] [data-elem = currentRound]";
+            Utils.SetElementValue(
+                currentRowSelector,
+                game.Round.toString());
+
+            $("[data-gameId=" + game.GameId + "] [data-elem=currentRoundContainer]")
+                .attr("data-original-title", game.Round + " Runden von " + game.GameRoundCount + " gespielt");
+
+            $(currentRowSelector + " .show-tooltip").tooltip();
         };
 
         this._hub.client.Created = (game: Game) => {
@@ -58,17 +66,33 @@
             $.get("/Games/RenderGameRow/?gameId=" + game.GameId,
                 htmlResult => {
 
-                    $("[data-gameId=" + game.GameId + "]").hide(700);
+                    $("[data-gameId=" + game.GameId + "]")
+                        .hide(700)
+                        .remove();
 
                     this._divGamesInProgress.append(
                         $(htmlResult)
                             .animate({ opacity: 0.00 }, 0)
-                            .animate({ opacity: 1.00 }, 700)
-                        );
+                            .animate({ opacity: 1.00 }, 700));
+
                     this.InitializeRow(game.GameId);
+
+                    if (this._divGamesReady.find("[data-gameId]").length == 0) {
+                        this._divGamesReadyNone.show();
+                    }
                 }
             );
         };
+
+        this._hub.client.Completed = (game: Game) => {
+            $("[data-gameId=" + game.GameId + "]")
+                .hide(700)
+                .remove();
+
+            if (this._divGamesInProgress.find("[data-gameId]").length == 0) {
+                this._divGamesInProgressNone.show();
+            }
+        }
 
         $.connection.hub.start(() => {
             window.console.log("connection started:");
@@ -78,6 +102,7 @@
     InitializeRow(gameId : number) {
         this.InitializeButtons("[data-gameId=" + gameId + "] [data-joinGameId]");
         this.InitializeCountdown("[data-gameId=" + gameId + "] [data-countdown]");
+        $(".show-tooltip").tooltip();
     }
 
     InitializeButtonsAll(){ this.InitializeButtons("[data-joinGameId]"); }

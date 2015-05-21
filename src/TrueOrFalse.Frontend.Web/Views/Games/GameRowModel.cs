@@ -10,7 +10,8 @@ public class GameRowModel : BaseModel
     public IList<Set> Sets;
     public GameStatus Status;
     public DateTime WillStartAt;
-    public int Rounds;
+    public int RoundCount;
+    public int CurrentRound;
 
     public bool IsCreator { get { return Creator.Id == base.UserId; } }
     public bool IsPlayer { get { return Players.Any(p => p.Id == base.UserId); } }
@@ -29,6 +30,7 @@ public class GameRowModel : BaseModel
         Sets = game.Sets;
         Status = game.Status;
         WillStartAt = game.WillStartAt;
-        Rounds = game.RoundCount;
+        RoundCount = game.RoundCount;
+        CurrentRound = game.GetCurrentRoundNumber();
     }
 }
