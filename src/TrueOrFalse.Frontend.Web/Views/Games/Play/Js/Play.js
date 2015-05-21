@@ -10,10 +10,17 @@
             $.get("/Play/RenderGameInProgressPlayer/?gameId=" + game.GameId, function (htmlResult) {
                 _this.ChangeBody(htmlResult);
             });
+            _this._gameInProgressPlayer.InitCountdown();
         };
 
         this.Hub.client.Completed = function (game) {
             $.get("/Play/RenderGameCompleted/?gameId=" + game.GameId, function (htmlResult) {
+                _this.ChangeBody(htmlResult);
+            });
+        };
+
+        this.Hub.client.NeverStarted = function (game) {
+            $.get("/Play/RenderGameNeverStarted/?gameId=" + game.GameId, function (htmlResult) {
                 _this.ChangeBody(htmlResult);
             });
         };

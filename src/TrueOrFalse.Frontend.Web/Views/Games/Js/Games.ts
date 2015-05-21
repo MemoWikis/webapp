@@ -94,6 +94,16 @@
             }
         }
 
+        this._hub.client.NeverStarted = (game: Game) => {
+            $("[data-gameId=" + game.GameId + "]")
+                .hide(700)
+                .remove();
+
+            if (this._divGamesReady.find("[data-gameId]").length == 0) {
+                this._divGamesReadyNone.show();
+            }
+        }
+
         $.connection.hub.start(() => {
             window.console.log("connection started:");
         });

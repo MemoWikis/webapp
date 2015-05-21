@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameInProgressPlayerModel>" %>
 
+<input type="hidden" id="hddRoundLength" value="<%= Model.CurrentRoundLength %>"/>
 
 <div class="row">
     <div class="col-sm-3" style="font-size: 17px; line-height: 33px;">

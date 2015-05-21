@@ -65,6 +65,14 @@
             }
         };
 
+        this._hub.client.NeverStarted = function (game) {
+            $("[data-gameId=" + game.GameId + "]").hide(700).remove();
+
+            if (_this._divGamesReady.find("[data-gameId]").length == 0) {
+                _this._divGamesReadyNone.show();
+            }
+        };
+
         $.connection.hub.start(function () {
             window.console.log("connection started:");
         });

@@ -47,6 +47,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     game.Status = GameStatus.NeverStarted;
                     gameRepo.Update(game);
+                    gameRepo.Flush();
+                    _gameHubConnection.SendNeverStarted(game.Id);
                 }
                 else
                 {

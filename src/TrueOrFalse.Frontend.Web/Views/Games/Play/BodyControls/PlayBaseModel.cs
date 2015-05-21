@@ -7,9 +7,6 @@ public class PlayBaseModel : BaseModel
 
     public int RoundCount;
 
-    public int CurrentRoundNum;
-    public GameRound CurrentRound;
-
     public DateTime WillStartAt;
 
     public List<User> Players = new List<User>();
@@ -22,7 +19,6 @@ public class PlayBaseModel : BaseModel
         Players.AddRange(game.Players);
 
         RoundCount = game.RoundCount;
-        CurrentRoundNum = game.GetCurrentRoundNumber();
 
         WillStartAt = game.WillStartAt;
     }

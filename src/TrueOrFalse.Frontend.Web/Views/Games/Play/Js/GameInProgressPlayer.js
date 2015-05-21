@@ -3,14 +3,15 @@
         var _this = this;
         this._play = play;
 
-        //TODO -> get time from element
-        this.InitCountDownRound(20);
-
         this._play.Hub.client.NextRound = function (game) {
             Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
             _this.InitCountDownRound(game.RoundLength);
         };
     }
+    GameInProgressPlayer.prototype.InitCountdown = function () {
+        this.InitCountDownRound(20);
+    };
+
     GameInProgressPlayer.prototype.InitCountDownRound = function (roundLength) {
         $("#divRemainingTime").each(function () {
             var $this = $(this);

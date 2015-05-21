@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Security;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
+using Serilog;
 
 public class GameHubConnection : IRegisterAsInstancePerLifetime, IDisposable
 {
@@ -61,6 +62,11 @@ public class GameHubConnection : IRegisterAsInstancePerLifetime, IDisposable
     public void SendCompleted(int gameId)
     {   
         Send(() => { _hubProxy.Invoke("Completed", gameId).Wait(); }); 
+    }
+
+    public void SendNeverStarted(int gameId)
+    {
+        Send(() => { _hubProxy.Invoke("NeverStarted", gameId).Wait(); });
     }
 
     public void SendStart(int gameId)

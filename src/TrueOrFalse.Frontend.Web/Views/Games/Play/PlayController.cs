@@ -24,13 +24,13 @@ public class PlayController : BaseController
 
     public string RenderGameNeverStarted(int gameId)
     {
-        return RenderPartialView( "GameNeverStarted.ascx",
+        return RenderPartialView("GameNeverStarted.ascx",
             new GameNeverStartedModel(Game(gameId)));
     }
 
     public string RenderGameCompleted(int gameId)
     {
-        return RenderPartialView( "GameCompleted.ascx",
+        return RenderPartialView("GameCompleted.ascx",
             new GameCompletedModel(Game(gameId)));
     }
 

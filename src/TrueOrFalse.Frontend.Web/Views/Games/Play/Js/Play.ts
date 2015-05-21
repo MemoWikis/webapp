@@ -15,7 +15,8 @@
         this.Hub.client.Started = (game: Game) => {
             $.get("/Play/RenderGameInProgressPlayer/?gameId=" + game.GameId,
                 htmlResult => { this.ChangeBody(htmlResult) }
-            );
+                );
+            this._gameInProgressPlayer.InitCountdown();
         };
 
         this.Hub.client.Completed = (game: Game) => {
@@ -23,6 +24,12 @@
                 htmlResult => { this.ChangeBody(htmlResult) }
             );
         };
+
+        this.Hub.client.NeverStarted = (game: Game) => {
+            $.get("/Play/RenderGameNeverStarted/?gameId=" + game.GameId,
+                htmlResult => { this.ChangeBody(htmlResult) }
+            );
+        }
 
         $.connection.hub.start(() => {
             window.console.log("connection started:");

@@ -5,14 +5,15 @@
     constructor(play : Play) {
         this._play = play;
 
-        //TODO -> get time from element
-        this.InitCountDownRound(20);
-
         this._play.Hub.client.NextRound = (game: Game) => {
             Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
             this.InitCountDownRound(game.RoundLength);
 
         };
+    }
+
+    public InitCountdown() {
+        this.InitCountDownRound(20);
     }
 
     public InitCountDownRound(roundLength : number) {
@@ -31,8 +32,6 @@
                     $(this).html(event.strftime('%Ssec'));
                 });
             });
-
         });
     }
-
 }
