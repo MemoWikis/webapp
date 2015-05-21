@@ -56,7 +56,7 @@
                     <div class="FormSection">
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in:
@@ -71,7 +71,7 @@
                                     </div>
                                 </div>                                
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-users"></i> &nbsp; Anzahl Spieler:
@@ -113,7 +113,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+<%--                        <div class="form-group">
                             <%= Html.LabelFor(m => m.Comment, new { @class = "columnLabel control-label" })%>
                             <div class="columnControlsFull">
                                 <%= Html.TextAreaFor(m => m.Comment, 
@@ -124,7 +124,7 @@
                                         rows = 3
                                     })%>
                             </div>
-                        </div>                        
+                        </div>--%>
                         
                         <div class="form-group">
                             <div class="noLabel columnControlsFull">
