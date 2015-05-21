@@ -15,10 +15,12 @@ public class GameRound : DomainEntity
 
     public virtual Game Game { get; set; }
 
+    public virtual int RoundLength { get { return 20; } }
+
     public virtual bool IsOverdue()
     {
         Debug.Assert(StartTime != null, "StartTime != null");
-        return ((DateTime)StartTime).AddSeconds(20) < DateTime.Now;
+        return ((DateTime)StartTime).AddSeconds(RoundLength) < DateTime.Now;
     }
 }
 

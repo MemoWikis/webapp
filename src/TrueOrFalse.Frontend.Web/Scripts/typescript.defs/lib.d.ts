@@ -14,6 +14,7 @@ interface JQuery {
     watch(p1: any);
     typeWatch(p1: any);
 
+    countdown(finalDate: Date, callback: Function);
     countdown(finalDate: string, callback: Function);
     countdown(action: string);
 }

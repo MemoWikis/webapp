@@ -8,10 +8,10 @@
         <span id="RoundCount"><%= Model.RoundCount %></span>
     </div>
     <div class="col-sm-3">
-        <div class="progress" style="position: relative; top: 7px;">
+        <div class="progress" style="position: relative; top: 7px;" id="divRemainingTime">
             <div class="progress-bar progress-bar-striped active" role="progressbar" id="progressRound"
-                    aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 1%">
-                <span id="remainingTime" style="margin-left: 2px; color:white">14sec</span>
+                    aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                <span id="spanRemainingTime" style="margin-left: 2px; color:white">14sec</span>
             </div>
         </div>
     </div>

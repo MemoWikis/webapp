@@ -15,5 +15,5 @@
                 $this.html(event.strftime('%-Mm %Ss'));
             });
         });
-    }    
+    }
 } 

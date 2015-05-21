@@ -23,7 +23,7 @@
         });
     }
     Play.prototype.ChangeBody = function (html) {
-        $("#divGameBody").animate({ opacity: 0.00 }, 30).empty().append(html).animate({ opacity: 1.00 }, 300);
+        $("#divGameBody").animate({ opacity: 0.00 }, 200).empty().append(html).animate({ opacity: 1.00 }, 600);
     };
     return Play;
 })();

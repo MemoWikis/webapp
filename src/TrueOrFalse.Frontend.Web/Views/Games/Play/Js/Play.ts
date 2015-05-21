@@ -31,17 +31,18 @@
 
     ChangeBody(html : string) {
         $("#divGameBody")
-            .animate({ opacity: 0.00 }, 30)
+            .animate({ opacity: 0.00 }, 200)
             .empty()
             .append(html)
-            .animate({ opacity: 1.00 }, 300);        
+            .animate({ opacity: 1.00 }, 600);
     }
 }
 
-class Game
-{
+class Game {
     GameId: number;
-    Round : number;
+    QuestionId: number;
+    Round: number;
+    RoundLength: number;
 }
 
 $(() => {
