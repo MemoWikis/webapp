@@ -47,6 +47,7 @@ public class GameController : BaseController
         game.RoundCount = gameModel.Rounds;
  
         R<GameRepo>().Create(game);
+        R<GameHubConnection>().SendCreated(game.Id);
 
         return Redirect("/Spielen");
     }

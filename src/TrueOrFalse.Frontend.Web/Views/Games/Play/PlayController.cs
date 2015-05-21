@@ -37,7 +37,7 @@ public class PlayController : BaseController
     private string RenderPartialView(string name, object model) {
         return ViewRenderer.RenderPartialView(
             _viewLocationBodyControls + name, model, ControllerContext
-        );        
+        );
     }
 
     private Game Game(int gameId){

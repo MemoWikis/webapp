@@ -56,26 +56,16 @@ public class GameHub : BaseHub
         });
     }
 
-    public void Started(int gameId)
-    {
-        Send(() =>
-        {
-            Clients.All.Started(new
-            {
-                GameId = gameId,
-            });
-        });        
+    public void Created(int gameId){
+        Send(() => { Clients.All.Created(new { GameId = gameId });});
     }
 
-    public void Completed(int gameId)
-    {
-        Send(() =>
-        {
-            Clients.All.Completed(new
-            {
-                GameId = gameId,
-            });
-        });
+    public void Started(int gameId){
+        Send(() => { Clients.All.Started(new { GameId = gameId }); });        
+    }
+
+    public void Completed(int gameId){
+        Send(() => { Clients.All.Completed(new { GameId = gameId, });}); 
     }
 
     private void Send(Action action)

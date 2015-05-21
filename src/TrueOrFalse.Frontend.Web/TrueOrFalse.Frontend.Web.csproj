@@ -269,6 +269,7 @@
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Code\BaseUtil.cs" />
+    <Compile Include="Code\HtmlExtensions.cs" />
     <Compile Include="Code\Hubs\BaseHub.cs" />
     <Compile Include="Code\Hubs\BrainWavesHub.cs" />
     <Compile Include="Code\Hubs\GameHub.cs" />

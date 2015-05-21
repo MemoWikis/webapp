@@ -50,21 +50,22 @@
             <h3 style="margin-bottom: 10px;">
                 <span class="ColoredUnderline Play" style="padding-right: 3px;">Mitspielen:</span>
             </h3>                 
+
+            <div id="divGameRowsReadyNone" class="bs-callout bs-callout-info" style="margin-top: 0; <%= Html.CssHide(Model.GamesReady.Any()) %>">
+                <h4>Keine kommenden Spiele</h4>
+                <p>
+                    <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm" style="margin-top: 10px;">
+                        <i class="fa fa-plus-circle"></i> &nbsp; Spiel erstellen
+                    </a>
+                </p>
+            </div>            
             
-            <% if(!Model.GamesReady.Any()){ %>
-                <div class="bs-callout bs-callout-info" style="margin-top: 0;">
-                    <h4>Keine kommenden Spiele</h4>
-                    <p>
-                        <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm" style="margin-top: 10px;">
-                            <i class="fa fa-plus-circle"></i> &nbsp; Spiel erstellen
-                        </a>
-                    </p>
-                </div>            
-            <% } else { %>
+            <div id="divGameRowsReady" style="<%= Html.CssHide(!Model.GamesReady.Any()) %>">
                 <% foreach(var game in Model.GamesReady){ %>
                     <% Html.RenderPartial("GameRow", game); %>
                 <% } %>
-            <% } %>
+            </div>
+            
         </div>
         <div class="col-md-3"></div>
     </div>

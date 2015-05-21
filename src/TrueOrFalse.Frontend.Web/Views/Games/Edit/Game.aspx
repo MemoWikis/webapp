@@ -89,7 +89,7 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden

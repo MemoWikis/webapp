@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 public class GamesController : BaseController
 {
@@ -8,5 +6,14 @@ public class GamesController : BaseController
     public ActionResult Games()
     {
         return View(new GamesModel(R<GameRepo>().GetAllActive()));
+    }
+
+    public string RenderGameRow(int gameId)
+    {
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Games/GameRow.ascx",
+            new GameRowModel(R<GameRepo>().GetById(gameId)), 
+            ControllerContext
+        );
     }
 }

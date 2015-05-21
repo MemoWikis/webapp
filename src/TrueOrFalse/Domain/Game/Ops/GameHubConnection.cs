@@ -48,6 +48,11 @@ public class GameHubConnection : IRegisterAsInstancePerLifetime, IDisposable
         }
     }
 
+    public void SendCreated(int gameId)
+    {
+        Send(() => { _hubProxy.Invoke("Created", gameId).Wait(); });
+    }
+
     public void SendNextRound(int gameId)
     {
         Send(() => { _hubProxy.Invoke("NextRound", gameId).Wait(); }); 
