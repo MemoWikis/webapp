@@ -5,7 +5,7 @@
 <div class="rowBase game-row" style="position: relative; padding: 5px;" data-gameId="<%= Model.GameId %>">
     
     <div class="row">
-        <div class="col-md-3 col-sm-7 header" style="padding-bottom: 5px">
+        <div class="col-md-3 col-sm-3 header" style="padding-bottom: 5px">
             <h4 style="display: inline; margin-right: 15px;">
                 <a href="<%= Links.GamePlay(Url, Model.GameId) %>">
                     Quiz  <span class="show-tooltip" data-original-title="<%= Model.Rounds %> Runden" style="font-size: 13px; padding-left: 7px">(<i class="fa fa-retweet"></i> <%= Model.Rounds %> )</span>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-offset-1 col-md-3 col-sm-offset-7 col-sm-3 col-xs-12 header ">
+        <div class="col-md-offset-1 col-md-3 col-sm-2 col-xs-12 header ">
             <% if(!Model.InProgress() && !Model.IsPlayerOrCreator ){ %>
                 <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
                    data-joinGameId="<%= Model.GameId %>" style="float:right; min-width: 100px;"

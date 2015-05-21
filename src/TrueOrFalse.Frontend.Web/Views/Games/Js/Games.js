@@ -3,12 +3,16 @@
         var _this = this;
         var me = this;
 
+        this._hub = $.connection.gameHub;
+
+        this._divGamesReady = $("#divGamesReady");
+        this._divGamesReadyNone = $("#divGamesReadyNone");
+
+        this._divGamesInProgress = $("#divGamesInProgress");
+        this._divGamesInProgressNone = $("#divGamesInProgressNone");
+
         this.InitializeCountdownAll();
         this.InitializeButtonsAll();
-
-        this._hub = $.connection.gameHub;
-        this._divGameRowsReady = $("#divGameRowsReady");
-        this._divGameRowsReadyNone = $("#divGameRowsReadyNone");
 
         if (this._hub == null)
             return;
@@ -22,11 +26,23 @@
         };
 
         this._hub.client.Created = function (game) {
-            _this._divGameRowsReady.show();
-            _this._divGameRowsReadyNone.hide();
+            _this._divGamesReady.show();
+            _this._divGamesReadyNone.hide();
 
             $.get("/Games/RenderGameRow/?gameId=" + game.GameId, function (htmlResult) {
-                _this._divGameRowsReady.append($(htmlResult).animate({ opacity: 0.00 }, 0).animate({ opacity: 1.00 }, 700));
+                _this._divGamesReady.append($(htmlResult).animate({ opacity: 0.00 }, 0).animate({ opacity: 1.00 }, 700));
+                _this.InitializeRow(game.GameId);
+            });
+        };
+
+        this._hub.client.Started = function (game) {
+            _this._divGamesInProgress.show();
+            _this._divGamesInProgressNone.hide();
+
+            $.get("/Games/RenderGameRow/?gameId=" + game.GameId, function (htmlResult) {
+                $("[data-gameId=" + game.GameId + "]").hide(700);
+
+                _this._divGamesInProgress.append($(htmlResult).animate({ opacity: 0.00 }, 0).animate({ opacity: 1.00 }, 700));
                 _this.InitializeRow(game.GameId);
             });
         };
@@ -44,7 +60,7 @@
         this.InitializeButtons("[data-joinGameId]");
     };
     Games.prototype.InitializeCountdownAll = function () {
-        this.InitializeButtons("[data-countdown]");
+        this.InitializeCountdown("[data-countdown]");
     };
 
     Games.prototype.InitializeButtons = function (selector) {

@@ -32,26 +32,28 @@
     <div class="row">
         <div class="col-md-9">
             
-            <% if(!Model.GamesInProgress.Any()){ %>
-                <div class="bs-callout bs-callout-info" style="margin-top: 0;">
-                    <h4>Keine laufenden Spiele</h4>
-                    <p>
-                        <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm" style="margin-top: 10px;">
-                            <i class="fa fa-plus-circle"></i> &nbsp; Spiel erstellen
-                        </a>
-                    </p>
-                </div>            
-            <% } else { %>
+            <div class="bs-callout bs-callout-info" id="divGamesInProgressNone"
+                 style="margin-top: 0; <%= Html.CssHide(Model.GamesInProgress.Any()) %>">
+                <h4>Keine laufenden Spiele</h4>
+                <p>
+                    <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm" style="margin-top: 10px;">
+                        <i class="fa fa-plus-circle"></i> &nbsp; Spiel erstellen
+                    </a>
+                </p>
+            </div>
+            
+            <div id="divGamesInProgress" style="<%= Html.CssHide(!Model.GamesInProgress.Any()) %>">
                 <% foreach(var game in Model.GamesInProgress){ %>
                     <% Html.RenderPartial("GameRow", game); %>
                 <% } %>
-            <% } %>
+            </div>
 
             <h3 style="margin-bottom: 10px;">
                 <span class="ColoredUnderline Play" style="padding-right: 3px;">Mitspielen:</span>
             </h3>                 
 
-            <div id="divGameRowsReadyNone" class="bs-callout bs-callout-info" style="margin-top: 0; <%= Html.CssHide(Model.GamesReady.Any()) %>">
+            <div id="divGamesReadyNone" class="bs-callout bs-callout-info" 
+                 style="margin-top: 0; <%= Html.CssHide(Model.GamesReady.Any()) %>">
                 <h4>Keine kommenden Spiele</h4>
                 <p>
                     <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm" style="margin-top: 10px;">
@@ -60,7 +62,7 @@
                 </p>
             </div>            
             
-            <div id="divGameRowsReady" style="<%= Html.CssHide(!Model.GamesReady.Any()) %>">
+            <div id="divGamesReady" style="<%= Html.CssHide(!Model.GamesReady.Any()) %>">
                 <% foreach(var game in Model.GamesReady){ %>
                     <% Html.RenderPartial("GameRow", game); %>
                 <% } %>
