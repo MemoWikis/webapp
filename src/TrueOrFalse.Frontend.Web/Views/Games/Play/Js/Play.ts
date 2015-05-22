@@ -38,8 +38,8 @@
 
     ChangeContent(selector : string, html: string) {
         $(selector)
-            .animate({ opacity: 0.00 }, 200)
             .empty()
+            .animate({ opacity: 0.00 }, 0)
             .append(html)
             .animate({ opacity: 1.00 }, 600);
 

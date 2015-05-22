@@ -30,7 +30,7 @@
         });
     }
     Play.prototype.ChangeContent = function (selector, html) {
-        $(selector).animate({ opacity: 0.00 }, 200).empty().append(html).animate({ opacity: 1.00 }, 600);
+        $(selector).empty().animate({ opacity: 0.00 }, 0).append(html).animate({ opacity: 1.00 }, 600);
 
         $(".show-tooltip").tooltip();
     };

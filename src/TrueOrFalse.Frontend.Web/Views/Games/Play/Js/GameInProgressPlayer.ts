@@ -10,7 +10,7 @@
             this.InitCountDownRound(game.RoundLength);
 
             $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId,
-                htmlResult => { this._play.ChangeContent(htmlResult,"#divBodyAnswer") }
+                htmlResult => { this._play.ChangeContent("#divBodyAnswer", htmlResult) }
             );
         };
     }
