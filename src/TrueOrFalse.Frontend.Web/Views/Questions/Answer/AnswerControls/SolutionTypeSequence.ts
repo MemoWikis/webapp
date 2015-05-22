@@ -1,7 +1,3 @@
-/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
-/// <reference path="../../../../scripts/utils.ts" />
-/// <reference path="../js/answerquestion.ts" />
-
 class SolutionTypeSequence implements ISolutionEntry
 {
     constructor() {

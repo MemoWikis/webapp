@@ -14,7 +14,7 @@
     }
 
     SaveDeleteComent(e: BaseJQueryEventObject) {
-        window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, window.document.body.scrollHeight);
 
         var params = {
             questionId: window.questionId,
@@ -32,7 +32,7 @@
 
     SaveImproveComment(e: BaseJQueryEventObject) {
 
-        window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, window.document.body.scrollHeight);
 
         var params = {
             questionId: window.questionId,

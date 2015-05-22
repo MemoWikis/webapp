@@ -387,7 +387,7 @@
     <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\BrainWavesHub.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestions\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
@@ -497,7 +497,7 @@
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Games\Games.aspx" />
-    <Content Include="Views\Questions\Answer\Js\BrainWavesHub.js">
+    <Content Include="Scripts\answerQuestions\BrainWavesHub.js">
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
@@ -944,16 +944,16 @@
     <Content Include="Images\no-profile-picture-50.png" />
     <Content Include="Images\QuestionSets\include-folder.txt" />
     <Content Include="img\wmd-buttons-white.png" />
-    <Content Include="Scripts\file-uploader\button.js" />
-    <Content Include="Scripts\file-uploader\dnd.js" />
-    <Content Include="Scripts\file-uploader\handler.base.js" />
-    <Content Include="Scripts\file-uploader\handler.form.js" />
-    <Content Include="Scripts\file-uploader\handler.xhr.js" />
-    <Content Include="Scripts\file-uploader\header.js" />
-    <Content Include="Scripts\file-uploader\jquery-plugin.js" />
-    <Content Include="Scripts\file-uploader\uploader.basic.js" />
-    <Content Include="Scripts\file-uploader\uploader.js" />
-    <Content Include="Scripts\file-uploader\util.js" />
+    <Content Include="Scripts\vendor.file-uploader\button.js" />
+    <Content Include="Scripts\vendor.file-uploader\dnd.js" />
+    <Content Include="Scripts\vendor.file-uploader\handler.base.js" />
+    <Content Include="Scripts\vendor.file-uploader\handler.form.js" />
+    <Content Include="Scripts\vendor.file-uploader\handler.xhr.js" />
+    <Content Include="Scripts\vendor.file-uploader\header.js" />
+    <Content Include="Scripts\vendor.file-uploader\jquery-plugin.js" />
+    <Content Include="Scripts\vendor.file-uploader\uploader.basic.js" />
+    <Content Include="Scripts\vendor.file-uploader\uploader.js" />
+    <Content Include="Scripts\vendor.file-uploader\util.js" />
     <Content Include="Scripts\vendor\html5shiv.js" />
     <None Include="Scripts\vendor\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\vendor\jquery-2.0.3.js" />
@@ -1108,10 +1108,6 @@
     <Content Include="img\icon-github.png" />
     <Content Include="img\icon-html5.png" />
     <Content Include="img\icon-twitter.png" />
-    <Content Include="Scripts\add-on\jplayer.playlist.min.js" />
-    <Content Include="Scripts\add-on\jquery.jplayer.inspector.js" />
-    <Content Include="Scripts\google-code-prettify\prettify.css" />
-    <Content Include="Scripts\google-code-prettify\prettify.js" />
     <Content Include="Scripts\Jplayer.swf" />
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
     <Content Include="Scripts\vendor\jquery.jplayer.js" />
@@ -1187,7 +1183,7 @@
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
     <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
-    <Content Include="Views\Questions\Answer\Js\AnswerQuestion.js">
+    <Content Include="Scripts\answerQuestions\AnswerQuestion.js">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Comments.js">
@@ -1196,7 +1192,7 @@
     <Content Include="Views\Questions\Answer\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\PinQuestion.js">
+    <Content Include="Scripts\answerQuestions\PinQuestion.js">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\RowPin.js">
@@ -1241,10 +1237,10 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestions\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Comments.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\PinQuestion.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestions\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Scripts\RowPin.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
@@ -1370,7 +1366,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js.map">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\AnswerQuestion.js.map">
+    <Content Include="Scripts\answerQuestions\AnswerQuestion.js.map">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Page.js.map">
@@ -1475,7 +1471,7 @@
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js.map">
       <DependentUpon>ChangeTypeControls.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\PinQuestion.js.map">
+    <Content Include="Scripts\answerQuestions\PinQuestion.js.map">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Comments.js.map">
@@ -1542,7 +1538,7 @@
     <Content Include="Views\Beta\Js\BetaRequest.js.map">
       <DependentUpon>BetaRequest.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\BrainWavesHub.js.map">
+    <Content Include="Scripts\answerQuestions\BrainWavesHub.js.map">
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js.map">

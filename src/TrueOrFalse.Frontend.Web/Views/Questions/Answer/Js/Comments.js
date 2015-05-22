@@ -21,7 +21,7 @@
     };
 
     Comments.prototype.SaveDeleteComent = function (e) {
-        window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, window.document.body.scrollHeight);
 
         var params = {
             questionId: window.questionId,
@@ -38,7 +38,7 @@
     };
 
     Comments.prototype.SaveImproveComment = function (e) {
-        window.scrollTo(0, document.body.scrollHeight);
+        window.scrollTo(0, window.document.body.scrollHeight);
 
         var params = {
             questionId: window.questionId,

@@ -1,6 +1,4 @@
-﻿/// <reference path="../js/answerquestion.ts" />
-
-class SolutionTypeDateEntry implements ISolutionEntry {
+﻿class SolutionTypeDateEntry implements ISolutionEntry {
 
     constructor() {
         var answerQuestion = new AnswerQuestion(this);

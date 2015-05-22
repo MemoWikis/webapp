@@ -27,16 +27,16 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Images", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
-                .Include("~/Scripts/file-uploader/header.js")
-                .Include("~/Scripts/file-uploader/util.js")
-                .Include("~/Scripts/file-uploader/button.js")
-                .Include("~/Scripts/file-uploader/handler.base.js")
-                .Include("~/Scripts/file-uploader/handler.form.js")
-                .Include("~/Scripts/file-uploader/handler.xhr.js")
-                .Include("~/Scripts/file-uploader/uploader.basic.js")
-                .Include("~/Scripts/file-uploader/dnd.js")
-                .Include("~/Scripts/file-uploader/uploader.js")
-                .Include("~/Scripts/file-uploader/jquery-plugin.js"));
+                .Include("~/Scripts/vendor.file-uploader/header.js")
+                .Include("~/Scripts/vendor.file-uploader/util.js")
+                .Include("~/Scripts/vendor.file-uploader/button.js")
+                .Include("~/Scripts/vendor.file-uploader/handler.base.js")
+                .Include("~/Scripts/vendor.file-uploader/handler.form.js")
+                .Include("~/Scripts/vendor.file-uploader/handler.xhr.js")
+                .Include("~/Scripts/vendor.file-uploader/uploader.basic.js")
+                .Include("~/Scripts/vendor.file-uploader/dnd.js")
+                .Include("~/Scripts/vendor.file-uploader/uploader.js")
+                .Include("~/Scripts/vendor.file-uploader/jquery-plugin.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questions")
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js")
@@ -68,6 +68,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/AnswerQuestion")
+                .IncludeDirectory("~/Scripts/answerQuestions/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")
@@ -92,6 +93,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Games/Edit/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/GamePlay")
+                .IncludeDirectory("~/Scripts/answerQuestions/", "*,js")
                 .IncludeDirectory("~/Views/Games/Play/Js/", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/GamePlay")

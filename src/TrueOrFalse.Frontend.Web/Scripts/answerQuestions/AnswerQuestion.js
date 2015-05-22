@@ -1,6 +1,5 @@
-﻿/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
-/// <reference path="../../../../scripts/utils.ts" />
-
+﻿/// <reference path="../typescript.defs/lib.d.ts" />
+/// <reference path="../utils.ts" />
 var answerResult;
 
 var answersSoFar = [];
@@ -8,20 +7,9 @@ var amountOfTries = 0;
 var atLeastOneWrongAnswer = false;
 var choices = [];
 
-interface ISolutionEntry {
-    GetAnswerText(): string;
-    GetAnswerData(): {};
-    OnNewAnswer(): void;
-}
-
-class AnswerQuestion
-{
-    private _getAnswerText: () => string;
-    private _getAnswerData: () => {};
-    private _onNewAnswer: () => void;
-
-    constructor(solutionEntry : ISolutionEntry)
-    {
+var AnswerQuestion = (function () {
+    function AnswerQuestion(solutionEntry) {
+        var _this = this;
         this._getAnswerText = solutionEntry.GetAnswerText;
         this._getAnswerData = solutionEntry.GetAnswerData;
         this._onNewAnswer = solutionEntry.OnNewAnswer;
@@ -38,23 +26,20 @@ class AnswerQuestion
             return true;
         });
 
-        $("#btnCheck").click(
-            e => {
-                e.preventDefault();
-                this.validateAnswer();
-            });
+        $("#btnCheck").click(function (e) {
+            e.preventDefault();
+            _this.validateAnswer();
+        });
 
-        $("#btnCheckAgain").click(
-            e=> {
-                e.preventDefault();
-                this.validateAnswer();
-            });
+        $("#btnCheckAgain").click(function (e) {
+            e.preventDefault();
+            _this.validateAnswer();
+        });
 
-        $("#btnCountAsCorrect").click(
-            e=> {
-                e.preventDefault();
-                self.countLastAnswerAsCorrect();
-            });
+        $("#btnCountAsCorrect").click(function (e) {
+            e.preventDefault();
+            self.countLastAnswerAsCorrect();
+        });
 
         $("#CountWrongAnswers").click(function (e) {
             e.preventDefault();
@@ -65,19 +50,18 @@ class AnswerQuestion
                 divWrongAnswers.hide();
         });
 
-        $(".selectorShowAnswer").click( ()=> {
+        $(".selectorShowAnswer").click(function () {
             InputFeedback.ShowCorrectAnswer();
             return false;
         });
-        $("#buttons-edit-answer").click((e) => {
+        $("#buttons-edit-answer").click(function (e) {
             e.preventDefault();
-            this._onNewAnswer();
+            _this._onNewAnswer();
 
             InputFeedback.AnimateNeutral();
         });
     }
-
-    private validateAnswer() {
+    AnswerQuestion.prototype.validateAnswer = function () {
         var answerText = this._getAnswerText();
         var self = this;
 
@@ -109,13 +93,14 @@ class AnswerQuestion
                         atLeastOneWrongAnswer = true;
                         InputFeedback.ShowError();
 
-                        if (result.choices != null) { //if multiple choice
+                        if (result.choices != null) {
                             choices = result.choices;
                             if (self.allWrongAnswersTried(answerText)) {
                                 InputFeedback.ShowCorrectAnswer();
                             }
                         }
-                    };
+                    }
+                    ;
 
                     $("#answerHistory").empty();
                     $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
@@ -125,9 +110,9 @@ class AnswerQuestion
             });
             return false;
         }
-    }
+    };
 
-    private allWrongAnswersTried(answerText: string) {
+    AnswerQuestion.prototype.allWrongAnswersTried = function (answerText) {
         var differentTriedAnswers = [];
         for (var i = 0; i < answersSoFar.length; i++) {
             if ($.inArray(answersSoFar[i], choices) !== -1 && $.inArray(answersSoFar[i], differentTriedAnswers) === -1) {
@@ -138,9 +123,9 @@ class AnswerQuestion
             return true;
         }
         return false;
-    }
+    };
 
-    private countLastAnswerAsCorrect() {
+    AnswerQuestion.prototype.countLastAnswerAsCorrect = function () {
         $.ajax({
             type: 'POST',
             url: window.ajaxUrl_CountLastAnswerAsCorrect,
@@ -152,12 +137,11 @@ class AnswerQuestion
                 $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
                     $("#answerHistory").html(data);
                 });
-            } 
+            }
         });
-    }
+    };
 
-    private isAnswerPossible() {
-
+    AnswerQuestion.prototype.isAnswerPossible = function () {
         if ($("#buttons-first-try").is(":visible"))
             return true;
 
@@ -168,38 +152,32 @@ class AnswerQuestion
             return true;
 
         return false;
-    }   
+    };
 
-    public OnAnswerChange() {
+    AnswerQuestion.prototype.OnAnswerChange = function () {
         this.Reenable_answer_button_if_renewed_answer();
-    }
+    };
 
-    public Reenable_answer_button_if_renewed_answer() {
+    AnswerQuestion.prototype.Reenable_answer_button_if_renewed_answer = function () {
         if ($("#buttons-edit-answer").is(":visible")) {
             $("#buttons-edit-answer").hide();
             $("#buttons-answer-again").show();
             InputFeedback.AnimateNeutral();
         }
-    }
+    };
 
-    public AtLeastOneWrongAnswer() {
+    AnswerQuestion.prototype.AtLeastOneWrongAnswer = function () {
         atLeastOneWrongAnswer = true;
+    };
+    return AnswerQuestion;
+})();
+
+var InputFeedback = (function () {
+    function InputFeedback() {
     }
-}
-
-class InputFeedback {
-
-    private static ErrMsgs = ["Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
-        "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
-        "Weiter, weiter, nicht aufgeben.",
-        "Übung macht den Meister. Du bist auf dem richtigen Weg.",
-        "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
-    ];
-
-    private static SuccessMsgs = ["Yeah! Weiter so.", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!"];
-
-    public static ShowError(text = "", forceShow: boolean = false) {
-
+    InputFeedback.ShowError = function (text, forceShow) {
+        if (typeof text === "undefined") { text = ""; }
+        if (typeof forceShow === "undefined") { forceShow = false; }
         if (text === "") {
             text = InputFeedback.ErrMsgs[Utils.Random(0, InputFeedback.ErrMsgs.length - 1)];
         }
@@ -217,19 +195,18 @@ class InputFeedback {
         }
 
         InputFeedback.AnimateWrongAnswer();
-     }
+    };
 
-    static AnimateWrongAnswer() {
+    InputFeedback.AnimateWrongAnswer = function () {
         $("#buttons-edit-answer").show();
         $("#txtAnswer").animate({ backgroundColor: "#efc7ce" }, 1000);
-    }
+    };
 
-    static AnimateNeutral() {
+    InputFeedback.AnimateNeutral = function () {
         $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
-    }
+    };
 
-    static ShowSuccess() {
-
+    InputFeedback.ShowSuccess = function () {
         $("#divAnsweredCorrect").show();
         $("#buttons-next-answer").show();
         $("#buttons-edit-answer").hide();
@@ -240,11 +217,11 @@ class InputFeedback {
         $("#wellDoneMsg").html("" + InputFeedback.SuccessMsgs[Utils.Random(0, InputFeedback.SuccessMsgs.length - 1)]).show();
 
         InputFeedback.RenderAnswerDetails();
-    }
+    };
 
-    static ShowCorrectAnswer() {
+    InputFeedback.ShowCorrectAnswer = function () {
+        InputFeedback.ShowNextAnswer();
 
-        InputFeedback.ShowNextAnswer(); 
         //$("#divWrongAnswer").hide();
         if (!atLeastOneWrongAnswer) {
             $("#txtAnswer").hide();
@@ -257,17 +234,19 @@ class InputFeedback {
                 $("#divWrongAnswers").show();
             }
         }
-        if (answersSoFar.length > 1){
+        if (answersSoFar.length > 1) {
             $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antworten:');
             $("#divWrongAnswers").show();
         }
         InputFeedback.RenderAnswerDetails();
-    }
+    };
 
-    static RenderAnswerDetails() {
+    InputFeedback.RenderAnswerDetails = function () {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
         $('#Buttons').css('visibility', 'hidden');
-        window.setTimeout(function() { $("#SolutionDetailsSpinner").show(); }, 1000);
+        window.setTimeout(function () {
+            $("#SolutionDetailsSpinner").show();
+        }, 1000);
 
         ajaxGetAnswer(function (result) {
             $("#Solution").show().find('.Content').html(result.correctAnswer);
@@ -277,7 +256,7 @@ class InputFeedback {
             if (result.correctAnswerReferences.length > 0) {
                 $("#References").show();
                 var indexSuccessfulReferences = 0;
-                $(window).on('oneMoreReference', function() {
+                $(window).on('oneMoreReference', function () {
                     indexSuccessfulReferences++;
                     if (indexSuccessfulReferences === result.correctAnswerReferences.length) {
                         InputFeedback.ShowAnswerDetails();
@@ -298,7 +277,7 @@ class InputFeedback {
                         if (ref.additionalInfo) {
                             $('<div class="AdditionalInfo">' + ref.additionalInfo + '</div>').appendTo(div);
                         }
-                    }
+                    };
 
                     var fnAjaxCall = function (div, ref) {
                         $.ajax({
@@ -312,7 +291,7 @@ class InputFeedback {
                                 $(window).trigger('oneMoreReference');
                             }
                         });
-                    }
+                    };
 
                     if (reference.categoryId != -1) {
                         fnAjaxCall(referenceHtml, reference);
@@ -325,33 +304,35 @@ class InputFeedback {
                 InputFeedback.ShowAnswerDetails();
             }
         });
-    }
+    };
 
-    static ShowAnswerDetails() {
-        window.setTimeout(function() {
+    InputFeedback.ShowAnswerDetails = function () {
+        window.setTimeout(function () {
             $("#SolutionDetailsSpinner").remove();
             $("#SolutionDetails").show();
             $('#Buttons').css('visibility', 'visible');
         }, 50);
-    }
+    };
 
-    static UpdateAnswersSoFar() {
-
+    InputFeedback.UpdateAnswersSoFar = function () {
         var errorTryText;
         var amountOfTriesText = ["0 Versuche", "ein Versuch", "zwei", "drei", "vier", "fünf", "sehr hartnäckig", "Respekt!"];
 
         switch (amountOfTries) {
             case 0:
             case 1:
-                errorTryText = amountOfTriesText[amountOfTries]; break;
+                errorTryText = amountOfTriesText[amountOfTries];
+                break;
             case 2:
             case 3:
             case 4:
             case 5:
-                errorTryText = amountOfTriesText[amountOfTries] + " Versuche"; break;
+                errorTryText = amountOfTriesText[amountOfTries] + " Versuche";
+                break;
             case 6:
             case 7:
-                errorTryText = amountOfTriesText[amountOfTries]; break;
+                errorTryText = amountOfTriesText[amountOfTries];
+                break;
             default:
                 errorTryText = amountOfTriesText[7];
         }
@@ -360,14 +341,12 @@ class InputFeedback {
         $('#ulAnswerHistory').html("");
 
         $.each(answersSoFar, function (index, val) {
-            $('#ulAnswerHistory').append(
-                $('<li>' + val + '</li>'));
+            $('#ulAnswerHistory').append($('<li>' + val + '</li>'));
         });
-    }
+    };
 
-    private static ShowNextAnswer() {
+    InputFeedback.ShowNextAnswer = function () {
         //$("#txtAnswer").animate({ backgroundColor: "white" }, 200);
-
         $("#buttons-next-answer").show();
         if (atLeastOneWrongAnswer) {
             $("#btnCountAsCorrect").removeAttr('disabled').show();
@@ -378,8 +357,18 @@ class InputFeedback {
         $("#buttons-first-try").hide();
         $("#buttons-edit-answer").hide();
         $("#buttons-answer-again").hide();
-    }
-}
+    };
+    InputFeedback.ErrMsgs = [
+        "Wer einen Fehler gemacht hat und ihn nicht korrigiert, begeht einen zweiten. (Konfuzius)",
+        "Es ist ein großer Vorteil im Leben, die Fehler, aus denen man lernen kann, möglichst früh zu begehen. (Churchill)",
+        "Weiter, weiter, nicht aufgeben.",
+        "Übung macht den Meister. Du bist auf dem richtigen Weg.",
+        "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden."
+    ];
+
+    InputFeedback.SuccessMsgs = ["Yeah! Weiter so.", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!"];
+    return InputFeedback;
+})();
 
 function ajaxGetAnswer(onSuccessAction) {
     $.ajax({
@@ -391,5 +380,4 @@ function ajaxGetAnswer(onSuccessAction) {
         }
     });
 }
-
-
+//# sourceMappingURL=AnswerQuestion.js.map

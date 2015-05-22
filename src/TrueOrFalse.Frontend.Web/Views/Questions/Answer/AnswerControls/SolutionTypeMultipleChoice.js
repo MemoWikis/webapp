@@ -1,6 +1,3 @@
-/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
-/// <reference path="../../../../scripts/utils.ts" />
-/// <reference path="../js/answerquestion.ts" />
 var SolutionTypeMultipleChoice = (function () {
     function SolutionTypeMultipleChoice() {
         var answerQuestion = new AnswerQuestion(this);

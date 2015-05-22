@@ -1,5 +1,4 @@
-﻿/// <reference path="../js/answerquestion.ts" />
-var SolutionTypeDateEntry = (function () {
+﻿var SolutionTypeDateEntry = (function () {
     function SolutionTypeDateEntry() {
         var _this = this;
         var answerQuestion = new AnswerQuestion(this);
