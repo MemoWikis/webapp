@@ -9,6 +9,9 @@
             Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
             this.InitCountDownRound(game.RoundLength);
 
+            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId,
+                htmlResult => { this._play.ChangeContent(htmlResult,"#divBodyAnswer") }
+            );
         };
     }
 

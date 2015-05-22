@@ -23,6 +23,7 @@
     </div>
 </div>
 
-<h2>Das Spiel läuft</h2>
-
-Du bist Mitspieler.
+<div id="divBodyAnswer">
+    <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", 
+            new AnswerBodyModel(Model.Question)); %>    
+</div>

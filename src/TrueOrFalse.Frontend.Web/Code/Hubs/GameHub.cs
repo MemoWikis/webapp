@@ -50,6 +50,7 @@ public class GameHub : BaseHub
             Clients.All.NextRound(new
             {
                 GameId = gameId,
+                QuestionId = currentRound.Question.Id,
                 GameRoundCount = game.RoundCount,
                 Round = currentRound.Number,
                 RoundLength = currentRound.RoundLength

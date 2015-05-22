@@ -29,10 +29,14 @@
             window.console.log("connection started:");
         });
     }
-    Play.prototype.ChangeBody = function (html) {
-        $("#divGameBody").animate({ opacity: 0.00 }, 200).empty().append(html).animate({ opacity: 1.00 }, 600);
+    Play.prototype.ChangeContent = function (selector, html) {
+        $(selector).animate({ opacity: 0.00 }, 200).empty().append(html).animate({ opacity: 1.00 }, 600);
 
         $(".show-tooltip").tooltip();
+    };
+
+    Play.prototype.ChangeBody = function (html) {
+        this.ChangeContent("#divGameBody", html);
     };
     return Play;
 })();

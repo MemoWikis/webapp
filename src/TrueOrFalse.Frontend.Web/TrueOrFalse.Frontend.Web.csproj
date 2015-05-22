@@ -479,6 +479,12 @@
     <Content Include="Views\Games\Play\BodyControls\GameInProgressPlayer.ascx" />
     <Content Include="Views\Games\Play\BodyControls\GameNeverStarted.ascx" />
     <Content Include="Views\Games\Play\BodyControls\GameReady.ascx" />
+    <Content Include="Views\Games\Play\Js\GameInProgressPlayer.js">
+      <DependentUpon>GameInProgressPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\GameReady.js">
+      <DependentUpon>GameReady.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Games\Play\Play.css">
       <DependentUpon>Play.less</DependentUpon>
     </Content>
@@ -1565,6 +1571,12 @@
     </Content>
     <Content Include="Views\Games\Play\Js\Play.js.map">
       <DependentUpon>Play.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\GameInProgressPlayer.js.map">
+      <DependentUpon>GameInProgressPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\GameReady.js.map">
+      <DependentUpon>GameReady.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

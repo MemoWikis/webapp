@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Web.Mvc;
+using TrueOrFalse.Web;
 
-public class AnswerBodyModel
+public class AnswerBodyModel : BaseModel
 {
     public bool IsInWishknowledge;
 
     public string QuestionText;
     public string QuestionTextMarkdown;
 
-    public bool HasSound;
+    public bool HasSound{ get { return !string.IsNullOrEmpty(SoundUrl); } }
     public string SoundUrl;
     
     public string SolutionMetaDataJson;
@@ -18,6 +19,22 @@ public class AnswerBodyModel
 
     public Func<UrlHelper, string> NextUrl;
 
+    public AnswerBodyModel(Question question)
+    {
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
+        IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
+
+        QuestionText = question.Text;
+        QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
+
+        SoundUrl = new GetQuestionSoundUrl().Run(question);
+
+        SolutionMetadata = new SolutionMetadata { Json = question.SolutionMetadataJson };
+        SolutionMetaDataJson = question.SolutionMetadataJson;
+        SolutionType = question.SolutionType.ToString();
+        SolutionModel = new GetQuestionSolution().Run(question);
+    }
+
     public AnswerBodyModel(AnswerQuestionModel answerQuestionModel)
     {
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
@@ -25,7 +42,6 @@ public class AnswerBodyModel
         QuestionText = answerQuestionModel.QuestionText;
         QuestionTextMarkdown = answerQuestionModel.QuestionTextMarkdown;
 
-        HasSound = answerQuestionModel.HasSound;
         SoundUrl = answerQuestionModel.SoundUrl;
 
         SolutionMetaDataJson = answerQuestionModel.SolutionMetaDataJson;

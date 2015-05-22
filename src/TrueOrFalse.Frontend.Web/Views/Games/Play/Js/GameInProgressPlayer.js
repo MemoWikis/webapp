@@ -6,6 +6,10 @@
         this._play.Hub.client.NextRound = function (game) {
             Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
             _this.InitCountDownRound(game.RoundLength);
+
+            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId, function (htmlResult) {
+                _this._play.ChangeContent(htmlResult, "#divBodyAnswer");
+            });
         };
     }
     GameInProgressPlayer.prototype.InitCountdown = function () {
