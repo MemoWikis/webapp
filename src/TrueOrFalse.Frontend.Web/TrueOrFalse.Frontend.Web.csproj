@@ -290,6 +290,7 @@
     <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
     <Compile Include="Views\Games\GamesModel.cs" />
+    <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
@@ -493,6 +494,7 @@
     <Content Include="Views\Questions\Answer\Js\BrainWavesHub.js">
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
     <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
