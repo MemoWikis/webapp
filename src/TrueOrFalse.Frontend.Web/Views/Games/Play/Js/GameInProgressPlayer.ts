@@ -1,40 +1,62 @@
 ﻿class GameInProgressPlayer {
 
-    _play : Play;
+    _play: Play;
+
+    private thisRoundSecTotal; /*in seconds*/
+    private thisRoundSecLeft; /*in seconds*/
 
     constructor(play : Play) {
         this._play = play;
 
+        var initialGame = new Game();
+        initialGame.QuestionId = $("#hddQuestionId").val();
+        var dateEnd = new Date($("#hddRoundEnd").val()); var dateNow = new Date();
+        var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
+        initialGame.Round = $("#hddRound").val();
+        initialGame.RoundLength = $("#hddRoundLength").val();
+
+        this.InitGame(initialGame, secondsLeft);
+
         this._play.Hub.client.NextRound = (game: Game) => {
-            Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
-            this.InitCountDownRound(game.RoundLength);
-
-            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId,
-                htmlResult => { this._play.ChangeContent("#divBodyAnswer", htmlResult) }
-            );
+            this.InitGame(game);
         };
+
+        this.StartCountDown();
     }
 
-    public InitCountdown() {
-        this.InitCountDownRound(20);
+    public InitGame(game: Game, secondsRemaining : number = -1) {
+        Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
+
+        $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId,
+            htmlResult => { this._play.ChangeContent("#divBodyAnswer", htmlResult) });
+
+        this.thisRoundSecTotal = game.RoundLength;
+        if (secondsRemaining != -1) {
+            this.thisRoundSecLeft = secondsRemaining;
+        } else {
+            this.thisRoundSecLeft = game.RoundLength;
+        }
     }
 
-    public InitCountDownRound(roundLength : number) {
-        $("#divRemainingTime").each(function () {
+    public StartCountDown() {
 
-            var $this = $(this);
-            var $progressRound = $("#progressRound");
+        var self = this;
 
-            var finalDate = new Date();
-            finalDate.setSeconds(finalDate.getSeconds() + roundLength);
-            
-            $this.find("#spanRemainingTime").each(function() {
-                $(this).countdown(finalDate, function (event) {
+        window.setInterval(() => {
 
-                    $progressRound.css("width", ((event.offset.seconds / roundLength) * 100) + "%");
-                    $(this).html(event.strftime('%Ssec'));
-                });
+            $("#divRemainingTime").each(function() {
+
+                var $this = $(this);
+                var $progressRound = $("#progressRound");
+
+                $progressRound.css("width",
+                    ((self.thisRoundSecLeft / self.thisRoundSecTotal) * 100) + "%");
+
+                $this.find("#spanRemainingTime").html(self.thisRoundSecLeft + "sec");
             });
-        });
+
+            this.thisRoundSecLeft--;
+
+        }, 1000);
     }
 }

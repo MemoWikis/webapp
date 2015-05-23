@@ -10,7 +10,6 @@
             $.get("/Play/RenderGameInProgressPlayer/?gameId=" + game.GameId, function (htmlResult) {
                 _this.ChangeBody(htmlResult);
             });
-            _this._gameInProgressPlayer.InitCountdown();
         };
 
         this.Hub.client.Completed = function (game) {

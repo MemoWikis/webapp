@@ -15,6 +15,7 @@ public class GameRound : DomainEntity
 
     public virtual Game Game { get; set; }
 
+    /// <summary>Seconds</summary>
     public virtual int RoundLength { get { return 20; } }
 
     public virtual bool IsOverdue()

@@ -1,15 +1,18 @@
-﻿public class GameInProgressPlayerModel : PlayBaseModel
-{
-    public int CurrentRoundNum;
-    public int CurrentRoundLength;
+﻿using System;
 
+public class GameInProgressPlayerModel : PlayBaseModel
+{
+    public int RoundNum;
+    public int RoundLength;
+    public DateTime RoundEndTime;
     public Question Question;
 
     public GameInProgressPlayerModel(Game game) : base(game)
     {
         var currentRound = game.GetCurrentRound();
-        CurrentRoundNum = game.GetCurrentRoundNumber();
-        CurrentRoundLength = currentRound.RoundLength;
+        RoundNum = game.GetCurrentRoundNumber();
+        RoundLength = currentRound.RoundLength;
+        RoundEndTime = currentRound.StartTime.Value.AddSeconds(currentRound.RoundLength);
         Question = currentRound.Question;
     }
 }

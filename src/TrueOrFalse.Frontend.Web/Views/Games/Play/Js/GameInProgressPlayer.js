@@ -3,34 +3,55 @@
         var _this = this;
         this._play = play;
 
-        this._play.Hub.client.NextRound = function (game) {
-            Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
-            _this.InitCountDownRound(game.RoundLength);
+        var initialGame = new Game();
+        initialGame.QuestionId = $("#hddQuestionId").val();
+        var dateEnd = new Date($("#hddRoundEnd").val());
+        var dateNow = new Date();
+        var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
+        initialGame.Round = $("#hddRound").val();
+        initialGame.RoundLength = $("#hddRoundLength").val();
 
-            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId, function (htmlResult) {
-                _this._play.ChangeContent("#divBodyAnswer", htmlResult);
-            });
+        this.InitGame(initialGame, secondsLeft);
+
+        this._play.Hub.client.NextRound = function (game) {
+            _this.InitGame(game);
         };
+
+        this.StartCountDown();
     }
-    GameInProgressPlayer.prototype.InitCountdown = function () {
-        this.InitCountDownRound(20);
+    GameInProgressPlayer.prototype.InitGame = function (game, secondsRemaining) {
+        var _this = this;
+        if (typeof secondsRemaining === "undefined") { secondsRemaining = -1; }
+        Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
+
+        $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId, function (htmlResult) {
+            _this._play.ChangeContent("#divBodyAnswer", htmlResult);
+        });
+
+        this.thisRoundSecTotal = game.RoundLength;
+        if (secondsRemaining != -1) {
+            this.thisRoundSecLeft = secondsRemaining;
+        } else {
+            this.thisRoundSecLeft = game.RoundLength;
+        }
     };
 
-    GameInProgressPlayer.prototype.InitCountDownRound = function (roundLength) {
-        $("#divRemainingTime").each(function () {
-            var $this = $(this);
-            var $progressRound = $("#progressRound");
+    GameInProgressPlayer.prototype.StartCountDown = function () {
+        var _this = this;
+        var self = this;
 
-            var finalDate = new Date();
-            finalDate.setSeconds(finalDate.getSeconds() + roundLength);
+        window.setInterval(function () {
+            $("#divRemainingTime").each(function () {
+                var $this = $(this);
+                var $progressRound = $("#progressRound");
 
-            $this.find("#spanRemainingTime").each(function () {
-                $(this).countdown(finalDate, function (event) {
-                    $progressRound.css("width", ((event.offset.seconds / roundLength) * 100) + "%");
-                    $(this).html(event.strftime('%Ssec'));
-                });
+                $progressRound.css("width", ((self.thisRoundSecLeft / self.thisRoundSecTotal) * 100) + "%");
+
+                $this.find("#spanRemainingTime").html(self.thisRoundSecLeft + "sec");
             });
-        });
+
+            _this.thisRoundSecLeft--;
+        }, 1000);
     };
     return GameInProgressPlayer;
 })();
