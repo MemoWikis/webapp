@@ -1,6 +1,4 @@
 ﻿/// <reference path="../typescript.defs/lib.d.ts" />
-/// <reference path="../utils.ts" />
-
 var answerResult;
 
 var answersSoFar = [];
@@ -20,12 +18,21 @@ class AnswerQuestion
     private _getAnswerData: () => {};
     private _onNewAnswer: () => void;
 
+    private ajaxUrl_SendAnswer: string;
+    private ajaxUrl_GetAnswer: string;
+    private ajaxUrl_CountLastAnswerAsCorrect: string;
+
+    
     constructor(solutionEntry : ISolutionEntry)
     {
         this._getAnswerText = solutionEntry.GetAnswerText;
         this._getAnswerData = solutionEntry.GetAnswerData;
         this._onNewAnswer = solutionEntry.OnNewAnswer;
 
+        this.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
+        this.ajaxUrl_GetAnswer = $("#ajaxUrl_GetAnswer").val();
+        this.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
+        
         var self = this;
 
         $("#txtAnswer").keypress(function (e) {
@@ -77,6 +84,10 @@ class AnswerQuestion
         });
     }
 
+    static GetQuestionId() : number {
+        return +$("#questionId").val();
+    }
+
     private validateAnswer() {
         var answerText = this._getAnswerText();
         var self = this;
@@ -94,7 +105,7 @@ class AnswerQuestion
 
             $.ajax({
                 type: 'POST',
-                url: window.ajaxUrl_SendAnswer,
+                url: self.ajaxUrl_SendAnswer,
                 data: this._getAnswerData(),
                 cache: false,
                 success: function (result) {
@@ -118,7 +129,7 @@ class AnswerQuestion
                     };
 
                     $("#answerHistory").empty();
-                    $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
+                    $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: AnswerQuestion.GetQuestionId() }, function (data) {
                         $("#answerHistory").html(data);
                     });
                 }
@@ -141,15 +152,16 @@ class AnswerQuestion
     }
 
     private countLastAnswerAsCorrect() {
+        var self = this;
         $.ajax({
             type: 'POST',
-            url: window.ajaxUrl_CountLastAnswerAsCorrect,
+            url: self.ajaxUrl_CountLastAnswerAsCorrect,
             cache: false,
             success: function (result) {
                 $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
                 $('#btnCountAsCorrect').attr('disabled', 'true');
                 $("#answerHistory").empty();
-                $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: window.questionId }, function (data) {
+                $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: AnswerQuestion.GetQuestionId() }, function (data) {
                     $("#answerHistory").html(data);
                 });
             } 
@@ -382,9 +394,11 @@ class InputFeedback {
 }
 
 function ajaxGetAnswer(onSuccessAction) {
+    var self = this;
+
     $.ajax({
         type: 'POST',
-        url: window.ajaxUrl_GetAnswer,
+        url: self.ajaxUrl_GetAnswer,
         cache: false,
         success: function (result) {
             onSuccessAction(result);

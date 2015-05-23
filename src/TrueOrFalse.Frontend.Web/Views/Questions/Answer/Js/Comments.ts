@@ -17,7 +17,7 @@
         window.scrollTo(0, window.document.body.scrollHeight);
 
         var params = {
-            questionId: window.questionId,
+            questionId: AnswerQuestion.GetQuestionId(),
             text: $("#txtDeleteBecause").val(),
             typeRemove: true,
             typeKeys: $("input:checked[name='ckbDelete']")
@@ -35,7 +35,7 @@
         window.scrollTo(0, window.document.body.scrollHeight);
 
         var params = {
-            questionId: window.questionId,
+            questionId: AnswerQuestion.GetQuestionId(),
             text: $("#txtImproveBecause").val(),
             typeImprovement: true,
             typeKeys: $("input:checked[name='ckbImprove']")
@@ -50,7 +50,7 @@
 
     SaveComment(e: BaseJQueryEventObject) {
         var params = {
-            questionId: window.questionId,
+            questionId: AnswerQuestion.GetQuestionId(),
             text: $("#txtNewComment").val()
         }
 

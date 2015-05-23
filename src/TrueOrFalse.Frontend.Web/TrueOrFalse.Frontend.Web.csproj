@@ -387,7 +387,7 @@
     <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
-    <TypeScriptCompile Include="Scripts\answerQuestions\BrainWavesHub.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
@@ -497,7 +497,7 @@
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Games\Games.aspx" />
-    <Content Include="Scripts\answerQuestions\BrainWavesHub.js">
+    <Content Include="Scripts\answerQuestion\BrainWavesHub.js">
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
@@ -1183,7 +1183,7 @@
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
     <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
-    <Content Include="Scripts\answerQuestions\AnswerQuestion.js">
+    <Content Include="Scripts\answerQuestion\AnswerQuestion.js">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Comments.js">
@@ -1192,7 +1192,7 @@
     <Content Include="Views\Questions\Answer\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\answerQuestions\PinQuestion.js">
+    <Content Include="Scripts\answerQuestion\PinQuestion.js">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\RowPin.js">
@@ -1237,10 +1237,10 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
-    <TypeScriptCompile Include="Scripts\answerQuestions\AnswerQuestion.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Comments.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
-    <TypeScriptCompile Include="Scripts\answerQuestions\PinQuestion.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Scripts\RowPin.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
@@ -1366,7 +1366,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js.map">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\answerQuestions\AnswerQuestion.js.map">
+    <Content Include="Scripts\answerQuestion\AnswerQuestion.js.map">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Page.js.map">
@@ -1471,7 +1471,7 @@
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js.map">
       <DependentUpon>ChangeTypeControls.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\answerQuestions\PinQuestion.js.map">
+    <Content Include="Scripts\answerQuestion\PinQuestion.js.map">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Comments.js.map">
@@ -1538,7 +1538,7 @@
     <Content Include="Views\Beta\Js\BetaRequest.js.map">
       <DependentUpon>BetaRequest.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\answerQuestions\BrainWavesHub.js.map">
+    <Content Include="Scripts\answerQuestion\BrainWavesHub.js.map">
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js.map">

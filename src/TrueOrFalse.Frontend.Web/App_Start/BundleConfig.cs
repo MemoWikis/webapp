@@ -68,7 +68,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/AnswerQuestion")
-                .IncludeDirectory("~/Scripts/answerQuestions/", "*.js")
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")
@@ -93,7 +93,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Games/Edit/Js/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/GamePlay")
-                .IncludeDirectory("~/Scripts/answerQuestions/", "*,js")
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*,js")
                 .IncludeDirectory("~/Views/Games/Play/Js/", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/GamePlay")

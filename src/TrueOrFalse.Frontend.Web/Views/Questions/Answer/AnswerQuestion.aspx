@@ -27,16 +27,18 @@
         var relevancePersonalEntries = "<%= Model.TotalRelevancePersonalEntries %>";
         var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
         var relevanceForAlleEntries = "<%= Model.TotalRelevanceForAllEntries %>";
-
-        var ajaxUrl_SendAnswer = "<%= Model.AjaxUrl_SendAnswer(Url) %>";
-        var ajaxUrl_GetAnswer = "<%= Model.AjaxUrl_GetAnswer(Url) %>";
-        var ajaxUrl_CountLastAnswerAsCorrect = "<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>";
     </script>
 
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    
+    <input type="hidden" id="ajaxUrl_SendAnswer" value="<%= Model.AjaxUrl_SendAnswer(Url) %>" />
+    <input type="hidden" id="ajaxUrl_GetAnswer" value="<%= Model.AjaxUrl_GetAnswer(Url) %>" />
+    <input type="hidden" id="ajaxUrl_CountLastAnswerAsCorrect" value="<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>" />
+    <input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
+
     <div class="row">
         <div class="col-lg-9 col-xs-9 xxs-stack">
             <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">

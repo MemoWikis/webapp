@@ -20,13 +20,6 @@ interface JQuery {
     countdown(action: string);
 }
 
-interface Window {
-    ajaxUrl_SendAnswer: any;
-    ajaxUrl_GetAnswer: any;
-    ajaxUrl_CountLastAnswerAsCorrect : any;
-    questionId : any;
-}
-
 interface SignalR {
     brainWavesHub: any;
     gameHub: any;

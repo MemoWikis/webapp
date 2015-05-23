@@ -24,7 +24,7 @@
         window.scrollTo(0, window.document.body.scrollHeight);
 
         var params = {
-            questionId: window.questionId,
+            questionId: AnswerQuestion.GetQuestionId(),
             text: $("#txtDeleteBecause").val(),
             typeRemove: true,
             typeKeys: $("input:checked[name='ckbDelete']").map(function () {
@@ -41,7 +41,7 @@
         window.scrollTo(0, window.document.body.scrollHeight);
 
         var params = {
-            questionId: window.questionId,
+            questionId: AnswerQuestion.GetQuestionId(),
             text: $("#txtImproveBecause").val(),
             typeImprovement: true,
             typeKeys: $("input:checked[name='ckbImprove']").map(function () {
@@ -56,7 +56,7 @@
 
     Comments.prototype.SaveComment = function (e) {
         var params = {
-            questionId: window.questionId,
+            questionId: AnswerQuestion.GetQuestionId(),
             text: $("#txtNewComment").val()
         };
 
