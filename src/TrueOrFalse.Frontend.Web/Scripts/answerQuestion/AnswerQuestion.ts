@@ -18,24 +18,23 @@ class AnswerQuestion
     private _getAnswerData: () => {};
     private _onNewAnswer: () => void;
 
-    private ajaxUrl_SendAnswer: string;
-    private ajaxUrl_GetAnswer: string;
-    private ajaxUrl_CountLastAnswerAsCorrect: string;
+    static ajaxUrl_SendAnswer: string;
+    static ajaxUrl_GetAnswer: string;
+    static ajaxUrl_CountLastAnswerAsCorrect: string;
 
-    
     constructor(solutionEntry : ISolutionEntry)
     {
         this._getAnswerText = solutionEntry.GetAnswerText;
         this._getAnswerData = solutionEntry.GetAnswerData;
         this._onNewAnswer = solutionEntry.OnNewAnswer;
 
-        this.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
-        this.ajaxUrl_GetAnswer = $("#ajaxUrl_GetAnswer").val();
-        this.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
+        AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
+        AnswerQuestion.ajaxUrl_GetAnswer = $("#ajaxUrl_GetAnswer").val();
+        AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
         
         var self = this;
 
-        $("#txtAnswer").keypress(function (e) {
+        $("#txtAnswer").keypress(e => {
             if (e.keyCode == 13) {
                 if (self.isAnswerPossible()) {
                     self.validateAnswer();
@@ -52,18 +51,18 @@ class AnswerQuestion
             });
 
         $("#btnCheckAgain").click(
-            e=> {
+            e => {
                 e.preventDefault();
                 this.validateAnswer();
             });
 
         $("#btnCountAsCorrect").click(
-            e=> {
+            e => {
                 e.preventDefault();
                 self.countLastAnswerAsCorrect();
             });
 
-        $("#CountWrongAnswers").click(function (e) {
+        $("#CountWrongAnswers").click(e => {
             e.preventDefault();
             var divWrongAnswers = $("#divWrongAnswers");
             if (!divWrongAnswers.is(":visible"))
@@ -72,10 +71,11 @@ class AnswerQuestion
                 divWrongAnswers.hide();
         });
 
-        $(".selectorShowAnswer").click( ()=> {
+        $(".selectorShowAnswer").click(()=> {
             InputFeedback.ShowCorrectAnswer();
             return false;
         });
+
         $("#buttons-edit-answer").click((e) => {
             e.preventDefault();
             this._onNewAnswer();
@@ -105,8 +105,8 @@ class AnswerQuestion
 
             $.ajax({
                 type: 'POST',
-                url: self.ajaxUrl_SendAnswer,
-                data: this._getAnswerData(),
+                url: AnswerQuestion.ajaxUrl_SendAnswer,
+                data: self._getAnswerData(),
                 cache: false,
                 success: function (result) {
                     answerResult = result;
@@ -155,7 +155,7 @@ class AnswerQuestion
         var self = this;
         $.ajax({
             type: 'POST',
-            url: self.ajaxUrl_CountLastAnswerAsCorrect,
+            url: AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect,
             cache: false,
             success: function (result) {
                 $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
@@ -196,6 +196,18 @@ class AnswerQuestion
 
     public AtLeastOneWrongAnswer() {
         atLeastOneWrongAnswer = true;
+    }
+
+    static AjaxGetAnswer(onSuccessAction) {
+
+        $.ajax({
+            type: 'POST',
+            url: this.ajaxUrl_GetAnswer,
+            cache: false,
+            success: result => {
+                onSuccessAction(result);
+            }
+        });
     }
 }
 
@@ -257,7 +269,7 @@ class InputFeedback {
     static ShowCorrectAnswer() {
 
         InputFeedback.ShowNextAnswer(); 
-        //$("#divWrongAnswer").hide();
+
         if (!atLeastOneWrongAnswer) {
             $("#txtAnswer").hide();
         }
@@ -281,7 +293,8 @@ class InputFeedback {
         $('#Buttons').css('visibility', 'hidden');
         window.setTimeout(function() { $("#SolutionDetailsSpinner").show(); }, 1000);
 
-        ajaxGetAnswer(function (result) {
+        AnswerQuestion.AjaxGetAnswer(function (result) {
+
             $("#Solution").show().find('.Content').html(result.correctAnswer);
             if (result.correctAnswerDesc) {
                 $("#Description").show().find('.Content').html(result.correctAnswerDesc);
@@ -392,18 +405,3 @@ class InputFeedback {
         $("#buttons-answer-again").hide();
     }
 }
-
-function ajaxGetAnswer(onSuccessAction) {
-    var self = this;
-
-    $.ajax({
-        type: 'POST',
-        url: self.ajaxUrl_GetAnswer,
-        cache: false,
-        success: function (result) {
-            onSuccessAction(result);
-        }
-    });
-}
-
-

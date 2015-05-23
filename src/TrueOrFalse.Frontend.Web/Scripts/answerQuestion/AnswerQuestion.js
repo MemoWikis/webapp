@@ -13,9 +13,9 @@ var AnswerQuestion = (function () {
         this._getAnswerData = solutionEntry.GetAnswerData;
         this._onNewAnswer = solutionEntry.OnNewAnswer;
 
-        this.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
-        this.ajaxUrl_GetAnswer = $("#ajaxUrl_GetAnswer").val();
-        this.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
+        AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
+        AnswerQuestion.ajaxUrl_GetAnswer = $("#ajaxUrl_GetAnswer").val();
+        AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
 
         var self = this;
 
@@ -57,6 +57,7 @@ var AnswerQuestion = (function () {
             InputFeedback.ShowCorrectAnswer();
             return false;
         });
+
         $("#buttons-edit-answer").click(function (e) {
             e.preventDefault();
             _this._onNewAnswer();
@@ -85,8 +86,8 @@ var AnswerQuestion = (function () {
 
             $.ajax({
                 type: 'POST',
-                url: self.ajaxUrl_SendAnswer,
-                data: this._getAnswerData(),
+                url: AnswerQuestion.ajaxUrl_SendAnswer,
+                data: self._getAnswerData(),
                 cache: false,
                 success: function (result) {
                     answerResult = result;
@@ -136,7 +137,7 @@ var AnswerQuestion = (function () {
         var self = this;
         $.ajax({
             type: 'POST',
-            url: self.ajaxUrl_CountLastAnswerAsCorrect,
+            url: AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect,
             cache: false,
             success: function (result) {
                 $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
@@ -176,6 +177,17 @@ var AnswerQuestion = (function () {
 
     AnswerQuestion.prototype.AtLeastOneWrongAnswer = function () {
         atLeastOneWrongAnswer = true;
+    };
+
+    AnswerQuestion.AjaxGetAnswer = function (onSuccessAction) {
+        $.ajax({
+            type: 'POST',
+            url: this.ajaxUrl_GetAnswer,
+            cache: false,
+            success: function (result) {
+                onSuccessAction(result);
+            }
+        });
     };
     return AnswerQuestion;
 })();
@@ -230,7 +242,6 @@ var InputFeedback = (function () {
     InputFeedback.ShowCorrectAnswer = function () {
         InputFeedback.ShowNextAnswer();
 
-        //$("#divWrongAnswer").hide();
         if (!atLeastOneWrongAnswer) {
             $("#txtAnswer").hide();
         }
@@ -256,7 +267,7 @@ var InputFeedback = (function () {
             $("#SolutionDetailsSpinner").show();
         }, 1000);
 
-        ajaxGetAnswer(function (result) {
+        AnswerQuestion.AjaxGetAnswer(function (result) {
             $("#Solution").show().find('.Content').html(result.correctAnswer);
             if (result.correctAnswerDesc) {
                 $("#Description").show().find('.Content').html(result.correctAnswerDesc);
@@ -377,17 +388,4 @@ var InputFeedback = (function () {
     InputFeedback.SuccessMsgs = ["Yeah! Weiter so.", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!"];
     return InputFeedback;
 })();
-
-function ajaxGetAnswer(onSuccessAction) {
-    var self = this;
-
-    $.ajax({
-        type: 'POST',
-        url: self.ajaxUrl_GetAnswer,
-        cache: false,
-        success: function (result) {
-            onSuccessAction(result);
-        }
-    });
-}
 //# sourceMappingURL=AnswerQuestion.js.map
