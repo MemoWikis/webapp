@@ -9,6 +9,7 @@
         this.Hub.client.Started = function (game) {
             $.get("/Play/RenderGameInProgressPlayer/?gameId=" + game.GameId, function (htmlResult) {
                 _this.ChangeBody(htmlResult);
+                _this._gameInProgressPlayer.InitFromHtml();
             });
         };
 

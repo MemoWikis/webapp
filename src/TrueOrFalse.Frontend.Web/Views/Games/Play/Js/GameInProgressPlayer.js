@@ -8,32 +8,35 @@
         this.StartCountDown();
 
         if ($("#hddRound").length !== 0) {
-            var initialGame = new Game();
-            initialGame.QuestionId = $("#hddQuestionId").val();
-            initialGame.Round = $("#hddRound").val();
-            initialGame.RoundLength = $("#hddRoundLength").val();
-
-            var dateEnd = new Date($("#hddRoundEnd").val());
-            var dateNow = new Date();
-            var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
-
-            this.InitGame(initialGame, secondsLeft);
+            this.InitFromHtml();
         }
 
         this._play.Hub.client.NextRound = function (game) {
-            _this.InitGame(game);
+            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId, function (htmlResult) {
+                _this._play.ChangeContent("#divBodyAnswer", htmlResult);
+                _this.InitGame(game);
+            });
         };
     }
+    GameInProgressPlayer.prototype.InitFromHtml = function () {
+        var initialGame = new Game();
+        initialGame.QuestionId = $("#hddQuestionId").val();
+        initialGame.Round = $("#hddRound").val();
+        initialGame.RoundLength = $("#hddRoundLength").val();
+
+        var dateEnd = new Date($("#hddRoundEnd").val());
+        var dateNow = new Date();
+        var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
+
+        this.InitGame(initialGame, secondsLeft);
+    };
+
     GameInProgressPlayer.prototype.InitGame = function (game, secondsRemaining) {
-        var _this = this;
         if (typeof secondsRemaining === "undefined") { secondsRemaining = -1; }
         Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
 
-        $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId, function (htmlResult) {
-            _this._play.ChangeContent("#divBodyAnswer", htmlResult);
-            _this._solutionEntry.Init();
-            _this._pinQuestion.Init();
-        });
+        this._solutionEntry.Init();
+        this._pinQuestion.Init();
 
         this.thisRoundSecTotal = game.RoundLength;
         if (secondsRemaining != -1) {

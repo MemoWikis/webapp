@@ -17,32 +17,35 @@
         this.StartCountDown();
 
         if ($("#hddRound").length !== 0) {
-
-            var initialGame = new Game();
-            initialGame.QuestionId = $("#hddQuestionId").val();
-            initialGame.Round = $("#hddRound").val();
-            initialGame.RoundLength = $("#hddRoundLength").val();
-
-            var dateEnd = new Date($("#hddRoundEnd").val()); var dateNow = new Date();
-            var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
-
-            this.InitGame(initialGame, secondsLeft);
+            this.InitFromHtml();
         }
 
         this._play.Hub.client.NextRound = (game: Game) => {
-            this.InitGame(game);
+            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId,
+                htmlResult => {
+                    this._play.ChangeContent("#divBodyAnswer", htmlResult);
+                    this.InitGame(game);
+                });
         };
+    }
+
+    public InitFromHtml() {
+        var initialGame = new Game();
+        initialGame.QuestionId = $("#hddQuestionId").val();
+        initialGame.Round = $("#hddRound").val();
+        initialGame.RoundLength = $("#hddRoundLength").val();
+
+        var dateEnd = new Date($("#hddRoundEnd").val()); var dateNow = new Date();
+        var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
+
+        this.InitGame(initialGame, secondsLeft);        
     }
 
     public InitGame(game: Game, secondsRemaining : number = -1) {
         Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
 
-        $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId,
-            htmlResult => {
-                this._play.ChangeContent("#divBodyAnswer", htmlResult);
-                this._solutionEntry.Init();
-                this._pinQuestion.Init();
-            });
+        this._solutionEntry.Init();
+        this._pinQuestion.Init();
 
         this.thisRoundSecTotal = game.RoundLength;
         if (secondsRemaining != -1) {

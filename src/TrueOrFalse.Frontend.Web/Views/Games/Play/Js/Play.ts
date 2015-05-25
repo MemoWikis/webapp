@@ -14,7 +14,10 @@
 
         this.Hub.client.Started = (game: Game) => {
             $.get("/Play/RenderGameInProgressPlayer/?gameId=" + game.GameId,
-                htmlResult => { this.ChangeBody(htmlResult) }
+                htmlResult => {
+                    this.ChangeBody(htmlResult);
+                    this._gameInProgressPlayer.InitFromHtml();
+                }
             );
         };
 
