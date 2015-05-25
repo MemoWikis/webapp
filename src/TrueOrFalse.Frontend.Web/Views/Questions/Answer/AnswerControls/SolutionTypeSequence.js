@@ -25,8 +25,4 @@ var SolutionTypeSequence = (function () {
     return SolutionTypeSequence;
 })();
 ;
-
-$(function () {
-    new SolutionTypeSequence();
-});
 //# sourceMappingURL=SolutionTypeSequence.js.map

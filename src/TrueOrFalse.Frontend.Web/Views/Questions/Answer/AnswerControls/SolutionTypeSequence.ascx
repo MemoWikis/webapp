@@ -5,5 +5,3 @@
    { %>
    <label for="row-<%:i %>"><%:row.Key %></label> <%:Html.TextBox("row-" + i, null, new {@class = "sequence-row"})  %> <br />
 <% } %>
-
-<script src="/Views/Questions/Answer/AnswerControls/SolutionTypeSequence.js" type="text/javascript"></script>

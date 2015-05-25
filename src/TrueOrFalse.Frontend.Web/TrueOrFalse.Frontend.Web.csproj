@@ -378,6 +378,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Scripts\answerQuestion\SolutionEntry.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
@@ -421,6 +422,9 @@
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
     <Content Include="img\wmd-buttons.png" />
+    <Content Include="Scripts\answerQuestion\SolutionEntry.js">
+      <DependentUpon>SolutionEntry.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\BootstrapCustomUtils.js" />
     <Content Include="Scripts\CategoryApi.js">
       <DependentUpon>CategoryApi.ts</DependentUpon>
@@ -501,6 +505,9 @@
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js">
+      <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
@@ -866,6 +873,9 @@
     <Content Include="Scripts\SiteMessages.js.map">
       <DependentUpon>SiteMessages.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\answerQuestion\SolutionEntry.js.map">
+      <DependentUpon>SolutionEntry.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
@@ -1064,6 +1074,7 @@
     <Compile Include="Views\Welcome\WelcomeModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
@@ -1573,6 +1584,9 @@
     </Content>
     <Content Include="Views\Games\Play\Js\GameReady.js.map">
       <DependentUpon>GameReady.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js.map">
+      <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

@@ -20,7 +20,3 @@ class SolutionTypeMultipleChoice implements ISolutionEntry
         $('input:radio[name=answer]:checked').prop('checked', false);
     }
 };
-
-$(function() {
-    new SolutionTypeMultipleChoice();
-});

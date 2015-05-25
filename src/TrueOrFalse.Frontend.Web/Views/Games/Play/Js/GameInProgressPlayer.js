@@ -3,15 +3,18 @@
         var _this = this;
         this._play = play;
 
-        var initialGame = new Game();
-        initialGame.QuestionId = $("#hddQuestionId").val();
-        var dateEnd = new Date($("#hddRoundEnd").val());
-        var dateNow = new Date();
-        var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
-        initialGame.Round = $("#hddRound").val();
-        initialGame.RoundLength = $("#hddRoundLength").val();
+        if ($("#hddRound").length !== 0) {
+            var initialGame = new Game();
+            initialGame.QuestionId = $("#hddQuestionId").val();
+            initialGame.Round = $("#hddRound").val();
+            initialGame.RoundLength = $("#hddRoundLength").val();
 
-        this.InitGame(initialGame, secondsLeft);
+            var dateEnd = new Date($("#hddRoundEnd").val());
+            var dateNow = new Date();
+            var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
+
+            this.InitGame(initialGame, secondsLeft);
+        }
 
         this._play.Hub.client.NextRound = function (game) {
             _this.InitGame(game);

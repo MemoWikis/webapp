@@ -9,7 +9,6 @@
         $("#spanEntryPrecision").text(SolutionMetadataDate.GetPrecisionLabel(metaData.Precision) + "genau");
     }
 
-
     GetAnswerText(): string {
         return $("#txtAnswer").val();
     }
@@ -53,8 +52,3 @@
         return <SolutionMetadataDate>jQuery.parseJSON(jsonVal);
     }
 }
-
-
-$(function () {
-    new SolutionTypeDateEntry();
-});

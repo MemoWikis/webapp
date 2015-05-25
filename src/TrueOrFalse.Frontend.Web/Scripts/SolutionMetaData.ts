@@ -48,3 +48,11 @@ class SolutionMetadataText extends SolutionMetaData {
         this.IsText = true;
     }
 }
+
+enum SolutionType {
+    Text = 1,
+    Numeric = 4,
+    Date = 6,
+    MultipleChoice = 3,
+    Sequence = 5
+}

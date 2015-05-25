@@ -1,24 +1,23 @@
-var SolutionTypeTextEntry = (function () {
-    function SolutionTypeTextEntry() {
+﻿var SolutionTypeNumeric = (function () {
+    function SolutionTypeNumeric() {
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(function () {
             answerQuestion.OnAnswerChange();
         });
     }
-    SolutionTypeTextEntry.prototype.GetAnswerText = function () {
+    SolutionTypeNumeric.prototype.GetAnswerText = function () {
         return $("#txtAnswer").val();
     };
 
-    SolutionTypeTextEntry.prototype.GetAnswerData = function () {
+    SolutionTypeNumeric.prototype.GetAnswerData = function () {
         return { answer: $("#txtAnswer").val() };
     };
 
-    SolutionTypeTextEntry.prototype.OnNewAnswer = function () {
+    SolutionTypeNumeric.prototype.OnNewAnswer = function () {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
         $("#txtAnswer").select();
     };
-    return SolutionTypeTextEntry;
+    return SolutionTypeNumeric;
 })();
-;
-//# sourceMappingURL=SolutionTypeText.js.map
+//# sourceMappingURL=SolutionTypeNumeric.js.map

@@ -8,14 +8,18 @@
     constructor(play : Play) {
         this._play = play;
 
-        var initialGame = new Game();
-        initialGame.QuestionId = $("#hddQuestionId").val();
-        var dateEnd = new Date($("#hddRoundEnd").val()); var dateNow = new Date();
-        var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
-        initialGame.Round = $("#hddRound").val();
-        initialGame.RoundLength = $("#hddRoundLength").val();
+        if ($("#hddRound").length !== 0) {
 
-        this.InitGame(initialGame, secondsLeft);
+            var initialGame = new Game();
+            initialGame.QuestionId = $("#hddQuestionId").val();
+            initialGame.Round = $("#hddRound").val();
+            initialGame.RoundLength = $("#hddRoundLength").val();
+
+            var dateEnd = new Date($("#hddRoundEnd").val()); var dateNow = new Date();
+            var secondsLeft = Math.round(Math.abs(dateEnd.getTime() - dateNow.getTime()) / 1000);
+
+            this.InitGame(initialGame, secondsLeft);
+        }
 
         this._play.Hub.client.NextRound = (game: Game) => {
             this.InitGame(game);

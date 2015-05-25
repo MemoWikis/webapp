@@ -1,21 +1,21 @@
-class SolutionTypeTextEntry implements ISolutionEntry
-{
+﻿class SolutionTypeNumeric implements ISolutionEntry {
+
     constructor() {
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });    
     }
 
     GetAnswerText(): string {
-        return $("#txtAnswer").val();
+         return $("#txtAnswer").val();
     }
 
     GetAnswerData(): {} {
-        return { answer: $("#txtAnswer").val() };
+         return { answer: $("#txtAnswer").val() };
     }
 
-    OnNewAnswer() {
+    OnNewAnswer(): void {
         $("#txtAnswer").focus();
         $("#txtAnswer").setCursorPosition(0);
-        $("#txtAnswer").select();
+        $("#txtAnswer").select();        
     }
-};
+}

@@ -25,7 +25,3 @@ class SolutionTypeSequence implements ISolutionEntry
         $('.sequence-row').val("");
     }
 };
-
-$(function() {
-    new SolutionTypeSequence();
-});

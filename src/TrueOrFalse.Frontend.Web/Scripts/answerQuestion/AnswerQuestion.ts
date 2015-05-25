@@ -82,6 +82,12 @@ class AnswerQuestion
 
             InputFeedback.AnimateNeutral();
         });
+
+        new SolutionTypeDateEntry();
+        new SolutionTypeMultipleChoice();
+        new SolutionTypeNumeric();
+        new SolutionTypeSequence();
+        new SolutionTypeTextEntry();
     }
 
     static GetQuestionId() : number {

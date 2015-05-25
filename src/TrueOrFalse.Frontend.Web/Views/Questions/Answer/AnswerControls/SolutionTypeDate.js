@@ -51,8 +51,4 @@
     };
     return SolutionTypeDateEntry;
 })();
-
-$(function () {
-    new SolutionTypeDateEntry();
-});
 //# sourceMappingURL=SolutionTypeDate.js.map

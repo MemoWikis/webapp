@@ -20,8 +20,4 @@ var SolutionTypeMultipleChoice = (function () {
     return SolutionTypeMultipleChoice;
 })();
 ;
-
-$(function () {
-    new SolutionTypeMultipleChoice();
-});
 //# sourceMappingURL=SolutionTypeMultipleChoice.js.map
