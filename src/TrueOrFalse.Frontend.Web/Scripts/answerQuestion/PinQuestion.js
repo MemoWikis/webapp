@@ -1,5 +1,7 @@
 ﻿var PinQuestion = (function () {
     function PinQuestion() {
+    }
+    PinQuestion.prototype.Init = function () {
         var self = this;
 
         $("#iAdded, #iAddedNot").click(function (e) {
@@ -31,7 +33,8 @@
                 }, 400);
             }
         });
-    }
+    };
+
     PinQuestion.prototype.SetSidebarValue = function (newValue) {
         Utils.SetElementValue("#sideWishKnowledgeCount", newValue.toString() + "x");
     };
@@ -49,8 +52,4 @@
     };
     return PinQuestion;
 })();
-
-$(function () {
-    new PinQuestion();
-});
 //# sourceMappingURL=PinQuestion.js.map

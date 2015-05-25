@@ -3,6 +3,7 @@
         var _this = this;
         this._play = play;
         this._solutionEntry = new SolutionEntry();
+        this._pinQuestion = new PinQuestion();
 
         this.StartCountDown();
 
@@ -31,6 +32,7 @@
         $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId, function (htmlResult) {
             _this._play.ChangeContent("#divBodyAnswer", htmlResult);
             _this._solutionEntry.Init();
+            _this._pinQuestion.Init();
         });
 
         this.thisRoundSecTotal = game.RoundLength;

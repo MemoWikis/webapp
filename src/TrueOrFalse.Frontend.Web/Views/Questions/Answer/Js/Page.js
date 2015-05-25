@@ -3,6 +3,9 @@ $(function () {
     var solutionEntry = new SolutionEntry();
     solutionEntry.Init();
 
+    var pinQuestion = new PinQuestion();
+    pinQuestion.Init();
+
     function loadFacebook(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))

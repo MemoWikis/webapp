@@ -5,6 +5,7 @@ using TrueOrFalse.Web;
 
 public class AnswerBodyModel : BaseModel
 {
+    public int QuestionId;
     public bool IsInWishknowledge;
 
     public string QuestionText;
@@ -42,6 +43,8 @@ public class AnswerBodyModel : BaseModel
 
     private void Init(Question question)
     {
+        QuestionId = question.Id;
+
         AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);

@@ -5,12 +5,14 @@
     private thisRoundSecTotal; /*in seconds*/
     private thisRoundSecLeft; /*in seconds*/
 
-    private _solutionEntry : SolutionEntry; 
+    private _solutionEntry: SolutionEntry;
+    private _pinQuestion: PinQuestion;
 
     constructor(play : Play) {
 
         this._play = play;
         this._solutionEntry = new SolutionEntry();
+        this._pinQuestion = new PinQuestion();
 
         this.StartCountDown();
 
@@ -39,6 +41,7 @@
             htmlResult => {
                 this._play.ChangeContent("#divBodyAnswer", htmlResult);
                 this._solutionEntry.Init();
+                this._pinQuestion.Init();
             });
 
         this.thisRoundSecTotal = game.RoundLength;

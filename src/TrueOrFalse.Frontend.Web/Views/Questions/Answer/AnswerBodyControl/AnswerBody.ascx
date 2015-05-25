@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerBodyModel>" %>
 
+<input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
 <input type="hidden" id="ajaxUrl_SendAnswer" value="<%= Model.AjaxUrl_SendAnswer(Url) %>" />
 <input type="hidden" id="ajaxUrl_GetAnswer" value="<%= Model.AjaxUrl_GetAnswer(Url) %>" />
 <input type="hidden" id="ajaxUrl_CountLastAnswerAsCorrect" value="<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>" />

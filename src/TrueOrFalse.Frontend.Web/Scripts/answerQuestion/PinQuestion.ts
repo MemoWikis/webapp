@@ -2,8 +2,7 @@
 {
     _changeInProgress : boolean;
 
-    constructor() {
-
+    Init() {
         var self = this;
 
         $("#iAdded, #iAddedNot").click(function (e) {
@@ -25,9 +24,9 @@
                     Utils.MenuPinsPluseOne();
                     self.SetSidebarValue(self.GetSidebarValue() + 1);
                 }, 400);
-                
+
             } else {
-                
+
                 self.UnPin();
                 $("#iAdded, #iAddSpinner").toggle();
 
@@ -36,8 +35,8 @@
                     self._changeInProgress = false;
                     Utils.MenuPinsMinusOne();
                     self.SetSidebarValue(self.GetSidebarValue() - 1);
-                }, 400);   
-            }            
+                }, 400);
+            }
         });        
     }
 
@@ -57,8 +56,3 @@
         QuestionsApi.Unpin(AnswerQuestion.GetQuestionId());
     }
 }
-
-
-$(function () {
-    new PinQuestion();
-});

@@ -34,8 +34,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
-
     <div class="row">
         <div class="col-lg-9 col-xs-9 xxs-stack">
             <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
