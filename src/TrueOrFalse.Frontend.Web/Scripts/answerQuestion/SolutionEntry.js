@@ -1,6 +1,8 @@
 ﻿var SolutionEntry = (function () {
     function SolutionEntry() {
-        var solutionT = $("hddSolutionType").val();
+    }
+    SolutionEntry.prototype.Init = function () {
+        var solutionT = +$("#hddSolutionTypeNum").val();
 
         switch (solutionT) {
             case 6 /* Date */:
@@ -20,11 +22,7 @@
                 break;
         }
         ;
-    }
+    };
     return SolutionEntry;
 })();
-
-$(function () {
-    new SolutionEntry();
-});
 //# sourceMappingURL=SolutionEntry.js.map

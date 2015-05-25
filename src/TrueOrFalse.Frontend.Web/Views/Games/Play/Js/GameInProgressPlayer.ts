@@ -5,8 +5,14 @@
     private thisRoundSecTotal; /*in seconds*/
     private thisRoundSecLeft; /*in seconds*/
 
+    private _solutionEntry : SolutionEntry; 
+
     constructor(play : Play) {
+
         this._play = play;
+        this._solutionEntry = new SolutionEntry();
+
+        this.StartCountDown();
 
         if ($("#hddRound").length !== 0) {
 
@@ -24,15 +30,16 @@
         this._play.Hub.client.NextRound = (game: Game) => {
             this.InitGame(game);
         };
-
-        this.StartCountDown();
     }
 
     public InitGame(game: Game, secondsRemaining : number = -1) {
         Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
 
         $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId,
-            htmlResult => { this._play.ChangeContent("#divBodyAnswer", htmlResult) });
+            htmlResult => {
+                this._play.ChangeContent("#divBodyAnswer", htmlResult);
+                this._solutionEntry.Init();
+            });
 
         this.thisRoundSecTotal = game.RoundLength;
         if (secondsRemaining != -1) {

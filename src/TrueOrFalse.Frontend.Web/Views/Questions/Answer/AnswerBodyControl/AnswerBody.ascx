@@ -1,5 +1,9 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerBodyModel>" %>
 
+<input type="hidden" id="ajaxUrl_SendAnswer" value="<%= Model.AjaxUrl_SendAnswer(Url) %>" />
+<input type="hidden" id="ajaxUrl_GetAnswer" value="<%= Model.AjaxUrl_GetAnswer(Url) %>" />
+<input type="hidden" id="ajaxUrl_CountLastAnswerAsCorrect" value="<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>" />
+
 <div class="well">
                                 
     <div style="float: right; margin-left: 10px;">
@@ -38,6 +42,7 @@
         
     <div id="AnswerInputSection">
         <input type="hidden" id="hddSolutionMetaDataJson" value="<%: Model.SolutionMetaDataJson %>"/>
+        <input type="hidden" id="hddSolutionTypeNum" value="<%: Model.SolutionTypeInt %>" />
         <%
             string userControl = "SolutionType" + Model.SolutionType + ".ascx";
             if (Model.SolutionMetadata.IsDate)

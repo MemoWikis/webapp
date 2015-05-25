@@ -2,6 +2,9 @@
     function GameInProgressPlayer(play) {
         var _this = this;
         this._play = play;
+        this._solutionEntry = new SolutionEntry();
+
+        this.StartCountDown();
 
         if ($("#hddRound").length !== 0) {
             var initialGame = new Game();
@@ -19,8 +22,6 @@
         this._play.Hub.client.NextRound = function (game) {
             _this.InitGame(game);
         };
-
-        this.StartCountDown();
     }
     GameInProgressPlayer.prototype.InitGame = function (game, secondsRemaining) {
         var _this = this;
@@ -29,6 +30,7 @@
 
         $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId, function (htmlResult) {
             _this._play.ChangeContent("#divBodyAnswer", htmlResult);
+            _this._solutionEntry.Init();
         });
 
         this.thisRoundSecTotal = game.RoundLength;

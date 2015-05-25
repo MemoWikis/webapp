@@ -33,10 +33,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
-    <input type="hidden" id="ajaxUrl_SendAnswer" value="<%= Model.AjaxUrl_SendAnswer(Url) %>" />
-    <input type="hidden" id="ajaxUrl_GetAnswer" value="<%= Model.AjaxUrl_GetAnswer(Url) %>" />
-    <input type="hidden" id="ajaxUrl_CountLastAnswerAsCorrect" value="<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>" />
+
     <input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
 
     <div class="row">

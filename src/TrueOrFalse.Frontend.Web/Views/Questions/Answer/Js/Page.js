@@ -1,5 +1,8 @@
 /// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
 $(function () {
+    var solutionEntry = new SolutionEntry();
+    solutionEntry.Init();
+
     function loadFacebook(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))

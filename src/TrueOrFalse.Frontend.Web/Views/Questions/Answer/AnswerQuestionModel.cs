@@ -12,6 +12,7 @@ public class AnswerQuestionModel : BaseModel
     public Func<UrlHelper, string> NextUrl;
 
     public int QuestionId;
+    public Question Question;
     public User Creator;
     public string CreatorId { get; private set; }
     public string CreatorName { get; private set; }
@@ -65,10 +66,6 @@ public class AnswerQuestionModel : BaseModel
 
     public QuestionVisibility Visibility { get; private set; }
 
-    public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
-    public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
-    public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
-
     public bool HasPreviousPage;
     public bool HasNextPage;
 
@@ -95,6 +92,7 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
     {
+        Question = question;
         PageCurrent = searchSpec.CurrentPage.ToString();
         PagesTotal = searchSpec.PageCount.ToString();
         PagerKey = searchSpec.Key;
@@ -190,10 +188,6 @@ public class AnswerQuestionModel : BaseModel
         TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries.ToString();
 
         AverageAnswerTime = "";
-
-        AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
-        AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
-        AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
 
         ImageUrl_500px = QuestionImageSettings.Create(question.Id).GetUrl_128px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);

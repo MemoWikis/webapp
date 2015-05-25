@@ -64,12 +64,6 @@ var AnswerQuestion = (function () {
 
             InputFeedback.AnimateNeutral();
         });
-
-        new SolutionTypeDateEntry();
-        new SolutionTypeMultipleChoice();
-        new SolutionTypeNumeric();
-        new SolutionTypeSequence();
-        new SolutionTypeTextEntry();
     }
     AnswerQuestion.GetQuestionId = function () {
         return +$("#questionId").val();
