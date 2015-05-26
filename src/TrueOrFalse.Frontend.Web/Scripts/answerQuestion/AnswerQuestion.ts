@@ -47,13 +47,13 @@ class AnswerQuestion
         $("#btnCheck").click(
             e => {
                 e.preventDefault();
-                this.validateAnswer();
+                self.validateAnswer();
             });
 
         $("#btnCheckAgain").click(
             e => {
                 e.preventDefault();
-                this.validateAnswer();
+                self.validateAnswer();
             });
 
         $("#btnCountAsCorrect").click(

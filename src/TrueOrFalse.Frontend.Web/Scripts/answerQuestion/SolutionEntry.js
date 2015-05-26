@@ -11,13 +11,13 @@
             case 3 /* MultipleChoice */:
                 new SolutionTypeMultipleChoice();
                 break;
-            case 4 /* Numeric */:
+            case 1 /* Text */:
                 new SolutionTypeTextEntry();
                 break;
-            case 5 /* Sequence */:
+            case 4 /* Numeric */:
                 new SolutionTypeNumeric();
                 break;
-            case 1 /* Text */:
+            case 5 /* Sequence */:
                 new SolutionTypeSequence();
                 break;
         }

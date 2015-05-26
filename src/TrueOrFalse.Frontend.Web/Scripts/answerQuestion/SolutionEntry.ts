@@ -9,11 +9,11 @@
                  new SolutionTypeDateEntry(); break;
              case SolutionType.MultipleChoice:
                  new SolutionTypeMultipleChoice(); break;
-             case SolutionType.Numeric:
-                 new SolutionTypeTextEntry(); break;
-             case SolutionType.Sequence:
-                 new SolutionTypeNumeric(); break;
              case SolutionType.Text:
+                 new SolutionTypeTextEntry(); break;
+             case SolutionType.Numeric:
+                 new SolutionTypeNumeric(); break;
+             case SolutionType.Sequence:
                  new SolutionTypeSequence(); break;
          };         
      }

@@ -31,12 +31,12 @@ var AnswerQuestion = (function () {
 
         $("#btnCheck").click(function (e) {
             e.preventDefault();
-            _this.validateAnswer();
+            self.validateAnswer();
         });
 
         $("#btnCheckAgain").click(function (e) {
             e.preventDefault();
-            _this.validateAnswer();
+            self.validateAnswer();
         });
 
         $("#btnCountAsCorrect").click(function (e) {
