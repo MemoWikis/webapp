@@ -378,6 +378,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\SolutionEntry.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
@@ -422,6 +423,9 @@
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
     <Content Include="img\wmd-buttons.png" />
+    <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js">
+      <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\answerQuestion\SolutionEntry.js">
       <DependentUpon>SolutionEntry.ts</DependentUpon>
     </Content>
@@ -875,6 +879,9 @@
     </Content>
     <Content Include="Scripts\answerQuestion\SolutionEntry.js.map">
       <DependentUpon>SolutionEntry.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js.map">
+      <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
