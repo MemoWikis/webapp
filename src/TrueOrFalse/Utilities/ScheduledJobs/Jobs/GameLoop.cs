@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using Autofac;
+using FluentNHibernate.Conventions.Helpers;
+using NHibernate;
 using Quartz;
 using RollbarSharp;
 
@@ -22,7 +24,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     var gameRepo = scope.Resolve<GameRepo>();
                     using (_gameHubConnection = scope.Resolve<GameHubConnection>())
                     {
-                        ProcessOverdueGames(gameRepo);
+                        ProcessOverdueGames(gameRepo, scope);
                         ProcessRunningGames(gameRepo);
 
                         gameRepo.Flush();
@@ -37,7 +39,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             }
         }
 
-        private void ProcessOverdueGames(GameRepo gameRepo)
+        private void ProcessOverdueGames(GameRepo gameRepo, ILifetimeScope scope)
         {
             var gamesOverDue = gameRepo.GetOverdue();
 
@@ -56,6 +58,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                     lock ("#1A23687D-4FCB-41AB-8883-B86CC6C6F994")
                     {
+                        var rowCount = gameRepo.Session.QueryOver<GameRound>()
+                            .Where(round => round.Game.Id == game.Id)
+                            .CacheMode(CacheMode.Ignore)
+                            .RowCount();
+
+                        if (rowCount > 0)
+                        {
+                            Logg.r().Error("RowCount {rowcount}", rowCount);
+                            continue;
+                        }
+
                         Sl.R<AddRoundsToGame>().Run(game);
                         game.NextRound();
                         gameRepo.Update(game);                        
