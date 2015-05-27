@@ -1,8 +1,11 @@
-﻿/// <reference path="../js/answerquestion.ts" />
+﻿class SolutionTypeDateEntry
+    extends SolutionEntryBase
+    implements ISolutionEntry  {
 
-class SolutionTypeDateEntry implements ISolutionEntry {
+    constructor(solutionEntry: SolutionEntry) {
 
-    constructor() {
+        super(solutionEntry);
+
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });
         $("#txtAnswer").keyup(() => { this.SetDateUi(); });
@@ -10,7 +13,6 @@ class SolutionTypeDateEntry implements ISolutionEntry {
         var metaData = this.GetJsonMetaData();
         $("#spanEntryPrecision").text(SolutionMetadataDate.GetPrecisionLabel(metaData.Precision) + "genau");
     }
-
 
     GetAnswerText(): string {
         return $("#txtAnswer").val();
@@ -55,8 +57,3 @@ class SolutionTypeDateEntry implements ISolutionEntry {
         return <SolutionMetadataDate>jQuery.parseJSON(jsonVal);
     }
 }
-
-
-$(function () {
-    new SolutionTypeDateEntry();
-});

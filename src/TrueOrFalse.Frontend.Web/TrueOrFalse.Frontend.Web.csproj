@@ -24,7 +24,6 @@
     <UseIISExpress>true</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -60,26 +59,33 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Autofac.Mvc5.3.3.0\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+      <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Owin">
+      <HintPath>..\packages\Autofac.Owin.3.1.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.SignalR">
+      <HintPath>..\packages\Autofac.SignalR.3.0.2\lib\net40\Autofac.Integration.SignalR.dll</HintPath>
     </Reference>
     <Reference Include="AutofacContrib.SolrNet">
       <HintPath>..\libs\AutofacContrib.SolrNet.dll</HintPath>
     </Reference>
-    <Reference Include="EasyNetQ">
-      <HintPath>..\packages\EasyNetQ.0.35.6.302\lib\net40\EasyNetQ.dll</HintPath>
+    <Reference Include="EasyNetQ, Version=0.49.1.388, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EasyNetQ.0.49.1.388\lib\net40\EasyNetQ.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="FluentNHibernate, Version=1.4.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+    <Reference Include="FluentNHibernate, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
+      <HintPath>..\packages\FluentNHibernate.2.0.1.0\lib\net40\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Gibraltar.Agent, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ca42a1ee8d2e42d3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -100,8 +106,9 @@
     <Reference Include="HttpWebAdapters">
       <HintPath>..\libs\HttpWebAdapters.dll</HintPath>
     </Reference>
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -110,7 +117,25 @@
     <Reference Include="MarkdownSharp">
       <HintPath>..\libs\MarkdownSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -135,17 +160,22 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="RabbitMQ.Client">
-      <HintPath>..\packages\RabbitMQ.Client.3.3.2\lib\net30\RabbitMQ.Client.dll</HintPath>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="RollbarSharp">
-      <HintPath>..\packages\RollbarSharp.0.3.1.0\lib\net40\RollbarSharp.dll</HintPath>
+    <Reference Include="RabbitMQ.Client, Version=3.5.2.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RabbitMQ.Client.3.5.2\lib\net40\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="RollbarSharp, Version=0.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RollbarSharp.0.3.3.0\lib\net40\RollbarSharp.dll</HintPath>
     </Reference>
     <Reference Include="Seedworks.Lib, Version=0.8.2.17096, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -158,16 +188,17 @@
     <Reference Include="Seedworks.Web.Lib.Persistence">
       <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+    <Reference Include="Serilog, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Serilog.1.4.7\lib\net45\Serilog.dll</HintPath>
+      <HintPath>..\packages\Serilog.1.5.6\lib\net45\Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog.FullNetFx, Version=1.4.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+    <Reference Include="Serilog.FullNetFx">
+      <HintPath>..\packages\Serilog.1.5.6\lib\net45\Serilog.FullNetFx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Seq, Version=1.5.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Serilog.1.4.7\lib\net45\Serilog.FullNetFx.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Sinks.Seq">
-      <HintPath>..\packages\Serilog.Sinks.Seq.1.4.7\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
+      <HintPath>..\packages\Serilog.Sinks.Seq.1.5.14\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
     </Reference>
     <Reference Include="SolrNet, Version=0.4.0.2002, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -190,61 +221,83 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.0\lib\net40\System.Web.Optimization.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebActivator">
       <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Code\BaseUtil.cs" />
+    <Compile Include="Code\HtmlExtensions.cs" />
+    <Compile Include="Code\Hubs\BaseHub.cs" />
+    <Compile Include="Code\Hubs\BrainWavesHub.cs" />
+    <Compile Include="Code\Hubs\GameHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Games\Edit\GameModel.cs" />
+    <Compile Include="Views\Games\Edit\GameController.cs" />
+    <Compile Include="Views\Games\GameRowModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameNeverStartedModel.cs" />
+    <Compile Include="Views\Games\Play\PlayModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameCompletedModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameInProgressPlayerModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameInProgressWatchModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameReadyModel.cs" />
+    <Compile Include="Views\Games\Play\PlayController.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
+    <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
+    <Compile Include="Views\Games\GamesController.cs" />
+    <Compile Include="Views\Games\GamesModel.cs" />
+    <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
     <Compile Include="Views\Api\SetsApiController.cs" />
     <Compile Include="Views\Categories\Edit\CssJs.cs" />
     <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
+    <Compile Include="Views\Categories\CategoriesSearchResultModel.cs" />
     <Compile Include="Views\Dates\DatesController.cs" />
     <Compile Include="Views\Dates\DatesModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
@@ -325,8 +378,23 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\SolutionEntry.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
+    <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
+    <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
+    <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
+    <TypeScriptCompile Include="Views\Games\Play\Js\GameInProgressPlayer.ts" />
+    <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
+    <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\BrainWavesHub.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
+    <TypeScriptCompile Include="Scripts\Validations.ts" />
     <TypeScriptCompile Include="Scripts\FormValidation.ts" />
+    <TypeScriptCompile Include="Views\Beta\Js\BetaLogin.ts" />
+    <TypeScriptCompile Include="Views\Beta\Js\BetaRequest.ts" />
     <TypeScriptCompile Include="Views\Images\Images.ts" />
     <TypeScriptCompile Include="Scripts\Log.ts" />
     <TypeScriptCompile Include="Scripts\Menu.ts" />
@@ -355,6 +423,12 @@
     <Content Include="Images\wiki-32.png" />
     <Content Include="img\dimension.png" />
     <Content Include="img\wmd-buttons.png" />
+    <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js">
+      <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\SolutionEntry.js">
+      <DependentUpon>SolutionEntry.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\BootstrapCustomUtils.js" />
     <Content Include="Scripts\CategoryApi.js">
       <DependentUpon>CategoryApi.ts</DependentUpon>
@@ -365,20 +439,86 @@
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\SiteMessages.js">
+      <DependentUpon>SiteMessages.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\vendor\jquery.countdown.js" />
+    <Content Include="Scripts\vendor\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\SearchInTabs.js">
       <DependentUpon>SearchInTabs.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\SearchInTabsResult.js">
       <DependentUpon>SearchInTabsResult.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\Validations.js">
+      <DependentUpon>Validations.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\vendor\jquery-watch.js" />
     <Content Include="Scripts\vendor\jquery.typewatch.js" />
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
     </Content>
+    <Content Include="Views\Beta\Js\BetaLogin.js">
+      <DependentUpon>BetaLogin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\BetaRequest.js">
+      <DependentUpon>BetaRequest.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
+    <Content Include="Views\Games\Edit\Game.aspx" />
+    <Content Include="Views\Games\Edit\Game.css">
+      <DependentUpon>Game.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\GameRow.ascx" />
+    <Content Include="Views\Games\Games.css">
+      <DependentUpon>Games.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\GameRow.js">
+      <DependentUpon>GameRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\Games.js">
+      <DependentUpon>Games.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\BodyControls\GameCompleted.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameInProgressWatch.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameInProgressPlayer.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameNeverStarted.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameReady.ascx" />
+    <Content Include="Views\Games\Play\Js\GameInProgressPlayer.js">
+      <DependentUpon>GameInProgressPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\GameReady.js">
+      <DependentUpon>GameReady.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Play.css">
+      <DependentUpon>Play.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\Play.js">
+      <DependentUpon>Play.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Play.aspx" />
     <Content Include="Views\Help\Willkommen.aspx" />
     <Content Include="Views\Users\Account\Js\Membership.js">
       <DependentUpon>Membership.ts</DependentUpon>
+    <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
+      <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Games.aspx" />
+    <Content Include="Scripts\answerQuestion\BrainWavesHub.js">
+      <DependentUpon>BrainWavesHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionEntryBase.js">
+      <DependentUpon>SolutionEntryBase.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js">
+      <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css">
+      <DependentUpon>AnswerQuestionSolution.less</DependentUpon>
     </Content>
     <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
@@ -739,6 +879,18 @@
     <Content Include="Scripts\SearchInTabsResult.js.map">
       <DependentUpon>SearchInTabsResult.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\Validations.js.map">
+      <DependentUpon>Validations.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SiteMessages.js.map">
+      <DependentUpon>SiteMessages.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\SolutionEntry.js.map">
+      <DependentUpon>SolutionEntry.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js.map">
+      <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
@@ -817,16 +969,16 @@
     <Content Include="Images\no-profile-picture-50.png" />
     <Content Include="Images\QuestionSets\include-folder.txt" />
     <Content Include="img\wmd-buttons-white.png" />
-    <Content Include="Scripts\file-uploader\button.js" />
-    <Content Include="Scripts\file-uploader\dnd.js" />
-    <Content Include="Scripts\file-uploader\handler.base.js" />
-    <Content Include="Scripts\file-uploader\handler.form.js" />
-    <Content Include="Scripts\file-uploader\handler.xhr.js" />
-    <Content Include="Scripts\file-uploader\header.js" />
-    <Content Include="Scripts\file-uploader\jquery-plugin.js" />
-    <Content Include="Scripts\file-uploader\uploader.basic.js" />
-    <Content Include="Scripts\file-uploader\uploader.js" />
-    <Content Include="Scripts\file-uploader\util.js" />
+    <Content Include="Scripts\vendor.file-uploader\button.js" />
+    <Content Include="Scripts\vendor.file-uploader\dnd.js" />
+    <Content Include="Scripts\vendor.file-uploader\handler.base.js" />
+    <Content Include="Scripts\vendor.file-uploader\handler.form.js" />
+    <Content Include="Scripts\vendor.file-uploader\handler.xhr.js" />
+    <Content Include="Scripts\vendor.file-uploader\header.js" />
+    <Content Include="Scripts\vendor.file-uploader\jquery-plugin.js" />
+    <Content Include="Scripts\vendor.file-uploader\uploader.basic.js" />
+    <Content Include="Scripts\vendor.file-uploader\uploader.js" />
+    <Content Include="Scripts\vendor.file-uploader\util.js" />
     <Content Include="Scripts\vendor\html5shiv.js" />
     <None Include="Scripts\vendor\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\vendor\jquery-2.0.3.js" />
@@ -937,6 +1089,8 @@
     <Compile Include="Views\Welcome\WelcomeModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionEntryBase.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
@@ -981,10 +1135,6 @@
     <Content Include="img\icon-github.png" />
     <Content Include="img\icon-html5.png" />
     <Content Include="img\icon-twitter.png" />
-    <Content Include="Scripts\add-on\jplayer.playlist.min.js" />
-    <Content Include="Scripts\add-on\jquery.jplayer.inspector.js" />
-    <Content Include="Scripts\google-code-prettify\prettify.css" />
-    <Content Include="Scripts\google-code-prettify\prettify.js" />
     <Content Include="Scripts\Jplayer.swf" />
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
     <Content Include="Scripts\vendor\jquery.jplayer.js" />
@@ -1060,7 +1210,7 @@
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
     <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
-    <Content Include="Views\Questions\Answer\Js\AnswerQuestion.js">
+    <Content Include="Scripts\answerQuestion\AnswerQuestion.js">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Comments.js">
@@ -1069,7 +1219,7 @@
     <Content Include="Views\Questions\Answer\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\PinQuestion.js">
+    <Content Include="Scripts\answerQuestion\PinQuestion.js">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\RowPin.js">
@@ -1114,10 +1264,10 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerQuestion.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Comments.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\PinQuestion.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Scripts\RowPin.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
@@ -1243,7 +1393,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js.map">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\AnswerQuestion.js.map">
+    <Content Include="Scripts\answerQuestion\AnswerQuestion.js.map">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Page.js.map">
@@ -1348,7 +1498,7 @@
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js.map">
       <DependentUpon>ChangeTypeControls.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\PinQuestion.js.map">
+    <Content Include="Scripts\answerQuestion\PinQuestion.js.map">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\Comments.js.map">
@@ -1370,6 +1520,7 @@
     <Content Include="Views\Categories\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Beta\Beta.aspx" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Style\z_mixins_for_buttons_2.3.2.css.map">
       <DependentUpon>z_mixins_for_buttons_2.3.2.css</DependentUpon>
@@ -1408,6 +1559,59 @@
     </Content>
     <Content Include="Views\Users\Account\Js\Membership.js.map">
       <DependentUpon>Membership.ts</DependentUpon>
+    <Content Include="Views\Shared\Site.Beta.Master" />
+    <Content Include="Views\Beta\Beta.css" />
+    <Content Include="Views\Beta\Js\BetaLogin.js.map">
+      <DependentUpon>BetaLogin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\BetaRequest.js.map">
+      <DependentUpon>BetaRequest.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\BrainWavesHub.js.map">
+      <DependentUpon>BrainWavesHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\ToolsBrainWaveHub.js.map">
+      <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Game.less" />
+    <Content Include="Views\Games\Edit\Game.css.map">
+      <DependentUpon>Game.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Games.less" />
+    <Content Include="Views\Games\Games.css.map">
+      <DependentUpon>Games.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Play.less" />
+    <Content Include="Views\Games\Play\Play.css.map">
+      <DependentUpon>Play.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\Games.js.map">
+      <DependentUpon>Games.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\GameRow.js.map">
+      <DependentUpon>GameRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\Play.js.map">
+      <DependentUpon>Play.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\GameInProgressPlayer.js.map">
+      <DependentUpon>GameInProgressPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\GameReady.js.map">
+      <DependentUpon>GameReady.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js.map">
+      <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionEntryBase.js.map">
+      <DependentUpon>SolutionEntryBase.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionSolution.less" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css.map">
+      <DependentUpon>AnswerQuestionSolution.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

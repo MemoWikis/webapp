@@ -1,10 +1,9 @@
-/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
-/// <reference path="../../../../scripts/utils.ts" />
-/// <reference path="../js/answerquestion.ts" />
-
-class SolutionTypeSequence implements ISolutionEntry
+class SolutionTypeSequence
+    extends SolutionEntryBase
+    implements ISolutionEntry
 {
-    constructor() {
+    constructor(solutionEntry: SolutionEntry) {
+        super(solutionEntry);
         var answerQuestion = new AnswerQuestion(this);
         $('.sequence-row').keydown(function () {
             answerQuestion.OnAnswerChange();
@@ -29,7 +28,3 @@ class SolutionTypeSequence implements ISolutionEntry
         $('.sequence-row').val("");
     }
 };
-
-$(function() {
-    new SolutionTypeSequence();
-});

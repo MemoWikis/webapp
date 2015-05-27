@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
 
-namespace TrueOrFalse
+public class SetValuation : DomainEntity
 {
-    public class SetValuation : DomainEntity
+    public virtual int UserId { get; set; }
+    public virtual int SetId { get; set; }
+
+    public virtual int RelevancePersonal { get; set; }
+
+    public SetValuation()
     {
-        public virtual int UserId { get; set; }
-        public virtual int SetId { get; set; }
-
-        public virtual int RelevancePersonal { get; set; }
-
-        public SetValuation()
-        {
-            RelevancePersonal = -1;
-        }
-
-        public virtual bool IsInWishknowledge(){ return RelevancePersonal != -1; }
+        RelevancePersonal = -1;
     }
+
+    public virtual bool IsInWishknowledge(){ return RelevancePersonal != -1; }
 }

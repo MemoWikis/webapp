@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using NHibernate.Linq;
+using NHibernate.Util;
 
 namespace TrueOrFalse
 {

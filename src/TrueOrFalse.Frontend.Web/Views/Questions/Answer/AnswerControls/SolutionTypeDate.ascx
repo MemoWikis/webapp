@@ -8,6 +8,4 @@ Datum min. <b><span id="spanEntryPrecision"></span></b>
     <i class="fa fa-check-circle" id="iDateCorrect" style="color:green; display: none;  font-size: 16px;"></i> 
 </div>
 
-<input type="text" id="txtAnswer" class="form-control " rows="1" style=" width: 100%" placeholder="Gib hier bitte deine Antwort ein."/>    
-
-<script src="/Views/Questions/Answer/AnswerControls/SolutionTypeDate.js" type="text/javascript"></script>
+<input type="text" id="txtAnswer" class="form-control " rows="1" style=" width: 100%" placeholder="Gib hier bitte deine Antwort ein."/>

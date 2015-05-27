@@ -24,10 +24,16 @@
     }
 
     static SetElementValue2(elements: JQuery, newValue: string) {
+        elements.text(newValue);
+        Utils.Hightlight(elements);
+    }
+
+    static Hightlight(elements: JQuery) : JQuery {
         elements
-            .text(newValue)
             .animate({ opacity: 0.25 }, 100)
-            .animate({ opacity: 1.00 }, 800);        
+            .animate({ opacity: 1.00 }, 800);
+
+        return elements;
     }
 
     static SetMenuPins(newAmount){

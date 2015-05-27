@@ -2,15 +2,9 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using Seedworks.Lib;
-using TrueOrFalse;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 
 public class EditSetModel : BaseModel
 {
@@ -47,7 +41,9 @@ public class EditSetModel : BaseModel
     public Set Set;
 
     public EditSetModel(){
-        Username = new SessionUser().User.Name;
+        if(IsLoggedIn)
+            Username = new SessionUser().User.Name;
+
         ImageUrl_206px = SetImageSettings.Create(-1).GetUrl_206px_square().Url;    
     }
 

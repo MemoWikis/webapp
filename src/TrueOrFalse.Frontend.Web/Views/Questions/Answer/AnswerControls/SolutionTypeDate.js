@@ -1,7 +1,15 @@
-﻿/// <reference path="../js/answerquestion.ts" />
-var SolutionTypeDateEntry = (function () {
-    function SolutionTypeDateEntry() {
+﻿var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var SolutionTypeDateEntry = (function (_super) {
+    __extends(SolutionTypeDateEntry, _super);
+    function SolutionTypeDateEntry(solutionEntry) {
         var _this = this;
+        _super.call(this, solutionEntry);
+
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(function () {
             answerQuestion.OnAnswerChange();
@@ -51,9 +59,5 @@ var SolutionTypeDateEntry = (function () {
         return jQuery.parseJSON(jsonVal);
     };
     return SolutionTypeDateEntry;
-})();
-
-$(function () {
-    new SolutionTypeDateEntry();
-});
+})(SolutionEntryBase);
 //# sourceMappingURL=SolutionTypeDate.js.map

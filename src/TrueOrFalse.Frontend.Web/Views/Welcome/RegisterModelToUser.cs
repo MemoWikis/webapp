@@ -1,7 +1,4 @@
-﻿using TrueOrFalse;
-using TrueOrFalse.Registration;
-
-public class RegisterModelToUser : BaseModel
+﻿public class RegisterModelToUser : BaseModel
 {
     public static User Run(RegisterModel registerModel)
     {

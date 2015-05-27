@@ -48,6 +48,11 @@ namespace TrueOrFalse.Updates
                 .Add(68, UpdateToVs068.Run)
                 .Add(69, UpdateToVs069.Run)
                 .Add(70, UpdateToVs070.Run)
+                .Add(71, UpdateToVs071.Run)
+                .Add(72, UpdateToVs072.Run)
+                .Add(73, UpdateToVs073.Run)
+                .Add(74, UpdateToVs074.Run)
+                .Add(75, UpdateToVs075.Run)
                 .Run();
         }
     }

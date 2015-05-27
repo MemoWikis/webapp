@@ -1,37 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
-namespace TrueOrFalse
+public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
 {
-    public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
+    private readonly AnswerHistoryRepository _answerHistoryRepository;
+
+    public AnswerHistoryLog(AnswerHistoryRepository answerHistoryRepository)
     {
-        private readonly AnswerHistoryRepository _answerHistoryRepository;
+        _answerHistoryRepository = answerHistoryRepository;
+    }
 
-        public AnswerHistoryLog(AnswerHistoryRepository answerHistoryRepository)
-        {
-            _answerHistoryRepository = answerHistoryRepository;
-        }
+    public void Run(Question question, AnswerQuestionResult answerQuestionResult, int userId)
+    {
+        var answerHistory = new AnswerHistory();
+        answerHistory.QuestionId = question.Id;
+        answerHistory.UserId = userId;
+        answerHistory.AnswerText = answerQuestionResult.AnswerGiven;
+        answerHistory.AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False;
+        _answerHistoryRepository.Create(answerHistory);
+    }
 
-        public void Run(Question question, AnswerQuestionResult answerQuestionResult, int userId)
+    public void CountLastAnswerAsCorrect(Question question, int userId)
+    {
+        var correctedAnswerHistory = _answerHistoryRepository.GetBy(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
+        if (correctedAnswerHistory != null && correctedAnswerHistory.AnswerredCorrectly == AnswerCorrectness.False)
         {
-            var answerHistory = new AnswerHistory();
-            answerHistory.QuestionId = question.Id;
-            answerHistory.UserId = userId;
-            answerHistory.AnswerText = answerQuestionResult.AnswerGiven;
-            answerHistory.AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False;
-            _answerHistoryRepository.Create(answerHistory);
-        }
-
-        public void CountLastAnswerAsCorrect(Question question, int userId)
-        {
-            var correctedAnswerHistory = _answerHistoryRepository.GetBy(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
-            if (correctedAnswerHistory != null && correctedAnswerHistory.AnswerredCorrectly == AnswerCorrectness.False)
-            {
-                correctedAnswerHistory.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
-                _answerHistoryRepository.Update(correctedAnswerHistory);
-            }
+            correctedAnswerHistory.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
+            _answerHistoryRepository.Update(correctedAnswerHistory);
         }
     }
 }

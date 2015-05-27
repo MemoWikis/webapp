@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -9,14 +8,18 @@ public class StoreImages
 {
     public static void Run(Stream inputStream, IImageSettings imageSettings)
     {
-        var oldImages = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), string.Format("{0}_*.jpg", imageSettings.Id));
+        var oldImages = Directory.GetFiles(
+            HttpContext.Current.Server.MapPath(imageSettings.BasePath), 
+            string.Format("{0}_*.", imageSettings.Id)
+        );
+
         foreach (var file in oldImages){
             File.Delete(file);
         }
 
         using (var image = Image.FromStream(inputStream)){
-            
-            image.Save(imageSettings.ServerPathAndId() + "_" + image.Width + ".jpg", ImageFormat.Jpeg);
+
+            SaveOriginalSize(imageSettings, image);
 
             foreach (var size in imageSettings.SizesSquare){
                 ResizeImage.Run(image, imageSettings.ServerPathAndId(), size, isSquare: true);
@@ -28,7 +31,20 @@ public class StoreImages
         }
     }
 
- 
+    private static void SaveOriginalSize(IImageSettings imageSettings, Image image)
+    {
+        using (var resized = new Bitmap(image))
+        {
+            using (var graphics = Graphics.FromImage(resized))
+            {
+                ResizeImage.ConfigureGraphics(graphics);
+                graphics.DrawImage(image, 0, 0);
+            }
+            resized.Save(imageSettings.ServerPathAndId() + "_" + image.Width + ".jpg", ImageFormat.Jpeg);
+        }
+    }
+
+
     /// <summary>store temp images</summary>
     public static void Run(Stream inputStream, TmpImage tmpImage)
     {

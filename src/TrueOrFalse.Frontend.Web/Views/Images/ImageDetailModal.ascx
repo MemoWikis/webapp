@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ImageFrontendData>" %>
-<%@ Import Namespace="TrueOrFalse" %>
 
 <div id="modalImageDetail" class="modal">
     <div class="modal-dialog modal-lg">

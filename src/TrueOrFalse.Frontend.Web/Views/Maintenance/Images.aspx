@@ -1,8 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MaintenanceImagesModel>" %>
-<%@ Import Namespace="System.Activities.Statements" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="Newtonsoft.Json" %>
-<%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/bundles/Maintenance") %>

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using TrueOrFalse;
-
-public class CommentAnswerAddModel : BaseModel
+﻿public class CommentAnswerAddModel : BaseModel
 {
     public string AuthorImageUrl;
 

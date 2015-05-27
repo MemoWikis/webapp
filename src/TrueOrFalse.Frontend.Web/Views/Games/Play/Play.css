@@ -1,0 +1,13 @@
+﻿body {
+  background-color: lightyellow;
+}
+.text-right {
+  text-align: right;
+}
+@media screen and (max-width: 768px) {
+  /*.pull-left-sm{ float:left !important; }*/
+  .text-left-sm {
+    text-align: left !important;
+  }
+}
+/*# sourceMappingURL=Play.css.map */

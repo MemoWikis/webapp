@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using FineUploader;
 using TrueOrFalse;
 
@@ -13,7 +11,7 @@ public class ImageUploadController : BaseController
         return new JsonResult{
             Data = new{
                 ImageNotFound = result.ImageNotFound,
-                ImageThumbUrl = result.ImageThumbUrl
+                ImageThumbUrl = result.ImageUrl
             }
         };
     }

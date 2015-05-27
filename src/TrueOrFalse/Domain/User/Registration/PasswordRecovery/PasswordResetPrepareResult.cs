@@ -1,11 +1,8 @@
-﻿namespace TrueOrFalse.Registration
+﻿public class PasswordResetPrepareResult
 {
-    public class PasswordResetPrepareResult
-    {
-        public bool NoTokenFound;
-        public bool TokenOlderThan72h;
+    public bool NoTokenFound;
+    public bool TokenOlderThan72h;
 
-        public string Email;
-        public bool Success;
-    }
+    public string Email;
+    public bool Success;
 }

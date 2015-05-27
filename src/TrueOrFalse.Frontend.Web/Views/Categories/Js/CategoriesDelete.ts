@@ -27,8 +27,8 @@ function populateDeleteCategory(setId) {
             $("#spanCategoryTitle").html(result.categoryTitle.toString());
         },
         error: function (result) {
-            console.log(result);
-            alert("Ein Fehler ist aufgetreten");
+            window.console.log(result);
+            window.alert("Ein Fehler ist aufgetreten");
         }
     });
 }
@@ -40,8 +40,8 @@ function deleteCategory(setId) {
         cache: false,
         success: function () { window.location.reload(); },
         error: function (result) {
-            console.log(result);
-            alert("Ein Fehler ist aufgetreten");
+            window.console.log(result);
+            window.alert("Ein Fehler ist aufgetreten");
         }
     });
 }

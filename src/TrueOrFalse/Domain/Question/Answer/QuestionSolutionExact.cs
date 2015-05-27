@@ -1,6 +1,5 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
-using TrueOrFalse;
 
 public class QuestionSolutionExact : QuestionSolution
 {

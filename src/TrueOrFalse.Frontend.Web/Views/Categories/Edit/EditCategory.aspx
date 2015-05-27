@@ -19,19 +19,18 @@
             <h2 class="pull-left">
                 <span class="ColoredUnderline Category">
                     <% if (Model.IsEditing) { %>
-                    Kategorie bearbeiten
+                        Kategorie bearbeiten
                     <% } else { %>
-                    Kategorie erstellen
+                        Kategorie erstellen
                     <% } %>
-
                 </span>
             </h2>
             <div class="headerControls pull-right">
                 <div>
+                    <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0;">
+                        <i class="fa fa-list"></i>&nbsp;zur Übersicht
+                    </a><br/>
                     <% if(Model.IsEditing){ %>
-                        <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0;">
-                            <i class="fa fa-list"></i>&nbsp;zur Übersicht
-                        </a><br/>
                         <a href="<%= Links.CategoryDetail(Model.Category) %>" style="font-size: 12px;">
                             <i class="fa fa-eye"></i>&nbsp;Detailansicht
                         </a> 

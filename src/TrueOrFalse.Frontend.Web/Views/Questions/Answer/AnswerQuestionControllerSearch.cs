@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using TrueOrFalse;
-using TrueOrFalse.Search;
-using TrueOrFalse.Web.Context;
-
+﻿using TrueOrFalse.Search;
 
 public class AnswerQuestionControllerSearch : IRegisterAsInstancePerLifetime
 {

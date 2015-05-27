@@ -73,7 +73,7 @@ class ImageUploadModal
     _onPreviewLoadSuccess: Function;
     _onPreviewLoadError: Function;
 
-    AllowedExtensions = ['jpeg', 'jpg', 'png'];
+    AllowedExtensions = ['jpeg', 'jpg', 'png', 'svg'];
     MaxImageSize = 10485760; //10MB (in bytes)
 
     constructor() {

@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace TrueOrFalse
+public class SolutionMetadataNumber : SolutionMetadata
 {
-    public class SolutionMetadataNumber : SolutionMetadata
+    [JsonProperty("Currency")]
+    public string Currency;
+
+    public SolutionMetadataNumber()
     {
-        [JsonProperty("Currency")]
-        public string Currency;
+        IsNumber = true;
+    }
 
-        public SolutionMetadataNumber()
-        {
-            IsNumber = true;
-        }
-
-        protected override void InitFromJson(string json)
-        {
-            
-        }
+    protected override void InitFromJson(string json)
+    {
     }
 }

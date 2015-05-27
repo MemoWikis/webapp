@@ -1,32 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
 
-namespace TrueOrFalse
+public class GetTotalSetCount : IRegisterAsInstancePerLifetime
 {
-    public class GetTotalSetCount : IRegisterAsInstancePerLifetime
+    private readonly ISession _session;
+
+    public GetTotalSetCount(ISession session){
+        _session = session;
+    }
+
+    public int Run(){
+        return (int)_session.CreateQuery("SELECT Count(Id) FROM Set").UniqueResult<Int64>();
+    }
+
+    public int Run(int creatorId)
     {
-        private readonly ISession _session;
-
-        public GetTotalSetCount(ISession session){
-            _session = session;
-        }
-
-        public int Run(){
-            return (int)_session.CreateQuery("SELECT Count(Id) FROM Set").UniqueResult<Int64>();
-        }
-
-        public int Run(int creatorId)
-        {
-            return _session.QueryOver<Set>()
-                .Where(s => s.Creator.Id == creatorId)
-                .Select(Projections.RowCount())
-                .FutureValue<int>()
-                .Value;
-        }
+        return _session.QueryOver<Set>()
+            .Where(s => s.Creator.Id == creatorId)
+            .Select(Projections.RowCount())
+            .FutureValue<int>()
+            .Value;
     }
 }

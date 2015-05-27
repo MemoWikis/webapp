@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TrueOrFalse.ImageMaintenanceInfo>" %>
-<%@ Import Namespace="TrueOrFalse" %>
 
 <tr id="ImgId-<%= Model.MetaData.Id %>" class="<%=Model.LicenseStateCssClass %>">
     <td class="ColumnImage">

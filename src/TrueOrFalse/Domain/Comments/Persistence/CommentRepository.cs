@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 using NHibernate;
 using Seedworks.Lib.Persistence;
-using TrueOrFalse;
-
 
 public class CommentRepository : RepositoryDb<Comment>
 {

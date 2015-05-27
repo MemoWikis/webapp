@@ -1,0 +1,55 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <% Html.RenderPartial("Site.Partial.Head"); %>
+    <asp:ContentPlaceHolder ID="Head" runat="server" />
+</head>
+
+<body>
+    <%--HEADER--%>
+    
+    <header id="MasterHeader" style="max-height: 100px;" class="<%= GetRandomLogoCssClass.Run() %>">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row HeaderMainRow">
+                        <div class="col-xs-12 col-title">
+                            <a class="block title" href="/">
+                                <h1><span id="m">m</span>em<span id="uch"><span>u</span><span>c</span><span>h</span></span>o<span id="logo"></span></h1>
+                                <img id="memo" src="/Images/Memo.png" />
+                                
+                                <h1 style="padding-left: 115px; font-size: 13px; color:#e7ecf6">Lernplattform in privater Betaphase</h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>    
+
+    <section id="MasterSection" style="background-color: #2c5fb2;">
+            <div class="container">
+                <div class="col-lg-11 text-center">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                </div>
+            </div>
+    </section>    
+
+    <%-- FOOTER--%>
+    <footer id="MasterFooter" style="background-color: ghostwhite">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <%// ReSharper disable Asp.NotResolved
+                        Html.RenderPartial(UserControls.MasterFooter); 
+                        // ReSharper restore Asp.NotResolved%>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

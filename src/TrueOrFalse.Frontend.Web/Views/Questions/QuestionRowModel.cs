@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using TrueOrFalse.Web.Uris;
-using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web.Uris;
 
 public class QuestionRowModel : BaseModel
 {
@@ -46,7 +46,7 @@ public class QuestionRowModel : BaseModel
         QuestionValuation questionValuation,
         int indexInResultSet, 
         int currentUserid,
-        SearchTab searchTab) 
+        SearchTabType searchTab) 
     {
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
         ImageFrontendData = new ImageFrontendData(imageMetaData);

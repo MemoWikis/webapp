@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
-namespace TrueOrFalse.Tests
+public class OneEmailWasSend
 {
-    public class OneEmailWasSend
+    public static bool IsTrue()
     {
-        public static bool IsTrue()
-        {
-            return GetEmailsFromPickupDirectory.Run().Count() == 1;
-        }
+        return GetEmailsFromPickupDirectory.Run().Count() == 1;
     }
 }

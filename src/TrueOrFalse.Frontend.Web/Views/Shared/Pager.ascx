@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<PagerModel>" %>
-<%@ Import Namespace="System.Globalization" %>
 
 <div class="row" style="text-align:center;">
     <ul class="pagination">

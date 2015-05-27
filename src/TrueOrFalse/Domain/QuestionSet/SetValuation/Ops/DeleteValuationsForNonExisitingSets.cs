@@ -1,38 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHibernate;
+﻿using NHibernate;
 
-namespace TrueOrFalse
+public class DeleteValuationsForNonExisitingSets : IRegisterAsInstancePerLifetime
 {
-    public class DeleteValuationsForNonExisitingSets : IRegisterAsInstancePerLifetime
+    private readonly ISession _session;
+    private readonly UpdateSetDataForQuestion _updateSetDataForQuestion;
+    private readonly UpdateWishcount _updateWishCount;
+
+    public DeleteValuationsForNonExisitingSets(
+        ISession session,
+        UpdateSetDataForQuestion updateSetDataForQuestion,
+        UpdateWishcount updateWishCount)
     {
-        private readonly ISession _session;
-        private readonly UpdateSetDataForQuestion _updateSetDataForQuestion;
-        private readonly UpdateWishcount _updateWishCount;
+        _session = session;
+        _updateSetDataForQuestion = updateSetDataForQuestion;
+        _updateWishCount = updateWishCount;
+    }
 
-        public DeleteValuationsForNonExisitingSets(
-            ISession session,
-            UpdateSetDataForQuestion updateSetDataForQuestion,
-            UpdateWishcount updateWishCount)
-        {
-            _session = session;
-            _updateSetDataForQuestion = updateSetDataForQuestion;
-            _updateWishCount = updateWishCount;
-        }
+    public void Run()
+    {
+        _session.CreateSQLQuery(@"
+            DELETE sv FROM setvaluation sv
+            LEFT JOIN questionset s
+            ON sv.SetId = s.Id
+            WHERE s.Id IS NULL").ExecuteUpdate();
 
-        public void Run()
-        {
-            _session.CreateSQLQuery(@"
-                DELETE sv FROM setvaluation sv
-                LEFT JOIN questionset s
-                ON sv.SetId = s.Id
-                WHERE s.Id IS NULL").ExecuteUpdate();
-
-            _updateSetDataForQuestion.Run();
-            _updateWishCount.Run();
-        }
+        _updateSetDataForQuestion.Run();
+        _updateWishCount.Run();
     }
 }

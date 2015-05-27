@@ -3,33 +3,35 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 
-namespace TrueOrFalse
+public class Sl
 {
-    public class Sl
+    public static T Resolve<T>(){return ServiceLocator.Resolve<T>();}
+    public static T R<T>() { return ServiceLocator.Resolve<T>(); }
+}
+
+public class ServiceLocator
+{
+    private static IContainer _container;
+
+    public static void Init(IContainer container)
     {
-        public static T Resolve<T>(){return ServiceLocator.Resolve<T>();}
-        public static T R<T>() { return ServiceLocator.Resolve<T>(); }
+        _container = container;
     }
 
-    public class ServiceLocator
+    public static T Resolve<T>()
     {
-        private static IContainer _container;
+        if (HttpContext.Current == null)
+            return _container.Resolve<T>();
 
-        public static void Init(IContainer container)
-        {
-            _container = container;
-        }
+        return ((AutofacDependencyResolver) DependencyResolver.Current).RequestLifetimeScope.Resolve<T>();
+    }
 
-        public static T Resolve<T>()
-        {
-            if (HttpContext.Current == null)
-                return _container.Resolve<T>();
+    public static IContainer GetContainer()
+    {
+        return _container;
+    }
 
-            return ((AutofacDependencyResolver) DependencyResolver.Current).RequestLifetimeScope.Resolve<T>();
-        }
-
-        public static T R<T>(){
-            return Resolve<T>();
-        }
+    public static T R<T>(){
+        return Resolve<T>();
     }
 }

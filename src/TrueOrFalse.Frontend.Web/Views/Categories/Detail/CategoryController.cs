@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Xml.Linq;
-using NHibernate.Criterion;
-using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryController : BaseController

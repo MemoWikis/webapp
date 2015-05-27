@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Web.Mvc;
-using TrueOrFalse;
-using TrueOrFalse.Web.Context;
+﻿using TrueOrFalse;
 
 public class KnowledgeModel : BaseModel
 {

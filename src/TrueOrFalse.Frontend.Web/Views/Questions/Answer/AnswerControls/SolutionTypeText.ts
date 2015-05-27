@@ -1,10 +1,9 @@
-/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
-/// <reference path="../../../../scripts/utils.ts" />
-/// <reference path="../js/answerquestion.ts" />
-
-class SolutionTypeTextEntry implements ISolutionEntry
+class SolutionTypeTextEntry
+    extends SolutionEntryBase
+    implements ISolutionEntry
 {
-    constructor() {
+    constructor(solutionEntry: SolutionEntry) {
+        super(solutionEntry);
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });    
     }
@@ -23,7 +22,3 @@ class SolutionTypeTextEntry implements ISolutionEntry
         $("#txtAnswer").select();
     }
 };
-
-$(function() {
-    new SolutionTypeTextEntry();
-});

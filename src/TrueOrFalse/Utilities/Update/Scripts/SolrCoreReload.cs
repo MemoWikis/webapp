@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
@@ -14,7 +15,7 @@ namespace TrueOrFalse.Updates
 
         private static string _solrUrl;
         private static string _solrPath;
-        private static string _coreSuffix { get { return WebConfigSettings.SolrCoresSuffix; } }
+        private static string _coreSuffix { get { return Settings.SolrCoresSuffix; } }
 
         private static readonly string[] _coreNames = { 
                 "Category" + _coreSuffix, 
@@ -33,8 +34,8 @@ namespace TrueOrFalse.Updates
             if (HttpContext.Current == null)
                 return;
 
-            _solrUrl = WebConfigSettings.SolrUrl;
-            _solrPath = WebConfigSettings.SolrPath;
+            _solrUrl = Settings.SolrUrl;
+            _solrPath = Settings.SolrPath;
         }
 
         public static void Set(string url, string path)
@@ -45,14 +46,14 @@ namespace TrueOrFalse.Updates
 
         public static void ReloadAllSchemas(bool testSchemas = false)
         {
-            _coreNames.ForEach(c => CopySchema(c + (testSchemas ? "Test" : "")));
-            _coreNames.ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
+            _coreNames.ToList().ForEach(c => CopySchema(c + (testSchemas ? "Test" : "")));
+            _coreNames.ToList().ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
         }
 
         public static void ReloadAllConfigs(bool testSchemas = false)
         {
-            _coreNames.ForEach(c => CopyConfig(c + (testSchemas ? "Test" : "")));
-            _coreNames.ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
+            _coreNames.ToList().ForEach(c => CopyConfig(c + (testSchemas ? "Test" : "")));
+            _coreNames.ToList().ForEach(c => ReoladCore(c + (testSchemas ? "Test" : "")));
         }
 
         public static void RefreshSchema(string coreName){

@@ -1,10 +1,7 @@
 ﻿<%@ Page Title="Frage erstellen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="ViewPage<EditQuestionModel>" ValidateRequest="false" %>
- 
-<%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="TrueOrFalse" %>
 <asp:Content runat="server" ID="head" ContentPlaceHolderID="Head">
     <link href="/Views/Questions/Edit/EditQuestion.css" rel="stylesheet" />
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
@@ -48,7 +45,7 @@
         </div>
         <div class="PageHeader col-xs-12">
             <% if(!Model.IsLoggedIn){ %>
-                <div class="bs-callout bs-callout-info" style="margin-top: 0;">
+                <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
                     <h4>Anmelden oder registrieren</h4>
                     <p>
                         Um Fragen zu erstellen, <br/>

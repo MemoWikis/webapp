@@ -3,33 +3,34 @@ using Autofac;
 using NHibernate;
 using Quartz;
 using RollbarSharp;
-using TrueOrFalse.Infrastructure;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
-    public class CleanUpWorkInProgressQuestions : IJob
+    public class CleanUpWorkInProgressQuestions : IJob, IRegisterAsInstancePerLifetime
     {
         public void Execute(IJobExecutionContext context)
         {
-            ServiceLocator.Init(AutofacWebInitializer.Run());
-
             try
             {
-                var builder = new ContainerBuilder();
-                builder.RegisterModule<AutofacCoreModule>();
+                Settings.UseWebConfig = true;
 
                 Logg.r().Information("Job start: {Job}", "CleanUpWorkInProgressQuestions ");
 
-                var questions = Sl.R<ISession>().QueryOver<Question>()
-                    .Where(q => q.IsWorkInProgress && q.DateCreated < DateTime.Now.AddHours(-6))
-                    .List<Question>();
+                using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
+                {
+                    var questions = scope.Resolve<ISession>().QueryOver<Question>()
+                        .Where(q => q.IsWorkInProgress && q.DateCreated < DateTime.Now.AddHours(-6))
+                        .List<Question>();
 
-                var questionRepo = Sl.R<QuestionRepository>();
+                    var questionRepo = scope.Resolve<QuestionRepository>();
 
-                foreach (var question in questions)
-                    questionRepo.Delete(question);
+                    foreach (var question in questions)
+                        questionRepo.Delete(question);
 
-                Logg.r().Information("Job end: {Job} {amountOfDeletedQuestions}", "CleanUpWorkInProgressQuestions", questions.Count);
+                    Logg.r().Information("Job end: {Job} {amountOfDeletedQuestions}", "CleanUpWorkInProgressQuestions", questions.Count);
+                }
+
+                
             }
             catch(Exception e)
             {

@@ -82,6 +82,8 @@ optgroup:disabled {
 }
 label {
   font-weight: normal;
+  -ms-line-break: normal;
+  -webkit-line-break: normal;
   line-break: normal;
 }
 .RequiredField {

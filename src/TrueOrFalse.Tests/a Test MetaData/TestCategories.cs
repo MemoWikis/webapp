@@ -1,29 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TrueOrFalse.Tests
+﻿public static class TestCategories
 {
-	public static class TestCategories
-	{
-		/// <summary>
-		/// Tests not exclusivly small units, but also bigger parts. 
-		/// Could be also labeled as "IntegrationTest"
-		/// </summary>
-		public const string Programmer = "ProgrammersTest";
+	/// <summary>
+	/// Tests not exclusivly small units, but also bigger parts. 
+	/// Could be also labeled as "IntegrationTest"
+	/// </summary>
+	public const string Programmer = "ProgrammersTest";
 
-        public const string Integration = "Integration";
+    public const string Integration = "Integration";
 
-		/// <summary>
-		/// Tests small decoupled, portions of the code
-		/// </summary>
-		public const string UnitTest = "UnitTest";
+	/// <summary>
+	/// Tests small decoupled, portions of the code
+	/// </summary>
+	public const string UnitTest = "UnitTest";
 
-		/// <summary>
-		/// Following the BDD ideas
-		/// </summary>
-		public const string BehaviourTest = "BehaviourTest";
-
-	}
+	/// <summary>
+	/// Following the BDD ideas
+	/// </summary>
+	public const string BehaviourTest = "BehaviourTest";
 }

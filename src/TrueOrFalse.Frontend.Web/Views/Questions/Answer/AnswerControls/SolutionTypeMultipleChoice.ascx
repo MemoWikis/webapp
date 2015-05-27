@@ -10,5 +10,3 @@
         </label>
     </div>
 <% } %>
-
-<script src="/Views/Questions/Answer/AnswerControls/SolutionTypeMultipleChoice.js" type="text/javascript"></script> 

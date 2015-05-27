@@ -1,6 +1,4 @@
-﻿using TrueOrFalse;
-using TrueOrFalse.Web.Context;
-
+﻿
 public class BaseUtil
 {
     protected SessionUser _sessionUser { get { return Resolve<SessionUser>(); } }

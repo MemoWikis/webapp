@@ -146,6 +146,18 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Dates", "Dates");
         }
 
+        public static string Games(UrlHelper url){
+            return url.Action("Games", "Games");
+        }
+
+        public static string GameCreate(UrlHelper url){
+            return GetUrlHelper().Action("Create", "Game", null);
+        }
+
+        public static string GamePlay(UrlHelper url, int gameId){
+            return GetUrlHelper().Action("Play", "Play", new { gameId = gameId });
+        }
+
         public const string EditQuestionController = "EditQuestion"; 
 
         public static string CreateQuestion(UrlHelper url, int categoryId = -1)

@@ -1,5 +1,4 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditSetModel>" %>
-<%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -64,6 +63,17 @@
         <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
 
         <div class="form-horizontal">
+            
+            <% if(!Model.IsLoggedIn){ %>
+                <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
+                    <h4>Anmelden oder registrieren</h4>
+                    <p>
+                        Um Fragesätze zu erstellen, <br/>
+                        musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
+                    </p>
+                </div>
+            <% }%>
+
             <div class="box box-main">
                 <h1 class="pull-left"><%=Model.FormTitle %></h1>
                 <div class="pull-right">
@@ -159,8 +169,7 @@
                 </div>
     
                 <div class="form-actions">
-                    <input type="submit" class="btn btn-primary" value="Speichern" />
-                    <input type="button" class="btn btn-default" value="Cancel">
+                    <input type="submit" class="btn btn-primary" value="Speichern" <%= Model.IsLoggedIn ? "" : "disabled" %> />
                 </div>
             </div>
         </div>

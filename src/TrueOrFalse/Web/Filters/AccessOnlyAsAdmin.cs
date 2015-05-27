@@ -1,17 +1,13 @@
-﻿using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
+﻿using System.Web.Mvc;
 
-namespace System.Web.Mvc
+public class AccessOnlyAsAdmin : ActionFilterAttribute
 {
-    public class AccessOnlyAsAdmin : ActionFilterAttribute
+    public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            var userSession = new SessionUser();
-            if (!userSession.IsInstallationAdmin)
-                throw new InvalidAccessException();
+        var userSession = new SessionUser();
+        if (!userSession.IsInstallationAdmin)
+            throw new InvalidAccessException();
 
-            base.OnActionExecuting(filterContext);
-        }
+        base.OnActionExecuting(filterContext);
     }
 }

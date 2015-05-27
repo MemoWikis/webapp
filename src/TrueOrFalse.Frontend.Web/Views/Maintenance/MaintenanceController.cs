@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.AspNet.SignalR;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
@@ -137,7 +138,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult Tools()
     {
-        return View(new MaintenanceModel());
+        return View(new MaintenanceToolsModel());
     }
 
     [AccessOnlyAsAdmin]
@@ -150,7 +151,7 @@ public class MaintenanceController : BaseController
     public ActionResult CleanUpWorkInProgressQuestions()
     {
         JobScheduler.StartCleanupWorkInProgressJob();
-        return View("Tools", new MaintenanceModel { Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.") });
+        return View("Tools", new MaintenanceToolsModel { Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.") });
     }
 
     [AccessOnlyAsAdmin]

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
-using TrueOrFalse;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 
 public class UserSettingsController : BaseController
 {

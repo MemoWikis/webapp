@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TrueOrFalse
+﻿public class CategoryExists : IRegisterAsInstancePerLifetime
 {
-    public class CategoryExists : IRegisterAsInstancePerLifetime
+    private readonly CategoryRepository _categoryRepository;
+
+    public CategoryExists(CategoryRepository categoryRepository)
     {
-        private readonly CategoryRepository _categoryRepository;
+        _categoryRepository = categoryRepository;
+    }
 
-        public CategoryExists(CategoryRepository categoryRepository)
-        {
-            _categoryRepository = categoryRepository;
-        }
-
-        /// <remarks>Extension point for caching...</remarks>
-        public bool Yes(string categoryName)
-        {
-            return _categoryRepository.Exists(categoryName);
-        }
+    /// <remarks>Extension point for caching...</remarks>
+    public bool Yes(string categoryName)
+    {
+        return _categoryRepository.Exists(categoryName);
     }
 }

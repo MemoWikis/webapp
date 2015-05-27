@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using NHibernate;
-using TrueOrFalse;
 using TrueOrFalse.Search;
-using TrueOrFalse.Web.Context;
 
 public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
 {

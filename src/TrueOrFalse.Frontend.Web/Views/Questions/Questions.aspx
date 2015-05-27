@@ -1,7 +1,5 @@
 ﻿<%@ Page Title="Fragen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<QuestionsModel>" %>
-<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -36,7 +34,7 @@
             <div class="container">
                 <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
                 
-                    <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %> JS-<%= SearchTab.All.ToString() %>">
+                    <div id="AllQuestions" class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %> JS-<%= SearchTabType.All.ToString() %>">
                         <a  href="<%= Links.QuestionsAll() %>" type="button" class="btn btn-default">
                             <%  string von = "";
                                 if (Model.ActiveTabAll && Model.TotalQuestionsInSystem != Model.TotalQuestionsInResult)
@@ -44,7 +42,7 @@
                                 Alle (<span class="JS-Amount"><%= von + Model.TotalQuestionsInSystem %></span>)
                         </a>
                     </div>
-                    <div id="WuWiQuestions" class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-<%= SearchTab.Wish.ToString() %>">
+                    <div id="WuWiQuestions" class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-<%= SearchTabType.Wish.ToString() %>">
                         <a  href="<%= Links.QuestionsWish() %>" type="button" class="btn btn-default">
                             <% von = "";
                             if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
@@ -53,7 +51,7 @@
                             <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Fakten, die du dir merken möchtest." data-placement="right"></i>
                         </a>
                     </div>
-                    <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-<%= SearchTab.Mine.ToString() %>">
+                    <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-<%= SearchTabType.Mine.ToString() %>">
                         <a href="<%= Links.QuestionsMine() %>" type="button" class="btn btn-default">
                         <%  von = "";
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)
@@ -82,7 +80,7 @@
                     Frage erstellen
                 </a>
             <ul class="nav nav-tabs JS-Tabs">
-                <li class="<%= Model.ActiveTabAll ? "active" : ""  %> JS-<%= SearchTab.All.ToString() %>">
+                <li class="<%= Model.ActiveTabAll ? "active" : ""  %> JS-<%= SearchTabType.All.ToString() %>">
                     <a href="<%= Links.QuestionsAll() %>">
                         <%  string von = "";
                             if (Model.ActiveTabAll && Model.TotalQuestionsInSystem != Model.TotalQuestionsInResult)
@@ -90,7 +88,7 @@
                         Alle Fragen (<span class="JS-Amount"><%= von + Model.TotalQuestionsInSystem %></span>)
                     </a>
                 </li>
-                <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-<%= SearchTab.Wish.ToString() %>">
+                <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-<%= SearchTabType.Wish.ToString() %>">
                     <a href="<%= Links.QuestionsWish() %>">
                         <% von = "";
                            if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
@@ -100,7 +98,7 @@
                            title="Fakten, die du dir merken möchtest." data-placement="right"></i>
                     </a>
                 </li>
-                <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-<%= SearchTab.Mine.ToString() %>">
+                <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-<%= SearchTabType.Mine.ToString() %>">
                     <a href="<%= Links.QuestionsMine() %>">
                         <%  von = "";
                             if (Model.ActiveTabMine && Model.TotalQuestionsMine != Model.TotalQuestionsInResult)

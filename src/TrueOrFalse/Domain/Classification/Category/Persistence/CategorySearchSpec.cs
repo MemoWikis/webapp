@@ -2,106 +2,101 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
-using TrueOrFalse.Web.Context;
 
-namespace TrueOrFalse
+[Serializable]
+public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, CategorytOrderBy>
 {
-    [Serializable]
-    public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, CategorytOrderBy>
+    public string SearchTerm;
+
+    public bool FilterByMe { get; private set; }
+    public bool FilterByAll { get; private set; }
+    public ReadOnlyCollection<int> FilterByUsers { get; private set; }
+
+    public SpellCheckResult SpellCheck;
+
+    public string GetSuggestion()
     {
-        public string SearchTerm;
+        return SpellCheck.GetSuggestion();
+    }
 
-        public bool FilterByMe { get; private set; }
-        public bool FilterByAll { get; private set; }
-        public ReadOnlyCollection<int> FilterByUsers { get; private set; }
+    public CategorySearchSpec()
+    {
+        FilterByUsers = new ReadOnlyCollection<int>(new List<int>());
+        FilterByMe = true;
+        FilterByAll = true;
+        UpdateUserFilter();
+    }
 
-        public SpellCheckResult SpellCheck;
+    public void SetFilterByMe(bool? value)
+    {
+        if (!value.HasValue || value.Value == FilterByMe) return;
+        FilterByMe = value.Value;
+        UpdateUserFilter();
+    }
 
-        public string GetSuggestion()
+    public void SetFilterByAll(bool? value)
+    {
+        if (!value.HasValue || value.Value == FilterByAll) return;
+        FilterByAll = value.Value;
+        UpdateUserFilter();
+    }
+
+    private void UpdateUserFilter()
+    {
+        Filter.Clear();
+
+        if (FilterByAll && !FilterByMe)
         {
-            return SpellCheck.GetSuggestion();
+            var condition = new ConditionInteger(Filter, "Creator.Id");
+            condition.IsNotEqualTo(ServiceLocator.Resolve<SessionUser>().User.Id);
         }
-
-        public CategorySearchSpec()
+        else if (FilterByAll && FilterByMe)
         {
-            FilterByUsers = new ReadOnlyCollection<int>(new List<int>());
-            FilterByMe = true;
-            FilterByAll = true;
-            UpdateUserFilter();
+            // show all, not filtered
         }
-
-        public void SetFilterByMe(bool? value)
+        else
         {
-            if (!value.HasValue || value.Value == FilterByMe) return;
-            FilterByMe = value.Value;
-            UpdateUserFilter();
-        }
-
-        public void SetFilterByAll(bool? value)
-        {
-            if (!value.HasValue || value.Value == FilterByAll) return;
-            FilterByAll = value.Value;
-            UpdateUserFilter();
-        }
-
-        private void UpdateUserFilter()
-        {
-            Filter.Clear();
-
-            if (FilterByAll && !FilterByMe)
+            var condition = new ConditionDisjunction<int>(Filter, "Creator.Id");
+            condition.Add(FilterByUsers.ToArray());
+            if (FilterByMe)
             {
-                var condition = new ConditionInteger(Filter, "Creator.Id");
-                condition.IsNotEqualTo(ServiceLocator.Resolve<SessionUser>().User.Id);
+                condition.Add(ServiceLocator.Resolve<SessionUser>().User.Id);
             }
-            else if (FilterByAll && FilterByMe)
+            if (condition.ItemCount == 0)
             {
-                // show all, not filtered
-            }
-            else
-            {
-                var condition = new ConditionDisjunction<int>(Filter, "Creator.Id");
-                condition.Add(FilterByUsers.ToArray());
-                if (FilterByMe)
-                {
-                    condition.Add(ServiceLocator.Resolve<SessionUser>().User.Id);
-                }
-                if (condition.ItemCount == 0)
-                {
-                    condition.Add(-1);
-                }
+                condition.Add(-1);
             }
         }
     }
+}
 
-    [Serializable]
-    public class CategoryFilter : ConditionContainer
+[Serializable]
+public class CategoryFilter : ConditionContainer
+{
+}
+
+[Serializable]
+public class CategorytOrderBy : OrderByCriteria
+{
+    public OrderBy CreationDate;
+    public OrderBy QuestionCount;
+
+    public CategorytOrderBy()
     {
+        CreationDate = new OrderBy("DateCreated", this);
+        QuestionCount = new OrderBy("CountQuestions", this);
     }
 
-    [Serializable]
-    public class CategorytOrderBy : OrderByCriteria
+    public string ToText()
     {
-        public OrderBy CreationDate;
-        public OrderBy QuestionCount;
+        if (CreationDate.IsCurrent())
+            return "Datum erstellt";
 
-        public CategorytOrderBy()
-        {
-            CreationDate = new OrderBy("DateCreated", this);
-            QuestionCount = new OrderBy("CountQuestions", this);
-        }
+        if (QuestionCount.IsCurrent())
+            return "Anzahl Fragen";
 
-        public string ToText()
-        {
-            if (CreationDate.IsCurrent())
-                return "Datum erstellt";
-
-            if (QuestionCount.IsCurrent())
-                return "Anzahl Fragen";
-
-            return "";
-        }
+        return "";
     }
 }

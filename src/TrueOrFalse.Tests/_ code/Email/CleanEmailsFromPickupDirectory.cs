@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Net.Configuration;
-using System.Text;
 
-namespace TrueOrFalse.Tests
+public class CleanEmailsFromPickupDirectory
 {
-    public class CleanEmailsFromPickupDirectory
+    public static void Run()
     {
-        public static void Run()
-        {
-            var files = GetEmailsFromPickupDirectory.Run();
+        var files = GetEmailsFromPickupDirectory.Run();
 
-            foreach(var file in files.Where(x => x != "keepFolder.txt"))
-                File.Delete(file);
-
-        }
+        foreach(var file in files.Where(x => x != "keepFolder.txt"))
+            File.Delete(file);
     }
 }
