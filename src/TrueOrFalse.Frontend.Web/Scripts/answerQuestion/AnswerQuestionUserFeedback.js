@@ -10,6 +10,16 @@
         this._successMsgs = ["Yeah! Weiter so.", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!"];
         this._answerQuestion = answerQuestion;
     }
+    AnswerQuestionUserFeedback.prototype.ShowErrorGame = function () {
+        $("#divWrongAnswerPlay").show();
+        $("#buttons-first-try").hide();
+        $("#buttons-answer-again").hide();
+
+        $("#divWrongEnteredAnswer").html(this._answerQuestion.AnswersSoFar[0]);
+
+        this.AnimateWrongAnswer();
+    };
+
     AnswerQuestionUserFeedback.prototype.ShowError = function (text, forceShow) {
         if (typeof text === "undefined") { text = ""; }
         if (typeof forceShow === "undefined") { forceShow = false; }
@@ -56,7 +66,8 @@
         this.RenderAnswerDetails();
     };
 
-    AnswerQuestionUserFeedback.prototype.ShowCorrectAnswer = function () {
+    AnswerQuestionUserFeedback.prototype.ShowCorrectAnswer = function (showNextAnswerButton) {
+        if (typeof showNextAnswerButton === "undefined") { showNextAnswerButton = true; }
         this.ShowNextAnswer();
 
         if (!this._answerQuestion.AtLeastOneWrongAnswer) {

@@ -1,6 +1,9 @@
-class SolutionTypeSequence implements ISolutionEntry
+class SolutionTypeSequence
+    extends SolutionEntryBase
+    implements ISolutionEntry
 {
-    constructor() {
+    constructor(solutionEntry: SolutionEntry) {
+        super(solutionEntry);
         var answerQuestion = new AnswerQuestion(this);
         $('.sequence-row').keydown(function () {
             answerQuestion.OnAnswerChange();

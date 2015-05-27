@@ -509,8 +509,14 @@
       <DependentUpon>BrainWavesHub.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionEntryBase.js">
+      <DependentUpon>SolutionEntryBase.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js">
       <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css">
+      <DependentUpon>AnswerQuestionSolution.less</DependentUpon>
     </Content>
     <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
@@ -1081,6 +1087,7 @@
     <Compile Include="Views\Welcome\WelcomeModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionEntryBase.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
@@ -1594,6 +1601,13 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js.map">
       <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionEntryBase.js.map">
+      <DependentUpon>SolutionEntryBase.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionSolution.less" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css.map">
+      <DependentUpon>AnswerQuestionSolution.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

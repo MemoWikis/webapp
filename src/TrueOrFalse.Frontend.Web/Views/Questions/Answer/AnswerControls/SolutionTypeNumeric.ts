@@ -1,6 +1,11 @@
-﻿class SolutionTypeNumeric implements ISolutionEntry {
+﻿class SolutionTypeNumeric
+    extends SolutionEntryBase
+    implements ISolutionEntry {
 
-    constructor() {
+    constructor(solutionEntry: SolutionEntry) {
+        super(solutionEntry);
+        this.IsGameMode = solutionEntry.IsGameMode;
+
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });    
     }

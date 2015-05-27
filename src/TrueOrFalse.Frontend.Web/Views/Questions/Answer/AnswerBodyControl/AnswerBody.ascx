@@ -27,7 +27,14 @@
     <div class="RenderedMarkdown"><%= Model.QuestionTextMarkdown %></div>
             
     <% if (Model.HasSound){ Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
-        
+    
+    <div class="alert alert-info" id="divWrongAnswerPlay" style="display: none; background-color: white; color:#2E487B;">
+        <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
+        <div>Dein Eingabe:</div>
+        <div style="margin-top:7px;" id="divWrongEnteredAnswer">
+        </div>
+    </div>
+
     <div class="alert alert-info" id="divWrongAnswer" style="display: none; background-color: white; color:#2E487B;">
         <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsche Antwort </b></span>
         <a href="#" id="CountWrongAnswers" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>

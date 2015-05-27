@@ -1,6 +1,9 @@
-class SolutionTypeMultipleChoice implements ISolutionEntry
+class SolutionTypeMultipleChoice
+    extends SolutionEntryBase
+    implements ISolutionEntry
 {
-    constructor() {
+    constructor(solutionEntry: SolutionEntry) {
+        super(solutionEntry);
         var answerQuestion = new AnswerQuestion(this);
         $('input:radio[name=answer]').change(function () {
             answerQuestion.OnAnswerChange();

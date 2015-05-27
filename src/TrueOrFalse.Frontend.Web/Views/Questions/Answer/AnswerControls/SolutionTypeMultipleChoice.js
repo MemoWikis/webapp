@@ -1,5 +1,13 @@
-var SolutionTypeMultipleChoice = (function () {
-    function SolutionTypeMultipleChoice() {
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var SolutionTypeMultipleChoice = (function (_super) {
+    __extends(SolutionTypeMultipleChoice, _super);
+    function SolutionTypeMultipleChoice(solutionEntry) {
+        _super.call(this, solutionEntry);
         var answerQuestion = new AnswerQuestion(this);
         $('input:radio[name=answer]').change(function () {
             answerQuestion.OnAnswerChange();
@@ -18,6 +26,6 @@ var SolutionTypeMultipleChoice = (function () {
         $('input:radio[name=answer]:checked').prop('checked', false);
     };
     return SolutionTypeMultipleChoice;
-})();
+})(SolutionEntryBase);
 ;
 //# sourceMappingURL=SolutionTypeMultipleChoice.js.map

@@ -11,7 +11,7 @@
     constructor(play : Play) {
 
         this._play = play;
-        this._solutionEntry = new SolutionEntry();
+        this._solutionEntry = new SolutionEntry(/*isGameMode*/true);
         this._pinQuestion = new PinQuestion();
 
         this.StartCountDown();

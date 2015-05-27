@@ -1,6 +1,11 @@
-﻿class SolutionTypeDateEntry implements ISolutionEntry {
+﻿class SolutionTypeDateEntry
+    extends SolutionEntryBase
+    implements ISolutionEntry  {
 
-    constructor() {
+    constructor(solutionEntry: SolutionEntry) {
+
+        super(solutionEntry);
+
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });
         $("#txtAnswer").keyup(() => { this.SetDateUi(); });

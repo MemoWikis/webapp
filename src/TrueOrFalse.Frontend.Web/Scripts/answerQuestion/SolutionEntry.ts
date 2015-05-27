@@ -1,20 +1,34 @@
-﻿ class SolutionEntry {
+﻿interface ISolutionEntry {
+    GetAnswerText(): string;
+    GetAnswerData(): {};
+    OnNewAnswer(): void;
 
-     public Init() {
+    IsGameMode : boolean;
+}
 
-         var solutionT = +$("#hddSolutionTypeNum").val();
+class SolutionEntry {
 
-         switch (solutionT) {
-             case SolutionType.Date:
-                 new SolutionTypeDateEntry(); break;
-             case SolutionType.MultipleChoice:
-                 new SolutionTypeMultipleChoice(); break;
-             case SolutionType.Text:
-                 new SolutionTypeTextEntry(); break;
-             case SolutionType.Numeric:
-                 new SolutionTypeNumeric(); break;
-             case SolutionType.Sequence:
-                 new SolutionTypeSequence(); break;
-         };         
-     }
- }
+    IsGameMode: boolean;
+
+    constructor(isGameMode : boolean = false) {
+        this.IsGameMode = isGameMode;
+    }
+
+    public Init() {
+
+        var solutionT = +$("#hddSolutionTypeNum").val();
+
+        switch (solutionT) {
+            case SolutionType.Date:
+                new SolutionTypeDateEntry(this); break;
+            case SolutionType.MultipleChoice:
+                new SolutionTypeMultipleChoice(this); break;
+            case SolutionType.Text:
+                new SolutionTypeTextEntry(this); break;
+            case SolutionType.Numeric:
+                new SolutionTypeNumeric(this); break;
+            case SolutionType.Sequence:
+                new SolutionTypeSequence(this); break;
+        };         
+    }
+}

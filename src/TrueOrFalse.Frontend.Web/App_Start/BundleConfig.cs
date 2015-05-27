@@ -97,7 +97,8 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Games/Play/Js/", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/GamePlay")
-                .Include("~/Views/Games/Play/*.css"));
+                .Include("~/Views/Games/Play/*.css")
+                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css"));
 
             //Markdown
             bundles.Add(new ScriptBundle("~/bundles/markdown")

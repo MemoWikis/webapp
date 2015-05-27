@@ -1,6 +1,9 @@
-class SolutionTypeTextEntry implements ISolutionEntry
+class SolutionTypeTextEntry
+    extends SolutionEntryBase
+    implements ISolutionEntry
 {
-    constructor() {
+    constructor(solutionEntry: SolutionEntry) {
+        super(solutionEntry);
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });    
     }

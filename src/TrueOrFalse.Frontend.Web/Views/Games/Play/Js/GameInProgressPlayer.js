@@ -2,7 +2,7 @@
     function GameInProgressPlayer(play) {
         var _this = this;
         this._play = play;
-        this._solutionEntry = new SolutionEntry();
+        this._solutionEntry = new SolutionEntry(true);
         this._pinQuestion = new PinQuestion();
 
         this.StartCountDown();

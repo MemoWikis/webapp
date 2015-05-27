@@ -1,5 +1,4 @@
-﻿/// <reference path="../typescript.defs/lib.d.ts" />
-var answerResult;
+﻿var answerResult;
 
 var choices = [];
 
@@ -9,6 +8,8 @@ var AnswerQuestion = (function () {
         this.AnswersSoFar = [];
         this.AmountOfTries = 0;
         this.AtLeastOneWrongAnswer = false;
+        this._isGameMode = solutionEntry.IsGameMode;
+
         this._getAnswerText = solutionEntry.GetAnswerText;
         this._getAnswerData = solutionEntry.GetAnswerData;
         this._onNewAnswer = solutionEntry.OnNewAnswer;
@@ -95,18 +96,25 @@ var AnswerQuestion = (function () {
                     answerResult = result;
                     $("#buttons-first-try").hide();
                     $("#buttons-answer-again").hide();
+
                     if (result.correct) {
                         self._inputFeedback.ShowSuccess();
+                        self._inputFeedback.ShowCorrectAnswer(false);
                     } else {
-                        self._inputFeedback.UpdateAnswersSoFar();
+                        if (self._isGameMode) {
+                            self._inputFeedback.ShowErrorGame();
+                            self._inputFeedback.ShowCorrectAnswer(false);
+                        } else {
+                            self._inputFeedback.UpdateAnswersSoFar();
 
-                        self.AtLeastOneWrongAnswer = true;
-                        self._inputFeedback.ShowError();
+                            self.AtLeastOneWrongAnswer = true;
+                            self._inputFeedback.ShowError();
 
-                        if (result.choices != null) {
-                            choices = result.choices;
-                            if (self.allWrongAnswersTried(answerText)) {
-                                self._inputFeedback.ShowCorrectAnswer();
+                            if (result.choices != null) {
+                                choices = result.choices;
+                                if (self.allWrongAnswersTried(answerText)) {
+                                    self._inputFeedback.ShowCorrectAnswer();
+                                }
                             }
                         }
                     }

@@ -15,6 +15,16 @@
         this._answerQuestion = answerQuestion;
     }
 
+    public ShowErrorGame() {
+        $("#divWrongAnswerPlay").show();
+        $("#buttons-first-try").hide();
+        $("#buttons-answer-again").hide();
+
+        $("#divWrongEnteredAnswer").html(this._answerQuestion.AnswersSoFar[0]);
+
+        this.AnimateWrongAnswer();
+    }
+
     public ShowError(text = "", forceShow: boolean = false) {
 
         if (text === "") {
@@ -60,7 +70,7 @@
         this.RenderAnswerDetails();
     }
 
-    ShowCorrectAnswer() {
+    ShowCorrectAnswer(showNextAnswerButton : boolean = true) {
 
         this.ShowNextAnswer();
 

@@ -1,13 +1,6 @@
-﻿/// <reference path="../typescript.defs/lib.d.ts" />
-var answerResult;
+﻿var answerResult;
 
 var choices = [];
-
-interface ISolutionEntry {
-    GetAnswerText(): string;
-    GetAnswerData(): {};
-    OnNewAnswer(): void;
-}
 
 class AnswerQuestion
 {
@@ -16,6 +9,7 @@ class AnswerQuestion
     private _onNewAnswer: () => void;
 
     private _inputFeedback: AnswerQuestionUserFeedback;
+    private _isGameMode : boolean;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetAnswer: string;
@@ -25,8 +19,10 @@ class AnswerQuestion
     public AmountOfTries = 0;
     public AtLeastOneWrongAnswer = false;
 
-    constructor(solutionEntry : ISolutionEntry)
-    {
+    constructor(solutionEntry : ISolutionEntry) {
+
+        this._isGameMode = solutionEntry.IsGameMode;
+
         this._getAnswerText = solutionEntry.GetAnswerText;
         this._getAnswerData = solutionEntry.GetAnswerData;
         this._onNewAnswer = solutionEntry.OnNewAnswer;
@@ -117,19 +113,32 @@ class AnswerQuestion
                     answerResult = result;
                     $("#buttons-first-try").hide();
                     $("#buttons-answer-again").hide();
-                    if (result.correct) {
+
+                    if (result.correct)
+                    {
                         self._inputFeedback.ShowSuccess();
-                    } else {
-                        self._inputFeedback.UpdateAnswersSoFar();
+                        self._inputFeedback.ShowCorrectAnswer(/*showNextAnswerButton*/false);
+                    }
+                    else //!result.correct
+                    {
+                        if (self._isGameMode)
+                        {
+                            self._inputFeedback.ShowErrorGame();
+                            self._inputFeedback.ShowCorrectAnswer(/*showNextAnswerButton*/false);
+                        }
+                        else
+                        {
+                            self._inputFeedback.UpdateAnswersSoFar();
 
-                        self.AtLeastOneWrongAnswer = true;
-                        self._inputFeedback.ShowError();
+                            self.AtLeastOneWrongAnswer = true;
+                            self._inputFeedback.ShowError();
 
-                        if (result.choices != null) { //if multiple choice
-                            choices = result.choices;
-                            if (self.allWrongAnswersTried(answerText)) {
-                                self._inputFeedback.ShowCorrectAnswer();
-                            }
+                            if (result.choices != null) { //if multiple choice
+                                choices = result.choices;
+                                if (self.allWrongAnswersTried(answerText)) {
+                                    self._inputFeedback.ShowCorrectAnswer();
+                                }
+                            }                            
                         }
                     };
 
