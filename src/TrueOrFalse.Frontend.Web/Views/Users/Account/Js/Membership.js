@@ -6,6 +6,12 @@ var validationSettings_BecomeMemberForm = {
         } else {
             return true;
         }
+    },
+    submitHandler: function (form) {
+        var chosenPriceString = $('#BecomeMemberForm').find('input[name="PriceLevel"][type="radio"]:checked').closest('.radio').find('.InputPrice').val();
+        $('#ChosenPrice').val((Math.round(100 * parseFloat(chosenPriceString.replace(',', '.'))) / 100).toFixed(2));
+        window.alert((Math.round(100 * parseFloat(chosenPriceString.replace(',', '.'))) / 100).toFixed(2));
+        //$(form).submit();
     }
 };
 
