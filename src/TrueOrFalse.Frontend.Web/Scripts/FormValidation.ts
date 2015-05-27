@@ -42,22 +42,60 @@
             elemForm.data("validator", null);    
     }
 
-    jQuery.validator.addMethod(
-        "numberCommaFormat",
-        function (value, element) {
+    //jQuery.validator.addMethod(
+    //    "numberCommaFormat",
+    //    function (value, element) {
+    //        window.alert('Format-Regel');
 
-            var valueString = value.toString();
-
-            return $.trim(valueString) === ""
-                || /^\d+[,]*\d*$/.test(valueString)
-                || /^\d*[,]*\d+$/.test(valueString)
-        },
-        "Bitte verwende nur Ziffern und Komma."
-    );
+    //        return fnNumberFormatCorrect(value)            
+    //    },
+    //    "Die Zahl konnte nicht erkannt werden. Bitte verwende nur Ziffern und Komma."
+    //);
     
     var validator = $(formSelector).validate(validationSettings);
 
     return validator;
+}
+
+var fnAddMethodWithOptionalCallback = function (
+    ruleName: string,
+    condition: (val) => boolean,
+    message: string,
+    callbackOnSuccess: (val, elem) => any = function (val, elem) { },
+    callbackOnError: (val, elem) => any = function (val, elem) { }
+    ) {
+    jQuery.validator.addMethod(
+        ruleName,
+        function (value, element) {
+            if (condition(value)) {
+                callbackOnSuccess(value, element);
+                return true;
+            } else {
+                callbackOnError(value, element);
+                return false;
+            }
+        },
+        message
+        );
+}
+
+var fnAddGermanDecimalRule = function (
+    callbackOnSuccess: (val, elem) => any = function (val, elem) { },
+    callbackOnError: (val, elem) => any = function (val, elem) { }) {
+    fnAddMethodWithOptionalCallback(
+    'GermanDecimal',
+    fnNumberFormatCorrect,
+    'Die Zahl konnte nicht erkannt werden. Bitte verwende nur Ziffern und Komma.',
+    callbackOnSuccess,
+    callbackOnError
+    );}
+
+var fnNumberFormatCorrect = function (value): boolean {
+    value = $.trim(value);
+    return (value === "")
+            || (/^\d+[.,]*\d*$/.test(value)
+                || /^\d*[.,]*\d+$/.test(value)
+                 && isFinite(parseFloat(value.replace(',', '.'))));
 }
 
 var fnAddRegExMethod = function(name, regEx, message){

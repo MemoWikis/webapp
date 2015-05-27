@@ -377,6 +377,9 @@
       <DependentUpon>pages.less</DependentUpon>
     </Content>
     <Content Include="Views\Help\Willkommen.aspx" />
+    <Content Include="Views\Users\Account\Js\Membership.js">
+      <DependentUpon>Membership.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Account\Membership.aspx" />
     <Content Include="Views\Images\Images.js">
       <DependentUpon>Images.ts</DependentUpon>
@@ -1402,6 +1405,9 @@
     <Content Include="Views\Users\Account\Membership.less" />
     <Content Include="Views\Users\Account\Membership.css.map">
       <DependentUpon>Membership.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Js\Membership.js.map">
+      <DependentUpon>Membership.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
