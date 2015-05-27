@@ -503,6 +503,7 @@
     <Content Include="Views\Help\Willkommen.aspx" />
     <Content Include="Views\Users\Account\Js\Membership.js">
       <DependentUpon>Membership.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
@@ -1559,6 +1560,7 @@
     </Content>
     <Content Include="Views\Users\Account\Js\Membership.js.map">
       <DependentUpon>Membership.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\Site.Beta.Master" />
     <Content Include="Views\Beta\Beta.css" />
     <Content Include="Views\Beta\Js\BetaLogin.js.map">
