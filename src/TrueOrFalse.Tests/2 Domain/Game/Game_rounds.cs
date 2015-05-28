@@ -49,7 +49,7 @@ public class Game_rounds : BaseTest
                 firstItemIsA_Count++;
         }
 
-        Assert.That(firstItemIsA_Count > 85 && firstItemIsA_Count < 115, Is.True, firstItemIsA_Count.ToString());
+        Assert.That(firstItemIsA_Count > 75 && firstItemIsA_Count < 125, Is.True, firstItemIsA_Count.ToString());
     }
 
     [Test]
