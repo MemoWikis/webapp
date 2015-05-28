@@ -14,7 +14,7 @@ public class GameRowModel : BaseModel
     public int CurrentRound;
 
     public bool IsCreator { get { return Creator.Id == base.UserId; } }
-    public bool IsPlayer { get { return Players.Any(p => p.Id == base.UserId); } }
+    public bool IsPlayer { get { return Players.Any(p => p.User.Id == base.UserId); } }
     public bool IsPlayerOrCreator { get { return IsPlayer || IsCreator; } }
 
     public bool InProgress()
