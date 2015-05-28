@@ -43,7 +43,7 @@
             <% } %>
             
             <span class="pull-right margin-bottom-sm spanYouArePlayer"
-                  style="<%= Model.IsPlayer ? "" : "display:none" %>">
+                  style="<%= Model.IsPlayer && !Model.IsCreator ? "" : "display:none" %>">
                     <i class="fa fa-smile-o"></i>&nbsp;Du bist Mitspieler
             </span>
         </div>
