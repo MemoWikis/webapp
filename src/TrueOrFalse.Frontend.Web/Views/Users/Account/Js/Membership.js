@@ -6,32 +6,37 @@ var validationSettings_BecomeMemberForm = {
         } else {
             return true;
         }
+    },
+    submitHandler: function (form) {
+        var chosenPriceString = $('#BecomeMemberForm').find('input[name="PriceLevel"][type="radio"]:checked').closest('.radio').find('.InputPrice').val();
+        $('#ChosenPrice').val((Math.round(100 * parseFloat(chosenPriceString.replace(',', '.'))) / 100).toFixed(2));
+        window.alert((Math.round(100 * parseFloat(chosenPriceString.replace(',', '.'))) / 100).toFixed(2));
+        //$(form).submit();
     }
 };
 
 var fnAddNumberValidationMethod = function (inputField, message) {
     if (typeof message === "undefined") { message = ""; }
-    inputField.rules('add', 'numberCommaFormat');
+    fnAddGermanDecimalRule(function (value, element) {
+    }, function (value, element) {
+        $(element).closest('.radio').find('.YearlyPrice').html(' --');
+    });
 
     var radioSection = inputField.closest('.radio');
     var suggestedPrice = inputField.val();
     var minValString = radioSection.find('.MinPrice').html();
     var minVal = Math.round(100 * parseFloat(minValString.replace(',', '.'))) / 100;
-    var ruleName = inputField.attr('name');
+    var minValRuleName = inputField.attr('name');
 
-    jQuery.validator.addMethod(ruleName, function (value, element) {
+    jQuery.validator.addMethod(minValRuleName, function (value, element) {
         if ($.trim(value) === "") {
             $(element).val(suggestedPrice);
-            return true;
+            value = suggestedPrice;
         }
 
         var valueNumber = Math.round(100 * parseFloat(value.replace(',', '.'))) / 100;
-        var formatIsCorrect = value === "" || /^\d+[,]*\d*$/.test(value) || /^\d*[,]*\d+$/.test(value);
-
-        if (formatIsCorrect) {
-            $(element).val(valueNumber.toFixed(2).replace('.', ','));
-            $(element).closest('.radio').find('.YearlyPrice').html((12 * valueNumber).toFixed(2).replace('.', ','));
-        }
+        $(element).val(valueNumber.toFixed(2).replace('.', ','));
+        $(element).closest('.radio').find('.YearlyPrice').html((12 * valueNumber).toFixed(2).replace('.', ','));
 
         if (minVal && valueNumber && radioSection.find('input[type="radio"]').is(':checked') && valueNumber < minVal) {
             return false;
@@ -40,7 +45,9 @@ var fnAddNumberValidationMethod = function (inputField, message) {
         }
     }, "Bitte gib einen Mindestbetrag von " + minValString + " € ein.");
 
-    inputField.rules('add', ruleName);
+    inputField.rules('add', 'GermanDecimal');
+
+    inputField.rules('add', minValRuleName);
 };
 
 $(function () {

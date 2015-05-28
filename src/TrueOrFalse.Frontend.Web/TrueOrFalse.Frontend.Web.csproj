@@ -501,6 +501,9 @@
     </Content>
     <Content Include="Views\Games\Play\Play.aspx" />
     <Content Include="Views\Help\Willkommen.aspx" />
+    <Content Include="Views\Users\Account\Js\Membership.js">
+      <DependentUpon>Membership.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
       <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
     </Content>
@@ -1554,6 +1557,9 @@
     <Content Include="Views\Users\Account\Membership.less" />
     <Content Include="Views\Users\Account\Membership.css.map">
       <DependentUpon>Membership.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Js\Membership.js.map">
+      <DependentUpon>Membership.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Site.Beta.Master" />
     <Content Include="Views\Beta\Beta.css" />

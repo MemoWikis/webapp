@@ -39,15 +39,46 @@
             elemForm.data("validator", null);
     }
 
-    jQuery.validator.addMethod("numberCommaFormat", function (value, element) {
-        var valueString = value.toString();
-
-        return $.trim(valueString) === "" || /^\d+[,]*\d*$/.test(valueString) || /^\d*[,]*\d+$/.test(valueString);
-    }, "Bitte verwende nur Ziffern und Komma.");
-
+    //jQuery.validator.addMethod(
+    //    "numberCommaFormat",
+    //    function (value, element) {
+    //        window.alert('Format-Regel');
+    //        return fnNumberFormatCorrect(value)
+    //    },
+    //    "Die Zahl konnte nicht erkannt werden. Bitte verwende nur Ziffern und Komma."
+    //);
     var validator = $(formSelector).validate(validationSettings);
 
     return validator;
+};
+
+var fnAddMethodWithOptionalCallback = function (ruleName, condition, message, callbackOnSuccess, callbackOnError) {
+    if (typeof callbackOnSuccess === "undefined") { callbackOnSuccess = function (val, elem) {
+    }; }
+    if (typeof callbackOnError === "undefined") { callbackOnError = function (val, elem) {
+    }; }
+    jQuery.validator.addMethod(ruleName, function (value, element) {
+        if (condition(value)) {
+            callbackOnSuccess(value, element);
+            return true;
+        } else {
+            callbackOnError(value, element);
+            return false;
+        }
+    }, message);
+};
+
+var fnAddGermanDecimalRule = function (callbackOnSuccess, callbackOnError) {
+    if (typeof callbackOnSuccess === "undefined") { callbackOnSuccess = function (val, elem) {
+    }; }
+    if (typeof callbackOnError === "undefined") { callbackOnError = function (val, elem) {
+    }; }
+    fnAddMethodWithOptionalCallback('GermanDecimal', fnNumberFormatCorrect, 'Die Zahl konnte nicht erkannt werden. Bitte verwende nur Ziffern und Komma.', callbackOnSuccess, callbackOnError);
+};
+
+var fnNumberFormatCorrect = function (value) {
+    value = $.trim(value);
+    return (value === "") || (/^\d+[.,]*\d*$/.test(value) || /^\d*[.,]*\d+$/.test(value) && isFinite(parseFloat(value.replace(',', '.'))));
 };
 
 var fnAddRegExMethod = function (name, regEx, message) {
