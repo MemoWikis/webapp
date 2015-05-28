@@ -26,7 +26,7 @@ public class AddRoundsToGame : IRegisterAsInstancePerLifetime
 
         for (var i = 0; i < game.RoundCount; i++)
         {
-            game.AddRound(new GameRound
+            game.AddRound(new Round
             {
                 Set = allQuestions[i].Set,
                 Question = allQuestions[i].Question,

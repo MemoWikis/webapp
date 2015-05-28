@@ -5,7 +5,6 @@ using System.Text;
 using System.Web.Security;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
-using Serilog;
 
 public class GameHubConnection : IRegisterAsInstancePerLifetime, IDisposable
 {

@@ -77,10 +77,10 @@
             <%--<i class="fa fa-users"></i>--%>
             Spieler:
             <i class="fa fa-user"></i>
-            <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.Creator.Name %></a>
+            <a href="<%= Links.UserDetail(Url, Model.Creator.User) %>"><%= Model.Creator.User.Name %></a>
             <%  foreach(var player in Model.Players){ %>
                 <i class="fa fa-user"></i>
-                <a href="<%= Links.UserDetail(Url, player) %>"><%= player.Name %></a>
+                <a href="<%= Links.UserDetail(Url, player.User) %>"><%= player.User.Name %></a>
             <% } %>                             
         </div>        
     </div>

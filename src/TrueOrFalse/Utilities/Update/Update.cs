@@ -53,6 +53,7 @@ namespace TrueOrFalse.Updates
                 .Add(73, UpdateToVs073.Run)
                 .Add(74, UpdateToVs074.Run)
                 .Add(75, UpdateToVs075.Run)
+                .Add(76, UpdateToVs076.Run)
                 .Run();
         }
     }

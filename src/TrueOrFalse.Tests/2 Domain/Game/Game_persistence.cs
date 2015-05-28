@@ -29,8 +29,7 @@ public class Game_persistence : BaseTest
         contextGame.Add().Add().Persist();
 
         var game1 = contextGame.All[0];
-        var game2 = contextGame.All[1];
-        game1.AddPlayer(user1);
+        game1.AddPlayer(user1, isCreator:true);
         game1.AddPlayer(user2);
         game1.Status = GameStatus.InProgress;
         R<GameRepo>().Update(game1);

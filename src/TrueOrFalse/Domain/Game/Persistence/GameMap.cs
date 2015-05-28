@@ -9,13 +9,12 @@ public class GameMap : ClassMap<Game>
         Map(x => x.WillStartAt);
         Map(x => x.MaxPlayers);
         Map(x => x.RoundCount);
-        References(x => x.Creator);
 
-        HasManyToMany(x => x.Players)
-            .Table("games_to_users")
+        HasMany(x => x.Players)
             .Cascade.SaveUpdate();
+
         HasManyToMany(x => x.Sets)
-            .Table("games_to_sets")
+            .Table("game_to_sets")
             .Cascade.SaveUpdate();
         
         HasMany(x => x.Rounds).Cascade.AllDeleteOrphan();

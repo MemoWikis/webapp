@@ -1,14 +1,18 @@
 ﻿using FluentNHibernate.Mapping;
 
-public class GameRoundMap : ClassMap<GameRound>
+public class RoundMap : ClassMap<Round>
 {
-    public GameRoundMap()
+    public RoundMap()
     {
+        Table("game_round");
+
         Id(x => x.Id);
 
         References(x => x.Question);
         References(x => x.Set);
         References(x => x.Game).Cascade.None();
+
+        HasMany(x => x.Answers).Cascade.All();
 
         Map(x => x.Status);
 

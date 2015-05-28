@@ -58,7 +58,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                     lock ("#1A23687D-4FCB-41AB-8883-B86CC6C6F994")
                     {
-                        var rowCount = gameRepo.Session.QueryOver<GameRound>()
+                        var rowCount = gameRepo.Session.QueryOver<Round>()
                             .Where(round => round.Game.Id == game.Id)
                             .CacheMode(CacheMode.Ignore)
                             .RowCount();

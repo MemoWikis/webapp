@@ -7,13 +7,12 @@ public class Game : DomainEntity
 {
     public virtual DateTime WillStartAt { get; set; }
 
-    public virtual User Creator { get; set; }
-    public virtual IList<User> Players { get; set; }
+    public virtual IList<Player> Players { get; set; }
 
     public virtual int MaxPlayers { get; set; }
 
     public virtual int RoundCount { get; set; }
-    public virtual IList<GameRound> Rounds { get; set; } 
+    public virtual IList<Round> Rounds { get; set; } 
 
     public virtual IList<Set> Sets { get; set; }
     public virtual GameStatus Status { get; set; }
@@ -24,24 +23,29 @@ public class Game : DomainEntity
     public virtual bool IsNeverStarted { get { return Status == GameStatus.NeverStarted; } }
     public virtual bool IsReady { get { return Status == GameStatus.Ready; } }
 
-    public virtual bool AddPlayer(User user)
+    public virtual bool AddPlayer(User user, bool isCreator = false)
     {
         if(Players == null)
-            Players = new List<User>();
+            Players = new List<Player>();
 
-        if (Players.Any(u => u.Id == user.Id))
+        if (Players.Any(player => player.User.Id == user.Id))
             return false;
 
-        Players.Add(user);
+        Players.Add(new Player
+        {
+            Game = this,
+            User = user,
+            IsCreator = isCreator
+        });
         return true;
     }
 
     public Game()
     {
-        Rounds = new List<GameRound>();
+        Rounds = new List<Round>();
     }
 
-    public virtual Game AddRound(GameRound round)
+    public virtual Game AddRound(Round round)
     {
         round.Status = GameRoundStatus.Open;
         round.DateCreated = DateTime.Now;
@@ -81,12 +85,12 @@ public class Game : DomainEntity
         return this;
     }
 
-    private GameRound GetNextOpenRund()
+    private Round GetNextOpenRund()
     {
         return Rounds.FirstOrDefault(x => x.Status == GameRoundStatus.Open);
     }
 
-    public virtual GameRound GetCurrentRound()
+    public virtual Round GetCurrentRound()
     {
         return Rounds.FirstOrDefault(x => x.Status == GameRoundStatus.Current);
     }

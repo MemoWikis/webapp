@@ -213,6 +213,7 @@
     <Compile Include="2 Domain\Game\Game_persistence.cs" />
     <Compile Include="2 Domain\Game\Game_rounds.cs" />
     <Compile Include="2 Domain\Game\Setup\ContextGame.cs" />
+    <Compile Include="2 Domain\Game\Game_round_answers.cs" />
     <Compile Include="2 Domain\Image\ImageLicenses_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageInfo_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageMetadata_from_wikimedia.cs" />

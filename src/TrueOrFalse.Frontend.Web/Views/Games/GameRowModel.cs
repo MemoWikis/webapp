@@ -5,8 +5,8 @@ using System.Linq;
 public class GameRowModel : BaseModel
 {
     public int GameId;
-    public User Creator;
-    public IList<User> Players;
+    public Player Creator;
+    public IList<Player> Players;
     public IList<Set> Sets;
     public GameStatus Status;
     public DateTime WillStartAt;
@@ -25,7 +25,7 @@ public class GameRowModel : BaseModel
     public GameRowModel(Game game)
     {
         GameId = game.Id;
-        Creator = game.Creator;
+        Creator = game.Players.Creator();
         Players = game.Players;
         Sets = game.Sets;
         Status = game.Status;

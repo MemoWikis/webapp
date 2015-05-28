@@ -12,31 +12,22 @@ public class IsCurrentlyIn : IRegisterAsInstancePerLifetime
 
     public IsCurrentlyInGameResult Game(int userId)
     {
-        var gamesAsPlayer = _session.QueryOver<Game>()
+        var games = _session.QueryOver<Game>()
             .Where(g =>
                 g.Status == GameStatus.InProgress ||
                 g.Status == GameStatus.Ready)
-            .JoinQueryOver<User>(g => g.Players)
-            .Where(u => u.Id == userId)
+            .JoinQueryOver<Player>(g => g.Players)
+            .Where(p => p.User.Id == userId)
             .List<Game>();
 
-        var gamesAsCreator = _session.QueryOver<Game>()
-            .Where(g =>
-                (g.Status == GameStatus.InProgress ||
-                 g.Status == GameStatus.Ready) &&
-                 g.Creator.Id == userId)
-            .List<Game>(); 
-
-        var allGames = gamesAsPlayer.Union(gamesAsCreator).ToList();
-
-        if (!allGames.Any())
+        if (!games.Any())
             return new IsCurrentlyInGameResult{Yes = false};
 
         return new IsCurrentlyInGameResult
         {
             Yes = true,
-            Game = allGames.First(),
-            IsCreator = allGames.First().Creator.Id == userId
+            Game = games.First(),
+            IsCreator = games.First().Players.Creator().Id == userId
         };
     }
 }
