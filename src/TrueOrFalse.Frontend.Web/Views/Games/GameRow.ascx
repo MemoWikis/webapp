@@ -74,10 +74,7 @@
 
     <div class="row">
         <div class="col-md-12 players" data-row-type="players">
-            <%--<i class="fa fa-users"></i>--%>
             Spieler:
-            <i class="fa fa-user"></i>
-            <a href="<%= Links.UserDetail(Url, Model.Creator.User) %>"><%= Model.Creator.User.Name %></a>
             <%  foreach(var player in Model.Players){ %>
                 <i class="fa fa-user"></i>
                 <a href="<%= Links.UserDetail(Url, player.User) %>"><%= player.User.Name %></a>

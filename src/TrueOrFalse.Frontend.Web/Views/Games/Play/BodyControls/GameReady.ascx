@@ -18,7 +18,7 @@
     </div>
     <div class="col-sm-6 text-right text-left-sm" style="text-align: right; font-size: 30px;">
         <% foreach(var player in Model.Players){ %>
-            <i class="fa fa-user show-tooltip" data-original-title="<%= player.Name %>"></i>
+            <i class="fa fa-user show-tooltip" data-original-title="<%= player.User.Name %>"></i>
         <% } %>
     </div>
 </div>
