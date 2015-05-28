@@ -10,6 +10,7 @@ public class AnswerHistoryMap : ClassMap<AnswerHistory>
         Map(x => x.AnswerText);
         Map(x => x.AnswerredCorrectly);
         References(x => x.Round).Cascade.None();
+        References(x => x.Player).Cascade.None();
         Map(x => x.Milliseconds);
         Map(x => x.DateCreated);
     }           

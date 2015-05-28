@@ -12,9 +12,7 @@ class PlayerMap : ClassMap<Player>
         References(x => x.Game);
         References(x => x.User);
 
-        HasMany(x => x.Answers)
-            .KeyColumns.Add("UserId")
-            .Cascade.None();
+        HasMany(x => x.Answers).Cascade.None();
 
         Map(x => x.Position);
         Map(x => x.IsCreator);

@@ -10,6 +10,8 @@ public class AnswerHistory : IPersistable, WithDateCreated
     public virtual string AnswerText { get; set; }
     public virtual Round Round { get; set; }
 
+    public virtual Player Player { get; set; }
+
     /// <summary>Duration</summary>
     public virtual int Milliseconds { get; set; }
     public virtual DateTime DateCreated { get; set; }

@@ -8,21 +8,30 @@ public class Game_round_answers : BaseTest
         var game = ContextGame.New().Add(
             amountQuestions: 10, 
             amountPlayers: 2).Persist().All[0];
-        
+
+        var player1 = game.Players[0];
+        var player2 = game.Players[1];
+
         for (var i = 0; i < 10; i++)
         {
             var round = game.Rounds[i];
             //player 1: always wrong
             round.Answers.Add(new AnswerHistory{
                 AnswerredCorrectly = AnswerCorrectness.False,
+                QuestionId = round.Question.Id,
                 AnswerText = "Foo",
                 Round = round,
+                UserId = player1.User.Id,
+                Player = player1
             });
             //player 2: always correct
             round.Answers.Add(new AnswerHistory{
                 AnswerredCorrectly = AnswerCorrectness.True,
+                QuestionId = round.Question.Id,
                 AnswerText = round.Question.Text,
-                Round = round
+                Round = round,
+                UserId = player2.User.Id,
+                Player = player2
             });
         }
 
@@ -33,6 +42,7 @@ public class Game_round_answers : BaseTest
         var gameFromDb = R<GameRepo>().GetById(game.Id);
         Assert.That(gameFromDb.Rounds[0].Answers.Count, Is.EqualTo(2));
         Assert.That(gameFromDb.Rounds[9].Answers.Count, Is.EqualTo(2));
-        Assert.That(gameFromDb.Players[0].Answers.Count, Is.EqualTo(9));
+        Assert.That(gameFromDb.Players[0].Answers.Count, Is.EqualTo(10));
+        Assert.That(gameFromDb.Players[1].Answers.Count, Is.EqualTo(10));
     }
 }
