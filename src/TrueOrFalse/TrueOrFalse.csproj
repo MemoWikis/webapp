@@ -258,6 +258,8 @@
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
     <Compile Include="Domain\Game\Game.cs" />
     <Compile Include="Domain\Game\Ops\PlayerListExtensions.cs" />
+    <Compile Include="Domain\Game\Persistence\RoundRepo.cs" />
+    <Compile Include="Domain\Game\Persistence\PlayerRepo.cs" />
     <Compile Include="Domain\Game\Round.cs" />
     <Compile Include="Domain\Game\Ops\GameHubConnection.cs" />
     <Compile Include="Domain\Game\GameStatus.cs" />
@@ -574,6 +576,7 @@
     <Compile Include="Utilities\Update\Scripts\PathTo.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Utilities\Update\Steps\UpdateToVs078.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs077.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs076.cs" />
     <Compile Include="Utilities\Update\Steps\UpdateToVs075.cs" />

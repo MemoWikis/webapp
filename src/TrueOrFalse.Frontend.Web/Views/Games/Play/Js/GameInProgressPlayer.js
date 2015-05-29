@@ -12,7 +12,7 @@
         }
 
         this._play.Hub.client.NextRound = function (game) {
-            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId, function (htmlResult) {
+            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId + "&gameId=" + game.GameId + "&playerId=" + $("#hddPlayerId").val() + "&roundId=" + game.RoundId, function (htmlResult) {
                 _this._play.ChangeContent("#divBodyAnswer", htmlResult);
                 _this.InitGame(game);
             });
@@ -21,7 +21,7 @@
     GameInProgressPlayer.prototype.InitFromHtml = function () {
         var initialGame = new Game();
         initialGame.QuestionId = $("#hddQuestionId").val();
-        initialGame.Round = $("#hddRound").val();
+        initialGame.RoundNumber = $("#hddRound").val();
         initialGame.RoundLength = $("#hddRoundLength").val();
 
         var dateEnd = new Date($("#hddRoundEnd").val());
@@ -33,7 +33,7 @@
 
     GameInProgressPlayer.prototype.InitGame = function (game, secondsRemaining) {
         if (typeof secondsRemaining === "undefined") { secondsRemaining = -1; }
-        Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
+        Utils.SetElementValue("#CurrentRoundNum", game.RoundNumber.toString());
 
         this._solutionEntry.Init();
         this._pinQuestion.Init();

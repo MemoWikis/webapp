@@ -52,7 +52,8 @@ public class GameHub : BaseHub
                 GameId = gameId,
                 QuestionId = currentRound.Question.Id,
                 GameRoundCount = game.RoundCount,
-                Round = currentRound.Number,
+                RoundId = currentRound.Id,
+                RoundNumber = currentRound.Number,
                 RoundLength = currentRound.RoundLength
             });            
         });

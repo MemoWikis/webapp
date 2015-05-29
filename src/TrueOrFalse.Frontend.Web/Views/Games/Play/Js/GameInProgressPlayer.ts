@@ -21,7 +21,8 @@
         }
 
         this._play.Hub.client.NextRound = (game: Game) => {
-            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId,
+            $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId + "&gameId=" + game.GameId +
+                    "&playerId=" + $("#hddPlayerId").val() + "&roundId=" + game.RoundId,
                 htmlResult => {
                     this._play.ChangeContent("#divBodyAnswer", htmlResult);
                     this.InitGame(game);
@@ -32,7 +33,7 @@
     public InitFromHtml() {
         var initialGame = new Game();
         initialGame.QuestionId = $("#hddQuestionId").val();
-        initialGame.Round = $("#hddRound").val();
+        initialGame.RoundNumber = $("#hddRound").val();
         initialGame.RoundLength = $("#hddRoundLength").val();
 
         var dateEnd = new Date($("#hddRoundEnd").val()); var dateNow = new Date();
@@ -42,7 +43,7 @@
     }
 
     public InitGame(game: Game, secondsRemaining : number = -1) {
-        Utils.SetElementValue("#CurrentRoundNum", game.Round.toString());
+        Utils.SetElementValue("#CurrentRoundNum", game.RoundNumber.toString());
 
         this._solutionEntry.Init();
         this._pinQuestion.Init();

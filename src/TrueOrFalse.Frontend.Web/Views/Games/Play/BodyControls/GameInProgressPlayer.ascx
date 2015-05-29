@@ -4,6 +4,8 @@
 <input type="hidden" id="hddRoundEnd" value="<%= Model.RoundEndTime.ToString("yyyy-MM-dd HH:mm:ss") %>"/>
 <input type="hidden" id="hddRoundLength" value="<%= Model.RoundLength %>"/>
 <input type="hidden" id="hddRound" value="<%= Model.RoundNum %>"/>
+<input type="hidden" id="hddPlayerId" value="<%= Model.Player.Id %>"/>
+
 
 <div class="row">
     <div class="col-sm-3" style="font-size: 17px; line-height: 33px;">
@@ -28,5 +30,5 @@
 
 <div id="divBodyAnswer">
     <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", 
-            new AnswerBodyModel(Model.Question)); %>    
+            new AnswerBodyModel(Model.Question, Model.Game, Model.Player, Model.Round)); %>
 </div>

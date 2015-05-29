@@ -138,14 +138,16 @@ public class AnswerQuestionController : BaseController
         var solution = new GetQuestionSolution().Run(question);
 
         return new JsonResult
-                   {
-                       Data = new
-                                  {
-                                      correct = result.IsCorrect,
-                                      correctAnswer = result.CorrectAnswer,
-                                      choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ? ((QuestionSolutionMultipleChoice)solution).Choices : null
-                                  }
-                   };
+        {
+            Data = new
+            {
+                correct = result.IsCorrect,
+                correctAnswer = result.CorrectAnswer,
+                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ? 
+                    ((QuestionSolutionMultipleChoice)solution).Choices
+                    : null
+            }
+        };
     }
 
     [HttpPost]
