@@ -85,12 +85,12 @@
         </div>
         <div class="radio">
             <label>
-                <input id="rdoPricePlus" type="radio" name="PriceLevel"/>
+                <input id="rdoPriceSupporter" type="radio" name="PriceLevel"/>
                 <span class="Title">Solibeitrag: </span>
                 <span class="MinPrice">4,00</span>&nbsp;€ oder mehr im Monat, empfohlen: <span class="bold">5&nbsp;€ </span>&nbsp;(60,00&nbsp;€ im Jahr)
             </label>
-            <a href="#PricePlusInfo" class="MoreLink" data-toggle="collapse" aria-expanded="false" aria-controls="PricePlusInfo"><i class="fa fa-chevron-down"></i></a>
-            <div id="PricePlusInfo" class="PriceLevelInfo collapse">
+            <a href="#PriceSupporterInfo" class="MoreLink" data-toggle="collapse" aria-expanded="false" aria-controls="PriceSupporterInfo"><i class="fa fa-chevron-down"></i></a>
+            <div id="PriceSupporterInfo" class="PriceLevelInfo collapse">
                 <div class="Description">
                     Dir oder deinen Eltern geht es finanziell gut oder sehr gut 
                     oder du findest unsere Idee so toll, dass du uns mit einem höheren Beitrag unterstützen möchtest.
@@ -98,7 +98,7 @@
                 <div class="ControlGroupInline JS-ValidationGroup" style="clear: left;">
                     <label class="control-label LabelInline">Dein Beitrag: </label>
                     <div class="ControlInline">
-                        <input id="PricePlus" class="InputPrice NotInFocus form-control JS-ValidationGroupMember" name="PricePlus" type="text" value="5,00">
+                        <input id="PriceSupporter" class="InputPrice NotInFocus form-control JS-ValidationGroupMember" name="PriceSupporter" type="text" value="5,00">
                     </div>
                     <label class="control-label LabelInline">€ &nbsp;&nbsp;(<span class="YearlyPrice">60</span>&nbsp;€ im Jahr)</label>
                 </div>

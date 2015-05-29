@@ -247,7 +247,8 @@
     <Compile Include="2 Domain\Question\Spec_changing_question_categories.cs" />
     <Compile Include="2 Domain\User\Setup\ContextRegisteredUser.cs" />
     <Compile Include="2 Domain\User\Registration\Spec.IsUserNameAvailable.cs" />
-    <Compile Include="2 Domain\User\Tests.PersistUser.cs" />
+    <Compile Include="2 Domain\User\Membership_persistence.cs" />
+    <Compile Include="2 Domain\User\User_persistence.cs" />
     <Compile Include="3 Infrastructure\Bus\BusTests.cs" />
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
