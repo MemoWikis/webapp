@@ -33,10 +33,10 @@
             var currentRowSelector = "[data-gameId=" + game.GameId + "] [data-elem = currentRound]";
             Utils.SetElementValue(
                 currentRowSelector,
-                game.Round.toString());
+                game.RoundNumber.toString());
 
             $("[data-gameId=" + game.GameId + "] [data-elem=currentRoundContainer]")
-                .attr("data-original-title", game.Round + " Runden von " + game.GameRoundCount + " gespielt");
+                .attr("data-original-title", game.RoundNumber + " Runden von " + game.GameRoundCount + " gespielt");
 
             $(currentRowSelector + " .show-tooltip").tooltip();
         };

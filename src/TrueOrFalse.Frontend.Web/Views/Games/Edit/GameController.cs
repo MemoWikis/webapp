@@ -42,7 +42,7 @@ public class GameController : BaseController
         game.MaxPlayers = gameModel.MaxPlayers;
         game.WillStartAt = DateTime.Now.AddMinutes(Convert.ToInt32(gameModel.StartsInMinutes));
         game.Comment = gameModel.Comment;
-        game.Creator = _sessionUser.User;
+        game.AddPlayer(_sessionUser.User, isCreator:true);
         game.Status = GameStatus.Ready;
         game.RoundCount = gameModel.Rounds;
  

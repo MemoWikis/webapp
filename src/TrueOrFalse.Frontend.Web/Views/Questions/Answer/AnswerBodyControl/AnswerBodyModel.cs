@@ -25,10 +25,12 @@ public class AnswerBodyModel : BaseModel
     public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
 
-    public AnswerBodyModel(Question question)
+    public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
         IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
+
+        AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question, game, player, round);
 
         Init(question);
     }
@@ -36,7 +38,9 @@ public class AnswerBodyModel : BaseModel
     public AnswerBodyModel(AnswerQuestionModel answerQuestionModel)
     {
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
+        
         NextUrl = answerQuestionModel.NextUrl;
+        AjaxUrl_SendAnswer = url => Links.SendAnswer(url, answerQuestionModel.Question);
 
         Init(answerQuestionModel.Question);
     }
@@ -45,7 +49,6 @@ public class AnswerBodyModel : BaseModel
     {
         QuestionId = question.Id;
 
-        AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
         AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
 

@@ -30,12 +30,40 @@ public class PlayController : BaseController
             new GameCompletedModel(Game(gameId)));
     }
 
-    public string RenderAnswerBody(int questionId){
+    public string RenderAnswerBody(int questionId, int gameId, int playerId, int roundId){
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", 
-            new AnswerBodyModel(R<QuestionRepository>().GetById(questionId)), 
+            new AnswerBodyModel(
+                R<QuestionRepository>().GetById(questionId),
+                R<GameRepo>().GetById(gameId),
+                R<PlayerRepo>().GetById(playerId),
+                R<RoundRepo>().GetById(roundId)),
             ControllerContext
         );
+    }
+
+    [HttpPost]
+    public JsonResult SendAnswerGame(
+        int questionId,
+        int gameId, 
+        int playerId,
+        int roundId,
+        string answer)
+    {
+        var result = R<AnswerQuestion>().Run(questionId, answer, UserId, playerId, roundId);
+        var solution = R<GetQuestionSolution>().Run(questionId);
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                correct = result.IsCorrect,
+                correctAnswer = result.CorrectAnswer,
+                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ? 
+                    ((QuestionSolutionMultipleChoice)solution).Choices : 
+                    null
+            }
+        };
     }
 
     private string RenderPartialView(string name, object model) {

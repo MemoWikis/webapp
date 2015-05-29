@@ -5,17 +5,12 @@ using TrueOrFalse.Tests;
 public class ContextGame : IRegisterAsInstancePerLifetime
 {
     private readonly GameRepo _gameRepo;
-
     private readonly ContextUser _contextUser = ContextUser.New();
 
     public List<Game> All = new List<Game>();
 
-    private readonly User _user1;
-
     public ContextGame(GameRepo gameRepo)
     {
-        _user1 = _contextUser.Add("Test").Persist().All.First();
-
         _gameRepo = gameRepo;
     }
 
@@ -26,7 +21,8 @@ public class ContextGame : IRegisterAsInstancePerLifetime
 
     public ContextGame Add(
         GameStatus gameStatus = GameStatus.Ready, 
-        int amountQuestions = 5)
+        int amountQuestions = 5,
+        int amountPlayers = 2)
     {
         var setContext = ContextSet.New().AddSet("Set");
 
@@ -37,15 +33,28 @@ public class ContextGame : IRegisterAsInstancePerLifetime
 
         All.Add(new Game
         {
-            Creator = _user1,
             Sets = new List<Set> { set },
             Status = gameStatus,
-            RoundCount = amountQuestions
+            RoundCount = amountQuestions,
+            Players = Players(amountPlayers)
         });
 
         Sl.Resolve<AddRoundsToGame>().Run(All.Last());  
 
         return this;
+    }
+
+    public IList<Player> Players(int amountPlayers)
+    {
+        for (var i = 0; i < amountPlayers; i++)
+            _contextUser.Add("user_" + i);
+
+        _contextUser.Persist();
+
+        return _contextUser.All.Select((u,index) => new Player{
+            User = u,
+            IsCreator = index == 1
+        }).ToList();
     }
 
     public ContextGame Persist()

@@ -57,7 +57,8 @@ class Game {
     GameId: number;
     GameRoundCount: number;
     QuestionId: number;
-    Round: number;
+    RoundId: number;
+    RoundNumber: number;
     RoundLength: number;
 }
 

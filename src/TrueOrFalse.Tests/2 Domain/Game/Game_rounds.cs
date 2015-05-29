@@ -18,9 +18,9 @@ public class Game_rounds : BaseTest
             .Persist()
             .All[0];
 
-        game.AddRound(new GameRound { Set = set, Question = set.QuestionsInSet[0].Question });
-        game.AddRound(new GameRound { Set = set, Question = set.QuestionsInSet[1].Question });
-        game.AddRound(new GameRound { Set = set, Question = set.QuestionsInSet[2].Question });
+        game.AddRound(new Round { Set = set, Question = set.QuestionsInSet[0].Question });
+        game.AddRound(new Round { Set = set, Question = set.QuestionsInSet[1].Question });
+        game.AddRound(new Round { Set = set, Question = set.QuestionsInSet[2].Question });
         gameRepo.Update(game);
         gameRepo.Flush();
     }
@@ -41,15 +41,15 @@ public class Game_rounds : BaseTest
         game.RoundCount = 50;
         game.Sets.Add(set);
 
-        var firstItemIsACount = 0;
+        var firstItemIsA_Count = 0;
         for (var i = 0; i < 400; i++)
         {
             R<AddRoundsToGame>().Run(game);
             if (game.Rounds[i].Question.Text == "A") 
-                firstItemIsACount++;
+                firstItemIsA_Count++;
         }
 
-        Assert.That(firstItemIsACount > 85 && firstItemIsACount < 115, Is.True);
+        Assert.That(firstItemIsA_Count > 75 && firstItemIsA_Count < 125, Is.True, firstItemIsA_Count.ToString());
     }
 
     [Test]

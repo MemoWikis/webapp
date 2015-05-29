@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 
-public class GameRound : DomainEntity
+public class Round : DomainEntity
 {
     public virtual GameRoundStatus Status { get; set; }
     public virtual Set Set { get; set; }
@@ -15,6 +16,8 @@ public class GameRound : DomainEntity
 
     public virtual Game Game { get; set; }
 
+    public virtual IList<AnswerHistory> Answers { get; set; }
+
     /// <summary>Seconds</summary>
     public virtual int RoundLength { get { return 20; } }
 
@@ -22,6 +25,11 @@ public class GameRound : DomainEntity
     {
         Debug.Assert(StartTime != null, "StartTime != null");
         return ((DateTime)StartTime).AddSeconds(RoundLength) < DateTime.Now;
+    }
+
+    public Round()
+    {
+        Answers = new List<AnswerHistory>();
     }
 }
 

@@ -43,7 +43,7 @@
             <% } %>
             
             <span class="pull-right margin-bottom-sm spanYouArePlayer"
-                  style="<%= Model.IsPlayer ? "" : "display:none" %>">
+                  style="<%= Model.IsPlayer && !Model.IsCreator ? "" : "display:none" %>">
                     <i class="fa fa-smile-o"></i>&nbsp;Du bist Mitspieler
             </span>
         </div>
@@ -74,13 +74,10 @@
 
     <div class="row">
         <div class="col-md-12 players" data-row-type="players">
-            <%--<i class="fa fa-users"></i>--%>
             Spieler:
-            <i class="fa fa-user"></i>
-            <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.Creator.Name %></a>
             <%  foreach(var player in Model.Players){ %>
                 <i class="fa fa-user"></i>
-                <a href="<%= Links.UserDetail(Url, player) %>"><%= player.Name %></a>
+                <a href="<%= Links.UserDetail(Url, player.User) %>"><%= player.User.Name %></a>
             <% } %>                             
         </div>        
     </div>

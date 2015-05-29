@@ -9,13 +9,12 @@ public class PlayBaseModel : BaseModel
 
     public DateTime WillStartAt;
 
-    public List<User> Players = new List<User>();
+    public List<Player> Players = new List<Player>();
 
     public PlayBaseModel(Game game)
     {
         GameId = game.Id;
 
-        Players.Add(game.Creator);
         Players.AddRange(game.Players);
 
         RoundCount = game.RoundCount;
