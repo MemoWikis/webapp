@@ -10,8 +10,8 @@
 
 <%-- ALTERNATIVES --%>
 <%--
-    https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/C2014_Q2.jpg/1920px-C2014_Q2.jpg
-    /Images/beta_clouds_over_the_Atlantic_Ocean.jpg
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/C2014_Q2.jpg/1920px-C2014_Q2.jpg"
+    "https://upload.wikimedia.org/wikipedia/commons/4/4e/Warrior_Games_athletes_honored_at_Navy-Air_Force_football_game_141004-D-DB155-022.jpg"
 --%>
 <%
     var url = "/Images/beta_clouds_over_the_Atlantic_Ocean.jpg";

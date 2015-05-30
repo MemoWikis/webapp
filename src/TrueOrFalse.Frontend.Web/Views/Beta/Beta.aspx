@@ -10,7 +10,7 @@
     
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <h1 style="color: white; margin-top: 15%">
+            <h1 style="color: white; margin-top: 15%" class="animated">
                 Private Beta
             </h1>
             <hr class="star-light">
