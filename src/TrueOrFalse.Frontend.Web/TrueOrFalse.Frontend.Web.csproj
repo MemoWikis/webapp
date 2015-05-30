@@ -458,6 +458,7 @@
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
     </Content>
+    <Content Include="Images\beta_clouds_over_the_Atlantic_Ocean.jpg" />
     <Content Include="Views\Beta\Js\BetaLogin.js">
       <DependentUpon>BetaLogin.ts</DependentUpon>
     </Content>

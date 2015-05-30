@@ -8,10 +8,39 @@
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
 
-<body>
+<%-- ALTERNATIVES --%>
+<%--
+    https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/C2014_Q2.jpg/1920px-C2014_Q2.jpg
+    /Images/beta_clouds_over_the_Atlantic_Ocean.jpg
+--%>
+<%
+    var url = "/Images/beta_clouds_over_the_Atlantic_Ocean.jpg";
+%>
+<body style="background: url('<%= url%>') 100% top no-repeat;">
     <%--HEADER--%>
     
-    <header id="MasterHeader" style="max-height: 100px;" class="<%= GetRandomLogoCssClass.Run() %>">
+    <style type="text/css">
+        #HeaderBackground, #FooterBackground {
+          background: white;
+          filter: alpha(opacity=40);
+          /* IE */
+          -moz-opacity: 0.2;
+          /* Mozilla */
+          opacity: 0.2;
+          /* CSS3 */
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+        }
+
+        #FooterBackground {
+            opacity: 0.5;  
+        }
+    </style>
+    <header id="MasterHeader" style="max-height: 100px; background: transparent;" class="<%= GetRandomLogoCssClass.Run() %>">
+        <div id="HeaderBackground"></div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -30,19 +59,21 @@
         </div>
     </header>    
 
-    <section id="MasterSection" style="background-color: #2c5fb2;">
-            <div class="container">
-                <div class="col-lg-11 text-center">
-                    <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
-                </div>
+    <section id="MasterSection" style="/*background-color: #2c5fb2;*/">
+        <div class="container">
+            <div class="col-lg-12 text-center">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
             </div>
+        </div>
     </section>    
 
     <%-- FOOTER--%>
-    <footer id="MasterFooter" style="background-color: ghostwhite">
+    <footer id="MasterFooter" style="background-color: transparent">
+        <div id="FooterBackground"></div>
         <div class="row">
-            <div class="container">
+            <div class="container" style="background-color: transparent">
                 <div class="row">
+                    <% ViewBag.BetaBackgroundLicenceUrl = "http://commons.wikimedia.org/wiki/File:Clouds_over_the_Atlantic_Ocean.jpg"; %>
                     <%// ReSharper disable Asp.NotResolved
                         Html.RenderPartial(UserControls.MasterFooter); 
                         // ReSharper restore Asp.NotResolved%>
