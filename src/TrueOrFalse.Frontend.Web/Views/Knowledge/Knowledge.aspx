@@ -3,9 +3,11 @@
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
     <script>
         $(function () {
-            var titles = ['Gewust', 'Nicht gewusst', 'Unbekannt'];
+            var titles = ['Gewusst', 'Nicht gewusst', 'Unbekannt'];
             $("#totalKnowledgeSpark")
                 .sparkline(
                     [<%= Model.KnowledgeSummary.Secure %>, <%= Model.KnowledgeSummary.Weak %>, <%= Model.KnowledgeSummary.Unknown %>],
@@ -15,7 +17,7 @@
                         tooltipFormat: '{{offset:slice}} {{value}} ({{percent.1}}%)',
                         tooltipValueLookups: {'slice': titles},
                     }
-            );
+                );
 
             $("#totalKnowledgeOverTimeSpark").sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5], {
                 type: 'line',
@@ -31,6 +33,95 @@
             
             $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
         });
+    </script>
+    <script>
+        google.load("visualization", "1", { packages: ["corechart"] });
+        google.setOnLoadCallback(drawKnowledgeChart);
+        google.setOnLoadCallback(drawActivityChart);
+
+        function drawKnowledgeChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Gewusst', 11],
+                ['Nicht gewusst', 2],
+                ['Unbekannt', 2],
+            ]);
+
+            var options = {
+                pieHole: 0.6,
+                legend: { position: 'labeled' },
+                pieSliceText: 'none',
+                chartArea: { 'width': '100%', height: '100%', top: 10},
+                slices: {
+                    0: { color: 'lightgreen' },
+                    1: { color: 'lightsalmon' },
+                    2: { color: 'silver' },
+                },
+                pieStartAngle: 180
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('chartKnowledge'));
+            chart.draw(data, options);
+        }
+
+        function drawActivityChart() {
+            var data = google.visualization.arrayToDataTable([
+                [
+                    'Datum', 'Richtig beantwortet', 'Falsch beantwortet', { role: 'annotation' }
+                ],
+                    ['30.05', 7, 0, ''],
+                    ['29.05', 19, 0, ''],
+                    ['28.05', 0, 8, ''],
+                    ['27.05', 28, 3, ''],
+                    ['26.05', 29, 3, ''],
+                    ['25.05', 0, 0, ''],
+                    ['24.05', 0, 2, ''],
+                    ['23.05', 7, 1, ''],
+                    ['22.05', 27, 0, ''],
+                    ['21.05', 0, 0, ''],
+                    ['20.05', 4, 0, ''],
+                    ['19.05', 0, 9, ''],
+                    ['18.05', 0, 0, ''],
+                    ['17.05', 0, 0, ''],
+                    ['16.05', 14, 2, ''],
+                    ['15.05', 10, 8, ''],
+                    ['14.05', 21, 0, ''],
+                    ['13.05', 12, 0, ''],
+                    ['12.05', 29, 4, ''],
+                    ['11.05', 26, 0, ''],
+                    ['10.05', 29, 5, ''],
+                    ['09.05', 0, 0, ''],
+                    ['08.05', 21, 0, ''],
+                    ['07.05', 0, 3, ''],
+                    ['06.05', 0, 1, ''],
+                    ['05.05', 0, 0, ''],
+                    ['04.05', 14, 2, ''],
+                    ['03.05', 4, 4, ''],
+                    ['02.05', 17, 0, ''],
+                    ['01.05', 16, 2, ''],
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                             {
+                                 calc: "stringify",
+                                 sourceColumn: 1,
+                                 type: "string",
+                                 role: "annotation"
+                             },
+                             2]);
+
+            var options = {
+                legend: { position: 'top', maxLines: 30 },
+                bar: { groupWidth: '95%' },
+                chartArea: { 'width': '88%', 'height': '60%', top: 30, bottom:-10 },
+                colors: ['lightgreen', 'lightsalmon'],
+                isStacked: true,
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
+            chart.draw(view, options);
+        }
     </script>
     
     <style>
@@ -61,6 +152,60 @@
         </div>
 
     <% }else{  %>
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <h3>Training <span style="font-size: 12px; color: silver; padding-left: 15px;">letzte 30 Tage</span></h3>
+                
+                <div id="chartActivityLastDays" style="margin-right: 20px; text-align: left;"></div>
+                
+                <div class="row" style="font-size: 12px">
+                    <div class="col-md-12">
+                        <span style="display: inline-block; width: 45%">Lerntage gesamt: <b>78</b></span> <span style="color: silver; font-weight: bold;">seit 14.07.2014</span><br />
+                        <span style="display: inline-block; width: 40%">Längste Folge: <b>12</b></span> <span style="color: silver; font-weight: bold;">07.09 - 19.09.2014</span><br />
+                        <span style="display: inline-block; width: 40%">Aktuelle Folge: <b>4</b></span> <span style="color: silver; font-weight: bold;" >26.05 - 30.05.2015</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-12 col-md-5" style="">
+                <h3>Dein Wissensstand</h3>
+                <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <div class="row">
+                    <div class="col-cs-12">
+                        <h3>Im Wunschwissen</h3>        
+                    </div>
+                    <div class="col-cs-12">
+                        <div style=" 
+                            background-color: #ffd700; color: white; 
+                            border-radius: 15px;
+                            border: 1px solid #fff09d; ">
+                            <span style="font-weight: 900; font-size: 44px; padding-left: 9px;">18</span>
+                            &nbsp;<span style="font-size: 22px">Fragen</span>
+                        </div>
+                    </div>
+                    <div class="col-cs-12" style="
+                        background-color: #afd534; color: white; 
+                        border-radius: 15px; margin-top: 7px;
+                        border: 1px solid #e2f899;">
+                        <span style="font-weight: 900; font-size: 44px; padding-left: 15px;">7</span>
+                        <span style="font-size: 22px">Fragesätze</span>                        
+                    </div>
+                    <div class="col-cs-12" style="
+                        margin-top: 7px;
+                        border-radius: 15px; background-color: #7ca2e1; 
+                        color: white; font-size: 16px ;
+                        padding: 8px; padding-left: 14px;
+                    ">
+                        <div style="">Reputation <b>1147</b></div>
+                        <div style="">Platz <b>6</b></div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+
         <div class="column">
             <h3>Wunschwissen</h3>
             <div class="answerHistoryRow">
