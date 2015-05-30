@@ -433,8 +433,11 @@
     <Compile Include="Domain\User.Reputation\UpdateReputationsAndRank.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
     <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
+    <Compile Include="Domain\User\Membership.cs" />
     <Compile Include="Domain\User\Ops\GetTotalUsers.cs" />
     <Compile Include="Domain\User\Ops\UpdateWishcount.cs" />
+    <Compile Include="Domain\User\Persistence\MembershipMap.cs" />
+    <Compile Include="Domain\User\Persistence\MembershipRepository .cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecovery.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordRecoveryResult.cs" />
     <Compile Include="Domain\User\Registration\PasswordRecovery\PasswordReset.cs" />

@@ -68,7 +68,7 @@ $(function () {
     var validator = fnValidateForm("#BecomeMemberForm", validationSettings_BecomeMemberForm, false);
 
     $(".InputPrice").validate({
-        onkeyup: false
+        onkeyup: false,
     });
 
     $('input.InputPrice').each(function () {
