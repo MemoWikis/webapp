@@ -13,31 +13,32 @@ public class KnowledgeModel : BaseModel
         }
     }
 
-    public GetAnswerStatsInPeriodResult AnswersThisWeek;
-    public GetAnswerStatsInPeriodResult AnswersThisMonth;
-    public GetAnswerStatsInPeriodResult AnswersThisYear;
-    public GetAnswerStatsInPeriodResult AnswersLastMonth;
-    public GetAnswerStatsInPeriodResult AnswersLastWeek;
-    public GetAnswerStatsInPeriodResult AnswersLastYear;
-    public GetAnswerStatsInPeriodResult AnswersEver;
+    public GetAnswerStatsInPeriodResult AnswersThisWeek = new GetAnswerStatsInPeriodResult();
+    public GetAnswerStatsInPeriodResult AnswersThisMonth = new GetAnswerStatsInPeriodResult();
+    public GetAnswerStatsInPeriodResult AnswersThisYear = new GetAnswerStatsInPeriodResult();
+    public GetAnswerStatsInPeriodResult AnswersLastMonth = new GetAnswerStatsInPeriodResult();
+    public GetAnswerStatsInPeriodResult AnswersLastWeek = new GetAnswerStatsInPeriodResult();
+    public GetAnswerStatsInPeriodResult AnswersLastYear = new GetAnswerStatsInPeriodResult();
+    public GetAnswerStatsInPeriodResult AnswersEver = new GetAnswerStatsInPeriodResult();
 
     public int QuestionsCount;
     public int SetCount;
 
-    public KnowledgeSummary KnowledgeSummary;
+    public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
 
-    public IList<Date> Dates;
+    public IList<Date> Dates = new List<Date>();
+    public IList<AnswerHistory> AnswerRecent = new List<AnswerHistory>();
 
     public KnowledgeModel()
     {
+        if (!IsLoggedIn)
+            return;
+
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetCount = R<GetWishSetCount>().Run(UserId);
 
-        if (IsLoggedIn)
-        {
-            var msg = new RecalcProbabilitiesMsg {UserId = UserId};
-            Bus.Get().Publish(msg);
-        }
+        var msg = new RecalcProbabilitiesMsg {UserId = UserId};
+        Bus.Get().Publish(msg);
 
         var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
         AnswersThisWeek = getAnswerStatsInPeriod.RunForThisWeek(UserId);
@@ -51,5 +52,6 @@ public class KnowledgeModel : BaseModel
         KnowledgeSummary = R<KnowledgeSummaryLoader>().Run(UserId);
 
         Dates = GetSampleDates.Run();
+        AnswerRecent = R<GetLastAnswers>().Run(UserId, 4);
     }
 }

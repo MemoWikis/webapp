@@ -216,7 +216,7 @@
                         background-color: #afd534; color: white; 
                         border-radius: 15px;
                         border: 1px solid #e2f899;">
-                        <span style="font-weight: 900; font-size: 44px; padding-left: 9px;">18</span>
+                        <span style="font-weight: 900; font-size: 44px; padding-left: 9px;"><%= Model.QuestionsCount %></span>
                         <span style="font-size: 22px">Fragen</span>                        
                     </div>                    
                     <div class="col-cs-12">
@@ -243,7 +243,7 @@
     
         <div class="row" style="margin-top: 15px;">
             <div class="col-xs-12 col-md-4">
-                <h3>Termine</h3>
+                <h3 style="margin-bottom: 18px;">Termine</h3>
                 
                 <%
                 var index = 0;    
@@ -252,7 +252,7 @@
                 %>
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col-xs-9">
-                        <span style="font-weight: bold;"><%= date.Details %></span><br />
+                        <div style="font-weight: bold; margin-bottom: -3px;"><%= date.Details %></div>
                         <span style="font-size:12px">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage</span><br />
                         <% foreach(var set in date.Sets){ %>
                             <a href="<%= Links.SetDetail(Url, set) %>">
@@ -260,18 +260,75 @@
                             </a>                            
                         <% } %>
                     </div>
-                    <div class="col-xs-3">
+                    <div class="col-xs-3" style="">
                         <div id="chartKnowledgeDate<%=index %>"></div>
                     </div>
                 </div>    
-                
                 <% } %>
+                <div class="row">
+                    <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                </div>
             </div>            
             <div class="col-xs-12 col-md-4">
-                <h3>Zuletzt gelernte</h3>
+                <h3 style="margin-bottom: 18px;">Zuletzt gelernt</h3>
+                <% foreach(var answer in Model.AnswerRecent){ 
+                    var question = answer.GetQuestion();
+                %>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question) %>
+                        </div>
+                        <div class="col-xs-9" style="">
+                            <%= question.Text %>
+                        </div>
+                    </div>
+                <% } %>
+                
+                <div class="row">
+                    <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                </div>
             </div>
             <div class="col-xs-12 col-md-4">
                 <h3>Im Netzwerk</h3>
+                
+                    <% var userRepo = Sl.Resolve<UserRepository>();
+                       var user1 = userRepo.GetById(18);
+                       var user2 = userRepo.GetById(31);
+                    %>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <img src="<%= new UserImageSettings(user1.Id).GetUrl_128px_square(user1.EmailAddress).Url %>" />
+                        </div>
+                        <div class="col-xs-9" style="">
+                            <a href="#"><%= user1.Name %></a> erstellte die Frage: 
+                            <a href="#">"Wann wurde Galileo Galilei geboren?"</a>
+                        </div>
+                    </div>
+                
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <img src="<%= new UserImageSettings(user1.Id).GetUrl_128px_square(user1.EmailAddress).Url %>" />
+                        </div>
+                        <div class="col-xs-9" style="">
+                            <a href="#"><%= user1.Name %></a> erstellte den Fragesatz: 
+                            <span class="label label-set">Galileo Galilei</span>
+                        </div>
+                    </div>
+                
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <img src="<%= new UserImageSettings(user2.Id).GetUrl_128px_square(user1.EmailAddress).Url %>" />
+                        </div>
+                        <div class="col-xs-9" style="">
+                            <a href="#"><%= user2.Name %></a> erstellte die Kategorie: 
+                            <span class="label label-category show-tooltip" title="" data-placement="top" data-original-title="Gehe zu Kategorie">Helmut Kohl</span>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                    </div>
+
             </div>
         </div>
 
