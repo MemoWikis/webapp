@@ -256,6 +256,10 @@
     <Compile Include="Domain\Comments\Persistence\CommentMap.cs" />
     <Compile Include="Domain\Comments\Persistence\CommentRepository.cs" />
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
+    <Compile Include="Domain\Date\Date.cs" />
+    <Compile Include="Domain\Date\Ops\GetSampleDates.cs" />
+    <Compile Include="Domain\Date\Persistence\DateMap.cs" />
+    <Compile Include="Domain\Date\Persistence\DateRepo.cs" />
     <Compile Include="Domain\Game\Game.cs" />
     <Compile Include="Domain\Game\Ops\PlayerListExtensions.cs" />
     <Compile Include="Domain\Game\Persistence\RoundRepo.cs" />

@@ -1,4 +1,5 @@
-﻿using TrueOrFalse;
+﻿using System.Collections.Generic;
+using TrueOrFalse;
 
 public class KnowledgeModel : BaseModel
 {
@@ -25,6 +26,8 @@ public class KnowledgeModel : BaseModel
 
     public KnowledgeSummary KnowledgeSummary;
 
+    public IList<Date> Dates;
+
     public KnowledgeModel()
     {
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
@@ -46,5 +49,7 @@ public class KnowledgeModel : BaseModel
         AnswersEver = getAnswerStatsInPeriod.Run(UserId);
 
         KnowledgeSummary = R<KnowledgeSummaryLoader>().Run(UserId);
+
+        Dates = GetSampleDates.Run();
     }
 }

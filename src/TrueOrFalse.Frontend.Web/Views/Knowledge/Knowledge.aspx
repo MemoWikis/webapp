@@ -36,10 +36,15 @@
     </script>
     <script>
         google.load("visualization", "1", { packages: ["corechart"] });
-        google.setOnLoadCallback(drawKnowledgeChart);
+        google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4) });
         google.setOnLoadCallback(drawActivityChart);
 
-        function drawKnowledgeChart() {
+        //chartKnowledgeDate
+
+        function drawKnowledgeChart(chartElementId) {
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
                 ['Gewusst', 11],
@@ -60,7 +65,37 @@
                 pieStartAngle: 180
             };
 
-            var chart = new google.visualization.PieChart(document.getElementById('chartKnowledge'));
+            var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
+            chart.draw(data, options);
+        }
+
+        function drawKnowledgeChartDate(chartElementId, amountGood, amountBad, amountUnknown ) {
+
+            var chartElement = $("#" + chartElementId);
+            console.log(chartElement);
+
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Gewusst', amountGood],
+                ['Nicht gewusst', amountBad],
+                ['Unbekannt', amountUnknown],
+            ]);
+
+            var options = {
+                pieHole: 0.5,
+                legend: { position: 'none' },
+                pieSliceText: 'none',
+                height: 60,
+                chartArea: { width: '85%', height: '85%', top: 0 },
+                slices: {
+                    0: { color: 'lightgreen' },
+                    1: { color: 'lightsalmon' },
+                    2: { color: 'silver' },
+                },
+                pieStartAngle: 180
+            };
+
+            var chart = new google.visualization.PieChart(chartElement.get()[0]);
             chart.draw(data, options);
         }
 
@@ -177,21 +212,21 @@
                     <div class="col-cs-12">
                         <h3>Im Wunschwissen</h3>        
                     </div>
+                    <div class="col-cs-12" style="
+                        background-color: #afd534; color: white; 
+                        border-radius: 15px;
+                        border: 1px solid #e2f899;">
+                        <span style="font-weight: 900; font-size: 44px; padding-left: 9px;">18</span>
+                        <span style="font-size: 22px">Fragen</span>                        
+                    </div>                    
                     <div class="col-cs-12">
                         <div style=" 
                             background-color: #ffd700; color: white; 
-                            border-radius: 15px;
+                            border-radius: 15px; margin-top: 7px;
                             border: 1px solid #fff09d; ">
-                            <span style="font-weight: 900; font-size: 44px; padding-left: 9px;">18</span>
-                            &nbsp;<span style="font-size: 22px">Fragen</span>
+                            <span style="font-weight: 900; font-size: 44px; padding-left: 15px;">7</span>
+                            &nbsp;<span style="font-size: 22px">Fragesätze</span>
                         </div>
-                    </div>
-                    <div class="col-cs-12" style="
-                        background-color: #afd534; color: white; 
-                        border-radius: 15px; margin-top: 7px;
-                        border: 1px solid #e2f899;">
-                        <span style="font-weight: 900; font-size: 44px; padding-left: 15px;">7</span>
-                        <span style="font-size: 22px">Fragesätze</span>                        
                     </div>
                     <div class="col-cs-12" style="
                         margin-top: 7px;
@@ -205,8 +240,42 @@
                 </div>
             </div>            
         </div>
+    
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-xs-12 col-md-4">
+                <h3>Termine</h3>
+                
+                <%
+                var index = 0;    
+                foreach(var date in Model.Dates){
+                index++;
+                %>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-xs-9">
+                        <span style="font-weight: bold;"><%= date.Details %></span><br />
+                        <span style="font-size:12px">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage</span><br />
+                        <% foreach(var set in date.Sets){ %>
+                            <a href="<%= Links.SetDetail(Url, set) %>">
+                                <span class="label label-set"><%= set.Name %></span>
+                            </a>                            
+                        <% } %>
+                    </div>
+                    <div class="col-xs-3">
+                        <div id="chartKnowledgeDate<%=index %>"></div>
+                    </div>
+                </div>    
+                
+                <% } %>
+            </div>            
+            <div class="col-xs-12 col-md-4">
+                <h3>Zuletzt gelernte</h3>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <h3>Im Netzwerk</h3>
+            </div>
+        </div>
 
-        <div class="column">
+<%--        <div class="column">
             <h3>Wunschwissen</h3>
             <div class="answerHistoryRow">
                 <div>
@@ -277,7 +346,7 @@
                 </div> 
             </div>
         </div>
-        <div style="clear:both;"></div>
+        <div style="clear:both;"></div>--%>
         
 <%--        <div style="padding-top:20px; height: 200px; ">
         
