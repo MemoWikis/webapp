@@ -4,9 +4,9 @@
 <%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <title>Frage - <%= Model.QuestionText %></title>    
-    <link href="/Views/Questions/Answer/AnswerQuestion.css" rel="stylesheet" />
-    <%= Scripts.Render("~/bundles/AnswerQuestion") %>
+    <title>Frage - <%= Model.QuestionText %></title>
+    <%= Styles.Render("~/bundles/AnswerQuestion") %>
+    <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
 
     <style type="text/css">
          .selectorShowAnswer{/* marker class */}
