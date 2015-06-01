@@ -25,9 +25,9 @@
                 witdh: '250'
             });
 
-            $("#answeredThisWeekSparkle").sparkline([<%= Model.AnswersThisWeek.TotalTrueAnswers %>, <%= Model.AnswersThisWeek.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+<%--            $("#answeredThisWeekSparkle").sparkline([<%= Model.AnswersThisWeek.TotalTrueAnswers %>, <%= Model.AnswersThisWeek.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
             $("#answeredThisMonthSparkle").sparkline([<%= Model.AnswersThisMonth.TotalTrueAnswers %>, <%= Model.AnswersThisMonth.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#answeredThisYearSparkle").sparkline([<%= Model.AnswersThisYear.TotalTrueAnswers %>, <%= Model.AnswersThisYear.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#answeredThisYearSparkle").sparkline([<%= Model.AnswersThisYear.TotalTrueAnswers %>, <%= Model.AnswersThisYear.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });--%>
 
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
             $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
@@ -44,13 +44,12 @@
         google.setOnLoadCallback(drawActivityChart);
 
         //chartKnowledgeDate
-
         function drawKnowledgeChart(chartElementId) {
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
-                ['Gewusst', 11],
-                ['Nicht gewusst', 2],
-                ['Unbekannt', 2],
+                ['Gewusst', <%= Model.KnowledgeSummary.Secure %>],
+                ['Nicht gewusst', <%= Model.KnowledgeSummary.Weak %>],
+                ['Unbekannt', <%= Model.KnowledgeSummary.Unknown %>],
             ]);
 
             var options = {
@@ -86,8 +85,8 @@
                 pieHole: 0.5,
                 legend: { position: 'none' },
                 pieSliceText: 'none',
-                height: 60,
-                chartArea: { width: '85%', height: '85%', top: 0 },
+                height: 80,
+                chartArea: { width: '90%', height: '90%', top: 0 },
                 slices: {
                     0: { color: 'lightgreen' },
                     1: { color: 'lightsalmon' },
@@ -105,36 +104,9 @@
                 [
                     'Datum', 'Richtig beantwortet', 'Falsch beantwortet', { role: 'annotation' }
                 ],
-                    ['30.05', 7, 0, ''],
-                    ['29.05', 19, 0, ''],
-                    ['28.05', 0, 8, ''],
-                    ['27.05', 28, 3, ''],
-                    ['26.05', 29, 3, ''],
-                    ['25.05', 0, 0, ''],
-                    ['24.05', 0, 2, ''],
-                    ['23.05', 7, 1, ''],
-                    ['22.05', 27, 0, ''],
-                    ['21.05', 0, 0, ''],
-                    ['20.05', 4, 0, ''],
-                    ['19.05', 0, 9, ''],
-                    ['18.05', 0, 0, ''],
-                    ['17.05', 0, 0, ''],
-                    ['16.05', 14, 2, ''],
-                    ['15.05', 10, 8, ''],
-                    ['14.05', 21, 0, ''],
-                    ['13.05', 12, 0, ''],
-                    ['12.05', 29, 4, ''],
-                    ['11.05', 26, 0, ''],
-                    ['10.05', 29, 5, ''],
-                    ['09.05', 0, 0, ''],
-                    ['08.05', 21, 0, ''],
-                    ['07.05', 0, 3, ''],
-                    ['06.05', 0, 1, ''],
-                    ['05.05', 0, 0, ''],
-                    ['04.05', 14, 2, ''],
-                    ['03.05', 4, 4, ''],
-                    ['02.05', 17, 0, ''],
-                    ['01.05', 16, 2, ''],
+                    <% foreach (var stats in Model.Last30Days){ %>
+                        <%= "['" + stats.DateTime.ToString("dd.MM") + "', " + stats.TotalTrueAnswers + ", "+ stats.TotalFalseAnswers +", '']," %> 
+                    <% } %>
             ]);
 
             var view = new google.visualization.DataView(data);
@@ -149,8 +121,8 @@
 
             var options = {
                 legend: { position: 'top', maxLines: 30 },
-                bar: { groupWidth: '95%' },
-                chartArea: { 'width': '88%', 'height': '60%', top: 30, bottom:-10 },
+                bar: { groupWidth: '89%' },
+                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
                 colors: ['lightgreen', 'lightsalmon'],
                 isStacked: true,
             };

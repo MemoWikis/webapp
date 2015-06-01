@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TrueOrFalse;
 
 public class KnowledgeModel : BaseModel
@@ -13,13 +14,15 @@ public class KnowledgeModel : BaseModel
         }
     }
 
-    public GetAnswerStatsInPeriodResult AnswersThisWeek = new GetAnswerStatsInPeriodResult();
-    public GetAnswerStatsInPeriodResult AnswersThisMonth = new GetAnswerStatsInPeriodResult();
-    public GetAnswerStatsInPeriodResult AnswersThisYear = new GetAnswerStatsInPeriodResult();
-    public GetAnswerStatsInPeriodResult AnswersLastMonth = new GetAnswerStatsInPeriodResult();
-    public GetAnswerStatsInPeriodResult AnswersLastWeek = new GetAnswerStatsInPeriodResult();
-    public GetAnswerStatsInPeriodResult AnswersLastYear = new GetAnswerStatsInPeriodResult();
-    public GetAnswerStatsInPeriodResult AnswersEver = new GetAnswerStatsInPeriodResult();
+    //public GetAnswerStatsInPeriodResult AnswersThisWeek = new GetAnswerStatsInPeriodResult();
+    //public GetAnswerStatsInPeriodResult AnswersThisMonth = new GetAnswerStatsInPeriodResult();
+    //public GetAnswerStatsInPeriodResult AnswersThisYear = new GetAnswerStatsInPeriodResult();
+    //public GetAnswerStatsInPeriodResult AnswersLastMonth = new GetAnswerStatsInPeriodResult();
+    //public GetAnswerStatsInPeriodResult AnswersLastWeek = new GetAnswerStatsInPeriodResult();
+    //public GetAnswerStatsInPeriodResult AnswersLastYear = new GetAnswerStatsInPeriodResult();
+    //public GetAnswerStatsInPeriodResult AnswersEver = new GetAnswerStatsInPeriodResult();
+
+    public IList<GetAnswerStatsInPeriodResult> Last30Days = new List<GetAnswerStatsInPeriodResult>();
 
     public int QuestionsCount;
     public int SetCount;
@@ -50,13 +53,15 @@ public class KnowledgeModel : BaseModel
         Bus.Get().Publish(msg);
 
         var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
-        AnswersThisWeek = getAnswerStatsInPeriod.RunForThisWeek(UserId);
-        AnswersThisMonth = getAnswerStatsInPeriod.RunForThisMonth(UserId);
-        AnswersThisYear = getAnswerStatsInPeriod.RunForThisYear(UserId);
-        AnswersLastWeek = getAnswerStatsInPeriod.RunForLastWeek(UserId);
-        AnswersLastMonth = getAnswerStatsInPeriod.RunForLastMonth(UserId);
-        AnswersLastYear = getAnswerStatsInPeriod.RunForLastYear(UserId);
-        AnswersEver = getAnswerStatsInPeriod.Run(UserId);
+        //AnswersThisWeek = getAnswerStatsInPeriod.RunForThisWeek(UserId);
+        //AnswersThisMonth = getAnswerStatsInPeriod.RunForThisMonth(UserId);
+        //AnswersThisYear = getAnswerStatsInPeriod.RunForThisYear(UserId);
+        //AnswersLastWeek = getAnswerStatsInPeriod.RunForLastWeek(UserId);
+        //AnswersLastMonth = getAnswerStatsInPeriod.RunForLastMonth(UserId);
+        //AnswersLastYear = getAnswerStatsInPeriod.RunForLastYear(UserId);
+        //AnswersEver = getAnswerStatsInPeriod.Run(UserId);
+
+        Last30Days = getAnswerStatsInPeriod.GetLast30Days(UserId);
 
         KnowledgeSummary = R<KnowledgeSummaryLoader>().Run(UserId);
 

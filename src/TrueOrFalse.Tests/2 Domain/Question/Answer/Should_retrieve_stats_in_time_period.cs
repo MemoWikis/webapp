@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {
@@ -28,9 +24,9 @@ namespace TrueOrFalse.Tests
             var answerStatsInPeriond = 
                 Resolve<GetAnswerStatsInPeriod>().Run(user.Id, DateTime.Now.AddDays(-1), DateTime.Now.AddDays(1));
 
-            Assert.That(answerStatsInPeriond.TotalAnswers, Is.EqualTo(3));
-            Assert.That(answerStatsInPeriond.TotalFalseAnswers, Is.EqualTo(2));
-            Assert.That(answerStatsInPeriond.TotalTrueAnswers, Is.EqualTo(1));
+            Assert.That(answerStatsInPeriond[0].TotalAnswers, Is.EqualTo(3));
+            Assert.That(answerStatsInPeriond[0].TotalFalseAnswers, Is.EqualTo(2));
+            Assert.That(answerStatsInPeriond[0].TotalTrueAnswers, Is.EqualTo(1));
         }
     }
 }
