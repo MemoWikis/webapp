@@ -29,6 +29,10 @@ public class KnowledgeModel : BaseModel
     public IList<Date> Dates = new List<Date>();
     public IList<AnswerHistory> AnswerRecent = new List<AnswerHistory>();
 
+    public User User = new User();
+    public int ReputationRank;
+    public int ReputationTotal;
+
     public KnowledgeModel()
     {
         if (!IsLoggedIn)
@@ -36,6 +40,11 @@ public class KnowledgeModel : BaseModel
 
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetCount = R<GetWishSetCount>().Run(UserId);
+        User = R<UserRepository>().GetById(UserId);
+
+        var reputation = Resolve<ReputationCalc>().Run(User);
+        ReputationRank = User.ReputationPos;
+        ReputationTotal = reputation.TotalRepuation;
 
         var msg = new RecalcProbabilitiesMsg {UserId = UserId};
         Bus.Get().Publish(msg);

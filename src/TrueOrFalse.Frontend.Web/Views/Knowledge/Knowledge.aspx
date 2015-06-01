@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Mein Wissensstand" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     
@@ -171,6 +172,7 @@
         div.percentage span{ font-size: 22px; color: green; position: relative; top: 2px; left: 4px;}
     </style>
 
+    <%= Styles.Render("~/bundles/Knowledge") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -212,30 +214,29 @@
                     <div class="col-cs-12">
                         <h3>Im Wunschwissen</h3>        
                     </div>
-                    <div class="col-cs-12" style="
-                        background-color: #afd534; color: white; 
-                        border-radius: 15px;
-                        border: 1px solid #e2f899;">
-                        <span style="font-weight: 900; font-size: 44px; padding-left: 9px;"><%= Model.QuestionsCount %></span>
-                        <span style="font-size: 22px">Fragen</span>                        
+                    <div class="col-cs-12 number-box-questions">
+                        <a href="<%= Links.QuestionsMine() %>">
+                            <div>
+                                <span style="font-weight: 900; font-size: 44px; padding-left: 9px;"><%= Model.QuestionsCount %></span>
+                                <span style="font-size: 22px">Fragen</span>
+                            </div>
+                        </a>
                     </div>                    
-                    <div class="col-cs-12">
-                        <div style=" 
-                            background-color: #ffd700; color: white; 
-                            border-radius: 15px; margin-top: 7px;
-                            border: 1px solid #fff09d; ">
-                            <span style="font-weight: 900; font-size: 44px; padding-left: 15px;">7</span>
-                            &nbsp;<span style="font-size: 22px">Fragesätze</span>
-                        </div>
+                    <div class="col-cs-12 number-box-sets">
+                        <a href="<%= Links.SetsMine() %>">
+                            <div>
+                                <span style="font-weight: 900; font-size: 44px; padding-left: 15px;"><%= Model.SetCount %></span>
+                                &nbsp;<span style="font-size: 22px">Fragesätze</span>
+                            </div>
+                        </a>
                     </div>
-                    <div class="col-cs-12" style="
-                        margin-top: 7px;
-                        border-radius: 15px; background-color: #7ca2e1; 
-                        color: white; font-size: 16px ;
-                        padding: 8px; padding-left: 14px;
-                    ">
-                        <div style="">Reputation <b>1147</b></div>
-                        <div style="">Platz <b>6</b></div>
+                    <div class="col-cs-12 number-box-reputation">
+                        <a href="<%= Links.UserDetail(Url, Model.UserName, Model.UserId) %>">
+                            <div style="padding-left: 14px; padding: 8px;">                        
+                                <span>Reputation <b><%= Model.ReputationTotal %></b></span><br />
+                                <span>Platz <b><%= Model.ReputationRank %></b></span>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>            
