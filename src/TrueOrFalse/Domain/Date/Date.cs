@@ -8,4 +8,6 @@ public class Date : DomainEntity
     public virtual DateTime DateTime { get; set; }
 
     public virtual IList<Set> Sets { get; set; }
+
+    public virtual DateVisibility Visibility { get; set; }
 }

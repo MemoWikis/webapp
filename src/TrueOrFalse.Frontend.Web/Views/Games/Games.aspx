@@ -50,7 +50,7 @@
 
             <h3 style="margin-bottom: 10px;">
                 <span class="ColoredUnderline Play" style="padding-right: 3px;">Mitspielen:</span>
-            </h3>                 
+            </h3>
 
             <div id="divGamesReadyNone" class="bs-callout bs-callout-info" 
                  style="margin-top: 0; <%= Html.CssHide(Model.GamesReady.Any()) %>">
@@ -60,7 +60,7 @@
                         <i class="fa fa-plus-circle"></i> &nbsp; Spiel erstellen
                     </a>
                 </p>
-            </div>            
+            </div>
             
             <div id="divGamesReady" style="<%= Html.CssHide(!Model.GamesReady.Any()) %>">
                 <% foreach(var game in Model.GamesReady){ %>
