@@ -1,13 +1,10 @@
 ﻿using System;
 
-namespace TrueOrFalse
+public class GetAnswerStatsInPeriodResult
 {
-    public class GetAnswerStatsInPeriodResult
-    {
-        public int TotalAnswers;
-        public int TotalTrueAnswers;
-        public int TotalFalseAnswers { get { return TotalAnswers - TotalTrueAnswers; } }
+    public int TotalAnswers;
+    public int TotalTrueAnswers;
+    public int TotalFalseAnswers { get { return TotalAnswers - TotalTrueAnswers; } }
 
-        public DateTime DateTime;
-    }
+    public DateTime DateTime;
 }
