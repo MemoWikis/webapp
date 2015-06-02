@@ -38,6 +38,9 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/vendor.file-uploader/uploader.js")
                 .Include("~/Scripts/vendor.file-uploader/jquery-plugin.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/knowledge")
+                .IncludeDirectory("~/Views/Knowledge/", "*.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/questions")
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js")
                 .Include("~/Scripts/ValuationPerRow.js")
@@ -65,10 +68,13 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/AnswerQuestion")
+            bundles.Add(new ScriptBundle("~/bundles/js/AnswerQuestion")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
+                .Include("~/Views/Questions/Answer/*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")
                 .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
@@ -80,6 +86,13 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
+
+            //Dates
+            bundles.Add(new StyleBundle("~/bundles/EditDate")
+                .Include("~/Views/Dates/Edit/*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/EditDate")
+                .IncludeDirectory("~/Views/Dates/Edit/Js/", "*.js"));
 
             //Games
             bundles.Add(new ScriptBundle("~/bundles/js/Games")

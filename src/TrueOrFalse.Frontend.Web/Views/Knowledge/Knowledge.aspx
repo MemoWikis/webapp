@@ -1,11 +1,14 @@
 ﻿<%@ Page Title="Mein Wissensstand" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
     <script>
         $(function () {
-            var titles = ['Gewust', 'Nicht gewusst', 'Unbekannt'];
+            var titles = ['Gewusst', 'Nicht gewusst', 'Unbekannt'];
             $("#totalKnowledgeSpark")
                 .sparkline(
                     [<%= Model.KnowledgeSummary.Secure %>, <%= Model.KnowledgeSummary.Weak %>, <%= Model.KnowledgeSummary.Unknown %>],
@@ -15,22 +18,118 @@
                         tooltipFormat: '{{offset:slice}} {{value}} ({{percent.1}}%)',
                         tooltipValueLookups: {'slice': titles},
                     }
-            );
+                );
 
             $("#totalKnowledgeOverTimeSpark").sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5], {
                 type: 'line',
                 witdh: '250'
             });
 
-            $("#answeredThisWeekSparkle").sparkline([<%= Model.AnswersThisWeek.TotalTrueAnswers %>, <%= Model.AnswersThisWeek.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+<%--            $("#answeredThisWeekSparkle").sparkline([<%= Model.AnswersThisWeek.TotalTrueAnswers %>, <%= Model.AnswersThisWeek.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
             $("#answeredThisMonthSparkle").sparkline([<%= Model.AnswersThisMonth.TotalTrueAnswers %>, <%= Model.AnswersThisMonth.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#answeredThisYearSparkle").sparkline([<%= Model.AnswersThisYear.TotalTrueAnswers %>, <%= Model.AnswersThisYear.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#answeredThisYearSparkle").sparkline([<%= Model.AnswersThisYear.TotalTrueAnswers %>, <%= Model.AnswersThisYear.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });--%>
 
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
             $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
             
             $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
         });
+    </script>
+    <script>
+        google.load("visualization", "1", { packages: ["corechart"] });
+        google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4) });
+        google.setOnLoadCallback(drawActivityChart);
+
+        //chartKnowledgeDate
+        function drawKnowledgeChart(chartElementId) {
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Gewusst', <%= Model.KnowledgeSummary.Secure %>],
+                ['Nicht gewusst', <%= Model.KnowledgeSummary.Weak %>],
+                ['Unbekannt', <%= Model.KnowledgeSummary.Unknown %>],
+            ]);
+
+            var options = {
+                pieHole: 0.6,
+                legend: { position: 'labeled' },
+                pieSliceText: 'none',
+                chartArea: { 'width': '100%', height: '100%', top: 10},
+                slices: {
+                    0: { color: 'lightgreen' },
+                    1: { color: 'lightsalmon' },
+                    2: { color: 'silver' },
+                },
+                pieStartAngle: 180
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
+            chart.draw(data, options);
+        }
+
+        function drawKnowledgeChartDate(chartElementId, amountGood, amountBad, amountUnknown ) {
+
+            var chartElement = $("#" + chartElementId);
+            console.log(chartElement);
+
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Gewusst', amountGood],
+                ['Nicht gewusst', amountBad],
+                ['Unbekannt', amountUnknown],
+            ]);
+
+            var options = {
+                pieHole: 0.5,
+                legend: { position: 'none' },
+                pieSliceText: 'none',
+                height: 80,
+                chartArea: { width: '90%', height: '90%', top: 0 },
+                slices: {
+                    0: { color: 'lightgreen' },
+                    1: { color: 'lightsalmon' },
+                    2: { color: 'silver' },
+                },
+                pieStartAngle: 180
+            };
+
+            var chart = new google.visualization.PieChart(chartElement.get()[0]);
+            chart.draw(data, options);
+        }
+
+        function drawActivityChart() {
+            var data = google.visualization.arrayToDataTable([
+                [
+                    'Datum', 'Richtig beantwortet', 'Falsch beantwortet', { role: 'annotation' }
+                ],
+                    <% foreach (var stats in Model.Last30Days){ %>
+                        <%= "['" + stats.DateTime.ToString("dd.MM") + "', " + stats.TotalTrueAnswers + ", "+ stats.TotalFalseAnswers +", '']," %> 
+                    <% } %>
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                             {
+                                 calc: "stringify",
+                                 sourceColumn: 1,
+                                 type: "string",
+                                 role: "annotation"
+                             },
+                             2]);
+
+            var options = {
+                legend: { position: 'top', maxLines: 30 },
+                bar: { groupWidth: '89%' },
+                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
+                colors: ['lightgreen', 'lightsalmon'],
+                isStacked: true,
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
+            chart.draw(view, options);
+        }
     </script>
     
     <style>
@@ -45,6 +144,7 @@
         div.percentage span{ font-size: 22px; color: green; position: relative; top: 2px; left: 4px;}
     </style>
 
+    <%= Styles.Render("~/bundles/Knowledge") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -61,7 +161,176 @@
         </div>
 
     <% }else{  %>
-        <div class="column">
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <h3>Training <span style="font-size: 12px; color: silver; padding-left: 15px;">letzte 30 Tage</span></h3>
+                
+                <div id="chartActivityLastDays" style="margin-right: 20px; text-align: left;"></div>
+                
+                <div class="row" style="font-size: 12px">
+                    <div class="col-md-12">
+                        <% var streak = Model.Streak; %>
+                        <!-- -->
+                        <span style="display: inline-block; width: 45%">Lerntage gesamt: 
+                            <b><%= streak.TotalLearningDays %></b></span> <span style="color: silver; font-weight: bold;">
+                            seit <%= Model.User.DateCreated.ToString("dd.MM.yyyy") %>
+                        </span><br />
+                        
+                        <!-- LongestStreak -->
+                        <span style="display: inline-block; width: 40%">
+                            Längste Folge: <b><%= streak.LongestLength %></b>
+                        </span>
+                        <% if (streak.LongestLength == 0){ %>
+                            <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
+                        <% } else { %>
+                            <span style="color: silver; font-weight: bold;">
+                                <%= streak.LongestStart.ToString("dd.MM") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
+                            </span>
+                        <% } %>
+                        
+                        <!-- CurrentStreak -->
+                        <span style="display: inline-block; width: 40%">
+                            Aktuelle Folge: <b><%= streak.LastLength %></b>
+                        </span>
+                        <% if (streak.LastLength == 0){ %>
+                            <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
+                        <% } else { %>
+                            <%= streak.LastStart.ToString("dd.MM") %> - <%= streak.LastEnd.ToString("dd.MM.yyyy") %>
+                        <% } %>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-12 col-md-5" style="">
+                <h3>Dein Wissensstand</h3>
+                <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
+            </div>
+            <div class="col-xs-12 col-md-3">
+                <div class="row">
+                    <div class="col-cs-12">
+                        <h3>Im Wunschwissen</h3>        
+                    </div>
+                    <div class="col-cs-12 number-box-questions">
+                        <a href="<%= Links.QuestionsMine() %>">
+                            <div>
+                                <span style="font-weight: 900; font-size: 44px; padding-left: 9px;"><%= Model.QuestionsCount %></span>
+                                <span style="font-size: 22px">Fragen</span>
+                            </div>
+                        </a>
+                    </div>                    
+                    <div class="col-cs-12 number-box-sets">
+                        <a href="<%= Links.SetsMine() %>">
+                            <div>
+                                <span style="font-weight: 900; font-size: 44px; padding-left: 15px;"><%= Model.SetCount %></span>
+                                &nbsp;<span style="font-size: 22px">Fragesätze</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-cs-12 number-box-reputation">
+                        <a href="<%= Links.UserDetail(Url, Model.UserName, Model.UserId) %>">
+                            <div style="padding-left: 14px; padding: 8px;">                        
+                                <span>Reputation <b><%= Model.ReputationTotal %></b></span><br />
+                                <span>Platz <b><%= Model.ReputationRank %></b></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-xs-12 col-md-4">
+                <h3 style="margin-bottom: 18px;">Termine</h3>
+                
+                <%
+                var index = 0;    
+                foreach(var date in Model.Dates){
+                index++;
+                %>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-xs-9">
+                        <div style="font-weight: bold; margin-bottom: -3px;"><%= date.Details %></div>
+                        <span style="font-size:12px">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage</span><br />
+                        <% foreach(var set in date.Sets){ %>
+                            <a href="<%= Links.SetDetail(Url, set) %>">
+                                <span class="label label-set"><%= set.Name %></span>
+                            </a>                            
+                        <% } %>
+                    </div>
+                    <div class="col-xs-3" style="">
+                        <div id="chartKnowledgeDate<%=index %>"></div>
+                    </div>
+                </div>    
+                <% } %>
+                <div class="row">
+                    <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                </div>
+            </div>            
+            <div class="col-xs-12 col-md-4">
+                <h3 style="margin-bottom: 18px;">Zuletzt gelernt</h3>
+                <% foreach(var answer in Model.AnswerRecent){ 
+                    var question = answer.GetQuestion();
+                %>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question) %>
+                        </div>
+                        <div class="col-xs-9" style="">
+                            <%= question.Text %>
+                        </div>
+                    </div>
+                <% } %>
+                
+                <div class="row">
+                    <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <h3>Im Netzwerk</h3>
+                
+                    <% var userRepo = Sl.Resolve<UserRepository>();
+                       var user1 = userRepo.GetById(18);
+                       var user2 = userRepo.GetById(31);
+                    %>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <img src="<%= new UserImageSettings(user1.Id).GetUrl_128px_square(user1.EmailAddress).Url %>" />
+                        </div>
+                        <div class="col-xs-9" style="">
+                            <a href="#"><%= user1.Name %></a> erstellte die Frage: 
+                            <a href="#">"Wann wurde Galileo Galilei geboren?"</a>
+                        </div>
+                    </div>
+                
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <img src="<%= new UserImageSettings(user1.Id).GetUrl_128px_square(user1.EmailAddress).Url %>" />
+                        </div>
+                        <div class="col-xs-9" style="">
+                            <a href="#"><%= user1.Name %></a> erstellte den Fragesatz: 
+                            <span class="label label-set">Galileo Galilei</span>
+                        </div>
+                    </div>
+                
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <img src="<%= new UserImageSettings(user2.Id).GetUrl_128px_square(user1.EmailAddress).Url %>" />
+                        </div>
+                        <div class="col-xs-9" style="">
+                            <a href="#"><%= user2.Name %></a> erstellte die Kategorie: 
+                            <span class="label label-category show-tooltip" title="" data-placement="top" data-original-title="Gehe zu Kategorie">Helmut Kohl</span>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                    </div>
+
+            </div>
+        </div>
+
+<%--        <div class="column">
             <h3>Wunschwissen</h3>
             <div class="answerHistoryRow">
                 <div>
@@ -132,7 +401,7 @@
                 </div> 
             </div>
         </div>
-        <div style="clear:both;"></div>
+        <div style="clear:both;"></div>--%>
         
 <%--        <div style="padding-top:20px; height: 200px; ">
         

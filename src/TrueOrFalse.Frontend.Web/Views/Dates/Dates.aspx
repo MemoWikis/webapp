@@ -4,10 +4,60 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">    
-    <h2 style="margin-top: 0px;">Termine</h2>
-        
-    <ul>
-        <li>Initial Beispieltermine anlegen?</li>
-    </ul>
-</asp:Content>
 
+    <div class="row">
+        <div class="PageHeader col-md-9">
+            <h2 style="margin-bottom: 20px; margin-top: 0px;" class="pull-left">
+                <span class="ColoredUnderline Date">Deine Termine</span>
+            </h2> 
+        </div>
+        <div class="col-md-3">
+            <div class="headerControls pull-right">
+                <div style="padding-top: 5px;">
+                    <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm pull-right">
+                        <i class="fa fa-plus-circle"></i> &nbsp; Termin erstellen
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <% if(!Model.IsLoggedIn){ %>
+
+        <div class="bs-callout bs-callout-danger">
+            <h4>Anmelden oder registrieren</h4>
+            <p>Um Termine zu erstellen, musst du dich <a href="/Anmelden">anmelden</a> 
+               oder dich <a href="/Registrieren">registrieren</a>.</p>
+        </div>
+
+    <% }else{ %>
+        
+    
+        <div class="bs-callout bs-callout-info"  
+            style="margin-top: 0; margin-bottom: 50px; <%= Html.CssHide(Model.Dates.Any()) %>">
+            <h4>Du hast bisher keine Termine</h4>
+            <p style="padding-top: 5px;">
+                Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
+            </p>
+            <p>
+                <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm" style="margin-top: 10px;">
+                    <i class="fa fa-plus-circle"></i> &nbsp; Termin erstellen
+                </a>
+            </p>
+        </div>        
+
+        <h3 style="margin-bottom: 10px;">
+            <span class="ColoredUnderline Date" style="padding-right: 3px;">Termine im Netzwerk</span>
+        </h3>
+    
+        <div class="bs-callout bs-callout-info"  style="margin-top: 0; <%= Html.CssHide(Model.DatesInNetwork.Any()) %>">
+            <h4>Keine kommenden Termine im Netzwerk</h4>
+            <p>
+                <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm" style="margin-top: 10px;">
+                    <i class="fa fa-plus-circle"></i> &nbsp; Netzwerk erweitern
+                </a>
+            </p>
+        </div>
+
+    <% } %>
+</asp:Content>

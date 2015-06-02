@@ -27,4 +27,10 @@
         <li><a class="TextLinkWithIcon" href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a></li>
     </ul>
     
+    <div class="pull-right">
+        <% if(ViewBag.BetaBackgroundLicenceUrl != null){ %>
+            <a href="<%= ViewBag.BetaBackgroundLicenceUrl %>">Lizenz Hintergrundbild</a>
+        <% } %>        
+    </div>
+    
 </div>

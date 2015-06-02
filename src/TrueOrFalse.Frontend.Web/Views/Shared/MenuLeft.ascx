@@ -29,7 +29,11 @@
                 <i class="fa fa-caret-right"></i> 
                 Wunschwissen  <span style="float:right"><i class="fa fa-heart-o"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
             </a>
-            <a class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>">
+            <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates(Url) %>">
+                <i class="fa fa-caret-right"></i> Termine
+            </a>            
+
+            <a class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Fragen
                 <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
                     onclick="window.location = '<%= Links.CreateQuestion(Url) %>'; return false; "
@@ -122,10 +126,6 @@
                 <% } %>
             <% } %>
         
-            <%--<a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates(Url) %>">
-                <i class="fa fa-caret-right"></i> Termine
-            </a>--%>
-
             <a class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="position: relative; top: -1px; left: 4px;" >
             </a>

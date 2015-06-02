@@ -276,6 +276,8 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Dates\Edit\EditDateController.cs" />
+    <Compile Include="Views\Dates\Edit\EditDateModel.cs" />
     <Compile Include="Views\Games\Edit\GameModel.cs" />
     <Compile Include="Views\Games\Edit\GameController.cs" />
     <Compile Include="Views\Games\GameRowModel.cs" />
@@ -382,6 +384,7 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\SolutionEntry.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
+    <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
     <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
@@ -455,8 +458,15 @@
     </Content>
     <Content Include="Scripts\vendor\jquery-watch.js" />
     <Content Include="Scripts\vendor\jquery.typewatch.js" />
+    <Content Include="Style\animate.css">
+      <DependentUpon>animate.less</DependentUpon>
+    </Content>
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
+    </Content>
+    <Content Include="Images\beta_clouds_over_the_Atlantic_Ocean.jpg" />
+    <Content Include="Views\Beta\Beta.css">
+      <DependentUpon>Beta.less</DependentUpon>
     </Content>
     <Content Include="Views\Beta\Js\BetaLogin.js">
       <DependentUpon>BetaLogin.ts</DependentUpon>
@@ -464,7 +474,14 @@
     <Content Include="Views\Beta\Js\BetaRequest.js">
       <DependentUpon>BetaRequest.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Beta\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
+    <Content Include="Views\Dates\Edit\EditDate.aspx" />
+    <Content Include="Views\Dates\Edit\EditDate.css">
+      <DependentUpon>EditDate.less</DependentUpon>
+    </Content>
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
       <DependentUpon>Game.less</DependentUpon>
@@ -501,6 +518,9 @@
     </Content>
     <Content Include="Views\Games\Play\Play.aspx" />
     <Content Include="Views\Help\Willkommen.aspx" />
+    <Content Include="Views\Knowledge\Knowledge.css">
+      <DependentUpon>Knowledge.less</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Account\Js\Membership.js">
       <DependentUpon>Membership.ts</DependentUpon>
     </Content>
@@ -891,6 +911,10 @@
     </Content>
     <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js.map">
       <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
+    </Content>
+    <Content Include="Style\animate.less" />
+    <Content Include="Style\animate.css.map">
+      <DependentUpon>animate.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -1562,7 +1586,6 @@
       <DependentUpon>Membership.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\Site.Beta.Master" />
-    <Content Include="Views\Beta\Beta.css" />
     <Content Include="Views\Beta\Js\BetaLogin.js.map">
       <DependentUpon>BetaLogin.ts</DependentUpon>
     </Content>
@@ -1614,6 +1637,21 @@
     <Content Include="Views\Questions\Answer\AnswerQuestionSolution.less" />
     <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css.map">
       <DependentUpon>AnswerQuestionSolution.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Beta.less" />
+    <Content Include="Views\Beta\Beta.css.map">
+      <DependentUpon>Beta.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Knowledge.less" />
+    <Content Include="Views\Knowledge\Knowledge.css.map">
+      <DependentUpon>Knowledge.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Edit\EditDate.less" />
+    <Content Include="Views\Dates\Edit\EditDate.css.map">
+      <DependentUpon>EditDate.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
@@ -1678,6 +1716,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Style\fontAwesome\" />
+    <Folder Include="Views\Dates\Details\" />
+    <Folder Include="Views\Dates\Edit\Js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

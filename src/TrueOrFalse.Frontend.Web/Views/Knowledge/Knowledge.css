@@ -1,0 +1,57 @@
+﻿.number-box-questions {
+  background-color: #afd534;
+  color: white;
+  border-radius: 15px;
+  border: 1px solid #e2f899;
+}
+.number-box-questions a {
+  color: white;
+}
+.number-box-questions a:hover,
+.number-box-questions a:active {
+  color: white;
+  text-decoration: none;
+}
+.number-box-questions :hover {
+  border-radius: 15px;
+  background-color: #c5f03a;
+}
+.number-box-sets {
+  background-color: #ffd700;
+  color: white;
+  border-radius: 15px;
+  margin-top: 7px;
+  border: 1px solid #fff09d;
+}
+.number-box-sets a {
+  color: white;
+}
+.number-box-sets a:hover,
+.number-box-sets a:active {
+  color: white;
+  text-decoration: none;
+}
+.number-box-sets :hover {
+  border-radius: 15px;
+  background-color: #ffe243;
+}
+.number-box-reputation {
+  margin-top: 7px;
+  border-radius: 15px;
+  background-color: #7ca2e1;
+  color: white;
+  font-size: 16px ;
+}
+.number-box-reputation a {
+  color: white;
+}
+.number-box-reputation a:hover,
+.number-box-reputation a:active {
+  color: white;
+  text-decoration: none;
+}
+.number-box-reputation :hover {
+  border-radius: 15px;
+  background-color: #a4bde7;
+}
+/*# sourceMappingURL=Knowledge.css.map */

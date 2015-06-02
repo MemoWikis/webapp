@@ -15,4 +15,9 @@ public class AnswerHistory : IPersistable, WithDateCreated
     /// <summary>Duration</summary>
     public virtual int Milliseconds { get; set; }
     public virtual DateTime DateCreated { get; set; }
+
+    public virtual Question GetQuestion()
+    {
+        return Sl.R<QuestionRepository>().GetById(QuestionId);
+    }
 }
