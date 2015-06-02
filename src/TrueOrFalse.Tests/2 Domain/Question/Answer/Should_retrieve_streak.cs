@@ -15,13 +15,13 @@ public class Should_retrieve_streak : BaseTest
         var user = ContextRegisteredUser.New().Add().Persist().Users[0];
         user.DateCreated = DateTime.Now.AddYears(-2);
 
-        Write(user, 0);
-        Write(user, -1);
-        Write(user, -10);
-        Write(user, -11);
-        Write(user, -12);
-        Write(user, -13);
-        Write(user, -17);
+        WriteHistory(user, 0);
+        WriteHistory(user, -1);
+        WriteHistory(user, -10);
+        WriteHistory(user, -11);
+        WriteHistory(user, -12);
+        WriteHistory(user, -13);
+        WriteHistory(user, -17);
 
         var streakResult = R<GetStreaks>().Run(user);
         Assert.That(streakResult.LongestLength, Is.EqualTo(4));
@@ -39,7 +39,7 @@ public class Should_retrieve_streak : BaseTest
         Assert.That(streakResult.LastLength, Is.EqualTo(0));
     }
 
-    private void Write(User user, int daysOffset)
+    private void WriteHistory(User user, int daysOffset)
     {
         _session.Save(
             new AnswerHistory

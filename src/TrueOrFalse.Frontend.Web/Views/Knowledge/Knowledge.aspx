@@ -170,9 +170,34 @@
                 
                 <div class="row" style="font-size: 12px">
                     <div class="col-md-12">
-                        <span style="display: inline-block; width: 45%">Lerntage gesamt: <b>78</b></span> <span style="color: silver; font-weight: bold;">seit 14.07.2014</span><br />
-                        <span style="display: inline-block; width: 40%">Längste Folge: <b>12</b></span> <span style="color: silver; font-weight: bold;">07.09 - 19.09.2014</span><br />
-                        <span style="display: inline-block; width: 40%">Aktuelle Folge: <b>4</b></span> <span style="color: silver; font-weight: bold;" >26.05 - 30.05.2015</span>
+                        <% var streak = Model.Streak; %>
+                        <!-- -->
+                        <span style="display: inline-block; width: 45%">Lerntage gesamt: 
+                            <b><%= streak.TotalLearningDays %></b></span> <span style="color: silver; font-weight: bold;">
+                            seit <%= Model.User.DateCreated.ToString("dd.MM.yyyy") %>
+                        </span><br />
+                        
+                        <!-- LongestStreak -->
+                        <span style="display: inline-block; width: 40%">
+                            Längste Folge: <b><%= streak.LongestLength %></b>
+                        </span>
+                        <% if (streak.LongestLength == 0){ %>
+                            <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
+                        <% } else { %>
+                            <span style="color: silver; font-weight: bold;">
+                                <%= streak.LongestStart.ToString("dd.MM") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
+                            </span>
+                        <% } %>
+                        
+                        <!-- CurrentStreak -->
+                        <span style="display: inline-block; width: 40%">
+                            Aktuelle Folge: <b><%= streak.LastLength %></b>
+                        </span>
+                        <% if (streak.LastLength == 0){ %>
+                            <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
+                        <% } else { %>
+                            <%= streak.LastStart.ToString("dd.MM") %> - <%= streak.LastEnd.ToString("dd.MM.yyyy") %>
+                        <% } %>
                     </div>
                 </div>
 

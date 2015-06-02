@@ -14,20 +14,13 @@ public class KnowledgeModel : BaseModel
         }
     }
 
-    //public GetAnswerStatsInPeriodResult AnswersThisWeek = new GetAnswerStatsInPeriodResult();
-    //public GetAnswerStatsInPeriodResult AnswersThisMonth = new GetAnswerStatsInPeriodResult();
-    //public GetAnswerStatsInPeriodResult AnswersThisYear = new GetAnswerStatsInPeriodResult();
-    //public GetAnswerStatsInPeriodResult AnswersLastMonth = new GetAnswerStatsInPeriodResult();
-    //public GetAnswerStatsInPeriodResult AnswersLastWeek = new GetAnswerStatsInPeriodResult();
-    //public GetAnswerStatsInPeriodResult AnswersLastYear = new GetAnswerStatsInPeriodResult();
-    //public GetAnswerStatsInPeriodResult AnswersEver = new GetAnswerStatsInPeriodResult();
-
     public IList<GetAnswerStatsInPeriodResult> Last30Days = new List<GetAnswerStatsInPeriodResult>();
 
     public int QuestionsCount;
     public int SetCount;
 
     public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
+    public GetStreaksResult Streak = new GetStreaksResult();
 
     public IList<Date> Dates = new List<Date>();
     public IList<AnswerHistory> AnswerRecent = new List<AnswerHistory>();
@@ -53,13 +46,6 @@ public class KnowledgeModel : BaseModel
         Bus.Get().Publish(msg);
 
         var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
-        //AnswersThisWeek = getAnswerStatsInPeriod.RunForThisWeek(UserId);
-        //AnswersThisMonth = getAnswerStatsInPeriod.RunForThisMonth(UserId);
-        //AnswersThisYear = getAnswerStatsInPeriod.RunForThisYear(UserId);
-        //AnswersLastWeek = getAnswerStatsInPeriod.RunForLastWeek(UserId);
-        //AnswersLastMonth = getAnswerStatsInPeriod.RunForLastMonth(UserId);
-        //AnswersLastYear = getAnswerStatsInPeriod.RunForLastYear(UserId);
-        //AnswersEver = getAnswerStatsInPeriod.Run(UserId);
 
         Last30Days = getAnswerStatsInPeriod.GetLast30Days(UserId);
 
@@ -67,5 +53,6 @@ public class KnowledgeModel : BaseModel
 
         Dates = GetSampleDates.Run();
         AnswerRecent = R<GetLastAnswers>().Run(UserId, 4);
+        Streak = R<GetStreaks>().Run(User);
     }
 }

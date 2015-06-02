@@ -68,8 +68,8 @@ public class GetStreaks : IRegisterAsInstancePerLifetime
                 var lastStreakLength = (int) ((currentStreakEnd - currentStreakStart).TotalDays);
                 if (lastStreakLength > result.LongestLength)
                 {
-                    result.LongestStart = getAnswerStats[0].DateTime.Date;
-                    result.LongestEnd = getAnswerStats[0].DateTime.Date;
+                    result.LongestStart = currentStreakStart;
+                    result.LongestEnd = currentStreakEnd;
                     result.LongestLength = lastStreakLength;
                 }
 
