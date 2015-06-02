@@ -7,7 +7,7 @@ public class GetSampleDates
     public static IList<Date> Run()
     {
         var sets = Sl.R<SetRepository>()
-            .GetByIds(7, 8, 12);
+            .GetByIds(7, 8, 9);
 
         var now = DateTime.Now;
 
@@ -28,7 +28,7 @@ public class GetSampleDates
             new Date
             {
                 Details = "LEK EK (Länder Afrika)",
-                Sets = sets.Where(s => s.Id == 12).ToList(),
+                Sets = sets.Where(s => s.Id == 9).ToList(),
                 DateTime = new DateTime(now.Year, now.Month, now.Day, 8, 00, 0).AddDays(5)
             }
         };
