@@ -12,8 +12,15 @@
     <script type="text/javascript">
         $(function() {
             $('.clockpicker').clockpicker();
+
+            $('.input-group.date').datepicker({
+                language: "de",
+                calendarWeeks: true,
+                autoclose: true,
+                todayHighlight: true,
+                datesDisabled: ['06/06/2015', '06/21/2015']
+            });
         });
-        
     </script>
 </asp:Content>
 
@@ -63,14 +70,14 @@
                     <div class="FormSection">
                         
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         Datum
                                     </label>
                                     <div class="col-md-11 col-xs-6">
-                                        <div class="input-group">
-                                            <input class="form-control" name="date" value="10" style="height: 30px;" />
+                                        <div class="input-group date">
+                                            <input class="form-control" name="Date" value="<%= Model.Date.ToString("dd.MM.yyyy") %>" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
@@ -85,7 +92,7 @@
                                     </label>
                                     <div class="col-md-10 col-xs-6">
                                         <div class="input-group clockpicker" data-autoclose="true">
-                                            <input class="form-control" name="MaxPlayers" value="10" style="height: 30px;" name="amountPlayers" />
+                                            <input class="form-control" name="Time" value="<%= Model.Time %>" style="height: 30px;" name="amountPlayers" />
                                             <span class="input-group-addon" style="height: 30px;">
                                                 <i class="fa fa-clock-o"></i>
                                             </span>
