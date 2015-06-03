@@ -478,10 +478,12 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
+    <Content Include="Views\Dates\Edit\clockpicker.css" />
     <Content Include="Views\Dates\Edit\EditDate.aspx" />
     <Content Include="Views\Dates\Edit\EditDate.css">
       <DependentUpon>EditDate.less</DependentUpon>
     </Content>
+    <Content Include="Views\Dates\Edit\Js\clockpicker.js" />
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
       <DependentUpon>Game.less</DependentUpon>
@@ -1717,7 +1719,6 @@
   <ItemGroup>
     <Folder Include="Style\fontAwesome\" />
     <Folder Include="Views\Dates\Details\" />
-    <Folder Include="Views\Dates\Edit\Js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

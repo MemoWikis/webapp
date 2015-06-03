@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Spielen" Language="C#" 
+﻿<%@ Page Title="Termin erstellen" Language="C#" 
     MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
     Inherits="ViewPage<EditDateModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
@@ -8,6 +8,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/EditDate") %>
     <%= Scripts.Render("~/bundles/js/EditDate") %>
+    
+    <script type="text/javascript">
+        $(function() {
+            $('.clockpicker').clockpicker();
+        });
+        
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -56,31 +63,31 @@
                     <div class="FormSection">
                         
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
-                                        <i class="fa fa-clock-o"></i> &nbsp; Datum
+                                        Datum
                                     </label>
                                     <div class="col-md-11 col-xs-6">
                                         <div class="input-group">
-                                            <input class="form-control" name="StartsInMinutes" value="10" style="height: 30px;" />
+                                            <input class="form-control" name="date" value="10" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
-                                                (max. 60min)
+                                                <i class="fa fa-calendar"></i>
                                             </span>
                                         </div>
                                     </div>
                                 </div>                                
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
-                                        <i class="fa fa-clock-o"></i> &nbsp; Uhrzeit
+                                        Uhrzeit
                                     </label>
                                     <div class="col-md-10 col-xs-6">
-                                        <div class="input-group">
+                                        <div class="input-group clockpicker" data-autoclose="true">
                                             <input class="form-control" name="MaxPlayers" value="10" style="height: 30px;" name="amountPlayers" />
                                             <span class="input-group-addon" style="height: 30px;">
-                                                (max. 30)
+                                                <i class="fa fa-clock-o"></i>
                                             </span>
                                         </div>
                                     </div>
