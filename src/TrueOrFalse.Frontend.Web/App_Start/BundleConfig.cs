@@ -44,12 +44,12 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/questions")
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js")
                 .Include("~/Scripts/ValuationPerRow.js")
-                .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
+                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/questionEdit")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .IncludeDirectory("~/Views/Questions/Edit/Js/", "*.js")
-                .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
+                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Beta")
                 .IncludeDirectory("~/Views/Beta/Js/", "*.js"));
@@ -63,7 +63,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-                .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
+                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
@@ -79,7 +79,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")
                 .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-                .Include("~/Views/Categories/Edit/AutocompleteCategories.js"));
+                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Set")
                 .IncludeDirectory("~/Views/Sets/Detail/Js/", "*.js"));

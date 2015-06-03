@@ -946,7 +946,7 @@
     <Content Include="Views\Categories\Edit\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\AutocompleteCategories.js">
+    <Content Include="Scripts\autocompletes\AutocompleteCategories.js">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\VolumeChapter.ascx" />
@@ -1538,7 +1538,7 @@
     <Content Include="Views\Categories\Edit\EditCategory.css.map">
       <DependentUpon>EditCategory.css</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\AutocompleteCategories.js.map">
+    <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Questions.css.map">
@@ -1667,7 +1667,7 @@
     <Content Include="Views\Categories\Categories.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
-    <TypeScriptCompile Include="Views\Categories\Edit\AutocompleteCategories.ts" />
+    <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />

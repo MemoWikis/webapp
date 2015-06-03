@@ -18,7 +18,7 @@
                 calendarWeeks: true,
                 autoclose: true,
                 todayHighlight: true,
-                datesDisabled: ['06/06/2015', '06/21/2015']
+                startDate: ""
             });
         });
     </script>
