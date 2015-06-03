@@ -35,12 +35,15 @@
     <h3>Dein Beitrag</h3>
     <p>Dein Beitrag richtet sich nach deinen finanziellen Möglichkeiten und deiner Motivation.</p>
     
-<% using (Html.BeginForm("Create", "EditQuestion", null, FormMethod.Post, new { id="BecomeMemberForm", enctype = "multipart/form-data" })){ %>
+<% using (Html.BeginForm("Membership", "Account", null, FormMethod.Post, new { id="BecomeMemberForm", enctype = "multipart/form-data" })){ %>
+    
+    <input type="hidden" name="SelectedPrice" id="hddSelectedPrice" value="0"/>
+
     <div id="PriceSelection" class="form-group">
         <input id="ChosenPrice" type="hidden"/>
         <div class="radio">
             <label>
-                <input id="rdoPriceReduced" type="radio" name="PriceLevel"/>
+                <input id="rdoPriceReduced" type="radio" name="PriceLevel" value="Reduced"/>
                 <span class="Title">Ermäßigt: </span>
                 <span class="MinPrice">0,80</span>&nbsp;€ bis 1,99&nbsp;€ im Monat, empfohlen: <span class="bold">1&nbsp;€ </span>&nbsp;(12,00&nbsp;€ im Jahr)
             </label>
@@ -63,7 +66,7 @@
         </div>
         <div class="radio">
             <label>
-                <input id="rdoPriceNormal" type="radio" name="PriceLevel" checked>
+                <input id="rdoPriceNormal" type="radio" name="PriceLevel" value="Normal" checked>
                 <span class="Title">Normal: </span>
                 <span class="MinPrice">2,00</span>&nbsp;€ bis 3,99&nbsp;€ im Monat, empfohlen: <span class="bold">3,00 € </span>&nbsp;(36,00&nbsp;€ im Jahr)
             </label>
@@ -85,7 +88,7 @@
         </div>
         <div class="radio">
             <label>
-                <input id="rdoPriceSupporter" type="radio" name="PriceLevel"/>
+                <input id="rdoPriceSupporter" type="radio" name="PriceLevel" value="Supporter"/>
                 <span class="Title">Solibeitrag: </span>
                 <span class="MinPrice">4,00</span>&nbsp;€ oder mehr im Monat, empfohlen: <span class="bold">5&nbsp;€ </span>&nbsp;(60,00&nbsp;€ im Jahr)
             </label>
@@ -133,12 +136,12 @@
             <div class="col-md-7">
                 <div class="form-group">
                     <label class="control-label">Name</label>
-                    <input class="form-control" name="txtBillingName" value="<%Model.BillingName %>"/>
+                    <input class="form-control" name="BillingName" value="<%= Model.BillingName %>"/>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label">Adresse</label>
-                    <textarea class="form-control" name="txtBillingAddress"></textarea>
+                    <textarea class="form-control" name="BillingAddress"></textarea>
                 </div>
                 
                 <div class="form-group">
@@ -147,18 +150,18 @@
 
                 <div>
                   <label class="radio-inline">
-                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                    <input type="radio" name="PaymentPeriod" value="halfYear" checked>
                     Halbjährlich zahlen
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                    <input type="radio" name="PaymentPeriod" value="fullYear">
                     Jährlich zahlen
                   </label>
                 </div>
 
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox"> Automatisch verlängern 
+                        <%= Html.CheckBoxFor(m => Model.AutoExtendMembership) %>Automatisch verlängern 
                     </label>
                 </div>
 

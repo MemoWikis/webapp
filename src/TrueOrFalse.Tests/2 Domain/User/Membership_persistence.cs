@@ -13,8 +13,8 @@ public class Membership_persistence : BaseTest
         {
             User = context.All[0],
             BillingAddress = "Billing address",
-            Price = 2.50m,
-            PriceCategory = PriceCategory.PriceNormal,
+            PricePerMonth = 2.50m,
+            PriceCategory = PriceCategory.Normal,
             PaymentAmount = 2.50m,
             PeriodStart = DateTime.Now,
             PeriodEnd = DateTime.Now.AddMonths(6)
@@ -26,7 +26,7 @@ public class Membership_persistence : BaseTest
 
         var membershipFromDb = R<MembershipRepo>().GetById(membership.Id);
         
-        Assert.That(membershipFromDb.Price, Is.EqualTo(2.50m));
+        Assert.That(membershipFromDb.PricePerMonth, Is.EqualTo(2.50m));
         Assert.That(membershipFromDb.User.Name, Is.EqualTo("Firstname Lastname"));
     }
 }

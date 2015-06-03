@@ -5,7 +5,7 @@ public class Membership : DomainEntity
 {
     public virtual User User { get; set; }
     public virtual string BillingAddress { get; set; }
-    public virtual decimal Price { get; set; }
+    public virtual decimal PricePerMonth { get; set; }
     public virtual PriceCategory PriceCategory  { get; set; }
     public virtual DateTime PaymentReceipt { get; set; }
     public virtual decimal PaymentAmount { get; set; }
@@ -15,7 +15,7 @@ public class Membership : DomainEntity
 
 public enum PriceCategory
 {
-    PriceReduced = 1,
-    PriceNormal = 2,
-    PriceSupporter = 3
+    Reduced = 1,
+    Normal = 2,
+    Supporter = 3
 }

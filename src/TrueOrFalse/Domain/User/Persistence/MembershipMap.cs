@@ -8,7 +8,7 @@ public class MembershipMap : ClassMap<Membership>
         References(x => x.User);
         Map(x => x.BillingAddress);
 
-        Map(x => x.Price);
+        Map(x => x.PricePerMonth);
         Map(x => x.PriceCategory);
 
         Map(x => x.PaymentReceipt);
