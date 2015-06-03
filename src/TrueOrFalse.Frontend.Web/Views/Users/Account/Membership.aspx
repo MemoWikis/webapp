@@ -105,9 +105,74 @@
             </div>
         </div>
     </div>
-    <div style="clear: left;">
-        <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
+    
+    
+    
+    <div class="row">
+        <div class="col-md-9">
+            <% if(!Model.IsLoggedIn){ %>
+                <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
+                    <h4>Anmelden oder registrieren</h4>
+                    <p>
+                        Um Mitglied zu werden 
+                        musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
+                    </p>
+                </div>
+            <% }%>
+        </div>            
     </div>
+    
+    <% if(Model.IsLoggedIn){ %>
+    
+        <h3>Deine Rechnungsdaten</h3>
+    
+        <p>Du erhältst von uns eine Rechnung per Email (an).</p>
+    
+    
+        <div class="row">
+            <div class="col-md-7">
+                <div class="form-group">
+                    <label class="control-label">Name</label>
+                    <input class="form-control" name="txtBillingName" value="<%Model.BillingName %>"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Adresse</label>
+                    <textarea class="form-control" name="txtBillingAddress"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    Du kannst jederzeit kündigen! Wir erstatten vorausgezahltes!
+                </div>
+
+                <div>
+                  <label class="radio-inline">
+                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                    Halbjährlich zahlen
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                    Jährlich zahlen
+                  </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Automatisch verlängern 
+                    </label>
+                </div>
+
+
+            </div>
+        </div>
+    
+        <div style="clear: left;">
+            <input type="submit" value="Verbindlich Mitglied werden" class="btn btn-success" name="btnSave" />
+        </div>
+    
+    <% } %>
+
+
 <% } %>    
 
 </asp:Content>

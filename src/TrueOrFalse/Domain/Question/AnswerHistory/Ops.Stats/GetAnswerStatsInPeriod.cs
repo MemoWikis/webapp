@@ -44,7 +44,7 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
     {
         var result = new List<GetAnswerStatsInPeriodResult>();
         var rowsFromDb = Run(userId, DateTime.Now.AddDays(-30).Date, DateTime.Now, groupByDate: true);
-        for (var i = 0; i < 30; i++)
+        for (var i = 1; i <= 30; i++)
         {
             var entryDate = DateTime.Now.AddDays(-(30 - i)).Date;
             var fromDb = rowsFromDb.FirstOrDefault(x => entryDate == x.DateTime.Date);
