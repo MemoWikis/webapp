@@ -46,13 +46,13 @@ public class SetsApiController : BaseController
         var setIds = R<SearchSets>().Run(term, new Pager{PageSize = 1}, startsWithSearch: true).SetIds;
         var sets = R<SetRepository>().GetByIds(setIds);
 
-        var items = sets.Select(c =>
+        var items = sets.Select(set =>
                 new SetJsonResult 
                 {
-                    Id = c.Id,
-                    Name = c.Name,
-                    NumberOfQuestions = c.QuestionsInSet.Count,
-                    ImageUrl = SetImageSettings.Create(c.Id).GetUrl_50px_square().Url,
+                    Id = set.Id,
+                    Name = set.Name,
+                    NumberOfQuestions = set.QuestionsInSet.Count,
+                    ImageUrl = SetImageSettings.Create(set.Id).GetUrl_50px_square().Url,
                 }
             ).ToList();
 

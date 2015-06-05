@@ -106,8 +106,20 @@
                             <label class="columnLabel control-label">
                                 Fragesätze die zu diesem Termin gewust werden sollen:
                             </label>
-                            <div class="columnControlsFull">
-                                <input class="form-control" name="Sets"/>
+                            <div class="JS-Sets columnControlsFull">
+                                <script type="text/javascript">
+                                    $(function () {
+                                        <%foreach (var set in Model.Sets) { %>
+                                        $("#txtSet")
+                                            .val('<%=set.Name %>')
+                                            .data('set-id', '<%=set.Id %>')
+                                            .trigger("initCategoryFromTxt");
+                                        <% } %>
+                                    });
+                                </script>
+                                <div class="JS-SetInputContainer ControlInline ">
+                                    <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Ordne einen Fragesatz zu"  />
+                                </div>
                             </div>
                         </div>
                         
@@ -117,7 +129,7 @@
                             </label>
                             <div class="columnControlsFull">
                                 <select class="form-control">
-                                    <option>Sichtbar für dein Netzwerk (+20 Reputation).</option>
+                                    <option>Sichtbar für dein Netzwerk (+10 Reputation je Kopie).</option>
                                     <option>Privat. Nur für dich sichtbar.</option>
                                 </select>
                             </div>

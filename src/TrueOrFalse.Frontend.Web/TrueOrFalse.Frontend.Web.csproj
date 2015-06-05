@@ -386,6 +386,7 @@
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
     <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
@@ -422,6 +423,7 @@
     <Content Include="Images\no-question-128.png" />
     <Content Include="Images\no-set-128.png" />
     <Content Include="Images\no-set-206.png" />
+    <Content Include="Images\no-set-50.png" />
     <Content Include="Images\wiki-16.png" />
     <Content Include="Images\wiki-24.png" />
     <Content Include="Images\wiki-32.png" />
@@ -432,6 +434,9 @@
     </Content>
     <Content Include="Scripts\answerQuestion\SolutionEntry.js">
       <DependentUpon>SolutionEntry.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\autocompletes\AutocompleteSets.js">
+      <DependentUpon>AutocompleteSets.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\BootstrapCustomUtils.js" />
     <Content Include="Scripts\CategoryApi.js">
@@ -921,6 +926,9 @@
     <Content Include="Style\animate.less" />
     <Content Include="Style\animate.css.map">
       <DependentUpon>animate.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\autocompletes\AutocompleteSets.js.map">
+      <DependentUpon>AutocompleteSets.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />

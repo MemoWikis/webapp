@@ -92,7 +92,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Dates/Edit/*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/EditDate")
-                .IncludeDirectory("~/Views/Dates/Edit/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Dates/Edit/Js/", "*.js")
+                .Include("~/Scripts/autocompletes/AutocompleteSets.js"));
 
             //Games
             bundles.Add(new ScriptBundle("~/bundles/js/Games")
