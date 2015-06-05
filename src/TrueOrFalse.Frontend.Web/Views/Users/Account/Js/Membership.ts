@@ -15,8 +15,13 @@ var validationSettings_BecomeMemberForm = {
             .find('.InputPrice')
             .val();
         $('#ChosenPrice').val((Math.round(100 * parseFloat(chosenPriceString.replace(',', '.'))) / 100).toFixed(2)); 
-        window.alert((Math.round(100 * parseFloat(chosenPriceString.replace(',', '.'))) / 100).toFixed(2));
-        //$(form).submit();
+        fnSetCurrentSelectedPrice();
+        form.submit();
+    },
+    rules: {
+        BillingName: {
+            required: true
+        }
     }
 }
 
@@ -27,7 +32,7 @@ var fnAddNumberValidationMethod = function (inputField : JQuery, message : strin
         function (value, element) {//OnErrorCallback
             $(element).closest('.radio').find('.YearlyPrice').html(' --');
         }
-        );
+    );
 
     var radioSection = inputField.closest('.radio');
     var suggestedPrice = inputField.val();
@@ -48,6 +53,8 @@ var fnAddNumberValidationMethod = function (inputField : JQuery, message : strin
             $(element).val(valueNumber.toFixed(2).replace('.', ','));
             $(element).closest('.radio').find('.YearlyPrice').html((12 * valueNumber).toFixed(2).replace('.', ','));
 
+            fnSetCurrentSelectedPrice();
+
             if (minVal && valueNumber && radioSection.find('input[type="radio"]').is(':checked') && valueNumber < minVal) {
                 return false;
             }
@@ -61,6 +68,14 @@ var fnAddNumberValidationMethod = function (inputField : JQuery, message : strin
     inputField.rules('add', 'GermanDecimal');
 
     inputField.rules('add', minValRuleName);
+}
+
+var fnSetCurrentSelectedPrice = function() {
+    $('#hddSelectedPrice')
+        .val($('[name="PriceLevel"]:checked')
+        .closest($('.radio'))
+        .find($('.InputPrice'))
+        .val());
 }
 
 $(function () {
@@ -92,6 +107,7 @@ $(function () {
             $(this).closest('.radio').find('.MoreLink i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
         });
     $('[name=PriceLevel]').change(function () {
+        fnSetCurrentSelectedPrice();
         $('[name=PriceLevel]').not($(this)).closest('.radio').find('.PriceLevelInfo.in').collapse('hide');
         $(this).closest('.radio').find('.PriceLevelInfo:not(.in)').collapse('show');
 
@@ -100,4 +116,6 @@ $(function () {
         $('input.InputPrice').not($(this).closest('.radio').find('.InputPrice')).addClass('NotInFocus');
         $(this).closest('.radio').find('.InputPrice').removeClass('NotInFocus');
     });
+
+    fnSetCurrentSelectedPrice();
 });

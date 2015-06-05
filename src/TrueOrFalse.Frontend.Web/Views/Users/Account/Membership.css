@@ -25,4 +25,7 @@
 .NotInFocus {
   color: GrayText !important;
 }
+label.ValidationError {
+  padding-left: 0 !important;
+}
 /*# sourceMappingURL=Membership.css.map */

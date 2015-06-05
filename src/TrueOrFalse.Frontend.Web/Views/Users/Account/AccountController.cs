@@ -15,6 +15,7 @@ public class AccountController : BaseController
         var membership = model.ToMembership();
         R<MembershipRepo>().Create(membership);
 
+
         return View("~/Views/Users/Account/Membership.aspx", new MembershipModel());
     }
 

@@ -16,11 +16,11 @@
         andere Dinge müssen wir noch verbessern und benutzerfreundlicher machen (zum Beispiel den Lernalgorithmus). 
         Außerdem haben wir noch sooo viele Ideen, die auf Verwirklichung warten. Wir arbeiten daran! 
         Aber gerade in der schwierigen Startphase brauchen wir dich und deine Unterstützung! 
-        Wenn Du an uns glaubst, dann werde jetzt Fördermitglied!</p>
+        Wenn du an uns glaubst, dann werde jetzt Fördermitglied!</p>
     
     <h3>Was bekommst Du? </h3>
     <ul>
-        <li> Ein Förder-Medaille "Mitglied-der-1.-Stunde" in deinem Profil auf Lebenszeit.</li>
+        <li> Eine Förder-Medaille "Mitglied-der-1.-Stunde" in deinem Profil auf Lebenszeit.</li>
         <li>Das gute Gefühl, eine tolle Idee zu unterstützen.</li>
         <li>Alle MEMuchO-Funktionen ohne Beschränkungen, insbesondere...</li>
         <li> ...unbegrenzt private Fragen (sonst 20 Fragen)</li>
@@ -37,7 +37,7 @@
     
 <% using (Html.BeginForm("Membership", "Account", null, FormMethod.Post, new { id="BecomeMemberForm", enctype = "multipart/form-data" })){ %>
     
-    <input type="hidden" name="SelectedPrice" id="hddSelectedPrice" value="0"/>
+    <input type="hidden" id="hddSelectedPrice" name="SelectedPrice" value="0"/>
 
     <div id="PriceSelection" class="form-group">
         <input id="ChosenPrice" type="hidden"/>
@@ -129,25 +129,21 @@
     
         <h3>Deine Rechnungsdaten</h3>
     
-        <p>Du erhältst von uns eine Rechnung per Email (an).</p>
+        <p>Du erhältst von uns eine Rechnung per Email an <b><%= Model.BillingEmail%></b>.</p>
     
     
         <div class="row">
             <div class="col-md-7">
                 <div class="form-group">
-                    <label class="control-label">Name</label>
+                    <label class="control-label RequiredField">Name Rechnungsempfänger</label>
                     <input class="form-control" name="BillingName" value="<%= Model.BillingName %>"/>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label">Adresse</label>
+                    <label class="control-label">Rechnungsadresse (optional)</label>
                     <textarea class="form-control" name="BillingAddress"></textarea>
                 </div>
                 
-                <div class="form-group">
-                    Du kannst jederzeit kündigen! Wir erstatten vorausgezahltes!
-                </div>
-
                 <div>
                   <label class="radio-inline">
                     <input type="radio" name="PaymentPeriod" value="halfYear" checked>
@@ -161,10 +157,12 @@
 
                 <div class="checkbox">
                     <label>
-                        <%= Html.CheckBoxFor(m => Model.AutoExtendMembership) %>Automatisch verlängern 
+                        <%= Html.CheckBoxFor(m => Model.AutoRenewal) %>Automatisch verlängern 
                     </label>
                 </div>
-
+                <div class="form-group">
+                    Du kannst jederzeit kündigen! Wir erstatten den Restbetrag für volle verbleibende Monate zurück.
+                </div>
 
             </div>
         </div>

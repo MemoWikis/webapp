@@ -6,6 +6,8 @@ public class MembershipMap : ClassMap<Membership>
     {
         Id(x => x.Id);
         References(x => x.User);
+        Map(x => x.BillingEmail);
+        Map(x => x.BillingName);
         Map(x => x.BillingAddress);
 
         Map(x => x.PricePerMonth);
@@ -16,6 +18,7 @@ public class MembershipMap : ClassMap<Membership>
 
         Map(x => x.PeriodStart);
         Map(x => x.PeriodEnd);
+        Map(x => x.AutoRenewal);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

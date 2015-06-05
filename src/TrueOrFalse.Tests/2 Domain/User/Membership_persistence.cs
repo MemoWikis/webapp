@@ -12,12 +12,14 @@ public class Membership_persistence : BaseTest
         var membership = new Membership
         {
             User = context.All[0],
+            BillingEmail = "test@test.de",
             BillingAddress = "Billing address",
             PricePerMonth = 2.50m,
             PriceCategory = PriceCategory.Normal,
             PaymentAmount = 2.50m,
             PeriodStart = DateTime.Now,
-            PeriodEnd = DateTime.Now.AddMonths(6)
+            PeriodEnd = DateTime.Now.AddMonths(6),
+            AutoRenewal = true
         };
 
         R<MembershipRepo>().Create(membership);
@@ -28,5 +30,7 @@ public class Membership_persistence : BaseTest
         
         Assert.That(membershipFromDb.PricePerMonth, Is.EqualTo(2.50m));
         Assert.That(membershipFromDb.User.Name, Is.EqualTo("Firstname Lastname"));
+        Assert.That(membershipFromDb.PriceCategory, Is.EqualTo(PriceCategory.Normal));
+        Assert.That(membershipFromDb.AutoRenewal, Is.EqualTo(true));
     }
 }
