@@ -9,7 +9,7 @@ public class DateMap : ClassMap<Date>
         Map(x => x.Visibility);
         Map(x => x.Details);
 
-        HasMany(x => x.Sets)
+        HasManyToMany(x => x.Sets)
             .Table("date_to_sets")
             .Cascade.None();
 

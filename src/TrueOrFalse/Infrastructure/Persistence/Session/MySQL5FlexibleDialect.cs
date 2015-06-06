@@ -8,7 +8,7 @@ namespace TrueOrFalse
 
         public override string TableTypeString
         {
-            get { return " ENGINE=" + MySQL5FlexibleDialect.Engine; }
+            get { return " ENGINE=InnoDB"; }
         }
 
         public override bool HasSelfReferentialForeignKeyBug

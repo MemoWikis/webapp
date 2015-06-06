@@ -210,6 +210,7 @@
     <Compile Include="2 Domain.Userlytics\GetRandomLogoCssClassTest.cs" />
     <Compile Include="2 Domain\Comment\Comment_persistence.cs" />
     <Compile Include="2 Domain\Comment\Setup\ContextComment.cs" />
+    <Compile Include="2 Domain\Date\Date_time.cs" />
     <Compile Include="2 Domain\Date\Date_persistence.cs" />
     <Compile Include="2 Domain\Game\Game_persistence.cs" />
     <Compile Include="2 Domain\Game\Game_rounds.cs" />

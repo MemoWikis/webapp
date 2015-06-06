@@ -10,4 +10,9 @@ public class Date : DomainEntity
     public virtual IList<Set> Sets { get; set; }
 
     public virtual DateVisibility Visibility { get; set; }
+
+    public virtual void SetTime()
+    {
+        throw new NotImplementedException();
+    }
 }
