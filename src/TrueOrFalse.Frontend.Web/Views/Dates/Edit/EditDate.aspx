@@ -40,7 +40,7 @@
                 <div>
                     <a href="<%= Links.Games(Url) %>" style="font-size: 12px; margin: 0;">
                         <i class="fa fa-list"></i>&nbsp;zur Übersicht
-                    </a>          
+                    </a>
                 </div>
             </div>
         </div>
@@ -128,9 +128,9 @@
                                 Öffentlich?
                             </label>
                             <div class="columnControlsFull">
-                                <select class="form-control">
-                                    <option>Sichtbar für dein Netzwerk (+10 Reputation je Kopie).</option>
-                                    <option>Privat. Nur für dich sichtbar.</option>
+                                <select class="form-control" name="Visibility">
+                                    <option value="inNetwork">Sichtbar für dein Netzwerk (+10 Reputation je Kopie).</option>
+                                    <option value="private">Privat. Nur für dich sichtbar.</option>
                                 </select>
                             </div>
                         </div>

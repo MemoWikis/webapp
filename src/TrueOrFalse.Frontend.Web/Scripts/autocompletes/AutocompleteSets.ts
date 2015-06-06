@@ -35,10 +35,10 @@ class AutocompleteSets {
             },
             select: function (event, ui) {
 
-                if (self.GetAlreadyAddedSets(elemContainer, ui.item.id).length > 0) {
-                    var alreadyAddedCategories = self.GetAlreadyAddedSets(elemContainer, ui.item.id);
+                if (self.GetAlreadyAddedSets(elemContainer, ui.item.Id).length > 0) {
+                    var alreadyAddedSets = self.GetAlreadyAddedSets(elemContainer, ui.item.Id);
 
-                    function bounce() { alreadyAddedCategories.closest(".added-cat").effect('bounce', null, 'fast'); }
+                    function bounce() { alreadyAddedSets.closest(".added-set").effect('bounce', null, 'fast'); }
                     bounce();
                     bounce();
                     bounce();
@@ -47,7 +47,7 @@ class AutocompleteSets {
                     return false;
                 }
 
-                $(inputSelector).data("set-id", ui.item.id);
+                $(inputSelector).data("set-id", ui.item.Id);
                 $(inputSelector).val(ui.item.Name);
 
                 self.AddSet();
@@ -88,22 +88,22 @@ class AutocompleteSets {
         var setId = this._elemInput.data('set-id');
 
         this._elemInput.closest(".JS-SetInputContainer").before(
-            "<div class='added-set' id='set-" + setIdx + "' style='display: none;'>" +
-                "<a href='/Fragesaetze/ById?id=" + setId + "'>" + setText + "</a>" +
+            "<div class='added-set' id='set-" + setIdx + "' style='display: none; float: left; margin-right: 9px;'>" +
+                "<a href='/Fragesatz/" + setId + "'>" +
+                    "<span class='label label-set show-tooltip' data-placement='top' data-original-title='Gehe zu Fragesatz'>" + setText + "</span>" +
+                "</a>" +
                 "<input type='hidden' value='" + setId + "' name='set-" + setIdx + "'/>" +
-                "<a href='#' id='delete-set-" + setIdx + "'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
+                "<a href='#' id='delete-set-" + setIdx +"' style='margin-left: 4px;'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
             "</div> ");
 
         this._elemInput.val('');
         this._elemInput.data('set-id', '');
         $("#delete-set-" + setIdx).click(function (e) {
-            e.preventDefault();
+            e.preventDefault(); 
 
-            //animating = true;
             $("#set-" + setIdx).stop(true).animate({ opacity: 0 }, 250, function () {
                 $(this).hide("blind", { direction: "horizontal" }, function () {
                     $(this).remove();
-                    //animating = false;
                 });
             });
 

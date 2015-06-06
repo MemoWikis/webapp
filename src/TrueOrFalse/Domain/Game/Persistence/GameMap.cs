@@ -15,7 +15,7 @@ public class GameMap : ClassMap<Game>
 
         HasManyToMany(x => x.Sets)
             .Table("game_to_sets")
-            .Cascade.SaveUpdate();
+            .Cascade.None();
         
         HasMany(x => x.Rounds).Cascade.AllDeleteOrphan();
 
