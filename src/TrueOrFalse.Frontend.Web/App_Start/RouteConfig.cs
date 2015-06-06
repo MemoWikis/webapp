@@ -64,6 +64,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Sets_Delete", "Sets/Delete/{setId}", new { controller = "Sets", action = "Delete" });
             /* API */ routes.MapRoute("Sets_SaveRelevancePersonal", "Sets/SaveRelevancePersonal/{id}/{newValue}", new { controller = "Sets", action = "SaveRelevancePersonal" });
 
+            routes.MapRoute("Set_Detail_Id", "Fragesatz/{id}", new { controller = "Set", action = "QuestionSetById" });
             routes.MapRoute("Set_Detail", "Fragesaetze/{text}/{id}/{elementOnPage}", new { controller = "Set", action = "QuestionSet" });
             routes.MapRoute("Sets_Edit", "Fragesaetze/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });
             /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });

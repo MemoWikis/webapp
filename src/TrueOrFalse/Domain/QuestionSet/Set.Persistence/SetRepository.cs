@@ -39,6 +39,11 @@ public class SetRepository : RepositoryDbBase<Set>
         _searchIndexSet.Update(set);
     }
 
+    public IList<Set> GetByIds(List<int> setIds)
+    {
+        return GetByIds(setIds.ToArray());
+    }
+
     public override IList<Set> GetByIds(params int[] setIds)
     {
         var sets = base.GetByIds(setIds);

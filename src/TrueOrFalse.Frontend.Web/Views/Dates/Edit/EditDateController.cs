@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 [SetMenu(MenuEntry.Dates)]
 public class EditDateController : BaseController
@@ -8,6 +9,28 @@ public class EditDateController : BaseController
     [HttpGet]
     public ViewResult Create()
     {
+        return View(_viewLocation, new EditDateModel());
+    }
+
+    [HttpPost]
+    public ViewResult Create(EditDateModel model)
+    {
+        var date = new Date();
+        date.Sets = AutocompleteUtils.GetReleatedSetsFromPostData(Request.Form);
+        date.Details = model.Details;
+        date.DateTime = model.Date;
+
+        if (model.Visibility == "inNetwork")
+            date.Visibility = DateVisibility.InNetwork;
+        else if (model.Visibility == "private")
+            date.Visibility = DateVisibility.Private;
+        else
+            throw new Exception("Invalid mapping");
+
+        R<DateRepo>().Create(date);
+
+        Response.Redirect("/Termin", true);
+
         return View(_viewLocation, new EditDateModel());
     }
 

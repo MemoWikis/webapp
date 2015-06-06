@@ -382,9 +382,11 @@
     </Content>
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\SolutionEntry.ts" />
+    <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
     <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
@@ -421,6 +423,7 @@
     <Content Include="Images\no-question-128.png" />
     <Content Include="Images\no-set-128.png" />
     <Content Include="Images\no-set-206.png" />
+    <Content Include="Images\no-set-50.png" />
     <Content Include="Images\wiki-16.png" />
     <Content Include="Images\wiki-24.png" />
     <Content Include="Images\wiki-32.png" />
@@ -431,6 +434,9 @@
     </Content>
     <Content Include="Scripts\answerQuestion\SolutionEntry.js">
       <DependentUpon>SolutionEntry.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\autocompletes\AutocompleteSets.js">
+      <DependentUpon>AutocompleteSets.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\BootstrapCustomUtils.js" />
     <Content Include="Scripts\CategoryApi.js">
@@ -478,10 +484,15 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
+    <Content Include="Views\Dates\Edit\bootstrap-datepicker3.css" />
+    <Content Include="Views\Dates\Edit\clockpicker.css" />
     <Content Include="Views\Dates\Edit\EditDate.aspx" />
     <Content Include="Views\Dates\Edit\EditDate.css">
       <DependentUpon>EditDate.less</DependentUpon>
     </Content>
+    <Content Include="Views\Dates\Edit\Js\bootstrap-datepicker.z.de.js" />
+    <Content Include="Views\Dates\Edit\Js\bootstrap-datepicker.js" />
+    <Content Include="Views\Dates\Edit\Js\clockpicker.js" />
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
       <DependentUpon>Game.less</DependentUpon>
@@ -916,6 +927,9 @@
     <Content Include="Style\animate.css.map">
       <DependentUpon>animate.css</DependentUpon>
     </Content>
+    <Content Include="Scripts\autocompletes\AutocompleteSets.js.map">
+      <DependentUpon>AutocompleteSets.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
@@ -941,7 +955,7 @@
     <Content Include="Views\Categories\Edit\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\AutocompleteCategories.js">
+    <Content Include="Scripts\autocompletes\AutocompleteCategories.js">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\VolumeChapter.ascx" />
@@ -1533,7 +1547,7 @@
     <Content Include="Views\Categories\Edit\EditCategory.css.map">
       <DependentUpon>EditCategory.css</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\AutocompleteCategories.js.map">
+    <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
       <DependentUpon>AutocompleteCategories.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Questions.css.map">
@@ -1662,7 +1676,7 @@
     <Content Include="Views\Categories\Categories.aspx" />
     <Content Include="Views\Categories\CategoryRow.ascx" />
     <Content Include="Views\Categories\Edit\EditCategory.aspx" />
-    <TypeScriptCompile Include="Views\Categories\Edit\AutocompleteCategories.ts" />
+    <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
@@ -1717,7 +1731,6 @@
   <ItemGroup>
     <Folder Include="Style\fontAwesome\" />
     <Folder Include="Views\Dates\Details\" />
-    <Folder Include="Views\Dates\Edit\Js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

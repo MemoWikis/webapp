@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Search;
 
 public class SetsApiController : BaseController
 {
@@ -38,4 +40,32 @@ public class SetsApiController : BaseController
         Resolve<UpdateSetsTotals>()
             .UpdateRelevancePersonal(Convert.ToInt32(setId), _sessionUser.User, -1);
     }
+
+    public JsonResult ByName(string term)
+    {
+        var setIds = R<SearchSets>().Run(term, new Pager{PageSize = 1}, startsWithSearch: true).SetIds;
+        var sets = R<SetRepository>().GetByIds(setIds);
+
+        var items = sets.Select(set =>
+                new SetJsonResult 
+                {
+                    Id = set.Id,
+                    Name = set.Name,
+                    NumberOfQuestions = set.QuestionsInSet.Count,
+                    ImageUrl = SetImageSettings.Create(set.Id).GetUrl_50px_square().Url,
+                }
+            ).ToList();
+
+        return Json(new{
+            Items = items
+        }, JsonRequestBehavior.AllowGet);
+    }
+}
+
+public class SetJsonResult
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int NumberOfQuestions { get; set; }
+    public string ImageUrl { get; set; }
 }

@@ -657,7 +657,7 @@
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
     <Compile Include="Domain\Question\Question.Image\DeleteUnusedImages.cs" />
     <Compile Include="Web\InvalidAccessException.cs" />
-    <Compile Include="Web\RelatedCategoriesUtils.cs" />
+    <Compile Include="Web\AutocompleteUtils.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionInvoker.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptView.cs" />

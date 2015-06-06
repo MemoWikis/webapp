@@ -1,4 +1,4 @@
 $(function () {
     new SearchInTabs();
 });
-//# sourceMappingURL=categories.js.map
+//# sourceMappingURL=Categories.js.map

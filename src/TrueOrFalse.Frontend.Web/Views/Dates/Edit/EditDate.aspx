@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Spielen" Language="C#" 
+﻿<%@ Page Title="Termin erstellen" Language="C#" 
     MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
     Inherits="ViewPage<EditDateModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
@@ -8,6 +8,20 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/EditDate") %>
     <%= Scripts.Render("~/bundles/js/EditDate") %>
+    
+    <script type="text/javascript">
+        $(function() {
+            $('.clockpicker').clockpicker();
+
+            $('.input-group.date').datepicker({
+                language: "de",
+                calendarWeeks: true,
+                autoclose: true,
+                todayHighlight: true,
+                startDate: ""
+            });
+        });
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -26,7 +40,7 @@
                 <div>
                     <a href="<%= Links.Games(Url) %>" style="font-size: 12px; margin: 0;">
                         <i class="fa fa-list"></i>&nbsp;zur Übersicht
-                    </a>          
+                    </a>
                 </div>
             </div>
         </div>
@@ -59,28 +73,28 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
-                                        <i class="fa fa-clock-o"></i> &nbsp; Datum
+                                        Datum
                                     </label>
                                     <div class="col-md-11 col-xs-6">
-                                        <div class="input-group">
-                                            <input class="form-control" name="StartsInMinutes" value="10" style="height: 30px;" />
+                                        <div class="input-group date">
+                                            <input class="form-control" name="Date" value="<%= Model.Date.ToString("dd.MM.yyyy") %>" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
-                                                (max. 60min)
+                                                <i class="fa fa-calendar"></i>
                                             </span>
                                         </div>
                                     </div>
                                 </div>                                
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
-                                        <i class="fa fa-clock-o"></i> &nbsp; Uhrzeit
+                                        Uhrzeit
                                     </label>
                                     <div class="col-md-10 col-xs-6">
-                                        <div class="input-group">
-                                            <input class="form-control" name="MaxPlayers" value="10" style="height: 30px;" name="amountPlayers" />
+                                        <div class="input-group clockpicker" data-autoclose="true">
+                                            <input class="form-control" name="Time" value="<%= Model.Time %>" style="height: 30px;" name="amountPlayers" />
                                             <span class="input-group-addon" style="height: 30px;">
-                                                (max. 30)
+                                                <i class="fa fa-clock-o"></i>
                                             </span>
                                         </div>
                                     </div>
@@ -92,8 +106,20 @@
                             <label class="columnLabel control-label">
                                 Fragesätze die zu diesem Termin gewust werden sollen:
                             </label>
-                            <div class="columnControlsFull">
-                                <input class="form-control" name="Sets"/>
+                            <div class="JS-Sets columnControlsFull">
+                                <script type="text/javascript">
+                                    $(function () {
+                                        <%foreach (var set in Model.Sets) { %>
+                                        $("#txtSet")
+                                            .val('<%=set.Name %>')
+                                            .data('set-id', '<%=set.Id %>')
+                                            .trigger("initCategoryFromTxt");
+                                        <% } %>
+                                    });
+                                </script>
+                                <div class="JS-SetInputContainer ControlInline ">
+                                    <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Ordne einen Fragesatz zu"  />
+                                </div>
                             </div>
                         </div>
                         
@@ -102,9 +128,9 @@
                                 Öffentlich?
                             </label>
                             <div class="columnControlsFull">
-                                <select class="form-control">
-                                    <option>Sichtbar für dein Netzwerk (+20 Reputation).</option>
-                                    <option>Privat. Nur für dich sichtbar.</option>
+                                <select class="form-control" name="Visibility">
+                                    <option value="inNetwork">Sichtbar für dein Netzwerk (+10 Reputation je Kopie).</option>
+                                    <option value="private">Privat. Nur für dich sichtbar.</option>
                                 </select>
                             </div>
                         </div>
