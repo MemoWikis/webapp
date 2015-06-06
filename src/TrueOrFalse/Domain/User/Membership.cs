@@ -14,6 +14,15 @@ public class Membership : DomainEntity
     public virtual DateTime PeriodStart { get; set; }
     public virtual DateTime PeriodEnd { get; set; }
     public virtual bool AutoRenewal { get; set; }
+
+    public virtual bool IsActive()
+    {
+        return DateTime.Now >= PeriodStart && DateTime.Now <= PeriodEnd;
+    }
+    public virtual bool IsActive(DateTime givenDateTime)
+    {
+        return givenDateTime >= PeriodStart && givenDateTime <= PeriodEnd;
+    }
 }
 
 public enum PriceCategory

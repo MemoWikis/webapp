@@ -31,11 +31,15 @@
         Bis zum offiziellen Start unserer Plattform 
         winken für dich als Fördermitglied also "nur" Ruhm, Ehre und die besondere Medaille 
         &#8211 und das gute Gefühl, eine tolle Sache zu unterstützen.</p>
-
+<%if (Model.IsMember) {%>
+    <div>Is member</div>    
+    
+<%} else {%>
     <h3>Dein Beitrag</h3>
     <p>Dein Beitrag richtet sich nach deinen finanziellen Möglichkeiten und deiner Motivation.</p>
-    
-<% using (Html.BeginForm("Membership", "Account", null, FormMethod.Post, new { id="BecomeMemberForm", enctype = "multipart/form-data" })){ %>
+
+
+     <% using (Html.BeginForm("Membership", "Account", null, FormMethod.Post, new { id="BecomeMemberForm", enctype = "multipart/form-data" })){ %>
     
     <input type="hidden" id="hddSelectedPrice" name="SelectedPrice" value="0"/>
 
@@ -109,8 +113,6 @@
         </div>
     </div>
     
-    
-    
     <div class="row">
         <div class="col-md-9">
             <% if(!Model.IsLoggedIn){ %>
@@ -172,8 +174,7 @@
         </div>
     
     <% } %>
-
-
+<% } %>
 <% } %>    
 
 </asp:Content>

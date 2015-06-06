@@ -2,6 +2,8 @@
 
 public class MembershipModel : BaseModel
 {
+    public bool IsMember;
+    public Membership Membership;
     public string BillingEmail { get; set; }
     public string BillingName { get; set; }
     public string BillingAddress { get; set; }
@@ -18,6 +20,9 @@ public class MembershipModel : BaseModel
             return;
 
         var user = R<UserRepository>().GetById(UserId);
+
+        IsMember = user.IsMember();
+        Membership = user.CurrentMembership();
 
         BillingEmail = user.EmailAddress;
         BillingName = user.Name;

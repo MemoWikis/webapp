@@ -27,10 +27,15 @@ public class Membership_persistence : BaseTest
         RecycleContainer();
 
         var membershipFromDb = R<MembershipRepo>().GetById(membership.Id);
+        var userFromDb = R<UserRepository>().GetById(membership.User.Id);
         
         Assert.That(membershipFromDb.PricePerMonth, Is.EqualTo(2.50m));
         Assert.That(membershipFromDb.User.Name, Is.EqualTo("Firstname Lastname"));
         Assert.That(membershipFromDb.PriceCategory, Is.EqualTo(PriceCategory.Normal));
         Assert.That(membershipFromDb.AutoRenewal, Is.EqualTo(true));
+
+        Assert.That(userFromDb.MembershipPeriods.Count, Is.EqualTo(1));
+        Assert.That(userFromDb.MembershipPeriods[0], Is.EqualTo(membership));
+        Assert.That(userFromDb.IsMember(), Is.True);
     }
 }

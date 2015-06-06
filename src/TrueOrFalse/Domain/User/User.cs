@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 
 [Serializable]
@@ -19,4 +21,23 @@ public class User : DomainEntity
     public virtual int WishCountQuestions { get; set; }
     public virtual int WishCountSets { get; set; }
     public virtual bool ShowWishKnowledge { get; set; }
+    public virtual IList<Membership> MembershipPeriods { get; set; }
+
+    public User()
+    {
+        MembershipPeriods = new List<Membership>();
+    }
+
+    public virtual bool IsMember()
+    {
+        if (MembershipPeriods.Count == 0)
+            return false;
+
+        return MembershipPeriods.Any(x => x.IsActive(DateTime.Now));
+    }
+
+    public virtual Membership CurrentMembership()
+    {
+        return MembershipPeriods.FirstOrDefault(x => x.IsActive());
+    }
 }
