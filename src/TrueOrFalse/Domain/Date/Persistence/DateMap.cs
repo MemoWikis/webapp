@@ -9,6 +9,8 @@ public class DateMap : ClassMap<Date>
         Map(x => x.Visibility);
         Map(x => x.Details);
 
+        References(x => x.User);
+
         HasManyToMany(x => x.Sets)
             .Table("date_to_sets")
             .Cascade.None();

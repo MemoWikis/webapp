@@ -192,6 +192,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -471,6 +472,7 @@
     <Compile Include="Infrastructure\Persistence\RepositoryDbBase.cs" />
     <Compile Include="Infrastructure\Persistence\Session\MySQL5FlexibleDialect.cs" />
     <Compile Include="Infrastructure\Regexes.cs" />
+    <Compile Include="Infrastructure\Time\Time.cs" />
     <Compile Include="Search\Category\IndexOperations\ReIndexAllCategories.cs" />
     <Compile Include="Search\Category\IndexOperations\SearchIndexCategory.cs" />
     <Compile Include="Search\Category\Model\CategorySolrMap.cs" />
@@ -589,6 +591,7 @@
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs085.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs084.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs083.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs082.cs" />

@@ -18,7 +18,8 @@ public class EditDateController : BaseController
         var date = new Date();
         date.Sets = AutocompleteUtils.GetReleatedSetsFromPostData(Request.Form);
         date.Details = model.Details;
-        date.DateTime = model.Date;
+        date.DateTime = Time.Parse(model.Time).SetTime(model.Date);
+        date.User = _sessionUser.User;
 
         if (model.Visibility == "inNetwork")
             date.Visibility = DateVisibility.InNetwork;
@@ -29,7 +30,7 @@ public class EditDateController : BaseController
 
         R<DateRepo>().Create(date);
 
-        Response.Redirect("/Termin", true);
+        Response.Redirect("/Termine", true);
 
         return View(_viewLocation, new EditDateModel());
     }

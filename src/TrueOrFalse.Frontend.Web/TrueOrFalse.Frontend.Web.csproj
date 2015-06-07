@@ -276,6 +276,7 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
     <Compile Include="Views\Dates\Edit\EditDateModel.cs" />
     <Compile Include="Views\Games\Edit\GameModel.cs" />
@@ -493,6 +494,7 @@
     <Content Include="Views\Dates\Edit\Js\bootstrap-datepicker.z.de.js" />
     <Content Include="Views\Dates\Edit\Js\bootstrap-datepicker.js" />
     <Content Include="Views\Dates\Edit\Js\clockpicker.js" />
+    <Content Include="Views\Dates\DateRow.ascx" />
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
       <DependentUpon>Game.less</DependentUpon>
