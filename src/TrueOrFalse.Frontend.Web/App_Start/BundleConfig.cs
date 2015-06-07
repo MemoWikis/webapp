@@ -88,6 +88,12 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
 
             //Dates
+            bundles.Add(new ScriptBundle("~/bundles/js/Dates")
+                .IncludeDirectory("~/Views/Dates/Js/", "*.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/Dates")
+                .Include("~/Views/Dates/*.css"));
+
             bundles.Add(new StyleBundle("~/bundles/EditDate")
                 .Include("~/Views/Dates/Edit/*.css"));
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 public class Date : DomainEntity
 {
@@ -12,4 +13,16 @@ public class Date : DomainEntity
     public virtual IList<Set> Sets { get; set; }
 
     public virtual DateVisibility Visibility { get; set; }
+
+    public Date()
+    {
+        Sets = new List<Set>();
+    }
+
+    public virtual IList<Question> AllQuestions()
+    {
+        return Sets
+            .SelectMany(s => s.QuestionsInSet.Select(qs => qs.Question))
+            .ToList();
+    }
 }

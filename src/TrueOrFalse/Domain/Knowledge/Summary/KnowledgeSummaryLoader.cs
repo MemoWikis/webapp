@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
-using TrueOrFalse;
 
 public class KnowledgeSummaryLoader : IRegisterAsInstancePerLifetime
 {
@@ -16,20 +12,25 @@ public class KnowledgeSummaryLoader : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public KnowledgeSummary Run(int userId)
+    public KnowledgeSummary Run(int userId, IEnumerable<int> questionIds = null)
     {
-        var queryResult = 
+        var queryOver =
             _session
                 .QueryOver<QuestionValuation>()
                 .Select(
                     Projections.Group<QuestionValuation>(x => x.KnowledgeStatus),
                     Projections.Count<QuestionValuation>(x => x.KnowledgeStatus)
                 )
-                .Where(x => 
-                    x.User.Id == userId && 
+                .Where(x =>
+                    x.User.Id == userId &&
                     x.RelevancePersonal != -1
-                ).List<object[]>();
+                );
 
+        if (questionIds != null)
+            queryOver.AndRestrictionOn(x => x.Question.Id)
+                     .IsIn(questionIds.ToArray());
+
+        var queryResult = queryOver.List<object[]>();
 
         var result = new KnowledgeSummary();
 

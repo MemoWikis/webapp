@@ -25,13 +25,8 @@
                 witdh: '250'
             });
 
-<%--            $("#answeredThisWeekSparkle").sparkline([<%= Model.AnswersThisWeek.TotalTrueAnswers %>, <%= Model.AnswersThisWeek.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#answeredThisMonthSparkle").sparkline([<%= Model.AnswersThisMonth.TotalTrueAnswers %>, <%= Model.AnswersThisMonth.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#answeredThisYearSparkle").sparkline([<%= Model.AnswersThisYear.TotalTrueAnswers %>, <%= Model.AnswersThisYear.TotalFalseAnswers %>], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });--%>
-
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
             $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            
             $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
         });
     </script>

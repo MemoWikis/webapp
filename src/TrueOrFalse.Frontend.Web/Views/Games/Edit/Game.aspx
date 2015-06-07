@@ -6,7 +6,7 @@
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <link href="/Views/Games/Edit/Game.css" rel="stylesheet" />    
+    <%= Styles.Render("~/bundles/Games") %>
     <%= Scripts.Render("~/bundles/js/Game") %>
 </asp:Content>
 

@@ -1,6 +1,63 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<DatesModel>" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
+    <script>
+        google.load("visualization", "1", { packages: ["corechart"] });
+        google.setOnLoadCallback(drawKnowledgeCharts);
+
+        function drawKnowledgeChartDate(chartElementId, amountGood, amountBad, amountUnknown) {
+
+            var chartElement = $("#" + chartElementId);
+            console.log(chartElement);
+
+            var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Gewusst', amountGood],
+                ['Nicht gewusst', amountBad],
+                ['Unbekannt', amountUnknown],
+            ]);
+
+            var options = {
+                pieHole: 0.6,
+                legend: { position: 'none' },
+                pieSliceText: 'none',
+                height: 120,
+                chartArea: { width: '90%', height: '90%', top: 6 },
+                slices: {
+                    0: { color: 'lightgreen' },
+                    1: { color: 'lightsalmon' },
+                    2: { color: 'silver' },
+                },
+                pieStartAngle: 180
+            };
+
+            var chart = new google.visualization.PieChart(chartElement.get()[0]);
+            chart.draw(data, options);
+        }
+
+        function drawKnowledgeCharts() {
+            $("[data-date-id]").each(function () {
+                var $this = $(this);
+                var dateId = $this.attr("data-date-id");
+
+                drawKnowledgeChartDate(
+                    "chartKnowledgeDate" + dateId,
+                    parseInt($this.attr("data-secure")),
+                    parseInt($this.attr("data-weak")),
+                    parseInt($this.attr("data-unknown")));
+
+                //drawKnowledgeChartDate(
+                //    "chartKnowledgeDate" + dateId,
+                //    0,
+                //    1,
+                //    1);
+            });
+        }
+
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">    
@@ -70,7 +127,8 @@
             <% } %>
 
         </div>        
-        <div class="col-md-3"></div>
+        <div class="col-md-3">
+        </div>
     </div>
             
 </asp:Content>
