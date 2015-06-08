@@ -226,6 +226,13 @@ div.selected-row:hover {
 .column {
   display: inline-block;
 }
+.rowBase {
+  /* TEST */
+  margin-bottom: 13px;
+  -webkit-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  -moz-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+}
 @media (min-width: 768px) {
   .rowBase.question-row,
   .rowBase.category-row,

@@ -88,9 +88,6 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
 
             //Dates
-            bundles.Add(new ScriptBundle("~/bundles/js/Dates")
-                .IncludeDirectory("~/Views/Dates/Js/", "*.js"));
-
             bundles.Add(new StyleBundle("~/bundles/Dates")
                 .Include("~/Views/Dates/*.css"));
 
@@ -110,6 +107,9 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Game")
                 .IncludeDirectory("~/Views/Games/Edit/Js/", "*.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/Game")
+                .Include("~/Views/Games/Edit/*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/GamePlay")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")

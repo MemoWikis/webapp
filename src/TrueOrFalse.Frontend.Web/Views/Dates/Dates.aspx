@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<DatesModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     
@@ -48,16 +49,12 @@
                     parseInt($this.attr("data-secure")),
                     parseInt($this.attr("data-weak")),
                     parseInt($this.attr("data-unknown")));
-
-                //drawKnowledgeChartDate(
-                //    "chartKnowledgeDate" + dateId,
-                //    0,
-                //    1,
-                //    1);
             });
         }
 
     </script>
+    
+    <%= Styles.Render("~/bundles/Dates") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">    
