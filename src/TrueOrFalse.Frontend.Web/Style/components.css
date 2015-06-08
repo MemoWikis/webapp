@@ -183,7 +183,9 @@ ul.ui-autocomplete .Reference .Url {
 .question-row,
 .category-row,
 .set-row,
-.user-row {
+.user-row,
+.date-row,
+.game-row {
   margin-left: -10px;
   margin-right: -10px;
   padding-left: 5px;
@@ -193,7 +195,9 @@ ul.ui-autocomplete .Reference .Url {
   .question-row,
   .category-row,
   .set-row,
-  .user-row {
+  .user-row,
+  .date-row,
+  .game-row {
     margin-left: -5px;
     margin-right: -5px;
     padding-left: 0;
@@ -203,7 +207,9 @@ ul.ui-autocomplete .Reference .Url {
 .question-row:hover,
 .category-row:hover,
 .set-row:hover,
-.user-row:hover {
+.user-row:hover,
+.date-row:hover,
+.game-row:hover {
   background-color: #f3f5f8;
 }
 div.selected-row {

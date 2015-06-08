@@ -26,7 +26,10 @@
                 legend: { position: 'none' },
                 pieSliceText: 'none',
                 height: 120,
-                chartArea: { width: '90%', height: '90%', top: 6 },
+                backgroundColor: 'transparent',
+                chartArea: {
+                    width: '90%', height: '90%', top: 6
+                },
                 slices: {
                     0: { color: 'lightgreen' },
                     1: { color: 'lightsalmon' },
