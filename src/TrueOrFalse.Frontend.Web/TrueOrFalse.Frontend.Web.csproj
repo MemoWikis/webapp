@@ -276,6 +276,7 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
     <Compile Include="Views\Dates\Edit\EditDateModel.cs" />
     <Compile Include="Views\Games\Edit\GameModel.cs" />
@@ -484,6 +485,9 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
+    <Content Include="Views\Dates\Dates.css">
+      <DependentUpon>Dates.less</DependentUpon>
+    </Content>
     <Content Include="Views\Dates\Edit\bootstrap-datepicker3.css" />
     <Content Include="Views\Dates\Edit\clockpicker.css" />
     <Content Include="Views\Dates\Edit\EditDate.aspx" />
@@ -493,6 +497,7 @@
     <Content Include="Views\Dates\Edit\Js\bootstrap-datepicker.z.de.js" />
     <Content Include="Views\Dates\Edit\Js\bootstrap-datepicker.js" />
     <Content Include="Views\Dates\Edit\Js\clockpicker.js" />
+    <Content Include="Views\Dates\DateRow.ascx" />
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
       <DependentUpon>Game.less</DependentUpon>
@@ -1666,6 +1671,10 @@
     <Content Include="Views\Dates\Edit\EditDate.less" />
     <Content Include="Views\Dates\Edit\EditDate.css.map">
       <DependentUpon>EditDate.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Dates.less" />
+    <Content Include="Views\Dates\Dates.css.map">
+      <DependentUpon>Dates.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

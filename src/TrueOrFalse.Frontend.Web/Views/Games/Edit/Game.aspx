@@ -6,7 +6,7 @@
 
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <link href="/Views/Games/Edit/Game.css" rel="stylesheet" />    
+    <%= Styles.Render("~/bundles/Game") %>
     <%= Scripts.Render("~/bundles/js/Game") %>
 </asp:Content>
 
@@ -56,7 +56,7 @@
                     <div class="FormSection">
 
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in:
@@ -71,7 +71,7 @@
                                     </div>
                                 </div>                                
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-users"></i> &nbsp; Anzahl Spieler:

@@ -38,7 +38,7 @@
             </h2>
             <div class="headerControls pull-right">
                 <div>
-                    <a href="<%= Links.Games(Url) %>" style="font-size: 12px; margin: 0;">
+                    <a href="<%= Links.Dates(Url) %>" style="font-size: 12px; margin: 0;">
                         <i class="fa fa-list"></i>&nbsp;zur Übersicht
                     </a>
                 </div>

@@ -7,5 +7,9 @@ public class DatesModel : BaseModel
 
     public DatesModel()
     {
+        if (!IsLoggedIn)
+            return;
+
+        Dates = R<DateRepo>().GetBy(UserId);
     }
 }

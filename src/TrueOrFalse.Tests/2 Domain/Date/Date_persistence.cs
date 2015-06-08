@@ -7,10 +7,12 @@ public class Date_persistence : BaseTest
     public void Should_persist()
     {
         var allSets = ContextSet.New().AddSet("1").AddSet("1").Persist().All;
+        var user = ContextUser.New().Add("user").Persist().All[0];
 
         var date = new Date();
         date.Details = "Details";
         date.Sets = allSets;
+        date.User = user;
         date.Visibility = DateVisibility.Private;
         date.DateTime = DateTime.Now.AddDays(1);
         R<DateRepo>().Create(date);

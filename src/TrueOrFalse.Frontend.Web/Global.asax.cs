@@ -39,6 +39,13 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
             
             JobScheduler.Start();
+
+            Logg.r().Information("Application Start");
+        }
+
+        protected void Application_Stop()
+        {
+            Logg.r().Information("Application Stop");
         }
 
 

@@ -1344,7 +1344,7 @@ div.box-main .box-content {
 }
 .rowBase,
 .category-row {
-  border-top: 5px solid #ffffff;
+  /*border-top: 5px solid lighten(@middle-blue, 20%);*/
 }
 .rowBase:first-child,
 .category-row:first-child {
