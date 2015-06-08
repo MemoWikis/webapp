@@ -1,6 +1,7 @@
 ﻿using System;
 using Seedworks.Lib.Persistence;
 
+[Serializable]
 public class Membership : DomainEntity
 {
     public virtual User User { get; set; }
