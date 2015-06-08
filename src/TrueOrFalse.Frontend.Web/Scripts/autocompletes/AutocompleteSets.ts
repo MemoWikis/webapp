@@ -78,6 +78,9 @@ class AutocompleteSets {
                 .append(html)
                 .appendTo(ul);            
         }
+
+        $(inputSelector).unbind("initSetFromTxt");
+        $(inputSelector).bind("initSetFromTxt", () => { this.AddSet(); });
     }
 
     AddSet() {

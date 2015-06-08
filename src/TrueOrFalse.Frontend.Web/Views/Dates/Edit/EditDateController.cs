@@ -15,19 +15,7 @@ public class EditDateController : BaseController
     [HttpPost]
     public ViewResult Create(EditDateModel model)
     {
-        var date = new Date();
-        date.Sets = AutocompleteUtils.GetReleatedSetsFromPostData(Request.Form);
-        date.Details = model.Details;
-        date.DateTime = Time.Parse(model.Time).SetTime(model.Date);
-        date.User = _sessionUser.User;
-
-        if (model.Visibility == "inNetwork")
-            date.Visibility = DateVisibility.InNetwork;
-        else if (model.Visibility == "private")
-            date.Visibility = DateVisibility.Private;
-        else
-            throw new Exception("Invalid mapping");
-
+        var date = model.ToDate();
         R<DateRepo>().Create(date);
 
         Response.Redirect("/Termine", true);
@@ -35,8 +23,28 @@ public class EditDateController : BaseController
         return View(_viewLocation, new EditDateModel());
     }
 
-    public ViewResult Edit()
+    [HttpGet]
+    public ViewResult Edit(int dateId)
     {
-        return View(_viewLocation, new EditDateModel());        
+        var date = R<DateRepo>().GetById(dateId);
+        
+        if(!_sessionUser.IsValidUserOrAdmin(date.User.Id))
+            throw new Exception("Invalid exception");
+
+        return View(_viewLocation, model: new EditDateModel(date));
+    }
+
+    [HttpPost]
+    public ViewResult Edit(EditDateModel model)
+    {
+        var dateRepo = R<DateRepo>();
+        var date = dateRepo.GetById(model.DateId);
+
+        dateRepo.Update(model.FillDateFromInput(date));
+        dateRepo.Flush();
+
+        Response.Redirect("/Termine", true);
+
+        return View(_viewLocation, model);
     }
 }

@@ -10,8 +10,7 @@
     data-secure="<%= Model.KnowledgeSecure %>">
     
     <div class="row">
-        
-        
+
         <div class="col-md-2" style="">
             <div class="row">
                 <div class="col-xs-4 col-md-12" style="color: silver; font-size: 16px; font-weight: 400; padding: 2px 0 0 12px;">
@@ -39,7 +38,7 @@
                 
                 <div class="col-md-3 hidden-xs hidden-sm" style="text-align: right; vertical-align: bottom">
                     <div style="font-size: 13px; margin-top: 7px;">
-                        <a href="#"><i class="fa fa-pencil"></i></a>
+                        <a href="<%= Links.DateEdit(Url, date.Id) %>"><i class="fa fa-pencil"></i></a>
                         &nbsp;
                         <a href="#"><i class="fa fa-trash-o"></i></a>
                     </div>

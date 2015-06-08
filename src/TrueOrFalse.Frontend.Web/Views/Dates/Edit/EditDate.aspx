@@ -28,12 +28,18 @@
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditDate", null, 
     FormMethod.Post, new { enctype = "multipart/form-data", id="EditGameForm"})){%>
+    
+    <input type="hidden" name="DateId" value="<%= Model.DateId %>"/>
 
     <div class="row">
         <div class="PageHeader col-xs-12">
             <h2 class="pull-left">
                 <span class="ColoredUnderline Play">
-                    Termin erstellen
+                    <% if(Model.IsEditing){ %>
+                        Termin bearbeiten
+                    <% } else { %>
+                        Termin erstellen
+                    <% } %>
                 </span>
             </h2>
             <div class="headerControls pull-right">
@@ -113,7 +119,7 @@
                                         $("#txtSet")
                                             .val('<%=set.Name %>')
                                             .data('set-id', '<%=set.Id %>')
-                                            .trigger("initCategoryFromTxt");
+                                            .trigger("initSetFromTxt");
                                         <% } %>
                                     });
                                 </script>
@@ -129,14 +135,14 @@
                             </label>
                             <div class="columnControlsFull">
                                 <select class="form-control" name="Visibility">
-                                    <option value="inNetwork">Sichtbar für dein Netzwerk (+10 Reputation je Kopie).</option>
-                                    <option value="private">Privat. Nur für dich sichtbar.</option>
+                                    <option value="inNetwork" <%= Model.Selected("inNetwork") %>>Sichtbar für dein Netzwerk (+10 Reputation je Kopie).</option>
+                                    <option value="private" <%= Model.Selected("private") %>>Privat. Nur für dich sichtbar.</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <%= Html.LabelFor(m => m.Details, new { @class = "columnLabel control-label" })%>
+                            <%= Html.LabelFor(m => m.Details, new { @class = "col   umnLabel control-label" })%>
                             <div class="columnControlsFull">
                                 <%= Html.TextAreaFor(m => m.Details, 
                                     new
@@ -150,7 +156,8 @@
                         
                         <div class="form-group">
                             <div class="noLabel columnControlsFull">
-                                <input type="submit" value="Spiel erstellen " class="btn btn-primary" name="btnSave" 
+                                <input type="submit" class="btn btn-primary" name="btnSave" 
+                                    value="<%= Model.IsEditing ? "Spiel bearbeiten" :  "Spiel erstellen " %>"
                                     <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %> />
                             </div>
                         </div>

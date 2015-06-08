@@ -11,6 +11,12 @@ public struct Time
         Minutes = minutes;
     }
 
+    public Time(DateTime dateTime)
+    {
+        Hours = dateTime.Hour;
+        Minutes = dateTime.Minute;
+    }
+
     public override string ToString()
     {
         return String.Format("{0:00}:{1:00}", Hours, Minutes);

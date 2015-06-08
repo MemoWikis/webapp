@@ -157,6 +157,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Dates", "Dates");
         }
 
+        public static object DateEdit(UrlHelper url, int dateId){
+            return url.Action("Edit", "EditDate", new { dateId = dateId });
+        }
+
         public static string Games(UrlHelper url){
             return url.Action("Games", "Games");
         }

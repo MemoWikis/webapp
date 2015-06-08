@@ -1,5 +1,6 @@
 ﻿var AutocompleteSets = (function () {
     function AutocompleteSets(inputSelector) {
+        var _this = this;
         this._nextSetIdx = 1;
         var self = this;
         this._elemInput = $(inputSelector);
@@ -53,6 +54,11 @@
 
             return $("<li></li>").data("ui-autocomplete-item", item).append(html).appendTo(ul);
         };
+
+        $(inputSelector).unbind("initSetFromTxt");
+        $(inputSelector).bind("initSetFromTxt", function () {
+            _this.AddSet();
+        });
     }
     AutocompleteSets.prototype.AddSet = function () {
         var setIdx = this._nextSetIdx.toString();

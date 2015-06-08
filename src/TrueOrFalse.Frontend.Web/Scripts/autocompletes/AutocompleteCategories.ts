@@ -380,7 +380,10 @@ class AutocompleteCategories {
         }
 
         $(inputSelector).unbind("initCategoryFromTxt");
-        $(inputSelector).bind("initCategoryFromTxt", function (event, referenceId: number = -1) { addCatWithoutTriggers(referenceId); });
+        $(inputSelector).bind("initCategoryFromTxt",
+            function(event, referenceId: number = -1) {
+                 addCatWithoutTriggers(referenceId);
+            });
     }
 
     GetAlreadyAddedCategories(container : JQuery, id : string) : JQuery {
