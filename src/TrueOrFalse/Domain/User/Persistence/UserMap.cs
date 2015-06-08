@@ -14,7 +14,8 @@ public class UserMap : ClassMap<User>
         Map(x => x.AllowsSupportiveLogin);
         Map(x => x.ShowWishKnowledge);
 
-        HasMany(x => x.MembershipPeriods).Cascade.All();
+        HasMany(x => x.MembershipPeriods)
+            .Cascade.All().Not.LazyLoad();
 
         Map(x => x.Reputation);
         Map(x => x.ReputationPos);
