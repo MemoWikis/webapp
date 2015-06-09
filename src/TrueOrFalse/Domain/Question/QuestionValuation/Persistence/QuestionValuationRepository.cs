@@ -36,11 +36,10 @@ public class QuestionValuationRepository : RepositoryDb<QuestionValuation>
 
     public IList<QuestionValuation> GetByUser(int userId)
     {
-        return _session.QueryOver<QuestionValuation>()
-                        .Where(q => 
-                            q.User.Id == userId &&
-                            q.RelevancePersonal >= 0)
-                        .List<QuestionValuation>();            
+        return 
+            _session.QueryOver<QuestionValuation>()
+                    .Where(q =>  q.User.Id == userId)
+                    .List<QuestionValuation>();
     }
 
     public IList<QuestionValuation> GetBy(IList<int> questionIds, int userId)

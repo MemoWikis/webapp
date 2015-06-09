@@ -18,7 +18,7 @@ namespace Tool.Worker
                 var sp = Stopwatch.StartNew();
 
                 Logg.r().Information("Dashboard-Probability-Start: " + sp.Elapsed);
-                Sl.R<ProbabilityForUserUpdate>().Run(msg.UserId);
+                Sl.R<ProbabilityUpdate>().Run(msg.UserId);
                 Logg.r().Information("Dashboard-Probability-Stop: " + sp.Elapsed);
                 
                 sp.Stop();

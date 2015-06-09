@@ -359,8 +359,8 @@
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMetaLoader.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMeta.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnValuation\ProbabilityCalc.cs" />
-    <Compile Include="Domain\Knowledge\Probability\OnValuation\ProbabilityForUsersUpdate.cs" />
-    <Compile Include="Domain\Knowledge\Probability\OnValuation\ProbabilityForUserUpdate.cs" />
+    <Compile Include="Domain\Knowledge\Probability\OnValuation\ProbabilityUpdateForAll.cs" />
+    <Compile Include="Domain\Knowledge\Probability\OnValuation\ProbabilityUpdate.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishQuestionCountCached.cs" />
     <Compile Include="Domain\Knowledge\History\KnowledgeHistoryItem.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishQuestionCount.cs" />

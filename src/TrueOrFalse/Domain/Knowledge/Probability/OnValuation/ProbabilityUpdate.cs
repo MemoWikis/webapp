@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics;
-using NHibernate.Linq;
 using NHibernate.Util;
 
 namespace TrueOrFalse
 {
-    public class ProbabilityForUserUpdate : IRegisterAsInstancePerLifetime
+    public class ProbabilityUpdate : IRegisterAsInstancePerLifetime
     {
         private readonly AnswerHistoryRepository _answerHistoryRepository;
         private readonly QuestionValuationRepository _questionValuationRepo;
@@ -12,7 +11,7 @@ namespace TrueOrFalse
         private readonly QuestionRepository _questionRepo;
         private readonly UserRepository _userRepo;
 
-        public ProbabilityForUserUpdate(
+        public ProbabilityUpdate(
             AnswerHistoryRepository answerHistoryRepository,
             QuestionValuationRepository questionValuationRepo,
             ProbabilityCalc probabilityCalc, 

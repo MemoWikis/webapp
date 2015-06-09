@@ -24,7 +24,7 @@ namespace TrueOrFalse.Tests
 
             Resolve<ISession>().Flush();
 
-            Resolve<ProbabilityForUsersUpdate>().Run();
+            Resolve<ProbabilityUpdateForAll>().Run();
             Assert.That(Resolve<GetWishQuestionCount>().Run(context.Creator.Id), Is.EqualTo(2));
 
             Resolve<ISession>().Flush();

@@ -6,17 +6,17 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly QuestionRepository _questionRepository;
     private readonly AnswerHistoryLog _answerHistoryLog;
     private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
-    private readonly ProbabilityForUserUpdate _probabilityForUserUpdate;
+    private readonly ProbabilityUpdate _probabilityUpdate;
 
     public AnswerQuestion(QuestionRepository questionRepository, 
                             AnswerHistoryLog answerHistoryLog, 
                             UpdateQuestionAnswerCount updateQuestionAnswerCount, 
-                            ProbabilityForUserUpdate probabilityForUserUpdate)
+                            ProbabilityUpdate probabilityUpdate)
     {
         _questionRepository = questionRepository;
         _answerHistoryLog = answerHistoryLog;
         _updateQuestionAnswerCount = updateQuestionAnswerCount;
-        _probabilityForUserUpdate = probabilityForUserUpdate;
+        _probabilityUpdate = probabilityUpdate;
     }
 
     public AnswerQuestionResult Run(
@@ -58,7 +58,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         action(question, result);
 
         _updateQuestionAnswerCount.Run(questionId, result.IsCorrect);
-        _probabilityForUserUpdate.Run(questionId, userId);
+        _probabilityUpdate.Run(questionId, userId);
 
         return result;
     }

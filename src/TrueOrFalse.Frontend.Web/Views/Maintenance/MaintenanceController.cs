@@ -47,7 +47,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult RecalculateAllKnowledgeItems()
     {
-        Resolve<ProbabilityForUsersUpdate>().Run();
+        Resolve<ProbabilityUpdateForAll>().Run();
         Resolve<ProbabilityUpdate_OnQuestion>().Run();
 
         return View("Maintenance", new MaintenanceModel{
