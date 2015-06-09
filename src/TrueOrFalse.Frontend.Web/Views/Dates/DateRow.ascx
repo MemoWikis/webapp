@@ -14,11 +14,14 @@
         <div class="col-md-2" style="">
             <div class="row">
                 <div class="col-xs-4 col-md-12" style="color: silver; font-size: 16px; font-weight: 400; padding: 2px 0 0 12px;">
-                    Noch Tage
+                    <%= Model.ShowMinutesLeft ? "Minuten" : "Noch Tage" %>
                 </div>
                 <div class="col-xs-4 col-md-12" style="margin-bottom: -11px;">
                     <span style="font-size: 48px; position: relative; top:-7px;">
-                        <%= String.Format("{0:00}", Model.RemainingDays) %>
+                        <%= Model.ShowMinutesLeft ?
+                            String.Format("{0:00}", Model.RemainingMinutes) : 
+                            String.Format("{0:00}", Model.RemainingDays)
+                        %>
                     </span>
                 </div>                
                 <div class="col-md-12 " style="color: darkgrey; font-weight: bolder;  position: relative; left: 0px;">

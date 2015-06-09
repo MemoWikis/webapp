@@ -498,6 +498,9 @@
     <Content Include="Views\Dates\Edit\Js\bootstrap-datepicker.js" />
     <Content Include="Views\Dates\Edit\Js\clockpicker.js" />
     <Content Include="Views\Dates\DateRow.ascx" />
+    <Content Include="Views\Dates\Edit\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
       <DependentUpon>Game.less</DependentUpon>
@@ -1675,6 +1678,9 @@
     <Content Include="Views\Dates\Dates.less" />
     <Content Include="Views\Dates\Dates.css.map">
       <DependentUpon>Dates.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Edit\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

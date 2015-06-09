@@ -72,4 +72,22 @@ public class EditDateModel : BaseModel
 
         return date;
     }
+
+    public bool IsDateTimeInPast()
+    {
+        return DateTime.Now > global::Time.Parse(Time).SetTime(Date);
+    }
+
+    public bool HasSets()
+    {
+        return AutocompleteUtils.GetReleatedSetsFromPostData(HttpContext.Current.Request.Form).Count > 0;
+    }
+
+    public bool HasErrorMsg()
+    {
+        if (Message == null)
+            return false;
+
+        return Message.IsErrorMessage();
+    }
 }

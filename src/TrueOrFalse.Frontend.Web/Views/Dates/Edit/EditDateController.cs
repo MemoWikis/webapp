@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using TrueOrFalse.Web;
 
 [SetMenu(MenuEntry.Dates)]
 public class EditDateController : BaseController
@@ -37,14 +38,24 @@ public class EditDateController : BaseController
     [HttpPost]
     public ViewResult Edit(EditDateModel model)
     {
-        var dateRepo = R<DateRepo>();
-        var date = dateRepo.GetById(model.DateId);
+        if (model.IsDateTimeInPast())
+            model.Message = new ErrorMessage("Nicht gespeichert: Der Termin liegt in der Vergangenheit.");
 
-        dateRepo.Update(model.FillDateFromInput(date));
-        dateRepo.Flush();
+        if(!model.HasSets())
+            model.Message = new ErrorMessage("Nicht gespeichert: Füge Fragesätze hinzu.");
 
-        Response.Redirect("/Termine", true);
+        if (!model.HasErrorMsg())
+        {
+            var dateRepo = R<DateRepo>();
+            var date = dateRepo.GetById(model.DateId);
 
+            dateRepo.Update(model.FillDateFromInput(date));
+            dateRepo.Flush();
+
+            Response.Redirect("/Termine", true);
+        }
+
+        model.IsEditing = true;
         return View(_viewLocation, model);
     }
 }

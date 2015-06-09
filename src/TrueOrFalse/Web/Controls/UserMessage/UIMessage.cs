@@ -46,5 +46,10 @@ namespace TrueOrFalse.Web
             Text = message;
             Type = messageType;
         }
+
+        public bool IsErrorMessage()
+        {
+            return this is ErrorMessage;
+        }
     }
 }

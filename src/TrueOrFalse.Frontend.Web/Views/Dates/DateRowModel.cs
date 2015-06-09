@@ -9,8 +9,12 @@ public class DateRowModel : BaseModel
     public int KnowledgeSecure;
 
     public int AmountQuestions;
-    public int RemainingDays;
 
+    public bool ShowMinutesLeft;
+
+    public int RemainingDays;
+    public int RemainingMinutes;
+    
     public DateRowModel(Date date)
     {
         Date = date;
@@ -24,6 +28,10 @@ public class DateRowModel : BaseModel
         KnowledgeUnknown = summary.Unknown;
         KnowledgeWeak = summary.Weak;
 
-        RemainingDays = Convert.ToInt32((date.DateTime - DateTime.Now).TotalDays);
+        var remaining = date.DateTime - DateTime.Now;
+        RemainingDays = Convert.ToInt32(remaining.TotalDays);
+        RemainingMinutes = Convert.ToInt32(remaining.TotalMinutes);
+
+        ShowMinutesLeft = RemainingDays == 0;
     }
 }

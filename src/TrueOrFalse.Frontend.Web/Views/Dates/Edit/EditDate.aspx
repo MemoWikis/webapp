@@ -18,7 +18,7 @@
                 calendarWeeks: true,
                 autoclose: true,
                 todayHighlight: true,
-                startDate: ""
+                startDate: new Date().toString(),
             });
         });
     </script>
@@ -142,7 +142,7 @@
                         </div>
 
                         <div class="form-group">
-                            <%= Html.LabelFor(m => m.Details, new { @class = "col   umnLabel control-label" })%>
+                            <%= Html.LabelFor(m => m.Details, new { @class = "columnLabel control-label" })%>
                             <div class="columnControlsFull">
                                 <%= Html.TextAreaFor(m => m.Details, 
                                     new
