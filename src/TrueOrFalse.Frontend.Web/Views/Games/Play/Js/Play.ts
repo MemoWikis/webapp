@@ -45,7 +45,7 @@
             .append(html)
             .animate({ opacity: 1.00 }, 600);
 
-        $(".show-tooltip").tooltip();        
+        $(".show-tooltip").tooltip();
     }
 
     ChangeBody(html : string) {

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 
 public class DatesController : BaseController
 {
@@ -24,7 +25,20 @@ public class DatesController : BaseController
     public EmptyResult Delete(int id)
     {
         R<DeleteDate>().Run(id);
-
         return new EmptyResult();
+    }
+
+    public string RenderPreviousDates()
+    {
+        var previousDates = R<DateRepo>()
+            .GetBy(UserId, onlyPrevious: true)
+            .Select(d => new DateRowModel(d))
+            .ToList();
+
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Dates/PreviousDates.ascx",
+            previousDates,
+            ControllerContext
+        );
     }
 }

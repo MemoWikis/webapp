@@ -391,6 +391,7 @@
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRowDelete.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\PreviousDates.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
     <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
@@ -488,6 +489,13 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
+    <Content Include="Views\Dates\Js\DateRow.js">
+      <DependentUpon>DateRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\PreviousDates.js">
+      <DependentUpon>PreviousDates.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\PreviousDates.ascx" />
     <Content Include="Views\Dates\Dates.css">
       <DependentUpon>Dates.less</DependentUpon>
     </Content>
@@ -1697,6 +1705,12 @@
     </Content>
     <Content Include="Views\Dates\Js\DateRowDelete.js.map">
       <DependentUpon>DateRowDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\DateRow.js.map">
+      <DependentUpon>DateRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\PreviousDates.js.map">
+      <DependentUpon>PreviousDates.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

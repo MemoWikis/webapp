@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NHibernate;
+using NHibernate.Criterion;
 
 public class DateRepo : RepositoryDbBase<Date>
 {
@@ -22,5 +23,14 @@ public class DateRepo : RepositoryDbBase<Date>
         queryOver = queryOver.OrderBy(q => q.DateTime).Desc;
 
         return queryOver.List();
+    }
+
+    public int AmountOfPreviousItems(int userId)
+    {
+        return _session.QueryOver<Date>()
+            .Where(d => d.User.Id == userId)
+            .And(d => d.DateTime < DateTime.Now)
+            .Select(Projections.RowCount())
+            .SingleOrDefault<int>();
     }
 }

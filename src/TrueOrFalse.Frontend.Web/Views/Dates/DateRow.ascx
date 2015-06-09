@@ -14,7 +14,14 @@
         <div class="col-md-2" style="">
             <div class="row">
                 <div class="col-xs-4 col-md-12" style="color: silver; font-size: 16px; font-weight: 400; padding: 2px 0 0 12px;">
-                    <%= Model.ShowMinutesLeft ? "Minuten" : "Noch Tage" %>
+                    <%
+                        if(Model.IsPast){
+                            Response.Write("Vorbei seit <br>");
+                            Response.Write(Model.ShowMinutesLeft ? "Minuten:" : "Tagen:");
+                        }else { 
+                            Response.Write(Model.ShowMinutesLeft ? "Minuten" : "Noch Tage");
+                        }
+                    %>
                 </div>
                 <div class="col-xs-4 col-md-12" style="margin-bottom: -11px;">
                     <span style="font-size: 48px; position: relative; top:-7px;">
@@ -25,7 +32,9 @@
                     </span>
                 </div>                
                 <div class="col-md-12 " style="color: darkgrey; font-weight: bolder;  position: relative; left: 0px;">
-                    <span style="font-size: 11px">bis Termin am <br/></span> 
+                    <% if(!Model.IsPast){ %>
+                        <span style="font-size: 11px">bis Termin am <br/></span> 
+                    <% } %>
                     <span style="font-size: 11px;">
                         <%= date.DateTime.ToString("dd.MM.yyy HH:mm") %>
                     </span>

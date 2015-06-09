@@ -109,12 +109,16 @@
                 <% } else { %>
                     <% foreach(var date in Model.Dates){ %>
                         <% Html.RenderPartial("DateRow", new DateRowModel(date)); %>
-                    <% } %>                
+                    <% } %>
                 <% } %>
             
-                <div style="margin-top: -2px; text-align: right;">
-                    <a href="#" style="font-size: 11px; color: darkgray">Zeige Termine aus der Vergangenheit</a>
-                </div>
+                <% if(Model.HasPreviousDates){ %>
+                    <div style="margin-top: -2px; text-align: right;" id="divShowPreviousDates">
+                        <a href="#" id="btnShowPreviousDates" style="font-size: 11px; color: darkgray">Zeige Termine aus der Vergangenheit</a>
+                    </div>
+            
+                    <div id="previousDates"></div>
+                <% } %>
 
                 <h3 style="margin-bottom: 10px;">
                     <span class="ColoredUnderline Date" style="padding-right: 3px;">Termine im Netzwerk</span>

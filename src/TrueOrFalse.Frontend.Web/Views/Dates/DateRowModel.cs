@@ -14,7 +14,9 @@ public class DateRowModel : BaseModel
 
     public int RemainingDays;
     public int RemainingMinutes;
-    
+
+    public bool IsPast;
+
     public DateRowModel(Date date)
     {
         Date = date;
@@ -29,9 +31,11 @@ public class DateRowModel : BaseModel
         KnowledgeWeak = summary.Weak;
 
         var remaining = date.DateTime - DateTime.Now;
-        RemainingDays = Convert.ToInt32(remaining.TotalDays);
-        RemainingMinutes = Convert.ToInt32(remaining.TotalMinutes);
+        RemainingDays = Math.Abs(Convert.ToInt32(remaining.TotalDays));
+        RemainingMinutes = Math.Abs(Convert.ToInt32(remaining.TotalMinutes));
 
         ShowMinutesLeft = RemainingDays == 0;
+
+        IsPast = remaining.TotalSeconds < 0;
     }
 }
