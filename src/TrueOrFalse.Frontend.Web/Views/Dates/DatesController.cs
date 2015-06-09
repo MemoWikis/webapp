@@ -7,4 +7,24 @@ public class DatesController : BaseController
     {
         return View(new DatesModel());
     }
+
+    [HttpPost]
+    public JsonResult DeleteDetails(int id)
+    {
+        var date = R<DateRepo>().GetById(id);
+
+        return new JsonResult{
+            Data = new{
+                DateInfo = date.GetInfo(),
+            }
+        };        
+    }
+
+    [HttpPost]
+    public EmptyResult Delete(int id)
+    {
+        R<DeleteDate>().Run(id);
+
+        return new EmptyResult();
+    }
 }

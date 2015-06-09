@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Seedworks.Lib;
 using Seedworks.Lib.Persistence;
 public class Date : DomainEntity
 {
@@ -24,5 +25,16 @@ public class Date : DomainEntity
         return Sets
             .SelectMany(s => s.QuestionsInSet.Select(qs => qs.Question))
             .ToList();
+    }
+
+    public virtual string GetInfo()
+    {
+        if (Details.Length > 6)
+            Details.WordWrap(50);
+
+        if (Details.Length > 0)
+            return Details + " (" + DateTime.ToString("dd.MM.yyy") + ")";
+
+        return DateTime.ToString("dd.MM.yyy HH:mm");
     }
 }

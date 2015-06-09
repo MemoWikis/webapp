@@ -118,7 +118,7 @@ namespace TrueOrFalse
         [HttpPost]
         public EmptyResult Delete(int questionId)
         {
-            Sl.Resolve<QuestionDeleter>().Run(questionId);
+            Sl.Resolve<DeleteQuestion>().Run(questionId);
             return new EmptyResult();
         }
 

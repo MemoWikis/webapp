@@ -43,7 +43,9 @@
                     <div style="font-size: 13px; margin-top: 7px;">
                         <a href="<%= Links.DateEdit(Url, date.Id) %>"><i class="fa fa-pencil"></i></a>
                         &nbsp;
-                        <a href="#"><i class="fa fa-trash-o"></i></a>
+                        <a data-toggle="modal" data-dateId="<%= date.Id %>" href="#modalDelete">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
                     </div>
                 </div>
             </div>

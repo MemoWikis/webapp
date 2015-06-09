@@ -388,6 +388,9 @@
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\DateRowDelete.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
     <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
@@ -501,6 +504,13 @@
     <Content Include="Views\Dates\Edit\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Dates\Js\DateRowDelete.js">
+      <DependentUpon>DateRowDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Modals\DeleteDate.ascx" />
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
       <DependentUpon>Game.less</DependentUpon>
@@ -1682,6 +1692,12 @@
     <Content Include="Views\Dates\Edit\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Dates\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\DateRowDelete.js.map">
+      <DependentUpon>DateRowDelete.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -1746,6 +1762,7 @@
   <ItemGroup>
     <Folder Include="Style\fontAwesome\" />
     <Folder Include="Views\Dates\Details\" />
+    <Folder Include="Views\Dates\Edit\Modals\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

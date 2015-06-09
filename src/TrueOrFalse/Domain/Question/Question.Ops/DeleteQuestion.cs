@@ -1,14 +1,14 @@
 ﻿using System.Linq;
 using NHibernate;
 
-public class QuestionDeleter : IRegisterAsInstancePerLifetime
+public class DeleteQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
     private readonly QuestionRepository _questionRepository;
     private readonly AnswerHistoryRepository _answerHistory;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
 
-    public QuestionDeleter(
+    public DeleteQuestion(
         QuestionRepository questionRepository, 
         AnswerHistoryRepository answerHistory, 
         UpdateQuestionCountForCategory updateQuestionCountForCategory, 

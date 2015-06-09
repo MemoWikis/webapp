@@ -58,6 +58,7 @@
     </script>
     
     <%= Styles.Render("~/bundles/Dates") %>
+    <%= Scripts.Render("~/bundles/js/Dates") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">    
@@ -110,6 +111,10 @@
                         <% Html.RenderPartial("DateRow", new DateRowModel(date)); %>
                     <% } %>                
                 <% } %>
+            
+                <div style="margin-top: -2px; text-align: right;">
+                    <a href="#" style="font-size: 11px; color: darkgray">Zeige Termine aus der Vergangenheit</a>
+                </div>
 
                 <h3 style="margin-bottom: 10px;">
                     <span class="ColoredUnderline Date" style="padding-right: 3px;">Termine im Netzwerk</span>
@@ -130,5 +135,7 @@
         <div class="col-md-3">
         </div>
     </div>
+    
+    <% Html.RenderPartial("Modals/DeleteDate"); %>
             
 </asp:Content>

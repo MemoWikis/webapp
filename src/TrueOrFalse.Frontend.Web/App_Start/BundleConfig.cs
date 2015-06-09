@@ -91,6 +91,9 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/Dates")
                 .Include("~/Views/Dates/*.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/Dates")
+                .Include("~/Views/Dates/Js/*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/EditDate")
                 .Include("~/Views/Dates/Edit/*.css"));
 
