@@ -1,0 +1,49 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+
+public class AddProbabilitiesEntries_ForSetsAndDates : IRegisterAsInstancePerLifetime
+{
+    public void Run(User user)
+    {
+        var dates = Sl.R<DateRepo>().GetBy(user.Id);
+        var setsFromDates = dates.SelectMany(d => d.Sets);
+
+        var setsValuatedIds = Sl.R<SetValuationRepo>().GetByUser(user.Id).Select(v => v.SetId);
+        var setsValuated = Sl.R<SetRepo>().GetByIds(setsValuatedIds.ToArray());
+        
+        var distinctSets = setsValuated.Union(setsFromDates, new SetComparerIdEquals());
+        
+        var allQuestionIds = distinctSets.SelectMany(d => d.QuestionIds()).Distinct().ToList();
+
+        var valuations = Sl.R<QuestionValuationRepo>().GetByQuestionIds(allQuestionIds);
+        var notValuatedIds = allQuestionIds.Except(valuations.QuestionIds());
+        AddValuationEntries(user, notValuatedIds);
+    }
+
+    public void Run(Set set, User user)
+    {
+        var questionIds = set.QuestionIds();
+        var valuations = Sl.R<QuestionValuationRepo>().GetByQuestionIds(questionIds);
+
+        var notValuatedIds = questionIds.Except(valuations.QuestionIds());
+        AddValuationEntries(user, notValuatedIds);
+    }
+
+    private static void AddValuationEntries(User user, IEnumerable<int> notValuatedQuestionIds)
+    {
+        var notValuatedQuestions = Sl.R<QuestionRepository>()
+            .GetByIds(notValuatedQuestionIds.ToArray());
+
+        var questionValuationRepo = Sl.R<QuestionValuationRepo>();
+
+        foreach (var question in notValuatedQuestions)
+        {
+            questionValuationRepo.Create(new QuestionValuation
+            {
+                RelevancePersonal = -1,
+                User = user,
+                Question = question
+            });
+        }
+    }
+}

@@ -53,7 +53,7 @@ public class UserModel : BaseModel
 
         WishQuestions =
             Resolve<QuestionRepository>().GetByIds(
-                Resolve<QuestionValuationRepository>()
+                Resolve<QuestionValuationRepo>()
                     .GetByUser(user.Id)
                     .QuestionIds().ToList()
             );
@@ -63,8 +63,8 @@ public class UserModel : BaseModel
 
         WishQuestionsCategories = WishQuestions.GetAllCategories();
 
-        WishSets = Resolve<SetRepository>().GetByIds(
-            Resolve<SetValuationRepository>()
+        WishSets = Resolve<SetRepo>().GetByIds(
+            Resolve<SetValuationRepo>()
                 .GetByUser(user.Id)
                 .SetIds().ToArray()
             );

@@ -60,7 +60,7 @@ public class GameController : BaseController
         setsString = setsString.Trim();
         var setIds = setsString.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
         var sets = new List<Set>();
-        var setRepo = R<SetRepository>();
+        var setRepo = R<SetRepo>();
         foreach (var setId in setIds)
         {
             var set = setRepo.GetById(Convert.ToInt32(setId));

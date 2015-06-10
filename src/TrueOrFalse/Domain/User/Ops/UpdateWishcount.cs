@@ -2,23 +2,23 @@
 
 public class UpdateWishcount : IRegisterAsInstancePerLifetime
 {
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
     private readonly GetWishQuestionCount _getWishQuestionCount;
     private readonly GetWishSetCount _getWishSetCount;
 
     public UpdateWishcount(
-        UserRepository userRepository,
+        UserRepo userRepo,
         GetWishQuestionCount getWishQuestionCount,
         GetWishSetCount getWishSetCount)
     {
-        _userRepository = userRepository;
+        _userRepo = userRepo;
         _getWishQuestionCount = getWishQuestionCount;
         _getWishSetCount = getWishSetCount;
     }
 
     public void Run()
     {
-        Run(_userRepository.GetAll());
+        Run(_userRepo.GetAll());
     }
 
     public void Run(IEnumerable<User> users)
@@ -31,6 +31,6 @@ public class UpdateWishcount : IRegisterAsInstancePerLifetime
     {
         user.WishCountQuestions = _getWishQuestionCount.Run(user.Id);
         user.WishCountSets = _getWishSetCount.Run(user.Id);
-        _userRepository.Update(user);
+        _userRepo.Update(user);
     }
 }

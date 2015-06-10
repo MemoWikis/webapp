@@ -1,8 +1,8 @@
 ﻿public class CreateOrUpdateSetValue : IRegisterAsInstancePerLifetime
 {
-    private readonly SetValuationRepository _setValuationRepo;
+    private readonly SetValuationRepo _setValuationRepo;
 
-    public CreateOrUpdateSetValue(SetValuationRepository setValuationRepo){
+    public CreateOrUpdateSetValue(SetValuationRepo setValuationRepo){
         _setValuationRepo = setValuationRepo;
     }
 

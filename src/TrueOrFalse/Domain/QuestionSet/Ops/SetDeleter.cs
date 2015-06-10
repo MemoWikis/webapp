@@ -2,10 +2,10 @@
 
 public class SetDeleter : IRegisterAsInstancePerLifetime
 {
-    private readonly SetRepository _setRepo;
+    private readonly SetRepo _setRepo;
     private readonly SearchIndexSet _searchIndexSet;
 
-    public SetDeleter(SetRepository setRepo, SearchIndexSet searchIndexSet)
+    public SetDeleter(SetRepo setRepo, SearchIndexSet searchIndexSet)
     {
         _setRepo = setRepo;
         _searchIndexSet = searchIndexSet;
@@ -19,7 +19,7 @@ public class SetDeleter : IRegisterAsInstancePerLifetime
 
         _setRepo.Delete(set);
 
-        Sl.R<SetValuationRepository>().DeleteWhereSetIdIs(setId);
+        Sl.R<SetValuationRepo>().DeleteWhereSetIdIs(setId);
         Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
 
         _searchIndexSet.Delete(set);

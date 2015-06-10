@@ -2,20 +2,20 @@
 
 public class UpdateReputationsAndRank : IRegisterAsInstancePerLifetime
 {
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
     private readonly ReputationCalc _reputationCalc;
 
     public UpdateReputationsAndRank(
-        UserRepository userRepository,
+        UserRepo userRepo,
         ReputationCalc reputationCalc)
     {
-        _userRepository = userRepository;
+        _userRepo = userRepo;
         _reputationCalc = reputationCalc;
     }
 
     public void Run()
     {
-        var allUsers = _userRepository.GetAll();
+        var allUsers = _userRepo.GetAll();
         var results = allUsers
             .Select(user => _reputationCalc.Run(user))
             .OrderByDescending(r => r.TotalRepuation);
@@ -29,7 +29,7 @@ public class UpdateReputationsAndRank : IRegisterAsInstancePerLifetime
             result.User.WishCountQuestions = Sl.Resolve<GetWishQuestionCount>().Run(result.User.Id);
             result.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
 
-            _userRepository.Update(result.User);
+            _userRepo.Update(result.User);
         }
     }
 }

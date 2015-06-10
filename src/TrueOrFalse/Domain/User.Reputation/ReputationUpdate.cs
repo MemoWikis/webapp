@@ -1,14 +1,14 @@
 ﻿public class ReputationUpdate : IRegisterAsInstancePerLifetime
 {
     private readonly ReputationCalc _reputationCalc;
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
 
     public ReputationUpdate(
         ReputationCalc reputationCalc,
-        UserRepository userRepository)
+        UserRepo userRepo)
     {
         _reputationCalc = reputationCalc;
-        _userRepository = userRepository;
+        _userRepo = userRepo;
     }
 
     public void ForQuestion(int questionId)
@@ -18,7 +18,7 @@
 
     public void ForSet(int setId)
     {
-        Run(Sl.Resolve<SetRepository>().GetById(setId).Creator);
+        Run(Sl.Resolve<SetRepo>().GetById(setId).Creator);
     }
 
     public void Run(User userToUpdate)
@@ -26,7 +26,7 @@
         var oldReputation = userToUpdate.Reputation;
         var newReputation  = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalRepuation;
 
-        var users = _userRepository.GetWhereReputationIsBetween(newReputation, oldReputation);
+        var users = _userRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
         for (int i = 0; i < users.Count; i++)
         {
             userToUpdate.ReputationPos = users[i].ReputationPos;
@@ -35,9 +35,9 @@
             else
                 users[i].ReputationPos++;
 
-            _userRepository.Update(users[i]);
+            _userRepo.Update(users[i]);
         }
 
-        _userRepository.Update(userToUpdate);
+        _userRepo.Update(userToUpdate);
     }
 }

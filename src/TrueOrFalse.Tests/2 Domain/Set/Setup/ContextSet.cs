@@ -7,17 +7,17 @@ public class ContextSet : IRegisterAsInstancePerLifetime
     private readonly ContextQuestion _contextQuestion = ContextQuestion.New();
     private readonly ContextUser _contextUser = ContextUser.New();
     private readonly ContextCategory _contextCategory = ContextCategory.New();
-    private readonly SetRepository _setRepository;
+    private readonly SetRepo _setRepo;
     private readonly QuestionInSetRepo _questionInSetRepo;
 
     public List<Set> All = new List<Set>();
         
     public ContextSet(
-        SetRepository setRepository,
+        SetRepo setRepo,
         QuestionInSetRepo questionInSetRepo)
     {
         _contextUser.Add("Context Set").Persist();
-        _setRepository = setRepository;
+        _setRepo = setRepo;
         _questionInSetRepo = questionInSetRepo;
     }
 
@@ -26,17 +26,27 @@ public class ContextSet : IRegisterAsInstancePerLifetime
         return BaseTest.Resolve<ContextSet>();
     }
 
-    public ContextSet AddSet(string name, string text = "", User creator = null)
+    public ContextSet AddSet(
+        string name, 
+        string text = "", 
+        User creator = null, 
+        int amountOfQuestions = 0, 
+        IList<Question> questions = null)
     {
         var set = new Set{
             Name = name, 
             Text = text, 
             Creator =  creator ?? _contextUser.All.First()
         };
-
+            
         All.Add(set);
 
-        _contextUser.Persist();
+        if (questions != null)
+            AddQuestions(questions);
+
+        for (var i = 0; i < amountOfQuestions; i++)
+            AddQuestion("question_" + i, "answer_" + i);
+
         return this;
     }
 
@@ -49,17 +59,30 @@ public class ContextSet : IRegisterAsInstancePerLifetime
         return this;
     }
 
+    public ContextSet AddQuestions(IList<Question> questions)
+    {
+        foreach (var question in questions)
+            AddQuestion(question);
+
+        return this;
+    }
+
     public ContextSet AddQuestion(string question, string solution)
     {
         _contextQuestion.AddQuestion(question, solution).Persist();
         var addedQuestion = _contextQuestion.All.Last();
-            
+
+        return AddQuestion(addedQuestion);
+    }
+
+    public ContextSet AddQuestion(Question question)
+    {
         var set = All.Last();
         this.Persist();
 
         var newQuestionInSet = new QuestionInSet
         {
-            Question = addedQuestion,
+            Question = question,
             Set = set
         };
         _questionInSetRepo.Create(newQuestionInSet);
@@ -74,9 +97,9 @@ public class ContextSet : IRegisterAsInstancePerLifetime
     public ContextSet Persist()
     {
         foreach (var set in All)
-            _setRepository.Create(set);
+            _setRepo.Create(set);
 
-        _setRepository.Flush();
+        _setRepo.Flush();
 
         return this;
     }

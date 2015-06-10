@@ -9,11 +9,11 @@ namespace TrueOrFalse
 {
     public class Importer : IRegisterAsInstancePerLifetime
     {
-        private readonly UserRepository _userRepository;
+        private readonly UserRepo _userRepo;
 
-        public Importer(UserRepository userRepository)
+        public Importer(UserRepo userRepo)
         {
-            _userRepository = userRepository;
+            _userRepo = userRepo;
         }
 
         public ImporterResult Run(string xml)
@@ -38,7 +38,7 @@ namespace TrueOrFalse
                                    Text = questionElement.Element("text").Value,
                                    Description= questionElement.Element("description").Value,
                                    Visibility = (QuestionVisibility) Enum.Parse(typeof(QuestionVisibility), questionElement.Element("visibility").Value),
-                                   Creator = _userRepository.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value)),
+                                   Creator = _userRepo.GetById(Convert.ToInt32(questionElement.Element("creatorId").Value)),
                                    Solution = questionElement.Element("solution").Value,
                                    Categories = (from categoryIdElement in questionElement.Element("categories").Elements("id")
                                                  select result.Categories.SingleOrDefault(x => x.Id == Convert.ToInt32(categoryIdElement.Value))).ToList() 

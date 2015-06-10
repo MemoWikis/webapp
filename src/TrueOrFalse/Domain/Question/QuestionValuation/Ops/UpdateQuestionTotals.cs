@@ -3,17 +3,17 @@ using NHibernate;
 
 public class UpdateQuestionTotals : IRegisterAsInstancePerLifetime
 {
-    private readonly QuestionValuationRepository _questionValuationRepository;
+    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly CreateOrUpdateQuestionValue _createOrUpdateQuestionValue;
     private readonly ISession _session;
     private readonly ReputationUpdate _reputationUpdate;
 
-    public UpdateQuestionTotals(QuestionValuationRepository questionValuationRepository,
+    public UpdateQuestionTotals(QuestionValuationRepo questionValuationRepo,
                                 CreateOrUpdateQuestionValue createOrUpdateQuestionValue,
                                 ISession session,
                                 ReputationUpdate reputationUpdate)
     {
-        _questionValuationRepository = questionValuationRepository;
+        _questionValuationRepo = questionValuationRepo;
         _createOrUpdateQuestionValue = createOrUpdateQuestionValue;
         _session = session;
         _reputationUpdate = reputationUpdate;
@@ -21,7 +21,7 @@ public class UpdateQuestionTotals : IRegisterAsInstancePerLifetime
 
     public void Run(QuestionValuation questionValuation)
     {
-        _questionValuationRepository.CreateOrUpdate(questionValuation);
+        _questionValuationRepo.CreateOrUpdate(questionValuation);
 
         var sb = new StringBuilder();
 

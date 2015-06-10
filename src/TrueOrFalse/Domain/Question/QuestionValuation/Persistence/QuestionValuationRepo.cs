@@ -41,8 +41,13 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     {
         return
             _session.QueryOver<QuestionValuation>()
-                    .WhereRestrictionOn(x => x.)
+                    .WhereRestrictionOn(x => x.Question.Id).IsIn(questionIds.ToArray())
                     .List<QuestionValuation>();        
+    }
+
+    public IList<QuestionValuation> GetByUser(User user)
+    {
+        return GetByUser(user.Id);
     }
 
     public IList<QuestionValuation> GetByUser(int userId)

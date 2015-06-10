@@ -4,19 +4,19 @@
     private readonly WritePersistentLoginToCookie _writePersistentLoginToCookie;
     private readonly PersistentLoginRepository _persistentLoginRepository;
     private readonly SessionUser _sessionUser;
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
 
     public LoginFromCookie(GetPersistentLoginCookieValues getPersistentLoginCookieValues,
                             WritePersistentLoginToCookie writePersistentLoginToCookie,
                             PersistentLoginRepository persistentLoginRepository, 
                             SessionUser sessionUser, 
-                            UserRepository userRepository)
+                            UserRepo userRepo)
     {
         _getPersistentLoginCookieValues = getPersistentLoginCookieValues;
         _writePersistentLoginToCookie = writePersistentLoginToCookie;
         _persistentLoginRepository = persistentLoginRepository;
         _sessionUser = sessionUser;
-        _userRepository = userRepository;
+        _userRepo = userRepo;
     }
 
     public bool Run()
@@ -31,7 +31,7 @@
         if (persistentLogin == null)
             return false;
 
-        var user = _userRepository.GetById(cookieValues.UserId);
+        var user = _userRepo.GetById(cookieValues.UserId);
         if (user == null)
             return false;
 

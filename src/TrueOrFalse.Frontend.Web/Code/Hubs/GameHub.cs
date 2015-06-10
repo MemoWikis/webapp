@@ -11,7 +11,7 @@ public class GameHub : BaseHub
     {
         Send(() =>
         {
-            var userRepo = _sl.Resolve<UserRepository>();
+            var userRepo = _sl.Resolve<UserRepo>();
             var gameRepo = _sl.Resolve<GameRepo>();
 
             var user = userRepo.GetById(Convert.ToInt32(Context.User.Identity.Name));

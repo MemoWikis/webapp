@@ -6,17 +6,17 @@ namespace TrueOrFalse
     public class ProbabilityUpdate : IRegisterAsInstancePerLifetime
     {
         private readonly AnswerHistoryRepository _answerHistoryRepository;
-        private readonly QuestionValuationRepository _questionValuationRepo;
+        private readonly QuestionValuationRepo _questionValuationRepo;
         private readonly ProbabilityCalc _probabilityCalc;
         private readonly QuestionRepository _questionRepo;
-        private readonly UserRepository _userRepo;
+        private readonly UserRepo _userRepo;
 
         public ProbabilityUpdate(
             AnswerHistoryRepository answerHistoryRepository,
-            QuestionValuationRepository questionValuationRepo,
+            QuestionValuationRepo questionValuationRepo,
             ProbabilityCalc probabilityCalc, 
             QuestionRepository questionRepo,
-            UserRepository userRepo)
+            UserRepo userRepo)
         {
             _answerHistoryRepository = answerHistoryRepository;
             _questionValuationRepo = questionValuationRepo;

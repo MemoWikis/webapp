@@ -3,11 +3,11 @@ using TrueOrFalse.Search;
 
 public class SetsControllerSearch : IRegisterAsInstancePerLifetime
 {
-    private readonly SetRepository _setRepo;
+    private readonly SetRepo _setRepo;
     private readonly SearchSets _searchSets;
 
     public SetsControllerSearch(
-        SetRepository setRepo, 
+        SetRepo setRepo, 
         SearchSets searchSets)
     {
         _setRepo = setRepo;

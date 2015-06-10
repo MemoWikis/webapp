@@ -11,12 +11,12 @@ namespace TrueOrFalse.Search
     public class SearchIndexSet : IRegisterAsInstancePerLifetime
     {
         private readonly ISolrOperations<SetSolrMap> _solrOperations;
-        private  SetValuationRepository __setValuationRepo;
+        private  SetValuationRepo __setValuationRepo;
 
-        private SetValuationRepository _setValuationRepo{
+        private SetValuationRepo _setValuationRepo{
             get{
                 if (__setValuationRepo == null)
-                    __setValuationRepo = Sl.Resolve<SetValuationRepository>();
+                    __setValuationRepo = Sl.Resolve<SetValuationRepo>();
 
                 return __setValuationRepo;
             }

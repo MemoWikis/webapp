@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 public class ContextUser : IRegisterAsInstancePerLifetime
 {
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
 
     public List<User> All = new List<User>();
 
-    public ContextUser(UserRepository userRepository)
+    public ContextUser(UserRepo userRepo)
     {
-        _userRepository = userRepository;
+        _userRepo = userRepo;
     }
 
     public static ContextUser New()
@@ -24,7 +24,7 @@ public class ContextUser : IRegisterAsInstancePerLifetime
     public ContextUser Persist()
     {
         foreach (var usr in All)
-            _userRepository.Create(usr);
+            _userRepo.Create(usr);
 
         return this;
     }

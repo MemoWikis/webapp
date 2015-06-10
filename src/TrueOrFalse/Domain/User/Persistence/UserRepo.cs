@@ -3,11 +3,11 @@ using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
 
-public class UserRepository : RepositoryDbBase<User>
+public class UserRepo : RepositoryDbBase<User>
 {
     private readonly SearchIndexUser _searchIndexUser;
 
-    public UserRepository(ISession session, SearchIndexUser searchIndexUser): base(session){
+    public UserRepo(ISession session, SearchIndexUser searchIndexUser): base(session){
         _searchIndexUser = searchIndexUser;
     }
 

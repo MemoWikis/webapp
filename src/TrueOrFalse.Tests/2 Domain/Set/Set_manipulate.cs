@@ -18,14 +18,14 @@ namespace TrueOrFalse.Tests
                 .AddQuestion("Q2", "A2").AddCategory("A")
                 .Persist();
 
-            var questionSetRepo = Resolve<SetRepository>();
+            var questionSetRepo = Resolve<SetRepo>();
             var questionSet = new Set {Name = "QS1", Creator = ContextUser.New().Add("some user").Persist().All.Last()};
             questionSetRepo.Create(questionSet);
 
             Resolve<AddToSet>().Run(context.All.GetIds().ToArray(), questionSet.Id);
 
             base.RecycleContainer();
-            var questionSetFromDb = Resolve<SetRepository>().GetById(questionSet.Id);
+            var questionSetFromDb = Resolve<SetRepo>().GetById(questionSet.Id);
             var questionSetFromDb2 = Resolve<ISession>().QueryOver<Set>().SingleOrDefault();
 
             Assert.That(questionSetFromDb2.QuestionsInSet.Count, Is.EqualTo(2));
@@ -52,7 +52,7 @@ namespace TrueOrFalse.Tests
 
             RecycleContainer();
 
-            var setRepo = Resolve<SetRepository>();
+            var setRepo = Resolve<SetRepo>();
             var setFromDb = setRepo.GetById(context.All.Last().Id);
 
             Assert.That(setFromDb.QuestionsInSet.Count, Is.EqualTo(2));

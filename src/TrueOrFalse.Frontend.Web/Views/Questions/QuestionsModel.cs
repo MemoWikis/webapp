@@ -55,7 +55,7 @@ public class QuestionsModel : BaseModel
         NotAllowed = !_sessionUser.IsLoggedIn && (searchTab == SearchTabType.Wish || searchTab == SearchTabType.Mine);
 
         var totalsForCurrentUser = Resolve<TotalsPersUserLoader>().Run(currentUserId, questions);
-        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>().GetBy(questions.GetIds(), currentUserId);
+        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepo>().GetBy(questions.GetIds(), currentUserId);
 
         Pager = new PagerModel(questionSearchSpec);
         Suggestion = questionSearchSpec.GetSuggestion();

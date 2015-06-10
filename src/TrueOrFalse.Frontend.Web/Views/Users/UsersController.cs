@@ -38,7 +38,7 @@ public class UsersController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult LoginAs(int userId)
     {
-        var user = Resolve<UserRepository>().GetById(userId);
+        var user = Resolve<UserRepo>().GetById(userId);
         _sessionUser.Login(user);
         _sessionUser.IsInstallationAdmin = true;
 

@@ -7,18 +7,18 @@ using NHibernate.Transform;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
-public class SetValuationRepository : RepositoryDb<SetValuation> 
+public class SetValuationRepo : RepositoryDb<SetValuation> 
 {
     private readonly SearchIndexSet _searchIndexSet;
-    private readonly SetRepository _setRepository;
+    private readonly SetRepo _setRepo;
 
-    public SetValuationRepository(
+    public SetValuationRepo(
         ISession session, 
         SearchIndexSet searchIndexSet,
-        SetRepository setRepository) : base(session)
+        SetRepo setRepo) : base(session)
     {
         _searchIndexSet = searchIndexSet;
-        _setRepository = setRepository;
+        _setRepo = setRepo;
     }
 
     public IList<SetValuation> GetBy(int setId)
@@ -67,32 +67,32 @@ public class SetValuationRepository : RepositoryDb<SetValuation>
     public override void Create(IList<SetValuation> setValuations)
     {
         base.Create(setValuations);
-        _searchIndexSet.Update(_setRepository.GetByIds(setValuations.SetIds().ToArray()));
+        _searchIndexSet.Update(_setRepo.GetByIds(setValuations.SetIds().ToArray()));
     }
 
     public override void Create(SetValuation setValuation)
     {
         base.Create(setValuation);
-        _searchIndexSet.Update(_setRepository.GetById(setValuation.SetId));
+        _searchIndexSet.Update(_setRepo.GetById(setValuation.SetId));
     }
 
     public override void CreateOrUpdate(SetValuation setValuation)
     {
         base.CreateOrUpdate(setValuation);
-        _searchIndexSet.Update(_setRepository.GetById(setValuation.Id));
+        _searchIndexSet.Update(_setRepo.GetById(setValuation.Id));
     }
 
     public override void Update(SetValuation setValuation)
     {
         base.Update(setValuation);
-        _searchIndexSet.Update(_setRepository.GetById(setValuation.Id));
+        _searchIndexSet.Update(_setRepo.GetById(setValuation.Id));
     }
 
     public void DeleteWhereSetIdIs(int setId)
     {
         var setValuations = GetBy(setId);
         var userIds = setValuations.Select(x => x.UserId).Distinct().ToArray();
-        var users = Sl.Resolve<UserRepository>().GetByIds(userIds);
+        var users = Sl.Resolve<UserRepo>().GetByIds(userIds);
 
         _session.Delete("FROM SetValuation WHERE SetId = " + setId + "");
 

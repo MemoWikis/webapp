@@ -6,7 +6,7 @@ public class GetSampleDates
 {
     public static IList<Date> Run()
     {
-        var sets = Sl.R<SetRepository>()
+        var sets = Sl.R<SetRepo>()
             .GetByIds(7, 8, 9);
 
         var now = DateTime.Now;

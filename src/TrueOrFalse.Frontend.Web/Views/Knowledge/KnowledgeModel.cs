@@ -36,7 +36,7 @@ public class KnowledgeModel : BaseModel
 
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetCount = R<GetWishSetCount>().Run(UserId);
-        User = R<UserRepository>().GetById(UserId);
+        User = R<UserRepo>().GetById(UserId);
 
         var reputation = Resolve<ReputationCalc>().Run(User);
         ReputationRank = User.ReputationPos;

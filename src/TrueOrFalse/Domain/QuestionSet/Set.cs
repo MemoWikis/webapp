@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
@@ -37,5 +38,17 @@ public class Set : DomainEntity
     public Set(){
         QuestionsInSet = new List<QuestionInSet>();
         Categories = new List<Category>();
+    }
+
+    public virtual IList<int> QuestionIds()
+    {
+        return QuestionsInSet
+            .Select(qv => qv.Question.Id)
+            .ToList();
+    }
+
+    public virtual IList<Question> Questions()
+    {
+        return QuestionsInSet.Select(q => q.Question).ToList();
     }
 }

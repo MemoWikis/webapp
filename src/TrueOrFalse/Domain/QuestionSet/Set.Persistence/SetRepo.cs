@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
+using NHibernate.Linq;
 using TrueOrFalse.Search;
 
-public class SetRepository : RepositoryDbBase<Set>
+public class SetRepo : RepositoryDbBase<Set>
 {
     private readonly SearchIndexSet _searchIndexSet;
 
-    public SetRepository(
+    public SetRepo(
         ISession session, 
         SearchIndexSet searchIndexSet)
         : base(session)

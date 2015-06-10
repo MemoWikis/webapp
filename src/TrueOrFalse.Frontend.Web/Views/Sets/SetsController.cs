@@ -6,12 +6,12 @@ public class SetsController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Sets.aspx";
 
-    private readonly SetRepository _setRepo;
+    private readonly SetRepo _setRepo;
     private readonly SetsControllerSearch _setsControllerSearch;
     private readonly SetsControllerUtil _util;
 
     public SetsController(
-        SetRepository setRepo, 
+        SetRepo setRepo, 
         SetsControllerSearch setsControllerSearch)
     {
         _setRepo = setRepo;

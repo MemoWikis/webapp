@@ -284,7 +284,7 @@
             <div class="col-xs-12 col-md-4">
                 <h3>Im Netzwerk</h3>
                 
-                    <% var userRepo = Sl.Resolve<UserRepository>();
+                    <% var userRepo = Sl.Resolve<UserRepo>();
                        var user1 = userRepo.GetById(18);
                        var user2 = userRepo.GetById(31);
                     %>

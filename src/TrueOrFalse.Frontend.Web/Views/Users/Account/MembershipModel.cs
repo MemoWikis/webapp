@@ -19,7 +19,7 @@ public class MembershipModel : BaseModel
         if (!IsLoggedIn)
             return;
 
-        var user = R<UserRepository>().GetById(UserId);
+        var user = R<UserRepo>().GetById(UserId);
 
         IsMember = user.IsMember();
         Membership = user.CurrentMembership();
@@ -34,7 +34,7 @@ public class MembershipModel : BaseModel
             throw new Exception("invalid data");
 
         var membership = new Membership();
-        membership.User = R<UserRepository>().GetById(UserId);
+        membership.User = R<UserRepo>().GetById(UserId);
 
         membership.PeriodStart = DateTime.Now;
         membership.PeriodEnd = PaymentPeriod == "fullYear"

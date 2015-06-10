@@ -6,19 +6,19 @@ using NHibernate.Criterion;
 public class RegisterUser : IRegisterAsInstancePerLifetime
 {
     private readonly IsEmailAddressAvailable _isEmailAddressAvailable;
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
     private readonly SendRegistrationEmail _sendRegistrationEmail;
     private readonly SendWelcomeMsg _sendWelcomeMsg;
     private readonly ISession _session;
 
     public RegisterUser(IsEmailAddressAvailable isEmailAddressAvailable, 
-                        UserRepository  userRepository,
+                        UserRepo  userRepo,
                         SendRegistrationEmail sendRegistrationEmail,
                         SendWelcomeMsg sendWelcomeMsg,
                         ISession session)
     {
         _isEmailAddressAvailable = isEmailAddressAvailable;
-        _userRepository = userRepository;
+        _userRepo = userRepo;
         _sendRegistrationEmail = sendRegistrationEmail;
         _sendWelcomeMsg = sendWelcomeMsg;
         _session = session;
@@ -27,7 +27,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
     public void Run(User user)
     {
         user.Reputation = 0;
-        user.ReputationPos = _userRepository.Session.QueryOver<User>()
+        user.ReputationPos = _userRepo.Session.QueryOver<User>()
             .Select(
                 Projections.ProjectionList()
                     .Add(Projections.Max<User>(u => u.ReputationPos)))
@@ -38,7 +38,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             if (!_isEmailAddressAvailable.Yes(user.EmailAddress))
                 throw new Exception("There is already a user with that email address.");
 
-            _userRepository.Create(user);
+            _userRepo.Create(user);
                 
             transaction.Commit();
         }

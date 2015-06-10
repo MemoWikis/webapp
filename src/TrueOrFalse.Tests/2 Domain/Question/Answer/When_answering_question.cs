@@ -25,7 +25,7 @@ namespace TrueOrFalse.Tests
             Assert.That(answerHistoryItems[0].AnswerText, Is.EqualTo("Some answer"));
             Assert.That(answerHistoryItems[0].UserId, Is.EqualTo(user.Id));
 
-            var questionValuationRepo = Resolve<QuestionValuationRepository>();
+            var questionValuationRepo = Resolve<QuestionValuationRepo>();
             Assert.That(questionValuationRepo.GetBy(createdQuestion.Id, user.Id).CorrectnessProbability, Is.EqualTo(100));
         }
     }

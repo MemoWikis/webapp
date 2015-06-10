@@ -1,6 +1,6 @@
 ﻿public class SendCustomMsg : BaseSendMessage, IRegisterAsInstancePerLifetime
 {
-    public SendCustomMsg(MessageRepository messageRepo, UserRepository userRepo) : base(messageRepo, userRepo){}
+    public SendCustomMsg(MessageRepository messageRepo, UserRepo userRepo) : base(messageRepo, userRepo){}
 
     public void Run(int receiverId, string subject, string body)
     {

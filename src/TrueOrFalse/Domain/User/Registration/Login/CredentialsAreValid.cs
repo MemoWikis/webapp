@@ -2,15 +2,15 @@
 
 public class CredentialsAreValid : IRegisterAsInstancePerLifetime
 {
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
     private readonly IsValdidPassword _isValidPassword;
         
     public User User;
 
-    public CredentialsAreValid(UserRepository userRepository, 
+    public CredentialsAreValid(UserRepo userRepo, 
                                 IsValdidPassword isValidPassword)
     {
-        _userRepository = userRepository;
+        _userRepo = userRepo;
         _isValidPassword = isValidPassword;
     }
 
@@ -20,7 +20,7 @@ public class CredentialsAreValid : IRegisterAsInstancePerLifetime
             return false;
 
         User = null;
-        var user = _userRepository.GetByEmail(emailAdress.Trim());
+        var user = _userRepo.GetByEmail(emailAdress.Trim());
 
         if (user == null)
             return false;

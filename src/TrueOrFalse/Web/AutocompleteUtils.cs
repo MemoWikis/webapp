@@ -18,7 +18,7 @@ public class AutocompleteUtils
 
     public static IList<Set> GetReleatedSetsFromPostData(NameValueCollection postData)
     {
-        var _setRepo = ServiceLocator.Resolve<SetRepository>();
+        var _setRepo = ServiceLocator.Resolve<SetRepo>();
         return
             (from key in postData.AllKeys
              where key.StartsWith("set-")

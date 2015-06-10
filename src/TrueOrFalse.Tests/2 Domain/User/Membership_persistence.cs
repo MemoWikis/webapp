@@ -27,7 +27,7 @@ public class Membership_persistence : BaseTest
         RecycleContainer();
 
         var membershipFromDb = R<MembershipRepo>().GetById(membership.Id);
-        var userFromDb = R<UserRepository>().GetById(membership.User.Id);
+        var userFromDb = R<UserRepo>().GetById(membership.User.Id);
         
         Assert.That(membershipFromDb.PricePerMonth, Is.EqualTo(2.50m));
         Assert.That(membershipFromDb.User.Name, Is.EqualTo("Firstname Lastname"));

@@ -2,11 +2,11 @@
 
 public class ValidateEmailConfirmationKey
 {
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
 
-    public ValidateEmailConfirmationKey(UserRepository userRepository)
+    public ValidateEmailConfirmationKey(UserRepo userRepo)
     {
-        _userRepository = userRepository;
+        _userRepo = userRepo;
     }
 
     public bool IsValid(string affirmationKey)
@@ -18,7 +18,7 @@ public class ValidateEmailConfirmationKey
         if (!Int32.TryParse(affirmationKey.Substring(3), out userId) == false)
             return false;
 
-        if (_userRepository.GetById(userId) != null)
+        if (_userRepo.GetById(userId) != null)
             return true;
 
         return true;

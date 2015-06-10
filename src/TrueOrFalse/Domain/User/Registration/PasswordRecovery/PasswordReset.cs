@@ -1,13 +1,13 @@
 ﻿public class PasswordReset : IRegisterAsInstancePerLifetime
 {
     private readonly PasswordResetPrepare _passwordResetPrepare;
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
 
     public PasswordReset(PasswordResetPrepare passwordResetPrepare, 
-                            UserRepository userRepository)
+                            UserRepo userRepo)
     {
         _passwordResetPrepare = passwordResetPrepare;
-        _userRepository = userRepository;
+        _userRepo = userRepo;
     }
 
     public bool Run(string token, string newPassword)
@@ -16,9 +16,9 @@
         if (!passwortResetPrepareResult.Success)
             return false;
 
-        var user = _userRepository.GetByEmail(passwortResetPrepareResult.Email);
+        var user = _userRepo.GetByEmail(passwortResetPrepareResult.Email);
         SetUserPassword.Run(newPassword, user);
-        _userRepository.Update(user);
+        _userRepo.Update(user);
 
         return true;
     }

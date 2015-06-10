@@ -82,7 +82,7 @@ namespace TrueOrFalse.Tests
 
             var user = context.Creator;
 
-            Resolve<QuestionValuationRepository>().Create(new List<QuestionValuation>{
+            Resolve<QuestionValuationRepo>().Create(new List<QuestionValuation>{
                 new QuestionValuation { RelevancePersonal = 70, Question = context.All[0], User = user },
                 new QuestionValuation { RelevancePersonal = 15, Question = context.All[1], User = user },
             });

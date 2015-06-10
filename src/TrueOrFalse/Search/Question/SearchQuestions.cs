@@ -61,7 +61,7 @@ namespace TrueOrFalse.Search
             var creatorFilter = QuestionFilter.GetCreatorFilterValue(searchTerm);
             if (creatorFilter != null)
             {
-                var creator = Sl.Resolve<UserRepository>().GetByName(creatorFilter);
+                var creator = Sl.Resolve<UserRepo>().GetByName(creatorFilter);
                 if (creator != null)
                     creatorId = creator.Id;
 

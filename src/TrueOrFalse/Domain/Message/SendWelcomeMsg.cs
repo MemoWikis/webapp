@@ -2,7 +2,7 @@
 
 public class SendWelcomeMsg : BaseSendMessage, IRegisterAsInstancePerLifetime
 {
-    public SendWelcomeMsg(MessageRepository messageRepo, UserRepository userRepo)
+    public SendWelcomeMsg(MessageRepository messageRepo, UserRepo userRepo)
         : base(messageRepo, userRepo)
     {
     }

@@ -21,7 +21,7 @@ namespace TrueOrFalse.Tests
                     RelevancePersonal = 7
                 };
 
-            Resolve<QuestionValuationRepository>().Create(questionValuation);
+            Resolve<QuestionValuationRepo>().Create(questionValuation);
         }
 
         [Test]
@@ -49,10 +49,10 @@ namespace TrueOrFalse.Tests
             var questionValuation4 = new QuestionValuation { Question = context.All[3], User = user1, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
             var questionValuation5 = new QuestionValuation { Question = context.All[4], User = user2, Quality = 91, RelevanceForAll = 40, RelevancePersonal = 7 };
 
-            Resolve<QuestionValuationRepository>().Create(
+            Resolve<QuestionValuationRepo>().Create(
                 new List<QuestionValuation> { questionValuation1, questionValuation2, questionValuation3, questionValuation4, questionValuation5});
 
-            Assert.That(Resolve<QuestionValuationRepository>().GetBy(
+            Assert.That(Resolve<QuestionValuationRepo>().GetBy(
                 new[] { context.All[0].Id, context.All[1].Id, context.All[2].Id }, user1.Id).Count, Is.EqualTo(2));
         }
     }

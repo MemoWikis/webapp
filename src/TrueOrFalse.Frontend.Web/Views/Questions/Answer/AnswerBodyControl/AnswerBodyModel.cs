@@ -27,7 +27,7 @@ public class AnswerBodyModel : BaseModel
 
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
         IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
 
         AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question, game, player, round);

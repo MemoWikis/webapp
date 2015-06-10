@@ -1,6 +1,6 @@
 ﻿public class SendIsNowPrivateMsg : BaseSendMessage, IRegisterAsInstancePerLifetime
 {
-    public SendIsNowPrivateMsg(MessageRepository messageRepo, UserRepository userRepo) : base(messageRepo, userRepo)
+    public SendIsNowPrivateMsg(MessageRepository messageRepo, UserRepo userRepo) : base(messageRepo, userRepo)
     {
     }
 

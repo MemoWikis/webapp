@@ -11,7 +11,7 @@ public class SendCommentMsg : BaseSendMessage, IRegisterAsInstancePerLifetime
 
     public SendCommentMsg(
         MessageRepository messageRepo, 
-        UserRepository userRepo, 
+        UserRepo userRepo, 
         QuestionRepository questionRepo)
         : base(messageRepo, userRepo)
     {

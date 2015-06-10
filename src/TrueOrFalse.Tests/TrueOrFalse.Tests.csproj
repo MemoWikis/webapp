@@ -212,6 +212,7 @@
     <Compile Include="2 Domain\Comment\Setup\ContextComment.cs" />
     <Compile Include="2 Domain\Date\Date_time.cs" />
     <Compile Include="2 Domain\Date\Date_persistence.cs" />
+    <Compile Include="2 Domain\Date\Setup\ContextDate.cs" />
     <Compile Include="2 Domain\Game\Game_persistence.cs" />
     <Compile Include="2 Domain\Game\Game_rounds.cs" />
     <Compile Include="2 Domain\Game\Setup\ContextGame.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="2 Domain\Image\ImageInfo_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageMetadata_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\Image_persistence.cs" />
+    <Compile Include="2 Domain\Knowledge\Should_add_probabilities_for_sets_and_dates.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_probability.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_wish_knowledge_count.cs" />
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />

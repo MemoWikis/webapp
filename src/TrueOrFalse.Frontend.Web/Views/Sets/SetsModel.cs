@@ -52,7 +52,7 @@ public class SetsModel : BaseModel
         OrderBy = searchSpec.OrderBy;
         OrderByLabel = searchSpec.OrderBy.ToText();
 
-        var valuations = R<SetValuationRepository>().GetBy(questionSets.GetIds(), _sessionUser.UserId);
+        var valuations = R<SetValuationRepo>().GetBy(questionSets.GetIds(), _sessionUser.UserId);
 
         var counter = 0;
         Rows = questionSets.Select(set => 

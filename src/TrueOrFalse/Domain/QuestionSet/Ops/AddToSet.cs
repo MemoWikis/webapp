@@ -3,13 +3,13 @@ using System.Linq;
 
 public class AddToSet : IRegisterAsInstancePerLifetime
 {
-    private readonly SetRepository _setRepo;
+    private readonly SetRepo _setRepo;
     private readonly QuestionRepository _questionRepo;
     private readonly QuestionInSetRepo _questionInSetRepo;
     private readonly UpdateSetDataForQuestion _updateSetData;
 
     public AddToSet(
-            SetRepository setRepo, 
+            SetRepo setRepo, 
             QuestionRepository questionRepo,
             QuestionInSetRepo questionInSetRepo,
             UpdateSetDataForQuestion updateSetData){

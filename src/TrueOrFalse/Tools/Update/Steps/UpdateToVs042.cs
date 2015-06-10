@@ -13,7 +13,7 @@ namespace TrueOrFalse.Updates
         {
             var sendWelcomMsg = Sl.Resolve<SendWelcomeMsg>();
 
-            foreach (var user in Sl.Resolve<UserRepository>().GetAll())
+            foreach (var user in Sl.Resolve<UserRepo>().GetAll())
                 sendWelcomMsg.Run(user);
         }
     }

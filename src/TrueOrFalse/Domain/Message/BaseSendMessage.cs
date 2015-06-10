@@ -3,9 +3,9 @@
 public class BaseSendMessage
 {
     protected readonly MessageRepository _messageRepo;
-    protected readonly UserRepository _userRepo;
+    protected readonly UserRepo _userRepo;
 
-    public BaseSendMessage(MessageRepository messageRepo, UserRepository userRepo)
+    public BaseSendMessage(MessageRepository messageRepo, UserRepo userRepo)
     {
         _messageRepo = messageRepo;
         _userRepo = userRepo;

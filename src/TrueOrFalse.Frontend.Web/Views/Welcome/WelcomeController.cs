@@ -160,7 +160,7 @@ public class WelcomeController : BaseController
 
         var result = Sl.Resolve<PasswordResetPrepare>().Run(model.Token);
 
-        var userRepo = Sl.Resolve<UserRepository>();
+        var userRepo = Sl.Resolve<UserRepo>();
         var user = userRepo.GetByEmail(result.Email);
 
         if (user == null)

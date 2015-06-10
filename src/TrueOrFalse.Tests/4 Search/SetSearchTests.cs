@@ -79,7 +79,7 @@ namespace TrueOrFalse.Tests
                 .Persist();
 
             var setValuation = new SetValuation { SetId = context.All[1].Id, UserId = user1.Id, RelevancePersonal = 7 };
-            Resolve<SetValuationRepository>().Create(new List<SetValuation> { setValuation });
+            Resolve<SetValuationRepo>().Create(new List<SetValuation> { setValuation });
 
             Assert.That(Resolve<SearchSets>().Run("Set", valuatorId: user1.Id).Count, Is.EqualTo(1));
 
@@ -90,7 +90,7 @@ namespace TrueOrFalse.Tests
             SetValuation setValuationToRemove, Set setWithRemovedValuation, User user)
         {
             setValuationToRemove.RelevancePersonal = -1;
-            Resolve<SetValuationRepository>().Update(setValuationToRemove);
+            Resolve<SetValuationRepo>().Update(setValuationToRemove);
             Resolve<SearchIndexSet>().Update(setWithRemovedValuation);
 
             Assert.That(Resolve<SearchSets>().Run("Set", valuatorId: user.Id).Count, Is.EqualTo(0));

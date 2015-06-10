@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tests.Persistence
             var categoryRepo = Resolve<CategoryRepository>();
 
             var user = new User {Name = "Some user"};
-            Resolve<UserRepository>().Create(user);
+            Resolve<UserRepo>().Create(user);
             
             var category = new Category("Sports")
             {

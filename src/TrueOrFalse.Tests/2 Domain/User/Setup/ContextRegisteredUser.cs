@@ -4,16 +4,16 @@ using BDDish.Model;
 
 public class ContextRegisteredUser : IRegisterAsInstancePerLifetime, IContextDescription
 {
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
 
     public string SampleDesciption { get; set; }
     public string EmailAddress = "john@doe.com";
 
     public List<User> Users = new List<User>();
 
-    public ContextRegisteredUser(UserRepository userRepository)
+    public ContextRegisteredUser(UserRepo userRepo)
     {
-        _userRepository = userRepository;
+        _userRepo = userRepo;
     }
 
     public static ContextRegisteredUser New()
@@ -34,7 +34,7 @@ public class ContextRegisteredUser : IRegisterAsInstancePerLifetime, IContextDes
     public ContextRegisteredUser Persist()
     {
         foreach(var user in Users)
-            _userRepository.Create(user);
+            _userRepo.Create(user);
 
         return this;
     }
