@@ -24,7 +24,7 @@ public class DateRowModel : BaseModel
         var allQuestions = date.AllQuestions();
         AmountQuestions = allQuestions.Count;
 
-        var summary = R<KnowledgeSummaryLoader>().Run(UserId, allQuestions.GetIds());
+        var summary = R<KnowledgeSummaryLoader>().Run(UserId, allQuestions.GetIds(), onlyValuated: false);
 
         KnowledgeSecure = summary.Secure;
         KnowledgeUnknown = summary.Unknown;

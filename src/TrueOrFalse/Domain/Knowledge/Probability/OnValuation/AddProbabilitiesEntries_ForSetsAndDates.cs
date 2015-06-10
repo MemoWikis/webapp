@@ -1,8 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 public class AddProbabilitiesEntries_ForSetsAndDates : IRegisterAsInstancePerLifetime
 {
+    public void RunForAllUsers()
+    {
+        var stopwatch = new Stopwatch();
+
+        var users = Sl.R<UserRepo>().GetAll();
+        foreach (var user in users)
+            Run(user);
+
+        Logg.r().Information("Users {0}", users.Count);
+
+        Logg.r().Information(
+            "AddProbabilitiesEntries_ForSetsAndDates all users: duration {0}", 
+            stopwatch.Elapsed);
+    }
+
     public void Run(User user)
     {
         var dates = Sl.R<DateRepo>().GetBy(user.Id);

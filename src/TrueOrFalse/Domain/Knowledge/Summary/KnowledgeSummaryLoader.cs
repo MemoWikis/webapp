@@ -12,7 +12,10 @@ public class KnowledgeSummaryLoader : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public KnowledgeSummary Run(int userId, IEnumerable<int> questionIds = null)
+    public KnowledgeSummary Run(
+        int userId, 
+        IEnumerable<int> questionIds = null, 
+        bool onlyValuated = true)
     {
         var queryOver =
             _session
@@ -21,10 +24,10 @@ public class KnowledgeSummaryLoader : IRegisterAsInstancePerLifetime
                     Projections.Group<QuestionValuation>(x => x.KnowledgeStatus),
                     Projections.Count<QuestionValuation>(x => x.KnowledgeStatus)
                 )
-                .Where(x =>
-                    x.User.Id == userId &&
-                    x.RelevancePersonal != -1
-                );
+                .Where(x => x.User.Id == userId);
+
+        if (onlyValuated)
+            queryOver.And(x => x.RelevancePersonal != -1);
 
         if (questionIds != null)
             queryOver.AndRestrictionOn(x => x.Question.Id)
