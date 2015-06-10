@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
+using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
-public class QuestionValuationRepository : RepositoryDb<QuestionValuation> 
+public class QuestionValuationRepo : RepositoryDb<QuestionValuation> 
 {
     private readonly SearchIndexQuestion _searchIndexQuestion;
     private readonly QuestionRepository _questionRepository;
 
-    public QuestionValuationRepository(
+    public QuestionValuationRepo(
         ISession session, 
         SearchIndexQuestion searchIndexQuestion,
         QuestionRepository questionRepository) : base(session)
@@ -20,18 +21,28 @@ public class QuestionValuationRepository : RepositoryDb<QuestionValuation>
 
     public QuestionValuation GetBy(int questionId, int userId)
     {
-        return _session.QueryOver<QuestionValuation>()
-                        .Where(q => 
-                            q.User.Id == userId && 
-                            q.Question.Id == questionId)
-                        .SingleOrDefault();
+        return 
+            _session.QueryOver<QuestionValuation>()
+                    .Where(q => 
+                        q.User.Id == userId && 
+                        q.Question.Id == questionId)
+                    .SingleOrDefault();
     }
 
     public IList<QuestionValuation> GetBy(int questionId)
     {
-        return _session.QueryOver<QuestionValuation>()
-                        .Where(q => q.Question.Id == questionId)
-                        .List<QuestionValuation>();
+        return 
+            _session.QueryOver<QuestionValuation>()
+                    .Where(q => q.Question.Id == questionId)
+                    .List<QuestionValuation>();
+    }
+
+    public IList<QuestionValuation> GetByQuestionIds(IEnumerable<int> questionIds)
+    {
+        return
+            _session.QueryOver<QuestionValuation>()
+                    .WhereRestrictionOn(x => x.)
+                    .List<QuestionValuation>();        
     }
 
     public IList<QuestionValuation> GetByUser(int userId)

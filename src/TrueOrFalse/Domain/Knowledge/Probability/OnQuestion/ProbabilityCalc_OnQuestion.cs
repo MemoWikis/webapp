@@ -8,7 +8,9 @@ public class ProbabilityCalc_OnQuestion : IRegisterAsInstancePerLifetime
         if (!answerHistoryItems.Any())
             return 30;
 
-        decimal answeredCorrectly = answerHistoryItems.Count(x => x.AnswerredCorrectly != AnswerCorrectness.False);
+        decimal answeredCorrectly = 
+            answerHistoryItems.Count(x => x.AnswerredCorrectly != AnswerCorrectness.False);
+
         return (int)((answeredCorrectly / answerHistoryItems.Count()) * 100);
     }
 }
