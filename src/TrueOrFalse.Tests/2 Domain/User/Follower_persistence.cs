@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 
 public class Follower_persistence : BaseTest
 {
@@ -31,5 +32,12 @@ public class Follower_persistence : BaseTest
 
         Assert.That(userFromDb1.Followers.Count, Is.EqualTo(3));
         Assert.That(userFromDb2.Following.Count, Is.EqualTo(1));
+
+        RecycleContainer();
+
+        var followerCounts = R<FollowerCounts>().Load(context.All.Select(u => u.Id));
+
+        Assert.That(followerCounts.ByUserId(user1.Id), Is.EqualTo(3));
+        Assert.That(followerCounts.ByUserId(user2.Id), Is.EqualTo(0));
     }
 }

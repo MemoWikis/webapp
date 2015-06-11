@@ -446,6 +446,7 @@
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
     <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
+    <Compile Include="Domain\User\FollowerCounts.cs" />
     <Compile Include="Domain\User\Membership.cs" />
     <Compile Include="Domain\User\Ops\GetTotalUsers.cs" />
     <Compile Include="Domain\User\Ops\UpdateWishcount.cs" />
