@@ -43,11 +43,13 @@ public class AddToSet : IRegisterAsInstancePerLifetime
             }
         }
 
+        Sl.R<AddProbabilitiesEntries_ForSetsAndDates>().Run(set, Sl.R<SessionUser>().User);
+
         return new AddToSetResult
-            {
-                AmountAddedQuestions = questions.Count() - nonAddedQuestions.Count(),
-                AmountOfQuestionsAlreadyInSet = nonAddedQuestions.Count(),
-                Set = set
-            };
+        {
+            AmountAddedQuestions = questions.Count() - nonAddedQuestions.Count(),
+            AmountOfQuestionsAlreadyInSet = nonAddedQuestions.Count(),
+            Set = set
+        };
     }
 }

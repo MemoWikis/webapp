@@ -38,7 +38,12 @@ public class AddProbabilitiesEntries_ForSetsAndDates : IRegisterAsInstancePerLif
 
     public void Run(Set set, User user)
     {
-        var questionIds = set.QuestionIds();
+        Run(new List<Set>{set}, user);
+    }
+
+    public void Run(IEnumerable<Set> sets, User user)
+    {
+        var questionIds = sets.SelectMany(set => set.QuestionIds()).Distinct();
         var valuations = Sl.R<QuestionValuationRepo>().GetByQuestionIds(questionIds);
 
         var notValuatedIds = questionIds.Except(valuations.QuestionIds());

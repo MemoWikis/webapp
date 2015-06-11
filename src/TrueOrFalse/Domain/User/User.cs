@@ -23,9 +23,14 @@ public class User : DomainEntity
     public virtual bool ShowWishKnowledge { get; set; }
     public virtual IList<Membership> MembershipPeriods { get; set; }
 
+    public virtual IList<User> Followers { get; set; }
+    public virtual IList<User> Following { get; set; }
+
     public User()
     {
         MembershipPeriods = new List<Membership>();
+        Followers = new List<User>();
+        Following = new List<User>();
     }
 
     public virtual bool IsMember()

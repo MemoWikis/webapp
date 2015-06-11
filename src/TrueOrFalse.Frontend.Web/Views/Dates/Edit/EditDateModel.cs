@@ -9,7 +9,7 @@ public class EditDateModel : BaseModel
     public UIMessage Message;
 
     public int DateId { get; set; }
-
+    
     public string Details { get; set; }
 
     public DateTime Date { get; set; }

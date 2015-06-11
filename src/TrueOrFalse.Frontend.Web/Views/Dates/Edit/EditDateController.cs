@@ -16,10 +16,21 @@ public class EditDateController : BaseController
     [HttpPost]
     public ViewResult Create(EditDateModel model)
     {
-        var date = model.ToDate();
-        R<DateRepo>().Create(date);
+        if (model.IsDateTimeInPast())
+            model.Message = new ErrorMessage("Nicht gespeichert: Der Termin liegt in der Vergangenheit.");
 
-        Response.Redirect("/Termine", true);
+        if (!model.HasSets())
+            model.Message = new ErrorMessage("Nicht gespeichert: Füge Fragesätze hinzu.");
+
+        if (!model.HasErrorMsg())
+        {
+            var date = model.ToDate();
+            R<DateRepo>().Create(date);
+
+            R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
+
+            Response.Redirect("/Termine", true);
+        }
 
         return View(_viewLocation, new EditDateModel());
     }
@@ -51,6 +62,8 @@ public class EditDateController : BaseController
 
             dateRepo.Update(model.FillDateFromInput(date));
             dateRepo.Flush();
+
+            R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
 
             Response.Redirect("/Termine", true);
         }
