@@ -6,7 +6,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
-                <h4>Du bist Nicht angemeldet</h4>
+                <h4><i class="fa fa-power-off"></i> Du bist nicht angemeldet.</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
