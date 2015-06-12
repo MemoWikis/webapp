@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
@@ -64,7 +65,7 @@ public class UsersController : BaseController
         var userRepo = R<UserRepo>();
         var userToFollow = userRepo.GetById(userId);
         userToFollow.Followers.Add(_sessionUser.User);
-        
+
         userRepo.Update(userToFollow);
     }
 

@@ -19,6 +19,8 @@
                 <div id="gradientRight"></div>
             </div>
         </div>
+        
+        <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
 
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
 
@@ -65,6 +67,8 @@
     <% if(Request.IsLocal){ %>
         <%--<%= MiniProfiler.RenderIncludes() %> --%>
     <% } %>
+    
+    <% if (!Model.IsLoggedIn) { Html.RenderPartial("Modal_LoggedIn"); } %>
 </body>
 </html>
 <% if(Settings.GoogleKeyIsSet){ %>

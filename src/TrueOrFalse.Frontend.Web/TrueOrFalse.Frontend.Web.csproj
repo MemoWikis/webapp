@@ -385,6 +385,7 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\SolutionEntry.ts" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
+    <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
@@ -452,6 +453,9 @@
     </Content>
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\NotLoggedIn.js">
+      <DependentUpon>NotLoggedIn.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\SiteMessages.js">
       <DependentUpon>SiteMessages.ts</DependentUpon>
@@ -561,6 +565,7 @@
     <Content Include="Views\Knowledge\Knowledge.css">
       <DependentUpon>Knowledge.less</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Views\Users\Account\Js\Membership.js">
       <DependentUpon>Membership.ts</DependentUpon>
     </Content>
@@ -948,6 +953,9 @@
     <Content Include="Style\font-awesome-4.3.0\scss\_rotated-flipped.scss" />
     <Content Include="Style\font-awesome-4.3.0\scss\_stacked.scss" />
     <Content Include="Style\font-awesome-4.3.0\scss\_variables.scss" />
+    <Content Include="Scripts\NotLoggedIn.js.map">
+      <DependentUpon>NotLoggedIn.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
