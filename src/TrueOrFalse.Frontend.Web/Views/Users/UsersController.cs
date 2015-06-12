@@ -58,4 +58,23 @@ public class UsersController : BaseController
         else if (orderByCommand == "byWishCount") searchSpec.OrderBy.WishCount.Desc();
     }
 
+    [HttpPost][AccessOnlyAsLoggedIn]
+    public void Follow(int userId)
+    {
+        var userRepo = R<UserRepo>();
+        var userToFollow = userRepo.GetById(userId);
+        userToFollow.Followers.Add(_sessionUser.User);
+        
+        userRepo.Update(userToFollow);
+    }
+
+    [HttpPost][AccessOnlyAsLoggedIn]
+    public void UnFollow(int userId)
+    {
+        var userRepo = R<UserRepo>();
+        var userToUnfollow = userRepo.GetById(userId);
+        userToUnfollow.Followers.Remove(_sessionUser.User);
+
+        userRepo.Update(userToUnfollow);
+    }
 }

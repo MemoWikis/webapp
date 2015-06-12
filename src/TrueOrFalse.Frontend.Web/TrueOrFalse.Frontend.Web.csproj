@@ -1724,6 +1724,9 @@
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\Users\Detail\User.aspx" />
+    <TypeScriptCompile Include="Views\Users\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Users\Js\UserRow.ts" />
+    <TypeScriptCompile Include="Views\Users\Js\UserRowFollow.ts" />
     <TypeScriptCompile Include="Views\Users\Js\Users.ts" />
     <Content Include="Views\Users\Account\Settings\UserSettings.aspx" />
     <Content Include="Views\Users\UserRow.ascx" />

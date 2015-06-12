@@ -32,8 +32,14 @@ public class UserRowModel
     public bool IsCurrentUser;
     public bool AllowsSupportiveLogin;
     public bool ShowWishKnowlede;
+
+    public bool DoIFollow;
     
-    public UserRowModel(User user, int indexInResultSet, SessionUser sessionUser)
+    public UserRowModel(
+        User user, 
+        int indexInResultSet, 
+        SessionUser sessionUser,
+        FollowerIAm followerIAm)
     {
         Id = user.Id;
         Name = user.Name;
@@ -59,6 +65,8 @@ public class UserRowModel
         UserLink = urlHelper => Links.UserDetail(urlHelper, user.Name, user.Id);
 
         ImageUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user.EmailAddress).Url;
+
+        DoIFollow = followerIAm.Of(user.Id);
     }
 
 }
