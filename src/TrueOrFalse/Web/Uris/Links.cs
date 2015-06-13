@@ -75,6 +75,18 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string SendAnswer(UrlHelper url, Question question){
             return url.Action("SendAnswer", AnswerQuestionController, new { id = question.Id }, null);
+        }
+
+        public static string SendAnswer(UrlHelper url, Question question, 
+            Game game, Player player, Round round
+            ){
+            return url.Action("SendAnswerGame", "Play", 
+                new{
+                    questionId = question.Id, 
+                    gameId = game.Id,
+                    playerId = player.Id,
+                    roundId = round.Id
+                }, null);
         }   
 
         public static string GetAnswer(UrlHelper url, Question question){
@@ -85,7 +97,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return url.Action("CountLastAnswerAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
-        
 
         /*Set*/
         public const string SetsController = "Sets";
@@ -146,6 +157,22 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Dates", "Dates");
         }
 
+        public static object DateEdit(UrlHelper url, int dateId){
+            return url.Action("Edit", "EditDate", new { dateId = dateId });
+        }
+
+        public static string Games(UrlHelper url){
+            return url.Action("Games", "Games");
+        }
+
+        public static string GameCreate(UrlHelper url){
+            return GetUrlHelper().Action("Create", "Game", null);
+        }
+
+        public static string GamePlay(UrlHelper url, int gameId){
+            return GetUrlHelper().Action("Play", "Play", new { gameId = gameId });
+        }
+
         public const string EditQuestionController = "EditQuestion"; 
 
         public static string CreateQuestion(UrlHelper url, int categoryId = -1)
@@ -159,6 +186,14 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string EditQuestion(UrlHelper url, int questionId)
         {
             return url.Action("Edit", EditQuestionController, new {id = questionId});
+        }
+
+        public static string LoginUrl(){
+            return GetUrlHelper().Action(Login, VariousController);
+        }
+
+        public static string RegisterUrl(){
+            return GetUrlHelper().Action(Login, VariousController);
         }
 
         public const string AnswerQuestionController = "AnswerQuestion";

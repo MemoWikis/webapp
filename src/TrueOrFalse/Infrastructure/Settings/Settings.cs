@@ -5,6 +5,8 @@ public class Settings
 {
     private static readonly AppSettingsReader _settingReader = new AppSettingsReader();
 
+    [ThreadStatic] public static bool UseWebConfig;
+
     public static string SolrUrl;
     public static string SolrPath;
     public static string SolrCoresSuffix;
@@ -13,6 +15,8 @@ public class Settings
 
     public static string EmailFrom = "team@memucho.de";
     public static string EmailTo = "team@memucho.de";
+    
+    public static string MemuchoCookie = "memucho";
 
     public static bool DevelopOffline()
     {
@@ -24,6 +28,11 @@ public class Settings
     public static string Environment(){ return OverwrittenConfig.ValueString("environment"); }
     public static string LogglyKey(){ return OverwrittenConfig.ValueString("logglyKey"); }
     public static string BetaCode(){ return OverwrittenConfig.ValueString("betaCode"); }
+
+    public static string SignalrUrl() { return OverwrittenConfig.ValueString("signalrUrl"); }
+    public static string SignalrUser() { return OverwrittenConfig.ValueString("signalrUser"); }
+    public static string SignalrPassword() { return OverwrittenConfig.ValueString("signalrPassword"); }
+
     public static string ConnectionString()
     {
         var result = OverwrittenConfig.Value("connectionString");

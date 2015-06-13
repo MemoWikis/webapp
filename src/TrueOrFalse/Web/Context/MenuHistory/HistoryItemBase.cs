@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+public enum HistoryItemType{ Any, Edit}
 
-namespace TrueOrFalse
+public interface HistoryItemBase
 {
-    public enum HistoryItemType{ Any, Edit}
-
-    public interface HistoryItemBase
-    {
-        int Id { get;}
-        HistoryItemType Type { get; }
-    }
+    int Id { get;}
+    HistoryItemType Type { get; }
 }

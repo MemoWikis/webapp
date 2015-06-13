@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace TrueOrFalse
+public class SolutionMetadataText : SolutionMetadata
 {
-    public class SolutionMetadataText : SolutionMetadata
+    [JsonProperty("IsCaseSensitive")]
+    public bool IsCaseSensitive;
+
+    [JsonProperty("IsExtracInput")]
+    public bool IsExactInput;
+
+    public SolutionMetadataText()
     {
-        [JsonProperty("IsCaseSensitive")]
-        public bool IsCaseSensitive;
+        IsText = true;
+    }
 
-        [JsonProperty("IsExtracInput")]
-        public bool IsExactInput;
-
-        public SolutionMetadataText()
-        {
-            IsText = true;
-        }
-
-        protected override void InitFromJson(string json)
-        {
-            var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadataText>(json);
-            IsCaseSensitive = tmp.Result.IsCaseSensitive;
-            IsExactInput = tmp.Result.IsExactInput;
-        }
+    protected override void InitFromJson(string json)
+    {
+        var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadataText>(json);
+        IsCaseSensitive = tmp.Result.IsCaseSensitive;
+        IsExactInput = tmp.Result.IsExactInput;
     }
 }

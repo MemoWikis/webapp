@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Security.Policy;
 using System.Web.Mvc;
-using Gibraltar.Agent.Configuration;
-using MarkdownSharp;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -17,6 +12,7 @@ public class AnswerQuestionModel : BaseModel
     public Func<UrlHelper, string> NextUrl;
 
     public int QuestionId;
+    public Question Question;
     public User Creator;
     public string CreatorId { get; private set; }
     public string CreatorName { get; private set; }
@@ -24,7 +20,7 @@ public class AnswerQuestionModel : BaseModel
     public string PageCurrent;
     public string PagesTotal;
     public string PagerKey;
-    public SearchTab SearchTabOverview;
+    public SearchTabType SearchTabOverview;
 
     public string TotalQualityAvg;
     public string TotalQualityEntries;
@@ -70,10 +66,6 @@ public class AnswerQuestionModel : BaseModel
 
     public QuestionVisibility Visibility { get; private set; }
 
-    public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
-    public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
-    public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
-
     public bool HasPreviousPage;
     public bool HasNextPage;
 
@@ -100,6 +92,7 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
     {
+        Question = question;
         PageCurrent = searchSpec.CurrentPage.ToString();
         PagesTotal = searchSpec.PageCount.ToString();
         PagerKey = searchSpec.Key;
@@ -110,9 +103,9 @@ public class AnswerQuestionModel : BaseModel
         NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new {pager = PagerKey});
         PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new {pager = PagerKey});
 
-        SourceIsTabAll = SearchTab.All == searchSpec.SearchTab;
-        SourceIsTabMine = SearchTab.Mine == searchSpec.SearchTab;
-        SourceIsTabWish = SearchTab.Wish == searchSpec.SearchTab;
+        SourceIsTabAll = SearchTabType.All == searchSpec.SearchTab;
+        SourceIsTabMine = SearchTabType.Mine == searchSpec.SearchTab;
+        SourceIsTabWish = SearchTabType.Wish == searchSpec.SearchTab;
 
         if (searchSpec.Filter.IsOneCategoryFilter()){
             SourceCategory = Resolve<CategoryRepository>().GetById(searchSpec.Filter.Categories.First());
@@ -148,7 +141,7 @@ public class AnswerQuestionModel : BaseModel
             if(question.Creator.Id != _sessionUser.User.Id)
                 throw new Exception("Invalid access to questionId" + question.Id);
 
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, UserId));
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
 
         if(IsLoggedIn)
@@ -195,10 +188,6 @@ public class AnswerQuestionModel : BaseModel
         TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries.ToString();
 
         AverageAnswerTime = "";
-
-        AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
-        AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
-        AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
 
         ImageUrl_500px = QuestionImageSettings.Create(question.Id).GetUrl_128px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);

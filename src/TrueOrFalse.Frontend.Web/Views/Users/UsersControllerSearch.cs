@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
-using NHibernate;
-using TrueOrFalse;
 using TrueOrFalse.Search;
-using TrueOrFalse.Web.Context;
 
 public class UsersControllerSearch : IRegisterAsInstancePerLifetime
 {
-    private readonly UserRepository _usersRepo;
+    private readonly UserRepo _usersRepo;
     private readonly SessionUiData _sessionUiData;
     private readonly SearchUsers _searchUsers;
 
     public UsersControllerSearch(
-        UserRepository usersRepo, 
+        UserRepo usersRepo, 
         SessionUiData sessionUiData,
         SearchUsers searchUsers)
     {

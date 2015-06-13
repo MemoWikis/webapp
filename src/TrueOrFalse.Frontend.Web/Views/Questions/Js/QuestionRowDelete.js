@@ -28,7 +28,7 @@ var QuestionDelete = (function () {
                     $("#spanQuestionTitle").html(result.questionTitle.toString());
                 },
                 error: function () {
-                    alert("Ein Fehler ist aufgetreten");
+                    window.alert("Ein Fehler ist aufgetreten");
                 }
             });
         }
@@ -42,7 +42,7 @@ var QuestionDelete = (function () {
                     window.location.reload();
                 },
                 error: function (result) {
-                    alert("Ein Fehler ist aufgetreten");
+                    window.alert("Ein Fehler ist aufgetreten");
                 }
             });
         }

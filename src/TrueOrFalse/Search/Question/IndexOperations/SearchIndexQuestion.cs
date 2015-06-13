@@ -8,14 +8,14 @@ namespace TrueOrFalse.Search
     {
         private readonly ISolrOperations<QuestionSolrMap> _solrOperations;
 
-        private QuestionValuationRepository __questionValuationRepo;
+        private QuestionValuationRepo __questionValuationRepo;
 
-        private QuestionValuationRepository _questionValuationRepo
+        private QuestionValuationRepo _questionValuationRepo
         {
             get
             {
                 if (__questionValuationRepo == null)
-                    __questionValuationRepo = Sl.Resolve<QuestionValuationRepository>();
+                    __questionValuationRepo = Sl.Resolve<QuestionValuationRepo>();
 
                 return __questionValuationRepo;
             }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Web;
-using System.Web.Mvc;
-using TrueOrFalse;
-using TrueOrFalse.Web.Context;
 
 public class ImagesController : BaseController
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Web;
-using TrueOrFalse;
+﻿using System.Web;
 
 public class EditCategoryTypeModel : BaseModel
 {

@@ -1,23 +1,21 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using TrueOrFalse;
-using TrueOrFalse.Web.Context;
 
 public class UserController : BaseController
 {
     private const string _viewLocation = "~/Views/Users/Detail/User.aspx";
 
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
 
-    public UserController(UserRepository userRepository)
+    public UserController(UserRepo userRepo)
     {
-        _userRepository = userRepository;
+        _userRepo = userRepo;
     }
 
     [SetMenu(MenuEntry.UserDetail)]
     new public ViewResult User(string userName, int id)
     {
-        var user = _userRepository.GetById(id);
+        var user = _userRepo.GetById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
         return View(_viewLocation, new UserModel(user));

@@ -1,6 +1,13 @@
-﻿/*.profiler-results {
-    display: none;
-}*/
+﻿/*DON'T COMMIT
+---------------------------------------------------------*/
+.profiler-results {
+  display: none;
+}
+/*Styles for active link in header section (implement later)
+---------------------------------------------------------*/
+a.TextLinkWithIcon.active span {
+  text-decoration: underline;
+}
 /*temp
 ---------------------------------------------------------*/
 /*

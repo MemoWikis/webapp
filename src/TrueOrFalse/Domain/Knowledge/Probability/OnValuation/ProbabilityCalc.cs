@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TrueOrFalse;
 
 /// <summary>
 /// Correctness probability for user
@@ -28,7 +25,8 @@ public class ProbabilityCalc : IRegisterAsInstancePerLifetime
             if (index == 2) weight += 2.5m;
             if (index == 3) weight += 1.5m;
 
-            weightedFavorableOutcomes += (historyItem.AnswerredCorrectly != AnswerCorrectness.False ? 1 : 0) * weight;
+            weightedFavorableOutcomes += 
+                (historyItem.AnswerredCorrectly != AnswerCorrectness.False ? 1 : 0) * weight;
             weightedTotalOutcomes += weight;
         }
 

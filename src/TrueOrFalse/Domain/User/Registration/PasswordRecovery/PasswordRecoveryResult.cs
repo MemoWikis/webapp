@@ -1,8 +1,5 @@
-﻿namespace TrueOrFalse.Registration
+﻿public class PasswordRecoveryResult
 {
-    public class PasswordRecoveryResult
-    {
-        public bool TheEmailDoesNotExist;
-        public bool Success;
-    }
+    public bool TheEmailDoesNotExist;
+    public bool Success;
 }

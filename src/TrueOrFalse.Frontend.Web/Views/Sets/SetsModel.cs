@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -41,19 +40,19 @@ public class SetsModel : BaseModel
     public SetsModel(
         IList<Set> questionSets, 
         SetSearchSpec searchSpec,
-        SearchTab searchTab
+        SearchTabType searchTab
     )
     {
-        ActiveTabAll = searchTab == SearchTab.All;
-        ActiveTabMine = searchTab == SearchTab.Mine;
-        ActiveTabWish = searchTab == SearchTab.Wish;
+        ActiveTabAll = searchTab == SearchTabType.All;
+        ActiveTabMine = searchTab == SearchTabType.Mine;
+        ActiveTabWish = searchTab == SearchTabType.Wish;
 
         AccessNotAllowed = !_sessionUser.IsLoggedIn && !ActiveTabAll;
 
         OrderBy = searchSpec.OrderBy;
         OrderByLabel = searchSpec.OrderBy.ToText();
 
-        var valuations = R<SetValuationRepository>().GetBy(questionSets.GetIds(), _sessionUser.UserId);
+        var valuations = R<SetValuationRepo>().GetBy(questionSets.GetIds(), _sessionUser.UserId);
 
         var counter = 0;
         Rows = questionSets.Select(set => 

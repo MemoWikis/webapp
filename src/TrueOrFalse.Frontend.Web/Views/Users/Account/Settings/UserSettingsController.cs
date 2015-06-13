@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
-using TrueOrFalse;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 
 public class UserSettingsController : BaseController
 {
     private const string _viewLocation = "~/Views/Users/Account/Settings/UserSettings.aspx";
 
-    private readonly UserRepository _userRepo;
+    private readonly UserRepo _userRepo;
 
-    public UserSettingsController(UserRepository userRepo){
+    public UserSettingsController(UserRepo userRepo){
         _userRepo = userRepo;
     }
 

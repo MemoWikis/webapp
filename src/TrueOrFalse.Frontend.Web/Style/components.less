@@ -50,7 +50,7 @@ ul.ui-autocomplete {
         }
     }
 
-    .CatListItem {
+    .CatListItem, .SetListItem {
         
         border: 1px transparent solid;
         padding: 5px !important;
@@ -138,7 +138,7 @@ ul.ui-autocomplete {
 @item-row-image-padding: 5px;
 
 
-.question-row, .category-row, .set-row, .user-row {
+.question-row, .category-row, .set-row, .user-row, .date-row, .game-row {
 
     margin-left: -@grid-gutter-width/2;
     margin-right: -@grid-gutter-width/2;
@@ -169,6 +169,12 @@ div.selected-row:hover { background-color: #d6e0f4;}
 //Row contents
 
 
+.row-drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+    -webkit-box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+    -moz-box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+    box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+}
+
 .rowBase{
     &.question-row, &.category-row, &.set-row, &.user-row {
         .media-sm-up ({//make all columns (image, main content, additional) have the same height
@@ -177,6 +183,11 @@ div.selected-row:hover { background-color: #d6e0f4;}
             flex-direction: row;
         });
     }
+
+    /* TEST */
+    margin-bottom: 13px;
+    .row-drop-shadow(2px, 2px, 7px, 1px, 0.5);
+    
 }
 
 .column-Image {

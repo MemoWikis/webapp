@@ -1,34 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace TrueOrFalse
+public enum DatePrecision
 {
-    public enum DatePrecision
-    {
-        Day = 1,
-        Month = 2,
-        Year = 3,
-        Decade = 4,
-        Century = 5,
-        Millenium = 6
+    Day = 1,
+    Month = 2,
+    Year = 3,
+    Decade = 4,
+    Century = 5,
+    Millenium = 6
+}
+
+public class SolutionMetadataDate : SolutionMetadata
+{
+    public SolutionMetadataDate(){
+        IsDate = true;
     }
 
-    public class SolutionMetadataDate : SolutionMetadata
+    [JsonProperty("Precision")]
+    public DatePrecision Precision;
+
+    protected override void InitFromJson(string json)
     {
-        public SolutionMetadataDate(){
-            IsDate = true;
-        }
-
-        [JsonProperty("Precision")]
-        public DatePrecision Precision;
-
-        protected override void InitFromJson(string json)
-        {
-            var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadataDate>(json);
-            Precision = tmp.Result.Precision;
-        }
+        var tmp = JsonConvert.DeserializeObjectAsync<SolutionMetadataDate>(json);
+        Precision = tmp.Result.Precision;
     }
 }

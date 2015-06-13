@@ -19,9 +19,9 @@ namespace TrueOrFalse.Tests.Persistence
             var questionSet = new Set {Creator = ContextUser.New().Add("some body").Persist().All.Last()};
             questionSet.Add(context.All);
 
-            Resolve<SetRepository>().Create(questionSet);
+            Resolve<SetRepo>().Create(questionSet);
 
-            var questionSetFromDb = Resolve<SetRepository>().GetAll()[0];
+            var questionSetFromDb = Resolve<SetRepo>().GetAll()[0];
             Assert.That(questionSetFromDb.QuestionsInSet.Count, Is.EqualTo(4));
         }
     }

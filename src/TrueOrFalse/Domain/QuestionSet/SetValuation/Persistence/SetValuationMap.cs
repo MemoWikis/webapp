@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentNHibernate.Mapping;
-using NHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 
-namespace TrueOrFalse
+public class SetValuationMap : ClassMap<SetValuation>
 {
-    public class SetValuationMap : ClassMap<SetValuation>
+    public SetValuationMap()
     {
-        public SetValuationMap()
-        {
-            Id(x => x.Id);
-            Map(x => x.UserId);
-            Map(x => x.SetId);
+        Id(x => x.Id);
+        Map(x => x.UserId);
+        Map(x => x.SetId);
 
-            Map(x => x.RelevancePersonal);
+        Map(x => x.RelevancePersonal);
 
-            Map(x => x.DateCreated);
-            Map(x => x.DateModified);
-        }
+        Map(x => x.DateCreated);
+        Map(x => x.DateModified);
     }
 }

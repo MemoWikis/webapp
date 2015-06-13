@@ -1,6 +1,5 @@
 using System;
 using System.Web.Mvc;
-using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryRowModel : BaseModel

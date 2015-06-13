@@ -1,9 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
     Inherits="System.Web.Mvc.ViewPage<CategoryModel>"%>
-
-<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" />

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Seedworks.Lib;
 using TrueOrFalse;
 
 public class SetModel : BaseModel
@@ -57,7 +55,7 @@ public class SetModel : BaseModel
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
-        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepository>()
+        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepo>()
             .GetBy(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);
 
         var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
@@ -77,7 +75,7 @@ public class SetModel : BaseModel
         AnswerMePercentageTrue = totalsPerUser.Sum(q => q.TotalTrue);
         AnswerMePercentageFalse = totalsPerUser.Sum(q => q.TotalFalse);
 
-        var setValuations = Resolve<SetValuationRepository>().GetBy(Id);
+        var setValuations = Resolve<SetValuationRepo>().GetBy(Id);
         var setValuation = setValuations.FirstOrDefault(sv => sv.UserId == _sessionUser.UserId);
         if (setValuation != null){
             IsInWishknowledge = setValuation.IsInWishknowledge();

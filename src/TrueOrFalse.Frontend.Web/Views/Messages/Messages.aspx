@@ -34,20 +34,22 @@
                             <span class="show-tooltip" title="<%: msg.WhenDatetime %>">vor <%: msg.When %></span>
                         </div>
                         <div class="col-sm-7  footer">
-                            <span class="pull-right" style="<%: msg.IsRead ? "display: none" : "" %>">
-                                <a href="#" class="TextLinkWithIcon markAsRead">
-                                    <span class="TextSpan">als gelesen makieren</span> 
-                                    &nbsp; <i class="fa fa-square-o show-tooltip" style="color:sandybrown;" title="Die Frage ist ungelesen"></i>
+                            <%if(msg.MessageId != 0){ %>
+                                <span class="pull-right" style="<%: msg.IsRead ? "display: none" : "" %>">
+                                    <a href="#" class="TextLinkWithIcon markAsRead">
+                                        <span class="TextSpan">als gelesen makieren</span> 
+                                        &nbsp; <i class="fa fa-square-o show-tooltip" style="color:sandybrown;" title="Die Frage ist ungelesen"></i>
 
-                                </a>
-                            </span>
+                                    </a>
+                                </span>
                     
-                            <span class="pull-right" style="<%: msg.IsRead ? "" : "display: none" %>">
-                                <a href="#" class="TextLinkWithIcon markAsUnRead">
-                                    <span class="TextSpan">als ungelesen makieren</span> 
-                                    &nbsp; <i class="fa fa-check-square-o show-tooltip" style="color:green" title="Die Frage ist gelesen"></i>
-                                </a>
-                            </span>
+                                <span class="pull-right" style="<%: msg.IsRead ? "" : "display: none" %>">
+                                    <a href="#" class="TextLinkWithIcon markAsUnRead"><%= msg.MessageId %>
+                                        <span class="TextSpan">als ungelesen makieren</span> 
+                                        &nbsp; <i class="fa fa-check-square-o show-tooltip" style="color:green" title="Die Frage ist gelesen"></i>
+                                    </a>
+                                </span>
+                            <% } %>
                         </div>
                     </div>
                 </div>

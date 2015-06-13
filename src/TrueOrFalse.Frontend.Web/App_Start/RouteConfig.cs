@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace TrueOrFalse
@@ -68,6 +64,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Sets_Delete", "Sets/Delete/{setId}", new { controller = "Sets", action = "Delete" });
             /* API */ routes.MapRoute("Sets_SaveRelevancePersonal", "Sets/SaveRelevancePersonal/{id}/{newValue}", new { controller = "Sets", action = "SaveRelevancePersonal" });
 
+            routes.MapRoute("Set_Detail_Id", "Fragesatz/{id}", new { controller = "Set", action = "QuestionSetById" });
             routes.MapRoute("Set_Detail", "Fragesaetze/{text}/{id}/{elementOnPage}", new { controller = "Set", action = "QuestionSet" });
             routes.MapRoute("Sets_Edit", "Fragesaetze/Bearbeite/{id}", new { controller = "EditSet", action = "Edit" });
             /* API */ routes.MapRoute("Set_ChangeIndicies", "Set/UpdateQuestionsOrder", new { controller = "EditSet", action = "UpdateQuestionsOrder" });
@@ -89,7 +86,15 @@ namespace TrueOrFalse
 
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
+            
             routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
+            routes.MapRoute("DatesCreate", "Termin/Erstellen", new { controller = "EditDate", action = "Create" });
+            routes.MapRoute("DatesEdit", "Termin/Bearbeiten/{0}", new { controller = "EditDate", action = "Edit" });
+            routes.MapRoute("DatesDetails", "Termin/Details/{0}", new { controller = "Date", action = "Edit" });
+            
+            routes.MapRoute("Games", "Spielen/{action}", new { controller = "Games", action = "Games" });
+            routes.MapRoute("GamesCreate", "Spiel/Erstellen", new { controller = "Game", action = "Create" });
+            routes.MapRoute("GamesPlay", "Spiel/{gameId}", new { controller = "Play", action = "Play" });
 
             routes.MapRoute("Beta", "Beta", new { controller = "Beta", action = "Beta" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });

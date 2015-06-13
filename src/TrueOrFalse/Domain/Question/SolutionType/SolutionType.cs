@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TrueOrFalse
+﻿namespace TrueOrFalse
 {
     public enum SolutionType
     {
@@ -12,5 +7,5 @@ namespace TrueOrFalse
         Date = 6,
         MultipleChoice = 3,
         Sequence = 5
-    }
+    }    
 }

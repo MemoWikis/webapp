@@ -133,6 +133,12 @@ h1 *.ColoredUnderline {
 .ColoredUnderline.Message {
   border-bottom-color: #ffa500;
 }
+.ColoredUnderline.Play {
+  border-bottom-color: #3e7700;
+}
+.ColoredUnderline.Date {
+  border-bottom-color: #138992;
+}
 .ColoredText.Knowledge {
   color: #b13a48;
 }
@@ -1338,7 +1344,7 @@ div.box-main .box-content {
 }
 .rowBase,
 .category-row {
-  border-top: 5px solid #ffffff;
+  /*border-top: 5px solid lighten(@middle-blue, 20%);*/
 }
 .rowBase:first-child,
 .category-row:first-child {

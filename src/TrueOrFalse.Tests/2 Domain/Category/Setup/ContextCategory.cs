@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BDDish.Model;
-using TrueOrFalse;
-using TrueOrFalse.Infrastructure;
 
 namespace TrueOrFalse.Tests
 {

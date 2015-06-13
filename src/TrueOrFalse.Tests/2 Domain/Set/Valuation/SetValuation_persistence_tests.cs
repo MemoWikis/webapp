@@ -20,7 +20,7 @@ namespace TrueOrFalse.Tests
                     RelevancePersonal = 10
                 };
 
-            Resolve<SetValuationRepository>().Create(questionValuation);
+            Resolve<SetValuationRepo>().Create(questionValuation);
         }
 
         [Test]
@@ -31,9 +31,9 @@ namespace TrueOrFalse.Tests
             var setValuation2 = new SetValuation { SetId = 2, UserId = 1, RelevancePersonal = 7 };
             var setValuation3 = new SetValuation { SetId = 3, UserId = 2, RelevancePersonal = 7 };
 
-            Resolve<SetValuationRepository>().Create(new List<SetValuation>{setValuation1, setValuation2, setValuation3});
+            Resolve<SetValuationRepo>().Create(new List<SetValuation>{setValuation1, setValuation2, setValuation3});
 
-            Assert.That(Resolve<SetValuationRepository>().GetBy(new[] { 1, 2, 3 }, 1).Count, Is.EqualTo(2));
+            Assert.That(Resolve<SetValuationRepo>().GetBy(new[] { 1, 2, 3 }, 1).Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace TrueOrFalse.Tests
             var setValuation2 = new SetValuation { SetId = 2, UserId = 1, RelevancePersonal = 7 };
             var setValuation3 = new SetValuation { SetId = 3, UserId = 1, RelevancePersonal = -1 };
 
-            Resolve<SetValuationRepository>().Create(new List<SetValuation>{setValuation1, setValuation2, setValuation3});
+            Resolve<SetValuationRepo>().Create(new List<SetValuation>{setValuation1, setValuation2, setValuation3});
 
             Assert.That(Resolve<GetWishSetCount>().Run(1), Is.EqualTo(2));
             Assert.That(Resolve<GetWishSetCount>().Run(2), Is.EqualTo(0));

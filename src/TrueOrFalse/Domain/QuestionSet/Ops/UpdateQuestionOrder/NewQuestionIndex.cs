@@ -1,10 +1,7 @@
-﻿namespace TrueOrFalse
+﻿public class NewQuestionIndex
 {
-    public class NewQuestionIndex
-    {
-        /// <summary>QuestionInSetId</summary>
-        public int Id;
+    /// <summary>QuestionInSetId</summary>
+    public int Id;
 
-        public int NewIndex;
-    }
+    public int NewIndex;
 }

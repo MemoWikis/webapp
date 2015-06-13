@@ -23,7 +23,7 @@
 @import 'colors.less';
 @import 'extends.less';
 //@import (reference) '../bootstrap/bootstrap.less';
-@import '../font-awesome-4.1.0/less/font-awesome.less';
+@import '../font-awesome-4.3.0/less/font-awesome.less';
 
 /*  Helper classes
 ----------------------------------------------------------*/
@@ -214,19 +214,29 @@
     background-color: @color-background-lightblue;
     border-color: #5bc0de !important;
 }
+
+.bs-callout-danger {
+    background-color: @color-background-lightblue;
+    border-color: #ce4844 !important;
+}
+
 .bs-callout {
     margin: 20px 0;
     padding: 20px;
     border-left: 3px solid #eee;
 }
 
-.bs-callout-info h4 {
-    color: #5bc0de;
-}
-
 .bs-callout h4 {
     margin-top: 0;
     margin-bottom: 5px;
+}
+
+.bs-callout-info h4 {
+    color: #5bc0de !important;
+}
+
+.bs-callout-danger h4 {
+    color: #ce4844 !important;
 }
 
 .bs-callout p:last-child {

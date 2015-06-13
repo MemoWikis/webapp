@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl"  %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>        
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <header id="MasterHeader" class="<%= GetRandomLogoCssClass.Run() %>">
     <div class="container">

@@ -3,8 +3,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
-using FluentNHibernate.Conventions.AcceptanceCriteria;
 using TrueOrFalse;
 
 public class ImageUrl

@@ -1,43 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using TrueOrFalse;
 
-namespace TrueOrFalse
+public class AnswerQuestion : IRegisterAsInstancePerLifetime
 {
-    public class AnswerQuestion : IRegisterAsInstancePerLifetime
+    private readonly QuestionRepository _questionRepository;
+    private readonly AnswerHistoryLog _answerHistoryLog;
+    private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
+    private readonly ProbabilityUpdate _probabilityUpdate;
+
+    public AnswerQuestion(QuestionRepository questionRepository, 
+                            AnswerHistoryLog answerHistoryLog, 
+                            UpdateQuestionAnswerCount updateQuestionAnswerCount, 
+                            ProbabilityUpdate probabilityUpdate)
     {
-        private readonly QuestionRepository _questionRepository;
-        private readonly AnswerHistoryLog _answerHistoryLog;
-        private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
-        private readonly ProbabilityForUserUpdate _probabilityForUserUpdate;
+        _questionRepository = questionRepository;
+        _answerHistoryLog = answerHistoryLog;
+        _updateQuestionAnswerCount = updateQuestionAnswerCount;
+        _probabilityUpdate = probabilityUpdate;
+    }
 
-        public AnswerQuestion(QuestionRepository questionRepository, 
-                              AnswerHistoryLog answerHistoryLog, 
-                              UpdateQuestionAnswerCount updateQuestionAnswerCount, 
-                              ProbabilityForUserUpdate probabilityForUserUpdate)
-        {
-            _questionRepository = questionRepository;
-            _answerHistoryLog = answerHistoryLog;
-            _updateQuestionAnswerCount = updateQuestionAnswerCount;
-            _probabilityForUserUpdate = probabilityForUserUpdate;
-        }
+    public AnswerQuestionResult Run(
+        int questionId, 
+        string answer, 
+        int userId, 
+        int playerId,
+        int roundId)
+    {
+        var player = Sl.R<PlayerRepo>().GetById(playerId);
+        var round = Sl.R<RoundRepo>().GetById(roundId);
 
-        public AnswerQuestionResult Run(int questionId, string answer, int userId)
-        {
-            var question = _questionRepository.GetById(questionId);
-            var solution = new GetQuestionSolution().Run(question);
+        return Run(questionId, answer, userId, (question, answerQuestionResult) => {
+            _answerHistoryLog.Run(question, answerQuestionResult, userId, player, round);
+        });
+    }
 
-            var result = new AnswerQuestionResult();
-            result.IsCorrect = solution.IsCorrect(answer.Trim());
-            result.CorrectAnswer = solution.CorrectAnswer();
-            result.AnswerGiven = answer;
+    public AnswerQuestionResult Run(int questionId, string answer, int userId)
+    {
+        return Run(questionId, answer, userId, (question, answerQuestionResult) => {
+            _answerHistoryLog.Run(question, answerQuestionResult, userId); 
+        });
+    }
 
-            _answerHistoryLog.Run(question, result, userId);
-            _updateQuestionAnswerCount.Run(questionId, result.IsCorrect);
-            _probabilityForUserUpdate.Run(questionId, userId);
+    public AnswerQuestionResult Run(
+        int questionId, 
+        string answer, 
+        int userId,
+        Action<Question, AnswerQuestionResult> action)
+    {
+        var question = _questionRepository.GetById(questionId);
+        var solution = new GetQuestionSolution().Run(question);
 
-            return result;
-        }
+        var result = new AnswerQuestionResult();
+        result.IsCorrect = solution.IsCorrect(answer.Trim());
+        result.CorrectAnswer = solution.CorrectAnswer();
+        result.AnswerGiven = answer;
+
+        action(question, result);
+
+        _updateQuestionAnswerCount.Run(questionId, result.IsCorrect);
+        _probabilityUpdate.Run(questionId, userId);
+
+        return result;
     }
 }

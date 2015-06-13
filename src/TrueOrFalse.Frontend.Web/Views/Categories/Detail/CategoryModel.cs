@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using TrueOrFalse;
+﻿using System.Collections.Generic;
 
 public class CategoryModel : BaseModel
 {
@@ -62,7 +58,7 @@ public class CategoryModel : BaseModel
 
         TopQuestions = questionRepo.GetForCategory(category.Id, 5, UserId);
         TopWishQuestions = wishQuestions.Items;
-        TopSets = Resolve<SetRepository>().GetForCategory(category.Id);
+        TopSets = Resolve<SetRepo>().GetForCategory(category.Id);
 
         CategoriesParent = category.ParentCategories;
         CategoriesChildren = Resolve<CategoryRepository>().GetChildren(category.Id);

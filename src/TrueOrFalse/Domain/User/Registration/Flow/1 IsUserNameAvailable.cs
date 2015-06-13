@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TrueOrFalse.Infrastructure;
-
-namespace TrueOrFalse.Registration
+﻿public class IsEmailAddressAvailable : IRegisterAsInstancePerLifetime
 {
-    public class IsEmailAddressAvailable : IRegisterAsInstancePerLifetime
-    {
-        private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
 
-        public IsEmailAddressAvailable(UserRepository userRepository){
-            _userRepository = userRepository;
-        }
+    public IsEmailAddressAvailable(UserRepo userRepo){
+        _userRepo = userRepo;
+    }
 
-        public bool Yes(string emailAddress){
-            return _userRepository.GetByEmail(emailAddress) == null;
-        }
+    public bool Yes(string emailAddress){
+        return _userRepo.GetByEmail(emailAddress) == null;
     }
 }

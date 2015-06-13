@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TrueOrFalse.Frontend.Web.Code
+﻿namespace TrueOrFalse.Frontend.Web.Code
 {
     public static class UserControls
     {

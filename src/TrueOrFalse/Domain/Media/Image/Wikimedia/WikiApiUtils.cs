@@ -43,11 +43,15 @@ namespace TrueOrFalse
 
             //Get file name from mediaviewer url (http://commons.wikimedia.org/wiki/Main_Page#mediaviewer/File:Liguus_virgineus_01.JPG)
             //and details page url (http://commons.wikimedia.org/wiki/File:Liguus_virgineus_01.JPG)  
-            if (filePath.Contains("File:"))
-                return filePath.Split(new[] { "File:" }, StringSplitOptions.None).Last();
+            var fileWords = new[] {"File:", "Datei:"};
+            if (fileWords.Any(x => filePath.Contains(x)))
+                return filePath.Split(fileWords, StringSplitOptions.None).Last();
 
             //Get file name from file url (http://upload.wikimedia.org/wikipedia/commons/0/02/Liguus_virgineus_01.JPG)
             if (filePath.Contains("upload.wikimedia.org"))
+                return filePath.Split('/').Last();
+
+            if(filePath.Contains("/"))
                 return filePath.Split('/').Last();
 
             return filePath;

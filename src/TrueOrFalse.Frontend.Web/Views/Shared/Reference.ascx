@@ -1,8 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TrueOrFalse.Category>" %>
-<%@ Import Namespace="System.Activities.Statements" %>
-<%@ Import Namespace="System.Web.Razor.Parser.SyntaxTree" %>
-<%@ Import Namespace="Microsoft.Ajax.Utilities" %>
-<%@ Import Namespace="TrueOrFalse" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Category>" %>
 
 <%
     object type = Model.GetTypeModel();

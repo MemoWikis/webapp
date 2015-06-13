@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="TrueOrFalse.Infrastructure" %>
 
 <%= Styles.Render("~/bundles/css") %>
 <%= Scripts.Render("~/bundles/shared") %>

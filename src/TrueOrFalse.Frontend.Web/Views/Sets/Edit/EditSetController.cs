@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Web.Mvc;
-using TrueOrFalse;
-using TrueOrFalse.Web;
 using Newtonsoft.Json;
+using TrueOrFalse.Web;
 
 public class EditSetController : BaseController
 {
@@ -26,7 +24,7 @@ public class EditSetController : BaseController
 
         var set = model.ToQuestionSet();
         set.Creator = _sessionUser.User;
-        Resolve<SetRepository>().Create(set);
+        Resolve<SetRepo>().Create(set);
 
         model = new EditSetModel();
         model.SetToCreateModel();
@@ -40,7 +38,7 @@ public class EditSetController : BaseController
 
     public ViewResult Edit(int id)
     {
-        var set = Resolve<SetRepository>().GetById(id);
+        var set = Resolve<SetRepo>().GetById(id);
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set, HistoryItemType.Edit));
         var model = new EditSetModel(set);
         model.SetToUpdateModel();
@@ -50,7 +48,7 @@ public class EditSetController : BaseController
     [HttpPost]
     public ViewResult Edit(int id, EditSetModel model)
     {
-        var questionSetRepo = Resolve<SetRepository>();
+        var questionSetRepo = Resolve<SetRepo>();
         var set = questionSetRepo.GetById(id);
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set, HistoryItemType.Edit));
         StoreImage(set.Id);

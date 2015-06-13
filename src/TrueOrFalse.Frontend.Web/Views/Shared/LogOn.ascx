@@ -1,17 +1,23 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
-<%@ Import Namespace="TrueOrFalse.Web.Context" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+    
+<%  var userSession = new SessionUser(); %>
 
 <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
     <i class="fa fa-thumbs-up"></i>
-    <span class="TextSpan">Werde Unterstützer</span>
+    <span class="TextSpan">
+        <% if (userSession.IsLoggedIn && userSession.User.IsMember()){ %>
+            Du bist Unterstützer!
+        <% }else{ %>
+            Werde Unterstützer!
+        <% } %>
+    </span>
 </a>
 <a class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">
     <i class="fa fa-question-circle"></i>
     <span class="TextSpan Help">Hilfe & mehr</span>
 </a> 
 <%
-    var userSession = new SessionUser();
     
     if (userSession.IsLoggedIn)
     {

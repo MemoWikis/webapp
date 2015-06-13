@@ -2,12 +2,14 @@
   "BrowserLink": {
     "CssIgnorePatterns": "bootstrap*; reset.css; normalize.css; jquery*; toastr*; foundation*; animate*; inuit*; elements*; ratchet*; hint*; flat-ui*; 960*; skeleton*",
     "EnableMenu": true,
-    "EnablePixelPushing": true,
+    "EnablePixelPushing": false,
     "ShowMenu": false
   },
   "CodeGen": {
     "CamelCasePropertyNames": true,
-    "CamelCaseTypeNames": false
+    "CamelCaseTypeNames": false,
+    "AddTypeScriptReferencePath": true,
+    "CamelCaseEnumerationValues": false
   },
   "CoffeeScript": {
     "CompileOnBuild": true,
@@ -19,7 +21,8 @@
     "WrapClosure": true,
     "LintOnBuild": false,
     "LintOnSave": true,
-    "LintResultLocation": "Message"
+    "LintResultLocation": "Message",
+    "ProcessSourceMapsForEditorEnhancements": true
   },
   "Css": {
     "AdjustRelativePaths": true,
@@ -34,12 +37,21 @@
     "ValidateStarSelector": true,
     "ValidateVendorSpecifics": true,
     "ValidateZeroUnit": true,
-    "ValidationLocation": "Messages"
+    "ValidationLocation": "Messages",
+    "Autoprefix": false,
+    "AutoprefixerBrowsers": null,
+    "GenerateRtlSourceMaps": true,
+    "MakeMinified": true,
+    "OutputDirectory": null,
+    "RtlCss": false,
+    "RunOnBuild": false,
+    "SyncBase64ImageValues": true
   },
   "General": {
     "AllMessagesToOutputWindow": false,
     "KeepImportantComments": true,
-    "SvgPreviewPane": true
+    "SvgPreviewPane": true,
+    "ShowWEIgnoreLogs": true
   },
   "Html": {
     "AutoMinify": false,
@@ -63,7 +75,17 @@
         "HtmlFormat": "<div style=\"background-image=url('{0}')\"></div>",
         "Name": "Inline CSS"
       }
-    ]
+    ],
+    "AttributeQuotesRemovalMode": "KeepQuotes",
+    "CustomAngularDirectiveList": null,
+    "EnableBootstrapValidation": true,
+    "EnableFoundationValidation": true,
+    "MakeMinified": true,
+    "MinifyAngularBindingExpressions": false,
+    "MinifyKnockoutBindingExpressions": false,
+    "OutputDirectory": null,
+    "ProcessableScriptTypeList": null,
+    "RunOnBuild": false
   },
   "JavaScript": {
     "AutoMinify": false,
@@ -72,7 +94,13 @@
     "GzipMinifiedFiles": false,
     "LintOnBuild": false,
     "LintOnSave": true,
-    "LintResultLocation": "Message"
+    "LintResultLocation": "Message",
+    "EvalTreatment": "MakeImmediateSafe",
+    "MakeMinified": true,
+    "OutputDirectory": null,
+    "RootDirectory": "/Scripts/",
+    "RunOnBuild": false,
+    "TermSemicolons": true
   },
   "Less": {
     "CompileOnBuild": false,
@@ -81,7 +109,9 @@
     "MinifyInPlace": false,
     "OutputDirectory": null,
     "ShowPreviewPane": true,
-    "EnableChainCompilation": true
+    "EnableChainCompilation": true,
+    "ProcessSourceMapsForEditorEnhancements": true,
+    "StrictMath": false
   },
   "Markdown": {
     "AutoHyperlink": false,
@@ -118,7 +148,11 @@
     "GenerateSourceMaps": true,
     "MinifyInPlace": false,
     "OutputDirectory": null,
-    "ShowPreviewPane": true
+    "ShowPreviewPane": true,
+    "NumberPrecision": 5,
+    "OutputStyle": "Expanded",
+    "ProcessSourceMapsForEditorEnhancements": true,
+    "UseRubyRuntime": false
   },
   "SweetJs": {
     "CompileOnBuild": false,
@@ -126,6 +160,35 @@
     "GenerateSourceMaps": true,
     "MinifyInPlace": false,
     "OutputDirectory": null,
-    "ShowPreviewPane": true
+    "ShowPreviewPane": true,
+    "ProcessSourceMapsForEditorEnhancements": true
+  },
+  "Handlebars": {
+    "CompileOnBuild": false,
+    "CompileOnSave": true,
+    "MinifyInPlace": false,
+    "OutputDirectory": null
+  },
+  "LiveScript": {
+    "CompileOnBuild": false,
+    "CompileOnSave": true,
+    "GenerateSourceMaps": true,
+    "MinifyInPlace": false,
+    "OutputDirectory": null,
+    "ProcessSourceMapsForEditorEnhancements": true,
+    "ShowPreviewPane": true,
+    "WrapClosure": true
+  },
+  "Sprite": {
+    "CssOutputDirectory": null,
+    "IsVertical": true,
+    "LessOutputDirectory": null,
+    "Margin": 1,
+    "Optimize": true,
+    "OutputDirectory": null,
+    "RunOnBuild": false,
+    "ScssOutputDirectory": null,
+    "UseAbsoluteUrl": false,
+    "UseFullPathForIdentifierName": true
   }
 }

@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using Seedworks.Lib;
-using TrueOrFalse;
 
 public class SetsController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Sets.aspx";
 
-    private readonly SetRepository _setRepo;
+    private readonly SetRepo _setRepo;
     private readonly SetsControllerSearch _setsControllerSearch;
     private readonly SetsControllerUtil _util;
 
     public SetsController(
-        SetRepository setRepo, 
+        SetRepo setRepo, 
         SetsControllerSearch setsControllerSearch)
     {
         _setRepo = setRepo;
@@ -31,7 +29,7 @@ public class SetsController : BaseController
     public ActionResult SetsWishSearchApi(string searchTerm)
     {
         _util.SetSearchFilter(_sessionUiData.SearchSpecSetWish, new SetsModel(), searchTerm);
-        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetWish, SearchTab.Wish, ControllerContext);
+        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetWish, SearchTabType.Wish, ControllerContext);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
@@ -43,13 +41,13 @@ public class SetsController : BaseController
 
         var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetWish);
         return View(_viewLocation, 
-            new SetsModel(sets, _sessionUiData.SearchSpecSetWish, SearchTab.Wish));
+            new SetsModel(sets, _sessionUiData.SearchSpecSetWish, SearchTabType.Wish));
     }
 
     public ActionResult SetsMineSearchApi(string searchTerm)
     {
         _util.SetSearchFilter(_sessionUiData.SearchSpecSetMine, new SetsModel(), searchTerm);
-        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetMine, SearchTab.Mine, ControllerContext);
+        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetMine, SearchTabType.Mine, ControllerContext);
     }
 
     public ActionResult SetsMineSearch(string searchTerm, SetsModel model, int? page, string orderBy)
@@ -66,7 +64,7 @@ public class SetsController : BaseController
         _sessionUiData.SearchSpecSetMine.Filter.CreatorId = _sessionUser.UserId;
 
         var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetMine);
-        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetMine, SearchTab.Mine));
+        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetMine, SearchTabType.Mine));
     }
 
     public ActionResult SetsSearch(string searchTerm, SetsModel model, int? page, string orderBy)
@@ -78,7 +76,7 @@ public class SetsController : BaseController
     public JsonResult SetsSearchApi(string searchTerm)
     {
         _util.SetSearchFilter(_sessionUiData.SearchSpecSetsAll, new SetsModel(), searchTerm);
-        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetsAll, SearchTab.All, ControllerContext);
+        return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetsAll, SearchTabType.All, ControllerContext);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
@@ -87,7 +85,7 @@ public class SetsController : BaseController
         _util.SetSearchSpecVars(_sessionUiData.SearchSpecSetsAll, page, orderBy);
 
         var sets = _setsControllerSearch.Run(_sessionUiData.SearchSpecSetsAll);
-        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetsAll, SearchTab.All));
+        return View(_viewLocation, new SetsModel(sets, _sessionUiData.SearchSpecSetsAll, SearchTabType.All));
     }
 
     [HttpPost]
@@ -123,13 +121,13 @@ public class SetsController : BaseController
             SetsModel model,
             string orderBy,
             SetSearchSpec searchSpec,
-            SearchTab searchTab)
+            SearchTabType searchTab)
         {
             SetSearchSpecVars(searchSpec, page, orderBy);
 
-            if (searchTab == SearchTab.Mine)
+            if (searchTab == SearchTabType.Mine)
                 searchSpec.Filter.CreatorId = _sessionUser.UserId;
-            else if (searchTab == SearchTab.Wish)
+            else if (searchTab == SearchTabType.Wish)
                 searchSpec.Filter.ValuatorId = _sessionUser.UserId;
 
             var questionsModel = new SetsModel(_setsControllerSearch.Run(searchSpec), searchSpec, searchTab);
@@ -140,7 +138,7 @@ public class SetsController : BaseController
         public JsonResult SearchApi(
             string searchTerm,
             SetSearchSpec searchSpec,
-            SearchTab searchTab,
+            SearchTabType searchTab,
             ControllerContext controllerContext)
         {
             var model = new SetsModel();
@@ -149,9 +147,9 @@ public class SetsController : BaseController
             var totalInSystem = 0;
             switch (searchTab)
             {
-                case SearchTab.All: totalInSystem = R<GetTotalSetCount>().Run(); break;
-                case SearchTab.Mine: totalInSystem = R<GetTotalSetCount>().Run(_sessionUser.UserId); break;
-                case SearchTab.Wish: totalInSystem = R<GetWishSetCount>().Run(_sessionUser.UserId); break;
+                case SearchTabType.All: totalInSystem = R<GetTotalSetCount>().Run(); break;
+                case SearchTabType.Mine: totalInSystem = R<GetTotalSetCount>().Run(_sessionUser.UserId); break;
+                case SearchTabType.Wish: totalInSystem = R<GetWishSetCount>().Run(_sessionUser.UserId); break;
             }
 
             return new JsonResult

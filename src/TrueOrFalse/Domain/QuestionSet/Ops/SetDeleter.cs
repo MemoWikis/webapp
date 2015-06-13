@@ -1,34 +1,27 @@
-﻿using System.Linq;
-using NHibernate;
-using TrueOrFalse.Search;
-using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
+﻿using TrueOrFalse.Search;
 
-namespace TrueOrFalse
+public class SetDeleter : IRegisterAsInstancePerLifetime
 {
-    public class SetDeleter : IRegisterAsInstancePerLifetime
+    private readonly SetRepo _setRepo;
+    private readonly SearchIndexSet _searchIndexSet;
+
+    public SetDeleter(SetRepo setRepo, SearchIndexSet searchIndexSet)
     {
-        private readonly SetRepository _setRepo;
-        private readonly SearchIndexSet _searchIndexSet;
+        _setRepo = setRepo;
+        _searchIndexSet = searchIndexSet;
+    }
 
-        public SetDeleter(SetRepository setRepo, SearchIndexSet searchIndexSet)
-        {
-            _setRepo = setRepo;
-            _searchIndexSet = searchIndexSet;
-        }
+    public void Run(int setId)
+    {
+        var set = _setRepo.GetById(setId);
 
-        public void Run(int setId)
-        {
-            var set = _setRepo.GetById(setId);
+        ThrowIfNot_IsUserOrAdmin.Run(set.Creator.Id);
 
-            ThrowIfNot_IsUserOrAdmin.Run(set.Creator.Id);
+        _setRepo.Delete(set);
 
-            _setRepo.Delete(set);
+        Sl.R<SetValuationRepo>().DeleteWhereSetIdIs(setId);
+        Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
 
-            Sl.R<SetValuationRepository>().DeleteWhereSetIdIs(setId);
-            Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
-
-            _searchIndexSet.Delete(set);
-        }
+        _searchIndexSet.Delete(set);
     }
 }

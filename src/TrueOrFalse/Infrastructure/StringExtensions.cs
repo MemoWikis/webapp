@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public static class StringExtensions
+﻿public static class StringExtensions
 {
     public static string Truncate(this string input, int maxLength)
     {

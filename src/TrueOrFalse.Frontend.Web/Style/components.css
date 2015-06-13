@@ -48,7 +48,8 @@ ul.ui-autocomplete li.ui-menu-item.ui-state-focus,
 ul.ui-autocomplete li.ui-menu-item.ui-state-hover {
   background: none !important;
 }
-ul.ui-autocomplete .CatListItem {
+ul.ui-autocomplete .CatListItem,
+ul.ui-autocomplete .SetListItem {
   border: 1px transparent solid;
   padding: 5px !important;
   margin: 2px;
@@ -56,26 +57,32 @@ ul.ui-autocomplete .CatListItem {
   display: block;
   overflow: hidden;
 }
-ul.ui-autocomplete .CatListItem img {
+ul.ui-autocomplete .CatListItem img,
+ul.ui-autocomplete .SetListItem img {
   float: left;
   border-radius: 4px;
 }
-ul.ui-autocomplete .CatListItem .CatDescription {
+ul.ui-autocomplete .CatListItem .CatDescription,
+ul.ui-autocomplete .SetListItem .CatDescription {
   margin-left: 55px;
 }
-ul.ui-autocomplete .CatListItem span {
+ul.ui-autocomplete .CatListItem span,
+ul.ui-autocomplete .SetListItem span {
   display: block;
 }
-ul.ui-autocomplete .CatListItem span.NumberQuestions {
+ul.ui-autocomplete .CatListItem span.NumberQuestions,
+ul.ui-autocomplete .SetListItem span.NumberQuestions {
   font-style: italic;
   font-size: 80%;
 }
-ul.ui-autocomplete .CatListItem a.TextLink {
+ul.ui-autocomplete .CatListItem a.TextLink,
+ul.ui-autocomplete .SetListItem a.TextLink {
   color: #2c5fb2;
   padding: 0;
   display: inline;
 }
-ul.ui-autocomplete .CatListItem a.TextLink:hover {
+ul.ui-autocomplete .CatListItem a.TextLink:hover,
+ul.ui-autocomplete .SetListItem a.TextLink:hover {
   color: #2c5fb2;
 }
 ul.ui-autocomplete a.CatListItem:hover,
@@ -176,7 +183,9 @@ ul.ui-autocomplete .Reference .Url {
 .question-row,
 .category-row,
 .set-row,
-.user-row {
+.user-row,
+.date-row,
+.game-row {
   margin-left: -10px;
   margin-right: -10px;
   padding-left: 5px;
@@ -186,7 +195,9 @@ ul.ui-autocomplete .Reference .Url {
   .question-row,
   .category-row,
   .set-row,
-  .user-row {
+  .user-row,
+  .date-row,
+  .game-row {
     margin-left: -5px;
     margin-right: -5px;
     padding-left: 0;
@@ -196,7 +207,9 @@ ul.ui-autocomplete .Reference .Url {
 .question-row:hover,
 .category-row:hover,
 .set-row:hover,
-.user-row:hover {
+.user-row:hover,
+.date-row:hover,
+.game-row:hover {
   background-color: #f3f5f8;
 }
 div.selected-row {
@@ -218,6 +231,13 @@ div.selected-row:hover {
 }
 .column {
   display: inline-block;
+}
+.rowBase {
+  /* TEST */
+  margin-bottom: 13px;
+  -webkit-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  -moz-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
 }
 @media (min-width: 768px) {
   .rowBase.question-row,

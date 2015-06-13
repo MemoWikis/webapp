@@ -5,11 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
 using Seedworks.Lib;
-using TrueOrFalse;
-using TrueOrFalse.Infrastructure;
-using System.Linq;
 using TrueOrFalse.Web;
 
 public class EditQuestionModel : BaseModel
@@ -103,7 +99,7 @@ public class EditQuestionModel : BaseModel
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
     {
-        Categories = RelatedCategoriesUtils.GetReleatedCategoriesFromPostData(postData);
+        Categories = AutocompleteUtils.GetReleatedCategoriesFromPostData(postData);
     }
 
     public IList<Reference> FillReferencesFromPostData(HttpRequestBase request, Question question)

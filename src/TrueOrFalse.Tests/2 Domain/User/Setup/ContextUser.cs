@@ -1,36 +1,31 @@
 using System.Collections.Generic;
-using TrueOrFalse;
-
-namespace TrueOrFalse.Tests
+public class ContextUser : IRegisterAsInstancePerLifetime
 {
-    public class ContextUser : IRegisterAsInstancePerLifetime
+    private readonly UserRepo _userRepo;
+
+    public List<User> All = new List<User>();
+
+    public ContextUser(UserRepo userRepo)
     {
-        private readonly UserRepository _userRepository;
+        _userRepo = userRepo;
+    }
 
-        public List<User> All = new List<User>();
+    public static ContextUser New()
+    {
+        return BaseTest.Resolve<ContextUser>();
+    }
 
-        public ContextUser(UserRepository userRepository)
-        {
-            _userRepository = userRepository;
-        }
+    public ContextUser Add(string userName)
+    {
+        All.Add(new User {Name = userName});
+        return this;
+    }
 
-        public static ContextUser New()
-        {
-            return BaseTest.Resolve<ContextUser>();
-        }
+    public ContextUser Persist()
+    {
+        foreach (var usr in All)
+            _userRepo.Create(usr);
 
-        public ContextUser Add(string userName)
-        {
-            All.Add(new User {Name = userName});
-            return this;
-        }
-
-        public ContextUser Persist()
-        {
-            foreach (var usr in All)
-                _userRepository.Create(usr);
-
-            return this;
-        }
+        return this;
     }
 }

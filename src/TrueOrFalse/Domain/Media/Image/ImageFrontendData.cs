@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using TrueOrFalse;
 
 public class ImageFrontendData
 { 
@@ -25,7 +18,6 @@ public class ImageFrontendData
     public string LicenseShortDescriptionLink;
     public string AttributionHtmlString;
     public ImageParsingNotifications ImageParsingNotifications;
-
 
     public ImageFrontendData(int typeId, ImageType imageType) : this(PrepareConstructorArguments(typeId, imageType))
     {
@@ -147,6 +139,11 @@ public class ImageFrontendData
 
             ImageParsingNotifications = ImageParsingNotifications.FromJson(ImageMetaData.Notifications);
         }
+    }
+
+    public static ImageFrontendData Create(Question question)
+    {
+        return new ImageFrontendData(question.Id, ImageType.Question);
     }
 
     public ImageUrl GetImageUrl(int width, bool asSquare = false, bool getDummy = false, ImageType imageTypeForDummy = ImageType.Question)

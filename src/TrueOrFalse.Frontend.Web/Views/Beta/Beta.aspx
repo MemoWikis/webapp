@@ -10,7 +10,7 @@
     
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <h1 style="color: white; margin-top: 15%">
+            <h1 style="color: white; margin-top: 15%" class="animated">
                 Private Beta
             </h1>
             <hr class="star-light">
@@ -19,21 +19,25 @@
                 Kein gültiger Beta-Code.
                 Weiter unten kannst du dich registrieren.
             </div>
+            
+            <div class="row">
+                <form class="form-inline" style="font-size: 25px; line-height: 20px; color: white;">
+                    <div class="col-md-offset-1 col-sm-3" style="line-height: 33px;">
+                        <p class="form-control-static">Zugang:</p>
+                    </div>                        
+                    <div class="col-sm-5 col-md-4 form-group">
+                        <input type="password" class="form-control col-sm-6"
+                            id="txtBetaCode" placeholder="Beta-Code" 
+                            style="font-size: 18px; width: 100% !important">
+                    </div>
+                    <div class="col-sm-2">
+                        <a class="btn btn-success shake" href="#" style="font-size: 18px;" id="btnEnter">
+                            <i class="fa fa-sign-in"></i> Eintreten
+                        </a>                        
+                    </div>
+                </form>                
+            </div>
 
-            <form class="form-inline" style="font-size: 25px; line-height: 20px; color: white;">
-                <div class="form-group">
-                    <div></div>
-                    <p class="form-control-static">Zugang:</p>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <input type="password" class="form-control " id="txtBetaCode" placeholder="Beta-Code" style="max-width: 150px; font-size: 18px;">
-                    </div>    
-                </div>
-                <a class="btn btn-success shake" href="#" style="font-size: 18px;" id="btnEnter">
-                    <i class="fa fa-sign-in"></i> Eintreten
-                </a>
-            </form> 
         </div>
     </div>
     

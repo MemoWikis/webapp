@@ -1,54 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TrueOrFalse.Web.Context;
-
-namespace TrueOrFalse
+﻿public class LoginFromCookie : IRegisterAsInstancePerLifetime
 {
-    public class LoginFromCookie : IRegisterAsInstancePerLifetime
+    private readonly GetPersistentLoginCookieValues _getPersistentLoginCookieValues;
+    private readonly WritePersistentLoginToCookie _writePersistentLoginToCookie;
+    private readonly PersistentLoginRepository _persistentLoginRepository;
+    private readonly SessionUser _sessionUser;
+    private readonly UserRepo _userRepo;
+
+    public LoginFromCookie(GetPersistentLoginCookieValues getPersistentLoginCookieValues,
+                            WritePersistentLoginToCookie writePersistentLoginToCookie,
+                            PersistentLoginRepository persistentLoginRepository, 
+                            SessionUser sessionUser, 
+                            UserRepo userRepo)
     {
-        private readonly GetPersistentLoginCookieValues _getPersistentLoginCookieValues;
-        private readonly WritePersistentLoginToCookie _writePersistentLoginToCookie;
-        private readonly PersistentLoginRepository _persistentLoginRepository;
-        private readonly SessionUser _sessionUser;
-        private readonly UserRepository _userRepository;
+        _getPersistentLoginCookieValues = getPersistentLoginCookieValues;
+        _writePersistentLoginToCookie = writePersistentLoginToCookie;
+        _persistentLoginRepository = persistentLoginRepository;
+        _sessionUser = sessionUser;
+        _userRepo = userRepo;
+    }
 
-        public LoginFromCookie(GetPersistentLoginCookieValues getPersistentLoginCookieValues,
-                               WritePersistentLoginToCookie writePersistentLoginToCookie,
-                               PersistentLoginRepository persistentLoginRepository, 
-                               SessionUser sessionUser, 
-                               UserRepository userRepository)
-        {
-            _getPersistentLoginCookieValues = getPersistentLoginCookieValues;
-            _writePersistentLoginToCookie = writePersistentLoginToCookie;
-            _persistentLoginRepository = persistentLoginRepository;
-            _sessionUser = sessionUser;
-            _userRepository = userRepository;
-        }
+    public bool Run()
+    {
+        var cookieValues = _getPersistentLoginCookieValues.Run();
 
-        public bool Run()
-        {
-            var cookieValues = _getPersistentLoginCookieValues.Run();
+        if (!cookieValues.Exists())
+            return false;
 
-            if (!cookieValues.Exists())
-                return false;
+        var persistentLogin = _persistentLoginRepository.Get(cookieValues.UserId, cookieValues.LoginGuid);
 
-            var persistentLogin = _persistentLoginRepository.Get(cookieValues.UserId, cookieValues.LoginGuid);
+        if (persistentLogin == null)
+            return false;
 
-            if (persistentLogin == null)
-                return false;
+        var user = _userRepo.GetById(cookieValues.UserId);
+        if (user == null)
+            return false;
 
-            var user = _userRepository.GetById(cookieValues.UserId);
-            if (user == null)
-                return false;
+        _persistentLoginRepository.Delete(persistentLogin);
+        _writePersistentLoginToCookie.Run(cookieValues.UserId);
 
-            _persistentLoginRepository.Delete(persistentLogin);
-            _writePersistentLoginToCookie.Run(cookieValues.UserId);
+        _sessionUser.Login(user);            
 
-            _sessionUser.Login(user);            
-
-            return true;
-        }
+        return true;
     }
 }

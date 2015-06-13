@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.Web.Hosting;
 using System.Web.Mvc;
-using FluentNHibernate.Utils;
 using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 
 public class AnswerQuestionController : BaseController
 {
@@ -43,7 +40,7 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult AnswerSet(int setId, int questionId)
     {
-        var set = Resolve<SetRepository>().GetById(setId);
+        var set = Resolve<SetRepo>().GetById(setId);
         var question = _questionRepository.GetById(questionId);
         return AnswerSet(set, question);
     }
@@ -89,7 +86,7 @@ public class AnswerQuestionController : BaseController
     public ActionResult Next(string pager, int? setId, int? questionId)
     {
         if (setId != null && questionId != null){
-            var set = Resolve<SetRepository>().GetById((int)setId);
+            var set = Resolve<SetRepo>().GetById((int)setId);
             return AnswerSet(set, set.QuestionsInSet.GetNextTo((int) questionId).Question);
         }
 
@@ -101,7 +98,7 @@ public class AnswerQuestionController : BaseController
     public ActionResult Previous(string pager, int? setId, int? questionId)
     {
         if (setId != null && questionId != null){
-            var set = Resolve<SetRepository>().GetById((int)setId);
+            var set = Resolve<SetRepo>().GetById((int)setId);
             return AnswerSet(set, set.QuestionsInSet.GetPreviousTo((int)questionId).Question);
         }
 
@@ -141,14 +138,16 @@ public class AnswerQuestionController : BaseController
         var solution = new GetQuestionSolution().Run(question);
 
         return new JsonResult
-                   {
-                       Data = new
-                                  {
-                                      correct = result.IsCorrect,
-                                      correctAnswer = result.CorrectAnswer,
-                                      choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ? ((QuestionSolutionMultipleChoice)solution).Choices : null
-                                  }
-                   };
+        {
+            Data = new
+            {
+                correct = result.IsCorrect,
+                correctAnswer = result.CorrectAnswer,
+                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ? 
+                    ((QuestionSolutionMultipleChoice)solution).Choices
+                    : null
+            }
+        };
     }
 
     [HttpPost]
@@ -201,7 +200,7 @@ public class AnswerQuestionController : BaseController
     {
         var question = _questionRepository.GetById(questionId);
         
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepository>().GetBy(question.Id, _sessionUser.UserId));
+        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, _sessionUser.UserId));
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, question.Id);
 
         return View("HistoryAndProbability",

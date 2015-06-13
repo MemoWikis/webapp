@@ -1,15 +1,14 @@
 ﻿using System.Web.Mvc;
-using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 [AccessOnlyAsAdmin]
 public class PersonaController : BaseController
 {
-    private readonly UserRepository _userRepository;
+    private readonly UserRepo _userRepo;
 
-    public PersonaController(UserRepository userRepository)
+    public PersonaController(UserRepo userRepo)
     {
-        _userRepository = userRepository;
+        _userRepo = userRepo;
     }
 
     public ActionResult Stefan()
@@ -29,7 +28,7 @@ public class PersonaController : BaseController
 
     private ActionResult LoginUser(string emailAddress)
     {
-        var robertM = _userRepository.GetByEmail(emailAddress);
+        var robertM = _userRepo.GetByEmail(emailAddress);
         _sessionUser.Login(robertM);
 
         if (Request["target-url"] != null)

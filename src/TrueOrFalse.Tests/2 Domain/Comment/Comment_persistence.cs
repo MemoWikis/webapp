@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BDDish.Model;
-using NHibernate;
+﻿using NHibernate;
 using NUnit.Framework;
-using TrueOrFalse.Tests;
-
 
 namespace TrueOrFalse.Tests.Persistence
 {

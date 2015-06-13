@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using TrueOrFalse;
+﻿using System.Web.Mvc;
 
 public class SetController : BaseController
 {
@@ -12,10 +7,16 @@ public class SetController : BaseController
     [SetMenu(MenuEntry.QuestionSetDetail)]
     public ActionResult QuestionSet(string text, int id, int elementOnPage)
     {
-        var set = Resolve<SetRepository>().GetById(id);
+        return QuestionSetById(id);
+    }
+
+    [SetMenu(MenuEntry.QuestionSetDetail)]
+    public ActionResult QuestionSetById(int id)
+    {
+        var set = Resolve<SetRepo>().GetById(id);
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set));
 
-        return View(_viewLocation, new SetModel(set));
+        return View(_viewLocation, new SetModel(set));        
     }
 }
 

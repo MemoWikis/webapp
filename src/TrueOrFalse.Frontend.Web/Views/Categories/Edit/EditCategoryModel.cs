@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Web;
-using Microsoft.Ajax.Utilities;
-using NHibernate.Linq.Functions;
-using NHibernate.Proxy.Poco;
-using TrueOrFalse;
 using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel
@@ -465,7 +459,7 @@ public class EditCategoryModel : BaseModel
 
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
-        ParentCategories = RelatedCategoriesUtils.GetReleatedCategoriesFromPostData(postData);
+        ParentCategories = AutocompleteUtils.GetReleatedCategoriesFromPostData(postData);
     }
 }
 

@@ -4,11 +4,11 @@ namespace TrueOrFalse.Search
 {
     public class ReIndexAllUsers : IRegisterAsInstancePerLifetime
     {
-        private readonly UserRepository _userRepo;
+        private readonly UserRepo _userRepo;
         private readonly ISolrOperations<UserSolrMap> _solrOperations;
 
         public ReIndexAllUsers(
-            UserRepository userRepo, 
+            UserRepo userRepo, 
             ISolrOperations<UserSolrMap> solrOperations)
         {
             _userRepo = userRepo;

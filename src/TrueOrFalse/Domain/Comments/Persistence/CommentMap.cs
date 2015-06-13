@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 
 public class CommentMap : ClassMap<Comment>
 {
@@ -20,11 +15,11 @@ public class CommentMap : ClassMap<Comment>
         Map(x => x.ShouldImprove);
         Map(x => x.ShouldRemove);
         Map(x => x.ShouldKeys);
-
+          
         References(x => x.Creator);
         Map(x => x.Text);
 
         Map(x => x.DateCreated);
-        Map(x => x.DateModified);        
+        Map(x => x.DateModified);
     }
 }

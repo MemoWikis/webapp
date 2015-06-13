@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace TrueOrFalse
 {
@@ -31,11 +28,10 @@ namespace TrueOrFalse
 
         public static List<string> ByKeys(string keysCsv)
         {
-            if(String.IsNullOrEmpty(keysCsv))
+            if (String.IsNullOrEmpty(keysCsv))
                 return new List<string>();
 
             return keysCsv.Split(',').Select(x => x.Trim()).Select(ByKey).ToList();
         }
-    }
-
+    }    
 }

@@ -1,8 +1,13 @@
-/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
-/// <reference path="../../../../scripts/utils.ts" />
-/// <reference path="../js/answerquestion.ts" />
-var SolutionTypeSequence = (function () {
-    function SolutionTypeSequence() {
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var SolutionTypeSequence = (function (_super) {
+    __extends(SolutionTypeSequence, _super);
+    function SolutionTypeSequence(solutionEntry) {
+        _super.call(this, solutionEntry);
         var answerQuestion = new AnswerQuestion(this);
         $('.sequence-row').keydown(function () {
             answerQuestion.OnAnswerChange();
@@ -26,10 +31,6 @@ var SolutionTypeSequence = (function () {
         $('.sequence-row').val("");
     };
     return SolutionTypeSequence;
-})();
+})(SolutionEntryBase);
 ;
-
-$(function () {
-    new SolutionTypeSequence();
-});
 //# sourceMappingURL=SolutionTypeSequence.js.map

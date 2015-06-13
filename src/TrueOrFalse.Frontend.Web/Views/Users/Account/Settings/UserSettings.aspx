@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="Einstellungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="System.Web.Mvc.ViewPage<UserSettingsModel>" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">

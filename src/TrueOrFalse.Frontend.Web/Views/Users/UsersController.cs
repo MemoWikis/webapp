@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Threading;
 using System.Web.Mvc;
-using TrueOrFalse;
 using TrueOrFalse.Web;
 
 public class UsersController : BaseController
@@ -42,7 +39,7 @@ public class UsersController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult LoginAs(int userId)
     {
-        var user = Resolve<UserRepository>().GetById(userId);
+        var user = Resolve<UserRepo>().GetById(userId);
         _sessionUser.Login(user);
         _sessionUser.IsInstallationAdmin = true;
 
@@ -62,4 +59,23 @@ public class UsersController : BaseController
         else if (orderByCommand == "byWishCount") searchSpec.OrderBy.WishCount.Desc();
     }
 
+    [HttpPost][AccessOnlyAsLoggedIn]
+    public void Follow(int userId)
+    {
+        var userRepo = R<UserRepo>();
+        var userToFollow = userRepo.GetById(userId);
+        userToFollow.Followers.Add(_sessionUser.User);
+
+        userRepo.Update(userToFollow);
+    }
+
+    [HttpPost][AccessOnlyAsLoggedIn]
+    public void UnFollow(int userId)
+    {
+        var userRepo = R<UserRepo>();
+        var userToUnfollow = userRepo.GetById(userId);
+        userToUnfollow.Followers.Remove(_sessionUser.User);
+
+        userRepo.Update(userToUnfollow);
+    }
 }

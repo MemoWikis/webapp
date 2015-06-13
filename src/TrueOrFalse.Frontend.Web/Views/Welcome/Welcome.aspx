@@ -1,6 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
 	Inherits="ViewPage<WelcomeModel>"%>
-<%@ Import Namespace="TrueOrFalse.Web.Context" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <title>MEMuchO</title>

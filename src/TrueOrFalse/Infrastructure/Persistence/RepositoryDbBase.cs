@@ -1,7 +1,5 @@
 ﻿using NHibernate;
 using Seedworks.Lib.Persistence;
-using TrueOrFalse;
-using TrueOrFalse.Web.Context;
 
 public class RepositoryDbBase<T> : RepositoryDb<T> where T : class, IPersistable
 {

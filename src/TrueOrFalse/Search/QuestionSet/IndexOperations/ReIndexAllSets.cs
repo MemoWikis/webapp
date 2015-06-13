@@ -4,17 +4,17 @@ namespace TrueOrFalse.Search
 {
     public class ReIndexAllSets : IRegisterAsInstancePerLifetime
     {
-        private readonly SetRepository _setRepository;
-        private readonly SetValuationRepository _setValuationRepository;
+        private readonly SetRepo _setRepo;
+        private readonly SetValuationRepo _setValuationRepo;
         private readonly ISolrOperations<SetSolrMap> _solrOperations;
 
         public ReIndexAllSets(
-            SetRepository setRepository,
-            SetValuationRepository setValuationRepository,
+            SetRepo setRepo,
+            SetValuationRepo setValuationRepo,
             ISolrOperations<SetSolrMap> solrOperations)
         {
-            _setRepository = setRepository;
-            _setValuationRepository = setValuationRepository;
+            _setRepo = setRepo;
+            _setValuationRepo = setValuationRepo;
             _solrOperations = solrOperations;
         }
 
@@ -23,8 +23,8 @@ namespace TrueOrFalse.Search
             _solrOperations.Delete(new SolrQuery("*:*")); //Delete all sets
             _solrOperations.Commit();
             
-            foreach (var set in _setRepository.GetAll())
-                _solrOperations.Add(ToSetSolrMap.Run(set, _setValuationRepository.GetBy(set.Id)));
+            foreach (var set in _setRepo.GetAll())
+                _solrOperations.Add(ToSetSolrMap.Run(set, _setValuationRepo.GetBy(set.Id)));
 
             _solrOperations.Commit();
         }

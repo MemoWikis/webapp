@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using TrueOrFalse;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
 
 public class UsersModel : BaseModel
 {
@@ -33,10 +29,15 @@ public class UsersModel : BaseModel
     public UsersModel(){
     }
 
-    public void Init(IEnumerable<User> users)
+    public void Init(IList<User> users)
     {
         var counter = 0;
-        Rows = users.Select(qs => new UserRowModel(qs, counter++, _sessionUser));
+
+        Rows = users.Select(qs => 
+            new UserRowModel(
+                qs, counter++, _sessionUser, 
+                R<FollowerIAm>().Init(users.Select(u => u.Id), UserId))
+            );
 
         Suggestion = _sessionUiData.SearchSpecUser.GetSuggestion();
         SearchTerm = _sessionUiData.SearchSpecUser.SearchTerm;

@@ -14,7 +14,6 @@ using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.View;
-using TrueOrFalse.Web.Context;
 using TrueOrFalse.Web.JavascriptView;
 
 namespace TrueOrFalse.Frontend.Web
@@ -40,6 +39,13 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
             
             JobScheduler.Start();
+
+            Logg.r().Information("Application Start");
+        }
+
+        protected void Application_Stop()
+        {
+            Logg.r().Information("Application Stop");
         }
 
 

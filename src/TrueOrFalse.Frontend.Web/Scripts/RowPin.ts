@@ -35,7 +35,7 @@ class Pin {
                 self.Pin(id);
                 elemPin.find(".iAddedNot, .iAddSpinner").toggle();
 
-                setTimeout(() => {
+                window.setTimeout(() => {
                     elemPin.find(".iAdded, .iAddSpinner").toggle();
                     self._changeInProgress = false;
 
@@ -52,7 +52,7 @@ class Pin {
                 self.UnPin(id);
                 elemPin.find(".iAdded, .iAddSpinner").toggle();
 
-                setTimeout(() => {
+                window.setTimeout(() => {
                     elemPin.find(".iAddedNot, .iAddSpinner").toggle();
                     self._changeInProgress = false;
 

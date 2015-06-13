@@ -25,6 +25,14 @@ namespace TrueOrFalse.Tests
             _questionRepository = questionRepository;
         }
 
+        public ContextQuestion AddQuestions(int amount)
+        {
+            for (var i = 0; i < amount; i++)
+                AddQuestion("Question" + i, "Solution" + 1);
+
+            return this;
+        }
+
         public ContextQuestion AddQuestion(string questionText = "defaultText", string solutionText = "defaultSolution")
         {
             var question = new Question();

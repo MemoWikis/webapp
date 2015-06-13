@@ -31,7 +31,7 @@ class QuestionDelete {
                     $("#spanQuestionTitle").html(result.questionTitle.toString());
                 },
                 error: function () {
-                    alert("Ein Fehler ist aufgetreten");
+                    window.alert("Ein Fehler ist aufgetreten");
                 }
             });
         }
@@ -43,7 +43,7 @@ class QuestionDelete {
                 cache: false,
                 success: function () { window.location.reload(); },
                 error: function (result) {
-                    alert("Ein Fehler ist aufgetreten");
+                    window.alert("Ein Fehler ist aufgetreten");
                 }
             });
         }

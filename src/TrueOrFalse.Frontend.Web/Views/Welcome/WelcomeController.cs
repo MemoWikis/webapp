@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Web.Mvc;
-using System.Web.UI;
-using TrueOrFalse;
-using TrueOrFalse.Registration;
-using TrueOrFalse.Web;
-using TrueOrFalse.Web.Context;
+using System.Web.Security;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Web;
 
 public class WelcomeController : BaseController
 {
@@ -76,7 +73,6 @@ public class WelcomeController : BaseController
 
         if (_credentialsAreValid.Yes(loginModel.EmailAddress, loginModel.Password))
         {
-
             if (loginModel.PersistentLogin)
             {
                 _writePersistentLoginToCookie.Run(_credentialsAreValid.User.Id);
@@ -90,6 +86,31 @@ public class WelcomeController : BaseController
         loginModel.SetToWrongCredentials();
 
         return View(loginModel);
+    }
+
+    //For Tool.Muse and SignalRClients
+    public JsonResult RemoteLogin(string userName, string password)
+    {
+        if (userName == Settings.SignalrUser() && password == Settings.SignalrPassword())
+        {
+            _sessionUser.Login(new User{
+                Id = -1,
+                Name = "SIGNALR-LOGIN",
+                IsInstallationAdmin = false
+            });
+            return new JsonResult { Data = new { UserId = -1 } };    
+        }
+
+        var userId = -1;
+        if (_credentialsAreValid.Yes(userName, password))
+        {
+            _sessionUser.Login(_credentialsAreValid.User);
+            userId = _credentialsAreValid.User.Id;
+        }
+        else
+            Response.StatusCode = 401; 
+
+        return new JsonResult{Data = new {UserId = userId}};
     }
 
     public ActionResult PasswordRecovery()
@@ -139,7 +160,7 @@ public class WelcomeController : BaseController
 
         var result = Sl.Resolve<PasswordResetPrepare>().Run(model.Token);
 
-        var userRepo = Sl.Resolve<UserRepository>();
+        var userRepo = Sl.Resolve<UserRepo>();
         var user = userRepo.GetByEmail(result.Email);
 
         if (user == null)

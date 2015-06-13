@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
 using TrueOrFalse;
-using TrueOrFalse.Web.Context;
 
 public class KnowledgeModel : BaseModel
 {
@@ -16,39 +14,45 @@ public class KnowledgeModel : BaseModel
         }
     }
 
-    public GetAnswerStatsInPeriodResult AnswersThisWeek;
-    public GetAnswerStatsInPeriodResult AnswersThisMonth;
-    public GetAnswerStatsInPeriodResult AnswersThisYear;
-    public GetAnswerStatsInPeriodResult AnswersLastMonth;
-    public GetAnswerStatsInPeriodResult AnswersLastWeek;
-    public GetAnswerStatsInPeriodResult AnswersLastYear;
-    public GetAnswerStatsInPeriodResult AnswersEver;
+    public IList<GetAnswerStatsInPeriodResult> Last30Days = new List<GetAnswerStatsInPeriodResult>();
 
     public int QuestionsCount;
     public int SetCount;
 
-    public KnowledgeSummary KnowledgeSummary;
+    public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
+    public GetStreaksResult Streak = new GetStreaksResult();
+
+    public IList<Date> Dates = new List<Date>();
+    public IList<AnswerHistory> AnswerRecent = new List<AnswerHistory>();
+
+    public User User = new User();
+    public int ReputationRank;
+    public int ReputationTotal;
 
     public KnowledgeModel()
     {
+        if (!IsLoggedIn)
+            return;
+
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetCount = R<GetWishSetCount>().Run(UserId);
+        User = R<UserRepo>().GetById(UserId);
 
-        if (IsLoggedIn)
-        {
-            var msg = new RecalcProbabilitiesMsg {UserId = UserId};
-            Bus.Get().Publish(msg);
-        }
+        var reputation = Resolve<ReputationCalc>().Run(User);
+        ReputationRank = User.ReputationPos;
+        ReputationTotal = reputation.TotalRepuation;
+
+        var msg = new RecalcProbabilitiesMsg {UserId = UserId};
+        Bus.Get().Publish(msg);
 
         var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
-        AnswersThisWeek = getAnswerStatsInPeriod.RunForThisWeek(UserId);
-        AnswersThisMonth = getAnswerStatsInPeriod.RunForThisMonth(UserId);
-        AnswersThisYear = getAnswerStatsInPeriod.RunForThisYear(UserId);
-        AnswersLastWeek = getAnswerStatsInPeriod.RunForLastWeek(UserId);
-        AnswersLastMonth = getAnswerStatsInPeriod.RunForLastMonth(UserId);
-        AnswersLastYear = getAnswerStatsInPeriod.RunForLastYear(UserId);
-        AnswersEver = getAnswerStatsInPeriod.Run(UserId);
+
+        Last30Days = getAnswerStatsInPeriod.GetLast30Days(UserId);
 
         KnowledgeSummary = R<KnowledgeSummaryLoader>().Run(UserId);
+
+        Dates = GetSampleDates.Run();
+        AnswerRecent = R<GetLastAnswers>().Run(UserId, 4);
+        Streak = R<GetStreaks>().Run(User);
     }
 }

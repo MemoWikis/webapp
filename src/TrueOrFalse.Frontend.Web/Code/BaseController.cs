@@ -1,6 +1,4 @@
 ﻿using System.Web.Mvc;
-using TrueOrFalse;
-using TrueOrFalse.Web.Context;
 
 [AccessBeta]
 public class BaseController : Controller

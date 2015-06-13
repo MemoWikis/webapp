@@ -7,6 +7,8 @@ using Seedworks.Web.State;
 
 public static class OverwrittenConfig
 {
+    public static bool UseWebConfig { get { return Settings.UseWebConfig; } }
+
     public static string ValueString(string itemName)
     {
         var result = Value(itemName);
@@ -18,6 +20,8 @@ public static class OverwrittenConfig
         string filePath;
         if (ContextUtil.IsWebContext)
             filePath = HttpContext.Current.Server.MapPath(@"~/Web.overwritten.config");
+        else if(UseWebConfig)
+            filePath = Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.FullName, "Web.overwritten.config");
         else
             filePath = Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.Parent.FullName, "App.overwritten.config");
 

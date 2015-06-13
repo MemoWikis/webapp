@@ -1,43 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace TrueOrFalse
+public class UpdateWishcount : IRegisterAsInstancePerLifetime
 {
-    public class UpdateWishcount : IRegisterAsInstancePerLifetime
+    private readonly UserRepo _userRepo;
+    private readonly GetWishQuestionCount _getWishQuestionCount;
+    private readonly GetWishSetCount _getWishSetCount;
+
+    public UpdateWishcount(
+        UserRepo userRepo,
+        GetWishQuestionCount getWishQuestionCount,
+        GetWishSetCount getWishSetCount)
     {
-        private readonly UserRepository _userRepository;
-        private readonly GetWishQuestionCount _getWishQuestionCount;
-        private readonly GetWishSetCount _getWishSetCount;
+        _userRepo = userRepo;
+        _getWishQuestionCount = getWishQuestionCount;
+        _getWishSetCount = getWishSetCount;
+    }
 
-        public UpdateWishcount(
-            UserRepository userRepository,
-            GetWishQuestionCount getWishQuestionCount,
-            GetWishSetCount getWishSetCount)
-        {
-            _userRepository = userRepository;
-            _getWishQuestionCount = getWishQuestionCount;
-            _getWishSetCount = getWishSetCount;
-        }
+    public void Run()
+    {
+        Run(_userRepo.GetAll());
+    }
 
-        public void Run()
-        {
-            Run(_userRepository.GetAll());
-        }
+    public void Run(IEnumerable<User> users)
+    {
+        foreach (var user in users)
+            Run(user);
+    }
 
-        public void Run(IEnumerable<User> users)
-        {
-            foreach (var user in users)
-                Run(user);
-        }
-
-        public void Run(User user)
-        {
-            user.WishCountQuestions = _getWishQuestionCount.Run(user.Id);
-            user.WishCountSets = _getWishSetCount.Run(user.Id);
-            _userRepository.Update(user);
-        }
+    public void Run(User user)
+    {
+        user.WishCountQuestions = _getWishQuestionCount.Run(user.Id);
+        user.WishCountSets = _getWishSetCount.Run(user.Id);
+        _userRepo.Update(user);
     }
 }

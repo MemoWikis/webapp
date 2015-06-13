@@ -1,10 +1,9 @@
-/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
-/// <reference path="../../../../scripts/utils.ts" />
-/// <reference path="../js/answerquestion.ts" />
-
-class SolutionTypeMultipleChoice implements ISolutionEntry
+class SolutionTypeMultipleChoice
+    extends SolutionEntryBase
+    implements ISolutionEntry
 {
-    constructor() {
+    constructor(solutionEntry: SolutionEntry) {
+        super(solutionEntry);
         var answerQuestion = new AnswerQuestion(this);
         $('input:radio[name=answer]').change(function () {
             answerQuestion.OnAnswerChange();
@@ -24,7 +23,3 @@ class SolutionTypeMultipleChoice implements ISolutionEntry
         $('input:radio[name=answer]:checked').prop('checked', false);
     }
 };
-
-$(function() {
-    new SolutionTypeMultipleChoice();
-});

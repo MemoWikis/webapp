@@ -64,4 +64,13 @@ var SolutionMetadataText = (function (_super) {
     }
     return SolutionMetadataText;
 })(SolutionMetaData);
+
+var SolutionType;
+(function (SolutionType) {
+    SolutionType[SolutionType["Text"] = 1] = "Text";
+    SolutionType[SolutionType["Numeric"] = 4] = "Numeric";
+    SolutionType[SolutionType["Date"] = 6] = "Date";
+    SolutionType[SolutionType["MultipleChoice"] = 3] = "MultipleChoice";
+    SolutionType[SolutionType["Sequence"] = 5] = "Sequence";
+})(SolutionType || (SolutionType = {}));
 //# sourceMappingURL=SolutionMetaData.js.map
