@@ -35,8 +35,7 @@ public class UsersModel : BaseModel
 
         Rows = users.Select(qs => 
             new UserRowModel(
-                qs, counter++, _sessionUser, 
-                R<FollowerIAm>().Init(users.Select(u => u.Id), UserId))
+                qs, counter++, R<FollowerIAm>().Init(users.Select(u => u.Id), UserId))
             );
 
         Suggestion = _sessionUiData.SearchSpecUser.GetSuggestion();

@@ -33,7 +33,7 @@
                     <div class="btn-group active">
                         <a href="<%= Url.Action("Network", "Users") %>" type="button" class="btn btn-default">
                             Mein Netzwerk<span class="hidden-xxs"></span> 
-                            <span>(<%= Model.TotalIFollowers %>/<%= Model.TotalFollowingMe %>)</span>
+                            <span>(<%= Model.TotalIFollow %>/<%= Model.TotalFollowingMe %>)</span>
                         </a>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <li class="active">
                         <a href="<%= Url.Action("Network", "Users") %>">
                             Mein Netzwerk 
-                            <span id="tabWishKnowledgeCount">(<%= Model.TotalIFollowers %>/<%= Model.TotalFollowingMe %>)</span> 
+                            <span id="tabWishKnowledgeCount">(<%= Model.TotalIFollow %>/<%= Model.TotalFollowingMe %>)</span> 
                             <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
                         </a>
                     </li>
@@ -67,7 +67,7 @@
                 <div class="search-section">
     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Du folgst 0 Nutzern</span>
+                        <span class="ColoredUnderline User">Du folgst <%= Model.TotalIFollow %> Nutzern</span>
                     </h4>
                     
                     <% if(!Model.UserIFollow.Any()){ %>
@@ -91,7 +91,7 @@
                     <% } %>
                     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Dir folgen 0 Nutzern</span>
+                        <span class="ColoredUnderline User">Dir folgen <%= Model.TotalFollowingMe %> Nutzern</span>
                     </h4>
                     
                     <% if (!Model.UsersFollowingMe.Any()){ %>
