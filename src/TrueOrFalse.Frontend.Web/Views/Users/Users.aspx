@@ -25,13 +25,14 @@
                 <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
                 
                     <div class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
-                        <a  href="#" type="button" class="btn btn-default">
+                        <a href="<%= Url.Action("Users", "Users") %>" type="button" class="btn btn-default">
                             Alle (<span class="JS-Amount"><%= Model.TotalUsers %></span>)
                         </a>
                     </div>
                     <div class="btn-group <%= Model.ActiveTabFollowed ? "active" : "" %>">
-                        <a  href="#" type="button" class="btn btn-default">
-                            Mein Netzwerk<span class="hidden-xxs"></span> (<span class="JS-Amount"> ? </span>)
+                        <a href="<%= Url.Action("Network", "Users") %>" type="button" class="btn btn-default">
+                            Mein Netzwerk<span class="hidden-xxs"></span> 
+                            <span class="JS-Amount">(0/0)</span>
                         </a>
                     </div>
                 </div>
@@ -48,9 +49,11 @@
         <div class="boxtainer-outlined-tabs">
             <div class="boxtainer-header MobileHide">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#home" >Alle Nutzer (<%= Model.TotalUsers %>)</a></li>
+                    <li class="active">
+                        <a href="<%= Url.Action("Users", "Users") %>" >Alle Nutzer (<%= Model.TotalUsers %>)</a>
+                    </li>
                     <li>
-                        <a href="#profile">
+                        <a href="<%= Url.Action("Network", "Users") %>">
                             Mein Netzwerk <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
                         </a>
                     </li>

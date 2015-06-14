@@ -1125,6 +1125,7 @@
     <Compile Include="Views\Users\Detail\UserModel.cs" />
     <Compile Include="Views\Users\Account\Settings\UserSettingsController.cs" />
     <Compile Include="Views\Users\Account\Settings\UserSettingsModel.cs" />
+    <Compile Include="Views\Users\NetworkModel.cs" />
     <Compile Include="Views\Users\UserRowModel.cs" />
     <Compile Include="Views\Users\UsersController.cs" />
     <Compile Include="Views\Users\UsersControllerSearch.cs" />
@@ -1423,6 +1424,7 @@
     <Content Include="Views\Users\Account\Settings\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Network.aspx" />
     <Content Include="Views\Users\Users.css">
       <DependentUpon>Users.less</DependentUpon>
     </Content>

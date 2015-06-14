@@ -65,9 +65,9 @@
 
     <div class="row">
         <div class="PageHeader col-md-9">
-            <h2 style="margin-bottom: 20px; margin-top: 0px;" class="pull-left">
+            <h2 style="margin-bottom: 15px; margin-top: 0px;" class="pull-left">
                 <span class="ColoredUnderline Date">Deine Termine</span>
-            </h2> 
+            </h2>
         </div>
         <div class="col-md-3">
             <div class="headerControls pull-right">
@@ -95,7 +95,7 @@
         
                 <% if (!Model.Dates.Any()){ %>
                     <div class="bs-callout bs-callout-info"  
-                        style="margin-top: 0; margin-bottom: 50px;">
+                        style="margin-top: 0; margin-bottom: 10px;">
                         <h4>Du hast bisher keine Termine</h4>
                         <p style="padding-top: 5px;">
                             Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
