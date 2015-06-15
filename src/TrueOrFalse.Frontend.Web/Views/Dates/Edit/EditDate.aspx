@@ -59,7 +59,7 @@
                         <h4>Anmelden oder registrieren</h4>
                         <p>
                             Um Termine zu erstellen,
-                            musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
+                            musst du dich <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>.
                         </p>
                     </div>
                 <% }%>
