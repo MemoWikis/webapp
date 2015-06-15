@@ -15,8 +15,10 @@
             parentSpinner.show();
 
             $.post("/Users/Follow/", { "userId": userId }, function () {
-                $this.parent().find("[data-type=btn-unfollow]").show();
                 parentSpinner.hide();
+                $this.parent().find("[data-type=btn-unfollow]").show();
+
+                UserRowFollow.UiIncreaseFollowerCount();
             });
         });
 
@@ -30,11 +32,24 @@
             parentSpinner.show();
 
             $.post("/Users/UnFollow/", { "userId": userId }, function () {
-                $this.parent().find("[data-type=btn-follow]").show();
                 parentSpinner.hide();
+                $this.parent().find("[data-type=btn-follow]").show();
+
+                UserRowFollow.UiDecreaseFollowerCount();
             });
         });
     }
+    UserRowFollow.UiIncreaseFollowerCount = function () {
+        Utils.SetElementValue(".JS-AmountFollowers", (UserRowFollow.CurrentAmountFollowers() + 1).toString());
+    };
+
+    UserRowFollow.UiDecreaseFollowerCount = function () {
+        Utils.SetElementValue(".JS-AmountFollowers", (UserRowFollow.CurrentAmountFollowers() - 1).toString());
+    };
+
+    UserRowFollow.CurrentAmountFollowers = function () {
+        return parseInt($($(".JS-AmountFollowers")[0]).html());
+    };
     return UserRowFollow;
 })();
 //# sourceMappingURL=UserRowFollow.js.map

@@ -33,7 +33,7 @@
                     <div class="btn-group active">
                         <a href="<%= Url.Action("Network", "Users") %>" type="button" class="btn btn-default">
                             Mein Netzwerk<span class="hidden-xxs"></span> 
-                            <span>(<%= Model.TotalIFollow %>/<%= Model.TotalFollowingMe %>)</span>
+                            (<span class="JS-AmountFollowers"><%= Model.TotalIFollow %></span>/<%= Model.TotalFollowingMe %>)
                         </a>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <li class="active">
                         <a href="<%= Url.Action("Network", "Users") %>">
                             Mein Netzwerk 
-                            <span id="tabWishKnowledgeCount">(<%= Model.TotalIFollow %>/<%= Model.TotalFollowingMe %>)</span> 
+                            (<span class="JS-AmountFollowers"><%= Model.TotalIFollow %></span>/<%= Model.TotalFollowingMe %>)
                             <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
                         </a>
                     </li>
@@ -67,7 +67,7 @@
                 <div class="search-section">
     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Du folgst <%= Model.TotalIFollow %> Nutzern</span>
+                        <span class="ColoredUnderline User">Du folgst <span class="JS-AmountFollowers"><%= Model.TotalIFollow %></span> Nutzern</span>
                     </h4>
                     
                     <% if(!Model.UserIFollow.Any()){ %>
@@ -91,7 +91,7 @@
                     <% } %>
                     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Dir folgen <%= Model.TotalFollowingMe %> Nutzern</span>
+                        <span class="ColoredUnderline User">Dir folgen <%= Model.TotalFollowingMe %> Nutzer<%= Html.Plural(Model.TotalFollowingMe, "n") %></span>
                     </h4>
                     
                     <% if (!Model.UsersFollowingMe.Any()){ %>
@@ -107,7 +107,7 @@
                     
                     <% } else { %>
                         <div style="clear: both;">
-                            <% foreach(var row in Model.UserIFollow){
+                            <% foreach(var row in Model.UsersFollowingMe){
                                 Html.RenderPartial("UserRow", row);
                             } %>
                         </div>                    
