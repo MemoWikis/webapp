@@ -9,10 +9,10 @@ public class DateRepo : RepositoryDbBase<Date>
     {
     }
 
-    public IList<Date> GetBy(int userId, bool onlyUpcoming = false, bool onlyPrevious = false)
+    public IList<Date> GetBy(int[] userIds, bool onlyUpcoming = false, bool onlyPrevious = false)
     {
         var queryOver = _session.QueryOver<Date>()
-            .Where(d => d.User.Id == userId);
+            .WhereRestrictionOn(u => u.User.Id).IsIn(userIds);
 
         if (onlyUpcoming)
             queryOver.Where(d => d.DateTime >= DateTime.Now);
@@ -23,6 +23,11 @@ public class DateRepo : RepositoryDbBase<Date>
         queryOver = queryOver.OrderBy(q => q.DateTime).Desc;
 
         return queryOver.List();
+    }
+
+    public IList<Date> GetBy(int userId, bool onlyUpcoming = false, bool onlyPrevious = false)
+    {
+        return GetBy(new [] {userId}, onlyUpcoming, onlyPrevious);
     }
 
     public int AmountOfPreviousItems(int userId)

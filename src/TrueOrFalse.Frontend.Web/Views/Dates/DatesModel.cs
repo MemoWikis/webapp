@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 public class DatesModel : BaseModel
 {
@@ -15,7 +14,9 @@ public class DatesModel : BaseModel
 
         var dateRepo = R<DateRepo>();
 
-        Dates = dateRepo.GetBy(UserId, onlyUpcoming: true);
         HasPreviousDates = dateRepo.AmountOfPreviousItems(UserId) > 0;
+        
+        Dates = dateRepo.GetBy(UserId, onlyUpcoming: true);
+        DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
     }
 }

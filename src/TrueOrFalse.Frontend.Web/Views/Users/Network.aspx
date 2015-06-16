@@ -8,38 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">
-     <div id="MobileSubHeader" class="MobileSubHeader DesktopHide">
-        <div class=" container">
-            <div id="mobilePageHeader" class="">
-                <h3 class="">
-                    Nutzer
-                </h3>
-            </div>
-        </div>
-        <div class="MainFilterBarWrapper">
-            <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
-                <div class="btn-group">
-                    <a class="btn btn-default disabled">.</a>
-                </div>
-            </div>
-            <div class="container">
-                <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
-                
-                    <div class="btn-group">
-                        <a href="<%= Url.Action("Users", "Users") %>" type="button" class="btn btn-default">
-                            Alle (<span class="JS-Amount"><%= Model.TotalUsers %></span>)
-                        </a>
-                    </div>
-                    <div class="btn-group active">
-                        <a href="<%= Url.Action("Network", "Users") %>" type="button" class="btn btn-default">
-                            Mein Netzwerk<span class="hidden-xxs"></span> 
-                            (<span class="JS-AmountFollowers"><%= Model.TotalIFollow %></span>/<%= Model.TotalFollowingMe %>)
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <% Html.RenderPartial("HeaderMobile", Model.HeaderModel); %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -48,26 +17,14 @@
     <% using (Html.BeginForm()) { %>
 
         <div class="boxtainer-outlined-tabs">
-            <div class="boxtainer-header MobileHide">
-                <ul class="nav nav-tabs">
-                    <li>
-                        <a href="<%= Url.Action("Users", "Users") %>" >Alle Nutzer (<%= Model.TotalUsers %>)</a>
-                    </li>
-                    <li class="active">
-                        <a href="<%= Url.Action("Network", "Users") %>">
-                            Mein Netzwerk 
-                            (<span class="JS-AmountFollowers"><%= Model.TotalIFollow %></span>/<%= Model.TotalFollowingMe %>)
-                            <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            
+            <% Html.RenderPartial("Header", Model.HeaderModel); %>
         
             <div class="boxtainer-content">
                 <div class="search-section">
     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Du folgst <span class="JS-AmountFollowers"><%= Model.TotalIFollow %></span> Nutzern</span>
+                        <span class="ColoredUnderline User">Du folgst <span class="JS-AmountFollowers"><%= Model.UsersFollowingMe.Count() %></span> Nutzern</span>
                     </h4>
                     
                     <% if(!Model.UserIFollow.Any()){ %>
@@ -91,7 +48,7 @@
                     <% } %>
                     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Dir folgen <%= Model.TotalFollowingMe %> Nutzer<%= Html.Plural(Model.TotalFollowingMe, "n") %></span>
+                        <span class="ColoredUnderline User">Dir folgen <%= Model.UsersFollowingMe.Count() %> Nutzer<%= Html.Plural(Model.UsersFollowingMe.Count(), "n") %></span>
                     </h4>
                     
                     <% if (!Model.UsersFollowingMe.Any()){ %>

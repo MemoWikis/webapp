@@ -11,7 +11,7 @@
     
     <div class="row">
 
-        <div class="col-md-2" style="">
+        <div class="col-sm-2" style="">
             <div class="row">
                 <div class="col-xs-4 col-md-12" style="color: silver; font-size: 16px; font-weight: 400; padding: 2px 0 0 12px;">
                     <%
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="col-md-7">
+        <div class="col-sm-7">
             <div class="row">
                 <div class="col-md-9 header" style="font-size: 19px">
                     <%= Model.Date.Details %>
@@ -79,14 +79,14 @@
             </div>
     
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-sm-4">
                     <a href="#" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
                         style="display: block; margin-top: 29px;">
                         <i class="fa fa-gamepad" style="font-size: 18px;"></i>
                         Spiel starten
                     </a>                    
                 </div>
-                <div class="col-md-8" style="text-align: right;">
+                <div class="col-sm-8" style="text-align: right;">
                     <div style="margin-top: 20px;">
                         <a class="btn btn-sm btn-info" href="#">
                             Jetzt üben
@@ -98,7 +98,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-sm-3">
             <div id="chartKnowledgeDate<% =date.Id %>"></div>            
         </div>
     </div>

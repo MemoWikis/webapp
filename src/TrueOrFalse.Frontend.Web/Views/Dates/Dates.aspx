@@ -124,14 +124,20 @@
                     <span class="ColoredUnderline Date" style="padding-right: 3px;">Termine im Netzwerk</span>
                 </h3>
     
-                <div class="bs-callout bs-callout-info"  style="margin-top: 0; <%= Html.CssHide(Model.DatesInNetwork.Any()) %>">
-                    <h4>Keine kommenden Termine im Netzwerk</h4>
-                    <p>
-                        <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm" style="margin-top: 10px;">
-                            <i class="fa fa-plus-circle"></i> &nbsp; Netzwerk erweitern
-                        </a>
-                    </p>
-                </div>
+                <% if (!Model.DatesInNetwork.Any()){ %>
+                    <div class="bs-callout bs-callout-info"  style="margin-top: 0; <%= Html.CssHide(Model.DatesInNetwork.Any()) %>">
+                        <h4>Keine kommenden Termine im Netzwerk</h4>
+                        <p>
+                            <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm" style="margin-top: 10px;">
+                                <i class="fa fa-plus-circle"></i> &nbsp; Netzwerk erweitern
+                            </a>
+                        </p>
+                    </div>
+                <% } else { %>
+                    <% foreach(var date in Model.DatesInNetwork){ %>
+                        <% Html.RenderPartial("DateRow", new DateRowModel(date, isNetworkDate:true)); %>
+                    <% } %>            
+                <% } %>
 
             <% } %>
 
