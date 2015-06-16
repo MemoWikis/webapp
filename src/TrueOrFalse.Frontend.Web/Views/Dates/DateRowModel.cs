@@ -16,8 +16,9 @@ public class DateRowModel : BaseModel
     public int RemainingMinutes;
 
     public bool IsPast;
+    public bool IsNetworkDate;
 
-    public DateRowModel(Date date)
+    public DateRowModel(Date date, bool isNetworkDate = false)
     {
         Date = date;
 
@@ -37,5 +38,6 @@ public class DateRowModel : BaseModel
         ShowMinutesLeft = RemainingDays == 0;
 
         IsPast = remaining.TotalSeconds < 0;
+        IsNetworkDate = isNetworkDate;
     }
 }

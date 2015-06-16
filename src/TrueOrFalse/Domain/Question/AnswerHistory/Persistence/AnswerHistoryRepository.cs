@@ -18,7 +18,7 @@ public class AnswerHistoryRepository : RepositoryDb<AnswerHistory>
     public IList<AnswerHistory> GetBy(List<int> questionsId, int userId)
     {
         return Session.QueryOver<AnswerHistory>()
-            .Where(Restrictions.In("QuestionId",questionsId))
+            .Where(Restrictions.In("QuestionId", questionsId))
             .List();
     }
 
