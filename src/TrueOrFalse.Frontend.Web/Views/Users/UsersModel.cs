@@ -29,10 +29,14 @@ public class UsersModel : BaseModel
     public UsersModel(){
     }
 
-    public void Init(IEnumerable<User> users)
+    public void Init(IList<User> users)
     {
         var counter = 0;
-        Rows = users.Select(qs => new UserRowModel(qs, counter++, _sessionUser));
+
+        Rows = users.Select(qs => 
+            new UserRowModel(
+                qs, counter++, R<FollowerIAm>().Init(users.Select(u => u.Id), UserId))
+            );
 
         Suggestion = _sessionUiData.SearchSpecUser.GetSuggestion();
         SearchTerm = _sessionUiData.SearchSpecUser.SearchTerm;

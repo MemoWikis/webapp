@@ -385,6 +385,7 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\SolutionEntry.ts" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
+    <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
@@ -452,6 +453,9 @@
     </Content>
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\NotLoggedIn.js">
+      <DependentUpon>NotLoggedIn.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\SiteMessages.js">
       <DependentUpon>SiteMessages.ts</DependentUpon>
@@ -561,6 +565,7 @@
     <Content Include="Views\Knowledge\Knowledge.css">
       <DependentUpon>Knowledge.less</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Views\Users\Account\Js\Membership.js">
       <DependentUpon>Membership.ts</DependentUpon>
     </Content>
@@ -948,6 +953,9 @@
     <Content Include="Style\font-awesome-4.3.0\scss\_rotated-flipped.scss" />
     <Content Include="Style\font-awesome-4.3.0\scss\_stacked.scss" />
     <Content Include="Style\font-awesome-4.3.0\scss\_variables.scss" />
+    <Content Include="Scripts\NotLoggedIn.js.map">
+      <DependentUpon>NotLoggedIn.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\fonts-awesome\font-awesome.css" />
@@ -1117,6 +1125,7 @@
     <Compile Include="Views\Users\Detail\UserModel.cs" />
     <Compile Include="Views\Users\Account\Settings\UserSettingsController.cs" />
     <Compile Include="Views\Users\Account\Settings\UserSettingsModel.cs" />
+    <Compile Include="Views\Users\NetworkModel.cs" />
     <Compile Include="Views\Users\UserRowModel.cs" />
     <Compile Include="Views\Users\UsersController.cs" />
     <Compile Include="Views\Users\UsersControllerSearch.cs" />
@@ -1406,6 +1415,15 @@
     <Content Include="Views\Users\Account\Membership.css">
       <DependentUpon>Membership.less</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\UserRow.js">
+      <DependentUpon>UserRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\UserRowFollow.js">
+      <DependentUpon>UserRowFollow.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Js\Users.js">
       <DependentUpon>Users.ts</DependentUpon>
     </Content>
@@ -1415,6 +1433,8 @@
     <Content Include="Views\Users\Account\Settings\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Network.aspx" />
+    <Content Include="Views\Users\HeaderMobile.ascx" />
     <Content Include="Views\Users\Users.css">
       <DependentUpon>Users.less</DependentUpon>
     </Content>
@@ -1704,6 +1724,15 @@
     <Content Include="Views\Dates\Js\PreviousDates.js.map">
       <DependentUpon>PreviousDates.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\UserRow.js.map">
+      <DependentUpon>UserRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\UserRowFollow.js.map">
+      <DependentUpon>UserRowFollow.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -1724,6 +1753,9 @@
     <Content Include="Views\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\Users\Detail\User.aspx" />
+    <TypeScriptCompile Include="Views\Users\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Users\Js\UserRow.ts" />
+    <TypeScriptCompile Include="Views\Users\Js\UserRowFollow.ts" />
     <TypeScriptCompile Include="Views\Users\Js\Users.ts" />
     <Content Include="Views\Users\Account\Settings\UserSettings.aspx" />
     <Content Include="Views\Users\UserRow.ascx" />

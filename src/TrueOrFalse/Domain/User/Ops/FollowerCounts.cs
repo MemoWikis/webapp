@@ -6,10 +6,12 @@ using NHibernate;
 public class FollowerCounts : IRegisterAsInstancePerLifetime
 {
     private readonly Dictionary<int, int> _followers = new Dictionary<int, int>();
-    private bool _loaded;
+    private bool _initialized;
 
-    public FollowerCounts Load(IEnumerable<int> userIds)
+    public FollowerCounts Init(IEnumerable<int> userIds)
     {
+        _initialized = true;
+
         var query = @"
             SELECT Count(User_id), User_id
             FROM user_to_follower
@@ -29,15 +31,13 @@ public class FollowerCounts : IRegisterAsInstancePerLifetime
         foreach (var item in listOfObjects)
             _followers.Add(Convert.ToInt32(item[1]), Convert.ToInt32(item[0]));
 
-        _loaded = true;
-
         return this;
     }
 
     public int ByUserId(int userId)
     {
-        if(!_loaded)
-            throw new Exception("call Load(IList<int> userIds) first");
+        if(!_initialized)
+            throw new Exception("call Init(IList<int> userIds) first");
 
         if (!_followers.ContainsKey(userId))
             return 0;

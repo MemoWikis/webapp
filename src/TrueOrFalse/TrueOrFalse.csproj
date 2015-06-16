@@ -446,7 +446,8 @@
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
     <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
-    <Compile Include="Domain\User\FollowerCounts.cs" />
+    <Compile Include="Domain\User\Ops\FollowerIAm.cs" />
+    <Compile Include="Domain\User\Ops\FollowerCounts.cs" />
     <Compile Include="Domain\User\Membership.cs" />
     <Compile Include="Domain\User\Ops\GetTotalUsers.cs" />
     <Compile Include="Domain\User\Ops\UpdateWishcount.cs" />
@@ -595,6 +596,7 @@
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs086.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs085.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs084.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs083.cs" />
@@ -659,6 +661,7 @@
     <Compile Include="Web\Controls\UserMessage\MessageType.cs" />
     <Compile Include="Web\Controls\UserMessage\UIMessage.cs" />
     <Compile Include="Web\Filters\AccessBeta.cs" />
+    <Compile Include="Web\Filters\AccessOnlyLoggedIn.cs" />
     <Compile Include="Web\Filters\AccessOnlyAsAdmin.cs" />
     <Compile Include="Web\Filters\SetMenuAttribute.cs" />
     <Compile Include="Web\HtmlLabelExtensions.cs" />

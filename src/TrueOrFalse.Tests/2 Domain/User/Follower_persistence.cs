@@ -35,9 +35,14 @@ public class Follower_persistence : BaseTest
 
         RecycleContainer();
 
-        var followerCounts = R<FollowerCounts>().Load(context.All.Select(u => u.Id));
+        var followerCounts = R<FollowerCounts>().Init(context.All.Select(u => u.Id));
 
         Assert.That(followerCounts.ByUserId(user1.Id), Is.EqualTo(3));
         Assert.That(followerCounts.ByUserId(user2.Id), Is.EqualTo(0));
+
+        var followerIAm = R<FollowerIAm>().Init(context.All.Select(u => u.Id), user3.Id);
+
+        Assert.That(followerIAm.Of(user1.Id), Is.True);
+        Assert.That(followerIAm.Of(user2.Id), Is.False);
     }
 }

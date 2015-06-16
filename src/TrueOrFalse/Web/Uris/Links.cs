@@ -188,6 +188,14 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", EditQuestionController, new {id = questionId});
         }
 
+        public static string LoginUrl(){
+            return GetUrlHelper().Action(Login, VariousController);
+        }
+
+        public static string RegisterUrl(){
+            return GetUrlHelper().Action(Login, VariousController);
+        }
+
         public const string AnswerQuestionController = "AnswerQuestion";
 
         /*Category*/

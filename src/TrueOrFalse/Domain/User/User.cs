@@ -24,6 +24,8 @@ public class User : DomainEntity
     public virtual IList<Membership> MembershipPeriods { get; set; }
 
     public virtual IList<User> Followers { get; set; }
+    
+    /// <summary>Users I follow</summary>
     public virtual IList<User> Following { get; set; }
 
     public User()
