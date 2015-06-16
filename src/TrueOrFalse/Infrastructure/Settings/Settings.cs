@@ -33,6 +33,10 @@ public class Settings
     public static string SignalrUser() { return OverwrittenConfig.ValueString("signalrUser"); }
     public static string SignalrPassword() { return OverwrittenConfig.ValueString("signalrPassword"); }
 
+    public static string InvoiceFolder() { return OverwrittenConfig.ValueString("invoiceFolderPath"); }
+
+    public static string WkHtmlToPdfFolder() { return OverwrittenConfig.ValueString("wkHtmlToPdfFolder"); }
+
     public static string ConnectionString()
     {
         var result = OverwrittenConfig.Value("connectionString");

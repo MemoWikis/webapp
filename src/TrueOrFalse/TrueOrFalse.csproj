@@ -156,6 +156,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RabbitMQ.Client.3.5.2\lib\net40\RabbitMQ.Client.dll</HintPath>
     </Reference>
+    <Reference Include="RazorEngine">
+      <HintPath>..\packages\RazorEngine.3.7.0\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
     <Reference Include="RollbarSharp">
       <HintPath>..\packages\RollbarSharp.0.3.3.0\lib\net40\RollbarSharp.dll</HintPath>
     </Reference>
@@ -446,6 +449,8 @@
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
     <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
+    <Compile Include="Domain\User\Membership\Invoice\InvoiceCreate.cs" />
+    <Compile Include="Domain\User\Membership\Invoice\InvoiceModel.cs" />
     <Compile Include="Domain\User\Ops\FollowerIAm.cs" />
     <Compile Include="Domain\User\Ops\FollowerCounts.cs" />
     <Compile Include="Domain\User\Membership.cs" />
@@ -681,6 +686,9 @@
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
     <Compile Include="Web\ViewRenderer.cs" />
+    <None Include="Domain\User\Membership\Invoice\InvoiceTemplate.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Tools\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

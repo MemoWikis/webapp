@@ -243,6 +243,7 @@
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\Set\Valuation\SetValuation_persistence_tests.cs" />
     <Compile Include="2 Domain\User\Follower_persistence.cs" />
+    <Compile Include="2 Domain\User\Membership_invoice.cs" />
     <Compile Include="2 Domain\User\Membership_is_active.cs" />
     <Compile Include="2 Domain\User\Setup\ContextUser.cs" />
     <Compile Include="2 Domain\Question\Answer\When_answering_question.cs" />
