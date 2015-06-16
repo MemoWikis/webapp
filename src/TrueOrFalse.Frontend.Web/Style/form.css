@@ -86,6 +86,11 @@ label {
   -webkit-line-break: normal;
   line-break: normal;
 }
+.checkbox .CheckboxTitle {
+  display: inline-block;
+  font-size: 111.11111111%;
+  margin-bottom: 4px;
+}
 .RequiredField {
   font-weight: bold;
 }

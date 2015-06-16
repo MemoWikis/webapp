@@ -74,12 +74,26 @@
                         </div>
                     </div>
                     <div class="FormSection">
+                        <div class="form-group" style="padding-top: 20px;">
+                            <label class="columnLabel control-label">
+                                <% if (Model.IsMember) { %>
+                                    <span class="bold">Du bist Mitglied!</span><br/>
+                                    <a href="/Nutzer/Mitgliedschaft">Deine Mitgliedschaft</a> läuft bis zum <%= String.Format("{0:d}", Model.Membership.PeriodEnd) %>.
+                                <% } else { %>
+                                    <span class="bold">Du bist zur Zeit kein Mitglied.</span><br/>
+                                    <a href="/Nutzer/Mitgliedschaft">Jetzt Mitglied werden.</a>
+                                <% } %>
+                            </label>
+                        </div>
+                        
+                    </div>
+                    <div class="FormSection">
                         <h3>Einstellungen</h3>
                         <div class="form-group">
-                            <label class="columnLabel control-label" style="margin-bottom: 0;">Wunschwissen zeigen</label>
                             <div class="columnControlsFull">
                                 <div class="checkbox">
-                                    <%= Html.CheckBoxFor(m => m.ShowWishKnowledge)%>   
+                                    <%= Html.CheckBoxFor(m => m.ShowWishKnowledge)%>
+                                    <label class="CheckboxTitle">Wunschwissen zeigen</label><br/>
                                     <label for="ShowWishKnowledge">
                                         Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind 
                                         (außer private Fragen). Antwortstatistiken werden nicht angezeigt. 
@@ -87,19 +101,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="FormSection">
-                        <h3>Mitgliedschaft</h3>
-                        <div class="form-group">
-                            <label class="columnLabel control-label">Status:</label>
-                            <div class="columnControlsFull">
-                                 <p class="form-control-static">Kein Mitglied</p>
-                            </div>
-                        </div>
                         <div class="form-group">
                             <div class="columnControlsFull noLabel">
                                 <label class="checkbox">
                                     <%= Html.CheckBoxFor(m => m.AllowsSupportiveLogin)%>
+                                    <label class="CheckboxTitle">Support-Login zulassen</label><br/>
                                     <label for="AllowsSupportiveLogin">
                                         Erlaube Mitarbeitern von MEMuchO zur Fehlerbehebung oder zu deiner Unterstützung, 
                                         sich in deinem Nutzerkonto anzumelden. Das ist nur nach Rücksprache nötig 

@@ -16,6 +16,9 @@ public class UserSettingsModel : BaseModel
     [DisplayName("Email")]
     public string Email { get; set; }
 
+    public bool IsMember;
+    public Membership Membership;
+
     public bool AllowsSupportiveLogin { get; set; }
     public bool ShowWishKnowledge { get; set; }
 
@@ -31,6 +34,8 @@ public class UserSettingsModel : BaseModel
         Email = user.EmailAddress;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         ShowWishKnowledge = user.ShowWishKnowledge;
+        IsMember = user.IsMember();
+        Membership = user.CurrentMembership();
 
         var imageResult = new UserImageSettings(user.Id).GetUrl_200px(user.EmailAddress);
         ImageUrl_200 = imageResult.Url;

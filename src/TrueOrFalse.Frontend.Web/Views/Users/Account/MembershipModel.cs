@@ -1,7 +1,9 @@
 ﻿using System;
+using TrueOrFalse.Web;
 
 public class MembershipModel : BaseModel
 {
+    public UIMessage Message;
     public bool IsMember;
     public Membership Membership;
     public string BillingEmail { get; set; }
