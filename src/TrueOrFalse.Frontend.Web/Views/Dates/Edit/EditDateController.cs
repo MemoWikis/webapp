@@ -39,8 +39,8 @@ public class EditDateController : BaseController
     public ViewResult Edit(int dateId)
     {
         var date = R<DateRepo>().GetById(dateId);
-        
-        if(!_sessionUser.IsValidUserOrAdmin(date.User.Id))
+
+        if (!_sessionUser.IsValidUser(date.User.Id))
             throw new Exception("Invalid exception");
 
         return View(_viewLocation, model: new EditDateModel(date));
@@ -49,6 +49,9 @@ public class EditDateController : BaseController
     [HttpPost]
     public ViewResult Edit(EditDateModel model)
     {
+        if (!_sessionUser.IsValidUser(model.DateId))
+            throw new Exception("Invalid exception");
+
         if (model.IsDateTimeInPast())
             model.Message = new ErrorMessage("Nicht gespeichert: Der Termin liegt in der Vergangenheit.");
 
