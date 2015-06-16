@@ -7,6 +7,12 @@ public class BaseController : Controller
     protected SessionUiData _sessionUiData { get { return Resolve<SessionUiData>(); } }
     public int UserId { get { return _sessionUser.UserId; } }
 
+    /// <summary>The user fresh from the db</summary>
+    public User UserFresh()
+    {
+        return R<UserRepo>().GetById(UserId);
+    }
+
     protected T Resolve<T>()
     {
         return ServiceLocator.Resolve<T>();

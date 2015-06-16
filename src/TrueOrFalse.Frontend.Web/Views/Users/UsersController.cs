@@ -69,7 +69,7 @@ public class UsersController : BaseController
     {
         var userRepo = R<UserRepo>();
         var userToFollow = userRepo.GetById(userId);
-        userToFollow.Followers.Add(_sessionUser.User);
+        userToFollow.Followers.Add(UserFresh());
 
         userRepo.Update(userToFollow);
     }
@@ -79,7 +79,7 @@ public class UsersController : BaseController
     {
         var userRepo = R<UserRepo>();
         var userToUnfollow = userRepo.GetById(userId);
-        userToUnfollow.Followers.Remove(_sessionUser.User);
+        userToUnfollow.Followers.Remove(UserFresh());
 
         userRepo.Update(userToUnfollow);
     }

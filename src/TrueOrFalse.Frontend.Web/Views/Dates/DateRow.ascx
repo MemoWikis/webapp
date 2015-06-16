@@ -116,9 +116,9 @@
                 <div id="chartKnowledgeDate<% =date.Id %>"></div>
             <% }else{ %>
                 <div style="text-align: center">
-                    <i class="fa fa-question-circle" style="font-size: 97px;"></i><br />
+                    <i class="fa fa-question-circle show-tooltip" data-original-title="Dein Wissensstand wird nur für deine Termine angezeigt." style="font-size: 97px;"></i><br />
                     <p style="font-size: 11px; line-height: 11px;">
-                        Wunschwissen wird nur für eigene Termine angezeigt.
+                        Dein Wissensstand wird nur für deine Termine angezeigt.
                     </p>
                     
                 </div>
