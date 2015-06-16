@@ -92,7 +92,6 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
     {
-        Question = question;
         PageCurrent = searchSpec.CurrentPage.ToString();
         PagesTotal = searchSpec.PageCount.ToString();
         PagerKey = searchSpec.Key;
@@ -146,6 +145,8 @@ public class AnswerQuestionModel : BaseModel
 
         if(IsLoggedIn)
             ImageUrlAddComment = new UserImageSettings(UserId).GetUrl_128px_square(_sessionUser.User.EmailAddress).Url;
+
+        Question = question;
 
         Comments = Resolve<CommentRepository>()
             .GetForDisplay(question.Id)
