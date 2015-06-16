@@ -12,6 +12,11 @@ public static class HtmlExtensions
         return hide ? "display:none;" : "";
     }
 
+    public static string IfTrue(this HtmlHelper helper, bool show, string text)
+    {
+        return show ? text : "";
+    }
+
     public static string Plural(this HtmlHelper helper, int amount, string pluralSuffix)
     {
         if (amount > 1)

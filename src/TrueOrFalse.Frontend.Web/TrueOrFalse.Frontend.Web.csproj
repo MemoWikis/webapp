@@ -1125,6 +1125,7 @@
     <Compile Include="Views\Users\Detail\UserModel.cs" />
     <Compile Include="Views\Users\Account\Settings\UserSettingsController.cs" />
     <Compile Include="Views\Users\Account\Settings\UserSettingsModel.cs" />
+    <Compile Include="Views\Users\HeaderModel.cs" />
     <Compile Include="Views\Users\NetworkModel.cs" />
     <Compile Include="Views\Users\UserRowModel.cs" />
     <Compile Include="Views\Users\UsersController.cs" />
@@ -1415,6 +1416,7 @@
     <Content Include="Views\Users\Account\Membership.css">
       <DependentUpon>Membership.less</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Header.ascx" />
     <Content Include="Views\Users\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
