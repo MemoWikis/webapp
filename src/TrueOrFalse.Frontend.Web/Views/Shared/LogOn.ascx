@@ -8,7 +8,7 @@
     <span class="TextSpan">
         <% if (userSession.IsLoggedIn && userSession.User.IsMember()){ %>
             Du bist Unterstützer!
-        <% }else{ %>
+        <% } else { %>
             Werde Unterstützer!
         <% } %>
     </span>

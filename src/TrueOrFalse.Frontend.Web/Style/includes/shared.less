@@ -63,8 +63,34 @@
     }
 }
 
+.bold  {
+    font-weight: bold;
+}
+
 /*  Layout elements
 ----------------------------------------------------------*/
+
+//Drop shadow
+
+.drop-shadow1 {
+    .drop-shadow(2px, 2px, 7px, 1px, 0.5);
+}
+
+.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+    -webkit-box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+    -moz-box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+    box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+}
+
+//Shadow box
+
+.ShadowBox {
+    .drop-shadow1;
+    padding: 20px;
+    margin-bottom: 30px;
+    h1, h2, h3, h4 {margin-top: 0;}
+}
+
 
 /*  Images
 ----------------------------------------------------------*/
