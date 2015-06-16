@@ -450,6 +450,7 @@
     <Compile Include="Domain\User\Ops\FollowerCounts.cs" />
     <Compile Include="Domain\User\Membership.cs" />
     <Compile Include="Domain\User\Ops\GetTotalUsers.cs" />
+    <Compile Include="Domain\User\Ops\TotalIFollow.cs" />
     <Compile Include="Domain\User\Ops\UpdateWishcount.cs" />
     <Compile Include="Domain\User\Persistence\MembershipMap.cs" />
     <Compile Include="Domain\User\Persistence\MembershipRepository .cs" />
@@ -463,6 +464,7 @@
     <Compile Include="Domain\User\Registration\PasswordRecovery\Token\PasswordRecoveryTokenRepository.cs" />
     <Compile Include="Domain\User\Ops\UserSummary.cs" />
     <Compile Include="Domain\User\Activity\UserActivity.cs" />
+    <Compile Include="Domain\User\Ops\TotalFollowers.cs" />
     <Compile Include="Infrastructure\IoC\AutofacWebInitializer.cs" />
     <Compile Include="Infrastructure\Bus\Bus.cs" />
     <Compile Include="Infrastructure\Bus\BusMgmt.cs" />

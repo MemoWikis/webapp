@@ -44,5 +44,8 @@ public class Follower_persistence : BaseTest
 
         Assert.That(followerIAm.Of(user1.Id), Is.True);
         Assert.That(followerIAm.Of(user2.Id), Is.False);
+
+        Assert.That(R<TotalFollowers>().Run(user1.Id), Is.EqualTo(3));
+        Assert.That(R<TotalIFollow>().Run(user2.Id), Is.EqualTo(1));
     }
 }
