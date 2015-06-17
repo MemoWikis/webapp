@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
@@ -22,8 +21,7 @@ public class GameController : BaseController
     [HttpPost]
     public ActionResult Create(GameModel gameModel)
     {
-        var setsString = gameModel.Sets;
-        var sets = GetSetsFromString(setsString);
+        var sets = AutocompleteUtils.GetSetsFromPostData(Request.Form);
         if (sets.Count == 0)
         {
             gameModel.Message = new ErrorMessage("Bitte gib mind. einen Fragesatz ein.");
@@ -50,23 +48,5 @@ public class GameController : BaseController
         R<GameHubConnection>().SendCreated(game.Id);
 
         return Redirect("/Spielen");
-    }
-
-    private List<Set> GetSetsFromString(string setsString)
-    {
-        if (String.IsNullOrEmpty(setsString))
-            return new List<Set>();
-
-        setsString = setsString.Trim();
-        var setIds = setsString.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
-        var sets = new List<Set>();
-        var setRepo = R<SetRepo>();
-        foreach (var setId in setIds)
-        {
-            var set = setRepo.GetById(Convert.ToInt32(setId));
-            if (set != null)
-                sets.Add(set);
-        }
-        return sets;
     }
 }

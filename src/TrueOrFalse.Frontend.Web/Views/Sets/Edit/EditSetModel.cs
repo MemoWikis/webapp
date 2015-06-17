@@ -96,7 +96,7 @@ public class EditSetModel : BaseModel
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
     {
-        Categories = AutocompleteUtils.GetReleatedCategoriesFromPostData(postData);
+        Categories = AutocompleteUtils.GetRelatedCategoriesFromPostData(postData);
     }
 
 }

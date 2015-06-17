@@ -108,8 +108,20 @@
                                                                                        
                         <div class="form-group">
                             <label class="columnLabel control-label">Fragesätze mit denen gespielt wird:</label>
-                            <div class="columnControlsFull">
-                                <input class="form-control" name="Sets"/>
+                            <div class="JS-Sets columnControlsFull">
+                                <script type="text/javascript">
+                                    $(function () {
+                                        <%foreach (var set in Model.Sets) { %>
+                                        $("#txtSet")
+                                            .val('<%=set.Name %>')
+                                            .data('set-id', '<%=set.Id %>')
+                                            .trigger("initSetFromTxt");
+                                        <% } %>
+                                    });
+                                </script>
+                                <div class="JS-SetInputContainer ControlInline ">
+                                    <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Beginne zu tippen"  />
+                                </div>
                             </div>
                         </div>
 
