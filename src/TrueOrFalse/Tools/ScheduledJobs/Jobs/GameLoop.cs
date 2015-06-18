@@ -102,7 +102,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     continue;
                 }
 
-                if (currentRound.IsOverdue())
+                if (currentRound.IsOverdue() || currentRound.AllPlayersDidAnswer())
                 {
                     game.NextRound();
                     game.SetPlayerPositions();
