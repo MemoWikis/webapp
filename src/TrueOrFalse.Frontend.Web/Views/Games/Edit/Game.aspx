@@ -74,7 +74,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
-                                        <i class="fa fa-users"></i> &nbsp; Maximale Anzahl Spieler:
+                                        <i class="fa fa-users"></i> &nbsp; Max. Anzahl Spieler:
                                     </label>
                                     <div class="col-md-10 col-xs-6">
                                         <div class="input-group">
