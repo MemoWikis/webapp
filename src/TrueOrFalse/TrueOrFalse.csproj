@@ -484,6 +484,7 @@
     <Compile Include="Infrastructure\Persistence\PagedResult.cs" />
     <Compile Include="Infrastructure\Persistence\RepositoryDbBase.cs" />
     <Compile Include="Infrastructure\Persistence\Session\MySQL5FlexibleDialect.cs" />
+    <Compile Include="Infrastructure\ProjectionEqualityComparer.cs" />
     <Compile Include="Infrastructure\Regexes.cs" />
     <Compile Include="Infrastructure\Time\Time.cs" />
     <Compile Include="Search\Category\IndexOperations\ReIndexAllCategories.cs" />

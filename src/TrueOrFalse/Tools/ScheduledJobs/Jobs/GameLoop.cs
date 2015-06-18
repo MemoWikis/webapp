@@ -89,6 +89,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 if (game.IsLastRoundCompleted())
                 {
                     game.Status = GameStatus.Completed;
+                    game.SetPlayerPositions();
                     gameRepo.Update(game);
                     gameRepo.Flush();
                     _gameHubConnection.SendCompleted(game.Id);
@@ -105,6 +106,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 if (currentRound.IsOverdue())
                 {
                     game.NextRound();
+                    game.SetPlayerPositions();
                     gameRepo.Update(game);
                     gameRepo.Flush();
                     _gameHubConnection.SendNextRound(game.Id);

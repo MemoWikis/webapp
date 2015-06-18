@@ -1,11 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class GameCompletedModel : PlayBaseModel
 {
+    public bool IsPlayer;
+    public int PlayerPosition = -1;
+
     public IList<PlayerResultRow> Rows = new List<PlayerResultRow>();
 
     public GameCompletedModel(Game game) : base(game)
     {
+        game.SetPlayerPositions();
+
+        if (game.Players.Any(p => p.User.Id == UserId))
+        {
+            var thisPlayer = game.Players.First(p => p.User.Id == UserId);
+            
+            IsPlayer = true;
+            PlayerPosition = thisPlayer.Position;
+        }
+
         foreach (var player in game.Players)
         {
             Rows.Add(new PlayerResultRow

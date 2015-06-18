@@ -119,15 +119,16 @@ public class Game : DomainEntity
         return Rounds.Last().Status == GameRoundStatus.Completed;
     }
 
-    public void SetPlayerPositions()
+    public virtual void SetPlayerPositions()
     {
-    }
+        Players
+            .GroupBy(player => player, ProjectionEqualityComparer<Player>.Create(a => a.AnsweredCorrectly))
+            .Select((group, index) =>
+            {
+                group.ForEach(player => player.Position = index + 1);
+                return group.Key;
+            }).ToList();
 
-    public class GroupByComparer : IEqualityComparer<Game>()
-    {
-        public bool Equals(Player x, Player y)
-        {
-            return x.AnsweredCorrectly == y.AnsweredCorrectly;
-        }
-    } 
+        Players = Players.OrderByDescending(player => player.Position).ToList();
+    }
 }
