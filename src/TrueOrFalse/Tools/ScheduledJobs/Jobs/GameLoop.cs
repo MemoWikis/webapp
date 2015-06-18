@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using Autofac;
-using FluentNHibernate.Conventions.Helpers;
 using NHibernate;
 using Quartz;
 using RollbarSharp;
@@ -45,7 +44,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             foreach (var game in gamesOverDue)
             {
-                if (game.Players.Count < 1)
+                if (game.Players.Count <= 1)
                 {
                     game.Status = GameStatus.NeverStarted;
                     gameRepo.Update(game);
