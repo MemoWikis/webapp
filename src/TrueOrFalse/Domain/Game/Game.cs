@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate.Util;
+using Remotion.Linq.Clauses.ResultOperators;
 using Seedworks.Lib.Persistence;
 
 public class Game : DomainEntity
@@ -116,4 +118,16 @@ public class Game : DomainEntity
     {
         return Rounds.Last().Status == GameRoundStatus.Completed;
     }
+
+    public void SetPlayerPositions()
+    {
+    }
+
+    public class GroupByComparer : IEqualityComparer<Game>()
+    {
+        public bool Equals(Player x, Player y)
+        {
+            return x.AnsweredCorrectly == y.AnsweredCorrectly;
+        }
+    } 
 }

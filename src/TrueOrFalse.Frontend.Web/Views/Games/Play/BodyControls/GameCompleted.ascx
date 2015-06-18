@@ -1,7 +1,42 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameCompletedModel>" %>
 
-<h2>Das Spiel ist abgeschlossen</h2>
 
-Gewinner ist: 
-2 Platz <br />
-3 Platz <br />
+
+<div class="rowBase">
+    <div class="col-xs-12">
+        
+        <h4>Spiel vorbei: Du bist 3. geworden!</h4>
+    </div>
+</div>
+
+<div class="row" style="padding-left: 7px;">
+    <div class="col-xs-12">
+        <h4>Rangliste:</h4>
+    </div>    
+</div>
+
+<% foreach(var playerRow in Model.Rows){ %>
+    <div class="rowBase">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4>Platz <%= playerRow.Position %>: <%= playerRow.IsCurrentUser ? "(Du)" : "" %> <%: playerRow.PlayerName %></h4>
+                </div>        
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    Von <%= playerRow.TotalQuestions %> Fragen beantwort:
+                </div>
+                <div class="col-sm-3" style="background-color: lightgreen; color: darkgreen">
+                    <%= playerRow.TotalCorrect %> Richtig
+                </div>
+                <div class="col-sm-3" style="background-color: lightsalmon; color: darkred">
+                    <%= playerRow.TotalWrong %> Falsch
+                </div>
+                <div class="col-sm-3" style="background-color: silver">
+                    <%= playerRow.TotalNotAnswered %> Nicht
+                </div>        
+            </div>
+        </div>
+    </div>
+<% } %>

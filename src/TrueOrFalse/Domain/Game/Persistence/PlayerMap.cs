@@ -1,5 +1,4 @@
 ﻿using FluentNHibernate.Mapping;
-using NHibernate.Proxy;
 
 class PlayerMap : ClassMap<Player>
 {
