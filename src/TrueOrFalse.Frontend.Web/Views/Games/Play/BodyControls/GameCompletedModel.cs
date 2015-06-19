@@ -22,15 +22,18 @@ public class GameCompletedModel : PlayBaseModel
 
         foreach (var player in game.Players)
         {
+            var totalCorrect = player.Answers.Count(x => x.AnswerredCorrectly == AnswerCorrectness.True);
+            var totalWrong = player.Answers.Count(x => x.AnswerredCorrectly == AnswerCorrectness.False);
+
             Rows.Add(new PlayerResultRow
             {
                 Position = player.Position,
                 IsCurrentUser = UserId == player.User.Id,
                 PlayerName = player.User.Name,
                 TotalQuestions = game.Rounds.Count,
-                TotalCorrect = player.AnsweredCorrectly,
-                TotalWrong = player.AnsweredWrong,
-                TotalNotAnswered = game.Rounds.Count - player.AnsweredCorrectly - player.AnsweredWrong
+                TotalCorrect = totalCorrect,
+                TotalWrong = totalWrong,
+                TotalNotAnswered = game.Rounds.Count - totalCorrect - totalWrong
             });
         }
     }

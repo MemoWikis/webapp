@@ -27,6 +27,11 @@ public class Round : DomainEntity
         return ((DateTime)StartTime).AddSeconds(RoundLength) < DateTime.Now;
     }
 
+    public virtual bool AllPlayersDidAnswer()
+    {
+        return Game.Players.Count == Answers.Count;
+    }
+
     public Round()
     {
         Answers = new List<AnswerHistory>();

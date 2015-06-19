@@ -129,6 +129,6 @@ public class Game : DomainEntity
                 return group.Key;
             }).ToList();
 
-        Players = Players.OrderByDescending(player => player.Position).ToList();
+        Players = Players.OrderBy(player => player.Position).ToList();
     }
 }

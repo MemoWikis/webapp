@@ -23,7 +23,20 @@
     </div>
     <div class="col-sm-6 text-right text-left-sm" style="font-size: 30px;">
         <% foreach(var player in Model.Players){ %>
-            <i class="fa fa-user show-tooltip" data-original-title="<%= player.User.Name %>"></i>
+            <div style="display: inline-block; text-align: left; ">
+                <div style="float: right;">
+                    
+                    <div style="font-size: 10px;">
+                        <%: player.User.Name %>
+                    </div>                
+                    <div style="font-size: 10px;">
+                        21 Punkte
+                    </div>
+                </div>
+                <div style="float:right">
+                    <i style="margint-top: 0px;" class="fa fa-user show-tooltip" data-original-title="<%= player.User.Name %>"></i>    
+                </div>
+            </div>
         <% } %>
     </div>
 </div>
