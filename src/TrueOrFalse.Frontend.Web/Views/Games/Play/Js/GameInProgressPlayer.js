@@ -17,6 +17,17 @@
                 _this.InitGame(game);
             });
         };
+
+        this._play.Hub.client.Answered = function (gameId, playerId, correct, totalCorrect) {
+            window.console.log(gameId + " " + playerId + " " + correct);
+
+            var container = $("[data-player-mini=" + playerId + "]");
+
+            window.console.log(playerId);
+            window.console.log(container);
+
+            container.find("[data-type=answeredCorrectly]").html(totalCorrect.toString());
+        };
     }
     GameInProgressPlayer.prototype.InitFromHtml = function () {
         var initialGame = new Game();

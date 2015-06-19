@@ -5,7 +5,9 @@
 <div class="rowBase">
     <div class="col-xs-12">
         
-        <h4>Spiel vorbei<% if(Model.IsPlayer){ %>: <i class="fa fa-trophy"></i>  Du bist <%=Model.PlayerPosition %>. geworden! <% } %></h4>
+        <h4>Spiel vorbei<% if(Model.IsPlayer){ %>: 
+            <% if(Model.PlayerPosition == 1) { %><i class="fa fa-trophy" style="color: gold"></i><% } %>
+            Du bist <%=Model.PlayerPosition %>. geworden! <% } %></h4>
     </div>
 </div>
 

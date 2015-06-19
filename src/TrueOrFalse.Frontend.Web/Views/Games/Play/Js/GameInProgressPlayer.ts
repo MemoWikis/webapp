@@ -28,6 +28,21 @@
                     this.InitGame(game);
                 });
         };
+
+        this._play.Hub.client.Answered = (
+            gameId: number,
+            playerId: number,
+            correct: boolean,
+            totalCorrect: number) => {
+            window.console.log(gameId + " " + playerId + " " + correct);
+
+            var container = $("[data-player-mini=" + playerId + "]");
+
+            window.console.log(playerId);
+            window.console.log(container);
+
+            container.find("[data-type=answeredCorrectly]").html(totalCorrect.toString());
+        }
     }
 
     public InitFromHtml() {

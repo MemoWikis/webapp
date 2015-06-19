@@ -75,6 +75,17 @@ public class GameHub : BaseHub
         Send(() => { Clients.All.NeverStarted(new { GameId = gameId }); });
     }
 
+    public void Answered(int gameId, int playerId, AnswerQuestionResult result){
+        Send(() =>
+        {
+            Clients.All.Answered(
+                gameId, 
+                playerId, 
+                result.IsCorrect, 
+                Sl.R<PlayerRepo>().GetById(playerId).AnsweredCorrectly);
+        });
+    }
+
     private void Send(Action action)
     {
         try

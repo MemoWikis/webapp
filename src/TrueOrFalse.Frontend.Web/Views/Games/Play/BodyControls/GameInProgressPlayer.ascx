@@ -23,18 +23,19 @@
     </div>
     <div class="col-sm-6 text-right text-left-sm" style="font-size: 30px;">
         <% foreach(var player in Model.Players){ %>
-            <div style="display: inline-block; text-align: left; ">
+            <div style="display: inline-block; text-align: left;" data-player-mini="<%: player.Id %>">
                 <div style="float: right;">
                     
                     <div style="font-size: 10px;">
                         <%: player.User.Name %>
                     </div>                
                     <div style="font-size: 10px;">
-                        21 Punkte
+                        Punkte: <span data-type="answeredCorrectly"><%: player.AnsweredCorrectly %></span>
                     </div>
                 </div>
                 <div style="float:right">
-                    <i style="margint-top: 0px;" class="fa fa-user show-tooltip" data-original-title="<%= player.User.Name %>"></i>    
+                    <i style="position: relative; top: -9px; right: 5px;" 
+                       class="fa fa-user show-tooltip" data-original-title="<%= player.User.Name %>"></i>    
                 </div>
             </div>
         <% } %>
