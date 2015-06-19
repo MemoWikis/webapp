@@ -27,6 +27,8 @@
                     this._play.ChangeContent("#divBodyAnswer", htmlResult);
                     this.InitGame(game);
                 });
+
+            $("[data-type=answeredCorrectly]").parent().css("background-color", "transparent");
         };
 
         this._play.Hub.client.Answered = (
@@ -38,10 +40,13 @@
 
             var container = $("[data-player-mini=" + playerId + "]");
 
-            window.console.log(playerId);
-            window.console.log(container);
+            var spanAnswerCount = container.find("[data-type=answeredCorrectly]");
+            Utils.SetElementValue2(spanAnswerCount, totalCorrect.toString());
 
-            container.find("[data-type=answeredCorrectly]").html(totalCorrect.toString());
+            if(!correct)
+                spanAnswerCount.parent().css("background-color", "lightsalmon");
+            else
+                spanAnswerCount.parent().css("background-color", "lightgreen");
         }
     }
 
