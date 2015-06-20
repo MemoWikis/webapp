@@ -1,20 +1,58 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>TrueOrFalse.Frontend.App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
 
-    <!-- TrueOrFalse.Frontend.App references -->
-    <link href="css/index.css" rel="stylesheet" />
-</head>
-<body>
-    <p>Hello, your application is ready!</p>
-    <p>Not yet ionic</p>
-
-    <!-- Cordova reference, this is added to your app when it's built. -->
     <script src="cordova.js"></script>
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    
     <script src="scripts/platformOverrides.js"></script>
+    <!-- your app's js -->
+    <script src="scripts/app.js"></script>
+</head>
+<body ng-app="starter">
+    <ion-pane>
+        <ion-header-bar class="bar-stable">
+            <h1 class="title">MEMuchO</h1>
+        </ion-header-bar>
+        <ion-content>
 
-    <script src="scripts/index.js"></script>
+            <div class="list">
+
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        Diese APP ermöglicht es dir Erinnerungen zu erhalten, 
+                        so dass du dich optimal auf Termine vorbereiten kannst. 
+                    </div>
+                </div>
+
+                <a class="item item-icon-left" href="#">
+                    <i class="icon ion-calendar"></i>
+                    Termine
+                </a>
+
+                <a class="item item-icon-left" href="#">
+                    <i class="icon ion-ios-game-controller-a-outline"></i>
+                    Spielen
+                </a>
+
+                <a class="item item-icon-left" href="#">
+                    <i class="icon ion-happy-outline"></i>
+                    Lernen
+                </a>
+
+            </div>
+
+        </ion-content>
+    </ion-pane>
 </body>
 </html>
