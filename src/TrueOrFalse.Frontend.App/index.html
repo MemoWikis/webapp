@@ -11,45 +11,47 @@
 
 </head>
 <body ng-app="starter">
-<ion-pane>
-    <ion-header-bar class="bar-stable">
-        <h1 class="title">MEMuchO</h1>
-    </ion-header-bar>
-    <ion-content>
+    <ion-pane>
+        <ion-header-bar class="bar-stable">
+            <h1 class="title">MEMuchO</h1>
+        </ion-header-bar>
+        <ion-content>
 
-        <div class="list">
+            <div class="list">
 
-            <div class="card">
-                <div class="item item-text-wrap">
-                    Diese APP ermöglicht es dir Benachrichtigungen zu erhalten,
-                    so dass du dich optimal auf Termine vorbereiten kannst.
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        Diese APP ermöglicht es dir Benachrichtigungen zu erhalten,
+                        so dass du dich optimal auf Termine vorbereiten kannst.
+                    </div>
                 </div>
+
+                <a class="item item-icon-left" href="#" onclick="window.open('http://memucho.de/termine', '_system', 'location=yes')">
+                    <i class="icon ion-calendar"></i>
+                    Termine
+                </a>
+
+                <a class="item item-icon-left" href="#" onclick="window.open('http://memucho.de/spielen', '_system', 'location=yes')">
+                    <i class="icon ion-ios-game-controller-a-outline"></i>
+                    Spielen
+                </a>
+
+                <a class="item item-icon-left" href="#" onclick="window.open('http://memucho.de/wissen', '_system', 'location=yes')">
+                    <i class="icon ion-happy-outline"></i>
+                    Lernen
+                </a>
+
             </div>
 
-            <a class="item item-icon-left" href="#" click="alert('test')">
-                <i class="icon ion-calendar"></i>
-                Termine
-            </a>
+        </ion-content>
+    </ion-pane>
 
-            <a class="item item-icon-left" href="#" click="window.open('http://memucho.de/spielen', '_blank', 'location=yes')">
-                <i class="icon ion-ios-game-controller-a-outline"></i>
-                Spielen
-            </a>
-
-            <a class="item item-icon-left" href="#" click="window.open('http://memucho.de/wissen', '_blank', 'location=yes')">
-                <i class="icon ion-happy-outline"></i>
-                Lernen
-            </a>
-
-        </div>
-
-    </ion-content>
-</ion-pane>
-
+    <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
+
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <!-- cordova script (this will be a 404 during development) -->
+
 
     <script src="scripts/platformOverrides.js"></script>
     <!-- your app's js -->
