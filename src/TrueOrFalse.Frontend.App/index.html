@@ -5,54 +5,54 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
+
+</head>
+<body ng-app="starter">
+<ion-pane>
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">MEMuchO</h1>
+    </ion-header-bar>
+    <ion-content>
+
+        <div class="list">
+
+            <div class="card">
+                <div class="item item-text-wrap">
+                    Diese APP ermöglicht es dir Benachrichtigungen zu erhalten,
+                    so dass du dich optimal auf Termine vorbereiten kannst.
+                </div>
+            </div>
+
+            <a class="item item-icon-left" href="#" click="alert('test')">
+                <i class="icon ion-calendar"></i>
+                Termine
+            </a>
+
+            <a class="item item-icon-left" href="#" click="window.open('http://memucho.de/spielen', '_blank', 'location=yes')">
+                <i class="icon ion-ios-game-controller-a-outline"></i>
+                Spielen
+            </a>
+
+            <a class="item item-icon-left" href="#" click="window.open('http://memucho.de/wissen', '_blank', 'location=yes')">
+                <i class="icon ion-happy-outline"></i>
+                Lernen
+            </a>
+
+        </div>
+
+    </ion-content>
+</ion-pane>
 
     <script src="cordova.js"></script>
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
-    
+
     <script src="scripts/platformOverrides.js"></script>
     <!-- your app's js -->
     <script src="scripts/app.js"></script>
-</head>
-<body ng-app="starter">
-    <ion-pane>
-        <ion-header-bar class="bar-stable">
-            <h1 class="title">MEMuchO</h1>
-        </ion-header-bar>
-        <ion-content>
-
-            <div class="list">
-
-                <div class="card">
-                    <div class="item item-text-wrap">
-                        Diese APP ermöglicht es dir Erinnerungen zu erhalten, 
-                        so dass du dich optimal auf Termine vorbereiten kannst. 
-                    </div>
-                </div>
-
-                <a class="item item-icon-left" href="#">
-                    <i class="icon ion-calendar"></i>
-                    Termine
-                </a>
-
-                <a class="item item-icon-left" href="#">
-                    <i class="icon ion-ios-game-controller-a-outline"></i>
-                    Spielen
-                </a>
-
-                <a class="item item-icon-left" href="#">
-                    <i class="icon ion-happy-outline"></i>
-                    Lernen
-                </a>
-
-            </div>
-
-        </ion-content>
-    </ion-pane>
 </body>
 </html>
