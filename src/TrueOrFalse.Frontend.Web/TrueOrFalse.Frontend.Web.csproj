@@ -477,9 +477,15 @@
     <Content Include="Style\animate.css">
       <DependentUpon>animate.less</DependentUpon>
     </Content>
-    <Content Include="Style\font-awesome-4.3.0\css\font-awesome.css" />
-    <Content Include="Style\font-awesome-4.3.0\css\font-awesome.min.css" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Style\font-awesome-4.3.0\css\font-awesome.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Style\font-awesome-4.3.0\css\font-awesome.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
     </Content>
@@ -926,11 +932,21 @@
     <Content Include="Scripts\autocompletes\AutocompleteSets.js.map">
       <DependentUpon>AutocompleteSets.ts</DependentUpon>
     </Content>
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.eot" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.woff" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\FontAwesome.otf" />
+    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.woff2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Style\font-awesome-4.3.0\fonts\FontAwesome.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Style\font-awesome-4.3.0\less\animated.less" />
     <Content Include="Style\font-awesome-4.3.0\less\bordered-pulled.less" />
     <Content Include="Style\font-awesome-4.3.0\less\core.less" />
@@ -962,8 +978,6 @@
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
-    <Content Include="Style\fonts-awesome\font-awesome.css" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
     <Content Include="Style\menu.css">
       <DependentUpon>menu.less</DependentUpon>
     </Content>
@@ -1211,7 +1225,6 @@
     <Content Include="Scripts\vendor\jquery.jplayer.js" />
     <Content Include="Scripts\vendor\jquery.sparkline.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
-    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.svg" />
     <Content Include="Style\fonts\OFL.txt" />
     <Content Include="Style\form.css">
       <DependentUpon>form.less</DependentUpon>
@@ -1454,18 +1467,10 @@
     <Content Include="Style\zocial\css\zocial-regular-webfont.ttf" />
     <Content Include="Style\zocial\css\zocial-regular-webfont.woff" />
     <Content Include="Style\zocial\README.md" />
-    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.eot" />
-    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.ttf" />
-    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.woff" />
-    <Content Include="Style\fonts-awesome_old_temp\FontAwesome.otf" />
     <Content Include="Views\Questions\Edit\EditQuestion.less" />
     <Content Include="Style\form.less" />
     <Content Include="Views\Categories\Categories.less" />
     <Content Include="Views\Categories\Detail\Category.less" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.eot" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.ttf" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.woff" />
-    <Content Include="Style\fonts-awesome\FontAwesome.otf" />
     <Content Include="Style\components.less" />
     <Content Include="Style\menu.less" />
     <None Include="Style\site-debug.less" />
@@ -1806,7 +1811,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Style\fontAwesome\" />
     <Folder Include="Views\Dates\Details\" />
   </ItemGroup>
   <PropertyGroup>
