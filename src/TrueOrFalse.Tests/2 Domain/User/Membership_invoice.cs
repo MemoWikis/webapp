@@ -5,6 +5,7 @@ using NUnit.Framework;
 public class Membership_invoice : BaseTest
 {
     [Test]
+    [Category(TestCategories.IgnoreOnCI)]
     public void Should_create_invoice()
     {
         var filesToDelete = new DirectoryInfo(Settings.InvoiceFolder()).GetFiles();

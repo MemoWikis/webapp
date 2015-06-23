@@ -17,4 +17,6 @@
 	/// Following the BDD ideas
 	/// </summary>
 	public const string BehaviourTest = "BehaviourTest";
+
+    public const string IgnoreOnCI = "IgnoreOnCI";
 }
