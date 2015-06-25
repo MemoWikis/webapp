@@ -1176,6 +1176,7 @@
     </Compile>
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionEntryBase.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
