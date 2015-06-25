@@ -1397,10 +1397,6 @@
     <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownQuestionExt.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
-    <Content Include="Views\Questions\Edit\Js\MarkDownDescription.js">
-      <DependentUpon>MarkdownDescription.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -1519,9 +1515,6 @@
     </Content>
     <Content Include="Views\Questions\Edit\Js\EditQuestion.js.map">
       <DependentUpon>EditQuestion.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js.map">
-      <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js.map">
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
