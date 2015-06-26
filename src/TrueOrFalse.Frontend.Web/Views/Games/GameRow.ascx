@@ -39,7 +39,9 @@
                 </a>
             <% } %>
             <% if(!Model.InProgress() && Model.IsCreator ){ %>
-                <span class="pull-right margin-bottom-sm"><i class="fa fa-smile-o"></i>&nbsp;Du bist der Ersteller</span>
+                <span class="pull-right margin-bottom-sm">
+                    <i class="fa fa-smile-o"></i>&nbsp;Du bist der Ersteller
+                </span>
             <% } %>
             
             <span class="pull-right margin-bottom-sm spanYouArePlayer"
