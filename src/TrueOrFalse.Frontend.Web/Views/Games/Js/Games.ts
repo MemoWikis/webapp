@@ -7,6 +7,8 @@
     private _divGamesInProgress: JQuery;
     private _divGamesInProgressNone: JQuery;
 
+    private _gameRows : GameRow[] = [];
+
     constructor() {
 
         var me = this;
@@ -21,12 +23,13 @@
 
         this.InitializeCountdownAll();
         this.InitializeButtonsAll();
+        this.InitRows();
 
         if (this._hub == null)
             return;
 
         this._hub.client.JoinedGame = (player: Player) => {
-            me.GetRow(player.GameId).AddPlayer(player.Name, player.Id);
+            me.GetRow(player.GameId).AddPlayer(player);
         };
 
         this._hub.client.NextRound = (game: Game) => {
@@ -113,6 +116,8 @@
         this.InitializeButtons("[data-gameId=" + gameId + "] [data-joinGameId]");
         this.InitializeCountdown("[data-gameId=" + gameId + "] [data-countdown]");
         $(".show-tooltip").tooltip();
+
+        this._gameRows.push(new GameRow(gameId));
     }
 
     InitializeButtonsAll(){ this.InitializeButtons("[data-joinGameId]"); }
@@ -141,8 +146,21 @@
         });
     }
 
+    InitRows() {
+        var self = this;
+        $("[data-gameId]").each(function() {
+            self._gameRows.push(
+                new GameRow(parseInt($(this).attr("data-gameId")))
+            );
+        });
+
+        window.console.log(self._gameRows);
+    }
+
     GetRow(gameId : number) {
-        return new GameRow(gameId);
+        return $.grep(this._gameRows, function (row : GameRow) {
+            return row.GameId === gameId;
+        })[0];
     }
 }
 
@@ -150,6 +168,7 @@ class Player {
     Id: number;
     Name: string;
     GameId: number;
+    TotalPlayers : number;
 } 
 
 $(() => {

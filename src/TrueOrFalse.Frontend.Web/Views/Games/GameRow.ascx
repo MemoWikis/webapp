@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-offset-1 col-md-3 col-sm-2 col-xs-12 header ">
+        <div class="col-md-offset-0 col-md-3 col-sm-2 col-xs-12 header ">
             <% if(!Model.InProgress() && !Model.IsPlayerOrCreator ){ %>
                 <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
                    data-joinGameId="<%= Model.GameId %>" style="float:right; min-width: 100px;"
@@ -42,6 +42,7 @@
                 <span class="pull-right margin-bottom-sm">
                     <i class="fa fa-smile-o"></i>&nbsp;Du bist der Ersteller
                 </span>
+                
             <% } %>
             
             <span class="pull-right margin-bottom-sm spanYouArePlayer"
@@ -49,15 +50,37 @@
                     <i class="fa fa-smile-o"></i>&nbsp;Du bist Mitspieler
             </span>
         </div>
-        <div class="col-md-2 col-sm-2 col-xs-12 header">
+        <div class="col-md-3 col-sm-2 col-xs-12 header" style="text-align: right">
+            
+            <% if (Model.IsCreator) { %>
+                <a href="#" class="btn btn-sm margin-bottom-sm btn-primary show-tooltip" 
+                    data-elem="startGame"
+                    style="<%= Html.CssHide(Model.Players.Count <= 1) %>"
+                    data-original-title="Das Spiel sofort starten!">
+                    <i class="fa fa-rocket"></i>
+                    Start
+                </a>
+                <a href="#" class="btn btn-sm margin-bottom-sm btn-warning show-tooltip"
+                    data-elem="cancelGame"
+                    style="<%= Html.CssHide(Model.Players.Count > 1) %>"
+                    data-original-title="Das Spiel ungespielt abbrechen!">
+                    <i class="fa fa-times-circle"></i>  
+                </a>
+            <% } %>
+
             <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
-                class="btn btn-primary btn-sm margin-bottom-sm" style="float: right; min-width: 100px;">
+               style="margin-left: 0px"
+               class="btn btn-primary btn-sm margin-bottom-sm show-tooltip"
+               data-original-title="Zum Spiel">
                 <% if(Model.InProgress()){ %>
-                    <i class="fa fa-eye"></i>&nbsp; Zusehen
+                    <i class="fa fa-eye"></i>
+                    <% if(!Model.IsCreator){ %> &nbsp; Zusehen <% } %>
                 <% }else{ %>
-                    <i class="fa fa-eye"></i>&nbsp; Ansehen
+                    <i class="fa fa-eye"></i>
+                    <% if(!Model.IsCreator){ %>&nbsp; Ansehen <% } %>
                 <% } %>
-            </a>            
+            </a>
+            
         </div>            
     </div>
     

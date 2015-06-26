@@ -1,6 +1,7 @@
 ﻿var Games = (function () {
     function Games() {
         var _this = this;
+        this._gameRows = [];
         var me = this;
 
         this._hub = $.connection.gameHub;
@@ -13,12 +14,13 @@
 
         this.InitializeCountdownAll();
         this.InitializeButtonsAll();
+        this.InitRows();
 
         if (this._hub == null)
             return;
 
         this._hub.client.JoinedGame = function (player) {
-            me.GetRow(player.GameId).AddPlayer(player.Name, player.Id);
+            me.GetRow(player.GameId).AddPlayer(player);
         };
 
         this._hub.client.NextRound = function (game) {
@@ -81,6 +83,8 @@
         this.InitializeButtons("[data-gameId=" + gameId + "] [data-joinGameId]");
         this.InitializeCountdown("[data-gameId=" + gameId + "] [data-countdown]");
         $(".show-tooltip").tooltip();
+
+        this._gameRows.push(new GameRow(gameId));
     };
 
     Games.prototype.InitializeButtonsAll = function () {
@@ -114,8 +118,19 @@
         });
     };
 
+    Games.prototype.InitRows = function () {
+        var self = this;
+        $("[data-gameId]").each(function () {
+            self._gameRows.push(new GameRow(parseInt($(this).attr("data-gameId"))));
+        });
+
+        window.console.log(self._gameRows);
+    };
+
     Games.prototype.GetRow = function (gameId) {
-        return new GameRow(gameId);
+        return $.grep(this._gameRows, function (row) {
+            return row.GameId === gameId;
+        })[0];
     };
     return Games;
 })();

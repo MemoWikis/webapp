@@ -26,7 +26,8 @@ public class GameHub : BaseHub
             {
                 Id = user.Id,
                 GameId = gameId,
-                Name = user.Name
+                Name = user.Name,
+                TotalPlayers = game.Players.Count
             });
         });
     }
