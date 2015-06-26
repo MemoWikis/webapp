@@ -63,9 +63,9 @@
                                     </label>
                                     <div class="col-md-11 col-xs-6">
                                         <div class="input-group">
-                                            <input class="form-control" name="StartsInMinutes" value="10" style="height: 30px;" />
+                                            <input class="form-control" name="StartsInMinutes" value="5" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
-                                                (max. 60min)
+                                                (max. 10min)
                                             </span>
                                         </div>
                                     </div>
