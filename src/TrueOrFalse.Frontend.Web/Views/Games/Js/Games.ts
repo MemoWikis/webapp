@@ -92,9 +92,7 @@
                 .hide(700)
                 .remove();
 
-            if (this._divGamesInProgress.find("[data-gameId]").length == 0) {
-                this._divGamesInProgressNone.show();
-            }
+            this.IfNeeded_ShowNoGamesInProgressInfo();
         }
 
         this._hub.client.NeverStarted = (game: Game) => {
@@ -102,14 +100,32 @@
                 .hide(700)
                 .remove();
 
-            if (this._divGamesReady.find("[data-gameId]").length == 0) {
-                this._divGamesReadyNone.show();
-            }
+            this.IfNeeded_ShowNoGamesReadyInfo();
         }
+
+        this._hub.client.Canceled = (cancel) => {
+            $("[data-gameId=" + cancel.GameId + "]")
+                .hide(700)
+                .remove();
+
+            this.IfNeeded_ShowNoGamesReadyInfo();
+        };
 
         $.connection.hub.start(() => {
             window.console.log("connection started:");
         });
+    }
+
+    IfNeeded_ShowNoGamesInProgressInfo() {
+        if (this._divGamesInProgress.find("[data-gameId]").length == 0) {
+            this._divGamesInProgressNone.show();
+        }        
+    }
+
+    IfNeeded_ShowNoGamesReadyInfo() {
+        if (this._divGamesReady.find("[data-gameId]").length === 0) {
+            this._divGamesReadyNone.show();
+        }        
     }
 
     InitializeRow(gameId : number) {
@@ -130,7 +146,7 @@
             e.preventDefault();
 
             var gameId = +$(this).attr("data-joinGameId");
-            window.console.log(gameId);
+
             me._hub.server.joinGame(gameId).done(() => {}).fail(error => {
                 window.alert(error);
             });

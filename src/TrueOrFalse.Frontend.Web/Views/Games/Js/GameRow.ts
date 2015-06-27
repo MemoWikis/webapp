@@ -23,8 +23,7 @@
         window.console.log(this.ButtonCancelGame);
 
         this.ButtonStartGame.click((e) => { e.preventDefault(); this.StartGame(); });
-        this.ButtonCancelGame.click((e) => { e.preventDefault();
-            window.alert("hui"); this.CancelGame(); });
+        this.ButtonCancelGame.click((e) => { e.preventDefault(); this.CancelGame(); });
     }
 
     AddPlayer(player : Player) {
@@ -53,6 +52,7 @@
     }
 
     CancelGame() {
-        window.alert("start game");
+        var gameId = this.GameId;
+        $.post("/Games/CancelGame/21", { gameId: gameId.toString() });
     }
  }

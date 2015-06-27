@@ -18,7 +18,6 @@
         });
         this.ButtonCancelGame.click(function (e) {
             e.preventDefault();
-            window.alert("hui");
             _this.CancelGame();
         });
     }
@@ -44,7 +43,8 @@
     };
 
     GameRow.prototype.CancelGame = function () {
-        window.alert("start game");
+        var gameId = this.GameId;
+        $.post("/Games/CancelGame/21", { gameId: gameId.toString() });
     };
     return GameRow;
 })();

@@ -76,6 +76,10 @@ public class GameHub : BaseHub
         Send(() => { Clients.All.NeverStarted(new { GameId = gameId }); });
     }
 
+    public void Canceled(int gameId){
+        Send(() => { Clients.All.Canceled(new { GameId = gameId }); });
+    }
+
     public void Answered(int gameId, int playerId, AnswerQuestionResult result){
         Send(() =>
         {

@@ -62,23 +62,37 @@
         this._hub.client.Completed = function (game) {
             $("[data-gameId=" + game.GameId + "]").hide(700).remove();
 
-            if (_this._divGamesInProgress.find("[data-gameId]").length == 0) {
-                _this._divGamesInProgressNone.show();
-            }
+            _this.IfNeeded_ShowNoGamesInProgressInfo();
         };
 
         this._hub.client.NeverStarted = function (game) {
             $("[data-gameId=" + game.GameId + "]").hide(700).remove();
 
-            if (_this._divGamesReady.find("[data-gameId]").length == 0) {
-                _this._divGamesReadyNone.show();
-            }
+            _this.IfNeeded_ShowNoGamesReadyInfo();
+        };
+
+        this._hub.client.Canceled = function (cancel) {
+            $("[data-gameId=" + cancel.GameId + "]").hide(700).remove();
+
+            _this.IfNeeded_ShowNoGamesReadyInfo();
         };
 
         $.connection.hub.start(function () {
             window.console.log("connection started:");
         });
     }
+    Games.prototype.IfNeeded_ShowNoGamesInProgressInfo = function () {
+        if (this._divGamesInProgress.find("[data-gameId]").length == 0) {
+            this._divGamesInProgressNone.show();
+        }
+    };
+
+    Games.prototype.IfNeeded_ShowNoGamesReadyInfo = function () {
+        if (this._divGamesReady.find("[data-gameId]").length === 0) {
+            this._divGamesReadyNone.show();
+        }
+    };
+
     Games.prototype.InitializeRow = function (gameId) {
         this.InitializeButtons("[data-gameId=" + gameId + "] [data-joinGameId]");
         this.InitializeCountdown("[data-gameId=" + gameId + "] [data-countdown]");
@@ -101,7 +115,7 @@
             e.preventDefault();
 
             var gameId = +$(this).attr("data-joinGameId");
-            window.console.log(gameId);
+
             me._hub.server.joinGame(gameId).done(function () {
             }).fail(function (error) {
                 window.alert(error);

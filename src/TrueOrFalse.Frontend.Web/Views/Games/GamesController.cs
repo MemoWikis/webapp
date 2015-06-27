@@ -16,4 +16,17 @@ public class GamesController : BaseController
             ControllerContext
         );
     }
+
+    [HttpPost]
+    public EmptyResult CancelGame(int gameId)
+    {
+        R<CancelGame>().Run(gameId);
+        return new EmptyResult();
+    }
+
+    [HttpPost]
+    public EmptyResult StartGame(int gameId)
+    {
+        return new EmptyResult();
+    }
 }
