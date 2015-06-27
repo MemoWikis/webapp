@@ -7,11 +7,11 @@
                 var dateStartMinus60Secs = new Date(event.finalDate);
                 dateStartMinus60Secs.setSeconds(event.finalDate.getSeconds() - 60);
 
-                var dateStartMinus10Secs = new Date(event.finalDate);
-                dateStartMinus10Secs.setSeconds(event.finalDate.getSeconds() - 10);
+                var dateStartMinus15Secs = new Date(event.finalDate);
+                dateStartMinus15Secs.setSeconds(event.finalDate.getSeconds() - 15);
 
                 var dateStartMinus3Secs = new Date(event.finalDate);
-                dateStartMinus3Secs.setSeconds(event.finalDate.getSeconds() - 3);
+                dateStartMinus3Secs.setSeconds(event.finalDate.getSeconds() - 10);
 
                 var divMsg = $("#divMsgPartOfGame");
                 var currentTime = new Date();
@@ -22,7 +22,7 @@
                     var url = $(event.target).data("game-url");
                     if (!window.location.href.match(new RegExp(url + "$", 'g')))
                         window.location.href = url;
-                } else if (currentTime > dateStartMinus10Secs) {
+                } else if (currentTime > dateStartMinus15Secs) {
                     Utils.Hightlight(divMsg);
                 } else if (currentTime > dateStartMinus60Secs) {
                     divMsg.removeClass("alert-success").addClass("alert-warning");
