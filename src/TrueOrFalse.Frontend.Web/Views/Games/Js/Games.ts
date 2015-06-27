@@ -22,7 +22,6 @@
         this._divGamesInProgressNone = $("#divGamesInProgressNone");
 
         this.InitializeCountdownAll();
-        this.InitializeButtonsAll();
         this.InitRows();
 
         if (this._hub == null)
@@ -135,29 +134,13 @@
     }
 
     InitializeRow(gameId : number) {
-        this.InitializeButtons("[data-gameId=" + gameId + "] [data-joinGameId]");
         this.InitializeCountdown("[data-gameId=" + gameId + "] [data-countdown]");
         $(".show-tooltip").tooltip();
 
-        this._gameRows.push(new GameRow(gameId));
+        this._gameRows.push(new GameRow(gameId, this._hub));
     }
 
-    InitializeButtonsAll(){ this.InitializeButtons("[data-joinGameId]"); }
     InitializeCountdownAll() { this.InitializeCountdown("[data-countdown]"); }
-
-    InitializeButtons(selector : string) {
-        var me = this;
-
-        $(selector).click(function(e){
-            e.preventDefault();
-
-            var gameId = +$(this).attr("data-joinGameId");
-
-            me._hub.server.joinGame(gameId).done(() => {}).fail(error => {
-                window.alert(error);
-            });
-        });
-    }
 
     InitializeCountdown(selector: string) {
         $(selector).each(function () {
@@ -172,7 +155,7 @@
         var self = this;
         $("[data-gameId]").each(function() {
             self._gameRows.push(
-                new GameRow(parseInt($(this).attr("data-gameId")))
+                new GameRow(parseInt($(this).attr("data-gameId")), self._hub)
             );
         });
 

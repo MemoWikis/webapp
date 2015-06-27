@@ -17,7 +17,7 @@ public class GameStatusChange : IRegisterAsInstancePerLifetime
     {
         var gameRepo = Sl.R<GameRepo>();
         var game = gameRepo.GetById(gameId);
-        game.WillStartAt = DateTime.Now.AddSeconds(4);
+        game.WillStartAt = DateTime.Now.AddSeconds(10);
         gameRepo.Update(game);
         gameRepo.Flush();
 

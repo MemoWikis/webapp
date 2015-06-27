@@ -6,24 +6,30 @@
     Div : JQuery;
     DivPlayers: JQuery;
 
+
     ButtonStartGame: JQuery;
     ButtonCancelGame: JQuery;
+    ButtonJoinGame : JQuery;
 
-    constructor(gameId: number) {
+    private _hub: any;
+
+    constructor(gameId: number, hub : any) {
+
+        this.GameId = gameId;
+        this._hub = hub;
 
         this.CurrentUserId = $("#hddCurrentUserId").val();
 
-        this.GameId = gameId;
         this.Div = $("[data-gameId=" + gameId + "]");
         this.DivPlayers = this.Div.find("[data-row-type=players]");
 
         this.ButtonStartGame = this.Div.find("[data-elem=startGame]");
         this.ButtonCancelGame = this.Div.find("[data-elem=cancelGame]");
-
-        window.console.log(this.ButtonCancelGame);
+        this.ButtonJoinGame = this.Div.find("[data-elem=cancelGame]");
 
         this.ButtonStartGame.click((e) => { e.preventDefault(); this.StartGame(); });
         this.ButtonCancelGame.click((e) => { e.preventDefault(); this.CancelGame(); });
+        this.ButtonJoinGame.click((e) => { e.preventDefault(); this.JoinGame(); });
     }
 
     AddPlayer(player : Player) {
@@ -52,6 +58,12 @@
         $.post("/Games/StartGame", { gameId: gameId.toString() });
 
         window.location.href = this.Div.find("[data-elem=urlGame]").attr("href");
+    }
+
+    JoinGame() {
+        this._hub.server.joinGame(this.GameId).done(() => { }).fail(error => {
+            window.alert(error);
+        });
     }
 
     CancelGame() {

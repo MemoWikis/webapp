@@ -1,16 +1,17 @@
 ﻿var GameRow = (function () {
-    function GameRow(gameId) {
+    function GameRow(gameId, hub) {
         var _this = this;
+        this.GameId = gameId;
+        this._hub = hub;
+
         this.CurrentUserId = $("#hddCurrentUserId").val();
 
-        this.GameId = gameId;
         this.Div = $("[data-gameId=" + gameId + "]");
         this.DivPlayers = this.Div.find("[data-row-type=players]");
 
         this.ButtonStartGame = this.Div.find("[data-elem=startGame]");
         this.ButtonCancelGame = this.Div.find("[data-elem=cancelGame]");
-
-        window.console.log(this.ButtonCancelGame);
+        this.ButtonJoinGame = this.Div.find("[data-elem=cancelGame]");
 
         this.ButtonStartGame.click(function (e) {
             e.preventDefault();
@@ -19,6 +20,10 @@
         this.ButtonCancelGame.click(function (e) {
             e.preventDefault();
             _this.CancelGame();
+        });
+        this.ButtonJoinGame.click(function (e) {
+            e.preventDefault();
+            _this.JoinGame();
         });
     }
     GameRow.prototype.AddPlayer = function (player) {
@@ -43,6 +48,13 @@
         $.post("/Games/StartGame", { gameId: gameId.toString() });
 
         window.location.href = this.Div.find("[data-elem=urlGame]").attr("href");
+    };
+
+    GameRow.prototype.JoinGame = function () {
+        this._hub.server.joinGame(this.GameId).done(function () {
+        }).fail(function (error) {
+            window.alert(error);
+        });
     };
 
     GameRow.prototype.CancelGame = function () {
