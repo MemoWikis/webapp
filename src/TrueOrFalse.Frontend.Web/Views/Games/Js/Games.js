@@ -19,7 +19,11 @@
             return;
 
         this._hub.client.JoinedGame = function (player) {
-            me.GetRow(player.GameId).AddPlayer(player);
+            me.GetRow(player.GameId).UiAddPlayer(player);
+        };
+
+        this._hub.client.LeftGame = function (leaveGame) {
+            me.GetRow(leaveGame.GameId).UiRemovePlayer(leaveGame.PlayerUserId);
         };
 
         this._hub.client.NextRound = function (game) {

@@ -42,6 +42,17 @@ public class Game : DomainEntity
         return true;
     }
 
+    public virtual void RemovePlayer(int playerUserId)
+    {
+        if (Players == null)
+            return;
+
+        if (Players.All(p => p.User.Id != playerUserId))
+            return;
+
+        Players.Remove(Players.First(p => p.User.Id == playerUserId));
+    }
+
     public Game()
     {
         Rounds = new List<Round>();

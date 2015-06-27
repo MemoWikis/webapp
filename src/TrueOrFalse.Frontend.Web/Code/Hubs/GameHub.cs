@@ -25,9 +25,29 @@ public class GameHub : BaseHub
 
             Clients.All.JoinedGame(new
             {
-                Id = user.Id,
+                UserId = user.Id,
                 GameId = gameId,
                 Name = user.Name,
+                TotalPlayers = game.Players.Count
+            });
+        });
+    }
+
+    public void LeaveGame(int gameId)
+    {
+        Send(() =>
+        {
+            var playerUserId = Convert.ToInt32(Context.User.Identity.Name);
+
+            var gameRepo = _sl.Resolve<GameRepo>();
+            var game = gameRepo.GetById(gameId);
+            game.RemovePlayer(playerUserId);
+            gameRepo.Update(game);
+
+            Clients.All.LeftGame(new
+            {
+                PlayerUserId = playerUserId,
+                GameId = gameId,
                 TotalPlayers = game.Players.Count
             });
         });

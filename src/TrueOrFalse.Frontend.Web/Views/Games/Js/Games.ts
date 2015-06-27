@@ -28,7 +28,11 @@
             return;
 
         this._hub.client.JoinedGame = (player: Player) => {
-            me.GetRow(player.GameId).AddPlayer(player);
+            me.GetRow(player.GameId).UiAddPlayer(player);
+        };
+
+        this._hub.client.LeftGame = (leaveGame) => {
+            me.GetRow(leaveGame.GameId).UiRemovePlayer(leaveGame.PlayerUserId);
         };
 
         this._hub.client.NextRound = (game: Game) => {
@@ -170,7 +174,7 @@
 }
 
 class Player {
-    Id: number;
+    UserId: number;
     Name: string;
     GameId: number;
     TotalPlayers : number;

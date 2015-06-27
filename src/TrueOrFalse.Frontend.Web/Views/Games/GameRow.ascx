@@ -2,7 +2,10 @@
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase game-row" style="position: relative; padding: 5px;" data-gameId="<%= Model.GameId %>">
+<div class="rowBase game-row" style="position: relative; padding: 5px;" 
+    data-gameId="<%= Model.GameId %>" 
+    data-isCreator="<%= Model.IsCreator %>" 
+    data-isPlayer="<%= Model.IsPlayer %>" >
     
     <div class="row">
         <div class="col-md-3 col-sm-3 header" style="padding-bottom: 5px">
@@ -31,13 +34,13 @@
             </div>
         </div>
         <div class="col-md-offset-0 col-md-3 col-sm-2 col-xs-12 header ">
-            <% if(!Model.InProgress() && !Model.IsPlayerOrCreator ){ %>
-                <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
-                   data-joinGameId="<%= Model.GameId %>" style="float:right; min-width: 100px;"
-                   class="btn btn-success btn-sm margin-bottom-sm linkJoin">
-                    <i class="fa fa-play-circle"></i>&nbsp; Mitspielen
-                </a>
-            <% } %>
+            <a href="#"
+                data-joinGameId="<%= Model.GameId %>" 
+                data-elem="joinGame"
+                style="float:right; min-width: 100px; <%= Html.CssHide(Model.InProgress() || Model.IsPlayerOrCreator) %>"
+                class="btn btn-success btn-sm margin-bottom-sm linkJoin">
+                <i class="fa fa-play-circle"></i>&nbsp; Mitspielen
+            </a>
             <% if(!Model.InProgress() && Model.IsCreator ){ %>
                 <span class="pull-right margin-bottom-sm">
                     <i class="fa fa-smile-o"></i>&nbsp;Du bist der Ersteller
@@ -67,6 +70,13 @@
                     <i class="fa fa-times-circle"></i>  
                 </a>
             <% } %>
+            
+            <a href="#" class="btn btn-sm margin-bottom-sm btn-warning show-tooltip"
+                data-elem="leaveGame"
+                style="<%= Html.CssHide(!Model.IsPlayer) %>"
+                data-original-title="Nicht mehr mitspielen">
+                <i class="fa fa-times-circle"></i>  
+            </a>
 
             <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
                data-elem="urlGame"
@@ -75,10 +85,10 @@
                data-original-title="Zum Spiel">
                 <% if(Model.InProgress()){ %>
                     <i class="fa fa-eye"></i>
-                    <% if(!Model.IsCreator){ %> &nbsp; Zusehen <% } %>
+                    <%--<% if(!Model.IsCreator){ %> &nbsp; Zusehen <% } %>--%>
                 <% }else{ %>
                     <i class="fa fa-eye"></i>
-                    <% if(!Model.IsCreator){ %>&nbsp; Ansehen <% } %>
+                    <%--<% if(!Model.IsCreator){ %>&nbsp; Ansehen <% } %>--%>
                 <% } %>
             </a>
             
@@ -102,8 +112,11 @@
         <div class="col-md-12 players" data-row-type="players">
             Spieler:
             <%  foreach(var player in Model.Players){ %>
-                <i class="fa fa-user"></i>
-                <a href="<%= Links.UserDetail(Url, player.User) %>"><%= player.User.Name %></a>
+                <i class="fa fa-user" data-playerUserId="<%= player.User.Id %>"></i>
+                <a href="<%= Links.UserDetail(Url, player.User) %>" 
+                   data-playerUserId="<%= player.User.Id %>" >
+                    <%= player.User.Name %>
+                </a>
             <% } %>                             
         </div>        
     </div>
