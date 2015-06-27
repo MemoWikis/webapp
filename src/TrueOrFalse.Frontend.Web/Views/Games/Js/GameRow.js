@@ -41,6 +41,8 @@
     GameRow.prototype.StartGame = function () {
         var gameId = this.GameId;
         $.post("/Games/StartGame", { gameId: gameId.toString() });
+
+        window.location.href = this.Div.find("[data-elem=urlGame]").attr("href");
     };
 
     GameRow.prototype.CancelGame = function () {

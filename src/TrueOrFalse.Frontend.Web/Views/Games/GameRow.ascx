@@ -69,6 +69,7 @@
             <% } %>
 
             <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
+               data-elem="urlGame"
                style="margin-left: 0px"
                class="btn btn-primary btn-sm margin-bottom-sm show-tooltip"
                data-original-title="Zum Spiel">
