@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Autofac;
 
@@ -74,6 +75,18 @@ public class GameHub : BaseHub
 
     public void NeverStarted(int gameId){
         Send(() => { Clients.All.NeverStarted(new { GameId = gameId }); });
+    }
+
+    public void ChangeStartTime(int gameId)
+    {
+        var game = Sl.Resolve<GameRepo>().GetById(gameId);
+
+        Send(() => { Clients.All.ChangeStartTime(
+            new{
+                GameId = gameId,
+                WillStartAt = game.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
+            }); 
+        });
     }
 
     public void Canceled(int gameId){

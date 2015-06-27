@@ -39,12 +39,18 @@
     };
 
     GameRow.prototype.StartGame = function () {
-        window.alert("start game");
+        var gameId = this.GameId;
+        $.post("/Games/StartGame", { gameId: gameId.toString() });
     };
 
     GameRow.prototype.CancelGame = function () {
         var gameId = this.GameId;
-        $.post("/Games/CancelGame/21", { gameId: gameId.toString() });
+        $.post("/Games/CancelGame", { gameId: gameId.toString() });
+    };
+
+    GameRow.prototype.ChangeTime = function (newTime) {
+        window.console.log("newTime: " + newTime);
+        $("[data-countdown]").attr("data-countdown", newTime);
     };
     return GameRow;
 })();

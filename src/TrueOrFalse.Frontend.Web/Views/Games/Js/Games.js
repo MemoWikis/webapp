@@ -77,6 +77,12 @@
             _this.IfNeeded_ShowNoGamesReadyInfo();
         };
 
+        this._hub.client.ChangeStartTime = function (changeStartTime) {
+            var row = me.GetRow(changeStartTime.GameId);
+            row.ChangeTime(changeStartTime.WillStartAt);
+            _this.InitializeCountdown("[data-gameId=" + changeStartTime.GameId + "] [data-countdown]");
+        };
+
         $.connection.hub.start(function () {
             window.console.log("connection started:");
         });

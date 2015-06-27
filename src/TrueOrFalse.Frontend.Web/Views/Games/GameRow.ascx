@@ -52,7 +52,7 @@
         </div>
         <div class="col-md-3 col-sm-2 col-xs-12 header" style="text-align: right">
             
-            <% if (Model.IsCreator) { %>
+            <% if (Model.IsCreator && !Model.InProgress()){ %>
                 <a href="#" class="btn btn-sm margin-bottom-sm btn-primary show-tooltip" 
                     data-elem="startGame"
                     style="<%= Html.CssHide(Model.Players.Count <= 1) %>"

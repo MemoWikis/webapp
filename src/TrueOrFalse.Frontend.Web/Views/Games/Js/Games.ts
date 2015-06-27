@@ -111,6 +111,12 @@
             this.IfNeeded_ShowNoGamesReadyInfo();
         };
 
+        this._hub.client.ChangeStartTime = (changeStartTime) => {
+            var row = me.GetRow(changeStartTime.GameId);
+            row.ChangeTime(changeStartTime.WillStartAt);
+            this.InitializeCountdown("[data-gameId=" + changeStartTime.GameId + "] [data-countdown]");
+        };
+
         $.connection.hub.start(() => {
             window.console.log("connection started:");
         });
@@ -173,7 +179,7 @@
         window.console.log(self._gameRows);
     }
 
-    GetRow(gameId : number) {
+    GetRow(gameId: number): GameRow{
         return $.grep(this._gameRows, function (row : GameRow) {
             return row.GameId === gameId;
         })[0];

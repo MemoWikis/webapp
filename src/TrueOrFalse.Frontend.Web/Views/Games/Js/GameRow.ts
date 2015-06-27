@@ -48,11 +48,17 @@
     }
 
     StartGame() {
-        window.alert("start game");
+        var gameId = this.GameId;
+        $.post("/Games/StartGame", { gameId: gameId.toString() });
     }
 
     CancelGame() {
         var gameId = this.GameId;
-        $.post("/Games/CancelGame/21", { gameId: gameId.toString() });
+        $.post("/Games/CancelGame", { gameId: gameId.toString() });
+    }
+
+    ChangeTime(newTime: string) {
+        window.console.log("newTime: " + newTime);
+        $("[data-countdown]").attr("data-countdown", newTime);
     }
  }

@@ -20,13 +20,14 @@ public class GamesController : BaseController
     [HttpPost]
     public EmptyResult CancelGame(int gameId)
     {
-        R<CancelGame>().Run(gameId);
+        R<GameStatusChange>().Cancel(gameId);
         return new EmptyResult();
     }
 
     [HttpPost]
     public EmptyResult StartGame(int gameId)
     {
+        R<GameStatusChange>().Start(gameId);
         return new EmptyResult();
     }
 }
