@@ -95,7 +95,7 @@
 
     GameRow.prototype.LeaveGame = function () {
         this._hub.server.leaveGame(this.GameId).done(function () {
-            SiteMessages.Hide();
+            SiteMessages.StopAndHide();
         }).fail(function (error) {
             window.alert(error);
         });
@@ -104,6 +104,7 @@
     GameRow.prototype.CancelGame = function () {
         var gameId = this.GameId;
         $.post("/Games/CancelGame", { gameId: gameId.toString() });
+        SiteMessages.StopAndHide();
     };
 
     GameRow.prototype.ChangeTime = function (newTime) {

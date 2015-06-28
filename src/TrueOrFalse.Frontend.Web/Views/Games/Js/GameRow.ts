@@ -111,7 +111,7 @@
 
     LeaveGame() {
         this._hub.server.leaveGame(this.GameId).done(() => {
-            SiteMessages.Hide();
+            SiteMessages.StopAndHide();
         }).fail(error => {
             window.alert(error);
         });
@@ -120,6 +120,7 @@
     CancelGame() {
         var gameId = this.GameId;
         $.post("/Games/CancelGame", { gameId: gameId.toString() });
+        SiteMessages.StopAndHide();
     }
 
     ChangeTime(newTime: string) {
