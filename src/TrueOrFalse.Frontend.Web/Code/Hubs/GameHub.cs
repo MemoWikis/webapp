@@ -22,6 +22,7 @@ public class GameHub : BaseHub
                 return;
 
             gameRepo.Update(game);
+            gameRepo.Flush();
 
             Clients.All.JoinedGame(new
             {
@@ -99,7 +100,7 @@ public class GameHub : BaseHub
 
     public void ChangeStartTime(int gameId)
     {
-        var game = Sl.Resolve<GameRepo>().GetById(gameId);
+        var game = _sl.Resolve<GameRepo>().GetById(gameId);
 
         Send(() => { Clients.All.ChangeStartTime(
             new{
@@ -120,7 +121,7 @@ public class GameHub : BaseHub
                 gameId, 
                 playerId, 
                 result.IsCorrect, 
-                Sl.R<PlayerRepo>().GetById(playerId).AnsweredCorrectly);
+                _sl.Resolve<PlayerRepo>().GetById(playerId).AnsweredCorrectly);
         });
     }
 

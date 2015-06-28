@@ -1,7 +1,21 @@
 ﻿var SiteMessages = (function () {
     function SiteMessages() {
+        SiteMessages.Init();
+    }
+    SiteMessages.ShowStartBox = function () {
+        $.get("/messages/gameInfo", function (htmlResult) {
+            $("#IsInGameMessage").empty().animate({ opacity: 0.00 }, 0).append(htmlResult).animate({ opacity: 1.00 }, 600).after(function () {
+                SiteMessages.Init();
+            });
+        });
+    };
+
+    SiteMessages.Init = function () {
+        window.console.log("init");
         $('[data-countdown-game]').each(function () {
             var $this = $(this), finalDate = $(this).data('countdown-game');
+
+            window.console.log("huhu");
 
             $this.countdown(finalDate, function (event) {
                 var dateStartMinus60Secs = new Date(event.finalDate);
@@ -34,7 +48,11 @@
                 $this.html(event.strftime('%-Mm %Ss'));
             });
         });
-    }
+    };
+
+    SiteMessages.Hide = function () {
+        $("#divMsgPartOfGame").fadeOut(600);
+    };
     return SiteMessages;
 })();
 

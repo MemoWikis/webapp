@@ -45,6 +45,8 @@
             this.ButtonLeaveGame.show();
             this.Div.find(".spanYouArePlayer").show();
             this.IsPlayer = true;
+
+            SiteMessages.ShowStartBox();
         }
 
         if (this.IsCreator) {
@@ -93,6 +95,7 @@
 
     GameRow.prototype.LeaveGame = function () {
         this._hub.server.leaveGame(this.GameId).done(function () {
+            SiteMessages.Hide();
         }).fail(function (error) {
             window.alert(error);
         });

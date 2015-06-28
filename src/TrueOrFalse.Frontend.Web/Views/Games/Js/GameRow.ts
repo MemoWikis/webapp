@@ -55,6 +55,8 @@
             this.ButtonLeaveGame.show();
             this.Div.find(".spanYouArePlayer").show();
             this.IsPlayer = true;
+
+            SiteMessages.ShowStartBox();
         }
 
         if (this.IsCreator) {
@@ -101,13 +103,16 @@
     }
 
     JoinGame() {
-        this._hub.server.joinGame(this.GameId).done(() => { }).fail(error => {
+        this._hub.server.joinGame(this.GameId).done(() => {
+        }).fail(error => {
             window.alert(error);
         });
     }
 
     LeaveGame() {
-        this._hub.server.leaveGame(this.GameId).done(() => { }).fail(error => {
+        this._hub.server.leaveGame(this.GameId).done(() => {
+            SiteMessages.Hide();
+        }).fail(error => {
             window.alert(error);
         });
     }
