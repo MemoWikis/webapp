@@ -1,4 +1,6 @@
-﻿class Utils
+﻿var ResponsiveBootstrapToolkit: any;
+
+class Utils
 {
     static UIMessageHtml(text: string, type: string): string {
         var cssClass = "info";
@@ -48,6 +50,28 @@
     static MenuPinsMinusOne() {
         var newAmount = parseInt($("#menuWishKnowledgeCount").html()); newAmount += -1;
         Utils.SetElementValue("#menuWishKnowledgeCount", newAmount.toString());
+    }
+
+
+    static DisplayBreakpointOnResize() {
+        $(window).resize(() => {
+            Utils.DisplayBreakpoint();
+        });
+    }
+
+    static DisplayBreakpoint() {
+        if ($(window).width() < 768) {
+            window.console.log("xs " + $(window).width());
+        }
+        else if ($(window).width() >= 768 && $(window).width() <= 992) {
+            window.console.log("sm " + $(window).width());
+        }
+        else if ($(window).width() > 992 && $(window).width() <= 1200) {
+            window.console.log("md " + $(window).width());
+        }
+        else {
+            window.console.log("lg  " + $(window).width());
+        }
     }
 }
 
