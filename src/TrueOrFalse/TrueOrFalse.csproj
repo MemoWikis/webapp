@@ -449,6 +449,10 @@
     <Compile Include="Domain\User.Reputation\ReputationUpdate.cs" />
     <Compile Include="Domain\User.Reputation\UpdateReputationsAndRank.cs" />
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
+    <Compile Include="Domain\User\AppAccess\AppAccess.cs" />
+    <Compile Include="Domain\User\AppAccess\AppKey.cs" />
+    <Compile Include="Domain\User\AppAccess\Persistence\AppAccessRepo.cs" />
+    <Compile Include="Domain\User\AppAccess\Persistence\AppAccessMap.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
     <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
     <Compile Include="Domain\User\Membership\Invoice\InvoiceCreate.cs" />

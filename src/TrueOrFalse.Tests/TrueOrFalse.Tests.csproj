@@ -242,6 +242,7 @@
     <Compile Include="2 Domain\Question\Serialize_and_init_solutionMetadata.cs" />
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\Set\Valuation\SetValuation_persistence_tests.cs" />
+    <Compile Include="2 Domain\User\AppAccess_persistence.cs" />
     <Compile Include="2 Domain\User\Follower_persistence.cs" />
     <Compile Include="2 Domain\User\Membership_invoice.cs" />
     <Compile Include="2 Domain\User\Membership_is_active.cs" />

@@ -275,6 +275,7 @@
     <Compile Include="Code\Hubs\GameHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
