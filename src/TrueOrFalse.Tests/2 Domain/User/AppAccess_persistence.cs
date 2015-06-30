@@ -16,7 +16,7 @@ public class AppAccess_persistence : BaseTest
 
         RecycleContainer();
 
-        var appAccessFromDb = R<AppAccessRepo>().GetByUser(userContext.All[0]);        
+        var appAccessFromDb = R<AppAccessRepo>().GetByUser(userContext.All[0], appAccess.AppKey);
         Assert.That(appAccess.AccessToken, Is.EqualTo(appAccessFromDb.AccessToken));
 
         appAccessFromDb = R<AppAccessRepo>().GetByAccessToken(appAccess.AccessToken);

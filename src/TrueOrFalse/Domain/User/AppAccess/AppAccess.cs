@@ -8,6 +8,6 @@ public class AppAccess : DomainEntity
 
     public AppAccess()
     {
-        AppKey = AppKey.MEMuchO1;
+        AppKey = AppKey.MEMO1;
     }
 }

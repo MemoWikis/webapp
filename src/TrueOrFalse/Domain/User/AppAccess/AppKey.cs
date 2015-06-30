@@ -1,4 +1,4 @@
 ﻿public enum AppKey
 {
-    MEMuchO1 = 1
+    MEMO1 = 1
 }

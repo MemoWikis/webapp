@@ -8,11 +8,13 @@ public class AppAccessRepo : RepositoryDbBase<AppAccess>
     {
     }
 
-    public AppAccess GetByUser(User user)
+    public AppAccess GetByUser(User user, AppKey appKey)
     {
         return _session
             .Query<AppAccess>()
-            .FirstOrDefault(u => u.Id == user.Id);
+            .FirstOrDefault(acces => 
+                acces.User.Id == user.Id &&
+                acces.AppKey == appKey);
     }
 
     public AppAccess GetByAccessToken(string accessToken)

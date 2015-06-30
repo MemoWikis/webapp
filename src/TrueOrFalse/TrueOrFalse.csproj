@@ -451,6 +451,7 @@
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
     <Compile Include="Domain\User\AppAccess\AppAccess.cs" />
     <Compile Include="Domain\User\AppAccess\AppKey.cs" />
+    <Compile Include="Domain\User\AppAccess\Ops\GetAppAccessToken.cs" />
     <Compile Include="Domain\User\AppAccess\Persistence\AppAccessRepo.cs" />
     <Compile Include="Domain\User\AppAccess\Persistence\AppAccessMap.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
@@ -610,6 +611,7 @@
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs087.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs086.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs085.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs084.cs" />

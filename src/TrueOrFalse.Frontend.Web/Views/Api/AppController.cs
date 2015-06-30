@@ -1,7 +1,24 @@
-﻿public class AppController : BaseController
+﻿using System;
+using System.Web.Mvc;
+
+public class AppController : BaseController
 {
-    public string GetLoginToken(string userName, string password, string appName)
+    [HttpPost]
+    public JsonResult GetLoginToken(string userName, string password, string appName)
     {
-        return "someToken";
+        if(appName != "MEMO1")
+            return new JsonResult{Data = new {
+                LoginSuccess = false, 
+                Message= "Unknown appName"
+            }};
+
+        var getAccessTokenResult = GetAppAccessToken.Run(userName, password, AppKey.MEMO1);
+
+        return new JsonResult{
+            Data = new {
+                LoginSuccess = getAccessTokenResult.LoginSuccess,
+                AccessToken = getAccessTokenResult.AccessToken
+            }
+        };
     }
 }
