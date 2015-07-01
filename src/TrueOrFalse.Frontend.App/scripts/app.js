@@ -1,6 +1,4 @@
-
 var app = angular.module('starter', ['ionic']);
-
 
 (function () {
     "use strict";

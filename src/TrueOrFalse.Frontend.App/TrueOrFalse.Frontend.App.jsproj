@@ -173,8 +173,10 @@
     <Content Include="lib\ionic\scss\_variables.scss" />
     <Content Include="lib\ionic\version.json" />
     <Content Include="scripts\appRoutes.js" />
-    <Content Include="scripts\loginController.js" />
-    <Content Include="scripts\mainController.js" />
+    <Content Include="scripts\controllers\loginController.js" />
+    <Content Include="scripts\controllers\mainController.js" />
+    <Content Include="scripts\services\localStorage.js" />
+    <Content Include="scripts\settings.js" />
     <Content Include="view-main.html" />
     <Content Include="view-login.html" />
     <Content Include="plugins\org.apache.cordova.inappbrowser\.fetch.json" />
