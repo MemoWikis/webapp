@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using RabbitMQ.Client.Framing.Impl;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class SetController : BaseController
 {
@@ -16,7 +19,18 @@ public class SetController : BaseController
         var set = Resolve<SetRepo>().GetById(id);
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set));
 
-        return View(_viewLocation, new SetModel(set));        
+        return View(_viewLocation, new SetModel(set));
+    }
+
+    public ActionResult StartLearningSession(int id)
+    {
+        var set = Resolve<SetRepo>().GetById(id);
+
+        var learningSession = new LearningSession();
+        learningSession.Steps = GetLearningSessionSteps.Run(set);
+        _sessionUser.LearningSession = learningSession;
+
+        return Redirect(Links.AnswerQuestion(Url, set.QuestionsInSet.First().Question, set));
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -88,9 +89,21 @@ public class AnswerQuestionModel : BaseModel
 
     public IList<CommentModel> Comments;
 
-    public AnswerQuestionModel() { }
+    public bool IsLearningSession{ get { return LearningSession != null; } }
 
-    public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
+    public LearningSession LearningSession;
+
+    public AnswerQuestionModel()
+    {
+    }
+
+    public AnswerQuestionModel(LearningSession learningSession)
+    {
+        Populate(learningSession.SelectedSubset[learningSession.CurrentQuestionIdx]);
+        LearningSession = learningSession;
+    }
+
+    public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec)
     {
         PageCurrent = searchSpec.CurrentPage.ToString();
         PagesTotal = searchSpec.PageCount.ToString();
@@ -115,7 +128,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Set set, Question question) : this()
+    public AnswerQuestionModel(Set set, Question question)
     {
         int pageCurrent = set.QuestionsInSet.GetIndex(question.Id) + 1;
         int pagesTotal = set.QuestionsInSet.Count;

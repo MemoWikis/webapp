@@ -569,6 +569,7 @@
     <Content Include="Views\Knowledge\Knowledge.css">
       <DependentUpon>Knowledge.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionHeader.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Views\Users\Account\Js\Membership.js">
       <DependentUpon>Membership.ts</DependentUpon>
