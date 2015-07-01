@@ -30,13 +30,15 @@ public class GetAppAccessToken
         return new GetAppAccessTokenResult()
         {
             LoginSuccess = true,
-            AccessToken = appAccess.AccessToken
+            AccessToken = appAccess.AccessToken,
+            UserName = appAccess.User.Name
         };
     }
 }
 
 public class GetAppAccessTokenResult
 {
+    public string UserName;
     public bool LoginSuccess;
     public string AccessToken;
 }

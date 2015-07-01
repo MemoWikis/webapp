@@ -17,7 +17,8 @@ public class AppController : BaseController
         return new JsonResult{
             Data = new {
                 LoginSuccess = getAccessTokenResult.LoginSuccess,
-                AccessToken = getAccessTokenResult.AccessToken
+                AccessToken = getAccessTokenResult.AccessToken,
+                UserName = getAccessTokenResult.UserName
             }
         };
     }

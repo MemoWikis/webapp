@@ -17,6 +17,12 @@
         },
         getAccessToken: function () {
             return this.get("accessToken");
+        },
+        setUserName: function (value) {
+            return this.set("accessToken", value);
+        },
+        getUserName: function () {
+            return this.get("accessToken");
         }
     }
 }]);

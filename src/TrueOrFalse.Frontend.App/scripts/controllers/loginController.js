@@ -14,6 +14,7 @@
 
             if (result.LoginSuccess) {
                 $localstorage.setAccessToken(result.AccessToken);
+                $localstorage.setUserName(result.UserName);
                 $location.path("/main");
                 //send device id to MEMuchO
                 return;
