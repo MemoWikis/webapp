@@ -234,6 +234,30 @@
     }
 }
 
+.make-footer-stick-to-bottom() {
+    body {
+        display: flex;//http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+        min-height: 100%;
+        -ms-flex-direction: column;
+        flex-direction: column;
+
+        //Solve IE issue, should better be used for IE only (http://thatemil.com/blog/2013/11/03/sticky-footers-flexbox-and-ie10/):
+        height: 100%;
+    }
+
+    #MasterSection {
+        -ms-flex: 1;
+        flex: 1;
+
+    //Solve IE isssue, http://thatemil.com/blog/2013/11/03/sticky-footers-flexbox-and-ie10/
+        -webkit-box-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
+        -webkit-flex: 1 0 auto;
+    }
+}
+
+
 /*Modified styles from bootstrap website (not part of framework)*/
 
 .bs-callout-info {
