@@ -19,10 +19,10 @@
             return this.get("accessToken");
         },
         setUserName: function (value) {
-            return this.set("accessToken", value);
+            return this.set("userName", value);
         },
         getUserName: function () {
-            return this.get("accessToken");
+            return this.get("userName");
         }
     }
 }]);

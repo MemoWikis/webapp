@@ -9,8 +9,12 @@
         url: '/main',
         templateUrl: 'view-main.html',
         controller: 'mainController'
+    }).state('dev', {
+        url: '/dev',
+        templateUrl: 'view-dev.html',
+        controller: 'devController'
     });
 
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/main');
 
 });
