@@ -1,8 +1,12 @@
-﻿app.controller("loginController", function ($scope, $location, $http, $localstorage) {
+﻿app.controller("loginController", function ($scope, $location, $http, $localstorage, $ionicLoading) {
 
     $scope.user = {};
 
     $scope.login = function () {
+
+        $ionicLoading.show({
+            template: '<ion-spinner icon="ripple"/>'
+        });
 
         $http.post("http://memucho/app/GetLoginToken", {
             userName: $scope.user.email,
@@ -15,7 +19,9 @@
             if (result.LoginSuccess) {
                 $localstorage.setAccessToken(result.AccessToken);
                 $localstorage.setUserName(result.UserName);
+                $ionicLoading.hide();
                 $location.path("/main");
+
                 //send device id to MEMuchO
                 return;
             } else {
@@ -23,7 +29,7 @@
             }
         }).error(function (result) {
             console.log(result);
-            alert(result);
+            $ionicLoading.hide();
             $scope.hasError = true;
         });
     };
