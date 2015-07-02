@@ -38,21 +38,6 @@ html {
   height: 100%;
   background-color: #efefef;
 }
-html body {
-  display: flex;
-  min-height: 100%;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  height: 100%;
-}
-html #MasterSection {
-  -ms-flex: 1;
-  flex: 1;
-  -webkit-box-flex: 1 0 auto;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  -webkit-flex: 1 0 auto;
-}
 body {
   min-width: 280px;
   position: relative;

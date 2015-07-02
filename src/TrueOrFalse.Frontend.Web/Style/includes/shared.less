@@ -241,8 +241,7 @@
         -ms-flex-direction: column;
         flex-direction: column;
 
-        //Solve IE issue, should better be used for IE only (http://thatemil.com/blog/2013/11/03/sticky-footers-flexbox-and-ie10/):
-        height: 100%;
+        //height: 100%; //Solve IE issue, should for IE only, produces bug in other browsers (http://thatemil.com/blog/2013/11/03/sticky-footers-flexbox-and-ie10/):
     }
 
     #MasterSection {
