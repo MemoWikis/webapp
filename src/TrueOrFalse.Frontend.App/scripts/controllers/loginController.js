@@ -25,6 +25,7 @@
                 //send device id to MEMuchO
                 return;
             } else {
+                $ionicLoading.hide();
                 $scope.hasError = true;
             }
         }).error(function (result) {
