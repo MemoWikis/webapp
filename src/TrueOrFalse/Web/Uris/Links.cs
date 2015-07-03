@@ -64,6 +64,11 @@ namespace TrueOrFalse.Frontend.Web.Code
                 }, null);
         }
 
+        public static string LearningSession(int learningSessionId)
+        {
+            return GetUrlHelper().Action("Learn", AnswerQuestionController, new {learnSessionId = learningSessionId});
+        }
+
         public static string UserDetail(UrlHelper url, User user){
             return UserDetail(url, user.Name, user.Id);
         }

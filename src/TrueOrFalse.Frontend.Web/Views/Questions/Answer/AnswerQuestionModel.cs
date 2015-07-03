@@ -99,7 +99,6 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel(LearningSession learningSession)
     {
-        Populate(learningSession.SelectedSubset[learningSession.CurrentQuestionIdx]);
         LearningSession = learningSession;
     }
 

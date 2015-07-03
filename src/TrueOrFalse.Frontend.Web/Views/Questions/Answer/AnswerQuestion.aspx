@@ -40,9 +40,7 @@
                { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx",
                    new LearningSessionModel(Model, new LearningSession())); %>
-            <% }
-               else
-               { %>
+            <% }else{ %>
             <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
                 <li class="previous <%= Model.HasPreviousPage ? "" : "disabled" %>">
                     <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>

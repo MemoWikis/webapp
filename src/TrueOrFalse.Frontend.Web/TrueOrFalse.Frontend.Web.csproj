@@ -294,6 +294,7 @@
     <Compile Include="Views\Games\GamesController.cs" />
     <Compile Include="Views\Games\GamesModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
+    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />

@@ -3,6 +3,7 @@ using Seedworks.Lib.Persistence;
 
 public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 {
+    public virtual User User { get; set; }
     public virtual IList<LearningSessionStep> Steps{ get; set; }
 
     public LearningSession()

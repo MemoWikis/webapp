@@ -1,6 +1,6 @@
 ﻿using NHibernate;
 
-public class LearningSessionRepo : RepositoryDbBase<Membership>
+public class LearningSessionRepo : RepositoryDbBase<LearningSession>
 {
     public LearningSessionRepo(ISession session): base(session){
 

@@ -8,6 +8,8 @@ public class LearningSessionMap : ClassMap<LearningSession>
 
         HasMany(x => x.Steps)
             .Cascade.SaveUpdate();
+        
+        References(x => x.User);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
