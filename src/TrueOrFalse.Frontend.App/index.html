@@ -20,12 +20,13 @@
 
     </ion-pane>
 
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
+    <script src="lib/ng-cordova.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+    <script type="text/javascript" src="lib/PushNotification.js"></script>
 
     <script src="scripts/platformOverrides.js"></script>
     <!-- your app's js -->
@@ -33,6 +34,7 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/appRoutes.js"></script>
     <script src="scripts/services/localStorage.js"></script>
+    <script src="scripts/services/pushService.js"></script>
     <script src="scripts/controllers/loginController.js"></script>
     <script src="scripts/controllers/mainController.js"></script>
     <script src="scripts/controllers/devController.js"></script>
