@@ -10,6 +10,6 @@
   <preference name="windows-phone-target-version" value="8.1" />
   <preference name="AndroidLaunchMode" value="standard" />
   <vs:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
-  <vs:plugin name="org.apache.cordova.console" version="0.2.11" />
+  <vs:plugin name="com.phonegap.plugins.PushPlugin" version="2.4.0" />
   <vs:platformSpecificValues />
 </widget>

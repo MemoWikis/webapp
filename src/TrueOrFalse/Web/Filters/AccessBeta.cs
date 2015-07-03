@@ -6,7 +6,8 @@ public class AccessBeta : ActionFilterAttribute
     {
         var actionName = filterContext.ActionDescriptor.ActionName;
         var controllerName = filterContext.Controller.GetType().Name;
-        var checkAccess = 
+        var checkAccess =
+            controllerName != "AppController" && 
             controllerName != "BetaController" && 
             controllerName != "VariousPublicController" &&
             actionName != "RemoteLogin";

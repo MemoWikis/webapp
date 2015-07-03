@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Autofac;
 
@@ -21,12 +22,34 @@ public class GameHub : BaseHub
                 return;
 
             gameRepo.Update(game);
+            gameRepo.Flush();
 
             Clients.All.JoinedGame(new
             {
-                Id = user.Id,
+                UserId = user.Id,
                 GameId = gameId,
-                Name = user.Name
+                Name = user.Name,
+                TotalPlayers = game.Players.Count
+            });
+        });
+    }
+
+    public void LeaveGame(int gameId)
+    {
+        Send(() =>
+        {
+            var playerUserId = Convert.ToInt32(Context.User.Identity.Name);
+
+            var gameRepo = _sl.Resolve<GameRepo>();
+            var game = gameRepo.GetById(gameId);
+            game.RemovePlayer(playerUserId);
+            gameRepo.Update(game);
+
+            Clients.All.LeftGame(new
+            {
+                PlayerUserId = playerUserId,
+                GameId = gameId,
+                TotalPlayers = game.Players.Count
             });
         });
     }
@@ -75,6 +98,22 @@ public class GameHub : BaseHub
         Send(() => { Clients.All.NeverStarted(new { GameId = gameId }); });
     }
 
+    public void ChangeStartTime(int gameId)
+    {
+        var game = _sl.Resolve<GameRepo>().GetById(gameId);
+
+        Send(() => { Clients.All.ChangeStartTime(
+            new{
+                GameId = gameId,
+                WillStartAt = game.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
+            }); 
+        });
+    }
+
+    public void Canceled(int gameId){
+        Send(() => { Clients.All.Canceled(new { GameId = gameId }); });
+    }
+
     public void Answered(int gameId, int playerId, AnswerQuestionResult result){
         Send(() =>
         {
@@ -82,7 +121,7 @@ public class GameHub : BaseHub
                 gameId, 
                 playerId, 
                 result.IsCorrect, 
-                Sl.R<PlayerRepo>().GetById(playerId).AnsweredCorrectly);
+                _sl.Resolve<PlayerRepo>().GetById(playerId).AnsweredCorrectly);
         });
     }
 

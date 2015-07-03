@@ -44,4 +44,11 @@ public class MessagesController : BaseController
         Resolve<SetMessageUnread>().Run(msgId); return new EmptyResult();
     }
 
+    public ActionResult GameInfo()
+    {
+        return Content(ViewRenderer.RenderPartialView(
+            "MessageGame", new MessageModel(), ControllerContext
+        ));
+    }
+
 }

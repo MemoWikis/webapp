@@ -1,0 +1,29 @@
+﻿<ion-view view-title="Dev" cache-view="false">
+    <ion-content>
+
+        <div class="list">
+
+            <div class="card">
+                <div class="item item-text-wrap">
+                    <h3>Entwickler Infos,</h3>
+
+                    <p>Username: {{userName}}</p>
+                    <p>Login-Code: {{accessToken}}</p>
+                    <p>Device-Token: {{deviceToken}}</p>
+
+                </div>
+            </div>
+
+            <a class="item item-icon-left" ng-click="pushInfo()">
+                <i class="icon ion-settings"></i>
+                Teste CordovaPush
+            </a>
+
+        </div>
+
+        <div class="padding">
+            <button class="button button-block button-positive" ng-click="back()">zurück</button>
+        </div>
+
+    </ion-content>
+</ion-view>

@@ -1,0 +1,44 @@
+﻿<ion-view view-title="Main" cache-view="false">
+    <ion-content>
+
+        <div class="list">
+
+            <div class="card">
+                <div class="item item-text-wrap">
+
+                    <h3>Hallo {{userName}},</h3>
+
+                    <p>
+                        Diese APP ermöglicht es dir Benachrichtigungen zu erhalten,
+                        so dass du dich optimal auf Termine vorbereiten kannst.
+                    </p>
+                </div>
+            </div>
+
+            <a class="item item-icon-left" href="#" onclick="window.open('http://memucho.de/termine', '_system', 'location=yes')">
+                <i class="icon ion-calendar"></i>
+                Termine
+            </a>
+
+            <a class="item item-icon-left" href="#" onclick="window.open('http://memucho.de/spielen', '_system', 'location=yes')">
+                <i class="icon ion-ios-game-controller-a-outline"></i>
+                Spielen
+            </a>
+
+            <a class="item item-icon-left" href="#" onclick="window.open('http://memucho.de/wissen', '_system', 'location=yes')">
+                <i class="icon ion-happy-outline"></i>
+                Lernen
+            </a>
+        </div>
+
+        <div class="padding">
+            <button class="button button-block button-positive" ng-click="logout()">Logout</button>
+        </div>
+
+        <a class="item item-icon-left" ng-click="devpage()">
+            <i class="icon ion-settings"></i>
+            Entwicklerseite
+        </a>
+
+    </ion-content>
+</ion-view>

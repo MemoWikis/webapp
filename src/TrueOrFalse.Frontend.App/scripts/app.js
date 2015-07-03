@@ -1,28 +1,42 @@
-// Ionic Starter App
+var app = angular.module('starter', ['ionic', 'ngCordova']);
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
-    .run(function($ionicPlatform) {
-        $ionicPlatform.ready(function() {
-            // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-            // for form inputs)
-            console.log(window.cordova.plugins);
+(function () {
+    "use strict";
 
-            if (window.cordova && window.cordova.plugins != null && window.cordova.plugins.Keyboard) {
-                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-            }
-
+    app.run(function ($ionicPlatform, $cordovaPush, $pushService, $rootScope) {
+        $ionicPlatform.ready(function () {
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
         });
+
+        document.addEventListener("deviceready", function () {
+
+            window.setTimeout(function() {
+                // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+                // for form inputs)
+                if (window.cordova && window.cordova.plugins != null && window.cordova.plugins.Keyboard) {
+                    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                }
+
+                var androidConfig = {
+                    "senderID": ""
+                };
+
+                $cordovaPush.register(androidConfig).then(function (deviceToken) {
+                    console.log("success register cordovaPush: " + deviceToken);
+                }, function (err) {
+                    console.log(err);
+                });
+
+                $rootScope.$on('$cordovaPush:notificationReceived', function (e, notification) {
+                    $pushService.onNotification(notification);
+                });
+
+            }, 1000);
+
+        });
     });
-
-
-(function () {
-    "use strict";
 
     document.addEventListener('deviceready', onDeviceReady.bind(this), false);
 

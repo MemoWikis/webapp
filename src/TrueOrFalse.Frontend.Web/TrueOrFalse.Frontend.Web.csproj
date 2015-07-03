@@ -275,6 +275,7 @@
     <Compile Include="Code\Hubs\GameHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
@@ -375,7 +376,11 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Fonts\font-awesome-4.3.0\css\font-awesome.css" />
+    <Content Include="Fonts\font-awesome-4.3.0\css\font-awesome.min.css" />
+    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fonts\OpenSans\OpenSans.css" />
     <Content Include="Images\404.jpg" />
     <Content Include="Images\500.jpg" />
     <Content Include="Images\Categories\include-folder.txt">
@@ -478,9 +483,6 @@
     <Content Include="Style\animate.css">
       <DependentUpon>animate.less</DependentUpon>
     </Content>
-    <Content Include="Style\font-awesome-4.3.0\css\font-awesome.css" />
-    <Content Include="Style\font-awesome-4.3.0\css\font-awesome.min.css" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Style\pages.css">
       <DependentUpon>pages.less</DependentUpon>
     </Content>
@@ -571,6 +573,7 @@
       <DependentUpon>Knowledge.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionHeader.ascx" />
+    <Content Include="Views\Shared\MessageGame.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Views\Users\Account\Js\Membership.js">
       <DependentUpon>Membership.ts</DependentUpon>
@@ -928,44 +931,52 @@
     <Content Include="Scripts\autocompletes\AutocompleteSets.js.map">
       <DependentUpon>AutocompleteSets.ts</DependentUpon>
     </Content>
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.eot" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.woff" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Style\font-awesome-4.3.0\fonts\FontAwesome.otf" />
-    <Content Include="Style\font-awesome-4.3.0\less\animated.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\bordered-pulled.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\core.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\fixed-width.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\font-awesome.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\icons.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\larger.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\list.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\mixins.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\path.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\rotated-flipped.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\stacked.less" />
-    <Content Include="Style\font-awesome-4.3.0\less\variables.less" />
-    <Content Include="Style\font-awesome-4.3.0\scss\font-awesome.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_animated.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_bordered-pulled.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_core.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_fixed-width.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_icons.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_larger.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_list.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_mixins.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_path.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_rotated-flipped.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_stacked.scss" />
-    <Content Include="Style\font-awesome-4.3.0\scss\_variables.scss" />
     <Content Include="Scripts\NotLoggedIn.js.map">
       <DependentUpon>NotLoggedIn.ts</DependentUpon>
     </Content>
+    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Fonts\font-awesome-4.3.0\fonts\FontAwesome.otf" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\animated.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\bordered-pulled.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\core.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\fixed-width.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\font-awesome.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\icons.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\larger.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\list.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\mixins.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\path.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\rotated-flipped.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\stacked.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\less\variables.less" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\font-awesome.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_animated.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_bordered-pulled.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_core.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_fixed-width.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_icons.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_larger.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_list.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_mixins.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_path.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_rotated-flipped.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_stacked.scss" />
+    <Content Include="Fonts\font-awesome-4.3.0\scss\_variables.scss" />
+    <Content Include="Fonts\OpenSans\DXI1ORHCpsQm3Vp6mXoaTS3USBnSvpkopQaUR-2r7iU.ttf" />
+    <Content Include="Fonts\OpenSans\EInbV5DfGHOiMmvb1Xr-hi3USBnSvpkopQaUR-2r7iU.ttf" />
+    <Content Include="Fonts\OpenSans\IgZJs4-7SA1XX_edsoXWog.ttf" />
+    <Content Include="Fonts\OpenSans\k3k702ZOKiLJc3WVjuplzC3USBnSvpkopQaUR-2r7iU.ttf" />
+    <Content Include="Fonts\OpenSans\MTP_ySUJH_bn48VBG8sNSi3USBnSvpkopQaUR-2r7iU.ttf" />
+    <Content Include="Fonts\OpenSans\O4NhV7_qs9r9seTo7fnsVKCWcynf_cDxXwCLxiixG1c.ttf" />
+    <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxg89PwPrYLaRFJ-HNCU9NbA.ttf" />
+    <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxi9-WlPSxbfiI49GsXo3q0g.ttf" />
+    <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxne1Pd76Vl7zRpE7NLJQ7XU.ttf" />
+    <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxpZ7xm-Bj30Bj2KNdXDzSZg.ttf" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
-    <Content Include="Style\fonts-awesome\font-awesome.css" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.svg" />
     <Content Include="Style\menu.css">
       <DependentUpon>menu.less</DependentUpon>
     </Content>
@@ -1164,6 +1175,7 @@
     </Compile>
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionEntryBase.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
@@ -1213,7 +1225,6 @@
     <Content Include="Scripts\vendor\jquery.jplayer.js" />
     <Content Include="Scripts\vendor\jquery.sparkline.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
-    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.svg" />
     <Content Include="Style\fonts\OFL.txt" />
     <Content Include="Style\form.css">
       <DependentUpon>form.less</DependentUpon>
@@ -1386,10 +1397,6 @@
     <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownQuestionExt.ts" />
-    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
-    <Content Include="Views\Questions\Edit\Js\MarkDownDescription.js">
-      <DependentUpon>MarkdownDescription.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -1456,18 +1463,10 @@
     <Content Include="Style\zocial\css\zocial-regular-webfont.ttf" />
     <Content Include="Style\zocial\css\zocial-regular-webfont.woff" />
     <Content Include="Style\zocial\README.md" />
-    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.eot" />
-    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.ttf" />
-    <Content Include="Style\fonts-awesome_old_temp\fontawesome-webfont.woff" />
-    <Content Include="Style\fonts-awesome_old_temp\FontAwesome.otf" />
     <Content Include="Views\Questions\Edit\EditQuestion.less" />
     <Content Include="Style\form.less" />
     <Content Include="Views\Categories\Categories.less" />
     <Content Include="Views\Categories\Detail\Category.less" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.eot" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.ttf" />
-    <Content Include="Style\fonts-awesome\fontawesome-webfont.woff" />
-    <Content Include="Style\fonts-awesome\FontAwesome.otf" />
     <Content Include="Style\components.less" />
     <Content Include="Style\menu.less" />
     <None Include="Style\site-debug.less" />
@@ -1516,9 +1515,6 @@
     </Content>
     <Content Include="Views\Questions\Edit\Js\EditQuestion.js.map">
       <DependentUpon>EditQuestion.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js.map">
-      <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js.map">
       <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
@@ -1808,7 +1804,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Style\fontAwesome\" />
     <Folder Include="Views\Dates\Details\" />
   </ItemGroup>
   <PropertyGroup>
@@ -1836,5 +1831,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
+  <Import Project="..\packages\OctoPack.3.0.42\tools\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.0.42\tools\OctoPack.targets')" />
+  <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
+    <Error Condition="!Exists('..\packages\OctoPack.3.0.42\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\OctoPack.3.0.42\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
 </Project>

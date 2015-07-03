@@ -1,6 +1,7 @@
 ﻿var Games = (function () {
     function Games() {
         var _this = this;
+        this._gameRows = [];
         var me = this;
 
         this._hub = $.connection.gameHub;
@@ -12,13 +13,17 @@
         this._divGamesInProgressNone = $("#divGamesInProgressNone");
 
         this.InitializeCountdownAll();
-        this.InitializeButtonsAll();
+        this.InitRows();
 
         if (this._hub == null)
             return;
 
         this._hub.client.JoinedGame = function (player) {
-            me.GetRow(player.GameId).AddPlayer(player.Name, player.Id);
+            me.GetRow(player.GameId).UiAddPlayer(player);
+        };
+
+        this._hub.client.LeftGame = function (leaveGame) {
+            me.GetRow(leaveGame.GameId).UiRemovePlayer(leaveGame.PlayerUserId);
         };
 
         this._hub.client.NextRound = function (game) {
@@ -60,49 +65,52 @@
         this._hub.client.Completed = function (game) {
             $("[data-gameId=" + game.GameId + "]").hide(700).remove();
 
-            if (_this._divGamesInProgress.find("[data-gameId]").length == 0) {
-                _this._divGamesInProgressNone.show();
-            }
+            _this.IfNeeded_ShowNoGamesInProgressInfo();
         };
 
         this._hub.client.NeverStarted = function (game) {
             $("[data-gameId=" + game.GameId + "]").hide(700).remove();
 
-            if (_this._divGamesReady.find("[data-gameId]").length == 0) {
-                _this._divGamesReadyNone.show();
-            }
+            _this.IfNeeded_ShowNoGamesReadyInfo();
+        };
+
+        this._hub.client.Canceled = function (cancel) {
+            $("[data-gameId=" + cancel.GameId + "]").hide(700).remove();
+
+            _this.IfNeeded_ShowNoGamesReadyInfo();
+        };
+
+        this._hub.client.ChangeStartTime = function (changeStartTime) {
+            var row = me.GetRow(changeStartTime.GameId);
+            row.ChangeTime(changeStartTime.WillStartAt);
+            _this.InitializeCountdown("[data-gameId=" + changeStartTime.GameId + "] [data-countdown]");
         };
 
         $.connection.hub.start(function () {
             window.console.log("connection started:");
         });
     }
+    Games.prototype.IfNeeded_ShowNoGamesInProgressInfo = function () {
+        if (this._divGamesInProgress.find("[data-gameId]").length == 0) {
+            this._divGamesInProgressNone.show();
+        }
+    };
+
+    Games.prototype.IfNeeded_ShowNoGamesReadyInfo = function () {
+        if (this._divGamesReady.find("[data-gameId]").length === 0) {
+            this._divGamesReadyNone.show();
+        }
+    };
+
     Games.prototype.InitializeRow = function (gameId) {
-        this.InitializeButtons("[data-gameId=" + gameId + "] [data-joinGameId]");
         this.InitializeCountdown("[data-gameId=" + gameId + "] [data-countdown]");
         $(".show-tooltip").tooltip();
+
+        this._gameRows.push(new GameRow(gameId, this._hub));
     };
 
-    Games.prototype.InitializeButtonsAll = function () {
-        this.InitializeButtons("[data-joinGameId]");
-    };
     Games.prototype.InitializeCountdownAll = function () {
         this.InitializeCountdown("[data-countdown]");
-    };
-
-    Games.prototype.InitializeButtons = function (selector) {
-        var me = this;
-
-        $(selector).click(function (e) {
-            e.preventDefault();
-
-            var gameId = +$(this).attr("data-joinGameId");
-            window.console.log(gameId);
-            me._hub.server.joinGame(gameId).done(function () {
-            }).fail(function (error) {
-                window.alert(error);
-            });
-        });
     };
 
     Games.prototype.InitializeCountdown = function (selector) {
@@ -114,8 +122,19 @@
         });
     };
 
+    Games.prototype.InitRows = function () {
+        var self = this;
+        $("[data-gameId]").each(function () {
+            self._gameRows.push(new GameRow(parseInt($(this).attr("data-gameId")), self._hub));
+        });
+
+        window.console.log(self._gameRows);
+    };
+
     Games.prototype.GetRow = function (gameId) {
-        return new GameRow(gameId);
+        return $.grep(this._gameRows, function (row) {
+            return row.GameId === gameId;
+        })[0];
     };
     return Games;
 })();

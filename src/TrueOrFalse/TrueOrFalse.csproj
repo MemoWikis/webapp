@@ -268,6 +268,7 @@
     <Compile Include="Domain\Date\Persistence\DateMap.cs" />
     <Compile Include="Domain\Date\Persistence\DateRepo.cs" />
     <Compile Include="Domain\Game\Game.cs" />
+    <Compile Include="Domain\Game\Ops\GameStatusChange.cs" />
     <Compile Include="Domain\Game\Ops\PlayerListExtensions.cs" />
     <Compile Include="Domain\Game\Persistence\RoundRepo.cs" />
     <Compile Include="Domain\Game\Persistence\PlayerRepo.cs" />
@@ -455,6 +456,11 @@
     <Compile Include="Domain\User.Reputation\ReputationUpdate.cs" />
     <Compile Include="Domain\User.Reputation\UpdateReputationsAndRank.cs" />
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
+    <Compile Include="Domain\User\AppAccess\AppAccess.cs" />
+    <Compile Include="Domain\User\AppAccess\AppKey.cs" />
+    <Compile Include="Domain\User\AppAccess\Ops\GetAppAccessToken.cs" />
+    <Compile Include="Domain\User\AppAccess\Persistence\AppAccessRepo.cs" />
+    <Compile Include="Domain\User\AppAccess\Persistence\AppAccessMap.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
     <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
     <Compile Include="Domain\User\Membership\Invoice\InvoiceCreate.cs" />
@@ -612,6 +618,7 @@
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs087.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs086.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs085.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs084.cs" />

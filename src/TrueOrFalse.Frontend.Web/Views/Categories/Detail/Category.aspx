@@ -86,7 +86,12 @@
                            data-original-title="Neue Kindkategorie erstellen"></i>
                     </div>
                 <% } else { %>
-                    <h4 style="margin-top: 0;">keine Kindkategorien</h4>
+                    <h4 style="margin-top: 0; margin-bottom: 2px;">keine Kindkategorien
+                        <i class="fa fa-plus-circle show-tooltip cat-color add-new" 
+                            style="font-size: 14px; color: #99ccff; cursor: pointer"
+                            onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Id%>'; return false; " 
+                            data-original-title="Neue Kindkategorie erstellen"></i>
+                    </h4>
                 <%  } %>
             </div>
             <% if(Model.CountQuestions > 0){ %>
