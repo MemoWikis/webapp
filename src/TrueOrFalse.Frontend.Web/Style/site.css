@@ -44,10 +44,6 @@ body {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
   color: #203256;
-  display: flex;
-  min-height: 100vh;
-  -ms-flex-direction: column;
-  flex-direction: column;
 }
 h1,
 h2,
@@ -768,8 +764,6 @@ fieldset[disabled] #MenuButton:hover {
 ----------------------------------------------------------*/
 #MasterSection {
   position: relative;
-  -ms-flex: 1;
-  flex: 1;
 }
 #MasterSectionBackgroundLayer {
   position: absolute;

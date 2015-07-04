@@ -38,6 +38,14 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
+    public ActionResult Learn(int learningSessionId)
+    {
+        //_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
+        //_saveQuestionView.Run(question, _sessionUser.User);
+
+        return View(_viewLocation, new AnswerQuestionModel(_sessionUser.LearningSession));
+    }
+
     public ActionResult AnswerSet(int setId, int questionId)
     {
         var set = Resolve<SetRepo>().GetById(setId);

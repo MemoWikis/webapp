@@ -64,11 +64,12 @@
                 <div class="col-md-12">
                     <% if (Model.QuestionsInSet.Any()){ %>
                         <div class="pull-right">
-                            <a class="btn btn-info" href="<%= Links.AnswerQuestion(Url, Model.QuestionsInSet.First().Question, Model.Set) %>">
-                                 Jetzt üben
+                            <a href="#" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="display: block; margin-top: 29px;">
+                                <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                                Spiel starten
                             </a>
-                            <a class="btn btn-primary" href="<%= Links.AnswerQuestion(Url, Model.QuestionsInSet.First().Question, Model.Set) %>"><i class="fa fa-lightbulb-o"></i> 
-                                Jetzt testen
+                            <a class="btn btn-primary" href="/Set/StartLearningSession?setId=<%=Model.Set.Id %>"><i class="fa fa-lightbulb-o"></i> 
+                                Jetzt üben
                             </a>
                         </div>
                     <% } %>

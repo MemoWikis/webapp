@@ -43,10 +43,12 @@
 ----------------------------------------------------------*/
 
 html {
-     overflow: scroll;
+     overflow: scroll;//always show scrollbar
      height: 100%;
      background-color: @background-grey;
-} //always show scrollbar
+     //.make-footer-stick-to-bottom;//Remove if causing any problems
+
+} 
 
 body {
     min-width: 280px;
@@ -54,11 +56,6 @@ body {
     font-family: @font-family-text;
     font-size: @font-size-normal;
     color: @global-text-color;
-
-    display: flex;//http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
-    min-height: 100vh;
-    -ms-flex-direction: column;
-    flex-direction: column;
 }
 
 h1, h2, h3, h4, h5 {
@@ -526,8 +523,6 @@ img {
 #MasterSection {
     position: relative; //for z-index-positioning inside
     //overflow-x: hidden; //damit der gradientRight nicht zu einem Scroll-Effekt führt
-    -ms-flex: 1;//Make section stretch and keep footer at the bottom
-    flex: 1;
 }
 
 #MasterSectionBackgroundLayer {
