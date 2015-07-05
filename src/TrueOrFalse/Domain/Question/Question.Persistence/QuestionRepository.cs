@@ -52,6 +52,18 @@ public class QuestionRepository : RepositoryDbBase<Question>
             .List<Question>();
     }
 
+    public IList<Question> GetForReference(int categoryId, int resultCount, int currentUser)
+    {
+        return _session.QueryOver<Question>()
+            .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
+            .ThenBy(q => q.DateCreated).Desc
+            .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
+            .JoinQueryOver<Reference>(q => q.References)
+            .Where(q => q.Category.Id == categoryId)
+            .Take(resultCount)
+            .List<Question>();        
+    }
+
     public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
     {
         var query = _session.QueryOver<QuestionValuation>()

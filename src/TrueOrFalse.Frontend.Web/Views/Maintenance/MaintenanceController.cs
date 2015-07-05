@@ -81,7 +81,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult UpdateFieldQuestionCountForCategories()
     {
-        Resolve<UpdateQuestionCountForAllCategories>().Run();
+        Resolve<UpdateQuestionCountForCategory>().All();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Feld: AnzahlFragen für Kategorien wurde aktualisiert.") });
     }
 
