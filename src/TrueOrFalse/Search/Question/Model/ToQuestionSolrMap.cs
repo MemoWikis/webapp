@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace TrueOrFalse.Search
 {
@@ -9,6 +7,13 @@ namespace TrueOrFalse.Search
     {
         public static QuestionSolrMap Run(Question question, IEnumerable<QuestionValuation> valuations)
         {
+
+            var allCategories = question.Categories.ToList();
+            allCategories.AddRange(
+                question.References
+                    .Where(r => r.Category != null)
+                    .Select(r => r.Category));
+
             var result = new QuestionSolrMap
                 {
                     Id = question.Id,
@@ -19,8 +24,8 @@ namespace TrueOrFalse.Search
                     Description = question.Description,
                     Solution = question.Solution,
                     SolutionType = (int) question.SolutionType,
-                    Categories = question.Categories.Select(c => c.Name).ToArray(),
-                    CategoryIds = question.Categories.Select(c => c.Id).ToArray(),
+                    Categories = allCategories.Select(c => c.Name).ToArray(),
+                    CategoryIds = allCategories.Select(c => c.Id).ToArray(),
                     AvgQuality = question.TotalQualityAvg,
                     AvgValuation = question.TotalRelevancePersonalAvg,
                     Views = question.TotalViews,
