@@ -1,4 +1,0 @@
-﻿var settings =
-{
-    urlLogin : "/memucho/"
-}
