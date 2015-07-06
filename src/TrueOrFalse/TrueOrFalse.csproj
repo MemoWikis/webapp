@@ -338,7 +338,6 @@
     <Compile Include="Domain\Message\Persistence\MessageRepository.cs" />
     <Compile Include="Domain\Message\Ops\SetMessageUnread.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
-    <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategory.cs" />
     <Compile Include="Domain\QuestionSet\SetComparerIdEquals.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerCorrectness.cs" />

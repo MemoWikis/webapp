@@ -3,13 +3,12 @@ using NHibernate;
 
 public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 {
-    private readonly ISession _session;
-
-    public UpdateQuestionCountForCategory(ISession session){
-        _session = session;
+    public void All()
+    {
+        Run(Sl.R<CategoryRepository>().GetAll());
     }
 
-    public void Run(IList<Category> categories )
+    public void Run(IList<Category> categories)
     {
         foreach (var category in categories)
         {
@@ -20,10 +19,16 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
                 "  LEFT JOIN  question as q" +
                 "  ON cq.Question_id = q.Id " +
                 "  WHERE Category_id = category.Id" +
+                "  AND q.Visibility = 0) + " +
+                " (SELECT COUNT(*) " +
+                "  FROM reference r " +
+                "  LEFT JOIN question as q" +
+                "  ON r.Question_id = q.Id " +
+                "  WHERE r.Category_id = category.Id " +
                 "  AND q.Visibility = 0) " +
                 "WHERE Id = " + category.Id;
 
-            _session.CreateSQLQuery(query).ExecuteUpdate();                
+            Sl.R<ISession>().CreateSQLQuery(query).ExecuteUpdate();                
         }
     }
 }

@@ -20,7 +20,7 @@ var app = angular.module('starter', ['ionic', 'ngCordova']);
                 }
 
                 var androidConfig = {
-                    "senderID": ""
+                    "senderID": settings.androidApiProjectId
                 };
 
                 $cordovaPush.register(androidConfig).then(function (deviceToken) {
