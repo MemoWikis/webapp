@@ -81,9 +81,6 @@ public class QuestionRowModel : BaseModel
 
         IsInWishknowledge = questionValuation.IsSetRelevancePersonal();
 
-        if (totalForUser == null)
-            totalForUser = new TotalPerUser();
-
         HistoryAndProbability = new HistoryAndProbabilityModel
         {
             AnswerHistory = new AnswerHistoryModel(question, totalForUser),
