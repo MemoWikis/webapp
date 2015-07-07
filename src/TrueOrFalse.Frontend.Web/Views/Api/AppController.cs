@@ -1,9 +1,15 @@
 ﻿using System.Web.Mvc;
+using Newtonsoft.Json;
 
 public class AppController : BaseController
 {
     [HttpPost]
-    public JsonResult GetLoginToken(string userName, string password, string appName)
+    public JsonResult GetLoginToken(
+        string userName, 
+        string password, 
+        string appName,
+        string appInfoJson,
+        string deviceKey)
     {
         if(appName != "MEMO1")
             return new JsonResult{Data = new {
@@ -11,7 +17,15 @@ public class AppController : BaseController
                 Message= "Unknown appName"
             }};
 
-        var getAccessTokenResult = GetAppAccessToken.Run(userName, password, AppKey.MEMO1);
+        var appInfo = JsonConvert.DeserializeObject<AppInfo>(appInfoJson);
+
+        var getAccessTokenResult = 
+            GetAppAccessToken.Run(
+                userName, 
+                password, 
+                AppKey.MEMO1,
+                appInfo, 
+                deviceKey);
 
         return new JsonResult{
             Data = new {

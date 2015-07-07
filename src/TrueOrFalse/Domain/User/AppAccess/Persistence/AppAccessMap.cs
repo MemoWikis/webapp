@@ -10,6 +10,9 @@ public class AppAccessMap : ClassMap<AppAccess>
         Map(x => x.AppKey);
         Map(x => x.AccessToken);
 
+        Map(x => x.AppInfoJson);
+        Map(x => x.DeviceKey);
+
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
     }

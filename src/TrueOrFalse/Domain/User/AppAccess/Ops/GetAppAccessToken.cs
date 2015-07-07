@@ -2,7 +2,12 @@
 
 public class GetAppAccessToken
 {
-    public static GetAppAccessTokenResult Run(string userName, string password, AppKey appKey)
+    public static GetAppAccessTokenResult Run(
+        string userName, 
+        string password, 
+        AppKey appKey,
+        AppInfo appInfo,
+        string deviceKey)
     {
         var credentialsAreValid = Sl.R<CredentialsAreValid>();
 

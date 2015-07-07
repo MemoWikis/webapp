@@ -460,6 +460,7 @@
     <Compile Include="Domain\User\AppAccess\Ops\GetAppAccessToken.cs" />
     <Compile Include="Domain\User\AppAccess\Persistence\AppAccessRepo.cs" />
     <Compile Include="Domain\User\AppAccess\Persistence\AppAccessMap.cs" />
+    <Compile Include="Domain\User\AppAccess\AppInfo.cs" />
     <Compile Include="Domain\User\Beta\IsValidBetaCode.cs" />
     <Compile Include="Domain\User\Beta\SendBetaRequestEmail.cs" />
     <Compile Include="Domain\User\Membership\Invoice\InvoiceCreate.cs" />

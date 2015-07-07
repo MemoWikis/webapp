@@ -5,5 +5,5 @@
 
 var settings =
 {
-    androidApiProjectId: ""
+    androidApiProjectId: "" 
 }
