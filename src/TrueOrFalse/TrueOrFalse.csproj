@@ -618,6 +618,7 @@
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs038.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs049.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs088.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs087.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs086.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs085.cs" />
