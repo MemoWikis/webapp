@@ -30,7 +30,7 @@ public class ContextSet : IRegisterAsInstancePerLifetime
         string name, 
         string text = "", 
         User creator = null, 
-        int amountOfQuestions = 0, 
+        int numberOfQuestions = 0, 
         IList<Question> questions = null)
     {
         var set = new Set{
@@ -44,7 +44,7 @@ public class ContextSet : IRegisterAsInstancePerLifetime
         if (questions != null)
             AddQuestions(questions);
 
-        for (var i = 0; i < amountOfQuestions; i++)
+        for (var i = 0; i < numberOfQuestions; i++)
             AddQuestion("question_" + i, "answer_" + i);
 
         return this;

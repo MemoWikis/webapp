@@ -15,6 +15,11 @@ public class ContextUser : IRegisterAsInstancePerLifetime
         return BaseTest.Resolve<ContextUser>();
     }
 
+    public static User GetUser(string userName = "Firstname Lastname")
+    {
+        return New().Add(userName).Persist().All[0];
+    }
+
     public ContextUser Add(string userName)
     {
         All.Add(new User {Name = userName});

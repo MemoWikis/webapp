@@ -14,9 +14,9 @@ public class Should_add_probabilities_for_sets_and_dates : BaseTest
     public void Sample2_add_valuation_entries_for_dates()
     {
         var setContext = ContextSet.New()
-            .AddSet("Set1", amountOfQuestions: 2)
-            .AddSet("Set2", amountOfQuestions: 2)
-            .AddSet("Set3", amountOfQuestions: 1)
+            .AddSet("Set1", numberOfQuestions: 2)
+            .AddSet("Set2", numberOfQuestions: 2)
+            .AddSet("Set3", numberOfQuestions: 1)
             .Persist();
 
         var dateContext = ContextDate.New().Add(setContext.All).Persist();
