@@ -35,4 +35,9 @@ public class AnswerHistoryRepository : RepositoryDb<AnswerHistory>
                         .Where(i => i.QuestionId == questionId && i.UserId == userId)
                         .List<AnswerHistory>();
     }
+
+    public override void Create(AnswerHistory answerHistory)
+    {
+        _session.Save(answerHistory);
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
 {
@@ -14,7 +15,8 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
         AnswerQuestionResult answerQuestionResult, 
         int userId,
         Player player = null,
-        Round round = null)
+        Round round = null,
+        /*for testing*/ DateTime dateCreated = default(DateTime))
     {
         var answerHistory = new AnswerHistory();
         answerHistory.QuestionId = question.Id;
@@ -24,6 +26,10 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
 
         answerHistory.Round = round;
         answerHistory.Player = player;
+
+        answerHistory.DateCreated = dateCreated == default(DateTime) 
+            ? DateTime.Now 
+            : dateCreated;
 
         _answerHistoryRepository.Create(answerHistory);
     }
