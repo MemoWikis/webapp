@@ -8,7 +8,7 @@
             template: '<ion-spinner icon="ripple"/>'
         });
 
-        $http.post("http://memucho/app/GetLoginToken", {
+        $http.post(settings.url_GetLoginToken, {
             userName: $scope.user.email,
             password: $scope.user.password,
             appName: "MEMO1"
