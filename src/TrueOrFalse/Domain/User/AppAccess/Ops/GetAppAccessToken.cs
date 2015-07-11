@@ -26,7 +26,9 @@ public class GetAppAccessToken
             appAccess = new AppAccess{
                 AppKey = appKey,
                 AccessToken = Guid.NewGuid().ToString(),
-                User = credentialsAreValid.User
+                User = credentialsAreValid.User,
+                AppInfo = appInfo,
+                DeviceKey = deviceKey
             };
 
             appAccessRepo.Create(appAccess);

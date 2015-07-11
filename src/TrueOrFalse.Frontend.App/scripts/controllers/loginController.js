@@ -9,7 +9,7 @@
         });
 
         var appInfo = $deviceInfo.getJson();
-        $http.post(settings.url_GetLoginToken, {
+        $http.post(settings.Url_GetLoginToken(), {
             userName: $scope.user.email,
             password: $scope.user.password,
             appName: "MEMO1",
