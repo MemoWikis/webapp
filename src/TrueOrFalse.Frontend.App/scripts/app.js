@@ -19,7 +19,9 @@ var app = angular.module('starter', ['ionic', 'ngCordova']);
                     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 }
 
-                $pushService.register();
+                if (!ionic.Platform.isWebView()) {
+                    $pushService.register();
+                }
 
             }, 1000);
 

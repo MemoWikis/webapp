@@ -15,6 +15,13 @@
                 </div>
             </div>
 
+            <!--collection-repeat="item in items"-->
+            <a ng-repeat="item in items" class="item item-icon-left" href="#" onclick="window.open('http://memucho.de/termine', '_system', 'location=yes')">
+                <i class="icon ion-flash"></i>
+                <b>{{item.text}}</b><br/>
+                Termin in 4 Tagen &nbsp;<span style="color:silver">(14.7.2015-16:00)</span>
+            </a>
+
             <a class="item item-icon-left" href="#" onclick="window.open('http://memucho.de/termine', '_system', 'location=yes')">
                 <i class="icon ion-calendar"></i>
                 Termine

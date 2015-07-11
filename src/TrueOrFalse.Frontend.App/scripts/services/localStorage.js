@@ -29,6 +29,16 @@
         },
         getDeviceToken: function () {
             return this.get("deviceToken");
+        },
+        getMessages: function() {
+            var msgs = this.getObject("msgs");
+            if (!msgs)
+                return [];
+            else
+                return msgs;
+        },
+        setMessages: function (listOfMsgs) {
+            return this.setObject("msgs", listOfMsgs);
         }
     }
 });

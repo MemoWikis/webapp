@@ -10,9 +10,19 @@
                     <p>Username: {{userName}}</p>
                     <p>Login-Code: {{accessToken}}</p>
                     <p>Device-Token: {{deviceToken}}</p>
-
+                    <p>Messages: {{messageCount}}</p>
                 </div>
             </div>
+
+            <a class="item item-icon-left" ng-click="deleteMsgs()">
+                <i class="icon ion-settings"></i>
+                Lösche alle Nachrichten
+            </a>
+
+            <a class="item item-icon-left" ng-click="createMsg()">
+                <i class="icon ion-settings"></i>
+                Erzeuge Nachricht
+            </a>
 
             <a class="item item-icon-left" ng-click="pushInfo()">
                 <i class="icon ion-settings"></i>
