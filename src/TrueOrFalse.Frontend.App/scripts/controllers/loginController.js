@@ -1,4 +1,4 @@
-﻿app.controller("loginController", function ($scope, $location, $http, $localstorage, $ionicLoading) {
+﻿app.controller("loginController", function ($scope, $location, $http, $localstorage, $ionicLoading, $deviceInfo) {
 
     $scope.user = {};
 
@@ -8,10 +8,13 @@
             template: '<ion-spinner icon="ripple"/>'
         });
 
+        var appInfo = $deviceInfo.getJson();
         $http.post(settings.url_GetLoginToken, {
             userName: $scope.user.email,
             password: $scope.user.password,
-            appName: "MEMO1"
+            appName: "MEMO1",
+            appInfoJson: JSON.stringify(appInfo),
+            deviceKey: $localstorage.getDeviceToken()
         }).success(function(result) {
             console.log(result.AccessToken);
             console.log(result.LoginSuccess);
@@ -22,9 +25,9 @@
                 $ionicLoading.hide();
                 $location.path("/main");
 
-                //send device id to MEMuchO
                 return;
             } else {
+                console.log(result);
                 $ionicLoading.hide();
                 $scope.hasError = true;
             }

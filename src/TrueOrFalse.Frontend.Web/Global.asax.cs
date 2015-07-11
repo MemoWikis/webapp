@@ -98,6 +98,9 @@ namespace TrueOrFalse.Frontend.Web
             {
                 try
                 {
+                    #if DEBUG
+                        Logg.r().Error(exception, "PageError");
+                    #endif
                     (new RollbarClient()).SendException(exception);
                 }
                 catch{}

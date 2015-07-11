@@ -2,8 +2,8 @@ var app = angular.module('starter', ['ionic', 'ngCordova']);
 
 (function () {
     "use strict";
-
-    app.run(function ($ionicPlatform, $cordovaPush, $pushService, $rootScope) {
+    //$pushService
+    app.run(function ($ionicPlatform, $pushService) {
         $ionicPlatform.ready(function () {
             if (window.StatusBar) {
                 StatusBar.styleDefault();
@@ -19,19 +19,7 @@ var app = angular.module('starter', ['ionic', 'ngCordova']);
                     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 }
 
-                var androidConfig = {
-                    "senderID": settings.androidApiProjectId
-                };
-
-                $cordovaPush.register(androidConfig).then(function (deviceToken) {
-                    console.log("success register cordovaPush: " + deviceToken);
-                }, function (err) {
-                    console.log(err);
-                });
-
-                $rootScope.$on('$cordovaPush:notificationReceived', function (e, notification) {
-                    $pushService.onNotification(notification);
-                });
+                $pushService.register();
 
             }, 1000);
 

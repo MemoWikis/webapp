@@ -1,46 +1,59 @@
-﻿app.factory('$pushService', ['$window', function ($localStorage) {
+﻿app.factory('$pushService', function ($cordovaPush, $rootScope, $localstorage) {
     return {
-        onNotification: function (e) {
 
-            console.log("$cordovaPush:notificationReceived");
+        register: function () {
 
-            switch (e.event) {
+            console.log("$pushService:register()");
+
+            var androidConfig = {
+                "senderID": settings.androidApiProjectId
+            };
+
+            $cordovaPush.register(androidConfig).then(function (deviceToken) {
+                console.log("success register cordovaPush: " + deviceToken);
+            }, function (err) {
+                console.log(err);
+            });
+
+            $rootScope.$on('$cordovaPush:notificationReceived', function(x, notification) {
+                console.log("$pushService:notificationReceived()");
+
+                switch (notification.event) {
                 case 'registered':
-                    if (e.regid.length > 0) {
-                        $("#app-status-ul").append('<li>REGISTERED -> REGID:' + e.regid + "</li>");
+                    if (notification.regid.length > 0) {
                         // Your GCM push server needs to know the regID before it can push to this device
                         // here is where you might want to send it the regID for later use.
-                        console.log(e);
-                        $localStorage.setDeviceToken(e.regid);
+                        console.log(notification);
+                        $localstorage.setDeviceToken(notification.regid);
                     }
                     break;
 
                 case 'message':
 
                     // if this flag is set, this notification happened while we were in the foreground.
-                    if (e.foreground) {
+                    if (notification.foreground) {
                         console.log("foreground notification");
-                    }
-                    else {	// otherwise we were launched because the user touched a notification in the notification tray.
-                        if (e.coldstart)
+                    } else { // otherwise we were launched because the user touched a notification in the notification tray.
+                        if (notification.coldstart)
                             console.log("coldstart notification");
                         else
                             console.log("background notification");
                     }
 
-                    console.log(e.payload.message);
-                    console.log(e.payload.msgcnt);
+                    console.log(notification.payload.message);
+                    console.log(notification.payload.msgcnt);
 
                     break;
 
                 case 'error':
-                    console.log(e.msg);
+                    console.log(notification.msg);
                     break;
 
                 default:
-                    console.log("unknown event" + JSON.stringify(e));
+                    console.log("unknown event" + JSON.stringify(notification));
                     break;
-            }
-        },
+                }
+            });
+        }
     }
-}]);
+});

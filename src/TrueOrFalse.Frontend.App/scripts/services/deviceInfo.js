@@ -2,7 +2,7 @@
     return {
         getJson: function () {
             return {
-                DeviceInformation : ionic.Platform.device(),
+                DeviceInformation: JSON.stringify(ionic.Platform.device()),
                 IsWebView : ionic.Platform.isWebView(),
                 IsIPad : ionic.Platform.isIPad(),
                 IsIOS : ionic.Platform.isIOS(),

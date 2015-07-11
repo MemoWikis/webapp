@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 
 public class AppController : BaseController
@@ -16,6 +17,14 @@ public class AppController : BaseController
                 LoginSuccess = false, 
                 Message= "Unknown appName"
             }};
+
+        if (String.IsNullOrEmpty(appInfoJson))
+            return new JsonResult{
+                Data = new{
+                    LoginSuccess = false,
+                    Message = "AppInfo Json is null"
+                }
+            };
 
         var appInfo = JsonConvert.DeserializeObject<AppInfo>(appInfoJson);
 
