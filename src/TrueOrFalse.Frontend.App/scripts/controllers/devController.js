@@ -1,10 +1,10 @@
-﻿app.controller("devController", function ($scope, $location, $localstorage, $cordovaPush) {
+﻿app.controller("devController", function ($scope, $location, $localstorage, $deviceInfo) {
 
     $scope.userName = $localstorage.getUserName();
     $scope.accessToken = $localstorage.getAccessToken();
     $scope.deviceToken = $localstorage.getDeviceToken();
 
-    console.log("userName", $localstorage.getUserName());
+    console.log("deviceInfo", $deviceInfo.getJson());
 
     $scope.back = function () {
         $location.path("/main");

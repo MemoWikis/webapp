@@ -219,7 +219,9 @@
     <Content Include="scripts\controllers\devController.js" />
     <Content Include="scripts\controllers\mainController.js" />
     <Content Include="scripts\services\localStorage.js" />
+    <Content Include="scripts\services\deviceInfo.js" />
     <Content Include="scripts\services\pushService.js" />
+    <Content Include="scripts\settings.readme.js" />
     <Content Include="scripts\settings.js" />
     <Content Include="view-main.html" />
     <Content Include="view-dev.html" />

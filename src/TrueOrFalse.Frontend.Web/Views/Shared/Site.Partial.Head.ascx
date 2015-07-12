@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <%= Styles.Render("~/bundles/css") %>
 <%= Scripts.Render("~/bundles/shared") %>
 

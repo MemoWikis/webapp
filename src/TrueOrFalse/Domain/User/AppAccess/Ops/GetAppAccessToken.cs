@@ -2,7 +2,12 @@
 
 public class GetAppAccessToken
 {
-    public static GetAppAccessTokenResult Run(string userName, string password, AppKey appKey)
+    public static GetAppAccessTokenResult Run(
+        string userName, 
+        string password, 
+        AppKey appKey,
+        AppInfo appInfo,
+        string deviceKey)
     {
         var credentialsAreValid = Sl.R<CredentialsAreValid>();
 
@@ -21,7 +26,9 @@ public class GetAppAccessToken
             appAccess = new AppAccess{
                 AppKey = appKey,
                 AccessToken = Guid.NewGuid().ToString(),
-                User = credentialsAreValid.User
+                User = credentialsAreValid.User,
+                AppInfo = appInfo,
+                DeviceKey = deviceKey
             };
 
             appAccessRepo.Create(appAccess);
