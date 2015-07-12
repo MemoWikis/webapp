@@ -4,6 +4,7 @@
     $scope.accessToken = $localstorage.getAccessToken();
     $scope.deviceToken = $localstorage.getDeviceToken();
     $scope.messageCount = $msgService.getAll().length;
+    $scope.senderId = settings.androidApiProjectId;
 
     $scope.back = function () {
         $location.path("/main");
