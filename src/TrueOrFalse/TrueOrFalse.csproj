@@ -283,6 +283,7 @@
     <Compile Include="Domain\Game\Persistence\PlayerMap.cs" />
     <Compile Include="Domain\Game\Player.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />
+    <Compile Include="Domain\Knowledge\Learning\Ops\GetLearningSessionSteps\StepSelectionParams.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityCalc_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityUpdate_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
@@ -290,7 +291,7 @@
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummary.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryLoader.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession.cs" />
-    <Compile Include="Domain\Knowledge\Learning\Ops\GetLearningSessionSteps.cs" />
+    <Compile Include="Domain\Knowledge\Learning\Ops\GetLearningSessionSteps\GetLearningSessionSteps.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSessionStep.cs" />
     <Compile Include="Domain\Knowledge\Learning\Persistence\LearningSessionStepMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\Persistence\LearningSessionMap.cs" />

@@ -19,6 +19,7 @@ public class AnswerHistoryRepository : RepositoryDb<AnswerHistory>
     {
         return Session.QueryOver<AnswerHistory>()
             .Where(Restrictions.In("QuestionId", questionsId))
+            .And(q => q.UserId == userId)
             .List();
     }
 
