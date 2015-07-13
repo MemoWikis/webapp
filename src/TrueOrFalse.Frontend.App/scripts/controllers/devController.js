@@ -33,4 +33,8 @@
         $scope.messageCount = $msgService.getAll().length;
     }
 
+    $scope.clearLocalStorage = function () {
+        $localstorage.clear();
+    }
+
 });
