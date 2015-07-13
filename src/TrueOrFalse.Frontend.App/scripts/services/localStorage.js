@@ -17,7 +17,7 @@
         getDeviceToken: function () { return this.get("deviceToken"); },
 
         getMessages: function () {
-            if (this.get("msgs")){
+            if (!this.get("msgs")){
                 this.setObject("msgs", []);
             }
             return this.getObject("msgs");

@@ -1,7 +1,7 @@
 ﻿app.factory('$msgService', function ($localstorage) {
     return {
         deleteAll : function() {
-            $localstorage.setMessages("");
+            $localstorage.setMessages([]);
         },
         getAll: function () {
             return $localstorage.getMessages();
