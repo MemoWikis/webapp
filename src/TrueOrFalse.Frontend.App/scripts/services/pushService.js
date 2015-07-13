@@ -1,4 +1,4 @@
-﻿app.factory('$pushService', function ($cordovaPush, $rootScope, $localstorage) {
+﻿app.factory('$pushService', function ($cordovaPush, $rootScope, $localstorage, $msgService) {
     return {
 
         register: function () {
@@ -34,14 +34,19 @@
                     if (notification.foreground) {
                         console.log("foreground notification");
                     } else { // otherwise we were launched because the user touched a notification in the notification tray.
-                        if (notification.coldstart)
+                        if (notification.coldstart){
                             console.log("coldstart notification");
-                        else
+                        }else{
                             console.log("background notification");
+                        }
                     }
 
                     console.log(notification.payload.message);
                     console.log(notification.payload.msgcnt);
+
+                    var newMsg = msg.create();
+                    newMsg.text = notification.payload.message;
+                    $msgService.add(newMsg);
 
                     break;
 

@@ -1,10 +1,10 @@
-﻿app.controller("devController", function ($scope, $location, $localstorage, $deviceInfo) {
+﻿app.controller("devController", function ($scope, $location, $localstorage, $deviceInfo, $msgService) {
 
     $scope.userName = $localstorage.getUserName();
     $scope.accessToken = $localstorage.getAccessToken();
     $scope.deviceToken = $localstorage.getDeviceToken();
-
-    console.log("deviceInfo", $deviceInfo.getJson());
+    $scope.messageCount = $msgService.getAll().length;
+    $scope.senderId = settings.androidApiProjectId;
 
     $scope.back = function () {
         $location.path("/main");
@@ -12,6 +12,19 @@
 
     $scope.pushInfo = function() {
         alert("huuray");
+    }
+
+    $scope.createMsg = function () {
+        var newMsg = msg.create();
+        newMsg.text = "Jetzt wiederholen!";
+        $msgService.add(newMsg);
+
+        $scope.messageCount = $msgService.getAll().length;
+    }
+
+    $scope.deleteMsgs = function() {
+        $msgService.deleteAll();
+        $scope.messageCount = $msgService.getAll().length;
     }
 
 });

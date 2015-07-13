@@ -1,7 +1,8 @@
-﻿app.controller("mainController", function ($scope, $location, $localstorage) {
+﻿app.controller("mainController", function ($scope, $location, $localstorage, $msgService) {
 
     $scope.userName = $localstorage.getUserName();
     $scope.isDevmode = false;
+    $scope.items = $msgService.getAll();
 
     $scope.logout = function () {
         $localstorage.setAccessToken("");
