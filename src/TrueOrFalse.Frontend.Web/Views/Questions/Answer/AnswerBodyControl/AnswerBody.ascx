@@ -14,15 +14,15 @@
             <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
         </span>
                     
-        <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+        <a id="HeartToAdd" href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
             <i class="fa fa-heart show-tooltip <%= Model.IsInWishknowledge ? "" : "hide2" %>" id="iAdded" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
             <i class="fa fa-heart-o show-tooltip <%= Model.IsInWishknowledge ? "hide2" : "" %>" id="iAddedNot" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
             <i class="fa fa-spinner fa-spin hide2" id="iAddSpinner" style="color:#b13a48;"></i>
         </a>
     </div>    
-    <span style="font-size: 22px; padding-bottom: 20px;">
+    <div style="font-size: 22px; padding-bottom: 20px;">
         <%= Model.QuestionText %>
-    </span>
+    </div>
                 
     <div class="RenderedMarkdown"><%= Model.QuestionTextMarkdown %></div>
             

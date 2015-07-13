@@ -103,7 +103,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-9 col-xs-9 xxs-stack">
+        <div class="col-sm-9 xxs-stack">
             
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
@@ -155,7 +155,7 @@
             <% }
                else
                { %>
-                <div class="row">
+                <div class="row" style="margin-bottom: 20px;">
                     <div class="col-xs-12" style="padding-top: 10px; color: darkgray">
                         Um zu kommentieren, musst du angemeldet sein.
                     </div>                     
@@ -164,56 +164,57 @@
 
         </div>
         
-        <div class="col-xs-3 well" style="background-color: white;">
-            
-            <p>
-                von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
-                vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></a> <br />
-            </p>
-        
-            <% if (Model.Categories.Count > 0)
-               { %>
-                <p style="padding-top: 10px;">
-                    <% foreach (var category in Model.Categories)
-                       { %>
-                        <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
-                    <% } %>
+        <div class="col-sm-3 xxs-stack">
+            <div class="well" style="background-color: white;">
+                <p>
+                    von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
+                    vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></a> <br />
                 </p>
-            <% } %>
         
-            <% if (Model.SetMinis.Count > 0)
-               { %>
-                <% foreach (var setMini in Model.SetMinis)
+                <% if (Model.Categories.Count > 0)
                    { %>
-                    <a href="<%= Links.SetDetail(Url, setMini) %>" style="margin-top: 3px; display: inline-block;"><span class="label label-set"><%: setMini.Name %></span></a>
+                    <p style="padding-top: 10px;">
+                        <% foreach (var category in Model.Categories)
+                           { %>
+                            <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
+                        <% } %>
+                    </p>
                 <% } %>
         
-                <% if (Model.SetCount > 5)
+                <% if (Model.SetMinis.Count > 0)
                    { %>
-                    <div style="margin-top: 3px;">
-                        <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
-                    </div>
-                <% } %>
+                    <% foreach (var setMini in Model.SetMinis)
+                       { %>
+                        <a href="<%= Links.SetDetail(Url, setMini) %>" style="margin-top: 3px; display: inline-block;"><span class="label label-set"><%: setMini.Name %></span></a>
+                    <% } %>
+        
+                    <% if (Model.SetCount > 5)
+                       { %>
+                        <div style="margin-top: 3px;">
+                            <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
+                        </div>
+                    <% } %>
 
-            <% } %>
+                <% } %>
     
-            <div style="padding-top: 20px; padding-bottom: 20px;" id="answerHistory">
-                <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
-            </div>
+                <div style="padding-top: 20px; padding-bottom: 20px;" id="answerHistory">
+                    <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
+                </div>
         
-            <p>
-                <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
-                    <i class="fa fa-heart" style="color:silver;"></i> 
-                    <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
-                </span>                
-                <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
-                    <i class="fa fa-eye" style="color:darkslategray;"></i> <%= Model.TotalViews %>x
-                </span><br />
-            </p>
+                <p>
+                    <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
+                        <i class="fa fa-heart" style="color:silver;"></i> 
+                        <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
+                    </span>                
+                    <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
+                        <i class="fa fa-eye" style="color:darkslategray;"></i> <%= Model.TotalViews %>x
+                    </span><br />
+                </p>
 
-            <p style="width: 150px;">
-                <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend" data-font="arial"></div>
-            </p>
+                <p style="width: 150px;">
+                    <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend" data-font="arial"></div>
+                </p>
+            </div>
         </div>
     
         <%--MODAL IMPROVE--%>
