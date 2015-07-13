@@ -1,4 +1,10 @@
-﻿app.controller("devController", function ($scope, $location, $localstorage, $deviceInfo, $msgService) {
+﻿app.controller("devController", function (
+    $scope,
+    $location,
+    $localstorage,
+    $deviceInfo,
+    $msgService,
+    $pushService) {
 
     $scope.userName = $localstorage.getUserName();
     $scope.accessToken = $localstorage.getAccessToken();
@@ -10,8 +16,8 @@
         $location.path("/main");
     }
 
-    $scope.pushInfo = function() {
-        alert("huuray");
+    $scope.pushRegister = function () {
+        $pushService.register();
     }
 
     $scope.createMsg = function () {

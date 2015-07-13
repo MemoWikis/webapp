@@ -25,7 +25,7 @@
             return this.get("userName");
         },
         setDeviceToken: function (value) {
-        return this.set("deviceToken", value);
+            return this.set("deviceToken", value);
         },
         getDeviceToken: function () {
             return this.get("deviceToken");
