@@ -1,4 +1,5 @@
 ﻿app.controller("devController", function (
+    $rootScope,
     $scope,
     $location,
     $localstorage,
@@ -12,6 +13,11 @@
     $scope.messageCount = $msgService.getAll().length;
     $scope.senderId = settings.androidApiProjectId;
 
+
+    $rootScope.$watch("msgs", function(newValue, oldValue) {
+        $scope.messageCount = newValue.length;
+    });
+
     $scope.back = function () {
         $location.path("/main");
     }
@@ -24,13 +30,10 @@
         var newMsg = msg.create();
         newMsg.text = "Jetzt wiederholen!";
         $msgService.add(newMsg);
-
-        $scope.messageCount = $msgService.getAll().length;
     }
 
     $scope.deleteMsgs = function() {
         $msgService.deleteAll();
-        $scope.messageCount = $msgService.getAll().length;
     }
 
     $scope.clearLocalStorage = function () {

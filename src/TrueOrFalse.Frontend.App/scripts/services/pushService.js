@@ -1,4 +1,8 @@
-﻿app.factory('$pushService', function ($cordovaPush, $rootScope, $localstorage, $msgService) {
+﻿app.factory('$pushService', function (
+    $cordovaPush,
+    $rootScope,
+    $localstorage,
+    $msgService) {
     return {
 
         register: function () {
@@ -41,11 +45,11 @@
                         }
                     }
 
-                    console.log(notification.payload.message);
+                    console.log(notification.payload.default);
                     console.log(notification.payload.msgcnt);
 
                     var newMsg = msg.create();
-                    newMsg.text = notification.payload.message;
+                    newMsg.text = notification.payload.default;
                     $msgService.add(newMsg);
 
                     break;
@@ -60,5 +64,7 @@
                 }
             });
         }
+
+
     }
 });
