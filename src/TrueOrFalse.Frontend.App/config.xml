@@ -11,5 +11,6 @@
   <preference name="AndroidLaunchMode" value="standard" />
   <vs:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
   <vs:plugin name="com.phonegap.plugins.PushPlugin" version="2.4.0" />
+  <vs:plugin name="org.apache.cordova.vibration" version="0.3.11" />
   <vs:platformSpecificValues />
 </widget>
