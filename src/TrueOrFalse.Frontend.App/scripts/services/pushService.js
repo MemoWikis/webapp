@@ -2,6 +2,7 @@
     $cordovaPush,
     $rootScope,
     $localstorage,
+    $cordovaVibration,
     $msgService) {
     return {
 
@@ -51,6 +52,8 @@
                     var newMsg = msg.create();
                     newMsg.text = notification.payload.default;
                     $msgService.add(newMsg);
+
+                    $cordovaVibration.vibrate(100);
 
                     break;
 
