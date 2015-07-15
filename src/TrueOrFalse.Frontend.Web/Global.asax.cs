@@ -99,7 +99,9 @@ namespace TrueOrFalse.Frontend.Web
                 try
                 {
                     #if DEBUG
-                        Logg.r().Error(exception, "PageError");
+                        Logg.r().Error(exception, "PageError {Url} {Headers}", 
+                            Request.Headers.ToString(),
+                            Request.RawUrl);
                     #endif
                     (new RollbarClient()).SendException(exception);
                 }
