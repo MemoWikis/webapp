@@ -48,13 +48,13 @@ public class EditSetController : BaseController
     [HttpPost]
     public ViewResult Edit(int id, EditSetModel model)
     {
-        var questionSetRepo = Resolve<SetRepo>();
-        var set = questionSetRepo.GetById(id);
+        var setRepo = Resolve<SetRepo>();
+        var set = setRepo.GetById(id);
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set, HistoryItemType.Edit));
         StoreImage(set.Id);
         model.Fill(set);
         model.SetToUpdateModel();
-        questionSetRepo.Update(set);
+        setRepo.Update(set);
 
         model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert");
         

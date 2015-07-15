@@ -23,7 +23,6 @@ public class SetRepo : RepositoryDbBase<Set>
         _searchIndexSet.Update(set);
         base.Update(set);
 
-
         var categoriesToUpdate =
             _session.CreateSQLQuery("SELECT Category_id FROM categories_to_sets WHERE Set_id =" + set.Id)
             .List<int>().ToList();
