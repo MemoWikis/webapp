@@ -11,7 +11,7 @@ namespace TrueOrFalse
 
         public CorrectnessProbabilityModel(Question question, QuestionValuation questionValuationForUser)
         {
-            CPPersonal = (questionValuationForUser.CorrectnessProbability == -1)
+            CPPersonal = (questionValuationForUser == null || questionValuationForUser.CorrectnessProbability == -1)
                 ? question.CorrectnessProbability
                 : questionValuationForUser.CorrectnessProbability;
             CPAll = question.CorrectnessProbability;
