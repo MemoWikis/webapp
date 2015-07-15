@@ -1,8 +1,9 @@
 ﻿app.factory('$pushService', function (
     $cordovaPush,
+    $cordovaVibration,
+    $cordovaLocalNotification,
     $rootScope,
     $localstorage,
-    $cordovaVibration,
     $msgService) {
     return {
 
@@ -54,6 +55,19 @@
                     $msgService.add(newMsg);
 
                     $cordovaVibration.vibrate(100);
+
+                    $rootScope.scheduleSingleNotification = function () {
+                        $cordovaLocalNotification.schedule({
+                            id: 1,
+                            title: 'Jetzt Lernen',
+                            text: notification.payload.default,
+                            data: {
+                                customProperty: 'custom value'
+                            }
+                        }).then(function (result) {
+                            console.log(result);
+                        });
+                    };
 
                     break;
 
