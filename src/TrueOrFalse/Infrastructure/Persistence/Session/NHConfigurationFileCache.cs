@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
@@ -28,6 +29,8 @@ public class NHConfigurationFileCache
     {
         get
         {
+            Console.WriteLine(_cacheFile);
+
             if (!File.Exists(_cacheFile))
                 return false;
 
@@ -52,6 +55,8 @@ public class NHConfigurationFileCache
 
     public Configuration LoadConfigurationFromFile()
     {
+        Console.WriteLine(IsConfigurationFileValid);
+
         if (!IsConfigurationFileValid)
             return null;
 
