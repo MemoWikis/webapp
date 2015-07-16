@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Cfg;
+﻿using System.Reflection;
+using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
@@ -13,15 +14,38 @@ namespace TrueOrFalse
         
         public static ISessionFactory CreateSessionFactory()
         {
+            return ReadConfigurationFromCacheOrBuildIt()
+                .BuildSessionFactory();
+        }
+
+        private static Configuration ReadConfigurationFromCacheOrBuildIt()
+        {
+            Configuration nhConfigurationCache;
+            var nhCfgCache = new NHConfigurationFileCache(Assembly.GetAssembly(typeof(Question)));
+            var cachedCfg = nhCfgCache.LoadConfigurationFromFile();
+            if (cachedCfg == null)
+            {
+                nhConfigurationCache = BuildConfiguration();
+                nhCfgCache.SaveConfigurationToFile(nhConfigurationCache);
+            }
+            else
+            {
+                nhConfigurationCache = cachedCfg;
+            }
+            return nhConfigurationCache;            
+        }
+
+        private static Configuration BuildConfiguration()
+        {
             return Fluently.Configure()
-              .Database(
-                MySQLConfiguration.Standard
-                  .ConnectionString(Settings.ConnectionString())
-                  .Dialect<MySQL5FlexibleDialect>
-              )
-              .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
-              .ExposeConfiguration(SetConfig)
-              .BuildSessionFactory();
+                .Database(
+                    MySQLConfiguration.Standard
+                        .ConnectionString(Settings.ConnectionString())
+                        .Dialect<MySQL5FlexibleDialect>
+                )
+                .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
+                .ExposeConfiguration(SetConfig)
+                .BuildConfiguration();
         }
 
         private static FluentMappingsContainer AddConventions(MappingConfiguration m)
