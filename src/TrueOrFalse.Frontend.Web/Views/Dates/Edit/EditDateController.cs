@@ -49,7 +49,7 @@ public class EditDateController : BaseController
     [HttpPost]
     public ViewResult Edit(EditDateModel model)
     {
-        if (!_sessionUser.IsValidUser(model.DateId))
+        if (!_sessionUser.IsValidUser(model.UserId))
             throw new Exception("Invalid exception");
 
         if (model.IsDateTimeInPast())
