@@ -18,7 +18,7 @@ public class SetDeleter : IRegisterAsInstancePerLifetime
 
         ThrowIfNot_IsUserOrAdmin.Run(set.Creator.Id);
 
-        var datesUsingTheSet = Sl.R<DateRepo>().GetBy(setId);
+        var datesUsingTheSet = Sl.R<DateRepo>().GetBySet(setId);
         if (datesUsingTheSet.Any())
             return new SetDeleterResult {Success = false, IsPartOfDate = true};
 

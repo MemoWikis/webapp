@@ -32,7 +32,7 @@ public class DateRepo : RepositoryDbBase<Date>
         return GetBy(new [] {userId}, onlyUpcoming, onlyPrevious);
     }
 
-    public IList<Date> GetBy(int setId)
+    public IList<Date> GetBySet(int setId)
     {
         return _session.QueryOver<Date>()
             .JoinQueryOver<Set>(d => d.Sets)
