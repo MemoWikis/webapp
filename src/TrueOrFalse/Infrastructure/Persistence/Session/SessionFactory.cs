@@ -19,11 +19,19 @@ namespace TrueOrFalse
                   .ConnectionString(Settings.ConnectionString())
                   .Dialect<MySQL5FlexibleDialect>
               )
-              .Mappings(m =>
-                m.FluentMappings.Conventions.Add<EnumConvention>()
-                    .AddFromAssemblyOf<Question>())
+              .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
               .ExposeConfiguration(SetConfig)
               .BuildSessionFactory();
+        }
+
+        private static FluentMappingsContainer AddConventions(MappingConfiguration m)
+        {
+            var mappingsContainer = m.FluentMappings.Conventions.Add<EnumConvention>();
+
+            if (MySQL5FlexibleDialect.IsInMemoryEngine())
+                mappingsContainer.Conventions.Add<InMemoryEngine_StringPropertyConvention>();
+
+            return mappingsContainer;
         }
 
         private static void SetConfig(Configuration config)
