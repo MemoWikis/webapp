@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Linq;
+using NHibernate;
 using NUnit.Framework;
 
 namespace TrueOrFalse.Tests.Persistence
@@ -15,10 +16,10 @@ namespace TrueOrFalse.Tests.Persistence
             var allComments = Resolve<CommentRepository>().GetAll();
             Assert.That(allComments.Count, Is.EqualTo(3));
 
-            Resolve<ISession>().Clear();
+            RecycleContainer();
 
             var comments = Resolve<CommentRepository>().GetForDisplay(context.Question.Id);
-            Assert.That(comments[0].Answers[0].Text, Is.EqualTo("C"));
+            Assert.That(comments.First(c => c.Text == "A").Answers[0].Text, Is.EqualTo("C"));
         }
     }    
 }
