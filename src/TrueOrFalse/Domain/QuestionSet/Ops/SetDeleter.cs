@@ -1,4 +1,5 @@
-﻿using TrueOrFalse.Search;
+﻿using System.Linq;
+using TrueOrFalse.Search;
 
 public class SetDeleter : IRegisterAsInstancePerLifetime
 {
@@ -11,11 +12,15 @@ public class SetDeleter : IRegisterAsInstancePerLifetime
         _searchIndexSet = searchIndexSet;
     }
 
-    public void Run(int setId)
+    public SetDeleterResult Run(int setId)
     {
         var set = _setRepo.GetById(setId);
 
         ThrowIfNot_IsUserOrAdmin.Run(set.Creator.Id);
+
+        var datesUsingTheSet = Sl.R<DateRepo>().GetBy(setId);
+        if (datesUsingTheSet.Any())
+            return new SetDeleterResult {Success = false, IsPartOfDate = true};
 
         _setRepo.Delete(set);
 
@@ -23,5 +28,14 @@ public class SetDeleter : IRegisterAsInstancePerLifetime
         Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
 
         _searchIndexSet.Delete(set);
+
+        return new SetDeleterResult{Success = true};
     }
+}
+
+public class SetDeleterResult
+{
+    public bool Success;
+
+    public bool IsPartOfDate;
 }
