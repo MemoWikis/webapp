@@ -16,7 +16,7 @@ public class NHConfigurationFileCache
         _definitionsAssembly = definitionsAssembly;
         _cacheFile = "nh.cfg";
         if (HttpContext.Current != null) //for the web apps
-            _cacheFile = HttpContext.Current.Server.MapPath(string.Format("~/App_Data/{0}", _cacheFile));
+            _cacheFile = HttpContext.Current.Server.MapPath(string.Format("~/bin/{0}", _cacheFile));
     }
 
     public void DeleteCacheFile()
