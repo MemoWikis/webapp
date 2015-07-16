@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Web;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -14,14 +17,21 @@ namespace TrueOrFalse
         
         public static ISessionFactory CreateSessionFactory()
         {
-            return ReadConfigurationFromCacheOrBuildIt()
-                .BuildSessionFactory();
+            var configuration = ReadConfigurationFromCacheOrBuildIt();
+            _configuration = configuration;
+            return configuration.BuildSessionFactory();
         }
 
         private static Configuration ReadConfigurationFromCacheOrBuildIt()
         {
             Configuration nhConfigurationCache;
-            var nhCfgCache = new NHConfigurationFileCache(Assembly.GetAssembly(typeof(Question)));
+
+            var assembly = Assembly.GetAssembly(typeof (Question));  
+            if(HttpContext.Current == null)
+                assembly = Assembly.LoadFile(
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assembly.GetName().Name + ".dll"));
+
+            var nhCfgCache = new NHConfigurationFileCache(assembly);
             var cachedCfg = nhCfgCache.LoadConfigurationFromFile();
             if (cachedCfg == null)
             {
