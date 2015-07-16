@@ -32,6 +32,16 @@
             <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates(Url) %>">
                 <i class="fa fa-caret-right"></i> Termine
             </a>            
+            <%
+                var visitedD = new SessionUiData().VisitedDatePages;
+                index = 0; 
+                foreach (var date in visitedD){ index++;  %>
+                <% var activeClass = ""; if (index == 1) { activeClass = Model.Active(MenuEntry.Dates); } %>
+                <a href="<%= Links.DateEdit(Url, date.Id) %>" class="list-group-item users sub <%= activeClass + visitedD.CssFirst(index) + visitedD.CssLast(index) %>">
+                    <i class="fa fa-caret-right"></i> <%=date.Name%>
+                    <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i>
+                </a>
+            <% } %>
 
             <a class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Fragen

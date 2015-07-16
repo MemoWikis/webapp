@@ -631,6 +631,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs080.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
+    <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\HelpHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\HistoryBase.cs" />
