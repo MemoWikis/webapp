@@ -68,7 +68,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             continue;
                         }
 
-                        Sl.R<AddRoundsToGame>().Run(game);
                         game.NextRound();
                         gameRepo.Update(game);                        
                         gameRepo.Flush();

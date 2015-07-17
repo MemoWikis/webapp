@@ -269,6 +269,7 @@
     <Compile Include="Domain\Date\Persistence\DateMap.cs" />
     <Compile Include="Domain\Date\Persistence\DateRepo.cs" />
     <Compile Include="Domain\Game\Game.cs" />
+    <Compile Include="Domain\Game\Ops\GameCreate.cs" />
     <Compile Include="Domain\Game\Ops\GameStatusChange.cs" />
     <Compile Include="Domain\Game\Ops\PlayerListExtensions.cs" />
     <Compile Include="Domain\Game\Persistence\RoundRepo.cs" />
