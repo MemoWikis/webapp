@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Web;
 
 public abstract class ImageSettingsBase
@@ -19,6 +21,10 @@ public abstract class ImageSettingsBase
     public void DeleteFiles()
     {
         var filesToDelete = Directory.GetFiles(ServerPath(), Id + "_*");
+
+        if (filesToDelete.Count() > 33)
+            throw new Exception("unexpected high amount of files");
+
         foreach (var file in filesToDelete)
             File.Delete(file);
     }

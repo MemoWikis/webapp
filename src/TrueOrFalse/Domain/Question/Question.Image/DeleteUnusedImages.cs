@@ -7,9 +7,7 @@
         if (!string.IsNullOrEmpty(markup) && markup.ToLower().Contains(searchString))
             return;
 
-        var imageSettings = new QuestionImageSettings();
-
-        imageSettings.DeleteFiles();
+        new QuestionImageSettings(questionId).DeleteFiles();
 
         var imageRepo = ServiceLocator.R<ImageMetaDataRepository>();
         var imageToDelete = imageRepo.GetBy(questionId, ImageType.Question);
