@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-public class DeleteUnusedImages
+﻿public class DeleteUnusedImages
 {
     public static void Run(string markup, int questionId)
     {
@@ -10,10 +8,8 @@ public class DeleteUnusedImages
             return;
 
         var imageSettings = new QuestionImageSettings();
-            
-        var filesToDelete = Directory.GetFiles(imageSettings.ServerPath(), questionId + "_*");
-        foreach (var file in filesToDelete)
-            File.Delete(file);
+
+        imageSettings.DeleteFiles();
 
         var imageRepo = ServiceLocator.R<ImageMetaDataRepository>();
         var imageToDelete = imageRepo.GetBy(questionId, ImageType.Question);

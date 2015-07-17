@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.IO;
+using System.Web;
 
 public abstract class ImageSettingsBase
 {
@@ -13,5 +14,12 @@ public abstract class ImageSettingsBase
     public string ServerPath()
     {
         return HttpContext.Current.Server.MapPath(BasePath);
+    }
+
+    public void DeleteFiles()
+    {
+        var filesToDelete = Directory.GetFiles(ServerPath(), Id + "_*");
+        foreach (var file in filesToDelete)
+            File.Delete(file);
     }
 }
