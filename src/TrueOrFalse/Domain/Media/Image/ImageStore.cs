@@ -27,6 +27,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
         var imageSettings = Activator.CreateInstance<T>();
         imageSettings.Init(typeId);
+        imageSettings.DeleteFiles(); //old files..
 
         using (var stream = wikiMetaData.GetThumbImageStream()){
             //$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
@@ -40,6 +41,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
     {
         var imageSettings = Activator.CreateInstance<T>();
         imageSettings.Init(typeId);
+        imageSettings.DeleteFiles(); //old files..
 
         using (var stream = tmpImage.GetStream()){
             StoreImages.Run(stream, imageSettings);
