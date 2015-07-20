@@ -17,7 +17,7 @@
     
     <input type="hidden" id="hddReferencesJson" name="hddReferencesJson"/>
     <input type="hidden" id="questionId" name="questionId" value="<%= Model.Id %>"/>
-    <input type="hidden" id="isEditing" name="questionId" value="<%= Model.IsEditing %>"/>
+    <input type="hidden" id="isEditing" name="isEditing" value="<%= Model.IsEditing %>"/>
     <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
 
     <div class="row">
