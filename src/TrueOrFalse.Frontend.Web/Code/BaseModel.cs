@@ -12,7 +12,9 @@ public class BaseModel : BaseResolve
     public int UserId{ get { return _sessionUser.UserId; } }
 
     public Game UpcomingGame;
+    
     public bool IsInGame;
+
     public bool IsCreatorOfGame;
 
     public BaseModel()

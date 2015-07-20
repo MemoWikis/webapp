@@ -1,4 +1,8 @@
-﻿using FluentNHibernate.Cfg;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Web;
+using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
@@ -13,17 +17,55 @@ namespace TrueOrFalse
         
         public static ISessionFactory CreateSessionFactory()
         {
+            var configuration = ReadConfigurationFromCacheOrBuildIt();
+            _configuration = configuration;
+            return configuration.BuildSessionFactory();
+        }
+
+        private static Configuration ReadConfigurationFromCacheOrBuildIt()
+        {
+            Configuration nhConfigurationCache;
+
+            var assembly = Assembly.GetAssembly(typeof (Question));  
+            if(HttpContext.Current == null)
+                assembly = Assembly.LoadFile(
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assembly.GetName().Name + ".dll"));
+
+            var nhCfgCache = new NHConfigurationFileCache(assembly);
+            var cachedCfg = nhCfgCache.LoadConfigurationFromFile();
+            if (cachedCfg == null)
+            {
+                nhConfigurationCache = BuildConfiguration();
+                nhCfgCache.SaveConfigurationToFile(nhConfigurationCache);
+            }
+            else
+            {
+                nhConfigurationCache = cachedCfg;
+            }
+            return nhConfigurationCache;            
+        }
+
+        private static Configuration BuildConfiguration()
+        {
             return Fluently.Configure()
-              .Database(
-                MySQLConfiguration.Standard
-                  .ConnectionString(Settings.ConnectionString())
-                  .Dialect<MySQL5FlexibleDialect>
-              )
-              .Mappings(m =>
-                m.FluentMappings.Conventions.Add<EnumConvention>()
-                    .AddFromAssemblyOf<Question>())
-              .ExposeConfiguration(SetConfig)
-              .BuildSessionFactory();
+                .Database(
+                    MySQLConfiguration.Standard
+                        .ConnectionString(Settings.ConnectionString())
+                        .Dialect<MySQL5FlexibleDialect>
+                )
+                .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
+                .ExposeConfiguration(SetConfig)
+                .BuildConfiguration();
+        }
+
+        private static FluentMappingsContainer AddConventions(MappingConfiguration m)
+        {
+            var mappingsContainer = m.FluentMappings.Conventions.Add<EnumConvention>();
+
+            if (MySQL5FlexibleDialect.IsInMemoryEngine())
+                mappingsContainer.Conventions.Add<InMemoryEngine_StringPropertyConvention>();
+
+            return mappingsContainer;
         }
 
         private static void SetConfig(Configuration config)

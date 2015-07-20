@@ -33,13 +33,13 @@
     </div>
         
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-sm-9">
                 <% if(!Model.IsLoggedIn){ %>
                     <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
                         <h4>Anmelden oder registrieren</h4>
                         <p>
                             Um Spiele zu erstellen,
-                            musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
+                            musst du dich <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>.
                         </p>
                     </div>
                 <% }%>
@@ -56,27 +56,27 @@
                     <div class="FormSection">
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-5 col-sm-12">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in:
                                     </label>
-                                    <div class="col-md-11 col-xs-6">
+                                    <div class="col-md-11 col-sm-8 col-xs-11">
                                         <div class="input-group">
-                                            <input class="form-control" name="StartsInMinutes" value="10" style="height: 30px;" />
+                                            <input class="form-control" name="StartsInMinutes" value="5" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
-                                                (max. 60min)
+                                                (max. 10min)
                                             </span>
                                         </div>
                                     </div>
                                 </div>                                
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-5 col-sm-12">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
-                                        <i class="fa fa-users"></i> &nbsp; Anzahl Spieler:
+                                        <i class="fa fa-users"></i> &nbsp; Max. Anzahl Spieler:
                                     </label>
-                                    <div class="col-md-10 col-xs-6">
+                                    <div class="col-md-10 col-sm-8 col-xs-11">
                                         <div class="input-group">
                                             <input class="form-control" name="MaxPlayers" value="10" style="height: 30px;" name="amountPlayers" />
                                             <span class="input-group-addon" style="height: 30px;">
@@ -94,7 +94,7 @@
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden
                                     </label>
-                                    <div class="col-md-11 col-xs-6">
+                                    <div class="col-md-11 col-sm-8 col-xs-11">
                                         <div class="input-group">
                                             <input class="form-control" name="Rounds" value="15" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
@@ -105,11 +105,37 @@
                                 </div>                                
                             </div>
                         </div>
-                                                                                       
+                        
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="form-group">
+                                    <div class="col-md-11 col-sm-8 col-xs-11">
+                                          <div class="checkbox">
+                                            <label>
+                                                <%= Html.CheckBoxFor(x => x.OnlyMultipleChoice) %> Nur Multiple-Choice Fragen
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                                                                     
                         <div class="form-group">
                             <label class="columnLabel control-label">Fragesätze mit denen gespielt wird:</label>
-                            <div class="columnControlsFull">
-                                <input class="form-control" name="Sets"/>
+                            <div class="JS-Sets columnControlsFull">
+                                <script type="text/javascript">
+                                    $(function () {
+                                        <%foreach (var set in Model.Sets) { %>
+                                        $("#txtSet")
+                                            .val('<%=set.Name %>')
+                                            .data('set-id', '<%=set.Id %>')
+                                            .trigger("initSetFromTxt");
+                                        <% } %>
+                                    });
+                                </script>
+                                <div class="JS-SetInputContainer ControlInline ">
+                                    <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Beginne zu tippen"  />
+                                </div>
                             </div>
                         </div>
 

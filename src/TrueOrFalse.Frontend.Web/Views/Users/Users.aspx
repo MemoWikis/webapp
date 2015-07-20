@@ -7,37 +7,7 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">
-     <div id="MobileSubHeader" class="MobileSubHeader DesktopHide">
-        <div class=" container">
-            <div id="mobilePageHeader" class="">
-                <h3 class="">
-                    Nutzer
-                </h3>
-            </div>
-        </div>
-        <div class="MainFilterBarWrapper">
-            <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
-                <div class="btn-group">
-                    <a class="btn btn-default disabled">.</a>
-                </div>
-            </div>
-            <div class="container">
-                <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
-                
-                    <div class="btn-group  <%= Model.ActiveTabAll ? "active" : ""  %>">
-                        <a  href="#" type="button" class="btn btn-default">
-                            Alle (<span class="JS-Amount"><%= Model.TotalUsers %></span>)
-                        </a>
-                    </div>
-                    <div class="btn-group <%= Model.ActiveTabFollowed ? "active" : "" %>">
-                        <a  href="#" type="button" class="btn btn-default">
-                            Mein Netzwerk<span class="hidden-xxs"></span> (<span class="JS-Amount"> ? </span>)
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <% Html.RenderPartial("HeaderMobile", Model.HeaderModel); %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -46,16 +16,7 @@
     <% using (Html.BeginForm()) { %>
 
         <div class="boxtainer-outlined-tabs">
-            <div class="boxtainer-header MobileHide">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#home" >Alle Nutzer (<%= Model.TotalUsers %>)</a></li>
-                    <li>
-                        <a href="#profile">
-                            Mein Netzwerk <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <% Html.RenderPartial("Header", Model.HeaderModel); %>
         
             <div class="boxtainer-content">
                 <div class="search-section">

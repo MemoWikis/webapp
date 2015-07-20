@@ -21,18 +21,25 @@
                     </div>
                 </div>
                 <div class="PageHeader col-xs-9 col-xs-pull-3 xxs-stack category">
-                    <% if (Model.Type == "Standard") {%>
+                    <% if (Model.Type == "Standard") { %>
                         <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredUnderline Category"><%= Model.Name %></span></h2>
-                    <% } else {%>
-                        <h2 style="margin-top: 0; margin-bottom: 10px;"><span style="display: inline-block;"><span class="ColoredUnderline Category" style="display: inline; margin-right: 5px;"><%= Model.Name %></span><span class="CategoryType">(<%= Model.Type %>)</span></span></h2>
+                    <% } else { %>
+                        <h2 style="margin-top: 0; margin-bottom: 10px;">
+                            <span style="display: inline-block;">
+                                <span class="ColoredUnderline Category" style="display: inline; margin-right: 5px;"><%= Model.Name %></span>
+                                <span class="CategoryType">(<%= Model.Type %>)</span>
+                            </span>
+                        </h2>
                     <% }
+                    
                     if (Model.Type != "Standard") {
                         Html.RenderPartial("Reference", Model.Category);
                     }
-                    if (!String.IsNullOrEmpty(Model.Description))
-                    {
-                    %><div class="Description"><span><%= Model.Description %></span></div><%
-                    } %>
+                    
+                    if (!String.IsNullOrEmpty(Model.Description)) {%>
+                        <div class="Description"><span><%= Model.Description %></span></div>
+                    <% } %>
+                    
                     <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
                     <div class="WikiLink" style="margin-top: 10px;">
                         <a href="<%= Model.WikiUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
@@ -86,7 +93,12 @@
                            data-original-title="Neue Kindkategorie erstellen"></i>
                     </div>
                 <% } else { %>
-                    <h4 style="margin-top: 0;">keine Kindkategorien</h4>
+                    <h4 style="margin-top: 0; margin-bottom: 2px;">keine Kindkategorien
+                        <i class="fa fa-plus-circle show-tooltip cat-color add-new" 
+                            style="font-size: 14px; color: #99ccff; cursor: pointer"
+                            onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Id%>'; return false; " 
+                            data-original-title="Neue Kindkategorie erstellen"></i>
+                    </h4>
                 <%  } %>
             </div>
             <% if(Model.CountQuestions > 0){ %>

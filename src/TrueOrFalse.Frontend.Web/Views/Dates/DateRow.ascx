@@ -11,7 +11,7 @@
     
     <div class="row">
 
-        <div class="col-md-2" style="">
+        <div class="col-sm-2" style="">
             <div class="row">
                 <div class="col-xs-4 col-md-12" style="color: silver; font-size: 16px; font-weight: 400; padding: 2px 0 0 12px;">
                     <%
@@ -42,20 +42,22 @@
             </div>
         </div>
 
-        <div class="col-md-7">
+        <div class="col-sm-7">
             <div class="row">
                 <div class="col-md-9 header" style="font-size: 19px">
                     <%= Model.Date.Details %>
                 </div>
                 
                 <div class="col-md-3 hidden-xs hidden-sm" style="text-align: right; vertical-align: bottom">
-                    <div style="font-size: 13px; margin-top: 7px;">
-                        <a href="<%= Links.DateEdit(Url, date.Id) %>"><i class="fa fa-pencil"></i></a>
-                        &nbsp;
-                        <a data-toggle="modal" data-dateId="<%= date.Id %>" href="#modalDelete">
-                            <i class="fa fa-trash-o"></i>
-                        </a>
-                    </div>
+                    <%if(!Model.IsNetworkDate){ %> 
+                        <div style="font-size: 13px; margin-top: 7px;">
+                            <a href="<%= Links.DateEdit(Url, date.Id) %>"><i class="fa fa-pencil"></i></a>
+                            &nbsp;
+                            <a data-toggle="modal" data-dateId="<%= date.Id %>" href="#modalDelete">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </div>
+                    <% } %>
                 </div>
             </div>
 
@@ -79,27 +81,48 @@
             </div>
     
             <div class="row">
-                <div class="col-md-4">
-                    <a href="#" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
-                        style="display: block; margin-top: 29px;">
-                        <i class="fa fa-gamepad" style="font-size: 18px;"></i>
-                        Spiel starten
-                    </a>                    
-                </div>
-                <div class="col-md-8" style="text-align: right;">
-                    <div style="margin-top: 20px;">
-                        <a class="btn btn-sm btn-info" href="#">
-                            Jetzt üben
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-lightbulb-o"></i> 
-                            Jetzt testen
-                        </a>
+                <% if (!Model.IsNetworkDate){ %>
+                    <div class="col-sm-4">
+                        <a href="#" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
+                            style="display: block; margin-top: 29px;">
+                            <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                            Spiel starten
+                        </a>                    
                     </div>
-                </div>
+                    <div class="col-sm-8" style="text-align: right;">
+                        <div style="margin-top: 20px;">
+                            <a class="btn btn-sm btn-info" href="#">
+                                Jetzt üben
+                            </a>
+                            <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-lightbulb-o"></i> 
+                                Jetzt testen
+                            </a>
+                        </div>
+                    </div>
+                <% }else{ %>
+                    <div class="col-sm-12" style="text-align: right;">
+                        <div style="margin-top: 20px;">
+                            <a class="btn btn-sm btn-info" href="#">
+                                <i class="fa fa-files-o"></i>
+                                 Termin kopieren
+                            </a>
+                        </div>
+                    </div>                
+                <% } %>
             </div>
         </div>
-        <div class="col-md-3">
-            <div id="chartKnowledgeDate<% =date.Id %>"></div>            
+        <div class="col-sm-3">
+            <% if (!Model.IsNetworkDate){ %>
+                <div id="chartKnowledgeDate<% =date.Id %>"></div>
+            <% }else{ %>
+                <div style="text-align: center">
+                    <i class="fa fa-question-circle show-tooltip" data-original-title="Dein Wissensstand wird nur für deine Termine angezeigt." style="font-size: 97px;"></i><br />
+                    <p style="font-size: 11px; line-height: 11px;">
+                        Dein Wissensstand wird nur für deine Termine angezeigt.
+                    </p>
+                    
+                </div>
+            <% } %>
         </div>
     </div>
 </div>

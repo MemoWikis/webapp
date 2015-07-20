@@ -99,7 +99,7 @@ public class EditQuestionModel : BaseModel
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
     {
-        Categories = AutocompleteUtils.GetReleatedCategoriesFromPostData(postData);
+        Categories = AutocompleteUtils.GetRelatedCategoriesFromPostData(postData);
     }
 
     public IList<Reference> FillReferencesFromPostData(HttpRequestBase request, Question question)

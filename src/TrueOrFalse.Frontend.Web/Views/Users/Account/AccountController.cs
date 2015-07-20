@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
+using TrueOrFalse.Web;
 
 public class AccountController : BaseController
 {
@@ -17,7 +19,13 @@ public class AccountController : BaseController
         
         _sessionUser.User.MembershipPeriods.Add(membership);
 
-        return View("~/Views/Users/Account/Membership.aspx", new MembershipModel());
+        return View("~/Views/Users/Account/Membership.aspx", new MembershipModel
+        {
+            Message = new SuccessMessage(String.Format(
+                "Du hast dich erfolgreich als Mitglied angemeldet. " +
+                "Die Rechnung für deinen Mitgliedsbeitrag wird an <b>{0}</b> geschickt.",
+                model.BillingEmail))
+        });
     }
 
     [AccessOnlyAsAdmin]

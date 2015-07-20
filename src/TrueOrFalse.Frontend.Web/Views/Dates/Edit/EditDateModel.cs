@@ -58,7 +58,7 @@ public class EditDateModel : BaseModel
 
     public Date FillDateFromInput(Date date)
     {
-        date.Sets = AutocompleteUtils.GetReleatedSetsFromPostData(HttpContext.Current.Request.Form);
+        date.Sets = AutocompleteUtils.GetSetsFromPostData(HttpContext.Current.Request.Form);
         date.Details = Details;
         date.DateTime = global::Time.Parse(Time).SetTime(Date);
         date.User = _sessionUser.User;
@@ -80,7 +80,7 @@ public class EditDateModel : BaseModel
 
     public bool HasSets()
     {
-        return AutocompleteUtils.GetReleatedSetsFromPostData(HttpContext.Current.Request.Form).Count > 0;
+        return AutocompleteUtils.GetSetsFromPostData(HttpContext.Current.Request.Form).Count > 0;
     }
 
     public bool HasErrorMsg()

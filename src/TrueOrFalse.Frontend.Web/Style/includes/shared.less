@@ -23,7 +23,7 @@
 @import 'colors.less';
 @import 'extends.less';
 //@import (reference) '../bootstrap/bootstrap.less';
-@import '../font-awesome-4.3.0/less/font-awesome.less';
+@import '../../fonts/font-awesome-4.3.0/less/font-awesome.less';
 
 /*  Helper classes
 ----------------------------------------------------------*/
@@ -63,8 +63,34 @@
     }
 }
 
+.bold  {
+    font-weight: bold;
+}
+
 /*  Layout elements
 ----------------------------------------------------------*/
+
+//Drop shadow
+
+.drop-shadow1 {
+    .drop-shadow(2px, 2px, 7px, 1px, 0.5);
+}
+
+.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+    -webkit-box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+    -moz-box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+    box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+}
+
+//Shadow box
+
+.ShadowBox {
+    .drop-shadow1;
+    padding: 20px;
+    margin-bottom: 30px;
+    h1, h2, h3, h4 {margin-top: 0;}
+}
+
 
 /*  Images
 ----------------------------------------------------------*/
@@ -207,6 +233,29 @@
         }
     }
 }
+
+.make-footer-stick-to-bottom() {
+    body {
+        display: flex;//http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+        min-height: 100%;
+        -ms-flex-direction: column;
+        flex-direction: column;
+
+        //height: 100%; //Solve IE issue, should for IE only, produces bug in other browsers (http://thatemil.com/blog/2013/11/03/sticky-footers-flexbox-and-ie10/):
+    }
+
+    #MasterSection {
+        -ms-flex: 1;
+        flex: 1;
+
+    //Solve IE isssue, http://thatemil.com/blog/2013/11/03/sticky-footers-flexbox-and-ie10/
+        -webkit-box-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
+        -webkit-flex: 1 0 auto;
+    }
+}
+
 
 /*Modified styles from bootstrap website (not part of framework)*/
 

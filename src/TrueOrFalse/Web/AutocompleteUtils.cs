@@ -5,7 +5,7 @@ using System.Linq;
 
 public class AutocompleteUtils
 {
-    public static IList<Category> GetReleatedCategoriesFromPostData(NameValueCollection postData)
+    public static IList<Category> GetRelatedCategoriesFromPostData(NameValueCollection postData)
     {
         var _categoryRepo = ServiceLocator.Resolve<CategoryRepository>();
         return
@@ -16,7 +16,7 @@ public class AutocompleteUtils
              .ToList();
     }
 
-    public static IList<Set> GetReleatedSetsFromPostData(NameValueCollection postData)
+    public static IList<Set> GetSetsFromPostData(NameValueCollection postData)
     {
         var _setRepo = ServiceLocator.Resolve<SetRepo>();
         return

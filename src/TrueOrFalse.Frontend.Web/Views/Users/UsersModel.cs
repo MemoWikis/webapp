@@ -9,9 +9,6 @@ public class UsersModel : BaseModel
     public bool ActiveTabAll = true;//$temp
     public bool ActiveTabFollowed;//$temp
 
-    public int TotalUsers { get; set; }
-    public int TotalMine { get; set; }
-
     public string SearchTerm { get; set;  }
 
     public bool FilterByMe { get; set; }
@@ -26,6 +23,8 @@ public class UsersModel : BaseModel
 
     public IEnumerable<UserRowModel> Rows;
 
+    public HeaderModel HeaderModel = new HeaderModel();
+
     public UsersModel(){
     }
 
@@ -35,18 +34,23 @@ public class UsersModel : BaseModel
 
         Rows = users.Select(qs => 
             new UserRowModel(
-                qs, counter++, _sessionUser, 
-                R<FollowerIAm>().Init(users.Select(u => u.Id), UserId))
+                qs, counter++, R<FollowerIAm>().Init(users.Select(u => u.Id), UserId))
             );
 
         Suggestion = _sessionUiData.SearchSpecUser.GetSuggestion();
         SearchTerm = _sessionUiData.SearchSpecUser.SearchTerm;
 
-        TotalUsers = Resolve<GetTotalUsers>().Run();
+        HeaderModel.TotalUsers = R<GetTotalUsers>().Run();
 
         Pager = new PagerModel(_sessionUiData.SearchSpecUser);
 
         OrderByLabel = _sessionUiData.SearchSpecUser.OrderBy.ToText();
         OrderBy = _sessionUiData.SearchSpecUser.OrderBy;
+
+        if (!IsLoggedIn)
+            return;
+
+        HeaderModel.TotalFollowingMe = R<TotalFollowers>().Run(UserId);
+        HeaderModel.TotalIFollow = R<TotalIFollow>().Run(UserId);
     }
 }

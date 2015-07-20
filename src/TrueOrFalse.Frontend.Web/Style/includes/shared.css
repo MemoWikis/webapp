@@ -26,8 +26,8 @@
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url('../font-awesome-4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0');
-  src: url('../font-awesome-4.3.0/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('../font-awesome-4.3.0/fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('../font-awesome-4.3.0/fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('../font-awesome-4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'), url('../font-awesome-4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
+  src: url('../../fonts/font-awesome-4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0');
+  src: url('../../fonts/font-awesome-4.3.0/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('../../fonts/font-awesome-4.3.0/fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('../../fonts/font-awesome-4.3.0/fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('../../fonts/font-awesome-4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'), url('../../fonts/font-awesome-4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -1851,8 +1851,29 @@
 .link:hover {
   color: #2c5fb2;
 }
+.bold {
+  font-weight: bold;
+}
 /*  Layout elements
 ----------------------------------------------------------*/
+.drop-shadow1 {
+  -webkit-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  -moz-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+}
+.ShadowBox {
+  -webkit-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  -moz-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+.ShadowBox h1,
+.ShadowBox h2,
+.ShadowBox h3,
+.ShadowBox h4 {
+  margin-top: 0;
+}
 /*  Images
 ----------------------------------------------------------*/
 /*  Color scheme

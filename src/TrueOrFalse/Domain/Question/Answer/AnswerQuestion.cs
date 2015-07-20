@@ -34,10 +34,14 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         });
     }
 
-    public AnswerQuestionResult Run(int questionId, string answer, int userId)
+    public AnswerQuestionResult Run(
+        int questionId, 
+        string answer, 
+        int userId,
+        /*for testing*/ DateTime dateCreated = default(DateTime))
     {
         return Run(questionId, answer, userId, (question, answerQuestionResult) => {
-            _answerHistoryLog.Run(question, answerQuestionResult, userId); 
+            _answerHistoryLog.Run(question, answerQuestionResult, userId, dateCreated: dateCreated); 
         });
     }
 

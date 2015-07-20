@@ -53,6 +53,8 @@ public class PlayController : BaseController
         var result = R<AnswerQuestion>().Run(questionId, answer, UserId, playerId, roundId);
         var solution = R<GetQuestionSolution>().Run(questionId);
 
+        R<GameHubConnection>().SendAnswered(gameId, playerId, result);
+
         return new JsonResult
         {
             Data = new

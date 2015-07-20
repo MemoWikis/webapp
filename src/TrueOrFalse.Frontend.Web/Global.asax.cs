@@ -83,11 +83,6 @@ namespace TrueOrFalse.Frontend.Web
 
         protected void Application_Error(Object sender, EventArgs e)
         {
-            if (Request.IsLocal)
-            {
-                return;
-            }
-
             var exception = Server.GetLastError();
             if (exception == null)
                 return;
@@ -98,7 +93,16 @@ namespace TrueOrFalse.Frontend.Web
             {
                 try
                 {
-                    (new RollbarClient()).SendException(exception);
+                    #if DEBUG
+                        Logg.r().Error(exception, "PageError {Url} {Headers}", 
+                            Request.Headers.ToString(),
+                            Request.RawUrl);
+                    #endif
+
+                    if (!Request.IsLocal)
+                    {
+                        (new RollbarClient()).SendException(exception);
+                    }
                 }
                 catch{}
             }

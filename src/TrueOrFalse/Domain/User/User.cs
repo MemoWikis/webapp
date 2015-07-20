@@ -24,7 +24,22 @@ public class User : DomainEntity
     public virtual IList<Membership> MembershipPeriods { get; set; }
 
     public virtual IList<User> Followers { get; set; }
+    
+    /// <summary>Users I follow</summary>
     public virtual IList<User> Following { get; set; }
+
+    public virtual IList<int> FollowerIds(){
+        return Followers.Select(f => f.Id).ToList();
+    }
+
+    public virtual IList<int> FollowingIds(){
+        return Following.Select(f => f.Id).ToList();
+    }
+
+    /// <summary>Joined list of FollowerIds and FollowingIds</summary>
+    public virtual IList<int> NetworkIds(){
+        return FollowerIds().Union(FollowingIds()).ToList();
+    }
 
     public User()
     {

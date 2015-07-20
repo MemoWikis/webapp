@@ -36,31 +36,42 @@
 
     <div class="row">
         <div class="col-lg-9 col-xs-9 xxs-stack">
+            <% if (Model.IsLearningSession)
+               { %>
+                   <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx",
+                   new LearningSessionModel(Model, new LearningSession())); %>
+            <% }else{ %>
             <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
                 <li class="previous <%= Model.HasPreviousPage ? "" : "disabled" %>">
                     <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
                 </li>
                 <li>
-                    <% if (Model.SourceIsCategory){ %>
+                    <% if (Model.SourceIsCategory)
+                       { %>
                         <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>">
                             Kategorie:
                             <span class="label label-category"><%= Model.SourceCategory.Name %></span>
                         </a>                                    
                     <% } %>
-                    <% if (Model.SourceIsSet){ %>
+                    <% if (Model.SourceIsSet)
+                       { %>
                         <a href="<%= Links.SetDetail(Url, Model.Set) %>">
                             Fragesatz:
                             <span class="label label-set"><%= Model.Set.Name %></span>
                         </a>            
                     <% } %>
                     
-                    <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
+                    <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll)
+                       { %>
                         <a href="<%= QuestionSearchSpecSession.GetUrl(Model.SearchTabOverview) %>">                        
                             <span >
                                 <i class="fa fa-list"></i> 
-                                <% if(Model.SourceIsTabWish){ %> mein Wunschwissen <%} %>
-                                <% if(Model.SourceIsTabMine){ %> meine Fragen <%} %>
-                                <% if(Model.SourceIsTabAll){ %> alle Fragen <%} %>
+                                <% if (Model.SourceIsTabWish)
+                                   { %> mein Wunschwissen <% } %>
+                                <% if (Model.SourceIsTabMine)
+                                   { %> meine Fragen <% } %>
+                                <% if (Model.SourceIsTabAll)
+                                   { %> alle Fragen <% } %>
                             </span>
                         </a>
                     <% } %>                    
@@ -69,15 +80,18 @@
                     <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
                 </li>
                 <li class="next">
-                    <% if (Model.HasNextPage) { %>
+                    <% if (Model.HasNextPage)
+                       { %>
                         <a href="<%= Model.NextUrl(Url) %>"><i class="fa fa-arrow-right"></i> </a>
                     <% } %>
                 </li>
             </ul>
+            <% } %>
         </div>
 
         <div class="col-xs-3 xxs-stack">
-            <% if(Model.IsOwner){ %>
+            <% if (Model.IsOwner)
+               { %>
                 <div id="EditQuestion">
                     <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>" class="TextLinkWithIcon">
                         <i class="fa fa-pencil"></i>
@@ -89,9 +103,9 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-9 col-xs-9 xxs-stack">
+        <div class="col-sm-9 xxs-stack">
             
-            <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", 
+            <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
             
             <div style="margin-top: 30px; color: darkgray; font-weight: bold;" class="row">
@@ -102,7 +116,8 @@
                 
                 <div class="col-xs-8 " style="vertical-align: text-bottom; 
                       vertical-align: bottom; margin-top: 3px; text-align: right">
-                    <% if(Model.IsLoggedIn){ %>
+                    <% if (Model.IsLoggedIn)
+                       { %>
                         <span style="padding-right: 2px">
                             Die Frage bitte: &nbsp;
                             <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
@@ -113,12 +128,14 @@
             </div>  
             
             <div id="comments">
-                <% foreach(var comment in Model.Comments){ %>
+                <% foreach (var comment in Model.Comments)
+                   { %>
                     <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.ascx", comment); %>
                 <% } %>
             </div>
                         
-            <% if(Model.IsLoggedIn){ %>
+            <% if (Model.IsLoggedIn)
+               { %>
                 <div class="panel panel-default" style="margin-top: 7px;">
                     <div class="panel-heading">Neuen Kommentar hinzufügen</div>
                     <div class="panel-body">
@@ -135,8 +152,10 @@
                         </div>
                     </div>                
                 </div>
-            <% } else { %>
-                <div class="row">
+            <% }
+               else
+               { %>
+                <div class="row" style="margin-bottom: 20px;">
                     <div class="col-xs-12" style="padding-top: 10px; color: darkgray">
                         Um zu kommentieren, musst du angemeldet sein.
                     </div>                     
@@ -145,51 +164,57 @@
 
         </div>
         
-        <div class="col-xs-3 well" style="background-color: white;">
-            
-            <p>
-                von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
-                vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
-            </p>
-        
-            <% if(Model.Categories.Count > 0){ %>
-                <p style="padding-top: 10px;">
-                    <% foreach (var category in Model.Categories){ %>
-                        <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
-                    <% } %>
+        <div class="col-sm-3 xxs-stack">
+            <div class="well" style="background-color: white;">
+                <p>
+                    von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
+                    vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></a> <br />
                 </p>
-            <% } %>
         
-            <% if(Model.SetMinis.Count > 0){ %>
-                <% foreach (var setMini in Model.SetMinis){ %>
-                    <a href="<%= Links.SetDetail(Url, setMini) %>" style="margin-top: 3px; display: inline-block;"><span class="label label-set"><%: setMini.Name %></span></a>
+                <% if (Model.Categories.Count > 0)
+                   { %>
+                    <p style="padding-top: 10px;">
+                        <% foreach (var category in Model.Categories)
+                           { %>
+                            <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
+                        <% } %>
+                    </p>
                 <% } %>
         
-                <% if (Model.SetCount > 5){ %>
-                    <div style="margin-top: 3px;">
-                        <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount -5 %> weitere </a>
-                    </div>
-                <% } %>
+                <% if (Model.SetMinis.Count > 0)
+                   { %>
+                    <% foreach (var setMini in Model.SetMinis)
+                       { %>
+                        <a href="<%= Links.SetDetail(Url, setMini) %>" style="margin-top: 3px; display: inline-block;"><span class="label label-set"><%: setMini.Name %></span></a>
+                    <% } %>
+        
+                    <% if (Model.SetCount > 5)
+                       { %>
+                        <div style="margin-top: 3px;">
+                            <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
+                        </div>
+                    <% } %>
 
-            <% } %>
+                <% } %>
     
-            <div style="padding-top: 20px; padding-bottom: 20px;" id="answerHistory">
-                <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
-            </div>
+                <div style="padding-top: 20px; padding-bottom: 20px;" id="answerHistory">
+                    <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
+                </div>
         
-            <p>
-                <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
-                    <i class="fa fa-heart" style="color:silver;"></i> 
-                    <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
-                </span>                
-                <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
-                    <i class="fa fa-eye" style="color:darkslategray;"></i> <%= Model.TotalViews %>x
-                </span><br />
-            </p>
+                <p>
+                    <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
+                        <i class="fa fa-heart" style="color:silver;"></i> 
+                        <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
+                    </span>                
+                    <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
+                        <i class="fa fa-eye" style="color:darkslategray;"></i> <%= Model.TotalViews %>x
+                    </span><br />
+                </p>
 
-            <p style="width: 150px;">
-                <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend" data-font="arial"></div>
-            </p>
+                <p style="width: 150px;">
+                    <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend" data-font="arial"></div>
+                </p>
+            </div>
         </div>
     
         <%--MODAL IMPROVE--%>

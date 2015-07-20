@@ -1,4 +1,6 @@
-﻿var Utils = (function () {
+﻿var ResponsiveBootstrapToolkit;
+
+var Utils = (function () {
     function Utils() {
     }
     Utils.UIMessageHtml = function (text, type) {
@@ -46,6 +48,24 @@
         var newAmount = parseInt($("#menuWishKnowledgeCount").html());
         newAmount += -1;
         Utils.SetElementValue("#menuWishKnowledgeCount", newAmount.toString());
+    };
+
+    Utils.DisplayBreakpointOnResize = function () {
+        $(window).resize(function () {
+            Utils.DisplayBreakpoint();
+        });
+    };
+
+    Utils.DisplayBreakpoint = function () {
+        if ($(window).width() < 768) {
+            window.console.log("xs " + $(window).width());
+        } else if ($(window).width() >= 768 && $(window).width() <= 992) {
+            window.console.log("sm " + $(window).width());
+        } else if ($(window).width() > 992 && $(window).width() <= 1200) {
+            window.console.log("md " + $(window).width());
+        } else {
+            window.console.log("lg  " + $(window).width());
+        }
     };
     return Utils;
 })();

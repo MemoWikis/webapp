@@ -2,14 +2,11 @@
     rules: {
         StartsInMinutes: {
             required: true,
-            range: [1, 60],
+            range: [1, 10],
         },
         MaxPlayers: {
             required: true,
             range: [2, 30]
-        },
-        Sets: {
-            required: true
         },
         Rounds: {
             required: true,
@@ -17,7 +14,3 @@
         }
     }
 }
-
-$(() => {
-    var validator = fnValidateForm("#EditGameForm", validationSettings_Game, false);
-});

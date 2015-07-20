@@ -1,4 +1,4 @@
-var categoryIdToDelete;
+﻿var categoryIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
         categoryIdToDelete = $(this).attr("data-setId");
@@ -24,7 +24,7 @@ function populateDeleteSet(setId) {
             $("#spanSetTitle").html(result.setTitle);
         },
         error: function () {
-            alert("Ein Fehler ist aufgetreten");
+            window.alert("Ein Fehler ist aufgetreten");
         }
     });
 }
@@ -34,12 +34,17 @@ function deleteSet(setId) {
         type: 'POST',
         url: "/Sets/Delete/" + setId,
         cache: false,
-        success: function () {
+        success: function (result) {
+            if (result.IsPartOfDate) {
+                window.alert("Der Fragesatz kann nicht gelöscht werden, da er in einem Termin verwendet wird.");
+            } else if (!result.Success) {
+                window.alert("Ein Fehler ist aufgetreten");
+            }
             window.location.reload();
         },
         error: function (result) {
-            console.log(result);
-            alert("Ein Fehler ist aufgetreten");
+            window.console.log(result);
+            window.alert("Ein Fehler ist aufgetreten");
         }
     });
 }

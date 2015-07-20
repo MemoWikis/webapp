@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Linq;
+using TrueOrFalse;
 
 public class AddRoundsToGame : IRegisterAsInstancePerLifetime
 {
-    public void Run(Game game)
+    public void Run(Game game, bool multipleChoiceOnly = false)
     {
         var allQuestions = game.Sets
             .SelectMany(x => x.QuestionsInSet)
             .GroupBy(x => x.Question.Id)
             .Select(x => x.First())
             .ToList();
+
+        if (multipleChoiceOnly)
+            allQuestions = allQuestions.Where(q => q.Question.SolutionType == SolutionType.MultipleChoice).ToList();
 
         allQuestions.Shuffle();
 
@@ -22,7 +26,6 @@ public class AddRoundsToGame : IRegisterAsInstancePerLifetime
 
             allQuestions.Add(toAdd);    
         }
-
 
         for (var i = 0; i < game.RoundCount; i++)
         {

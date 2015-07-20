@@ -1,4 +1,8 @@
-﻿#SolutionDetails .Detail:before,
+﻿#SolutionDetails {
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+}
+#SolutionDetails .Detail:before,
 #SolutionDetails .Detail:after {
   content: " ";
   display: table;
@@ -51,5 +55,8 @@
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   vertical-align: bottom;
+}
+#HeartToAdd i {
+  padding-right: 1px;
 }
 /*# sourceMappingURL=AnswerQuestionSolution.css.map */

@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class UserRowModel
+public class UserRowModel : BaseModel
 {
     public int Id;
     public string Name;
@@ -38,7 +38,6 @@ public class UserRowModel
     public UserRowModel(
         User user, 
         int indexInResultSet, 
-        SessionUser sessionUser,
         FollowerIAm followerIAm)
     {
         Id = user.Id;
@@ -53,8 +52,8 @@ public class UserRowModel
         CreatedQuestions = Sl.R<UserSummary>().AmountCreatedQuestions(user.Id);
         CreatedSets = Sl.R<UserSummary>().AmountCreatedSets(user.Id);
 
-        IsCurrentUser = Id == sessionUser.UserId;
-        IsInstallationLogin = sessionUser.IsInstallationAdmin;
+        IsCurrentUser = Id == _sessionUser.UserId;
+        IsInstallationLogin = _sessionUser.IsInstallationAdmin;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         ShowWishKnowlede = user.ShowWishKnowledge;
 

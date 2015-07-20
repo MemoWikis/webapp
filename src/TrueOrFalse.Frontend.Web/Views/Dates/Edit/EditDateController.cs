@@ -27,6 +27,8 @@ public class EditDateController : BaseController
             var date = model.ToDate();
             R<DateRepo>().Create(date);
 
+            _sessionUiData.VisitedDatePages.Add(new DateHistoryItem(date, HistoryItemType.Edit));
+
             R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
 
             Response.Redirect("/Termine", true);
@@ -39,8 +41,10 @@ public class EditDateController : BaseController
     public ViewResult Edit(int dateId)
     {
         var date = R<DateRepo>().GetById(dateId);
-        
-        if(!_sessionUser.IsValidUserOrAdmin(date.User.Id))
+
+        _sessionUiData.VisitedDatePages.Add(new DateHistoryItem(date, HistoryItemType.Edit));
+
+        if (!_sessionUser.IsValidUser(date.User.Id))
             throw new Exception("Invalid exception");
 
         return View(_viewLocation, model: new EditDateModel(date));
@@ -49,6 +53,9 @@ public class EditDateController : BaseController
     [HttpPost]
     public ViewResult Edit(EditDateModel model)
     {
+        if (!_sessionUser.IsValidUser(model.UserId))
+            throw new Exception("Invalid exception");
+
         if (model.IsDateTimeInPast())
             model.Message = new ErrorMessage("Nicht gespeichert: Der Termin liegt in der Vergangenheit.");
 

@@ -17,6 +17,7 @@
     
     <input type="hidden" id="hddReferencesJson" name="hddReferencesJson"/>
     <input type="hidden" id="questionId" name="questionId" value="<%= Model.Id %>"/>
+    <input type="hidden" id="isEditing" name="questionId" value="<%= Model.IsEditing %>"/>
     <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
 
     <div class="row">
@@ -49,7 +50,7 @@
                     <h4>Anmelden oder registrieren</h4>
                     <p>
                         Um Fragen zu erstellen, <br/>
-                        musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.
+                        musst du dich <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>.
                     </p>
                 </div>
             <% }%>
@@ -174,19 +175,20 @@
                             <span <%= Model.IsEditing ? "class='show-tooltip' title='Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : ""%>>Abfragetyp</span>
                         </label>
                         <div id="SolutionTypeContainer" <%= Model.IsEditing ? "class='columnControlsFull show-tooltip' data-toggle='tooltip' title='Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : "class='columnControlsFull'"%>>
-                            <%= Html.DropDownListFor(m => Model.SolutionType,
-                                                            Model.AnswerTypeData,
-                                                            Model.IsEditing ? 
-                                                                (object)new 
-                                                                {
-                                                                    @id = "ddlAnswerType", @class="form-control",
-                                                                    disabled="disabled"
-                                                                } :
-                                                                new
-                                                                {
-                                                                    @id = "ddlAnswerType", @class="form-control",
-                                                                })%>
-                                                                <%--http://stackoverflow.com/questions/23159003/optionally-disable-element-rendered-via-mvc#answer-23159114--%>
+                            <%= Html.DropDownListFor(m => 
+                                    Model.SolutionType,
+                                    Model.AnswerTypeData,
+                                    Model.IsEditing ? 
+                                        (object)new 
+                                        {
+                                            @id = "ddlAnswerType", @class="form-control",
+                                            disabled="disabled"
+                                        } :
+                                        new
+                                        {
+                                            @id = "ddlAnswerType", @class="form-control",
+                                        })%>
+                                <%--http://stackoverflow.com/questions/23159003/optionally-disable-element-rendered-via-mvc#answer-23159114--%>
                         </div>
                         <% if(Model.IsEditing){ %>
                             <input type="hidden" name="SolutionType" value="<%= Model.SolutionType %>"/>

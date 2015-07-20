@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using TrueOrFalse;
 using TrueOrFalse.Web;
 
 [SetMenu(MenuEntry.Play)]
@@ -22,18 +22,27 @@ public class GameController : BaseController
     [HttpPost]
     public ActionResult Create(GameModel gameModel)
     {
-        var setsString = gameModel.Sets;
-        var sets = GetSetsFromString(setsString);
+        var sets = AutocompleteUtils.GetSetsFromPostData(Request.Form);
         if (sets.Count == 0)
         {
             gameModel.Message = new ErrorMessage("Bitte gib mind. einen Fragesatz ein.");
             return View(_viewLocation, gameModel);            
         }
 
-        if (!sets.SelectMany(x => x.QuestionsInSet).Any())
+        bool hasQuestions = true;
+        if (gameModel.OnlyMultipleChoice && 
+            sets.SelectMany(x => x.QuestionsInSet)
+                .All(q => q.Question.SolutionType != SolutionType.MultipleChoice))
+        {
+            hasQuestions = false;
+        }else if (!sets.SelectMany(x => x.QuestionsInSet).Any()){
+            hasQuestions = false;
+        }
+
+        if (!hasQuestions)
         {
             gameModel.Message = new ErrorMessage("Die gewählten Fragesätze beinhalten keine Fragen.");
-            return View(_viewLocation, gameModel);                        
+            return View(_viewLocation, gameModel);                                    
         }
 
         var game = new Game();
@@ -45,28 +54,10 @@ public class GameController : BaseController
         game.AddPlayer(_sessionUser.User, isCreator:true);
         game.Status = GameStatus.Ready;
         game.RoundCount = gameModel.Rounds;
- 
-        R<GameRepo>().Create(game);
+
+        R<GameCreate>().Run(game, gameModel.OnlyMultipleChoice);
         R<GameHubConnection>().SendCreated(game.Id);
 
         return Redirect("/Spielen");
-    }
-
-    private List<Set> GetSetsFromString(string setsString)
-    {
-        if (String.IsNullOrEmpty(setsString))
-            return new List<Set>();
-
-        setsString = setsString.Trim();
-        var setIds = setsString.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries);
-        var sets = new List<Set>();
-        var setRepo = R<SetRepo>();
-        foreach (var setId in setIds)
-        {
-            var set = setRepo.GetById(Convert.ToInt32(setId));
-            if (set != null)
-                sets.Add(set);
-        }
-        return sets;
     }
 }

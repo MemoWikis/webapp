@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -88,11 +89,21 @@ public class AnswerQuestionModel : BaseModel
 
     public IList<CommentModel> Comments;
 
-    public AnswerQuestionModel() { }
+    public bool IsLearningSession{ get { return LearningSession != null; } }
 
-    public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec) : this()
+    public LearningSession LearningSession;
+
+    public AnswerQuestionModel()
     {
-        Question = question;
+    }
+
+    public AnswerQuestionModel(LearningSession learningSession)
+    {
+        LearningSession = learningSession;
+    }
+
+    public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec)
+    {
         PageCurrent = searchSpec.CurrentPage.ToString();
         PagesTotal = searchSpec.PageCount.ToString();
         PagerKey = searchSpec.Key;
@@ -116,7 +127,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Set set, Question question) : this()
+    public AnswerQuestionModel(Set set, Question question)
     {
         int pageCurrent = set.QuestionsInSet.GetIndex(question.Id) + 1;
         int pagesTotal = set.QuestionsInSet.Count;
@@ -146,6 +157,8 @@ public class AnswerQuestionModel : BaseModel
 
         if(IsLoggedIn)
             ImageUrlAddComment = new UserImageSettings(UserId).GetUrl_128px_square(_sessionUser.User.EmailAddress).Url;
+
+        Question = question;
 
         Comments = Resolve<CommentRepository>()
             .GetForDisplay(question.Id)

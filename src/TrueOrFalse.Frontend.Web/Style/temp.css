@@ -118,7 +118,7 @@ ul {
   border-radius: 4px;
 }
 @media (max-width: 479px) {
-  .well img {
+  .well img:not(.ItemImage) {
     width: 30%;
   }
 }

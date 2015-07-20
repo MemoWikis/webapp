@@ -7,6 +7,8 @@
     private _divGamesInProgress: JQuery;
     private _divGamesInProgressNone: JQuery;
 
+    private _gameRows : GameRow[] = [];
+
     constructor() {
 
         var me = this;
@@ -20,13 +22,17 @@
         this._divGamesInProgressNone = $("#divGamesInProgressNone");
 
         this.InitializeCountdownAll();
-        this.InitializeButtonsAll();
+        this.InitRows();
 
         if (this._hub == null)
             return;
 
         this._hub.client.JoinedGame = (player: Player) => {
-            me.GetRow(player.GameId).AddPlayer(player.Name, player.Id);
+            me.GetRow(player.GameId).UiAddPlayer(player);
+        };
+
+        this._hub.client.LeftGame = (leaveGame) => {
+            me.GetRow(leaveGame.GameId).UiRemovePlayer(leaveGame.PlayerUserId);
         };
 
         this._hub.client.NextRound = (game: Game) => {
@@ -89,9 +95,7 @@
                 .hide(700)
                 .remove();
 
-            if (this._divGamesInProgress.find("[data-gameId]").length == 0) {
-                this._divGamesInProgressNone.show();
-            }
+            this.IfNeeded_ShowNoGamesInProgressInfo();
         }
 
         this._hub.client.NeverStarted = (game: Game) => {
@@ -99,38 +103,48 @@
                 .hide(700)
                 .remove();
 
-            if (this._divGamesReady.find("[data-gameId]").length == 0) {
-                this._divGamesReadyNone.show();
-            }
+            this.IfNeeded_ShowNoGamesReadyInfo();
         }
+
+        this._hub.client.Canceled = (cancel) => {
+            $("[data-gameId=" + cancel.GameId + "]")
+                .hide(700)
+                .remove();
+
+            this.IfNeeded_ShowNoGamesReadyInfo();
+        };
+
+        this._hub.client.ChangeStartTime = (changeStartTime) => {
+            var row = me.GetRow(changeStartTime.GameId);
+            row.ChangeTime(changeStartTime.WillStartAt);
+            this.InitializeCountdown("[data-gameId=" + changeStartTime.GameId + "] [data-countdown]");
+        };
 
         $.connection.hub.start(() => {
             window.console.log("connection started:");
         });
     }
 
+    IfNeeded_ShowNoGamesInProgressInfo() {
+        if (this._divGamesInProgress.find("[data-gameId]").length == 0) {
+            this._divGamesInProgressNone.show();
+        }        
+    }
+
+    IfNeeded_ShowNoGamesReadyInfo() {
+        if (this._divGamesReady.find("[data-gameId]").length === 0) {
+            this._divGamesReadyNone.show();
+        }        
+    }
+
     InitializeRow(gameId : number) {
-        this.InitializeButtons("[data-gameId=" + gameId + "] [data-joinGameId]");
         this.InitializeCountdown("[data-gameId=" + gameId + "] [data-countdown]");
         $(".show-tooltip").tooltip();
+
+        this._gameRows.push(new GameRow(gameId, this._hub));
     }
 
-    InitializeButtonsAll(){ this.InitializeButtons("[data-joinGameId]"); }
     InitializeCountdownAll() { this.InitializeCountdown("[data-countdown]"); }
-
-    InitializeButtons(selector : string) {
-        var me = this;
-
-        $(selector).click(function(e){
-            e.preventDefault();
-
-            var gameId = +$(this).attr("data-joinGameId");
-            window.console.log(gameId);
-            me._hub.server.joinGame(gameId).done(() => {}).fail(error => {
-                window.alert(error);
-            });
-        });
-    }
 
     InitializeCountdown(selector: string) {
         $(selector).each(function () {
@@ -141,15 +155,29 @@
         });
     }
 
-    GetRow(gameId : number) {
-        return new GameRow(gameId);
+    InitRows() {
+        var self = this;
+        $("[data-gameId]").each(function() {
+            self._gameRows.push(
+                new GameRow(parseInt($(this).attr("data-gameId")), self._hub)
+            );
+        });
+
+        window.console.log(self._gameRows);
+    }
+
+    GetRow(gameId: number): GameRow{
+        return $.grep(this._gameRows, function (row : GameRow) {
+            return row.GameId === gameId;
+        })[0];
     }
 }
 
 class Player {
-    Id: number;
+    UserId: number;
     Name: string;
     GameId: number;
+    TotalPlayers : number;
 } 
 
 $(() => {

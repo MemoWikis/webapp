@@ -109,7 +109,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Games/*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Game")
-                .IncludeDirectory("~/Views/Games/Edit/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Games/Edit/Js/", "*.js")
+                .Include("~/Scripts/autocompletes/AutocompleteSets.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Game")
                 .Include("~/Views/Games/Edit/*.css"));

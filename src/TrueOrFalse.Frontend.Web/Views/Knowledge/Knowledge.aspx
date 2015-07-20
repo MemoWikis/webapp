@@ -152,7 +152,7 @@
 
         <div class="bs-callout bs-callout-danger">
             <h4>Anmelden oder registrieren</h4>
-            <p>Um Wunschwissen zu verwenden, musst du dich <a href="/Anmelden">anmelden</a> oder dich <a href="/Registrieren">registrieren</a>.</p>
+            <p>Um Wunschwissen zu verwenden, musst du dich <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>.</p>
         </div>
 
     <% }else{  %>

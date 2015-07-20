@@ -12,4 +12,6 @@ public interface IImageSettings
     string ServerPathAndId();
 
     void Init(int typeId);
+
+    void DeleteFiles();
 }

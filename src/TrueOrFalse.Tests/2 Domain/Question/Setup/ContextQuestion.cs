@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using NHibernate;
 
 namespace TrueOrFalse.Tests
 {
@@ -12,6 +14,9 @@ namespace TrueOrFalse.Tests
 
         public List<Question> All = new List<Question>();
         public User Creator { get { return _contextUser.All[0]; }}
+        public User Learner { get { return _contextUser.All[1]; } }
+
+        private bool _persistQuestionsImmediately;
 
         public static ContextQuestion New()
         {
@@ -20,9 +25,15 @@ namespace TrueOrFalse.Tests
 
         public ContextQuestion(QuestionRepository questionRepository)
         {
-            _contextUser.Add("Some User").Persist();
-            _contextUser.Add("Context Question").Persist();
+            _contextUser.Add("Creator").Persist();
+            _contextUser.Add("Learner").Persist();
             _questionRepository = questionRepository;
+        }
+
+        public ContextQuestion PersistImmediately()
+        {
+            _persistQuestionsImmediately = true;
+            return this;
         }
 
         public ContextQuestion AddQuestions(int amount)
@@ -42,6 +53,35 @@ namespace TrueOrFalse.Tests
             question.SolutionMetadataJson = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false}.Json;
             question.Creator = _contextUser.All.First();
             All.Add(question);
+
+            if (_persistQuestionsImmediately)
+                _questionRepository.Create(question);
+
+            return this;
+        }
+
+        public ContextQuestion AddAnswers(int countCorrect, int countWrong, DateTime dateCreated)
+        {
+            var lastQuestion = All.Last();
+
+            for (var i = 0; i < countCorrect; i++)
+                Sl.Resolve<AnswerQuestion>().Run(lastQuestion.Id, lastQuestion.Solution, Learner.Id, dateCreated);
+
+            for (var i = 0; i < countWrong; i++)
+                Sl.Resolve<AnswerQuestion>().Run(lastQuestion.Id, lastQuestion.Solution + "möb", Learner.Id, dateCreated);
+
+            return this;
+        }
+
+        public ContextQuestion SetProbability(int probability, User learner)
+        {
+            var lastQuestion = All.Last();
+
+            var questionValutionRepo = Sl.Resolve<QuestionValuationRepo>();
+            var valuation = questionValutionRepo.GetBy(lastQuestion.Id, learner.Id);
+            valuation.CorrectnessProbability = probability;
+            questionValutionRepo.Update(valuation);
+
             return this;
         }
 
@@ -65,6 +105,5 @@ namespace TrueOrFalse.Tests
 
             return this;
         }
-
     }
 }

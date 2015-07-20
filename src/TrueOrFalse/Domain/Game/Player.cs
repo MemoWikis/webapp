@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
 public class Player : DomainEntity
@@ -8,8 +9,17 @@ public class Player : DomainEntity
 
     public virtual IList<AnswerHistory> Answers { get; set; }
 
-    public virtual int AnsweredCorrectly { get; set; }
-    public virtual int AnsweredWrong { get; set; }
+    public virtual int AnsweredCorrectly {
+        get{
+            return Answers.Count(x => x.AnswerredCorrectly == AnswerCorrectness.True);
+        } 
+    }
+
+    public virtual int AnsweredWrong {
+        get{
+            return Answers.Count(x => x.AnswerredCorrectly == AnswerCorrectness.False);
+        }    
+    }
 
     public virtual int Position { get; set; }
 

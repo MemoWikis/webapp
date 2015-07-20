@@ -1,6 +1,7 @@
 ﻿ class UserRowFollow
  {
-    constructor() {
+     constructor() {
+
         $("[data-type=btn-follow]").click(function() {
 
             if (NotLoggedIn.Yes()) {
@@ -15,9 +16,11 @@
             $this.hide();
             parentSpinner.show();
 
-            $.post("/Users/Follow/", { "userId" : userId }, () => {
-                $this.parent().find("[data-type=btn-unfollow]").show();
+            $.post("/Users/Follow/", { "userId": userId }, () => {
                 parentSpinner.hide();
+                $this.parent().find("[data-type=btn-unfollow]").show();
+
+                UserRowFollow.UiIncreaseFollowerCount();
             });
         });
 
@@ -31,9 +34,24 @@
             parentSpinner.show();
 
             $.post("/Users/UnFollow/", { "userId": userId }, () => {
-                $this.parent().find("[data-type=btn-follow]").show();
                 parentSpinner.hide();
+                $this.parent().find("[data-type=btn-follow]").show();
+
+                UserRowFollow.UiDecreaseFollowerCount();
             });
         });
     }
+
+     static UiIncreaseFollowerCount() {
+        Utils.SetElementValue(".JS-AmountFollowers", (UserRowFollow.CurrentAmountFollowers() + 1).toString());
+    }
+
+    static UiDecreaseFollowerCount() {
+        Utils.SetElementValue(".JS-AmountFollowers", (UserRowFollow.CurrentAmountFollowers() - 1).toString());
+    }
+
+    static CurrentAmountFollowers() : number {
+        return parseInt($($(".JS-AmountFollowers")[0]).html());
+    }
+
  }

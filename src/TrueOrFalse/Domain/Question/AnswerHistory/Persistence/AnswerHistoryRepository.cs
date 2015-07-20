@@ -18,7 +18,8 @@ public class AnswerHistoryRepository : RepositoryDb<AnswerHistory>
     public IList<AnswerHistory> GetBy(List<int> questionsId, int userId)
     {
         return Session.QueryOver<AnswerHistory>()
-            .Where(Restrictions.In("QuestionId",questionsId))
+            .Where(Restrictions.In("QuestionId", questionsId))
+            .And(q => q.UserId == userId)
             .List();
     }
 
@@ -34,5 +35,10 @@ public class AnswerHistoryRepository : RepositoryDb<AnswerHistory>
         return Session.QueryOver<AnswerHistory>()
                         .Where(i => i.QuestionId == questionId && i.UserId == userId)
                         .List<AnswerHistory>();
+    }
+
+    public override void Create(AnswerHistory answerHistory)
+    {
+        _session.Save(answerHistory);
     }
 }

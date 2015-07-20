@@ -7,11 +7,14 @@ public class FollowerIAm : IRegisterAsInstancePerLifetime
 {
     private bool _initialized;
 
-    private IList<int> _whoIFollow;
+    private IList<int> _whoIFollow = new List<int>();
 
     public FollowerIAm Init(IEnumerable<int> userIds, int myUserId)
     {
         _initialized = true;
+
+        if (!userIds.Any())
+            return this;
 
         var query = @"
             SELECT User_id

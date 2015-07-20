@@ -23,3 +23,5 @@ src/TrueOrFalse.Frontend.Web/Imagesx/
 src/packages
 docs/diagrams-enterprise-architect.ldb
 src/TrueOrFalse.Tests/App.overwritten.config
+bld/
+_debugInvoice/

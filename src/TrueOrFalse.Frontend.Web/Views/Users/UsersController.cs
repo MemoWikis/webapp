@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Threading;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
 public class UsersController : BaseController
 {
-    private const string _viewLocation = "~/Views/Users/Users.aspx";
+    private const string _viewLocationUsers = "~/Views/Users/Users.aspx";
+    private const string _viewLocationNetwork = "~/Views/Users/Network.aspx";
 
     private readonly UsersControllerSearch _usersControllerSearch;
 
@@ -33,7 +33,12 @@ public class UsersController : BaseController
         var users = _usersControllerSearch.Run();
         model.Init(users);
 
-        return View(_viewLocation, model);
+        return View(_viewLocationUsers, model);
+    }
+
+    public ActionResult Network()
+    {
+        return View(_viewLocationNetwork, new NetworkModel());
     }
 
     [AccessOnlyAsAdmin]
@@ -64,7 +69,7 @@ public class UsersController : BaseController
     {
         var userRepo = R<UserRepo>();
         var userToFollow = userRepo.GetById(userId);
-        userToFollow.Followers.Add(_sessionUser.User);
+        userToFollow.Followers.Add(UserFresh());
 
         userRepo.Update(userToFollow);
     }
@@ -74,7 +79,7 @@ public class UsersController : BaseController
     {
         var userRepo = R<UserRepo>();
         var userToUnfollow = userRepo.GetById(userId);
-        userToUnfollow.Followers.Remove(_sessionUser.User);
+        userToUnfollow.Followers.Remove(UserFresh());
 
         userRepo.Update(userToUnfollow);
     }

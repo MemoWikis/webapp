@@ -221,10 +221,12 @@
     <Compile Include="2 Domain\Image\ImageInfo_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\ImageMetadata_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\Image_persistence.cs" />
+    <Compile Include="2 Domain\Knowledge\Learning\Should_create_learningSession_steps.cs" />
     <Compile Include="2 Domain\Knowledge\Should_add_probabilities_for_sets_and_dates.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_probability.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_wish_knowledge_count.cs" />
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />
+    <Compile Include="2 Domain\Knowledge\Learning\LearningSession_persistence.cs" />
     <Compile Include="2 Domain\Message\Message_persistence.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerDate_date_tests.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_streak.cs" />
@@ -242,7 +244,9 @@
     <Compile Include="2 Domain\Question\Serialize_and_init_solutionMetadata.cs" />
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\Set\Valuation\SetValuation_persistence_tests.cs" />
+    <Compile Include="2 Domain\User\AppAccess_persistence.cs" />
     <Compile Include="2 Domain\User\Follower_persistence.cs" />
+    <Compile Include="2 Domain\User\Membership_invoice.cs" />
     <Compile Include="2 Domain\User\Membership_is_active.cs" />
     <Compile Include="2 Domain\User\Setup\ContextUser.cs" />
     <Compile Include="2 Domain\Question\Answer\When_answering_question.cs" />

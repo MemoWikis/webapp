@@ -54,7 +54,7 @@ public class TotalsPersUserLoader : IRegisterAsInstancePerLifetime
                 HAVING UserId = {0} 
                 {1}", userId, sbQuestionIdRestriction);
 
-        return _session.CreateSQLQuery(query)
+        var totals = _session.CreateSQLQuery(query)
                         .List<object>()
                         .Select(item => new TotalPerUser
                             {
@@ -63,5 +63,15 @@ public class TotalsPersUserLoader : IRegisterAsInstancePerLifetime
                                 TotalFalse = Convert.ToInt32(((object[])item)[2]),
                             })
                         .ToList();
+
+        
+        foreach(var questionId in questionIds)
+            if(totals.All(t => t.QuestionId != questionId))
+                totals.Add(new TotalPerUser
+                {
+                    QuestionId = questionId,
+                });
+
+        return totals;
     }
 }

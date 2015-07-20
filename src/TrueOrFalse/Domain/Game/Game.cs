@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate.Util;
+using Remotion.Linq.Clauses.ResultOperators;
 using Seedworks.Lib.Persistence;
 
 public class Game : DomainEntity
@@ -38,6 +40,17 @@ public class Game : DomainEntity
             IsCreator = isCreator
         });
         return true;
+    }
+
+    public virtual void RemovePlayer(int playerUserId)
+    {
+        if (Players == null)
+            return;
+
+        if (Players.All(p => p.User.Id != playerUserId))
+            return;
+
+        Players.Remove(Players.First(p => p.User.Id == playerUserId));
     }
 
     public Game()
@@ -115,5 +128,18 @@ public class Game : DomainEntity
     public virtual bool IsLastRoundCompleted()
     {
         return Rounds.Last().Status == GameRoundStatus.Completed;
+    }
+
+    public virtual void SetPlayerPositions()
+    {
+        Players
+            .GroupBy(player => player, ProjectionEqualityComparer<Player>.Create(a => a.AnsweredCorrectly))
+            .Select((group, index) =>
+            {
+                group.ForEach(player => player.Position = index + 1);
+                return group.Key;
+            }).ToList();
+
+        Players = Players.OrderBy(player => player.Position).ToList();
     }
 }

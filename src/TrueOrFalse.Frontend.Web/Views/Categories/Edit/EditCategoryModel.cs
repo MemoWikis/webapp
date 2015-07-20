@@ -459,7 +459,7 @@ public class EditCategoryModel : BaseModel
 
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
-        ParentCategories = AutocompleteUtils.GetReleatedCategoriesFromPostData(postData);
+        ParentCategories = AutocompleteUtils.GetRelatedCategoriesFromPostData(postData);
     }
 }
 

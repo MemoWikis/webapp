@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using Autofac;
-using FluentNHibernate.Conventions.Helpers;
 using NHibernate;
 using Quartz;
 using RollbarSharp;
@@ -45,7 +44,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             foreach (var game in gamesOverDue)
             {
-                if (game.Players.Count < 1)
+                if (game.Players.Count <= 1)
                 {
                     game.Status = GameStatus.NeverStarted;
                     gameRepo.Update(game);
@@ -69,7 +68,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             continue;
                         }
 
-                        Sl.R<AddRoundsToGame>().Run(game);
                         game.NextRound();
                         gameRepo.Update(game);                        
                         gameRepo.Flush();
@@ -89,6 +87,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 if (game.IsLastRoundCompleted())
                 {
                     game.Status = GameStatus.Completed;
+                    game.SetPlayerPositions();
                     gameRepo.Update(game);
                     gameRepo.Flush();
                     _gameHubConnection.SendCompleted(game.Id);
@@ -102,9 +101,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     continue;
                 }
 
-                if (currentRound.IsOverdue())
+                if (currentRound.IsOverdue() || currentRound.AllPlayersDidAnswer())
                 {
                     game.NextRound();
+                    game.SetPlayerPositions();
                     gameRepo.Update(game);
                     gameRepo.Flush();
                     _gameHubConnection.SendNextRound(game.Id);
