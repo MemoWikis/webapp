@@ -573,6 +573,9 @@
       <DependentUpon>Knowledge.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionHeader.ascx" />
+    <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js">
+      <DependentUpon>MarkdownDescription.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Js\SetDelete.js">
       <DependentUpon>SetDelete.ts</DependentUpon>
     </Content>
@@ -1738,6 +1741,9 @@
     </Content>
     <Content Include="Views\Sets\Js\SetDelete.js.map">
       <DependentUpon>SetDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js.map">
+      <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
