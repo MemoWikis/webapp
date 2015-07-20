@@ -23,7 +23,7 @@
             <div class="row">
                 <form class="form-inline" style="font-size: 25px; line-height: 20px; color: white;">
                     <div class="col-md-offset-1 col-sm-3" style="line-height: 33px;">
-                        <p class="form-control-static">Zugang:</p>
+                        <p class="form-control-static">Zugangscode:</p>
                     </div>                        
                     <div class="col-sm-5 col-md-4 form-group">
                         <input type="password" class="form-control col-sm-6"
