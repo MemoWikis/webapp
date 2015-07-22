@@ -27,6 +27,10 @@ public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
         get { return Data.Get("lastVisitedHelpPages", new HelpHistory()); }
     }
 
+    public DateHistory VisitedDatePages{
+        get { return Data.Get("lastVisitedDatePages", new DateHistory()); }
+    }
+
     /* SearchSpecs *************/
     public QuestionSearchSpec SearchSpecQuestionAll{ get { return Data.Get("searchSpecQuestionAll", new QuestionSearchSpec { PageSize = 10 }); } }
 

@@ -3,11 +3,14 @@ var app = angular.module('starter', ['ionic', 'ngCordova']);
 (function () {
     "use strict";
     //$pushService
-    app.run(function ($ionicPlatform, $pushService) {
+    app.run(function ($ionicPlatform, $pushService, $rootScope, $msgService) {
         $ionicPlatform.ready(function () {
             if (window.StatusBar) {
                 StatusBar.styleDefault();
             }
+
+            $rootScope.msgs = $msgService.getAll();
+
         });
 
         document.addEventListener("deviceready", function () {

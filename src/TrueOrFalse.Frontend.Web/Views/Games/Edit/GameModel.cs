@@ -23,6 +23,11 @@ public class GameModel : BaseModel
     [DisplayName("Bemerkung:")]
     public string Comment { get; set; }
 
-    public GameModel(){}
+    public bool OnlyMultipleChoice { get; set; }
+
+    public GameModel()
+    {
+        OnlyMultipleChoice = true;
+    }
 
 }

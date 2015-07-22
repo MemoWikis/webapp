@@ -269,6 +269,7 @@
     <Compile Include="Domain\Date\Persistence\DateMap.cs" />
     <Compile Include="Domain\Date\Persistence\DateRepo.cs" />
     <Compile Include="Domain\Game\Game.cs" />
+    <Compile Include="Domain\Game\Ops\GameCreate.cs" />
     <Compile Include="Domain\Game\Ops\GameStatusChange.cs" />
     <Compile Include="Domain\Game\Ops\PlayerListExtensions.cs" />
     <Compile Include="Domain\Game\Persistence\RoundRepo.cs" />
@@ -499,6 +500,8 @@
     <Compile Include="Infrastructure\Persistence\PagedResult.cs" />
     <Compile Include="Infrastructure\Persistence\RepositoryDbBase.cs" />
     <Compile Include="Infrastructure\Persistence\Session\MySQL5FlexibleDialect.cs" />
+    <Compile Include="Infrastructure\Persistence\Conventions\InMemoryEngine_StringPropertyConvention.cs" />
+    <Compile Include="Infrastructure\Persistence\Session\NHConfigurationFileCache.cs" />
     <Compile Include="Infrastructure\ProjectionEqualityComparer.cs" />
     <Compile Include="Infrastructure\Regexes.cs" />
     <Compile Include="Infrastructure\Time\Time.cs" />
@@ -585,7 +588,7 @@
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
     <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
     <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />
-    <Compile Include="Infrastructure\Persistence\Session\EnumConvention.cs">
+    <Compile Include="Infrastructure\Persistence\Conventions\EnumConvention.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\Persistence\Schema\DoesTableExist.cs" />
@@ -629,6 +632,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs080.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
+    <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\HelpHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\HistoryBase.cs" />

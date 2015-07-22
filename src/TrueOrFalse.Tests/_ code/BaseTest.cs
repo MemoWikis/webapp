@@ -39,7 +39,7 @@ public class BaseTest
 
     public static void InitializeContainer()
     {
-        MySQL5FlexibleDialect.Engine = "MyISAM";
+        MySQL5FlexibleDialect.Engine = "MEMORY";
         BuildContainer();
         ServiceLocator.Init(_container);
         SessionFactory.BuildSchema();

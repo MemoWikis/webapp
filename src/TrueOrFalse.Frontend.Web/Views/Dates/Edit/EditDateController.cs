@@ -27,6 +27,8 @@ public class EditDateController : BaseController
             var date = model.ToDate();
             R<DateRepo>().Create(date);
 
+            _sessionUiData.VisitedDatePages.Add(new DateHistoryItem(date, HistoryItemType.Edit));
+
             R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
 
             Response.Redirect("/Termine", true);
@@ -40,6 +42,8 @@ public class EditDateController : BaseController
     {
         var date = R<DateRepo>().GetById(dateId);
 
+        _sessionUiData.VisitedDatePages.Add(new DateHistoryItem(date, HistoryItemType.Edit));
+
         if (!_sessionUser.IsValidUser(date.User.Id))
             throw new Exception("Invalid exception");
 
@@ -49,7 +53,7 @@ public class EditDateController : BaseController
     [HttpPost]
     public ViewResult Edit(EditDateModel model)
     {
-        if (!_sessionUser.IsValidUser(model.DateId))
+        if (!_sessionUser.IsValidUser(model.UserId))
             throw new Exception("Invalid exception");
 
         if (model.IsDateTimeInPast())

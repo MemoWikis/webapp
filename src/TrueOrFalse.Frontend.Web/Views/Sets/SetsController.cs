@@ -101,10 +101,15 @@ public class SetsController : BaseController
     }
 
     [HttpPost]
-    public EmptyResult Delete(int setId)
+    public JsonResult Delete(int setId)
     {
-        Sl.Resolve<SetDeleter>().Run(setId);
-        return new EmptyResult();
+        var result = Sl.Resolve<SetDeleter>().Run(setId);
+        return new JsonResult{
+            Data = new{
+                Success = result.Success,
+                IsPartOfDate = result.IsPartOfDate
+            }
+        };
     }
 
     public class SetsControllerUtil : BaseUtil

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using NHibernate;
 using NUnit.Framework;
 
@@ -57,7 +53,7 @@ namespace TrueOrFalse.Tests
 
             Assert.That(setFromDb.QuestionsInSet.Count, Is.EqualTo(2));
             Assert.That(setFromDb.Categories.Count, Is.EqualTo(2));
-            Assert.That(setFromDb.Categories[0].Name, Is.EqualTo("category 1"));
+            Assert.That(setFromDb.Categories.Count(x => x.Name == "category 1"), Is.EqualTo(1));
         }
     }
 }

@@ -10,7 +10,7 @@
     <div class="form-horizontal col-md-9">
         
         <div class="well">
-            <h2>Wir sind ein Gemeinwohlunternehmen</h2>
+            <h2>Wir unterstützen die Gemeinwohlökonomie</h2>
         </div>
         <p>
             Unsere Unternehmung soll dem Gemeinwohl dienen und deshalb auf gemeinwohlfördernden Werten aufbauen. 

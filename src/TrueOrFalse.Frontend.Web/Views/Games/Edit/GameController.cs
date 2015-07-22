@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using TrueOrFalse;
 using TrueOrFalse.Web;
 
 [SetMenu(MenuEntry.Play)]
@@ -28,10 +29,20 @@ public class GameController : BaseController
             return View(_viewLocation, gameModel);            
         }
 
-        if (!sets.SelectMany(x => x.QuestionsInSet).Any())
+        bool hasQuestions = true;
+        if (gameModel.OnlyMultipleChoice && 
+            sets.SelectMany(x => x.QuestionsInSet)
+                .All(q => q.Question.SolutionType != SolutionType.MultipleChoice))
+        {
+            hasQuestions = false;
+        }else if (!sets.SelectMany(x => x.QuestionsInSet).Any()){
+            hasQuestions = false;
+        }
+
+        if (!hasQuestions)
         {
             gameModel.Message = new ErrorMessage("Die gewählten Fragesätze beinhalten keine Fragen.");
-            return View(_viewLocation, gameModel);                        
+            return View(_viewLocation, gameModel);                                    
         }
 
         var game = new Game();
@@ -43,8 +54,8 @@ public class GameController : BaseController
         game.AddPlayer(_sessionUser.User, isCreator:true);
         game.Status = GameStatus.Ready;
         game.RoundCount = gameModel.Rounds;
- 
-        R<GameRepo>().Create(game);
+
+        R<GameCreate>().Run(game, gameModel.OnlyMultipleChoice);
         R<GameHubConnection>().SendCreated(game.Id);
 
         return Redirect("/Spielen");

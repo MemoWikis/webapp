@@ -22,8 +22,12 @@
     EditQuestionForm.prototype.InitUpdateType = function () {
         function updateSolutionBody() {
             var selectedValue = $("#ddlAnswerType").val();
+            var questionId = -1;
+            if ($("#isEditing").val() === "True")
+                questionId = $("#questionId").val();
+
             $.ajax({
-                url: $("#urlSolutionEditBody").val() + '?questionId=' + $("#questionId").val() + '&type=' + selectedValue,
+                url: $("#urlSolutionEditBody").val() + '?questionId=' + questionId + '&type=' + selectedValue,
                 type: 'GET',
                 success: function (data) {
                     $("#answer-body").html(data);

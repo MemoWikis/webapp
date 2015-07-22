@@ -1,4 +1,10 @@
-﻿app.factory('$pushService', function ($cordovaPush, $rootScope, $localstorage, $msgService) {
+﻿app.factory('$pushService', function (
+    $cordovaPush,
+    $cordovaVibration,
+    $cordovaLocalNotification,
+    $rootScope,
+    $localstorage,
+    $msgService) {
     return {
 
         register: function () {
@@ -23,7 +29,7 @@
                     if (notification.regid.length > 0) {
                         // Your GCM push server needs to know the regID before it can push to this device
                         // here is where you might want to send it the regID for later use.
-                        console.log(notification);
+                        console.log("regId: " + notification.regid);
                         $localstorage.setDeviceToken(notification.regid);
                     }
                     break;
@@ -41,12 +47,27 @@
                         }
                     }
 
-                    console.log(notification.payload.message);
+                    console.log(notification.payload.default);
                     console.log(notification.payload.msgcnt);
 
                     var newMsg = msg.create();
-                    newMsg.text = notification.payload.message;
+                    newMsg.text = notification.payload.default;
                     $msgService.add(newMsg);
+
+                    $cordovaVibration.vibrate(100);
+
+                    $rootScope.scheduleSingleNotification = function () {
+                        $cordovaLocalNotification.schedule({
+                            id: 1,
+                            title: 'Jetzt Lernen',
+                            text: notification.payload.default,
+                            data: {
+                                customProperty: 'custom value'
+                            }
+                        }).then(function (result) {
+                            console.log(result);
+                        });
+                    };
 
                     break;
 
@@ -60,5 +81,7 @@
                 }
             });
         }
+
+
     }
 });
