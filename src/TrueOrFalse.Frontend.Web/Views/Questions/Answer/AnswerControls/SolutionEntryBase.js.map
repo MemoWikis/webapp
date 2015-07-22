@@ -1,1 +1,1 @@
-{"version":3,"file":"SolutionEntryBase.js","sourceRoot":"","sources":["SolutionEntryBase.ts"],"names":["SolutionEntryBase","SolutionEntryBase.constructor"],"mappings":"AAAA;IAIIA,2BAAYA,aAA4BA;QACpCC,IAAIA,CAACA,UAAUA,GAAGA,aAAaA,CAACA,UAAUA;IAC9CA,CAACA;IACLD,yBAACA;AAADA,CAACA,IAAA"}
+{"version":3,"file":"SolutionEntryBase.js","sourceRoot":"","sources":["SolutionEntryBase.ts"],"names":["SolutionEntryBase","SolutionEntryBase.constructor"],"mappings":"AAAA;IAKIA,2BAAYA,aAA4BA;QACpCC,IAAIA,CAACA,UAAUA,GAAGA,aAAaA,CAACA,UAAUA;IAC9CA,CAACA;IACLD,yBAACA;AAADA,CAACA,IAAA"}

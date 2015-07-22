@@ -66,7 +66,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string LearningSession(int learningSessionId)
         {
-            return GetUrlHelper().Action("Learn", AnswerQuestionController, new {learnSessionId = learningSessionId});
+            return GetUrlHelper().Action("Learn", AnswerQuestionController, new {learningSessionId = learningSessionId});
         }
 
         public static string UserDetail(UrlHelper url, User user){

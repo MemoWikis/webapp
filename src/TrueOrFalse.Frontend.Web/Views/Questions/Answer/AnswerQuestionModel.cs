@@ -89,7 +89,8 @@ public class AnswerQuestionModel : BaseModel
 
     public IList<CommentModel> Comments;
 
-    public bool IsLearningSession{ get { return LearningSession != null; } }
+//    public bool IsLearningSession{ get { return LearningSession != null; } }
+    public bool IsLearningSession = true;
 
     public LearningSession LearningSession;
 
