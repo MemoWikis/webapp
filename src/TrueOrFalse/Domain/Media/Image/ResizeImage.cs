@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
@@ -9,17 +10,6 @@ public class ResizeImage
     {
         if (image.Width < width)
             width = image.Width;
-
-        //does not change the resolution..
-        if (image.VerticalResolution != 96.0F || image.VerticalResolution != 96.0F)
-        {
-            ((Bitmap)image).SetResolution(96.0F, 96.0F);
-            //var path = basePathAndId + "_temp.jpg";
-            //image.Save(path, ImageFormat.Jpeg);
-            //image.Dispose();
-
-            //image = Image.FromFile(path);
-        }
         
         if (!isSquare)
         {
@@ -27,8 +17,6 @@ public class ResizeImage
             var height = (int)(image.Height * scale);
             using (var resized = new Bitmap(width, height))
             {
-                resized.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
                 using (var graphics = Graphics.FromImage(resized))
                 {
                     ConfigureGraphics(graphics);
@@ -43,8 +31,6 @@ public class ResizeImage
         //isSquare
         using (var resized = new Bitmap(width, width))
         {
-            resized.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
             using (var graphics = Graphics.FromImage(resized))
             {
                 ConfigureGraphics(graphics);
