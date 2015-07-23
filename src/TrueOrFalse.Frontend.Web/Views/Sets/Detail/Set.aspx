@@ -45,7 +45,7 @@
         <div class="col-lg-10 col-xs-9 xxs-stack" style="margin-top: 20px;">
             <%  foreach(var questionRow in Model.QuestionsInSet){ %>
 
-                <div class="row question-row">
+                <div class="rowBase row question-row" style="padding-top: 7px; padding-bottom: 7px;">
                     <div class="col-md-9 col-1">                    
                         <img src="<%= QuestionImageSettings.Create(questionRow.Question.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
 
