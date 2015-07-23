@@ -39,6 +39,16 @@
                 <% if(Model.IsOwner){ %>
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                 <% } %>
+                
+                <a style="font-size: 12px;" data-btn="startLearningSession" href="/Set/StartLearningSession?setId=<%=Model.Set.Id %>"><i class="fa fa-lightbulb-o"></i> 
+                    Jetzt üben
+                </a>
+                
+                <a style="font-size: 12px;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." >
+                    <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                    Spiel starten
+                </a>
+
             </div>
         </div>
    
@@ -60,11 +70,11 @@
 
             <% } %>
 
-            <div class="row "style="margin-top: 30px; height: 40px;">
+            <div class="row "style="margin-top: 20px; height: 40px;">
                 <div class="col-md-12">
                     <% if (Model.QuestionsInSet.Any()){ %>
                         <div class="pull-right">
-                            <a href="#" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="display: block; margin-top: 29px;">
+                            <a href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="display: inline-block; padding-right: 15px; margin-top: 29px;">
                                 <i class="fa fa-gamepad" style="font-size: 18px;"></i>
                                 Spiel starten
                             </a>

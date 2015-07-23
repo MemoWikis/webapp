@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse;
@@ -12,11 +13,20 @@ public class GameController : BaseController
     [HttpGet]
     public ViewResult Create()
     {
-        return View(_viewLocation, new GameModel
-        {
+        var gameModel = new GameModel{
             MaxPlayers = 5,
             StartsInMinutes = 5,
-        });
+        };
+
+        if (Request["setId"] != null)
+        {
+            var set = Sl.R<SetRepo>().GetById(Convert.ToInt32(Request["setId"]));
+            if(set != null)
+                gameModel.Sets = new List<Set>{set};
+        }
+            
+
+        return View(_viewLocation, gameModel);
     }
 
     [HttpPost]
