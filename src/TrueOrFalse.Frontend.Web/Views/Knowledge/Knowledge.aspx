@@ -207,7 +207,7 @@
                         <h3>Im Wunschwissen</h3>        
                     </div>
                     <div class="col-cs-12 number-box-questions">
-                        <a href="<%= Links.QuestionsMine() %>">
+                        <a href="<%= Links.QuestionsWish() %>">
                             <div>
                                 <span style="font-weight: 900; font-size: 44px; padding-left: 9px;"><%= Model.QuestionsCount %></span>
                                 <span style="font-size: 22px">Fragen</span>
@@ -215,7 +215,7 @@
                         </a>
                     </div>                    
                     <div class="col-cs-12 number-box-sets">
-                        <a href="<%= Links.SetsMine() %>">
+                        <a href="<%= Links.SetsWish() %>">
                             <div>
                                 <span style="font-weight: 900; font-size: 44px; padding-left: 15px;"><%= Model.SetCount %></span>
                                 &nbsp;<span style="font-size: 22px">Fragesätze</span>
