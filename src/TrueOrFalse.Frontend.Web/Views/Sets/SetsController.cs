@@ -73,7 +73,7 @@ public class SetsController : BaseController
         return Sets(page, model, orderBy);
     }
 
-    public JsonResult SetsSearchApi(string searchTerm)
+    public ActionResult SetsSearchApi(string searchTerm)
     {
         _util.SetSearchFilter(_sessionUiData.SearchSpecSetsAll, new SetsModel(), searchTerm);
         return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetsAll, SearchTabType.All, ControllerContext);

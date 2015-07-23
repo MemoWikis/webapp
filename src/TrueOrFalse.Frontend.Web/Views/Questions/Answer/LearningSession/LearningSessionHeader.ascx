@@ -2,5 +2,7 @@
 
 <div class="well">
 <h2>Lernsession-Header</h2>
-                                    
+    <div>
+        
+    </div>                                    
 </div>
