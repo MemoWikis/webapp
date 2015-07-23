@@ -10,8 +10,8 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">Um diese Funktion zu nutzen, mußt Du angemeldet sein. <br />
-                        Jetzt <a href="/Anmelden">Anmelden</a> oder <a href="/Registrieren">Registrieren</a>!
+                    <div class="col-md-12">Um diese Funktion zu nutzen, musst du angemeldet sein. <br />
+                        Jetzt <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>!
                     </div>
                 </div>
             </div>

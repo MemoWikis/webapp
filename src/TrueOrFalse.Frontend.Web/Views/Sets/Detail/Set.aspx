@@ -68,7 +68,7 @@
                                 <i class="fa fa-gamepad" style="font-size: 18px;"></i>
                                 Spiel starten
                             </a>
-                            <a class="btn btn-primary" href="/Set/StartLearningSession?setId=<%=Model.Set.Id %>"><i class="fa fa-lightbulb-o"></i> 
+                            <a class="btn btn-primary" data-btn="startLearningSession" href="/Set/StartLearningSession?setId=<%=Model.Set.Id %>"><i class="fa fa-lightbulb-o"></i> 
                                 Jetzt üben
                             </a>
                         </div>
