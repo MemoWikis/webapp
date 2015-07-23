@@ -6,7 +6,7 @@ public class AddRoundsToGame : IRegisterAsInstancePerLifetime
 {
     public void Run(Game game, bool multipleChoiceOnly = false)
     {
-        game.Rounds = new List<Round>();
+        game.Rounds.Clear();
 
         var allQuestions = game.Sets
             .SelectMany(x => x.QuestionsInSet)
