@@ -29,6 +29,9 @@ public class Date : DomainEntity
 
     public virtual string GetInfo()
     {
+        if (Details == null)
+            Details = "";
+
         if (Details.Length > 6)
             Details.WordWrap(50);
 
