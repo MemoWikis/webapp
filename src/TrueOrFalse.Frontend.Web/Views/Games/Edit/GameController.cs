@@ -24,7 +24,13 @@ public class GameController : BaseController
             if(set != null)
                 gameModel.Sets = new List<Set>{set};
         }
-            
+
+        if (Request["dateId"] != null)
+        {
+            var date = Sl.R<DateRepo>().GetById(Convert.ToInt32(Request["dateId"]));
+            if (date != null)
+                gameModel.Sets = date.Sets;
+        }
 
         return View(_viewLocation, gameModel);
     }
