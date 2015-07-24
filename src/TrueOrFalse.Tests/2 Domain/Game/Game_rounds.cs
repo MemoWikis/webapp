@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -45,11 +46,48 @@ public class Game_rounds : BaseTest
         for (var i = 0; i < 400; i++)
         {
             R<AddRoundsToGame>().Run(game);
-            if (game.Rounds[i].Question.Text == "A") 
+            if (game.Rounds[1].Question.Text == "A") 
                 firstItemIsA_Count++;
         }
 
         Assert.That(firstItemIsA_Count > 75 && firstItemIsA_Count < 125, Is.True, firstItemIsA_Count.ToString());
+    }
+
+    [Test]
+    public void Should_not_create_more_rounds_then_questions()
+    {
+        var set = ContextSet.New()
+            .AddSet("Set")
+                .AddQuestion("A", "AS")
+                .AddQuestion("B", "BS")
+            .Persist()
+            .All[0];
+
+        var game = ContextGame.New().Add(amountQuestions: 0).Persist().All[0];
+        game.RoundCount = 50;
+        game.Sets.Add(set);
+
+        R<AddRoundsToGame>().Run(game);
+
+        Assert.That(game.RoundCount, Is.EqualTo(2));
+        Assert.That(game.Rounds.Count, Is.EqualTo(2));
+
+
+        //less rounds 
+        game.RoundCount = 1;
+        game.Sets.Add(set);
+
+        R<AddRoundsToGame>().Run(game);
+        Assert.That(game.RoundCount, Is.EqualTo(1));
+        Assert.That(game.Rounds.Count, Is.EqualTo(1));
+
+        //equal rounds 
+        game.RoundCount = 2;
+        game.Sets.Add(set);
+
+        R<AddRoundsToGame>().Run(game);
+        Assert.That(game.RoundCount, Is.EqualTo(2));
+        Assert.That(game.Rounds.Count, Is.EqualTo(2));
     }
 
     [Test]

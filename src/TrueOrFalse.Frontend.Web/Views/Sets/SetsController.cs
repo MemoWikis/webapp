@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Seedworks.Lib;
 
@@ -22,19 +23,23 @@ public class SetsController : BaseController
 
     public ActionResult SetsWishSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
-        _util.SetSearchFilter(_sessionUiData.SearchSpecSetWish, model, searchTerm);
+        _util.GetSearchFilter(_sessionUiData.SearchSpecSetWish, model, searchTerm);
         return SetsWish(page, model, orderBy);
     }
 
     public ActionResult SetsWishSearchApi(string searchTerm)
     {
-        _util.SetSearchFilter(_sessionUiData.SearchSpecSetWish, new SetsModel(), searchTerm);
+        _util.GetSearchFilter(_sessionUiData.SearchSpecSetWish, new SetsModel(), searchTerm);
         return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetWish, SearchTabType.Wish, ControllerContext);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult SetsWish(int? page, SetsModel model, string orderBy)
     {
+        if (!_sessionUser.IsLoggedIn)
+            return View(_viewLocation,
+                new SetsModel(new List<Set>(), new SetSearchSpec(), SearchTabType.Wish));
+
         _util.SetSearchSpecVars(_sessionUiData.SearchSpecSetWish, page, orderBy);
 
         _sessionUiData.SearchSpecSetWish.Filter.ValuatorId = _sessionUser.UserId;
@@ -46,19 +51,23 @@ public class SetsController : BaseController
 
     public ActionResult SetsMineSearchApi(string searchTerm)
     {
-        _util.SetSearchFilter(_sessionUiData.SearchSpecSetMine, new SetsModel(), searchTerm);
+        _util.GetSearchFilter(_sessionUiData.SearchSpecSetMine, new SetsModel(), searchTerm);
         return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetMine, SearchTabType.Mine, ControllerContext);
     }
 
     public ActionResult SetsMineSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
-        _util.SetSearchFilter(_sessionUiData.SearchSpecSetMine, model, searchTerm);
+        _util.GetSearchFilter(_sessionUiData.SearchSpecSetMine, model, searchTerm);
         return SetsMine(page, model, orderBy);
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult SetsMine(int? page, SetsModel model, string orderBy)
     {
+        if (!_sessionUser.IsLoggedIn)
+            return View(_viewLocation,
+                new SetsModel(new List<Set>(), new SetSearchSpec(), SearchTabType.Mine));
+
         _util.SetSearchSpecVars(_sessionUiData.SearchSpecSetMine, page, orderBy);
 
         _sessionUiData.SearchSpecSetMine.Filter.CreatorId = _sessionUser.UserId;
@@ -69,13 +78,13 @@ public class SetsController : BaseController
 
     public ActionResult SetsSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
-        _util.SetSearchFilter(_sessionUiData.SearchSpecSetsAll, model, searchTerm);
+        _util.GetSearchFilter(_sessionUiData.SearchSpecSetsAll, model, searchTerm);
         return Sets(page, model, orderBy);
     }
 
     public ActionResult SetsSearchApi(string searchTerm)
     {
-        _util.SetSearchFilter(_sessionUiData.SearchSpecSetsAll, new SetsModel(), searchTerm);
+        _util.GetSearchFilter(_sessionUiData.SearchSpecSetsAll, new SetsModel(), searchTerm);
         return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetsAll, SearchTabType.All, ControllerContext);
     }
 
@@ -147,7 +156,7 @@ public class SetsController : BaseController
             ControllerContext controllerContext)
         {
             var model = new SetsModel();
-            SetSearchFilter(searchSpec, model, searchTerm);
+            GetSearchFilter(searchSpec, model, searchTerm);
 
             var totalInSystem = 0;
             switch (searchTab)
@@ -196,7 +205,7 @@ public class SetsController : BaseController
             else if (orderByCommand == "byValuationsAvg") searchSpec.OrderBy.ValuationsAvg.Desc();
         }
 
-        public void SetSearchFilter(
+        public void GetSearchFilter(
             SetSearchSpec searchSpec,
             SetsModel model,
             string searchTerm)

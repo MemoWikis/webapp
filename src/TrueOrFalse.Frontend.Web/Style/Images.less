@@ -177,7 +177,12 @@ display: none;
 .ImageTable {
     table-layout: fixed;
 
+    tr{
+        
+    }
+
     td {
+        border-bottom: 2px solid white;
         overflow-y: hidden;
         -ms-word-wrap: break-word;
         word-wrap: break-word;
@@ -233,15 +238,15 @@ display: none;
         clear: left;
 
         &.success {
-            background-color: @light-green;
+            background-color: #e2ffd2;
         }
 
         &.warning {
-            background-color: #ffef99;
+            background-color: #fcf6d4;
         }
 
         &.danger {
-            background-color: #f4dbe0;
+            background-color: #fee6eb;
         }
 
         h4 {

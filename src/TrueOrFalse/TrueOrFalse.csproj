@@ -304,6 +304,7 @@
     <Compile Include="Domain\Media\Image\ImageLicenseState.cs" />
     <Compile Include="Domain\Media\Image\MainLicenseInfo.cs" />
     <Compile Include="Domain\Media\Image\ManualImageData.cs" />
+    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataSearchSpec.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageDeployability.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageMaintenanceInfo.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />

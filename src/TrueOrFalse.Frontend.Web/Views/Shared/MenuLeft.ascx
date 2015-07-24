@@ -158,7 +158,7 @@
                 <i class="fa fa-caret-right"></i> Spielen
                 
                 <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
-                    onclick="window.location = '<%= Links.GameCreate(Url) %>'; return false; "
+                    onclick="window.location = '<%= Links.GameCreate() %>'; return false; "
                     title="Spiel erstellen"></i>
             </a>
                             

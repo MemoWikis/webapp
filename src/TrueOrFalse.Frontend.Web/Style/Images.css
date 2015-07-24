@@ -152,6 +152,7 @@ a.ImageLicenseCaption {
   table-layout: fixed;
 }
 .ImageTable td {
+  border-bottom: 2px solid white;
   overflow-y: hidden;
   -ms-word-wrap: break-word;
   word-wrap: break-word;
@@ -273,13 +274,13 @@ a.ImageLicenseCaption {
   clear: left;
 }
 #modalImageMaintenance .LicenseInfo.success {
-  background-color: #d1eba7;
+  background-color: #e2ffd2;
 }
 #modalImageMaintenance .LicenseInfo.warning {
-  background-color: #ffef99;
+  background-color: #fcf6d4;
 }
 #modalImageMaintenance .LicenseInfo.danger {
-  background-color: #f4dbe0;
+  background-color: #fee6eb;
 }
 #modalImageMaintenance .LicenseInfo h4 {
   margin-top: 0;
