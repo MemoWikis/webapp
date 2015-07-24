@@ -28,7 +28,7 @@ public class SetController : BaseController
 
         var learningSession = new LearningSession
         {
-            SetToLearn = set,
+            //SetToLearn = set,
             Steps = GetLearningSessionSteps.Run(set),
             User = _sessionUser.User
         };

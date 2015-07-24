@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn btn-default" id="btnCloseDateDelete">Schliessen</a>
+                <a href="#" data-dismiss="modal" class="btn btn-default" id="btnCloseDateDelete">Schließen</a>
             </div>
         </div>
     </div>

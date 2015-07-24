@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     $(".pieTotals").each(function () {
         var me = $(this);
         var values = $(this).attr("data-percentage").split('-');
