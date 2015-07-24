@@ -16,26 +16,26 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
-    public ActionResult Images(){
-        return View(new MaintenanceImagesModel());
+    public ActionResult Images(int? page){
+        return View(new MaintenanceImagesModel(page));
     }
 
-    public ActionResult LoadMarkupAndParse()
+    public ActionResult LoadMarkupAndParse(int? page)
     {
         Resolve<LoadImageMarkups>().UpdateAllWithoutAuthorizedMainLicense();
-        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("License data has been updated") });
+        return View("Images", new MaintenanceImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
     }
 
-    public ActionResult LoadMarkupAndParseAll()
+    public ActionResult LoadMarkupAndParseAll(int? page)
     {
         Resolve<LoadImageMarkups>().UpdateAll();
-        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("License data has been updated") });
+        return View("Images", new MaintenanceImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
     }
 
-    public ActionResult ParseMarkupFromDb()
+    public ActionResult ParseMarkupFromDb(int? page)
     {
         Resolve<ParseMarkupFromDb>().Run();
-        return View("Images", new MaintenanceImagesModel { Message = new SuccessMessage("License data has been updated") });
+        return View("Images", new MaintenanceImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
     }
 
     [AccessOnlyAsAdmin]

@@ -1,5 +1,4 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<BaseModel>" %>
-<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <!DOCTYPE html>
