@@ -6,7 +6,7 @@
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
 </asp:Content>
 
-<asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
+<a ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
 
 <div class="row">
        
@@ -186,30 +186,40 @@
             <p>
                 Du willst es ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
                 Du findest das eine tolle Idee, möchtest mitmachen und uns unterstützen?
-                Werde Fördermitglied der ersten Stunde!
+                Werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
+                <i class="fa fa-thumbs-up"></i>Fördermitglied</a> der ersten Stunde!
             </p>
         </div>
         <div class="well Founder">
             <h3><a name="teaserWhoWeAre">Team</a></h3>
             <div class="row">
                 
-                <div class="col-xs-6 ImageColumn">
+                <div class="col-xs-4 ImageColumn">
                     <img src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=128"/>
                         <br/> <b>Robert</b> (Gründer) <br/>
-
                 </div>
                 
-                <div class="col-xs-6 ImageColumn">
+                <div class="col-xs-4 ImageColumn">
                     <img src="/Images/no-profile-picture-128.png"/>  
-                    <br/> <b>Jule </b>(Gründerin) <br/> 
+                    <br/> <b>Jule</b> (Gründerin) <br/> 
                 </div>
+
+                <div class="col-xs-4 ImageColumn">
+                    <img src="/Images/Team/team_christof2014_128.jpg"/>  
+                    <br/> <b>Christof</b> (Gründer) <br/> 
+                </div>
+
+
                 <div class="col-xs-12" style="margin-top: 10px;">
                     <p>
-                        Eine spannende Reise: Wir möchten nicht nur <a href="#teaserWhatIsMemucho">das Lernen von Faktenwissen vereinfachen</a>, 
-                        sondern auch ein stabiles <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
+                        Eine spannende Reise: Wir möchten nicht nur <a href="#teaserWhatIsMemucho">das Lernen von Faktenwissen vereinfachen</a> und 
+                        dabei freie Bildungsinhalte fördern, sondern auch ein stabiles 
+                        <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
+                        Als Gründungsteam konzipieren, gestalten und programmieren wir MEMuchO gemeinsam.
                     </p>
                     <p>
-                        Wir konzipieren, programmieren und gestalten.
+                        Wenn du Fragen oder Anregungen hast, trete einfach mit uns in <a class="helpLink" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">
+Kontakt</a>.
                     </p>
                 </div>
             </div>
