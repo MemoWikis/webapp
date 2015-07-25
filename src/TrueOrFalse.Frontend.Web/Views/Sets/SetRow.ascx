@@ -44,8 +44,19 @@
                 <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
                 <span class="totalPins NumberTimes"><%= Model.TotalPins %>x</span>                        
             </span>
-        </div>
+            
+            <div style="margin-top: 10px;">
+                <a style="display: block" data-btn="startLearningSession" href="/Set/StartLearningSession?setId=<%=Model.Id %>"><i class="fa fa-lightbulb-o"></i> 
+                    Jetzt üben
+                </a>
+                <a style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." >
+                    <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                    Spiel starten
+                </a>            
+            </div>
 
+        </div>
+        
         <div class="StatsGroup">
             <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
                data-original-title="Erstellt von <%=Model.CreatorName %>">

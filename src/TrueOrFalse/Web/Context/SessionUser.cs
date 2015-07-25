@@ -63,6 +63,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     public void Logout()
     {
         IsLoggedIn = false;
+        IsInstallationAdmin = false;
         User = null;
         if (HttpContext.Current != null)
             FormsAuthentication.SignOut();

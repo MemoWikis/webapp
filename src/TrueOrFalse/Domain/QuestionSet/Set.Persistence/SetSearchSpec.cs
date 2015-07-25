@@ -11,6 +11,9 @@ public class SetSearchSpec : SearchSpecificationBase<SetFilter, SetOrderBy>
 
     public string GetSuggestion()
     {
+        if (SpellCheck == null)
+            return "";
+
         return SpellCheck.GetSuggestion();
     }
 }

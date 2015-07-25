@@ -36,10 +36,10 @@
         </tr>
         <%  var index = 0;
             foreach(var imageMaintenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
-        
                <% Html.RenderPartial("ImageMaintenanceRow", imageMaintenanceInfo); %>
-
         <% } %>
+        
+        <% Html.RenderPartial("Pager", Model.Pager); %>
     </table>
     
     <a href="/Maintenance/LoadMarkupAndParseAll" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup von Wikimedia für alle laden und parsen</a>

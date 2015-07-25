@@ -66,13 +66,13 @@ namespace TrueOrFalse.Maintenance
 
                 try
                 {
-                    Logg.r().Information("Processing {Id} {Type}", imageMetaData.Id, imageMetaData.Type);
+                    Logg.r().Information("LoadingImageMarkup.Update: {ImageMetaDataId} {Type}", imageMetaData.Id, imageMetaData.Type);
                     _imgRepo.Update(imageMetaData);
                     _imgRepo.Flush();
                 }
                 catch (Exception e)
                 {
-                    Logg.r().Error(e, "Error when saving imageMetaData {@ImageId}", imageMetaData.Id);
+                    Logg.r().Error(e, "LoadingImageMarkup.Update: Error when saving imageMetaData {@ImageId}", imageMetaData.Id);
                     throw;
                 }
             }

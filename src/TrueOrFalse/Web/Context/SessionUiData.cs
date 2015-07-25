@@ -58,5 +58,9 @@ public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
         get { return Data.Get("searchSpecUser", new UserSearchSpec { PageSize = 10 }); }
     }
 
+    public ImageMetaDataSearchSpec ImageMetaDataSearchSpec{
+        get { return Data.Get("searchSpecImageMetaData", new ImageMetaDataSearchSpec { PageSize = 50 }); }
+    }
+
     public TmpImageStore TmpImagesStore { get { return Data.Get("tmpImageStore", new TmpImageStore()); } }
 }

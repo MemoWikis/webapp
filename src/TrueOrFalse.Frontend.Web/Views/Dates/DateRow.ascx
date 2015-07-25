@@ -83,7 +83,7 @@
             <div class="row">
                 <% if (!Model.IsNetworkDate){ %>
                     <div class="col-sm-4">
-                        <a href="#" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
+                        <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
                             style="display: block; margin-top: 29px;">
                             <i class="fa fa-gamepad" style="font-size: 18px;"></i>
                             Spiel starten

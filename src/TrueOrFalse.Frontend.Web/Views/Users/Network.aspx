@@ -34,7 +34,7 @@
                             <p style="padding-top: 5px;">
                                 Um Nutzern zu folgen, gehe zur
                                 <a href="<%= Url.Action("Users", "Users") %>">"Alle Nutzer"</a> 
-                                Seite und verwenden den "Folgen"-Button. <br/><br/>
+                                Seite und verwende den "Folgen"-Button. <br/><br/>
                             </p>
                         </div>
                     <% } else { %>

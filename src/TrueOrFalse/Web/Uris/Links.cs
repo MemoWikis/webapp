@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
@@ -170,7 +171,15 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Games", "Games");
         }
 
-        public static string GameCreate(UrlHelper url){
+        public static string GameCreateFromDate(int dateId){
+            return GetUrlHelper().Action("Create", "Game", new {dateId = dateId});
+        }
+
+        public static string GameCreateFromSet(int setId){
+            return GetUrlHelper().Action("Create", "Game", new { setId = setId});
+        }
+
+        public static string GameCreate(){
             return GetUrlHelper().Action("Create", "Game", null);
         }
 
