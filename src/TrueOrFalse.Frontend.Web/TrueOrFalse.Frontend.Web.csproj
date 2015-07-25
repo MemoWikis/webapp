@@ -437,6 +437,8 @@
     <Content Include="Images\no-set-128.png" />
     <Content Include="Images\no-set-206.png" />
     <Content Include="Images\no-set-50.png" />
+    <Content Include="Images\Team\team_christof2014.jpg" />
+    <Content Include="Images\Team\team_christof2014_128.jpg" />
     <Content Include="Images\wiki-16.png" />
     <Content Include="Images\wiki-24.png" />
     <Content Include="Images\wiki-32.png" />

@@ -1,12 +1,13 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
 	Inherits="ViewPage<WelcomeModel>"%>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <title>MEMuchO</title>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
 </asp:Content>
 
-<a ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
 
 <div class="row">
        
