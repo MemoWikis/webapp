@@ -12,7 +12,7 @@ public class RoundMap : ClassMap<Round>
         References(x => x.Set);
         References(x => x.Game).Cascade.None();
 
-        HasMany(x => x.Answers).Cascade.All();
+        HasMany(x => x.Answers).Cascade.SaveUpdate();
 
         Map(x => x.Status);
 
