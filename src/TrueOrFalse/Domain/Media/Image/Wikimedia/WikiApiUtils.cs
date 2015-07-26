@@ -64,7 +64,7 @@ namespace TrueOrFalse
             if (!filePath.Contains("."))
                 return null;
 
-            filePath = filePath.Replace("http://", "");
+            filePath = filePath.Replace("http://", "").Replace("https://", "");
 
             if (filePath.Contains("/"))
                 filePath = filePath.Substring(0, filePath.IndexOf("/"));

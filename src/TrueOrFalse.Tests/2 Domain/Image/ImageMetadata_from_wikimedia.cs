@@ -68,9 +68,13 @@ public class ImageMetadata_from_wikimedia : BaseTest
     [Test]
     public void If_image_not_on_commons_try_original_host()
     {
-        var result = Resolve<WikiImageMetaLoader>().Run("http://en.wikipedia.org/wiki/File:Solr.png");
-        Assert.That(result.ApiHost, Is.EqualTo("en.wikipedia.org"));
-        Assert.That(result.ImageNotFound, Is.False);
+        var result1 = Resolve<WikiImageMetaLoader>().Run("http://en.wikipedia.org/wiki/File:Solr.png");
+        Assert.That(result1.ApiHost, Is.EqualTo("en.wikipedia.org"));
+        Assert.That(result1.ImageNotFound, Is.False);
+
+        var result2 = Resolve<WikiImageMetaLoader>().Run("https://de.wikipedia.org/wiki/James_Bond#/media/File:007_evolution.svg");
+        Assert.That(result1.ApiHost, Is.EqualTo("en.wikipedia.org"));
+        Assert.That(result2.ImageNotFound, Is.False);
     }
 
     [Test]
