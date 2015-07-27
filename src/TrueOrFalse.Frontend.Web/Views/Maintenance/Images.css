@@ -1,0 +1,304 @@
+﻿/*Detail Images
+---------------------------------------------------------*/
+.ImageContainer {
+  position: relative;
+  -ms-word-break: break-word;
+  word-break: break-word;
+}
+.ItemImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+a.ImageLicenseCaption {
+  display: block;
+  font-size: 10px;
+}
+.CheckboxIconContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  color: transparent;
+  vertical-align: middle;
+}
+.CheckboxIconContainer .CheckboxText {
+  padding-right: 10px;
+  padding-top: 5px;
+  font-size: 10px;
+  float: right;
+  width: 60%;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .CheckboxIconContainer .CheckboxText {
+    display: none;
+  }
+}
+.SelectAreaCheckbox:hover .CheckboxIconContainer .CheckboxText {
+  color: #203256;
+}
+.Checked-Icon,
+.Unchecked-Icon {
+  font-size: 36px;
+  color: #203256;
+  padding-top: 3px;
+  padding-right: 1px;
+  padding-left: 4px;
+  margin-top: 3px;
+  margin-left: 3px;
+  border-radius: 3px;
+}
+.CheckboxIcon {
+  display: none;
+  font-size: 36px;
+  color: red;
+}
+.Checked-Icon {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.Unchecked-Icon {
+  visibility: hidden;
+}
+.SelectAreaCheckbox {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 40%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+}
+.SelectAreaCheckbox:hover .Unchecked-Icon {
+  visibility: visible;
+}
+.SelectAreaCheckbox:hover .Checked-Icon {
+  display: none;
+  background-color: transparent;
+}
+.selected-row .SelectAreaCheckbox .Unchecked-Icon {
+  display: none;
+}
+.selected-row .SelectAreaCheckbox .Checked-Icon {
+  display: inline-block;
+}
+.SelectAreaImageInfo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.SelectAreaCheckbox:hover,
+.SelectAreaImageInfo:hover {
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.HoverMessage {
+  font-size: 12px;
+  position: absolute;
+  padding-top: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: black;
+  display: none;
+  text-align: center;
+}
+.SelectAreaImageInfo:hover .HoverMessage {
+  display: block;
+}
+/*Image detail modal
+---------------------------------------------------------*/
+#modalImageDetail .modal-body:before,
+#modalImageDetail .modal-body:after {
+  content: " ";
+  display: table;
+}
+#modalImageDetail .modal-body:after {
+  clear: both;
+}
+#modalImageDetail .modal-body:before,
+#modalImageDetail .modal-body:after {
+  content: " ";
+  display: table;
+}
+#modalImageDetail .modal-body:after {
+  clear: both;
+}
+#modalImageDetail .ImageContainer {
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+}
+#modalImageDetail .ImageContainer img {
+  margin-bottom: 15px;
+  width: 100%;
+}
+#modalImageDetail .ImageInfo {
+  display: table-caption;
+  caption-side: bottom;
+}
+#modalImageDetail .InfoLabel {
+  font-weight: bold;
+}
+/*Image maintenance
+---------------------------------------------------------*/
+.ImageTable {
+  table-layout: fixed;
+}
+.ImageTable td {
+  border-bottom: 2px solid white;
+  overflow-y: hidden;
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+}
+.ImageTable th.ColumnImage,
+.ImageTable td.ColumnImage {
+  width: 66px;
+}
+.ImageTable th.ColumnInfo,
+.ImageTable td.ColumnInfo {
+  width: 100px;
+}
+.ImageTable td.ColumnAuthor,
+.ImageTable td.ColumnLicense,
+.ImageTable td.ColumnDescription {
+  font-size: 12px;
+}
+#MaintenanceImages #modalImageMaintenance {
+  /*.columnControlsFull {
+
+            .radio, .form-control-static {
+                margin-left: 20px;
+                aside {
+                    margin-left: 0;
+                }
+            }
+        }*/
+}
+#MaintenanceImages #modalImageMaintenance .columnControlsFull {
+  font-size: 90%;
+}
+#MaintenanceImages #modalImageMaintenance .columnControlsFull .radio,
+#MaintenanceImages #modalImageMaintenance .columnControlsFull .form-control-static,
+#MaintenanceImages #modalImageMaintenance .columnControlsFull .added-cat {
+  font-size: 111.11111111%;
+}
+#MaintenanceImages #modalImageMaintenance .columnLabel {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: left !important;
+}
+#MaintenanceImages #modalImageMaintenance .columnControlsFull {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#MaintenanceImages #modalImageMaintenance .columnControlsFull .radio,
+#MaintenanceImages #modalImageMaintenance .columnControlsFull .form-control-static {
+  margin-left: 20px;
+}
+#MaintenanceImages #modalImageMaintenance .columnControlsFull .form-control-static {
+  padding-top: 0;
+}
+#MaintenanceImages #modalImageMaintenance .aside .columnControlsFull .radio,
+#MaintenanceImages #modalImageMaintenance .aside .columnControlsFull .form-control-static {
+  margin-left: 0;
+}
+#MaintenanceImages #modalImageMaintenance .columnControlsSmall {
+  position: relative;
+  float: left;
+  width: 50%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (max-width: 479px) {
+  #MaintenanceImages #modalImageMaintenance .columnControlsSmall {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+@media (max-width: 479px) {
+  #MaintenanceImages #modalImageMaintenance .columnControlsSmall {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+#MaintenanceImages #modalImageMaintenance .noLabel {
+  margin-left: 0;
+}
+#MaintenanceImages #modalImageMaintenance .radio {
+  margin-left: 20px;
+}
+#MaintenanceImages #modalImageMaintenance .added-cat.SingleSelect {
+  margin-left: 20px;
+}
+#MaintenanceImages #modalImageMaintenance input.form-control,
+#MaintenanceImages #modalImageMaintenance textarea.form-control,
+#MaintenanceImages #modalImageMaintenance select.form-control {
+  max-width: 400px;
+}
+#MaintenanceImages #modalImageMaintenance .ImageInfo img {
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+@media (min-width: 480px) {
+  #MaintenanceImages #modalImageMaintenance .ImageInfo img {
+    float: left;
+    max-width: 33%;
+  }
+}
+#MaintenanceImages #modalImageMaintenance .ImageInfo .FluidColumn {
+  overflow: hidden;
+}
+#MaintenanceImages #modalImageMaintenance .LicenseInfo,
+#MaintenanceImages #modalImageMaintenance .ImageTable {
+  padding: 10px;
+  margin-top: 10px;
+  clear: left;
+}
+#MaintenanceImages #modalImageMaintenance .LicenseInfo.success,
+#MaintenanceImages #modalImageMaintenance .ImageTable.success,
+#MaintenanceImages #modalImageMaintenance .LicenseInfo td.success,
+#MaintenanceImages #modalImageMaintenance .ImageTable td.success {
+  background-color: #dbffd3;
+}
+#MaintenanceImages #modalImageMaintenance .LicenseInfo.warning,
+#MaintenanceImages #modalImageMaintenance .ImageTable.warning {
+  background-color: #fff3b1;
+}
+#MaintenanceImages #modalImageMaintenance .LicenseInfo.danger,
+#MaintenanceImages #modalImageMaintenance .ImageTable.danger {
+  background-color: #fee6eb !important;
+}
+#MaintenanceImages #modalImageMaintenance .LicenseInfo h4,
+#MaintenanceImages #modalImageMaintenance .ImageTable h4 {
+  margin-top: 0;
+}
+#MaintenanceImages table.ImageTable tr.danger td {
+  background-color: #fee6eb !important;
+}
+#MaintenanceImages table.ImageTable tr.warning td {
+  background-color: #fff3b1 !important;
+}
+#MaintenanceImages table.ImageTable tr.success td {
+  background-color: #dbffd3 !important;
+}
+/*# sourceMappingURL=Images.css.map */
