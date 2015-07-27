@@ -7,6 +7,7 @@
 
 <asp:Content ID="MaintenanceImages" ContentPlaceHolderID="MainContent" runat="server">
    
+<form method="POST" action="/Maintenance/Images">
     <div style="margin:0 0 0 -10px; position: relative;" class="container-fluid">
         <nav class="navbar navbar-default" style="" role="navigation">
             <div class="container">
@@ -26,7 +27,6 @@
         Markup von Wikimedia für Bilder ohne Hauptlizenz laden und parsen
     </a>
     
-    
     <div class="row">
         <div class="col-lg-6">
             <div style="float:left">
@@ -36,19 +36,19 @@
                 <ul style="list-style-type: none;">
                     <li>
                         <label>
-                            <input type="checkbox" name="" />
+                            <%= Html.CheckBoxFor(m => m.CkbExcluded) %>
                             ausgesschlossene
                         </label>                    
                     </li>
                     <li>
                         <label>
-                            <input type="checkbox" value=""/>
+                            <%= Html.CheckBoxFor(m => m.CkbOpen) %>
                             offene
                         </label>                    
                     </li>
                     <li>
                         <label>
-                            <input type="checkbox" value=""/>    
+                            <%= Html.CheckBoxFor(m => m.CkbApproved) %>
                             bestätigte
                         </label>                    
                     </li>
@@ -85,4 +85,6 @@
             fnInitPopover($('body'));
         });
     </script>
+    
+</form>
 </asp:Content>

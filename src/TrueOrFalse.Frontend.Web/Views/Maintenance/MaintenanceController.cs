@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Microsoft.AspNet.SignalR;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
@@ -18,6 +17,13 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult Images(int? page){
         return View(new MaintenanceImagesModel(page));
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpPost]
+    public ActionResult Images(int? page, MaintenanceImagesModel imageModel)
+    {
+        return View(imageModel);
     }
 
     public ActionResult LoadMarkupAndParse(int? page)

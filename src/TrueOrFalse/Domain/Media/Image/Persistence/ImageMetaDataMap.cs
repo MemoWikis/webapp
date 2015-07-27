@@ -28,6 +28,7 @@ public class ImageMetaDataMap : ClassMap<ImageMetaData>
         Map(x => x.AllRegisteredLicenses);
 
         Map(x => x.Notifications);
+        Map(x => x.LicenseState);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

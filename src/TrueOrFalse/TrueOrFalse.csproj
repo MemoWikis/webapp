@@ -305,7 +305,7 @@
     <Compile Include="Domain\Media\Image\MainLicenseInfo.cs" />
     <Compile Include="Domain\Media\Image\ManualImageData.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataSearchSpec.cs" />
-    <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageDeployability.cs" />
+    <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageStatus.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageMaintenanceInfo.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\UpdateImageTypes.cs" />
@@ -622,6 +622,7 @@
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs089.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs088.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs087.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs086.cs" />

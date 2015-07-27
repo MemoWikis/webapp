@@ -19,8 +19,8 @@ public class ImageMetaData : DomainEntity
     public virtual string ManualEntries { get; set; }
     public virtual string MainLicenseInfo { get; set; }
     public virtual string AllRegisteredLicenses { get; set; }
-    //
     public virtual string Notifications { get; set; }
+    public virtual ImageStatus LicenseState { get; set; }
         
     public virtual ManualImageData ManualEntriesFromJson()
     {

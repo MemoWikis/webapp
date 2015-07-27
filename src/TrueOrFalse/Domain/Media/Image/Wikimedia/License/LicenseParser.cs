@@ -123,9 +123,9 @@ public class LicenseParser
         {
             if (LicenseRepository.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
             {
-                return CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet ? ImageLicenseState.LicenseIsApplicableForImage : ImageLicenseState.LicenseAuthorizedButInfoMissing;
+                return CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet ? ImageLicenseState.IsApplicableForImage : ImageLicenseState.AuthorizedButInfoMissing;
             }
-            return ImageLicenseState.LicenseIsNotAuthorized;
+            return ImageLicenseState.IsNotAuthorized;
         }
         return ImageLicenseState.NotSpecified;
     }
