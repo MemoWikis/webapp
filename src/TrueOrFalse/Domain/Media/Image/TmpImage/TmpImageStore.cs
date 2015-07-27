@@ -13,7 +13,7 @@ public class TmpImageStore
     public TmpImage Add(Stream inputStream, int previewWidth)
     {
         var tmpImage = new TmpImage(previewWidth);
-        StoreImages.Run(inputStream, tmpImage);
+        SaveImageToFile.Run(inputStream, tmpImage);
 
         _tmpImages.Add(tmpImage);
 

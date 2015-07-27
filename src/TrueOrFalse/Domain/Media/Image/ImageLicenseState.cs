@@ -1,7 +1,7 @@
 ﻿public enum ImageLicenseState
 {
-    NotSpecified = 0,
-    IsApplicableForImage = 1,
-    AuthorizedButInfoMissing = 2,
-    IsNotAuthorized = 3,
+    NotEvaluated = 0,
+    Approved = 1,
+    NotCompleted = 3,
+    NotApproved = 4
 }

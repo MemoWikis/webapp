@@ -4,16 +4,13 @@ using TrueOrFalse;
 public class ImageStore : IRegisterAsInstancePerLifetime
 {
     private readonly WikiImageMetaLoader _metaLoader;
-    private readonly WikiImageLicenseLoader _wikiImageLicenseLoader;
     private readonly ImageMetaDataRepository _imgMetaRepo;
 
     public ImageStore(
         WikiImageMetaLoader metaLoader,
-        WikiImageLicenseLoader wikiImageLicenseLoader,
         ImageMetaDataRepository imgMetaRepo)
     {
         _metaLoader = metaLoader;
-        _wikiImageLicenseLoader = wikiImageLicenseLoader;
         _imgMetaRepo = imgMetaRepo;
     }
 
@@ -31,7 +28,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
         using (var stream = wikiMetaData.GetThumbImageStream()){
             //$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
-            StoreImages.Run(stream, imageSettings); 
+            SaveImageToFile.Run(stream, imageSettings); 
         }
 
         _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
@@ -44,7 +41,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         imageSettings.DeleteFiles(); //old files..
 
         using (var stream = tmpImage.GetStream()){
-            StoreImages.Run(stream, imageSettings);
+            SaveImageToFile.Run(stream, imageSettings);
         }
 
         _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);

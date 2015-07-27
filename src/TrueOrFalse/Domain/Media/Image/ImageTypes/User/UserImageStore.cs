@@ -12,7 +12,7 @@ public class UserImageStore
         if (imagefile == null)
             return;
 
-        StoreImages.Run(
+        SaveImageToFile.Run(
             imagefile.InputStream,
             new UserImageSettings(userId)
         );

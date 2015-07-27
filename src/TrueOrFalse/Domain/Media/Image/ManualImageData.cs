@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json;
-using TrueOrFalse;
 
 [Serializable]
 public class ManualImageData

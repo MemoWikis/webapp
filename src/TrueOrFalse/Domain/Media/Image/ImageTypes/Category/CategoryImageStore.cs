@@ -12,7 +12,7 @@ public class CategoryImageStore
         if (imagefile == null)
             return;
 
-        StoreImages.Run(
+        SaveImageToFile.Run(
             imagefile.InputStream,
             new CategoryImageSettings(userId)
         );

@@ -1,6 +1,5 @@
 ﻿using System;
 using Seedworks.Lib.Persistence;
-using TrueOrFalse;
 
 public class ImageMetaData : DomainEntity
 {
@@ -20,7 +19,7 @@ public class ImageMetaData : DomainEntity
     public virtual string MainLicenseInfo { get; set; }
     public virtual string AllRegisteredLicenses { get; set; }
     public virtual string Notifications { get; set; }
-    public virtual ImageStatus LicenseState { get; set; }
+    public virtual ImageLicenseState LicenseState { get; set; }
         
     public virtual ManualImageData ManualEntriesFromJson()
     {
