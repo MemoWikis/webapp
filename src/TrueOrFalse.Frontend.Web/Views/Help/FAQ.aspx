@@ -172,7 +172,7 @@
         <div id="FaqTextContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingContact">
           <div class="panel-body">
               <p>
-                  Per Email: <a href="mailto:team@richtig-oder-falsch.de">team@richtig-oder-falsch.de</a><br/> 
+                  Per Email: <a href="mailto:kontakt@memucho.de">kontakt@memucho.de</a><br/> 
                   Robert erreichst du auch über Skype ("robert-mischke") oder per Telefon (+49-178-18 668 48).
               </p>
               <p>
