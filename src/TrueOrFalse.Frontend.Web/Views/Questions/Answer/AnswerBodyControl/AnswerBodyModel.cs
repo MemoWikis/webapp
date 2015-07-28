@@ -22,7 +22,7 @@ public class AnswerBodyModel : BaseModel
 
     public Func<UrlHelper, string> NextUrl;
     public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
-    public Func<UrlHelper, string> AjaxUrl_GetAnswer { get; private set; }
+    public Func<UrlHelper, string> AjaxUrl_GetSolution { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
 
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
@@ -49,7 +49,7 @@ public class AnswerBodyModel : BaseModel
     {
         QuestionId = question.Id;
 
-        AjaxUrl_GetAnswer = url => Links.GetAnswer(url, question);
+        AjaxUrl_GetSolution = url => Links.GetAnswer(url, question);
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
 
         QuestionText = question.Text;

@@ -57,7 +57,7 @@ public class GameController : BaseController
 
         if (!hasQuestions)
         {
-            gameModel.Message = new ErrorMessage("Die gewählten Fragesätze beinhalten keine Fragen.");
+            gameModel.Message = new ErrorMessage("Die gewählten Fragesätze beinhalten keine Multiple-Choice-Fragen.");
             return View(_viewLocation, gameModel);                                    
         }
 

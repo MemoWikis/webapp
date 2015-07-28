@@ -6,9 +6,9 @@
 };
 var SolutionTypeNumeric = (function (_super) {
     __extends(SolutionTypeNumeric, _super);
-    function SolutionTypeNumeric(solutionEntry) {
-        _super.call(this, solutionEntry);
-        this.IsGameMode = solutionEntry.IsGameMode;
+    function SolutionTypeNumeric(answerEntry) {
+        _super.call(this, answerEntry);
+        this.IsGameMode = answerEntry.IsGameMode;
 
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(function () {
@@ -29,5 +29,5 @@ var SolutionTypeNumeric = (function (_super) {
         $("#txtAnswer").select();
     };
     return SolutionTypeNumeric;
-})(SolutionEntryBase);
+})(AnswerEntryBase);
 //# sourceMappingURL=SolutionTypeNumeric.js.map

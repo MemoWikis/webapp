@@ -1,9 +1,9 @@
 class SolutionTypeSequence
-    extends SolutionEntryBase
-    implements ISolutionEntry
+    extends AnswerEntryBase
+    implements IAnswerEntry
 {
-    constructor(solutionEntry: SolutionEntry) {
-        super(solutionEntry);
+    constructor(answerEntry: AnswerEntry) {
+        super(answerEntry);
         var answerQuestion = new AnswerQuestion(this);
         $('.sequence-row').keydown(function () {
             answerQuestion.OnAnswerChange();

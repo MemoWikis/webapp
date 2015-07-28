@@ -6,9 +6,9 @@
 };
 var SolutionTypeDateEntry = (function (_super) {
     __extends(SolutionTypeDateEntry, _super);
-    function SolutionTypeDateEntry(solutionEntry) {
+    function SolutionTypeDateEntry(answerEntry) {
         var _this = this;
-        _super.call(this, solutionEntry);
+        _super.call(this, answerEntry);
 
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(function () {
@@ -59,5 +59,5 @@ var SolutionTypeDateEntry = (function (_super) {
         return jQuery.parseJSON(jsonVal);
     };
     return SolutionTypeDateEntry;
-})(SolutionEntryBase);
+})(AnswerEntryBase);
 //# sourceMappingURL=SolutionTypeDate.js.map

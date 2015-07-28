@@ -1,4 +1,4 @@
-﻿interface ISolutionEntry {
+﻿interface IAnswerEntry {
     GetAnswerText(): string;
     GetAnswerData(): {};
     OnNewAnswer(): void;
@@ -6,7 +6,7 @@
     IsGameMode : boolean;
 }
 
-class SolutionEntry {
+class AnswerEntry {
 
     IsGameMode: boolean;
 

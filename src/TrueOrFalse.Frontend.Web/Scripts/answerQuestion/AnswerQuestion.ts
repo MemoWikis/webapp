@@ -12,23 +12,23 @@ class AnswerQuestion
     private _isGameMode : boolean;
 
     static ajaxUrl_SendAnswer: string;
-    static ajaxUrl_GetAnswer: string;
+    static ajaxUrl_GetSolution: string;
     static ajaxUrl_CountLastAnswerAsCorrect: string;
 
     public AnswersSoFar = [];
     public AmountOfTries = 0;
     public AtLeastOneWrongAnswer = false;
 
-    constructor(solutionEntry : ISolutionEntry) {
+    constructor(answerEntry : IAnswerEntry) {
 
-        this._isGameMode = solutionEntry.IsGameMode;
+        this._isGameMode = answerEntry.IsGameMode;
 
-        this._getAnswerText = solutionEntry.GetAnswerText;
-        this._getAnswerData = solutionEntry.GetAnswerData;
-        this._onNewAnswer = solutionEntry.OnNewAnswer;
+        this._getAnswerText = answerEntry.GetAnswerText;
+        this._getAnswerData = answerEntry.GetAnswerData;
+        this._onNewAnswer = answerEntry.OnNewAnswer;
 
         AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
-        AnswerQuestion.ajaxUrl_GetAnswer = $("#ajaxUrl_GetAnswer").val();
+        AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();
         AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
@@ -212,7 +212,7 @@ class AnswerQuestion
 
         $.ajax({
             type: 'POST',
-            url: this.ajaxUrl_GetAnswer,
+            url: AnswerQuestion.ajaxUrl_GetSolution,
             cache: false,
             success: result => {
                 onSuccessAction(result);

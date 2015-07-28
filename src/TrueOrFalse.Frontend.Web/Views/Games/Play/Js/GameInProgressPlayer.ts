@@ -5,13 +5,13 @@
     private thisRoundSecTotal; /*in seconds*/
     private thisRoundSecLeft; /*in seconds*/
 
-    private _solutionEntry: SolutionEntry;
+    private _answerEntry: AnswerEntry;
     private _pinQuestion: PinQuestion;
 
     constructor(play : Play) {
 
         this._play = play;
-        this._solutionEntry = new SolutionEntry(/*isGameMode*/true);
+        this._answerEntry = new AnswerEntry(/*isGameMode*/true);
         this._pinQuestion = new PinQuestion();
 
         this.StartCountDown();
@@ -65,7 +65,7 @@
     public InitGame(game: Game, secondsRemaining : number = -1) {
         Utils.SetElementValue("#CurrentRoundNum", game.RoundNumber.toString());
 
-        this._solutionEntry.Init();
+        this._answerEntry.Init();
         this._pinQuestion.Init();
 
         this.thisRoundSecTotal = game.RoundLength;

@@ -6,8 +6,8 @@ var __extends = this.__extends || function (d, b) {
 };
 var SolutionTypeTextEntry = (function (_super) {
     __extends(SolutionTypeTextEntry, _super);
-    function SolutionTypeTextEntry(solutionEntry) {
-        _super.call(this, solutionEntry);
+    function SolutionTypeTextEntry(answerEntry) {
+        _super.call(this, answerEntry);
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(function () {
             answerQuestion.OnAnswerChange();
@@ -27,6 +27,6 @@ var SolutionTypeTextEntry = (function (_super) {
         $("#txtAnswer").select();
     };
     return SolutionTypeTextEntry;
-})(SolutionEntryBase);
+})(AnswerEntryBase);
 ;
 //# sourceMappingURL=SolutionTypeText.js.map

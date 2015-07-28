@@ -1,8 +1,8 @@
 /// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
 
 $(() => {
-    var solutionEntry = new SolutionEntry();
-    solutionEntry.Init();
+    var answerEntry = new AnswerEntry();
+    answerEntry.Init();
 
     var pinQuestion = new PinQuestion();
     pinQuestion.Init();
@@ -13,5 +13,5 @@ $(() => {
         js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1&appId=128827270569993";
         fjs.parentNode.insertBefore(js, fjs);
-    } loadFacebook(document, 'script', 'facebook-jssdk');
+    } loadFacebook(window.document, 'script', 'facebook-jssdk');
 });
