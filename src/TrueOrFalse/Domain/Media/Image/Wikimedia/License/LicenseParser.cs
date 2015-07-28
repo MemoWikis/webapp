@@ -117,17 +117,17 @@ public class LicenseParser
         return licenseNotifications;
     }
 
-    public static ImageLicenseState CheckImageLicenseState(License license, ImageMetaData imageMetaData)
+    public static LicenseState CheckImageLicenseState(License license, ImageMetaData imageMetaData)
     {
         if (LicenseRepository.GetAllRegisteredLicenses().Any(l => l.Id == license.Id))
         {
             if (LicenseRepository.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
             {
-                return CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet ? ImageLicenseState.LicenseIsApplicableForImage : ImageLicenseState.LicenseAuthorizedButInfoMissing;
+                return CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet ? LicenseState.IsApplicableForImage : LicenseState.AuthorizedButInfoMissing;
             }
-            return ImageLicenseState.LicenseIsNotAuthorized;
+            return LicenseState.IsNotAuthorized;
         }
-        return ImageLicenseState.NotSpecified;
+        return LicenseState.NotSpecified;
     }
 
     public static int PriotizeByCcJurisdictionToken(License license)    

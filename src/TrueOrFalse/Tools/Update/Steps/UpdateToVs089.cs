@@ -50,6 +50,9 @@ namespace TrueOrFalse.Updates
               .CreateSQLQuery(
                 @"ALTER TABLE `answerhistory`
 	                    ADD COLUMN `LearningSessionStep_id` INT(11) NULL DEFAULT NULL AFTER `Player_id`;"
+                @"ALTER TABLE `imagemetadata`
+	                ADD COLUMN `LicenseState` TINYINT NULL DEFAULT NULL AFTER `Notifications`,
+	                DROP COLUMN `LicenseState`;"
             ).ExecuteUpdate();
 
         }

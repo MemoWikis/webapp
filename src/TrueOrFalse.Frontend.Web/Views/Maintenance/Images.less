@@ -1,0 +1,64 @@
+﻿@import "../../Style/Images";
+
+#MaintenanceImages{
+
+    @color-excluded: #fee6eb;
+    @color-open: #fff3b1;
+    @color-success: #dbffd3;
+
+    #modalImageMaintenance {
+        .FormColumnGrid (@labels-stacked: true; @label-width-variable: false; 3);
+
+        .ImageInfo {
+            img {
+                padding-right: 10px;
+                padding-bottom: 5px;
+
+                .media-xs-up({
+                    float: left;
+                    max-width: 33%;
+                });
+            }
+
+            .FluidColumn {
+                 overflow: hidden;//http://stackoverflow.com/a/20531911
+            }
+        }
+
+        .LicenseInfo, .ImageTable {
+            padding: 10px;
+            margin-top: 10px;
+            clear: left;
+
+            &.success, td.success {
+                background-color: @color-success;
+            }
+
+            &.warning {
+                background-color: @color-open;
+            }
+
+            &.danger {
+                background-color: @color-excluded !important;
+            }
+
+            h4 {
+                margin-top: 0;
+            }
+        }
+    }
+
+    table.ImageTable{
+        tr.danger td{
+            background-color: @color-excluded !important;
+        }
+
+        tr.warning td{
+            background-color: @color-open !important;
+        }
+
+        tr.success td{
+            background-color: @color-success !important;
+        }
+    }
+}

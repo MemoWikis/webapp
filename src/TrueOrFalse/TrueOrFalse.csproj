@@ -301,15 +301,15 @@
     <Compile Include="Domain\Media\Image\ImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\ImageSettingsBase.cs" />
     <Compile Include="Domain\Media\Image\ManualImageEvaluation.cs" />
-    <Compile Include="Domain\Media\Image\ImageLicenseState.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseState.cs" />
     <Compile Include="Domain\Media\Image\MainLicenseInfo.cs" />
     <Compile Include="Domain\Media\Image\ManualImageData.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataSearchSpec.cs" />
-    <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageDeployability.cs" />
+    <Compile Include="Domain\Media\Image\ImageLicenseState.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\ImageMaintenanceInfo.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\UpdateImageTypes.cs" />
-    <Compile Include="Domain\Media\Image\ResizeImage.cs" />
+    <Compile Include="Domain\Media\Image\Storage\ResizeImage.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\License.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseApplicability.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseNotifications.cs" />
@@ -416,7 +416,7 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetAnswerStatsInPeriodResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\TotalsPersUserLoader.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalsPerUserExt.cs" />
-    <Compile Include="Domain\Media\Image\StoreImages.cs" />
+    <Compile Include="Domain\Media\Image\Storage\SaveImageToFile.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCounts.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\UpdateQuestionAnswerCount.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.TotalPerUser\Modell\TotalPerUser.cs" />

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-public enum ImageLicenseState
+﻿public enum ImageLicenseState
 {
-    NotSpecified = 0,
-    LicenseIsApplicableForImage = 1,
-    LicenseAuthorizedButInfoMissing = 2,
-    LicenseIsNotAuthorized = 3,
+    NotEvaluated = 0,
+    Approved = 1,
+    NotCompleted = 3,
+    NotApproved = 4
 }

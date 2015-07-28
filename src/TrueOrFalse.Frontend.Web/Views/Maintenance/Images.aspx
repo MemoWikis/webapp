@@ -5,8 +5,9 @@
     <%= Scripts.Render("~/bundles/Maintenance") %>
 </asp:Content>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="MaintenanceImages" ContentPlaceHolderID="MainContent" runat="server">
    
+<form method="POST" action="/Maintenance/Images">
     <div style="margin:0 0 0 -10px; position: relative;" class="container-fluid">
         <nav class="navbar navbar-default" style="" role="navigation">
             <div class="container">
@@ -25,7 +26,40 @@
     <a href="/Maintenance/LoadMarkupAndParse" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;">
         Markup von Wikimedia für Bilder ohne Hauptlizenz laden und parsen
     </a>
-        
+    
+    <div class="row">
+        <div class="col-lg-6">
+            <div style="float:left">
+                Zeige:
+            </div>            
+            <div style="float:left">
+                <ul style="list-style-type: none;">
+                    <li>
+                        <label>
+                            <%= Html.CheckBoxFor(m => m.CkbExcluded) %>
+                            ausgesschlossene
+                        </label>                    
+                    </li>
+                    <li>
+                        <label>
+                            <%= Html.CheckBoxFor(m => m.CkbOpen) %>
+                            offene
+                        </label>                    
+                    </li>
+                    <li>
+                        <label>
+                            <%= Html.CheckBoxFor(m => m.CkbApproved) %>
+                            bestätigte
+                        </label>                    
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <% Html.RenderPartial("Pager", Model.Pager); %>
+        </div>
+    </div>
+
     <table class="ImageTable table">
         <tr>
             <th class="ColumnImage"></th>
@@ -38,9 +72,9 @@
             foreach(var imageMaintenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
                <% Html.RenderPartial("ImageMaintenanceRow", imageMaintenanceInfo); %>
         <% } %>
-        
-        <% Html.RenderPartial("Pager", Model.Pager); %>
     </table>
+
+    <% Html.RenderPartial("Pager", Model.Pager); %>
     
     <a href="/Maintenance/LoadMarkupAndParseAll" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup von Wikimedia für alle laden und parsen</a>
     <br/><a href="/Maintenance/ParseMarkupFromDb" class="btn btn-primary" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup aus lokaler DB parsen</a>
@@ -51,4 +85,6 @@
             fnInitPopover($('body'));
         });
     </script>
+    
+</form>
 </asp:Content>

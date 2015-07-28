@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Web;
 
-public class StoreImages
+public class SaveImageToFile
 {
     public static void Run(Stream inputStream, IImageSettings imageSettings)
     {

@@ -28,7 +28,7 @@ public class ImageMaintenanceInfo
     public License SuggestedMainLicense;
     public List<License> AllRegisteredLicenses;
     public List<License> AllAuthorizedLicenses;
-    public ImageDeployability ImageDeployability;
+    public ImageLicenseState ImageLicenseState;
     public string GlobalLicenseStateMessage;
     public string LicenseStateCssClass;
     public string LicenseStateHtmlList;
@@ -138,18 +138,18 @@ public class ImageMaintenanceInfo
 
     public void EvaluateImageDeployability()
     {
-        ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+        ImageLicenseState = ImageLicenseState.NotCompleted;
 
         if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageManuallyRuledOut)
         {
-            ImageDeployability = ImageDeployability.ImageRuledOutManually;
+            ImageLicenseState = ImageLicenseState.NotApproved;
             GlobalLicenseStateMessage = "Bild wurde manuell von der Nutzung ausgeschlossen.";
             return;
         }
 
         if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.NotAllRequirementsMetYet)
         {
-            ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+            ImageLicenseState = ImageLicenseState.NotCompleted;
             GlobalLicenseStateMessage += "Manuell festgestellt: derzeit nicht alle Attributierungsanforderungen erfüllt.";
             return;
         }
@@ -158,7 +158,7 @@ public class ImageMaintenanceInfo
             EvaluateLicenseRequirements(MainLicenseAuthorized) &&
             EvaluateManualApproval())
         {
-            ImageDeployability = ImageDeployability.ImageIsReadyToUse;
+            ImageLicenseState = ImageLicenseState.Approved;
             GlobalLicenseStateMessage = "Alles klar (Hauptlizenz vorhanden, Angaben vollständig, Bild freigegeben).";
             return;
         }
@@ -204,7 +204,7 @@ public class ImageMaintenanceInfo
             requirementsCheck.LocalCopyOfLicenseUrlMissing ? "Lizenzkopie" : ""
         };
 
-        ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+        ImageLicenseState = ImageLicenseState.NotCompleted;
         GlobalLicenseStateMessage += String.Format("Angaben fehlen ({0}). ",
             missingDataList.Where(x => x != "").Aggregate((a, b) => a + ", " + b));
 
@@ -216,7 +216,7 @@ public class ImageMaintenanceInfo
         if(ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
             return true;
 
-        ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+        ImageLicenseState = ImageLicenseState.NotCompleted;
         GlobalLicenseStateMessage += "Bild wurde (noch) nicht zugelassen. ";
 
         return false;
@@ -226,28 +226,24 @@ public class ImageMaintenanceInfo
     {
         if (MainLicenseAuthorized != null)
             return true;
-        ImageDeployability = ImageDeployability.ImageCurrentlyNotDeployable;
+        ImageLicenseState = ImageLicenseState.NotCompleted;
         GlobalLicenseStateMessage += "Keine Hauptlizenz vorhanden. ";
         return false;
     }
 
     public void SetLicenseStateCssClass()
     {
-        switch (ImageDeployability)
+        switch (ImageLicenseState)
         {
-            case ImageDeployability.ImageIsReadyToUse:
+            case ImageLicenseState.Approved:
                 LicenseStateCssClass = "success";
                 break;
 
-            case ImageDeployability.FurtherActionRequired:
+            case ImageLicenseState.NotCompleted:
                 LicenseStateCssClass = "warning";
                 break;
 
-            case ImageDeployability.ImageCurrentlyNotDeployable:
-                LicenseStateCssClass = "warning";
-                break;
-
-            case ImageDeployability.ImageRuledOutManually:
+            case ImageLicenseState.NotApproved:
                 LicenseStateCssClass = "danger";
                 break;
         }
@@ -328,13 +324,13 @@ public class ImageMaintenanceInfo
     {
         switch (LicenseParser.CheckImageLicenseState(license, MetaData))
         {
-            case ImageLicenseState.LicenseIsApplicableForImage:
+            case LicenseState.IsApplicableForImage:
                 return "verwendbar";
 
-            case ImageLicenseState.LicenseAuthorizedButInfoMissing:
+            case LicenseState.AuthorizedButInfoMissing:
                 return "zugelassen, aber benötigte Angaben unvollständig";
 
-            case ImageLicenseState.LicenseIsNotAuthorized:
+            case LicenseState.IsNotAuthorized:
                 return "nicht zugelassen";
         }
 

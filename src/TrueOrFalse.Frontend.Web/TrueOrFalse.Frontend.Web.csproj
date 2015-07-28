@@ -577,6 +577,9 @@
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Maintenance\Images.css">
+      <DependentUpon>Images.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionHeader.ascx" />
     <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js">
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
@@ -1746,6 +1749,10 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js.map">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Images.less" />
+    <Content Include="Views\Maintenance\Images.css.map">
+      <DependentUpon>Images.css</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
