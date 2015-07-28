@@ -2,7 +2,7 @@
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs089
+    public class UpdateToVs091
     {
         public static void Run()
         {
