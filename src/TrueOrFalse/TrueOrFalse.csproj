@@ -90,14 +90,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentNHibernate.2.0.1.0\lib\net40\FluentNHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="Gibraltar.Agent, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ca42a1ee8d2e42d3, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Gibraltar.Agent.3.5.2.1521\lib\4.0\Gibraltar.Agent.dll</HintPath>
-    </Reference>
-    <Reference Include="Gibraltar.Packager.NET40, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ca42a1ee8d2e42d3, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Gibraltar.Agent.3.5.2.1521\lib\4.0\Gibraltar.Packager.NET40.exe</HintPath>
-    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>

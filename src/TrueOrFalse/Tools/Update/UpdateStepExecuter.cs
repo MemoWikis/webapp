@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Gibraltar.Agent;
 using TrueOrFalse.Infrastructure;
 
 namespace TrueOrFalse.Updates
@@ -27,9 +26,9 @@ namespace TrueOrFalse.Updates
             foreach (var dictionaryItem in _actions)
                 if (dbSettings.AppVersion < dictionaryItem.Key)
                 {
-                    Log.TraceInformation(String.Format("update to {0} - START", dictionaryItem.Key));
+                    Logg.r().Information("update to {0} - START", dictionaryItem.Key);
                     dictionaryItem.Value();
-                    Log.TraceInformation(String.Format("update to {0} - END", dictionaryItem.Key));
+                    Logg.r().Information("update to {0} - END", dictionaryItem.Key);
                     _dbSettingsRepository.UpdateAppVersion(dictionaryItem.Key);
                 }   
         }
