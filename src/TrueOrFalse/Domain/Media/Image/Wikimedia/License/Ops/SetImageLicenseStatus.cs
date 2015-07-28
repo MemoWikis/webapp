@@ -5,15 +5,12 @@
         var imageMetaDataRepo = Sl.Resolve<ImageMetaDataRepository>();
         var allImageMetaDatas = imageMetaDataRepo.GetAll();
 
+        Logg.r().Information("SetImageLicenseStatus for a total of" + allImageMetaDatas.Count + " images");
         foreach (var imageMetaData in allImageMetaDatas)
-            Run(imageMetaData);
-    }
-
-    public static void Run(ImageMetaData imageMetaData)
-    {
-        var imageInfo = new ImageMaintenanceInfo(imageMetaData);
-        imageMetaData.LicenseState = imageInfo.LicenseState;
-
-        Sl.Resolve<ImageMetaDataRepository>().Update(imageMetaData);
+        {
+            imageMetaDataRepo.Update(imageMetaData);
+            Logg.r().Information("SetImageLicenseStatus for imageMetadata id " + imageMetaData.Id);
+        }
+            
     }
 }

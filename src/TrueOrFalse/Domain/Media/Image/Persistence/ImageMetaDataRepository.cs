@@ -83,4 +83,16 @@ public class ImageMetaDataRepository : RepositoryDbBase<ImageMetaData>
             Update(imageMeta);
         }
     }
+
+    public override void Create(ImageMetaData imageMetaData)
+    {
+        imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData).LicenseState;
+        base.Create(imageMetaData);
+    }
+
+    public override void Update(ImageMetaData imageMetaData)
+    {
+        imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData).LicenseState;
+        base.Update(imageMetaData);
+    }
 }

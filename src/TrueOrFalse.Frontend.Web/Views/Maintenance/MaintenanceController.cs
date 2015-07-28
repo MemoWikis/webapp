@@ -40,6 +40,7 @@ public class MaintenanceController : BaseController
 
     public ActionResult SetAllImageLicenseStati()
     {
+        SetImageLicenseStatus.RunForAll();
         return View("Images", new MaintenanceImagesModel(null) { Message = new SuccessMessage("License stati have been set") });
     }
 
