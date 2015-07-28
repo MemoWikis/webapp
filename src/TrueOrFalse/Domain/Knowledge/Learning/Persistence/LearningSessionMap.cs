@@ -10,6 +10,7 @@ public class LearningSessionMap : ClassMap<LearningSession>
             .Cascade.SaveUpdate();
         
         References(x => x.User);
+        References(x => x.SetToLearn);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

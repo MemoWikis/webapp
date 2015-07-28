@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -32,6 +34,7 @@ public class SetController : BaseController
             Steps = GetLearningSessionSteps.Run(set),
             User = _sessionUser.User
         };
+
         R<LearningSessionRepo>().Create(learningSession);
 
         _sessionUser.LearningSession = learningSession;

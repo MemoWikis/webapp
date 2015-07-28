@@ -2,7 +2,7 @@
     function GameInProgressPlayer(play) {
         var _this = this;
         this._play = play;
-        this._solutionEntry = new SolutionEntry(true);
+        this._answerEntry = new AnswerEntry(true);
         this._pinQuestion = new PinQuestion();
 
         this.StartCountDown();
@@ -51,7 +51,7 @@
         if (typeof secondsRemaining === "undefined") { secondsRemaining = -1; }
         Utils.SetElementValue("#CurrentRoundNum", game.RoundNumber.toString());
 
-        this._solutionEntry.Init();
+        this._answerEntry.Init();
         this._pinQuestion.Init();
 
         this.thisRoundSecTotal = game.RoundLength;

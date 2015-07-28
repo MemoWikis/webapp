@@ -1,9 +1,9 @@
-﻿var SolutionEntry = (function () {
-    function SolutionEntry(isGameMode) {
+﻿var AnswerEntry = (function () {
+    function AnswerEntry(isGameMode) {
         if (typeof isGameMode === "undefined") { isGameMode = false; }
         this.IsGameMode = isGameMode;
     }
-    SolutionEntry.prototype.Init = function () {
+    AnswerEntry.prototype.Init = function () {
         var solutionT = +$("#hddSolutionTypeNum").val();
 
         switch (solutionT) {
@@ -25,6 +25,6 @@
         }
         ;
     };
-    return SolutionEntry;
+    return AnswerEntry;
 })();
-//# sourceMappingURL=SolutionEntry.js.map
+//# sourceMappingURL=AnswerEntry.js.map

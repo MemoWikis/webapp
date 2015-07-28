@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate.Util;
 
 public class GetLearningSessionSteps
 {
@@ -13,10 +14,18 @@ public class GetLearningSessionSteps
     public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = 10)
     {
         var auxParams = GetStepSelectionParams(questions);
-        return GetSteps(auxParams, numberOfSteps);
+        var steps = GetSteps(auxParams, numberOfSteps);
+
+        steps.ForEach(s =>
+        {
+            s.DateCreated = DateTime.Now;
+            s.DateModified = DateTime.Now;
+        });
+
+        return steps;
     }
 
-    public static StepSelectionParams GetStepSelectionParams(IList<Question> allQuestions)
+    private static StepSelectionParams GetStepSelectionParams(IList<Question> allQuestions)
     {
         var auxParams = new StepSelectionParams {AllQuestions = allQuestions};
 

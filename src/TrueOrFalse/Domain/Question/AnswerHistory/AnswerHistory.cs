@@ -12,6 +12,8 @@ public class AnswerHistory : IPersistable, WithDateCreated
 
     public virtual Player Player { get; set; }
 
+    public virtual LearningSessionStep LearningSessionStep { get; set; }
+
     /// <summary>Duration</summary>
     public virtual int Milliseconds { get; set; }
     public virtual DateTime DateCreated { get; set; }

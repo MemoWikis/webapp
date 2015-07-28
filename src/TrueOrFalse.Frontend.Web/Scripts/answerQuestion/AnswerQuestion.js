@@ -3,19 +3,19 @@
 var choices = [];
 
 var AnswerQuestion = (function () {
-    function AnswerQuestion(solutionEntry) {
+    function AnswerQuestion(answerEntry) {
         var _this = this;
         this.AnswersSoFar = [];
         this.AmountOfTries = 0;
         this.AtLeastOneWrongAnswer = false;
-        this._isGameMode = solutionEntry.IsGameMode;
+        this._isGameMode = answerEntry.IsGameMode;
 
-        this._getAnswerText = solutionEntry.GetAnswerText;
-        this._getAnswerData = solutionEntry.GetAnswerData;
-        this._onNewAnswer = solutionEntry.OnNewAnswer;
+        this._getAnswerText = answerEntry.GetAnswerText;
+        this._getAnswerData = answerEntry.GetAnswerData;
+        this._onNewAnswer = answerEntry.OnNewAnswer;
 
         AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
-        AnswerQuestion.ajaxUrl_GetAnswer = $("#ajaxUrl_GetAnswer").val();
+        AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();
         AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
@@ -188,7 +188,7 @@ var AnswerQuestion = (function () {
     AnswerQuestion.AjaxGetAnswer = function (onSuccessAction) {
         $.ajax({
             type: 'POST',
-            url: this.ajaxUrl_GetAnswer,
+            url: AnswerQuestion.ajaxUrl_GetSolution,
             cache: false,
             success: function (result) {
                 onSuccessAction(result);

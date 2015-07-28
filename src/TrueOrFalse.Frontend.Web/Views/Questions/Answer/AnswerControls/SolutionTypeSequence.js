@@ -6,8 +6,8 @@ var __extends = this.__extends || function (d, b) {
 };
 var SolutionTypeSequence = (function (_super) {
     __extends(SolutionTypeSequence, _super);
-    function SolutionTypeSequence(solutionEntry) {
-        _super.call(this, solutionEntry);
+    function SolutionTypeSequence(answerEntry) {
+        _super.call(this, answerEntry);
         var answerQuestion = new AnswerQuestion(this);
         $('.sequence-row').keydown(function () {
             answerQuestion.OnAnswerChange();
@@ -31,6 +31,6 @@ var SolutionTypeSequence = (function (_super) {
         $('.sequence-row').val("");
     };
     return SolutionTypeSequence;
-})(SolutionEntryBase);
+})(AnswerEntryBase);
 ;
 //# sourceMappingURL=SolutionTypeSequence.js.map

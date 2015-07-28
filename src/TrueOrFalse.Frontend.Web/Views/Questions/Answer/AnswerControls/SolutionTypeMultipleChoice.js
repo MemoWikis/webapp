@@ -6,8 +6,8 @@ var __extends = this.__extends || function (d, b) {
 };
 var SolutionTypeMultipleChoice = (function (_super) {
     __extends(SolutionTypeMultipleChoice, _super);
-    function SolutionTypeMultipleChoice(solutionEntry) {
-        _super.call(this, solutionEntry);
+    function SolutionTypeMultipleChoice(answerEntry) {
+        _super.call(this, answerEntry);
         var answerQuestion = new AnswerQuestion(this);
         $('input:radio[name=answer]').change(function () {
             answerQuestion.OnAnswerChange();
@@ -26,6 +26,6 @@ var SolutionTypeMultipleChoice = (function (_super) {
         $('input:radio[name=answer]:checked').prop('checked', false);
     };
     return SolutionTypeMultipleChoice;
-})(SolutionEntryBase);
+})(AnswerEntryBase);
 ;
 //# sourceMappingURL=SolutionTypeMultipleChoice.js.map

@@ -1,10 +1,10 @@
 ﻿class SolutionTypeDateEntry
-    extends SolutionEntryBase
-    implements ISolutionEntry  {
+    extends AnswerEntryBase
+    implements IAnswerEntry  {
 
-    constructor(solutionEntry: SolutionEntry) {
+    constructor(answerEntry: AnswerEntry) {
 
-        super(solutionEntry);
+        super(answerEntry);
 
         var answerQuestion = new AnswerQuestion(this);
         $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });

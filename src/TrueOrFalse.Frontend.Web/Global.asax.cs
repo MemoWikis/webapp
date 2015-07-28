@@ -108,7 +108,8 @@ namespace TrueOrFalse.Frontend.Web
             Response.Clear();
             Server.ClearError();
 
-            Response.Redirect(string.Format("~/Fehler/{0}", code), false);
+            if(!Request.IsLocal)
+                Response.Redirect(string.Format("~/Fehler/{0}", code), false);
         }
     }
 }

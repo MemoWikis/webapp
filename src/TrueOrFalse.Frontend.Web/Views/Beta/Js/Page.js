@@ -4,5 +4,7 @@
     }, function () {
         $(this).removeClass("tada animated");
     });
+
+    $("#txtBetaCode").focus();
 });
 //# sourceMappingURL=Page.js.map
