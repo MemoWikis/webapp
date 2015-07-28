@@ -89,8 +89,7 @@ public class AnswerQuestionModel : BaseModel
 
     public IList<CommentModel> Comments;
 
-//    public bool IsLearningSession{ get { return LearningSession != null; } }
-    public bool IsLearningSession = true;
+    public bool IsLearningSession { get { return LearningSession != null; } }
 
     public LearningSession LearningSession;
 
@@ -101,6 +100,13 @@ public class AnswerQuestionModel : BaseModel
     public AnswerQuestionModel(LearningSession learningSession)
     {
         LearningSession = learningSession;
+
+
+        var currentStepIdx = learningSession.Steps.ToList()
+            .FindLastIndex(s => s.AnswerHistory != null)
+            + 1;
+
+        Populate(learningSession.Steps[currentStepIdx].Question);
     }
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec)
