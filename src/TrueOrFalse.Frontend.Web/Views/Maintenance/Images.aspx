@@ -2,7 +2,8 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Scripts.Render("~/bundles/Maintenance") %>
+    <%= Scripts.Render("~/bundles/js/Maintenance") %>
+    <%= Styles.Render("~/bundles/Maintenance") %>
 </asp:Content>
 
 <asp:Content ID="MaintenanceImages" ContentPlaceHolderID="MainContent" runat="server">
@@ -27,29 +28,31 @@
         Markup von Wikimedia für Bilder ohne Hauptlizenz laden und parsen
     </a>
     
+    <a href="/Maintenance/SetAllImageLicenseStati" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;" >Set stati</a>
+    
     <div class="row">
         <div class="col-lg-6">
             <div style="float:left">
                 Zeige:
             </div>            
             <div style="float:left">
-                <ul style="list-style-type: none;">
-                    <li>
-                        <label>
-                            <%= Html.CheckBoxFor(m => m.CkbExcluded) %>
-                            ausgesschlossene
-                        </label>                    
-                    </li>
-                    <li>
+                <ul style="list-style-type: none;" id="ulLicenseStatus">
+                    <li class="open">
                         <label>
                             <%= Html.CheckBoxFor(m => m.CkbOpen) %>
-                            offene
+                            offene (72)
                         </label>                    
                     </li>
-                    <li>
+                    <li class="approved">
                         <label>
                             <%= Html.CheckBoxFor(m => m.CkbApproved) %>
-                            bestätigte
+                            bestätigte (14)
+                        </label>                    
+                    </li>
+                    <li class="excluded">
+                        <label>
+                            <%= Html.CheckBoxFor(m => m.CkbExcluded) %>
+                            ausgesschlossene (14)
                         </label>                    
                     </li>
                 </ul>

@@ -11,7 +11,7 @@
             <div class="modal-body" id="modalBody">
     
                 <div class="ImageInfo">
-                    <img src="<%= Model.ImageFrontendData.GetImageUrl(350).Url %>" />
+                    <img src="<%= Model.FrontendData.GetImageUrl(350).Url %>" />
                     <div class="FluidColumn">
                         <p>
                             <b>Id:</b>
@@ -46,14 +46,14 @@
                                     ""
                             %></textarea>
                         </p>
-                        <% if (Model.ImageFrontendData.ImageMetaDataExists
-                               && Model.ImageFrontendData.ImageParsingNotifications.GetAllNotifications().Any())
+                        <% if (Model.FrontendData.ImageMetaDataExists
+                               && Model.FrontendData.ImageParsingNotifications.GetAllNotifications().Any())
                            {%>
                             <div>
                                 <p>
                                     <b>Autoparsing-Benachrichtigungen:</b><br/>
                                 </p>
-                               <% foreach (var notification in Model.ImageFrontendData.ImageParsingNotifications.GetAllNotifications()){
+                               <% foreach (var notification in Model.FrontendData.ImageParsingNotifications.GetAllNotifications()){
                                    if(!String.IsNullOrEmpty(notification.NotificationText))%>
                                     <ul>
                                         <li><%= notification.NotificationText %></li>

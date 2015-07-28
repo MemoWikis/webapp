@@ -9,8 +9,7 @@ namespace TrueOrFalse.Updates
             Sl.Resolve<ISession>()
               .CreateSQLQuery(
                 @"ALTER TABLE `imagemetadata`
-	                ADD COLUMN `LicenseState` TINYINT NULL DEFAULT NULL AFTER `Notifications`,
-	                DROP COLUMN `LicenseState`;"
+	                ADD COLUMN `LicenseState` TINYINT NULL DEFAULT NULL AFTER `Notifications`;"
             ).ExecuteUpdate();
         }
     }

@@ -38,6 +38,11 @@ public class MaintenanceController : BaseController
         return View("Images", new MaintenanceImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
     }
 
+    public ActionResult SetAllImageLicenseStati()
+    {
+        return View("Images", new MaintenanceImagesModel(null) { Message = new SuccessMessage("License stati have been set") });
+    }
+
     public ActionResult ParseMarkupFromDb(int? page)
     {
         Resolve<ParseMarkupFromDb>().Run();
@@ -103,7 +108,7 @@ public class MaintenanceController : BaseController
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert.") });
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin]L
     public ActionResult ReIndexAllQuestions()
     {
         Resolve<ReIndexAllQuestions>().Run();
@@ -235,7 +240,7 @@ public class MaintenanceController : BaseController
         Resolve<ImageMetaDataRepository>().Update(imageMetaData);
 
         var imageMaintenanceInfo = new ImageMaintenanceInfo(imageMetaData);
-        imageMaintenanceInfo.ImageMaintenanceRowMessage = message;
+        imageMaintenanceInfo.MaintenanceRowMessage = message;
 
         return ViewRenderer.RenderPartialView("ImageMaintenanceRow", imageMaintenanceInfo, ControllerContext);
     }
