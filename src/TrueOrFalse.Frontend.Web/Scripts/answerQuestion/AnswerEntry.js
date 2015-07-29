@@ -1,7 +1,9 @@
 ﻿var AnswerEntry = (function () {
-    function AnswerEntry(isGameMode) {
+    function AnswerEntry(isGameMode, isLearningSession) {
         if (typeof isGameMode === "undefined") { isGameMode = false; }
+        if (typeof isLearningSession === "undefined") { isLearningSession = false; }
         this.IsGameMode = isGameMode;
+        this.IsLearningSession = isLearningSession;
     }
     AnswerEntry.prototype.Init = function () {
         var solutionT = +$("#hddSolutionTypeNum").val();

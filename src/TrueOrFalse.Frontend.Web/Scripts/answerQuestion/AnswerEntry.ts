@@ -1,17 +1,14 @@
-﻿interface IAnswerEntry {
-    GetAnswerText(): string;
-    GetAnswerData(): {};
-    OnNewAnswer(): void;
-
-    IsGameMode : boolean;
-}
-
-class AnswerEntry {
+﻿class AnswerEntry {
 
     IsGameMode: boolean;
+    IsLearningSession: boolean;
 
-    constructor(isGameMode : boolean = false) {
+    constructor(
+        isGameMode: boolean = false,
+        isLearningSession: boolean = false) {
+
         this.IsGameMode = isGameMode;
+        this.IsLearningSession = isLearningSession;
     }
 
     public Init() {
