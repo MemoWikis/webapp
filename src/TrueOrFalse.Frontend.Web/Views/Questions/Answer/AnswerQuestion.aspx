@@ -48,9 +48,9 @@
                 <li>
                     <% if (Model.SourceIsCategory)
                        { %>
-                        <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>">
+                        <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
                             Kategorie:
-                            <span class="label label-category"><%= Model.SourceCategory.Name %></span>
+                            <span class="label label-category" style="position: relative; top: -3px;"><%= Model.SourceCategory.Name %></span>
                         </a>                                    
                     <% } %>
                     <% if (Model.SourceIsSet)
