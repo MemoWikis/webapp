@@ -37,6 +37,10 @@ public class Settings
 
     public static string WkHtmlToPdfFolder() { return OverwrittenConfig.ValueString("wkHtmlToPdfFolder"); }
 
+    public static bool DebugUserNHProfiler() { return OverwrittenConfig.ValueBool("debugUserNHProfiler"); }
+
+    public static bool DebugMiniProfiler() { return OverwrittenConfig.ValueBool("debugMiniProfiler"); }
+
     public static string ConnectionString()
     {
         var result = OverwrittenConfig.Value("connectionString");
