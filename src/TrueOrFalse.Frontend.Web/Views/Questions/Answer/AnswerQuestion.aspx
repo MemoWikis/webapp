@@ -128,8 +128,7 @@
             </div>  
             
             <div id="comments">
-                <% foreach (var comment in Model.Comments)
-                   { %>
+                <% foreach (var comment in Model.Comments){ %>
                     <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.ascx", comment); %>
                 <% } %>
             </div>
@@ -152,9 +151,7 @@
                         </div>
                     </div>                
                 </div>
-            <% }
-               else
-               { %>
+            <% } else { %>
                 <div class="row" style="margin-bottom: 20px;">
                     <div class="col-xs-12" style="padding-top: 10px; color: darkgray">
                         Um zu kommentieren, musst du angemeldet sein.
@@ -174,10 +171,7 @@
                 <% if (Model.Categories.Count > 0)
                    { %>
                     <p style="padding-top: 10px;">
-                        <% foreach (var category in Model.Categories)
-                           { %>
-                            <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
-                        <% } %>
+                        <% Html.RenderPartial("Category", Model.Question); %>
                     </p>
                 <% } %>
         
