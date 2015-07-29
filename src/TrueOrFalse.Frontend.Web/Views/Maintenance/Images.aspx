@@ -40,26 +40,29 @@
                     <li class="open">
                         <label>
                             <%= Html.CheckBoxFor(m => m.CkbOpen) %>
-                            offene (72)
+                            offene 
                         </label>                    
                     </li>
                     <li class="approved">
                         <label>
                             <%= Html.CheckBoxFor(m => m.CkbApproved) %>
-                            bestätigte (14)
+                            bestätigte 
                         </label>                    
                     </li>
                     <li class="excluded">
                         <label>
                             <%= Html.CheckBoxFor(m => m.CkbExcluded) %>
-                            ausgesschlossene (14)
+                            ausgesschlossene 
                         </label>                    
                     </li>
                 </ul>
+                <div style="margin-left: 14px; margin-top: -5px;">
+                    Treffer Gesamt: <%= Model.TotalResults %>       
+                </div>
             </div>
         </div>
         <div class="col-lg-6">
-            <% Html.RenderPartial("Pager", Model.Pager); %>
+            <% Html.RenderPartial("Pager", Model.Pager); %><br />
         </div>
     </div>
 

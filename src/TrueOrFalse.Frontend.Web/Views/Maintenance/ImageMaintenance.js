@@ -57,4 +57,10 @@ var ImageMaintenanceModal = (function () {
     }
     return ImageMaintenanceModal;
 })();
+
+$(function () {
+    $("#ulLicenseStatus input").change(function () {
+        window.document.forms[0].submit();
+    });
+});
 //# sourceMappingURL=ImageMaintenance.js.map

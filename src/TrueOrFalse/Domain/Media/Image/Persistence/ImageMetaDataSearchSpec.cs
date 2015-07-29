@@ -1,24 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
 [Serializable]
-public class ImageMetaDataSearchSpec : SearchSpecificationBase<ImageMetaDataFilter, ImageMetaDataOrderBy>
+public class ImageMetaDataSearchSpec : Pager
 {
-    public ImageMetaDataSearchSpec()
-    {
-    }
-}
-
-[Serializable]
-public class ImageMetaDataFilter : ConditionContainer
-{
-    public readonly ConditionString EmailAddress;
-    public ImageMetaDataFilter(){
-        EmailAddress = new ConditionString(this, "EmailAddress");
-    }
-}
-
-[Serializable]
-public class ImageMetaDataOrderBy : SpecOrderByBase
-{
+    public List<ImageLicenseState> LicenseStates = new List<ImageLicenseState>();
 }

@@ -138,7 +138,7 @@ public class ImageMaintenanceInfo
 
     public void EvaluateImageDeployability()
     {
-        LicenseState = ImageLicenseState.NotCompleted;
+        LicenseState = ImageLicenseState.Unknown;
 
         if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageManuallyRuledOut)
         {
@@ -149,7 +149,7 @@ public class ImageMaintenanceInfo
 
         if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.NotAllRequirementsMetYet)
         {
-            LicenseState = ImageLicenseState.NotCompleted;
+            LicenseState = ImageLicenseState.Unknown;
             GlobalLicenseStateMessage += "Manuell festgestellt: derzeit nicht alle Attributierungsanforderungen erfüllt.";
             return;
         }
@@ -204,7 +204,7 @@ public class ImageMaintenanceInfo
             requirementsCheck.LocalCopyOfLicenseUrlMissing ? "Lizenzkopie" : ""
         };
 
-        LicenseState = ImageLicenseState.NotCompleted;
+        LicenseState = ImageLicenseState.Unknown;
         GlobalLicenseStateMessage += String.Format("Angaben fehlen ({0}). ",
             missingDataList.Where(x => x != "").Aggregate((a, b) => a + ", " + b));
 
@@ -216,7 +216,7 @@ public class ImageMaintenanceInfo
         if(ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
             return true;
 
-        LicenseState = ImageLicenseState.NotCompleted;
+        LicenseState = ImageLicenseState.Unknown;
         GlobalLicenseStateMessage += "Bild wurde (noch) nicht zugelassen. ";
 
         return false;
@@ -226,7 +226,7 @@ public class ImageMaintenanceInfo
     {
         if (MainLicenseAuthorized != null)
             return true;
-        LicenseState = ImageLicenseState.NotCompleted;
+        LicenseState = ImageLicenseState.Unknown;
         GlobalLicenseStateMessage += "Keine Hauptlizenz vorhanden. ";
         return false;
     }
@@ -239,7 +239,7 @@ public class ImageMaintenanceInfo
                 LicenseStateCssClass = "success";
                 break;
 
-            case ImageLicenseState.NotCompleted:
+            case ImageLicenseState.Unknown:
                 LicenseStateCssClass = "warning";
                 break;
 

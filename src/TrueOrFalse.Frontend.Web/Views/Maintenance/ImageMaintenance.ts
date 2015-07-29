@@ -70,3 +70,9 @@ class ImageMaintenanceModal {
         });
     }
 }
+
+$(function() {
+    $("#ulLicenseStatus input").change(function() {
+        (<any>window.document.forms[0]).submit();
+    });
+});

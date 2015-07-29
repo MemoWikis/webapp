@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 using NHibernate;
+using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 
@@ -14,6 +17,22 @@ public class ImageMetaDataRepository : RepositoryDbBase<ImageMetaData>
                         .Where(x => x.TypeId == typeId)
                         .And(x => x.Type == imageType)
                         .SingleOrDefault<ImageMetaData>();
+    }
+
+    public IList<ImageMetaData> GetBy(ImageMetaDataSearchSpec searchSpec)
+    {
+        var query = _session.QueryOver<ImageMetaData>()
+            .WhereRestrictionOn(x => x.LicenseState)
+            .IsIn(searchSpec.LicenseStates);
+
+        var result = query
+            .Skip((searchSpec.CurrentPage - 1) * searchSpec.PageSize)
+            .Take(searchSpec.PageSize)
+            .List();
+
+        searchSpec.TotalItems = query.RowCount();
+
+        return result;
     }
         
     public void StoreWiki(
