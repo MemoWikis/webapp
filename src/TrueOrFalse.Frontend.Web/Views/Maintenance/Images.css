@@ -170,7 +170,7 @@ a.ImageLicenseCaption {
 .ImageTable td.ColumnDescription {
   font-size: 12px;
 }
-#MaintenanceImages #modalImageMaintenance {
+#modalImageMaintenance {
   /*.columnControlsFull {
 
             .radio, .form-control-static {
@@ -181,15 +181,15 @@ a.ImageLicenseCaption {
             }
         }*/
 }
-#MaintenanceImages #modalImageMaintenance .columnControlsFull {
+#modalImageMaintenance .columnControlsFull {
   font-size: 90%;
 }
-#MaintenanceImages #modalImageMaintenance .columnControlsFull .radio,
-#MaintenanceImages #modalImageMaintenance .columnControlsFull .form-control-static,
-#MaintenanceImages #modalImageMaintenance .columnControlsFull .added-cat {
+#modalImageMaintenance .columnControlsFull .radio,
+#modalImageMaintenance .columnControlsFull .form-control-static,
+#modalImageMaintenance .columnControlsFull .added-cat {
   font-size: 111.11111111%;
 }
-#MaintenanceImages #modalImageMaintenance .columnLabel {
+#modalImageMaintenance .columnLabel {
   position: relative;
   float: left;
   width: 100%;
@@ -198,7 +198,7 @@ a.ImageLicenseCaption {
   padding-right: 10px;
   text-align: left !important;
 }
-#MaintenanceImages #modalImageMaintenance .columnControlsFull {
+#modalImageMaintenance .columnControlsFull {
   position: relative;
   float: left;
   width: 100%;
@@ -206,18 +206,18 @@ a.ImageLicenseCaption {
   padding-left: 10px;
   padding-right: 10px;
 }
-#MaintenanceImages #modalImageMaintenance .columnControlsFull .radio,
-#MaintenanceImages #modalImageMaintenance .columnControlsFull .form-control-static {
+#modalImageMaintenance .columnControlsFull .radio,
+#modalImageMaintenance .columnControlsFull .form-control-static {
   margin-left: 20px;
 }
-#MaintenanceImages #modalImageMaintenance .columnControlsFull .form-control-static {
+#modalImageMaintenance .columnControlsFull .form-control-static {
   padding-top: 0;
 }
-#MaintenanceImages #modalImageMaintenance .aside .columnControlsFull .radio,
-#MaintenanceImages #modalImageMaintenance .aside .columnControlsFull .form-control-static {
+#modalImageMaintenance .aside .columnControlsFull .radio,
+#modalImageMaintenance .aside .columnControlsFull .form-control-static {
   margin-left: 0;
 }
-#MaintenanceImages #modalImageMaintenance .columnControlsSmall {
+#modalImageMaintenance .columnControlsSmall {
   position: relative;
   float: left;
   width: 50%;
@@ -226,7 +226,7 @@ a.ImageLicenseCaption {
   padding-right: 10px;
 }
 @media (max-width: 479px) {
-  #MaintenanceImages #modalImageMaintenance .columnControlsSmall {
+  #modalImageMaintenance .columnControlsSmall {
     float: none;
     width: 100%;
     margin-left: 0;
@@ -235,70 +235,87 @@ a.ImageLicenseCaption {
   }
 }
 @media (max-width: 479px) {
-  #MaintenanceImages #modalImageMaintenance .columnControlsSmall {
+  #modalImageMaintenance .columnControlsSmall {
     float: none;
     width: 100%;
     margin-left: 0;
   }
 }
-#MaintenanceImages #modalImageMaintenance .noLabel {
+#modalImageMaintenance .noLabel {
   margin-left: 0;
 }
-#MaintenanceImages #modalImageMaintenance .radio {
+#modalImageMaintenance .radio {
   margin-left: 20px;
 }
-#MaintenanceImages #modalImageMaintenance .added-cat.SingleSelect {
+#modalImageMaintenance .added-cat.SingleSelect {
   margin-left: 20px;
 }
-#MaintenanceImages #modalImageMaintenance input.form-control,
-#MaintenanceImages #modalImageMaintenance textarea.form-control,
-#MaintenanceImages #modalImageMaintenance select.form-control {
+#modalImageMaintenance input.form-control,
+#modalImageMaintenance textarea.form-control,
+#modalImageMaintenance select.form-control {
   max-width: 400px;
 }
-#MaintenanceImages #modalImageMaintenance .ImageInfo img {
+#modalImageMaintenance .ImageInfo img {
   padding-right: 10px;
   padding-bottom: 5px;
 }
 @media (min-width: 480px) {
-  #MaintenanceImages #modalImageMaintenance .ImageInfo img {
+  #modalImageMaintenance .ImageInfo img {
     float: left;
     max-width: 33%;
   }
 }
-#MaintenanceImages #modalImageMaintenance .ImageInfo .FluidColumn {
+#modalImageMaintenance .ImageInfo .FluidColumn {
   overflow: hidden;
 }
-#MaintenanceImages #modalImageMaintenance .LicenseInfo,
-#MaintenanceImages #modalImageMaintenance .ImageTable {
+#modalImageMaintenance .LicenseInfo,
+#modalImageMaintenance .ImageTable {
   padding: 10px;
   margin-top: 10px;
   clear: left;
 }
-#MaintenanceImages #modalImageMaintenance .LicenseInfo.success,
-#MaintenanceImages #modalImageMaintenance .ImageTable.success,
-#MaintenanceImages #modalImageMaintenance .LicenseInfo td.success,
-#MaintenanceImages #modalImageMaintenance .ImageTable td.success {
+#modalImageMaintenance .LicenseInfo.success,
+#modalImageMaintenance .ImageTable.success,
+#modalImageMaintenance .LicenseInfo td.success,
+#modalImageMaintenance .ImageTable td.success {
   background-color: #dbffd3;
 }
-#MaintenanceImages #modalImageMaintenance .LicenseInfo.warning,
-#MaintenanceImages #modalImageMaintenance .ImageTable.warning {
+#modalImageMaintenance .LicenseInfo.warning,
+#modalImageMaintenance .ImageTable.warning {
   background-color: #fff3b1;
 }
-#MaintenanceImages #modalImageMaintenance .LicenseInfo.danger,
-#MaintenanceImages #modalImageMaintenance .ImageTable.danger {
+#modalImageMaintenance .LicenseInfo.danger,
+#modalImageMaintenance .ImageTable.danger {
   background-color: #fee6eb !important;
 }
-#MaintenanceImages #modalImageMaintenance .LicenseInfo h4,
-#MaintenanceImages #modalImageMaintenance .ImageTable h4 {
+#modalImageMaintenance .LicenseInfo h4,
+#modalImageMaintenance .ImageTable h4 {
   margin-top: 0;
 }
-#MaintenanceImages table.ImageTable tr.danger td {
+table.ImageTable tr.danger td {
   background-color: #fee6eb !important;
 }
-#MaintenanceImages table.ImageTable tr.warning td {
+table.ImageTable tr.warning td {
   background-color: #fff3b1 !important;
 }
-#MaintenanceImages table.ImageTable tr.success td {
+table.ImageTable tr.success td {
   background-color: #dbffd3 !important;
+}
+#ulLicenseStatus {
+  margin-left: -7px;
+}
+#ulLicenseStatus li {
+  padding-left: 7px;
+  padding-right: 7px;
+  line-height: 12px;
+}
+#ulLicenseStatus li.excluded {
+  background-color: #fee6eb;
+}
+#ulLicenseStatus li.open {
+  background-color: #fff3b1;
+}
+#ulLicenseStatus li.approved {
+  background-color: #dbffd3;
 }
 /*# sourceMappingURL=Images.css.map */

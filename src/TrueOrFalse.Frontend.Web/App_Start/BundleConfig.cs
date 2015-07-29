@@ -130,10 +130,13 @@ namespace TrueOrFalse.View
                          "~/Scripts/Markdown.Sanitizer.js", 
                          "~/Scripts/Markdown.Editor.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Maintenance")
+            bundles.Add(new ScriptBundle("~/bundles/js/Maintenance")
                .Include("~/Views/Maintenance/ImageMaintenance.js")
                .Include("~/Views/Maintenance/ImageDetail.js")
                .Include("~/Scripts/BootstrapCustomUtils.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/Maintenance")
+                .Include("~/Views/Maintenance/*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/MaintenanceTools")
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));

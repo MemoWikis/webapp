@@ -1,18 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.RegularExpressions;
-using EasyNetQ.Events;
-using FluentNHibernate.Utils;
-using NHibernate.Criterion;
-using NHibernate.Hql.Ast.ANTLR;
-using NHibernate.Mapping;
-using SolrNet.Utils;
-using TrueOrFalse;
-using TrueOrFalse.WikiMarkup;
 
 public class LicenseRepository
 {
@@ -27,7 +14,7 @@ public class LicenseRepository
             //Find template on Wikimedia "http://commons.wikimedia.org/wiki/template:" + WikiSearchString + "?uselang=de"
             //Overview of all wikimedia licenses: https://commons.wikimedia.org/wiki/Commons:Image_copyright_tags_visual
             
-            new License()
+            new License
             {
                 Id = 1,
                 WikiSearchString = "cc-by-1.0",
@@ -41,7 +28,7 @@ public class LicenseRepository
                 LicenseShortName = "CC BY 1.0",
             },
 
-            new License()
+            new License
             {
                 Id = 2,
                 WikiSearchString = "cc-by-2.0",
@@ -69,7 +56,7 @@ public class LicenseRepository
                 LicenseShortName = "CC BY 2.5",
             },
 
-            new License()
+            new License
             {
                 Id = 4,
                 WikiSearchString = "cc-by-3.0",
@@ -83,7 +70,7 @@ public class LicenseRepository
                 LicenseShortName = "CC BY 3.0",
             },
 
-            new License()
+            new License
             {
                 Id = 5,
                 WikiSearchString = "cc-by-3.0,2.5,2.0,1.0",
@@ -97,7 +84,7 @@ public class LicenseRepository
                 LicenseShortName = "CC BY 3.0",
             },
 
-            new License()
+            new License
             {
                 Id = 6,
                 WikiSearchString = "cc-sa-1.0",
@@ -111,7 +98,7 @@ public class LicenseRepository
                 LicenseShortName = "CC SA 1.0",
             },
 
-            new License()
+            new License
             {
                 Id = 7,
                 WikiSearchString = "cc-by-sa-1.0",
@@ -125,7 +112,7 @@ public class LicenseRepository
                 LicenseShortName = "CC BY-SA 1.0",
             },
 
-            new License()
+            new License
             {
                 Id = 8,
                 WikiSearchString = "cc-by-sa-2.0",
@@ -139,7 +126,7 @@ public class LicenseRepository
                 LicenseShortName = "CC BY-SA 2.0",
             },
 
-            new License()
+            new License
             {
                 Id = 9,
                 WikiSearchString = "cc-by-sa-2.5",

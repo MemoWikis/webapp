@@ -15,6 +15,12 @@ public static class OverwrittenConfig
         return !result.HasValue ? "" : result.Value;        
     }
 
+    public static bool ValueBool(string itemName)
+    {
+        var result = Value(itemName);
+        return result.HasValue && Convert.ToBoolean(result.Value);
+    }
+
     public static OverwrittenConfigValueResult Value(string itemName)
     {
         string filePath;

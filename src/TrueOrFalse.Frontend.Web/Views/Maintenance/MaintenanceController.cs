@@ -15,14 +15,32 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
-    public ActionResult Images(int? page){
-        return View(new MaintenanceImagesModel(page));
+    public ActionResult Images(int? page)
+    {
+        var model = new MaintenanceImagesModel();
+        if (!page.HasValue)
+        {
+            model.CkbOpen = true;
+            model.CkbExcluded = true;
+            model.CkbApproved = true;
+        }
+        else
+        {
+            var searchSpec = Sl.R<SessionUiData>().ImageMetaDataSearchSpec;
+            model.CkbOpen = searchSpec.LicenseStates.Any(x => x == ImageLicenseState.Unknown);
+            model.CkbExcluded = searchSpec.LicenseStates.Any(x => x == ImageLicenseState.NotApproved);
+            model.CkbApproved = searchSpec.LicenseStates.Any(x => x == ImageLicenseState.Approved);            
+        }
+
+        model.Init(page);
+        return View(model);
     }
 
     [AccessOnlyAsAdmin]
     [HttpPost]
     public ActionResult Images(int? page, MaintenanceImagesModel imageModel)
     {
+        imageModel.Init(null);
         return View(imageModel);
     }
 
@@ -36,6 +54,12 @@ public class MaintenanceController : BaseController
     {
         Resolve<LoadImageMarkups>().UpdateAll();
         return View("Images", new MaintenanceImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
+    }
+
+    public ActionResult SetAllImageLicenseStati()
+    {
+        SetImageLicenseStatus.RunForAll();
+        return View("Images", new MaintenanceImagesModel(null) { Message = new SuccessMessage("License stati have been set") });
     }
 
     public ActionResult ParseMarkupFromDb(int? page)
@@ -235,7 +259,7 @@ public class MaintenanceController : BaseController
         Resolve<ImageMetaDataRepository>().Update(imageMetaData);
 
         var imageMaintenanceInfo = new ImageMaintenanceInfo(imageMetaData);
-        imageMaintenanceInfo.ImageMaintenanceRowMessage = message;
+        imageMaintenanceInfo.MaintenanceRowMessage = message;
 
         return ViewRenderer.RenderPartialView("ImageMaintenanceRow", imageMaintenanceInfo, ControllerContext);
     }

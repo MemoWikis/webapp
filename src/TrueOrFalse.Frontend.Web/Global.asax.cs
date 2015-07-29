@@ -24,7 +24,8 @@ namespace TrueOrFalse.Frontend.Web
         {
             InitializeAutofac();
 #if DEBUG
-            NHibernateProfiler.Initialize();
+            if(Settings.DebugUserNHProfiler())
+                NHibernateProfiler.Initialize();
 #endif
             
             Sl.Resolve<Update>().Run();
@@ -54,14 +55,16 @@ namespace TrueOrFalse.Frontend.Web
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
 #if DEBUG
-            MiniProfiler.Start();
+            if (Settings.DebugMiniProfiler())
+                MiniProfiler.Start();
 #endif
         }
 
         protected void Application_EndRequest()
         {
 #if DEBUG
-            MiniProfiler.Stop();
+            if (Settings.DebugMiniProfiler())
+                MiniProfiler.Stop();
 #endif
         }
 

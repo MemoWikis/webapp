@@ -5,7 +5,7 @@
         <img src="<%= Model.Url_128 %>" style="width: 50px" />
     </td>                    
     <td class="ColumnInfo">
-        <input id="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" class="form-control" name="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" type="hidden" value="<%= !String.IsNullOrEmpty(Model.ImageMaintenanceRowMessage) ? Model.ImageMaintenanceRowMessage : "" %>" />
+        <input id="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" class="form-control" name="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" type="hidden" value="<%= !String.IsNullOrEmpty(Model.MaintenanceRowMessage) ? Model.MaintenanceRowMessage : "" %>" />
         Image-Id: <b><%= Model.ImageId %></b><br/>
         <%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %><br/>
         TypeId: <%= Model.TypeId %>
@@ -34,9 +34,9 @@
         <%}%>
         <br/>
         <b>Attributierung: </b>
-        <% if (!String.IsNullOrEmpty(Model.ImageFrontendData.AttributionHtmlString))
+        <% if (!String.IsNullOrEmpty(Model.FrontendData.AttributionHtmlString))
         {%>
-            <%= Model.ImageFrontendData.AttributionHtmlString %>
+            <%= Model.FrontendData.AttributionHtmlString %>
         <%}%>
     </td>
     
