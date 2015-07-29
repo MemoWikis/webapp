@@ -40,7 +40,18 @@ public class AnswerBodyModel : BaseModel
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
         
         NextUrl = answerQuestionModel.NextUrl;
-        AjaxUrl_SendAnswer = url => Links.SendAnswer(url, answerQuestionModel.Question);
+
+        if (answerQuestionModel.IsLearningSession)
+        {
+            AjaxUrl_SendAnswer = url => Links.SendAnswer(
+                url, 
+                answerQuestionModel.Question, 
+                answerQuestionModel.LearningSessionStep);
+        }
+        else
+        {
+            AjaxUrl_SendAnswer = url => Links.SendAnswer(url, answerQuestionModel.Question);
+        }
 
         Init(answerQuestionModel.Question);
     }

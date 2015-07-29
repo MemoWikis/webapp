@@ -84,8 +84,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string SendAnswer(UrlHelper url, Question question, 
-            Game game, Player player, Round round
-            ){
+            Game game, Player player, Round round)
+        {
             return url.Action("SendAnswerGame", "Play", 
                 new{
                     questionId = question.Id, 
@@ -93,9 +93,17 @@ namespace TrueOrFalse.Frontend.Web.Code
                     playerId = player.Id,
                     roundId = round.Id
                 }, null);
-        }   
+        }
 
-        public static string GetAnswer(UrlHelper url, Question question){
+        public static string SendAnswer(UrlHelper url, Question question,
+            LearningSessionStep learningSessionStep)
+        {
+            return url.Action("SendAnswerLearningSession", AnswerQuestionController,
+                new { id = question.Id, stepId = learningSessionStep.Id }, null);
+        }
+
+        public static string GetAnswer(UrlHelper url, Question question)
+        {
             return url.Action("GetAnswer", AnswerQuestionController, new { id = question.Id }, null);
         }
 

@@ -159,6 +159,28 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
+    public JsonResult SendAnswerLearningSession(int id, int stepId, string answer)
+    {
+        var result = _answerQuestion.Run(id, answer, UserId, stepId);
+        var question = _questionRepository.GetById(id);
+        var solution = new GetQuestionSolution().Run(question);
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                correct = result.IsCorrect,
+                correctAnswer = result.CorrectAnswer,
+                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ?
+                    ((QuestionSolutionMultipleChoice)solution).Choices
+                    : null
+            }
+        };
+    }
+
+
+
+    [HttpPost]
     public JsonResult GetAnswer(int id, string answer)
     {
         var question = _questionRepository.GetById(id);

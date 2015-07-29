@@ -16,20 +16,22 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
         int userId,
         Player player = null,
         Round round = null,
+        LearningSessionStep learningSessionStep = null,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        var answerHistory = new AnswerHistory();
-        answerHistory.QuestionId = question.Id;
-        answerHistory.UserId = userId;
-        answerHistory.AnswerText = answerQuestionResult.AnswerGiven;
-        answerHistory.AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False;
-
-        answerHistory.Round = round;
-        answerHistory.Player = player;
-
-        answerHistory.DateCreated = dateCreated == default(DateTime) 
-            ? DateTime.Now 
-            : dateCreated;
+        var answerHistory = new AnswerHistory
+        {
+            QuestionId = question.Id,
+            UserId = userId,
+            AnswerText = answerQuestionResult.AnswerGiven,
+            AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False,
+            Round = round,
+            Player = player,
+            LearningSessionStep = learningSessionStep,
+            DateCreated = dateCreated == default(DateTime)
+                ? DateTime.Now
+                : dateCreated
+        };
 
         _answerHistoryRepository.Create(answerHistory);
     }
