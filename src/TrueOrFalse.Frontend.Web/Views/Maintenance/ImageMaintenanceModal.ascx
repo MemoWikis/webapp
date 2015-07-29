@@ -19,8 +19,7 @@
                         </p>
                         <p>
                             <b>Autor geparsed:</b>
-                            <% if (!String.IsNullOrEmpty(Model.MetaData.AuthorParsed))
-                            { %>
+                            <% if (!String.IsNullOrEmpty(Model.MetaData.AuthorParsed)){ %>
                                 <%= Model.MetaData.AuthorParsed %>
                             <% } %>
                         </p>
@@ -66,51 +65,48 @@
                 </div>
                 <div class="LicenseInfo <%= Model.LicenseStateCssClass%>">
                     <h4>Lizenzen</h4>
-                    <p>
-                        <% if (Model.MainLicenseAuthorized != null)
-                            {
-                                %><b>Hauptlizenz: </b><%
-                                if (!String.IsNullOrEmpty(Model.MainLicenseAuthorized.LicenseShortName))
-                                {%><%=
-                                Model.MainLicenseAuthorized.LicenseShortName%>
-                                <%} else {%>
-                                    <%= Model.MainLicenseAuthorized.WikiSearchString %>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <% if (Model.MainLicenseAuthorized != null){ %>
+                                <b>Hauptlizenz: </b>
+                                <% if (!String.IsNullOrEmpty(Model.MainLicenseAuthorized.LicenseShortName)){ %> <%=
+                                    Model.MainLicenseAuthorized.LicenseShortName%>
+                                    <%} else {%>
+                                        <%= Model.MainLicenseAuthorized.WikiSearchString %>
+                                    <%}%>
+                                <%} else if(Model.SuggestedMainLicense != null) { %>
+                                    <b>vorgeschlagene Hauptlizenz: </b>
+                                    <% if (!String.IsNullOrEmpty(Model.SuggestedMainLicense.LicenseShortName)){%>
+                                        <%=Model.SuggestedMainLicense.LicenseShortName%>
+                                    <%} else {%>
+                                        <%= Model.SuggestedMainLicense.WikiSearchString %>
+                                    <%}
+                                } else { %>
+                                    Keine (verwendbare) Lizenz gefunden.
                                 <%}%>
-                               
-                            <%} else if(Model.SuggestedMainLicense != null) {
-                                  %><b>vorgeschlagene Hauptlizenz: </b><%
-                                if (!String.IsNullOrEmpty(Model.SuggestedMainLicense.LicenseShortName))
-                                {%><%=
-                                Model.SuggestedMainLicense.LicenseShortName%>
-                                <%} else {%>
-                                    <%= Model.SuggestedMainLicense.WikiSearchString %>
-                                <%}
-                            } else { %>
-                            Keine (verwendbare) Lizenz gefunden.
-                         <%}%>
-                    </p>
-                    <p>
-                        <%
-                            if (!String.IsNullOrEmpty(Model.LicenseStateHtmlList))
-                            { %>
-                            <a href="#" tabindex="1" class="PopoverHover" data-content="<%= Html.Raw(Model.LicenseStateHtmlList)%>">Alle gefundenen Lizenzen</a>
-                        <% }
-                            else
-                            { %>
-                            Keine Lizenzen gefunden.
-                        <% } %>
-                    </p>
-                    <p>
-                        <a href="<%= "/Maintenance/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
-                    </p>
-                    <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl))){%>
-                    <p>
-                        <a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a> (Achtung: gespeichertes Markup ist in der Regel älter!)
-                    </p>
-                    <% } %>
-                    <p><b>Status:</b>
-                        <%= Model.GlobalLicenseStateMessage %>
-                    </p>
+                            
+                                <br />
+                                <% if (!String.IsNullOrEmpty(Model.LicenseStateHtmlList)) { %>
+                                    <a href="#" tabindex="1" class="PopoverHover" data-content="<%= Html.Raw(Model.LicenseStateHtmlList)%>">Alle gefundenen Lizenzen</a>
+                                <% } else { %>
+                                    Keine Lizenzen gefunden.
+                                <% } %>
+                        </div>
+                        <div class="col-lg-6">
+                            <a href="<%= "/Maintenance/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
+                            <br />
+                            <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl))){%>
+                                <a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a> (<i class="fa fa-exclamation-triangle"></i> gespeichertes Markup ist in der Regel älter!)
+                            <% } %>                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-top: 6px; margin-bottom: 6px;">
+                            <b>Status:</b> <%= Model.GlobalLicenseStateMessage %>                            
+                        </div>
+                    </div>
+
                     <p>
                         <b>Hauptlizenz ändern</b>
                         <%= Html.DropDownListFor(m => m.SelectedMainLicenseId, Model.ParsedLicenses, new { @class = "form-control" })%>
