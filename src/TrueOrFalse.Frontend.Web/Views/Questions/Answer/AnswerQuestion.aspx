@@ -46,12 +46,20 @@
                     <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
                 </li>
                 <li>
-                    <% if (Model.SourceIsCategory)
-                       { %>
-                        <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
-                            Kategorie:
-                            <span class="label label-category" style="position: relative; top: -3px;"><%= Model.SourceCategory.Name %></span>
-                        </a>                                    
+                    <% if (Model.SourceIsCategory){ %>
+                    
+                        <% if(Model.SourceCategory.IsSpoiler(Model.Question)){ %>
+                            <a href="#" onclick="location.href='<%= Links.CategoryDetail(Model.SourceCategory) %>'" style="height: 30px">
+                                Kategorie:
+                                <span class="label label-category" data-isSpolier="true" style="position: relative; top: -3px;">Spoiler</span>
+                            </a>                    
+                        <% } else { %>
+                            <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
+                                Kategorie:
+                                <span class="label label-category" style="position: relative; top: -3px;"><%= Model.SourceCategory.Name %></span>
+                            </a>
+                        <% } %>
+
                     <% } %>
                     <% if (Model.SourceIsSet)
                        { %>
