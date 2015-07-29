@@ -35,6 +35,20 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     }
 
     public AnswerQuestionResult Run(
+       int questionId,
+       string answer,
+       int userId,
+       int stepId,
+        /*for testing*/ DateTime dateCreated = default(DateTime))
+    {
+        var learningSessionStep = Sl.Resolve<LearningSessionStepRepo>().GetById(stepId);
+        
+        return Run(questionId, answer, userId, (question, answerQuestionResult) => {
+            _answerHistoryLog.Run(question, answerQuestionResult, userId, learningSessionStep: learningSessionStep, dateCreated: dateCreated);
+        });
+    }
+
+    public AnswerQuestionResult Run(
         int questionId, 
         string answer, 
         int userId,

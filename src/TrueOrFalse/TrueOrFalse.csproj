@@ -286,6 +286,7 @@
     <Compile Include="Domain\Game\Player.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\Learning\Ops\GetLearningSessionSteps\StepSelectionParams.cs" />
+    <Compile Include="Domain\Knowledge\Learning\Persistence\LearningSessionStepRepository.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityCalc_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityUpdate_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
