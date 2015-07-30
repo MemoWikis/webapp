@@ -11,7 +11,7 @@
             <div class="modal-body" id="modalBody">
     
                 <div class="ImageInfo">
-                    <img src="<%= Model.FrontendData.GetImageUrl(350).Url %>" />
+                    <img src="<%= Model.FrontendData.GetImageUrl(350).Url %>" id="Image" />
                     <div class="FluidColumn">
                         <p>
                             <b>Id:</b>
@@ -128,21 +128,20 @@
                                 Model.ManualImageData.ManualRemarks:
                                 ""
                         %></textarea>
-                    </p>
-                    
-                </div>
-                
-                <div class="form-horizontal">
-                    <div class="form-group">
-                    </div>
+                    </p>    
                 </div>
             </div>
 
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
-                <div class="ButtonContainer float-none-xxs">
+                <div class="col-lg-6">
+                    <a href="#" class="btn btn-default" id="ReloadImage">
+                        <i class="fa fa-refresh"></i> Bild neuladen
+                    </a>                    
+                </div>
+                <div class="col-lg-6" style="text-align: right;">
                     <a href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
                     <%--<button type="submit" class="btn btn-primary" id="SaveImageData">Bilddaten speichern</button>--%>
-                    <button type="submit" class="btn btn-primary" id="SaveImageDataAndClose">Bilddaten speichern und schließen</button>
+                    <button type="submit" class="btn btn-primary" id="SaveImageDataAndClose">Bilddaten speichern und schließen</button>       
                 </div>
             </div>
         </div>
