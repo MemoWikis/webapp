@@ -9,8 +9,7 @@ public class LearningSessionStepMap : ClassMap<LearningSessionStep>
         References(x => x.Question)
             .Cascade.None();
 
-        References(x => x.AnswerHistory)
-            .Cascade.None();
+        HasOne(x => x.AnswerHistory).PropertyRef(x => x.LearningSessionStep);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

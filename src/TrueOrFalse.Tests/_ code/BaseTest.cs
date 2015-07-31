@@ -45,6 +45,11 @@ public class BaseTest
         SessionFactory.BuildSchema();
     }
 
+    protected bool IsMysqlInMemoryEngine()
+    {
+        return MySQL5FlexibleDialect.IsInMemoryEngine();
+    }
+
     private static void BuildContainer()
     {
         var builder = new ContainerBuilder();

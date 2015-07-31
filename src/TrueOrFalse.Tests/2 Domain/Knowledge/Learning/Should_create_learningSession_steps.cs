@@ -55,6 +55,26 @@ public class Should_create_learningSession_steps : BaseTest
         Assert.That(steps[4].Question.Text == "question answered not today prob 30");
         Assert.That(steps[5].Question.Text == "question answered not today prob 40");
         Assert.That(steps[6].Question.Text == "question answered today");
-        
+
+        var learningSession = new LearningSession();
+        R<LearningSessionRepo>().Create(learningSession);
+        learningSession.Steps = steps;
+        R<LearningSessionRepo>().Update(learningSession);
+
+        RecycleContainer();
+
+        R<AnswerQuestion>().Run(steps[0].Question.Id, "answer1", -1, steps[0].Id);
+        R<AnswerQuestion>().Run(steps[1].Question.Id, "answer2", -1, steps[1].Id);
+
+        RecycleContainer();
+
+        var learningSessionFromDb = R<LearningSessionRepo>().GetById(learningSession.Id);
+
+        if (IsMysqlInMemoryEngine())
+            learningSessionFromDb.Steps = learningSessionFromDb.Steps.OrderBy(s => s.Id).ToList();
+
+        Assert.That(learningSessionFromDb.Steps[0].AnswerHistory.AnswerText, Is.EqualTo("answer1"));
+        Assert.That(learningSessionFromDb.Steps[1].AnswerHistory.AnswerText == "answer2");
+        Assert.That(learningSessionFromDb.Steps[2].AnswerHistory == null);
     }
 }

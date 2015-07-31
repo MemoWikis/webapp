@@ -1,6 +1,4 @@
-﻿using TrueOrFalse;
-
-namespace TrueOrFalse.Updates
+﻿namespace TrueOrFalse.Updates
 {
     public class Update : IRegisterAsInstancePerLifetime
     {
@@ -24,6 +22,7 @@ namespace TrueOrFalse.Updates
                 .Add(88, UpdateToVs088.Run)
                 .Add(90, UpdateToVs090.Run)
                 .Add(91, UpdateToVs091.Run)
+                .Add(92, UpdateToVs092.Run)
                 .Run();
         }
     }
