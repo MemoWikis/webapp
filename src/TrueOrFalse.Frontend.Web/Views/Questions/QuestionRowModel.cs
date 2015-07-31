@@ -7,6 +7,8 @@ using TrueOrFalse.Web.Uris;
 
 public class QuestionRowModel : BaseModel
 {
+    public Question Question;
+
     public ImageFrontendData ImageFrontendData;
 
     public string CreatorName { get; private set; }
@@ -30,7 +32,6 @@ public class QuestionRowModel : BaseModel
     public Func<UrlHelper, string> AnswerQuestionLink { get; private set; }
     public Func<UrlHelper, string> UserLink { get; private set;  }
 
-    public IList<Category> Categories;
     public IList<SetMini> SetMinis;
     public int SetCount;
 
@@ -51,6 +52,7 @@ public class QuestionRowModel : BaseModel
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
+        Question = question;
         QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;
         CreatorName = question.Creator.Name;
@@ -75,7 +77,6 @@ public class QuestionRowModel : BaseModel
 
         Views = question.TotalViews;
 
-        Categories = question.Categories;
         SetCount = question.SetsAmount;
         SetMinis = question.SetTop5Minis;
 

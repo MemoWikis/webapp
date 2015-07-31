@@ -46,12 +46,20 @@
                     <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
                 </li>
                 <li>
-                    <% if (Model.SourceIsCategory)
-                       { %>
-                        <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>">
-                            Kategorie:
-                            <span class="label label-category"><%= Model.SourceCategory.Name %></span>
-                        </a>                                    
+                    <% if (Model.SourceIsCategory){ %>
+                    
+                        <% if(Model.SourceCategory.IsSpoiler(Model.Question)){ %>
+                            <a href="#" onclick="location.href='<%= Links.CategoryDetail(Model.SourceCategory) %>'" style="height: 30px">
+                                Kategorie:
+                                <span class="label label-category" data-isSpolier="true" style="position: relative; top: -3px;">Spoiler</span>
+                            </a>                    
+                        <% } else { %>
+                            <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
+                                Kategorie:
+                                <span class="label label-category" style="position: relative; top: -3px;"><%= Model.SourceCategory.Name %></span>
+                            </a>
+                        <% } %>
+
                     <% } %>
                     <% if (Model.SourceIsSet)
                        { %>
@@ -128,8 +136,7 @@
             </div>  
             
             <div id="comments">
-                <% foreach (var comment in Model.Comments)
-                   { %>
+                <% foreach (var comment in Model.Comments){ %>
                     <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.ascx", comment); %>
                 <% } %>
             </div>
@@ -152,9 +159,7 @@
                         </div>
                     </div>                
                 </div>
-            <% }
-               else
-               { %>
+            <% } else { %>
                 <div class="row" style="margin-bottom: 20px;">
                     <div class="col-xs-12" style="padding-top: 10px; color: darkgray">
                         Um zu kommentieren, musst du angemeldet sein.
@@ -174,10 +179,7 @@
                 <% if (Model.Categories.Count > 0)
                    { %>
                     <p style="padding-top: 10px;">
-                        <% foreach (var category in Model.Categories)
-                           { %>
-                            <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category" style="margin-top: 3px;"><%= category.Name %></span></a>    
-                        <% } %>
+                        <% Html.RenderPartial("Category", Model.Question); %>
                     </p>
                 <% } %>
         

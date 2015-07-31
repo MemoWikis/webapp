@@ -26,6 +26,9 @@ public class TmpImage
 
     ~TmpImage()
     {
+        if (HttpContext.Current == null)
+            return;
+
         if (File.Exists(HttpContext.Current.Server.MapPath(Path)))
             File.Delete(HttpContext.Current.Server.MapPath(Path));
 

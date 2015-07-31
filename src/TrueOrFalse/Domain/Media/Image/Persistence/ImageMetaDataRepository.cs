@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using FluentNHibernate.Utils;
 using NHibernate;
 using Seedworks.Lib.Persistence;
@@ -105,13 +106,17 @@ public class ImageMetaDataRepository : RepositoryDbBase<ImageMetaData>
 
     public override void Create(ImageMetaData imageMetaData)
     {
-        imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData).LicenseState;
+        if(HttpContext.Current != null)
+            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData).LicenseState;
+
         base.Create(imageMetaData);
     }
 
     public override void Update(ImageMetaData imageMetaData)
     {
-        imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData).LicenseState;
+        if (HttpContext.Current != null)
+            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData).LicenseState;
+
         base.Update(imageMetaData);
     }
 }

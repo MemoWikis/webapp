@@ -103,7 +103,7 @@ public class EditQuestionController : BaseController
                 string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Du kannst nun eine <b>neue</b> Frage erstellen.",
                                 question.Text.TruncateAtWord(30)));
 
-            return Redirect("Create/");
+            return Redirect("Erstelle/");
         }
         
         TempData["createQuestionsMsg"] = new SuccessMessage(

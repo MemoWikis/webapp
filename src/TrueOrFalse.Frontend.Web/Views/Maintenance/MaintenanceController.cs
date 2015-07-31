@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
+using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
@@ -60,6 +62,19 @@ public class MaintenanceController : BaseController
     {
         SetImageLicenseStatus.RunForAll();
         return View("Images", new MaintenanceImagesModel(null) { Message = new SuccessMessage("License stati have been set") });
+    }
+
+    public JsonResult ImageReload(int imageMetaDataId)
+    {
+        var imageMetaData = R<ImageMetaDataRepository>().GetById(imageMetaDataId);
+        R<ImageStore>().ReloadWikipediaImage(imageMetaData);
+
+        return new JsonResult
+        {
+            Data = new {
+                Url = new ImageFrontendData(imageMetaData).GetImageUrl(350).Url
+            }
+        };
     }
 
     public ActionResult ParseMarkupFromDb(int? page)

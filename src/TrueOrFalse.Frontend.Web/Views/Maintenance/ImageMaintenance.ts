@@ -63,9 +63,35 @@ class ImageMaintenanceModal {
                         });
                     }
                 },
-                //error: function (x, y) {
-                //    alert('Das Bild konnte leider nicht gespeichert werden.');
-                //}
+                error: function () {
+                    window.alert('Das Bild konnte leider nicht gespeichert werden.');
+                }
+            });
+        });
+
+        $('#ReloadImage').click(function(e) {
+            e.preventDefault();
+
+            var icon = $("#ReloadImage").find("i");
+            icon.addClass("fa-spin");
+
+            $("#Image").hide();
+            $("#Image").attr("src", "");
+
+            $.ajax({
+                type: "POST",
+                data: { imageMetaDataId : imgId},
+                url: "/Maintenance/ImageReload/",
+                success: function(result) {
+                    window.console.log(result);
+                    icon.removeClass("fa-spin");
+                    $("#Image").attr("src", result.Url);
+                    $("#Image").show();
+                },
+                error: function (result) {
+                    window.alert(result);
+                    window.console.log(result);
+                }
             });
         });
     }

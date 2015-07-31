@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Mime;
 using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
@@ -31,6 +32,11 @@ public class Category : DomainEntity
 
     public Category(string name) : this(){
         Name = name;
+    }
+
+    public virtual bool IsSpoiler(Question question)
+    {
+        return IsSpoilerCategory.Yes(Name, question);
     }
 
     public virtual object GetTypeModel()

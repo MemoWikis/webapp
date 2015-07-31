@@ -66,11 +66,12 @@ public class AnswerQuestionController : BaseController
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
 
-        if (String.IsNullOrEmpty(category))
+        if (!String.IsNullOrEmpty(category))
         {
-            var categoryDb = R<CategoryRepository>().GetById(Convert.ToInt32(category));
+            var categoryDb = R<CategoryRepository>().GetByName(category).FirstOrDefault();
             if (categoryDb != null)
             {
+                activeSearchSpec.Filter.Categories.Clear();
                 activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
                 activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
             }
