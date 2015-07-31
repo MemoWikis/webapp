@@ -4,8 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
-using NHibernate.Linq;
-using TrueOrFalse.Infrastructure;
 
 namespace TrueOrFalse.Updates
 {
@@ -71,7 +69,7 @@ namespace TrueOrFalse.Updates
             File.Copy(
                 PathTo.SolrSchema("schema" + coreName.Replace("Test", "") + ".xml"),
                 _solrPath + "/tof" + coreName + "/conf/" + "schema.xml",
-                overwrite:true
+                true
             );
         }
 
@@ -79,8 +77,7 @@ namespace TrueOrFalse.Updates
         {
             File.Copy(
                 PathTo.SolrSchema("solrconfig" + coreName.Replace("Test", "") + ".xml"),
-                _solrPath + "/tof" + coreName + "/conf/" + "solrconfig.xml",
-                overwrite: true
+                _solrPath + "/tof" + coreName + "/conf/" + "solrconfig.xml", true
             );            
         }
 
