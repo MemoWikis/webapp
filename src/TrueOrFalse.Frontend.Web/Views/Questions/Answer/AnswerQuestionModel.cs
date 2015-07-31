@@ -101,11 +101,7 @@ public class AnswerQuestionModel : BaseModel
     {
         LearningSession = learningSession;
 
-        var currentStepIdx = learningSession.Steps.ToList()
-            .FindLastIndex(s => s.AnswerHistory != null)
-            + 1;
-
-        var currentStep = LearningSession.Steps[currentStepIdx];
+        var currentStep = LearningSession.Steps[LearningSession.CurrentLearningStepIdx()];
 
         LearningSessionStep = currentStep;
 

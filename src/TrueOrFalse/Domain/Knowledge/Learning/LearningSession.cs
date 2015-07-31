@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 
 public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
@@ -10,6 +11,13 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     public LearningSession()
     {
         
+    }
+
+    public virtual int CurrentLearningStepIdx()
+    {
+        return Steps.ToList()
+            .FindLastIndex(s => s.AnswerHistory != null)
+            + 1;
     }
 
 }

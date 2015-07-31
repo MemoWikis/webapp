@@ -38,7 +38,7 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
-    public ActionResult Learn(int learningSessionId)
+    public ActionResult Learn(int learningSessionId, string setName, int stepNo)
     {
         //_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
         //_saveQuestionView.Run(question, _sessionUser.User);

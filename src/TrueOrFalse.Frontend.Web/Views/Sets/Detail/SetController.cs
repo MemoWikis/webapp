@@ -39,7 +39,7 @@ public class SetController : BaseController
 
         _sessionUser.LearningSession = learningSession;
 
-        return Redirect(Links.LearningSession(learningSession.Id));
+        return Redirect(Links.LearningSession(learningSession));
     }
 }
 
