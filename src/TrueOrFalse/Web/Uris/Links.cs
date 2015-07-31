@@ -30,11 +30,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string QuestionsWish() { return GetUrlHelper().Action(QuestionsWishAction, QuestionsController); }
 
         public static string QuestionWithCategoryFilter(UrlHelper url, MenuModelCategoryItem modelCategoryItem){
-            return modelCategoryItem.SearchUrl + "Kat__" + modelCategoryItem.Category.Name + "__";
+            return modelCategoryItem.SearchUrl + "Kat__" + HttpUtility.UrlDecode(modelCategoryItem.Category.Name) + "__";
         }
 
         public static string QuestionWithCategoryFilter(UrlHelper url, Category category){
-            return "/Fragen/Suche/Kategorie/" + category.Name +  "/" + category.Id;
+            return "/Fragen/Suche/Kategorie/" + HttpUtility.UrlDecode(category.Name) + "/" + category.Id;
         }
 
         public static string QuestionWithCreatorFilter(UrlHelper url, User user){
