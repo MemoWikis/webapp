@@ -39,8 +39,16 @@ namespace TrueOrFalse.Tests
 
             Assert.That(sqb.ToString(), Is.EqualTo("(fieldName:(1~) fieldName:(3~)) AND fieldName:(2~)"));
 
-            sqb = new SearchQueryBuilder().Add("fieldName", "1", isAndCondition: true);
+            sqb = new SearchQueryBuilder()
+                .Add("fieldName", "1", isAndCondition: true);
+
             Assert.That(sqb.ToString(), Is.EqualTo("fieldName:(1~)"));
+
+            sqb = new SearchQueryBuilder()
+                .Add("fieldName", "1")
+                .Add("fieldName", "\"one two\"", startsWith: true);
+
+            Assert.That(sqb.ToString(), Is.EqualTo("fieldName:(1~) fieldName:(\"one two*\")^10"));
         }
     }
 }

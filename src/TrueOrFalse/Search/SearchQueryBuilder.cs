@@ -18,17 +18,21 @@ namespace TrueOrFalse.Search
             bool exact = false,
             bool isAndCondition = false)
         {
-            if (String.IsNullOrEmpty(seachTerm))
+            if (String.IsNullOrWhiteSpace(seachTerm))
                 return this;
 
-            if (seachTerm.Trim() == "")
-                return this;
+            seachTerm = seachTerm.Trim();
 
             string term;
             if(exact)
                 term = fieldName + ":(" + seachTerm + ")";
-            else if(startsWith)
-                term = fieldName + ":(" + seachTerm + "*)^10";
+            else if (startsWith)
+            {
+                if (seachTerm.StartsWith("\"") && seachTerm.EndsWith("\""))
+                    term = fieldName + ":(" + seachTerm.Insert(seachTerm.Length - 1, "*") + ")^10";
+                else
+                    term = fieldName + ":(" + seachTerm + "*)^10";
+            }
             else
                 term = fieldName + ":" + InputToSearchExpression.Run(seachTerm);
 
