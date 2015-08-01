@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TrueOrFalse.Search;
 
 namespace TrueOrFalse.Search
 {
@@ -31,7 +28,7 @@ namespace TrueOrFalse.Search
             if(exact)
                 term = fieldName + ":(" + seachTerm + ")";
             else if(startsWith)
-                term = fieldName + ":(" + seachTerm + "*)";
+                term = fieldName + ":(" + seachTerm + "*)^10";
             else
                 term = fieldName + ":" + InputToSearchExpression.Run(seachTerm);
 

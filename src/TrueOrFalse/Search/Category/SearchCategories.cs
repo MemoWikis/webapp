@@ -27,22 +27,32 @@ namespace TrueOrFalse.Search
 
         public SearchCategoriesResult Run(
             string searchTerm, 
-            bool searchStartingWith = false, 
+            bool searchOnlyWithStartingWith = false, 
             SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None,
             int pageSize = 10)
         {
-            return Run(searchTerm, new Pager { PageSize = pageSize }, searchStartingWith, orderBy);
+            return Run(searchTerm, new Pager { PageSize = pageSize }, searchOnlyWithStartingWith, orderBy);
         }
 
         public SearchCategoriesResult Run(
             string searchTerm,
             Pager pager, 
-            bool searchStartingWith = false,
+            bool searchOnlyWithStartingWith = false,
             SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None)
         {
-            var sqb = new SearchQueryBuilder()
-                .Add("FullTextStemmed", searchTerm, searchStartingWith)
-                .Add("FullTextExact", searchTerm, searchStartingWith);
+            var sqb = new SearchQueryBuilder();
+
+            if (searchOnlyWithStartingWith)
+            {
+                sqb.Add("FullTextStemmed", searchTerm, startsWith: true)
+                   .Add("FullTextExact", searchTerm, startsWith: true);
+            }
+            else
+            {
+                sqb.Add("FullTextStemmed", searchTerm)
+                   .Add("FullTextExact", searchTerm)
+                   .Add("FullTextExact", searchTerm, startsWith: true);
+            }
 
             var orderby = new List<SortOrder>();
             if (orderBy == SearchCategoriesOrderBy.QuestionCount)
@@ -51,13 +61,13 @@ namespace TrueOrFalse.Search
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
 
             var queryResult = _searchOperations.Query(sqb.ToString(),                            
-                                                      new QueryOptions
-                                                      {
-                                                            Start = pager.LowerBound - 1,
-                                                            Rows = pager.PageSize,
-                                                            SpellCheck = new SpellCheckingParameters(),
-                                                            OrderBy = orderby
-                                                      });
+                new QueryOptions
+                {
+                    Start = pager.LowerBound - 1,
+                    Rows = pager.PageSize,
+                    SpellCheck = new SpellCheckingParameters(),
+                    OrderBy = orderby
+                });
 
             var result = new SearchCategoriesResult();
             result.QueryTime = queryResult.Header.QTime;

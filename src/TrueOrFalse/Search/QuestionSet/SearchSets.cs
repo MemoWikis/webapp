@@ -45,8 +45,7 @@ namespace TrueOrFalse.Search
             Pager pager, 
             int creatorId = -1, 
             int valuatorId = -1,
-            bool startsWithSearch = false,
-            bool exact = false,
+            bool searchOnlyWithStartingWith = false,
             SearchSetsOrderBy orderBy = SearchSetsOrderBy.None)
         {
             var orderby = new List<SortOrder>();
@@ -63,20 +62,31 @@ namespace TrueOrFalse.Search
                 orderby.Add(new SortOrder("ValuationsCount", Order.DESC));
             }
 
-            var sqb = new SearchQueryBuilder()
-                .Add("FullTextStemmed", searchTerm, startsWith : startsWithSearch, exact: exact)
-                .Add("FullTextExact", searchTerm, startsWith: startsWithSearch, exact: exact)
-                .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
-                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
+            var sqb = new SearchQueryBuilder();
+
+            if (searchOnlyWithStartingWith)
+            {
+                sqb.Add("FullTextStemmed", searchTerm, startsWith: true)
+                   .Add("FullTextExact", searchTerm, startsWith: true);
+            }
+            else
+            {
+                sqb.Add("FullTextStemmed", searchTerm)
+                   .Add("FullTextExact", searchTerm)
+                   .Add("FullTextExact", searchTerm, startsWith: true);
+            }
+
+            sqb.Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
+               .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
 
             var queryResult = _searchOperations.Query(sqb.ToString(),
-                                                      new QueryOptions
-                                                      {
-                                                            Start = pager.LowerBound - 1,
-                                                            Rows = pager.PageSize,
-                                                            SpellCheck = new SpellCheckingParameters(),
-                                                            OrderBy = orderby
-                                                      });
+                new QueryOptions
+                {
+                    Start = pager.LowerBound - 1,
+                    Rows = pager.PageSize,
+                    SpellCheck = new SpellCheckingParameters(),
+                    OrderBy = orderby
+                });
 
             var result = new SearchSetsResult();
             result.QueryTime = queryResult.Header.QTime;

@@ -127,7 +127,7 @@ namespace TrueOrFalse
         {
             var searchSpec = new SetSearchSpec{PageSize = 12};
             var searchResult = Resolve<SearchSets>().Run(
-                filter, searchSpec, _sessionUser.User.Id, startsWithSearch:true);
+                filter, searchSpec, _sessionUser.User.Id, searchOnlyWithStartingWith:true);
             var questionSets = Resolve<SetRepo>().GetByIds(searchResult.SetIds.ToArray());
 
             return new JsonResult{

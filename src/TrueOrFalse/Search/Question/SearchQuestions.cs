@@ -75,6 +75,7 @@ namespace TrueOrFalse.Search
 
             sqb.Add("FullTextStemmed", searchTerm)
                 .Add("FullTextExact", searchTerm)
+                .Add("FullTextExact", searchTerm, startsWith:true)
                 .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
                 .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
 
@@ -98,14 +99,14 @@ namespace TrueOrFalse.Search
             orderby.Add(new SortOrder("DateCreated", Order.DESC));
             
             var queryResult = _searchOperations.Query(sqb.ToString(),
-                                                      new QueryOptions
-                                                      {
-                                                            Start = pager.LowerBound - 1,
-                                                            Rows = pager.PageSize,
-                                                            ExtraParams = new Dictionary<string, string> { { "qt", "dismax" } },
-                                                            SpellCheck = new SpellCheckingParameters(),
-                                                            OrderBy = orderby
-                                                      });
+                new QueryOptions
+                {
+                    Start = pager.LowerBound - 1,
+                    Rows = pager.PageSize,
+                    ExtraParams = new Dictionary<string, string> { { "qt", "dismax" } },
+                    SpellCheck = new SpellCheckingParameters(),
+                    OrderBy = orderby
+                });
 
             var result = new SearchQuestionsResult();
             result.QueryTime = queryResult.Header.QTime;

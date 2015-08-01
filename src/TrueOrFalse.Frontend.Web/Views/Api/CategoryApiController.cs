@@ -101,7 +101,7 @@ namespace TrueOrFalse.View.Web.Views.Api
             }
             else
             {
-                var categoryIds = _searchCategories.Run(term, searchStartingWith: true, pageSize: 5).CategoryIds;
+                var categoryIds = _searchCategories.Run(term, searchOnlyWithStartingWith: true, pageSize: 5).CategoryIds;
                 categories = _categoryRepo.GetByIds(categoryIds.ToArray());
             }
 
