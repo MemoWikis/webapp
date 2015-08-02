@@ -132,11 +132,14 @@ namespace TrueOrFalse.Tests
 
             result = Resolve<SearchQuestions>().Run("Question",
                 new Pager { PageSize = 10 }, orderBy: SearchQuestionsOrderBy.Valuation);
-            questions = Resolve<QuestionRepository>().GetByIds(result.QuestionIds);
+            questions = Resolve<QuestionRepository>()
+                .GetByIds(result.QuestionIds)
+                .OrderBy(q => q.Text)
+                .ToList();
             
-            Assert.That(questions[0].Text, Is.EqualTo("Question3"));
-            Assert.That(questions[1].Text, Is.EqualTo("Question1"));
-            Assert.That(questions[2].Text, Is.EqualTo("Question2"));
+            Assert.That(questions[0].Text, Is.EqualTo("Question1"));
+            Assert.That(questions[1].Text, Is.EqualTo("Question2"));
+            Assert.That(questions[2].Text, Is.EqualTo("Question3"));
         }
 
         [Test]
