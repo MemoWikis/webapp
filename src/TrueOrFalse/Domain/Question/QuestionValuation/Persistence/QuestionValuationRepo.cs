@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
@@ -29,11 +28,13 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                     .SingleOrDefault();
     }
 
-    public IList<QuestionValuation> GetBy(int questionId)
+    public IList<QuestionValuation> GetActiveInWishknowledge(int questionId)
     {
         return 
             _session.QueryOver<QuestionValuation>()
-                    .Where(q => q.Question.Id == questionId)
+                    .Where(q => 
+                        q.Question.Id == questionId &&
+                        q.RelevancePersonal >= -1)
                     .List<QuestionValuation>();
     }
 
@@ -58,7 +59,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                     .List<QuestionValuation>();
     }
 
-    public IList<QuestionValuation> GetBy(IList<int> questionIds, int userId)
+    public IList<QuestionValuation> GetActiveInWishknowledge(IList<int> questionIds, int userId)
     {
         if(!questionIds.Any())
             return new List<QuestionValuation>();

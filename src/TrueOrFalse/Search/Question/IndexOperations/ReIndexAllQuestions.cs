@@ -36,7 +36,7 @@ namespace TrueOrFalse.Search
 
             foreach (var question in _questionRepository.GetAll().Where(q => !q.IsWorkInProgress))
                 _solrOperations.Add(
-                    ToQuestionSolrMap.Run(question, allQuestionValuations.Where(v => v.Question.Id == question.Id))
+                    ToQuestionSolrMap.Run(question, allQuestionValuations.Where(v => v.Question.Id == question.Id).ToList())
                 );
 
             _solrOperations.Commit();

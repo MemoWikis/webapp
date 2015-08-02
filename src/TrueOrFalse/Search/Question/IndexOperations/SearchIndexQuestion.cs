@@ -34,7 +34,7 @@ namespace TrueOrFalse.Search
                     continue;
 
                 _solrOperations.Add(ToQuestionSolrMap.Run(
-                    question, _questionValuationRepo.GetBy(question.Id)));                
+                    question, _questionValuationRepo.GetActiveInWishknowledge(question.Id)));                
             }
         }
 
@@ -48,19 +48,19 @@ namespace TrueOrFalse.Search
 
             if (!softCommit)
             {
-                _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));
+                _solrOperations.Add(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetActiveInWishknowledge(question.Id)));
                 _solrOperations.Commit();    
             }
             else
             {
-                var solrQuestion = ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id));
+                var solrQuestion = ToQuestionSolrMap.Run(question, _questionValuationRepo.GetActiveInWishknowledge(question.Id));
                 ExecAsync.Go(() => _solrOperations.Add(solrQuestion, new AddParameters {CommitWithin = 5000}));
             }
         }
 
         public void Delete(Question question)
         {
-            _solrOperations.Delete(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetBy(question.Id)));
+            _solrOperations.Delete(ToQuestionSolrMap.Run(question, _questionValuationRepo.GetActiveInWishknowledge(question.Id)));
             _solrOperations.Commit();
         }
 

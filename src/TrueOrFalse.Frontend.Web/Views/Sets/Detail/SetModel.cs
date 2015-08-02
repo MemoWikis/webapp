@@ -56,7 +56,7 @@ public class SetModel : BaseModel
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepo>()
-            .GetBy(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);
+            .GetActiveInWishknowledge(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);
 
         var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
         var totalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questions);

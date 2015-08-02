@@ -41,7 +41,7 @@ namespace TrueOrFalse.Search
         public int AvgQuality { get; set; }
 
         [SolrField("Valuation")]
-        public int AvgValuation { get; set; }
+        public int Valuation { get; set; }
         
         [SolrField("Views")]
         public int Views { get; set; }
