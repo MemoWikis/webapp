@@ -60,7 +60,11 @@ namespace TrueOrFalse.Search
             else if (orderBy == SearchCategoriesOrderBy.DateCreated)
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
 
-            var queryResult = _searchOperations.Query(sqb.ToString(),                            
+            #if DEBUG
+                Logg.r().Information("SearchCategories {Query}", sqb.ToString());
+            #endif
+
+            var queryResult = _searchOperations.Query(sqb.ToString(),
                 new QueryOptions
                 {
                     Start = pager.LowerBound - 1,

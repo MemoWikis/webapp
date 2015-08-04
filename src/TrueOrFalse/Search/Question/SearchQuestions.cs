@@ -97,6 +97,10 @@ namespace TrueOrFalse.Search
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
 
             orderby.Add(new SortOrder("DateCreated", Order.DESC));
+
+            #if DEBUG
+                Logg.r().Information("SearchQuestions {Query}", sqb.ToString());
+            #endif
             
             var queryResult = _searchOperations.Query(sqb.ToString(),
                 new QueryOptions
