@@ -16,8 +16,12 @@ namespace TrueOrFalse.Search
         public SearchCategoriesResult Run(CategorySearchSpec searchSpec)
         {
             var orderBy = SearchCategoriesOrderBy.None;
-            if (searchSpec.OrderBy.QuestionCount.IsCurrent()) orderBy = SearchCategoriesOrderBy.QuestionCount;
-            else if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchCategoriesOrderBy.DateCreated;
+            if(searchSpec.OrderBy.BestMatch.IsCurrent()) 
+                orderBy = SearchCategoriesOrderBy.None;
+            else if (searchSpec.OrderBy.QuestionCount.IsCurrent()) 
+                orderBy = SearchCategoriesOrderBy.QuestionCount;
+            else if (searchSpec.OrderBy.CreationDate.IsCurrent()) 
+                orderBy = SearchCategoriesOrderBy.DateCreated;
 
             var result = Run(searchSpec.SearchTerm, searchSpec, orderBy: orderBy);
             searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking, searchSpec.SearchTerm);

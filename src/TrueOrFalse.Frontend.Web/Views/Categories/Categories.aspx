@@ -121,6 +121,11 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byBestMatch" %>">
+                                                    <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Beste Treffer
+                                                </a>
+                                            </li>                                            
+                                            <li>
                                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byQuestions" %>">
                                                     <% if (Model.OrderBy.QuestionCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Anzahl Fragen
                                                 </a>

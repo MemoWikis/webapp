@@ -95,10 +95,14 @@ public class CategoriesController : BaseController
         var searchSpec = _sessionUiData.SearchSpecCategory;
 
         if (searchSpec.OrderBy.Current == null && String.IsNullOrEmpty(orderByCommand))
-            orderByCommand = "byQuestions";
+            orderByCommand = "byBestMatch";
 
-        if (orderByCommand == "byQuestions") searchSpec.OrderBy.QuestionCount.Desc();
-        else if (orderByCommand == "byDate") searchSpec.OrderBy.CreationDate.Desc();
+        if (orderByCommand == "byBestMatch")
+            searchSpec.OrderBy.BestMatch.Asc();
+        else if (orderByCommand == "byQuestions") 
+            searchSpec.OrderBy.QuestionCount.Desc();
+        else if (orderByCommand == "byDate") 
+            searchSpec.OrderBy.CreationDate.Desc();
     }
 
 }
