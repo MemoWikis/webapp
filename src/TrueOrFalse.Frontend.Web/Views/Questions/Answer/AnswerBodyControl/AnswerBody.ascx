@@ -86,7 +86,7 @@
     <div id="Buttons" style="margin-bottom: 10px; margin-top: 10px;">
         <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
         <div id="buttons-first-try" class="pull-right">
-            <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
+            <a href="#" class="selectorShowAnswer SecAction">Lösung anzeigen</a>
             <a href="#" id="btnCheck" class="btn btn-primary" style="padding-right: 10px">Antworten</a>
         </div>
                     
@@ -98,12 +98,12 @@
         <% } %>
 
         <div id="buttons-edit-answer" class="pull-right" style="display: none;">
-            <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
+            <a href="#" class="selectorShowAnswer SecAction">Lösung anzeigen</a>
             <a href="#" id="btnEditAnswer" class="btn btn-warning">Antwort überarbeiten</a>
         </div>
         <div id="buttons-answer-again" class="pull-right" style="display: none">
-            <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
-            <a href="#" id="btnCheckAgain" class="btn btn-warning pull-right">Nochmal Antworten</a>
+            <a href="#" class="selectorShowAnswer SecAction">Lösung anzeigen</a>
+            <a href="#" id="btnCheckAgain" class="btn btn-warning">Nochmal Antworten</a>
         </div>
                     
         <div style="clear: both"></div>
