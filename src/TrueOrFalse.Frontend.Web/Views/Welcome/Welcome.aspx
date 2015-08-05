@@ -162,7 +162,7 @@
                     <b>Datenschutz ist uns sehr sehr wichtig</b>
                     <p>
                         Wir nutzen deine Daten, damit du besser lernen kannst und um MEMuchO besser zu machen. 
-                        Aber wir werden deine Daten niemals verkaufen. (Erfahre mehr über unseren Datenschutz.)
+                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">Erfahre mehr</a> über unseren Datenschutz.)
                     </p>
                 </li>
                 <li><i class="fa fa-li fa-github"></i>
@@ -204,9 +204,8 @@
 
                 <div class="col-xs-12" style="margin-top: 10px;">
                     <p>
-                        Eine spannende Reise: Wir möchten nicht nur <a href="#teaserWhatIsMemucho">das Lernen von Faktenwissen vereinfachen</a> und 
-                        dabei freie Bildungsinhalte fördern, sondern auch ein stabiles 
-                        <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
+                        Wir möchten, dass Faktenlernen einfacher wird und mehr Spaß macht. Wir möchten den Zugang zu freien Bildungsinhalten verbessern. 
+                        Und wir möchten dabei ein stabiles <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
                         Als Gründungsteam konzipieren, gestalten und programmieren wir MEMuchO gemeinsam.
                     </p>
                     <p>
