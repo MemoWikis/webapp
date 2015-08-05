@@ -129,7 +129,7 @@
 
             <h3><a name="teaserPrinciples">Unsere Prinzipien</a></h3>
             <ul class="fa-ul">
-                <li><i class="fa fa-li fa-creative-commons"></i>
+                <li><i class="fa fa-li fa-wikipedia-w"></i>
                     <b>Wikipedia-Prinzip</b>
                     <p>
                         In MEMuchO unterliegen öffentliche Inhalte einer Creative Commons-Lizenz, 
@@ -139,7 +139,7 @@
                         erfährst du genaueres zur Lizenz CC BY 4.0.</a>). Private Inhalte sind aber privat.
                     </p>
                 </li>
-                <li><i class="fa fa-li fa-pagelines"></i>
+                <li><i class="fa fa-li fa-tree"></i>
                     <b>Gemeinwohlorientierung</b><br/>
                     <p>
                         Wir möchten unser Unternehmen auf gemeinwohlfördernden Werten aufbauen. 
