@@ -84,71 +84,62 @@
         <div class="well">
             <h3><a name="teaserWhatIsMemucho">Was ist MEMuchO?</a></h3>
             <p>
-                MEMuchO ist eine vernetzte Lern- und Wissensplattform. <br/>
-                MEMuchO hilft dir...
+                MEMuchO ist eine vernetzte Lern- und Wissensplattform. Mit MEMuchO kannst du:
             </p>
-            <ul>
-                <li>
-                    <b>...schneller zu lernen.</b>
+            <div class="row">
+                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
+                  <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2" title="MEMuchO analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. So brauchst du weniger Zeit zum Lernen."></i><br/>
+                    <b>Schneller lernen</b>
+                </div>
+                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
+                  <i class="fa fa-book fa-2x show-tooltip" style="color: #2C5FB2" title="Du möchtest gerne mehr über Politik, die Griechenland-Krise oder über James Bond-Filme wissen? Finde die passenden Fragesätze und stelle dir dein Wunschwissen zusammen!"></i><br/>
+                    <b>Allgemein- und Spezialwissen erweitern</b>
+                </div>
+                <div class="clearfix visible-xs"></div>
+                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
+                  <i class="fa fa-calendar-o fa-2x show-tooltip" style="color: #2C5FB2" title="Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? Lege einen Termin an und bestimme, was du bis dahin wissen musst. Mit MEMuchO weißt du immer, was du schon sicher kannst und wo du noch weiter üben musst."></i><br/>
+                    <b>Zu einem bestimmten Termin lernen</b>
+                </div>
+                <div class="clearfix visible-md"></div>
+                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
+                  <i class="fa fa-pie-chart fa-2x show-tooltip" style="color: #2C5FB2" title="Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Kein Problem, mit MEMuchO behältst du den Überblick."></i><br/>
+                    <b>Überblick behalten</b>
+                </div>
+                <div class="clearfix visible-xs"></div>
+                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
+                  <i class="fa fa-share-alt fa-2x show-tooltip" style="color: #2C5FB2" title="MEMuchO ist ein offenes Netzwerk, wo du dein Wissen teilen und auf das Wissen anderer zurückgreifen kannst. Denn Wissen wird mehr, wenn man es teilt!"></i><br/>
+                    <b>Wissen teilen</b>
+                </div>
+                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
+                  <i class="fa fa-users fa-2x show-tooltip" style="color: #2C5FB2" title="Lerne gemeinsam mit Freunden und verabrede dich zum Quizduell, um dich auf die Klassenarbeit vorzubereiten."></i><br/>
+                    <b>Gemeinsam lernen</b>
+                </div>
+                <div class="clearfix visible-xs"></div>
+                <div class="col-xs-12">
                     <p>
-                        MEMuchO analysiert dein Lernverhalten und wiederholt schwierige 
-                        Fragen zum optimalen Zeitpunkt. So brauchst du weniger Zeit zum Lernen.
-                    </p>
-                </li>
-                <li>
-                    <b>...dein Allgemein- und Spezialwissen zu erweitern.</b>
-                    <p>
-                        Du möchtest gerne mehr über Politik oder über die verschiedenen 
-                        Spurbreiten von Modelleisenbahnen erfahren? Finde die passenden 
-                        Fragesätze und stelle dir dein Wunschwissen zusammen!
-                    </p>
-                </li>
-                <li>
-                    <b>...zu einem bestimmten Termin zu lernen.</b>
-                    <p>
-                        Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? 
-                        Lege einen Termin an und bestimme, was du bis dahin wissen musst. 
-                        Mit MEMuchO weißt du immer, was du schon sicher kannst und wo du noch 
-                        weiter üben musst.
-                    </p>
-                </li>
-                <li>
-                    <b>...zu überblicken, was du weißt und was du wissen möchtest.</b>
-                    <p>
-                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? 
-                        Kein Problem, mit MEMuchO behältst du den Überblick. 
-                    </p>
-                </li>
-                <li>
-                    <b>...dein Wissen mit anderen zu teilen und gemeinsam zu lernen.</b>
-                    <p>
-                        MEMuchO ist ein offenes Netzwerk, wo du dein Wissen teilen, auf das 
-                        Wissen anderer zurückgreifen und mit Freunden gemeinsam lernen kannst. 
-                        Denn Wissen wird mehr, wenn man es teilt! 
-                    </p>
-                </li>
-            </ul>
-            <p>
-                Du willst es ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
-                Du findest das eine tolle Idee, möchtest mitmachen und uns unterstützen?
-                Werde Fördermitglied der ersten Stunde!
-            </p>
+                        Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
+                        Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
+                        <i class="fa fa-thumbs-up"></i>Fördermitglied</a> der ersten Stunde!
+                    </p>                
+                </div>
+            </div>
+            
         </div>
         <div class="well">
 
             <h3><a name="teaserPrinciples">Unsere Prinzipien</a></h3>
-            <ul>
-                <li>
+            <ul class="fa-ul">
+                <li><i class="fa fa-li fa-wikipedia-w"></i>
                     <b>Wikipedia-Prinzip</b>
                     <p>
-                        In MEMuchO unterliegen öffentliche Inhalte einer Creative Commons Lizenz, 
+                        In MEMuchO unterliegen öffentliche Inhalte einer Creative Commons-Lizenz, 
                         genau wie die Mehrheit der Einträge auf Wikipedia. Öffentliche MEMuchO-Inhalte 
                         können also von jedem kostenfrei und ohne Einschränkungen verwendet werden 
                         (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">Hier 
                         erfährst du genaueres zur Lizenz CC BY 4.0.</a>). Private Inhalte sind aber privat.
                     </p>
                 </li>
-                <li>
+                <li><i class="fa fa-li fa-tree"></i>
                     <b>Gemeinwohlorientierung</b><br/>
                     <p>
                         Wir möchten unser Unternehmen auf gemeinwohlfördernden Werten aufbauen. 
@@ -158,7 +149,7 @@
                         eine Gemeinwohlbilanz veröffentlichen.
                     </p>
                 </li>
-                <li>
+                <li><i class="fa fa-li fa-exchange"></i>
                     <b>Mitwirkung und Vernetzung</b>
                     <p>
                         Wir glauben, dass Wissen vernetzt sein muss. Der Vernetzungsgedanke spielt bei uns eine 
@@ -167,14 +158,14 @@
                         und aktive Mitglieder können Inhalte mitmoderieren.
                     </p>
                 </li>
-                <li>
+                <li><i class="fa fa-li fa-lock"></i>
                     <b>Datenschutz ist uns sehr sehr wichtig</b>
                     <p>
                         Wir nutzen deine Daten, damit du besser lernen kannst und um MEMuchO besser zu machen. 
-                        Aber wir werden deine Daten niemals verkaufen. (Erfahre mehr über unseren Datenschutz.)
+                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">Erfahre mehr</a> über unseren Datenschutz.)
                     </p>
                 </li>
-                <li>
+                <li><i class="fa fa-li fa-github"></i>
                     <b>Open-Source und Transparenz</b>
                     <p>
                         Die Software, mit der MEMuchO läuft, steht unter einer Open-Source-Lizenz. Die Quelltexte 
@@ -213,9 +204,8 @@
 
                 <div class="col-xs-12" style="margin-top: 10px;">
                     <p>
-                        Eine spannende Reise: Wir möchten nicht nur <a href="#teaserWhatIsMemucho">das Lernen von Faktenwissen vereinfachen</a> und 
-                        dabei freie Bildungsinhalte fördern, sondern auch ein stabiles 
-                        <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
+                        Wir möchten, dass Faktenlernen einfacher wird und mehr Spaß macht. Wir möchten den Zugang zu freien Bildungsinhalten verbessern. 
+                        Und wir möchten dabei ein stabiles <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
                         Als Gründungsteam konzipieren, gestalten und programmieren wir MEMuchO gemeinsam.
                     </p>
                     <p>
