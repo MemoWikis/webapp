@@ -70,8 +70,15 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override IList<Category> GetByIds(params int[] categoryIds)
     {
-        var categories = base.GetByIds(categoryIds);
-        return categoryIds.Select(t => categories.First(q => q.Id == t)).ToList();
+        var resultTmp = base.GetByIds(categoryIds);
+        
+        var result = new List<Category>();
+        for (int i = 0; i < categoryIds.Length; i++)
+        {
+            if (resultTmp.Any(c => c.Id == categoryIds[i]))
+                result.Add(resultTmp.First(c => c.Id == categoryIds[i]));
+        }
+        return result;
     }
 
     public bool Exists(string categoryName)

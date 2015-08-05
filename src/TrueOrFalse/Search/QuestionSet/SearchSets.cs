@@ -79,6 +79,10 @@ namespace TrueOrFalse.Search
             sqb.Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
 
+            #if DEBUG
+                Logg.r().Information("SearchSets {Query}", sqb.ToString());
+            #endif
+
             var queryResult = _searchOperations.Query(sqb.ToString(),
                 new QueryOptions
                 {

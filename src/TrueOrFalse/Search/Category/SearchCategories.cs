@@ -16,8 +16,12 @@ namespace TrueOrFalse.Search
         public SearchCategoriesResult Run(CategorySearchSpec searchSpec)
         {
             var orderBy = SearchCategoriesOrderBy.None;
-            if (searchSpec.OrderBy.QuestionCount.IsCurrent()) orderBy = SearchCategoriesOrderBy.QuestionCount;
-            else if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchCategoriesOrderBy.DateCreated;
+            if(searchSpec.OrderBy.BestMatch.IsCurrent()) 
+                orderBy = SearchCategoriesOrderBy.None;
+            else if (searchSpec.OrderBy.QuestionCount.IsCurrent()) 
+                orderBy = SearchCategoriesOrderBy.QuestionCount;
+            else if (searchSpec.OrderBy.CreationDate.IsCurrent()) 
+                orderBy = SearchCategoriesOrderBy.DateCreated;
 
             var result = Run(searchSpec.SearchTerm, searchSpec, orderBy: orderBy);
             searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking, searchSpec.SearchTerm);
@@ -60,7 +64,11 @@ namespace TrueOrFalse.Search
             else if (orderBy == SearchCategoriesOrderBy.DateCreated)
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
 
-            var queryResult = _searchOperations.Query(sqb.ToString(),                            
+            #if DEBUG
+                Logg.r().Information("SearchCategories {Query}", sqb.ToString());
+            #endif
+
+            var queryResult = _searchOperations.Query(sqb.ToString(),
                 new QueryOptions
                 {
                     Start = pager.LowerBound - 1,

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using NHibernate.Linq;
 using TrueOrFalse.Search;
 
 public class SetRepo : RepositoryDbBase<Set>
@@ -46,8 +45,14 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public override IList<Set> GetByIds(params int[] setIds)
     {
-        var sets = base.GetByIds(setIds);
-        return setIds.Select(t => sets.First(s => s.Id == t)).ToList();
+        var resultTmp = base.GetByIds(setIds);
+        var result = new List<Set>();
+        for (int i = 0; i < setIds.Length; i++)
+        {
+            if (resultTmp.Any(c => c.Id == setIds[i]))
+                result.Add(resultTmp.First(c => c.Id == setIds[i]));
+        }
+        return result;
     }
 
     public IList<Set>GetForCategory(int categoryId)
