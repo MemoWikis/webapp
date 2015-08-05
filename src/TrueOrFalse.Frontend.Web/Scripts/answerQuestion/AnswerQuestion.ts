@@ -57,7 +57,7 @@ class AnswerQuestion
                 self.ValidateAnswer();
             });
 
-        $("#btnCountAsCorrect").click(
+        $("#aCountAsCorrect").click(
             e => {
                 e.preventDefault();
                 self.countLastAnswerAsCorrect();
@@ -173,7 +173,7 @@ class AnswerQuestion
             cache: false,
             success: function (result) {
                 $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
-                $('#btnCountAsCorrect').attr('disabled', 'true');
+                $('#aCountAsCorrect').hide();
                 $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: AnswerQuestion.GetQuestionId() }, function (data) {
                     $("#answerHistory").html(data);

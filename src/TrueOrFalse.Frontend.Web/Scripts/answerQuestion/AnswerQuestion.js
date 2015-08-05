@@ -32,6 +32,17 @@ var AnswerQuestion = (function () {
             return true;
         });
 
+        //$(document).on('click', '#txtAnswer', function () { this.select(); });
+        //$("#txtAnswer").click(
+        //    function () {
+        ////        e.preventDefault();
+        //       // window.alert("lkjlkj");
+        //        if ($("#buttons-edit-answer").is(":visible")) {
+        //            //$(this).select();
+        //            //self._onNewAnswer();
+        //        }
+        //       // $("#txtAnswer").select();
+        //    });
         $("#btnCheck").click(function (e) {
             e.preventDefault();
             self.ValidateAnswer();
@@ -42,7 +53,7 @@ var AnswerQuestion = (function () {
             self.ValidateAnswer();
         });
 
-        $("#btnCountAsCorrect").click(function (e) {
+        $("#aCountAsCorrect").click(function (e) {
             e.preventDefault();
             self.countLastAnswerAsCorrect();
         });
@@ -151,7 +162,7 @@ var AnswerQuestion = (function () {
             cache: false,
             success: function (result) {
                 $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
-                $('#btnCountAsCorrect').attr('disabled', 'true');
+                $('#aCountAsCorrect').hide();
                 $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: AnswerQuestion.GetQuestionId() }, function (data) {
                     $("#answerHistory").html(data);

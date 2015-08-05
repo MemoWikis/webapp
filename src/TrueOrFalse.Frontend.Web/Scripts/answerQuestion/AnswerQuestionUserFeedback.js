@@ -55,7 +55,7 @@
         var self = this;
 
         $("#divAnsweredCorrect").show();
-        $("#buttons-next-answer").show();
+        $("#buttons-next-question").show();
         $("#buttons-edit-answer").hide();
         $("#txtAnswer").animate({ backgroundColor: "#D1EBA7" }, 1000);
         $("#divWrongAnswer").hide();
@@ -194,9 +194,9 @@
     };
 
     AnswerQuestionUserFeedback.prototype.ShowNextAnswer = function () {
-        $("#buttons-next-answer").show();
+        $("#buttons-next-question").show();
         if (this._answerQuestion.AtLeastOneWrongAnswer) {
-            $("#btnCountAsCorrect").removeAttr('disabled').show();
+            $("#aCountAsCorrect").show();
         }
 
         $("#answerFeedback").hide();
