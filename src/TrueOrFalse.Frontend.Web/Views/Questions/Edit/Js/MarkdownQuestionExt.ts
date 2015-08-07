@@ -85,7 +85,7 @@ class MarkdownQuestionExt
                         callback(result.PreviewUrl);
 
                         if (window.getSelection) window.getSelection().removeAllRanges();//Clear selection to avoid text in markdown being accidentally replaced http://stackoverflow.com/a/13415236
-                        else if (window.document.selection) window.document.selection.empty();
+                        else if ((<any>window.document).selection) (<any>window.document).selection.empty();
 
                         $("#wmd-input-1").trigger('change');
                         $("#modalImageUpload").modal("hide");
