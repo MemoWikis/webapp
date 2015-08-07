@@ -110,11 +110,11 @@ var AnswerQuestion = (function () {
 
                     if (result.correct) {
                         self._inputFeedback.ShowSuccess();
-                        self._inputFeedback.ShowCorrectAnswer(false);
+                        self._inputFeedback.ShowCorrectAnswer();
                     } else {
                         if (self._isGameMode) {
                             self._inputFeedback.ShowErrorGame();
-                            self._inputFeedback.ShowCorrectAnswer(false);
+                            self._inputFeedback.ShowCorrectAnswer();
                         } else {
                             self._inputFeedback.UpdateAnswersSoFar();
 

@@ -70,7 +70,7 @@
         this.RenderAnswerDetails();
     }
 
-    ShowCorrectAnswer(showNextAnswerButton : boolean = true) {
+    ShowCorrectAnswer() {
 
         this.ShowNextAnswer();
 

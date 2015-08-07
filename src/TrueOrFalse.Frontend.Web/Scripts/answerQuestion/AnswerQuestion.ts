@@ -117,14 +117,14 @@ class AnswerQuestion
                     if (result.correct)
                     {
                         self._inputFeedback.ShowSuccess();
-                        self._inputFeedback.ShowCorrectAnswer(/*showNextAnswerButton*/false);
+                        self._inputFeedback.ShowCorrectAnswer();
                     }
                     else //!result.correct
                     {
                         if (self._isGameMode)
                         {
                             self._inputFeedback.ShowErrorGame();
-                            self._inputFeedback.ShowCorrectAnswer(/*showNextAnswerButton*/false);
+                            self._inputFeedback.ShowCorrectAnswer();
                         }
                         else
                         {

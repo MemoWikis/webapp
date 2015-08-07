@@ -66,8 +66,7 @@
         this.RenderAnswerDetails();
     };
 
-    AnswerQuestionUserFeedback.prototype.ShowCorrectAnswer = function (showNextAnswerButton) {
-        if (typeof showNextAnswerButton === "undefined") { showNextAnswerButton = true; }
+    AnswerQuestionUserFeedback.prototype.ShowCorrectAnswer = function () {
         this.ShowNextAnswer();
 
         if (!this._answerQuestion.AtLeastOneWrongAnswer) {
