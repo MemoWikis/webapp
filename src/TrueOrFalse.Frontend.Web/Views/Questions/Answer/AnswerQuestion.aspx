@@ -39,7 +39,8 @@
             <% if (Model.IsLearningSession)
                { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx",
-                   new LearningSessionModel(Model)); %>
+                   Model); %>
+                   <%--new LearningSessionModel(Model)); %>--%>
             <% }else{ %>
             <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
                 <li class="previous <%= Model.HasPreviousPage ? "" : "disabled" %>">

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
+using TrueOrFalse.Web.Uris;
 
 public class AnswerQuestionModel : BaseModel
 {
@@ -92,20 +94,34 @@ public class AnswerQuestionModel : BaseModel
     public bool IsLearningSession { get { return LearningSession != null; } }
     public LearningSession LearningSession;
     public LearningSessionStep LearningSessionStep;
+    public int LearningSessionCurrentStepNo;
 
     public AnswerQuestionModel()
     {
     }
 
-    public AnswerQuestionModel(LearningSession learningSession)
+    public AnswerQuestionModel(LearningSession learningSession, int currentLearningStepNo = -1)
     {
         LearningSession = learningSession;
 
-        var currentStep = LearningSession.Steps[LearningSession.CurrentLearningStepIdx()];
+        LearningSessionCurrentStepNo = currentLearningStepNo == -1 
+            ? LearningSession.CurrentLearningStepIdx() + 1
+            : currentLearningStepNo;
 
-        LearningSessionStep = currentStep;
+        int currentLearningStepIdx = LearningSessionCurrentStepNo - 1;
 
-        Populate(currentStep.Question);
+        LearningSessionStep = LearningSession.Steps[currentLearningStepIdx];
+
+        if (currentLearningStepIdx + 1 < learningSession.Steps.Count) { 
+            NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
+                new
+                {
+                    learningSessionId = learningSession.Id,
+                    setName = UriSegmentFriendlyUser.Run(learningSession.SetToLearn.Name),
+                    stepNo = LearningSessionCurrentStepNo + 1
+                });
+        }
+        Populate(LearningSessionStep.Question);
     }
 
     public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec)

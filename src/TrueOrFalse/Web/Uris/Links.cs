@@ -65,14 +65,16 @@ namespace TrueOrFalse.Frontend.Web.Code
                 }, null);
         }
 
-        public static string LearningSession(LearningSession learningSession)
+        public static string LearningSession(LearningSession learningSession, int nextStepToLearnIdx = -1)
         {
             return GetUrlHelper().Action("Learn", AnswerQuestionController,
                 new
                 {
                     learningSessionId = learningSession.Id,
                     setName = UriSegmentFriendlyUser.Run(learningSession.SetToLearn.Name),
-                    stepNo = learningSession.CurrentLearningStepIdx() + 1
+                    stepNo = nextStepToLearnIdx == -1 
+                        ? learningSession.CurrentLearningStepIdx() + 1 //Show starting from 1 for user
+                        : nextStepToLearnIdx + 1
                 });
         }
 
