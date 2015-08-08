@@ -27,3 +27,4 @@ src/TrueOrFalse.Tests/App.overwritten.config
 bld/
 _debugInvoice/
 .vs/
+node_modules/
