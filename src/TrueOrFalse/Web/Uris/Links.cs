@@ -34,7 +34,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string QuestionWithCategoryFilter(UrlHelper url, Category category){
-            return "/Fragen/Suche/Kategorie/" + category.Name + "/" + category.Id;
+            return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
         }
 
         public static string QuestionWithCreatorFilter(UrlHelper url, User user){
