@@ -1,0 +1,9 @@
+﻿[
+  {
+    "outputFile": "Style/includes/shared.css",
+    "inputFile": "Style/includes/shared.less",
+    "minify": {
+        "enabled": false
+    }
+  }
+]
