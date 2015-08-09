@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using FluentNHibernate.Utils;
 using NHibernate;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 

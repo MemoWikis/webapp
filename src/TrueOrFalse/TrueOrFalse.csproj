@@ -292,7 +292,8 @@
     <Compile Include="Domain\Knowledge\Learning\Persistence\LearningSessionStepMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\Persistence\LearningSessionMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\Persistence\LearningSessionRepository .cs" />
-    <Compile Include="Domain\Media\Image\ImageFrontendData.cs" />
+    <Compile Include="Domain\Media\Image\FrontendData\GetQuestionImageFrontendData.cs" />
+    <Compile Include="Domain\Media\Image\FrontendData\ImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\ImageSettingsBase.cs" />
     <Compile Include="Domain\Media\Image\ManualImageEvaluation.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseState.cs" />

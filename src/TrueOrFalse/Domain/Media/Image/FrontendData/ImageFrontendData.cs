@@ -175,7 +175,12 @@ public class ImageFrontendData
         return ImageUrl.Get(imageSettings, width, asSquare, arg => ImageUrl.GetFallbackImageUrl(imageSettings, width));
     }
 
-    public string RenderHtmlImageBasis(int width, bool asSquare, ImageType imageTypeForDummies, string insertLicenseLinkAfterAncestorOfClass = "ImageContainer", string additionalCssClasses = "")
+    public string RenderHtmlImageBasis(
+        int width, 
+        bool asSquare, 
+        ImageType imageTypeForDummies, 
+        string insertLicenseLinkAfterAncestorOfClass = "ImageContainer", 
+        string additionalCssClasses = "")
     {
         var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
         if(additionalCssClasses != "")
