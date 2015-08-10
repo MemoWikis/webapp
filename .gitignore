@@ -13,7 +13,8 @@ _Re[Ss]harper.*
 *~
 *.swp
 *.user
-
+*.js
+*.js.map
 src/TrueOrFalse.Frontend.Web/Images/*
 src/TrueOrFalse.Frontend.Web/TrueOrFalse.Frontend.Web.Publish.xml
 *.overwritten.config
@@ -25,3 +26,5 @@ docs/diagrams-enterprise-architect.ldb
 src/TrueOrFalse.Tests/App.overwritten.config
 bld/
 _debugInvoice/
+.vs/
+node_modules/

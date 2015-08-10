@@ -91,10 +91,9 @@
                             </div>
                             <div id="divLicenseUploader" style="padding-left: 20px;" class="hide2">
                                 Ich, <input type="text" class="form-control" id="txtLicenseOwner" name="txtLicenseOwner" placeholder="Name"
-                                        style="height: 19px; font-size: 13px; display: inline; width: 200px; margin-bottom: 0px; position: relative; top: -2px;"/> 
-                                , der Rechteinhaber dieses Werks gewähre unwiderruflich jedem das Recht, 
-                                es gemäß der „Creative Commons“-Lizenz „Namensnennung, Weitergabe 
-                                unter gleichen Bedingungen 3.0“ <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.de">(Text der Lizenz)</a> zu nutzen.
+                                        style="height: 19px; font-size: 11px; display: inline; width: 200px; margin-bottom: 0px; position: relative; top: -2px;"/> 
+                                , der Rechteinhaber dieses Werks gewähre unwiderruflich jedem das Recht, es gemäß der „Creative Commons“-Lizenz 
+                                „Namensnennung 4.0 International" (CC BY 4.0) <a href="http://creativecommons.org/licenses/by/4.0/deed.de" target="_blank">(Text der Lizenz)</a> zu nutzen.
                             </div>
                         </div>
         

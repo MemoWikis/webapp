@@ -364,9 +364,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
-    <Content Include="Fonts\font-awesome-4.3.0\css\font-awesome.css" />
-    <Content Include="Fonts\font-awesome-4.3.0\css\font-awesome.min.css" />
-    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Fonts\font-awesome-4.4.0\css\font-awesome.css" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Fonts\OpenSans\OpenSans.css" />
     <Content Include="Images\404.jpg" />
@@ -932,37 +931,6 @@
     <Content Include="Scripts\NotLoggedIn.js.map">
       <DependentUpon>NotLoggedIn.ts</DependentUpon>
     </Content>
-    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.eot" />
-    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.woff" />
-    <Content Include="Fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Fonts\font-awesome-4.3.0\fonts\FontAwesome.otf" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\animated.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\bordered-pulled.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\core.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\fixed-width.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\font-awesome.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\icons.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\larger.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\list.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\mixins.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\path.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\rotated-flipped.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\stacked.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\less\variables.less" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\font-awesome.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_animated.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_bordered-pulled.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_core.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_fixed-width.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_icons.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_larger.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_list.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_mixins.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_path.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_rotated-flipped.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_stacked.scss" />
-    <Content Include="Fonts\font-awesome-4.3.0\scss\_variables.scss" />
     <Content Include="Fonts\OpenSans\DXI1ORHCpsQm3Vp6mXoaTS3USBnSvpkopQaUR-2r7iU.ttf" />
     <Content Include="Fonts\OpenSans\EInbV5DfGHOiMmvb1Xr-hi3USBnSvpkopQaUR-2r7iU.ttf" />
     <Content Include="Fonts\OpenSans\IgZJs4-7SA1XX_edsoXWog.ttf" />
@@ -976,6 +944,25 @@
     <Content Include="Scripts\answerQuestion\AnswerEntry.js.map">
       <DependentUpon>AnswerEntry.ts</DependentUpon>
     </Content>
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\FontAwesome.otf" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\animated.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\bordered-pulled.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\core.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\fixed-width.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\font-awesome.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\icons.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\larger.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\list.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\mixins.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\path.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\rotated-flipped.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\stacked.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\variables.less" />
+    <None Include="compilerconfig.json" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\menu.css">

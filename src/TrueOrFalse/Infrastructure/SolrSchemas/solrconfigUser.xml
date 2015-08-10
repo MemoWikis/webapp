@@ -206,18 +206,6 @@
   <requestHandler name="/update" class="solr.UpdateRequestHandler">
   </requestHandler>
 
-  <!-- for back compat with clients using /update/json and /update/csv -->
-  <requestHandler name="/update/json" class="solr.JsonUpdateRequestHandler">
-    <lst name="defaults">
-      <str name="stream.contentType">application/json</str>
-    </lst>
-  </requestHandler>
-  <requestHandler name="/update/csv" class="solr.CSVRequestHandler">
-    <lst name="defaults">
-      <str name="stream.contentType">application/csv</str>
-    </lst>
-  </requestHandler>
-
   <requestHandler name="/update/extract"
                   startup="lazy"
                   class="solr.extraction.ExtractingRequestHandler" >

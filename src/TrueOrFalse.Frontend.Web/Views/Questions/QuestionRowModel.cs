@@ -49,8 +49,7 @@ public class QuestionRowModel : BaseModel
         int currentUserid,
         SearchTabType searchTab) 
     {
-        var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
-        ImageFrontendData = new ImageFrontendData(imageMetaData);
+        ImageFrontendData = GetQuestionImageFrontendData.Run(question);
 
         Question = question;
         QuestionShort = question.GetShortTitle();

@@ -75,9 +75,11 @@ namespace TrueOrFalse.Search
 
             sqb.Add("FullTextStemmed", searchTerm)
                 .Add("FullTextExact", searchTerm)
-                .Add("FullTextExact", searchTerm, startsWith:true)
-                .Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
-                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
+                .Add("FullTextExact", searchTerm, startsWith: true);
+               //.Add("FullTextExact", searchTerm, phrase: true);
+                
+            sqb.Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
+               .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
 
             if (categories != null)
                 categories.ForEach(x => sqb.Add("CategoryIds", x.ToString(), isAndCondition: true, exact: true));
