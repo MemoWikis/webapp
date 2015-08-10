@@ -86,24 +86,24 @@
     <div id="Buttons" style="margin-bottom: 10px; margin-top: 10px;">
         <%--<%= Buttons.Submit("Überspringen", inline:true)%>--%>
         <div id="buttons-first-try" class="pull-right">
-            <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
+            <a href="#" class="selectorShowAnswer SecAction">Lösung anzeigen</a>
             <a href="#" id="btnCheck" class="btn btn-primary" style="padding-right: 10px">Antworten</a>
         </div>
                     
-        <% if(Model.NextUrl != null){ %>
-            <div id="buttons-next-answer" class="pull-right" style="display: none;">
-                <a href="#" id="btnCountAsCorrect" class="btn btn-info show-tooltip" title="Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!" style="display: none;">Hab ich gewusst!</a>
-                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success pull-right">N&auml;chste Frage</a>
-            </div>
-        <% } %>
+        <div id="buttons-next-question" class="pull-right" style="display: none;">
+            <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!" style="display: none;">Hab ich gewusst!</a>
+            <% if(Model.NextUrl != null){ %>
+                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success">N&auml;chste Frage</a>
+            <% } %>
+        </div>
 
         <div id="buttons-edit-answer" class="pull-right" style="display: none;">
-            <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
+            <a href="#" class="selectorShowAnswer SecAction">Lösung anzeigen</a>
             <a href="#" id="btnEditAnswer" class="btn btn-warning">Antwort überarbeiten</a>
         </div>
         <div id="buttons-answer-again" class="pull-right" style="display: none">
-            <a href="#" class="selectorShowAnswer btn btn-info">Antwort anzeigen</a>
-            <a href="#" id="btnCheckAgain" class="btn btn-warning pull-right">Nochmal Antworten</a>
+            <a href="#" class="selectorShowAnswer SecAction">Lösung anzeigen</a>
+            <a href="#" id="btnCheckAgain" class="btn btn-warning">Nochmal Antworten</a>
         </div>
                     
         <div style="clear: both"></div>

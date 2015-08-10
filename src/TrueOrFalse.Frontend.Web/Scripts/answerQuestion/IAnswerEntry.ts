@@ -4,5 +4,4 @@ interface IAnswerEntry {
     OnNewAnswer(): void;
 
     IsGameMode: boolean;
-    IsLearningSession: boolean;
 }

@@ -1,14 +1,11 @@
 ﻿class AnswerEntry {
 
     IsGameMode: boolean;
-    IsLearningSession: boolean;
 
     constructor(
-        isGameMode: boolean = false,
-        isLearningSession: boolean = false) {
+        isGameMode: boolean = false) {
 
         this.IsGameMode = isGameMode;
-        this.IsLearningSession = isLearningSession;
     }
 
     public Init() {

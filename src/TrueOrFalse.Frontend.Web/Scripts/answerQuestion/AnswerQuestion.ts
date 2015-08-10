@@ -9,7 +9,8 @@ class AnswerQuestion
     private _onNewAnswer: () => void;
 
     private _inputFeedback: AnswerQuestionUserFeedback;
-    private _isGameMode : boolean;
+    private _isGameMode: boolean;
+    private _isLearningSession: boolean;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
@@ -22,6 +23,7 @@ class AnswerQuestion
     constructor(answerEntry : IAnswerEntry) {
 
         this._isGameMode = answerEntry.IsGameMode;
+        this._isLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
 
         this._getAnswerText = answerEntry.GetAnswerText;
         this._getAnswerData = answerEntry.GetAnswerData;
@@ -45,6 +47,21 @@ class AnswerQuestion
             return true;
         });
 
+        //$(document).on('click', '#txtAnswer', function () { this.select(); });
+
+
+        //$("#txtAnswer").click(
+        //    function () {
+        ////        e.preventDefault();
+        //       // window.alert("lkjlkj");
+        //        if ($("#buttons-edit-answer").is(":visible")) {
+        //            //$(this).select();
+        //            //self._onNewAnswer();
+                    
+        //        }
+        //       // $("#txtAnswer").select();
+        //    });
+
         $("#btnCheck").click(
             e => {
                 e.preventDefault();
@@ -57,7 +74,7 @@ class AnswerQuestion
                 self.ValidateAnswer();
             });
 
-        $("#btnCountAsCorrect").click(
+        $("#aCountAsCorrect").click(
             e => {
                 e.preventDefault();
                 self.countLastAnswerAsCorrect();
@@ -117,14 +134,15 @@ class AnswerQuestion
                     if (result.correct)
                     {
                         self._inputFeedback.ShowSuccess();
-                        self._inputFeedback.ShowCorrectAnswer(/*showNextAnswerButton*/false);
+                        self._inputFeedback.ShowCorrectAnswer();
                     }
                     else //!result.correct
                     {
-                        if (self._isGameMode)
-                        {
+                        if (self._isGameMode
+                            || self._isLearningSession
+                            ) {
                             self._inputFeedback.ShowErrorGame();
-                            self._inputFeedback.ShowCorrectAnswer(/*showNextAnswerButton*/false);
+                            self._inputFeedback.ShowCorrectAnswer();
                         }
                         else
                         {
@@ -173,7 +191,7 @@ class AnswerQuestion
             cache: false,
             success: function (result) {
                 $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
-                $('#btnCountAsCorrect').attr('disabled', 'true');
+                $('#aCountAsCorrect').hide();
                 $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: AnswerQuestion.GetQuestionId() }, function (data) {
                     $("#answerHistory").html(data);

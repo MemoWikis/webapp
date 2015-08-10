@@ -59,7 +59,7 @@
         var self = this;
 
         $("#divAnsweredCorrect").show();
-        $("#buttons-next-answer").show();
+        $("#buttons-next-question").show();
         $("#buttons-edit-answer").hide();
         $("#txtAnswer").animate({ backgroundColor: "#D1EBA7" }, 1000);
         $("#divWrongAnswer").hide();
@@ -70,7 +70,7 @@
         this.RenderAnswerDetails();
     }
 
-    ShowCorrectAnswer(showNextAnswerButton : boolean = true) {
+    ShowCorrectAnswer() {
 
         this.ShowNextAnswer();
 
@@ -196,9 +196,9 @@
 
     private ShowNextAnswer() {
 
-        $("#buttons-next-answer").show();
+        $("#buttons-next-question").show();
         if (this._answerQuestion.AtLeastOneWrongAnswer) {
-            $("#btnCountAsCorrect").removeAttr('disabled').show();
+            $("#aCountAsCorrect").show();
         }
 
         $("#answerFeedback").hide();

@@ -34,12 +34,16 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" />
+    
+
     <div class="row">
         <div class="col-lg-9 col-xs-9 xxs-stack">
             <% if (Model.IsLearningSession)
                { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx",
-                   new LearningSessionModel(Model)); %>
+                   Model); %>
+                   <%--new LearningSessionModel(Model)); %>--%>
             <% }else{ %>
             <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
                 <li class="previous <%= Model.HasPreviousPage ? "" : "disabled" %>">

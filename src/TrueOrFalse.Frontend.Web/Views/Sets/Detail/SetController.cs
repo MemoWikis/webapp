@@ -37,8 +37,6 @@ public class SetController : BaseController
 
         R<LearningSessionRepo>().Create(learningSession);
 
-        _sessionUser.LearningSession = learningSession;
-
         return Redirect(Links.LearningSession(learningSession));
     }
 }
