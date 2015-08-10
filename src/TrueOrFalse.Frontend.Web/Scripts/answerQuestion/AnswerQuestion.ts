@@ -9,7 +9,8 @@ class AnswerQuestion
     private _onNewAnswer: () => void;
 
     private _inputFeedback: AnswerQuestionUserFeedback;
-    private _isGameMode : boolean;
+    private _isGameMode: boolean;
+    //private _isLearningSession: boolean;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
@@ -22,6 +23,7 @@ class AnswerQuestion
     constructor(answerEntry : IAnswerEntry) {
 
         this._isGameMode = answerEntry.IsGameMode;
+        //this._isLearningSession = answerEntry.IsLearningSession;
 
         this._getAnswerText = answerEntry.GetAnswerText;
         this._getAnswerData = answerEntry.GetAnswerData;
@@ -44,6 +46,21 @@ class AnswerQuestion
             }
             return true;
         });
+
+        //$(document).on('click', '#txtAnswer', function () { this.select(); });
+
+
+        //$("#txtAnswer").click(
+        //    function () {
+        ////        e.preventDefault();
+        //       // window.alert("lkjlkj");
+        //        if ($("#buttons-edit-answer").is(":visible")) {
+        //            //$(this).select();
+        //            //self._onNewAnswer();
+                    
+        //        }
+        //       // $("#txtAnswer").select();
+        //    });
 
         $("#btnCheck").click(
             e => {
@@ -121,7 +138,9 @@ class AnswerQuestion
                     }
                     else //!result.correct
                     {
-                        if (self._isGameMode)
+                        if (self._isGameMode
+                            //|| self._isLearningSession
+                            )
                         {
                             self._inputFeedback.ShowErrorGame();
                             self._inputFeedback.ShowCorrectAnswer();

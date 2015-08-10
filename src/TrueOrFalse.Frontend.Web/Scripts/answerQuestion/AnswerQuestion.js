@@ -10,6 +10,7 @@ var AnswerQuestion = (function () {
         this.AtLeastOneWrongAnswer = false;
         this._isGameMode = answerEntry.IsGameMode;
 
+        //this._isLearningSession = answerEntry.IsLearningSession;
         this._getAnswerText = answerEntry.GetAnswerText;
         this._getAnswerData = answerEntry.GetAnswerData;
         this._onNewAnswer = answerEntry.OnNewAnswer;
