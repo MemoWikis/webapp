@@ -10,7 +10,7 @@ class AnswerQuestion
 
     private _inputFeedback: AnswerQuestionUserFeedback;
     private _isGameMode: boolean;
-    //private _isLearningSession: boolean;
+    private _isLearningSession: boolean;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
@@ -23,7 +23,7 @@ class AnswerQuestion
     constructor(answerEntry : IAnswerEntry) {
 
         this._isGameMode = answerEntry.IsGameMode;
-        //this._isLearningSession = answerEntry.IsLearningSession;
+        this._isLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
 
         this._getAnswerText = answerEntry.GetAnswerText;
         this._getAnswerData = answerEntry.GetAnswerData;
@@ -139,9 +139,8 @@ class AnswerQuestion
                     else //!result.correct
                     {
                         if (self._isGameMode
-                            //|| self._isLearningSession
-                            )
-                        {
+                            || self._isLearningSession
+                            ) {
                             self._inputFeedback.ShowErrorGame();
                             self._inputFeedback.ShowCorrectAnswer();
                         }

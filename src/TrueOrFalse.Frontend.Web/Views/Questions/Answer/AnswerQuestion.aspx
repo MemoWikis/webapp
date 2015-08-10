@@ -34,6 +34,9 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" />
+    
+
     <div class="row">
         <div class="col-lg-9 col-xs-9 xxs-stack">
             <% if (Model.IsLearningSession)

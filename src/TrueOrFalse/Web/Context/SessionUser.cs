@@ -10,12 +10,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         set { Data["isBetaLogin"] = value; }
     }
 
-    public LearningSession LearningSession
-    {
-        get { return Data.Get<LearningSession>("learningSession"); }
-        set { Data["learningSession"] = value; }
-    }
-
     public bool IsLoggedIn
     {
         get { return Data.Get("isLoggedIn", false); }
