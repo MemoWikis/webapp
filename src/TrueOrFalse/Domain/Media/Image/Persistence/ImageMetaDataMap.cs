@@ -1,5 +1,4 @@
 ﻿using FluentNHibernate.Mapping;
-using TrueOrFalse;
 
 public class ImageMetaDataMap : ClassMap<ImageMetaData>
 {

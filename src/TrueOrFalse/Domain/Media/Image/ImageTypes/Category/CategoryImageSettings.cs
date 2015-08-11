@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web;
-using TrueOrFalse;
 
 public class CategoryImageSettings : ImageSettingsBase, IImageSettings
 {
