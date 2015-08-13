@@ -89,7 +89,7 @@ class AnswerQuestion
                 divWrongAnswers.hide();
         });
 
-        $(".selectorShowAnswer").click(()=> {
+        $(".selectorShowSolution").click(()=> {
             this._inputFeedback.ShowSolution();
             return false;
         });
