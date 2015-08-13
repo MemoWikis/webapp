@@ -70,9 +70,9 @@
         this.RenderAnswerDetails();
     }
 
-    ShowCorrectAnswer() {
+    ShowSolution() {
 
-        this.ShowNextAnswer();
+        this.ShowNextQuestionLink();
 
         if (!this._answerQuestion.AtLeastOneWrongAnswer) {
             $("#txtAnswer").hide();
@@ -97,7 +97,7 @@
         $('#Buttons').css('visibility', 'hidden');
         window.setTimeout(function () { $("#SolutionDetailsSpinner").show(); }, 1000);
 
-        AnswerQuestion.AjaxGetAnswer(result => {
+        AnswerQuestion.AjaxGetSolution(result => {
 
             $("#Solution").show().find('.Content').html(result.correctAnswer);
             if (result.correctAnswerDesc) {
@@ -194,7 +194,7 @@
         });
     }
 
-    private ShowNextAnswer() {
+    private ShowNextQuestionLink() {
 
         $("#buttons-next-question").show();
         if (this._answerQuestion.AtLeastOneWrongAnswer) {
