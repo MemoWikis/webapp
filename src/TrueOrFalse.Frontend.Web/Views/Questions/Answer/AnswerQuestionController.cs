@@ -40,8 +40,13 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult Learn(int learningSessionId, string setName, int stepNo)
     {
-        //_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
+        ////_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
         //_saveQuestionView.Run(question, _sessionUser.User);
+
+        var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
+
+        if (learningSession.Steps[stepNo - 1].AnswerHistory != null)
+            return RedirectToAction("Learn", learningSession.CurrentLearningStepIdx() - 1);
 
         return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), stepNo));
     }
@@ -182,7 +187,7 @@ public class AnswerQuestionController : BaseController
 
 
     [HttpPost]
-    public JsonResult GetAnswer(int id, string answer)
+    public JsonResult GetSolution(int id, string answer)
     {
         var question = _questionRepository.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
