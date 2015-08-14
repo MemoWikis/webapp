@@ -36,7 +36,13 @@
 
         this.ButtonStartGame.click((e) => { e.preventDefault(); this.StartGame(); });
         this.ButtonCancelGame.click((e) => { e.preventDefault(); this.CancelGame(); });
-        this.ButtonJoinGame.click((e) => { e.preventDefault(); this.JoinGame(); });
+        this.ButtonJoinGame.click((e) => {
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg();
+                return;
+            }
+             e.preventDefault(); this.JoinGame();
+        });
         this.ButtonLeaveGame.click((e) => { e.preventDefault(); this.LeaveGame(); });
 
         this.IsCreator = this.Div.attr("data-isCreator") === "True";

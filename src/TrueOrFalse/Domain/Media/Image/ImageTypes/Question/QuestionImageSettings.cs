@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TrueOrFalse;
 
 public class QuestionImageSettings : ImageSettingsBase, IImageSettings
 {

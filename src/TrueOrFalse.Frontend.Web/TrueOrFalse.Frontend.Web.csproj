@@ -558,7 +558,6 @@
       <DependentUpon>Play.ts</DependentUpon>
     </Content>
     <Content Include="Views\Games\Play\Play.aspx" />
-    <Content Include="Views\Help\Willkommen.aspx" />
     <Content Include="Views\Knowledge\Knowledge.css">
       <DependentUpon>Knowledge.less</DependentUpon>
     </Content>
@@ -1022,10 +1021,6 @@
     <Content Include="Views\Drafts\Templates.aspx" />
     <Content Include="Views\Drafts\temp.aspx" />
     <Content Include="Views\Error\Test.aspx" />
-    <Content Include="Views\Help\UrheberrechtInhalte.aspx" />
-    <Content Include="Views\Help\Wissen.aspx" />
-    <Content Include="Views\Help\Reputation.aspx" />
-    <Content Include="Views\Help\DatenSicherheit.aspx" />
     <Content Include="Views\Help\FAQ.aspx" />
     <Content Include="Fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
