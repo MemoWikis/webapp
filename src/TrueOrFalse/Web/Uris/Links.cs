@@ -110,9 +110,9 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { id = question.Id, stepId = learningSessionStep.Id }, null);
         }
 
-        public static string GetAnswer(UrlHelper url, Question question)
+        public static string GetSolution(UrlHelper url, Question question)
         {
-            return url.Action("GetAnswer", AnswerQuestionController, new { id = question.Id }, null);
+            return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id }, null);
         }
 
         public static string CountLastAnswerAsCorrect(UrlHelper url, Question question)

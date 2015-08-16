@@ -49,7 +49,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });
             /* API */ routes.MapRoute("Question_SendAnswer", "Questions/SendAnswer/{id}", new { controller = "AnswerQuestion", action = "SendAnswer" });
-            /* API */ routes.MapRoute("Question_GetAnswer", "Questions/GetAnswer/{id}", new { controller = "AnswerQuestion", action = "GetAnswer" });
+            /* API */ routes.MapRoute("Question_GetSolution", "Questions/GetSolution/{id}", new { controller = "AnswerQuestion", action = "GetSolution" });
             /* API */ routes.MapRoute("Question_CountLastAnswerAsCorrect", "Questions/CountLastAnswerAsCorrect/{id}", new { controller = "AnswerQuestion", action = "CountLastAnswerAsCorrect" });
             /* API */ routes.MapRoute("Question_SaveQuality", "Questions/SaveQuality/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveQuality" });
             /* API */ routes.MapRoute("Question_SaveRelevancePersonal", "Questions/SaveRelevancePersonal/{id}/{newValue}", new { controller = "AnswerQuestion", action = "SaveRelevancePersonal" });

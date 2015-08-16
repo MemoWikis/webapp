@@ -67,12 +67,12 @@
         $("#divAnsweredCorrect").show();
         $("#wellDoneMsg").html("" + self._successMsgs[Utils.Random(0, self._successMsgs.length - 1)]).show();
 
-        this.RenderAnswerDetails();
+        this.RenderSolutionDetails();
     }
 
-    ShowCorrectAnswer() {
+    ShowSolution() {
 
-        this.ShowNextAnswer();
+        this.ShowNextQuestionLink();
 
         if (!this._answerQuestion.AtLeastOneWrongAnswer) {
             $("#txtAnswer").hide();
@@ -89,15 +89,15 @@
             $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antworten:');
             $("#divWrongAnswers").show();
         }
-        this.RenderAnswerDetails();
+        this.RenderSolutionDetails();
     }
 
-    RenderAnswerDetails() {
+    RenderSolutionDetails() {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
         $('#Buttons').css('visibility', 'hidden');
         window.setTimeout(function () { $("#SolutionDetailsSpinner").show(); }, 1000);
 
-        AnswerQuestion.AjaxGetAnswer(result => {
+        AnswerQuestion.AjaxGetSolution(result => {
 
             $("#Solution").show().find('.Content').html(result.correctAnswer);
             if (result.correctAnswerDesc) {
@@ -194,7 +194,7 @@
         });
     }
 
-    private ShowNextAnswer() {
+    private ShowNextQuestionLink() {
 
         $("#buttons-next-question").show();
         if (this._answerQuestion.AtLeastOneWrongAnswer) {

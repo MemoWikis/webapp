@@ -90,8 +90,8 @@ class AnswerQuestion
                 divWrongAnswers.hide();
         });
 
-        $(".selectorShowAnswer").click(()=> {
-            this._inputFeedback.ShowCorrectAnswer();
+        $(".selectorShowSolution").click(()=> {
+            this._inputFeedback.ShowSolution();
             return false;
         });
 
@@ -135,16 +135,15 @@ class AnswerQuestion
                     if (result.correct)
                     {
                         self._inputFeedback.ShowSuccess();
-                        self._inputFeedback.ShowCorrectAnswer();
+                        self._inputFeedback.ShowSolution();
                     }
                     else //!result.correct
                     {
-                        if (self._isGameMode
-                            || self._isLearningSession
-                            ) {
+                        if (self._isGameMode) {
                             self._inputFeedback.ShowErrorGame();
-                            self._inputFeedback.ShowCorrectAnswer();
+                            self._inputFeedback.ShowSolution();
                         }
+
                         else
                         {
                             self._inputFeedback.UpdateAnswersSoFar();
@@ -227,7 +226,7 @@ class AnswerQuestion
         }
     }
 
-    static AjaxGetAnswer(onSuccessAction) {
+    static AjaxGetSolution(onSuccessAction) {
 
         $.ajax({
             type: 'POST',

@@ -60,7 +60,7 @@ public class AnswerBodyModel : BaseModel
     {
         QuestionId = question.Id;
 
-        AjaxUrl_GetSolution = url => Links.GetAnswer(url, question);
+        AjaxUrl_GetSolution = url => Links.GetSolution(url, question);
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
 
         QuestionText = question.Text;

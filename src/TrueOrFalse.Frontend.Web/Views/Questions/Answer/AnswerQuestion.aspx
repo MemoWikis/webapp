@@ -9,7 +9,7 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
 
     <style type="text/css">
-         .selectorShowAnswer{/* marker class */}
+         .selectorShowSolution{/* marker class */}
                
         .sparklineTotals{ position: relative;top: 1px; }
         .sparklineTotalsUser{ position: relative;top: 1px; }
