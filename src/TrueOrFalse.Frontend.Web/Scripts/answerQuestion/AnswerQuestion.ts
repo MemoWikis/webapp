@@ -23,7 +23,8 @@ class AnswerQuestion
     constructor(answerEntry : IAnswerEntry) {
 
         this._isGameMode = answerEntry.IsGameMode;
-        this._isLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
+        if($('#hddIsLearningSession').length === 1)
+            this._isLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
 
         this._getAnswerText = answerEntry.GetAnswerText;
         this._getAnswerData = answerEntry.GetAnswerData;
