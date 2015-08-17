@@ -114,11 +114,11 @@
             this.IfNeeded_ShowNoGamesReadyInfo();
         };
 
-        this._hub.client.ChangeStartTime = (changeStartTime) => {
+        GameHub.OnChangeStartTime((changeStartTime: ChangeStartTimeEvent) => {
             var row = me.GetRow(changeStartTime.GameId);
             row.ChangeTime(changeStartTime.WillStartAt);
-            this.InitializeCountdown("[data-gameId=" + changeStartTime.GameId + "] [data-countdown]");
-        };
+            me.InitializeCountdown("[data-gameId=" + changeStartTime.GameId + "] [data-countdown]");
+        });
 
         $.connection.hub.start(() => {
             window.console.log("connection started:");

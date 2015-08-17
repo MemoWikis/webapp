@@ -22,18 +22,9 @@
         var countDowns = $('#divMsgPartOfGame [data-countdown-game]');
 
         if (countDowns.length > 0) {
-            var hub = $.connection.gameHub;    
-
-            hub.client.ChangeStartTime = (changeStartTime) => {
-                window.console.log("time changed to" + changeStartTime);
-                countDowns.each(function() {
-                    $(this).data('countdown-game', changeStartTime);
-                });
-            };
-
-            $.connection.hub.start(() => {
-                window.console.log("connection started:");
-            });
+            GameHub.OnChangeStartTime((changeStartTime: ChangeStartTimeEvent) => {
+                countDowns.countdown(changeStartTime.WillStartAt.toString());
+            });            
         }
 
         countDowns.each(function () {

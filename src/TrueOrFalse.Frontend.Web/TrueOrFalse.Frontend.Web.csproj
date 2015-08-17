@@ -379,6 +379,8 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
+    <TypeScriptCompile Include="Scripts\hubs\GameHub.ts" />
+    <TypeScriptCompile Include="Scripts\hubs\GameHubEvents.ts" />
     <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
@@ -450,6 +452,9 @@
     </Content>
     <Content Include="Scripts\FormValidation.js">
       <DependentUpon>FormValidation.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\hubs\GameHub.js">
+      <DependentUpon>GameHub.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\NotLoggedIn.js">
       <DependentUpon>NotLoggedIn.ts</DependentUpon>
