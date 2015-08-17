@@ -146,16 +146,23 @@ class AnswerQuestion
                         else
                         {
                             self._inputFeedback.UpdateAnswersSoFar();
-
+                           
                             self.AtLeastOneWrongAnswer = true;
                             self._inputFeedback.ShowError();
+
+                            //if (self._isLearningSession) {
+
+                            //    self._inputFeedback.ShowSolution();
+                            //    $('#CountWrongAnswers, #divWrongAnswers').hide();
+
+                            //} else
 
                             if (result.choices != null) { //if multiple choice
                                 choices = result.choices;
                                 if (self.allWrongAnswersTried(answerText)) {
-                                    self._inputFeedback.ShowCorrectAnswer();
+                                    self._inputFeedback.ShowSolution();
                                 }
-                            }                            
+                            }
                         }
                     };
 
