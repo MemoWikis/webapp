@@ -103,8 +103,8 @@ class AnswerQuestion
         });
 
         $("#btnNext").click(function (e) {
-            if ($('#hddIsLearningSession').length > 0
-                && $('#hddIsLearningSession').attr('data-has-been-answered').toLowerCase() === "false") {
+            if (self.AmountOfTries === 0)
+            {
                 var href = $(this).attr('href') + "?skipStepId=" + $('#hddIsLearningSession').attr('data-current-step-id');
                 window.location.href = href;
                 return false;
@@ -127,7 +127,6 @@ class AnswerQuestion
             return false;
         } else {
             $('#spnWrongAnswer').show();
-            $('#hddIsLearningSession').attr('data-has-been-answered', 'true');
             self.AmountOfTries++;
             self.AnswersSoFar.push(answerText);
 

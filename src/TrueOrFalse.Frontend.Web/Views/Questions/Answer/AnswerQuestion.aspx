@@ -35,7 +35,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
-        data-has-been-answered="false"
         data-current-step-id="<%= Model.IsLearningSession ? Model.LearningSessionStep.Id : -1 %>" />
 
     <div class="row">
