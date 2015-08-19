@@ -162,12 +162,12 @@ class AnswerQuestion
                             self.AtLeastOneWrongAnswer = true;
                             self._inputFeedback.ShowError();
 
-                            //if (self._isLearningSession) {
+                            if (self._isLearningSession) {
 
-                            //    self._inputFeedback.ShowSolution();
-                            //    $('#CountWrongAnswers, #divWrongAnswers').hide();
+                                self._inputFeedback.ShowSolution();
+                                $('#CountWrongAnswers, #divWrongAnswers').hide();
 
-                            //} else
+                            } else
 
                             if (result.choices != null) { //if multiple choice
                                 choices = result.choices;
