@@ -10,7 +10,7 @@ class AnswerQuestion
 
     private _inputFeedback: AnswerQuestionUserFeedback;
     private _isGameMode: boolean;
-    private _isLearningSession: boolean;
+    private _isLearningSession = false;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
@@ -101,6 +101,16 @@ class AnswerQuestion
 
             this._inputFeedback.AnimateNeutral();
         });
+
+        $("#btnNext").click(function (e) {
+            if ($('#hddIsLearningSession').length > 0
+                && $('#hddIsLearningSession').attr('data-has-been-answered').toLowerCase() === "false") {
+                var href = $(this).attr('href') + "?skipStepId=" + $('#hddIsLearningSession').attr('data-current-step-id');
+                window.location.href = href;
+                return false;
+            }
+            return true;
+        });
     }
 
     static GetQuestionId() : number {
@@ -117,6 +127,7 @@ class AnswerQuestion
             return false;
         } else {
             $('#spnWrongAnswer').show();
+            $('#hddIsLearningSession').attr('data-has-been-answered', 'true');
             self.AmountOfTries++;
             self.AnswersSoFar.push(answerText);
 
