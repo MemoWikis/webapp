@@ -440,6 +440,9 @@
     <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js">
       <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\answerQuestion\IAnswerEntry.js">
+      <DependentUpon>IAnswerEntry.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\autocompletes\AutocompleteSets.js">
       <DependentUpon>AutocompleteSets.ts</DependentUpon>
     </Content>

@@ -154,7 +154,7 @@ class AnswerQuestion
                             if (result.choices != null) { //if multiple choice
                                 choices = result.choices;
                                 if (self.allWrongAnswersTried(answerText)) {
-                                    self._inputFeedback.ShowCorrectAnswer();
+                                    self._inputFeedback.ShowSolution();
                                 }
                             }                            
                         }
