@@ -19,6 +19,7 @@ class AnswerQuestion
     public AnswersSoFar = [];
     public AmountOfTries = 0;
     public AtLeastOneWrongAnswer = false;
+    public AnswerCountedAsCorrect = false;
 
     constructor(answerEntry : IAnswerEntry) {
 
@@ -103,7 +104,8 @@ class AnswerQuestion
         });
 
         $("#btnNext").click(function (e) {
-            if (self.AmountOfTries === 0)
+            if (self.AmountOfTries === 0
+                && !self.AnswerCountedAsCorrect)
             {
                 var href = $(this).attr('href') + "?skipStepId=" + $('#hddIsLearningSession').attr('data-current-step-id');
                 window.location.href = href;
@@ -207,6 +209,7 @@ class AnswerQuestion
             url: AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect,
             cache: false,
             success: function (result) {
+                self.AnswerCountedAsCorrect = true;
                 $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
                 $('#aCountAsCorrect').hide();
                 $("#answerHistory").empty();
