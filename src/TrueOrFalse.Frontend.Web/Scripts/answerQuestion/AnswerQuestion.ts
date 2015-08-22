@@ -10,7 +10,7 @@ class AnswerQuestion
 
     private _inputFeedback: AnswerQuestionUserFeedback;
     private _isGameMode: boolean;
-    private _isLearningSession: boolean;
+    private _isLearningSession = false;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
@@ -19,6 +19,7 @@ class AnswerQuestion
     public AnswersSoFar = [];
     public AmountOfTries = 0;
     public AtLeastOneWrongAnswer = false;
+    public AnswerCountedAsCorrect = false;
 
     constructor(answerEntry : IAnswerEntry) {
 
@@ -101,6 +102,17 @@ class AnswerQuestion
 
             this._inputFeedback.AnimateNeutral();
         });
+
+        $("#btnNext, #aSkipStep").click(function (e) {
+            if (self.AmountOfTries === 0
+                && !self.AnswerCountedAsCorrect)
+            {
+                var href = $(this).attr('href') + "?skipStepId=" + $('#hddIsLearningSession').attr('data-current-step-id');
+                window.location.href = href;
+                return false;
+            }
+            return true;
+        });
     }
 
     static GetQuestionId() : number {
@@ -147,16 +159,23 @@ class AnswerQuestion
                         else
                         {
                             self._inputFeedback.UpdateAnswersSoFar();
-
+                           
                             self.AtLeastOneWrongAnswer = true;
                             self._inputFeedback.ShowError();
+
+                            if (self._isLearningSession) {
+
+                                self._inputFeedback.ShowSolution();
+                                $('#CountWrongAnswers, #divWrongAnswers').hide();
+
+                            } else
 
                             if (result.choices != null) { //if multiple choice
                                 choices = result.choices;
                                 if (self.allWrongAnswersTried(answerText)) {
                                     self._inputFeedback.ShowSolution();
                                 }
-                            }                            
+                            }
                         }
                     };
 
@@ -190,6 +209,7 @@ class AnswerQuestion
             url: AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect,
             cache: false,
             success: function (result) {
+                self.AnswerCountedAsCorrect = true;
                 $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
                 $('#aCountAsCorrect').hide();
                 $("#answerHistory").empty();

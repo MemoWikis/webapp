@@ -73,7 +73,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                     learningSessionId = learningSession.Id,
                     setName = UriSegmentFriendlyUser.Run(learningSession.SetToLearn.Name),
                     stepNo = nextStepToLearnIdx == -1 
-                        ? learningSession.CurrentLearningStepIdx() + 1 //Show starting from 1 for user
+                        ? learningSession.CurrentLearningStepIdx() + 1 //Convert idx to number to improve readability of url for user
                         : nextStepToLearnIdx + 1
                 });
         }

@@ -7,16 +7,19 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly AnswerHistoryLog _answerHistoryLog;
     private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
     private readonly ProbabilityUpdate _probabilityUpdate;
+    private readonly LearningSessionStepRepo _learningSessionStepRepo;
 
     public AnswerQuestion(QuestionRepository questionRepository, 
                             AnswerHistoryLog answerHistoryLog, 
                             UpdateQuestionAnswerCount updateQuestionAnswerCount, 
-                            ProbabilityUpdate probabilityUpdate)
+                            ProbabilityUpdate probabilityUpdate,
+                            LearningSessionStepRepo learningSessionStepRepo)
     {
         _questionRepository = questionRepository;
         _answerHistoryLog = answerHistoryLog;
         _updateQuestionAnswerCount = updateQuestionAnswerCount;
         _probabilityUpdate = probabilityUpdate;
+        _learningSessionStepRepo = learningSessionStepRepo;
     }
 
     public AnswerQuestionResult Run(
@@ -41,10 +44,14 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
        int stepId,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        var learningSessionStep = Sl.Resolve<LearningSessionStepRepo>().GetById(stepId);
-        
+        var learningSessionStep = _learningSessionStepRepo.GetById(stepId);
+
         return Run(questionId, answer, userId, (question, answerQuestionResult) => {
             _answerHistoryLog.Run(question, answerQuestionResult, userId, learningSessionStep: learningSessionStep, dateCreated: dateCreated);
+            
+            learningSessionStep.AnswerState = StepAnswerState.Answered;
+            _learningSessionStepRepo.Update(learningSessionStep);
+
         });
     }
 

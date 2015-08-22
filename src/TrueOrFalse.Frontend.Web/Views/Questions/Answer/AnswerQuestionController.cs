@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using StackExchange.Profiling;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Updates;
 using TrueOrFalse.Web;
 
 public class AnswerQuestionController : BaseController
@@ -38,10 +41,31 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
-    public ActionResult Learn(int learningSessionId, string setName, int stepNo)
+    public ActionResult Learn(int learningSessionId, string setName, int stepNo, int skipStepId = -1)
     {
         ////_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
         //_saveQuestionView.Run(question, _sessionUser.User);
+        
+        if (skipStepId != -1)
+        {
+            LearningSessionStep.Skip(skipStepId);
+            return RedirectToAction("Learn", Links.AnswerQuestionController, 
+                new {learningSessionId, setName, stepNo});
+        }
+
+        var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
+
+        var stepIdx = stepNo - 1;
+
+        learningSession.Steps.ToList() //Skip all unanswered steps before called step
+            .GetRange(0, stepIdx)
+            .Where(s => s.AnswerState == StepAnswerState.Uncompleted)
+            .ToList()
+            .ForEach(
+                s => LearningSessionStep.Skip(s.Id));
+
+        if (learningSession.Steps[stepIdx].AnswerState != StepAnswerState.Uncompleted)
+            return Redirect(Links.LearningSession(learningSession, learningSession.CurrentLearningStepIdx()));
 
         return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), stepNo));
     }

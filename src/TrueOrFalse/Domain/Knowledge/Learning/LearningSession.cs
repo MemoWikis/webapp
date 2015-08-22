@@ -16,8 +16,6 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     public virtual int CurrentLearningStepIdx()
     {
         return Steps.ToList()
-            .FindLastIndex(s => s.AnswerHistory != null)
-            + 1;
+            .FindIndex(s => s.AnswerState == StepAnswerState.Uncompleted);
     }
-
 }
