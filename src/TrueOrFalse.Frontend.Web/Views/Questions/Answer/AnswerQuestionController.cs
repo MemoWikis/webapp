@@ -45,25 +45,26 @@ public class AnswerQuestionController : BaseController
     {
         ////_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
         //_saveQuestionView.Run(question, _sessionUser.User);
-
+        
         if (skipStepId != -1)
         {
-            var stepRepo = Sl.Resolve<LearningSessionStepRepo>();
-            var stepToSkip = stepRepo.GetById(skipStepId);
-
-            if (stepToSkip.AnswerState != StepAnswerState.Answered)
-            {
-                stepToSkip.AnswerState = StepAnswerState.Skipped;
-                stepRepo.Update(stepToSkip);    
-            }
-            
+            LearningSessionStep.Skip(skipStepId);
             return RedirectToAction("Learn", Links.AnswerQuestionController, 
                 new {learningSessionId, setName, stepNo});
         }
 
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
-        if (learningSession.Steps[stepNo - 1].AnswerState != StepAnswerState.Uncompleted)
+        var stepIdx = stepNo - 1;
+
+        learningSession.Steps.ToList() //Skip all unanswered steps before called step
+            .GetRange(0, stepIdx)
+            .Where(s => s.AnswerState == StepAnswerState.Uncompleted)
+            .ToList()
+            .ForEach(
+                s => LearningSessionStep.Skip(s.Id));
+
+        if (learningSession.Steps[stepIdx].AnswerState != StepAnswerState.Uncompleted)
             return Redirect(Links.LearningSession(learningSession, learningSession.CurrentLearningStepIdx()));
 
         return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), stepNo));

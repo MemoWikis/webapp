@@ -103,7 +103,7 @@ class AnswerQuestion
             this._inputFeedback.AnimateNeutral();
         });
 
-        $("#btnNext").click(function (e) {
+        $("#btnNext, #aSkipStep").click(function (e) {
             if (self.AmountOfTries === 0
                 && !self.AnswerCountedAsCorrect)
             {
