@@ -94,7 +94,7 @@
                             <a class="btn btn-sm btn-info" href="#">
                                 Jetzt üben
                             </a>
-                            <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-lightbulb-o"></i> 
+                            <a class="btn btn-sm btn-primary" href="#">
                                 Jetzt testen
                             </a>
                         </div>
