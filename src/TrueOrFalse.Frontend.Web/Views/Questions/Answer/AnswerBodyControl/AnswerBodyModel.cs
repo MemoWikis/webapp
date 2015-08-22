@@ -20,6 +20,9 @@ public class AnswerBodyModel : BaseModel
     public int SolutionTypeInt;
     public QuestionSolution SolutionModel;
 
+    public bool IsLearningSession;
+    public LearningSession LearningSession;
+
     public Func<UrlHelper, string> NextUrl;
     public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_GetSolution { get; private set; }
@@ -38,6 +41,9 @@ public class AnswerBodyModel : BaseModel
     public AnswerBodyModel(AnswerQuestionModel answerQuestionModel)
     {
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
+
+        IsLearningSession = answerQuestionModel.IsLearningSession;
+        LearningSession = answerQuestionModel.LearningSession;
         
         NextUrl = answerQuestionModel.NextUrl;
 
