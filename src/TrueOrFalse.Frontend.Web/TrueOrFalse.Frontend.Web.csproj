@@ -440,6 +440,9 @@
     <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js">
       <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\answerQuestion\IAnswerEntry.js">
+      <DependentUpon>IAnswerEntry.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\autocompletes\AutocompleteSets.js">
       <DependentUpon>AutocompleteSets.ts</DependentUpon>
     </Content>
@@ -967,6 +970,9 @@
     <Content Include="Fonts\font-awesome-4.4.0\less\stacked.less" />
     <Content Include="Fonts\font-awesome-4.4.0\less\variables.less" />
     <None Include="compilerconfig.json" />
+    <Content Include="Scripts\answerQuestion\IAnswerEntry.js.map">
+      <DependentUpon>IAnswerEntry.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\menu.css">
