@@ -130,7 +130,6 @@
     }
 
     ChangeTime(newTime: string) {
-        window.console.log("newTime: " + newTime);
-        $("[data-countdown]").attr("data-countdown", newTime);
+        this.Div.find("[data-countdown]").countdown(newTime);
     }
  }

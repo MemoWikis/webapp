@@ -117,7 +117,6 @@
         GameHub.OnChangeStartTime((changeStartTime: ChangeStartTimeEvent) => {
             var row = me.GetRow(changeStartTime.GameId);
             row.ChangeTime(changeStartTime.WillStartAt);
-            me.InitializeCountdown("[data-gameId=" + changeStartTime.GameId + "] [data-countdown]");
         });
 
         $.connection.hub.start(() => {
