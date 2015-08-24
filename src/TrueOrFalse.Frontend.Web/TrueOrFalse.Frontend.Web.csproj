@@ -284,6 +284,8 @@
     <Compile Include="Views\Games\GamesModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
+    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
+    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
@@ -1737,6 +1739,7 @@
     <Content Include="Views\Maintenance\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.aspx" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
