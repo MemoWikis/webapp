@@ -31,7 +31,7 @@ public class LearningSessionResultModel : BaseModel
             NumberCorrectPercentage = (int)Math.Floor(NumberCorrectAnswers / (float)TotalNumberSteps * 100);
             NumberWrongAnswersPercentage = (int)Math.Floor(NumberWrongAnswers / (float)TotalNumberSteps * 100);
             NumberSkippedPercentage = (int)Math.Floor(NumberSkipped / (float)TotalNumberSteps * 100);
-            //Loggen, wenn nicht Gesamtzahl ergeben
+            //Loggen, wenn sich nicht Gesamtzahl ergibt
         }
     }
 }

@@ -95,6 +95,7 @@ public class AnswerQuestionModel : BaseModel
     public LearningSession LearningSession;
     public LearningSessionStep LearningSessionStep;
     public int LearningSessionCurrentStepNo;
+    public bool IsLastLearningStep = false;
 
     public AnswerQuestionModel()
     {
@@ -111,14 +112,22 @@ public class AnswerQuestionModel : BaseModel
         int currentLearningStepIdx = LearningSessionCurrentStepNo - 1;
 
         LearningSessionStep = LearningSession.Steps[currentLearningStepIdx];
+        IsLastLearningStep = LearningSessionCurrentStepNo == LearningSession.Steps.Count();
 
-        if (currentLearningStepIdx + 1 < learningSession.Steps.Count) { 
+        if (currentLearningStepIdx + 1 < learningSession.Steps.Count()) { 
             NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
-                new
-                {
+                new {
                     learningSessionId = learningSession.Id,
                     setName = UriSegmentFriendlyUser.Run(learningSession.SetToLearn.Name),
                     stepNo = LearningSessionCurrentStepNo + 1
+                });
+        }
+        else if (currentLearningStepIdx + 1 == learningSession.Steps.Count())
+        {
+            NextUrl = url => url.Action("LearningSessionResult", Links.LearningSessionResultController,
+                new {
+                    learningSessionId = learningSession.Id,
+                    setName = UriSegmentFriendlyUser.Run(learningSession.SetToLearn.Name)
                 });
         }
         Populate(LearningSessionStep.Question);

@@ -11,6 +11,7 @@ class AnswerQuestion
     private _inputFeedback: AnswerQuestionUserFeedback;
     private _isGameMode: boolean;
     private _isLearningSession = false;
+    private _isLastLearningStep = false;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
@@ -24,8 +25,11 @@ class AnswerQuestion
     constructor(answerEntry : IAnswerEntry) {
 
         this._isGameMode = answerEntry.IsGameMode;
-        if($('#hddIsLearningSession').length === 1)
+        if ($('#hddIsLearningSession').length === 1)
             this._isLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
+
+        if (this._isLearningSession && $('#hddIsLearningSession').attr('data-is-last-step'))
+            this._isLastLearningStep = $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() === "true";
 
         this._getAnswerText = answerEntry.GetAnswerText;
         this._getAnswerData = answerEntry.GetAnswerData;
@@ -105,7 +109,8 @@ class AnswerQuestion
 
         $("#btnNext, #aSkipStep").click(function (e) {
             if (self.AmountOfTries === 0
-                && !self.AnswerCountedAsCorrect)
+                && !self.AnswerCountedAsCorrect
+                && !self._isLastLearningStep)
             {
                 var href = $(this).attr('href') + "?skipStepId=" + $('#hddIsLearningSession').attr('data-current-step-id');
                 window.location.href = href;
@@ -113,6 +118,9 @@ class AnswerQuestion
             }
             return true;
         });
+
+        if (this._isLastLearningStep) 
+            $('#btnNext').html('Zum Ergebnis');
     }
 
     static GetQuestionId() : number {
