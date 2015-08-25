@@ -4,24 +4,11 @@
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <title>Ergebnis</title>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
+    <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
+
      <style type="text/css">
          
-         .barPart {
-             float: left;
-             height: 40px;
-         }
-
-         #stepsWrong {
-             background-color: red;
-         }
-
-         #stepsCorrect {
-             background-color: green;
-         }
-
-         #stepsUnanswered {
-             background-color: lightgrey;
-         }
+        
           
      </style>
 

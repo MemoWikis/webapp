@@ -578,6 +578,9 @@
       <DependentUpon>Images.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionHeader.ascx" />
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css">
+      <DependentUpon>LearningSessionResult.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js">
       <DependentUpon>MarkdownDescription.ts</DependentUpon>
     </Content>
@@ -1740,6 +1743,10 @@
       <DependentUpon>Images.css</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.aspx" />
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.less" />
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
+      <DependentUpon>LearningSessionResult.css</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
