@@ -27,7 +27,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         ProcessRunningGames(gameRepo);
 
                         gameRepo.Flush();
-                        Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);                        
+                        Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);
                     }
                 }
             }
@@ -57,17 +57,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                     lock ("#1A23687D-4FCB-41AB-8883-B86CC6C6F994")
                     {
-                        var rowCount = gameRepo.Session.QueryOver<Round>()
-                            .Where(round => round.Game.Id == game.Id)
-                            .CacheMode(CacheMode.Ignore)
-                            .RowCount();
-
-                        if (rowCount > 0)
-                        {
-                            Logg.r().Error("RowCount {rowcount}", rowCount);
-                            continue;
-                        }
-
                         game.NextRound();
                         gameRepo.Update(game);                        
                         gameRepo.Flush();
