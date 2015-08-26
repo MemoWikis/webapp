@@ -78,6 +78,11 @@ public class AnswerQuestionController : BaseController
             return Redirect(Links.LearningSession(learningSession, currentLearningStepIdx));
         }
 
+        if (stepIdx != stepNo - 1)//Correct url if stepNo is adjusted
+        {
+            return Redirect(Links.LearningSession(learningSession, stepIdx));
+        }
+
         return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), stepIdx + 1));
     }
 
