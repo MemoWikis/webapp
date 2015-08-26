@@ -61,29 +61,13 @@ public class AnswerQuestionController : BaseController
         if (currentLearningStepIdx == -1) //None of the steps is uncompleted
             return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
                 new { learningSessionId, setName });
-        
-        var stepIdx = (stepNo < 1 || stepNo > learningSession.Steps.Count())
-            ? currentLearningStepIdx
-            : stepNo - 1;
 
-        learningSession.Steps.ToList() //Skip all unanswered steps before called step
-            .GetRange(0, stepIdx)
-            .Where(s => s.AnswerState == StepAnswerState.Uncompleted)
-            .ToList()
-            .ForEach(
-                s => LearningSessionStep.Skip(s.Id));
-
-        if (learningSession.Steps[stepIdx].AnswerState != StepAnswerState.Uncompleted){
-                
+        if (currentLearningStepIdx != stepNo - 1)//Correct url if stepNo is adjusted
+        {
             return Redirect(Links.LearningSession(learningSession, currentLearningStepIdx));
         }
 
-        if (stepIdx != stepNo - 1)//Correct url if stepNo is adjusted
-        {
-            return Redirect(Links.LearningSession(learningSession, stepIdx));
-        }
-
-        return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), stepIdx + 1));
+        return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), currentLearningStepIdx + 1));
     }
 
     public ActionResult AnswerSet(int setId, int questionId)
