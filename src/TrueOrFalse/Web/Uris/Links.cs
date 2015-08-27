@@ -227,6 +227,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public const string AnswerQuestionController = "AnswerQuestion";
+        public const string LearningSessionResultController = "LearningSessionResult";
 
         /*Category*/
         public const string Categories = "Categories";

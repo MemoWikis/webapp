@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -22,6 +23,7 @@ public class AnswerBodyModel : BaseModel
 
     public bool IsLearningSession;
     public LearningSession LearningSession;
+    public bool IsLastLearningStep = false;
 
     public Func<UrlHelper, string> NextUrl;
     public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
@@ -53,6 +55,8 @@ public class AnswerBodyModel : BaseModel
                 url, 
                 answerQuestionModel.Question, 
                 answerQuestionModel.LearningSessionStep);
+
+            IsLastLearningStep = answerQuestionModel.IsLastLearningStep;
         }
         else
         {

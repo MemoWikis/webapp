@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -55,19 +56,18 @@ public class AnswerQuestionController : BaseController
 
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
-        var stepIdx = stepNo - 1;
+        var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
 
-        learningSession.Steps.ToList() //Skip all unanswered steps before called step
-            .GetRange(0, stepIdx)
-            .Where(s => s.AnswerState == StepAnswerState.Uncompleted)
-            .ToList()
-            .ForEach(
-                s => LearningSessionStep.Skip(s.Id));
+        if (currentLearningStepIdx == -1) //None of the steps is uncompleted
+            return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
+                new { learningSessionId, setName });
 
-        if (learningSession.Steps[stepIdx].AnswerState != StepAnswerState.Uncompleted)
-            return Redirect(Links.LearningSession(learningSession, learningSession.CurrentLearningStepIdx()));
+        if (currentLearningStepIdx != stepNo - 1)//Correct url if stepNo is adjusted
+        {
+            return Redirect(Links.LearningSession(learningSession, currentLearningStepIdx));
+        }
 
-        return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), stepNo));
+        return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), currentLearningStepIdx + 1));
     }
 
     public ActionResult AnswerSet(int setId, int questionId)

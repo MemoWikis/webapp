@@ -90,7 +90,6 @@
             <% if (Model.IsLearningSession && Model.NextUrl != null){%>
                 <br/><a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction pull-right" style="display: block; margin-top: 10px;"><i class="fa fa-step-forward"></i> Frage überspringen</a>
             <% } %>
-
         </div>
                     
         <div id="buttons-next-question" class="pull-right" style="display: none;">
@@ -99,7 +98,7 @@
                 <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success">N&auml;chste Frage</a>
             <% } %>
         </div>
-
+        
         <div id="buttons-edit-answer" class="pull-right" style="display: none;">
             <a href="#" class="selectorShowSolution SecAction"><i class="fa fa-lightbulb-o"></i> Lösung anzeigen</a>
             <a href="#" id="btnEditAnswer" class="btn btn-warning">Antwort überarbeiten</a>
