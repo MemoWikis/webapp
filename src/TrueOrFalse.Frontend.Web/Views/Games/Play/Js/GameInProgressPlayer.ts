@@ -8,11 +8,14 @@
     private _answerEntry: AnswerEntry;
     private _pinQuestion: PinQuestion;
 
+    private _gameId;
+
     constructor(play : Play) {
 
         this._play = play;
         this._answerEntry = new AnswerEntry(/*isGameMode*/true);
         this._pinQuestion = new PinQuestion();
+        this._gameId = $("#GameId").val();
 
         this.StartCountDown();
 
@@ -21,6 +24,9 @@
         }
 
         this._play.Hub.client.NextRound = (game: Game) => {
+
+            if (game.GameId != this._gameId) { return; }
+
             $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId + "&gameId=" + game.GameId +
                     "&playerId=" + $("#hddPlayerId").val() + "&roundId=" + game.RoundId,
                 htmlResult => {
@@ -36,7 +42,8 @@
             playerId: number,
             correct: boolean,
             totalCorrect: number) => {
-            window.console.log(gameId + " " + playerId + " " + correct);
+
+            if (gameId != this._gameId) { return; }
 
             var container = $("[data-player-mini=" + playerId + "]");
 

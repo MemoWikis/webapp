@@ -32,7 +32,7 @@
         };
 
         this._hub.client.LeftGame = (leaveGame) => {
-            me.GetRow(leaveGame.GameId).UiRemovePlayer(leaveGame.PlayerUserId);
+            me.GetRow(leaveGame._gameId).UiRemovePlayer(leaveGame.PlayerUserId);
         };
 
         this._hub.client.NextRound = (game: Game) => {
@@ -107,7 +107,7 @@
         }
 
         this._hub.client.Canceled = (cancel) => {
-            $("[data-gameId=" + cancel.GameId + "]")
+            $("[data-gameId=" + cancel._gameId + "]")
                 .hide(700)
                 .remove();
 
