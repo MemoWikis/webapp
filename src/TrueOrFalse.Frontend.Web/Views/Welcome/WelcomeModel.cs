@@ -27,4 +27,8 @@ public class WelcomeModel : BaseModel
     {
         return new WelcomeSetBoxTextQuestionsModel(setId, questionIds);
     }
+    public WelcomeSetBoxImgQuestionsModel GetWelcomeSetBoxImgQuestionsModel(int setId, int[] questionIds = null)
+    {
+        return new WelcomeSetBoxImgQuestionsModel(setId, questionIds);
+    }
 }
