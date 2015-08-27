@@ -8,7 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-
+    
 <div class="row">
        
     <div class="col-md-8">
@@ -25,37 +25,11 @@
         </div>
             
         <div class="row ThumbnailRow" style="padding-top: 0px;">
-            <div class="ThumbnailColumn">
-                <div class="thumbnail">
-                    <img src="http://fillmurray.com/200/200">
-                    <div class="caption">
-                        <h4>Politik</h4>
-                        <p>Wer war der 1. deutsche Bundeskanzler?</p>
-                        <a href="#" class="btn btn-primary" role="button">beantworten</a>
-                    </div>
-                </div>
-            </div>
-            <div class="ThumbnailColumn">
-                <div class="thumbnail">
-                    <img src="http://placecage.com/200/200">
-                    <div class="caption">
-                        <h4>Geschichte</h4>
-                        <p>...</p>
-                        <a href="#" class="btn btn-primary" role="button">beantworten</a>
-                    </div>
-                </div>
-            </div>
-            <div class="ThumbnailColumn">
-                <div class="thumbnail">
-                    <img src="http://placecage.com/g/200/200">
-                    <div class="caption">
-                        <h4>Zitate</h4>
-                        <p>...</p>
-                        <a href="#" class="btn btn-primary" role="button">beantworten</a>
-                    </div>
-                </div>
-            </div>
+            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(381, 205)); %>
+            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:341, contextCategoryId:183)); %>
+            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:404, contextCategoryId:14)); %>
         </div>
+
         <div class="panel panel-default">
             <div class="media panel-body" >
                 <a class="pull-left" href="#">
@@ -69,9 +43,9 @@
                 </div>
             </div>
         </div>
-            <div class="panel panel-default">
-                <div class="media panel-body" >
-                    <a class="pull-left" href="#">
+        <div class="panel panel-default">
+            <div class="media panel-body" >
+                <a class="pull-left" href="#">
                     <img class="media-object" src="http://lorempixel.com/120/120/sports/" alt="...">
                 </a>
                 <div class="media-body">
@@ -79,8 +53,15 @@
                     Ersthelferfragen und Selbstdiagnose. 
                     <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
                 </div>
-           </div>
+            </div>
         </div>
+
+        <div class="row ThumbnailRow" style="padding-top: 0px;">
+            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:385)); %>
+            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:337)); %>
+            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:233)); %>
+        </div>
+
         <div class="well">
             <h3><a name="teaserWhatIsMemucho">Was ist MEMuchO?</a></h3>
             <p>
@@ -243,20 +224,20 @@ Kontakt</a>.
             <div class="col-md-6">
                 <h4 class="media-heading">Studienfächer</h4>
                 <ul>
-                    <li><a href="">Psychologie</a></li>
-                    <li><a href="">Philosophie</a></li>
-                    <li><a href="">Informatik</a></li>
-                    <li><a href="">[mehr]</a></li>
+                    <li><a href="#">Psychologie</a></li>
+                    <li><a href="#">Philosophie</a></li>
+                    <li><a href="#">Informatik</a></li>
+                    <li><a href="#">[mehr]</a></li>
                 </ul>
             </div>
 
             <div class="col-md-6">
                 <h4 class="media-heading">Schulfächer</h4>
                 <ul>
-                    <li><a href="">Deutsch</a></li>
-                    <li><a href="">Mathe</a></li>
-                    <li><a href="">Geschichte</a></li>
-                    <li><a href="">[mehr]</a></li>
+                    <li><a href="#">Deutsch</a></li>
+                    <li><a href="#">Mathe</a></li>
+                    <li><a href="#">Geschichte</a></li>
+                    <li><a href="#">[mehr]</a></li>
                 </ul>
             </div>
         </div>
