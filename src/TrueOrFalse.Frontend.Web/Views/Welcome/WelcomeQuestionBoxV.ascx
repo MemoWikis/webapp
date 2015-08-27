@@ -15,7 +15,7 @@
 
         <div class="caption">
             <h4><%: Model.ContextCategoryName %></h4>
-            <p><%: Model.Title %></p>
+            <p><%: Model.Text %></p>
             <a href="<%= Links.AnswerQuestion(Url, Model.Question, paramElementOnPage:1, categoryFilter:Model.ContextCategoryName) %>" class="btn btn-primary" role="button">beantworten</a>
         </div>
     </div>

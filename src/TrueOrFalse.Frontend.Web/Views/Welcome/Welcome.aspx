@@ -31,6 +31,9 @@
         </div>
 
         <div class="panel panel-default">
+            <% Html.RenderPartial("WelcomeSetBoxTextQuestions", Model.GetWelcomeSetBoxTextQuestionsModel(12, new int[] { 303, 288, 289 })); %>
+        </div>
+        <div class="panel panel-default">
             <div class="media panel-body" >
                 <a class="pull-left" href="#">
                     <img class="media-object" src="http://placebear.com/120/120 " alt="...">
@@ -43,6 +46,7 @@
                 </div>
             </div>
         </div>
+
         <div class="panel panel-default">
             <div class="media panel-body" >
                 <a class="pull-left" href="#">

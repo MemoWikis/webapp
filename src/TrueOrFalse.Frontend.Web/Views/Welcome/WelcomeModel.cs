@@ -23,8 +23,8 @@ public class WelcomeModel : BaseModel
         return new WelcomeQuestionBoxVModel(question, contextCategoryId);
     }
 
-    public WelcomeSetBoxModel GetWelcomeSetBoxModel(int setId, int[] questionIds)
+    public WelcomeSetBoxTextQuestionsModel GetWelcomeSetBoxTextQuestionsModel(int setId, int[] questionIds = null)
     {
-        return new WelcomeSetBoxModel(setId, questionIds);
+        return new WelcomeSetBoxTextQuestionsModel(setId, questionIds);
     }
 }

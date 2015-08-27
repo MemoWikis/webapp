@@ -1,7 +1,6 @@
 ﻿public class WelcomeQuestionBoxVModel : BaseModel
 {
     public int Id;
-    public string Title;
     public string Text;
     public Question Question;  //used only to display categories with PartialView Category.ascx
 
@@ -18,7 +17,7 @@
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
-        Title = question.Text;
+        Text = question.Text;
         Question = question;
         ContextCategoryId = contextCategoryId;
 
