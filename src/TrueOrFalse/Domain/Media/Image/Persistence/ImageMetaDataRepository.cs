@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using FluentNHibernate.Utils;
 using NHibernate;
-using Seedworks.Lib.Persistence;
+using NHibernate.Criterion;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 
@@ -14,10 +13,15 @@ public class ImageMetaDataRepository : RepositoryDbBase<ImageMetaData>
 
     public ImageMetaData GetBy(int typeId, ImageType imageType)
     {
+        return GetBy(new List<int> {typeId}, imageType).FirstOrDefault();
+    }
+
+    public IList<ImageMetaData> GetBy(List<int> typeId, ImageType imageType)
+    {
         return _session.QueryOver<ImageMetaData>()
-                        .Where(x => x.TypeId == typeId)
-                        .And(x => x.Type == imageType)
-                        .SingleOrDefault<ImageMetaData>();
+            .Where(Restrictions.In("TypeId", typeId))
+            .And(x => x.Type == imageType)
+            .List<ImageMetaData>();
     }
 
     public IList<ImageMetaData> GetBy(ImageMetaDataSearchSpec searchSpec)
