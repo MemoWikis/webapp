@@ -107,7 +107,7 @@
         }
 
         this._hub.client.Canceled = (cancel) => {
-            $("[data-gameId=" + cancel._gameId + "]")
+            $("[data-gameId=" + cancel.GameId + "]")
                 .hide(700)
                 .remove();
 
