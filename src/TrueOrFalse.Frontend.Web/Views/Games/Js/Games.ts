@@ -32,7 +32,7 @@
         };
 
         this._hub.client.LeftGame = (leaveGame) => {
-            me.GetRow(leaveGame._gameId).UiRemovePlayer(leaveGame.PlayerUserId);
+            me.GetRow(leaveGame.GameId).UiRemovePlayer(leaveGame.PlayerUserId);
         };
 
         this._hub.client.NextRound = (game: Game) => {
