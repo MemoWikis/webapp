@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameInProgressPlayerModel>" %>
 
 <input type="hidden" id="hddQuestionId" value="<%= Model.Question.Id %>"/>
-<input type="hidden" id="hddRoundEnd" value="<%= Model.RoundEndTime.ToString("yyyy-MM-dd HH:mm:ss") %>"/>
+<input type="hidden" id="hddRoundEnd" value="<%= Model.RoundEndTime.ToString("yyyy-MM-ddTHH:mm:ss") %>"/>
 <input type="hidden" id="hddRoundLength" value="<%= Model.RoundLength %>"/>
 <input type="hidden" id="hddRound" value="<%= Model.RoundNum %>"/>
 <input type="hidden" id="hddPlayerId" value="<%= Model.Player.Id %>"/>
