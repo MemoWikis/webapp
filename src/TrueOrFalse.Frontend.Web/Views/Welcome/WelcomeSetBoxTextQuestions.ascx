@@ -10,7 +10,7 @@
         </div>        
     </div>
     <div class="media-body">
-        <h4 class="media-heading"><%: Model.SetName %> (<%: Model.QuestionCount %> Fragen im Fragesatz)</h4>
+        <h4 class="media-heading"><%: Model.SetName %></h4>
         <p><%: Model.Set.Text %></p>
         <ul>
             <% foreach (var question in Model.Questions){ %>

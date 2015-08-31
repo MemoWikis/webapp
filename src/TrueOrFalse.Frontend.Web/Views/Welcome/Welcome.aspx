@@ -36,32 +36,7 @@
         <div class="panel panel-default">
             <% Html.RenderPartial("WelcomeSetBoxImgQuestions", Model.GetWelcomeSetBoxImgQuestionsModel(17, new int[] { 373, 360, 367 })); %>
         </div>
-        <div class="panel panel-default">
-            <div class="media panel-body" >
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="http://placebear.com/120/120 " alt="...">
-                </a>
-                <div class="media-body">
-                    <h4 class="media-heading">Streitbare Zitate:</h4>
-                    Wer sagte:
-                    "Wenn ich über die steuer- und erbrechtliche Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren."
-                    <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
-                </div>
-            </div>
-        </div>
 
-        <div class="panel panel-default">
-            <div class="media panel-body" >
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="http://lorempixel.com/120/120/sports/" alt="...">
-                </a>
-                <div class="media-body">
-                    <h4 class="media-heading">Das kann Leben retten:</h4>
-                    Ersthelferfragen und Selbstdiagnose. 
-                    <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
-                </div>
-            </div>
-        </div>
 
         <div class="row ThumbnailRow" style="padding-top: 0px;">
             <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:385)); %>
@@ -219,15 +194,65 @@ Kontakt</a>.
             
             
         <div class="row">
-            <div class="col-md-12"><h4 class="media-heading">Kennst du das aktuelle Kabinett?</h4></div>
+            <div class="col-md-12"><h3 class="media-heading">Entdecke neues Wissen!</h3></div>
         </div>
-        <div class="row">
-            <div class="col-md-6"><img class="media-object" src="http://placekitten.com/120/120" alt="..."></div>
-            <div class="col-md-6"><img class="media-object" src="http://placesheen.com/120/120" alt="..."></div>
-        </div>
-            
 
-        <div class="row" style="padding-top: 10px;">
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Top-Kategorien:</h4>
+                <p style="padding-left: 15px; margin-bottom: 0px;">
+                    <%--<a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a> --%>
+                    <%--<a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" style="display:block; margin-top: 10px; margin-bottom: 10px; font-style: italic">Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen</a>--%>
+                    <a href="#"><span class="label label-category">Rhetorisches Stilmittel</span></a> 
+                    <a href="#">(xx Fragen)</a>
+                </p>
+                <p style="padding-left: 15px; margin-bottom: 0px;">
+                    <a href="#"><span class="label label-category">Wirtschaft</span></a> 
+                    <a href="#">(xx Fragen)</a>
+                </p>
+                <p style="padding-left: 15px; margin-bottom: 0px;">
+                    <a href="#"><span class="label label-category">Kino</span></a> 
+                    <a href="#">(xx Fragen)</a>
+                </p>
+                <p style="padding-left: 15px; margin-bottom: 0px;">
+                    <a href="#"><span class="label label-category">Flora</span></a> 
+                    <a href="#">(xx Fragen)</a>
+                </p>
+            </div>
+        </div>
+        
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Beliebteste Fragesätze:</h4>
+                <p style="padding-left: 15px; margin-bottom: 0px;">
+                    <a href="#"><span class="label label-set">Bundeskanzler erkennen</span></a>
+                </p>
+                <p style="padding-left: 15px; margin-bottom: 0px;">
+                    <%--<a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>--%>
+                    <a href="#"><span class="label label-set">Laubbäume erkennen</span></a>
+                </p>
+                <p style="padding-left: 15px; margin-bottom: 0px;">
+                    <a href="#"><span class="label label-set">Scherzfragen mit Wortspiel</span></a>
+                </p>
+                <p style="padding-left: 15px; margin-bottom: 0px;">
+                    <a href="#"><span class="label label-set">Geographie Südamerikas: Grundlegendes</span></a>
+                </p>
+            </div>
+        </div>
+        
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Neueste Fragen:</h4>
+                <ul>
+                    <li>Wer hat's erfunden?</li>
+                    <li>Welches Medikament hilft gegen Kopfschmerzen?</li>
+                    <li>Was bedeutet Inflation?</li>
+                    <li>Was bedeutet Deflation?</li>
+                </ul>
+            </div>
+        </div>
+        
+        <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-6">
                 <h4 class="media-heading">Studienfächer</h4>
                 <ul>
@@ -247,47 +272,11 @@ Kontakt</a>.
                     <li><a href="#">[mehr]</a></li>
                 </ul>
             </div>
-        </div>
+        </div>--%>
         
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Visual Studio</h4>
-                <ul>
-                    <li><a href="">Shortcut um in Visual-Studio zum nächsten Fehler zu springen.</a></li>
-                    <li><a href="">Shortcut um den Build abzubrechen ("Build.Cancel")</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Krise in der Ukraine</h4>
-                <ul>
-                    <li></li>
-                </ul>
-            </div>
-        </div>
-    
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h4 class="media-heading">Erkennst du diese Vögel?</h4></div>
-        </div>
-        <div class="row">
-            <div class="col-md-6"><img class="media-object" src="http://lorempixel.com/120/120/transport" alt="..."></div>
-            <div class="col-md-6"><img class="media-object" src="http://placekitten.com/g/120/120" alt="..."></div>
-        </div>
-        
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h4 class="media-heading">Was ist das für ein Baum?</h4></div>
-        </div>
-        <div class="row">
-            <div class="col-md-6"><img class="media-object" src="http://lorempixel.com/120/120/transport" alt="..."></div>
-            <div class="col-md-6"><img class="media-object" src="http://placekitten.com/g/120/120" alt="..."></div>
-        </div>        
 
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h4 class="media-heading">Wirtschaftskrise</h4></div>
-            <div class="col-md-12"><img class="media-object" src="http://lorempixel.com/260/120/g/transport/" alt="...">
-        </div>
+        
+
     </div>
 </div>
 </div>
