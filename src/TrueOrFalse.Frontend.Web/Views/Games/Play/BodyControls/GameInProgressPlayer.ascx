@@ -7,6 +7,13 @@
 <input type="hidden" id="hddPlayerId" value="<%= Model.Player.Id %>"/>
 
 
+<% if(Model.IsWatcher) { %>
+    <div class="alert alert-success" role="alert" 
+        id="divMsgPartOfGame" style="margin-top: 2px; margin-bottom: 10px; padding: 7px;">
+        <i class="fa fa-eye"></i> Du bist Zuschauer.
+    </div>
+<% } %>
+
 <div class="row">
     <div class="col-sm-3" style="font-size: 17px; line-height: 33px;">
         Runde
