@@ -37,6 +37,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
         }
 
+        public static string QuestionWish_WithCategoryFilter(Category category){
+            return "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
+        }
+
         public static string QuestionWithCreatorFilter(UrlHelper url, User user){
             return "/Fragen/Suche/" + "Ersteller__" + user.Name + "__";
         }
