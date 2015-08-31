@@ -200,6 +200,13 @@ Kontakt</a>.
         <div class="row" style="padding-top: 15px;">
             <div class="col-md-12">
                 <h4 class="media-heading">Top-Kategorien:</h4>
+                <%--<%: Html.RenderPartial("WelcomeBoxCategoriesMostQ", new WelcomeBoxCategoriesMostQModel(5)) %>--%>
+            </div>
+        </div>
+        
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Top-Kategorien:</h4>
                 <p style="padding-left: 15px; margin-bottom: 0px;">
                     <%--<a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a> --%>
                     <%--<a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" style="display:block; margin-top: 10px; margin-bottom: 10px; font-style: italic">Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen</a>--%>
@@ -244,14 +251,31 @@ Kontakt</a>.
             <div class="col-md-12">
                 <h4 class="media-heading">Neueste Fragen:</h4>
                 <ul>
-                    <li>Wer hat's erfunden?</li>
-                    <li>Welches Medikament hilft gegen Kopfschmerzen?</li>
-                    <li>Was bedeutet Inflation?</li>
-                    <li>Was bedeutet Deflation?</li>
+                    <li><a href="#">Wer hat's erfunden?</a></li>
+                    <li><a href="#">Welches Medikament hilft gegen Kopfschmerzen?</a></li>
+                    <li><a href="#">Was bedeutet Inflation?</a></li>
+                    <li><a href="#">Was bedeutet Deflation?</a></li>
                 </ul>
             </div>
         </div>
+
+
+        <div class="row">
+            <hr/>
+            <div class="col-md-12"><h3 class="media-heading">MEMuchO-Netzwerk</h3></div>
+        </div>
         
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Nutzer-Ranking nach Reputation</h4>
+                <p style="padding-left: 15px;"><img src="http://placebear.com/25/25"/ style="float: left; vertical-align: middle">&nbsp;Pauli (130 Punkte)</p>
+                <p style="padding-left: 15px;"><img src="http://placecage.com/25/25"/ style="float: left; vertical-align: middle">&nbsp;Robert (120 Punkte)</p>
+                <p style="padding-left: 15px;"><img src="http://placebear.com/25/25"/ style="float: left; vertical-align: middle">&nbsp;Christof (112 Punkte)</p>
+            </div>
+        </div>
+
+
+
         <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-6">
                 <h4 class="media-heading">Studienfächer</h4>
