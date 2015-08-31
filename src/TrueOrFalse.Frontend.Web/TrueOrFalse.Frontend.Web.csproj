@@ -297,6 +297,9 @@
     <Compile Include="Views\Dates\DatesModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
+    <Compile Include="Views\Welcome\WelcomeQuestionBoxVModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeSetBoxImgQuestionsModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeSetBoxTextQuestionsModel.cs" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
@@ -376,6 +379,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\Welcome\WelcomeBoxCategoriesMostQ.ascx" />
+    <Content Include="Views\Welcome\WelcomeQuestionBoxV.ascx" />
+    <Content Include="Views\Welcome\WelcomeSetBoxImgQuestions.ascx" />
+    <Content Include="Views\Welcome\WelcomeSetBoxTextQuestions.ascx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -1166,6 +1173,7 @@
     <Compile Include="Views\Welcome\RegisterSuccessModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\Welcome\WelcomeBoxCategoriesMostQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeController.cs">
       <SubType>Code</SubType>
     </Compile>
