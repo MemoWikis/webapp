@@ -110,21 +110,22 @@
         <div class="col-lg-2 col-xs-3 xxs-stack">
             <img style="width:100%; border-radius:5px;" src="<%=Model.ImageUrl_250 %>" />
          
+                <% if(Model.User.ShowWishKnowledge || Model.IsCurrentUser){ %>
                 <h4 style="margin-top: 20px;">Kategorien mit Wunschwissen</h4>
-                <% foreach (var item in Model.WishQuestionsCategories.OrderByDescending(x => x.Questions.Count)){ %>
-                    <a href="<%= Links.CategoryDetail(item.Category) %>">
-                        <span class="label label-category" style="margin-top: 7px;"><%: item.Category.Name %></span>
-                    </a> 
-                    <% if(Model.IsCurrentUser) { %>
-                        <a href="<%= Links.QuestionWish_WithCategoryFilter(item.Category) %>" class="show-tooltip" title="<%: item.Questions.Count %> Fragen im Wunschwissen">
+                    <% foreach (var item in Model.WishQuestionsCategories.OrderByDescending(x => x.Questions.Count)){ %>
+                        <a href="<%= Links.CategoryDetail(item.Category) %>">
+                            <span class="label label-category" style="margin-top: 7px;"><%: item.Category.Name %></span>
+                        </a> 
+                        <% if(Model.IsCurrentUser) { %>
+                            <a href="<%= Links.QuestionWish_WithCategoryFilter(item.Category) %>" class="show-tooltip" title="<%: item.Questions.Count %> Fragen im Wunschwissen">
+                        <% } %>
+                            <span><%: item.Questions.Count %>x</span> 
+                        <% if(Model.IsCurrentUser) { %>
+                            </a>
+                        <% } %>
+                        <br />
                     <% } %>
-                        <span><%: item.Questions.Count %>x</span> 
-                    <% if(Model.IsCurrentUser) { %>
-                        </a>
-                    <% } %>
-                    <br />
-                <% } %>
-           
+                <% } %>           
         </div>
 
     </div>
