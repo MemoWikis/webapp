@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -35,7 +34,10 @@ public class AnswerBodyModel : BaseModel
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
         IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
 
-        AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question, game, player, round);
+        if (player != null)
+            AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question, game, player, round);
+        else
+            AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
 
         Init(question);
     }
