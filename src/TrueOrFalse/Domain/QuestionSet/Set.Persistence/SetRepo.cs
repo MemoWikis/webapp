@@ -63,6 +63,25 @@ public class SetRepo : RepositoryDbBase<Set>
             .List<Set>();
     }
 
+    public IEnumerable<Set> GetMostRecent(int amount)
+    {
+        return _session
+            .QueryOver<Set>()
+            .OrderBy(s => s.DateCreated)
+            .Desc
+            .Take(amount)
+            .List();
+    }
+
+    //public IEnumerable<Set> GetMostQuestions(int amount)
+    //{
+    //    return _session
+    //        .QueryOver<Set>()
+    //        .OrderBy(s => s.QuestionsInSet().Count).Desc
+    //        .Take(amount)
+    //        .List();
+    //}
+
     public override void Delete(Set set)
     {
         ThrowIfNot_IsUserOrAdmin(set.Id);
@@ -70,4 +89,5 @@ public class SetRepo : RepositoryDbBase<Set>
         base.Delete(set);
         Flush();
     }
+
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class WelcomeSetBoxImgQuestionsModel : BaseModel
+public class WelcomeBoxSetImgQuestionsModel : BaseModel
 {
     public int SetId;
     public Set Set;
@@ -10,7 +10,7 @@ public class WelcomeSetBoxImgQuestionsModel : BaseModel
     public IList<Question> Questions;
     public IList<ImageFrontendData> QuestionImageFrontendDatas;
 
-    public WelcomeSetBoxImgQuestionsModel(int setId, int[] questionIds) 
+    public WelcomeBoxSetImgQuestionsModel(int setId, int[] questionIds) 
     {
         Set = R<SetRepo>().GetById(setId) ?? new Set();
         SetName = Set.Name;

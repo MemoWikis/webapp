@@ -1,4 +1,4 @@
-﻿public class WelcomeQuestionBoxVModel : BaseModel
+﻿public class WelcomeBoxQuestionVModel : BaseModel
 {
     public int Id;
     public string Text;
@@ -11,7 +11,7 @@
 
     public ImageFrontendData ImageFrontendData;
 
-    public WelcomeQuestionBoxVModel(Question question, int contextCategoryId) 
+    public WelcomeBoxQuestionVModel(Question question, int contextCategoryId) 
     {
 
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
