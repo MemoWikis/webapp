@@ -300,8 +300,8 @@
     <Compile Include="Views\Welcome\WelcomeBoxQuestionVModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxTopQuestionsModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxTopSetsModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeSetBoxImgQuestionsModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeSetBoxTextQuestionsModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSetImgQuestionsModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSetTextQuestionsModel.cs" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
@@ -385,8 +385,8 @@
     <Content Include="Views\Welcome\WelcomeBoxTopSets.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopCategories.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxQuestionV.ascx" />
-    <Content Include="Views\Welcome\WelcomeSetBoxImgQuestions.ascx" />
-    <Content Include="Views\Welcome\WelcomeSetBoxTextQuestions.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSetImgQuestions.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSetTextQuestions.ascx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
