@@ -109,7 +109,7 @@ public class AnswerQuestionModel : BaseModel
             ? LearningSession.CurrentLearningStepIdx() + 1
             : currentLearningStepNo;
 
-        int currentLearningStepIdx = LearningSessionCurrentStepNo - 1;
+        var currentLearningStepIdx = LearningSessionCurrentStepNo - 1;
 
         LearningSessionStep = LearningSession.Steps[currentLearningStepIdx];
         IsLastLearningStep = LearningSessionCurrentStepNo == LearningSession.Steps.Count();

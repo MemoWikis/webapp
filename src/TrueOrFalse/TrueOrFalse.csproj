@@ -490,6 +490,7 @@
     <Compile Include="Infrastructure\Bus\BusMgmt.cs" />
     <Compile Include="Infrastructure\Bus\MessageTypes\RecalcProbabilitiesMsg.cs" />
     <Compile Include="Infrastructure\ExecAsync.cs" />
+    <Compile Include="Infrastructure\Language\Language.cs" />
     <Compile Include="Infrastructure\ListExtensions.cs" />
     <Compile Include="Infrastructure\Logging\Logger.cs" />
     <Compile Include="Infrastructure\Logging\Loggly.cs" />
