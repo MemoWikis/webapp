@@ -26,7 +26,7 @@ public class Should_add_probabilities_for_sets_and_dates : BaseTest
         Assert.That(valuationRepo.GetByUser(user).Count, Is.EqualTo(0));
 
         R<AddProbabilitiesEntries_ForSetsAndDates>().Run(user);
-        Assert.That(valuationRepo.GetByUser(user).Count, Is.EqualTo(5));
+        Assert.That(valuationRepo.GetByUser(user, onlyActiveKnowledge:false).Count, Is.EqualTo(5));
 
         var questionContext = ContextQuestion.New().AddQuestion().Persist();
         setContext
@@ -35,6 +35,6 @@ public class Should_add_probabilities_for_sets_and_dates : BaseTest
             .Persist();
 
         R<AddProbabilitiesEntries_ForSetsAndDates>().Run(user);
-        Assert.That(valuationRepo.GetByUser(dateContext.User).Count, Is.EqualTo(6));
+        Assert.That(valuationRepo.GetByUser(dateContext.User, onlyActiveKnowledge:false).Count, Is.EqualTo(6));
     }
 }

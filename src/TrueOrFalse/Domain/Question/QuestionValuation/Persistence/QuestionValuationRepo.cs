@@ -48,7 +48,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 
     public IList<QuestionValuation> GetByUser(User user, bool onlyActiveKnowledge = true)
     {
-        return GetByUser(user.Id);
+        return GetByUser(user.Id, onlyActiveKnowledge);
     }
 
     public IList<QuestionValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
