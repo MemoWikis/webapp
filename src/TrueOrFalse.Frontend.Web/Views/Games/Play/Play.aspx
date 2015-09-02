@@ -13,7 +13,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
 <input type="hidden" id="RoundCound" value="<%= Model.RoundCount %>"/>
-    
+<input type="hidden" id="GameId" value="<%= Model.Game.Id %>"/>
+
 <div class="row">
     <div class="PageHeader col-xs-12">
         <h3 class="pull-left" style="margin-top: 0px">

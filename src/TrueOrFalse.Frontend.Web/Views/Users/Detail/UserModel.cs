@@ -20,7 +20,7 @@ public class UserModel : BaseModel
     public ReputationCalcResult Reputation;
 
     public IList<Question> WishQuestions;
-    public IList<Category> WishQuestionsCategories;
+    public IList<QuestionsInCategory> WishQuestionsCategories;
 
     public IList<Set> WishSets;
 
@@ -51,17 +51,17 @@ public class UserModel : BaseModel
         ReputationTotal = reputation.TotalRepuation;
         Reputation = reputation;
 
-        WishQuestions =
-            Resolve<QuestionRepository>().GetByIds(
-                Resolve<QuestionValuationRepo>()
-                    .GetByUser(user.Id)
-                    .QuestionIds().ToList()
-            );
+
+        var valuations = Resolve<QuestionValuationRepo>()
+            .GetByUser(user.Id)
+            .QuestionIds().ToList();
+
+        WishQuestions = Resolve<QuestionRepository>().GetByIds(valuations);
 
         if (!IsCurrentUser)
             WishQuestions = WishQuestions.Where(q => q.Visibility == QuestionVisibility.All).ToList();
 
-        WishQuestionsCategories = WishQuestions.GetAllCategories();
+        WishQuestionsCategories = WishQuestions.QuestionsInCategories().ToList();
 
         WishSets = Resolve<SetRepo>().GetByIds(
             Resolve<SetValuationRepo>()

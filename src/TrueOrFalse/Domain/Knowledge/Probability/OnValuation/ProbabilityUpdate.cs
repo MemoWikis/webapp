@@ -27,7 +27,7 @@ namespace TrueOrFalse
 
         public void Run(int userId)
         {
-            _questionValuationRepo.GetByUser(userId).ForEach(Run);
+            _questionValuationRepo.GetByUser(userId, onlyActiveKnowledge:false).ForEach(Run);
         }
 
         public void Run(int questionId, int userId)

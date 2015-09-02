@@ -81,6 +81,25 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return result;
     }
 
+    public IEnumerable<Category> GetWithMostQuestions(int amount)
+    {
+        return _session
+            .QueryOver<Category>()
+            .OrderBy(c => c.CountQuestions).Desc
+            .Take(amount)
+            .List();
+    }
+
+    public IEnumerable<Category> GetMostRecent(int amount)
+    {
+        return _session
+            .QueryOver<Category>()
+            .OrderBy(c => c.DateCreated)
+            .Desc
+            .Take(amount)
+            .List();
+    }
+
     public bool Exists(string categoryName)
     {
         return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);

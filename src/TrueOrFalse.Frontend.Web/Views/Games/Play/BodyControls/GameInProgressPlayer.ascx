@@ -1,11 +1,18 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameInProgressPlayerModel>" %>
 
 <input type="hidden" id="hddQuestionId" value="<%= Model.Question.Id %>"/>
-<input type="hidden" id="hddRoundEnd" value="<%= Model.RoundEndTime.ToString("yyyy-MM-dd HH:mm:ss") %>"/>
+<input type="hidden" id="hddRoundEnd" value="<%= Model.RoundEndTime.ToString("yyyy-MM-ddTHH:mm:ss+02:00") %>"/>
 <input type="hidden" id="hddRoundLength" value="<%= Model.RoundLength %>"/>
 <input type="hidden" id="hddRound" value="<%= Model.RoundNum %>"/>
 <input type="hidden" id="hddPlayerId" value="<%= Model.Player.Id %>"/>
 
+
+<% if(Model.IsWatcher) { %>
+    <div class="alert alert-success" role="alert" 
+        id="divMsgPartOfGame" style="margin-top: 2px; margin-bottom: 10px; padding: 7px;">
+        <i class="fa fa-eye"></i> Du bist Zuschauer.
+    </div>
+<% } %>
 
 <div class="row">
     <div class="col-sm-3" style="font-size: 17px; line-height: 33px;">

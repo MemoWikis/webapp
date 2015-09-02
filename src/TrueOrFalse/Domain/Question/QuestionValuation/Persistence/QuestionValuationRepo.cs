@@ -34,7 +34,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
             _session.QueryOver<QuestionValuation>()
                     .Where(q => 
                         q.Question.Id == questionId &&
-                        q.RelevancePersonal >= -1)
+                        q.RelevancePersonal > -1)
                     .List<QuestionValuation>();
     }
 
@@ -46,17 +46,21 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                     .List<QuestionValuation>();        
     }
 
-    public IList<QuestionValuation> GetByUser(User user)
+    public IList<QuestionValuation> GetByUser(User user, bool onlyActiveKnowledge = true)
     {
         return GetByUser(user.Id);
     }
 
-    public IList<QuestionValuation> GetByUser(int userId)
+    public IList<QuestionValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
     {
-        return 
-            _session.QueryOver<QuestionValuation>()
-                    .Where(q =>  q.User.Id == userId)
-                    .List<QuestionValuation>();
+        var query = _session
+            .QueryOver<QuestionValuation>()
+            .Where(q => q.User.Id == userId);
+
+        if (onlyActiveKnowledge)
+            query.And(q => q.RelevancePersonal > -1);
+
+        return query.List<QuestionValuation>();
     }
 
     public IList<QuestionValuation> GetActiveInWishknowledge(IList<int> questionIds, int userId)

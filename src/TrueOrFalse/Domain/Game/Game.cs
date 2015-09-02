@@ -132,13 +132,22 @@ public class Game : DomainEntity
 
     public virtual void SetPlayerPositions()
     {
+        int position = 0;
+
         Players
-            .GroupBy(player => player, ProjectionEqualityComparer<Player>.Create(a => a.AnsweredCorrectly))
-            .Select((group, index) =>
-            {
-                group.ForEach(player => player.Position = index + 1);
-                return group.Key;
-            }).ToList();
+            .OrderBy(p => p.AnsweredCorrectly)
+            .ThenBy(p => p.AnsweredWrong)
+            .GroupBy(p => p.AnsweredCorrectly)
+            .ForEach(groupLevel1 =>
+            {   
+                groupLevel1
+                    .GroupBy(p => p.AnsweredWrong)
+                    .ForEach(groupLevel2 =>
+                    {
+                        position++;
+                        groupLevel2.ForEach(player => {player.Position = position;});
+                    });
+            });
 
         Players = Players.OrderBy(player => player.Position).ToList();
     }

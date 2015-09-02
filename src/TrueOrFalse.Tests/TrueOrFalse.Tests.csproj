@@ -214,6 +214,7 @@
     <Compile Include="2 Domain\Date\Date_persistence.cs" />
     <Compile Include="2 Domain\Date\Setup\ContextDate.cs" />
     <Compile Include="2 Domain\Game\Game_persistence.cs" />
+    <Compile Include="2 Domain\Game\Game_player_position.cs" />
     <Compile Include="2 Domain\Game\Game_rounds.cs" />
     <Compile Include="2 Domain\Game\Setup\ContextGame.cs" />
     <Compile Include="2 Domain\Game\Game_round_answers.cs" />

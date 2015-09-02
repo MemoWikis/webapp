@@ -27,7 +27,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-3">
-                    Von <%= playerRow.TotalQuestions %> Fragen beantwort:
+                    Von <%= playerRow.TotalQuestions %> Fragen beantwortet:
                 </div>
                 <div class="col-sm-3" style="background-color: lightgreen; color: darkgreen">
                     <%= playerRow.TotalCorrect %> Richtig

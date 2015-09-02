@@ -96,6 +96,13 @@ namespace TrueOrFalse
             return QuestionsWish(page, model, orderBy);
         }
 
+        public ActionResult QuestionsWishSearchCategoryFilter(string categoryName, int categoryId)
+        {
+            _sessionUiData.SearchSpecQuestionWish.Filter.Clear();
+            _sessionUiData.SearchSpecQuestionWish.Filter.Categories.Add(categoryId);
+            return QuestionsWish(1, new QuestionsModel(), null);
+        }
+
         public JsonResult QuestionsWishSearchApi(string searchTerm, List<Int32> categories)
         {
             _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionWish, new QuestionsModel(), searchTerm, categories ?? new List<int>());

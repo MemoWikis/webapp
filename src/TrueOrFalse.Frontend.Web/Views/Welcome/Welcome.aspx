@@ -8,7 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-
+    
 <div class="row">
        
     <div class="col-md-8">
@@ -25,62 +25,25 @@
         </div>
             
         <div class="row ThumbnailRow" style="padding-top: 0px;">
-            <div class="ThumbnailColumn">
-                <div class="thumbnail">
-                    <img src="http://fillmurray.com/200/200">
-                    <div class="caption">
-                        <h4>Politik</h4>
-                        <p>Wer war der 1. deutsche Bundeskanzler?</p>
-                        <a href="#" class="btn btn-primary" role="button">beantworten</a>
-                    </div>
-                </div>
-            </div>
-            <div class="ThumbnailColumn">
-                <div class="thumbnail">
-                    <img src="http://placecage.com/200/200">
-                    <div class="caption">
-                        <h4>Geschichte</h4>
-                        <p>...</p>
-                        <a href="#" class="btn btn-primary" role="button">beantworten</a>
-                    </div>
-                </div>
-            </div>
-            <div class="ThumbnailColumn">
-                <div class="thumbnail">
-                    <img src="http://placecage.com/g/200/200">
-                    <div class="caption">
-                        <h4>Zitate</h4>
-                        <p>...</p>
-                        <a href="#" class="btn btn-primary" role="button">beantworten</a>
-                    </div>
-                </div>
-            </div>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(381, 205)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 341, contextCategoryId: 183)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 404, contextCategoryId: 14)); %>
+        </div>
+
+        <div class="panel panel-default">
+            <% Html.RenderPartial("WelcomeBoxSetTextQuestions", Model.GetWelcomeSetBoxTextQuestionsModel(12, new int[] { 303, 288, 289 })); %>
         </div>
         <div class="panel panel-default">
-            <div class="media panel-body" >
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="http://placebear.com/120/120 " alt="...">
-                </a>
-                <div class="media-body">
-                    <h4 class="media-heading">Streitbare Zitate:</h4>
-                    Wer sagte:
-                    "Wenn ich über die steuer- und erbrechtliche Anerkennung von homosexuellen Paaren diskutiere, kann ich gleich über Teufelsanbetung diskutieren."
-                    <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
-                </div>
-            </div>
+            <% Html.RenderPartial("WelcomeBoxSetImgQuestions", Model.GetWelcomeSetBoxImgQuestionsModel(17, new int[] { 373, 360, 367 })); %>
         </div>
-            <div class="panel panel-default">
-                <div class="media panel-body" >
-                    <a class="pull-left" href="#">
-                    <img class="media-object" src="http://lorempixel.com/120/120/sports/" alt="...">
-                </a>
-                <div class="media-body">
-                    <h4 class="media-heading">Das kann Leben retten:</h4>
-                    Ersthelferfragen und Selbstdiagnose. 
-                    <a href="#" class="" role="button" style="display: block; padding-top: 20px;">beantworten</a>
-                </div>
-           </div>
+
+
+        <div class="row ThumbnailRow" style="padding-top: 0px;">
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 385)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 337)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 233)); %>
         </div>
+
         <div class="well">
             <h3><a name="teaserWhatIsMemucho">Was ist MEMuchO?</a></h3>
             <p>
@@ -231,75 +194,87 @@ Kontakt</a>.
             
             
         <div class="row">
-            <div class="col-md-12"><h4 class="media-heading">Kennst du das aktuelle Kabinett?</h4></div>
+            <div class="col-md-12"><h3 class="media-heading">Entdecke neues Wissen!</h3></div>
         </div>
-        <div class="row">
-            <div class="col-md-6"><img class="media-object" src="http://placekitten.com/120/120" alt="..."></div>
-            <div class="col-md-6"><img class="media-object" src="http://placesheen.com/120/120" alt="..."></div>
-        </div>
-            
 
-        <div class="row" style="padding-top: 10px;">
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Top-Kategorien nach Fragen:</h4>
+                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
+            </div>
+        </div>
+        
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Neueste Fragesätze:</h4>
+                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
+            </div>
+        </div>
+        
+        <%--<div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Umfangreichste Fragesätze:</h4>
+                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
+            </div>
+        </div>--%>
+        
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Neueste Fragen:</h4>
+                <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
+            </div>
+        </div>
+        
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Neueste Kategorien:</h4>
+                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <hr/>
+            <div class="col-md-12"><h3 class="media-heading">MEMuchO-Netzwerk</h3></div>
+        </div>
+        
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Nutzer-Ranking nach Reputation</h4>
+                <p style="padding-left: 15px;"><img src="http://placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Pauli (130 Punkte)</p>
+                <p style="padding-left: 15px;"><img src="http://placecage.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Robert (120 Punkte)</p>
+                <p style="padding-left: 15px;"><img src="http://placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
+            </div>
+        </div>
+
+
+
+        <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-6">
                 <h4 class="media-heading">Studienfächer</h4>
                 <ul>
-                    <li><a href="">Psychologie</a></li>
-                    <li><a href="">Philosophie</a></li>
-                    <li><a href="">Informatik</a></li>
-                    <li><a href="">[mehr]</a></li>
+                    <li><a href="#">Psychologie</a></li>
+                    <li><a href="#">Philosophie</a></li>
+                    <li><a href="#">Informatik</a></li>
+                    <li><a href="#">[mehr]</a></li>
                 </ul>
             </div>
 
             <div class="col-md-6">
                 <h4 class="media-heading">Schulfächer</h4>
                 <ul>
-                    <li><a href="">Deutsch</a></li>
-                    <li><a href="">Mathe</a></li>
-                    <li><a href="">Geschichte</a></li>
-                    <li><a href="">[mehr]</a></li>
+                    <li><a href="#">Deutsch</a></li>
+                    <li><a href="#">Mathe</a></li>
+                    <li><a href="#">Geschichte</a></li>
+                    <li><a href="#">[mehr]</a></li>
                 </ul>
             </div>
-        </div>
+        </div>--%>
         
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Visual Studio</h4>
-                <ul>
-                    <li><a href="">Shortcut um in Visual-Studio zum nächsten Fehler zu springen.</a></li>
-                    <li><a href="">Shortcut um den Build abzubrechen ("Build.Cancel")</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Krise in der Ukraine</h4>
-                <ul>
-                    <li></li>
-                </ul>
-            </div>
-        </div>
-    
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h4 class="media-heading">Erkennst du diese Vögel?</h4></div>
-        </div>
-        <div class="row">
-            <div class="col-md-6"><img class="media-object" src="http://lorempixel.com/120/120/transport" alt="..."></div>
-            <div class="col-md-6"><img class="media-object" src="http://placekitten.com/g/120/120" alt="..."></div>
-        </div>
-        
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h4 class="media-heading">Was ist das für ein Baum?</h4></div>
-        </div>
-        <div class="row">
-            <div class="col-md-6"><img class="media-object" src="http://lorempixel.com/120/120/transport" alt="..."></div>
-            <div class="col-md-6"><img class="media-object" src="http://placekitten.com/g/120/120" alt="..."></div>
-        </div>        
 
-        <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h4 class="media-heading">Wirtschaftskrise</h4></div>
-            <div class="col-md-12"><img class="media-object" src="http://lorempixel.com/260/120/g/transport/" alt="...">
-        </div>
+        
+
     </div>
 </div>
 </div>
