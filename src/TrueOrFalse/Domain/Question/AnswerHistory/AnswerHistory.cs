@@ -22,4 +22,9 @@ public class AnswerHistory : IPersistable, WithDateCreated
     {
         return Sl.R<QuestionRepository>().GetById(QuestionId);
     }
+
+    public virtual bool AnsweredCorrectly()
+    {
+        return AnswerredCorrectly != AnswerCorrectness.False;
+    }
 }

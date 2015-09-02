@@ -13,7 +13,7 @@ public class LearningSessionStep : DomainEntity, IRegisterAsInstancePerLifetime
         if (stepToSkip != null && stepToSkip.AnswerState != StepAnswerState.Answered)
         {
             stepToSkip.AnswerState = StepAnswerState.Skipped;
-            stepRepo.Update(stepToSkip);   
+            stepRepo.Update(stepToSkip);
         }
     }
 }

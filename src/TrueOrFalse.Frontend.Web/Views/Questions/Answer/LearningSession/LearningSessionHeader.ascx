@@ -20,5 +20,6 @@
 
         <br/>Frage <%= Model.LearningSessionCurrentStepNo %> von <%= Model.LearningSession.Steps.Count() %>
         <br/>Frage-Id:  <%= Model.LearningSessionStep.Question.Id %>
-    </div>                                    
+    </div>
+   
 </div>

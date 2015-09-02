@@ -541,6 +541,7 @@
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Dates\Modals\DeleteDate.ascx" />
+    <Content Include="Views\Drafts\FontAwesome.aspx" />
     <Content Include="Views\Games\Edit\Game.aspx" />
     <Content Include="Views\Games\Edit\Game.css">
       <DependentUpon>Game.less</DependentUpon>
