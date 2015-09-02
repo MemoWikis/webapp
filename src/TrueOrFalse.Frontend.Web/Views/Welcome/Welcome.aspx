@@ -25,23 +25,23 @@
         </div>
             
         <div class="row ThumbnailRow" style="padding-top: 0px;">
-            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(381, 205)); %>
-            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:341, contextCategoryId:183)); %>
-            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:404, contextCategoryId:14)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(381, 205)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 341, contextCategoryId: 183)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 404, contextCategoryId: 14)); %>
         </div>
 
         <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeSetBoxTextQuestions", Model.GetWelcomeSetBoxTextQuestionsModel(12, new int[] { 303, 288, 289 })); %>
+            <% Html.RenderPartial("WelcomeBoxSetTextQuestions", Model.GetWelcomeSetBoxTextQuestionsModel(12, new int[] { 303, 288, 289 })); %>
         </div>
         <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeSetBoxImgQuestions", Model.GetWelcomeSetBoxImgQuestionsModel(17, new int[] { 373, 360, 367 })); %>
+            <% Html.RenderPartial("WelcomeBoxSetImgQuestions", Model.GetWelcomeSetBoxImgQuestionsModel(17, new int[] { 373, 360, 367 })); %>
         </div>
 
 
         <div class="row ThumbnailRow" style="padding-top: 0px;">
-            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:385)); %>
-            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:337)); %>
-            <% Html.RenderPartial("WelcomeQuestionBoxV", Model.GetQuestionBoxVModel(questionId:233)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 385)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 337)); %>
+            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 233)); %>
         </div>
 
         <div class="well">
@@ -199,65 +199,39 @@ Kontakt</a>.
 
         <div class="row" style="padding-top: 15px;">
             <div class="col-md-12">
-                <h4 class="media-heading">Top-Kategorien:</h4>
-                <%--<%: Html.RenderPartial("WelcomeBoxCategoriesMostQ", new WelcomeBoxCategoriesMostQModel(5)) %>--%>
+                <h4 class="media-heading">Top-Kategorien nach Fragen:</h4>
+                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
             </div>
         </div>
         
         <div class="row" style="padding-top: 15px;">
             <div class="col-md-12">
-                <h4 class="media-heading">Top-Kategorien:</h4>
-                <p style="padding-left: 15px; margin-bottom: 0px;">
-                    <%--<a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a> --%>
-                    <%--<a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" style="display:block; margin-top: 10px; margin-bottom: 10px; font-style: italic">Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen</a>--%>
-                    <a href="#"><span class="label label-category">Rhetorisches Stilmittel</span></a> 
-                    <a href="#">(xx Fragen)</a>
-                </p>
-                <p style="padding-left: 15px; margin-bottom: 0px;">
-                    <a href="#"><span class="label label-category">Wirtschaft</span></a> 
-                    <a href="#">(xx Fragen)</a>
-                </p>
-                <p style="padding-left: 15px; margin-bottom: 0px;">
-                    <a href="#"><span class="label label-category">Kino</span></a> 
-                    <a href="#">(xx Fragen)</a>
-                </p>
-                <p style="padding-left: 15px; margin-bottom: 0px;">
-                    <a href="#"><span class="label label-category">Flora</span></a> 
-                    <a href="#">(xx Fragen)</a>
-                </p>
+                <h4 class="media-heading">Neueste Fragesätze:</h4>
+                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
             </div>
         </div>
         
-        <div class="row" style="padding-top: 15px;">
+        <%--<div class="row" style="padding-top: 15px;">
             <div class="col-md-12">
-                <h4 class="media-heading">Beliebteste Fragesätze:</h4>
-                <p style="padding-left: 15px; margin-bottom: 0px;">
-                    <a href="#"><span class="label label-set">Bundeskanzler erkennen</span></a>
-                </p>
-                <p style="padding-left: 15px; margin-bottom: 0px;">
-                    <%--<a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>--%>
-                    <a href="#"><span class="label label-set">Laubbäume erkennen</span></a>
-                </p>
-                <p style="padding-left: 15px; margin-bottom: 0px;">
-                    <a href="#"><span class="label label-set">Scherzfragen mit Wortspiel</span></a>
-                </p>
-                <p style="padding-left: 15px; margin-bottom: 0px;">
-                    <a href="#"><span class="label label-set">Geographie Südamerikas: Grundlegendes</span></a>
-                </p>
+                <h4 class="media-heading">Umfangreichste Fragesätze:</h4>
+                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
             </div>
-        </div>
+        </div>--%>
         
         <div class="row" style="padding-top: 15px;">
             <div class="col-md-12">
                 <h4 class="media-heading">Neueste Fragen:</h4>
-                <ul>
-                    <li><a href="#">Wer hat's erfunden?</a></li>
-                    <li><a href="#">Welches Medikament hilft gegen Kopfschmerzen?</a></li>
-                    <li><a href="#">Was bedeutet Inflation?</a></li>
-                    <li><a href="#">Was bedeutet Deflation?</a></li>
-                </ul>
+                <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
             </div>
         </div>
+        
+        <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+                <h4 class="media-heading">Neueste Kategorien:</h4>
+                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
+            </div>
+        </div>
+
 
 
         <div class="row">
@@ -268,9 +242,9 @@ Kontakt</a>.
         <div class="row" style="padding-top: 15px;">
             <div class="col-md-12">
                 <h4 class="media-heading">Nutzer-Ranking nach Reputation</h4>
-                <p style="padding-left: 15px;"><img src="http://placebear.com/25/25"/ style="float: left; vertical-align: middle">&nbsp;Pauli (130 Punkte)</p>
-                <p style="padding-left: 15px;"><img src="http://placecage.com/25/25"/ style="float: left; vertical-align: middle">&nbsp;Robert (120 Punkte)</p>
-                <p style="padding-left: 15px;"><img src="http://placebear.com/25/25"/ style="float: left; vertical-align: middle">&nbsp;Christof (112 Punkte)</p>
+                <p style="padding-left: 15px;"><img src="http://placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Pauli (130 Punkte)</p>
+                <p style="padding-left: 15px;"><img src="http://placecage.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Robert (120 Punkte)</p>
+                <p style="padding-left: 15px;"><img src="http://placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
             </div>
         </div>
 

@@ -1,14 +1,56 @@
-﻿.barPart {
-  float: left;
-  height: 40px;
+﻿.DescrLeft,
+.DescrRight,
+.BarDescr,
+.ChartBarWrapper,
+.ChartNumbers {
+  display: inline-block;
+  line-height: 30px;
+  height: 30px;
 }
-#stepsWrong {
-  background-color: red;
+.DescrLeft,
+.BarDescr {
+  width: 120px;
+  text-align: right;
 }
-#stepsCorrect {
-  background-color: green;
+.ChartBar {
+  width: 100%;
+  height: 10px;
 }
-#stepsUnanswered {
-  background-color: lightgrey;
+#SummaryRightAnswers .ChartBar {
+  background-color: #3e7700;
+}
+#SummaryWrongAnswers .ChartBar {
+  background-color: #b13a48;
+}
+#SummaryUnanswered .ChartBar {
+  background-color: lightgray;
+}
+.ChartBarWrapper {
+  padding-top: 20px;
+}
+@media (max-width: 479px) {
+  .DescrLeft,
+  .BarDescr {
+    display: block;
+    text-align: left;
+  }
+  .DescrRight {
+    line-height: 1.5em;
+  }
+  .BarDescr {
+    margin-bottom: -20px;
+  }
+}
+.QuestionLearned {
+  line-height: 30px;
+}
+.QuestionLearned i.fa-check {
+  color: #3e7700;
+}
+.QuestionLearned i.fa-minus-circle {
+  color: #b13a48;
+}
+.QuestionLearned i.fa-circle-o {
+  color: lightgray;
 }
 /*# sourceMappingURL=LearningSessionResult.css.map */

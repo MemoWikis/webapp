@@ -3,9 +3,6 @@ using System.Web.Mvc;
 
 public class WelcomeModel : BaseModel
 {
-    /*public IList<Question> MostPopular = new List<Question>();
-    public IList<Question> MostWantend = new List<Question>();
-    public IList<Question> MostImportant = new List<Question>();*/
 
     public string Date;
     
@@ -13,22 +10,22 @@ public class WelcomeModel : BaseModel
     {
     }
 
-    public WelcomeQuestionBoxVModel GetQuestionBoxVModel(int questionId, int contextCategoryId = 0)
+    public WelcomeBoxQuestionVModel GetQuestionBoxVModel(int questionId, int contextCategoryId = 0)
     {
         var question = R<QuestionRepository>().GetById(questionId);
         if (question == null) //if question doesn't exist, take new empty question to avoid broken starting page
         {
             question = new Question();
         }
-        return new WelcomeQuestionBoxVModel(question, contextCategoryId);
+        return new WelcomeBoxQuestionVModel(question, contextCategoryId);
     }
 
-    public WelcomeSetBoxTextQuestionsModel GetWelcomeSetBoxTextQuestionsModel(int setId, int[] questionIds = null)
+    public WelcomeBoxSetTextQuestionsModel GetWelcomeSetBoxTextQuestionsModel(int setId, int[] questionIds = null)
     {
-        return new WelcomeSetBoxTextQuestionsModel(setId, questionIds);
+        return new WelcomeBoxSetTextQuestionsModel(setId, questionIds);
     }
-    public WelcomeSetBoxImgQuestionsModel GetWelcomeSetBoxImgQuestionsModel(int setId, int[] questionIds = null)
+    public WelcomeBoxSetImgQuestionsModel GetWelcomeSetBoxImgQuestionsModel(int setId, int[] questionIds = null)
     {
-        return new WelcomeSetBoxImgQuestionsModel(setId, questionIds);
+        return new WelcomeBoxSetImgQuestionsModel(setId, questionIds);
     }
 }

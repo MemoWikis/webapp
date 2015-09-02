@@ -12,6 +12,11 @@ public class DraftsController : BaseController
         return View(new WelcomeModel());
     }
 
+    public ActionResult FontAwesome()
+    {
+        return View(new WelcomeModel());
+    }
+
     public ActionResult Forms()
     {
         return View(new WelcomeModel());

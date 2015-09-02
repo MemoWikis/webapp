@@ -4,7 +4,7 @@ using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
 
-public class QuestionRepository : RepositoryDbBase<Question> 
+public class QuestionRepository : RepositoryDbBase<Question>
 {
     private readonly SearchIndexQuestion _searchIndexQuestion;
 
@@ -25,7 +25,7 @@ public class QuestionRepository : RepositoryDbBase<Question>
 
     public override void Create(Question question)
     {
-        if(question.Creator == null)
+        if (question.Creator == null)
             throw new Exception("no creator");
 
         base.Create(question);
@@ -61,7 +61,7 @@ public class QuestionRepository : RepositoryDbBase<Question>
             .JoinQueryOver<Reference>(q => q.References)
             .Where(q => q.Category.Id == categoryId)
             .Take(resultCount)
-            .List<Question>();        
+            .List<Question>();
     }
 
     public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
@@ -107,4 +107,13 @@ public class QuestionRepository : RepositoryDbBase<Question>
         return result;
     }
 
+
+    public IEnumerable<Question> GetMostRecent(int amount)
+    {
+        return _session
+            .QueryOver<Question>()
+            .OrderBy(q => q.DateCreated).Desc
+            .Take(amount)
+            .List();
+    }
 }

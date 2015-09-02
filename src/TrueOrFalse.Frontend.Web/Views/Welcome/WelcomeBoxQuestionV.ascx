@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
-    Inherits="System.Web.Mvc.ViewUserControl<WelcomeQuestionBoxVModel>" %>
+    Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxQuestionVModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
