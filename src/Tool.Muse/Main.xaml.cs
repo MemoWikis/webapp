@@ -65,7 +65,8 @@ namespace Tool.Muse
                         {
                             lblOnHead.Content = "Not on Head";
                             lblOnHead.Background = Brushes.Red;
-                            _memuchoConnection.SendDisconnected();
+                            if(_memuchoConnection != null)
+                                _memuchoConnection.SendDisconnected();
                             _isEEGOnHead = false;
                         }
                             
@@ -116,16 +117,28 @@ namespace Tool.Muse
 
         private void BtnSendConcentrationValue_OnClick(object sender, RoutedEventArgs e)
         {
+            if (_memuchoConnection == null){
+                Log.NoConnectionToMEMuchO(); return;
+            }
+
             _memuchoConnection.SendConcentrationLevel(txtConcentrationValue.Text);
         }
 
         private void BtnSendMellowValue_OnClick(object sender, RoutedEventArgs e)
         {
+            if (_memuchoConnection == null){
+                Log.NoConnectionToMEMuchO(); return;
+            }
+
             _memuchoConnection.SendMellowLevel(txtMellowValue.Text);
         }
 
         private void BtnShowDisconnected_OnClick(object sender, RoutedEventArgs e)
         {
+            if (_memuchoConnection == null){
+                Log.NoConnectionToMEMuchO(); return; 
+            }
+
             _memuchoConnection.SendDisconnected();
         }
     }
