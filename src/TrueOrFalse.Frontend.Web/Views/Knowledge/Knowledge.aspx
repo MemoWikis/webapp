@@ -208,6 +208,35 @@
             </div>
             <div class="col-xs-12 col-md-5" style="">
                 <h3>Dein Wissensstand</h3>
+                
+                <% if(Model.KnowledgeSummary.Total == 0) { %>
+                    <div class="row">
+                    <div class="alert alert-info col-md-10 col-xs-12">
+                        <p>
+                            Du hast noch keine <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
+                            oder <a href="<%= Links.QuestionsAll() %>">Fragesätze</a>  in deinem Wunschwissen.
+                        </p>
+                        
+                        <p>
+                            Um dein Wunschwissen zu erweitern, klicke auf das Herzsymbol.
+                        </p>
+                        <p>
+                            <ul style="list-style-type: none">
+                                <li>
+                                    <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                    In deinem Wunschwissen
+                                </li>                                
+                                <li>
+                                    <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                    <i>Nicht</i> Teil deines Wunschwissens.
+                                </li>
+                            </ul>
+                            
+                        </p>
+                    </div>
+                </div>
+                <% } %>
+
                 <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
             </div>
             <div class="col-xs-12 col-md-3">

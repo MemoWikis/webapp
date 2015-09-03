@@ -11,6 +11,7 @@ public class KnowledgeSummary
     public int Unknown = 0;
     public int UnknownPercentage { get { return Percentage(Unknown); } }
 
+    /// <summary>Sum of questions in wish knowledge</summary>
     public int Total{ get { return Secure + Weak + Unknown; }}
 
     private int Percentage(int amount)
