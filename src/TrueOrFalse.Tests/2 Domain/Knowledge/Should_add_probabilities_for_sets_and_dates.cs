@@ -37,4 +37,5 @@ public class Should_add_probabilities_for_sets_and_dates : BaseTest
         R<AddProbabilitiesEntries_ForSetsAndDates>().Run(user);
         Assert.That(valuationRepo.GetByUser(dateContext.User, onlyActiveKnowledge:false).Count, Is.EqualTo(6));
     }
+
 }

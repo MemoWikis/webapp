@@ -5,11 +5,12 @@ public class KnowledgeController : BaseController
     [SetMenu(MenuEntry.Knowledge)]
     public ActionResult Knowledge()
     {
-        if (!_sessionUser.IsLoggedIn)
-            return View(new KnowledgeModel());
+        return View(new KnowledgeModel());
+    }
 
-        return View(
-            new KnowledgeModel()
-        );
+    [SetMenu(MenuEntry.Knowledge)]
+    public ActionResult EmailConfirmation(string emailKey)
+    {
+        return View("Knowledge", new KnowledgeModel(emailKey:emailKey));
     }
 }
