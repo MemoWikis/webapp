@@ -52,7 +52,7 @@ public class AnswerQuestionController : BaseController
         if(learningSession.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
 
-        if (skipStepId != -1)
+        if (skipStepId != -1 && learningSession.Steps.Any(s => s.Id == skipStepId))
         {
             LearningSessionStep.Skip(skipStepId);
             return RedirectToAction("Learn", Links.AnswerQuestionController, 
