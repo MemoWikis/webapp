@@ -13,6 +13,9 @@ public class LearningSessionResultController : BaseController
     {
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
+        if (learningSession.User != _sessionUser.User)
+            throw new Exception("not logged in or not possessing user");
+
         learningSession.Steps
             .Where(s => s.AnswerState == StepAnswerState.Uncompleted)
             .Each( s => LearningSessionStep.Skip(s.Id));
