@@ -40,7 +40,7 @@
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                 <% } %>
                 
-                <a style="font-size: 12px;" data-btn="startLearningSession" href="/Set/StartLearningSession?setId=<%=Model.Set.Id %>"><i class="fa fa-line-chart"></i> 
+                <a style="font-size: 12px;" data-btn="startLearningSession" href="<%= Links.StartLearningSession(Model.Id) %>"><i class="fa fa-line-chart"></i> 
                     Jetzt üben
                 </a>
                 
@@ -78,7 +78,7 @@
                                 <i class="fa fa-gamepad" style="font-size: 18px;"></i>
                                 Spiel starten
                             </a>
-                            <a class="btn btn-primary" data-btn="startLearningSession" href="/Fragesatz/Lernen/<%=Model.Set.Id %>"><i class="fa fa-line-chart"></i> 
+                            <a class="btn btn-primary" data-btn="startLearningSession" href="<%= Links.StartLearningSession(Model.Id) %>"><i class="fa fa-line-chart"></i> 
                                 Jetzt üben
                             </a>
                         </div>
