@@ -55,7 +55,7 @@ namespace TrueOrFalse.Frontend.Web
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
 #if DEBUG
-            if (Settings.DebugMiniProfiler())
+            if (Settings.DebugUserNHProfiler())
                 MiniProfiler.Start();
 #endif
         }
