@@ -41,6 +41,11 @@
 
         //chartKnowledgeDate
         function drawKnowledgeChart(chartElementId) {
+
+            if ($("#" + chartElementId).length === 0) {
+                return;
+            }
+
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
                 ['Gewusst', <%= Model.KnowledgeSummary.Secure %>],
@@ -68,7 +73,6 @@
         function drawKnowledgeChartDate(chartElementId, amountGood, amountBad, amountUnknown ) {
 
             var chartElement = $("#" + chartElementId);
-            console.log(chartElement);
 
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
@@ -228,16 +232,16 @@
                                 </li>                                
                                 <li>
                                     <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
-                                    <i>Nicht</i> Teil deines Wunschwissens.
+                                    <i>Nicht</i> in deinem Wunschwissens.
                                 </li>
                             </ul>
                             
                         </p>
                     </div>
                 </div>
+                <% }else { %>
+                    <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
                 <% } %>
-
-                <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
             </div>
             <div class="col-xs-12 col-md-3">
                 <div class="row">

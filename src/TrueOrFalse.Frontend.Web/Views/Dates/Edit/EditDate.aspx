@@ -157,7 +157,7 @@
                         <div class="form-group">
                             <div class="noLabel columnControlsFull">
                                 <input type="submit" class="btn btn-primary" name="btnSave" 
-                                    value="<%= Model.IsEditing ? "Spiel bearbeiten" :  "Spiel erstellen " %>"
+                                    value="<%= Model.IsEditing ? "Termin bearbeiten" :  "Termin erstellen " %>"
                                     <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %> />
                             </div>
                         </div>
