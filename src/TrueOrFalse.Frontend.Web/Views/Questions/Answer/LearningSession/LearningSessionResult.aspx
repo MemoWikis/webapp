@@ -94,4 +94,8 @@
             <% }
         } %>
     </div>
+    <div class="pull-right" style="margin-top: 20px;">
+        <a href="<%= Links.StartLearningSession(Model.LearningSession.SetToLearn.Id) %>" class="btn btn-primary" style="padding-right: 10px">Neue Lernsitzung zu diesem Fragesatz</a>
+    </div>
+
 </asp:Content>
