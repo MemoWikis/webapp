@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<LearningSessionResultModel>" %>
+<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -14,21 +15,24 @@
     <h2>Lernsitzung Ergebnis</h2>
 
     <div>
-        
         <div id="SummaryAll">
-            <div class="DescrLeft">Vorgelegt:</div>
-            <div class="DescrRight">
-                <%= Model.TotalNumberSteps %>
-                von
-                <%= Model.LearningSession.SetToLearn.Questions().Count() %>
-                <%= Language.SingularPlural(Model.TotalNumberSteps, "Frage", "Fragen") %>
-                aus dem Fragesatz
-                <%= Model.LearningSession.SetToLearn.Name %>
+            <div class="TableRow">
+                <div class="DescrLeft">Vorgelegt:</div>
+                <div class="DescrRight">
+                    <%= Model.TotalNumberSteps %>
+                    von
+                    <%= Model.LearningSession.SetToLearn.Questions().Count() %>
+                    <%= Language.SingularPlural(Model.TotalNumberSteps, "Frage", "Fragen") %>
+                    aus dem Fragesatz
+                    <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="display: inline-block;">
+                        <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
+                    </a>
+                </div>
             </div>
         </div>
         <div id="SummaryRightAnswers">
             <div class="BarDescr">richtig:</div>
-            <div class="ChartBarWrapper" style="width: <%= Model.NumberCorrectPercentage * 0.5 %>%">
+            <div class="ChartBarWrapper" style="width: <%= (Model.NumberCorrectPercentage * 0.5).ToString(CultureInfo.InvariantCulture) %>%">
                 <div class="ChartBar"></div>
             </div>
             <div class="ChartNumbers"> <%=Model.NumberCorrectAnswers %> 
@@ -39,7 +43,7 @@
         </div>
         <div id="SummaryWrongAnswers">
             <div class="BarDescr">falsch:</div>
-            <div class="ChartBarWrapper" style="width: <%= Model.NumberWrongAnswersPercentage * 0.5 %>%">
+            <div class="ChartBarWrapper" style="width: <%= (Model.NumberWrongAnswersPercentage * 0.5).ToString(CultureInfo.InvariantCulture) %>%">
                 <div class="ChartBar"></div>
             </div>
             <div class="ChartNumbers"> <%=Model.NumberWrongAnswers %> 
@@ -51,7 +55,7 @@
         <% if(Model.NumberSkipped != 0) { %>
             <div id="SummaryUnanswered">
                 <div class="BarDescr">unbeantwortet:</div>
-                <div class="ChartBarWrapper" style="width: <%= Model.NumberSkippedPercentage * 0.5 %>%">
+                <div class="ChartBarWrapper" style="width: <%= (Model.NumberSkippedPercentage * 0.5).ToString(CultureInfo.InvariantCulture) %>%">
                     <div class="ChartBar"></div>
                 </div>
                 <div class="ChartNumbers"> <%=Model.NumberSkipped %> 
@@ -79,9 +83,7 @@
                         <i class="fa fa-minus-circle show-tooltip" title="Falsch beantwortet"></i>
                         <a href="<%= Links.AnswerQuestion(Url, step.Question) %>"><%= step.Question.GetShortTitle(150) %></a>
                     </div>
-                <%
-                       
-                }
+                <% }
             }
             else if (step.AnswerState == StepAnswerState.Skipped)
             { %>
@@ -89,8 +91,11 @@
                         <i class="fa fa-circle-o show-tooltip" title="Nicht beantwortet"></i>
                         <a href="<%= Links.AnswerQuestion(Url, step.Question) %>"><%= step.Question.GetShortTitle(150) %></a>
                     </div>
-                <%
-            }
+            <% }
         } %>
     </div>
+    <div class="pull-right" style="margin-top: 20px;">
+        <a href="<%= Links.StartLearningSession(Model.LearningSession.SetToLearn.Id) %>" class="btn btn-primary" style="padding-right: 10px">Neue Lernsitzung zu diesem Fragesatz</a>
+    </div>
+
 </asp:Content>

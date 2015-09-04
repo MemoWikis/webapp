@@ -41,6 +41,22 @@
     margin-bottom: -20px;
   }
 }
+@media (min-width: 480px) {
+  #SummaryAll {
+    display: table;
+  }
+  .TableRow {
+    display: table-row;
+  }
+  .DescrLeft,
+  .DescrRight {
+    display: table-cell;
+    vertical-align: top;
+  }
+  .DescrRight {
+    padding-left: 2px;
+  }
+}
 .QuestionLearned {
   line-height: 30px;
 }

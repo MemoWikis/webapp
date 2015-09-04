@@ -46,15 +46,18 @@ public class AnswerQuestionController : BaseController
     {
         ////_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
         //_saveQuestionView.Run(question, _sessionUser.User);
-        
-        if (skipStepId != -1)
+
+        var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
+
+        if(learningSession.User != _sessionUser.User)
+            throw new Exception("not logged in or not possessing user");
+
+        if (skipStepId != -1 && learningSession.Steps.Any(s => s.Id == skipStepId))
         {
             LearningSessionStep.Skip(skipStepId);
             return RedirectToAction("Learn", Links.AnswerQuestionController, 
                 new {learningSessionId, setName, stepNo});
         }
-
-        var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
 
