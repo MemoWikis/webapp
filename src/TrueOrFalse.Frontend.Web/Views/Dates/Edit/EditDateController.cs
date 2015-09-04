@@ -34,7 +34,7 @@ public class EditDateController : BaseController
             Response.Redirect("/Termine", true);
         }
 
-        return View(_viewLocation, new EditDateModel());
+        return View(_viewLocation, model);
     }
 
     [HttpGet]

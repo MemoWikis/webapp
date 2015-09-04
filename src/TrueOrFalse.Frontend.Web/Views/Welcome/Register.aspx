@@ -17,7 +17,14 @@
                 <% Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben"); %>
                 
                 <div class="alert alert-info">
-                    Wir gehen sorgfältig mit deinen Daten um.
+                    <i class="fa fa-clock-o"></i> <b>Noch 20 Sekunden</b> und du kannst MEMuchO nutzen :-)
+                </div>
+                
+                <div class="form-group" style="margin-top: -5px; margin-bottom: 15px; padding-left: 12px;">
+                    <div class="col-sm-12;" style="font-style: italic">
+                        Wir gehen sorgfältig mit deinen Daten um. 
+                        Wir schützen und respektieren deine Privatsphäre.
+                    </div>
                 </div>
        
                 <div class="form-group">
@@ -58,8 +65,10 @@
 --%>
                 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10" style="border-top:0px; background-color:white;">
-                        <input type="submit" value="Registrieren" class="btn btn-primary" />&nbsp;
+                    <div class="col-sm-offset-2 col-sm-10" style="border-top:0px; background-color:white; margin-top: 10px;">
+                        
+                        <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-primary"><i class="fa fa-chevron-circle-right"></i>  Registrieren</a>
+                        &nbsp;
                         <%: Html.ActionLink("Ich bin schon Benutzer!", Links.Login, Links.VariousController,
                                            new {@style = "vertical-align:bottom; margin-left:20px;"}) %>                        
 

@@ -48,8 +48,6 @@ namespace TrueOrFalse
 
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer" });
             routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{setName}/{stepNo}", new { controller = "AnswerQuestion", action = "Learn", stepNo = UrlParameter.Optional });
-            
-            
 
             /* API */ routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });
@@ -92,6 +90,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });
 
             routes.MapRoute("Knowledge", "Wissen/{action}", new { controller = "Knowledge", action = "Knowledge" });
+            routes.MapRoute("Knowledge_ConfirmEmail", "EmailBestaetigen/{emailKey}", new { controller = "Knowledge", action = "EmailConfirmation" });
 
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });

@@ -26,6 +26,7 @@
                 .Add(93, UpdateToVs093.Run)
                 .Add(94, UpdateToVs094.Run)
                 .Add(95, UpdateToVs095.Run)
+                .Add(96, UpdateToVs096.Run)
                 .Run();
         }
     }

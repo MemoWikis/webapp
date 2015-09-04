@@ -7,7 +7,7 @@ public class RegisterModel : BaseModel
     [Required(ErrorMessage="Wir benötigen deinen Benutzernamen.")]
         
     [StringLength(40, MinimumLength=4, ErrorMessage = "Minimum 4 Zeichen, Maximum 40 Zeichen. Sollte aus Vornamen und Nachnamen bestehen.")]
-    [DisplayName("Dein Benutzername")]
+    [DisplayName("Benutzername")]
     public string Name { get; set; }
 
     [Required(ErrorMessage = "Wir benötigen deine E-Mail Adresse.")]
