@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TrueOrFalse.Web;
-using static System.String;
 
 public class KnowledgeModel : BaseModel
 {
@@ -33,7 +33,7 @@ public class KnowledgeModel : BaseModel
 
     public KnowledgeModel(string emailKey = null)
     {
-        if (!IsNullOrEmpty(emailKey))
+        if (!String.IsNullOrEmpty(emailKey))
             if (R<ValidateEmailConfirmationKey>().IsValid(emailKey))
                 Message = new SuccessMessage("Deine E-Mail-Ad­res­se ist nun bestätigt.");
 
