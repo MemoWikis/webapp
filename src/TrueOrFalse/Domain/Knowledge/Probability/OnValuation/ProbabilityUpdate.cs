@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using NHibernate.Util;
 
 namespace TrueOrFalse
@@ -27,7 +29,16 @@ namespace TrueOrFalse
 
         public void Run(int userId)
         {
-            _questionValuationRepo.GetByUser(userId, onlyActiveKnowledge:false).ForEach(Run);
+            _questionValuationRepo
+                .GetByUser(userId, onlyActiveKnowledge:false)
+                .ForEach(Run);
+        }
+
+        public void Run(IEnumerable<Set> sets, int userId)
+        {
+            sets
+                .SelectMany(s => s.QuestionsInSet.Select(qis => qis.Question.Id))
+                .ForEach(questionId => Run(questionId, userId));
         }
 
         public void Run(int questionId, int userId)
