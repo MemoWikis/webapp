@@ -10,7 +10,9 @@ public class LearningSessionMap : ClassMap<LearningSession>
             .Cascade.SaveUpdate().OrderBy("Id");
         
         References(x => x.User);
+
         References(x => x.SetToLearn);
+        References(x => x.DateToLearn);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
