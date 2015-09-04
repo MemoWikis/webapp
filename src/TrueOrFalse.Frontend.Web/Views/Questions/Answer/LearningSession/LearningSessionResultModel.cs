@@ -25,13 +25,11 @@ public class LearningSessionResultModel : BaseModel
             var answeredSteps = LearningSession.Steps.Where(s => s.AnswerState == StepAnswerState.Answered).ToList();
             NumberCorrectAnswers = answeredSteps.Count(s => s.AnswerHistory.AnswerredCorrectly != AnswerCorrectness.False);
             NumberWrongAnswers = answeredSteps.Count(s => s.AnswerHistory.AnswerredCorrectly == AnswerCorrectness.False);
-
             NumberSkipped = LearningSession.Steps.Count(s => s.AnswerState == StepAnswerState.Skipped);
 
-            NumberCorrectPercentage = (int)Math.Floor(NumberCorrectAnswers / (float)TotalNumberSteps * 100);
-            NumberWrongAnswersPercentage = (int)Math.Floor(NumberWrongAnswers / (float)TotalNumberSteps * 100);
-            NumberSkippedPercentage = (int)Math.Floor(NumberSkipped / (float)TotalNumberSteps * 100);
-            //Loggen, wenn sich nicht Gesamtzahl ergibt
+            NumberCorrectPercentage = (int)Math.Round(NumberCorrectAnswers / (float)TotalNumberSteps * 100);
+            NumberWrongAnswersPercentage = (int)Math.Round(NumberWrongAnswers / (float)TotalNumberSteps * 100);
+            NumberSkippedPercentage = (int)Math.Round(NumberSkipped / (float)TotalNumberSteps * 100);
         }
     }
 }

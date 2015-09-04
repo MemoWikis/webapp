@@ -28,7 +28,7 @@
         </div>
         <div id="SummaryRightAnswers">
             <div class="BarDescr">richtig:</div>
-            <div class="ChartBarWrapper" style="width: <%= Model.NumberCorrectPercentage * 0.5 %>%">
+            <div class="ChartBarWrapper" style="width: <%= (Model.NumberCorrectPercentage * 0.5).ToString(CultureInfo.InvariantCulture) %>%">
                 <div class="ChartBar"></div>
             </div>
             <div class="ChartNumbers"> <%=Model.NumberCorrectAnswers %> 
@@ -39,7 +39,7 @@
         </div>
         <div id="SummaryWrongAnswers">
             <div class="BarDescr">falsch:</div>
-            <div class="ChartBarWrapper" style="width: <%= Model.NumberWrongAnswersPercentage * 0.5 %>%">
+            <div class="ChartBarWrapper" style="width: <%= (Model.NumberWrongAnswersPercentage * 0.5).ToString(CultureInfo.InvariantCulture) %>%">
                 <div class="ChartBar"></div>
             </div>
             <div class="ChartNumbers"> <%=Model.NumberWrongAnswers %> 
@@ -51,7 +51,7 @@
         <% if(Model.NumberSkipped != 0) { %>
             <div id="SummaryUnanswered">
                 <div class="BarDescr">unbeantwortet:</div>
-                <div class="ChartBarWrapper" style="width: <%= Model.NumberSkippedPercentage * 0.5 %>%">
+                <div class="ChartBarWrapper" style="width: <%= (Model.NumberSkippedPercentage * 0.5).ToString(CultureInfo.InvariantCulture) %>%">
                     <div class="ChartBar"></div>
                 </div>
                 <div class="ChartNumbers"> <%=Model.NumberSkipped %> 
