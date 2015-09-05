@@ -93,7 +93,7 @@ class AutocompleteSets {
         this._elemInput.closest(".JS-SetInputContainer").before(
             "<div class='added-set' id='set-" + setIdx + "' style='display: none; float: left; margin-right: 9px;'>" +
                 "<a href='/Fragesatz/" + setId + "'>" +
-                    "<span class='label label-set show-tooltip' data-placement='top' data-original-title='Gehe zu Fragesatz'>" + setText + "</span>" +
+                    "<span class='label label-set show-tooltip' data-placement='top' data-original-title='Gehe zum Fragesatz'>" + setText + "</span>" +
                 "</a>" +
                 "<input type='hidden' value='" + setId + "' name='set-" + setIdx + "'/>" +
                 "<a href='#' id='delete-set-" + setIdx +"' style='margin-left: 4px;'><img alt='' src='/Images/Buttons/cross.png' /></a>" +
