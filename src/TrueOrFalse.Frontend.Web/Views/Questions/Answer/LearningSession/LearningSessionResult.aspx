@@ -21,12 +21,17 @@
                 <div class="DescrRight">
                     <%= Model.TotalNumberSteps %>
                     von
-                    <%= Model.LearningSession.SetToLearn.Questions().Count() %>
+                    <%= Model.LearningSession.TotalPossibleQuestions %>
                     <%= Language.SingularPlural(Model.TotalNumberSteps, "Frage", "Fragen") %>
-                    aus dem Fragesatz
-                    <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="display: inline-block;">
-                        <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
-                    </a>
+                    <% if(Model.LearningSession.IsSetSession) { %>
+                        aus dem Fragesatz
+                        <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="display: inline-block;">
+                            <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
+                        </a>
+                    <% } %>
+                    <% if(Model.LearningSession.IsDateSession) { %>
+                        aus dem Termin <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetInfo() %></a>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -95,7 +100,7 @@
         } %>
     </div>
     <div class="pull-right" style="margin-top: 20px;">
-        <a href="<%= Links.StartLearningSession(Model.LearningSession.SetToLearn.Id) %>" class="btn btn-primary" style="padding-right: 10px">Neue Lernsitzung zu diesem Fragesatz</a>
+        <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">Neue Lernsitzung zu diesem Fragesatz</a>
     </div>
 
 </asp:Content>

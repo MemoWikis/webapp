@@ -29,7 +29,7 @@
                 <i class="fa fa-caret-right"></i> 
                 Wunschwissen  <span style="float:right"><i class="fa fa-heart-o"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
             </a>
-            <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates(Url) %>">
+            <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates() %>">
                 <i class="fa fa-caret-right"></i> Termine
             </a>            
             <%

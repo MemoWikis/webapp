@@ -118,7 +118,7 @@ public class AnswerQuestionModel : BaseModel
             NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
                 new {
                     learningSessionId = learningSession.Id,
-                    learningSessionName = UriSegmentFriendlyUser.Run(learningSession.SetToLearn.Name),
+                    learningSessionName = learningSession.UrlName,
                     stepNo = LearningSessionCurrentStepNo + 1
                 });
         }
@@ -127,7 +127,7 @@ public class AnswerQuestionModel : BaseModel
             NextUrl = url => url.Action("LearningSessionResult", Links.LearningSessionResultController,
                 new {
                     learningSessionId = learningSession.Id,
-                    learningSessionName = UriSegmentFriendlyUser.Run(learningSession.SetToLearn.Name)
+                    learningSessionName = learningSession.UrlName
                 });
         }
         Populate(LearningSessionStep.Question);

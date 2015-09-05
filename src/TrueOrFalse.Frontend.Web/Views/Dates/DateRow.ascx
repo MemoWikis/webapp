@@ -94,7 +94,7 @@
                             <a style="display: inline-block; margin-top: 23px;"
                                 class="btn btn-sm btn-primary"
                                 data-btn="startLearningSession" 
-                                href="/Set/StartLearningSession?setId=<%=Model.Date.Sets.First().Id %>"><i class="fa fa-line-chart"></i> 
+                                href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> 
                                 Jetzt üben
                             </a>
                         </div>
