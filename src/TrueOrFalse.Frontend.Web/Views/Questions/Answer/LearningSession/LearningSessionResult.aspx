@@ -12,12 +12,12 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <h2>Lernsitzung Ergebnis</h2>
+    <h2>Lernen: Dein Ergebnis</h2>
 
-    <div>
+    <div class="well Chart">
         <div id="SummaryAll">
             <div class="TableRow">
-                <div class="DescrLeft">Vorgelegt:</div>
+                <div class="DescrLeft">Gelernt:</div>
                 <div class="DescrRight">
                     <%= Model.TotalNumberSteps %>
                     von
