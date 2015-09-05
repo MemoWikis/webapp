@@ -356,7 +356,7 @@
                         </div>
                         <div class="col-xs-9" style="">
                             <a href="#"><%= user2.Name %></a> erstellte die Kategorie: 
-                            <span class="label label-category show-tooltip" title="" data-placement="top" data-original-title="Gehe zu Kategorie">Helmut Kohl</span>
+                            <span class="label label-category">Helmut Kohl</span>
                         </div>
                     </div>
                 
