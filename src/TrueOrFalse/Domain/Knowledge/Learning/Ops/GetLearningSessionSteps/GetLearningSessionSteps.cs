@@ -11,6 +11,12 @@ public class GetLearningSessionSteps
         return Run(allQuestions);
     }
 
+    public static IList<LearningSessionStep> Run(Date date)
+    {
+        var allQuestions = date.Sets.SelectMany(s => s.Questions()).ToList();
+        return Run(allQuestions);
+    }
+
     public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = 10)
     {
         var auxParams = GetStepSelectionParams(questions);

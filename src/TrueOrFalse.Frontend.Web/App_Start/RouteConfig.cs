@@ -44,10 +44,10 @@ namespace TrueOrFalse
             routes.MapRoute("Question_ReferencePartial", "Fragen/Bearbeite/ReferencePartial", new { controller = "EditQuestion", action = "ReferencePartial" });
             routes.MapRoute("Question_Edit", "Fragen/Bearbeite/{id}", new { controller = "EditQuestion", action = "Edit" });
 
-            routes.MapRoute("LearningSession_Result", "Lernen/Ergebnis/{learningSessionId}/{setName}/", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
+            routes.MapRoute("LearningSession_Result", "Lernen/Ergebnis/{learningSessionId}/{learningSessionName}/", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
 
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer" });
-            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{setName}/{stepNo}", new { controller = "AnswerQuestion", action = "Learn", stepNo = UrlParameter.Optional });
+            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}/{stepNo}", new { controller = "AnswerQuestion", action = "Learn", stepNo = UrlParameter.Optional });
 
             /* API */ routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });

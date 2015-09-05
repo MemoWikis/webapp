@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using TrueOrFalse;
 using TrueOrFalse.Web;
 
 [SetMenu(MenuEntry.Dates)]
@@ -29,7 +30,7 @@ public class EditDateController : BaseController
 
             _sessionUiData.VisitedDatePages.Add(new DateHistoryItem(date, HistoryItemType.Edit));
 
-            R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
+            CareAboutAnswerProbability(date);
 
             Response.Redirect("/Termine", true);
         }
@@ -70,12 +71,18 @@ public class EditDateController : BaseController
             dateRepo.Update(model.FillDateFromInput(date));
             dateRepo.Flush();
 
-            R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
+            CareAboutAnswerProbability(date);
 
             Response.Redirect("/Termine", true);
         }
 
         model.IsEditing = true;
         return View(_viewLocation, model);
+    }
+
+    private void CareAboutAnswerProbability(Date date)
+    {
+        R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
+        R<ProbabilityUpdate>().Run(date.Sets, _sessionUser.UserId);
     }
 }

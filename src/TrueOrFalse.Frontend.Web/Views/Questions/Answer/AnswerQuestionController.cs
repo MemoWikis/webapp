@@ -42,7 +42,7 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
-    public ActionResult Learn(int learningSessionId, string setName, int stepNo, int skipStepId = -1)
+    public ActionResult Learn(int learningSessionId, string learningSessionName, int stepNo, int skipStepId = -1)
     {
         ////_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
         //_saveQuestionView.Run(question, _sessionUser.User);
@@ -56,14 +56,14 @@ public class AnswerQuestionController : BaseController
         {
             LearningSessionStep.Skip(skipStepId);
             return RedirectToAction("Learn", Links.AnswerQuestionController, 
-                new {learningSessionId, setName, stepNo});
+                new {learningSessionId, learningSessionName = learningSessionName, stepNo});
         }
 
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
 
         if (currentLearningStepIdx == -1) //None of the steps is uncompleted
             return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
-                new { learningSessionId, setName });
+                new { learningSessionId, learningSessionName = learningSessionName });
 
         if (currentLearningStepIdx != stepNo - 1)//Correct url if stepNo is adjusted
         {
