@@ -133,13 +133,18 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string StartLearningSession(LearningSession learningSession)
         {
-            if(learningSession.IsSetSession)
-                return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = learningSession.SetToLearn.Id });
+            if (learningSession.IsSetSession)
+                return StartSetLearningSession(learningSession.SetToLearn.Id);
 
             if (learningSession.IsDateSession)
                 return GetUrlHelper().Action("StartLearningSession", "Dates", new { dateId = learningSession.DateToLearn.Id });
 
             throw new Exception("unknown type");
+        }
+
+        public static string StartSetLearningSession(int setId)
+        {
+            return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
         }
 
         /*Set*/
