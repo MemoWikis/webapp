@@ -26,8 +26,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         }
     }
 
-    public virtual bool IsSetSession => SetToLearn != null;
-    public virtual bool IsDateSession => DateToLearn != null;
+    public virtual bool IsSetSession{ get { return SetToLearn != null; }}
+
+    public virtual bool IsDateSession{ get { return DateToLearn != null; }}
 
     public virtual int TotalPossibleQuestions
     {

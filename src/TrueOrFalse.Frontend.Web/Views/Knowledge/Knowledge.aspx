@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="Mein Wissensstand" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="Microsoft.Ajax.Utilities" %>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     
