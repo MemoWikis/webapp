@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class GetRandomLogoCssClass
 {
-    public static readonly IList<string> CssClasses = new List<string> { "Logo1", "Logo2", "Logo3", "Logo4", "Logo5", "Logo6", "Logo7", "Logo8", "Logo9", "Logo10", "Logo11" };
+    public static readonly IList<string> CssClasses = new List<string> { "Logo1", "Logo2", "Logo3", "Logo4", "Logo5", "Logo6", "Logo7", "Logo8", "Logo9", "Logo10", "Logo11", "Logo12" };
 
     public static string Run()
     {
