@@ -263,6 +263,8 @@
     <Compile Include="Code\Hubs\GameHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
+    <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
@@ -381,6 +383,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\Welcome\WelcomeBoxTopQuestions.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopSets.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopCategories.ascx" />
@@ -1760,6 +1763,7 @@
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
       <DependentUpon>LearningSessionResult.css</DependentUpon>
     </Content>
+    <Content Include="Views\AlgoInsight\AlgoInsight.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

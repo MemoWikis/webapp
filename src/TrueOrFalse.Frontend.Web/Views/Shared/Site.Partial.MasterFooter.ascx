@@ -23,18 +23,12 @@
     
     <span style="display: inline;">Auf:</span>
     <ul id="footerOn" style="margin-left: -15px;">
+        <li><a class="TextLinkWithIcon" href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a></li>        
         <li>
-            
             <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
                 <i class="fa fa-cogs"></i> 
                 Teamcity (Build:<%= Assembly.Load("TrueOrFalse").GetName().Version.Major %>)
             </a>
-        </li>
-        <li><a class="TextLinkWithIcon" href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a></li>
-        <li>
-            <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
-                
-            </a>    
         </li>
     </ul>
 
