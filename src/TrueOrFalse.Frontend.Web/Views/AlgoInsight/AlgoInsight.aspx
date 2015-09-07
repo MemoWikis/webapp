@@ -26,7 +26,7 @@
     <% } %>
 
     <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;">
-        <span class="ColoredUnderline Knowledge">Algorithmus-Einblick</span>:
+        <span class="ColoredUnderline Knowledge">Algorithmus-Einblick</span>
     </h2>
 
 </asp:Content>

@@ -281,6 +281,10 @@
     <Compile Include="Domain\Knowledge\Learning\Ops\GetLearningSessionSteps\StepSelectionParams.cs" />
     <Compile Include="Domain\Knowledge\Learning\Persistence\LearningSessionStepRepository.cs" />
     <Compile Include="Domain\Knowledge\Learning\StepAnswerState.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoTester.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AnswherHistoryTest\AnswerHistoryTest.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AnswherHistoryTest\Persistence\AnswerHistoryTestMap.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AnswherHistoryTest\Persistence\AnswerHistoryTestRepo.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityCalc_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\OnQuestion\ProbabilityUpdate_OnQuestion.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
