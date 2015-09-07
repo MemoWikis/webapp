@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class DatesController : BaseController
 {
@@ -40,5 +41,21 @@ public class DatesController : BaseController
             previousDates,
             ControllerContext
         );
+    }
+
+    public ActionResult StartLearningSession(int dateId)
+    {
+        var date = Resolve<DateRepo>().GetById(dateId);
+
+        var learningSession = new LearningSession
+        {
+            DateToLearn = date,
+            Steps = GetLearningSessionSteps.Run(date),
+            User = _sessionUser.User
+        };
+
+        R<LearningSessionRepo>().Create(learningSession);
+
+        return Redirect(Links.LearningSession(learningSession));
     }
 }

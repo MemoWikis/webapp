@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using TrueOrFalse.Web;
 
 public class KnowledgeModel : BaseModel
@@ -36,6 +37,9 @@ public class KnowledgeModel : BaseModel
         if (!String.IsNullOrEmpty(emailKey))
             if (R<ValidateEmailConfirmationKey>().IsValid(emailKey))
                 Message = new SuccessMessage("Deine E-Mail-Ad­res­se ist nun bestätigt.");
+
+        if(HttpContext.Current.Request["passwordSet"] != null)
+            Message = new SuccessMessage("Du hast dein Passwort aktualisiert.");
 
         if (!IsLoggedIn)
             return;

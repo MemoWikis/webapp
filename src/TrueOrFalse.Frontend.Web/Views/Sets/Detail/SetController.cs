@@ -28,8 +28,7 @@ public class SetController : BaseController
     {
         var set = Resolve<SetRepo>().GetById(setId);
 
-        var learningSession = new LearningSession
-        {
+        var learningSession = new LearningSession{
             SetToLearn = set,
             Steps = GetLearningSessionSteps.Run(set),
             User = _sessionUser.User

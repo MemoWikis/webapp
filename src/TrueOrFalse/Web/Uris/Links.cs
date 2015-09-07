@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -123,20 +124,27 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new
                 {
                     learningSessionId = learningSession.Id,
-                    learningSessionName = UriSegmentFriendlyUser.Run(learningSession.SetToLearn.Name),
+                    learningSessionName = learningSession.UrlName,
                     stepNo = nextStepToLearnIdx == -1
                         ? learningSession.CurrentLearningStepIdx() + 1 //Convert idx to number to improve readability of url for user
                         : nextStepToLearnIdx + 1
                 });
         }
 
-        public static string StartLearningSession(int setId)
+        public static string StartLearningSession(LearningSession learningSession)
         {
-            return GetUrlHelper().Action("StartLearningSession", SetController,
-                new
-                {
-                    setId = setId
-                });
+            if (learningSession.IsSetSession)
+                return StartSetLearningSession(learningSession.SetToLearn.Id);
+
+            if (learningSession.IsDateSession)
+                return GetUrlHelper().Action("StartLearningSession", "Dates", new { dateId = learningSession.DateToLearn.Id });
+
+            throw new Exception("unknown type");
+        }
+
+        public static string StartSetLearningSession(int setId)
+        {
+            return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
         }
 
         /*Set*/
@@ -196,8 +204,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("SetMessageUnread", "Messages");
         }
 
-        public static string Dates(UrlHelper url){
-            return url.Action("Dates", "Dates");
+        public static string Dates(){
+            return GetUrlHelper().Action("Dates", "Dates");
         }
 
         public static object DateEdit(UrlHelper url, int dateId){

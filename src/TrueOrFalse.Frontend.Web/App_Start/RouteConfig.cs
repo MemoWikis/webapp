@@ -99,7 +99,8 @@ namespace TrueOrFalse
             routes.MapRoute("DatesCreate", "Termin/Erstellen", new { controller = "EditDate", action = "Create" });
             routes.MapRoute("DatesEdit", "Termin/Bearbeiten/{0}", new { controller = "EditDate", action = "Edit" });
             routes.MapRoute("DatesDetails", "Termin/Details/{0}", new { controller = "Date", action = "Edit" });
-            
+            routes.MapRoute("Dates_StartLearningSession", "Termin/Lernen/{dateId}", new { controller = "Dates", action = "StartLearningSession" });
+
             routes.MapRoute("Games", "Spielen/{action}", new { controller = "Games", action = "Games" });
             routes.MapRoute("GamesCreate", "Spiel/Erstellen", new { controller = "Game", action = "Create" });
             routes.MapRoute("GamesPlay", "Spiel/{gameId}", new { controller = "Play", action = "Play" });
