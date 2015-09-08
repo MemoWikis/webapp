@@ -2,7 +2,8 @@
 
 public class AnswerHistoryTest : DomainEntity
 {
-	public AnswerHistory AnswerHistory { get; set; }
-	public int AlgoId;
-	public int Probability;
+	public virtual AnswerHistory AnswerHistory { get; set; }
+	public virtual int AlgoId { get; set; }
+	public virtual int Probability { get; set; }
+	public virtual bool IsCorrect { get; set; }
 }

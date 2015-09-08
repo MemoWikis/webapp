@@ -10,7 +10,7 @@
             <a href="#"><i class="fa fa-bar-chart"></i> Algorithmus-Einblick</a>
         </div>
 
-        <div class="col-md-6 col-xs-12" class="pull-right">
+        <div class="col-md-6 col-xs-12 text-align-right-md">
             <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%> | 
             <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%>
         </div>

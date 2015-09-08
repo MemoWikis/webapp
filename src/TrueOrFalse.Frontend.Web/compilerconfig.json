@@ -3,7 +3,11 @@
     "outputFile": "Style/includes/shared.css",
     "inputFile": "Style/includes/shared.less",
     "minify": {
-        "enabled": false
+      "enabled": false
     }
+  },
+  {
+    "outputFile": "Views/Welcome/Welcome.css",
+    "inputFile": "Views/Welcome/Welcome.less"
   }
 ]
