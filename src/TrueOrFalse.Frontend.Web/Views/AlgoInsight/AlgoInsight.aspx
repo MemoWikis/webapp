@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Mein Wissensstand" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<AlgoInsightModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     
@@ -28,5 +29,11 @@
     <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;">
         <span class="ColoredUnderline Knowledge">Algorithmus-Einblick</span>
     </h2>
+    
+    <div class="row">
+	    <div class="col-md-12" style="text-align: right">
+		    <a href="<%= Url.Action("Reevaluate", "AlgoInsight") %>" class="btn btn-md btn-info">Teste Algorithmen (dauert mehrere Minuten)</a>
+	    </div>
+    </div>
 
 </asp:Content>

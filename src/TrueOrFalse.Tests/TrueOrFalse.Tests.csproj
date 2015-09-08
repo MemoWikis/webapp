@@ -230,7 +230,9 @@
     <Compile Include="2 Domain\Knowledge\Learning\LearningSession_persistence.cs" />
     <Compile Include="2 Domain\Message\Message_persistence.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerDate_date_tests.cs" />
+    <Compile Include="2 Domain\Question\Answer\ContextHistory.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_streak.cs" />
+    <Compile Include="2 Domain\Question\History\AnswerHistoryTest_AlgoTester.cs" />
     <Compile Include="2 Domain\Question\Remove_images_that_are_not_in_markup_anymore.cs" />
     <Compile Include="2 Domain\Question\Questions_in_Sets.cs" />
     <Compile Include="2 Domain\Question\Reference\Reference_persistence.cs" />

@@ -7,7 +7,9 @@
     
     <div class="row">
         <div class="col-md-6 col-xs-12">        
-            <a href="#"><i class="fa fa-bar-chart"></i> Algorithmus-Einblick</a>
+            <a href="#"><i class="fa fa-bar-chart"></i>
+                <%= Html.ActionLink("Algorithmus-Einblick", "AlgoInsight", "AlgoInsight")  %>
+            </a>
         </div>
 
         <div class="col-md-6 col-xs-12 text-align-right-md">

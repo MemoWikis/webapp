@@ -7,20 +7,17 @@ namespace TrueOrFalse
 {
     public class ProbabilityUpdate : IRegisterAsInstancePerLifetime
     {
-        private readonly AnswerHistoryRepository _answerHistoryRepository;
         private readonly QuestionValuationRepo _questionValuationRepo;
-        private readonly ProbabilityCalc _probabilityCalc;
+        private readonly ProbabilityCalc_Simple1 _probabilityCalc;
         private readonly QuestionRepository _questionRepo;
         private readonly UserRepo _userRepo;
 
         public ProbabilityUpdate(
-            AnswerHistoryRepository answerHistoryRepository,
             QuestionValuationRepo questionValuationRepo,
-            ProbabilityCalc probabilityCalc, 
+            ProbabilityCalc_Simple1 probabilityCalc, 
             QuestionRepository questionRepo,
             UserRepo userRepo)
         {
-            _answerHistoryRepository = answerHistoryRepository;
             _questionValuationRepo = questionValuationRepo;
             _probabilityCalc = probabilityCalc;
             _questionRepo = questionRepo;
@@ -64,18 +61,9 @@ namespace TrueOrFalse
             var questionId = questionValuation.Question.Id;
             var userId = questionValuation.User.Id;
 
-            var answerHistoryItems = _answerHistoryRepository.GetBy(questionId, userId);
-            int correctnessProbability = _probabilityCalc.Run(answerHistoryItems);
-
-            questionValuation.CorrectnessProbability = correctnessProbability;
-
-            if (answerHistoryItems.Count <= 4)
-                questionValuation.KnowledgeStatus = KnowledgeStatus.Unknown;
-            else 
-                questionValuation.KnowledgeStatus = 
-                    correctnessProbability >= 89 ? 
-                        KnowledgeStatus.Secure : 
-                        KnowledgeStatus.Weak;
+            var probabilityResult = _probabilityCalc.Run(questionId, userId);
+            questionValuation.CorrectnessProbability = probabilityResult.Probability;
+	        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
 
             _questionValuationRepo.CreateOrUpdate(questionValuation);
 
