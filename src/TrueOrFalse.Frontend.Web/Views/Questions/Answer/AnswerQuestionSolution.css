@@ -5,7 +5,9 @@
 #SolutionDetails .Detail:before,
 #SolutionDetails .Detail:after {
   content: " ";
+  /* 1 */
   display: table;
+  /* 2 */
 }
 #SolutionDetails .Detail:after {
   clear: both;

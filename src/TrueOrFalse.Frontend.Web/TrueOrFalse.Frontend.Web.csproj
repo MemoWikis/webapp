@@ -375,6 +375,9 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Fonts\font-awesome-4.4.0\css\font-awesome.css" />
     <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
     <Content Include="Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Fonts\OpenSans\OpenSans.css" />
     <Content Include="Images\404.jpg" />
@@ -998,6 +1001,18 @@
     </Content>
     <Content Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
+    </Content>
+    <Content Include="Fonts\font-awesome-4.4.0\less\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\mixins.css.map">
+      <DependentUpon>mixins.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\extends.css.map">
+      <DependentUpon>extends.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -1771,6 +1786,9 @@
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.less" />
     <Content Include="Views\Welcome\Welcome.less" />
+    <Content Include="Views\Welcome\Welcome.css.map">
+      <DependentUpon>Welcome.css</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

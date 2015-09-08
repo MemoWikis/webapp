@@ -56,6 +56,15 @@
     float: none;
     width: 100%;
     margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+@media (max-width: 479px) {
+  .columnControlsSmall {
+    float: none;
+    width: 100%;
+    margin-left: 0;
   }
 }
 .noLabel {

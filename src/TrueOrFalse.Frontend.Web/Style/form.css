@@ -14,6 +14,15 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+@media (max-width: 479px) {
+  .columnLabel {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
 .columnControlsFull {
   position: relative;
   float: left;
@@ -21,6 +30,27 @@
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+}
+@media (max-width: 479px) {
+  .columnControlsFull {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.aside .columnControlsFull {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 992px) {
+  .aside .columnControlsFull {
+    float: left;
+    width: 100%;
+  }
 }
 .columnLabel {
   -ms-word-break: break-all;
@@ -38,6 +68,15 @@
   padding-left: 10px;
   padding-right: 10px;
   width: 37.5%;
+}
+@media (max-width: 479px) {
+  .columnControlsSmall {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
 }
 @media (max-width: 479px) {
   .columnLabel,
@@ -135,7 +174,9 @@ label {
 .ControlInline:before,
 .ControlInline:after {
   content: " ";
+  /* 1 */
   display: table;
+  /* 2 */
 }
 .ControlInline:after {
   clear: both;

@@ -21,6 +21,9 @@ span.CategoryType {
   margin-top: 5px;
   white-space: normal;
 }
+.Reference.DailyIssue .PublicationDate {
+  display: none;
+}
 .Reference div:not(.Name):not(.Author) {
   display: inline;
 }

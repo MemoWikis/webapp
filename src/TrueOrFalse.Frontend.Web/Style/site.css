@@ -497,6 +497,13 @@ img {
   -webkit-text-shadow: none;
   text-shadow: none;
 }
+#MenuButton:focus,
+#MenuButton:active:focus,
+#MenuButton.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
 #MenuButton:hover,
 #MenuButton:focus {
   color: #333333;
@@ -654,6 +661,13 @@ fieldset[disabled] #MenuButton {
   padding: 3px 3px 3px 7px;
   margin-right: 10px;
   font-size: 18px;
+}
+#MenuButton:hover:focus,
+#MenuButton:hover:active:focus,
+#MenuButton:hover.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
 #MenuButton:hover:hover,
 #MenuButton:hover:focus {
@@ -1126,7 +1140,9 @@ div.search-container:before,
 div.search-container:after,
 .search-section:after {
   content: " ";
+  /* 1 */
   display: table;
+  /* 2 */
 }
 div.search-container:after,
 .search-section:after {
