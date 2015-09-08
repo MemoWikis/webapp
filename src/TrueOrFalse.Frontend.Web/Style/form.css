@@ -78,15 +78,6 @@
     right: 0;
   }
 }
-@media (max-width: 479px) {
-  .columnLabel,
-  .columnControlsFull,
-  .columnControlsSmall {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-  }
-}
 @media (min-width: 480px) {
   .noLabel {
     margin-left: 25%;
