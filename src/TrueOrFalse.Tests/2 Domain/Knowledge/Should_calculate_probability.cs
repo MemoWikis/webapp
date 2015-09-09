@@ -13,12 +13,12 @@ namespace TrueOrFalse.Tests
             Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1) },
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
-            }),Is.EqualTo(36));
+            }).Probability,Is.EqualTo(36));
 
             Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
-            }), Is.EqualTo(63));            
+            }).Probability, Is.EqualTo(63));            
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace TrueOrFalse.Tests
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
             });
 
-            Assert.That(correctnessProbability, Is.EqualTo(100));
+            Assert.That(correctnessProbability.Probability, Is.EqualTo(100));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace TrueOrFalse.Tests
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
             });
 
-            Assert.That(correctnessProbability, Is.EqualTo(0));
+            Assert.That(correctnessProbability.Probability, Is.EqualTo(0));
         }
 
     }
