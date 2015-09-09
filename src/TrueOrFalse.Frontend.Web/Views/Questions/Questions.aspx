@@ -189,18 +189,23 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li>
+                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byBestMatch" %>">
+                                                <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Beste Treffer
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>">
-                                                <% if (Model.OrderBy.OrderByPersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gemerkt
+                                                <% if (Model.OrderBy.PersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gemerkt
                                             </a>
                                         </li>
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDateCreated" %>">
-                                                <% if (Model.OrderBy.OrderByCreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Datum erstellt
+                                                <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Datum erstellt
                                             </a>
                                         </li>
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byViews" %>">
-                                                <% if (Model.OrderBy.OrderByViews.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gesehen
+                                                <% if (Model.OrderBy.Views.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gesehen
                                             </a>
                                         </li>
                                     </ul>

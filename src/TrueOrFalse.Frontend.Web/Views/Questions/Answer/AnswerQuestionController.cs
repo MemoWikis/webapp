@@ -100,7 +100,7 @@ public class AnswerQuestionController : BaseController
             {
                 activeSearchSpec.Filter.Categories.Clear();
                 activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
-                activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+                activeSearchSpec.OrderBy.PersonalRelevance.Desc();
             }
         }
 

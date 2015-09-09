@@ -18,10 +18,11 @@ namespace TrueOrFalse.Search
         public SearchQuestionsResult Run(QuestionSearchSpec searchSpec)
         {
             var orderBy = SearchQuestionsOrderBy.None;
-            if (searchSpec.OrderBy.OrderByQuality.IsCurrent()) orderBy = SearchQuestionsOrderBy.Quality;
-            else if (searchSpec.OrderBy.OrderByViews.IsCurrent()) orderBy = SearchQuestionsOrderBy.Views;
-            else if (searchSpec.OrderBy.OrderByCreationDate.IsCurrent()) orderBy = SearchQuestionsOrderBy.DateCreated;
-            else if (searchSpec.OrderBy.OrderByPersonalRelevance.IsCurrent()) orderBy = SearchQuestionsOrderBy.Valuation;
+            if (searchSpec.OrderBy.BestMatch.IsCurrent()) orderBy = SearchQuestionsOrderBy.BestMatch;
+            else if (searchSpec.OrderBy.OrderByQuality.IsCurrent()) orderBy = SearchQuestionsOrderBy.Quality;
+            else if (searchSpec.OrderBy.Views.IsCurrent()) orderBy = SearchQuestionsOrderBy.Views;
+            else if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchQuestionsOrderBy.DateCreated;
+            else if (searchSpec.OrderBy.PersonalRelevance.IsCurrent()) orderBy = SearchQuestionsOrderBy.Valuation;
 
             var result = Run(
                 searchSpec.Filter.SearchTerm,
@@ -99,7 +100,17 @@ namespace TrueOrFalse.Search
             else if (orderBy == SearchQuestionsOrderBy.DateCreated)
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
 
-            orderby.Add(new SortOrder("DateCreated", Order.DESC));
+            if(orderBy != SearchQuestionsOrderBy.BestMatch && orderBy != SearchQuestionsOrderBy.DateCreated)
+                orderby.Add(new SortOrder("DateCreated", Order.DESC));
+
+	        if (orderBy == SearchQuestionsOrderBy.BestMatch)
+	        {
+                if(String.IsNullOrEmpty(searchTerm))
+		        {
+                    orderby.Add(new SortOrder("Valuation", Order.DESC));
+			        orderby.Add(new SortOrder("DateCreated", Order.DESC));
+		        }
+            }
 
             #if DEBUG
                 Logg.r().Information("SearchQuestions {Query}", sqb.ToString());
