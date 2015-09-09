@@ -9,14 +9,16 @@ class AnswerQuestion
     private _onNewAnswer: () => void;
 
     private _inputFeedback: AnswerQuestionUserFeedback;
-    private _isGameMode: boolean;
-    private _isLearningSession = false;
     private _isLastLearningStep = false;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
     static ajaxUrl_CountLastAnswerAsCorrect: string;
 
+    public IsGameMode: boolean;
+    public IsLearningSession = false;
+
+    public AnsweredCorrectly = false;
     public AnswersSoFar = [];
     public AmountOfTries = 0;
     public AtLeastOneWrongAnswer = false;
@@ -24,11 +26,11 @@ class AnswerQuestion
 
     constructor(answerEntry : IAnswerEntry) {
 
-        this._isGameMode = answerEntry.IsGameMode;
+        this.IsGameMode = answerEntry.IsGameMode;
         if ($('#hddIsLearningSession').length === 1)
-            this._isLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
+            this.IsLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
 
-        if (this._isLearningSession && $('#hddIsLearningSession').attr('data-is-last-step'))
+        if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step'))
             this._isLastLearningStep = $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() === "true";
 
         this._getAnswerText = answerEntry.GetAnswerText;
@@ -154,12 +156,13 @@ class AnswerQuestion
 
                     if (result.correct)
                     {
+	                    self.AnsweredCorrectly = true;
                         self._inputFeedback.ShowSuccess();
                         self._inputFeedback.ShowSolution();
                     }
                     else //!result.correct
                     {
-                        if (self._isGameMode) {
+                        if (self.IsGameMode) {
                             self._inputFeedback.ShowErrorGame();
                             self._inputFeedback.ShowSolution();
                         }
@@ -171,7 +174,7 @@ class AnswerQuestion
                             self.AtLeastOneWrongAnswer = true;
                             self._inputFeedback.ShowError();
 
-                            if (self._isLearningSession) {
+                            if (self.IsLearningSession) {
 
                                 self._inputFeedback.ShowSolution();
                                 $('#CountWrongAnswers, #divWrongAnswers').hide();
