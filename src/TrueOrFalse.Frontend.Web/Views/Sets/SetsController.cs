@@ -199,9 +199,10 @@ public class SetsController : BaseController
         private void SetSetsOrderBy(SetSearchSpec searchSpec, string orderByCommand)
         {
             if (searchSpec.OrderBy.Current == null && String.IsNullOrEmpty(orderByCommand))
-                orderByCommand = "byValuationsCount";
+                orderByCommand = "byBestMatch";
 
-            if (orderByCommand == "byValuationsCount") searchSpec.OrderBy.ValuationsCount.Desc();
+            if (orderByCommand == "byBestMatch") searchSpec.OrderBy.BestMatch.Desc();
+            else if (orderByCommand == "byValuationsCount") searchSpec.OrderBy.ValuationsCount.Desc();
             else if (orderByCommand == "byValuationsAvg") searchSpec.OrderBy.ValuationsAvg.Desc();
         }
 

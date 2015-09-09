@@ -28,12 +28,14 @@ public class SetFilter : ConditionContainer
 [Serializable]
 public class SetOrderBy : OrderByCriteria
 {
+    public OrderBy BestMatch;
     public OrderBy CreationDate;
     public OrderBy ValuationsAvg;
     public OrderBy ValuationsCount;
 
     public SetOrderBy()
     {
+        BestMatch = new OrderBy("BestMatch", this);
         CreationDate = new OrderBy("DateCreated", this);
         ValuationsCount = new OrderBy("TotalRelevancePersonalEntries", this);
         ValuationsAvg = new OrderBy("TotalRelevancePersonalAvg", this);
@@ -41,6 +43,9 @@ public class SetOrderBy : OrderByCriteria
 
     public string ToText()
     {
+        if (BestMatch.IsCurrent())
+            return "Beste Treffer";
+
         if (CreationDate.IsCurrent())
             return "Erstellungsdatum";
 

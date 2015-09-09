@@ -131,16 +131,15 @@
                                             Sortieren nach: <%= Model.OrderByLabel %>
                                             <b class="caret"></b>
                                         </button>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu">    
                                             <li>
-                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byValuationsCount" %>">
-                                                    <% if (Model.OrderBy.ValuationsCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Anzahl Gemerkt
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byBestMatch" %>">
+                                                    <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Beste Treffer
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byValuationsAvg" %>">
-                                                    <% if (Model.OrderBy.ValuationsAvg.IsCurrent())
-                                                       { %><i class="icon-ok"></i> <% } %>  Gemerkt &#216; Wichtigkeit
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byValuationsCount" %>">
+                                                    <% if (Model.OrderBy.ValuationsCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Anzahl Gemerkt
                                                 </a>
                                             </li>
                                         </ul>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;
@@ -16,7 +17,8 @@ namespace TrueOrFalse.Search
         public SearchSetsResult Run(SetSearchSpec searchSpec)
         {
             var orderBy = SearchSetsOrderBy.None;
-            if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchSetsOrderBy.CreationDate;
+            if (searchSpec.OrderBy.BestMatch.IsCurrent()) orderBy = SearchSetsOrderBy.BestMatch;
+            else if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchSetsOrderBy.CreationDate;
             else if (searchSpec.OrderBy.ValuationsCount.IsCurrent()) orderBy = SearchSetsOrderBy.ValuationsCount;
             else if (searchSpec.OrderBy.ValuationsAvg.IsCurrent()) orderBy = SearchSetsOrderBy.ValuationsAvg;
 
@@ -48,7 +50,16 @@ namespace TrueOrFalse.Search
             SearchSetsOrderBy orderBy = SearchSetsOrderBy.None)
         {
             var orderby = new List<SortOrder>();
-            if (orderBy == SearchSetsOrderBy.CreationDate)
+            if (orderBy == SearchSetsOrderBy.BestMatch)
+            {
+                if (String.IsNullOrEmpty(searchTerm))
+                {
+                    orderby.Add(new SortOrder("ValuationsCount", Order.DESC));
+                    orderby.Add(new SortOrder("ValuationsAvg", Order.DESC));
+                    orderby.Add(new SortOrder("DateCreated", Order.DESC));
+                }
+            }
+            else if (orderBy == SearchSetsOrderBy.CreationDate)
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
             else if (orderBy == SearchSetsOrderBy.ValuationsCount)
             {

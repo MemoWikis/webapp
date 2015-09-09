@@ -6,5 +6,6 @@
         CreationDate = 0,
         ValuationsCount = 1,
         ValuationsAvg = 2,
+        BestMatch = 3
     }
 }
