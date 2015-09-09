@@ -73,7 +73,7 @@
 		    <field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
         <field name="FullTextStemmed" type="textStemmed" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
 
-        <field name="Text" type="string" indexed="false" stored="false" multiValued="false" />
+        <field name="Text" type="string" indexed="true" stored="false" multiValued="false" />
         <field name="Description" type="string" indexed="false" stored="false" multiValued="false" />
         <field name="Solution" type="string" indexed="false" stored="false" multiValued="false" />
 

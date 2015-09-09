@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;
@@ -67,13 +66,16 @@ namespace TrueOrFalse.Search
             if (searchOnlyWithStartingWith)
             {
                 sqb.Add("FullTextStemmed", searchTerm, startsWith: true)
-                   .Add("FullTextExact", searchTerm, startsWith: true);
+                   .Add("FullTextExact", searchTerm, startsWith: true)
+                   .Add("Text", searchTerm, startsWith: true, boost: 9999);
             }
             else
             {
                 sqb.Add("FullTextStemmed", searchTerm)
                    .Add("FullTextExact", searchTerm)
-                   .Add("FullTextExact", searchTerm, startsWith: true);
+                   .Add("FullTextExact", searchTerm, startsWith: true)
+                   .Add("Text", searchTerm, boost: 1000)
+                   .Add("Text", searchTerm, startsWith: true, boost: 9999);
             }
 
             sqb.Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
