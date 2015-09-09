@@ -21,7 +21,7 @@
 		    <field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
         <field name="FullTextStemmed" type="textStemmed" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
 
-        <field name="Name" type="string" indexed="false" stored="false" multiValued="false" />
+        <field name="Name" type="textExact" indexed="true" stored="false" multiValued="false" />
         <field name="Description" type="string" indexed="false" stored="false" multiValued="false" />
 
         <field name="QuestionCount" type="int" indexed="true" stored="false" multiValued="false"/>

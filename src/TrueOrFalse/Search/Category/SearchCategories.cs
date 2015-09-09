@@ -55,7 +55,9 @@ namespace TrueOrFalse.Search
             {
                 sqb.Add("FullTextStemmed", searchTerm)
                    .Add("FullTextExact", searchTerm)
-                   .Add("FullTextExact", searchTerm, startsWith: true);
+                   .Add("FullTextExact", searchTerm, startsWith: true)
+                   .Add("Name", searchTerm, boost:1000)
+                   .Add("Name", searchTerm, startsWith: true, boost: 9999);
             }
 
             var orderby = new List<SortOrder>();
