@@ -78,7 +78,7 @@ namespace TrueOrFalse.Search
                 .Add("FullTextExact", searchTerm)
                 .Add("FullTextExact", searchTerm, startsWith: true)
                 .Add("Text", searchTerm, boost: 1000)
-                .Add("Text", searchTerm, startsWith: true, boost: 9999);
+                .Add("Text", searchTerm, startsWith: true, boost: 99999);
             //.Add("FullTextExact", searchTerm, phrase: true);
 
             sqb.Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
