@@ -186,9 +186,11 @@
         <fieldType name="textExact" class="solr.TextField" positionIncrementGap="0">
             <analyzer type="index">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
+              <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
             <analyzer type="query">
               <tokenizer class="solr.StandardTokenizerFactory"/>
+              <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
         </fieldType>		
 
