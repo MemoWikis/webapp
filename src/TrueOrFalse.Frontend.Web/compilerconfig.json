@@ -8,6 +8,16 @@
   },
   {
     "outputFile": "Views/Welcome/Welcome.css",
-    "inputFile": "Views/Welcome/Welcome.less"
+    "inputFile": "Views/Welcome/Welcome.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Style/site.css",
+    "inputFile": "Style/site.less",
+    "minify": {
+      "enabled": false
+    }
   }
 ]

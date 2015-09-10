@@ -1446,4 +1446,8 @@ a.noTextdecoration {
 a.noTextdecoration:hover {
   text-decoration: none;
 }
-/*# sourceMappingURL=site.css.map */
+@media screen and (min-width: 480px) {
+  .text-align-right-md {
+    text-align: right;
+  }
+}
