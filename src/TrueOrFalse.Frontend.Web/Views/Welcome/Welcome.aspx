@@ -14,9 +14,7 @@
     <div class="col-md-8">
             
         <div class="well">
-            <a href="#teaserWhatIsMemucho">
-                <h1 style="margin-top: 0; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
-            </a>            
+            <h1 style="margin-top: 0; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
             <ul style="margin-top: 0; margin-bottom: 0; padding-top: 3px; ">                
                 <li><a href="#teaserWhatIsMemucho" style="font-size: 15px;">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
                 <li><a href="#teaserPrinciples" style="font-size: 15px;">Wikipedia-Prinzip, Vernetzung und Gemeinwohlorientierung &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
@@ -211,12 +209,12 @@ Kontakt</a>.
             </div>
         </div>
         
-        <%--<div class="row" style="padding-top: 15px;">
+        <div class="row" style="padding-top: 15px;">
             <div class="col-md-12">
                 <h4 class="media-heading">Umfangreichste Fragesätze:</h4>
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
             </div>
-        </div>--%>
+        </div>
         
         <div class="row" style="padding-top: 15px;">
             <div class="col-md-12">

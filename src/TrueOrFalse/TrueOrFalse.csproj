@@ -341,6 +341,7 @@
     <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategory.cs" />
     <Compile Include="Domain\QuestionSet\SetComparerIdEquals.cs" />
+    <Compile Include="Domain\QuestionSet\TopSetResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerCorrectness.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaks.cs" />
