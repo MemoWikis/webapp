@@ -6,8 +6,6 @@ namespace TrueOrFalse.Updates
     {
         public static void Run()
         {
-            var answerHistoryRepo = Sl.Resolve<AnswerHistoryRepository>();
-            
             Sl.Resolve<ISession>()
               .CreateSQLQuery(
                 @"ALTER TABLE `answerhistory`
