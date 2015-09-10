@@ -56,6 +56,8 @@
     float: none;
     width: 100%;
     margin-left: 0;
+    left: 0;
+    right: 0;
   }
 }
 .noLabel {
@@ -104,18 +106,22 @@ select.form-control {
 }
 [data-is-editing="True"] input::-webkit-input-placeholder,
 [data-is-editing="True"] textarea::-webkit-input-placeholder {
+  /* WebKit browsers */
   font-weight: normal;
 }
 [data-is-editing="True"] input:-moz-placeholder,
 [data-is-editing="True"] textarea:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
   font-weight: normal;
 }
 [data-is-editing="True"] input::-moz-placeholder,
 [data-is-editing="True"] textarea::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
   font-weight: normal;
 }
 [data-is-editing="True"] input:-ms-input-placeholder,
 [data-is-editing="True"] textarea:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
   font-weight: normal;
 }
 /*# sourceMappingURL=EditCategory.css.map */

@@ -38,17 +38,18 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                     .List<QuestionValuation>();
     }
 
-    public IList<QuestionValuation> GetByQuestionIds(IEnumerable<int> questionIds)
+    public IList<QuestionValuation> GetByQuestionIds(IEnumerable<int> questionIds, int userId)
     {
         return
             _session.QueryOver<QuestionValuation>()
                     .WhereRestrictionOn(x => x.Question.Id).IsIn(questionIds.ToArray())
+                    .And(x => x.User.Id == userId)
                     .List<QuestionValuation>();        
     }
 
     public IList<QuestionValuation> GetByUser(User user, bool onlyActiveKnowledge = true)
     {
-        return GetByUser(user.Id);
+        return GetByUser(user.Id, onlyActiveKnowledge);
     }
 
     public IList<QuestionValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)

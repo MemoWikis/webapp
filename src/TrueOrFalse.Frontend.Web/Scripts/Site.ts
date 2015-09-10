@@ -20,12 +20,12 @@ function InitLabelTooltips() {
         if ($(this).attr("data-isSpolier") === "true"){
             $(this).attr('title', 'Die Kategorie entspricht der Antwort.').attr('data-placement', 'top');
         }else{
-            $(this).attr('title', 'Gehe zu Kategorie').attr('data-placement', 'top');
+            $(this).attr('title', 'Gehe zur Kategorie').attr('data-placement', 'top');
         }
     });
     $('.label-set').each(function () {
         $(this).addClass('show-tooltip');
-        $(this).attr('title', 'Gehe zu Fragesatz').attr('data-placement', 'top');
+        $(this).attr('title', 'Gehe zum Fragesatz').attr('data-placement', 'top');
     });
 }
 

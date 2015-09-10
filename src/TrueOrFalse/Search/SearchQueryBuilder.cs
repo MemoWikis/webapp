@@ -17,7 +17,8 @@ namespace TrueOrFalse.Search
             bool startsWith = false,
             bool exact = false,
             bool phrase = false,
-            bool isAndCondition = false)
+            bool isAndCondition = false, 
+            int boost = -1)
         {
             if (String.IsNullOrWhiteSpace(seachTerm))
                 return this;
@@ -28,6 +29,8 @@ namespace TrueOrFalse.Search
             if (exact)
             {
                 term = fieldName + ":(" + seachTerm + ")";
+	            if (boost >= 0)
+		            term = "^" + boost;
             }
             else if (phrase && !seachTerm.StartsAndEndsWith("\""))
             {
@@ -35,13 +38,23 @@ namespace TrueOrFalse.Search
             }
             else if (startsWith)
             {
-                if (seachTerm.StartsWith("\"") && seachTerm.EndsWith("\""))
-                    term = fieldName + ":(" + seachTerm.Insert(seachTerm.Length - 1, "*") + ")^10";
+	            if (seachTerm.StartsWith("\"") && seachTerm.EndsWith("\""))
+		            term = fieldName + ":(" + seachTerm.Insert(seachTerm.Length - 1, "*") + ")";
+	            else
+		            term = fieldName + ":(" + seachTerm + "*)";
+
+	            if (boost == -1)
+		            term += "^10";
                 else
-                    term = fieldName + ":(" + seachTerm + "*)^10";
+                    term += "^" + boost;
             }
             else
+            {
                 term = fieldName + ":" + InputToSearchExpression.Run(seachTerm);
+                if (boost >= 0)
+                    term += "^" + boost;
+            }
+                
 
             if(isAndCondition)
                 _andConditions.Add(term);

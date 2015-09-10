@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
 
@@ -24,6 +26,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string QuestionsController = "Questions";
         public const string QuestionsMineAction = "QuestionsMine";
         public const string QuestionsWishAction = "QuestionsWish";
+
+        public const string AnswerQuestionController = "AnswerQuestion";
+
 
         public static string QuestionsAll() { return GetUrlHelper().Action(Questions, QuestionsController); }
         public static string QuestionsMine() { return GetUrlHelper().Action(QuestionsMineAction, QuestionsController); }
@@ -69,19 +74,6 @@ namespace TrueOrFalse.Frontend.Web.Code
                 }, null);
         }
 
-        public static string LearningSession(LearningSession learningSession, int nextStepToLearnIdx = -1)
-        {
-            return GetUrlHelper().Action("Learn", AnswerQuestionController,
-                new
-                {
-                    learningSessionId = learningSession.Id,
-                    setName = UriSegmentFriendlyUser.Run(learningSession.SetToLearn.Name),
-                    stepNo = nextStepToLearnIdx == -1 
-                        ? learningSession.CurrentLearningStepIdx() + 1 //Convert idx to number to improve readability of url for user
-                        : nextStepToLearnIdx + 1
-                });
-        }
-
         public static string UserDetail(UrlHelper url, User user){
             return UserDetail(url, user.Name, user.Id);
         }
@@ -124,6 +116,37 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("CountLastAnswerAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
 
+        /*Learn*/
+
+        public static string LearningSession(LearningSession learningSession, int nextStepToLearnIdx = -1)
+        {
+            return GetUrlHelper().Action("Learn", AnswerQuestionController,
+                new
+                {
+                    learningSessionId = learningSession.Id,
+                    learningSessionName = learningSession.UrlName,
+                    stepNo = nextStepToLearnIdx == -1
+                        ? learningSession.CurrentLearningStepIdx() + 1 //Convert idx to number to improve readability of url for user
+                        : nextStepToLearnIdx + 1
+                });
+        }
+
+        public static string StartLearningSession(LearningSession learningSession)
+        {
+            if (learningSession.IsSetSession)
+                return StartSetLearningSession(learningSession.SetToLearn.Id);
+
+            if (learningSession.IsDateSession)
+                return GetUrlHelper().Action("StartLearningSession", "Dates", new { dateId = learningSession.DateToLearn.Id });
+
+            throw new Exception("unknown type");
+        }
+
+        public static string StartSetLearningSession(int setId)
+        {
+            return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
+        }
+
         /*Set*/
         public const string SetsController = "Sets";
         public const string SetsAction = "Sets";
@@ -132,6 +155,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string Sets() { return GetUrlHelper().Action(SetsAction, SetsController); }
         public static string SetsWish() { return GetUrlHelper().Action(SetsWishAction, SetsController); }
         public static string SetsMine() { return GetUrlHelper().Action(SetsMineAction, SetsController); }
+        public const string SetController = "Set";
+
 
         public static string SetDetail(UrlHelper url, SetMini setMini){
             return SetDetail(url, setMini.Name, setMini.Id);
@@ -179,8 +204,8 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("SetMessageUnread", "Messages");
         }
 
-        public static string Dates(UrlHelper url){
-            return url.Action("Dates", "Dates");
+        public static string Dates(){
+            return GetUrlHelper().Action("Dates", "Dates");
         }
 
         public static object DateEdit(UrlHelper url, int dateId){
@@ -230,7 +255,6 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action(Login, VariousController);
         }
 
-        public const string AnswerQuestionController = "AnswerQuestion";
         public const string LearningSessionResultController = "LearningSessionResult";
 
         /*Category*/

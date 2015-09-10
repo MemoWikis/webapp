@@ -28,3 +28,4 @@ bld/
 _debugInvoice/
 .vs/
 node_modules/
+src/TrueOrFalse.Frontend.Web/Views/Welcome/Welcome.min.css

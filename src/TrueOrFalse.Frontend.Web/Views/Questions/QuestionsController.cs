@@ -231,7 +231,7 @@ namespace TrueOrFalse
             int? page, 
             QuestionsModel model,
             string orderBy, 
-            string defaultOrder = "byRelevance")
+            string defaultOrder = "byBestMatch")
         {
             searchSpec.PageSize = 20;
 
@@ -270,10 +270,11 @@ namespace TrueOrFalse
             if (searchSpec.OrderBy.Current == null && String.IsNullOrEmpty(orderByCommand))
                 orderByCommand = defaultOrder;
 
-            if (orderByCommand == "byRelevance") searchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+            if (orderByCommand == "byBestMatch") searchSpec.OrderBy.BestMatch.Desc();
+            else if (orderByCommand == "byRelevance") searchSpec.OrderBy.PersonalRelevance.Desc();
             else if (orderByCommand == "byQuality") searchSpec.OrderBy.OrderByQuality.Desc();
-            else if (orderByCommand == "byDateCreated") searchSpec.OrderBy.OrderByCreationDate.Desc();
-            else if (orderByCommand == "byViews") searchSpec.OrderBy.OrderByViews.Desc();
+            else if (orderByCommand == "byDateCreated") searchSpec.OrderBy.CreationDate.Desc();
+            else if (orderByCommand == "byViews") searchSpec.OrderBy.Views.Desc();
         }
     }
 }

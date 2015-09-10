@@ -71,7 +71,7 @@
 	      <field name="FullTextExact" type="textExact" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true"/>
         <field name="FullTextStemmed" type="textStemmed" indexed="true" stored="false" multiValued="true" termVectors="true" termPositions="true" termOffsets="true" />
 
-        <field name="Text" type="string" indexed="false" stored="false" multiValued="false" />
+        <field name="Text" type="textExact" indexed="true" stored="false" multiValued="false" />
         <field name="Description" type="string" indexed="false" stored="false" multiValued="false" />
         <field name="AllQuestionsTitles" type="string" indexed="false" stored="false" multiValued="false" />
 		    <field name="AllQuestionsBodies" type="string" indexed="false" stored="false" multiValued="false" />
@@ -186,9 +186,11 @@
         <fieldType name="textExact" class="solr.TextField" positionIncrementGap="0">
             <analyzer type="index">
                 <tokenizer class="solr.StandardTokenizerFactory"/>
+              <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
             <analyzer type="query">
               <tokenizer class="solr.StandardTokenizerFactory"/>
+              <filter class="solr.LowerCaseFilterFactory"/>
             </analyzer>
         </fieldType>		
 

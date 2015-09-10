@@ -1,4 +1,10 @@
-﻿.DescrLeft,
+﻿.Chart {
+  margin-top: 20px;
+}
+.well.Chart {
+  background-color: transparent;
+}
+.DescrLeft,
 .DescrRight,
 .BarDescr,
 .ChartBarWrapper,
@@ -39,6 +45,26 @@
   }
   .BarDescr {
     margin-bottom: -20px;
+  }
+}
+@media (min-width: 480px) {
+  #SummaryAll {
+    display: table;
+  }
+  .TableRow {
+    display: table-row;
+  }
+  .DescrLeft,
+  .DescrRight {
+    display: table-cell;
+    vertical-align: top;
+  }
+  .DescrLeft,
+  .BarDescr {
+    padding-right: 5px;
+  }
+  .DescrRight {
+    padding-left: 3px;
   }
 }
 .QuestionLearned {

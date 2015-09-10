@@ -44,12 +44,10 @@ namespace TrueOrFalse
             routes.MapRoute("Question_ReferencePartial", "Fragen/Bearbeite/ReferencePartial", new { controller = "EditQuestion", action = "ReferencePartial" });
             routes.MapRoute("Question_Edit", "Fragen/Bearbeite/{id}", new { controller = "EditQuestion", action = "Edit" });
 
-            routes.MapRoute("LearningSession_Result", "Lernen/Ergebnis/{learningSessionId}/{setName}/", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
+            routes.MapRoute("LearningSession_Result", "Lernen/Ergebnis/{learningSessionId}/{learningSessionName}/", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
 
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer" });
-            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{setName}/{stepNo}", new { controller = "AnswerQuestion", action = "Learn", stepNo = UrlParameter.Optional });
-            
-            
+            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}/{stepNo}", new { controller = "AnswerQuestion", action = "Learn", stepNo = UrlParameter.Optional });
 
             /* API */ routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });
@@ -92,6 +90,9 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });
 
             routes.MapRoute("Knowledge", "Wissen/{action}", new { controller = "Knowledge", action = "Knowledge" });
+            routes.MapRoute("Knowledge_ConfirmEmail", "EmailBestaetigen/{emailKey}", new { controller = "Knowledge", action = "EmailConfirmation" });
+
+            routes.MapRoute("AlgoInsight", "AlgoInsight/{action}", new { controller = "AlgoInsight", action = "AlgoInsight" });
 
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
@@ -100,7 +101,8 @@ namespace TrueOrFalse
             routes.MapRoute("DatesCreate", "Termin/Erstellen", new { controller = "EditDate", action = "Create" });
             routes.MapRoute("DatesEdit", "Termin/Bearbeiten/{0}", new { controller = "EditDate", action = "Edit" });
             routes.MapRoute("DatesDetails", "Termin/Details/{0}", new { controller = "Date", action = "Edit" });
-            
+            routes.MapRoute("Dates_StartLearningSession", "Termin/Lernen/{dateId}", new { controller = "Dates", action = "StartLearningSession" });
+
             routes.MapRoute("Games", "Spielen/{action}", new { controller = "Games", action = "Games" });
             routes.MapRoute("GamesCreate", "Spiel/Erstellen", new { controller = "Game", action = "Create" });
             routes.MapRoute("GamesPlay", "Spiel/{gameId}", new { controller = "Play", action = "Play" });

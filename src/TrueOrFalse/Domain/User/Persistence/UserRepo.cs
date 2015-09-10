@@ -25,9 +25,10 @@ public class UserRepo : RepositoryDbBase<User>
             .SingleOrDefault<User>();
     }
 
-    public override void Update(User user)
+    public void Update(User user, bool allowIfNotLoggedIn = false)
     {
-        ThrowIfNot_IsUserOrAdmin(user.Id);
+        if(!allowIfNotLoggedIn)
+            ThrowIfNot_IsUserOrAdmin(user.Id);
 
         _searchIndexUser.Update(user);
         base.Update(user);

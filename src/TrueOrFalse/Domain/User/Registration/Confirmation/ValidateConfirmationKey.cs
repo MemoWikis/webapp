@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class ValidateEmailConfirmationKey
+public class ValidateEmailConfirmationKey : IRegisterAsInstancePerLifetime
 {
     private readonly UserRepo _userRepo;
 
@@ -9,17 +9,22 @@ public class ValidateEmailConfirmationKey
         _userRepo = userRepo;
     }
 
-    public bool IsValid(string affirmationKey)
+    public bool IsValid(string affirmationKey, bool whenValidConfirm = true)
     {
         if (affirmationKey.Length <= 4)
             return false;
 
         int userId;
-        if (!Int32.TryParse(affirmationKey.Substring(3), out userId) == false)
+        if (!Int32.TryParse(affirmationKey.Substring(3), out userId))
             return false;
 
-        if (_userRepo.GetById(userId) != null)
+        var user = _userRepo.GetById(userId);
+        if (user != null)
+        {
+            user.IsEmailConfirmed = true;
+            _userRepo.Update(user, allowIfNotLoggedIn:true);
             return true;
+        }
 
         return true;
     }

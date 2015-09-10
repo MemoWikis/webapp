@@ -38,7 +38,9 @@
 .PageHeader:before,
 .PageHeader:after {
   content: " ";
+  /* 1 */
   display: table;
+  /* 2 */
 }
 .PageHeader:after {
   clear: both;
@@ -104,6 +106,8 @@
     float: none;
     width: 100%;
     margin-left: 0;
+    left: 0;
+    right: 0;
   }
 }
 .noLabel {
@@ -191,7 +195,9 @@ select.form-control {
 #JS-References .JS-ReferenceContainer:after,
 #AddReferenceControls .JS-ReferenceContainer:after {
   content: " ";
+  /* 1 */
   display: table;
+  /* 2 */
 }
 #JS-References .JS-ReferenceContainer:after,
 #AddReferenceControls .JS-ReferenceContainer:after {

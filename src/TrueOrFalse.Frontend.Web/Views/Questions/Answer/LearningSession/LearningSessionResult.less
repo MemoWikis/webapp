@@ -1,5 +1,12 @@
 ﻿@import (reference) '../../../../Style/includes/imports.less';
 
+.Chart {
+    margin-top: 20px;
+    .well& {
+        background-color: transparent;
+    }
+}
+
 .DescrLeft, .DescrRight, .BarDescr, .ChartBarWrapper, .ChartNumbers {
     display: inline-block;
     line-height: 30px;
@@ -48,6 +55,29 @@
     }
 
 });
+
+.media-xs-up({
+     #SummaryAll {
+         display: table;
+     }
+
+     .TableRow {
+         display: table-row;
+     }
+
+     .DescrLeft, .DescrRight {
+         display: table-cell;
+         vertical-align: top;
+     }
+
+     .DescrLeft, .BarDescr {
+        padding-right: 5px;
+    }
+
+     .DescrRight {
+         padding-left: 3px;
+     }
+ });
 
 
 .QuestionLearned {

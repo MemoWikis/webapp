@@ -20,5 +20,10 @@ namespace Tool.Muse
         {
             _mainWindow.AddLog(category, message);
         }
+
+        public static void NoConnectionToMEMuchO()
+        {
+            Log.Info("No connection to MEMucho");
+        }
     }
 }

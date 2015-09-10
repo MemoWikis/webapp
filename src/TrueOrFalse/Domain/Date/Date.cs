@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Seedworks.Lib;
 using Seedworks.Lib.Persistence;
+
 public class Date : DomainEntity
 {
     public virtual string Details { get; set; }

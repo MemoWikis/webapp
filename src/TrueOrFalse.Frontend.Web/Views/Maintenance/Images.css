@@ -234,13 +234,6 @@ a.ImageLicenseCaption {
     right: 0;
   }
 }
-@media (max-width: 479px) {
-  #modalImageMaintenance .columnControlsSmall {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-  }
-}
 #modalImageMaintenance .noLabel {
   margin-left: 0;
 }

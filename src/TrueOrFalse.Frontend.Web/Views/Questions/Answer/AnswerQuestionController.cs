@@ -42,25 +42,28 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
-    public ActionResult Learn(int learningSessionId, string setName, int stepNo, int skipStepId = -1)
+    public ActionResult Learn(int learningSessionId, string learningSessionName, int stepNo, int skipStepId = -1)
     {
         ////_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
         //_saveQuestionView.Run(question, _sessionUser.User);
-        
-        if (skipStepId != -1)
+
+        var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
+
+        if(learningSession.User != _sessionUser.User)
+            throw new Exception("not logged in or not possessing user");
+
+        if (skipStepId != -1 && learningSession.Steps.Any(s => s.Id == skipStepId))
         {
             LearningSessionStep.Skip(skipStepId);
             return RedirectToAction("Learn", Links.AnswerQuestionController, 
-                new {learningSessionId, setName, stepNo});
+                new {learningSessionId, learningSessionName = learningSessionName, stepNo});
         }
-
-        var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
 
         if (currentLearningStepIdx == -1) //None of the steps is uncompleted
             return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
-                new { learningSessionId, setName });
+                new { learningSessionId, learningSessionName = learningSessionName });
 
         if (currentLearningStepIdx != stepNo - 1)//Correct url if stepNo is adjusted
         {
@@ -97,7 +100,7 @@ public class AnswerQuestionController : BaseController
             {
                 activeSearchSpec.Filter.Categories.Clear();
                 activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
-                activeSearchSpec.OrderBy.OrderByPersonalRelevance.Desc();
+                activeSearchSpec.OrderBy.PersonalRelevance.Desc();
             }
         }
 

@@ -16,7 +16,7 @@
                 <% Html.ValidationSummary(true, "Bitte überprüfen Sie Ihre eingaben");  %>
                                 
                 <div class="alert alert-info">
-                    Bitte gib deine Emailadresse ein. Wir schicken einen Link an deine Emailadresse. Folge dem Link und 
+                    Wir schicken einen Link an deine Emailadresse. Folge dem Link und 
                     du kannst dir ein neues Passwort setzen. 
                 </div>
                 
@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input type="submit" value="Link anfordern" class="btn btn-primary" />&nbsp;
-                        <%: Html.ActionLink("Mein Password ist mir wieder eingefallen.", Links.Login, Links.VariousController, new { @style = "vertical-align:bottom; margin-left:20px;" })%>
+                        <%: Html.ActionLink("Mein Passwort ist mir wieder eingefallen.", Links.Login, Links.VariousController, new { @style = "vertical-align:bottom; margin-left:20px;" })%>
                     </div>
                 </div>
 

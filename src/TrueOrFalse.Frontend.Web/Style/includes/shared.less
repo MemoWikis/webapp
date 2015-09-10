@@ -354,15 +354,7 @@
 
         .columnControlsSmall {
             .make-xs-column(6);
-            .xxs-stack; //not put out, replacement: see below
-        }
-
-        @media (max-width: (@screen-xs-min - 1px)) { //replacement for xxs-stack-mixin
-            .columnControlsSmall {
-                float: none;
-                width: 100%;
-                margin-left: 0;
-            }
+            .xxs-stack;
         }
 
         .noLabel {
@@ -386,18 +378,18 @@
 
         .columnLabel {
             .make-xs-column(@grid-width-label-xs);
-            .xxs-stack; //not put out, replacement: see below
+            .xxs-stack;
         }
 
         .columnControlsFull {
-            .xxs-stack; //not put out, replacement: see below
+            .xxs-stack;
             .make-xs-column(@grid-width-controls-full-xs);
 
             .aside & {
                 .make-md-column(@grid-columns);
             }
         }
-        //Label-width-variable: true can be used together with labels-stacked: false, lets controls break to a new line, if label text is longer than the width reserved for labels
+        //Label-width-variable: true can be used together with labels-stacked: false, makes controls break to a new line, if label text is longer than the width reserved for labels
         .LabelWidth (@label-width-variable) when (@label-width-variable) {
 
             @media (min-width: @screen-xs-min) {
@@ -431,17 +423,8 @@
         .columnControlsSmall {
             .make-xs-column(1);
             width: percentage(1/@grid-columns*@grid-width-controls-full-xs/2);
-            .xxs-stack; //not put out, replacement: see below
+            .xxs-stack;
         }
-
-        @media (max-width: (@screen-xs-min - 1px)) { //replacement for xxs-stack-mixin
-            .columnLabel, .columnControlsFull, .columnControlsSmall {
-                float: none;
-                width: 100%;
-                margin-left: 0;
-            }
-        }
-
 
         @media (min-width: @screen-xs-min) { //replaces offset-column-mixin
             .noLabel {

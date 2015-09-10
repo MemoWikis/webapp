@@ -170,8 +170,7 @@
                         Als Gründungsteam konzipieren, gestalten und programmieren wir MEMuchO gemeinsam.
                     </p>
                     <p>
-                        Wenn du Fragen oder Anregungen hast, trete einfach mit uns in <a class="helpLink" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">
-Kontakt</a>.
+                        Wenn du Fragen oder Anregungen hast, trete einfach mit uns in <a class="helpLink" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">Kontakt</a>.
                     </p>
                 </div>
             </div>
@@ -230,8 +229,6 @@ Kontakt</a>.
             </div>
         </div>
 
-
-
         <div class="row">
             <hr/>
             <div class="col-md-12"><h3 class="media-heading">MEMuchO-Netzwerk</h3></div>
@@ -245,8 +242,6 @@ Kontakt</a>.
                 <p style="padding-left: 15px;"><img src="http://placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
             </div>
         </div>
-
-
 
         <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-6">
@@ -269,12 +264,8 @@ Kontakt</a>.
                 </ul>
             </div>
         </div>--%>
-        
-
-        
 
     </div>
-</div>
 </div>
 
 </asp:Content>

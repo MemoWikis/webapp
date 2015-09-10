@@ -263,6 +263,8 @@
     <Compile Include="Code\Hubs\GameHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
+    <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
@@ -373,6 +375,9 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Fonts\font-awesome-4.4.0\css\font-awesome.css" />
     <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
     <Content Include="Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Fonts\OpenSans\OpenSans.css" />
     <Content Include="Images\404.jpg" />
@@ -380,6 +385,10 @@
     <Content Include="Images\Categories\include-folder.txt">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
+    <Content Include="Views\Welcome\Welcome.css">
+      <DependentUpon>Welcome.less</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\WelcomeBoxTopQuestions.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopSets.ascx" />
@@ -989,6 +998,21 @@
     <None Include="compilerconfig.json" />
     <Content Include="Scripts\answerQuestion\IAnswerEntry.js.map">
       <DependentUpon>IAnswerEntry.ts</DependentUpon>
+    </Content>
+    <Content Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </Content>
+    <Content Include="Fonts\font-awesome-4.4.0\less\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\mixins.css.map">
+      <DependentUpon>mixins.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\extends.css.map">
+      <DependentUpon>extends.css</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -1760,6 +1784,11 @@
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
       <DependentUpon>LearningSessionResult.css</DependentUpon>
     </Content>
+    <Content Include="Views\AlgoInsight\AlgoInsight.less" />
+    <Content Include="Views\Welcome\Welcome.less" />
+    <Content Include="Views\Welcome\Welcome.css.map">
+      <DependentUpon>Welcome.css</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -1794,7 +1823,6 @@
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
-    <Content Include="Views\Welcome\Welcome.css" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Login.aspx" />

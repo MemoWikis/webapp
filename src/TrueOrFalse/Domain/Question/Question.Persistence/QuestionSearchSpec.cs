@@ -79,32 +79,36 @@ public class QuestionFilter : ConditionContainer
 [Serializable]
 public class QuestionOrderBy : SpecOrderByBase
 {
-    public OrderBy OrderByPersonalRelevance;
+    public OrderBy BestMatch;
+    public OrderBy PersonalRelevance;
     public OrderBy OrderByQuality;
-    public OrderBy OrderByViews;
-
-    public OrderBy OrderByCreationDate;
+    public OrderBy Views;
+    public OrderBy CreationDate;
 
     public QuestionOrderBy()
     {
-        OrderByPersonalRelevance = new OrderBy("TotalRelevancePersonalAvg", this);
+        BestMatch = new OrderBy("BestMatch", this);
+        PersonalRelevance = new OrderBy("TotalRelevancePersonalAvg", this);
         OrderByQuality = new OrderBy("TotalQualityAvg", this);
-        OrderByViews = new OrderBy("TotalViews", this);
-        OrderByCreationDate = new OrderBy("DateCreated", this);
+        Views = new OrderBy("TotalViews", this);
+        CreationDate = new OrderBy("DateCreated", this);
     }
 
     public string ToText()
     {
-        if (OrderByPersonalRelevance.IsCurrent())
+        if (BestMatch.IsCurrent())
+            return "Beste Treffer";
+
+        if (PersonalRelevance.IsCurrent())
             return "Gemerkt";
 
         if (OrderByQuality.IsCurrent())
             return "Qualität";
 
-        if (OrderByViews.IsCurrent())
+        if (Views.IsCurrent())
             return "Gesehen";
 
-        if (OrderByCreationDate.IsCurrent())
+        if (CreationDate.IsCurrent())
             return "Datum erstellt";
 
         return "";

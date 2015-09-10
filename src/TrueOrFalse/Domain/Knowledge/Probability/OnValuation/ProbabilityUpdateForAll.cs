@@ -13,7 +13,6 @@ namespace TrueOrFalse
         {
             var questionValuationRecords =
                 Sl.R<ISession>().QueryOver<QuestionValuation>()
-                    .Where(qv => qv.RelevancePersonal >= 0)
                     .Select(
                         qv => qv.Question.Id,
                         qv => qv.User.Id)

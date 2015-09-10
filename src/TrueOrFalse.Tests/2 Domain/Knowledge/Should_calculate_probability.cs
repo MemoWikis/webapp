@@ -10,37 +10,37 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_calculate_probability()
         {
-            Assert.That(Resolve<ProbabilityCalc>().Run(new List<AnswerHistory>{
+            Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1) },
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
-            }),Is.EqualTo(36));
+            }).Probability,Is.EqualTo(36));
 
-            Assert.That(Resolve<ProbabilityCalc>().Run(new List<AnswerHistory>{
+            Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
-            }), Is.EqualTo(63));            
+            }).Probability, Is.EqualTo(63));            
         }
 
         [Test]
         public void When_history_is_always_true_probability_should_be_100_percent()
         {
-            var correctnessProbability = Resolve<ProbabilityCalc>().Run(new List<AnswerHistory>{
+            var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
             });
 
-            Assert.That(correctnessProbability, Is.EqualTo(100));
+            Assert.That(correctnessProbability.Probability, Is.EqualTo(100));
         }
 
         [Test]
         public void When_history_is_always_false_correctness_probability_should_be_0_percent()
         {
-            var correctnessProbability = Resolve<ProbabilityCalc>().Run(new List<AnswerHistory>{
+            var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
                 new AnswerHistory{AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1)},
                 new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
             });
 
-            Assert.That(correctnessProbability, Is.EqualTo(0));
+            Assert.That(correctnessProbability.Probability, Is.EqualTo(0));
         }
 
     }

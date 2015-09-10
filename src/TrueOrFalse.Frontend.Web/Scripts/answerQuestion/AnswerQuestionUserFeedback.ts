@@ -197,7 +197,10 @@
     private ShowNextQuestionLink() {
 
         $("#buttons-next-question").show();
-        if (this._answerQuestion.AtLeastOneWrongAnswer) {
+
+        if (!this._answerQuestion.AnsweredCorrectly &&
+            !this._answerQuestion.IsGameMode &&
+            !this._answerQuestion.IsLearningSession) {
             $("#aCountAsCorrect").show();
         }
 

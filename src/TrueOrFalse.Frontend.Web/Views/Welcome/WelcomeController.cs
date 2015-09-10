@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using System.Web.Security;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -167,10 +166,10 @@ public class WelcomeController : BaseController
             throw new Exception();
 
         SetUserPassword.Run(model.NewPassword1, user);
-        userRepo.Update(user);
+        userRepo.Update(user, allowIfNotLoggedIn:true);
 
         _sessionUser.Login(user);
 
-        return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
+        return RedirectToAction(Links.Knowledge, Links.KnowledgeController, new {passwordSet = "true"});
     }
 }

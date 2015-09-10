@@ -40,6 +40,11 @@
 
         //chartKnowledgeDate
         function drawKnowledgeChart(chartElementId) {
+
+            if ($("#" + chartElementId).length === 0) {
+                return;
+            }
+
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
                 ['Gewusst', <%= Model.KnowledgeSummary.Secure %>],
@@ -67,7 +72,6 @@
         function drawKnowledgeChartDate(chartElementId, amountGood, amountBad, amountUnknown ) {
 
             var chartElement = $("#" + chartElementId);
-            console.log(chartElement);
 
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
@@ -143,6 +147,14 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    
+    <% if(Model.Message != null) { %>
+        <div class="row">
+            <div class="col-xs-12 xxs-stack">
+                <% Html.Message(Model.Message); %>
+            </div>
+        </div>        
+    <% } %>
 
     <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <span class=".dark-blue"><%= Model.UserName %></span>, dein Wunschwissen</span>:</h2>
         
@@ -199,7 +211,36 @@
             </div>
             <div class="col-xs-12 col-md-5" style="">
                 <h3>Dein Wissensstand</h3>
-                <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
+                
+                <% if(Model.KnowledgeSummary.Total == 0) { %>
+                    <div class="row">
+                    <div class="alert alert-info col-md-10 col-xs-12">
+                        <p>
+                            Du hast noch keine <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
+                            oder <a href="<%= Links.QuestionsAll() %>">Fragesätze</a>  in deinem Wunschwissen.
+                        </p>
+                        
+                        <p>
+                            Um dein Wunschwissen zu erweitern, klicke auf das Herzsymbol.
+                        </p>
+                        <p>
+                            <ul style="list-style-type: none">
+                                <li>
+                                    <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                    In deinem Wunschwissen
+                                </li>                                
+                                <li>
+                                    <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                    <i>Nicht</i> in deinem Wunschwissens.
+                                </li>
+                            </ul>
+                            
+                        </p>
+                    </div>
+                </div>
+                <% }else { %>
+                    <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
+                <% } %>
             </div>
             <div class="col-xs-12 col-md-3">
                 <div class="row">
@@ -314,7 +355,7 @@
                         </div>
                         <div class="col-xs-9" style="">
                             <a href="#"><%= user2.Name %></a> erstellte die Kategorie: 
-                            <span class="label label-category show-tooltip" title="" data-placement="top" data-original-title="Gehe zu Kategorie">Helmut Kohl</span>
+                            <span class="label label-category">Helmut Kohl</span>
                         </div>
                     </div>
                 

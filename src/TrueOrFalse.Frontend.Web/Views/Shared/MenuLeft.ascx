@@ -29,7 +29,7 @@
                 <i class="fa fa-caret-right"></i> 
                 Wunschwissen  <span style="float:right"><i class="fa fa-heart-o"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
             </a>
-            <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates(Url) %>">
+            <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates() %>">
                 <i class="fa fa-caret-right"></i> Termine
             </a>            
             <%
@@ -37,7 +37,7 @@
                 index = 0; 
                 foreach (var date in visitedD){ index++;  %>
                 <% var activeClass = ""; if (index == 1) { activeClass = Model.Active(MenuEntry.Dates); } %>
-                <a href="<%= Links.DateEdit(Url, date.Id) %>" class="list-group-item users sub <%= activeClass + visitedD.CssFirst(index) + visitedD.CssLast(index) %>">
+                <a href="<%= Links.DateEdit(Url, date.Id) %>" class="list-group-item dues sub <%= activeClass + visitedD.CssFirst(index) + visitedD.CssLast(index) %>">
                     <i class="fa fa-caret-right"></i> <%=date.Name%>
                     <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i>
                 </a>

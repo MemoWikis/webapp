@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-/// <summary>
-/// Correctness probability for user
-/// </summary>
-public class ProbabilityCalc : IRegisterAsInstancePerLifetime
+public class ProbabilityCalc_Simple1 : ProbabilityCalc_Abstract, IRegisterAsInstancePerLifetime
 {
     /// <returns>CorrectnessProbability as Percentage</returns>
-    public int Run(IList<AnswerHistory> answerHistoryItems)
+    public override ProbabilityCalcResult Run(IList<AnswerHistory> answerHistoryItems)
     {
-        if (!answerHistoryItems.Any())
-            return -1;
+	    if (!answerHistoryItems.Any())
+		    return ProbabilityCalcResult.GetResult(answerHistoryItems, -1);
 
         var weightedFavorableOutcomes = 0m;
         var weightedTotalOutcomes = 0m;
@@ -30,6 +27,8 @@ public class ProbabilityCalc : IRegisterAsInstancePerLifetime
             weightedTotalOutcomes += weight;
         }
 
-        return (int) ((weightedFavorableOutcomes / weightedTotalOutcomes) * 100);
+        return ProbabilityCalcResult.GetResult(
+            answerHistoryItems, 
+            (int)((weightedFavorableOutcomes / weightedTotalOutcomes) * 100));
     }
 }

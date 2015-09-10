@@ -17,7 +17,8 @@ namespace TrueOrFalse.Search
         public SearchSetsResult Run(SetSearchSpec searchSpec)
         {
             var orderBy = SearchSetsOrderBy.None;
-            if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchSetsOrderBy.CreationDate;
+            if (searchSpec.OrderBy.BestMatch.IsCurrent()) orderBy = SearchSetsOrderBy.BestMatch;
+            else if (searchSpec.OrderBy.CreationDate.IsCurrent()) orderBy = SearchSetsOrderBy.CreationDate;
             else if (searchSpec.OrderBy.ValuationsCount.IsCurrent()) orderBy = SearchSetsOrderBy.ValuationsCount;
             else if (searchSpec.OrderBy.ValuationsAvg.IsCurrent()) orderBy = SearchSetsOrderBy.ValuationsAvg;
 
@@ -49,7 +50,16 @@ namespace TrueOrFalse.Search
             SearchSetsOrderBy orderBy = SearchSetsOrderBy.None)
         {
             var orderby = new List<SortOrder>();
-            if (orderBy == SearchSetsOrderBy.CreationDate)
+            if (orderBy == SearchSetsOrderBy.BestMatch)
+            {
+                if (String.IsNullOrEmpty(searchTerm))
+                {
+                    orderby.Add(new SortOrder("ValuationsCount", Order.DESC));
+                    orderby.Add(new SortOrder("ValuationsAvg", Order.DESC));
+                    orderby.Add(new SortOrder("DateCreated", Order.DESC));
+                }
+            }
+            else if (orderBy == SearchSetsOrderBy.CreationDate)
                 orderby.Add(new SortOrder("DateCreated", Order.DESC));
             else if (orderBy == SearchSetsOrderBy.ValuationsCount)
             {
@@ -67,13 +77,16 @@ namespace TrueOrFalse.Search
             if (searchOnlyWithStartingWith)
             {
                 sqb.Add("FullTextStemmed", searchTerm, startsWith: true)
-                   .Add("FullTextExact", searchTerm, startsWith: true);
+                   .Add("FullTextExact", searchTerm, startsWith: true)
+                   .Add("Text", searchTerm, startsWith: true, boost: 99999);
             }
             else
             {
                 sqb.Add("FullTextStemmed", searchTerm)
                    .Add("FullTextExact", searchTerm)
-                   .Add("FullTextExact", searchTerm, startsWith: true);
+                   .Add("FullTextExact", searchTerm, startsWith: true)
+                   .Add("Text", searchTerm, boost: 1000)
+                   .Add("Text", searchTerm, startsWith: true, boost: 99999);
             }
 
             sqb.Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)

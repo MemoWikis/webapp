@@ -39,8 +39,11 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/vendor.file-uploader/uploader.js")
                 .Include("~/Scripts/vendor.file-uploader/jquery-plugin.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/knowledge")
+            bundles.Add(new StyleBundle("~/bundles/Knowledge")
                 .IncludeDirectory("~/Views/Knowledge/", "*.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
+                .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/questions")
                 .IncludeDirectory("~/Views/Questions/Js/", "*.js")

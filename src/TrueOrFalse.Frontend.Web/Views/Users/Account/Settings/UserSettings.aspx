@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Einstellungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="System.Web.Mvc.ViewPage<UserSettingsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/Views/Users/Account/Settings/Validation.js") %>
@@ -85,7 +86,14 @@
                                 <% } %>
                             </label>
                         </div>
-                        
+                    </div>
+                    <div class="FormSection">
+                        <h3>Passwort</h3>
+                        <p>
+                            Um dein Passwort neu zu setzen,<br /> 
+                            gehe zu: <a href="<%: Url.Action("PasswordRecovery", Links.WelcomeController) %>">"Passwort-Vergessen"</a>.
+                        </p>
+                        <p style="margin-top: 3px;">(Später werden wir das Setzen eines neuen Passworts auch hier ermöglichen.)</p>
                     </div>
                     <div class="FormSection">
                         <h3>Einstellungen</h3>
