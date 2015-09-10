@@ -92,7 +92,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
-                                        <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden
+                                        <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden (=Anzahl Fragen)
                                     </label>
                                     <div class="col-md-11 col-sm-8 col-xs-11">
                                         <div class="input-group">
@@ -112,7 +112,7 @@
                                     <div class="col-md-11 col-sm-8 col-xs-11">
                                           <div class="checkbox">
                                             <label>
-                                                <%= Html.CheckBoxFor(x => x.OnlyMultipleChoice) %> Nur Multiple-Choice Fragen
+                                                <%= Html.CheckBoxFor(x => x.OnlyMultipleChoice) %> Nur Multiple Choice-Fragen
                                             </label>
                                         </div>
                                     </div>
