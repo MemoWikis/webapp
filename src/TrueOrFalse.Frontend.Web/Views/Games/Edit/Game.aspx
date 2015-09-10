@@ -56,7 +56,7 @@
                     <div class="FormSection">
 
                         <div class="row">
-                            <div class="col-md-5 col-sm-12">
+                            <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in:
@@ -71,7 +71,7 @@
                                     </div>
                                 </div>                                
                             </div>
-                            <div class="col-md-5 col-sm-12">
+                            <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         <i class="fa fa-users"></i> &nbsp; Max. Anzahl Spieler:
@@ -89,10 +89,10 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
-                                        <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden (=Anzahl Fragen)
+                                        <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden (=Fragen)
                                     </label>
                                     <div class="col-md-11 col-sm-8 col-xs-11">
                                         <div class="input-group">
