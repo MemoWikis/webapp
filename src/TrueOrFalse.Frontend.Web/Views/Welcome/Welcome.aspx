@@ -13,14 +13,14 @@
        
     <div class="col-md-8">
             
-        <div class="well">
+        <div class="well" style="background-color: white; padding: 13px;">
             <a href="#teaserWhatIsMemucho">
                 <h1 style="margin-top: 0; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
             </a>            
-            <ul style="margin-top: 0; margin-bottom: 0; padding-top: 3px; ">                
-                <li><a href="#teaserWhatIsMemucho" style="font-size: 15px;">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
-                <li><a href="#teaserPrinciples" style="font-size: 15px;">Wikipedia-Prinzip, Vernetzung und Gemeinwohlorientierung &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
-                <li><a href="#teaserWhoWeAre" style="font-size: 15px;">Wer sind wir? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+            <ul style="margin-top: 0; margin-bottom: 0; padding-top: 3px; font-size: 16px; list-style: circle ">                
+                <li><a href="#teaserWhatIsMemucho">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+                <li><a href="#teaserPrinciples">Wikipedia-Prinzip, Vernetzung und Gemeinwohlorientierung &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
+                <li><a href="#teaserWhoWeAre">Wer sind wir? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
             </ul>
         </div>
             
