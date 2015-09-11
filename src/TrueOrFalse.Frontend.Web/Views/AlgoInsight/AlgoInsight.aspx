@@ -30,6 +30,14 @@
         <span class="ColoredUnderline Knowledge">Algorithmus-Einblick</span>
     </h2>
     
+    <div class="alert alert-info col-md-12" style="margin-top:9px">
+        <p>
+            Hier erhältst du Einblick, in die Algorithmen die die <b>Antwortwahrscheinlichkeit</b> 
+            und den optimalen Wiedervorlage-Zeitpunkt berechnen. MEMuchO ist Open Source<a href="https://github.com/TrueOrFalse/TrueOrFalse"> (auf Github)</a>. 
+            Wir freuen uns über Verbesserungsvorschläge.
+        </p>        
+    </div>
+    
     <% if(Model.IsInstallationAdmin) { %>
         <div class="row">
 	        <div class="col-md-12" style="text-align: right">
@@ -40,7 +48,7 @@
     
     <div class="row">
         <div class="col-md-6">
-            <table class="table table-hover" style="margin-top:10px">
+            <table class="table table-hover">
                 <tr>
                     <th>AlgoName</th>
                     <th>%&nbsp;Erfolg</th>
