@@ -5,14 +5,14 @@ using NHibernate.Util;
 
 namespace TrueOrFalse
 {
-    public class ProbabilityUpdate : IRegisterAsInstancePerLifetime
+    public class ProbabilityUpdate_Valuation : IRegisterAsInstancePerLifetime
     {
         private readonly QuestionValuationRepo _questionValuationRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalc;
         private readonly QuestionRepository _questionRepo;
         private readonly UserRepo _userRepo;
 
-        public ProbabilityUpdate(
+        public ProbabilityUpdate_Valuation(
             QuestionValuationRepo questionValuationRepo,
             ProbabilityCalc_Simple1 probabilityCalc, 
             QuestionRepository questionRepo,

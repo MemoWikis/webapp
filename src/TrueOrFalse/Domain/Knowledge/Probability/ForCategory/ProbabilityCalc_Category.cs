@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class ProbabilityCalc_OnQuestion : IRegisterAsInstancePerLifetime
+public class ProbabilityCalc_Category
 {
-    public int Run(IList<AnswerHistory> answerHistoryItems)
+    public static int Run(IList<AnswerHistory> answerHistoryItems)
     {
         if (!answerHistoryItems.Any())
-            return 30;
+            return 50;
 
-        decimal answeredCorrectly = 
+        decimal answeredCorrectly =
             answerHistoryItems.Count(x => x.AnswerredCorrectly != AnswerCorrectness.False);
 
         return (int)((answeredCorrectly / answerHistoryItems.Count()) * 100);

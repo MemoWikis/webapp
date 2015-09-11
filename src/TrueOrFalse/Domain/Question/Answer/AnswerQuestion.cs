@@ -77,8 +77,8 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         action(question, result);
 
         Sl.R<UpdateQuestionAnswerCount>().Run(questionId, result.IsCorrect);
-        Sl.R<ProbabilityUpdate>().Run(questionId, userId);
-        Sl.R<ProbabilityUpdate_OnQuestion>().Run();
+        Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, userId);
+        ProbabilityUpdate_Question.Run();
 
         return result;
     }

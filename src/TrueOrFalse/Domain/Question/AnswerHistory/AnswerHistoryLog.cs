@@ -38,7 +38,7 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
 
     public void CountLastAnswerAsCorrect(Question question, int userId)
     {
-        var correctedAnswerHistory = _answerHistoryRepository.GetBy(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
+        var correctedAnswerHistory = _answerHistoryRepository.GetByQuestion(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
         if (correctedAnswerHistory != null && correctedAnswerHistory.AnswerredCorrectly == AnswerCorrectness.False)
         {
             correctedAnswerHistory.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;

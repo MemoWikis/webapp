@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
@@ -15,7 +16,7 @@ public class AnswerHistoryRepository : RepositoryDb<AnswerHistory>
                 .SetParameter("questionId", questionId);
     }
 
-    public IList<AnswerHistory> GetBy(List<int> questionsId, int userId)
+    public IList<AnswerHistory> GetByQuestion(List<int> questionsId, int userId)
     {
         return Session.QueryOver<AnswerHistory>()
             .Where(Restrictions.In("QuestionId", questionsId))
@@ -23,18 +24,32 @@ public class AnswerHistoryRepository : RepositoryDb<AnswerHistory>
             .List();
     }
 
-    public IList<AnswerHistory> GetBy(int questionId)
+    public IList<AnswerHistory> GetByQuestion(int questionId)
     {
         return Session.QueryOver<AnswerHistory>()
                         .Where(i => i.QuestionId == questionId)
                         .List<AnswerHistory>();
     }
 
-    public IList<AnswerHistory> GetBy(int questionId, int userId)
+    public IList<AnswerHistory> GetByQuestion(int questionId, int userId)
     {
         return Session.QueryOver<AnswerHistory>()
                         .Where(i => i.QuestionId == questionId && i.UserId == userId)
                         .List<AnswerHistory>();
+    }
+
+    public IList<AnswerHistory> GetByCategories(int categoryId)
+    {
+        string query = @"
+            SELECT ah.Id FROM answerhistory ah
+            LEFT JOIN question q
+            ON q.Id = ah.QuestionId
+            LEFT JOIN categoriestoquestions cq
+            ON cq.Question_id = q.Id
+            WHERE cq.Category_id = " + categoryId;
+
+        var ids = Session.CreateSQLQuery(query).List<int>();
+        return GetByIds(ids.ToArray());
     }
 
     public override void Create(AnswerHistory answerHistory)

@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 using NUnit.Framework;
-using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {
@@ -24,7 +22,7 @@ namespace TrueOrFalse.Tests
 
             Resolve<ISession>().Flush();
 
-            Resolve<ProbabilityUpdateForAll>().Run();
+            ProbabilityUpdate_ValuationAll.Run();
             Assert.That(Resolve<GetWishQuestionCount>().Run(context.Creator.Id), Is.EqualTo(2));
 
             Resolve<ISession>().Flush();

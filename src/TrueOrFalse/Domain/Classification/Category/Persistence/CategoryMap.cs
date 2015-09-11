@@ -19,6 +19,8 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.Type);
         Map(x => x.TypeJson);
 
+        Map(x => x.CorrectnessProbability);
+
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
         HasManyToMany(x => x.ParentCategories).
