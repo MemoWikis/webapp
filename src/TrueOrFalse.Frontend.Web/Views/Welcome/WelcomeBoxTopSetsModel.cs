@@ -1,28 +1,35 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class WelcomeBoxTopSetsModel : BaseModel
 {
-    public IEnumerable<Set> Sets;
+    public IEnumerable<TopSetResult> TopSets;
 
-    public WelcomeBoxTopSetsModel()
+    public WelcomeBoxTopSetsModel(IEnumerable<Set> getMostRecent)
     {
+        TopSets = getMostRecent.Select(set => new TopSetResult
+        {
+            Name = set.Name,
+            QCount = set.QuestionsInSet.Count,
+            SetId = set.Id,
+            Text = set.Text
+        });
+    }
+
+    private WelcomeBoxTopSetsModel(IEnumerable<TopSetResult> getMostQuestions)
+    {
+        TopSets = getMostQuestions;
     }
 
     public static WelcomeBoxTopSetsModel CreateMostRecent(int amount)
     {
-        var result = new WelcomeBoxTopSetsModel();
         var setRepo = Sl.R<SetRepo>();
-        result.Sets = setRepo.GetMostRecent(amount);
-
-        return result;
+        return new WelcomeBoxTopSetsModel(setRepo.GetMostRecent(amount));
     }
 
     public static WelcomeBoxTopSetsModel CreateMostQuestions(int amount)
     {
-        var result = new WelcomeBoxTopSetsModel();
-        //var setRepo = Sl.R<SetRepo>();
-        //result.Sets = setRepo.GetMostQuestions(amount);
-
-        return result;
+        var setRepo = Sl.R<SetRepo>();
+        return new WelcomeBoxTopSetsModel(setRepo.GetMostQuestions(amount));
     }
 }

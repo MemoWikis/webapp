@@ -17,7 +17,7 @@
         </div>
         <div class="col-md-3 col-sm-5 col-xs-12 header">
             <div class="progress" >
-                <div class="progress-bar <%= Model.InProgress() ? "" : "progress-bar-success" %>" aria-valuemin="0" aria-valuemax="100" 
+                <div class="progress-bar <%= Model.InProgress() ? "" : "progress-bar-warning" %>" aria-valuemin="0" aria-valuemax="100" 
                     style="width: 100%;">                    
                     <span style="font-size: 11px;">
                         <% if (Model.InProgress()){ %>

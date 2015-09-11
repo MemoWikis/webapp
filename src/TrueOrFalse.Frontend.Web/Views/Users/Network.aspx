@@ -24,7 +24,7 @@
                 <div class="search-section">
     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Du folgst <span class="JS-AmountFollowers"><%= Model.UsersFollowingMe.Count() %></span> Nutzern</span>
+                        <span class="ColoredUnderline User">Du folgst <span class="JS-AmountFollowers"><%= Model.UserIFollow.Count() %></span> Nutzer<%= Html.Plural(Model.UserIFollow.Count(),"n","","n") %></span>
                     </h4>
                     
                     <% if(!Model.UserIFollow.Any()){ %>
@@ -48,7 +48,7 @@
                     <% } %>
                     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Dir folgen <%= Model.UsersFollowingMe.Count() %> Nutzer<%= Html.Plural(Model.UsersFollowingMe.Count(), "n") %></span>
+                        <span class="ColoredUnderline User">Dir folg<%= Html.Plural(Model.UsersFollowingMe.Count(),"en","t","en") %> <%= Model.UsersFollowingMe.Count() %> Nutzer</span>
                     </h4>
                     
                     <% if (!Model.UsersFollowingMe.Any()){ %>

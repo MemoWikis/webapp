@@ -44,7 +44,7 @@
                                 </span>
                     
                                 <span class="pull-right" style="<%: msg.IsRead ? "" : "display: none" %>">
-                                    <a href="#" class="TextLinkWithIcon markAsUnRead"><%= msg.MessageId %>
+                                    <a href="#" class="TextLinkWithIcon markAsUnRead">
                                         <span class="TextSpan">als ungelesen makieren</span> 
                                         &nbsp; <i class="fa fa-check-square-o show-tooltip" style="color:green" title="Die Frage ist gelesen"></i>
                                     </a>

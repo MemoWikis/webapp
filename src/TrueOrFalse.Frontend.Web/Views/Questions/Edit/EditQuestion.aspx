@@ -172,9 +172,9 @@
                 <div class="FormSection">
                     <div class="form-group">
                         <label class="columnLabel control-label" for="SolutionType">
-                            <span <%= Model.IsEditing ? "class='show-tooltip' title='Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : ""%>>Abfragetyp</span>
+                            <span <%= Model.IsEditing ? "class='show-tooltip' title='Der Antworttyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : ""%>>Antworttyp</span>
                         </label>
-                        <div id="SolutionTypeContainer" <%= Model.IsEditing ? "class='columnControlsFull show-tooltip' data-toggle='tooltip' title='Der Abfragetyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : "class='columnControlsFull'"%>>
+                        <div id="SolutionTypeContainer" <%= Model.IsEditing ? "class='columnControlsFull show-tooltip' data-toggle='tooltip' title='Der Antworttyp kann nach dem ersten Speichern der Frage leider nicht mehr verändert werden.' data-placement ='"+ CssJs.TooltipPlacementLabel + "'" : "class='columnControlsFull'"%>>
                             <%= Html.DropDownListFor(m => 
                                     Model.SolutionType,
                                     Model.AnswerTypeData,

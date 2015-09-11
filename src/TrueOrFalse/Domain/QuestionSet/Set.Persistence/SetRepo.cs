@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
+using NHibernate.Transform;
 using TrueOrFalse.Search;
 
 public class SetRepo : RepositoryDbBase<Set>
@@ -73,14 +74,17 @@ public class SetRepo : RepositoryDbBase<Set>
             .List();
     }
 
-    //public IEnumerable<Set> GetMostQuestions(int amount)
-    //{
-    //    return _session
-    //        .QueryOver<Set>()
-    //        .OrderBy(s => s.QuestionsInSet().Count).Desc
-    //        .Take(amount)
-    //        .List();
-    //}
+    public IEnumerable<TopSetResult> GetMostQuestions(int amount)
+    {
+        return _session.CreateSQLQuery("SELECT QCount, Set_id as SetId, Name, Text FROM " +
+                                       "(SELECT count(questioninset.Question_id) AS QCount, questioninset.Set_id " +
+                                       "FROM questioninset GROUP BY Set_id ORDER BY QCount DESC " +
+                                       "LIMIT "+ amount +") AS qis_r " +
+                                       "LEFT JOIN questionset ON qis_r.Set_id = questionset.Id")
+                        .SetResultTransformer(Transformers.AliasToBean(typeof(TopSetResult)))
+                        .List<TopSetResult>().ToList();
+    }
+
 
     public override void Delete(Set set)
     {
