@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using System.Web.Mvc;
-using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
