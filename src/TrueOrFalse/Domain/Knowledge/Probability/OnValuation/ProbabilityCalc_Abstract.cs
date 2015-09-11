@@ -11,6 +11,9 @@ public abstract class ProbabilityCalc_Abstract
 
     public ProbabilityCalcResult Run(Question question, User user, IList<AnswerHistory> answerHistoryItems)
     {
+        if(question == null || user == null)
+            return new ProbabilityCalcResult {Probability = 0, KnowledgeStatus = KnowledgeStatus.Unknown};
+
         answerHistoryItems = answerHistoryItems
             .Where(x =>
                 x.QuestionId == question.Id &&

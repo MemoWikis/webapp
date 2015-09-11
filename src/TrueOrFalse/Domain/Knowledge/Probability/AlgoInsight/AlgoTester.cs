@@ -39,10 +39,10 @@ public class AlgoTester
         AnswerHistoryTestRepo answerHistoryTestRepo, 
         AlgoInfo algo)
 	{
-        var result = algo.Algorithm.Run(
-            answerHistoryItem.GetQuestion(),
-            answerHistoryItem.GetUser(), 
-            allPreviousItems);
+	    var question = answerHistoryItem.GetQuestion();
+	    var user = answerHistoryItem.GetUser();
+
+        var result = algo.Algorithm.Run(question, user, allPreviousItems);
 
 		var answerHistoryTest = new AnswerHistoryTest
 		{
