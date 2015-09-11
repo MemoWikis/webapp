@@ -58,16 +58,16 @@ namespace TrueOrFalse
         {
             var sp = Stopwatch.StartNew();
 
-            var questionId = questionValuation.Question.Id;
-            var userId = questionValuation.User.Id;
+            var question = questionValuation.Question;
+            var user = questionValuation.User;
 
-            var probabilityResult = _probabilityCalc.Run(questionId, userId);
+            var probabilityResult = _probabilityCalc.Run(question, user);
             questionValuation.CorrectnessProbability = probabilityResult.Probability;
 	        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
 
             _questionValuationRepo.CreateOrUpdate(questionValuation);
 
-            Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, questionId, userId);
+            Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, question.Id, user.Id);
         }
     }
 }

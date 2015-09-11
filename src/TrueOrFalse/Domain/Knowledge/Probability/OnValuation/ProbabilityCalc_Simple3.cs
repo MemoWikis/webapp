@@ -4,10 +4,10 @@ using System.Linq;
 public class ProbabilityCalc_Simple3 : ProbabilityCalc_Abstract, IRegisterAsInstancePerLifetime
 {
     /// <returns>CorrectnessProbability as Percentage</returns>
-    public override ProbabilityCalcResult Run(IList<AnswerHistory> answerHistoryItems)
+    public override ProbabilityCalcResult Run(IList<AnswerHistory> answerHistoryItems, Question question, User user)
     {
 	    if (!answerHistoryItems.Any())
-		    return ProbabilityCalcResult.GetResult(answerHistoryItems, -1);
+		    return ProbabilityCalcResult.GetResult(answerHistoryItems, 30);
 
         var weightedFavorableOutcomes = 0m;
         var weightedTotalOutcomes = 0m;
