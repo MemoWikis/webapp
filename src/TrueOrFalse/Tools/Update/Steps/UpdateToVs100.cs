@@ -10,28 +10,19 @@ namespace TrueOrFalse.Updates
         {
             Sl.Resolve<ISession>()
               .CreateSQLQuery(
-                @"ALTER TABLE `learningsessionstep`
-                	ADD COLUMN `Idx` INT(11) NOT NULL DEFAULT '-1' AFTER `LearningSession_id`;"
+                @"UPDATE `answerhistory`
+                    SET `LearningSessionStep_id` = null;"
+            ).ExecuteUpdate();
+            
+            Sl.Resolve<ISession>()
+              .CreateSQLQuery(
+                @"DELETE FROM `learningsessionstep`;"
             ).ExecuteUpdate();
 
-            var learningSessionRepo = Sl.Resolve<LearningSessionRepo>();
-            var learningSessionStepRepo = Sl.Resolve<LearningSessionStepRepo>();
-
-            var lss = learningSessionRepo.GetAll();
-
-            foreach (var l in learningSessionRepo.GetAll())
-            {
-                if (l.Steps.ToList().Any(s => s.Idx < 0))
-                {
-                    var idx = 0;
-                    l.Steps.OrderBy(s => s.Id).ForEach(step =>
-                    {
-                        step.Idx = idx;
-                        idx++;
-                        learningSessionStepRepo.Update(step);
-                    });
-                }
-            }
+            Sl.Resolve<ISession>()
+              .CreateSQLQuery(
+                @"DELETE FROM `learningsession`;"
+            ).ExecuteUpdate();
 
             Sl.Resolve<ISession>()
               .CreateSQLQuery(
