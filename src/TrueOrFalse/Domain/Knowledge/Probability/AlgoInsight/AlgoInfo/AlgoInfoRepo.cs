@@ -17,7 +17,13 @@ public class AlgoInfoRepo
 	            Id = 2,
                 Name = "Simple 2",
                 Algorithm = Sl.R<ProbabilityCalc_Simple2>()
+            },
+            new AlgoInfo
+            {
+                Id = 3,
+                Name = "Simple 3",
+                Algorithm = Sl.R<ProbabilityCalc_Simple3>()
             }
-		};
+        };
 	}
 }

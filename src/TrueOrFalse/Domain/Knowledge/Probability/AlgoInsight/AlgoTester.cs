@@ -25,6 +25,8 @@ public class AlgoTester
             if (index % 10 == 0)
                 answerHistoryTestRepo.Flush();
 
+            allPreviousItems.Add(answerHistoryItem);
+
             index++;
         }
 
@@ -50,7 +52,5 @@ public class AlgoTester
 		};
 
 		answerHistoryTestRepo.Create(answerHistoryTest);
-
-        allPreviousItems.Add(answerHistoryItem);
 	}
 }

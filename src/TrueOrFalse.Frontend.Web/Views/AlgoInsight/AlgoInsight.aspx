@@ -30,10 +30,40 @@
         <span class="ColoredUnderline Knowledge">Algorithmus-Einblick</span>
     </h2>
     
+    <% if(Model.IsInstallationAdmin) { %>
+        <div class="row">
+	        <div class="col-md-12" style="text-align: right">
+		        <a href="<%= Url.Action("Reevaluate", "AlgoInsight") %>" class="btn btn-md btn-info">Teste Algorithmen (dauert mehrere Minuten)</a>
+	        </div>
+        </div>
+    <% } %>
+    
     <div class="row">
-	    <div class="col-md-12" style="text-align: right">
-		    <a href="<%= Url.Action("Reevaluate", "AlgoInsight") %>" class="btn btn-md btn-info">Teste Algorithmen (dauert mehrere Minuten)</a>
-	    </div>
+        <div class="col-md-6">
+            <table class="table table-hover" style="margin-top:10px">
+                <tr>
+                    <th>AlgoName</th>
+                    <th>%&nbsp;Erfolg</th>
+                    <th>Total</th>
+                    <th>Erfolge</th>
+                    <th>&#216;&nbsp;Distance</th>
+                </tr>
+	            
+                <% foreach(var summary in Model.Summaries) { %>
+                    <tr>
+	                    <td><%= summary.Algo.Name %></td>
+	                    <td><%= summary.SuccessRate %></td>
+                        <td><%= summary.TestCount %></td>
+	                    <td><%= summary.SuccessCount %></td>
+	                    <td><%= summary.AvgDistance %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+        <div class="col-md-6">
+            
+        </div>
     </div>
+
 
 </asp:Content>
