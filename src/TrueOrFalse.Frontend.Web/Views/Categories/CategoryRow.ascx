@@ -11,13 +11,20 @@
     
     <div class="column-MainContent">
         <div class="MainContentUpper">
-            <div class="TitleText">
+            <div class="TitleText" style="font-size: 20px">
                 <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName%></a> 
-                <span style="font-size: small;">(<b><%= Model.QuestionCount %> Fragen</b>)</span>
+                <span style="font-size: small;">(<%= Model.QuestionCount %> Fragen)</span>
                 <button class="btn btn-default btn-xs" type="button">Folgen</button>
             </div>
+            
+            <% if(Model.AnswersTotal > 0) { %>
+                <div style="margin-top: 6px;">
+                    <%= Model.AnswersTotal + " Frage".Plural(Model.AnswersTotal, "n") %> beantwortet, 
+                    davon <%= Model.CorrectnesProbability %>% richtig.
+                </div>
+            <% } %>
         </div>
-        
+
         <div class="MainContentLower">
             <% if(Model.UserCanEdit){ %>
             <a data-toggle="modal" data-SetId="<%= Model.CategoryId %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>
