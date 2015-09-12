@@ -18,8 +18,8 @@ public class ProbabilityUpdate_Category
 
         var answerHistoryItems = Sl.R<AnswerHistoryRepository>().GetByCategories(category.Id);  
 
-        category.CorrectnessProbability =
-            ProbabilityCalc_Category.Run(answerHistoryItems);
+        category.CorrectnessProbability = ProbabilityCalc_Category.Run(answerHistoryItems);
+        category.CorrectnessProbabilityAnswerCount = answerHistoryItems.Count;
 
         Sl.R<CategoryRepository>().Update(category);
 

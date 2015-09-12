@@ -27,6 +27,7 @@ public class Question : DomainEntity
     public virtual int TotalFalseAnswers { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
+    public virtual int CorrectnessProbabilityAnswerCount { get; set; }
 
     public virtual int TotalAnswers() { return TotalFalseAnswers + TotalTrueAnswers; }
     public virtual int TotalTrueAnswersPercentage()

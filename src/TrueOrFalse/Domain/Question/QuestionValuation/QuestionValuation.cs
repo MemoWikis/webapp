@@ -15,6 +15,7 @@ public class QuestionValuation : IPersistable, WithDateCreated
     public virtual DateTime DateCreated { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
+    public virtual int CorrectnessProbabilityAnswerCount { get; set; }
 
     public virtual KnowledgeStatus KnowledgeStatus { get; set; }
 

@@ -63,7 +63,8 @@ namespace TrueOrFalse
 
             var probabilityResult = _probabilityCalc.Run(question, user);
             questionValuation.CorrectnessProbability = probabilityResult.Probability;
-	        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
+            questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
+            questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
 
             _questionValuationRepo.CreateOrUpdate(questionValuation);
 

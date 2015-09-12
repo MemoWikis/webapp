@@ -25,7 +25,8 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.TotalViews);
 
         Map(x => x.CorrectnessProbability);
-                        
+        Map(x => x.CorrectnessProbabilityAnswerCount);
+
         Map(x => x.Solution);
         Map(x => x.SolutionType);
         Map(x => x.SolutionMetadataJson);
