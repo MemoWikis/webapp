@@ -12,9 +12,9 @@ public class User : DomainEntity
     public virtual string Salt { get; set; }
     public virtual string EmailAddress { get; set; }
     public virtual string Name { get; set; }
-    public virtual Boolean IsEmailConfirmed { get; set;  }
-    public virtual Boolean IsInstallationAdmin { get; set; }
-    public virtual Boolean AllowsSupportiveLogin { get; set; }
+    public virtual bool IsEmailConfirmed { get; set;  }
+    public virtual bool IsInstallationAdmin { get; set; }
+    public virtual bool AllowsSupportiveLogin { get; set; }
     public virtual DateTime? Birthday { get; set; }
     public virtual int Reputation { get; set; }
     public virtual int ReputationPos { get; set; }
@@ -24,7 +24,10 @@ public class User : DomainEntity
     public virtual IList<Membership> MembershipPeriods { get; set; }
 
     public virtual IList<User> Followers { get; set; }
-    
+
+    public virtual int CorrectnessProbability { get; set; }
+    public virtual int CorrectnessProbabilityAnswerCount { get; set; }
+
     /// <summary>Users I follow</summary>
     public virtual IList<User> Following { get; set; }
 

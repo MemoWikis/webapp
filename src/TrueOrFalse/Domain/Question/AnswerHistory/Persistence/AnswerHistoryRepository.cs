@@ -6,8 +6,6 @@ using Seedworks.Lib.Persistence;
 
 public class AnswerHistoryRepository : RepositoryDb<AnswerHistory> 
 {
-    public ISession Session { get { return _session; } }
-
     public AnswerHistoryRepository(ISession session) : base(session){}
 
     public void DeleteFor(int questionId)
@@ -50,6 +48,13 @@ public class AnswerHistoryRepository : RepositoryDb<AnswerHistory>
 
         var ids = Session.CreateSQLQuery(query).List<int>();
         return GetByIds(ids.ToArray());
+    }
+
+    public IList<AnswerHistory> GetByUsers(int userId)
+    {
+        return Session.QueryOver<AnswerHistory>()
+                        .Where(i => i.UserId == userId)
+                        .List<AnswerHistory>();
     }
 
     public override void Create(AnswerHistory answerHistory)

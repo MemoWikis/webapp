@@ -95,6 +95,7 @@ public class MaintenanceController : BaseController
         ProbabilityUpdate_ValuationAll.Run();
         ProbabilityUpdate_Question.Run();
         ProbabilityUpdate_Category.Run();
+        ProbabilityUpdate_User.Run();
 
         return View("Maintenance", new MaintenanceModel{
             Message = new SuccessMessage("Antwortwahrscheinlichkeiten wurden neu berechnet.")

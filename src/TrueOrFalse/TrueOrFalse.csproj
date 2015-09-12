@@ -295,6 +295,8 @@
     <Compile Include="Domain\Knowledge\Probability\ForQuestion\ProbabilityCalc_Question.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForQuestion\ProbabilityUpdate_Question.cs" />
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
+    <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityCalc_Category.cs" />
+    <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityUpdate_Category.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\AddProbabilitiesEntries_ForSetsAndDates.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalcResult.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Simple3.cs" />
@@ -636,6 +638,7 @@
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs102.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs101.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs100.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs099.cs" />
