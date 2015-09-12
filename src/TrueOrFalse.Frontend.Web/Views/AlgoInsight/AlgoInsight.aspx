@@ -59,7 +59,10 @@
 	            
                 <% foreach(var summary in Model.Summaries) { %>
                     <tr>
-	                    <td><%= summary.Algo.Name %></td>
+	                    <td>
+	                        <%= summary.Algo.Name %> 
+                            <i class="fa fa-info-circle show-tooltip" data-original-title="<%= summary.Algo.Details %>"></i>
+	                    </td>
 	                    <td><%= summary.SuccessRate %></td>
                         <td><%= summary.TestCount %></td>
 	                    <td><%= summary.SuccessCount %></td>

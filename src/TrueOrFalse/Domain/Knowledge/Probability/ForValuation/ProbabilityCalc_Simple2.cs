@@ -7,7 +7,7 @@ public class ProbabilityCalc_Simple2 : ProbabilityCalc_Abstract, IRegisterAsInst
     public override ProbabilityCalcResult Run(IList<AnswerHistory> answerHistoryItems, Question question, User user)
     {
 	    if (!answerHistoryItems.Any())
-		    return ProbabilityCalcResult.GetResult(answerHistoryItems, 50);
+		    return ProbabilityCalcResult.GetResult(answerHistoryItems, user.CorrectnessProbability);
 
         var weightedFavorableOutcomes = 0m;
         var weightedTotalOutcomes = 0m;
