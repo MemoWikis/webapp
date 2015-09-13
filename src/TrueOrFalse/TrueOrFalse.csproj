@@ -290,6 +290,9 @@
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AnswherHistoryTest\Persistence\AnswerHistoryTestRepo.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoTesterSummary.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AnswherHistoryTest\AlgoSummary.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\AnswerProperty.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\AnswerPropertyFilter.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\GenerateProperties.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForCategory\ProbabilityCalc_Category.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForCategory\ProbabilityUpdate_Category.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForQuestion\ProbabilityCalc_Question.cs" />
