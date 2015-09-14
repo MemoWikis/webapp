@@ -1,12 +1,12 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
-    Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxSetImgQuestionsModel>" %>
+    Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxCategoryImgQModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
 <div class="media panel-body">
     <div class="media-body" style="padding-bottom: 10px;">
-        <h4 class="media-heading"><%: Model.SetName %></h4>
-        <p><%: Model.SetText %></p>
+        <h4 class="media-heading"><%: Model.CategoryName %></h4>
+        <p><%: Model.CategoryDescription %></p>
     </div>
 
     <div class="row">
@@ -17,13 +17,12 @@
             </div>
             <div class="caption" style="padding-top: 10px">
                 <p><%= question.Text %></p>
-                <%--<a href="<%= Links.AnswerQuestion(Url, Model.Questions[0], set:Model.Set) %>" class="btn btn-primary btn-sm" role="button">Beantworten</a>--%>
             </div>
         </div>
         <% } %>
     </div>
     <div class="pull-right">
-        <a href="<%= Links.SetDetail(Url, Model.Set) %>" class="btn btn-link btn-sm" role="button">Fragesatz anzeigen</a>
-        <a href="<%= Links.AnswerQuestion(Url, Model.Questions[0], set:Model.Set) %>" class="btn btn-primary btn-sm" role="button">Alle <%: Model.QuestionCount %> Fragen beantworten</a>
+        <%--get link to point to random question in set:--%> 
+        <a href="<%= Links.AnswerQuestion(Url, Model.Questions.First().Text, Model.Questions.First().Id, paramElementOnPage:1, categoryFilter:Model.CategoryName) %>" class="btn btn-primary btn-sm" role="button">Alle <%: Model.QuestionCount %> Fragen beantworten</a>
     </div>
 </div>

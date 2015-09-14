@@ -42,6 +42,11 @@ namespace TrueOrFalse.Frontend.Web.Code
             return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
         }
 
+        public static string QuestionWithCategoryFilter(UrlHelper url, string categoryName, int categoryId)
+        {
+            return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(categoryName) + "/" + categoryId;
+        }
+
         public static string QuestionWish_WithCategoryFilter(Category category){
             return "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
         }
@@ -54,6 +59,11 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Answer", AnswerQuestionController, 
                 new { text = UriSegmentFriendlyQuestion.Run(question.Text), questionId = question.Id, setId = set.Id });
         }
+        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int setId)
+        {
+            return url.Action("Answer", AnswerQuestionController,
+                new { text = UriSegmentFriendlyQuestion.Run(questionText), questionId, setId});
+        }
 
         public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec){
             return "/AnswerQuestion/Answer?pager=" + searchSpec.Key;
@@ -62,6 +72,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
             return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
+
+      
 
         public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
             return url.Action("Answer", AnswerQuestionController,

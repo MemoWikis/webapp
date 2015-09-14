@@ -1,24 +1,24 @@
-﻿public class WelcomeBoxQuestionVModel : BaseModel
+﻿public class WelcomeBoxSingleQuestionModel : BaseModel
 {
-    public int Id;
-    public string Text;
-    public Question Question;  //used only to display categories with PartialView Category.ascx
+    public int QuestionId;
+    public string QuestionText;
 
     public int ContextCategoryId;
-    //public Category ContextCategory;
     public string ContextCategoryName = "";
+    public int QCount;
 
 
     public ImageFrontendData ImageFrontendData;
 
-    public WelcomeBoxQuestionVModel(Question question, int contextCategoryId) 
+    public WelcomeBoxSingleQuestionModel(int questionId, int contextCategoryId = 0) 
     {
+        var question = R<QuestionRepository>().GetById(questionId) ?? new Question();
 
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
-        Text = question.Text;
-        Question = question;
+        QuestionText = question.Text;
+        QuestionId = question.Id;
         ContextCategoryId = contextCategoryId;
 
         if (ContextCategoryId != 0)
@@ -26,10 +26,15 @@
             var contextCategory = R<CategoryRepository>().GetById(contextCategoryId);
             if (contextCategory != null)
             {
-                //ContextCategory = contextCategory;
                 ContextCategoryName = contextCategory.Name;
+                QCount = contextCategory.CountQuestions;
             } 
         }
 
+    }
+
+    public static WelcomeBoxSingleQuestionModel GetWelcomeBoxQuestionVModel(int questionId, int contextCatId = 0)
+    {
+        return new WelcomeBoxSingleQuestionModel(questionId, contextCatId);
     }
 }

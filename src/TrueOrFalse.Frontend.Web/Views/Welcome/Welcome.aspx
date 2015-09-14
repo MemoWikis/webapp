@@ -23,23 +23,30 @@
         </div>
             
         <div class="row ThumbnailRow" style="padding-top: 0px;">
-            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(381, 205)); %>
-            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 341, contextCategoryId: 183)); %>
-            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 404, contextCategoryId: 14)); %>
+            <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(381, 205)); %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(14)); %>
+            <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 404, contextCatId: 14)); %>
         </div>
 
         <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxSetTextQuestions", Model.GetWelcomeSetBoxTextQuestionsModel(12, new int[] { 303, 288, 289 })); %>
+            <% Html.RenderPartial("WelcomeBoxSetImgQuestions", WelcomeBoxSetImgQuestionsModel.GetWelcomeBoxSetImgQuestionsModel(17, new int[] { 373, 360, 367 }, "Weißt du, wo diese weltweit bekannten Sehenswürdigkeiten stehen?")); %>
         </div>
         <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxSetImgQuestions", Model.GetWelcomeSetBoxImgQuestionsModel(17, new int[] { 373, 360, 367 })); %>
+            <% Html.RenderPartial("WelcomeBoxSetTextQuestions", WelcomeBoxSetTextQuestionsModel.GetWelcomeBoxSetTextQuestionsModel(12, new int[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>
+        </div>
+        <div class="panel panel-default">
+            <% Html.RenderPartial("WelcomeBoxSetTextQuestions", WelcomeBoxSetTextQuestionsModel.GetWelcomeBoxSetTextQuestionsModel(20, new int[] { 494, 485, 503 }, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
         </div>
 
 
         <div class="row ThumbnailRow" style="padding-top: 0px;">
-            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 385)); %>
-            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 337)); %>
-            <% Html.RenderPartial("WelcomeBoxQuestionV", Model.GetQuestionBoxVModel(questionId: 233)); %>
+            <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 385)); %>
+            <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 337)); %>
+            <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 233)); %>
+        </div>
+
+        <div class="panel panel-default">
+            <% Html.RenderPartial("WelcomeBoxCategoryImgQ", WelcomeBoxCategoryImgQModel.GetWelcomeBoxCategoryImgQModel(211, new int[] { 394, 395, 390 }, "Farfalle, Penne oder Rigatoni? Weißt du wie diese Nudelsorten heißen?")); %>
         </div>
 
         <div class="well">
