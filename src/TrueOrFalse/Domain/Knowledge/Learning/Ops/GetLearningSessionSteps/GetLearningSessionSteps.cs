@@ -47,7 +47,7 @@ public class GetLearningSessionSteps
 
         auxParams.AllTotals = Sl.Resolve<TotalsPersUserLoader>().Run(user.Id, ids);
         auxParams.AllValuations = Sl.Resolve<QuestionValuationRepo>().GetActiveInWishknowledge(allQuestionsIds, user.Id);
-        auxParams.AllAnswerHistories = Sl.Resolve<AnswerHistoryRepository>().GetBy(allQuestionsIds, user.Id);
+        auxParams.AllAnswerHistories = Sl.Resolve<AnswerHistoryRepo>().GetByQuestion(allQuestionsIds, user.Id);
 
         auxParams.UnansweredQuestions = allQuestions
             .Where(q => auxParams.AllTotals.ByQuestionId(q.Id).Total() == 0);

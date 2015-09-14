@@ -13,6 +13,8 @@ public class QuestionValuationMap : ClassMap<QuestionValuation>
         Map(x => x.RelevanceForAll);
 
         Map(x => x.CorrectnessProbability);
+        Map(x => x.CorrectnessProbabilityAnswerCount);
+
         Map(x => x.KnowledgeStatus);
 
         Map(x => x.DateCreated);

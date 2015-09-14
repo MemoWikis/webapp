@@ -6,14 +6,8 @@
 <div class="media panel-body">
     <div class="media-body" style="padding-bottom: 10px;">
         <h4 class="media-heading"><%: Model.SetName %></h4>
-        <p><%: Model.Set.Text %></p>
+        <p><%: Model.SetText %></p>
     </div>
-<%--    <div class="pull-left">
-        <div class="ImageContainer">
-            <%= Model.QuestionImageFrontendDatas.RenderHtmlImageBasis(120, true, ImageType.QuestionSet) %>
-        </div>        
-    </div>--%>
-
 
     <div class="row">
         <% foreach (var question in Model.Questions) { %>

@@ -17,6 +17,9 @@ public class CategoryRowModel : BaseModel
     public string DateCreated;
     public string DateCreatedLong;
 
+    public int CorrectnesProbability;
+    public int AnswersTotal;
+
     public CategoryRowModel(Category category, int indexInResultSet)
     {
         CategoryId = category.Id;
@@ -33,5 +36,8 @@ public class CategoryRowModel : BaseModel
 
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
+
+        CorrectnesProbability = category.CorrectnessProbability;
+        AnswersTotal = category.CorrectnessProbabilityAnswerCount;
     }
 }

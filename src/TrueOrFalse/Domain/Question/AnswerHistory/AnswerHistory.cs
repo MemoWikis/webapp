@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
 public class AnswerHistory : IPersistable, WithDateCreated
@@ -18,9 +19,16 @@ public class AnswerHistory : IPersistable, WithDateCreated
     public virtual int Milliseconds { get; set; }
     public virtual DateTime DateCreated { get; set; }
 
+    public virtual IList<AnswerFeature> AnswerFeatures { get; set; }
+
     public virtual Question GetQuestion()
     {
         return Sl.R<QuestionRepository>().GetById(QuestionId);
+    }
+
+    public virtual User GetUser()
+    {
+        return Sl.R<UserRepo>().GetById(UserId);
     }
 
     public virtual bool AnsweredCorrectly()

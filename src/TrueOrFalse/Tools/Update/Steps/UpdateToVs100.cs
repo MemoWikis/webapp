@@ -27,6 +27,12 @@ namespace TrueOrFalse.Updates
             Sl.Resolve<ISession>()
               .CreateSQLQuery(
                 @"ALTER TABLE `learningsessionstep`
+	                ADD COLUMN `Idx` INT(11) NULL AFTER `Id`;"
+            ).ExecuteUpdate();
+
+            Sl.Resolve<ISession>()
+              .CreateSQLQuery(
+                @"ALTER TABLE `learningsessionstep`
                     ADD CONSTRAINT UQC_LearningSession_idx UNIQUE (`LearningSession_id`, `Idx`);"
             ).ExecuteUpdate();
 

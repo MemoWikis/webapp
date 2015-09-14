@@ -33,6 +33,9 @@ public class CategoryModel : BaseModel
     public int CountSets;
     public int CountCreators;
 
+    public int CorrectnesProbability;
+    public int AnswersTotal;
+
     public CategoryModel(Category category)
     {   
         WikiUrl = category.WikipediaURL;
@@ -66,5 +69,8 @@ public class CategoryModel : BaseModel
 
         CategoriesParent = category.ParentCategories;
         CategoriesChildren = Resolve<CategoryRepository>().GetChildren(category.Id);
+
+        CorrectnesProbability = category.CorrectnessProbability;
+        AnswersTotal = category.CorrectnessProbabilityAnswerCount;
     }
 }

@@ -9,6 +9,7 @@ public class AlgoInsightController : BaseController
         return View(new AlgoInsightModel());
     }
 
+    [AccessOnlyAsAdmin]
 	public ActionResult Reevaluate()
 	{
         Sl.Resolve<AnswerHistoryTestRepo>().TruncateTable();

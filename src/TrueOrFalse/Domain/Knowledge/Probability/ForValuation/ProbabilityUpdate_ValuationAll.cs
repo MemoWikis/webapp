@@ -7,9 +7,9 @@ namespace TrueOrFalse
     ///     - for all question valuations 
     ///     - for all useres
     /// </summary>
-    public class ProbabilityUpdateForAll : IRegisterAsInstancePerLifetime
+    public class ProbabilityUpdate_ValuationAll : IRegisterAsInstancePerLifetime
     {
-        public void Run()
+        public static void Run()
         {
             var questionValuationRecords =
                 Sl.R<ISession>().QueryOver<QuestionValuation>()
@@ -19,7 +19,7 @@ namespace TrueOrFalse
                     .List<object[]>();
 
             foreach (var item in questionValuationRecords)
-                Sl.R<ProbabilityUpdate>().Run((int) item[0], (int) item[1]);   
+                Sl.R<ProbabilityUpdate_Valuation>().Run((int) item[0], (int) item[1]);   
         }
     }
 }

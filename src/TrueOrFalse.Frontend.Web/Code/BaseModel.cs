@@ -8,6 +8,7 @@ public class BaseModel : BaseResolve
     protected SessionUiData _sessionUiData { get { return Resolve<SessionUiData>(); } }
 
     public bool IsLoggedIn{ get { return _sessionUser.IsLoggedIn; } }
+    public bool IsInstallationAdmin { get { return _sessionUser.IsInstallationAdmin; } }
 
     public int UserId{ get { return _sessionUser.UserId; } }
 

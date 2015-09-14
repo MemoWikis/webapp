@@ -38,4 +38,12 @@
             .Replace("\n", "<br>")
             .Replace("\r", "<br>");
     }
+
+    public static string Plural(this string input, int numberItems, string suffix)
+    {
+        if (numberItems > 1)
+            return input + suffix;
+
+        return input;
+    }   
 }

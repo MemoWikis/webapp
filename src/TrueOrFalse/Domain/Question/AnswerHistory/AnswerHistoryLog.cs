@@ -3,11 +3,11 @@ using System.Linq;
 
 public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
 {
-    private readonly AnswerHistoryRepository _answerHistoryRepository;
+    private readonly AnswerHistoryRepo _answerHistoryRepo;
 
-    public AnswerHistoryLog(AnswerHistoryRepository answerHistoryRepository)
+    public AnswerHistoryLog(AnswerHistoryRepo answerHistoryRepo)
     {
-        _answerHistoryRepository = answerHistoryRepository;
+        _answerHistoryRepo = answerHistoryRepo;
     }
 
     public void Run(
@@ -33,16 +33,16 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
                 : dateCreated
         };
 
-        _answerHistoryRepository.Create(answerHistory);
+        _answerHistoryRepo.Create(answerHistory);
     }
 
     public void CountLastAnswerAsCorrect(Question question, int userId)
     {
-        var correctedAnswerHistory = _answerHistoryRepository.GetBy(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
+        var correctedAnswerHistory = _answerHistoryRepo.GetByQuestion(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
         if (correctedAnswerHistory != null && correctedAnswerHistory.AnswerredCorrectly == AnswerCorrectness.False)
         {
             correctedAnswerHistory.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
-            _answerHistoryRepository.Update(correctedAnswerHistory);
+            _answerHistoryRepo.Update(correctedAnswerHistory);
         }
     }
 }
