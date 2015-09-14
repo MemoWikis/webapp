@@ -10,6 +10,4 @@ public class StepSelectionParams
     public IList<TotalPerUser> AllTotals;
     public IList<QuestionValuation> AllValuations;
     public IList<AnswerHistory> AllAnswerHistories; 
-
-    //public bool AllHaveBeenAnsweredToday;
 }

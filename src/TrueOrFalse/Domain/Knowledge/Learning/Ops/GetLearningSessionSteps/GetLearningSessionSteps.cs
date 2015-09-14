@@ -58,9 +58,6 @@ public class GetLearningSessionSteps
         auxParams.QuestionsAnsweredToday = auxParams.AnsweredQuestions
             .Where(q => auxParams.AllAnswerHistories.ByQuestionId(q.Id).Any(ah => ah.DateCreated.Date == DateTime.Today));
 
-        //auxParams.AllHaveBeenAnsweredToday = !allQuestions
-        //    .Except(auxParams.QuestionsAnsweredToday).Any();
-
         return auxParams;
     }
 
@@ -81,11 +78,19 @@ public class GetLearningSessionSteps
                     : auxParams.AllValuations.ByQuestionId(q.Id).CorrectnessProbability)//Questions with lower probability first
             .ThenBy(q => rnd.Next());
 
+        var questionsAnsweredTodayOrdered = auxParams.QuestionsAnsweredToday
+            //.OrderBy(q => auxParams.AllAnswerHistories.ByQuestionId(q.Id).Count(aH => aH.DateCreated.Date == DateTime.Today))//Order by number of times answered today
+            .OrderBy(q => auxParams.AllValuations.ByQuestionId(q.Id) == null
+                //Just in case, should normally not occur for answered questions
+                    ? 0
+                    : auxParams.AllValuations.ByQuestionId(q.Id).CorrectnessProbability)
+            .ThenBy(q => rnd.Next());
+
         var allQuestionsExceptTodayOrdered = unansweredQuestionsReordered
             .Concat(answeredQuestionsReordered.Except(auxParams.QuestionsAnsweredToday));
 
         var allQuestionsOrdered = allQuestionsExceptTodayOrdered
-            .Concat(auxParams.QuestionsAnsweredToday);
+            .Concat(questionsAnsweredTodayOrdered);
 
         return allQuestionsOrdered
             .Take(numberOfSteps)
