@@ -5,12 +5,12 @@ public class DeleteQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
     private readonly QuestionRepository _questionRepository;
-    private readonly AnswerHistoryRepository _answerHistory;
+    private readonly AnswerHistoryRepo _answerHistory;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
 
     public DeleteQuestion(
         QuestionRepository questionRepository, 
-        AnswerHistoryRepository answerHistory, 
+        AnswerHistoryRepo answerHistory, 
         UpdateQuestionCountForCategory updateQuestionCountForCategory, 
         ISession session)
     {

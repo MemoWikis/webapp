@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json;
-using NHibernate.Linq;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 
@@ -28,6 +27,7 @@ public class Question : DomainEntity
     public virtual int TotalFalseAnswers { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
+    public virtual int CorrectnessProbabilityAnswerCount { get; set; }
 
     public virtual int TotalAnswers() { return TotalFalseAnswers + TotalTrueAnswers; }
     public virtual int TotalTrueAnswersPercentage()

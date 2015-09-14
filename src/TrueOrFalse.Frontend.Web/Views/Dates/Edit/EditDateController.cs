@@ -83,6 +83,6 @@ public class EditDateController : BaseController
     private void CareAboutAnswerProbability(Date date)
     {
         R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
-        R<ProbabilityUpdate>().Run(date.Sets, _sessionUser.UserId);
+        R<ProbabilityUpdate_Valuation>().Run(date.Sets, _sessionUser.UserId);
     }
 }

@@ -5,14 +5,14 @@ using NHibernate.Util;
 
 namespace TrueOrFalse
 {
-    public class ProbabilityUpdate : IRegisterAsInstancePerLifetime
+    public class ProbabilityUpdate_Valuation : IRegisterAsInstancePerLifetime
     {
         private readonly QuestionValuationRepo _questionValuationRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalc;
         private readonly QuestionRepository _questionRepo;
         private readonly UserRepo _userRepo;
 
-        public ProbabilityUpdate(
+        public ProbabilityUpdate_Valuation(
             QuestionValuationRepo questionValuationRepo,
             ProbabilityCalc_Simple1 probabilityCalc, 
             QuestionRepository questionRepo,
@@ -58,16 +58,17 @@ namespace TrueOrFalse
         {
             var sp = Stopwatch.StartNew();
 
-            var questionId = questionValuation.Question.Id;
-            var userId = questionValuation.User.Id;
+            var question = questionValuation.Question;
+            var user = questionValuation.User;
 
-            var probabilityResult = _probabilityCalc.Run(questionId, userId);
+            var probabilityResult = _probabilityCalc.Run(question, user);
             questionValuation.CorrectnessProbability = probabilityResult.Probability;
-	        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
+            questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
+            questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
 
             _questionValuationRepo.CreateOrUpdate(questionValuation);
 
-            Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, questionId, userId);
+            Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, question.Id, user.Id);
         }
     }
 }

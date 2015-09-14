@@ -388,9 +388,15 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Style\site.min.css">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\Welcome\Welcome.css">
       <DependentUpon>Welcome.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Welcome.min.css">
+      <DependentUpon>Welcome.css</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\WelcomeBoxCategoryImgQ.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSingleSet.ascx" />

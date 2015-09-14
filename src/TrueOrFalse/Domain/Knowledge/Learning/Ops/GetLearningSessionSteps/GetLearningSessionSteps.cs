@@ -22,11 +22,15 @@ public class GetLearningSessionSteps
         var auxParams = GetStepSelectionParams(questions);
         var steps = GetSteps(auxParams, numberOfSteps);
 
-        steps.ForEach(s =>
+        var idx = 0;
+
+        foreach (var step in steps)
         {
-            s.DateCreated = DateTime.Now;
-            s.DateModified = DateTime.Now;
-        });
+            step.DateCreated = DateTime.Now;
+            step.DateModified = DateTime.Now;
+            step.Idx = idx;
+            idx++;
+        }
 
         return steps;
     }
@@ -43,7 +47,7 @@ public class GetLearningSessionSteps
 
         auxParams.AllTotals = Sl.Resolve<TotalsPersUserLoader>().Run(user.Id, ids);
         auxParams.AllValuations = Sl.Resolve<QuestionValuationRepo>().GetActiveInWishknowledge(allQuestionsIds, user.Id);
-        auxParams.AllAnswerHistories = Sl.Resolve<AnswerHistoryRepository>().GetBy(allQuestionsIds, user.Id);
+        auxParams.AllAnswerHistories = Sl.Resolve<AnswerHistoryRepo>().GetByQuestion(allQuestionsIds, user.Id);
 
         auxParams.UnansweredQuestions = allQuestions
             .Where(q => auxParams.AllTotals.ByQuestionId(q.Id).Total() == 0);

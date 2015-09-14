@@ -24,6 +24,9 @@ public class Category : DomainEntity
 
     public virtual string TypeJson { get; set; }
 
+    public virtual int CorrectnessProbability { get; set; }
+    public virtual int CorrectnessProbabilityAnswerCount { get; set; }
+
     public Category(){
         ParentCategories = new List<Category>();
         Type = CategoryType.Standard;

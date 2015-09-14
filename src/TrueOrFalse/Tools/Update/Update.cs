@@ -30,6 +30,10 @@
                 .Add(97, UpdateToVs097.Run)
                 .Add(98, UpdateToVs098.Run)
                 .Add(99, UpdateToVs099.Run)
+                .Add(100, UpdateToVs100.Run)
+                .Add(101, UpdateToVs101.Run)
+                .Add(102, UpdateToVs102.Run)
+                .Add(103, UpdateToVs103.Run)
                 .Run();
         }
     }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using System.Web.Mvc;
-using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
@@ -94,8 +92,10 @@ public class MaintenanceController : BaseController
     {
         R<AddProbabilitiesEntries_ForSetsAndDates>().RunForAllUsers();
 
-        R<ProbabilityUpdateForAll>().Run();
-        R<ProbabilityUpdate_OnQuestion>().Run();
+        ProbabilityUpdate_ValuationAll.Run();
+        ProbabilityUpdate_Question.Run();
+        ProbabilityUpdate_Category.Run();
+        ProbabilityUpdate_User.Run();
 
         return View("Maintenance", new MaintenanceModel{
             Message = new SuccessMessage("Antwortwahrscheinlichkeiten wurden neu berechnet.")

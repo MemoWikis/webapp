@@ -41,12 +41,12 @@
                     <% } %>
                     
                     <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
-                    <div class="WikiLink" style="margin-top: 10px;">
-                        <a href="<%= Model.WikiUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
-                            <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
-                        </a>
-                    </div>
-                <% } %>
+                        <div class="WikiLink" style="margin-top: 10px;">
+                            <a href="<%= Model.WikiUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
+                                <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
+                            </a>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -57,6 +57,16 @@
                 <div class="ImageContainer">
                     <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
                 </div>
+            </div>
+            
+            <div>
+                <% if(Model.AnswersTotal > 0) { %>
+                    <div style="margin-top: 6px;">
+                        In dieser Kategorie wurden
+                        <%= Model.AnswersTotal + "x Frage".Plural(Model.AnswersTotal, "n") %> beantwortet, 
+                        davon <%= Model.CorrectnesProbability %>% richtig.
+                    </div>
+                <% } %>                
             </div>
         </div>
         <div class="col-xs-9 col-xs-pull-3 xxs-stack">
