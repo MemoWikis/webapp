@@ -9,7 +9,7 @@ public class AlgoTester
         var stopWatch = new Stopwatch();
         Logg.r().Information("AlgoTester Start");
 
-		var allAnswerHistoryItems = Sl.R<AnswerHistoryRepository>().GetAll().OrderBy(x => x.Id);
+		var allAnswerHistoryItems = Sl.R<AnswerHistoryRepo>().GetAll().OrderBy(x => x.Id);
 		var allPreviousItems = new List<AnswerHistory>();
 
 		var answerHistoryTestRepo = Sl.R<AnswerHistoryTestRepo>();

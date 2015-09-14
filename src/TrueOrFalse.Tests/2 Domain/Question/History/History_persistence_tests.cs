@@ -11,6 +11,6 @@ public class QuestionAnswerHistoryPersistenceTests : BaseTest
         questionHistory.UserId = 1;
         questionHistory.AnswerText = "asdfasfsf";
 
-        Resolve<AnswerHistoryRepository>().Create(questionHistory);
+        Resolve<AnswerHistoryRepo>().Create(questionHistory);
     }
 }

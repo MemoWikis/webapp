@@ -290,9 +290,12 @@
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AnswherHistoryTest\Persistence\AnswerHistoryTestRepo.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoTesterSummary.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AnswherHistoryTest\AlgoSummary.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\AnswerProperty.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\AnswerPropertyFilter.cs" />
-    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\GenerateProperties.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\AnswerFeature.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\AnswerFeatureFilter.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\Ops\AssignAnswerFeatures.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\Ops\GenerateAnswerFeatures.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\Persistence\AnswerFeatureMap.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Properties\Persistence\AnswerFeatureRepo.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForCategory\ProbabilityCalc_Category.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForCategory\ProbabilityUpdate_Category.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForQuestion\ProbabilityCalc_Question.cs" />
@@ -562,7 +565,7 @@
     <Compile Include="Domain\Question\AnswerHistory\AnswerHistory.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerHistoryLog.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Persistence\AnswerHistoryMap.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Persistence\AnswerHistoryRepository.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Persistence\AnswerHistoryRepo.cs" />
     <Compile Include="Domain\Question\Answer\AnswerQuestion.cs" />
     <Compile Include="Domain\Question\Answer\AnswerQuestionResult.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionSearchSpec.cs" />

@@ -14,7 +14,7 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 
     public static void Run(Question question)
     {
-        var answerHistoryItems = Sl.R<AnswerHistoryRepository>().GetByQuestion(question.Id);
+        var answerHistoryItems = Sl.R<AnswerHistoryRepo>().GetByQuestion(question.Id);
 
         question.CorrectnessProbability = ProbabilityCalc_Question.Run(answerHistoryItems);
         question.CorrectnessProbabilityAnswerCount = answerHistoryItems.Count;

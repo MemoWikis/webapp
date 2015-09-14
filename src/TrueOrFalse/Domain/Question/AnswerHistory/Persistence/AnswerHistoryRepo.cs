@@ -4,9 +4,9 @@ using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 
-public class AnswerHistoryRepository : RepositoryDb<AnswerHistory> 
+public class AnswerHistoryRepo : RepositoryDb<AnswerHistory> 
 {
-    public AnswerHistoryRepository(ISession session) : base(session){}
+    public AnswerHistoryRepo(ISession session) : base(session){}
 
     public void DeleteFor(int questionId)
     {

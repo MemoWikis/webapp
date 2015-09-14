@@ -6,7 +6,7 @@ public abstract class ProbabilityCalc_Abstract
 {
     public ProbabilityCalcResult Run(Question question, User user)
     {
-        var answerHistoryItems = Sl.R<AnswerHistoryRepository>().GetByQuestion(question.Id, user.Id);
+        var answerHistoryItems = Sl.R<AnswerHistoryRepo>().GetByQuestion(question.Id, user.Id);
 
         if(Sl.R<ISession>().Get<Question>(question.Id) == null || Sl.R<ISession>().Get<User>(user.Id) == null)
             return new ProbabilityCalcResult { Probability = 0, KnowledgeStatus = KnowledgeStatus.Unknown };

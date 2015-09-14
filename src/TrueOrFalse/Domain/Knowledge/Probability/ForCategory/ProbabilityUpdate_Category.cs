@@ -16,7 +16,7 @@ public class ProbabilityUpdate_Category
     {
         var sp = Stopwatch.StartNew();
 
-        var answerHistoryItems = Sl.R<AnswerHistoryRepository>().GetByCategories(category.Id);  
+        var answerHistoryItems = Sl.R<AnswerHistoryRepo>().GetByCategories(category.Id);  
 
         category.CorrectnessProbability = ProbabilityCalc_Category.Run(answerHistoryItems);
         category.CorrectnessProbabilityAnswerCount = answerHistoryItems.Count;

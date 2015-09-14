@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class AnswerPropertyFilter
+public class AnswerFeatureFilter
 {
     public static Func<AnswerHistory, Question, User, bool> Time(int startHour, int endHour)
     {
