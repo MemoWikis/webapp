@@ -4,17 +4,17 @@ using System.Linq;
 public class ProbabilityCalc_Simple1 : ProbabilityCalc_Abstract, IRegisterAsInstancePerLifetime
 {
     /// <returns>CorrectnessProbability as Percentage</returns>
-    public override ProbabilityCalcResult Run(IList<AnswerHistory> answerHistoryItems, Question question, User user)
+    public override ProbabilityCalcResult Run(IList<AnswerHistory> previousHistoryItems, Question question, User user)
     {
-	    if (!answerHistoryItems.Any())
-		    return ProbabilityCalcResult.GetResult(answerHistoryItems, question.CorrectnessProbability);
+	    if (!previousHistoryItems.Any())
+		    return ProbabilityCalcResult.GetResult(previousHistoryItems, question.CorrectnessProbability);
 
         var weightedFavorableOutcomes = 0m;
         var weightedTotalOutcomes = 0m;
 
         var index = 0;
 
-        foreach(var historyItem in answerHistoryItems.OrderByDescending(d => d.DateCreated))
+        foreach(var historyItem in previousHistoryItems.OrderByDescending(d => d.DateCreated))
         {
             index++;
             var weight = 1m;
@@ -28,7 +28,7 @@ public class ProbabilityCalc_Simple1 : ProbabilityCalc_Abstract, IRegisterAsInst
         }
 
         return ProbabilityCalcResult.GetResult(
-            answerHistoryItems, 
+            previousHistoryItems, 
             (int)((weightedFavorableOutcomes / weightedTotalOutcomes) * 100));
     }
 }

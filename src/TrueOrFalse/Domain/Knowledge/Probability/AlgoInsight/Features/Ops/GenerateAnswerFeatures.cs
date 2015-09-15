@@ -27,6 +27,16 @@ public class GenerateAnswerFeatures
             DoesApply = AnswerFeatureFilter.Time(0, 6)
         });
 
+        //1. Wiederholung
+        //2. Wiederholung
+        //3. Wiederholung
+        //4. Wiederholung...
+
+        //In Lernsitzung
+        //Im Spielmodus
+
+        //Wurde bisher in Lernsitzung gelernt
+
         var answerFeatureRepo = Sl.R<AnswerFeatureRepo>();
         foreach (var answerFeature in answerFeatures)
             answerFeatureRepo.Create(answerFeature);

@@ -28,5 +28,5 @@ public abstract class ProbabilityCalc_Abstract
         return Run(answerHistoryItems, question, user);
     }
 
-	public abstract ProbabilityCalcResult Run(IList<AnswerHistory> answerHistoryItems, Question question, User user);
+	public abstract ProbabilityCalcResult Run(IList<AnswerHistory> previousHistoryItems, Question question, User user);
 }

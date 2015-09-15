@@ -9,5 +9,5 @@ public class AnswerFeature : DomainEntity
 
     public virtual IList<AnswerHistory> AnswerHistories { get; set; }
 
-    public virtual Func<AnswerHistory, Question, User, bool> DoesApply { get; set; }
+    public virtual Func<AnswerFeatureFilterParams, bool> DoesApply { get; set; }
 }
