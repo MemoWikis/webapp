@@ -110,7 +110,7 @@
 
                         <div class="form-group">
                             <label class="columnLabel control-label">
-                                Fragesätze die zu diesem Termin gewust werden sollen:
+                                Fragesätze, die zu diesem Termin gewusst werden sollen:
                             </label>
                             <div class="JS-Sets columnControlsFull">
                                 <script type="text/javascript">

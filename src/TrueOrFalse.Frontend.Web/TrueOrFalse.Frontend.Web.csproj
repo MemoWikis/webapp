@@ -299,7 +299,9 @@
     <Compile Include="Views\Dates\DatesModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxQuestionVModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSingleSetModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSingleQuestionModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxTopQuestionsModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxTopSetsModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetImgQuestionsModel.cs" />
@@ -396,10 +398,12 @@
     <Content Include="Views\Welcome\Welcome.min.css">
       <DependentUpon>Welcome.css</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\WelcomeBoxCategoryImgQ.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSingleSet.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopQuestions.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopSets.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopCategories.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxQuestionV.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetImgQuestions.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetTextQuestions.ascx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />

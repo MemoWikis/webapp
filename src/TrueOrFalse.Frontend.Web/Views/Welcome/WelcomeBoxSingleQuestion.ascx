@@ -1,0 +1,19 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" 
+    Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxSingleQuestionModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
+
+<div class="ThumbnailColumn">
+    <div class="thumbnail">
+        <div class="ImageContainer">
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.Question) %>
+        </div>
+
+        <div class="caption">
+            <h6 style="margin-bottom: 5px; color: #a3a3a3;"><a href="<%: Links.QuestionWithCategoryFilter(Url, Model.ContextCategoryName, Model.ContextCategoryId) %>"><%= Model.QCount %> Fragen</a> in Kategorie</h6>
+            <h4 style="margin-top: 5px;"><%: Model.ContextCategoryName %></h4>
+            <p><%: Model.QuestionText %></p>
+            <a href="<%= Links.AnswerQuestion(Url, Model.QuestionText, Model.QuestionId, paramElementOnPage:1, categoryFilter:Model.ContextCategoryName) %>" class="btn btn-primary" role="button">Beantworten</a>
+        </div>
+    </div>
+</div>

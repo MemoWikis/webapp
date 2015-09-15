@@ -27,7 +27,15 @@ public class Should_create_learningSession_steps : BaseTest
             .AddQuestion("question answered not today prob 30")//1
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
                 .SetProbability(30, learner)
-            .AddQuestion("question answered today")
+            .AddQuestion("question answered today prob 40")
+                .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now)
+                .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
+                .SetProbability(40, learner)
+            .AddQuestion("question answered today prob 30")
+                .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now)
+                .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
+                .SetProbability(30, learner)
+            .AddQuestion("question answered today prob 20")
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now)
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
                 .SetProbability(20, learner);
@@ -54,7 +62,9 @@ public class Should_create_learningSession_steps : BaseTest
         Assert.That(steps[3].Question.Text == "question answered not today prob 20");
         Assert.That(steps[4].Question.Text == "question answered not today prob 30");
         Assert.That(steps[5].Question.Text == "question answered not today prob 40");
-        Assert.That(steps[6].Question.Text == "question answered today");
+        Assert.That(steps[6].Question.Text == "question answered today prob 20");
+        Assert.That(steps[7].Question.Text == "question answered today prob 30");
+        Assert.That(steps[8].Question.Text == "question answered today prob 40");
 
         var learningSession = new LearningSession();
         R<LearningSessionRepo>().Create(learningSession);

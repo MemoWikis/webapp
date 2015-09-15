@@ -100,7 +100,16 @@
         } %>
     </div>
     <div class="pull-right" style="margin-top: 20px;">
-        <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">Neue Lernsitzung zu diesem Fragesatz</a>
+        <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
+            Neue Lernsitzung
+            <% if(Model.LearningSession.IsSetSession) { %>
+                zu diesem Fragesatz  
+            <% } else if (Model.LearningSession.IsDateSession) { %>
+               zu diesem Termin <% }
+               else {
+                   throw new Exception("Text for this type of learning session not specified");
+               } %>
+        </a>
     </div>
 
 </asp:Content>
