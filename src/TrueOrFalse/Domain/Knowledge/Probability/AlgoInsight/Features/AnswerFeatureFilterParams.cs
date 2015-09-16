@@ -3,7 +3,7 @@
 public class AnswerFeatureFilterParams
 {
     public AnswerHistory AnswerHistory;
-    public IList<AnswerHistory> PreviousItems;
+    public IList<AnswerHistory> PreviousAnswers;
     public Question Question;
     public User User;
 }

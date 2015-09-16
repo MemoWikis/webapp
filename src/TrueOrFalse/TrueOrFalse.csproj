@@ -293,6 +293,7 @@
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AnswherHistoryTest\AlgoSummary.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features\AnswerFeature.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features\AnswerFeatureFilter.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features\AnswerFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features\Ops\AssignAnswerFeatures.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features\Ops\GenerateAnswerFeatures.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features\Persistence\AnswerFeatureMap.cs" />
@@ -645,6 +646,7 @@
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs104.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs103.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs102.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs101.cs" />

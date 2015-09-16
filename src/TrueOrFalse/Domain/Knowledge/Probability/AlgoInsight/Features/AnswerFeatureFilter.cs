@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 public class AnswerFeatureFilter
 {
@@ -9,6 +8,16 @@ public class AnswerFeatureFilter
         {
             if (param.AnswerHistory.DateCreated.Hour >= startHour &&
                 param.AnswerHistory.DateCreated.Hour <= endHour)
+                return true;
+
+            return false;
+        };
+    }
+    public static Func<AnswerFeatureFilterParams, bool> Repetitions(int times)
+    {
+        return param =>
+        {
+            if (param.PreviousAnswers.Count == times)
                 return true;
 
             return false;

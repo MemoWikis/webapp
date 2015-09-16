@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 public class AssignAnswerFeatures
 {
@@ -21,7 +20,7 @@ public class AssignAnswerFeatures
                 var featureFilterParams =
                     new AnswerFeatureFilterParams {
                         AnswerHistory = answerHistory,
-                        PreviousItems = allPreviousAnswers.By(question, user),
+                        PreviousAnswers = allPreviousAnswers.By(question, user),
                         Question = question,
                         User = user
                     };
