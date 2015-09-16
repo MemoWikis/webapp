@@ -17,6 +17,7 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
         Player player = null,
         Round round = null,
         LearningSessionStep learningSessionStep = null,
+      //  bool countUnansweredAsCorrect = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
         var answerHistory = new AnswerHistory
@@ -44,5 +45,19 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
             correctedAnswerHistory.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
             _answerHistoryRepo.Update(correctedAnswerHistory);
         }
+    }
+
+    public void CountUnansweredAsCorrect(Question question, int userId)
+    {
+        var answerHistory = new AnswerHistory
+        {
+            QuestionId = question.Id,
+            UserId = userId,
+            AnswerText = "",
+            AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue,
+            DateCreated = DateTime.Now
+        };
+
+        _answerHistoryRepo.Create(answerHistory);
     }
 }

@@ -28,6 +28,7 @@ public class AnswerBodyModel : BaseModel
     public Func<UrlHelper, string> AjaxUrl_SendAnswer { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_GetSolution { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
+    public Func<UrlHelper, string> AjaxUrl_CountUnansweredAsCorrect { get; private set; }
 
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
@@ -74,6 +75,7 @@ public class AnswerBodyModel : BaseModel
 
         AjaxUrl_GetSolution = url => Links.GetSolution(url, question);
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
+        AjaxUrl_CountUnansweredAsCorrect = url => Links.CountUnansweredAsCorrect(url, question);
 
         QuestionText = question.Text;
         QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);

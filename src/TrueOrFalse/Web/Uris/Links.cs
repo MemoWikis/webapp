@@ -128,6 +128,11 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("CountLastAnswerAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
 
+        public static string CountUnansweredAsCorrect(UrlHelper url, Question question)
+        {
+            return url.Action("CountUnansweredAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
+        }
+
         /*Learn*/
 
         public static string LearningSession(LearningSession learningSession, int nextStepToLearnIdx = -1)

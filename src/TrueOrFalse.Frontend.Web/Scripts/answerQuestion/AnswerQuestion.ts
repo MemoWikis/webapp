@@ -14,6 +14,7 @@ class AnswerQuestion
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
     static ajaxUrl_CountLastAnswerAsCorrect: string;
+    static ajaxUrl_CountUnansweredAsCorrect: string;
 
     public IsGameMode: boolean;
     public IsLearningSession = false;
@@ -40,6 +41,7 @@ class AnswerQuestion
         AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
         AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();
         AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
+        AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect = $("#ajaxUrl_CountUnansweredAsCorrect").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
         
@@ -85,7 +87,7 @@ class AnswerQuestion
         $("#aCountAsCorrect").click(
             e => {
                 e.preventDefault();
-                self.countLastAnswerAsCorrect();
+                self.countAnswerAsCorrect();
             });
 
         $("#CountWrongAnswers").click(e => {
@@ -170,8 +172,8 @@ class AnswerQuestion
                         else
                         {
                             self._inputFeedback.UpdateAnswersSoFar();
-                           
-                            self.AtLeastOneWrongAnswer = true;
+
+                            self.RegisterWrongAnswer();
                             self._inputFeedback.ShowError();
 
                             if (self.IsLearningSession) {
@@ -200,6 +202,12 @@ class AnswerQuestion
         }
     }
 
+    private RegisterWrongAnswer() {
+        if (this.AtLeastOneWrongAnswer) return;
+        this.AtLeastOneWrongAnswer = true;
+        $('#aCountAsCorrect').attr('title', 'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
+    }
+
     private allWrongAnswersTried(answerText: string) {
         var differentTriedAnswers = [];
         for (var i = 0; i < this.AnswersSoFar.length; i++) {
@@ -213,15 +221,24 @@ class AnswerQuestion
         return false;
     }
 
-    private countLastAnswerAsCorrect() {
+    private countAnswerAsCorrect() {
         var self = this;
+        var url = this.AtLeastOneWrongAnswer
+            ? AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect
+            : AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect;
+        var successMessage = this.AtLeastOneWrongAnswer
+            ? "Deine letzte Antwort wurde als richtig gewertet."
+            : "Die Frage wurde als richtig beantwortet gewertet.";
+
+        debugger;
+
         $.ajax({
             type: 'POST',
-            url: AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect,
+            url: url,
             cache: false,
             success: function (result) {
                 self.AnswerCountedAsCorrect = true;
-                $(Utils.UIMessageHtml("Deine letzte Antwort wurde als richtig gewertet.", "success")).insertBefore('#Buttons');
+                $(Utils.UIMessageHtml(successMessage, "success")).insertBefore('#Buttons');
                 $('#aCountAsCorrect').hide();
                 $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: AnswerQuestion.GetQuestionId() }, function (data) {

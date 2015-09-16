@@ -239,6 +239,13 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
+    public void CountUnansweredAsCorrect(int id)
+    {
+        _answerHistoryLog.CountUnansweredAsCorrect(_questionRepository.GetById(id), _sessionUser.UserId);
+        _updateQuestionAnswerCount.Run(id, true);
+    }
+
+    [HttpPost]
     public JsonResult SaveQuality(int id, int newValue)
     {
         Sl.Resolve<UpdateQuestionTotals>().UpdateQuality(id, _sessionUser.User.Id, newValue);
