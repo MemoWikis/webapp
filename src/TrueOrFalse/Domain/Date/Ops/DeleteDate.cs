@@ -5,7 +5,7 @@
         var dateRepo = Sl.R<DateRepo>();
         var date = dateRepo.GetById(dateId);
 
-        ThrowIfNot_IsUserOrAdmin.Run(date.User.Id);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(date.User.Id);
 
         dateRepo.Delete(date);
     }

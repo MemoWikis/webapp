@@ -45,7 +45,7 @@ public class SetModel : BaseModel
 
         Set = set;
         
-        IsOwner = _sessionUser.IsValidUser(set.Creator.Id);
+        IsOwner = _sessionUser.IsLoggedInUser(set.Creator.Id);
 
         Creator = set.Creator;
         CreatorName = set.Creator.Name;

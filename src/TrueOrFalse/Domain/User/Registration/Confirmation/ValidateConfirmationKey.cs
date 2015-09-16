@@ -22,7 +22,7 @@ public class ValidateEmailConfirmationKey : IRegisterAsInstancePerLifetime
         if (user != null)
         {
             user.IsEmailConfirmed = true;
-            _userRepo.Update(user, allowIfNotLoggedIn:true);
+            _userRepo.Update(user);
             return true;
         }
 

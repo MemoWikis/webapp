@@ -45,7 +45,7 @@ public class CategoryModel : BaseModel
         Name = category.Name;
         Description = category.Description;
         Type = category.Type.GetShortName();
-        IsOwnerOrAdmin = _sessionUser.IsValidUserOrAdmin(category.Creator.Id);
+        IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);

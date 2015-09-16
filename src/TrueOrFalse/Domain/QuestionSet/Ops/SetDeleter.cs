@@ -16,7 +16,7 @@ public class SetDeleter : IRegisterAsInstancePerLifetime
     {
         var set = _setRepo.GetById(setId);
 
-        ThrowIfNot_IsUserOrAdmin.Run(set.Creator.Id);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(set.Creator.Id);
 
         var datesUsingTheSet = Sl.R<DateRepo>().GetBySet(setId);
         if (datesUsingTheSet.Any())

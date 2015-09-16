@@ -8,7 +8,7 @@ public class AccessOnlyAsLoggedIn : ActionFilterAttribute
         if (!userSession.IsLoggedIn)
             throw new InvalidAccessException();
 
-        ThrowIfNot_IsUserOrAdmin.Run(userSession.UserId);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(userSession.UserId);
 
         base.OnActionExecuting(filterContext);
     }

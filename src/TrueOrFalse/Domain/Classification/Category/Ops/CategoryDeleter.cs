@@ -19,7 +19,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         if (category == null)
             return;
 
-        ThrowIfNot_IsUserOrAdmin.Run(category.Id);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(category.Id);
 
         _searchIndexCategory.Delete(category);
 

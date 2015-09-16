@@ -11,9 +11,4 @@ public class RepositoryDbBase<T> : RepositoryDb<T> where T : class, IPersistable
     public RepositoryDbBase(ISession session) : base(session)
     {
     }
-
-    protected void ThrowIfNot_IsUserOrAdmin(int id)
-    {
-        global::ThrowIfNot_IsUserOrAdmin.Run(id);
-    }
 }

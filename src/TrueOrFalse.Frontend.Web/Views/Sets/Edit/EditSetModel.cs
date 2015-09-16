@@ -91,7 +91,7 @@ public class EditSetModel : BaseModel
 
     public bool IsOwner(int userId)
     {
-        return _sessionUser.IsValidUser(userId);
+        return _sessionUser.IsLoggedInUser(userId);
     }
 
     public void FillCategoriesFromPostData(NameValueCollection postData)
