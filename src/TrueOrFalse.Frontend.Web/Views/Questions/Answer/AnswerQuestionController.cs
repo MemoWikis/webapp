@@ -11,7 +11,7 @@ using TrueOrFalse.Web;
 
 public class AnswerQuestionController : BaseController
 {
-    private readonly QuestionRepository _questionRepository;
+    private readonly QuestionRepo _questionRepo;
 
     private readonly AnswerQuestion _answerQuestion;
     private readonly AnswerHistoryLog _answerHistoryLog;
@@ -19,13 +19,13 @@ public class AnswerQuestionController : BaseController
     private readonly SaveQuestionView _saveQuestionView;
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
-    public AnswerQuestionController(QuestionRepository questionRepository,
+    public AnswerQuestionController(QuestionRepo questionRepo,
                                     AnswerQuestion answerQuestion,
                                     AnswerHistoryLog answerHistoryLog,
                                     UpdateQuestionAnswerCount updateQuestionAnswerCount,
                                     SaveQuestionView saveQuestionView)
     {
-        _questionRepository = questionRepository;
+        _questionRepo = questionRepo;
         _answerQuestion = answerQuestion;
         _answerHistoryLog = answerHistoryLog;
         _updateQuestionAnswerCount = updateQuestionAnswerCount;
@@ -76,7 +76,7 @@ public class AnswerQuestionController : BaseController
     public ActionResult AnswerSet(int setId, int questionId)
     {
         var set = Resolve<SetRepo>().GetById(setId);
-        var question = _questionRepository.GetById(questionId);
+        var question = _questionRepo.GetById(questionId);
         return AnswerSet(set, question);
     }
 
@@ -107,7 +107,7 @@ public class AnswerQuestionController : BaseController
         if (text == null && id == null && elementOnPage == null)
             return GetViewBySearchSpec(activeSearchSpec);
 
-        var question = _questionRepository.GetById((int)id);
+        var question = _questionRepo.GetById((int)id);
 
         activeSearchSpec.PageSize = 1;
         if ((int)elementOnPage != -1)
@@ -152,7 +152,7 @@ public class AnswerQuestionController : BaseController
             if (searchSpec.HistoryItem != null){
                 if (searchSpec.HistoryItem.Question != null){
                     if (searchSpec.HistoryItem.Question.Id != question.Id){
-                        question = Resolve<QuestionRepository>().GetById(searchSpec.HistoryItem.Question.Id);
+                        question = Resolve<QuestionRepo>().GetById(searchSpec.HistoryItem.Question.Id);
                     }
                 }
 
@@ -170,7 +170,7 @@ public class AnswerQuestionController : BaseController
     public JsonResult SendAnswer(int id, string answer)
     {
         var result = _answerQuestion.Run(id, answer, UserId);
-        var question = _questionRepository.GetById(id);
+        var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
 
         return new JsonResult
@@ -190,7 +190,7 @@ public class AnswerQuestionController : BaseController
     public JsonResult SendAnswerLearningSession(int id, int stepId, string answer)
     {
         var result = _answerQuestion.Run(id, answer, UserId, stepId);
-        var question = _questionRepository.GetById(id);
+        var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
 
         return new JsonResult
@@ -211,7 +211,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult GetSolution(int id, string answer)
     {
-        var question = _questionRepository.GetById(id);
+        var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
         return new JsonResult
         {
@@ -234,7 +234,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public void CountLastAnswerAsCorrect(int id)
     {
-        _answerHistoryLog.CountLastAnswerAsCorrect(_questionRepository.GetById(id), _sessionUser.UserId);
+        _answerHistoryLog.CountLastAnswerAsCorrect(_questionRepo.GetById(id), _sessionUser.UserId);
         _updateQuestionAnswerCount.ChangeOneWrongAnswerToCorrect(id);
     }
 
@@ -256,7 +256,7 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult PartialAnswerHistory(int questionId)
     {
-        var question = _questionRepository.GetById(questionId);
+        var question = _questionRepo.GetById(questionId);
         
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, _sessionUser.UserId));
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, question.Id);

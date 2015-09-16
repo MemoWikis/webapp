@@ -7,15 +7,18 @@ public class AssignAnswerFeatures
         var answerFeatureRepo = Sl.R<AnswerFeatureRepo>();
 
         var allFeatures = answerFeatureRepo.GetAll();
-        var allAnswers = Sl.R<AnswerHistoryRepo>().GetAll();
+        var allAnswers = Sl.R<AnswerHistoryRepo>().GetAllEager();
         var allPreviousAnswers = new List<AnswerHistory>();
+
+        var allQuestions = Sl.R<QuestionRepo>().GetAll();
+        var allUsers = Sl.R<UserRepo>().GetAll();
 
         foreach (var answerHistory in allAnswers)
         {
             foreach (var feature in allFeatures)
             {
-                var question = answerHistory.GetQuestion();
-                var user = answerHistory.GetUser();
+                var question = allQuestions.ById(answerHistory.QuestionId);
+                var user = allUsers.ById(answerHistory.UserId);
 
                 var featureFilterParams =
                     new AnswerFeatureFilterParams {

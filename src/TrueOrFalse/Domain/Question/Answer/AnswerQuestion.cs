@@ -3,15 +3,15 @@ using TrueOrFalse;
 
 public class AnswerQuestion : IRegisterAsInstancePerLifetime
 {
-    private readonly QuestionRepository _questionRepository;
+    private readonly QuestionRepo _questionRepo;
     private readonly AnswerHistoryLog _answerHistoryLog;
     private readonly LearningSessionStepRepo _learningSessionStepRepo;
 
-    public AnswerQuestion(QuestionRepository questionRepository, 
+    public AnswerQuestion(QuestionRepo questionRepo, 
                             AnswerHistoryLog answerHistoryLog, 
                             LearningSessionStepRepo learningSessionStepRepo)
     {
-        _questionRepository = questionRepository;
+        _questionRepo = questionRepo;
         _answerHistoryLog = answerHistoryLog;
         _learningSessionStepRepo = learningSessionStepRepo;
     }
@@ -66,7 +66,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         int userId,
         Action<Question, AnswerQuestionResult> action)
     {
-        var question = _questionRepository.GetById(questionId);
+        var question = _questionRepo.GetById(questionId);
         var solution = new GetQuestionSolution().Run(question);
 
         var result = new AnswerQuestionResult();

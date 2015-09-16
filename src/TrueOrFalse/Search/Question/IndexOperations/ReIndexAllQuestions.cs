@@ -5,7 +5,7 @@ namespace TrueOrFalse.Search
 {
     public class ReIndexAllQuestions : IRegisterAsInstancePerLifetime
     {
-        private readonly QuestionRepository _questionRepository;
+        private readonly QuestionRepo _questionRepo;
         private readonly ISolrOperations<QuestionSolrMap> _solrOperations;
 
         private QuestionValuationRepo __questionValuationRepo;
@@ -21,9 +21,9 @@ namespace TrueOrFalse.Search
             }
         }
 
-        public ReIndexAllQuestions(QuestionRepository questionRepository, ISolrOperations<QuestionSolrMap> solrOperations)
+        public ReIndexAllQuestions(QuestionRepo questionRepo, ISolrOperations<QuestionSolrMap> solrOperations)
         {
-            _questionRepository = questionRepository;
+            _questionRepo = questionRepo;
             _solrOperations = solrOperations;
         }
 
@@ -34,7 +34,7 @@ namespace TrueOrFalse.Search
 
             var allQuestionValuations = _questionValuationRepo.GetAll();
 
-            foreach (var question in _questionRepository.GetAll().Where(q => !q.IsWorkInProgress))
+            foreach (var question in _questionRepo.GetAll().Where(q => !q.IsWorkInProgress))
                 _solrOperations.Add(
                     ToQuestionSolrMap.Run(question, allQuestionValuations.Where(v => v.Question.Id == question.Id).ToList())
                 );

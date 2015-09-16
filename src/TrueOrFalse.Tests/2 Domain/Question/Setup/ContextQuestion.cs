@@ -10,7 +10,7 @@ namespace TrueOrFalse.Tests
         private readonly ContextUser _contextUser = ContextUser.New();
         private readonly ContextCategory _contextCategory = ContextCategory.New();
 
-        private readonly QuestionRepository _questionRepository;
+        private readonly QuestionRepo _questionRepo;
 
         public List<Question> All = new List<Question>();
         public User Creator { get { return _contextUser.All[0]; }}
@@ -23,11 +23,11 @@ namespace TrueOrFalse.Tests
             return BaseTest.Resolve<ContextQuestion>();
         }
 
-        public ContextQuestion(QuestionRepository questionRepository)
+        public ContextQuestion(QuestionRepo questionRepo)
         {
             _contextUser.Add("Creator").Persist();
             _contextUser.Add("Learner").Persist();
-            _questionRepository = questionRepository;
+            _questionRepo = questionRepo;
         }
 
         public ContextQuestion PersistImmediately()
@@ -55,7 +55,7 @@ namespace TrueOrFalse.Tests
             All.Add(question);
 
             if (_persistQuestionsImmediately)
-                _questionRepository.Create(question);
+                _questionRepo.Create(question);
 
             return this;
         }
@@ -106,9 +106,9 @@ namespace TrueOrFalse.Tests
         public ContextQuestion Persist()
         {
             foreach (var question in All)
-                _questionRepository.Create(question);
+                _questionRepo.Create(question);
 
-            _questionRepository.Flush();
+            _questionRepo.Flush();
 
             return this;
         }

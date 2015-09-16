@@ -7,15 +7,15 @@ using TrueOrFalse.Search;
 public class QuestionValuationRepo : RepositoryDb<QuestionValuation> 
 {
     private readonly SearchIndexQuestion _searchIndexQuestion;
-    private readonly QuestionRepository _questionRepository;
+    private readonly QuestionRepo _questionRepo;
 
     public QuestionValuationRepo(
         ISession session, 
         SearchIndexQuestion searchIndexQuestion,
-        QuestionRepository questionRepository) : base(session)
+        QuestionRepo questionRepo) : base(session)
     {
         _searchIndexQuestion = searchIndexQuestion;
-        _questionRepository = questionRepository;
+        _questionRepo = questionRepo;
     }
 
     public QuestionValuation GetBy(int questionId, int userId)
@@ -78,24 +78,24 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     public override void Create(IList<QuestionValuation> questionValuations)
     {
         base.Create(questionValuations);
-        _searchIndexQuestion.Update(_questionRepository.GetByIds(questionValuations.QuestionIds().ToArray()));
+        _searchIndexQuestion.Update(_questionRepo.GetByIds(questionValuations.QuestionIds().ToArray()));
     }
 
     public override void Create(QuestionValuation questionValuation)
     {
         base.Create(questionValuation);
-        _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.Question.Id));
+        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
     }
 
     public override void CreateOrUpdate(QuestionValuation questionValuation)
     {
         base.CreateOrUpdate(questionValuation);
-        _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.Question.Id));
+        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
     }
 
     public override void Update(QuestionValuation questionValuation)
     {
         base.Update(questionValuation);
-        _searchIndexQuestion.Update(_questionRepository.GetById(questionValuation.Question.Id));
+        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
     }
 }

@@ -3,20 +3,20 @@ using TrueOrFalse.Search;
 
 public class QuestionsControllerSearch : IRegisterAsInstancePerLifetime
 {
-    private readonly QuestionRepository _questionRepository;
+    private readonly QuestionRepo _questionRepo;
     private readonly SearchQuestions _searchQuestions;
 
     public QuestionsControllerSearch(
-        QuestionRepository questionRepository, 
+        QuestionRepo questionRepo, 
         SearchQuestions searchQuestions)
     {
-        _questionRepository = questionRepository;
+        _questionRepo = questionRepo;
         _searchQuestions = searchQuestions;
     }
 
     public IList<Question> Run(QuestionSearchSpec searchSpec)
     {
         var questionIds = _searchQuestions.Run(searchSpec).QuestionIds.ToArray();
-        return _questionRepository.GetByIds(questionIds);
+        return _questionRepo.GetByIds(questionIds);
     }
 }

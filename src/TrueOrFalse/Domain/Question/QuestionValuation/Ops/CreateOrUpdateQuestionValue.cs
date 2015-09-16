@@ -19,7 +19,7 @@
         {
             var newQuestionVal = new QuestionValuation
             {
-                Question = Sl.R<QuestionRepository>().GetById(questionId), 
+                Question = Sl.R<QuestionRepo>().GetById(questionId), 
                 User = Sl.R<UserRepo>().GetById(userId), 
                 Quality = quality, 
                 RelevancePersonal = relevancePeronal, 

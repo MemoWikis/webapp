@@ -9,13 +9,13 @@ namespace TrueOrFalse
     {
         private readonly QuestionValuationRepo _questionValuationRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalc;
-        private readonly QuestionRepository _questionRepo;
+        private readonly QuestionRepo _questionRepo;
         private readonly UserRepo _userRepo;
 
         public ProbabilityUpdate_Valuation(
             QuestionValuationRepo questionValuationRepo,
             ProbabilityCalc_Simple1 probabilityCalc, 
-            QuestionRepository questionRepo,
+            QuestionRepo questionRepo,
             UserRepo userRepo)
         {
             _questionValuationRepo = questionValuationRepo;

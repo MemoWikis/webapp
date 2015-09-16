@@ -50,7 +50,7 @@ public class CategoryModel : BaseModel
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
-        var questionRepo = Resolve<QuestionRepository>();
+        var questionRepo = Resolve<QuestionRepo>();
         var wishQuestions = questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
         CountQuestions = category.CountQuestions +

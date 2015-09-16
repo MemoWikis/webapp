@@ -13,7 +13,7 @@
 
     public void ForQuestion(int questionId)
     {
-        Run(Sl.Resolve<QuestionRepository>().GetById(questionId).Creator);
+        Run(Sl.Resolve<QuestionRepo>().GetById(questionId).Creator);
     }
 
     public void ForSet(int setId)

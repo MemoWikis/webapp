@@ -22,7 +22,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         .Where(q => q.IsWorkInProgress && q.DateCreated < DateTime.Now.AddHours(-6))
                         .List<Question>();
 
-                    var questionRepo = scope.Resolve<QuestionRepository>();
+                    var questionRepo = scope.Resolve<QuestionRepo>();
 
                     foreach (var question in questions)
                         questionRepo.Delete(question);

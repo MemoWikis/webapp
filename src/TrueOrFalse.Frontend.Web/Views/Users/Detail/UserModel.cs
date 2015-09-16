@@ -56,7 +56,7 @@ public class UserModel : BaseModel
             .GetByUser(user.Id)
             .QuestionIds().ToList();
 
-        WishQuestions = Resolve<QuestionRepository>().GetByIds(valuations);
+        WishQuestions = Resolve<QuestionRepo>().GetByIds(valuations);
 
         if (!IsCurrentUser)
             WishQuestions = WishQuestions.Where(q => q.Visibility == QuestionVisibility.All).ToList();

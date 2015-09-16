@@ -53,12 +53,20 @@ public class AnswerHistoryRepo : RepositoryDb<AnswerHistory>
     public IList<AnswerHistory> GetByUsers(int userId)
     {
         return Session.QueryOver<AnswerHistory>()
-                        .Where(i => i.UserId == userId)
-                        .List<AnswerHistory>();
+            .Where(i => i.UserId == userId)
+            .List<AnswerHistory>();
     }
 
     public override void Create(AnswerHistory answerHistory)
     {
         _session.Save(answerHistory);
+    }
+
+    public IList<AnswerHistory> GetAllEager()
+    {
+        return Session.QueryOver<AnswerHistory>()
+            .Fetch(x => x.Round).Eager
+            .Fetch(x => x.Player).Eager
+            .List();
     }
 }

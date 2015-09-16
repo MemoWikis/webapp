@@ -17,7 +17,7 @@ public class WelcomeBoxSetImgQuestionsModel : BaseModel
         SetName = Set.Name;
         SetText = setText ?? Set.Text;
         QuestionCount = Set.QuestionsInSet.Count;
-        Questions = R<QuestionRepository>().GetByIds(questionIds); //not checked if questionIds are part of set!
+        Questions = R<QuestionRepo>().GetByIds(questionIds); //not checked if questionIds are part of set!
         QuestionImageFrontendDatas = Resolve<ImageMetaDataRepository>().GetBy(questionIds.ToList(), ImageType.Question).Select(e => new ImageFrontendData(e)).ToList();
     }
 

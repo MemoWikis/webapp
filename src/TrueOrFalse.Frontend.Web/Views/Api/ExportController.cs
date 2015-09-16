@@ -5,20 +5,20 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class ExportController : BaseController
 {
-    private readonly QuestionRepository _questionRepository;
+    private readonly QuestionRepo _questionRepo;
     private readonly CategoryRepository _categoryRepository;
 
-    public ExportController(QuestionRepository questionRepository, 
+    public ExportController(QuestionRepo questionRepo, 
                             CategoryRepository categoryRepository)
     {
-        _questionRepository = questionRepository;
+        _questionRepo = questionRepo;
         _categoryRepository = categoryRepository;
     }
 
     public ViewResult Export()
     {
         const string viewLocation = "~/Views/Api/Export.aspx";
-        var model = new ExportModel(_questionRepository.GetAll(), _categoryRepository.GetAll());
+        var model = new ExportModel(_questionRepo.GetAll(), _categoryRepository.GetAll());
         return View(viewLocation, model);
     }
     [AccessOnlyAsAdmin]

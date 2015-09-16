@@ -52,7 +52,7 @@ public class AddProbabilitiesEntries_ForSetsAndDates : IRegisterAsInstancePerLif
 
     private static void AddValuationEntries(User user, IEnumerable<int> notValuatedQuestionIds)
     {
-        var notValuatedQuestions = Sl.R<QuestionRepository>()
+        var notValuatedQuestions = Sl.R<QuestionRepo>()
             .GetByIds(notValuatedQuestionIds.ToArray());
 
         var questionValuationRepo = Sl.R<QuestionValuationRepo>();
