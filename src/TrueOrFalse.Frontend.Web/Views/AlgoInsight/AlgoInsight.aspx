@@ -8,34 +8,18 @@
 
     <script>
         
-        <%
-            Func<string, string> fnGetRepetitionCount = featureName => 
-                featureName.Split(new[]{" "},StringSplitOptions.RemoveEmptyEntries).Last().Trim();
-        %>
-
         google.load("visualization", "1", { packages: ["corechart", "bar"] });
         google.setOnLoadCallback(drawCharts);
 
-        function drawCharts() {
-            drawBubbleChart();
+        function drawCharts() 
+        {
+            drawBubbleChart(<%= Model.GetBubbleChartRows(Model.FeatureModelsRepetition) %>, "repetitionFeatureBubbleChart");
             drawColumnChart();
         }
 
-        function drawBubbleChart() {
+        function drawBubbleChart(dataArray, chartElement) {
 
-            var dataBubbleChart = google.visualization.arrayToDataTable([
-                ['ID', 'Anzahl Wiederholungen', 'Algorithmus-Vorhersagegenauigkeit %', 'Algo', 'Anzahl Antworten'],
-                <%            
-                    Model.RepetitionFeatureModels
-                        .ForEach(x => x.Summaries
-                            .ForEach(y => Response.Write(
-                                    String.Format("['', {0}, {1}, '{2}', {3}],",
-                                        fnGetRepetitionCount(y.FeatureName),
-                                        y.SuccessRateInPercent,
-                                        y.Algo.Name,
-                                        y.TestCount))));
-                %>
-            ]);
+            var dataBubbleChart = google.visualization.arrayToDataTable(dataArray);
 
             var options = {
                 title: 'Beziehung Anzahl Wiederholungen (x-Axchse) zu Algorithmus-Vorhersagegenauigkeit (y-Achse) und Anzahl Testdaten (Bubble Größe).',
@@ -45,19 +29,19 @@
                 animation: {duration:1000 }
             };
 
-            var chartRepetitionBubbles = new google.visualization.BubbleChart(document.getElementById('repetitionFeatureBubbleChart'));
-            chartRepetitionBubbles.draw(dataBubbleChart, options);
+            var chart = new google.visualization.BubbleChart(document.getElementById(chartElement));
+            chart.draw(dataBubbleChart, options);
         }
 
         function drawColumnChart() {
             var data = google.visualization.arrayToDataTable([
-                ['Anzahl Wiederholungen',' <%= Model.RepetitionFeatureModels
+                ['Anzahl Wiederholungen',' <%= Model.FeatureModelsRepetition
                         .First()
                         .Summaries
                         .Select(x => x.Algo.Name)
                         .Aggregate((a, b) => a + "','" + b ) %>'],
                 <%
-                    Model.RepetitionFeatureModels
+                    Model.FeatureModelsRepetition
                         .Where(x => x.Summaries.Any())
                         .OrderByDescending(x => x.Feature.Name)
                         .ForEach(x =>
@@ -68,7 +52,7 @@
 
                             Response.Write(
                                 String.Format("[{0}, {1}],",
-                                    fnGetRepetitionCount(x.Feature.Name),
+                                    Model.GetRepetitionCount(x.Feature.Name),
                                     algoValues));
                         });
                 %>
@@ -148,28 +132,48 @@
             <h3>Feature: Vorherige Wiederholungen</h3>
         </div>
     </div>
-   
-        <div class="row">
-            <div class="col-md-6">
-            <% foreach(var repetitionFeature in Model.RepetitionFeatureModels) { %>
-                <% if (!repetitionFeature.Summaries.Any()){continue;} %>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <% Html.RenderPartial("ComparisonTable", new  ComparisonTableModel(repetitionFeature)); %>
-                        </div>
+    <div class="row">
+        <div class="col-md-6">
+        <% foreach(var repetitionFeature in Model.FeatureModelsRepetition) { %>
+            <% if (!repetitionFeature.Summaries.Any()){continue;} %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <% Html.RenderPartial("ComparisonTable", new  ComparisonTableModel(repetitionFeature)); %>
                     </div>
-            <% } %>
-            </div>
-            <div class="col-md-6" style="vertical-align: top">
-                <div id="repetitionFeatureBubbleChart" style="width: 100%; height: 300px;"></div>                
-                <div id="repetitionFeatureColumnChart" style="width: 100%; height: 250px;"></div>
-            </div>
+                </div>
+        <% } %>
         </div>
+        <div class="col-md-6" style="vertical-align: top">
+            <div id="repetitionFeatureBubbleChart" style="width: 100%; height: 300px;"></div>                
+            <div id="repetitionFeatureColumnChart" style="width: 100%; height: 250px;"></div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Feature: Tageszeit</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+        <% foreach(var repetitionFeature in Model.FeatureModelsTime) { %>
+            <% if (!repetitionFeature.Summaries.Any()){continue;} %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <% Html.RenderPartial("ComparisonTable", new  ComparisonTableModel(repetitionFeature)); %>
+                    </div>
+                </div>
+        <% } %>
+        </div>
+        <div class="col-md-6" style="vertical-align: top">
+            <div id="dayTimeFeatureBubbleChart" style="width: 100%; height: 300px;"></div>
+        </div>
+    </div>
     
     
     <% if(Model.IsInstallationAdmin) { %>
         <div class="row">
-	        <div class="col-md-12" style="text-align: right">
+	        <div class="col-md-12" style="text-align: right; margin-top: 50px;">
 		        <a href="<%= Url.Action("Reevaluate", "AlgoInsight") %>" class="btn btn-md btn-info">Teste Algorithmen (dauert mehrere Minuten)</a>
 	        </div>
         </div>
