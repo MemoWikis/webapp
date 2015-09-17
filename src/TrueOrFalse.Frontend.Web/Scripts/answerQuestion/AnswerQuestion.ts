@@ -205,7 +205,7 @@ class AnswerQuestion
     private RegisterWrongAnswer() {
         if (this.AtLeastOneWrongAnswer) return;
         this.AtLeastOneWrongAnswer = true;
-        $('#aCountAsCorrect').attr('title', 'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
+        $('#aCountAsCorrect').attr('data-original-title', 'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
     }
 
     private allWrongAnswersTried(answerText: string) {
@@ -229,8 +229,6 @@ class AnswerQuestion
         var successMessage = this.AtLeastOneWrongAnswer
             ? "Deine letzte Antwort wurde als richtig gewertet."
             : "Die Frage wurde als richtig beantwortet gewertet.";
-
-        debugger;
 
         $.ajax({
             type: 'POST',
