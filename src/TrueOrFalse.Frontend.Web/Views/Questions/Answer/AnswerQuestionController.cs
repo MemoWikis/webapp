@@ -241,7 +241,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public void CountUnansweredAsCorrect(int id)
     {
-        _answerHistoryLog.CountUnansweredAsCorrect(_questionRepository.GetById(id), _sessionUser.UserId);
+        _answerHistoryLog.CountUnansweredAsCorrect(_questionRepo.GetById(id), _sessionUser.UserId);
         _updateQuestionAnswerCount.Run(id, true);
     }
 
