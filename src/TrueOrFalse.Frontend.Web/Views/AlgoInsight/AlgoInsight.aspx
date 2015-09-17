@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="Algorithmus-Einblick" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<AlgoInsightModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     
@@ -37,6 +36,51 @@
             Wir freuen uns über Verbesserungsvorschläge.
         </p>        
     </div>
+
+    <div class="row" >
+        <div class="col-md-12" style="margin-top: -20px; margin-bottom: 10px;">
+            <h3>Vergleich Algorithmen</h3>
+            <p>
+                Gezeigt wird, wie gut unterschiedliche Algorithmen
+                bisher gegebene Antworten korrekt vorhergesagt hätten.
+                Getestet wird jede bisher gegebene Antwort, jeweils mit
+                allen vorherigen Antworten. 
+            </p> 
+            <p>
+                Die berechnete Antwortwahrscheinlichkeit wird 
+                mit der tatsächlich gegebenen Antwort verglichen. 
+                Hieraus ergibt sich die durchschnittliche Erfolgsrate (% Erfolg). 
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Alle Antworten</h3>
+                </div>
+            </div>
+            <% Html.RenderPartial("ComparisonTable", new  ComparisonTableModel(Model.Summaries.ToList())); %>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Feature: Vorherige Wiederholungen</h3>
+        </div>
+    </div>
+    
+    <% foreach(var repetitionFeature in Model.RepetitionFeatureModels) { %>
+        <% if (!repetitionFeature.Summaries.Any()){continue;} %>
+        <div class="row">
+            <div class="col-md-6">
+                <% Html.RenderPartial("ComparisonTable", new  ComparisonTableModel(repetitionFeature)); %>
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+    <% } %>
     
     <% if(Model.IsInstallationAdmin) { %>
         <div class="row">
@@ -45,36 +89,5 @@
 	        </div>
         </div>
     <% } %>
-    
-    <div class="row">
-        <div class="col-md-6">
-            <table class="table table-hover">
-                <tr>
-                    <th>AlgoName</th>
-                    <th>%&nbsp;Erfolg</th>
-                    <th>Total</th>
-                    <th>Erfolge</th>
-                    <th>&#216;&nbsp;Distance</th>
-                </tr>
-	            
-                <% foreach(var summary in Model.Summaries) { %>
-                    <tr>
-	                    <td>
-	                        <%= summary.Algo.Name %> 
-                            <i class="fa fa-info-circle show-tooltip" data-original-title="<%= summary.Algo.Details %>"></i>
-	                    </td>
-	                    <td><%= summary.SuccessRate %></td>
-                        <td><%= summary.TestCount %></td>
-	                    <td><%= summary.SuccessCount %></td>
-	                    <td><%= summary.AvgDistance %></td>
-                    </tr>
-                <% } %>
-            </table>
-        </div>
-        <div class="col-md-6">
-            
-        </div>
-    </div>
-
 
 </asp:Content>

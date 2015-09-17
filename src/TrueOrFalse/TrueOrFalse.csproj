@@ -284,6 +284,7 @@
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoInfo\AlgoInfo.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoInfo\AlgoInfoRepo.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoTester.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoTesterSummaryListExt.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoTesterSummaryLoader.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features\AnswerFeatureFilterParams.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AnswherHistoryTest\AnswerHistoryTest.cs" />
