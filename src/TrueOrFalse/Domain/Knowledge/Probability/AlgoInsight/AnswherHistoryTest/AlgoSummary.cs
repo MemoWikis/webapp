@@ -1,6 +1,11 @@
 ﻿public class AlgoSummary
 {
     public long AlgoId;
+
+    public long FeatureId;
+    public string FeatureName;
+    public string FeatureGroup;
+
     public long TestCount;
 
     public decimal SuccessCount;

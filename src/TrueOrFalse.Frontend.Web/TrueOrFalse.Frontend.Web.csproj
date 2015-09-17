@@ -265,6 +265,8 @@
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
+    <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
+    <Compile Include="Views\AlgoInsight\FeatureModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
@@ -392,6 +394,7 @@
       <DependentUpon>site.css</DependentUpon>
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
+    <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
     <Content Include="Views\Welcome\Welcome.css">
       <DependentUpon>Welcome.less</DependentUpon>
     </Content>

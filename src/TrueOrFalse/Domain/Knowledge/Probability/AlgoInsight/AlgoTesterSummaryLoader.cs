@@ -5,12 +5,21 @@ public class AlgoTesterSummaryLoader
 {
     public static List<AlgoTesterSummary> Run()
     {
+        return GetSummaries(Sl.R<AnswerHistoryTestRepo>().LoadSummaries());
+    }
+
+    public static List<AlgoTesterSummary> RunWithFeature()
+    {
+        return GetSummaries(Sl.R<AnswerHistoryTestRepo>().LoadSummariesWithFeatures());
+    }
+
+    private static List<AlgoTesterSummary> GetSummaries(IList<AlgoSummary> summaries)
+    {
         var result = new List<AlgoTesterSummary>();
+
         var allAlgos = AlgoInfoRepo.GetAll();
 
-        var loadSummaries = Sl.R<AnswerHistoryTestRepo>().LoadSummaries();
-
-        foreach (var currentSummary in loadSummaries)
+        foreach (var currentSummary in summaries)
         {
             var algoSummary = new AlgoTesterSummary(currentSummary);
             algoSummary.Algo = allAlgos.First(a => a.Id == currentSummary.AlgoId);
@@ -20,4 +29,5 @@ public class AlgoTesterSummaryLoader
 
         return result;
     }
+
 }
