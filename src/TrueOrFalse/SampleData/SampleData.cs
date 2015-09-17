@@ -5,18 +5,18 @@ namespace TrueOrFalse
     public class SampleData : IRegisterAsInstancePerLifetime
     {
         private readonly RegisterUser _registerUser;
-        private readonly QuestionRepository _questionRepository;
+        private readonly QuestionRepo _questionRepo;
         private readonly CategoryRepository _categoryRepository;
         private readonly Importer _importer;
 
         public SampleData(
             RegisterUser registerUser, 
-            QuestionRepository questionRepository, 
+            QuestionRepo questionRepo, 
             CategoryRepository categoryRepository, 
             Importer importer)
         {
             _registerUser = registerUser;
-            _questionRepository = questionRepository;
+            _questionRepo = questionRepo;
             _categoryRepository = categoryRepository;
             _importer = importer;
         }
@@ -53,7 +53,7 @@ namespace TrueOrFalse
             }
             foreach (var question in importerResult.Questions)
             {
-                _questionRepository.Create(question);
+                _questionRepo.Create(question);
             }
         }
     }

@@ -7,12 +7,12 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class SendCommentMsg : BaseSendMessage, IRegisterAsInstancePerLifetime
 {
-    private readonly QuestionRepository _questionRepo;
+    private readonly QuestionRepo _questionRepo;
 
     public SendCommentMsg(
         MessageRepository messageRepo, 
         UserRepo userRepo, 
-        QuestionRepository questionRepo)
+        QuestionRepo questionRepo)
         : base(messageRepo, userRepo)
     {
         _questionRepo = questionRepo;

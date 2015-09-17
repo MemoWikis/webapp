@@ -64,12 +64,12 @@ namespace TrueOrFalse.Tests.Persistence
             question.References.Add(new Reference{AdditionalInfo = "AI"});
 
             //Act
-            R<QuestionRepository>().Update(question);
+            R<QuestionRepo>().Update(question);
 
             //Assert
             RecycleContainer();
 
-            var questionRepo = R<QuestionRepository>();
+            var questionRepo = R<QuestionRepo>();
             var questionFromDb = questionRepo.GetAll()[0];
             Assert.That(questionFromDb.References.Count, Is.EqualTo(2));
             Assert.That(questionFromDb.References[0].Question, Is.EqualTo(questionFromDb));

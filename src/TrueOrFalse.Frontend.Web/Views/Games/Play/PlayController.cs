@@ -34,7 +34,7 @@ public class PlayController : BaseController
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", 
             new AnswerBodyModel(
-                R<QuestionRepository>().GetById(questionId),
+                R<QuestionRepo>().GetById(questionId),
                 R<GameRepo>().GetById(gameId),
                 R<PlayerRepo>().GetById(playerId),
                 R<RoundRepo>().GetById(roundId)),

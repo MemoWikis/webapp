@@ -11,7 +11,7 @@ public class WelcomeBoxTopQuestionsModel : BaseModel
     public static WelcomeBoxTopQuestionsModel CreateMostRecent(int amount)
     {
         var result = new WelcomeBoxTopQuestionsModel();
-        var questionRepo = Sl.R<QuestionRepository>();
+        var questionRepo = Sl.R<QuestionRepo>();
         result.Questions = questionRepo.GetMostRecent(amount);
 
         return result;

@@ -6,7 +6,7 @@ public class GetQuestionSolution : IRegisterAsInstancePerLifetime
 {
     public QuestionSolution Run(int questionId)
     {
-        var question = Sl.R<QuestionRepository>().GetById(questionId);
+        var question = Sl.R<QuestionRepo>().GetById(questionId);
         return Run(question);
     }
 

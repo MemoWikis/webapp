@@ -36,7 +36,7 @@ namespace TrueOrFalse.Tests
             Resolve<SaveQuestionView>().Run(question, 2);
             Resolve<ISession>().Evict(contextQuestion.All[0]);
 
-            Assert.That(Resolve<QuestionRepository>().GetById(question.Id).TotalViews, Is.EqualTo(2));
+            Assert.That(Resolve<QuestionRepo>().GetById(question.Id).TotalViews, Is.EqualTo(2));
         }
     }
 }

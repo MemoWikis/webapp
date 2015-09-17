@@ -9,15 +9,15 @@ namespace TrueOrFalse
 {
     public class QuestionsController : BaseController
     {
-        private readonly QuestionRepository _questionRepository;
+        private readonly QuestionRepo _questionRepo;
         private readonly QuestionsControllerSearch _questionsControllerSearch;
         private readonly QuestionsControllerUtil _util;
          
         public QuestionsController(
-            QuestionRepository questionRepository,
+            QuestionRepo questionRepo,
             QuestionsControllerSearch questionsControllerSearch)
         {
-            _questionRepository = questionRepository;
+            _questionRepo = questionRepo;
             _questionsControllerSearch = questionsControllerSearch;
 
             _util = new QuestionsControllerUtil(questionsControllerSearch);
@@ -112,7 +112,7 @@ namespace TrueOrFalse
         [HttpPost]
         public JsonResult DeleteDetails(int questionId)
         {
-            var question = _questionRepository.GetById(questionId);
+            var question = _questionRepo.GetById(questionId);
 
             return new JsonResult{
                 Data = new{

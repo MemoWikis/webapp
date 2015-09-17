@@ -6,7 +6,7 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
     {
         var sp = Stopwatch.StartNew();
 
-        foreach (var question in Sl.R<QuestionRepository>().GetAll())
+        foreach (var question in Sl.R<QuestionRepo>().GetAll())
             Run(question);
 
         Logg.r().Information("Calculated all question probabilities in {elapsed} ", sp.Elapsed);
@@ -19,6 +19,6 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
         question.CorrectnessProbability = ProbabilityCalc_Question.Run(answerHistoryItems);
         question.CorrectnessProbabilityAnswerCount = answerHistoryItems.Count;
 
-        Sl.R<QuestionRepository>().Update(question);
+        Sl.R<QuestionRepo>().Update(question);
     }
 }

@@ -2,20 +2,20 @@
 
 public class AnswerQuestionControllerSearch : IRegisterAsInstancePerLifetime
 {
-    private readonly QuestionRepository _questionRepository;
+    private readonly QuestionRepo _questionRepo;
     private readonly SearchQuestions _searchQuestions;
 
     public AnswerQuestionControllerSearch(
-        QuestionRepository questionRepository,
+        QuestionRepo questionRepo,
         SearchQuestions searchQuestions)
     {
-        _questionRepository = questionRepository;
+        _questionRepo = questionRepo;
         _searchQuestions = searchQuestions;
     }
 
     public Question Run(QuestionSearchSpec searchSpec)
     {
         var questionIds = _searchQuestions.Run(searchSpec).QuestionIds.ToArray();
-        return _questionRepository.GetById(questionIds[0]);
+        return _questionRepo.GetById(questionIds[0]);
     }
 }

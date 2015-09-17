@@ -27,7 +27,7 @@ namespace TrueOrFalse.Tests
             question.Categories.Add(categoryA);
             question.Categories.Add(categoryB);
 
-            var categeoryRepository = Resolve<QuestionRepository>();
+            var categeoryRepository = Resolve<QuestionRepo>();
             categeoryRepository.Update(question);
 
             var questionFromDb = categeoryRepository.GetAll()[0];

@@ -123,7 +123,7 @@ namespace TrueOrFalse.Tests
 
             var result = Resolve<SearchQuestions>().Run("Question", 
                 new Pager { PageSize = 10 }, orderBy: SearchQuestionsOrderBy.Quality);
-            var questions = Resolve<QuestionRepository>().GetByIds(result.QuestionIds);
+            var questions = Resolve<QuestionRepo>().GetByIds(result.QuestionIds);
 
             Assert.That(questions.Count, Is.EqualTo(3));
             Assert.That(questions[0].Text, Is.EqualTo("Question2"));
@@ -132,7 +132,7 @@ namespace TrueOrFalse.Tests
 
             result = Resolve<SearchQuestions>().Run("Question",
                 new Pager { PageSize = 10 }, orderBy: SearchQuestionsOrderBy.Valuation);
-            questions = Resolve<QuestionRepository>()
+            questions = Resolve<QuestionRepo>()
                 .GetByIds(result.QuestionIds)
                 .OrderBy(q => q.Text)
                 .ToList();

@@ -6,10 +6,10 @@ namespace Api
     public class QuestionsApiController : BaseController
 
     {
-        private readonly QuestionRepository _questionRepo;
+        private readonly QuestionRepo _questionRepo;
 
         public QuestionsApiController(
-            QuestionRepository questionRepo)
+            QuestionRepo questionRepo)
         {
             _questionRepo = questionRepo;
         }

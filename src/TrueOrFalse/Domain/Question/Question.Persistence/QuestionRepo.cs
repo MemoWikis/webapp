@@ -4,11 +4,11 @@ using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
 
-public class QuestionRepository : RepositoryDbBase<Question>
+public class QuestionRepo : RepositoryDbBase<Question>
 {
     private readonly SearchIndexQuestion _searchIndexQuestion;
 
-    public QuestionRepository(ISession session, SearchIndexQuestion searchIndexQuestion) : base(session)
+    public QuestionRepo(ISession session, SearchIndexQuestion searchIndexQuestion) : base(session)
     {
         _searchIndexQuestion = searchIndexQuestion;
     }

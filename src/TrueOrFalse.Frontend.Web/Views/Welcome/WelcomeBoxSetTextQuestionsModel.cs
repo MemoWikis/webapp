@@ -22,7 +22,7 @@ public class WelcomeBoxSetTextQuestionsModel : BaseModel
         SetName = Set.Name;
         SetDescription = setDescription ?? Set.Text;
         QuestionCount = Set.QuestionsInSet.Count;
-        Questions = R<QuestionRepository>().GetByIds(questionIds) ?? new List<Question>(); //not checked if questionIds are part of set!
+        Questions = R<QuestionRepo>().GetByIds(questionIds) ?? new List<Question>(); //not checked if questionIds are part of set!
         if (Questions.Count < 1) Questions.Add(new Question());
 
     }

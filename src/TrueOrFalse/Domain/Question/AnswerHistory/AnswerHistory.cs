@@ -23,7 +23,7 @@ public class AnswerHistory : IPersistable, WithDateCreated
 
     public virtual Question GetQuestion()
     {
-        return Sl.R<QuestionRepository>().GetById(QuestionId);
+        return Sl.R<QuestionRepo>().GetById(QuestionId);
     }
 
     public virtual User GetUser()

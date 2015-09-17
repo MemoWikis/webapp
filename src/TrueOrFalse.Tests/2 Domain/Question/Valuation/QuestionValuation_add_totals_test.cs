@@ -35,7 +35,7 @@ namespace TrueOrFalse.Tests
 
             Resolve<ISession>().Evict(contextQuestion.All.First());
 
-            var question = Resolve<QuestionRepository>().GetById(contextQuestion.All.First().Id);
+            var question = Resolve<QuestionRepo>().GetById(contextQuestion.All.First().Id);
             Assert.That(question.TotalQualityEntries, Is.EqualTo(0));
             Assert.That(question.TotalQualityAvg, Is.EqualTo(0));
             Assert.That(question.TotalRelevanceForAllAvg, Is.EqualTo(30));

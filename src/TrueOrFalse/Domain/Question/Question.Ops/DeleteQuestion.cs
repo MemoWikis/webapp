@@ -4,17 +4,17 @@ using NHibernate;
 public class DeleteQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
-    private readonly QuestionRepository _questionRepository;
+    private readonly QuestionRepo _questionRepo;
     private readonly AnswerHistoryRepo _answerHistory;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
 
     public DeleteQuestion(
-        QuestionRepository questionRepository, 
+        QuestionRepo questionRepo, 
         AnswerHistoryRepo answerHistory, 
         UpdateQuestionCountForCategory updateQuestionCountForCategory, 
         ISession session)
     {
-        _questionRepository = questionRepository;
+        _questionRepo = questionRepo;
         _answerHistory = answerHistory;
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
         _session = session;
@@ -22,12 +22,12 @@ public class DeleteQuestion : IRegisterAsInstancePerLifetime
 
     public void Run(int questionId)
     {
-        var question = _questionRepository.GetById(questionId);
+        var question = _questionRepo.GetById(questionId);
 
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator.Id);
 
         var categoriesToDelete = question.Categories.ToList();
-        _questionRepository.Delete(question);
+        _questionRepo.Delete(question);
         _updateQuestionCountForCategory.Run(categoriesToDelete);
         _answerHistory.DeleteFor(questionId);
 

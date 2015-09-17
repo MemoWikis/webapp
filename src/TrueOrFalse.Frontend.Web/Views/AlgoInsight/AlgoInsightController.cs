@@ -12,8 +12,11 @@ public class AlgoInsightController : BaseController
     [AccessOnlyAsAdmin]
 	public ActionResult Reevaluate()
 	{
-        Sl.Resolve<AnswerHistoryTestRepo>().TruncateTable();
+        Sl.R<AnswerHistoryTestRepo>().TruncateTable();
+        Sl.R<AnswerFeatureRepo>().TruncateTables();
 
+        GenerateAnswerFeatures.Run();
+        AssignAnswerFeatures.Run();
         AlgoTester.Run();
 
         return View("AlgoInsight", new AlgoInsightModel

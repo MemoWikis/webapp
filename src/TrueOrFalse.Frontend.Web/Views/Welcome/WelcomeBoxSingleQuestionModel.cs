@@ -12,7 +12,7 @@
 
     public WelcomeBoxSingleQuestionModel(int questionId, int contextCategoryId = 0) 
     {
-        var question = R<QuestionRepository>().GetById(questionId) ?? new Question();
+        var question = R<QuestionRepo>().GetById(questionId) ?? new Question();
 
         var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
         ImageFrontendData = new ImageFrontendData(imageMetaData);

@@ -7,11 +7,11 @@ using TrueOrFalse.Web;
 
 public class EditQuestionController : BaseController
 {
-    private readonly QuestionRepository _questionRepo;
+    private readonly QuestionRepo _questionRepo;
     private const string _viewLocation = "~/Views/Questions/Edit/EditQuestion.aspx";
     private const string _viewLocationBody = "~/Views/Questions/Edit/EditSolutionControls/SolutionType{0}.ascx";
 
-    public EditQuestionController(QuestionRepository questionRepo){
+    public EditQuestionController(QuestionRepo questionRepo){
         _questionRepo = questionRepo;
     }
 

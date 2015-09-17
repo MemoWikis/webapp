@@ -6,11 +6,11 @@ using NHibernate;
 public class UpdateSetDataForQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
-    private readonly QuestionRepository _questionRepo;
+    private readonly QuestionRepo _questionRepo;
 
     public UpdateSetDataForQuestion(
         ISession session, 
-        QuestionRepository questionRepo)
+        QuestionRepo questionRepo)
     {
         _session = session;
         _questionRepo = questionRepo;

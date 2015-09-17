@@ -15,4 +15,10 @@ public class AnswerFeatureRepo : RepositoryDbBase<AnswerFeature>
               VALUES 
                 ({0}, {1});", featureId, answerHistoryId)).ExecuteUpdate();
     }
+
+    public void TruncateTables()
+    {
+        _session.CreateSQLQuery("truncate table answerfeature").ExecuteUpdate();
+        _session.CreateSQLQuery("truncate table answerfeature_to_answerhistory").ExecuteUpdate();
+    }
 }
