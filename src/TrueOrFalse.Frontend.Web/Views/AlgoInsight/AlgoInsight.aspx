@@ -1,13 +1,90 @@
 ﻿<%@ Page Title="Algorithmus-Einblick" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<AlgoInsightModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="NHibernate.Util" %>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <script>
-        $(function () {
-        });
+        
+        <%
+            Func<string, string> fnGetRepetitionCount = featureName => 
+                featureName.Split(new[]{" "},StringSplitOptions.RemoveEmptyEntries).Last().Trim();
+        %>
+
+        google.load("visualization", "1", { packages: ["corechart", "bar"] });
+        google.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            drawBubbleChart();
+            drawColumnChart();
+        }
+
+        function drawBubbleChart() {
+
+            var dataBubbleChart = google.visualization.arrayToDataTable([
+                ['ID', 'Anzahl Wiederholungen', 'Algorithmus-Vorhersagegenauigkeit %', 'Algo', 'Anzahl Antworten'],
+                <%            
+                    Model.RepetitionFeatureModels
+                        .ForEach(x => x.Summaries
+                            .ForEach(y => Response.Write(
+                                    String.Format("['', {0}, {1}, '{2}', {3}],",
+                                        fnGetRepetitionCount(y.FeatureName),
+                                        y.SuccessRateInPercent,
+                                        y.Algo.Name,
+                                        y.TestCount))));
+                %>
+            ]);
+
+            var options = {
+                title: 'Beziehung Anzahl Wiederholungen (x-Axchse) zu Algorithmus-Vorhersagegenauigkeit (y-Achse) und Anzahl Testdaten (Bubble Größe).',
+                hAxis: { title: 'Anzahl Wiederholungen' },
+                vAxis: { title: 'Algorithmus-Vorhersagegenauigkeit %' },
+                bubble: { repetitionFeatureBubbleChart: { fontSize: 12 } },
+                animation: {duration:1000 }
+            };
+
+            var chartRepetitionBubbles = new google.visualization.BubbleChart(document.getElementById('repetitionFeatureBubbleChart'));
+            chartRepetitionBubbles.draw(dataBubbleChart, options);
+        }
+
+        function drawColumnChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Anzahl Wiederholungen',' <%= Model.RepetitionFeatureModels
+                        .First()
+                        .Summaries
+                        .Select(x => x.Algo.Name)
+                        .Aggregate((a, b) => a + "','" + b ) %>'],
+                <%
+                    Model.RepetitionFeatureModels
+                        .Where(x => x.Summaries.Any())
+                        .OrderByDescending(x => x.Feature.Name)
+                        .ForEach(x =>
+                        {
+                            var algoValues = x.Summaries
+                                .Select(y => y.SuccessRateInPercent.ToString())
+                                .Aggregate((a, b) => a + "," + b);
+
+                            Response.Write(
+                                String.Format("[{0}, {1}],",
+                                    fnGetRepetitionCount(x.Feature.Name),
+                                    algoValues));
+                        });
+                %>
+            ]);
+
+            var options = {
+                title: 'Beziehung Anzahl Wiederholungen (x-Axchse) zu Algorithmus-Vorhersagegenauigkeit (y-Achse)',
+                bar: { groupWidth: "90%" },
+                legend: { position: "bottom" },
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('repetitionFeatureColumnChart'));
+
+            chart.draw(data, options);
+        }
+
     </script>
     <style>
     </style>
@@ -71,16 +148,24 @@
             <h3>Feature: Vorherige Wiederholungen</h3>
         </div>
     </div>
-    
-    <% foreach(var repetitionFeature in Model.RepetitionFeatureModels) { %>
-        <% if (!repetitionFeature.Summaries.Any()){continue;} %>
+   
         <div class="row">
             <div class="col-md-6">
-                <% Html.RenderPartial("ComparisonTable", new  ComparisonTableModel(repetitionFeature)); %>
+            <% foreach(var repetitionFeature in Model.RepetitionFeatureModels) { %>
+                <% if (!repetitionFeature.Summaries.Any()){continue;} %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <% Html.RenderPartial("ComparisonTable", new  ComparisonTableModel(repetitionFeature)); %>
+                        </div>
+                    </div>
+            <% } %>
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-6" style="vertical-align: top">
+                <div id="repetitionFeatureBubbleChart" style="width: 100%; height: 300px;"></div>                
+                <div id="repetitionFeatureColumnChart" style="width: 100%; height: 250px;"></div>
+            </div>
         </div>
-    <% } %>
+    
     
     <% if(Model.IsInstallationAdmin) { %>
         <div class="row">
