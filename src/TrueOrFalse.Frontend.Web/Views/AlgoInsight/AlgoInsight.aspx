@@ -165,11 +165,27 @@
                 </div>
         <% } %>
         </div>
-        <div class="col-md-6" style="vertical-align: top">
-            <div id="dayTimeFeatureBubbleChart" style="width: 100%; height: 300px;"></div>
+        <div class="col-md-6" style="vertical-align: top"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Feature: Trainingstyp</h3>
         </div>
     </div>
-    
+    <div class="row">
+        <div class="col-md-6">
+        <% foreach(var repetitionFeature in Model.FeatureModelsTrainingType) { %>
+            <% if (!repetitionFeature.Summaries.Any()){continue;} %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <% Html.RenderPartial("ComparisonTable", new  ComparisonTableModel(repetitionFeature)); %>
+                    </div>
+                </div>
+        <% } %>
+        </div>
+        <div class="col-md-6" style="vertical-align: top"></div>
+    </div>
     
     <% if(Model.IsInstallationAdmin) { %>
         <div class="row">

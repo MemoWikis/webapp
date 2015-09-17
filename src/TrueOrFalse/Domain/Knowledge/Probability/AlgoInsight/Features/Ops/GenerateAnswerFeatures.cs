@@ -50,7 +50,9 @@ public class GenerateAnswerFeatures
             Name = "Antwortseite",
             Description = "Es wurde auf der AnswerPage gelernt, nicht in der Lernsitzung.",
             Group = AnswerFeatureGroups.TrainingType,
-            DoesApply = param => param.AnswerHistory.Round != null
+            DoesApply = param => 
+                param.AnswerHistory.Round == null && 
+                param.AnswerHistory.LearningSessionStep == null
         });
 
         answerFeatures.Add(new AnswerFeature{
