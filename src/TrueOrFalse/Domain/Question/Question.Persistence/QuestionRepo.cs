@@ -13,10 +13,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
         _searchIndexQuestion = searchIndexQuestion;
     }
 
-    public override void Update(Question question)
+    public void Update(Question question)
     {
-        ThrowIfNot_IsUserOrAdmin(question.Id);
-
         _searchIndexQuestion.Update(question);
         base.Update(question);
         Flush();

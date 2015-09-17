@@ -24,7 +24,7 @@ public class DeleteQuestion : IRegisterAsInstancePerLifetime
     {
         var question = _questionRepo.GetById(questionId);
 
-        ThrowIfNot_IsUserOrAdmin.Run(question.Creator.Id);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator.Id);
 
         var categoriesToDelete = question.Categories.ToList();
         _questionRepo.Delete(question);

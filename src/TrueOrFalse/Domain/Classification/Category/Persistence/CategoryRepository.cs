@@ -24,8 +24,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public override void Update(Category category)
     {
-        ThrowIfNot_IsUserOrAdmin(category.Id);
-
         _searchIndexCategory.Update(category);
         base.Update(category);
         Flush();

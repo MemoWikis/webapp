@@ -28,7 +28,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         private set { Data["user"] = value; }
     }
 
-    public bool IsValidUser(int userId)
+    public bool IsLoggedInUser(int userId)
     {
         if (!IsLoggedIn)
             return false;
@@ -36,9 +36,9 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         return userId == User.Id;
     }
 
-    public bool IsValidUserOrAdmin(int userId)
+    public bool IsLoggedInUserOrAdmin(int userId)
     {
-        return IsValidUser(userId) || IsInstallationAdmin;
+        return IsLoggedInUser(userId) || IsInstallationAdmin;
     }
 
     public void Login(User user)

@@ -166,7 +166,7 @@ public class WelcomeController : BaseController
             throw new Exception();
 
         SetUserPassword.Run(model.NewPassword1, user);
-        userRepo.Update(user, allowIfNotLoggedIn:true);
+        userRepo.Update(user);
 
         _sessionUser.Login(user);
 

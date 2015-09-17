@@ -25,11 +25,8 @@ public class UserRepo : RepositoryDbBase<User>
             .SingleOrDefault<User>();
     }
 
-    public void Update(User user, bool allowIfNotLoggedIn = false)
+    public void Update(User user)
     {
-        if(!allowIfNotLoggedIn)
-            ThrowIfNot_IsUserOrAdmin(user.Id);
-
         _searchIndexUser.Update(user);
         base.Update(user);
     }
@@ -44,9 +41,7 @@ public class UserRepo : RepositoryDbBase<User>
     {
         var user = GetById(id);
 
-        ThrowIfNot_IsUserOrAdmin(user.Id);
-
-        if (Sl.R<SessionUser>().IsValidUserOrAdmin(user.Id))
+        if (Sl.R<SessionUser>().IsLoggedInUserOrAdmin(user.Id))
             throw new InvalidAccessException();
 
         _searchIndexUser.Delete(user);

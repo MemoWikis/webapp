@@ -4,6 +4,7 @@
 <input type="hidden" id="ajaxUrl_SendAnswer" value="<%= Model.AjaxUrl_SendAnswer(Url) %>" />
 <input type="hidden" id="ajaxUrl_GetSolution" value="<%= Model.AjaxUrl_GetSolution(Url) %>" />
 <input type="hidden" id="ajaxUrl_CountLastAnswerAsCorrect" value="<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>" />
+<input type="hidden" id="ajaxUrl_CountUnansweredAsCorrect" value="<%= Model.AjaxUrl_CountUnansweredAsCorrect(Url) %>" />
 
 <div class="well">
                                 
@@ -93,7 +94,7 @@
         </div>
                     
         <div id="buttons-next-question" class="pull-right" style="display: none;">
-            <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!" style="display: none;">Hab ich gewusst!</a>
+            <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet." style="display: none;">Hab ich gewusst!</a>
             <% if(Model.NextUrl != null){ %>
                 <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success">N&auml;chste Frage</a>
             <% } %>

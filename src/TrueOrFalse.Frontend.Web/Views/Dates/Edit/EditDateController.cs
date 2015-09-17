@@ -45,7 +45,7 @@ public class EditDateController : BaseController
 
         _sessionUiData.VisitedDatePages.Add(new DateHistoryItem(date, HistoryItemType.Edit));
 
-        if (!_sessionUser.IsValidUser(date.User.Id))
+        if (!_sessionUser.IsLoggedInUser(date.User.Id))
             throw new Exception("Invalid exception");
 
         return View(_viewLocation, model: new EditDateModel(date));
@@ -54,7 +54,7 @@ public class EditDateController : BaseController
     [HttpPost]
     public ViewResult Edit(EditDateModel model)
     {
-        if (!_sessionUser.IsValidUser(model.UserId))
+        if (!_sessionUser.IsLoggedInUser(model.UserId))
             throw new Exception("Invalid exception");
 
         if (model.IsDateTimeInPast())

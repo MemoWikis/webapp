@@ -18,8 +18,6 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public override void Update(Set set)
     {
-        ThrowIfNot_IsUserOrAdmin(set.Id);
-
         _searchIndexSet.Update(set);
         base.Update(set);
 
@@ -88,7 +86,8 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public override void Delete(Set set)
     {
-        ThrowIfNot_IsUserOrAdmin(set.Id);
+        if (Sl.R<SessionUser>().IsLoggedInUserOrAdmin(set.Creator.Id))
+            throw new InvalidAccessException();
 
         base.Delete(set);
         Flush();
