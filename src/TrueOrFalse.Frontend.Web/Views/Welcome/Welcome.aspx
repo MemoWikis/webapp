@@ -97,11 +97,12 @@
 
             <h3><a name="teaserPrinciples">Unsere Prinzipien</a></h3>
             <ul class="fa-ul">
-                <li><i class="fa fa-li fa-wikipedia-w"></i>
-                    <b>Wikipedia-Prinzip</b>
+                <li><i class="fa fa-li fa-book"></i>
+                    <b>Freie Bildungsinhalte ("Open Educational Resources")</b>
                     <p>
+                        Wir sind Teil der Bewegung zur Förderung frei zugänglicher Bildungsmaterialien.
                         In MEMuchO unterliegen öffentliche Inhalte einer Creative Commons-Lizenz, 
-                        genau wie die Mehrheit der Einträge auf Wikipedia. Öffentliche MEMuchO-Inhalte 
+                        genau wie fast alle Einträge auf Wikipedia. Öffentliche MEMuchO-Inhalte 
                         können also von jedem kostenfrei und ohne Einschränkungen verwendet werden 
                         (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">Hier 
                         erfährst du genaueres zur Lizenz CC BY 4.0.</a>). Private Inhalte sind aber privat.
