@@ -60,13 +60,17 @@
         </div>
 
         <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxSetImgQuestions", WelcomeBoxSetImgQuestionsModel.GetWelcomeBoxSetImgQuestionsModel(17, new int[] { 373, 360, 367 }, "Weißt du, wo diese weltweit bekannten Sehenswürdigkeiten stehen?")); %>
+            <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(14, new int[] { 404, 405, 406 }, "Du verstehst den Wirtschafts-Teil der Zeitung nicht? Erweitere dein Wissen zu Wirtschaftsthemen!")); %>
+        </div>
+
+        <div class="panel panel-default">
+            <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(17, new int[] { 373, 360, 367 }, "Weißt du, wo diese weltweit bekannten Sehenswürdigkeiten stehen?")); %>
         </div>
         <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxSetTextQuestions", WelcomeBoxSetTextQuestionsModel.GetWelcomeBoxSetTextQuestionsModel(12, new int[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>
+            <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(12, new int[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>
         </div>
         <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxSetTextQuestions", WelcomeBoxSetTextQuestionsModel.GetWelcomeBoxSetTextQuestionsModel(20, new int[] { 494, 485, 503 }, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
+            <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(20, new int[] { 494, 485, 503 }, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
         </div>
 
 
@@ -77,7 +81,7 @@
         </div>
 
         <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxCategoryImgQ", WelcomeBoxCategoryImgQModel.GetWelcomeBoxCategoryImgQModel(211, new int[] { 394, 395, 390 }, "Farfalle, Penne oder Rigatoni? Weißt du wie diese Nudelsorten heißen?")); %>
+            <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(211, new int[] { 394, 395, 390 }, "Farfalle, Penne oder Rigatoni? Weißt du wie diese Nudelsorten heißen?")); %>
         </div>
         <div class="well">
             <h3><a name="teaserWhatIsMemucho"></a>Was ist MEMuchO?</h3>

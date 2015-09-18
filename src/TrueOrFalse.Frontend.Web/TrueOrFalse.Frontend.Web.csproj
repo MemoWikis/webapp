@@ -302,12 +302,13 @@
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSingleSetModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSingleQuestionModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxTopQuestionsModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxTopSetsModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxSetImgQuestionsModel.cs" />
-    <Compile Include="Views\Welcome\WelcomeBoxSetTextQuestionsModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSetImgQModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSetTxtQModel.cs" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
@@ -402,13 +403,14 @@
       <DependentUpon>Welcome.css</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\WelcomeBoxCategoryImgQ.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxCategoryTxtQ.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSingleSet.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopQuestions.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopSets.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxTopCategories.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxSetImgQuestions.ascx" />
-    <Content Include="Views\Welcome\WelcomeBoxSetTextQuestions.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSetImgQ.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSetTxtQ.ascx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />

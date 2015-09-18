@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class WelcomeBoxSetImgQuestionsModel : BaseModel
+public class WelcomeBoxSetImgQModel : BaseModel
 {
     public int SetId;
     public Set Set;
@@ -11,7 +11,7 @@ public class WelcomeBoxSetImgQuestionsModel : BaseModel
     public IList<Question> Questions;
     public IList<ImageFrontendData> QuestionImageFrontendDatas;
 
-    public WelcomeBoxSetImgQuestionsModel(int setId, int[] questionIds, string setText = null) 
+    public WelcomeBoxSetImgQModel(int setId, int[] questionIds, string setText = null) 
     {
         Set = R<SetRepo>().GetById(setId) ?? new Set();
         SetName = Set.Name;
@@ -21,9 +21,9 @@ public class WelcomeBoxSetImgQuestionsModel : BaseModel
         QuestionImageFrontendDatas = Resolve<ImageMetaDataRepository>().GetBy(questionIds.ToList(), ImageType.Question).Select(e => new ImageFrontendData(e)).ToList();
     }
 
-    public static WelcomeBoxSetImgQuestionsModel GetWelcomeBoxSetImgQuestionsModel(int setId, int[] questionIds,
+    public static WelcomeBoxSetImgQModel GetWelcomeBoxSetImgQModel(int setId, int[] questionIds,
         string setText = null)
     {
-        return new WelcomeBoxSetImgQuestionsModel(setId, questionIds, setText);
+        return new WelcomeBoxSetImgQModel(setId, questionIds, setText);
     }
 }
