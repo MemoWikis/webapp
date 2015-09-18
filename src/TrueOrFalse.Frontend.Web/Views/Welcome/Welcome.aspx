@@ -194,17 +194,17 @@
             <div class="row">
                 
                 <div class="col-xs-4 ImageColumn">
-                    <img src="http://www.gravatar.com/avatar/b937ba0e44b611a418f38cb24a8e18ea?s=128"/>
+                    <img src="/Images/Team/team_robert201509_155.jpg"/>
                         <br/> <b>Robert</b> (Gründer) <br/>
                 </div>
                 
                 <div class="col-xs-4 ImageColumn">
-                    <img src="/Images/no-profile-picture-128.png"/>  
+                    <img src="/Images/Team/team_jule201509-2_155.jpg"/>  
                     <br/> <b>Jule</b> (Gründerin) <br/> 
                 </div>
 
                 <div class="col-xs-4 ImageColumn">
-                    <img src="/Images/Team/team_christof2014_128.jpg"/>  
+                    <img src="/Images/Team/team_christof201509_155.jpg"/>  
                     <br/> <b>Christof</b> (Gründer) <br/> 
                 </div>
 
