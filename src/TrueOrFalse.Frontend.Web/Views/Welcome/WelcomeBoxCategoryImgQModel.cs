@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class WelcomeBoxCategoryImgQModel : BaseModel
@@ -8,7 +9,7 @@ public class WelcomeBoxCategoryImgQModel : BaseModel
     public string CategoryDescription;
     public int QuestionCount;
     public IList<Question> Questions;
-    public IList<ImageFrontendData> QuestionImageFrontendDatas;
+    public IList<Tuple<int, ImageFrontendData>> QuestionImageFrontendDatas;
 
     public WelcomeBoxCategoryImgQModel(int categoryId, int[] questionIds, string categoryDescription = null) 
     {
@@ -19,7 +20,9 @@ public class WelcomeBoxCategoryImgQModel : BaseModel
         QuestionCount = category.CountQuestions;
 
         Questions = R<QuestionRepo>().GetByIds(questionIds); //not checked if questionIds are part of category!
-        QuestionImageFrontendDatas = Resolve<ImageMetaDataRepository>().GetBy(questionIds.ToList(), ImageType.Question).Select(e => new ImageFrontendData(e)).ToList();
+        QuestionImageFrontendDatas = Questions.Select(x => new Tuple<int, ImageFrontendData>(
+            x.Id, GetQuestionImageFrontendData.Run(Questions.ById(x.Id)))
+        ).ToList();
     }
 
     public static WelcomeBoxCategoryImgQModel GetWelcomeBoxCategoryImgQModel(int categoryId, int[] questionIds, string categoryDescription = null)

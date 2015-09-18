@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class WelcomeBoxSetImgQModel : BaseModel
@@ -9,7 +10,7 @@ public class WelcomeBoxSetImgQModel : BaseModel
     public string SetText;
     public int QuestionCount;
     public IList<Question> Questions;
-    public IList<ImageFrontendData> QuestionImageFrontendDatas;
+    public IList<Tuple<int, ImageFrontendData>> QuestionImageFrontendDatas;
 
     public WelcomeBoxSetImgQModel(int setId, int[] questionIds, string setText = null) 
     {
@@ -18,7 +19,9 @@ public class WelcomeBoxSetImgQModel : BaseModel
         SetText = setText ?? Set.Text;
         QuestionCount = Set.QuestionsInSet.Count;
         Questions = R<QuestionRepo>().GetByIds(questionIds); //not checked if questionIds are part of set!
-        QuestionImageFrontendDatas = Resolve<ImageMetaDataRepository>().GetBy(questionIds.ToList(), ImageType.Question).Select(e => new ImageFrontendData(e)).ToList();
+        QuestionImageFrontendDatas = Questions.Select(x => new Tuple<int, ImageFrontendData>(
+            x.Id, GetQuestionImageFrontendData.Run(Questions.ById(x.Id)))
+        ).ToList();
     }
 
     public static WelcomeBoxSetImgQModel GetWelcomeBoxSetImgQModel(int setId, int[] questionIds,

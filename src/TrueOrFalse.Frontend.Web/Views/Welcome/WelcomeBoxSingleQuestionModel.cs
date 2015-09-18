@@ -14,8 +14,7 @@
     {
         var question = R<QuestionRepo>().GetById(questionId) ?? new Question();
 
-        var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(question.Id, ImageType.Question);
-        ImageFrontendData = new ImageFrontendData(imageMetaData);
+        ImageFrontendData = GetQuestionImageFrontendData.Run(question);
 
         QuestionText = question.Text;
         QuestionId = question.Id;
