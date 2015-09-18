@@ -253,6 +253,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Code\AssemblyLinker.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\BaseResolve.cs" />
