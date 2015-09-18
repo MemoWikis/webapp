@@ -38,7 +38,7 @@
         <th>&#216;&nbsp;Distanz</th>
     </tr>
 	            
-    <% foreach(var summary in Model.Summaries) { %>
+    <% foreach(var summary in Model.Summaries.OrderByDescending(s => s.SuccessRate)) { %>
         <tr>
 	        <td>
 	            <%= summary.Algo.Name %> 
