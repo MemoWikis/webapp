@@ -65,7 +65,14 @@
                         </a>    
                     </div>
                     <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 0px;">
-                        <% Html.RenderPartial("HistoryAndProbability", questionRow.HistoryAndProbability); %>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-6">
+                                <% Html.RenderPartial("AnswerHistory", questionRow.HistoryAndProbability.AnswerHistory); %>         
+                            </div>
+                            <div class="col-sm-12 col-xs-6">
+                                <% Html.RenderPartial("CorrectnessProbability", questionRow.HistoryAndProbability.CorrectnessProbability); %>                                
+                            </div>
+                        </div>
                     </div>
                 </div>
 
