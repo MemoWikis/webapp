@@ -13,7 +13,38 @@
        
     <div class="col-md-8">
             
-        <div class="well" style="background-color: white; padding: 13px;">
+        <div class="well" style="padding: 13px; padding-bottom: 0px;">
+            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px;">MEMuchO ist eine intelligente Wissensplattform</h1>
+            <div class="row">
+                <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
+                    <p>
+                        <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
+                        MEMuchO hilft dir beim Lernen hilft und macht Spaß!<br/>
+                    </p>
+                    <p>
+                        <a href="#teaserWhatIsMemucho"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
+                    </p>
+                </div>
+                <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
+                    <p>
+                        <i class="fa fa-2x fa-book" style="color: #2C5FB2;"></i><br/>
+                        Unsere Prinzipien: Freie Bildungsinhalte, Gemeinwohlorientierung und Transparenz.<br/>
+                        <a href="#teaserPrinciples"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
+                    </p>
+                </div>
+                <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
+                    <p>
+                        <i class="fa fa-2x fa-user" style="color: #2C5FB2;"></i><br/>
+                        Und wer steckt dahinter?
+                    </p>
+                    <p>
+                        <a href="#teaserWhoWeAre"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="well hidden" style="background-color: white; padding: 13px;">
             <h1 style="margin-top: 0; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
             <ul style="margin-top: 0; margin-bottom: 0; padding-top: 3px; font-size: 16px; list-style: circle ">                
                 <li><a href="#teaserWhatIsMemucho">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
@@ -48,11 +79,10 @@
         <div class="panel panel-default">
             <% Html.RenderPartial("WelcomeBoxCategoryImgQ", WelcomeBoxCategoryImgQModel.GetWelcomeBoxCategoryImgQModel(211, new int[] { 394, 395, 390 }, "Farfalle, Penne oder Rigatoni? Weißt du wie diese Nudelsorten heißen?")); %>
         </div>
-
         <div class="well">
-            <h3><a name="teaserWhatIsMemucho">Was ist MEMuchO?</a></h3>
+            <h3><a name="teaserWhatIsMemucho"></a>Was ist MEMuchO?</h3>
             <p>
-                MEMuchO ist eine vernetzte Lern- und Wissensplattform. Mit MEMuchO kannst du:
+                MEMuchO ist eine vernetzte Lern- und Wissensplattform. Damit kannst du:
             </p>
             <div class="row">
                 <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
@@ -85,16 +115,20 @@
                 <div class="clearfix visible-xs"></div>
                 <div class="col-xs-12">
                     <p>
+                        MEMuchO fördert freie Bildungsinhalte und ist gemeinwohlorientiert.
+                        Erfahre mehr über unsere <a href="#teaserPrinciples">Prinzipien</a> 
+                        und <a href="#teaserWhoWeAre">wer wir sind</a>.
+                    </p>
+                    <p>
                         Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
                         Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
-                        <i class="fa fa-thumbs-up"></i>Fördermitglied</a> der ersten Stunde!
+                        <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
                     </p>                
                 </div>
             </div>
-            
         </div>
-        <div class="well">
 
+        <div class="well">
             <h3><a name="teaserPrinciples">Unsere Prinzipien</a></h3>
             <ul class="fa-ul">
                 <li><i class="fa fa-li fa-book"></i>
@@ -148,7 +182,7 @@
                 Du willst es ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
                 Du findest das eine tolle Idee, möchtest mitmachen und uns unterstützen?
                 Werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
-                <i class="fa fa-thumbs-up"></i>Fördermitglied</a> der ersten Stunde!
+                <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
             </p>
         </div>
         <div class="well Founder">
@@ -173,7 +207,7 @@
 
                 <div class="col-xs-12" style="margin-top: 10px;">
                     <p>
-                        Wir möchten, dass Faktenlernen einfacher wird und mehr Spaß macht. Wir möchten den Zugang zu freien Bildungsinhalten verbessern. 
+                        Wir möchten den Zugang zu freien Bildungsinhalten verbessern und dass Faktenlernen einfacher wird und mehr Spaß macht. 
                         Und wir möchten dabei ein stabiles <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
                         Als Gründungsteam konzipieren, gestalten und programmieren wir MEMuchO gemeinsam.
                     </p>
