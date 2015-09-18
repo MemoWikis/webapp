@@ -54,16 +54,17 @@
    
         <div class="col-lg-10 col-xs-9 xxs-stack" style="margin-top: 20px;">
             <%  foreach(var questionRow in Model.QuestionsInSet){ %>
-
                 <div class="rowBase row question-row" style="padding-top: 7px; padding-bottom: 7px;">
-                    <div class="col-md-9 col-1">                    
-                        <img src="<%= QuestionImageSettings.Create(questionRow.Question.Id).GetUrl_128px_square().Url %>" class="img-responsive" />
-
+                    <div class="col-md-1 col-sm-2 col-xs-2 col-0" style="padding-left: 2px; padding-right: 0px;">
+                        <%= GetQuestionImageFrontendData.Run(questionRow.Question)
+                                .RenderHtmlImageBasis(128, true, ImageType.Question) %>                        
+                    </div>
+                    <div class="col-md-9 col-sm-7 col-xs-10 col-1">         
                         <a href="<%= Links.AnswerQuestion(Url, questionRow.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
                             <%=questionRow.Question.Text %>
                         </a>    
                     </div>
-                    <div class="col-md-3 col-2">
+                    <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 0px;">
                         <% Html.RenderPartial("HistoryAndProbability", questionRow.HistoryAndProbability); %>
                     </div>
                 </div>
