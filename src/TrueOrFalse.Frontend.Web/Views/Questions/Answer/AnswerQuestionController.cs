@@ -234,15 +234,13 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public void CountLastAnswerAsCorrect(int id)
     {
-        _answerHistoryLog.CountLastAnswerAsCorrect(_questionRepo.GetById(id), _sessionUser.UserId);
-        _updateQuestionAnswerCount.ChangeOneWrongAnswerToCorrect(id);
+        _answerQuestion.Run(id, _sessionUser.UserId, countLastAnswerAsCorrect: true);
     }
 
     [HttpPost]
     public void CountUnansweredAsCorrect(int id)
     {
-        _answerHistoryLog.CountUnansweredAsCorrect(_questionRepo.GetById(id), _sessionUser.UserId);
-        _updateQuestionAnswerCount.Run(id, true);
+        _answerQuestion.Run(id, _sessionUser.UserId, countUnansweredAsCorrect: true);
     }
 
     [HttpPost]

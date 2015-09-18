@@ -19,5 +19,12 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Views/Sets/Detail/Set.css",
+    "inputFile": "Views/Sets/Detail/Set.less",
+    "minify": {
+      "enabled": false
+    }
   }
 ]
