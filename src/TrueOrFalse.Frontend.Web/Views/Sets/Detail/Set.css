@@ -12,7 +12,7 @@
 .question-row .col-2 {
   height: 100%;
 }
-@media (max-width: 480px) {
+@media (max-width: 767px) {
   .question-row .col-2 {
     padding-top: 15px;
     font-size: 16px;
