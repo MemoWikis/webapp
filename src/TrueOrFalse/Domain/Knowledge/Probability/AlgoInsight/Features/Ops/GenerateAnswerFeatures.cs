@@ -69,6 +69,13 @@ public class GenerateAnswerFeatures
             DoesApply = param => param.AnswerHistory.Round != null
         });
 
+        //VIEW COUNT
+        //AMOUNT OF WISH-KNOWLEDGE
+        //IS CREATOR
+        
+        //TIME FROM LAST REPETITION (1min, 2min, 5min, 10min, 30min, 1h, 3h, 10h, 24h, 48h, 96h, 192h)
+        //EEG (used eeg, value (mellowness and concentration))
+
         var answerFeatureRepo = Sl.R<AnswerFeatureRepo>();
         foreach (var answerFeature in answerFeatures)
             answerFeatureRepo.Create(answerFeature);

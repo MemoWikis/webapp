@@ -124,7 +124,36 @@
             </div>
             <% Html.RenderPartial("ComparisonTable", new  ComparisonTableModel(Model.Summaries.ToList())); %>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Top 5 Features (mehr als 50 Daten)</h3>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
+                      
+                    <table class="table table-hover">
+                        <tr>
+                            <th>FeatureName</th>
+                            <th>AlgoName</th>
+                            <th>%&nbsp;Erfolg</th>
+                            <th>Total</th>
+                        </tr>
+	            
+                        <% foreach(var summary in Model.TopFeatures.Take(5)) { %>
+                            <tr>
+	                            <td><%= summary.FeatureName %></td>
+                                <td><%= summary.Algo.Name %></td>
+	                            <td><%= summary.SuccessRate %></td>
+                                <td><%= summary.TestCount %></td>
+                            </tr>
+                        <% } %>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
     
     <div class="row">

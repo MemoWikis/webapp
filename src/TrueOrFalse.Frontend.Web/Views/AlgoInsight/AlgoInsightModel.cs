@@ -13,20 +13,27 @@ public class AlgoInsightModel : BaseModel
     public IEnumerable<FeatureModel> FeatureModelsTime;
     public IEnumerable<FeatureModel> FeatureModelsTrainingType;
 
+    public IEnumerable<AlgoTesterSummary> FeatureSummaries;
+    public IEnumerable<AlgoTesterSummary> TopFeatures;
+
     public AlgoInsightModel()
     {
         Summaries = AlgoTesterSummaryLoader.Run().OrderByDescending(x => x.SuccessRate);
 
         var allFeatures = Sl.R<AnswerFeatureRepo>().GetAll();
-        var featureSummaries = AlgoTesterSummaryLoader.RunWithFeature();
+        FeatureSummaries = AlgoTesterSummaryLoader.RunWithFeature();
+        TopFeatures = FeatureSummaries
+            .Where(x => x.TestCount > 50)
+            .OrderByDescending(x => x.SuccessRate)
+            .GroupBy(x => x.FeatureName)
+            .Select(x => x.First());
 
-        FeatureModelsRepetition = GetFeatureModels(featureSummaries, allFeatures, AnswerFeatureGroups.Repetitions);
-        FeatureModelsTime = GetFeatureModels(featureSummaries, allFeatures, AnswerFeatureGroups.Time);
-        FeatureModelsTrainingType = GetFeatureModels(featureSummaries, allFeatures, AnswerFeatureGroups.TrainingType);
+        FeatureModelsRepetition = GetFeatureModels(allFeatures, AnswerFeatureGroups.Repetitions);
+        FeatureModelsTime = GetFeatureModels(allFeatures, AnswerFeatureGroups.Time);
+        FeatureModelsTrainingType = GetFeatureModels(allFeatures, AnswerFeatureGroups.TrainingType);
     }
 
     private IEnumerable<FeatureModel> GetFeatureModels(
-        IEnumerable<AlgoTesterSummary> featureSummaries,
         IEnumerable<AnswerFeature> allFeatures,
         string groupName)
     {
@@ -36,7 +43,7 @@ public class AlgoInsightModel : BaseModel
                 new FeatureModel
                 {
                     Feature = x,
-                    Summaries = featureSummaries.ByFeature(x.Name)
+                    Summaries = FeatureSummaries.ByFeature(x.Name)
                 });
     }
 
