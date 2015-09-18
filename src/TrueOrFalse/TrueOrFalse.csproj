@@ -479,10 +479,10 @@
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataDate.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataText.cs" />
-    <Compile Include="Domain\User.Reputation\ReputationCalc.cs" />
-    <Compile Include="Domain\User.Reputation\ReputationCalcResult.cs" />
-    <Compile Include="Domain\User.Reputation\ReputationUpdate.cs" />
-    <Compile Include="Domain\User.Reputation\UpdateReputationsAndRank.cs" />
+    <Compile Include="Domain\User\Reputation\ReputationCalc.cs" />
+    <Compile Include="Domain\User\Reputation\ReputationCalcResult.cs" />
+    <Compile Include="Domain\User\Reputation\ReputationUpdate.cs" />
+    <Compile Include="Domain\User\Reputation\UpdateReputationsAndRank.cs" />
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
     <Compile Include="Domain\User\AppAccess\AppAccess.cs" />
     <Compile Include="Domain\User\AppAccess\AppKey.cs" />
