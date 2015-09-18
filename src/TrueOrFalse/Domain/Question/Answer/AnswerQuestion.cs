@@ -61,10 +61,39 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     }
 
     public AnswerQuestionResult Run(
+        int questionId,
+        int userId,
+        bool countLastAnswerAsCorrect = false,
+        bool countUnansweredAsCorrect = false,
+        /*for testing*/ DateTime dateCreated = default(DateTime))
+    {
+        if (countLastAnswerAsCorrect)
+            return Run(questionId, "", userId,
+            (question, answerQuestionResult) =>
+                {
+                    _answerHistoryLog.CountLastAnswerAsCorrect(question, userId);
+                },
+            countLastAnswerAsCorrect: true);
+
+        if (countUnansweredAsCorrect)
+            return Run(
+                questionId, "", userId,
+                (question, answerQuestionResult) =>
+                    {
+                        _answerHistoryLog.CountUnansweredAsCorrect(question, userId);
+                    },
+                countUnansweredAsCorrect: true);
+
+        throw new Exception("neither countLastAnswerAsCorrect nor countUnansweredAsCorrect specified");
+    }
+
+    public AnswerQuestionResult Run(
         int questionId, 
         string answer, 
         int userId,
-        Action<Question, AnswerQuestionResult> action)
+        Action<Question, AnswerQuestionResult> action,
+        bool countLastAnswerAsCorrect = false,
+        bool countUnansweredAsCorrect = false)
     {
         var question = _questionRepo.GetById(questionId);
         var solution = new GetQuestionSolution().Run(question);
@@ -77,7 +106,14 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         action(question, result);
 
         ProbabilityUpdate_Question.Run(question);
-        Sl.R<UpdateQuestionAnswerCount>().Run(questionId, result.IsCorrect);
+        if (countLastAnswerAsCorrect)
+        {
+            Sl.R<UpdateQuestionAnswerCount>().ChangeOneWrongAnswerToCorrect(questionId);
+        } 
+        else
+        {
+            Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
+        }
         Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, userId);
 
         return result;
