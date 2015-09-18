@@ -394,8 +394,10 @@
     </Content>
     <Content Include="Images\Team\team_christof201509_155.jpg" />
     <Content Include="Images\Team\team_christof201509_600.jpg" />
-    <Content Include="Images\Team\team_jule201509_155.jpg" />
-    <Content Include="Images\Team\team_jule201509_600.jpg" />
+    <Content Include="Images\Team\team_jule201509-1_155.jpg" />
+    <Content Include="Images\Team\team_jule201509-1_600.jpg" />
+    <Content Include="Images\Team\team_jule201509-2_155.jpg" />
+    <Content Include="Images\Team\team_jule201509-2_600.jpg" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
     <Content Include="Style\site.min.css">
