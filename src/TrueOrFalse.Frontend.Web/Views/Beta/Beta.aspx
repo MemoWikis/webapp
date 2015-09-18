@@ -9,7 +9,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">    
     
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
             <h1 style="margin-top: 30px; margin-bottom: 20px;" class="animated">
                 Private Beta
             </h1>
@@ -41,61 +41,74 @@
     </div>
     
     <div class="row">
-        <div class="well col-md-6 col-md-offset-3" style="margin-top: 35px; background-color: whitesmoke; ">
+        <div class="well col-md-8 col-md-offset-2" style="margin-top: 35px; background-color: whitesmoke; ">
             <h3>Was wird MEMuchO?</h3>
             <p>
                 MEMuchO wird eine vernetzte Lern- und Wissensplattform. <br/>
-                MEMuchO hilft dir...
+                Mit MEMuchO kannst du...
             </p>
-            <ul style="list-style-type: none">
-                <li>
-                    <b>...schneller zu lernen.</b>
+            
+            <div class="row">
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Schneller lernen</b>
                     <p>
-                        MEMuchO analysiert dein Lernverhalten und wiederholt schwierige 
-                        Fragen zum optimalen Zeitpunkt. So brauchst du weniger Zeit zum Lernen.
+                        MEMuchO analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. 
+                        So brauchst du weniger Zeit zum Lernen.
                     </p>
-                </li>
-                <li>
-                    <b>...dein Allgemein- und Spezialwissen zu erweitern.</b>
+                </div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-book fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Allgemein- und Spezialwissen erweitern</b>
                     <p>
-                        Du möchtest gerne mehr über Politik oder über die verschiedenen 
-                        Spurbreiten von Modelleisenbahnen erfahren? Finde die passenden 
-                        Fragesätze und stelle dir dein Wunschwissen zusammen!
+                        Du möchtest gerne mehr über Politik, die Griechenland-Krise oder über James Bond-Filme wissen? 
+                        Finde die passenden Fragesätze und stelle dir dein Wunschwissen zusammen!
                     </p>
-                </li>
-                <li>
-                    <b>...zu einem bestimmten Termin zu lernen.</b>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-calendar-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Zu einem bestimmten Termin lernen</b>
                     <p>
-                        Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? 
-                        Lege einen Termin an und bestimme, was du bis dahin wissen musst. 
-                        Mit MEMuchO weißt du immer, was du schon sicher kannst und wo du noch 
-                        weiter üben musst.
+                        Eine Klassenarbeit oder eine Prüfung steht an? Mit Terminen in MEMuchO weißt du immer, 
+                        was du schon sicher kannst und wo du noch weiter üben musst.
                     </p>
-                </li>
-                <li>
-                    <b>...zu überblicken, was du weißt und was du wissen möchtest.</b>
+                </div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-pie-chart fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Überblick behalten</b>
                     <p>
-                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? 
-                        Kein Problem, mit MEMuchO behältst du den Überblick. 
+                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Kein Problem, mit MEMuchO behältst du den Überblick.
                     </p>
-                </li>
-                <li>
-                    <b>...dein Wissen mit anderen zu teilen und gemeinsam zu lernen.</b>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-share-alt fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Wissen teilen</b>
                     <p>
-                        MEMuchO ist ein offenes Netzwerk, wo du dein Wissen teilen, auf das 
-                        Wissen anderer zurückgreifen und mit Freunden gemeinsam lernen kannst. 
-                        Denn Wissen wird mehr, wenn man es teilt! 
+                        MEMuchO ist ein offenes Netzwerk, wo du dein Wissen teilen und auf das Wissen anderer zurückgreifen kannst. 
+                        Denn Wissen wird mehr, wenn man es teilt!
                     </p>
-                </li>
-            </ul>
+                </div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
+                  <i class="fa fa-users fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Gemeinsam lernen</b>
+                    <p>
+                        Lerne gemeinsam mit Freunden und verabrede dich zum Quizduell, um dich auf die Klassenarbeit vorzubereiten.
+                    </p>
+                </div>
+            </div>
+            
+
         </div>
     </div>
 
     <div class="row">
-        <div class="well col-md-6 col-md-offset-3" style="margin-top: 35px; background-color: whitesmoke; ">
+        <div class="well col-md-8 col-md-offset-2" style="background-color: whitesmoke; ">
             <p style="font-weight: bold">Open Educational Resources</p>
             <p>
-                MEMuchO ist Teil der Bewegung zur Förderung freier Bildungsinhalte. Alle Inhalte bei MEMuchO werden frei zugänglich sein!
+                MEMuchO ist Teil der Bewegung zur Förderung freier Bildungsinhalte. <br/>
+                Alle Inhalte bei MEMuchO werden frei zugänglich sein!
             </p>
         </div>
     </div>
