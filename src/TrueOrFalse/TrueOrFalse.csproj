@@ -479,6 +479,10 @@
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataDate.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataText.cs" />
+    <Compile Include="Domain\User\Badges\Badge.cs" />
+    <Compile Include="Domain\User\Badges\BadgeType.cs" />
+    <Compile Include="Domain\User\Badges\BadgeLevel.cs" />
+    <Compile Include="Domain\User\Badges\BadgeTypeGroupKeys.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalc.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalcResult.cs" />
     <Compile Include="Domain\User\Reputation\ReputationUpdate.cs" />
@@ -786,6 +790,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\User\Activity\Ops\" />
+    <Folder Include="Domain\User\Badges\Persistence\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
