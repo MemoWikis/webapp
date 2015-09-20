@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TabUserKnowledgeModel>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TabKnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <% if(!Model.User.ShowWishKnowledge && !Model.IsCurrentUser){ %>

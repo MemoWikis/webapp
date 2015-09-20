@@ -1,45 +1,35 @@
-ï»¿using System.Collections.Generic;
+using System.Collections.Generic;
 
-public class BadgeType
+public class BadgeTypes
 {
-    public string Key;
-
-    public string Name;
-    public string Description;
-
-    public bool IsSecret;
-
-    public IList<BadgeLevel> Levels = new List<BadgeLevel>();
-
-    public BadgeTypeGroup Group;
-
+    private static IList<BadgeType> _allBadgeTypes;
     public static IList<BadgeType> GetAll()
     {
-        return new[]
+        return _allBadgeTypes ?? (_allBadgeTypes = new List <BadgeType>
         {
             //FirstSteps
             new BadgeType
             {
                 Key = "FirstHourSupporter",
-                Name = "FÃ¶rdermitglied der 1. Stunde",
-                Description = "WÃ¤hrend des 1. Jahres FÃ¶rdermitglied geworden (und fÃ¼r ein Jahr geblieben)",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.FirstSteps),
+                Name = "Fördermitglied der 1. Stunde",
+                Description = "Während des 1. Jahres Fördermitglied geworden (und für ein Jahr geblieben)",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()}
             },
             new BadgeType
             {
                 Key = "FirstHourUser",
                 Name = "Nutzer der 1. Stunde",
-                Description = "WÃ¤hrend der Beta-Phase Nutzer geworden",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.FirstSteps),
+                Description = "Während der Beta-Phase Nutzer geworden",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()}
             },
             new BadgeType
             {
                 Key = "FirstHourUser",
                 Name = "Beta-Berater",
-                Description = "Per Hand verliehen an alle, die wÃ¤hrend der Beta-Phase MEMuchO genutzt und uns beraten haben",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.FirstSteps),
+                Description = "Per Hand verliehen an alle, die während der Beta-Phase MEMuchO genutzt und uns beraten haben",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()}
             },
             new BadgeType
@@ -47,15 +37,15 @@ public class BadgeType
                 Key = "NewbieBronze",
                 Name = "Newbie",
                 Description = "1 Frage im Wuwi, 1 Frage beantwortet",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.FirstSteps),
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()}
             },
             new BadgeType
             {
                 Key = "NewbieSilver",
                 Name = "Newbie",
-                Description = "2 Multiple-Choice-Fragen mit Kategorie erstellt, 2 FragesÃ¤tze mit mind. 10 Fragen erstellt, 2 fremde und 2 eigene Fragen in Wunschwissen aufgenommen",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.FirstSteps),
+                Description = "2 Multiple-Choice-Fragen mit Kategorie erstellt, 2 Fragesätze mit mind. 10 Fragen erstellt, 2 fremde und 2 eigene Fragen in Wunschwissen aufgenommen",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()}
             },
             new BadgeType
@@ -63,15 +53,15 @@ public class BadgeType
                 Key = "NewbieGold",
                 Name = "Newbie",
                 Description = "wie Silber, dazu: 3 Spiele gespielt; 3 Termine angelegt; 3 Nutzern gefolgt, 30 Fragen im Wuwi, 1 Kommentar geschrieben, 1 Kategorie erstellt",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.FirstSteps),
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()}
             },
             new BadgeType
             {
                 Key = "HelloWorld",
                 Name = "Hello World",
-                Description = "VollstÃ¤ndiges Profil",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.FirstSteps),
+                Description = "Vollständiges Profil",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()}
             },
             
@@ -81,7 +71,7 @@ public class BadgeType
                 Key = "1000Words",
                 Name = "MehrAls1000Worte",
                 Description = "{badgePoints} Fragen mit Bildern erstellt",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.Questions),
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Questions),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(1),
@@ -95,7 +85,7 @@ public class BadgeType
                 Key = "ABCD",
                 Name = "ABCD",
                 Description = "{badgePoints} Multiple-Choice-Fragen erstellt",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.Questions),
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Questions),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(1),
@@ -109,7 +99,7 @@ public class BadgeType
                 Key = "KnowItAll",
                 Name = "Allgemeinwisser",
                 Description = "eine eigene Frage wurde {badgePoints} Mal in fremdes Wuwi aufgenommen",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.Questions),
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Questions),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(1),
@@ -123,8 +113,8 @@ public class BadgeType
             {
                 Key = "DonDoItSelf",
                 Name = "IchMachsDochNichtSelbst",
-                Description = "{badgePoints} FragesÃ¤tze mit mehr als 10 Fragen, mit mind. 1 fremden Frage zusammengestellt",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.Sets),
+                Description = "{badgePoints} Fragesätze mit mehr als 10 Fragen, mit mind. 1 fremden Frage zusammengestellt",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Sets),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(1),
@@ -138,8 +128,8 @@ public class BadgeType
             {
                 Key = "FamilyFriend",
                 Name = "Familienfreund",
-                Description = "{badgePoints} Eltern-/Kindkategorien verknÃ¼pft",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.Categories),
+                Description = "{badgePoints} Eltern-/Kindkategorien verknüpft",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Categories),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(20),
@@ -153,7 +143,7 @@ public class BadgeType
                 Key = "Expert",
                 Name = "VomFach",
                 Description = "{badgePoints} Fragen zu einer Kategorie erstellt",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.Categories),
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Categories),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(10),
@@ -167,7 +157,7 @@ public class BadgeType
                 Key = "Universalist",
                 Name = "Universalist",
                 Description = "{badgePoints} verschiedene Kategorien zu eigenen Fragen zugeordnet",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.Categories),
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Categories),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(5),
@@ -181,8 +171,8 @@ public class BadgeType
             {
                 Key = "WannaKnow",
                 Name = "WillsWissen",
-                Description = "{badgePoints} Fragen im eigenen Wunschwissen hinzugefÃ¼gt",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.WishKnowledge),
+                Description = "{badgePoints} Fragen im eigenen Wunschwissen hinzugefügt",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.WishKnowledge),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(5),
@@ -194,9 +184,9 @@ public class BadgeType
             new BadgeType
             {
                 Key = "Archaeologist",
-                Name = "ArchÃ¤ologe",
-                Description = "{badgePoints} Fragen zum Wuwi hinzugefÃ¼gt, die Ã¤lter als 2 Jahre sind",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.WishKnowledge),
+                Name = "Archäologe",
+                Description = "{badgePoints} Fragen zum Wuwi hinzugefügt, die älter als 2 Jahre sind",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.WishKnowledge),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(5),
@@ -209,8 +199,8 @@ public class BadgeType
             {
                 Key = "FasterThanShadow",
                 Name = "SchnellerAlsMeinSchatten",
-                Description = "{badgePoints} fremde Fragen zum Wunschwissen hinzugefÃ¼gt, die neuer als 24h sind.",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.WishKnowledge),
+                Description = "{badgePoints} fremde Fragen zum Wunschwissen hinzugefügt, die neuer als 24h sind.",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.WishKnowledge),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(1),
@@ -222,9 +212,9 @@ public class BadgeType
             new BadgeType
             {
                 Key = "ThanksForHelp",
-                Name = "DankeFÃ¼rDieHilfe",
+                Name = "DankeFürDieHilfe",
                 Description = "{badgePoints} fremde Fragen im eigenen Wuwi",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.WishKnowledge),
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.WishKnowledge),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(1),
@@ -238,8 +228,8 @@ public class BadgeType
             {
                 Key = "Swot",
                 Name = "Streber",
-                Description = "{badgePoints} Tage am StÃ¼ck gelernt [nicht: Frage beantwortet]",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.Training),
+                Description = "{badgePoints} Tage am Stück gelernt [nicht: Frage beantwortet]",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(3),
@@ -252,8 +242,8 @@ public class BadgeType
             {
                 Key = "OldStager",
                 Name = "Alter Hase",
-                Description = "{badgePoints} Tage am StÃ¼ck gelernt [nicht: Frage beantwortet]",
-                Group =  BadgeTypeGroup.GetByKey(BadgeTypeGroupKeys.Training),
+                Description = "{badgePoints} Tage am Stück gelernt [nicht: Frage beantwortet]",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
                 Levels = new List<BadgeLevel>
                 {
                     BadgeLevel.GetBronze(3),
@@ -261,7 +251,6 @@ public class BadgeType
                     BadgeLevel.GetGold(300)
                 }
             },
-
-        };
+        });
     }
 }

@@ -480,9 +480,12 @@
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataText.cs" />
     <Compile Include="Domain\User\Badges\Badge.cs" />
-    <Compile Include="Domain\User\Badges\BadgeType.cs" />
+    <Compile Include="Domain\User\Badges\Type\BadgeType.cs" />
     <Compile Include="Domain\User\Badges\BadgeLevel.cs" />
-    <Compile Include="Domain\User\Badges\BadgeTypeGroupKeys.cs" />
+    <Compile Include="Domain\User\Badges\Type\BadgeTypeGroup.cs" />
+    <Compile Include="Domain\User\Badges\Type\BadgeTypeGroupKeys.cs" />
+    <Compile Include="Domain\User\Badges\Type\BadgeTypeGroups.cs" />
+    <Compile Include="Domain\User\Badges\Type\BadgeTypes.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalc.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalcResult.cs" />
     <Compile Include="Domain\User\Reputation\ReputationUpdate.cs" />

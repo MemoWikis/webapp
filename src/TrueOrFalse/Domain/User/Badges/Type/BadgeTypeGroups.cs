@@ -1,18 +1,8 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-public class BadgeTypeGroup
+public class BadgeTypeGroups
 {
-    public string Key;
-    public string Title;
-
-    public BadgeTypeGroup(string key, string title)
-    {
-        Key = key;
-        Title = title;
-    }
-
     private static IList<BadgeTypeGroup> _allGroups;
     public static IList<BadgeTypeGroup> GetAll()
     {
@@ -32,16 +22,4 @@ public class BadgeTypeGroup
     {
         return GetAll().First(x => x.Key == key);
     }
-}
-
-public class BadgeTypeGroupKeys
-{
-    public const string FirstSteps = "FirstSteps";
-    public const string Questions = "Questions";
-    public const string Sets = "Sets";
-    public const string Categories = "Categories";
-    public const string WishKnowledge = "WishKnowledge";
-    public const string Training = "Training";
-    public const string Play = "Play";
-    public const string Community = "Community";
 }
