@@ -19,11 +19,6 @@ public class UserModel : BaseModel
     public int ReputationTotal;
     public ReputationCalcResult Reputation;
 
-    public IList<Question> WishQuestions;
-    public IList<QuestionsInCategory> WishQuestionsCategories;
-
-    public IList<Set> WishSets;
-
     public bool IsCurrentUser;
 
     public User User;
@@ -50,23 +45,5 @@ public class UserModel : BaseModel
         ReputationRank = user.ReputationPos;
         ReputationTotal = reputation.TotalRepuation;
         Reputation = reputation;
-
-
-        var valuations = Resolve<QuestionValuationRepo>()
-            .GetByUser(user.Id)
-            .QuestionIds().ToList();
-
-        WishQuestions = Resolve<QuestionRepo>().GetByIds(valuations);
-
-        if (!IsCurrentUser)
-            WishQuestions = WishQuestions.Where(q => q.Visibility == QuestionVisibility.All).ToList();
-
-        WishQuestionsCategories = WishQuestions.QuestionsInCategories().ToList();
-
-        WishSets = Resolve<SetRepo>().GetByIds(
-            Resolve<SetValuationRepo>()
-                .GetByUser(user.Id)
-                .SetIds().ToArray()
-            );
     }
 }
