@@ -11,7 +11,7 @@ public class TabBadgesModel : BaseModel
     {
         User = userModel.User;
 
-        BadgeTypes = global::BadgeTypes.GetAll();
-        BadgeTypeGroups = global::BadgeTypeGroups.GetAll();
+        BadgeTypes = global::BadgeTypes.All();
+        BadgeTypeGroups = global::BadgeTypeGroups.All();
     }
 }

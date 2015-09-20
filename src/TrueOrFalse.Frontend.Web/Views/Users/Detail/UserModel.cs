@@ -21,15 +21,15 @@ public class UserModel : BaseModel
 
     public bool IsCurrentUser;
 
-    public bool ActiveTabKnowledge;
-    public bool ActiveTabBadges;
+    public bool IsActiveTabKnowledge;
+    public bool IsActiveTabBadges;
 
     public User User;
 
     public UserModel(User user, bool isActiveTabKnowledge = false, bool isActiveTabBadges = false)
     {
-        ActiveTabKnowledge = isActiveTabKnowledge;
-        ActiveTabBadges = isActiveTabBadges;
+        IsActiveTabKnowledge = isActiveTabKnowledge;
+        IsActiveTabBadges = isActiveTabBadges;
 
         User = user;
         Name = user.Name;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class BadgeTypes
 {
     private static IList<BadgeType> _allBadgeTypes;
-    public static IList<BadgeType> GetAll()
+    public static IList<BadgeType> All()
     {
         return _allBadgeTypes ?? (_allBadgeTypes = new List <BadgeType>
         {
