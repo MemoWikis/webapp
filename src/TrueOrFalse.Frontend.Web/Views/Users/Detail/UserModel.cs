@@ -21,6 +21,9 @@ public class UserModel : BaseModel
 
     public bool IsCurrentUser;
 
+    public bool ActiveTabKnowledge;
+    public bool ActiveTabBadges;
+
     public User User;
 
     public UserModel(User user)

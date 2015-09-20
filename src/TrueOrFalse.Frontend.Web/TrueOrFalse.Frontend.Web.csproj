@@ -406,6 +406,9 @@
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
+    <Content Include="Views\Users\Detail\User.css">
+      <DependentUpon>User.less</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Detail\UserKnowledge.ascx" />
     <Content Include="Views\Welcome\Welcome.css">
       <DependentUpon>Welcome.less</DependentUpon>
@@ -1815,6 +1818,7 @@
     <Content Include="Views\Welcome\Welcome.css.map">
       <DependentUpon>Welcome.css</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Detail\User.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
