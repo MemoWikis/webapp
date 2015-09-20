@@ -20,7 +20,7 @@
         <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #ffd700;">Fragesätze (<%= Model.WishSets.Count %>):</div>
         <% if (Model.WishSets.Count > 0){ %>
             <% foreach(var set in Model.WishSets){ %>
-                <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Text %></a></div>
+                <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Name %></a></div>
             <% } %>
         <% } else { %>
             <div style="padding-top: 10px; padding-bottom: 10px;">--
