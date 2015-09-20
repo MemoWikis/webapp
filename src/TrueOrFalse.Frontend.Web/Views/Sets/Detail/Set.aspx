@@ -104,7 +104,7 @@
             </div>
 
             <div style="margin-top: 10px;">
-                von: <a href="<%= Links.UserDetail(Url, Model.Creator) %>"> <%= Model.CreatorName %> </a> <br/>
+                von: <a href="<%= Links.UserDetail(Model.Creator) %>"> <%= Model.CreatorName %> </a> <br/>
                 vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             </div>
             

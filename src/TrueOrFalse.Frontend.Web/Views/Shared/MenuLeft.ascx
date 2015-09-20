@@ -144,7 +144,7 @@
                 index = 0; 
                 foreach (var user in visitedU){ index++;  %>
                 <% var activeClass = ""; if (index == 1) { activeClass = Model.Active(MenuEntry.UserDetail); } %>
-                <a href="<%= Links.UserDetail(Url, user.Name, user.Id) %>" class="list-group-item users sub <%= activeClass + visitedU.CssFirst(index) + visitedU.CssLast(index) %>">
+                <a href="<%= Links.UserDetail(user.Name, user.Id) %>" class="list-group-item users sub <%= activeClass + visitedU.CssFirst(index) + visitedU.CssLast(index) %>">
                     <i class="fa fa-caret-right"></i> <%=user.Name%>
                 </a>
             <% } %>

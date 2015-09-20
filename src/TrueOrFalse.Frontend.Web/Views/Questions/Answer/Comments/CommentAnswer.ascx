@@ -8,7 +8,7 @@
     <div class="col-xs-10" style="height: 100%; padding-bottom: 25px; ">
         <div>
             <span style="color:silver">
-                <a href="<%= Links.UserDetail(Url, Model.Creator) %>"><%= Model.CreatorName %></a>
+                <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a>
                 <span style="font-size: 11px; padding-left: 5px;">vor <%= Model.CreationDateNiceText%></span>
             </span>
         </div>

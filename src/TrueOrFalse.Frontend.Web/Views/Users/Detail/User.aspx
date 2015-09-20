@@ -96,13 +96,13 @@
             <div class="boxtainer-outlined-tabs" style="margin-top: 20px;">
                 <div class="boxtainer-header MobileHide">
                     <ul class="nav nav-tabs">
-                        <li class="active JS-All">
-                            <a href="#home" >
+                        <li class="<%= Html.IfTrue(Model.ActiveTabKnowledge, "active") %>">
+                            <a href="<%= Links.UserDetail(Model.User) %>" >
                                 Wunschwissen
                             </a>
                         </li>
-                        <li class="JS-Mine">
-                            <a href="#profile">
+                        <li class="<%= Html.IfTrue(Model.ActiveTabBadges, "active") %>">
+                            <a href="<%= Links.UserDetailBadges(Model.User) %>">
                                 Badges (3 von 23)
                             </a>
                         </li>

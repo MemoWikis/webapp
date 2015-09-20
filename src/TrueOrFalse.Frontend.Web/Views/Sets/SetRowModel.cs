@@ -55,7 +55,7 @@ public class SetRowModel
         TotalPins = set.TotalRelevancePersonalEntries.ToString();
 
         DetailLink = urlHelper => Links.SetDetail(urlHelper, set, indexInResultSet);
-        UserLink = urlHelper => Links.UserDetail(urlHelper, set.Creator.Name, set.Creator.Id);
+        UserLink = urlHelper => Links.UserDetail(set.Creator.Name, set.Creator.Id);
 
         Categories = set.Categories;
     }

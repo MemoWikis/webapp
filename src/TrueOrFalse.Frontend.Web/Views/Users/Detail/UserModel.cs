@@ -26,8 +26,11 @@ public class UserModel : BaseModel
 
     public User User;
 
-    public UserModel(User user)
+    public UserModel(User user, bool isActiveTabKnowledge = false, bool isActiveTabBadges = false)
     {
+        ActiveTabKnowledge = isActiveTabKnowledge;
+        ActiveTabBadges = isActiveTabBadges;
+
         User = user;
         Name = user.Name;
 

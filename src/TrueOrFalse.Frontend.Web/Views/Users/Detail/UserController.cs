@@ -13,12 +13,21 @@ public class UserController : BaseController
     }
 
     [SetMenu(MenuEntry.UserDetail)]
-    new public ViewResult User(string userName, int id)
+    public ViewResult User(string userName, int id)
     {
         var user = _userRepo.GetById(id);
         _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
 
-        return View(_viewLocation, new UserModel(user));
+        return View(_viewLocation, new UserModel(user, isActiveTabKnowledge: true));
+    }
+
+    [SetMenu(MenuEntry.UserDetail)]
+    public ViewResult Badges(string userName, int id)
+    {
+        var user = _userRepo.GetById(id);
+        _sessionUiData.VisitedUserDetails.Add(new UserHistoryItem(user));
+
+        return View(_viewLocation, new UserModel(user, isActiveTabBadges: true));
     }
 
     [HttpPost]
