@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class UserKnowledgeModel : BaseModel
+public class TabUserKnowledgeModel : BaseModel
 {
     public User User;
     public bool IsCurrentUser;
@@ -10,7 +10,7 @@ public class UserKnowledgeModel : BaseModel
     public IList<Question> WishQuestions;
     public IList<QuestionsInCategory> WishQuestionsCategories;
 
-    public UserKnowledgeModel(UserModel userModel)
+    public TabUserKnowledgeModel(UserModel userModel)
     {
         User = userModel.User;
         IsCurrentUser = userModel.IsCurrentUser;

@@ -302,7 +302,7 @@
     <Compile Include="Views\Dates\DatesModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
-    <Compile Include="Views\Users\Detail\UserKnowledgeModel.cs" />
+    <Compile Include="Views\Users\Detail\TabUserKnowledgeModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSingleSetModel.cs" />
@@ -409,7 +409,7 @@
     <Content Include="Views\Users\Detail\User.css">
       <DependentUpon>User.less</DependentUpon>
     </Content>
-    <Content Include="Views\Users\Detail\UserKnowledge.ascx" />
+    <Content Include="Views\Users\Detail\TabKnowledge.ascx" />
     <Content Include="Views\Welcome\Welcome.css">
       <DependentUpon>Welcome.less</DependentUpon>
     </Content>

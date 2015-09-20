@@ -109,7 +109,7 @@
                     </ul>
                 </div>
                 <div class="boxtainer-content">
-                    <% Html.RenderPartial("~/Views/Users/Detail/UserKnowledge.ascx", new UserKnowledgeModel(Model)); %>
+                    <% Html.RenderPartial("~/Views/Users/Detail/TabUserKnowledge.ascx", new TabUserKnowledgeModel(Model)); %>
                 </div>
             </div>
         </div>
