@@ -14,7 +14,9 @@ public class BadgeTypes
                 Name = "Fördermitglied der 1. Stunde",
                 Description = "Während des 1. Jahres Fördermitglied geworden (und für ein Jahr geblieben)",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
-                Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()}
+                Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()},
+                DoesApply = filterParams => false,
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay }
             },
             new BadgeType
             {
@@ -22,7 +24,8 @@ public class BadgeTypes
                 Name = "Nutzer der 1. Stunde",
                 Description = "Während der Beta-Phase Nutzer geworden",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
-                Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()}
+                Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
+                BadgeCheckOn = new []{ BadgeCheckOn.Registration }, 
             },
             new BadgeType
             {
@@ -30,7 +33,8 @@ public class BadgeTypes
                 Name = "Beta-Berater",
                 Description = "Per Hand verliehen an alle, die während der Beta-Phase MEMuchO genutzt und uns beraten haben",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
-                Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()}
+                Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
             },
             new BadgeType
             {
@@ -38,7 +42,8 @@ public class BadgeTypes
                 Name = "Newbie",
                 Description = "1 Frage im Wuwi, 1 Frage beantwortet",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
-                Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()}
+                Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
+                BadgeCheckOn = new []{ BadgeCheckOn.Answer, BadgeCheckOn.WishKnowledgeAdd},
             },
             new BadgeType
             {
@@ -46,7 +51,8 @@ public class BadgeTypes
                 Name = "Newbie",
                 Description = "2 Multiple-Choice-Fragen mit Kategorie erstellt, 2 Fragesätze mit mind. 10 Fragen erstellt, 2 fremde und 2 eigene Fragen in Wunschwissen aufgenommen",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
-                Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()}
+                Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
+                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate, BadgeCheckOn.SetUpdateOrCreate, BadgeCheckOn.WishKnowledgeAdd},
             },
             new BadgeType
             {
@@ -54,7 +60,8 @@ public class BadgeTypes
                 Name = "Newbie",
                 Description = "wie Silber, dazu: 3 Spiele gespielt; 3 Termine angelegt; 3 Nutzern gefolgt, 30 Fragen im Wuwi, 1 Kommentar geschrieben, 1 Kategorie erstellt",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
-                Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()}
+                Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()},
+                BadgeCheckOn = new []{ BadgeCheckOn.GameFinished, BadgeCheckOn.DateCreated, BadgeCheckOn.UserFollowed, BadgeCheckOn.WishKnowledgeAdd, BadgeCheckOn.CommentedAdded, BadgeCheckOn.CategoryUpdateOrCreate },
             },
             new BadgeType
             {
@@ -62,7 +69,8 @@ public class BadgeTypes
                 Name = "Hello World",
                 Description = "Vollständiges Profil",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
-                Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()}
+                Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
+                BadgeCheckOn = new []{ BadgeCheckOn.UserProfileUpdated },
             },
             
             //Questions
@@ -77,7 +85,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(1),
                     BadgeLevel.GetSilver(50),
                     BadgeLevel.GetGold(500)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
             },
 
             new BadgeType
@@ -91,7 +100,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(1),
                     BadgeLevel.GetSilver(30),
                     BadgeLevel.GetGold(500)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
             },
 
             new BadgeType
@@ -105,7 +115,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(1),
                     BadgeLevel.GetSilver(30),
                     BadgeLevel.GetGold(300)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd },
             },
             
             //Sets
@@ -120,7 +131,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(1),
                     BadgeLevel.GetSilver(30),
                     BadgeLevel.GetGold(200)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.SetUpdateOrCreate }
             },
 
             //Categories
@@ -135,7 +147,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(20),
                     BadgeLevel.GetSilver(100),
                     BadgeLevel.GetGold(400)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.CategoryUpdateOrCreate }
             },
 
             new BadgeType
@@ -149,7 +162,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(10),
                     BadgeLevel.GetSilver(100),
                     BadgeLevel.GetGold(300)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate }
             },
 
             new BadgeType
@@ -163,7 +177,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(5),
                     BadgeLevel.GetSilver(50),
                     BadgeLevel.GetGold(200)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate }
             },
 
             //WishKnowledge
@@ -178,7 +193,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(5),
                     BadgeLevel.GetSilver(200),
                     BadgeLevel.GetGold(1000)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd }
             },
 
             new BadgeType
@@ -192,7 +208,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(5),
                     BadgeLevel.GetSilver(50),
                     BadgeLevel.GetGold(500)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd }
             },
 
             new BadgeType
@@ -206,7 +223,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(1),
                     BadgeLevel.GetSilver(20),
                     BadgeLevel.GetGold(200)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd }
             },
 
             new BadgeType
@@ -220,7 +238,8 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(1),
                     BadgeLevel.GetSilver(100),
                     BadgeLevel.GetGold(500)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd }
             },
 
             //Training
@@ -235,14 +254,15 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(3),
                     BadgeLevel.GetSilver(30),
                     BadgeLevel.GetGold(300)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.AnswerInLearningSession }
             },
 
             new BadgeType
             {
                 Key = "OldStager",
                 Name = "Alter Hase",
-                Description = "{badgePoints} Tage am Stück gelernt [nicht: Frage beantwortet]",
+                Description = "an insgesamt {badgePoints} Tagen gelernt [nicht: Frage beantwortet]",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
                 Levels = new List<BadgeLevel>
                 {

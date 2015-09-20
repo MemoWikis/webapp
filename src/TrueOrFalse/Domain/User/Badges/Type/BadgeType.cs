@@ -1,15 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class BadgeType
 {
-    public string Key;
+    public virtual string Key { get; set; }
+    public virtual string Name { get; set; }
+    public virtual string Description { get; set; }
 
-    public string Name;
-    public string Description;
+    public virtual bool IsSecret { get; set; }
 
-    public bool IsSecret;
+    public virtual IList<BadgeLevel> Levels { get; set; }
+    public virtual BadgeTypeGroup Group { get; set; }
 
-    public IList<BadgeLevel> Levels = new List<BadgeLevel>();
+    public virtual BadgeCheckOn[] BadgeCheckOn  { get; set; }
+    public virtual Func<BadgeTypeFilterParams, bool> DoesApply { get; set; }
 
-    public BadgeTypeGroup Group;
+    public BadgeType()
+    {
+        Levels = new List<BadgeLevel>();
+    }
 }

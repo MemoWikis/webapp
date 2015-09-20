@@ -482,9 +482,12 @@
     <Compile Include="Domain\User\Badges\Badge.cs" />
     <Compile Include="Domain\User\Badges\Type\BadgeType.cs" />
     <Compile Include="Domain\User\Badges\BadgeLevel.cs" />
-    <Compile Include="Domain\User\Badges\Type\BadgeTypeGroup.cs" />
-    <Compile Include="Domain\User\Badges\Type\BadgeTypeGroupKeys.cs" />
-    <Compile Include="Domain\User\Badges\Type\BadgeTypeGroups.cs" />
+    <Compile Include="Domain\User\Badges\Type\Filter\BadgeCheckOn.cs" />
+    <Compile Include="Domain\User\Badges\Type\Filter\BadgeTypeFilter.cs" />
+    <Compile Include="Domain\User\Badges\Type\Filter\BadgeTypeFilterParams.cs" />
+    <Compile Include="Domain\User\Badges\Type\Group\BadgeTypeGroup.cs" />
+    <Compile Include="Domain\User\Badges\Type\Group\BadgeTypeGroupKeys.cs" />
+    <Compile Include="Domain\User\Badges\Type\Group\BadgeTypeGroups.cs" />
     <Compile Include="Domain\User\Badges\Type\BadgeTypes.cs" />
     <Compile Include="Domain\User\Badges\Type\BadgeTypesExt.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalc.cs" />
