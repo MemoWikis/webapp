@@ -23,13 +23,25 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         Run(question, user == null ? -1 : user.Id);
     }
 
-    public void Run(Question question, int userId)
+    public void Run(
+        Question question,
+        int userId,
+        Player player = null,
+        Round round = null,
+        LearningSessionStep learningSessionStep = null)
     {
         if (userId != -1) //if user is logged in, always log
             if (HttpContext.Current != null && HttpContext.Current.Request.Browser.Crawler)
                 return;
 
-        _questionViewRepo.Create(new QuestionView{QuestionId = question.Id, UserId = userId});
+        _questionViewRepo.Create(new QuestionView
+        {
+            QuestionId = question.Id,
+            UserId = userId,
+            Player = player,
+            Round = round,
+            LearningSessionStep = learningSessionStep
+        });
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
             ExecuteUpdate();
 
