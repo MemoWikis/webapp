@@ -44,9 +44,6 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult Learn(int learningSessionId, string learningSessionName, int stepNo, int skipStepId = -1)
     {
-        ////_sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
-        //_saveQuestionView.Run(question, _sessionUser.User);
-
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
         if(learningSession.User != _sessionUser.User)
@@ -69,6 +66,11 @@ public class AnswerQuestionController : BaseController
         {
             return Redirect(Links.LearningSession(learningSession, currentLearningStepIdx));
         }
+
+        _saveQuestionView.Run(
+            learningSession.Steps[currentLearningStepIdx].Question,
+            _sessionUser.User.Id,
+            learningSessionStep: learningSession.Steps[currentLearningStepIdx]);
 
         return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), currentLearningStepIdx + 1));
     }

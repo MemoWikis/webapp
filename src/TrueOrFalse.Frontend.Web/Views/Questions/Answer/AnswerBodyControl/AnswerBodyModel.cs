@@ -32,6 +32,8 @@ public class AnswerBodyModel : BaseModel
 
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
+        R<SaveQuestionView>().Run(question, _sessionUser.User.Id, player, round);
+        
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
         IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
 
