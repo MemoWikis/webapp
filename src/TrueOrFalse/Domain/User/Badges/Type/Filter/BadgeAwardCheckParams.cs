@@ -1,7 +1,13 @@
-﻿public class BadgeTypeFilterParams
+﻿public class BadgeAwardCheckParams
 {
     public User CurrentUser;
     public BadgeType BadgeType;
+
+    public BadgeAwardCheckParams(BadgeType badgeType, User user)
+    {
+        BadgeType = badgeType;
+        CurrentUser = user;
+    }
 
     public int WishknowledgeCount()
     {

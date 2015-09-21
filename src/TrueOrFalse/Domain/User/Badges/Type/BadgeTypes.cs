@@ -16,7 +16,7 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()},
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                DoesApply = filterParams => false,
+                Awarded = filterParams => new BadgeAwardCheckResult {Success = false},
             },
             new BadgeType
             {
@@ -26,7 +26,7 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Registration },
-                DoesApply = filterParams => true,
+                Awarded = BadgeAwardCheck.AlwaysFalse(),
             },
             new BadgeType
             {
@@ -36,7 +36,7 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Manually },
-                DoesApply = filterParams => false,
+                Awarded = filterParams => new BadgeAwardCheckResult {Success = false},
             },
             new BadgeType
             {
@@ -46,12 +46,12 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Answer, BadgeCheckOn.WishKnowledgeAdd},
-                DoesApply = BadgeTypeFilter.Get(filterParams =>
+                Awarded = BadgeAwardCheck.Get(filterParams =>
                 {
                     if (filterParams.WishknowledgeCount() >= 1 && filterParams.AnswerCount() >= 1)
-                        return true;
+                        return BadgeLevel.GetBronze();
 
-                    return false;
+                    return null;
                 }),
             },
             new BadgeType

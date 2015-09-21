@@ -9,11 +9,14 @@ public class BadgeType
 
     public virtual bool IsSecret { get; set; }
 
+    /// <summary>Can be assigned multiple times</summary>
+    public virtual bool MoreThanOnce { get; set; }
+
     public virtual IList<BadgeLevel> Levels { get; set; }
     public virtual BadgeTypeGroup Group { get; set; }
 
     public virtual BadgeCheckOn[] BadgeCheckOn  { get; set; }
-    public virtual Func<BadgeTypeFilterParams, bool> DoesApply { get; set; }
+    public virtual Func<BadgeAwardCheckParams, BadgeAwardCheckResult> Awarded { get; set; }
 
     public BadgeType()
     {
