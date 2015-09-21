@@ -253,6 +253,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Code\AssemblyLinker.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseModel.cs" />
     <Compile Include="Code\BaseResolve.cs" />
@@ -301,6 +302,8 @@
     <Compile Include="Views\Dates\DatesModel.cs" />
     <Compile Include="Views\Error\ErrorController.cs" />
     <Compile Include="Views\Help\HelpController.cs" />
+    <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
+    <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSingleSetModel.cs" />
@@ -404,6 +407,11 @@
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
+    <Content Include="Views\Users\Detail\TabBadges.ascx" />
+    <Content Include="Views\Users\Detail\User.css">
+      <DependentUpon>User.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Detail\TabKnowledge.ascx" />
     <Content Include="Views\Welcome\Welcome.css">
       <DependentUpon>Welcome.less</DependentUpon>
     </Content>
@@ -1812,6 +1820,7 @@
     <Content Include="Views\Welcome\Welcome.css.map">
       <DependentUpon>Welcome.css</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Detail\User.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

@@ -2,8 +2,8 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/Views/Users/Users.css") %>
-    <%= Scripts.Render("~/bundles/Users") %>
+    <%= Styles.Render("~/bundles/Users") %>
+    <%= Scripts.Render("~/bundles/js/Users") %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">

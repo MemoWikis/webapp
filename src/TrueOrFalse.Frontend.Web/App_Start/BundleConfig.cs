@@ -69,8 +69,14 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Users")
+            bundles.Add(new ScriptBundle("~/bundles/js/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/Users")
+                .IncludeDirectory("~/Views/Users/", "*.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/User")
+                .IncludeDirectory("~/Views/Users/Detail/", "*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/AnswerQuestion")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")

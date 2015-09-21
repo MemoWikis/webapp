@@ -61,7 +61,7 @@ public class UserRowModel : BaseModel
 
         IndexInResult = indexInResultSet;
 
-        UserLink = urlHelper => Links.UserDetail(urlHelper, user.Name, user.Id);
+        UserLink = urlHelper => Links.UserDetail(user.Name, user.Id);
 
         ImageUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user.EmailAddress).Url;
 

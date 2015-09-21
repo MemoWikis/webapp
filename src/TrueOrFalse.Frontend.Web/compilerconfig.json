@@ -26,5 +26,12 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Views/Users/Detail/User.css",
+    "inputFile": "Views/Users/Detail/User.less",
+    "minify": {
+      "enabled": false
+    }
   }
 ]

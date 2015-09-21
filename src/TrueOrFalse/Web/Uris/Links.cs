@@ -86,13 +86,18 @@ namespace TrueOrFalse.Frontend.Web.Code
                 }, null);
         }
 
-        public static string UserDetail(UrlHelper url, User user){
-            return UserDetail(url, user.Name, user.Id);
+        public static string UserDetail(User user){
+            return UserDetail(user.Name, user.Id);
         }
 
-        public static string UserDetail(UrlHelper url, string userName, int userId){
-            return url.Action(User, UserController, 
+        public static string UserDetail(string userName, int userId){
+            return GetUrlHelper().Action(User, UserController, 
                 new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
+        }
+
+        public static string UserDetailBadges(User user){
+            return GetUrlHelper().Action("Badges", UserController,
+                new { name = UriSegmentFriendlyUser.Run(user.Name), id = user.Id }, null);
         }
 
         public static string SendAnswer(UrlHelper url, Question question){
