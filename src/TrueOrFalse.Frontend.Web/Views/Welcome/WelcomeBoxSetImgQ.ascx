@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
-    Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxSetImgQuestionsModel>" %>
+    Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxSetImgQModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
@@ -13,7 +13,8 @@
         <% foreach (var question in Model.Questions) { %>
         <div class="col-xs-4">
             <div class="ImageContainer">
-                <%= Model.QuestionImageFrontendDatas.First(x => x.ImageMetaData.TypeId == question.Id).RenderHtmlImageBasis(120, true, ImageType.Question) %>
+                <%= Model.QuestionImageFrontendDatas
+                        .First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(120, true, ImageType.Question) %>
             </div>
             <div class="caption" style="padding-top: 10px">
                 <p><%= question.Text %></p>

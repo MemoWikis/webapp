@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
-    Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxSetTextQuestionsModel>" %>
+    Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxSetTxtQModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
@@ -11,9 +11,10 @@
     </div>
     <div class="media-body">
         <h4 class="media-heading"><%: Model.SetName %></h4>
+        <h6 style="margin-bottom: 5px; margin-top: 0px; color: #a3a3a3;">Fragesatz mit <a href="<%: Links.SetDetail(Url, Model.Set) %>"><%= Model.QuestionCount %> Fragen</a></h6>
         <p><%: Model.SetDescription %></p>
     </div>
-    <div class="row">
+    <div class="row" style="clear: left;">
         <% foreach (var question in Model.Questions){ %>
             <div class="col-xs-4" style="padding-top: 10px">
                 <div class="caption"><%= question.Text %></div>
@@ -29,7 +30,7 @@
     </ul>--%>
     <div class="row" style="margin-top: 10px;">
         <div class="pull-right">
-            <a href="<%= Links.SetDetail(Url, Model.Set) %>" class="btn btn-link btn-sm" role="button">Fragesatz anzeigen</a>
+            <%--<a href="<%= Links.SetDetail(Url, Model.Set) %>" class="btn btn-link btn-sm" role="button">Fragesatz anzeigen</a>--%>
             <a href="<%= Links.AnswerQuestion(Url, Model.Questions[0], set:Model.Set) %>" class="btn btn-primary btn-sm" role="button">Alle <%: Model.QuestionCount %> Fragen beantworten</a>
         </div>
     </div>

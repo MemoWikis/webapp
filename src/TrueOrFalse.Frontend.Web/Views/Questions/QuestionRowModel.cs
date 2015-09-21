@@ -60,7 +60,7 @@ public class QuestionRowModel : BaseModel
         CreatorId = question.Creator.Id;
 
         AnswerQuestionLink = urlHelper => Links.AnswerQuestion(urlHelper, question, indexInResultSet, searchTab.ToString());
-        UserLink = urlHelper => Links.UserDetail(urlHelper, question.Creator.Name, question.Creator.Id);
+        UserLink = urlHelper => Links.UserDetail(question.Creator.Name, question.Creator.Id);
         
         IndexInResulSet = indexInResultSet;
 

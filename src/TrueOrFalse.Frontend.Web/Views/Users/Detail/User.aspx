@@ -1,12 +1,11 @@
 ﻿<%@ Page Title="Nutzer" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="System.Web.Mvc.ViewPage<UserModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
     <title>Benutzer <%=Model.Name %> </title>
-    <style>
-        .column{ width: 33%;float: left; padding-right: 4px;}
-    </style>
+    <%= Styles.Render("~/bundles/User") %>
 </asp:Content>
 
 
@@ -56,77 +55,67 @@
                     <div></div>
                 </div>
 
-                <div style="clear: both"></div>
-                <h3 style="margin-top: 20px; margin-bottom: 4px;">Wunschwissen</h3>
-
-                <% if(!Model.User.ShowWishKnowledge && !Model.IsCurrentUser){ %>
-
-                    <div class="bs-callout bs-callout-info" style="margin-top: 15px;">
-                        <h4>Nicht öffentlich</h4>
-                        <p>
-                            <%= Model.User.Name %> hat sein Wunschwissen nicht veröffentlicht.
-                        </p>
-                        
-                        <p>
-                            <a href="#" class="btn btn-default btn-sm" onclick="alert('Diese Funktion ist noch nicht umgesetzt.')">Bitte zeige mir dein Wunschwissen</a>    
-                        </p>
-                    </div>                    
-
-                <% }else{ %>
-                
-                    <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #ffd700;">Fragesätze (<%= Model.WishSets.Count %>):</div>
-                    <% if (Model.WishSets.Count > 0){ %>
-                        <% foreach(var set in Model.WishSets){ %>
-                            <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Text %></a></div>
-                        <% } %>
-                    <% } else { %>
-                        <div style="padding-top: 10px; padding-bottom: 10px;">--
-                            <%= Model.IsCurrentUser ?  
-                                "Du hast keine Fragesätze zu deinem Wunschwissen hinzugefügt" : 
-                                 Model.Name + " hat keine Fragesätze zum Wunschwissen hinzugefügt." %> --
-                        </div>
-                    <% } %>
-
-                    <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #afd534;">Fragen (<%= Model.WishQuestions.Count %>):</div>
-                    <% if (Model.WishQuestions.Count > 0){ %>
-                        <% foreach(var question in Model.WishQuestions){ %>
-                            <div>
-                                <% if(question.IsPrivate()){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
-                                <a href="<%: Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a>
-                            </div>
-                        <% } %>
-                    <% } else { %>
-                        <div style="padding-top: 10px; padding-bottom: 10px;">--
-                            <%= Model.IsCurrentUser ?  
-                                "Du hast keine Fragen zu deinem Wunschwissen hinzugefügt" :
-                                Model.Name + " hat keine Fragen zum Wunschwissen hinzugefügt."  %> --
-                        </div>
-                    <% } %>
-
-                <% } %>
             </div>
         </div>
         
         <div class="col-lg-2 col-xs-3 xxs-stack">
-            <img style="width:100%; border-radius:5px;" src="<%=Model.ImageUrl_250 %>" />
-         
-                <% if(Model.User.ShowWishKnowledge || Model.IsCurrentUser){ %>
-                <h4 style="margin-top: 20px;">Kategorien mit Wunschwissen</h4>
-                    <% foreach (var item in Model.WishQuestionsCategories.OrderByDescending(x => x.Questions.Count)){ %>
-                        <a href="<%= Links.CategoryDetail(item.Category) %>">
-                            <span class="label label-category" style="margin-top: 7px;"><%: item.Category.Name %></span>
-                        </a> 
-                        <% if(Model.IsCurrentUser) { %>
-                            <a href="<%= Links.QuestionWish_WithCategoryFilter(item.Category) %>" class="show-tooltip" title="<%: item.Questions.Count %> Fragen im Wunschwissen">
-                        <% } %>
-                            <span><%: item.Questions.Count %>x</span> 
-                        <% if(Model.IsCurrentUser) { %>
-                            </a>
-                        <% } %>
-                        <br />
-                    <% } %>
-                <% } %>           
+            <img style="width:100%; border-radius:5px;" src="<%=Model.ImageUrl_250 %>" />          
         </div>
+    </div>
+    
+    <div class="row" id="user-main">
+        
+     <div id="MobileSubHeader" class="MobileSubHeader DesktopHide" style="margin-top: 20px;">
+        <div class="MainFilterBarWrapper">
+            <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <a class="btn btn-default disabled">.</a>
+                </div>
+            </div>
+            <div class="container">
+                <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
 
+                    <div class="btn-group <%= Model.IsActiveTabKnowledge? "active" : "" %>">
+                        <a  href="<%= Links.SetsWish() %>" type="button" class="btn btn-default">
+                            Wunsch<span class="hidden-xxs">wissen</span>
+                        </a>
+                    </div>
+                    
+                    <div class="btn-group  <%= Model.IsActiveTabBadges  ? "active" : "" %>">
+                        <a  href="<%= Links.Sets() %>" type="button" class="btn btn-default">
+                            Badges
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="col-lg-12">
+            <div class="boxtainer-outlined-tabs" style="margin-top: 20px;">
+                <div class="boxtainer-header MobileHide">
+                    <ul class="nav nav-tabs">
+                        <li class="<%= Html.IfTrue(Model.IsActiveTabKnowledge, "active") %>">
+                            <a href="<%= Links.UserDetail(Model.User) %>" >
+                                Wunschwissen
+                            </a>
+                        </li>
+                        <li class="<%= Html.IfTrue(Model.IsActiveTabBadges, "active") %>">
+                            <a href="<%= Links.UserDetailBadges(Model.User) %>">
+                                Badges (0 von <%= BadgeTypes.All().Count %>)
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="boxtainer-content">
+                    <% if(Model.IsActiveTabKnowledge) { %>
+                        <% Html.RenderPartial("~/Views/Users/Detail/TabKnowledge.ascx", new TabKnowledgeModel(Model)); %>
+                    <% } %>
+                    <% if(Model.IsActiveTabBadges) { %>
+                        <% Html.RenderPartial("~/Views/Users/Detail/TabBadges.ascx", new TabBadgesModel(Model)); %>
+                    <% } %>
+                </div>
+            </div>
+        </div>
     </div>
 </asp:Content>

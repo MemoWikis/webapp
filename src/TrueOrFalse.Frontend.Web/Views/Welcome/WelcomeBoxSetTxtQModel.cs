@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class WelcomeBoxSetTextQuestionsModel : BaseModel
+public class WelcomeBoxSetTxtQModel : BaseModel
 {
     public int SetId;
     public Set Set;
@@ -11,7 +11,7 @@ public class WelcomeBoxSetTextQuestionsModel : BaseModel
 
     public ImageFrontendData ImageFrontendData;
 
-    public WelcomeBoxSetTextQuestionsModel(int setId, int[] questionIds, string setDescription = null) 
+    public WelcomeBoxSetTxtQModel(int setId, int[] questionIds, string setDescription = null) 
     {
         Set = R<SetRepo>().GetById(setId) ?? new Set();
 
@@ -27,9 +27,9 @@ public class WelcomeBoxSetTextQuestionsModel : BaseModel
 
     }
 
-    public static WelcomeBoxSetTextQuestionsModel GetWelcomeBoxSetTextQuestionsModel(int setId, int[] questionIds,
+    public static WelcomeBoxSetTxtQModel GetWelcomeBoxSetTxtQModel(int setId, int[] questionIds,
         string setDescription = null)
     {
-        return new WelcomeBoxSetTextQuestionsModel(setId, questionIds, setDescription);
+        return new WelcomeBoxSetTxtQModel(setId, questionIds, setDescription);
     }
 }

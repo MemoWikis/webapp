@@ -3,16 +3,16 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="col-md-12">
+<div class="col-xs-12">
     
     <div class="row">
-        <div class="col-md-6 col-xs-12">        
+        <div class="col-sm-6 col-xs-12">        
             <a href="#"><i class="fa fa-bar-chart"></i>
                 <%= Html.ActionLink("Algorithmus-Einblick", "AlgoInsight", "AlgoInsight")  %>
             </a>
         </div>
 
-        <div class="col-md-6 col-xs-12 text-align-right-md">
+        <div class="col-sm-6 col-xs-12 text-align-right-md">
             <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%> | 
             <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%>
         </div>
@@ -21,7 +21,7 @@
 </div>
 
 
-<div class="col-md-12" style="margin-top: 2px;">
+<div class="col-xs-12" style="margin-top: 2px;">
     
     <span style="display: inline;">Auf:</span>
     <ul id="footerOn" style="margin-left: -15px;">
@@ -29,7 +29,14 @@
         <li>
             <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
                 <i class="fa fa-cogs"></i> 
-                Teamcity (Build:<%= Assembly.Load("TrueOrFalse").GetName().Version.Major %>)
+                <% var assembly = Assembly.Load("TrueOrFalse"); %>
+                Teamcity 
+                
+                <span style="color:darkgray">
+                    (Build:<%= assembly.GetName().Version.Major %> am
+                    <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("f")) %>
+                </span>
+                )
             </a>
         </li>
     </ul>

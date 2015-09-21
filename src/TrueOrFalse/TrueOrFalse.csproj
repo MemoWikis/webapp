@@ -479,10 +479,21 @@
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataDate.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataText.cs" />
-    <Compile Include="Domain\User.Reputation\ReputationCalc.cs" />
-    <Compile Include="Domain\User.Reputation\ReputationCalcResult.cs" />
-    <Compile Include="Domain\User.Reputation\ReputationUpdate.cs" />
-    <Compile Include="Domain\User.Reputation\UpdateReputationsAndRank.cs" />
+    <Compile Include="Domain\User\Badges\Badge.cs" />
+    <Compile Include="Domain\User\Badges\Type\BadgeType.cs" />
+    <Compile Include="Domain\User\Badges\BadgeLevel.cs" />
+    <Compile Include="Domain\User\Badges\Type\Filter\BadgeCheckOn.cs" />
+    <Compile Include="Domain\User\Badges\Type\Filter\BadgeTypeFilter.cs" />
+    <Compile Include="Domain\User\Badges\Type\Filter\BadgeTypeFilterParams.cs" />
+    <Compile Include="Domain\User\Badges\Type\Group\BadgeTypeGroup.cs" />
+    <Compile Include="Domain\User\Badges\Type\Group\BadgeTypeGroupKeys.cs" />
+    <Compile Include="Domain\User\Badges\Type\Group\BadgeTypeGroups.cs" />
+    <Compile Include="Domain\User\Badges\Type\BadgeTypes.cs" />
+    <Compile Include="Domain\User\Badges\Type\BadgeTypesExt.cs" />
+    <Compile Include="Domain\User\Reputation\ReputationCalc.cs" />
+    <Compile Include="Domain\User\Reputation\ReputationCalcResult.cs" />
+    <Compile Include="Domain\User\Reputation\ReputationUpdate.cs" />
+    <Compile Include="Domain\User\Reputation\UpdateReputationsAndRank.cs" />
     <Compile Include="Domain\User\Activity\UserActivityType.cs" />
     <Compile Include="Domain\User\AppAccess\AppAccess.cs" />
     <Compile Include="Domain\User\AppAccess\AppKey.cs" />
@@ -787,6 +798,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\User\Activity\Ops\" />
+    <Folder Include="Domain\User\Badges\Persistence\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

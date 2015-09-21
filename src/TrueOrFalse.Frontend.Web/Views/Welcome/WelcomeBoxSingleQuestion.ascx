@@ -10,10 +10,12 @@
         </div>
 
         <div class="caption">
-            <h6 style="margin-bottom: 5px; color: #a3a3a3;"><a href="<%: Links.QuestionWithCategoryFilter(Url, Model.ContextCategoryName, Model.ContextCategoryId) %>"><%= Model.QCount %> Fragen</a> in Kategorie</h6>
+            <h6 style="margin-bottom: 5px; color: #a3a3a3;">Kategorie mit <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.ContextCategoryName, Model.ContextCategoryId) %>"><%= Model.QCount %> Fragen</a></h6>
             <h4 style="margin-top: 5px;"><%: Model.ContextCategoryName %></h4>
             <p><%: Model.QuestionText %></p>
-            <a href="<%= Links.AnswerQuestion(Url, Model.QuestionText, Model.QuestionId, paramElementOnPage:1, categoryFilter:Model.ContextCategoryName) %>" class="btn btn-primary" role="button">Beantworten</a>
+            <p style="text-align: center;">
+                <a href="<%= Links.AnswerQuestion(Url, Model.QuestionText, Model.QuestionId, paramElementOnPage:1, categoryFilter:Model.ContextCategoryName) %>" class="btn btn-primary" role="button">Beantworten</a>
+            </p>
         </div>
     </div>
 </div>

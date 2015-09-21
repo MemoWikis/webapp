@@ -113,7 +113,7 @@
             Spieler:
             <%  foreach(var player in Model.Players){ %>
                 <i class="fa fa-user" data-playerUserId="<%= player.User.Id %>"></i>
-                <a href="<%= Links.UserDetail(Url, player.User) %>" 
+                <a href="<%= Links.UserDetail(player.User) %>" 
                    data-playerUserId="<%= player.User.Id %>" >
                     <%= player.User.Name %>
                 </a>

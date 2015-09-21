@@ -264,7 +264,7 @@
                         </a>
                     </div>
                     <div class="col-cs-12 number-box-reputation">
-                        <a href="<%= Links.UserDetail(Url, Model.UserName, Model.UserId) %>">
+                        <a href="<%= Links.UserDetail(Model.UserName, Model.UserId) %>">
                             <div style="padding-left: 14px; padding: 8px;">                        
                                 <span>Reputation <b><%= Model.ReputationTotal %></b></span><br />
                                 <span>Platz <b><%= Model.ReputationRank %></b></span>
