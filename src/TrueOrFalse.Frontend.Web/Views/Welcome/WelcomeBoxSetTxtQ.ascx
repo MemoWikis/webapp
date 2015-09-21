@@ -17,21 +17,13 @@
     <div class="row" style="clear: left;">
         <% foreach (var question in Model.Questions){ %>
             <div class="col-xs-4" style="padding-top: 10px">
-                <div class="caption"><%= question.Text %></div>
+                <div class="caption"><p><%= question.Text %></p></div>
                     
             </div>
         <% } %>
     </div>
-<%--        <ul>
-        <% foreach (var question in Model.Questions){ %>
-            <li><%= question.Text %></li>
-        <% } %>
-        <li>...</li>
-    </ul>--%>
-    <div class="row" style="margin-top: 10px;">
-        <div class="pull-right">
-            <%--<a href="<%= Links.SetDetail(Url, Model.Set) %>" class="btn btn-link btn-sm" role="button">Fragesatz anzeigen</a>--%>
-            <a href="<%= Links.AnswerQuestion(Url, Model.Questions[0], set:Model.Set) %>" class="btn btn-primary btn-sm" role="button">Alle <%: Model.QuestionCount %> Fragen beantworten</a>
-        </div>
+
+    <div class="pull-right">
+        <a href="<%= Links.AnswerQuestion(Url, Model.Questions[0], set:Model.Set) %>" class="btn btn-primary btn-sm" role="button">Alle <%: Model.QuestionCount %> Fragen beantworten</a>
     </div>
 </div>

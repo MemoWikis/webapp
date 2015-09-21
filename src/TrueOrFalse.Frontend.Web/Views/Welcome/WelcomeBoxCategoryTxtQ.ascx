@@ -17,7 +17,7 @@
     <div class="row" style="clear: left;">
         <% foreach (var question in Model.Questions){ %>
             <div class="col-xs-4" style="padding-top: 10px">
-                <div class="caption"><%= question.Text %></div>
+                <div class="caption"><p><%= question.Text %></p></div>
             </div>
         <% } %>
     </div>
