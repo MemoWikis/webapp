@@ -67,6 +67,10 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         bool countUnansweredAsCorrect = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
+        
+        if(countLastAnswerAsCorrect && countUnansweredAsCorrect)
+            throw new Exception("either countLastAnswerAsCorrect OR countUnansweredAsCorrect should be set to true, not both");
+        
         if (countLastAnswerAsCorrect)
             return Run(questionId, "", userId,
             (question, answerQuestionResult) =>
@@ -84,7 +88,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
                     },
                 countUnansweredAsCorrect: true);
 
-        throw new Exception("neither countLastAnswerAsCorrect nor countUnansweredAsCorrect specified");
+        throw new Exception("neither countLastAnswerAsCorrect nor countUnansweredAsCorrect true");
     }
 
     public AnswerQuestionResult Run(
