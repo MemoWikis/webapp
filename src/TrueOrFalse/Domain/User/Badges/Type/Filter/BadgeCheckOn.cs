@@ -23,5 +23,6 @@
     CategoryUpdateOrCreate,
 
     OncePerDay,
-    Never
+
+    Manually
 }

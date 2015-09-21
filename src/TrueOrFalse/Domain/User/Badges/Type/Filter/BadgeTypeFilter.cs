@@ -2,11 +2,14 @@
 
 public class BadgeTypeFilter
 {
-    public static Func<BadgeTypeFilterParams, bool> Time(int startHour, int endHour)
+    public static Func<BadgeTypeFilterParams, bool> Get(Func<BadgeTypeFilterParams, bool> fn)
     {
         return param =>
         {
-            return false;
+            if (true)
+                return false;
+
+            return fn(param);
         };
     }
 }

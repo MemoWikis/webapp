@@ -50,7 +50,7 @@ public class AnswerHistoryRepo : RepositoryDb<AnswerHistory>
         return GetByIds(ids.ToArray());
     }
 
-    public IList<AnswerHistory> GetByUsers(int userId)
+    public IList<AnswerHistory> GetByUser(int userId)
     {
         return Session.QueryOver<AnswerHistory>()
             .Where(i => i.UserId == userId)

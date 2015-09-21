@@ -15,8 +15,8 @@ public class BadgeTypes
                 Description = "Während des 1. Jahres Fördermitglied geworden (und für ein Jahr geblieben)",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()},
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
                 DoesApply = filterParams => false,
-                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay }
             },
             new BadgeType
             {
@@ -25,7 +25,8 @@ public class BadgeTypes
                 Description = "Während der Beta-Phase Nutzer geworden",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
-                BadgeCheckOn = new []{ BadgeCheckOn.Registration }, 
+                BadgeCheckOn = new []{ BadgeCheckOn.Registration },
+                DoesApply = filterParams => true,
             },
             new BadgeType
             {
@@ -34,7 +35,8 @@ public class BadgeTypes
                 Description = "Per Hand verliehen an alle, die während der Beta-Phase MEMuchO genutzt und uns beraten haben",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
-                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                BadgeCheckOn = new []{ BadgeCheckOn.Manually },
+                DoesApply = filterParams => false,
             },
             new BadgeType
             {
@@ -44,6 +46,13 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Answer, BadgeCheckOn.WishKnowledgeAdd},
+                DoesApply = BadgeTypeFilter.Get(filterParams =>
+                {
+                    if (filterParams.WishknowledgeCount() >= 1 && filterParams.AnswerCount() >= 1)
+                        return true;
+
+                    return false;
+                }),
             },
             new BadgeType
             {
