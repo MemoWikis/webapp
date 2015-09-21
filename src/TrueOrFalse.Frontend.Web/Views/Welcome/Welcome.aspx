@@ -19,7 +19,7 @@
                 <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
-                        MEMuchO hilft dir beim Lernen hilft und macht Spaß!<br/>
+                        MEMuchO hilft dir beim Lernen und macht Spaß!<br/>
                     </p>
                     <p>
                         <a href="#teaserWhatIsMemucho"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
@@ -44,16 +44,7 @@
             </div>
         </div>
 
-        <div class="well hidden" style="background-color: white; padding: 13px;">
-            <h1 style="margin-top: 0; margin-bottom: 7px; font-size: 24px;">MEMuchO ist eine Lern- und Wissensplattform</h1>
-            <ul style="margin-top: 0; margin-bottom: 0; padding-top: 3px; font-size: 16px; list-style: circle ">                
-                <li><a href="#teaserWhatIsMemucho">Wie hilft dir MEMuchO? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
-                <li><a href="#teaserPrinciples">Wikipedia-Prinzip, Vernetzung und Gemeinwohlorientierung &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
-                <li><a href="#teaserWhoWeAre">Wer sind wir? &nbsp; <i class="fa fa-arrow-right" style="" ></i></a></li>
-            </ul>
-        </div>
-            
-        <div class="row ThumbnailRow" style="padding-top: 0px;">
+        <div class="row ThumbnailRow" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(381, 205)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(14)); %>
             <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 404, contextCatId: 14)); %>
