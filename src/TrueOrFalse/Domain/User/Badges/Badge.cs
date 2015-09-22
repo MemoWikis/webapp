@@ -2,8 +2,12 @@
 
 public class Badge : DomainEntity
 {
-    public int TimesGiven;
+    public virtual string BadgeTypeKey { get; set; }
 
-    public int Points;
-    public string LevelName;
+    public virtual int TimesGiven { get; set; }
+
+    public virtual int Points { get; set; }
+    public virtual string Level { get; set; }
+
+    public virtual User User { get; set; }
 }

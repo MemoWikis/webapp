@@ -36,6 +36,7 @@
                 .Add(103, UpdateToVs103.Run)
                 .Add(104, UpdateToVs104.Run)
                 .Add(105, UpdateToVs105.Run)
+                .Add(106, UpdateToVs106.Run)
                 .Run();
         }
     }

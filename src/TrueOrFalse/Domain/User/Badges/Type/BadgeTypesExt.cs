@@ -7,4 +7,13 @@ public static class BadgeTypesExt
     {
         return badgeTypes.Where(x => x.Group.Key == groupKey); 
     }
+
+    public static IEnumerable<BadgeType> ByCheckOn(this IEnumerable<BadgeType> badgeTypes, BadgeCheckOn checkOn)
+    {
+        return badgeTypes.Where(
+            x => 
+                x.BadgeCheckOn != null && 
+                x.BadgeCheckOn.Any(y => y == checkOn)
+        );
+    }
 }
