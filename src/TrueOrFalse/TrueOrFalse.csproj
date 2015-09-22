@@ -480,7 +480,7 @@
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataText.cs" />
     <Compile Include="Domain\User\Badges\Badge.cs" />
-    <Compile Include="Domain\User\Badges\BadgeDistribute.cs" />
+    <Compile Include="Domain\User\Badges\BadgeAwarder.cs" />
     <Compile Include="Domain\User\Badges\Persistence\BadgeMap.cs" />
     <Compile Include="Domain\User\Badges\Persistence\BadgeRepo.cs" />
     <Compile Include="Domain\User\Badges\Type\BadgeType.cs" />

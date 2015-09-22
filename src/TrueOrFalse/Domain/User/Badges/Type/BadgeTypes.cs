@@ -16,7 +16,7 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()},
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                Awarded = filterParams => new BadgeAwardCheckResult {Success = false},
+                AwardCheck = filterParams => new BadgeAwardCheckResult {Success = false},
             },
             new BadgeType
             {
@@ -26,7 +26,7 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Registration },
-                Awarded = BadgeAwardCheck.AlwaysFalse(),
+                AwardCheck = BadgeAwardCheck.AlwaysFalse(),
             },
             new BadgeType
             {
@@ -36,7 +36,7 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Manually },
-                Awarded = filterParams => new BadgeAwardCheckResult {Success = false},
+                AwardCheck = filterParams => new BadgeAwardCheckResult {Success = false},
             },
             new BadgeType
             {
@@ -46,7 +46,7 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Answer, BadgeCheckOn.WishKnowledgeAdd},
-                Awarded = BadgeAwardCheck.Get(filterParams =>
+                AwardCheck = BadgeAwardCheck.Get(filterParams =>
                 {
                     if (filterParams.WishknowledgeCount() >= 1 && filterParams.AnswerCount() >= 1)
                         return BadgeLevel.GetBronze();

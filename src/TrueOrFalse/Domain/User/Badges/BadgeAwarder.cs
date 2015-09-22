@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-public class BadgeDistribute
+﻿public class BadgeAwarder
 {
     public static void Run(BadgeCheckOn badgeCheckOn, User user)
     {
@@ -9,10 +7,10 @@ public class BadgeDistribute
 
         foreach (var badgeType in allBadgesTypesToCheck)
         {
-            if (badgeType.Awarded == null)
+            if (badgeType.AwardCheck == null)
                 continue;
 
-            var result = badgeType.Awarded(new BadgeAwardCheckParams(badgeType, user));
+            var result = badgeType.AwardCheck(new BadgeAwardCheckParams(badgeType, user));
 
             if (result.Success)
                 badgeRepo.Create(result.Badge);

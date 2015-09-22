@@ -23,6 +23,7 @@ public class BadgeAwardCheck
 
             return new BadgeAwardCheckResult
             {
+                Success = true,
                 Badge = new Badge
                 {
                     BadgeTypeKey = param.BadgeType.Key,

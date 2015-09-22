@@ -16,7 +16,7 @@ public class BadgeType
     public virtual BadgeTypeGroup Group { get; set; }
 
     public virtual BadgeCheckOn[] BadgeCheckOn  { get; set; }
-    public virtual Func<BadgeAwardCheckParams, BadgeAwardCheckResult> Awarded { get; set; }
+    public virtual Func<BadgeAwardCheckParams, BadgeAwardCheckResult> AwardCheck { get; set; }
 
     public BadgeType()
     {

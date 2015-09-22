@@ -14,7 +14,9 @@ namespace TrueOrFalse.Tests
 
         public List<Question> All = new List<Question>();
         public User Creator { get { return _contextUser.All[0]; }}
-        public User Learner { get { return _contextUser.All[1]; } }
+
+        private User _learner;
+        public User Learner{get{ return _learner ??_contextUser.All[1];}}
 
         private bool _persistQuestionsImmediately;
 
@@ -22,6 +24,8 @@ namespace TrueOrFalse.Tests
         {
             return BaseTest.Resolve<ContextQuestion>();
         }
+
+        public ContextQuestion SetLearner(User learner){ _learner = learner; return this; }
 
         public ContextQuestion(QuestionRepo questionRepo)
         {
@@ -60,8 +64,11 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextQuestion AddAnswers(int countCorrect, int countWrong, DateTime dateCreated)
+        public ContextQuestion AddAnswers(int countCorrect, int countWrong, DateTime dateCreated = default(DateTime))
         {
+            if (dateCreated == default(DateTime))
+                dateCreated = DateTime.Now;
+
             var lastQuestion = All.Last();
 
             for (var i = 0; i < countCorrect; i++)
@@ -69,6 +76,17 @@ namespace TrueOrFalse.Tests
 
             for (var i = 0; i < countWrong; i++)
                 Sl.Resolve<AnswerQuestion>().Run(lastQuestion.Id, lastQuestion.Solution + "möb", Learner.Id, dateCreated);
+
+            return this;
+        }
+
+        public ContextQuestion AddToWishknowledge(User user)
+        {
+            var lastQuestion = All.Last();
+            
+            Sl.R<QuestionValuationRepo>().Create(
+                new QuestionValuation { Question = lastQuestion, User = user, RelevancePersonal = 50 }
+            );
 
             return this;
         }
