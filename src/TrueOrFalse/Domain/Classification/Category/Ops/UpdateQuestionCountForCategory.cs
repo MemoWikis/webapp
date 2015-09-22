@@ -15,7 +15,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
             var query =
                 "UPDATE category SET CountQuestions = " +
                 " (SELECT COUNT(*) " +
-                "  FROM categoriestoquestions as cq" +
+                "  FROM categories_to_questions as cq" +
                 "  LEFT JOIN  question as q" +
                 "  ON cq.Question_id = q.Id " +
                 "  WHERE Category_id = category.Id" +

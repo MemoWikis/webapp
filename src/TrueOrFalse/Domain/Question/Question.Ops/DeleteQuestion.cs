@@ -32,7 +32,7 @@ public class DeleteQuestion : IRegisterAsInstancePerLifetime
         _answerHistory.DeleteFor(questionId);
 
         _session
-            .CreateSQLQuery("DELETE FROM categoriestoquestions where Question_id = " + questionId)
+            .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)
             .ExecuteUpdate();
     }
 

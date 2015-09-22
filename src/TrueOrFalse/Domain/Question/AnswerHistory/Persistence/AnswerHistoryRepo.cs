@@ -42,7 +42,7 @@ public class AnswerHistoryRepo : RepositoryDb<AnswerHistory>
             SELECT ah.Id FROM answerhistory ah
             LEFT JOIN question q
             ON q.Id = ah.QuestionId
-            LEFT JOIN categoriestoquestions cq
+            LEFT JOIN categories_to_questions cq
             ON cq.Question_id = q.Id
             WHERE cq.Category_id = " + categoryId;
 

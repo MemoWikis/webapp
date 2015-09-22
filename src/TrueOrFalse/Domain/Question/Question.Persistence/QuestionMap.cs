@@ -33,7 +33,7 @@ public class QuestionMap : ClassMap<Question>
 
         HasMany(x => x.References).Cascade.AllDeleteOrphan();
         HasManyToMany(x => x.Categories)
-            .Table("CategoriesToQuestions")
+            .Table("categories_to_questions")
             .Cascade.SaveUpdate();
 
         Map(x => x.SetsAmount);

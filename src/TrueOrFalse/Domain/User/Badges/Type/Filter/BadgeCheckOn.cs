@@ -6,11 +6,8 @@
     AnswerInLearningSession,
 
     QuestionUpdateOrCreate,
-
     SetUpdateOrCreate,
-
     GameFinished,
-
     DateCreated,
 
     WishKnowledgeAdd,
@@ -19,10 +16,10 @@
     UserProfileUpdated,
 
     CommentedAdded,
-
     CategoryUpdateOrCreate,
-
     OncePerDay,
 
-    Manually
+    None,
+    Manually,
+    All
 }

@@ -1,9 +1,13 @@
 ﻿public class BadgeAwarder
 {
-    public static void Run(BadgeCheckOn badgeCheckOn, User user)
+    public static void Run(User user, BadgeCheckOn badgeCheckOn)
     {
         var badgeRepo = Sl.R<BadgeRepo>();
-        var allBadgesTypesToCheck = BadgeTypes.All().ByCheckOn(badgeCheckOn);
+
+        var allBadgesTypesToCheck = 
+            badgeCheckOn == BadgeCheckOn.None ? 
+                BadgeTypes.All() : 
+                BadgeTypes.All().ByCheckOn(badgeCheckOn);
 
         foreach (var badgeType in allBadgesTypesToCheck)
         {

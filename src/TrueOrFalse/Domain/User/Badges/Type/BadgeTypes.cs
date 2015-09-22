@@ -46,13 +46,10 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Answer, BadgeCheckOn.WishKnowledgeAdd},
-                AwardCheck = BadgeAwardCheck.Get(filterParams =>
-                {
-                    if (filterParams.WishknowledgeCount() >= 1 && filterParams.AnswerCount() >= 1)
-                        return BadgeLevel.GetBronze();
-
-                    return null;
-                }),
+                AwardCheck = BadgeAwardCheck.Get(filterParams => 
+                    filterParams.WishknowledgeCount() >= 1 && filterParams.AnswerCount() >= 1
+                        ? BadgeLevel.GetBronze()
+                        : null),
             },
             new BadgeType
             {
@@ -62,6 +59,13 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate, BadgeCheckOn.SetUpdateOrCreate, BadgeCheckOn.WishKnowledgeAdd},
+                AwardCheck = BadgeAwardCheck.Get(filterParams =>
+                    filterParams.MultipleChoiceQuestionsWithCategories() >= 2 &&
+                    filterParams.SetsWithAtLeast10Questions() >= 2 &&
+                    filterParams.Wishknowledge_UserIsCreator() >= 2 &&
+                    filterParams.Wishknowledge_OtherIsCreator() >= 2
+                        ? BadgeLevel.GetSilver()
+                        : null),
             },
             new BadgeType
             {
@@ -71,6 +75,13 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()},
                 BadgeCheckOn = new []{ BadgeCheckOn.GameFinished, BadgeCheckOn.DateCreated, BadgeCheckOn.UserFollowed, BadgeCheckOn.WishKnowledgeAdd, BadgeCheckOn.CommentedAdded, BadgeCheckOn.CategoryUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.Get(filterParams => 
+                    filterParams.IsBadgeAwarded("NewbieSilver", filterParams) &&
+                    filterParams.PlayedGames() >= 3 &&
+                    filterParams.Dates() >= 3 &&
+                    filterParams.UsersFollowed() >= 3
+                        ? BadgeLevel.GetGold() 
+                        : null)
             },
             new BadgeType
             {
