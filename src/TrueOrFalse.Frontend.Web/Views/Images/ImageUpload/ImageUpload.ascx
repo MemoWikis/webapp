@@ -11,7 +11,7 @@
             <div class="modal-body" id="modalBody">
                 <div class="alert alert-info">
                     <strong>Achtung:</strong> Bildrechte sind ein sensibles Thema. 
-                    Bitte lade nur Bilder hoch, die gemeinfrei sind oder die du selbst erstellt hast. 
+                    Bitte lade nur Bilder hoch, die gemeinfrei sind, die unter einer entsprechenden Lizenz stehen oder die du selbst erstellt hast. 
                 </div>
        
                 <div class="form-horizontal">
@@ -38,10 +38,12 @@
                     <div class="Clearfix" style="margin-top:10px;">
                         <p>
                             Bei Wikipedia/ Wikimedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. 
-                            Auf <a href="http://commons.wikimedia.org/wiki/Hauptseite?uselang=de">Wikimedia-Commons</a> kannst du gezielt nach Inhalten suchen. 
+                            Auf <a href="http://commons.wikimedia.org/wiki/Hauptseite?uselang=de" target="_blank">Wikimedia-Commons</a> kannst du gezielt nach Inhalten suchen. 
                         </p>
                         <p>
-                            Tipp: Wenn du bei Wikipedia oder Wikimedia-Commons auf das gewünschte Bild klickst, kommst du zur Detailansicht. Kopiere einfach die Url dieser Seite.
+                            Tipp: Wenn du bei <a href="https://de.wikipedia.org/wiki/Wikipedia:Hauptseite" target="_blank">Wikipedia</a> oder 
+                            <a href="http://commons.wikimedia.org/wiki/Hauptseite?uselang=de" target="_blank">Wikimedia-Commons</a> auf das gewünschte Bild klickst, 
+                            kommst du zur Detailansicht. (Bei manchen Karten musst du auf das "i"-Logo in der rechten unteren Ecke klicken.) Kopiere einfach die Url dieser Seite.
                         </p>
                     </div>
         

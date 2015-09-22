@@ -6,6 +6,7 @@
 <div class="media panel-body">
     <div class="media-body" style="padding-bottom: 10px;">
         <h4 class="media-heading"><%: Model.CategoryName %></h4>
+        <h6 style="margin-bottom: 5px; margin-top: 0px; color: #a3a3a3;">Kategorie mit <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.CategoryName, Model.CategoryId) %>"><%= Model.QuestionCount %> Fragen</a></h6>
         <p><%: Model.CategoryDescription %></p>
     </div>
 
@@ -22,7 +23,6 @@
         <% } %>
     </div>
     <div class="pull-right">
-        <%--get link to point to random question in set:--%> 
         <a href="<%= Links.AnswerQuestion(Url, Model.Questions.First().Text, Model.Questions.First().Id, paramElementOnPage:1, categoryFilter:Model.CategoryName) %>" class="btn btn-primary btn-sm" role="button">Alle <%: Model.QuestionCount %> Fragen beantworten</a>
     </div>
 </div>

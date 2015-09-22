@@ -19,8 +19,7 @@
             <p><%: Model.SetText %></p>
             <p style="text-align: center;">
                 <a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>
-                <a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm" role="button">Fragesatz anzeigen</a>
-                <a href="<%= Links.StartSetLearningSession(Model.SetId) %>" class="btn btn-link btn-sm" role="button">Jetzt üben (10 Fragen)</a>
+                <%--<a href="<%= Links.StartSetLearningSession(Model.SetId) %>" class="btn btn-link btn-sm" role="button">Jetzt üben (10 Fragen)</a>--%>
             </p>
         </div>
     </div>

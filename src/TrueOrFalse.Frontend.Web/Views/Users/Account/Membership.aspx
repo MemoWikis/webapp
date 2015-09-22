@@ -32,10 +32,10 @@
             <p>Du findest, dass MEMuchO eine tolle Sache ist und möchtest uns unterstützen? 
                 Dann werde Fördermitglied der ersten Stunde!</p>
             <p>Wir sind noch nicht ganz fertig, MEMuchO befindet sich in der Beta-Phase. 
-                Einige Funktionen fehlen noch (zum Beispiel das Lernen zu einem bestimmten Termin), 
-                andere Dinge müssen wir noch verbessern und benutzerfreundlicher machen (zum Beispiel den Lernalgorithmus). 
+                Einige Funktionen fehlen noch, andere Dinge müssen wir noch verbessern und 
+                benutzerfreundlicher machen. 
                 Außerdem haben wir noch sooo viele Ideen, die auf Verwirklichung warten. Wir arbeiten daran! 
-                Aber gerade in der schwierigen Startphase brauchen wir dich und deine Unterstützung! 
+                Aber gerade in der schwierigen Startphase brauchen wir dich und deine Unterstützung. 
                 Wenn du an uns glaubst, dann werde jetzt Fördermitglied!</p>
     
             <% } %>
@@ -47,13 +47,13 @@
             <% } %>
 
             <ul>
-                <li> Eine Förder-Medaille "Mitglied-der-1.-Stunde" in deinem Profil auf Lebenszeit.</li>
+                <li> Die wertvolle Trophäe "Fördermitglied der 1. Stunde" in Gold in deinem Profil auf Lebenszeit.</li>
                 <li>Das gute Gefühl, eine tolle Idee zu unterstützen.</li>
                 <li>Alle MEMuchO-Funktionen ohne Beschränkungen, insbesondere...
                     <ul style="list-style: none;">
-                        <li> ...unbegrenzt private Fragen (sonst 20 Fragen)</li>
+                        <li>...unbegrenzt private Fragen (sonst 20 Fragen)</li>
                         <li>...unbegrenzt Wunschwissen (sonst 50 Fragen)</li>
-                        <li> ...Nutzung von Lernterminen.</li>        
+                        <li>...unbegrenzte Nutzung von Lernterminen.</li>        
                     </ul>
                 </li>
             </ul>
@@ -61,7 +61,7 @@
                 <p>
                     In der Beta-Phase sind die Funktionalitäten für Nichtmitglieder noch nicht beschränkt. 
                     Bis zum offiziellen Start unserer Plattform 
-                    winken für dich als Fördermitglied also "nur" Ruhm, Ehre und die besondere Medaille 
+                    winken für dich als Fördermitglied also "nur" Ruhm, Ehre und die besondere Trophäe 
                     &#8211 und das gute Gefühl, eine tolle Sache zu unterstützen.
                 </p>
 

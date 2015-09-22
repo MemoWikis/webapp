@@ -23,8 +23,16 @@ public class WelcomeBoxSingleSetModel : BaseModel
         SetName = set.Name;
         SetText = setText ?? set.Text;
         QCount = set.Questions().Count;
-        FirstQId = set.QuestionIds()[0];
-        FirstQText = R<QuestionRepo>().GetById(FirstQId).Text; // this repo only needed to get Text of First Question to generate Link in Partial View!!
+        if (set.Questions().Count > 0)
+        {
+            FirstQId = set.Questions()[0].Id;
+            FirstQText = R<QuestionRepo>().GetById(FirstQId).Text; // this repo only needed to get Text of First Question to generate Link in Partial View!!
+        }
+        else
+        {
+            FirstQId = 0;
+            FirstQText = "";
+        }
     }
 
     public static WelcomeBoxSingleSetModel GetWelcomeBoxSetSingleModel(int setId, string setText = null)
