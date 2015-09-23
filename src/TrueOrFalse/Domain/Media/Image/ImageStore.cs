@@ -4,11 +4,11 @@ using TrueOrFalse;
 public class ImageStore : IRegisterAsInstancePerLifetime
 {
     private readonly WikiImageMetaLoader _metaLoader;
-    private readonly ImageMetaDataRepository _imgMetaRepo;
+    private readonly ImageMetaDataRepo _imgMetaRepo;
 
     public ImageStore(
         WikiImageMetaLoader metaLoader,
-        ImageMetaDataRepository imgMetaRepo)
+        ImageMetaDataRepo imgMetaRepo)
     {
         _metaLoader = metaLoader;
         _imgMetaRepo = imgMetaRepo;

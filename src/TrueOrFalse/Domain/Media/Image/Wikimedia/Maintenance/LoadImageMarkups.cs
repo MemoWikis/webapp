@@ -6,11 +6,11 @@ namespace TrueOrFalse.Maintenance
 {
     public class LoadImageMarkups : IRegisterAsInstancePerLifetime
     {
-        private readonly ImageMetaDataRepository _imgRepo;
+        private readonly ImageMetaDataRepo _imgRepo;
         private readonly WikiImageLicenseLoader _wikiImageLicenseLoader;
 
         public LoadImageMarkups(
-            ImageMetaDataRepository imgRepo,
+            ImageMetaDataRepo imgRepo,
             WikiImageLicenseLoader wikiImageLicenseLoader)
         {
             _imgRepo = imgRepo;

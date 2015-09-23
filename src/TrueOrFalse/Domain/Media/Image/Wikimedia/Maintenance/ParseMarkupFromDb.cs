@@ -9,9 +9,9 @@ namespace TrueOrFalse.Maintenance
 {
     public class ParseMarkupFromDb : IRegisterAsInstancePerLifetime
     {
-        private readonly ImageMetaDataRepository _imgRepo;
+        private readonly ImageMetaDataRepo _imgRepo;
 
-        public ParseMarkupFromDb(ImageMetaDataRepository imgRepo)
+        public ParseMarkupFromDb(ImageMetaDataRepo imgRepo)
         {
             _imgRepo = imgRepo;
         }

@@ -31,7 +31,7 @@ public class SetImageSettings : ImageSettingsBase, IImageSettings
 
     private ImageUrl GetUrl(int width, bool isSquare = false)
     {
-        var imageMetaRepo = ServiceLocator.Resolve<ImageMetaDataRepository>();
+        var imageMetaRepo = ServiceLocator.Resolve<ImageMetaDataRepo>();
         var imageMeta = imageMetaRepo.GetBy(Id, ImageType.QuestionSet);
 
         return ImageUrl.Get(

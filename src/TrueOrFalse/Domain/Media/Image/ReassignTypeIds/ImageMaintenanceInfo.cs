@@ -47,7 +47,7 @@ public class ImageMaintenanceInfo
     }
 
     public ImageMaintenanceInfo(int typeId, ImageType imageType)
-        : this(ServiceLocator.Resolve<ImageMetaDataRepository>().GetBy(typeId, imageType))
+        : this(ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(typeId, imageType))
     {
     }
 

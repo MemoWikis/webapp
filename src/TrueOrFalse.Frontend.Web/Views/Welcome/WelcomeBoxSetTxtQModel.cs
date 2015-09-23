@@ -15,7 +15,7 @@ public class WelcomeBoxSetTxtQModel : BaseModel
     {
         Set = R<SetRepo>().GetById(setId) ?? new Set();
 
-        var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(Set.Id, ImageType.QuestionSet);
+        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(Set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
 

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using NHibernate;
 
 public class BadgeTypes
 {
@@ -46,8 +48,8 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Answer, BadgeCheckOn.WishKnowledgeAdd},
-                AwardCheck = BadgeAwardCheck.Get(filterParams => 
-                    filterParams.WishknowledgeCount() >= 1 && filterParams.AnswerCount() >= 1
+                AwardCheck = BadgeAwardCheck.Get(fp => 
+                    fp.WishknowledgeCount() >= 1 && fp.AnswerCount() >= 1
                         ? BadgeLevel.GetBronze()
                         : null),
             },
@@ -59,11 +61,11 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate, BadgeCheckOn.SetUpdateOrCreate, BadgeCheckOn.WishKnowledgeAdd},
-                AwardCheck = BadgeAwardCheck.Get(filterParams =>
-                    filterParams.MultipleChoiceQuestionsWithCategories() >= 2 &&
-                    filterParams.SetsWithAtLeast10Questions() >= 2 &&
-                    filterParams.Wishknowledge_UserIsCreator() >= 2 &&
-                    filterParams.Wishknowledge_OtherIsCreator() >= 2
+                AwardCheck = BadgeAwardCheck.Get(fp =>
+                    fp.Questions_MultipleChoice_WithCategories() >= 2 &&
+                    fp.SetsWithAtLeast10Questions().Count() >= 2 &&
+                    fp.Wishknowledge_UserIsCreator() >= 2 &&
+                    fp.Wishknowledge_OtherIsCreator() >= 2
                         ? BadgeLevel.GetSilver()
                         : null),
             },
@@ -75,11 +77,11 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()},
                 BadgeCheckOn = new []{ BadgeCheckOn.GameFinished, BadgeCheckOn.DateCreated, BadgeCheckOn.UserFollowed, BadgeCheckOn.WishKnowledgeAdd, BadgeCheckOn.CommentedAdded, BadgeCheckOn.CategoryUpdateOrCreate },
-                AwardCheck = BadgeAwardCheck.Get(filterParams => 
-                    filterParams.IsBadgeAwarded("NewbieSilver", filterParams) &&
-                    filterParams.PlayedGames() >= 3 &&
-                    filterParams.Dates() >= 3 &&
-                    filterParams.UsersFollowed() >= 3
+                AwardCheck = BadgeAwardCheck.Get(fp => 
+                    fp.IsBadgeAwarded("NewbieSilver", fp) &&
+                    fp.PlayedGames() >= 3 &&
+                    fp.Dates() >= 3 &&
+                    fp.UsersFollowing() >= 3
                         ? BadgeLevel.GetGold() 
                         : null)
             },
@@ -91,6 +93,7 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.UserProfileUpdated },
+                /* NOT-DONE AwardCheck = BadgeAwardCheck.Get(filterParams => null) */
             },
             
             //Questions
@@ -107,6 +110,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(500)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.Questions_WithImages())
             },
 
             new BadgeType
@@ -122,6 +126,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(500)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.Questions_MultipleChoice())
             },
 
             new BadgeType
@@ -137,6 +142,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(300)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.QuestionsInOtherPeopleWuwi())
             },
             
             //Sets
@@ -152,7 +158,16 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(30),
                     BadgeLevel.GetGold(200)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.SetUpdateOrCreate }
+                BadgeCheckOn = new []{ BadgeCheckOn.SetUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp =>
+                {
+                    var sets = fp.SetsWithAtLeast10Questions();
+
+                    return sets.Count(s => 
+                        s.QuestionsInSet.Any(y => 
+                            y.Question.Creator.Id != fp.CurrentUser.Id)
+                    );
+                })
             },
 
             //Categories
@@ -168,7 +183,8 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(100),
                     BadgeLevel.GetGold(400)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.CategoryUpdateOrCreate }
+                BadgeCheckOn = new []{ BadgeCheckOn.CategoryUpdateOrCreate },
+                /* AwardCheck = WE DO NOT SAVE WHO CREATED CONNECTIONS */
             },
 
             new BadgeType
@@ -183,7 +199,8 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(100),
                     BadgeLevel.GetGold(300)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate }
+                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.MaxAddedQuestionsToCategory())
             },
 
             new BadgeType

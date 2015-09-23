@@ -395,7 +395,7 @@
     <Compile Include="Domain\Media\Image\TmpImage\TmpImageStore.cs" />
     <Compile Include="Domain\Media\Sound\GetQuestionSoundUrl.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataMap.cs" />
-    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataRepository.cs" />
+    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataRepo.cs" />
     <Compile Include="Domain\Media\Sound\StoreSound.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\Question\QuestionImageSettings.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMetaLoader.cs" />

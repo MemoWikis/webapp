@@ -205,6 +205,6 @@ public class ImageFrontendData
 
     private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType)
     {
-        return ServiceLocator.Resolve<ImageMetaDataRepository>().GetBy(typeId, imageType);
+        return ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(typeId, imageType);
     }
 }

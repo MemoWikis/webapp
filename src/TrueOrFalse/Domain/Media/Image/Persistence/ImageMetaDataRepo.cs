@@ -7,9 +7,9 @@ using NHibernate.Criterion;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
 
-public class ImageMetaDataRepository : RepositoryDbBase<ImageMetaData>
+public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
 {
-    public ImageMetaDataRepository(ISession session) : base(session){}
+    public ImageMetaDataRepo(ISession session) : base(session){}
 
     public ImageMetaData GetBy(int typeId, ImageType imageType)
     {
