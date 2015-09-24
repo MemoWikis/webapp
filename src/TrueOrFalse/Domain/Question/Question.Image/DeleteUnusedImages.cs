@@ -9,7 +9,7 @@
 
         new QuestionImageSettings(questionId).DeleteFiles();
 
-        var imageRepo = ServiceLocator.R<ImageMetaDataRepository>();
+        var imageRepo = ServiceLocator.R<ImageMetaDataRepo>();
         var imageToDelete = imageRepo.GetBy(questionId, ImageType.Question);
             
         if(imageToDelete != null)

@@ -16,7 +16,7 @@ public class WelcomeBoxSingleSetModel : BaseModel
     {
         var set = Resolve<SetRepo>().GetById(setId) ?? new Set();
         
-        var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(set.Id, ImageType.QuestionSet);
+        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         SetId = set.Id;

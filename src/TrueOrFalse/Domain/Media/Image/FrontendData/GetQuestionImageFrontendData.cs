@@ -2,7 +2,7 @@
 {
     public static ImageFrontendData Run(Question question)
     {
-        var imageMetaDataRepo = Sl.Resolve<ImageMetaDataRepository>();
+        var imageMetaDataRepo = Sl.Resolve<ImageMetaDataRepo>();
         var imageMetaData = imageMetaDataRepo.GetBy(question.Id, ImageType.Question);
 
         if (imageMetaData != null)

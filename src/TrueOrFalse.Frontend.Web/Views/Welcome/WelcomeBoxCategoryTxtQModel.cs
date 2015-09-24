@@ -14,7 +14,7 @@ public class WelcomeBoxCategoryTxtQModel : BaseModel
     {
         var category = R<CategoryRepository>().GetById(categoryId) ?? new Category();
 
-        var imageMetaData = Resolve<ImageMetaDataRepository>().GetBy(category.Id, ImageType.Category);
+        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
 

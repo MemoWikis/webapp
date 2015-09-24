@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using NHibernate;
 
 public class BadgeTypes
 {
@@ -46,8 +48,8 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Answer, BadgeCheckOn.WishKnowledgeAdd},
-                AwardCheck = BadgeAwardCheck.Get(filterParams => 
-                    filterParams.WishknowledgeCount() >= 1 && filterParams.AnswerCount() >= 1
+                AwardCheck = BadgeAwardCheck.Get(fp => 
+                    fp.WishknowledgeCount() >= 1 && fp.AnswerCount() >= 1
                         ? BadgeLevel.GetBronze()
                         : null),
             },
@@ -59,11 +61,11 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate, BadgeCheckOn.SetUpdateOrCreate, BadgeCheckOn.WishKnowledgeAdd},
-                AwardCheck = BadgeAwardCheck.Get(filterParams =>
-                    filterParams.MultipleChoiceQuestionsWithCategories() >= 2 &&
-                    filterParams.SetsWithAtLeast10Questions() >= 2 &&
-                    filterParams.Wishknowledge_UserIsCreator() >= 2 &&
-                    filterParams.Wishknowledge_OtherIsCreator() >= 2
+                AwardCheck = BadgeAwardCheck.Get(fp =>
+                    fp.Questions_MultipleChoice_WithCategories() >= 2 &&
+                    fp.SetsWithAtLeast10Questions().Count() >= 2 &&
+                    fp.WuWi_UserIsCreator() >= 2 &&
+                    fp.WuWi_OtherIsCreator() >= 2
                         ? BadgeLevel.GetSilver()
                         : null),
             },
@@ -75,11 +77,11 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()},
                 BadgeCheckOn = new []{ BadgeCheckOn.GameFinished, BadgeCheckOn.DateCreated, BadgeCheckOn.UserFollowed, BadgeCheckOn.WishKnowledgeAdd, BadgeCheckOn.CommentedAdded, BadgeCheckOn.CategoryUpdateOrCreate },
-                AwardCheck = BadgeAwardCheck.Get(filterParams => 
-                    filterParams.IsBadgeAwarded("NewbieSilver", filterParams) &&
-                    filterParams.PlayedGames() >= 3 &&
-                    filterParams.Dates() >= 3 &&
-                    filterParams.UsersFollowed() >= 3
+                AwardCheck = BadgeAwardCheck.Get(fp => 
+                    fp.IsBadgeAwarded("NewbieSilver", fp) &&
+                    fp.PlayedGames() >= 3 &&
+                    fp.Dates() >= 3 &&
+                    fp.UsersFollowing() >= 3
                         ? BadgeLevel.GetGold() 
                         : null)
             },
@@ -91,6 +93,7 @@ public class BadgeTypes
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.UserProfileUpdated },
+                /* NOT-DONE AwardCheck = BadgeAwardCheck.Get(filterParams => null) */
             },
             
             //Questions
@@ -107,6 +110,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(500)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.Questions_WithImages())
             },
 
             new BadgeType
@@ -122,6 +126,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(500)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.Questions_MultipleChoice())
             },
 
             new BadgeType
@@ -137,6 +142,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(300)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.QuestionsInOtherPeopleWuwi())
             },
             
             //Sets
@@ -152,7 +158,16 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(30),
                     BadgeLevel.GetGold(200)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.SetUpdateOrCreate }
+                BadgeCheckOn = new []{ BadgeCheckOn.SetUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp =>
+                {
+                    var sets = fp.SetsWithAtLeast10Questions();
+
+                    return sets.Count(s => 
+                        s.QuestionsInSet.Any(y => 
+                            y.Question.Creator.Id != fp.CurrentUser.Id)
+                    );
+                })
             },
 
             //Categories
@@ -168,7 +183,8 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(100),
                     BadgeLevel.GetGold(400)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.CategoryUpdateOrCreate }
+                BadgeCheckOn = new []{ BadgeCheckOn.CategoryUpdateOrCreate },
+                /* AwardCheck = WE DO NOT SAVE WHO CREATED CONNECTIONS */
             },
 
             new BadgeType
@@ -183,7 +199,8 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(100),
                     BadgeLevel.GetGold(300)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate }
+                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.MaxAddedQuestionsToCategory())
             },
 
             new BadgeType
@@ -198,7 +215,8 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(50),
                     BadgeLevel.GetGold(200)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate }
+                BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.CountDifferentCategoriesAddedToQuestion())
             },
 
             //WishKnowledge
@@ -214,7 +232,8 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(200),
                     BadgeLevel.GetGold(1000)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd }
+                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.WishknowledgeCount())
             },
 
             new BadgeType
@@ -229,7 +248,8 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(50),
                     BadgeLevel.GetGold(500)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd }
+                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd },
+                /* TODO: PENDING QUESTION */
             },
 
             new BadgeType
@@ -244,7 +264,8 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(20),
                     BadgeLevel.GetGold(200)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd }
+                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.WuWi_AddedInLessThan24Hours())
             },
 
             new BadgeType
@@ -259,7 +280,8 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(100),
                     BadgeLevel.GetGold(500)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd }
+                BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.WuWi_OtherIsCreator())
             },
 
             //Training
@@ -275,7 +297,10 @@ public class BadgeTypes
                     BadgeLevel.GetSilver(30),
                     BadgeLevel.GetGold(300)
                 },
-                BadgeCheckOn = new []{ BadgeCheckOn.AnswerInLearningSession }
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => 
+                    Sl.R<GetStreaksDays>().Run(fp.CurrentUser, onlyLearningSessions : true).LongestLength
+                )
             },
 
             new BadgeType
@@ -289,7 +314,259 @@ public class BadgeTypes
                     BadgeLevel.GetBronze(3),
                     BadgeLevel.GetSilver(30),
                     BadgeLevel.GetGold(300)
-                }
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp =>
+                    Sl.R<GetStreaksDays>().Run(fp.CurrentUser, onlyLearningSessions : true).TotalLearningDays
+                )
+            },
+
+            new BadgeType
+            {
+                Key = "EarlyRiser",
+                Name = "Frühaufsteher",
+                Description = "schon an {badgePoints} Tagen zwischen 5-9 Uhr Fragen beantwortet [inkl. gelernt]",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(2),
+                    BadgeLevel.GetSilver(50),
+                    BadgeLevel.GetGold(200)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp =>
+                    Sl.R<GetStreaksDays>().Run(fp.CurrentUser, startHour:5, endHour:9).TotalLearningDays
+                )
+            },
+
+            new BadgeType
+            {
+                Key = "Napper",
+                Name = "Mittagsschläfer",
+                Description = "In den letzten {badgePoints} Tagen nie zwischen 12-13 Uhr Fragen beantwortet.",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(50),
+                    BadgeLevel.GetSilver(200),
+                    BadgeLevel.GetGold(1000)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO: */
+            },
+
+            new BadgeType
+            {
+                Key = "AskMe",
+                Name = "FragMich",
+                IsSecret = true,
+                Description = "{badgePoints} Fragen beantwortet",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(76),
+                    BadgeLevel.GetSilver(543),
+                    BadgeLevel.GetGold(2808)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.AnswerCount())
+            },
+
+            new BadgeType
+            {
+                Key = "Strike",
+                Name = "Strike",
+                Description = "{badgePoints} Fragen am Stück richtig beantwortet",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(5),
+                    BadgeLevel.GetSilver(50),
+                    BadgeLevel.GetGold(200)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                AwardCheck = BadgeAwardCheck.GetLevel(fp =>{
+                    var result = GetStreakCorrectness.Run(fp.CurrentUser.Id);
+                    return result == null ? -1 : (int)result.StreakLength;
+                })
+            },
+
+            new BadgeType
+            {
+                Key = "NextPlease",
+                Name = "NächsteBitte",
+                Description = "{badgePoints} Fragen beim Lernen übersprungen",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(5),
+                    BadgeLevel.GetSilver(20),
+                    BadgeLevel.GetGold(200)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            new BadgeType
+            {
+                Key = "JustTellMe",
+                Name = "SagsMirEinfach",
+                Description = "{badgePoints} Mal auf “Antwort anzeigen” geklickt",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(5),
+                    BadgeLevel.GetSilver(200),
+                    BadgeLevel.GetGold(1000)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            new BadgeType
+            {
+                Key = "CalendarType",
+                Name = "KalenderTyp",
+                Description = "{badgePoints} Termine erstellt",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Training),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(1),
+                    BadgeLevel.GetSilver(20),
+                    BadgeLevel.GetGold(200)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            //Play
+            new BadgeType
+            {
+                Key = "Teamplayer",
+                Name = "Teamsportler",
+                Description = "{badgePoints} Spiele mit mind. 10 Mitspielern erstellt und abgeschlossen",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Play),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(1),
+                    BadgeLevel.GetSilver(10),
+                    BadgeLevel.GetGold(100)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            new BadgeType
+            {
+                Key = "DuelPlayer",
+                Name = "Zweikämpfer",
+                Description = "{badgePoints} Spiele zu zweit gespielt und abgeschlossen",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Play),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(1),
+                    BadgeLevel.GetSilver(50),
+                    BadgeLevel.GetGold(300)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            new BadgeType
+            {
+                Key = "WinnerType",
+                Name = "GewinnerTyp",
+                Description = "{badgePoints} Spiele gewonnen",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Play),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(1),
+                    BadgeLevel.GetSilver(50),
+                    BadgeLevel.GetGold(300)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            //Community/Comments
+            new BadgeType
+            {
+                Key = "Networker",
+                Name = "Vernetzer",
+                Description = "{badgePoints} Freunde im Netzwerk",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Community),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(5),
+                    BadgeLevel.GetSilver(30),
+                    BadgeLevel.GetGold(200)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            new BadgeType
+            {
+                Key = "Famous",
+                Name = "Berühmtheit",
+                Description = "Von {badgePoints} Nutzern gefolgt werden",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Community),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(5),
+                    BadgeLevel.GetSilver(30),
+                    BadgeLevel.GetGold(200)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            new BadgeType
+            {
+                Key = "KnowItAll",
+                Name = "Besserwisser",
+                Description = "{badgePoints} Verbesserungsvorschläge gemacht",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Community),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(2),
+                    BadgeLevel.GetSilver(50),
+                    BadgeLevel.GetGold(400)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            new BadgeType
+            {
+                Key = "ControllerType",
+                Name = "Kontroletti",
+                Description = "{badgePoints} Löschaufträge gestellt",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Community),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(2),
+                    BadgeLevel.GetSilver(50),
+                    BadgeLevel.GetGold(300)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
+            },
+
+            new BadgeType
+            {
+                Key = "Windbag",
+                Name = "Quatschkopf",
+                Description = "{badgePoints} Kommentare hinzugefügt",
+                Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Community),
+                Levels = new List<BadgeLevel>
+                {
+                    BadgeLevel.GetBronze(2),
+                    BadgeLevel.GetSilver(100),
+                    BadgeLevel.GetGold(500)
+                },
+                BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
+                /* TODO:  */
             },
         });
     }

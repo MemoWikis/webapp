@@ -64,7 +64,7 @@ public class MaintenanceController : BaseController
 
     public JsonResult ImageReload(int imageMetaDataId)
     {
-        var imageMetaData = R<ImageMetaDataRepository>().GetById(imageMetaDataId);
+        var imageMetaData = R<ImageMetaDataRepo>().GetById(imageMetaDataId);
         R<ImageStore>().ReloadWikipediaImage(imageMetaData);
 
         return new JsonResult
@@ -213,7 +213,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public string ImageMaintenanceModal(int imgId)
     {
-        var imageMaintenanceInfo = new ImageMaintenanceInfo(Resolve<ImageMetaDataRepository>().GetById(imgId));
+        var imageMaintenanceInfo = new ImageMaintenanceInfo(Resolve<ImageMetaDataRepo>().GetById(imgId));
         return ViewRenderer.RenderPartialView("ImageMaintenanceModal", imageMaintenanceInfo, ControllerContext);
     }
 
@@ -227,7 +227,7 @@ public class MaintenanceController : BaseController
         string remarks,
         int selectedMainLicenseId)
     {
-        var imageMetaData = Resolve<ImageMetaDataRepository>().GetById(id);
+        var imageMetaData = Resolve<ImageMetaDataRepo>().GetById(id);
         var manualEntries = imageMetaData.ManualEntriesFromJson();
         var selectedEvaluation = (ManualImageEvaluation)Enum.Parse(typeof(ManualImageEvaluation), manualImageEvaluation);
 
@@ -258,7 +258,7 @@ public class MaintenanceController : BaseController
             }
             else
             {
-                ImageMetaDataRepository.SetMainLicenseInfo(imageMetaData, selectedMainLicenseId);
+                ImageMetaDataRepo.SetMainLicenseInfo(imageMetaData, selectedMainLicenseId);
                 manualEntries.ManualImageEvaluation = selectedEvaluation;   
             }
         }
@@ -271,7 +271,7 @@ public class MaintenanceController : BaseController
 
         imageMetaData.ManualEntries = manualEntries.ToJson();
         
-        Resolve<ImageMetaDataRepository>().Update(imageMetaData);
+        Resolve<ImageMetaDataRepo>().Update(imageMetaData);
 
         var imageMaintenanceInfo = new ImageMaintenanceInfo(imageMetaData);
         imageMaintenanceInfo.MaintenanceRowMessage = message;

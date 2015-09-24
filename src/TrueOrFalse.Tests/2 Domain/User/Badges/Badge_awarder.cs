@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using TrueOrFalse.Tests;
 
 public class Badge_awarder : BaseTest
@@ -20,7 +21,9 @@ public class Badge_awarder : BaseTest
             BadgeAwarder.Run(user, BadgeCheckOn.None);
 
         var allBadges = R<BadgeRepo>().GetAll();
-        Assert.That(allBadges.Count, Is.EqualTo(1));
-        Assert.That(allBadges[0].BadgeTypeKey, Is.EqualTo("NewbieBronze"));
+        Assert.That(allBadges.Count, Is.EqualTo(3));
+        Assert.That(allBadges.Count(x => x.BadgeTypeKey == "NewbieBronze"), Is.EqualTo(1));
+        Assert.That(allBadges.Count(x => x.BadgeTypeKey == "ThanksForHelp"), Is.EqualTo(1));
+        Assert.That(allBadges.Count(x => x.BadgeTypeKey == "FasterThanShadow"), Is.EqualTo(1));
     }
 }

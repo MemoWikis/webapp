@@ -12,6 +12,6 @@ using TrueOrFalse;
             imageMetaData.Type = ImageType.QuestionSet;
             imageMetaData.UserId = 2;
 
-            Resolve<ImageMetaDataRepository>().Create(imageMetaData);
+            Resolve<ImageMetaDataRepo>().Create(imageMetaData);
         }
     }

@@ -21,7 +21,7 @@ public class KnowledgeModel : BaseModel
     public int SetCount;
 
     public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
-    public GetStreaksResult Streak = new GetStreaksResult();
+    public GetStreaksDaysResult StreakDays = new GetStreaksDaysResult();
 
     public IList<Date> Dates = new List<Date>();
     public IList<AnswerHistory> AnswerRecent = new List<AnswerHistory>();
@@ -63,6 +63,6 @@ public class KnowledgeModel : BaseModel
 
         Dates = GetSampleDates.Run();
         AnswerRecent = R<GetLastAnswers>().Run(UserId, 4);
-        Streak = R<GetStreaks>().Run(User);
+        StreakDays = R<GetStreaksDays>().Run(User);
     }
 }

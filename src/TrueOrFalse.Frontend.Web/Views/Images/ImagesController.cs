@@ -5,7 +5,7 @@ public class ImagesController : BaseController
 {
     public string ImageDetailModal(int imgId)
     {
-        var imageFrontendData = new ImageFrontendData(Resolve<ImageMetaDataRepository>().GetById(imgId));
+        var imageFrontendData = new ImageFrontendData(Resolve<ImageMetaDataRepo>().GetById(imgId));
         return ViewRenderer.RenderPartialView("ImageDetailModal", imageFrontendData, ControllerContext);
     }
 
@@ -25,7 +25,7 @@ public class ImagesController : BaseController
         }
         int typeId;
         if(Int32.TryParse(splitArray[0], out typeId))
-            return Resolve<ImageMetaDataRepository>().GetBy(typeId, ImageType.Question).Id;
+            return Resolve<ImageMetaDataRepo>().GetBy(typeId, ImageType.Question).Id;
 
         return -1;
     }

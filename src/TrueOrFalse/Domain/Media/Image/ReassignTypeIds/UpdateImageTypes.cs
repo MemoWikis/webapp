@@ -3,9 +3,9 @@
 public class UpdateImageTypes : IRegisterAsInstancePerLifetime
 {
     private readonly GetImageMaintenanceInfos _getImageInfos;
-    private readonly ImageMetaDataRepository _imgDataRepo;
+    private readonly ImageMetaDataRepo _imgDataRepo;
 
-    public UpdateImageTypes(GetImageMaintenanceInfos getImageInfos, ImageMetaDataRepository imgDataRepo)
+    public UpdateImageTypes(GetImageMaintenanceInfos getImageInfos, ImageMetaDataRepo imgDataRepo)
     {
         _getImageInfos = getImageInfos;
         _imgDataRepo = imgDataRepo;

@@ -2,13 +2,19 @@
 
 public class BadgeAwardCheck
 {
-
     public static Func<BadgeAwardCheckParams, BadgeAwardCheckResult> AlwaysFalse()
     {
         return param => new BadgeAwardCheckResult {Success = false};
     }
 
-    public static Func<BadgeAwardCheckParams, BadgeAwardCheckResult> Get(Func<BadgeAwardCheckParams, BadgeLevel> fn)
+    public static Func<BadgeAwardCheckParams, BadgeAwardCheckResult> 
+        GetLevel(Func<BadgeAwardCheckParams, int> fn)
+    {
+        return Get(param => param.GetBadgeLevel(fn(param)));
+    }
+
+    public static Func<BadgeAwardCheckParams, BadgeAwardCheckResult> 
+        Get(Func<BadgeAwardCheckParams, BadgeLevel> fn)
     {
         return param =>
         {

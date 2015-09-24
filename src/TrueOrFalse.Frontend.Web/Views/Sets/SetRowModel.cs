@@ -46,7 +46,7 @@ public class SetRowModel
         IsOwner = currentUserid == set.Creator.Id;
         IndexInResult = indexInResultSet;
 
-        var imageMetaData = ServiceLocator.Resolve<ImageMetaDataRepository>().GetBy(set.Id, ImageType.QuestionSet);
+        var imageMetaData = ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         RelevancePersonal = setValuation.RelevancePersonal;

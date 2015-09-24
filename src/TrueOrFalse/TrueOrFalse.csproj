@@ -370,8 +370,10 @@
     <Compile Include="Domain\QuestionSet\TopSetResult.cs" />
     <Compile Include="Domain\QuestionSet\UserListExt.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerCorrectness.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksResult.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaks.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreakCorrectnessResult.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDaysResult.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDays.cs" />
+    <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreakCorrectness.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\GetLastAnswers.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerHistoryExt.cs" />
     <Compile Include="Domain\Question\References\Persistence\ReferenceMap.cs" />
@@ -395,7 +397,7 @@
     <Compile Include="Domain\Media\Image\TmpImage\TmpImageStore.cs" />
     <Compile Include="Domain\Media\Sound\GetQuestionSoundUrl.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataMap.cs" />
-    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataRepository.cs" />
+    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataRepo.cs" />
     <Compile Include="Domain\Media\Sound\StoreSound.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\Question\QuestionImageSettings.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMetaLoader.cs" />

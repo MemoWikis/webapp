@@ -1,5 +1,7 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using System.Diagnostics;
+using Seedworks.Lib.Persistence;
 
+[DebuggerDisplay("{BadgeTypeKey} {Level}")]
 public class Badge : DomainEntity
 {
     public virtual string BadgeTypeKey { get; set; }

@@ -18,7 +18,7 @@ public class Should_retrieve_streak : BaseTest
         ctx.WriteHistory(user, -13);
         ctx.WriteHistory(user, -17);
 
-        var streakResult = R<GetStreaks>().Run(user);
+        var streakResult = R<GetStreaksDays>().Run(user);
         Assert.That(streakResult.LongestLength, Is.EqualTo(4));
         Assert.That(streakResult.LastLength, Is.EqualTo(2));
     }
@@ -29,7 +29,7 @@ public class Should_retrieve_streak : BaseTest
         var user = ContextRegisteredUser.New().Add().Persist().Users[0];
         user.DateCreated = DateTime.Now.AddYears(-2);
 
-        var streakResult = R<GetStreaks>().Run(user);
+        var streakResult = R<GetStreaksDays>().Run(user);
         Assert.That(streakResult.LongestLength, Is.EqualTo(0));
         Assert.That(streakResult.LastLength, Is.EqualTo(0));
     }
