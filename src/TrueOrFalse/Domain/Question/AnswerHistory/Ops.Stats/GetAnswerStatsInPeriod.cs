@@ -66,7 +66,8 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
     public IList<GetAnswerStatsInPeriodResult> Run(
         int userId, 
         DateTime? from, DateTime? to,
-        bool groupByDate = false)
+        bool groupByDate = false,
+        bool onlyLearningSessions = false)
     {
         var query = "SELECT " +
                     " COUNT(ah) as total," +
@@ -74,6 +75,9 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
                     " Date(DateCreated) " +
                     "FROM AnswerHistory ah " +
                     "WHERE UserId = " + userId + " ";
+
+        if (onlyLearningSessions)
+            query += "LearningSessionStep_id is not null ";
 
         if (from.HasValue && to.HasValue)
         {

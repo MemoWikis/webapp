@@ -4,13 +4,14 @@ using System.Linq;
 
 public class GetStreaks : IRegisterAsInstancePerLifetime
 {
-    public GetStreaksResult Run(User user)
+    public GetStreaksResult Run(User user, bool onlyLearningSessions = false)
     {
         var getAnswerStats = Sl.R<GetAnswerStatsInPeriod>().Run(
             user.Id, 
             user.DateCreated, 
             DateTime.Now.AddMinutes(1), 
-            groupByDate :true);
+            groupByDate :true,
+            onlyLearningSessions: false);
 
         var result = new GetStreaksResult();
         result.TotalLearningDays = getAnswerStats.Count;

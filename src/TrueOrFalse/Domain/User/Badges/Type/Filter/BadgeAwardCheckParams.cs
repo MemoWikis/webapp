@@ -22,7 +22,7 @@ public class BadgeAwardCheckParams
         return R<QuestionValuationRepo>().GetByUser(CurrentUser.Id).Count;
     }
 
-    public int Wishknowledge_UserIsCreator()
+    public int WuWi_UserIsCreator()
     {
         return R<ISession>()
             .QueryOver<QuestionValuation>()
@@ -32,7 +32,7 @@ public class BadgeAwardCheckParams
             .RowCount();
     }
 
-    public int Wishknowledge_OtherIsCreator()
+    public int WuWi_OtherIsCreator()
     {
         return R<ISession>()
             .QueryOver<QuestionValuation>()
@@ -40,6 +40,23 @@ public class BadgeAwardCheckParams
             .JoinQueryOver(x => x.Creator)
             .Where(u => u.Id != CurrentUser.Id)
             .RowCount();
+    }
+
+    public int WuWi_AddedInLessThan24Hours()
+    {
+        string query = @"
+            SELECT 
+	            COUNT(TIMESTAMPDIFF(HOUR, q.DateCreated, qv.DateCreated))
+            FROM questionvaluation qv
+            LEFT JOIN question q
+            ON q.Id = qv.QuestionId
+            WHERE TIMESTAMPDIFF(HOUR, q.DateCreated, qv.DateCreated)  <= 24 
+            AND qv.UserId = {0}
+            AND q.Creator_id != {1}";
+
+        return R<ISession>()
+            .CreateSQLQuery(String.Format(query, CurrentUser.Id, CurrentUser.Id))
+            .UniqueResult<int>();
     }
 
     public int AnswerCount()
@@ -164,6 +181,20 @@ public class BadgeAwardCheckParams
 	            WHERE q.Creator_id = {0}
 	            GROUP BY cq.Category_id
             ) t";
+
+        return R<ISession>()
+            .CreateSQLQuery(String.Format(query, CurrentUser.Id))
+            .UniqueResult<int>();
+    }
+
+    public int CountDifferentCategoriesAddedToQuestion()
+    {
+        string query = @"
+            SELECT count(distinct category_id)
+            FROM categories_to_questions cq
+            LEFT JOIN question q
+            ON cq.Question_id = q.Id
+            WHERE q.Creator_id = {0}";
 
         return R<ISession>()
             .CreateSQLQuery(String.Format(query, CurrentUser.Id))
