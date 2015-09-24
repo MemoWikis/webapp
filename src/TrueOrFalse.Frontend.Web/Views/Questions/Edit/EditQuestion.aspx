@@ -100,9 +100,6 @@
 
                                 </label>
                             </div>
-                            <div style="background-color: lavender; padding: 0 10px;">
-                                0 von 30 privaten Fragen verwendet.
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -314,9 +311,9 @@
                             <div class="checkbox">
                                 <label>
                                     <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
-                                    Ich stelle diesen Eintrag unter eine LGPL-Lizenz. 
+                                    Ich stelle diesen Eintrag unter die Lizenz "Creative Commons Namensnennung 3.0 unported" (<a href="https://creativecommons.org/licenses/by/3.0/legalcode">CC&nbsp;BY&nbsp;3.0</a>). 
                                     Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
-                                    wie zum Beispiel bei Wikipedia-Einträgen. 
+                                    (ähnlich den Einträgen). Es muss lediglich  
                                     <a href="" target="_blank">mehr erfahren</a> <br />
                                     Die Frage und Anwort sind meine eigene Arbeit und
                                     nicht aus urheberrechtlich geschützten Quellen kopiert. 
@@ -325,13 +322,13 @@
                             </div>
                         </div>
                     </div>
-                <% if(Model.IsLoggedIn){ %>
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
-                            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" value="save"
+                                <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>>Speichern</button>&nbsp;&nbsp;&nbsp;
                             <% if (Model.ShowSaveAndNewButton){ %>
-                                <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern &amp; neu</button>&nbsp;
-                            <% } %>                        
+                                <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" 
+                                    <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %> >Speichern &amp; neu</button>&nbsp;
                         </div>
                     </div>
                 </div>

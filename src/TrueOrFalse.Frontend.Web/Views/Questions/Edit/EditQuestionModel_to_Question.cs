@@ -7,7 +7,7 @@ public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
 {
     public Question Create(EditQuestionModel model, NameValueCollection postData)
     {
-        var question = new Question();
+        var question = new Question { License = "CC BY 3.0" };
         return Update(model, question, postData);
     }
 
