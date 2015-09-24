@@ -11,7 +11,7 @@ public class GetStreaks : IRegisterAsInstancePerLifetime
             user.DateCreated, 
             DateTime.Now.AddMinutes(1), 
             groupByDate :true,
-            onlyLearningSessions: false);
+            onlyLearningSessions: onlyLearningSessions);
 
         var result = new GetStreaksResult();
         result.TotalLearningDays = getAnswerStats.Count;

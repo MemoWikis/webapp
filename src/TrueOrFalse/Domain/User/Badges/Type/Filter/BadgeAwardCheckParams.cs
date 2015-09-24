@@ -54,9 +54,9 @@ public class BadgeAwardCheckParams
             AND qv.UserId = {0}
             AND q.Creator_id != {1}";
 
-        return R<ISession>()
+        return (int)R<ISession>()
             .CreateSQLQuery(String.Format(query, CurrentUser.Id, CurrentUser.Id))
-            .UniqueResult<int>();
+            .UniqueResult<long>();
     }
 
     public int AnswerCount()
@@ -196,8 +196,8 @@ public class BadgeAwardCheckParams
             ON cq.Question_id = q.Id
             WHERE q.Creator_id = {0}";
 
-        return R<ISession>()
+        return (int)R<ISession>()
             .CreateSQLQuery(String.Format(query, CurrentUser.Id))
-            .UniqueResult<int>();
+            .UniqueResult<long>();
     }
 }
