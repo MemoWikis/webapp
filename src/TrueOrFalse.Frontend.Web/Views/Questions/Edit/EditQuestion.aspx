@@ -100,9 +100,6 @@
 
                                 </label>
                             </div>
-                            <div style="background-color: lavender; padding: 0 10px;">
-                                0 von 30 privaten Fragen verwendet.
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -325,13 +322,13 @@
                             </div>
                         </div>
                     </div>
-                <% if(Model.IsLoggedIn){ %>
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
-                            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" value="save">Speichern</button>&nbsp;&nbsp;&nbsp;
+                            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" value="save"
+                                <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>>Speichern</button>&nbsp;&nbsp;&nbsp;
                             <% if (Model.ShowSaveAndNewButton){ %>
-                                <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" >Speichern &amp; neu</button>&nbsp;
-                            <% } %>                        
+                                <button type="submit" class="btn btn-default" name="btnSave" value="saveAndNew" 
+                                    <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %> >Speichern &amp; neu</button>&nbsp;
                         </div>
                     </div>
                 </div>
