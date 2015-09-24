@@ -67,7 +67,9 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
         int userId, 
         DateTime? from, DateTime? to,
         bool groupByDate = false,
-        bool onlyLearningSessions = false)
+        bool onlyLearningSessions = false,
+        int? startHour = null,
+        int? endHour = null)
     {
         var query = "SELECT " +
                     " COUNT(ah) as total," +
@@ -79,11 +81,17 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
         if (onlyLearningSessions)
             query += "AND LearningSessionStep_id is not null ";
 
+        if(startHour != null && endHour != null)
+            query +=
+                @" AND TIME(DateCreated) >= MAKETIME({0}, 0, 0)
+                   AND TIME(DateCreated) <= MAKETIME({1}, 0, 0) ";
+
         if (from.HasValue && to.HasValue)
         {
-            query +=
+            query += String.Format(
                     "AND DateCreated >= '" + ((DateTime)from).ToString("yyy-MM-dd HH:mm:ss") + "' " +
-                    "AND DateCreated < '" + ((DateTime)to).ToString("yyy-MM-dd HH:mm:ss") + "'";    
+                    "AND DateCreated < '" + ((DateTime)to).ToString("yyy-MM-dd HH:mm:ss") + "'",
+                        startHour, endHour);    
         }
 
         if (groupByDate)

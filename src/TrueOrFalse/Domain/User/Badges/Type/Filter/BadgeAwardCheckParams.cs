@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHibernate;
+using RabbitMQ.Client.Impl;
 using TrueOrFalse;
+using ISession = NHibernate.ISession;
 
 public class BadgeAwardCheckParams
 {
@@ -61,8 +62,9 @@ public class BadgeAwardCheckParams
 
     public int AnswerCount()
     {
-        return R<AnswerHistoryRepo>()
-            .GetByUser(CurrentUser.Id).Count;
+        return R<AnswerHistoryRepo>().Query
+            .Where(i => i.UserId == CurrentUser.Id)
+            .RowCount();
     }
 
     public int Questions_MultipleChoice_WithCategories()

@@ -177,7 +177,7 @@
                 
                 <div class="row" style="font-size: 12px">
                     <div class="col-md-12">
-                        <% var streak = Model.Streak; %>
+                        <% var streak = Model.StreakDays; %>
                         <!-- -->
                         <span style="display: inline-block; width: 45%">Lerntage gesamt: 
                             <b><%= streak.TotalLearningDays %></b></span> <span style="color: silver; font-weight: bold;">

@@ -299,7 +299,7 @@ public class BadgeTypes
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
                 AwardCheck = BadgeAwardCheck.GetLevel(fp => 
-                    Sl.R<GetStreaks>().Run(fp.CurrentUser, onlyLearningSessions : true).LongestLength
+                    Sl.R<GetStreaksDays>().Run(fp.CurrentUser, onlyLearningSessions : true).LongestLength
                 )
             },
 
@@ -317,7 +317,7 @@ public class BadgeTypes
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
                 AwardCheck = BadgeAwardCheck.GetLevel(fp =>
-                    Sl.R<GetStreaks>().Run(fp.CurrentUser, onlyLearningSessions : true).TotalLearningDays
+                    Sl.R<GetStreaksDays>().Run(fp.CurrentUser, onlyLearningSessions : true).TotalLearningDays
                 )
             },
 
@@ -334,7 +334,9 @@ public class BadgeTypes
                     BadgeLevel.GetGold(200)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                /* TODO:  */
+                AwardCheck = BadgeAwardCheck.GetLevel(fp =>
+                    Sl.R<GetStreaksDays>().Run(fp.CurrentUser, startHour:5, endHour:9).TotalLearningDays
+                )
             },
 
             new BadgeType
@@ -350,7 +352,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(1000)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                /* TODO:  */
+                /* TODO: */
             },
 
             new BadgeType
@@ -367,7 +369,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(2808)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                /* TODO:  */
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.AnswerCount())
             },
 
             new BadgeType
@@ -383,7 +385,10 @@ public class BadgeTypes
                     BadgeLevel.GetGold(200)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                /* TODO:  */
+                AwardCheck = BadgeAwardCheck.GetLevel(fp =>{
+                    var result = GetStreakCorrectness.Run(fp.CurrentUser.Id);
+                    return result == null ? -1 : (int)result.StreakLength;
+                })
             },
 
             new BadgeType
