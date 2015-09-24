@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Util;
-using Remotion.Linq.Clauses.ResultOperators;
 using Seedworks.Lib.Persistence;
 
 public class Game : DomainEntity
@@ -37,7 +36,9 @@ public class Game : DomainEntity
         {
             Game = this,
             User = user,
-            IsCreator = isCreator
+            IsCreator = isCreator,
+            DateModified = DateTime.Now,
+            DateCreated = DateTime.Now,
         });
         return true;
     }
