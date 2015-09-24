@@ -182,6 +182,12 @@ public class BadgeAwardCheckParams
             .UniqueResult<int>();
     }
 
+    public int GamesWon()
+    {
+        var games = R<GameRepo>().AllCompletedByUser(CurrentUser.Id);
+        return games.Count(g => g.GetWinner().User.Id == CurrentUser.Id);
+    }
+
     public int DatesCreated()
     {
         return R<ISession>().QueryOver<Date>()

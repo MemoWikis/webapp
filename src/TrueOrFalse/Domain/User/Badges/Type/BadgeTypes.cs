@@ -485,7 +485,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(300)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                /* TODO:  */
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.GamesWon())
             },
 
             //Community/Comments
