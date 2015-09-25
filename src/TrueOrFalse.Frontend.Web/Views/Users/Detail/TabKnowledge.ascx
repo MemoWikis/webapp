@@ -6,7 +6,7 @@
     <div class="bs-callout bs-callout-info" style="margin-top: 15px;">
         <h4>Nicht öffentlich</h4>
         <p>
-            <%= Model.User.Name %> hat sein Wunschwissen nicht veröffentlicht.
+            <%= Model.User.Name %> hat ihr/sein Wunschwissen nicht veröffentlicht.
         </p>
                         
         <p>
