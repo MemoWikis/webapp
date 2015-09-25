@@ -286,7 +286,7 @@
             <div class="col-md-12"><h3 class="media-heading">MEMuchO-Netzwerk</h3></div>
         </div>
         
-        <div class="row" style="padding-top: 15px;">
+        <div class="row" style="padding-top: 15px; opacity: 0.4;">
             <div class="col-md-12">
                 <h4 class="media-heading">Nutzer-Ranking nach Reputation</h4>
                 <p style="padding-left: 15px;"><img src="http://placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Pauli (130 Punkte)</p>
