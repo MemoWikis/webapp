@@ -78,8 +78,8 @@
                             </a>
                         </li>
                         <li class="JS-Mine">
-                            <a href="#profile">
-                                Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
+                            <a href="#profile" style="color: #aaa;">
+                                <i class="fa fa-heart" style="color:#aaa;"></i>&nbsp;Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
                             </a>
                         </li>
                     </ul>
