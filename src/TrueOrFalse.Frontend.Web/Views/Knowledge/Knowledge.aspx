@@ -276,7 +276,7 @@
         </div>
     
         <div class="row" style="margin-top: 15px;">
-            <div class="col-xs-12 col-md-4">
+            <div class="col-xs-12 col-md-4" style="opacity: 0.4;">
                 <h3 style="margin-bottom: 18px;">Termine</h3>
                 
                 <%
@@ -322,12 +322,12 @@
                     <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-4">
+            <div class="col-xs-12 col-md-4" style="opacity: 0.4;">
                 <h3>Im Netzwerk</h3>
                 
                     <% var userRepo = Sl.Resolve<UserRepo>();
-                       var user1 = userRepo.GetById(18);
-                       var user2 = userRepo.GetById(31);
+                       var user1 = userRepo.GetById(32);
+                       var user2 = userRepo.GetById(2);
                     %>
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-xs-3">
