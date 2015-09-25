@@ -121,12 +121,17 @@
                 </div>
                 <div class="form-group">
                     <div id="openExtendedQuestion" class="columnControlsFull" style="padding-top: 4px;">
-                        <a href="#" class="TextLinkWithIcon"><i class="fa fa-plus-circle"></i> <span class="TextSpan">Erweiterte Beschreibung (z.B.: mit Bildern, Formeln oder Quelltext)</span></a> 
+                        <a href="#" class="TextLinkWithIcon"><i class="fa fa-plus-circle"></i>
+                            <span class="show-tooltip" data-toggle="tooltip" title="Hier kannst du z.B. Erläuterungen, Formeln, Quelltext oder eine Bildunterschrift hinzufügen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Erweiterte Beschreibung&nbsp;<i class="fa fa-info-circle"></i></span>
+                        </a>
+                        <%--&nbsp;<i class="fa fa-question-circle show-tooltip" title = "Hier kannst du z.B. Erläuterungen, Formeln, Quelltext oder eine Bildunterschrift hinzufügen." data-placement = "<%= CssJs.TooltipPlacementLabel %>"></i> --%>
+                        <%--<a href="#" class="TextLinkWithIcon"><i class="fa fa-plus-circle"></i> <span class="TextSpan">Erweiterte Beschreibung</span></a>
+                        &nbsp;<i class="fa fa-question-circle show-tooltip" title = "Hier kannst du z.B. Erläuterungen, Formeln, Quelltext oder eine Bildunterschrift hinzufügen." data-placement = "<%= CssJs.TooltipPlacementLabel %>"></i> --%>
                     </div>
                 </div>
                 <div class="form-group markdown" style="display: none" id="extendedQuestion">
                     <label class="columnLabel control-label" for="QuestionExtended" style="max-width: 420px;">
-                        Frage erweitert
+                        Erweiterte Beschreibung
                         <a id="hideExtendedQuestion" href="#" class="TextLinkWithIcon" style="font-size: 90%; float: right;"><i class="fa fa-minus-circle"></i> <span class="TextSpan">ausblenden</span></a>
                     </label>
                     <div class="columnControlsFull">
@@ -148,7 +153,7 @@
                 </div>--%>
                 <div class="form-group">    
                     <label class="columnLabel control-label">
-                        <span class="show-tooltip" data-toggle="tooltip" title = "Kategorien helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du eine gesuchte Kategorie nicht findest, kannst du sie in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Kategorien</span>
+                        <span class="show-tooltip" data-toggle="tooltip" title="Kategorien helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du eine gesuchte Kategorie nicht findest, kannst du sie in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Kategorien</span>
                     </label>
 
                     <div class="JS-RelatedCategories columnControlsFull">
@@ -311,13 +316,10 @@
                             <div class="checkbox">
                                 <label>
                                     <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
-                                    Ich stelle diesen Eintrag unter die Lizenz "Creative Commons Namensnennung 3.0 unported" (<a href="https://creativecommons.org/licenses/by/3.0/legalcode">CC&nbsp;BY&nbsp;3.0</a>). 
-                                    Der Eintrag kann ohne Einschränkung weiter genutzt werden, 
-                                    (ähnlich den Einträgen). Es muss lediglich  
-                                    <a href="" target="_blank">mehr erfahren</a> <br />
-                                    Die Frage und Anwort sind meine eigene Arbeit und
-                                    nicht aus urheberrechtlich geschützten Quellen kopiert. 
-                                    <a href="" target="_blank">mehr erfahren</a>
+                                    Ich stelle diesen Eintrag unter die Creative Commons-Lizenz "Namensnennung 4.0 International" (<a href="http://creativecommons.org/licenses/by/4.0/deed.de" target="_blank">CC&nbsp;BY&nbsp;4.0</a>). 
+                                    Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden 
+                                    (<a href="http://creativecommons.org/licenses/by/4.0/deed.de" target="_blank">mehr erfahren</a>).<br/>
+                                    Die Frage, die Anwort und ggf. Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert. 
                                 </label>
                             </div>
                         </div>
