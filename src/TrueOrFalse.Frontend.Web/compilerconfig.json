@@ -40,5 +40,19 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Views/Sets/Sets.css",
+    "inputFile": "Views/Sets/Sets.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Views/Categories/Categories.css",
+    "inputFile": "Views/Categories/Categories.less",
+    "minify": {
+      "enabled": false
+    }
   }
 ]

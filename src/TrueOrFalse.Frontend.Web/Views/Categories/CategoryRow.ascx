@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<CategoryRowModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase category-row">
+<div class="rowBase category-row col-lg-6 ">
     
     <div class="column-Image">
         <div class="ImageContainer">
