@@ -23,6 +23,7 @@ public class UsersModel : BaseModel
 
     public IEnumerable<UserRowModel> Rows;
 
+    public UserSearchResultModel SearchResultModel;
     public HeaderModel HeaderModel = new HeaderModel();
 
     public UsersModel(){
@@ -36,13 +37,14 @@ public class UsersModel : BaseModel
             new UserRowModel(
                 qs, counter++, R<FollowerIAm>().Init(users.Select(u => u.Id), UserId))
             );
+        Pager = new PagerModel(_sessionUiData.SearchSpecUser);
+
+        SearchResultModel = new UserSearchResultModel(this);
 
         Suggestion = _sessionUiData.SearchSpecUser.GetSuggestion();
         SearchTerm = _sessionUiData.SearchSpecUser.SearchTerm;
 
         HeaderModel.TotalUsers = R<GetTotalUsers>().Run();
-
-        Pager = new PagerModel(_sessionUiData.SearchSpecUser);
 
         OrderByLabel = _sessionUiData.SearchSpecUser.OrderBy.ToText();
         OrderBy = _sessionUiData.SearchSpecUser.OrderBy;

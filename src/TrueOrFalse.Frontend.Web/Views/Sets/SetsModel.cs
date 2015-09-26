@@ -33,8 +33,8 @@ public class SetsModel : BaseModel
     public SetsSearchResultModel SearchResultModel;
 
     public bool AccessNotAllowed;
-
     
+
     public SetsModel(){}
 
     public SetsModel(

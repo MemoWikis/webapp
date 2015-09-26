@@ -19,6 +19,31 @@ public class UsersController : BaseController
         return Users(null, model, orderBy);
     }
 
+    public JsonResult SearchApi(string searchTerm, UsersModel model, int? page, string orderBy)
+    {
+        var searchSpec = _sessionUiData.SearchSpecUser;
+
+        if (searchSpec.SearchTerm != searchTerm)
+            searchSpec.CurrentPage = 1;
+
+        searchSpec.SearchTerm = model.SearchTerm = searchTerm;
+
+        var usersModel = new UsersModel();
+        usersModel.Init(_usersControllerSearch.Run());
+
+        return new JsonResult
+        {
+            Data = new{
+                Html = ViewRenderer.RenderPartialView(
+                    "UserSearchResult", 
+                    new UserSearchResultModel(usersModel), 
+                    this.ControllerContext),
+                TotalInResult = searchSpec.TotalItems,
+                TotalInSystem = R<GetTotalUsers>(),
+            }
+        };
+    }
+
     [SetMenu(MenuEntry.Users)]
     public ActionResult Users(int? page, UsersModel model, string orderBy = null)
     {
