@@ -62,7 +62,9 @@
                                     </ul>
                                 </li>
                             </ul>
-
+                            <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;">
+                                <span id="resultCount2"><%= Model.TotalInResult %></span> Treffer
+                            </div>
                         </div>
                     </div>
                         

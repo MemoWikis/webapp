@@ -58,7 +58,8 @@
                 else 
                     $("#rowNoResults").hide();
 
-                Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Fragen");
+                Utils.SetElementValue("#resultCount2", data.TotalInResult.toString());
+                Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Treffer");
                 Utils.SetElementValue2($(".JS-Tabs")
                     .find(".JS-" + data.Tab)
                     .find("span.JS-Amount"), tabAmount);

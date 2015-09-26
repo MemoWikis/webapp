@@ -26,6 +26,8 @@ public class UsersModel : BaseModel
     public UserSearchResultModel SearchResultModel;
     public HeaderModel HeaderModel = new HeaderModel();
 
+    public int TotalInResult;
+
     public UsersModel(){
     }
 
@@ -43,6 +45,8 @@ public class UsersModel : BaseModel
 
         Suggestion = _sessionUiData.SearchSpecUser.GetSuggestion();
         SearchTerm = _sessionUiData.SearchSpecUser.SearchTerm;
+
+        TotalInResult = _sessionUiData.SearchSpecUser.TotalItems;
 
         HeaderModel.TotalUsers = R<GetTotalUsers>().Run();
 
