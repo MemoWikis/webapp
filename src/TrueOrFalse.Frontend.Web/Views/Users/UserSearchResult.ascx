@@ -10,3 +10,5 @@
         Bitte weitertippen oder anderen Suchbegriff verwenden.
     </div>
 </div>
+
+<% Html.RenderPartial("Pager", Model.Pager); %>

@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<UserRowModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase user-row <%= Model.IsCurrentUser ? "loggedInUser"  : "" %>" 
+<div class="rowBase col-lg-6 user-row <%= Model.IsCurrentUser ? "loggedInUser"  : "" %>" 
     data-UserId="<%= Model.Id %>" style="position: relative;">
     
     <div class="column-Image" style="line-height: 15px; font-size: 90%;">

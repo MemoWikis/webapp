@@ -49,7 +49,7 @@ public class UsersController : BaseController
     {
         SetUsersOrderBy(orderBy);
 
-        _sessionUiData.SearchSpecUser.PageSize = 10;
+        _sessionUiData.SearchSpecUser.PageSize = 30;
         if (page.HasValue) _sessionUiData.SearchSpecUser.CurrentPage = page.Value;
 
         if(model == null)

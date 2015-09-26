@@ -67,16 +67,14 @@
                             </div>
                         </div>
                     </div>
-                        
-                    <% Html.Message(Model.Message); %>
+                </div>
+                
+                <% Html.Message(Model.Message); %>
                     
-                    <div id="JS-SearchResult" style="clear: both;">
-                        <% Html.RenderPartial("UserSearchResult", Model.SearchResultModel); %>
-                    </div>
-
+                <div id="JS-SearchResult">
+                    <% Html.RenderPartial("UserSearchResult", Model.SearchResultModel); %>
                 </div>
 
-                <% Html.RenderPartial("Pager", Model.Pager); %>
             </div>
         </div>
     <% } %>

@@ -87,4 +87,13 @@
   background-color: #2c5fb2 !important;
   background-image: none !important;
 }
-/*# sourceMappingURL=Users.css.map */
+@media (min-width: 1200px) {
+  .box-content {
+    width: 102%;
+  }
+  .user-row {
+    margin-right: 2%;
+    margin-left: 0px;
+    width: 48%;
+  }
+}
