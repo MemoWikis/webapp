@@ -53,6 +53,11 @@
                     tabAmount = data.TotalInSystem.toString();
                 }
 
+                if (data.TotalInResult === 0)
+                    $("#rowNoResults").show();
+                else 
+                    $("#rowNoResults").hide();
+
                 Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Fragen");
                 Utils.SetElementValue2($(".JS-Tabs")
                     .find(".JS-" + data.Tab)

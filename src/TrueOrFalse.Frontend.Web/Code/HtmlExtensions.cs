@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using System.Web.Mvc;
-using NHibernate.Util;
+﻿using System.Web.Mvc;
 
 public static class HtmlExtensions
 {
