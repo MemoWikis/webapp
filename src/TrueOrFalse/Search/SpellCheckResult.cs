@@ -31,7 +31,9 @@ namespace TrueOrFalse.Search
                 //return words.GroupBy(x => x).Select(x => x.Key).Aggregate((a, b) => a + " " + b);
 
                 var spellCheckResult = Items.First();
-                return spellCheckResult.Suggestions.First();
+
+                if (spellCheckResult.Suggestions.Any())
+                    return spellCheckResult.Suggestions.First();
             }
             return null;
         }
