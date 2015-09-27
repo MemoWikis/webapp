@@ -105,7 +105,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
         return result;
     }
 
-
     public IEnumerable<Question> GetMostRecent(int amount)
     {
         return _session
@@ -113,5 +112,19 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .OrderBy(q => q.DateCreated).Desc
             .Take(amount)
             .List();
+    }
+
+    /// <summary>
+    /// Return how often a question is in other peoples WuWi
+    /// </summary>
+    public int HowOftenInOtherPeoplesWuwi(int userId, int questionId)
+    {
+        return Sl.R<QuestionValuationRepo>()
+            .Query
+            .Where(v => 
+                v.User.Id != userId &&
+                v.Question.Id == questionId
+            )
+            .RowCount();
     }
 }
