@@ -51,11 +51,10 @@ public class QuestionsModel : BaseModel
         if (questionSearchSpec.Filter.Categories != null)
             FilteredCategories = R<CategoryRepository>().GetByIds(questionSearchSpec.Filter.Categories.ToArray());
 
-        int currentUserId = _sessionUser.IsLoggedIn ? _sessionUser.User.Id : -1;
         NotAllowed = !_sessionUser.IsLoggedIn && (searchTab == SearchTabType.Wish || searchTab == SearchTabType.Mine);
 
-        var totalsForCurrentUser = Resolve<TotalsPersUserLoader>().Run(currentUserId, questions);
-        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepo>().GetActiveInWishknowledge(questions.GetIds(), currentUserId);
+        var totalsForCurrentUser = Resolve<TotalsPersUserLoader>().Run(UserId, questions);
+        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepo>().GetActiveInWishknowledge(questions.GetIds(), UserId);
 
         Pager = new PagerModel(questionSearchSpec);
         Suggestion = questionSearchSpec.GetSuggestion();
@@ -67,13 +66,12 @@ public class QuestionsModel : BaseModel
                                     totalsForCurrentUser.ByQuestionId(question.Id),
                                     NotNull.Run(questionValutionsForCurrentUser.ByQuestionId(question.Id)),
                                     ((questionSearchSpec.CurrentPage - 1) * questionSearchSpec.PageSize) + ++counter, 
-                                    currentUserId,
                                     searchTab
                                   );
 
         TotalQuestionsInSystem = Resolve<GetQuestionCount>().Run();
-        TotalQuestionsMine = Resolve<GetQuestionCount>().Run(currentUserId);
-        TotalWishKnowledge = Resolve<GetWishQuestionCountCached>().Run(currentUserId);
+        TotalQuestionsMine = Resolve<GetQuestionCount>().Run(UserId);
+        TotalWishKnowledge = Resolve<GetWishQuestionCountCached>().Run(UserId);
 
         TotalQuestionsInResult = questionSearchSpec.TotalItems;
 
