@@ -54,5 +54,19 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Style/components.css",
+    "inputFile": "Style/components.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Views/Questions/Questions.css",
+    "inputFile": "Views/Questions/Questions.less",
+    "minify": {
+      "enabled": false
+    }
   }
 ]

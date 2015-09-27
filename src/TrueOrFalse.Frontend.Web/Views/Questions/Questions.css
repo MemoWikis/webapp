@@ -168,6 +168,12 @@ div.question-row{background-color:silver;}*/
     clear: right;
   }
 }
+@media (min-width: 1200px) {
+  .StatsRow {
+    height: 24px;
+    font-size: 16px;
+  }
+}
 @media (max-width: 767px) {
   .NumberTimesStats {
     clear: left;
@@ -224,4 +230,3 @@ div.question-row{background-color:silver;}*/
 div.column-Additional div.row {
   margin-left: 0;
 }
-/*# sourceMappingURL=Questions.css.map */
