@@ -8,6 +8,12 @@
             foreach (var row in Model.QuestionRows){
                 Html.RenderPartial("QuestionRow", row);
             } 
+    %>
+        <div class="rowBase" style="padding:10px; <%= Html.CssHide(Model.QuestionRows.Any()) %>" id="rowNoResults">
+            Keine Treffer. <br/> 
+            Bitte weitertippen oder anderen Suchbegriff verwenden.
+        </div>    
+    <%
         }
     %>
 </div>

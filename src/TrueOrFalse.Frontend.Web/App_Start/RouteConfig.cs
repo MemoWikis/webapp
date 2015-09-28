@@ -17,6 +17,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
 
+            routes.MapRoute("UsersSearchApi", "Nutzer/SucheApi", new { controller = "Users", action = "SearchApi", searchTerm = UrlParameter.Optional });
             routes.MapRoute("UsersSearch", "Nutzer/Suche/{searchTerm}", new { controller = "Users", action = "Search", searchTerm = UrlParameter.Optional });
             routes.MapRoute("UserSettings", "Nutzer/Einstellungen", new { controller = "UserSettings", action = "UserSettings" });
             routes.MapRoute("UserAccountMembership", "Nutzer/Mitgliedschaft", new { controller = "Account", action = "Membership" });

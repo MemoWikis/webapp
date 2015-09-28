@@ -138,7 +138,9 @@
                                         </ul>
                                     </li>
                                 </ul>
-                                <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;"><%= Model.TotalCategoriesInResult %> Treffer</div>
+                                <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;">
+                                    <span id="resultCount2"><%= Model.TotalCategoriesInResult %></span> Treffer
+                                </div>
                             </div>
                         </div>
                     </div>

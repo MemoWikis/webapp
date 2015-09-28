@@ -33,5 +33,40 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Views/Users/Users.css",
+    "inputFile": "Views/Users/Users.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Views/Sets/Sets.css",
+    "inputFile": "Views/Sets/Sets.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Views/Categories/Categories.css",
+    "inputFile": "Views/Categories/Categories.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Style/components.css",
+    "inputFile": "Style/components.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Views/Questions/Questions.css",
+    "inputFile": "Views/Questions/Questions.less",
+    "minify": {
+      "enabled": false
+    }
   }
 ]

@@ -21,7 +21,7 @@ public class QuestionRowModel : BaseModel
 
     public bool IsPrivate;
 
-    public bool IsOwner;
+    public bool IsCreator;
     public string TotalRelevancePersonalEntries;
     public string TotalRelevancePersonalAvg;
 
@@ -46,7 +46,6 @@ public class QuestionRowModel : BaseModel
         TotalPerUser totalForUser, 
         QuestionValuation questionValuation,
         int indexInResultSet, 
-        int currentUserid,
         SearchTabType searchTab) 
     {
         ImageFrontendData = GetQuestionImageFrontendData.Run(question);
@@ -64,7 +63,7 @@ public class QuestionRowModel : BaseModel
         
         IndexInResulSet = indexInResultSet;
 
-        IsOwner = currentUserid == CreatorId;
+        IsCreator = UserId == CreatorId;
 
         IsPrivate = question.Visibility != QuestionVisibility.All;
 
