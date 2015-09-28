@@ -47,7 +47,7 @@
                     <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-Mine">
                         <a href="<%= Links.SetsMine() %>" type="button" class="btn btn-default">
                             Meine (<span class="JS-Amount"><%= Model.TotalMine %></span>)
-                            <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die von dir erstellt wurden." data-placement="right"></i>
+                            <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die von dir erstellt wurden" data-placement="right"></i>
                         </a>
                     </div>
                 </div>

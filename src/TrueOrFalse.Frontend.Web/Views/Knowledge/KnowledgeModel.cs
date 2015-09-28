@@ -24,6 +24,7 @@ public class KnowledgeModel : BaseModel
     public GetStreaksDaysResult StreakDays = new GetStreaksDaysResult();
 
     public IList<Date> Dates = new List<Date>();
+    public IList<Date> DatesInNetwork = new List<Date>();
     public IList<AnswerHistory> AnswerRecent = new List<AnswerHistory>();
 
     public User User = new User();
@@ -31,6 +32,7 @@ public class KnowledgeModel : BaseModel
     public int ReputationTotal;
 
     public UIMessage Message;
+
 
     public KnowledgeModel(string emailKey = null)
     {
@@ -61,8 +63,14 @@ public class KnowledgeModel : BaseModel
 
         KnowledgeSummary = R<KnowledgeSummaryLoader>().Run(UserId);
 
-        Dates = GetSampleDates.Run();
+        //Dates = GetSampleDates.Run();
+        Dates = R<DateRepo>().GetBy(UserId, true);
+        DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
+
+
         AnswerRecent = R<GetLastAnswers>().Run(UserId, 4);
         StreakDays = R<GetStreaksDays>().Run(User);
+
+
     }
 }
