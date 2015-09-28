@@ -83,7 +83,7 @@
                         <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-Wish">
                             <a href="<%= Links.SetsWish() %>">
                                 <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalSetsInResult); %>
-                                Mein Wunschwissen (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWish %></span>)
+                                <i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;Mein Wunschwissen (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWish %></span>)
                             </a>
                         </li>
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-Mine">

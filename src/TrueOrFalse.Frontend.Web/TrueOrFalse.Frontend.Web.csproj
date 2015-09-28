@@ -291,6 +291,7 @@
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
+    <Compile Include="Views\Users\UserSearchResultModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
     <Compile Include="Views\Api\QuestionsApiController.cs" />
@@ -407,6 +408,7 @@
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
+    <Content Include="Views\Users\UserSearchResult.ascx" />
     <Content Include="Views\Sets\Edit\EditSet.css">
       <DependentUpon>EditSet.less</DependentUpon>
     </Content>

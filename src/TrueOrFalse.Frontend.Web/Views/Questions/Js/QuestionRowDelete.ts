@@ -7,18 +7,21 @@ class QuestionDelete {
 
         var questionIdToDelete;
         $(function () {
-            $('a[href*=#modalDelete]').click(function () {
+            $('a[href*=#modalDelete]').click(function (e) {
                 questionIdToDelete = $(this).attr("data-questionId");
                 populateDeleteQuestionId(questionIdToDelete);
+                e.preventDefault();
             });
 
-            $('#btnCloseQuestionDelete').click(function () {
+            $('#btnCloseQuestionDelete').click(function (e) {
                 $('#modalDelete').modal('hide');
+                e.preventDefault();
             });
 
-            $('#confirmQuestionDelete').click(function () {
+            $('#confirmQuestionDelete').click(function (e) {
                 deleteQuestion(questionIdToDelete);
                 $('#modalDelete').modal('hide');
+                e.preventDefault();
             });
         });
 
@@ -28,7 +31,18 @@ class QuestionDelete {
                 url: "/Questions/DeleteDetails/" + questionId,
                 cache: false,
                 success: function (result) {
-                    $("#spanQuestionTitle").html(result.questionTitle.toString());
+                    if (result.canNotBeDeleted) {
+                        $("#questionDeleteCanDelete").hide();
+                        $("#questionDeleteCanNotDelete").show();
+                        $("#confirmQuestionDelete").hide();
+                        $("#questionDeleteCanNotDelete").html(result.canNotBeDeletedReason);
+                    } else {
+                        $("#questionDeleteCanDelete").show();
+                        $("#questionDeleteCanNotDelete").hide();
+                        $("#confirmQuestionDelete").show();
+                        $("#spanQuestionTitle").html(result.questionTitle.toString());
+                    }
+                    
                 },
                 error: function () {
                     window.alert("Ein Fehler ist aufgetreten");

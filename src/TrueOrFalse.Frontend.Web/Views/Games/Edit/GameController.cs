@@ -41,7 +41,7 @@ public class GameController : BaseController
         var sets = AutocompleteUtils.GetSetsFromPostData(Request.Form);
         if (sets.Count == 0)
         {
-            gameModel.Message = new ErrorMessage("Bitte gib mind. einen Fragesatz ein.");
+            gameModel.Message = new ErrorMessage("Bitte gib mindestens einen Fragesatz ein.");
             return View(_viewLocation, gameModel);            
         }
 

@@ -2,11 +2,11 @@
 using NHibernate;
 using NHibernate.Criterion;
 
-public class GetQuestionCount : IRegisterAsInstancePerLifetime
+public class QuestionGetCount : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
 
-    public GetQuestionCount(ISession session){
+    public QuestionGetCount(ISession session){
         _session = session;
     }
 

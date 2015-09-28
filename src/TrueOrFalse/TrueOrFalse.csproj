@@ -459,9 +459,9 @@
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionExact.cs" />
     <Compile Include="Domain\Question\Question.Ops\UpdateSetDataForQuestion.cs" />
-    <Compile Include="Domain\Question\Question.Ops\DeleteQuestion.cs" />
+    <Compile Include="Domain\Question\Question.Ops\QuestionDelete.cs" />
     <Compile Include="Domain\NotNull.cs" />
-    <Compile Include="Domain\Question\Question.Ops\GetQuestionCount.cs" />
+    <Compile Include="Domain\Question\Question.Ops\QuestionGetCount.cs" />
     <Compile Include="Domain\QuestionSet\SetMini.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionSearchSpecSession.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\CreateOrUpdateQuestionValue.cs" />
@@ -665,6 +665,7 @@
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs109.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs108.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs107.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs106.cs" />

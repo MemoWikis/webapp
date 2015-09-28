@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Util;
-using Remotion.Linq.Clauses.ResultOperators;
 using Seedworks.Lib.Persistence;
 
 public class Game : DomainEntity
@@ -37,7 +36,9 @@ public class Game : DomainEntity
         {
             Game = this,
             User = user,
-            IsCreator = isCreator
+            IsCreator = isCreator,
+            DateModified = DateTime.Now,
+            DateCreated = DateTime.Now,
         });
         return true;
     }
@@ -135,7 +136,7 @@ public class Game : DomainEntity
         int position = 0;
 
         Players
-            .OrderBy(p => p.AnsweredCorrectly)
+            .OrderByDescending(p => p.AnsweredCorrectly)
             .ThenBy(p => p.AnsweredWrong)
             .GroupBy(p => p.AnsweredCorrectly)
             .ForEach(groupLevel1 =>
@@ -150,5 +151,11 @@ public class Game : DomainEntity
             });
 
         Players = Players.OrderBy(player => player.Position).ToList();
+    }
+
+    public virtual Player GetWinner()
+    {
+        SetPlayerPositions();
+        return Players.First();
     }
 }

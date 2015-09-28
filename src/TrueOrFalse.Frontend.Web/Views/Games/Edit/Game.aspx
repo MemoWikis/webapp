@@ -59,7 +59,8 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
-                                        <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in:
+                                        <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in: 
+                                        &nbsp;<i class="fa fa-question-circle show-tooltip" title="Gib hier an, wie lange du maximal auf Mitspieler warten möchtest." data-placement="right"></i>
                                     </label>
                                     <div class="col-md-11 col-sm-8 col-xs-11">
                                         <div class="input-group">

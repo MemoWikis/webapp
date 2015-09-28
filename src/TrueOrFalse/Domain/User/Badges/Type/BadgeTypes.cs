@@ -49,7 +49,7 @@ public class BadgeTypes
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetBronze()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Answer, BadgeCheckOn.WishKnowledgeAdd},
                 AwardCheck = BadgeAwardCheck.Get(fp => 
-                    fp.WishknowledgeCount() >= 1 && fp.AnswerCount() >= 1
+                    fp.WuWi_Count() >= 1 && fp.AnswerCount() >= 1
                         ? BadgeLevel.GetBronze()
                         : null),
             },
@@ -79,8 +79,8 @@ public class BadgeTypes
                 BadgeCheckOn = new []{ BadgeCheckOn.GameFinished, BadgeCheckOn.DateCreated, BadgeCheckOn.UserFollowed, BadgeCheckOn.WishKnowledgeAdd, BadgeCheckOn.CommentedAdded, BadgeCheckOn.CategoryUpdateOrCreate },
                 AwardCheck = BadgeAwardCheck.Get(fp => 
                     fp.IsBadgeAwarded("NewbieSilver", fp) &&
-                    fp.PlayedGames() >= 3 &&
-                    fp.Dates() >= 3 &&
+                    fp.GamesPlayed() >= 3 &&
+                    fp.DatesCreated() >= 3 &&
                     fp.UsersFollowing() >= 3
                         ? BadgeLevel.GetGold() 
                         : null)
@@ -142,7 +142,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(300)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd },
-                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.QuestionsInOtherPeopleWuwi())
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.Questions_InOtherPeopleWuwi())
             },
             
             //Sets
@@ -200,7 +200,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(300)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate },
-                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.MaxAddedQuestionsToCategory())
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.Questions_MaxAddedToCategory())
             },
 
             new BadgeType
@@ -233,7 +233,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(1000)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.WishKnowledgeAdd },
-                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.WishknowledgeCount())
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.WuWi_Count())
             },
 
             new BadgeType
@@ -436,7 +436,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(200)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                /* TODO:  */
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.DatesCreated())
             },
 
             //Play
@@ -453,7 +453,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(100)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                /* TODO:  */
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.GamesWithMoreThan10Players())
             },
 
             new BadgeType
@@ -469,7 +469,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(300)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                /* TODO:  */
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.GamesWithExact2Players())
             },
 
             new BadgeType
@@ -485,7 +485,7 @@ public class BadgeTypes
                     BadgeLevel.GetGold(300)
                 },
                 BadgeCheckOn = new []{ BadgeCheckOn.OncePerDay },
-                /* TODO:  */
+                AwardCheck = BadgeAwardCheck.GetLevel(fp => fp.GamesWon())
             },
 
             //Community/Comments

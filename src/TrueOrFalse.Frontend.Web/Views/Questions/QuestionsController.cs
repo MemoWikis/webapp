@@ -114,10 +114,14 @@ namespace TrueOrFalse
         {
             var question = _questionRepo.GetById(questionId);
 
+            var canBeDeleted = QuestionDelete.CanBeDeleted(question.Creator.Id, questionId);
+
             return new JsonResult{
                 Data = new{
                     questionTitle = question.Text.WordWrap(50),
-                    totalAnswers = question.TotalAnswers()
+                    totalAnswers = question.TotalAnswers(),
+                    canNotBeDeleted = !canBeDeleted.Yes,
+                    canNotBeDeletedReason = canBeDeleted.IfNot_Reason
                 }
             };
         }
@@ -125,7 +129,7 @@ namespace TrueOrFalse
         [HttpPost]
         public EmptyResult Delete(int questionId)
         {
-            Sl.Resolve<DeleteQuestion>().Run(questionId);
+            QuestionDelete.Run(questionId);
             return new EmptyResult();
         }
 
@@ -199,8 +203,8 @@ namespace TrueOrFalse
 
             var totalInSystem = 0;
             switch (searchTab){
-                case SearchTabType.All: totalInSystem = R<GetQuestionCount>().Run(); break;
-                case SearchTabType.Mine: totalInSystem = R<GetQuestionCount>().Run(_sessionUser.UserId); break;
+                case SearchTabType.All: totalInSystem = R<QuestionGetCount>().Run(); break;
+                case SearchTabType.Mine: totalInSystem = R<QuestionGetCount>().Run(_sessionUser.UserId); break;
                 case SearchTabType.Wish: totalInSystem = R<GetWishQuestionCountCached>().Run(_sessionUser.UserId); break;
             }
 

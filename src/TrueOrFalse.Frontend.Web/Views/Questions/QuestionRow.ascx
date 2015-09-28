@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="rowBase question-row" data-questionid="<%= Model.QuestionId %>" data-userisowner="<%= Model.IsOwner? "true" : "false" %>">
+<div class="rowBase question-row" data-questionid="<%= Model.QuestionId %>" data-userisowner="<%= Model.IsCreator? "true" : "false" %>">
     <div class="column-Image">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Question) %>
@@ -67,7 +67,7 @@
             
             &nbsp;
             &nbsp;
-            <% if (Model.IsOwner){%>
+            <% if (Model.IsCreator){%>
                 <div style="position: relative; top: -1px; display: inline-block">
                     <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>&nbsp;
                     <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>"><i class="fa fa-pencil"></i></a>

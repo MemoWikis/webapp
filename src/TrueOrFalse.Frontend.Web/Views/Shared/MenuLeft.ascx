@@ -27,7 +27,7 @@
         <div class="list-group">
             <a class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>">
                 <i class="fa fa-caret-right"></i> 
-                Wunschwissen  <span style="float:right"><i class="fa fa-heart-o"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
+                Wunschwissen  <span style="float:right"><i class="fa fa-heart" style="color:#b13a48;"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
             </a>
             <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates() %>">
                 <i class="fa fa-caret-right"></i> Termine

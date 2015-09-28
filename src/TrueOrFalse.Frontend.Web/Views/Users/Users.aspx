@@ -33,7 +33,7 @@
                                 <% } %>
                                 
                                 <div class="input-group">
-                                    <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch"}) %>
+                                    <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", id="txtSearch", formUrl="/Nutzer/Suche"}) %>
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                                     </span>
@@ -62,21 +62,19 @@
                                     </ul>
                                 </li>
                             </ul>
-
+                            <div class="pull-right" style="font-size: 14px; margin-top: 0px; margin-right: 7px;">
+                                <span id="resultCount2"><%= Model.TotalInResult %></span> Treffer
+                            </div>
                         </div>
                     </div>
-                        
-                    <% Html.Message(Model.Message); %>
-
-                    <div style="clear: both;">
-                        <% foreach(var row in Model.Rows){
-                            Html.RenderPartial("UserRow", row);
-                        } %>
-                    </div>
-
+                </div>
+                
+                <% Html.Message(Model.Message); %>
+                    
+                <div id="JS-SearchResult">
+                    <% Html.RenderPartial("UserSearchResult", Model.SearchResultModel); %>
                 </div>
 
-                <% Html.RenderPartial("Pager", Model.Pager); %>
             </div>
         </div>
     <% } %>

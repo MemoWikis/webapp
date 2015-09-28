@@ -18,7 +18,7 @@ public class BadgeAwardCheckParams
 
     public T R<T>(){return Sl.R<T>();} 
 
-    public int WishknowledgeCount()
+    public int WuWi_Count()
     {
         return R<QuestionValuationRepo>().GetByUser(CurrentUser.Id).Count;
     }
@@ -104,7 +104,7 @@ public class BadgeAwardCheckParams
             .RowCount();
     }
 
-    public int QuestionsInOtherPeopleWuwi()
+    public int Questions_InOtherPeopleWuwi()
     {
         return R<QuestionValuationRepo>()
             .Query
@@ -138,14 +138,57 @@ public class BadgeAwardCheckParams
         return badgeType.AwardCheck(awardCheckParams).Success;
     }
 
-    public int PlayedGames()
+    public int GamesPlayed()
     {
         return R<ISession>().QueryOver<Game>()
             .Where(q => q.Players.Any(p => p.User.Id == CurrentUser.Id))
             .RowCount();
     }
 
-    public int Dates()
+
+    private string GamesPlayerCountQuery()
+    {
+        string query =
+            @"  SELECT * FROM (
+	                SELECT (
+		                select count(*) 
+		                from game_player p_inner 
+		                where p_inner.Game_Id = p_outer.Game_Id) as playerCount
+	                FROM game_player p_outer
+	                WHERE IsCreator = true
+	                AND User_id = {0}
+                ) t ";
+
+        return query;
+    }
+
+    public int GamesWithMoreThan10Players()
+    {
+        var query = GamesPlayerCountQuery()
+            + " WHERE playerCount >= 10";
+
+        return R<ISession>()
+            .CreateSQLQuery(String.Format(query, CurrentUser.Id))
+            .UniqueResult<int>();
+    }
+
+    public int GamesWithExact2Players()
+    {
+        var query = GamesPlayerCountQuery()
+            + " WHERE playerCount = 2";
+
+        return R<ISession>()
+            .CreateSQLQuery(String.Format(query, CurrentUser.Id))
+            .UniqueResult<int>();
+    }
+
+    public int GamesWon()
+    {
+        var games = R<GameRepo>().AllCompletedByUser(CurrentUser.Id);
+        return games.Count(g => g.GetWinner().User.Id == CurrentUser.Id);
+    }
+
+    public int DatesCreated()
     {
         return R<ISession>().QueryOver<Date>()
             .Where(d => d.User.Id == CurrentUser.Id)
@@ -172,7 +215,7 @@ public class BadgeAwardCheckParams
             .FirstOrDefault(badgeLevel => points >= badgeLevel.PointsNeeded);
     }
 
-    public int MaxAddedQuestionsToCategory()
+    public int Questions_MaxAddedToCategory()
     {
         string query = @"
             SELECT MAX(countQuestionId) FROM (
