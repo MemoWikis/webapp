@@ -12,7 +12,7 @@ namespace TrueOrFalse
         {
             _shouldReasons.Add("shouldBePrivate", "Die Frage sollte privat sein.");
             _shouldReasons.Add("sourcesAreWrong", "Die Quellen sind nicht korrekt.");
-            _shouldReasons.Add("answerNotClear", "Die Antwort ist nicht eindeutig.");
+            _shouldReasons.Add("answerNotClear", "Die Antwort ist falsch oder nicht eindeutig.");
             _shouldReasons.Add("improveOtherReason", "... ein anderer Grund.");
 
             _shouldReasons.Add("deleteIsOffending", "Die Frage ist beleidigend, abwertend oder rassistisch.");

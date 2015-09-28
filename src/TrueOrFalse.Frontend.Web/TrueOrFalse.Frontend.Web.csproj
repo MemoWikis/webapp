@@ -395,6 +395,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\no-profile-picture-250.png" />
+    <Content Include="Images\no-profile-picture-30.png" />
+    <Content Include="Images\no-profile-picture-350.png" />
     <Content Include="Images\Team\team_christof201509_155.jpg" />
     <Content Include="Images\Team\team_christof201509_600.jpg" />
     <Content Include="Images\Team\team_jule201509-1_155.jpg" />

@@ -22,7 +22,7 @@ public class DateRepo : RepositoryDbBase<Date>
         if (onlyPrevious)
             queryOver.Where(d => d.DateTime < DateTime.Now);
 
-        queryOver = queryOver.OrderBy(q => q.DateTime).Desc;
+        queryOver = queryOver.OrderBy(q => q.DateTime).Asc;
 
         return queryOver.List();
     }
