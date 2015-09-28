@@ -412,6 +412,9 @@
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
     <Content Include="Views\Users\UserSearchResult.ascx" />
+    <Content Include="Views\Sets\Edit\EditSet.css">
+      <DependentUpon>EditSet.less</DependentUpon>
+    </Content>
     <Content Include="Views\Users\Detail\TabBadges.ascx" />
     <Content Include="Views\Users\Detail\User.css">
       <DependentUpon>User.less</DependentUpon>
@@ -1826,6 +1829,10 @@
       <DependentUpon>Welcome.css</DependentUpon>
     </Content>
     <Content Include="Views\Users\Detail\User.less" />
+    <Content Include="Views\Sets\Edit\EditSet.less" />
+    <Content Include="Views\Sets\Edit\EditSet.css.map">
+      <DependentUpon>EditSet.css</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
