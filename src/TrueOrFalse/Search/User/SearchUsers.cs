@@ -32,7 +32,8 @@ namespace TrueOrFalse.Search
         )
         {
             var sqb = new SearchQueryBuilder()
-                .Add("Name", searchTerm);
+                .Add("Name", searchTerm)
+                .Add("Name", searchTerm, startsWith: true, boost: 99999);
 
             var orderby = new List<SortOrder>();
             if (orderBy == SearchUsersOrderBy.Rank)
