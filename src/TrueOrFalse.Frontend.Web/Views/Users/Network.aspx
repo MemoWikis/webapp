@@ -47,7 +47,9 @@
                     
                     <% } %>
                     
-                    <h4 style="margin-bottom: 15px; margin-top: 0px;">
+                    <div class="clearfix" style="width: 100%"></div>
+
+                    <h4 style="margin-bottom: 15px; margin-top: 0px;" class="clearfix">
                         <span class="ColoredUnderline User">Dir folg<%= Html.Plural(Model.UsersFollowingMe.Count(),"en","t","en") %> <%= Model.UsersFollowingMe.Count() %> Nutzer</span>
                     </h4>
                     
@@ -57,7 +59,7 @@
                             style="margin-top: 0; margin-bottom: 10px;">
                             <h4>Noch folgt dir niemand</h4>
                             <p style="padding-top: 5px;">
-                                Nutzer folgend dir, wenn du interessante Inhalte erstellst.<br/>
+                                Nutzer folgen dir, wenn du interessante Inhalte erstellst.<br/>
                                 Folgen dir viele Nutzer, erhältst du Badges.
                             </p>
                         </div>
