@@ -408,6 +408,9 @@
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerQuestion.min.css">
+      <DependentUpon>AnswerQuestion.css</DependentUpon>
+    </Content>
     <Content Include="Views\Users\UserSearchResult.ascx" />
     <Content Include="Views\Sets\Edit\EditSet.css">
       <DependentUpon>EditSet.less</DependentUpon>

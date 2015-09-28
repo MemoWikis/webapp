@@ -68,5 +68,12 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Views/Questions/Answer/AnswerQuestion.css",
+    "inputFile": "Views/Questions/Answer/AnswerQuestion.less",
+    "minify": {
+      "enabled": false
+    }
   }
 ]

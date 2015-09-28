@@ -336,7 +336,7 @@ div.selected-row:hover {
   }
 }
 .column-MainContent .TitleText {
-  font-size: larger;
+  font-size: large;
 }
 @media (max-width: 767px) {
   .MainContentUpper {
@@ -407,4 +407,3 @@ div.selected-row:hover {
     margin-right: 0;
   }
 }
-/*# sourceMappingURL=components.css.map */

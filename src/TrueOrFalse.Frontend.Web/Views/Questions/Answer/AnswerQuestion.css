@@ -3,12 +3,19 @@
     margin-bottom: 10px;
   }
 }
-#EditQuestion {
+#EditQuestion,
+#DeleteQuestion {
   float: right;
 }
 @media (max-width: 479px) {
-  #EditQuestion {
+  #EditQuestion,
+  #DeleteQuestion {
     margin-bottom: 10px;
+  }
+}
+@media (max-width: 479px) {
+  #DeleteQuestion {
+    float: left;
   }
 }
 #divAnsweredCorrect {
@@ -17,4 +24,3 @@
 #AnswerInputSection {
   margin-bottom: 15px;
 }
-/*# sourceMappingURL=AnswerQuestion.css.map */

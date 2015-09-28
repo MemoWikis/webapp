@@ -14,4 +14,8 @@ $(() => {
         js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1&appId=128827270569993";
         fjs.parentNode.insertBefore(js, fjs);
     } loadFacebook(window.document, 'script', 'facebook-jssdk');
+
+    $("#linkDeleteQuestion").click(() => {
+        window.alert("Du kannst die Frage, von der Fragen-Übersichtsseite aus löschen.");
+    });
 });
