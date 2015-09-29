@@ -100,6 +100,9 @@
         } %>
     </div>
     <div class="pull-right" style="margin-top: 20px;">
+        <% if(Model.LearningSession.IsDateSession) { %>
+            <a href="<%= Links.Dates() %>" class="btn btn-link" style="padding-right: 10px">Zurück zur Terminübersicht</a>
+        <% } %>
         <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
             Neue Lernsitzung
             <% if(Model.LearningSession.IsSetSession) { %>
