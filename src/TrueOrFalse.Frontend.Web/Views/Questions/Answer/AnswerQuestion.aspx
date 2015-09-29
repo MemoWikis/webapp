@@ -111,6 +111,13 @@
                         <span class="TextSpan">Frage bearbeiten</span>
                     </a>
                 </div>
+            
+                <div id="DeleteQuestion">
+                    <a href="#" class="TextLinkWithIcon" id="linkDeleteQuestion">
+                        <i class="fa fa-trash"></i>
+                        <span class="TextSpan">Frage löschen</span>
+                    </a>
+                </div>
             <% } %>
         </div>
     </div>

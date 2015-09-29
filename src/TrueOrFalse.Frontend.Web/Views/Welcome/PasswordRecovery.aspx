@@ -13,11 +13,11 @@
             <fieldset>
                 <legend>Ein neues Passwort setzen</legend>
 
-                <% Html.ValidationSummary(true, "Bitte überprüfen Sie Ihre eingaben");  %>
+                <% Html.ValidationSummary(true, "Bitte überprüfe Deine Angaben");  %>
                                 
                 <div class="alert alert-info">
-                    Wir schicken einen Link an deine Emailadresse. Folge dem Link und 
-                    du kannst dir ein neues Passwort setzen. 
+                    Gib hier die Email-Adresse an, mit der du dich angemeldet hast. 
+                    Wir schicken dir einen Link, mit dem du dir ein neues Passwort setzen kannst.
                 </div>
                 
                 <% Html.Message(Model.Message); %>

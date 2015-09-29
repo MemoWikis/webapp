@@ -18,10 +18,10 @@ public class EditDateController : BaseController
     public ViewResult Create(EditDateModel model)
     {
         if (model.IsDateTimeInPast())
-            model.Message = new ErrorMessage("Nicht gespeichert: Der Termin liegt in der Vergangenheit.");
+            model.Message = new ErrorMessage("Es wurde kein Termin gespeichert. Der Termin darf nicht in der Vergangenheit liegen. Bitte prüfe das Datum.");
 
         if (!model.HasSets())
-            model.Message = new ErrorMessage("Nicht gespeichert: Füge Fragesätze hinzu.");
+            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatze hinzu.");
 
         if (!model.HasErrorMsg())
         {
@@ -58,10 +58,10 @@ public class EditDateController : BaseController
             throw new Exception("Invalid exception");
 
         if (model.IsDateTimeInPast())
-            model.Message = new ErrorMessage("Nicht gespeichert: Der Termin liegt in der Vergangenheit.");
+            model.Message = new ErrorMessage("Es wurde kein Termin gespeichert. Der Termin darf nicht in der Vergangenheit liegen Bitte prüfe das Datum.");
 
         if(!model.HasSets())
-            model.Message = new ErrorMessage("Nicht gespeichert: Füge Fragesätze hinzu.");
+            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatze hinzu.");
 
         if (!model.HasErrorMsg())
         {

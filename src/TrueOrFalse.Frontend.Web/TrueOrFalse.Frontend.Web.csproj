@@ -395,6 +395,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\no-profile-picture-250.png" />
+    <Content Include="Images\no-profile-picture-30.png" />
+    <Content Include="Images\no-profile-picture-350.png" />
     <Content Include="Images\Team\team_christof201509_155.jpg" />
     <Content Include="Images\Team\team_christof201509_600.jpg" />
     <Content Include="Images\Team\team_jule201509-1_155.jpg" />
@@ -408,6 +411,9 @@
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerQuestion.min.css">
+      <DependentUpon>AnswerQuestion.css</DependentUpon>
+    </Content>
     <Content Include="Views\Users\UserSearchResult.ascx" />
     <Content Include="Views\Sets\Edit\EditSet.css">
       <DependentUpon>EditSet.less</DependentUpon>
