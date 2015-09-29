@@ -75,6 +75,23 @@
                 <div class="form-horizontal">
                     <div class="FormSection">
                         
+                        <div class="form-group">
+                            <%--<%= Html.LabelFor(m => m.Details, new { @class = "columnLabel control-label" })%>--%>
+                            <label class="columnLabel control-label">
+                                Name des Termins:
+                            </label>
+                            <div class="columnControlsFull">
+                                <%= Html.TextBoxFor(m => m.Details, new {@class="form-control", placeholder = "(z.B. Klassenarbeit Geografie)"}) %>
+                                <%--<%= Html.TextAreaFor(m => m.Details, 
+                                    new
+                                    {
+                                        @class="form-control", 
+                                        placeholder = "(kurze) Beschreibung des Termins", 
+                                        rows = 2
+                                    })%>--%>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
@@ -98,7 +115,7 @@
                                     </label>
                                     <div class="col-md-10 col-xs-6">
                                         <div class="input-group clockpicker" data-autoclose="true">
-                                            <input class="form-control" name="Time" value="<%= Model.Time %>" style="height: 30px;" name="amountPlayers" />
+                                            <input class="form-control" name="Time" value="<%= Model.Time %>" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
                                                 <i class="fa fa-clock-o"></i>
                                             </span>
@@ -108,9 +125,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="margin-bottom: 5px;">
                             <label class="columnLabel control-label">
-                                Fragesätze, die zu diesem Termin gewusst werden sollen:
+                                Fragesätze, die du zu diesem Termin lernen möchtest:
                             </label>
                             <div class="JS-Sets columnControlsFull">
                                 <script type="text/javascript">
@@ -124,35 +141,25 @@
                                     });
                                 </script>
                                 <div class="JS-SetInputContainer ControlInline ">
-                                    <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Ordne einen Fragesatz zu"  />
+                                    <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Beginne zu tippen"  />
                                 </div>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label class="columnLabel control-label">
-                                Öffentlich?
+                                <span class="show-tooltip" data-toggle="tooltip" title="Termine, die in deinem Netzwerk sichtbar sind, können von deinen Freunden einfach kopiert werden. Dafür erhälst du Reputationspunkte.">Sichtbarkeit des Termins&nbsp;<i class='fa fa-info-circle'></i></span>
                             </label>
                             <div class="columnControlsFull">
+                                <%--<label><input type="radio" name="Visibility" value="inNetwork" <%= Model.Selected("inNetwork") %>/>Sichtbar in deinem Netzwerk</label>
+                                <label><input type="radio" name="Visibility" value="private" <%= Model.Selected("private") %>/>Privat (nur für dich sichtbar).</label>--%>
                                 <select class="form-control" name="Visibility">
-                                    <option value="inNetwork" <%= Model.Selected("inNetwork") %>>Sichtbar für dein Netzwerk (+10 Reputation je Kopie).</option>
-                                    <option value="private" <%= Model.Selected("private") %>>Privat. Nur für dich sichtbar.</option>
+                                    <option value="inNetwork" <%= Model.Selected("inNetwork") %>>Sichtbar in deinem Netzwerk</option>
+                                    <option value="private" <%= Model.Selected("private") %>>Privat (nur für dich sichtbar)</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <%= Html.LabelFor(m => m.Details, new { @class = "columnLabel control-label" })%>
-                            <div class="columnControlsFull">
-                                <%= Html.TextAreaFor(m => m.Details, 
-                                    new
-                                    {
-                                        @class="form-control", 
-                                        placeholder = "(kurze) Beschreibung des Termins", 
-                                        rows = 2
-                                    })%>
-                            </div>
-                        </div>
                         
                         <div class="form-group">
                             <div class="noLabel columnControlsFull">
