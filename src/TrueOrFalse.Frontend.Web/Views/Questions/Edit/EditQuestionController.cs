@@ -100,14 +100,14 @@ public class EditQuestionController : BaseController
             model.Reset();
             model.SetToCreateModel();
             TempData["createQuestionsMsg"] = new SuccessMessage(
-                string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Du kannst nun eine <b>neue</b> Frage erstellen.",
+                string.Format("Die Frage <i>'{0}'</i> wurde erstellt. Du kannst nun eine <b>neue</b> Frage erstellen.",
                                 question.Text.TruncateAtWord(30)));
 
             return Redirect("Erstelle/");
         }
         
         TempData["createQuestionsMsg"] = new SuccessMessage(
-            string.Format("Die Frage: <i>'{0}'</i> wurde erstellt. Du kannst Sie nun weiter bearbeiten.",
+            string.Format("Die Frage <i>'{0}'</i> wurde erstellt. Du kannst sie nun weiter bearbeiten.",
                           question.Text.TruncateAtWord(30)));
 
         return Redirect("Bearbeite/" + question.Id);

@@ -178,6 +178,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string SetsWish() { return GetUrlHelper().Action(SetsWishAction, SetsController); }
         public static string SetsMine() { return GetUrlHelper().Action(SetsMineAction, SetsController); }
         public const string SetController = "Set";
+        public const string EditSetController = "EditSet";
 
 
         public static string SetDetail(UrlHelper url, SetMini setMini){
