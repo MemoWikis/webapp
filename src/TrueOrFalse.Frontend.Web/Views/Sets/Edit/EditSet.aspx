@@ -1,9 +1,10 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditSetModel>" %>
+﻿<%@ Page Title="Fragesatz erstellen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditSetModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <title><%=Model.PageTitle %></title>
+    <link href="/Views/Sets/Edit/EditSet.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/fileUploader") %>
     <%= Scripts.Render("~/bundles/SetEdit") %>
     <script type="text/javascript">
@@ -17,25 +18,7 @@
     </script>
     
     <style>
-        #ulQuestions { list-style-type: none; margin: 0; padding: 0; width: 100%; }
-        #ulQuestions li {
-            margin: 0 5px 5px 5px; padding: 5px; font-size: 1.0em; line-height: 1.2em; 
-            height: 30px; background: none;
-        }
-
-        .questionTools {position: relative; right: 0px; float:right;height: 30px;margin-left: 5px; }
-        .deleteButton {color: red; cursor: pointer}
-        .editButton {color: blue; cursor: pointer}
-      
-        .ui-state-highlight { height: 1.5em; line-height: 1.2em;}
-
-        .form-horizontal .control-group label.control-label{ width: 120px; }
-        .form-horizontal .control-group .controls{ margin-left: 120px; }
-        .form-horizontal .info{ margin-left: 130px;}
-        .form-horizontal .form-actions { padding-left: 130px; }
-
-        .draggable-panel { height: 30px;width: 30px;background-color: gainsboro;cursor: move;margin-right: 5px; }
-        div.questionText {height: 30px;width: 380px; overflow: hidden;  }
+       
     </style>
 </asp:Content>
 
@@ -47,10 +30,6 @@
 
 <div id="questionSetContainer" data-id="<%: Model.Id %>">
     
-    <div style="margin-bottom: -10px;">
-        <% Html.Message(Model.Message); %>
-    </div>
-
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", 
                 "EditSet", null, FormMethod.Post,
                 new { enctype = "multipart/form-data", style = "margin:0px;"})){ %>
@@ -61,115 +40,152 @@
         <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
         <%: Html.HiddenFor(m => m.ImageGuid) %>
         <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
-
-        <div class="form-horizontal">
-            
-            <% if(!Model.IsLoggedIn){ %>
-                <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
-                    <h4>Anmelden oder registrieren</h4>
-                    <p>
-                        Um Fragesätze zu erstellen, <br/>
-                        musst du dich <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>.
-                    </p>
-                </div>
-            <% }%>
-
-            <div class="box box-main">
-                <h1 class="pull-left"><%=Model.FormTitle %></h1>
-                <div class="pull-right">
+    
+    
+        <div class="row">
+            <div class="PageHeader col-xs-12">
+                <h2 class="pull-left">
+                    <span class="ColoredUnderline Set">
+                    <% if (Model.IsEditing) { %>
+                        Fragesatz bearbeiten
+                    <% } else { %>
+                        Fragesatz erstellen
+                    <% } %>
+                    </span>
+                </h2>
+                 <div class="headerControls pull-right">
                     <div>
-                        <a href="<%= Links.Sets() %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a><br/>
-                        <% if(Model.Set != null){ %>
-                            <a href="<%= Links.SetDetail(Url, Model.Set) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-eye"></i>&nbsp;Detailansicht</a> 
-                        <% } %>
+                        <a href="<%= Links.Sets() %>" style="font-size: 12px; margin: 0;">
+                            <i class="fa fa-list"></i>&nbsp;zur Übersicht
+                        </a><br/>
+                        <% if (Model.Set != null)
+                           { %>
+                            <a href="<%= Links.SetDetail(Url, Model.Set) %>" style="font-size: 12px;">
+                                <i class="fa fa-eye"></i>&nbsp;Detailansicht
+                            </a> 
+                        <% } %>            
                     </div>
+                    </div>
+                 <div class="PageHeader col-xs-12">
+                    <% if(!Model.IsLoggedIn){ %>
+                        <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
+                            <h4>Anmelden oder registrieren</h4>
+                            <p>
+                                Um Fragesätze zu erstellen, <br/>
+                                musst du dich <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>.
+                            </p>
+                        </div>
+                    <% }%>
                 </div>
-
-                <div class="box-content" style="clear: both;">    
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <%= Html.LabelFor(m => m.Title, new { @class = "col-sm-3 control-label" })%>
-                                <div class="col-sm-8">
-                                    <%= Html.TextBoxFor(m => m.Title, new { placeholder = "Titel", @class="form-control" }) %>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 xxs-stack">
+                <% Html.Message(Model.Message); %>
+            </div>
+        </div>
+        <div class="row">
+            <div class="aside col-md-3 col-md-push-9">
+                <img id="questionSetImg" src="<%= Model.ImageUrl_206px %>" class="img-responsive" style="border-radius:5px;" />
+                <div style="margin-top: 10px;">
+                    <a href="#" style="position: relative; top: -6px; font-size: 90%;" id="aImageUpload">[Verwende ein anderes Bild]</a>
+                </div>
+            </div>
+            <div class="col-md-9 col-md-pull-3">
+                <div class="form-horizontal">
+                    <div class="FormSection">
+                        <div class="form-group">
+                            <%= Html.LabelFor(m => m.Title, new { @class = "RequiredField control-label columnLabel" })%>
+                                <div class="columnControlsFull">
+                                    <%= Html.TextBoxFor(m => m.Title, new { @class="form-control" }) %>
                                 </div>
+                        </div>
+                        <div class="form-group">
+                            <%= Html.LabelFor(m => m.Text, new { @class = "control-label columnLabel" })%>
+                            <div class="columnControlsFull">
+                                <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px;", @class="form-control" }) %>
                             </div>
-                            <div class="form-group">
-                                <%= Html.LabelFor(m => m.Text, new { @class = "col-sm-3 control-label" })%>
-                                <div class="col-sm-8">
-                                    <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px;", placeholder = "Beschreibung", @class="form-control" }) %>
+                        </div>
+                        <div class="form-group">
+                            <label class="columnLabel control-label">
+                                <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung des Fragesatzes und ermöglichen dir und anderen, Fragesätze wiederzufinden." data-placement = "left">
+                                    Kategorien
+                                </span>
+                            </label>        
+                                
+                            <div class="JS-RelatedCategories columnControlsFull">
+                                <script type="text/javascript">
+                                    $(function () {
+                                        <%foreach (var category in Model.Categories) { %>
+                                        $("#txtNewRelatedCategory")
+                                            .val('<%=category.Name %>')
+                                            .data('category-id', '<%=category.Id %>')
+                                            .trigger("initCategoryFromTxt");
+                                        <% } %>
+                                    });
+                                </script>
+                                <div class="JS-CatInputContainer ControlInline">
+                                    <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
                                 </div>
+                            </div>                                
+                        </div>
+                        <div class="form-group" style="margin-top: -15px;">
+                            <div class="noLabel columnControlsFull">
+                                <p class="form-control-static"><span class="RequiredField"></span> Pflichtfeld</p>
                             </div>
-                            <div class="form-group">
-                                
-                                <label class="col-sm-3 control-label">
-                                    <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung des Fragesatzes und ermöglichen dir und anderen Fragesätze wiederzufinden." data-placement = "left">
-                                        Kategorien
-                                    </span>
-                                </label>        
-                                
-                                <div class="JS-RelatedCategories col-sm-9">
-                                    <script type="text/javascript">
-                                        $(function () {
-                                            <%foreach (var category in Model.Categories) { %>
-                                            $("#txtNewRelatedCategory")
-                                                .val('<%=category.Name %>')
-                                                .data('category-id', '<%=category.Id %>')
-                                                .trigger("initCategoryFromTxt");
-                                            <% } %>
-                                        });
-                                    </script>
-                                    <div class="JS-CatInputContainer ControlInline">
-                                        <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
+                        </div>
+                        <div class="form-group">
+                            <div class="noLabel noControls">
+                            
+                                <%  if(Model.QuestionsInSet.Count == 0) { %>
+                                    <div class="info">
+                                        <b>Keine Fragen im Fragesatz.</b> Um Fragen hinzuzufügen, wähle 
+                                        <% if(!Model.IsEditing) {  %> nach dem Erstellen <% } %>
+                                         Fragen auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions", null, new { target = "_blank" }) %> aus. 
                                     </div>
-                                </div>                                
-                            </div>
+                                <% }else{ %>
+                                    <h4 style="padding-left:5px;">Fragen Reihenfolge
+                                        <span style="font-size: 11px;">(per Drag'n'Drop)</span>
+                                        <span id="revertAction" class="pull-right hide2" style="font-size: 11px; font-weight: normal; position: relative; top: 7px; right: 7px; cursor: pointer">
+                                            [Rückgängig]
+                                        </span>
+                                    </h4>
+                                    <ul id="ulQuestions">
+                                        <%foreach(var questionInSet in Model.QuestionsInSet){%>
+                                            <li class="questionItem ui-state-default Clearfix" data-id="<%=questionInSet.Id %>">
+                                                <div class="QuestionTools">
+                                                    <i class="fa fa-trash-o icon DeleteButton" title="Aus dem Fragesatz entfernen"></i><br/>
+                                                    <% if (Model.IsOwner(questionInSet.Question.Creator.Id)){%>
+                                                        <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Id) %>">
+                                                            <i class="fa fa-pencil"></i> 
+                                                        </a>
+                                                    <% } %>
+                                                </div>
 
-                            <%  if(Model.QuestionsInSet.Count == 0) { %>
-                                <div class="info">
-                                    <b>Keine Fragen im Fragesatz.</b> Um Fragen hinzuzufügen, wählen Sie Fragen 
-                                    auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions") %> aus. 
-                                </div>
-                            <% }else{ %>
-                                <h4 style="padding-left:5px;">Fragen Reihenfolge
-                                    <span style="font-size: 11px;">(per Drag'n'Drop)</span>
-                                    <span id="revertAction" class="pull-right hide2" style="font-size: 11px; font-weight: normal; position: relative; top: 7px; right: 7px; cursor: pointer">
-                                        [Rückgängig]
-                                    </span>
-                                </h4>
-                                <ul id="ulQuestions">
-                                    <%foreach(var questionInSet in Model.QuestionsInSet){%>
-                                        <li class="ui-state-default" data-id="<%=questionInSet.Id %>">
-                                            <div class="questionTools">
-                                                <i class="fa fa-trash-o icon deleteButton"></i><br/>
-                                                <% if (Model.IsOwner(questionInSet.Question.Creator.Id)){%>
-                                                    <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Id) %>">
-                                                        <img src="/Images/edit.png"/> 
-                                                    </a>
-                                                <% } %>
-                                            </div>
-
-                                            <div class="draggable-panel" style="float: left;">&nbsp;</div>
-                                            <div class="questionText">
-                                                <%= questionInSet.Question.Text %>
-                                            </div>
+                                                <div class="draggable-panel" style="float: left;">&nbsp;</div>
+                                                <div class="QuestionText">
+                                                    <%= questionInSet.Question.Text %>
+                                                </div>
                                             
-                                        </li>  
-                                    <%} %>
-                                </ul>
+                                            </li>  
+                                        <%} %>
+                                    </ul>
+                                <% } %>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="FormSection">
+                    
+                    <div class="form-group">
+                        <div class="noLabel columnControlsFull">
+                            <% if (Model.IsEditing){ %>
+                                <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
+                            <% } else { %>
+                                <input type="submit" value="Fragesatz erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                             <% } %>
                         </div>
-                        <div class="col-md-4" >
-                            <div class="box" style="margin-right: 25px;">
-                                <img id="questionSetImg" src="<%= Model.ImageUrl_206px %>" />
-                            </div>
-                            <a href="#" style="position: relative; top: -6px;" id="aImageUpload">[Verwende ein anderes Bild]</a>
-                        </div>
                     </div>
                 </div>
-    
-                <div class="form-actions">
-                    <input type="submit" class="btn btn-primary" value="Speichern" <%= Model.IsLoggedIn ? "" : "disabled" %> />
                 </div>
             </div>
         </div>

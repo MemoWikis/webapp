@@ -3,3 +3,50 @@
 //Form column style
 
 .FormColumnGrid (@labels-stacked: true; @label-width-variable: false; 3);//conditional styles, @labels-stacked: TRUE for having labels stacked
+
+ #ulQuestions {
+     list-style-type: none;
+     margin: 0; 
+     padding: 0;
+      width: 100%; 
+ }
+
+#ulQuestions li {
+    margin: 0 5px 5px 5px; 
+    padding: 5px; 
+    font-size: 1.0em; 
+    line-height: 1.2em; 
+    background: none; 
+    background-color: white;
+}
+
+.QuestionTools {
+    position: relative; 
+    right: 0; 
+    float:right; 
+    margin-left: 5px; 
+}
+
+.DeleteButton { cursor: pointer }
+
+.QuestionText {
+    max-height: 32px;
+    overflow: hidden;  
+}
+
+//jQuery UI sortable.js
+
+.ui-state-highlight { //Showing where dragged question would be inserted
+    height: 40px;
+    line-height: 1.2em;
+    border: none;
+    #ulQuestions li& {background-color: gainsboro;} 
+}
+
+.draggable-panel {
+    height: 30px;
+    width: 30px;
+    cursor: move;
+    margin-right: 5px;
+    background-color: gainsboro;
+}
