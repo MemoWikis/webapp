@@ -198,7 +198,8 @@ a.ImageLicenseCaption {
   padding-right: 10px;
   text-align: left !important;
 }
-#modalImageMaintenance .columnControlsFull {
+#modalImageMaintenance .columnControlsFull,
+#modalImageMaintenance .noControls {
   position: relative;
   float: left;
   width: 100%;
@@ -207,10 +208,13 @@ a.ImageLicenseCaption {
   padding-right: 10px;
 }
 #modalImageMaintenance .columnControlsFull .radio,
-#modalImageMaintenance .columnControlsFull .form-control-static {
+#modalImageMaintenance .noControls .radio,
+#modalImageMaintenance .columnControlsFull .form-control-static,
+#modalImageMaintenance .noControls .form-control-static {
   margin-left: 20px;
 }
-#modalImageMaintenance .columnControlsFull .form-control-static {
+#modalImageMaintenance .columnControlsFull .form-control-static,
+#modalImageMaintenance .noControls .form-control-static {
   padding-top: 0;
 }
 #modalImageMaintenance .aside .columnControlsFull .radio,

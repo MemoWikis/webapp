@@ -1830,6 +1830,9 @@
     <Content Include="Views\Sets\Edit\EditSet.css.map">
       <DependentUpon>EditSet.css</DependentUpon>
     </Content>
+    <Content Include="Views\Users\Detail\User.css.map">
+      <DependentUpon>User.css</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
