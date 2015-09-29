@@ -69,18 +69,9 @@
 
 </script>
 
-<div class="alert alert-info col-md-12" style="margin-top:9px">
-    <p>
-        Hier erhältst du Einblick in die Algorithmen, die die <b>Antwortwahrscheinlichkeit</b> 
-        und den <b>optimalen Wiedervorlage-Zeitpunkt</b> berechnen.
-        MEMuchO ist Open Source<a href="https://github.com/TrueOrFalse/TrueOrFalse"> (auf Github)</a>. 
-        Wir freuen uns über Verbesserungsvorschläge.
-    </p>        
-</div>
-
 <div class="row" >
-    <div class="col-md-12" style="margin-top: -20px; margin-bottom: 10px;">
-        <h3>Vergleich Algorithmen</h3>
+    <div class="col-md-12" style="margin-top:3px; margin-bottom:7px;">
+        <h3>Vergleich Vorhersagequalität Algorithmen</h3>
         <p>
             Gezeigt wird, wie gut unterschiedliche Algorithmen
             bisher gegebene Antworten korrekt vorhergesagt hätten.

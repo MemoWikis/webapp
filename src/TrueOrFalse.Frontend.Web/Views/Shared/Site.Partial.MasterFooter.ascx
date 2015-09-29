@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-sm-6 col-xs-12">        
             <a href="#"><i class="fa fa-bar-chart"></i>
-                <%= Html.ActionLink("Algorithmus-Einblick", "AlgoInsight", "AlgoInsight")  %>
+                <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %>
             </a>
         </div>
 

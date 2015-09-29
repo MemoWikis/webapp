@@ -67,55 +67,55 @@
         
         <div id="MobileSubHeader" class="MobileSubHeader DesktopHide" style="margin-top: 20px;">
             <div class="MainFilterBarWrapper">
-            <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
-                <div class="btn-group">
-                    <a class="btn btn-default disabled">.</a>
+                <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <a class="btn btn-default disabled">.</a>
+                    </div>
                 </div>
-            </div>
-            <div class="container">
-                <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
+                <div class="container">
+                    <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
 
-                    <div class="btn-group <%= Model.IsActiveTabKnowledge? "active" : "" %>">
-                        <a  href="<%= Links.SetsWish() %>" type="button" class="btn btn-default">
-                            Wunsch<span class="hidden-xxs">wissen</span>
-                        </a>
-                    </div>
+                        <div class="btn-group <%= Model.IsActiveTabKnowledge? "active" : "" %>">
+                            <a  href="<%= Links.UserDetail(Model.User) %>" type="button" class="btn btn-default">
+                                Wunsch<span class="hidden-xxs">wissen</span>
+                            </a>
+                        </div>
                     
-                    <div class="btn-group  <%= Model.IsActiveTabBadges  ? "active" : "" %>">
-                        <a  href="<%= Links.Sets() %>" type="button" class="btn btn-default">
-                            Badges
-                        </a>
+                        <div class="btn-group  <%= Model.IsActiveTabBadges  ? "active" : "" %>">
+                            <a  href="<%= Links.UserDetailBadges(Model.User) %>" type="button" class="btn btn-default">
+                                Badges
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
 
         <div class="col-lg-12">
             <div class="boxtainer-outlined-tabs" style="margin-top: 20px;">
-            <div class="boxtainer-header MobileHide">
-                <ul class="nav nav-tabs">
-                    <li class="<%= Html.IfTrue(Model.IsActiveTabKnowledge, "active") %>">
-                        <a href="<%= Links.UserDetail(Model.User) %>" >
-                            Wunschwissen
-                        </a>
-                    </li>
-                    <li class="<%= Html.IfTrue(Model.IsActiveTabBadges, "active") %>">
-                        <a href="<%= Links.UserDetailBadges(Model.User) %>">
-                            Badges (0 von <%= BadgeTypes.All().Count %>)
-                        </a>
-                    </li>
-                </ul>
+                <div class="boxtainer-header MobileHide">
+                    <ul class="nav nav-tabs">
+                        <li class="<%= Html.IfTrue(Model.IsActiveTabKnowledge, "active") %>">
+                            <a href="<%= Links.UserDetail(Model.User) %>" >
+                                Wunschwissen
+                            </a>
+                        </li>
+                        <li class="<%= Html.IfTrue(Model.IsActiveTabBadges, "active") %>">
+                            <a href="<%= Links.UserDetailBadges(Model.User) %>">
+                                Badges (0 von <%= BadgeTypes.All().Count %>)
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="boxtainer-content">
+                    <% if(Model.IsActiveTabKnowledge) { %>
+                        <% Html.RenderPartial("~/Views/Users/Detail/TabKnowledge.ascx", new TabKnowledgeModel(Model)); %>
+                    <% } %>
+                    <% if(Model.IsActiveTabBadges) { %>
+                        <% Html.RenderPartial("~/Views/Users/Detail/TabBadges.ascx", new TabBadgesModel(Model)); %>
+                    <% } %>
+                </div>
             </div>
-            <div class="boxtainer-content">
-                <% if(Model.IsActiveTabKnowledge) { %>
-                    <% Html.RenderPartial("~/Views/Users/Detail/TabKnowledge.ascx", new TabKnowledgeModel(Model)); %>
-                <% } %>
-                <% if(Model.IsActiveTabBadges) { %>
-                    <% Html.RenderPartial("~/Views/Users/Detail/TabBadges.ascx", new TabBadgesModel(Model)); %>
-                <% } %>
-            </div>
-        </div>
         </div>
     </div>
 </asp:Content>
