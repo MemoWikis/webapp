@@ -124,7 +124,7 @@ public class WelcomeController : BaseController
         if (result.TheEmailDoesNotExist)
             model.Message = new ErrorMessage("Diese Email-Adresse ist uns unbekannt.");
         else if (result.Success)
-            model.Message = new SuccessMessage("Der Link wurde an " + model.Email + " verschickt.");
+            model.Message = new SuccessMessage("Wir haben an " + model.Email + " eine Email verschickt (überprüfe gegebenenfalls auch deinen Spam-Ordner). Klicke dort auf den Link, um ein neues Passwort zu setzen.");
 
         return View(model);
     }
