@@ -21,6 +21,11 @@ public class AlgoInsightController : BaseController
         return View(_viewName, new AlgoInsightModel{IsActiveTabRepetition = true});
     }
 
+    public ActionResult Various()
+    {
+        return View(_viewName, new AlgoInsightModel { IsActiveTabVarious = true });
+    }
+
     [AccessOnlyAsAdmin]
 	public ActionResult Reevaluate()
 	{

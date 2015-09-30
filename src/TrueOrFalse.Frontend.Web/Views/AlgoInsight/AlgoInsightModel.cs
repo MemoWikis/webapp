@@ -7,7 +7,7 @@ public class AlgoInsightModel : BaseModel
     public bool IsActiveTabForecast;
     public bool IsActiveTabForgettingCurve;
     public bool IsActiveTabRepetition;
-
+    public bool IsActiveTabVarious;
 
     public AlgoInsightModel()
     {

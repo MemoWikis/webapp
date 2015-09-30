@@ -41,6 +41,7 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.SetsTop5Json);
 
         Map(x => x.IsWorkInProgress);
+        Map(x => x.Features);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

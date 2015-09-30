@@ -41,25 +41,26 @@
                 </div>
                 <div class="container">
                     <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
-
                         <div class="btn-group <%= Model.IsActiveTabForecast ? "active" : "" %>">
                             <a href="<%= Url.Action("Forecast", "AlgoInsight") %>" type="button" class="btn btn-default">
                                 Vorhersage
                             </a>
-                        </div>
-                        
+                        </div>                        
                         <div class="btn-group  <%= Model.IsActiveTabForgettingCurve ? "active" : "" %>">
                             <a  href="<%= Url.Action("ForgettingCurve", "AlgoInsight") %>" type="button" class="btn btn-default">
                                 Vergessenskurve
                             </a>
                         </div>
-                    
                         <div class="btn-group  <%= Model.IsActiveTabRepetition ? "active" : "" %>">
                             <a  href="<%= Url.Action("Repetition", "AlgoInsight") %>" type="button" class="btn btn-default">
                                 Wiedervorlage
                             </a>
                         </div>
-                   
+                        <div class="btn-group  <%= Model.IsActiveTabVarious ? "active" : "" %>">
+                            <a  href="<%= Url.Action("Various", "AlgoInsight") %>" type="button" class="btn btn-default">
+                                Verschiedenes
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,6 +85,11 @@
                                 Wiedervorlage
                             </a>
                         </li>
+                        <li class="<%= Html.IfTrue(Model.IsActiveTabVarious, "active") %>">
+                            <a href="<%= Url.Action("Various", "AlgoInsight") %>">
+                                Verschiedenes
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="boxtainer-content">
@@ -95,6 +101,9 @@
                     <% } %>
                     <% if(Model.IsActiveTabRepetition) { %>
                         <% Html.RenderPartial("TabRepetition", new TabRepetitionModel()); %>
+                    <% } %>
+                    <% if(Model.IsActiveTabVarious) { %>
+                        <% Html.RenderPartial("TabVarious", new TabVariousModel()); %>
                     <% } %>
                 </div>
             </div>
