@@ -11,9 +11,9 @@ public class AlgoInsightController : BaseController
         return View(_viewName, new AlgoInsightModel{IsActiveTabForecast = true});
     }
 
-    public ActionResult LearningCurve()
+    public ActionResult ForgettingCurve()
     {
-        return View(_viewName, new AlgoInsightModel{IsActiveTabLearningCurve = true});
+        return View(_viewName, new AlgoInsightModel{IsActiveTabForgettingCurve = true});
     }
 
     public ActionResult Repetition()

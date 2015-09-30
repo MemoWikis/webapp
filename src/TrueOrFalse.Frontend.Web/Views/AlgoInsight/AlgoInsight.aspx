@@ -47,18 +47,19 @@
                                 Vorhersage
                             </a>
                         </div>
-                    
-                        <div class="btn-group  <%= Model.IsActiveTabRepetition ? "active" : "" %>">
-                            <a  href="<%= Url.Action("Repetition", "AlgoInsight") %>" type="button" class="btn btn-default">
-                                Wiederholung
-                            </a>
-                        </div>
-                    
-                        <div class="btn-group  <%= Model.IsActiveTabLearningCurve ? "active" : "" %>">
-                            <a  href="<%= Url.Action("LearningCurve", "AlgoInsight") %>" type="button" class="btn btn-default">
+                        
+                        <div class="btn-group  <%= Model.IsActiveTabForgettingCurve ? "active" : "" %>">
+                            <a  href="<%= Url.Action("ForgettingCurve", "AlgoInsight") %>" type="button" class="btn btn-default">
                                 Vergessenskurve
                             </a>
                         </div>
+                    
+                        <div class="btn-group  <%= Model.IsActiveTabRepetition ? "active" : "" %>">
+                            <a  href="<%= Url.Action("Repetition", "AlgoInsight") %>" type="button" class="btn btn-default">
+                                Wiedervorlage
+                            </a>
+                        </div>
+                   
                     </div>
                 </div>
             </div>
@@ -73,14 +74,14 @@
                                 Vorhersage
                             </a>
                         </li>
-                        <li class="<%= Html.IfTrue(Model.IsActiveTabRepetition, "active") %>">
-                            <a href="<%= Url.Action("Repetition", "AlgoInsight") %>">
-                                Wiederholung
+                        <li class="<%= Html.IfTrue(Model.IsActiveTabForgettingCurve, "active") %>">
+                            <a href="<%= Url.Action("ForgettingCurve", "AlgoInsight") %>">
+                                Vergessenskurve
                             </a>
                         </li>
-                        <li class="<%= Html.IfTrue(Model.IsActiveTabLearningCurve, "active") %>">
-                            <a href="<%= Url.Action("LearningCurve", "AlgoInsight") %>">
-                                Vergessenskurve
+                        <li class="<%= Html.IfTrue(Model.IsActiveTabRepetition, "active") %>">
+                            <a href="<%= Url.Action("Repetition", "AlgoInsight") %>">
+                                Wiedervorlage
                             </a>
                         </li>
                     </ul>
@@ -89,11 +90,11 @@
                     <% if(Model.IsActiveTabForecast) { %>
                         <% Html.RenderPartial("TabForecast", new TabForecastModel()); %>
                     <% } %>
+                    <% if(Model.IsActiveTabForgettingCurve) { %>
+                        <% Html.RenderPartial("TabForgettingCurve", new TabForgettingCurveModel()); %>
+                    <% } %>
                     <% if(Model.IsActiveTabRepetition) { %>
                         <% Html.RenderPartial("TabRepetition", new TabRepetitionModel()); %>
-                    <% } %>
-                    <% if(Model.IsActiveTabLearningCurve) { %>
-                        <% Html.RenderPartial("TabLearningCurve", new TabLearningCurveModel()); %>
                     <% } %>
                 </div>
             </div>

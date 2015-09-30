@@ -5,7 +5,7 @@ public class AlgoInsightModel : BaseModel
     public UIMessage Message;
 
     public bool IsActiveTabForecast;
-    public bool IsActiveTabLearningCurve;
+    public bool IsActiveTabForgettingCurve;
     public bool IsActiveTabRepetition;
 
 
