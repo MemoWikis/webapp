@@ -21,7 +21,7 @@ public class QuestionValuation : IPersistable, WithDateCreated
 
     public virtual bool IsSetQuality(){ return Quality != -1;}
     public virtual bool IsSetRelevanceForAll(){ return RelevanceForAll != -1;}
-    public virtual bool IsSetRelevancePersonal() { return RelevancePersonal != -1; }
+    public virtual bool IsInWishKnowledge() { return RelevancePersonal > 0; }
 
     public QuestionValuation()
     {

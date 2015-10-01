@@ -35,7 +35,7 @@ public class AnswerBodyModel : BaseModel
         R<SaveQuestionView>().Run(question, _sessionUser.User.Id, player, round);
         
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
-        IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
+        IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
 
         if (player != null)
             AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question, game, player, round);

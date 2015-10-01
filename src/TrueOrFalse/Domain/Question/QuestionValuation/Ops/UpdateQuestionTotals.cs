@@ -44,7 +44,7 @@ public class UpdateQuestionTotals : IRegisterAsInstancePerLifetime
 
     public void UpdateRelevancePersonal(int questionId, User user, int relevance = 50)
     {
-        _createOrUpdateQuestionValue.Run(questionId, user.Id, relevancePeronal: relevance);
+        _createOrUpdateQuestionValue.Run(questionId, user.Id, relevancePersonal: relevance);
         _session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         _session.Flush();
 

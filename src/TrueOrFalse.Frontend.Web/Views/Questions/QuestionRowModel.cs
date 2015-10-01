@@ -78,7 +78,7 @@ public class QuestionRowModel : BaseModel
         SetCount = question.SetsAmount;
         SetMinis = question.SetTop5Minis;
 
-        IsInWishknowledge = questionValuation.IsSetRelevancePersonal();
+        IsInWishknowledge = questionValuation.IsInWishKnowledge();
 
         HistoryAndProbability = new HistoryAndProbabilityModel
         {
