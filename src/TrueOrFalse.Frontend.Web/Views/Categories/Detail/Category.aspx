@@ -128,7 +128,7 @@
                     <h4 style="margin-top: 0;">Fragen in Kindkategorien</h4>
                     <% var index = 0; foreach(var question in Model.TopQuestionsInSubCats){ index++;%>
                         <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
-                            - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>"><%= question.GetShortTitle(150) %></a>
+                            - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(150) %></a>
                         </div>
                     <% } %>
                 </div>

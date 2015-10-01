@@ -50,13 +50,20 @@ namespace TrueOrFalse.Search
 
         public SpellCheckResultItem(SolrNet.Impl.SpellCheckResult spellCheck, string searchTerm)
         {
+            if (searchTerm == null)
+                searchTerm = "";
+
             Query = spellCheck.Query;
             NumFound = spellCheck.NumFound;
             EndOffset = spellCheck.EndOffset;
             StartOffset = spellCheck.StartOffset;
-            Suggestions = spellCheck.Suggestions
-                .Where(s => s.ToLower().Trim() != searchTerm.ToLower().Trim())
-                .ToList();
+
+            if (spellCheck.Suggestions == null)
+                spellCheck.Suggestions = new List<string>();
+            else
+                Suggestions = spellCheck.Suggestions
+                    .Where(s => s.ToLower().Trim() != searchTerm.ToLower().Trim())
+                    .ToList();
         }
     }
 }
