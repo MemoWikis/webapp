@@ -1,4 +1,4 @@
-/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
+ï»¿/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
 
 $(() => {
     var answerEntry = new AnswerEntry();
@@ -16,6 +16,6 @@ $(() => {
     } loadFacebook(window.document, 'script', 'facebook-jssdk');
 
     $("#linkDeleteQuestion").click(() => {
-        window.alert("Suche die Frage bitte in der Fragen-Übersichtsseite. Dort kannst du sie löschen.");
+        window.alert("Suche die Frage bitte in der Fragen-Ãœbersichtsseite. Dort kannst du sie lÃ¶schen.");
     });
 });
