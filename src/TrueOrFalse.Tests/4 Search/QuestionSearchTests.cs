@@ -48,9 +48,9 @@ namespace TrueOrFalse.Tests
             Resolve<ISession>().Delete("FROM QuestionValuation");
 
             var context = ContextQuestion.New()
-                .AddQuestion("Question1", "Answer2").AddCategory("A").Persist()
-                .AddQuestion("Question2", "Answer3").AddCategory("B").Persist()
-                .AddQuestion("Juliane Misdom", "Answer3").AddCategory("B").Persist();
+                .AddQuestion(questionText: "Question1", solutionText: "Answer2").AddCategory("A").Persist()
+                .AddQuestion(questionText: "Question2", solutionText: "Answer3").AddCategory("B").Persist()
+                .AddQuestion(questionText: "Juliane Misdom", solutionText: "Answer3").AddCategory("B").Persist();
 
             Resolve<ReIndexAllQuestions>().Run();
 
@@ -75,9 +75,9 @@ namespace TrueOrFalse.Tests
             Resolve<ReIndexAllQuestions>();
 
             var context = ContextQuestion.New()
-                .AddQuestion("Question1", "Answer2").AddCategory("A")
-                .AddQuestion("Question2", "Answer3").AddCategory("B")
-                .AddQuestion("Juliane Misdom", "Answer3").AddCategory("B")
+                .AddQuestion(questionText: "Question1", solutionText: "Answer2").AddCategory("A")
+                .AddQuestion(questionText: "Question2", solutionText: "Answer3").AddCategory("B")
+                .AddQuestion(questionText: "Juliane Misdom", solutionText: "Answer3").AddCategory("B")
                 .Persist();
 
             var user = context.Creator;
@@ -97,7 +97,7 @@ namespace TrueOrFalse.Tests
         public void Should_get_paged_result()
         {
             var context = ContextQuestion.New();
-            Enumerable.Range(1, 50).ToList().ForEach(x => context.AddQuestion("Question" + x, "Answer" + x).AddCategory("Question"));
+            Enumerable.Range(1, 50).ToList().ForEach(x => context.AddQuestion(questionText: "Question" + x, solutionText: "Answer" + x).AddCategory("Question"));
             context.Persist();
 
             Resolve<ReIndexAllQuestions>().Run();
@@ -114,9 +114,9 @@ namespace TrueOrFalse.Tests
         public void Should_order_search_result()
         {
             var context = ContextQuestion.New()
-                .AddQuestion("Question1", "Answer1").TotalQualityAvg(10).TotalValuationAvg(50)
-                .AddQuestion("Question2", "Answer2").TotalQualityAvg(50).TotalValuationAvg(1)
-                .AddQuestion("Question3", "Answer3").TotalValuationAvg(99)
+                .AddQuestion(questionText: "Question1", solutionText: "Answer1").TotalQualityAvg(10).TotalValuationAvg(50)
+                .AddQuestion(questionText: "Question2", solutionText: "Answer2").TotalQualityAvg(50).TotalValuationAvg(1)
+                .AddQuestion(questionText: "Question3", solutionText: "Answer3").TotalValuationAvg(99)
                 .Persist();
 
             R<ISolrOperations<QuestionSolrMap>>().Commit();
@@ -146,9 +146,9 @@ namespace TrueOrFalse.Tests
         public void Should_filter_by_category()
         {
             var context = ContextQuestion.New()
-                .AddQuestion("Question1", "Answer2").AddCategory("C")
-                .AddQuestion("Question2", "Answer3").AddCategory("B")
-                .AddQuestion("Juliane Misdom", "Answer3").AddCategory("B")
+                .AddQuestion(questionText: "Question1", solutionText: "Answer2").AddCategory("C")
+                .AddQuestion(questionText: "Question2", solutionText: "Answer3").AddCategory("B")
+                .AddQuestion(questionText: "Juliane Misdom", solutionText: "Answer3").AddCategory("B")
                 .Persist();
 
             R<ReIndexAllQuestions>().Run();

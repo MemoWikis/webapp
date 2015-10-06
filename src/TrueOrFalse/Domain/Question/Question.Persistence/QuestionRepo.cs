@@ -28,7 +28,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         base.Create(question);
         Flush();
-        Sl.Resolve<UpdateQuestionCountForCategory>().Run(question.Categories);
+        Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
+        UserActivityAdd.CreatedQuestion(question);
         _searchIndexQuestion.Update(question);
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using TrueOrFalse.Web;
 
@@ -32,6 +33,8 @@ public class KnowledgeModel : BaseModel
     public int ReputationTotal;
 
     public UIMessage Message;
+
+    public IList<UserActivity> NetworkActivities;
 
 
     public KnowledgeModel(string emailKey = null)
@@ -68,8 +71,16 @@ public class KnowledgeModel : BaseModel
         DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
 
 
-        AnswerRecent = R<GetLastAnswers>().Run(UserId, 4);
+        AnswerRecent = R<GetLastAnswers>().Run(UserId, 5);
         StreakDays = R<GetStreaksDays>().Run(User);
+
+        //GET NETWORK ACTIVITY
+        //
+
+        //var followerIAm = R<FollowerIAm>().Init(User.Following.Select(u => u.Id), UserId); //@Robert: Why do I need User-Type to resolve who UserId is following?
+
+        // Hole für jeden Nutzer dem ich folge die Activities (byID), füge diese zu Eigenschaft NetworkActivities hinzu
+        // Sortiere dann NetworkActivities nach Datum oder Activity-Type
 
 
     }

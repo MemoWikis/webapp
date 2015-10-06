@@ -1,6 +1,11 @@
 public enum UserActivityType
 {
-    CreatedQuestion = 0,
-    CreatedSet = 1,
-    PlayedGame = 2
+    NotDefined = 0,
+    CreatedQuestion = 1,
+    CreatedSet = 2,
+    CreatedCategory = 3,
+    CreatedGame = 4,
+    CreatedDate = 5,
+    PlayedGame = 20,
+    FollowedUser = 40
 }

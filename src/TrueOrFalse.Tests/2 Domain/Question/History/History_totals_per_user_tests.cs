@@ -8,8 +8,8 @@ public class History_totals_per_user_tests : BaseTest
     {
         var contextUsers = ContextRegisteredUser.New().Add().Add().Persist();
         var contextQuestion = ContextQuestion.New()
-            .AddQuestion("QuestionA", "AnswerA").AddCategory("A")
-            .AddQuestion("QuestionB", "QuestionB").AddCategory("A").
+            .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A")
+            .AddQuestion(questionText: "QuestionB", solutionText: "QuestionB").AddCategory("A").
             Persist();
 
         var createdQuestion1 = contextQuestion.All[0];

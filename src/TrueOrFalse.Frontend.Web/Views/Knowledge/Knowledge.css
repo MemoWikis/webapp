@@ -1,4 +1,34 @@
-﻿.number-box-questions {
+﻿.number-box-questions2 {
+  background-color: #afd534;
+  color: white;
+}
+.number-box-questions2 a {
+  color: white;
+}
+.number-box-questions2 a:hover,
+.number-box-questions2 a:active {
+  color: white;
+  text-decoration: none;
+}
+.number-box-questions2 :hover {
+  background-color: #c5f03a;
+}
+.number-box-sets2 {
+  background-color: #ffd700;
+  color: white;
+}
+.number-box-sets2 a {
+  color: white;
+}
+.number-box-sets2 a:hover,
+.number-box-sets2 a:active {
+  color: white;
+  text-decoration: none;
+}
+.number-box-sets2 :hover {
+  background-color: #ffe243;
+}
+.number-box-questions {
   background-color: #afd534;
   color: white;
   border-radius: 15px;

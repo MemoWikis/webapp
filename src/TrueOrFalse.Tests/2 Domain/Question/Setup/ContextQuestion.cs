@@ -43,19 +43,20 @@ namespace TrueOrFalse.Tests
         public ContextQuestion AddQuestions(int amount)
         {
             for (var i = 0; i < amount; i++)
-                AddQuestion("Question" + i, "Solution" + 1);
+                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + 1);
 
             return this;
         }
 
-        public ContextQuestion AddQuestion(string questionText = "defaultText", string solutionText = "defaultSolution")
+        public ContextQuestion AddQuestion(string questionText = "defaultText", string solutionText = "defaultSolution", User creator = null)
         {
             var question = new Question();
             question.Text = questionText;
             question.Solution = solutionText;
             question.SolutionType = SolutionType.Text;
             question.SolutionMetadataJson = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false}.Json;
-            question.Creator = _contextUser.All.First();
+            question.Creator = creator ?? _contextUser.All.First();
+
             All.Add(question);
 
             if (_persistQuestionsImmediately)

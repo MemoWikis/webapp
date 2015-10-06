@@ -10,8 +10,8 @@ namespace TrueOrFalse.Tests
         public void Should_add_question_to_questionSet()
         {        
             var context = ContextQuestion.New()
-                .AddQuestion("Q1", "A1").AddCategory("A")
-                .AddQuestion("Q2", "A2").AddCategory("A")
+                .AddQuestion(questionText: "Q1", solutionText: "A1").AddCategory("A")
+                .AddQuestion(questionText: "Q2", solutionText: "A2").AddCategory("A")
                 .Persist();
 
             var questionSetRepo = Resolve<SetRepo>();

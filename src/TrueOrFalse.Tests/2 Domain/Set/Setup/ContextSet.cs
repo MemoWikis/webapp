@@ -69,7 +69,7 @@ public class ContextSet : IRegisterAsInstancePerLifetime
 
     public ContextSet AddQuestion(string question, string solution)
     {
-        _contextQuestion.AddQuestion(question, solution).Persist();
+        _contextQuestion.AddQuestion(questionText: question, solutionText: solution).Persist();
         var addedQuestion = _contextQuestion.All.Last();
 
         return AddQuestion(addedQuestion);

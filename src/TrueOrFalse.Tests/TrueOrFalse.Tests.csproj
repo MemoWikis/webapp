@@ -248,6 +248,8 @@
     <Compile Include="2 Domain\Question\Serialize_and_init_solutionMetadata.cs" />
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\Set\Valuation\SetValuation_persistence_tests.cs" />
+    <Compile Include="2 Domain\User\Activity\UserActivity_persistence.cs" />
+    <Compile Include="2 Domain\User\Activity\Write_activity.cs" />
     <Compile Include="2 Domain\User\AppAccess_persistence.cs" />
     <Compile Include="2 Domain\User\Badges\Badge_awarder.cs" />
     <Compile Include="2 Domain\User\Badges\Badge_params.cs" />

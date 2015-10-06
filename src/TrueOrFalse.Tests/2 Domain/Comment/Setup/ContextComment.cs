@@ -19,7 +19,7 @@ namespace TrueOrFalse.Tests
 
             _user1 = _contextUser.Add("Test").Persist().All.First();
 
-            Question = _contextQuestion.AddQuestion("text", "solution").Persist().All[0];
+            Question = _contextQuestion.AddQuestion(questionText: "text", solutionText: "solution").Persist().All[0];
         }
 
         public static ContextComment New()

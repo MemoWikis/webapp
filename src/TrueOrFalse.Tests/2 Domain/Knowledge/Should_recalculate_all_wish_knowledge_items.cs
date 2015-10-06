@@ -10,9 +10,9 @@ namespace TrueOrFalse.Tests
         public void Run()
         {
             var context = ContextQuestion.New()
-                .AddQuestion("1", "")
-                .AddQuestion("2", "")
-                .AddQuestion("3", "")
+                .AddQuestion(questionText: "1", solutionText: "")
+                .AddQuestion(questionText: "2", solutionText: "")
+                .AddQuestion(questionText: "3", solutionText: "")
                 .Persist();
 
             var updateTotals = Resolve<UpdateQuestionTotals>();
