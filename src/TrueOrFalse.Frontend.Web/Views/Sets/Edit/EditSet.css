@@ -15,7 +15,8 @@
   padding-right: 10px;
   text-align: left !important;
 }
-.columnControlsFull {
+.columnControlsFull,
+.noControls {
   position: relative;
   float: left;
   width: 100%;
@@ -24,10 +25,13 @@
   padding-right: 10px;
 }
 .columnControlsFull .radio,
-.columnControlsFull .form-control-static {
+.noControls .radio,
+.columnControlsFull .form-control-static,
+.noControls .form-control-static {
   margin-left: 20px;
 }
-.columnControlsFull .form-control-static {
+.columnControlsFull .form-control-static,
+.noControls .form-control-static {
   padding-top: 0;
 }
 .aside .columnControlsFull .radio,
@@ -73,5 +77,47 @@ input.form-control,
 textarea.form-control,
 select.form-control {
   max-width: 400px;
+}
+#ulQuestions {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+#ulQuestions li {
+  margin: 0 5px 5px 5px;
+  padding: 5px;
+  font-size: 1.0em;
+  line-height: 1.2em;
+  background: none;
+  background-color: white;
+}
+.QuestionTools {
+  position: relative;
+  right: 0;
+  float: right;
+  margin-left: 5px;
+}
+.DeleteButton {
+  cursor: pointer;
+}
+.QuestionText {
+  max-height: 32px;
+  overflow: hidden;
+}
+.ui-state-highlight {
+  height: 40px;
+  line-height: 1.2em;
+  border: none;
+}
+#ulQuestions li.ui-state-highlight {
+  background-color: gainsboro;
+}
+.draggable-panel {
+  height: 30px;
+  width: 30px;
+  cursor: move;
+  margin-right: 5px;
+  background-color: gainsboro;
 }
 /*# sourceMappingURL=EditSet.css.map */

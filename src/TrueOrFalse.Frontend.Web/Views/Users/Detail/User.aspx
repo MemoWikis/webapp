@@ -65,31 +65,31 @@
     
     <div class="row" id="user-main">
         
-     <div id="MobileSubHeader" class="MobileSubHeader DesktopHide" style="margin-top: 20px;">
-        <div class="MainFilterBarWrapper">
-            <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
-                <div class="btn-group">
-                    <a class="btn btn-default disabled">.</a>
-                </div>
-            </div>
-            <div class="container">
-                <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
-
-                    <div class="btn-group <%= Model.IsActiveTabKnowledge? "active" : "" %>">
-                        <a  href="<%= Links.SetsWish() %>" type="button" class="btn btn-default">
-                            Wunsch<span class="hidden-xxs">wissen</span>
-                        </a>
+        <div id="MobileSubHeader" class="MobileSubHeader DesktopHide" style="margin-top: 20px;">
+            <div class="MainFilterBarWrapper">
+                <div id="MainFilterBarBackground" class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                        <a class="btn btn-default disabled">.</a>
                     </div>
+                </div>
+                <div class="container">
+                    <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
+
+                        <div class="btn-group <%= Model.IsActiveTabKnowledge? "active" : "" %>">
+                            <a  href="<%= Links.UserDetail(Model.User) %>" type="button" class="btn btn-default">
+                                Wunsch<span class="hidden-xxs">wissen</span>
+                            </a>
+                        </div>
                     
-                    <div class="btn-group  <%= Model.IsActiveTabBadges  ? "active" : "" %>">
-                        <a  href="<%= Links.Sets() %>" type="button" class="btn btn-default">
-                            Badges
-                        </a>
+                        <div class="btn-group  <%= Model.IsActiveTabBadges  ? "active" : "" %>">
+                            <a  href="<%= Links.UserDetailBadges(Model.User) %>" type="button" class="btn btn-default">
+                                Badges
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
         <div class="col-lg-12">
             <div class="boxtainer-outlined-tabs" style="margin-top: 20px;">

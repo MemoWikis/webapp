@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 public class EditSetController : BaseController
@@ -26,14 +27,16 @@ public class EditSetController : BaseController
         set.Creator = _sessionUser.User;
         Resolve<SetRepo>().Create(set);
 
-        model = new EditSetModel();
-        model.SetToCreateModel();
-        model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert, " +
-                                           "du kannst nun einen neuen Fragesatz erstellen.");
-
         StoreImage(set.Id);
 
-        return View(_viewLocation, model);
+        model = new EditSetModel(set);
+        model.SetToUpdateModel();
+
+        TempData["createSetMsg"] = new SuccessMessage(
+            string.Format("Der Fragesatz <i>'{0}'</i> wurde erstellt. Du kannst ihn nun weiter bearbeiten.",
+                          set.Name.TruncateAtWord(30)));
+
+        return RedirectToAction("Edit", Links.EditSetController, new {set.Id});
     }
 
     public ViewResult Edit(int id)
@@ -42,6 +45,12 @@ public class EditSetController : BaseController
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set, HistoryItemType.Edit));
         var model = new EditSetModel(set);
         model.SetToUpdateModel();
+
+        if (TempData["createSetMsg"] != null)
+        {
+            model.Message = (SuccessMessage)TempData["createSetMsg"];
+        }
+
         return View(_viewLocation, model);
     }
 
