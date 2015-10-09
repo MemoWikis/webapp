@@ -268,6 +268,10 @@
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
     <Compile Include="Views\AlgoInsight\FeatureModel.cs" />
+    <Compile Include="Views\AlgoInsight\TabVariousModel.cs" />
+    <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
+    <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
+    <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
@@ -411,6 +415,10 @@
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
+    <Content Include="Views\AlgoInsight\TabVarious.ascx" />
+    <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
+    <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
+    <Content Include="Views\AlgoInsight\TabForecast.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.min.css">
       <DependentUpon>AnswerQuestion.css</DependentUpon>
     </Content>

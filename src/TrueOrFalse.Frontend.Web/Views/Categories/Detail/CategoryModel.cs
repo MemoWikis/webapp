@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class CategoryModel : BaseModel
 {
@@ -12,6 +13,7 @@ public class CategoryModel : BaseModel
 
     public IList<Set> TopSets;
     public IList<Question> TopQuestions;
+    public List<Question> TopQuestionsInSubCats = new List<Question>();
     public IList<Question> TopWishQuestions;
     public IList<User> TopCreaters;
 
@@ -36,8 +38,14 @@ public class CategoryModel : BaseModel
     public int CorrectnesProbability;
     public int AnswersTotal;
 
+    private readonly QuestionRepo _questionRepo;
+    private readonly CategoryRepository _categoryRepo;
+
     public CategoryModel(Category category)
-    {   
+    {
+        _questionRepo = R<QuestionRepo>();
+        _categoryRepo = R<CategoryRepository>();
+
         WikiUrl = category.WikipediaURL;
         Category = category;
 
@@ -47,11 +55,17 @@ public class CategoryModel : BaseModel
         Type = category.Type.GetShortName();
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 
+        CategoriesParent = category.ParentCategories;
+        CategoriesChildren = _categoryRepo.GetChildren(category.Id);
+
+        CorrectnesProbability = category.CorrectnessProbability;
+        AnswersTotal = category.CorrectnessProbabilityAnswerCount;
+
         var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
-        var questionRepo = Resolve<QuestionRepo>();
-        var wishQuestions = questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
+        
+        var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
         CountQuestions = category.CountQuestions +
             R<QuestionGetCount>().Run(UserId, category.Id, new[] { QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends });
@@ -59,18 +73,43 @@ public class CategoryModel : BaseModel
         CountCreators = category.CountCreators;
         CountWishQuestions = wishQuestions.Total;
 
-        if(category.Type == CategoryType.Standard)
-            TopQuestions = questionRepo.GetForCategory(category.Id, 5, UserId);
-        else
-            TopQuestions = questionRepo.GetForReference(category.Id, 5, UserId);
+        TopQuestions = category.Type == CategoryType.Standard ? 
+            _questionRepo.GetForCategory(category.Id, 5, UserId) : 
+            _questionRepo.GetForReference(category.Id, 5, UserId);
+
+        if (category.Type == CategoryType.Standard)
+            TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
         TopWishQuestions = wishQuestions.Items;
         TopSets = Resolve<SetRepo>().GetForCategory(category.Id);
 
-        CategoriesParent = category.ParentCategories;
-        CategoriesChildren = Resolve<CategoryRepository>().GetChildren(category.Id);
+    }
 
-        CorrectnesProbability = category.CorrectnessProbability;
-        AnswersTotal = category.CorrectnessProbabilityAnswerCount;
+    private List<Question> GetTopQuestionsInSubCats()
+    {
+        var result = new List<Question>();
+        
+        foreach (var childCat in CategoriesChildren)
+            if (FillResult(result, childCat))
+                break;
+
+        if (TopQuestionsInSubCats.Count < 3)
+            foreach (var childCat in CategoriesChildren)
+                foreach(var childOfChild in _categoryRepo.GetChildren(childCat.Id))
+                    if (FillResult(result, childOfChild))
+                        break;
+
+        return result
+            .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
+            .ToList();
+    }
+
+    private bool FillResult(List<Question> result, Category cat)
+    {
+        if (TopQuestionsInSubCats.Count > 15)
+            return true;
+
+        result.AddRange(_questionRepo.GetForCategory(cat.Id, 5, UserId));
+        return false;
     }
 }

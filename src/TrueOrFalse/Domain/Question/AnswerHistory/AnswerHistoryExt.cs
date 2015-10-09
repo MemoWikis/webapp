@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,5 +18,11 @@ public static class AnswerHistoryExt
             item.QuestionId == question.Id &&
             item.UserId == user.Id
         ).ToList();
+    }
+
+    /// <returns>A value between 0 and 1</returns>
+    public static double AverageCorrectness(this IEnumerable<AnswerHistory> answerHistories)
+    {
+        return answerHistories.Average(x => Convert.ToInt32(x.AnswerredCorrectly));
     }
 }

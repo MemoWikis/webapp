@@ -4,9 +4,26 @@ using TrueOrFalse.Web;
 [SetMenu(MenuEntry.None)]
 public class AlgoInsightController : BaseController
 {
-    public ActionResult AlgoInsight()
+    private string _viewName = "AlgoInsight";
+
+    public ActionResult Forecast()
     {
-        return View(new AlgoInsightModel());
+        return View(_viewName, new AlgoInsightModel{IsActiveTabForecast = true});
+    }
+
+    public ActionResult ForgettingCurve()
+    {
+        return View(_viewName, new AlgoInsightModel{IsActiveTabForgettingCurve = true});
+    }
+
+    public ActionResult Repetition()
+    {
+        return View(_viewName, new AlgoInsightModel{IsActiveTabRepetition = true});
+    }
+
+    public ActionResult Various()
+    {
+        return View(_viewName, new AlgoInsightModel { IsActiveTabVarious = true });
     }
 
     [AccessOnlyAsAdmin]

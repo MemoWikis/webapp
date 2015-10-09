@@ -71,6 +71,8 @@ public class Question : DomainEntity
 
     public virtual bool IsWorkInProgress { get; set; }
 
+    public virtual IList<QuestionFeature> Features { get; set; }
+
     public Question()
     {
         Categories = new List<Category>();

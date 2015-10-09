@@ -42,6 +42,10 @@ public class QuestionMap : ClassMap<Question>
 
         Map(x => x.IsWorkInProgress);
 
+        HasManyToMany(x => x.Features)
+            .Table("questionFeature_to_question")
+            .Inverse();
+
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
     }

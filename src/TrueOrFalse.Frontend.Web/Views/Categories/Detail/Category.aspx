@@ -8,7 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="row">
+    <div class="row" >
         <div class="xxs-stack col-xs-12">
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col-xs-3 col-xs-push-9 xxs-stack">
@@ -118,9 +118,20 @@
                         - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>"><%= question.GetShortTitle(150) %></a>
                     </div>
                 <% } %>
-                <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" style="display:block; margin-top: 10px; margin-bottom: 10px; font-style: italic">
+                <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" style="display:block; margin-top: 10px; margin-bottom: 18px; font-style: italic">
                     <i class="fa fa-forward" style="color: #afd534;"></i> Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen
                 </a>
+            <% } %>
+            
+            <% if(Model.TopQuestionsInSubCats.Count > 0){ %>
+                <div style="margin-bottom: 18px">
+                    <h4 style="margin-top: 0;">Fragen in Kindkategorien</h4>
+                    <% var index = 0; foreach(var question in Model.TopQuestionsInSubCats){ index++;%>
+                        <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
+                            - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(150) %></a>
+                        </div>
+                    <% } %>
+                </div>
             <% } %>
             
             <% if(Model.CountWishQuestions > 0){ %>
