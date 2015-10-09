@@ -59,16 +59,32 @@ public class AnswerPatternMatcher
     {
         var result = new List<AnswerPatternMatch>();
 
-        if (new XDays3().IsMatch(listOfAnswers))
-            result.Add(new AnswerPatternMatch {Name = XDays3.Name});
 
-        if (new XDays4().IsMatch(listOfAnswers))
-            result.Add(new AnswerPatternMatch { Name = XDays4.Name});
+        AnswerPatternRepo.GetAll().ForEach(p => {
+            if(p.IsMatch(listOfAnswers))
+                result.Add(new AnswerPatternMatch { Name = p.Name });
+        });
 
         return result;
     }
+}
 
+public class AnswerPatternRepo
+{
+    public static List<IAnswerPattern> GetAll()
+    {
+        return new List<IAnswerPattern>()
+        {
+            new XDays3(),
+            new XDays4(),
+        };
+    }
+}
 
+public interface IAnswerPattern
+{
+    string Name { get; }
+    bool IsMatch(List<AnswerHistory> listOfAnswers);
 }
 
 public class XDays
@@ -99,9 +115,9 @@ public class XDays
     }
 }
 
-public class XDays3 : XDays
+public class XDays3 : XDays, IAnswerPattern
 {
-    public static string Name = "X-Days-3";
+    public string Name {get { return "X-Days-3"; } }
 
     public bool IsMatch(List<AnswerHistory> listOfAnswers)
     {
@@ -109,9 +125,9 @@ public class XDays3 : XDays
     }
 }
 
-public class XDays4 : XDays
+public class XDays4 : XDays, IAnswerPattern
 {
-    public static string Name = "X-Days-4";
+    public string Name { get { return "X-Days-4"; } }
 
     public bool IsMatch(List<AnswerHistory> listOfAnswers)
     {
