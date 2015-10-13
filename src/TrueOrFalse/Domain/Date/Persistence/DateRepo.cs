@@ -11,6 +11,14 @@ public class DateRepo : RepositoryDbBase<Date>
     {
     }
 
+    public override void Create(Date date)
+    {
+        //todo: ask robert if okay
+        base.Create(date);
+        Flush();
+        UserActivityAdd.CreatedDate(date);
+    }
+
     public IList<Date> GetBy(int[] userIds, bool onlyUpcoming = false, bool onlyPrevious = false)
     {
         var queryOver = _session.QueryOver<Date>()

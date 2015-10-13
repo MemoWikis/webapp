@@ -14,10 +14,12 @@ public class UserActivity : DomainEntity
     public virtual Category Category { get; set; }
     public virtual Date Date { get; set; }
     public virtual Game Game { get; set; }
+
     /// <summary>
     /// relevant for activity "FollowedUser": UserCauser follows UserIsFollowed
     /// </summary>
     public virtual User UserIsFollowed { get; set; } 
+
     /// <summary>
     /// this is the one that triggered the activity
     /// </summary>

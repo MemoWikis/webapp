@@ -28,7 +28,8 @@ namespace TrueOrFalse.Updates
 	                                INDEX `Category_id` (`Category_id`),
 	                                INDEX `Date_id` (`Date_id`),
 	                                INDEX `Game_id` (`Game_id`),
-	                                INDEX `NetworkUser_id` (`NetworkUser_id`)
+	                                INDEX `UserIsFollowed_id` (`UserIsFollowed_id`),
+	                                INDEX `UserCauser_id` (`UserCauser_id`)
                                 )
                                 COLLATE='utf8_general_ci'
                                 ENGINE=InnoDb;"

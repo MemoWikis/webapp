@@ -6,6 +6,7 @@ public enum UserActivityType
     CreatedCategory = 3,
     CreatedGame = 4,
     CreatedDate = 5,
-    PlayedGame = 20,
+    GamePlayed = 20,
+    GameWon = 21,
     FollowedUser = 40
 }

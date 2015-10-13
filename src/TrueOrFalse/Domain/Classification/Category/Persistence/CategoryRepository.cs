@@ -19,6 +19,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             related.DateModified = related.DateCreated = DateTime.Now;
         base.Create(category);
         Flush();
+        UserActivityAdd.CreatedCategory(category);
         _searchIndexCategory.Update(category);
     }
 

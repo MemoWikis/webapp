@@ -9,6 +9,14 @@ public class GameRepo : RepositoryDbBase<Game>
     {
     }
 
+    public override void Create(Game game)
+    {
+        //todo: ask robert if okay
+        base.Create(game);
+        Flush();
+        UserActivityAdd.CreatedGame(game);
+    }
+    
     public IList<Game> GetAllActive()
     {
         return _session.QueryOver<Game>()

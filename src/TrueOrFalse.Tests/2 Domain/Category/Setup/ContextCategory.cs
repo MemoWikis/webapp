@@ -21,7 +21,7 @@ namespace TrueOrFalse.Tests
             return BaseTest.Resolve<ContextCategory>();
         }
 
-        public ContextCategory Add(string categoryName, CategoryType categoryType = CategoryType.Standard)
+        public ContextCategory Add(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null)
         {
             Category category;
             if (_categoryRepository.Exists(categoryName))
@@ -30,10 +30,14 @@ namespace TrueOrFalse.Tests
             }
             else
             {
-                category = new Category(categoryName);
-                category.Creator = _contextUser.All.First();
-                category.Type = categoryType;
-                _categoryRepository.Create(category);
+                category = new Category
+                {
+                    Name = categoryName,
+                    Creator = creator ?? _contextUser.All.First(),
+                    Type = categoryType
+                };
+                //_categoryRepository.Create(category); Christof took this code line out, because otherwise [Test]Write_activity_category_set didn't work.
+                //todo: ask robert if okay (see prev. line)
             }
 
             All.Add(category);

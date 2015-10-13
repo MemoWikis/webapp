@@ -384,6 +384,7 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops\GetLastAnswers.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerHistoryExt.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityAdd.cs" />
+    <Compile Include="Domain\User\Activity\Ops\UserActivityUpdate.cs" />
     <Compile Include="Domain\User\Activity\Persistence\UserActivityRepo.cs" />
     <Compile Include="Domain\User\Activity\Persistence\UserActivityMap.cs" />
     <Compile Include="Domain\Question\References\Persistence\ReferenceMap.cs" />
