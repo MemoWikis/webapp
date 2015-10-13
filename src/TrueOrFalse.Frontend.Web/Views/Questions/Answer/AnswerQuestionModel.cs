@@ -220,7 +220,7 @@ public class AnswerQuestionModel : BaseModel
             CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
         };
 
-        IsInWishknowledge = questionValuationForUser.IsSetRelevancePersonal();
+        IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
         
         TotalViews = question.TotalViews + 1;
 

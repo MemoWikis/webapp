@@ -50,7 +50,7 @@ public class SetRowModel
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         RelevancePersonal = setValuation.RelevancePersonal;
-        IsInWishknowledge = setValuation.IsInWishknowledge();
+        IsInWishknowledge = setValuation.IsInWishKnowledge();
 
         TotalPins = set.TotalRelevancePersonalEntries.ToString();
 

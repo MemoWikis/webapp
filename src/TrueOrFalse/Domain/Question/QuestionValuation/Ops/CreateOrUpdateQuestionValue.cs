@@ -10,7 +10,7 @@
     public void Run(int questionId, 
                     int userId, 
                     int quality = -2, 
-                    int relevancePeronal = -2, 
+                    int relevancePersonal = -2, 
                     int relevanceForAll = -2)
     {
         var questionValuation = _questionValuationRepo.GetBy(questionId, userId);
@@ -22,7 +22,7 @@
                 Question = Sl.R<QuestionRepo>().GetById(questionId), 
                 User = Sl.R<UserRepo>().GetById(userId), 
                 Quality = quality, 
-                RelevancePersonal = relevancePeronal, 
+                RelevancePersonal = relevancePersonal, 
                 RelevanceForAll = relevanceForAll
             };
 
@@ -31,7 +31,7 @@
         else
         {
             if (quality != -2) questionValuation.Quality = quality;
-            if (relevancePeronal != -2) questionValuation.RelevancePersonal = relevancePeronal;
+            if (relevancePersonal != -2) questionValuation.RelevancePersonal = relevancePersonal;
             if (relevanceForAll != -2) questionValuation.RelevanceForAll = relevanceForAll;
 
             _questionValuationRepo.Create(questionValuation);                

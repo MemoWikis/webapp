@@ -20,7 +20,7 @@
                         Model.Winner.TestCount, 
                         Model.Winner.SuccessRateInPercent) %>
                 </span>
-            
+                )
             </div>
         </a>
         <div class="col-md-1" style="text-align: right; margin-top: 11px;">

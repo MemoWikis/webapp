@@ -78,7 +78,7 @@ public class SetModel : BaseModel
         var setValuations = Resolve<SetValuationRepo>().GetBy(Id);
         var setValuation = setValuations.FirstOrDefault(sv => sv.UserId == _sessionUser.UserId);
         if (setValuation != null){
-            IsInWishknowledge = setValuation.IsInWishknowledge();
+            IsInWishknowledge = setValuation.IsInWishKnowledge();
         }
 
         TotalPins = set.TotalRelevancePersonalEntries.ToString();

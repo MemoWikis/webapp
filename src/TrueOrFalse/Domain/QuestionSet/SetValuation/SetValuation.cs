@@ -12,5 +12,5 @@ public class SetValuation : DomainEntity
         RelevancePersonal = -1;
     }
 
-    public virtual bool IsInWishknowledge(){ return RelevancePersonal != -1; }
+    public virtual bool IsInWishKnowledge(){ return RelevancePersonal > 0; }
 }

@@ -19,7 +19,7 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
-        return Choices.First() == answer;
+        return Choices.First().Trim() == answer;
     }
 
     public override string CorrectAnswer()
