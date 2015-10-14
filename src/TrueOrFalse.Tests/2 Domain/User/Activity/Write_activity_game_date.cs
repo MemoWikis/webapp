@@ -11,7 +11,7 @@ public class Write_activity_game_date : BaseTest
         //User1 follows User2 and User4
         //User2 follows User3 (and creates two dates)
         //User3 follows User4
-        //User4 follows nobody (but creates one game)
+        //User4 follows nobody (but creates one game) //not yet...
         var context = ContextUser.New()
             .Add("User 1")
             .Add("User 2")

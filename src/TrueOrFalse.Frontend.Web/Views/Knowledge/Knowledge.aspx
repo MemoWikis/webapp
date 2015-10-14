@@ -332,6 +332,7 @@
                                     <i class="fa fa-plus-circle"></i>&nbsp;Termin erstellen
                                 </a>
                             </p>
+                            <hr style="margin: 5px 0px;"/>
                         <% }else { %>
                             <%
                             var index = 0;    
@@ -356,16 +357,18 @@
                             <% } %>
                             <% if (Model.Dates.Count > 3) { %>
                                 <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= Html.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
+                                <hr style="margin: 5px 0px;"/>
                             <% } %>
                         <% } %>
-                        <hr style="margin: 5px 0px;"/>
                         <p>
                             <% if (Model.DatesInNetwork.Count > 0) { %>
                                 <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= Html.Plural(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
+                                &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
                             <% } else {  %>
-                                Keine Termine in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>
+                                Keine Termine in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
+                                <br/>Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
                             <% } %>
-                            &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
+                            
                         </p>
 
                     </div>

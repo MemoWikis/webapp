@@ -36,7 +36,7 @@ namespace TrueOrFalse.Tests
                     Creator = creator ?? _contextUser.All.First(),
                     Type = categoryType
                 };
-                //_categoryRepository.Create(category); Christof took this code line out, because otherwise [Test]Write_activity_category_set didn't work.
+                //_categoryRepository.Create(category); //Christof took this code line out, because otherwise [Test]Write_activity_category_set didn't work.
                 //todo: ask robert if okay (see prev. line)
             }
 
