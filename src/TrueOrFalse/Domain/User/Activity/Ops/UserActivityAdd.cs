@@ -55,8 +55,9 @@ public class UserActivityAdd
 
     public static void CreatedGame(Game game)
     {
-        //todo: where to call this method? there is no Game.Create
+        //todo: where to call this method? there is no Game.Create -> Userbutton verfolgen / überlagern; done
         //todo: check with Robert if Game should get Game.GetCreatorId or Game.Creator (of type User, not Player?)
+        //game.Creator.User
         var userCreator = new User();
         foreach (var player in game.Players)
         {

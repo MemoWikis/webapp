@@ -13,7 +13,6 @@ public class DateRepo : RepositoryDbBase<Date>
 
     public override void Create(Date date)
     {
-        //todo: ask robert if okay
         base.Create(date);
         Flush();
         UserActivityAdd.CreatedDate(date);

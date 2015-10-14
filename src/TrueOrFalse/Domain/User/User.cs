@@ -34,7 +34,7 @@ public class User : DomainEntity
     public virtual void AddFollower(User userFollows)
     {
         Followers.Add(userFollows);
-        Sl.R<UserRepo>().Flush(); //todo: check if necessary
+        Sl.R<UserRepo>().Flush();
         UserActivityAdd.FollowedUser(userFollows, this);
     }
     public virtual IList<int> FollowerIds(){
