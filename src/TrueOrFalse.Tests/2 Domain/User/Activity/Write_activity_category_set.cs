@@ -39,7 +39,7 @@ public class Write_activity_category_set : BaseTest
         
         //User1 should see activity: User2 created category
         var activitiesUser1 = R<UserActivityRepo>().GetByUser(user1);
-        Assert.That(activitiesUser1.Count, Is.EqualTo(1)); //todo: this test fails here, because useractivity-entries for category-create are saved twice each; in ContextCategory.New().Add (Create) and in Persist again; in ContextSet, UserActivity is only added in Persist, the create-function doesn't call UserActivityAdd
+        Assert.That(activitiesUser1.Count, Is.EqualTo(1)); 
         Assert.That(activitiesUser1[0].Type, Is.EqualTo(UserActivityType.CreatedCategory));
 
         //User4 should see activity: User2 created one category, User3 created two sets

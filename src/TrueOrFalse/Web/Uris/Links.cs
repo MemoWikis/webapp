@@ -73,6 +73,11 @@ namespace TrueOrFalse.Frontend.Web.Code
             return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
 
+        public static string AnswerQuestion(Question question)
+        {
+            return AnswerQuestion(GetUrlHelper(), question);
+        }
+
       
 
         public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){

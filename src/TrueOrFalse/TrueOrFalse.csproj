@@ -384,6 +384,7 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops\GetLastAnswers.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerHistoryExt.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityAdd.cs" />
+    <Compile Include="Domain\User\Activity\Ops\UserActivityTools.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityUpdate.cs" />
     <Compile Include="Domain\User\Activity\Persistence\UserActivityRepo.cs" />
     <Compile Include="Domain\User\Activity\Persistence\UserActivityMap.cs" />
@@ -492,7 +493,6 @@
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataDate.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataText.cs" />
-    <Compile Include="Domain\User\Activity\Ops\GetNetworkActivity.cs" />
     <Compile Include="Domain\User\Badges\Badge.cs" />
     <Compile Include="Domain\User\Badges\BadgeAwarder.cs" />
     <Compile Include="Domain\User\Badges\Persistence\BadgeMap.cs" />
