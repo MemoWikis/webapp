@@ -36,8 +36,7 @@ namespace TrueOrFalse.Tests
                     Creator = creator ?? _contextUser.All.First(),
                     Type = categoryType
                 };
-                //_categoryRepository.Create(category); Christof took this code line out, because otherwise [Test]Write_activity_category_set didn't work.
-                //todo: ask robert if okay (see prev. line)
+                _categoryRepository.Create(category);
             }
 
             All.Add(category);
@@ -53,7 +52,8 @@ namespace TrueOrFalse.Tests
         public ContextCategory Persist()
         {
             foreach(var cat in All)
-                _categoryRepository.Create(cat);
+                if(cat.Id <= 0) //if not allread created
+                    _categoryRepository.Create(cat);
 
             return this;
         }
