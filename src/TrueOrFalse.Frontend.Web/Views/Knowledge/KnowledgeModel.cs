@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Optimization;
 using TrueOrFalse.Web;
 
 public class KnowledgeModel : BaseModel
@@ -17,6 +18,7 @@ public class KnowledgeModel : BaseModel
     }
 
     public IList<GetAnswerStatsInPeriodResult> Last30Days = new List<GetAnswerStatsInPeriodResult>();
+    public bool HasLearnedInLast30Days;
 
     public int QuestionsCount;
     public int SetCount;
@@ -35,6 +37,7 @@ public class KnowledgeModel : BaseModel
     public UIMessage Message;
 
     public IList<UserActivity> NetworkActivities;
+    public IList<string> NetworkActivitiesActionString;
 
 
     public KnowledgeModel(string emailKey = null)
@@ -63,6 +66,7 @@ public class KnowledgeModel : BaseModel
         var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
 
         Last30Days = getAnswerStatsInPeriod.GetLast30Days(UserId);
+        HasLearnedInLast30Days = (Last30Days.Sum(d => d.TotalAnswers) > 0);
 
         KnowledgeSummary = R<KnowledgeSummaryLoader>().Run(UserId);
 
@@ -75,13 +79,7 @@ public class KnowledgeModel : BaseModel
         StreakDays = R<GetStreaksDays>().Run(User);
 
         //GET NETWORK ACTIVITY
-        //
-
-        //var followerIAm = R<FollowerIAm>().Init(User.Following.Select(u => u.Id), UserId); //@Robert: Why do I need User-Type to resolve who UserId is following?
-
-        // Hole für jeden Nutzer dem ich folge die Activities (byID), füge diese zu Eigenschaft NetworkActivities hinzu
-        // Sortiere dann NetworkActivities nach Datum oder Activity-Type
-
+        NetworkActivities = R<UserActivityRepo>().GetByUser(User, 6);
 
     }
 }

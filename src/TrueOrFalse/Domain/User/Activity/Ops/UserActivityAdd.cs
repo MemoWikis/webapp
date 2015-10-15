@@ -100,6 +100,8 @@ public class UserActivityAdd
                 UserCauser = userFollows
             });
         }
+        //not yet implemented: following the other way around (A follows B, C now follows B -> A so far does not get UserActivity [but: who would be Causer, C or B?])
+        //when implementing this, sort out doubles (A follows B and C, C now follows B -> A should get only one UserActivity)
     }
         
 }
