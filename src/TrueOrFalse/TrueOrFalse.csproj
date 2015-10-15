@@ -383,6 +383,10 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreakCorrectness.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops\GetLastAnswers.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerHistoryExt.cs" />
+    <Compile Include="Domain\User\Activity\Ops\UserActivityAdd.cs" />
+    <Compile Include="Domain\User\Activity\Ops\UserActivityUpdate.cs" />
+    <Compile Include="Domain\User\Activity\Persistence\UserActivityRepo.cs" />
+    <Compile Include="Domain\User\Activity\Persistence\UserActivityMap.cs" />
     <Compile Include="Domain\Question\References\Persistence\ReferenceMap.cs" />
     <Compile Include="Domain\Classification\Category\Category.cs" />
     <Compile Include="Domain\Classification\Category\Persistence\CategoryRepository.cs" />
@@ -488,6 +492,7 @@
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataDate.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataNumber.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadataText.cs" />
+    <Compile Include="Domain\User\Activity\Ops\GetNetworkActivity.cs" />
     <Compile Include="Domain\User\Badges\Badge.cs" />
     <Compile Include="Domain\User\Badges\BadgeAwarder.cs" />
     <Compile Include="Domain\User\Badges\Persistence\BadgeMap.cs" />
@@ -672,6 +677,7 @@
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs110.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs109.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs108.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs107.cs" />
@@ -813,9 +819,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\User\Activity\Ops\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

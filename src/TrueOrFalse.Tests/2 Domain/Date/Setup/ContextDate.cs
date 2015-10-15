@@ -20,12 +20,12 @@ public class ContextDate : IRegisterAsInstancePerLifetime
         return BaseTest.Resolve<ContextDate>();
     }
 
-    public ContextDate Add(IList<Set> sets)
+    public ContextDate Add(IList<Set> sets, User creator = null)
     {
         var date = new Date();
         date.Details = "Details";
         date.Sets = sets;
-        date.User = User;
+        date.User = creator ?? User;
 
         All.Add(date);
         return this;
@@ -33,8 +33,8 @@ public class ContextDate : IRegisterAsInstancePerLifetime
 
     public ContextDate Persist()
     {
-        foreach (var cat in All)
-            _dateRepo.Create(cat);
+        foreach (var date in All)
+            _dateRepo.Create(date);
 
         return this;
     }

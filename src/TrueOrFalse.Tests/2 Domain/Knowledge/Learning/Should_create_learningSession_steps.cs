@@ -15,27 +15,27 @@ public class Should_create_learningSession_steps : BaseTest
         Sl.R<SessionUser>().Login(learner);
 
         context.PersistImmediately()
-            .AddQuestion("question not answered 1")
-            .AddQuestion("question not answered 2")
-            .AddQuestion("question not answered 3")
-            .AddQuestion("question answered not today prob 20")
+            .AddQuestion(questionText: "question not answered 1")
+            .AddQuestion(questionText: "question not answered 2")
+            .AddQuestion(questionText: "question not answered 3")
+            .AddQuestion(questionText: "question answered not today prob 20")
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
                 .SetProbability(20, learner)
-            .AddQuestion("question answered not today prob 40")//1
+            .AddQuestion(questionText: "question answered not today prob 40")//1
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
                 .SetProbability(40, learner)
-            .AddQuestion("question answered not today prob 30")//1
+            .AddQuestion(questionText: "question answered not today prob 30")//1
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
                 .SetProbability(30, learner)
-            .AddQuestion("question answered today prob 40")
+            .AddQuestion(questionText: "question answered today prob 40")
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now)
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
                 .SetProbability(40, learner)
-            .AddQuestion("question answered today prob 30")
+            .AddQuestion(questionText: "question answered today prob 30")
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now)
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
                 .SetProbability(30, learner)
-            .AddQuestion("question answered today prob 20")
+            .AddQuestion(questionText: "question answered today prob 20")
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now)
                 .AddAnswers(countCorrect: 7, countWrong: 3, dateCreated: DateTime.Now.AddDays(-1))
                 .SetProbability(20, learner);

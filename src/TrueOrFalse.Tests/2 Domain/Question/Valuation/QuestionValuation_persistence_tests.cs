@@ -10,7 +10,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void QuestionValuation_should_be_persisted()
         {
-            var contextQuestion = ContextQuestion.New().AddQuestion("a", "b").Persist();
+            var contextQuestion = ContextQuestion.New().AddQuestion(questionText: "a", solutionText: "b").Persist();
             var questionValuation = 
                 new QuestionValuation  
                 {
@@ -28,11 +28,11 @@ namespace TrueOrFalse.Tests
         public void Should_select_by_question_ids()
         {
             var context = ContextQuestion.New()
-                .AddQuestion("1", "a")
-                .AddQuestion("2", "a")
-                .AddQuestion("3", "a")
-                .AddQuestion("4", "a")
-                .AddQuestion("5", "a")
+                .AddQuestion(questionText: "1", solutionText: "a")
+                .AddQuestion(questionText: "2", solutionText: "a")
+                .AddQuestion(questionText: "3", solutionText: "a")
+                .AddQuestion(questionText: "4", solutionText: "a")
+                .AddQuestion(questionText: "5", solutionText: "a")
                 .Persist();
 
             var contextUsers = ContextUser.New()

@@ -12,11 +12,11 @@ namespace TrueOrFalse.Tests.Persistence
         [Test]
         public void Questions_should_be_persisted()
         {
-            var context = ContextQuestion.New().AddQuestion("What is BDD", "Another name for writing acceptance tests")
+            var context = ContextQuestion.New().AddQuestion(questionText: "What is BDD", solutionText: "Another name for writing acceptance tests")
                                     .AddCategory("A")
                                     .AddCategory("B")
                                     .AddCategory("C")
-                                 .AddQuestion("Another Question", "Some answer")
+                                 .AddQuestion(questionText: "Another Question", solutionText: "Some answer")
                                     .Persist();
             
             Resolve<ISession>().Evict(context.All[0]);
@@ -34,7 +34,7 @@ namespace TrueOrFalse.Tests.Persistence
         {
             //Arrange
             var context = ContextQuestion.New()
-                    .AddQuestion("Q")
+                    .AddQuestion(questionText: "Q")
                         .AddCategory("C")
                     .Persist();
             
@@ -82,7 +82,7 @@ namespace TrueOrFalse.Tests.Persistence
         private static Reference ReferenceWithContext()
         {
             var uniqueCategoryName = "Category" + Guid.NewGuid();
-            var contextQuestion = ContextQuestion.New().AddQuestion("text", "solution").Persist();
+            var contextQuestion = ContextQuestion.New().AddQuestion(questionText: "text", solutionText: "solution").Persist();
             var contextCategory = ContextCategory.New().Add(uniqueCategoryName).Persist();
 
             var reference = new Reference();

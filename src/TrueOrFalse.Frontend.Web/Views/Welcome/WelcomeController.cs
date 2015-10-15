@@ -142,7 +142,7 @@ public class WelcomeController : BaseController
         }
 
         if (!result.Success)
-            model.Message = new ErrorMessage("Der Link ist leider ungültig.");
+            model.Message = new ErrorMessage("Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine Email an team@memucho.de.");
 
         return View(model);
     }

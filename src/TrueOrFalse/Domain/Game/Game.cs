@@ -24,6 +24,8 @@ public class Game : DomainEntity
     public virtual bool IsNeverStarted { get { return Status == GameStatus.NeverStarted; } }
     public virtual bool IsReady { get { return Status == GameStatus.Ready; } }
 
+    public virtual Player Creator { get { return Players.Creator(); } }
+
     public virtual bool AddPlayer(User user, bool isCreator = false)
     {
         if(Players == null)

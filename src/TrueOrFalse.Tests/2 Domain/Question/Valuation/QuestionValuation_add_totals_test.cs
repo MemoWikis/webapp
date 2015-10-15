@@ -12,7 +12,7 @@ namespace TrueOrFalse.Tests
         public void Should_update_question_totals()
         {
             var contextQuestion = ContextQuestion.New()
-                .AddQuestion("QuestionA", "AnswerA").AddCategory("A")
+                .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A")
                 .Persist();
 
             var questionVal1 = new QuestionValuation{

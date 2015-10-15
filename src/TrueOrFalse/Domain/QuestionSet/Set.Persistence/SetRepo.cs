@@ -33,7 +33,9 @@ public class SetRepo : RepositoryDbBase<Set>
     public override void Create(Set set)
     {
         base.Create(set);
+        Flush();
         Sl.Resolve<UpdateSetCountForCategory>().Run(set.Categories);
+        UserActivityAdd.CreatedSet(set);
         _searchIndexSet.Update(set);
     }
 

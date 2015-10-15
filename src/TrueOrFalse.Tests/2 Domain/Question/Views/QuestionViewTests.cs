@@ -28,7 +28,7 @@ namespace TrueOrFalse.Tests
         public void Should_store_total_view_count_in_question_after_every_view()
         {
             var contextQuestion = ContextQuestion.New()
-                    .AddQuestion("QuestionA", "AnswerA").AddCategory("A")
+                    .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A")
                     .Persist();
 
             var question = contextQuestion.All[0];

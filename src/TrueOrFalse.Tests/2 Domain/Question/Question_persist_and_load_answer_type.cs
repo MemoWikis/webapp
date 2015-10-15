@@ -11,11 +11,11 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_store_answer_type()
         {
-            var context = ContextQuestion.New().AddQuestion("What is BDD", "Another name for writing acceptance tests")
+            var context = ContextQuestion.New().AddQuestion(questionText: "What is BDD", solutionText: "Another name for writing acceptance tests")
                                     .AddCategory("A")
                                     .AddCategory("B")
                                     .AddCategory("C")
-                                 .AddQuestion("Another Question", "Some answer")
+                                 .AddQuestion(questionText: "Another Question", solutionText: "Some answer")
                                     .Persist();
 
             var question = context.All[0];

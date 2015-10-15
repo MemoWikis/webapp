@@ -9,7 +9,7 @@ public class Should_retrieve_stats_in_time_period : BaseTest
     {
         var contextUsers = ContextRegisteredUser.New().Add().Persist();
         var contextQuestion = ContextQuestion.New()
-                .AddQuestion("Question", "Answer")
+                .AddQuestion(questionText: "Question", solutionText: "Answer")
                 .AddCategory("A").
             Persist();
 

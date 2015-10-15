@@ -12,7 +12,7 @@ namespace TrueOrFalse.Tests
         {
             var contextUsers = ContextRegisteredUser.New().Add().Persist();
             var contextQuestion = ContextQuestion.New()
-                    .AddQuestion("Some Question", "Some answer")
+                    .AddQuestion(questionText: "Some Question", solutionText: "Some answer")
                     .AddCategory("A").
                 Persist();
 

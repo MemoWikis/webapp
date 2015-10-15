@@ -170,26 +170,27 @@
     <% }else{  %>
     
         <div class="row hidden">
-            <div class="col-xs-4">
-                <p>In deinem Wunschwissen sind</p>        
+            <div class="col-xs-12 rowBase" style="padding-top: 10px;">
+                <div class="col-xs-4">
+                    <p>In deinem Wunschwissen sind</p>        
+                </div>
+                <div class="col-xs-3 col-xs-offset-1 number-box-questions2 rowBase">
+                    <a href="<%= Links.QuestionsWish() %>">
+                        <div>
+                            <span style="font-weight: 900; font-size: 34px; padding-left: 9px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.QuestionsCount %></span>
+                            <span style="font-size: 20px">Fragen</span>
+                        </div>
+                    </a>
+                </div>                    
+                <div class="col-xs-3 col-xs-offset-1 number-box-sets2 rowBase">
+                    <a href="<%= Links.SetsWish() %>">
+                        <div>
+                            <span style="font-weight: 900; font-size: 34px; padding-left: 15px;"><%= Model.SetCount %></span>
+                            &nbsp;<span style="font-size: 20px"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;Fragesätze</span>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <div class="col-xs-4 number-box-questions2 rowBase">
-                <a href="<%= Links.QuestionsWish() %>">
-                    <div>
-                        <span style="font-weight: 900; font-size: 34px; padding-left: 9px;"><%= Model.QuestionsCount %></span>
-                        <span style="font-size: 20px">Fragen</span>
-                    </div>
-                </a>
-            </div>                    
-            <div class="col-xs-4 number-box-sets2 rowBase">
-                <a href="<%= Links.SetsWish() %>">
-                    <div>
-                        <span style="font-weight: 900; font-size: 34px; padding-left: 15px;"><%= Model.SetCount %></span>
-                        &nbsp;<span style="font-size: 20px">Fragesätze</span>
-                    </div>
-                </a>
-            </div>
-
         </div>
         
         <div class="row">
@@ -233,35 +234,56 @@
 
             </div>
             <div class="col-xs-12 col-md-5" style="">
-                <h3>Dein Wissensstand</h3>
-                
-                <% if(Model.KnowledgeSummary.Total == 0) { %> <%--Warum nicht "if sets == 0 & questions == 0 then"?--%>
-                    <div class="row">
-                        <div class="rowBase col-md-10 col-xs-12" style="padding: 10px; background: #eee;">
-                            <p>
-                                MEMuchO kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
-                            </p>
-                        
-                            <p>
-                                Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
-                                oder <a href="<%= Links.Sets() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
-                                <ul style="list-style-type: none">
-                                    <li>
-                                        <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
-                                        In deinem Wunschwissen
-                                    </li>                                
-                                    <li>
-                                        <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
-                                        <i>Nicht</i> in deinem Wunschwissen.
-                                    </li>
-                                </ul>
-                            
-                            </p>
-                        </div>
+                <div class="row">
+                    <h3 style="margin-bottom: 3px;">Dein Wissensstand</h3>
+                    <p style="font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <a href="<%= Links.QuestionsWish() %>">
+                            <div class="number-box-questions2 rowBase" style="padding: 8px; margin: 0px;">
+                                <span style="font-weight: 900; font-size: 14px; padding-left: 9px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.QuestionsCount %></span>
+                                <span style="font-size: 14px">Fragen</span>
+                            </div>
+                        </a>
+                    </div>                    
+                    <div class="col-xs-6">
+                        <a href="<%= Links.SetsWish() %>">
+                            <div class="number-box-sets2 rowBase" style="padding: 8px; margin: 0px;">
+                                <span style="font-weight: 900; font-size: 14px; padding-left: 15px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.SetCount %></span>
+                                <span style="font-size: 14px">Fragesätze</span>
+                            </div>
+                        </a>
                     </div>
-                <% }else { %>
-                    <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
-                <% } %>
+                </div>
+                <div class="row">
+                    <% if(Model.KnowledgeSummary.Total == 0) { %> <%--Warum nicht "if sets == 0 & questions == 0 then"?--%>
+                        <div class="row">
+                            <div class="rowBase col-md-10 col-xs-12" style="padding: 10px; background: #eee;">
+                                <p>
+                                    MEMuchO kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
+                                </p>
+                                <p>
+                                    Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
+                                    oder <a href="<%= Links.Sets() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
+                                    <ul style="list-style-type: none">
+                                        <li>
+                                            <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                            In deinem Wunschwissen
+                                        </li>                                
+                                        <li>
+                                            <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                            <i>Nicht</i> in deinem Wunschwissen.
+                                        </li>
+                                    </ul>
+                            
+                                </p>
+                            </div>
+                        </div>
+                    <% }else { %>
+                        <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
+                    <% } %>
+                </div>
             </div>
             <div class="col-xs-12 col-md-3">
                 <div class="row">
@@ -299,7 +321,7 @@
         <div class="row" style="margin-top: 25px;">
             <div class="col-xs-12 col-md-4">
                 <div class="row">
-                    <div class=" col-md-11 col-xs-12" style="padding: 10px;">
+                    <div class=" col-md-11 col-xs-12 rowBase" style="padding: 10px;">
                         <h3 style="margin-top: 0;">Termine</h3>
                         <% if (Model.Dates.Count ==0) { %>
                             <p>
@@ -310,13 +332,14 @@
                                     <i class="fa fa-plus-circle"></i>&nbsp;Termin erstellen
                                 </a>
                             </p>
+                            <hr style="margin: 5px 0px;"/>
                         <% }else { %>
                             <%
                             var index = 0;    
                             foreach(var date in Model.Dates.Take(3)){
                                 index++;
                                 %>
-                                <div class="row" style="margin-bottom: 10px;">
+                                <div class="row" style="margin-bottom: 3px;">
                                     <div class="col-xs-9">
                                         <div style="font-weight: bold; margin-bottom: -3px;"><%= date.Details %></div>
                                         <span style="font-size:12px">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage</span><br />
@@ -326,23 +349,26 @@
                                             </a>                            
                                         <% } %>
                                     </div>
-                                    <div class="col-xs-3" style="">
+                                    <div class="col-xs-3" style="opacity: .4;">
                                         <div id="chartKnowledgeDate<%=index %>"></div>
                                     </div>
-                                </div>    
+                                </div>  
+                                <hr style="margin-top: 5px; margin-bottom: 5px;"/>  
                             <% } %>
                             <% if (Model.Dates.Count > 3) { %>
-                                <a href="#"><%= (Model.Dates.Count - 3) %> <%= Html.Plural(Model.Dates.Count - 3,"weitere Termine","weiterer Termin") %></a>
+                                <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= Html.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
+                                <hr style="margin: 5px 0px;"/>
                             <% } %>
                         <% } %>
-                        <hr style="margin: 5px 0px;"/>
                         <p>
                             <% if (Model.DatesInNetwork.Count > 0) { %>
                                 <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= Html.Plural(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
+                                &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
                             <% } else {  %>
-                                Keine Termine in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>.
+                                Keine Termine in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
+                                <br/>Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
                             <% } %>
-                            &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
+                            
                         </p>
 
                     </div>
@@ -352,7 +378,7 @@
                
             <div class="col-xs-12 col-md-4">
                 <div class="row">
-                    <div class=" col-md-11 col-xs-12" style="padding: 10px;">
+                    <div class=" col-md-11 col-xs-12 rowBase" style="padding: 10px;">
                         <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
                         <% foreach(var answer in Model.AnswerRecent){ 
                             var question = answer.GetQuestion();
@@ -362,12 +388,12 @@
                                     <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question) %>
                                 </div>
                                 <div class="col-xs-9" style="">
-                                    <%= question.Text %>
+                                    <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.Text %></a>
                                 </div>
                             </div>
                         <% } %>
                 
-                        <div class="row">
+                        <div class="row" style="opacity: 0.4;">
                             <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
                         </div>
                     </div>

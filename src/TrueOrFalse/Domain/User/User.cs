@@ -31,6 +31,12 @@ public class User : DomainEntity
     /// <summary>Users I follow</summary>
     public virtual IList<User> Following { get; set; }
 
+    public virtual void AddFollower(User userFollows)
+    {
+        Followers.Add(userFollows);
+        Sl.R<UserRepo>().Flush();
+        UserActivityAdd.FollowedUser(userFollows, this);
+    }
     public virtual IList<int> FollowerIds(){
         return Followers.Select(f => f.Id).ToList();
     }
@@ -63,4 +69,5 @@ public class User : DomainEntity
     {
         return MembershipPeriods.FirstOrDefault(x => x.IsActive());
     }
+
 }

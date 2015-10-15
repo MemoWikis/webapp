@@ -10,10 +10,10 @@ namespace TrueOrFalse.Tests.Persistence
         public void QuestionSet_should_be_persisted()
         {
             var context = ContextQuestion.New()
-                            .AddQuestion("Q1", "A1").AddCategory("A")
-                            .AddQuestion("Q2", "A2").AddCategory("A")
-                            .AddQuestion("Q3", "A3")
-                            .AddQuestion("Q4", "A4").AddCategory("B")
+                            .AddQuestion(questionText: "Q1", solutionText: "A1").AddCategory("A")
+                            .AddQuestion(questionText: "Q2", solutionText: "A2").AddCategory("A")
+                            .AddQuestion(questionText: "Q3", solutionText: "A3")
+                            .AddQuestion(questionText: "Q4", solutionText: "A4").AddCategory("B")
                             .Persist();
 
             var questionSet = new Set {Creator = ContextUser.New().Add("some body").Persist().All.Last()};

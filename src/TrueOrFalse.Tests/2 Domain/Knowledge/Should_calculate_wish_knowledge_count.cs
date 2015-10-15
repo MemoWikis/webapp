@@ -10,7 +10,7 @@ namespace TrueOrFalse.Tests
         public void Run()
         {
             var contextQuestion = ContextQuestion.New()
-                .AddQuestion("QuestionA", "AnswerA").AddCategory("A")
+                .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A")
                 .Persist();
 
             var question = contextQuestion.All.First();
