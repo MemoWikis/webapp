@@ -167,9 +167,6 @@
     <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <span class=".dark-blue"><%= Model.UserName %></span>, dein Wunschwissen</span>:</h2>
         
     <p style="margin-bottom: 0px;">Hier erhältst du eine Übersicht über dein Wunschwissen und deinen Wissensstand.</p>
-    <p style="margin-bottom: 20px;">Du hast momentan <%= Model.ReputationTotal %> Reputationspunkte <i class="fa fa-info-circle show-tooltip" title="Du gewinnst Reputationspunkte z.B., indem du gute Fragen, Fragesätze etc. erstellst. In der Hilfe erfährst du mehr."></i>
-        (Rang <%= Model.ReputationRank %>) 
-        (<a href="<%= Links.UserDetail(Model.User) %>">Details</a>).</p>
 
     <% if(!Model.IsLoggedIn){ %>
 
@@ -179,10 +176,15 @@
         </div>
 
     <% }else{  %>
+        <p style="margin-bottom: 20px;">
+            Du hast momentan <%= Model.ReputationTotal %> Reputationspunkte <i class="fa fa-info-circle show-tooltip" title="Du gewinnst Reputationspunkte z.B., indem du gute Fragen, Fragesätze etc. erstellst. In der Hilfe erfährst du mehr."></i>
+            (Rang <%= Model.ReputationRank %>) 
+            (<a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>).
+        </p>
     
         <div class="row">
             <div class="col-xs-12 col-md-6">
-                <div class="col-xs-12 rowBase" style="padding: 10px;">
+                <div class="col-xs-12" style="padding: 10px;">
 
                     <h3 style="margin-top: 0;">Training <span style="font-size: 12px; color: silver; padding-left: 15px;">letzte 30 Tage</span></h3>
                 
@@ -224,7 +226,7 @@
                 </div>
             </div>
             <div class="col-xs-12 col-md-6">
-                <div class="col-xs-12 rowBase" style="padding: 10px;">
+                <div class="col-xs-12" style="padding: 10px;">
                     <h3 style="margin-bottom: 3px; margin-top: 0;">Dein Wissensstand</h3>
                     <p style="margin-bottom: 1px; font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
                     <p>
@@ -337,6 +339,18 @@
                                     <div class="col-xs-3" style="opacity: .4;">
                                         <div id="chartKnowledgeDate<%=index %>"></div>
                                     </div>
+                                    <div class="col-xs-6" style="text-align: center; clear: left;">
+                                        <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
+                                            <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                                            Spiel starten
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-6" style="text-align: center;">
+                                        <a class="btn btn-sm btn-primary" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 10px; display: inline-block;">
+                                            <i class="fa fa-line-chart"></i> 
+                                            Jetzt üben
+                                        </a>
+                                    </div>
                                 </div>  
                                 <hr style="margin-top: 5px; margin-bottom: 5px;"/>  
                             <% } %>
@@ -355,6 +369,8 @@
                             <% } %>
                             
                         </p>
+                        <hr style="margin: 5px 0px;"/>
+                        <p><a href="<%= Links.Dates() %>">(Zur Terminübersicht)</a></p>
 
                     </div>
 
