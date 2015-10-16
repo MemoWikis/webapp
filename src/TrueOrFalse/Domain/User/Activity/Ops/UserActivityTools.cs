@@ -50,7 +50,7 @@ public class UserActivityTools
             case UserActivityType.CreatedCategory:
                 return string.Format("<a href='{0}'><span class='label label-category'>{1}</span></a>", Links.CategoryDetail(userActivity.Category), userActivity.Category.Name);
             case UserActivityType.CreatedDate:
-                return userActivity.Date.GetInfo();
+                return userActivity.Date.GetTitle();
             case UserActivityType.CreatedSet:
                 return string.Format("<a href='{0}'><span class='label label-set'>{1}</span></a>", Links.SetDetail(userActivity.Set.Name, userActivity.Set.Id), userActivity.Set.Name);
             case UserActivityType.CreatedGame:

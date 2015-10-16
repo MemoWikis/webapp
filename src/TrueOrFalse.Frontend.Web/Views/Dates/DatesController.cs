@@ -17,7 +17,7 @@ public class DatesController : BaseController
 
         return new JsonResult{
             Data = new{
-                DateInfo = date.GetInfo(),
+                DateInfo = date.GetTitle(),
             }
         };        
     }

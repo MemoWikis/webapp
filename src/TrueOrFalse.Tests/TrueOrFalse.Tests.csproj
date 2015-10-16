@@ -251,6 +251,7 @@
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\Set\Valuation\SetValuation_persistence_tests.cs" />
     <Compile Include="2 Domain\User\Activity\UserActivity_persistence.cs" />
+    <Compile Include="2 Domain\User\Activity\Write_activity_new_follower.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_following.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_game_date.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_category_set.cs" />

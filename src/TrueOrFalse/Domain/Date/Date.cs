@@ -28,7 +28,12 @@ public class Date : DomainEntity
             .ToList();
     }
 
-    public virtual string GetInfo()
+    public virtual int CountQuestions()
+    {
+        return AllQuestions().Count;
+    }
+
+    public virtual string GetTitle(bool shorten = false)
     {
         if (Details == null)
             Details = "";
@@ -36,9 +41,12 @@ public class Date : DomainEntity
         if (Details.Length > 6)
             Details.WordWrap(50);
 
-        if (Details.Length > 0)
-            return Details + " (" + DateTime.ToString("dd.MM.yyy") + ")";
+        if (shorten && Details.Length > 40)
+            return Details.Truncate(40) + "...";
 
-        return DateTime.ToString("dd.MM.yyy HH:mm");
+        if (Details.Length > 0)
+            return Details;
+
+        return "(" + CountQuestions() + " Fragen bis zum " + DateTime.ToString("dd.MM.yyy") + ")";
     }
 }

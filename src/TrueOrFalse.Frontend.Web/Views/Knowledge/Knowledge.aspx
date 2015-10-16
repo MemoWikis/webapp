@@ -328,11 +328,11 @@
                                 %>
                                 <div class="row" style="margin-bottom: 3px;">
                                     <div class="col-xs-9">
-                                        <div style="font-weight: bold; margin-bottom: -3px;"><%= date.Details %></div>
-                                        <span style="font-size:12px">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage</span><br />
+                                        <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
+                                        <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
                                         <% foreach(var set in date.Sets){ %>
                                             <a href="<%= Links.SetDetail(Url, set) %>">
-                                                <span class="label label-set"><%= set.Name %></span>
+                                                <span class="label label-set" style="font-size: 70%;"><%= set.Name %></span>
                                             </a>                            
                                         <% } %>
                                     </div>
@@ -352,11 +352,11 @@
                                         </a>
                                     </div>
                                 </div>  
-                                <hr style="margin-top: 5px; margin-bottom: 5px;"/>  
+                                <hr style="margin: 8px 0;"/>  
                             <% } %>
                             <% if (Model.Dates.Count > 3) { %>
                                 <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= Html.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
-                                <hr style="margin: 5px 0px;"/>
+                                <hr style="margin: 8px 0px;"/>
                             <% } %>
                         <% } %>
                         <p>
@@ -369,7 +369,7 @@
                             <% } %>
                             
                         </p>
-                        <hr style="margin: 5px 0px;"/>
+                        <hr style="margin: 8px 0px;"/>
                         <p><a href="<%= Links.Dates() %>">(Zur Terminübersicht)</a></p>
 
                     </div>
@@ -411,8 +411,11 @@
                                         <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
                                     </div>
                                     <div class="col-xs-9" style="">
-                                        <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
-                                        <%= UserActivityTools.GetActionObject(activity) %>
+                                        <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= activity.At.ToString("dd.MM.yy HH:mm") %></div>
+                                        <div style="clear: left;">
+                                            <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
+                                            <%= UserActivityTools.GetActionObject(activity) %>
+                                        </div>
                                     </div>
                                 </div>
                             <% } %>

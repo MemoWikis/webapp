@@ -55,9 +55,7 @@ public class UserActivityAdd
 
     public static void CreatedGame(Game game)
     {
-        //todo: check with Robert if Game should get Game.GetCreatorId or Game.Creator (of type User, not Player?)
-        var userCreator = game.Creator.User;
-
+        var userCreator = Sl.R<UserRepo>().GetById(game.Creator.User.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userCreator.Followers)
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity
@@ -89,6 +87,7 @@ public class UserActivityAdd
 
     public static void FollowedUser(User userFollows, User userIsFollowed)
     {
+        //var userFollowsFromDb = Sl.R<UserRepo>().GetById(userFollows.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userFollows.Followers)
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity
