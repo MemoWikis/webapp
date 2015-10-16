@@ -411,7 +411,7 @@
                                         <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
                                     </div>
                                     <div class="col-xs-9" style="">
-                                        <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= activity.At.ToString("dd.MM.yy HH:mm") %></div>
+                                        <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= Model.ConvertTime(activity.At) %></div>
                                         <div style="clear: left;">
                                             <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
                                             <%= UserActivityTools.GetActionObject(activity) %>
