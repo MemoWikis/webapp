@@ -278,6 +278,12 @@
     <Compile Include="Domain\Game\Persistence\PlayerMap.cs" />
     <Compile Include="Domain\Game\Player.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatch.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatcher.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\AnswerPatternRepo.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\IAnswerPattern.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\MaxStreak.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\XDaysExactly.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\GetLearningSessionSteps\StepSelectionParams.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionStepRepository.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\StepAnswerState.cs" />
