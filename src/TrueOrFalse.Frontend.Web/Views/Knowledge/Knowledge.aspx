@@ -128,6 +128,14 @@
 
             var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
             chart.draw(view, options);
+            <% if (!Model.HasLearnedInLast30Days) { %>
+                var infoDivNotLearned = document.createElement('div');
+                infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>'
+                infoDivNotLearned.setAttribute('style', 'position: absolute; background-color: white; top: 145px;')
+                document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
+                document.getElementById("chartActivityLastDays").style.opacity = 0.5;
+            <% } %>
+
         }
     </script>
     
@@ -158,7 +166,7 @@
 
     <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <span class=".dark-blue"><%= Model.UserName %></span>, dein Wunschwissen</span>:</h2>
         
-    <p style="margin-bottom: 10px;">Hier erhältst du eine Übersicht über dein Wunschwissen und deinen Wissensstand.</p>
+    <p style="margin-bottom: 0px;">Hier erhältst du eine Übersicht über dein Wunschwissen und deinen Wissensstand.</p>
 
     <% if(!Model.IsLoggedIn){ %>
 
@@ -168,124 +176,104 @@
         </div>
 
     <% }else{  %>
+        <p style="margin-bottom: 20px;">
+            Du hast momentan <%= Model.ReputationTotal %> Reputationspunkte <i class="fa fa-info-circle show-tooltip" title="Du gewinnst Reputationspunkte z.B., indem du gute Fragen, Fragesätze etc. erstellst. In der Hilfe erfährst du mehr."></i>
+            (Rang <%= Model.ReputationRank %>) 
+            (<a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>).
+        </p>
     
-        <div class="row hidden">
-            <div class="col-xs-12 rowBase" style="padding-top: 10px;">
-                <div class="col-xs-4">
-                    <p>In deinem Wunschwissen sind</p>        
-                </div>
-                <div class="col-xs-3 col-xs-offset-1 number-box-questions2 rowBase">
-                    <a href="<%= Links.QuestionsWish() %>">
-                        <div>
-                            <span style="font-weight: 900; font-size: 34px; padding-left: 9px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.QuestionsCount %></span>
-                            <span style="font-size: 20px">Fragen</span>
-                        </div>
-                    </a>
-                </div>                    
-                <div class="col-xs-3 col-xs-offset-1 number-box-sets2 rowBase">
-                    <a href="<%= Links.SetsWish() %>">
-                        <div>
-                            <span style="font-weight: 900; font-size: 34px; padding-left: 15px;"><%= Model.SetCount %></span>
-                            &nbsp;<span style="font-size: 20px"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;Fragesätze</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
         <div class="row">
-            <div class="col-xs-12 col-md-4">
-                <h3>Training <span style="font-size: 12px; color: silver; padding-left: 15px;">letzte 30 Tage</span></h3>
-                
-                <div id="chartActivityLastDays" style="margin-right: 20px; text-align: left;"></div>
-                
-                <div class="row" style="font-size: 12px">
-                    <div class="col-md-12">
-                        <% var streak = Model.StreakDays; %>
-                        <!-- -->
-                        <span style="display: inline-block; width: 45%">Lerntage gesamt: 
-                            <b><%= streak.TotalLearningDays %></b></span> <span style="color: silver; font-weight: bold;">
-                            seit <%= Model.User.DateCreated.ToString("dd.MM.yyyy") %>
-                        </span><br />
-                        
-                        <!-- LongestStreak -->
-                        <span style="display: inline-block; width: 40%">
-                            Längste Folge: <b><%= streak.LongestLength %></b>
-                        </span>
-                        <% if (streak.LongestLength == 0){ %>
-                            <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
-                        <% } else { %>
-                            <span style="color: silver; font-weight: bold;">
-                                <%= streak.LongestStart.ToString("dd.MM") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
-                            </span>
-                        <% } %>
-                        
-                        <!-- CurrentStreak -->
-                        <span style="display: inline-block; width: 40%">
-                            Aktuelle Folge: <b><%= streak.LastLength %></b>
-                        </span>
-                        <% if (streak.LastLength == 0){ %>
-                            <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
-                        <% } else { %>
-                            <%= streak.LastStart.ToString("dd.MM") %> - <%= streak.LastEnd.ToString("dd.MM.yyyy") %>
-                        <% } %>
-                    </div>
-                </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12" style="padding: 10px;">
 
-            </div>
-            <div class="col-xs-12 col-md-5" style="">
-                <div class="row">
-                    <h3 style="margin-bottom: 3px;">Dein Wissensstand</h3>
-                    <p style="font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6">
-                        <a href="<%= Links.QuestionsWish() %>">
-                            <div class="number-box-questions2 rowBase" style="padding: 8px; margin: 0px;">
-                                <span style="font-weight: 900; font-size: 14px; padding-left: 9px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.QuestionsCount %></span>
-                                <span style="font-size: 14px">Fragen</span>
-                            </div>
-                        </a>
-                    </div>                    
-                    <div class="col-xs-6">
-                        <a href="<%= Links.SetsWish() %>">
-                            <div class="number-box-sets2 rowBase" style="padding: 8px; margin: 0px;">
-                                <span style="font-weight: 900; font-size: 14px; padding-left: 15px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.SetCount %></span>
-                                <span style="font-size: 14px">Fragesätze</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <% if(Model.KnowledgeSummary.Total == 0) { %> <%--Warum nicht "if sets == 0 & questions == 0 then"?--%>
-                        <div class="row">
-                            <div class="rowBase col-md-10 col-xs-12" style="padding: 10px; background: #eee;">
-                                <p>
-                                    MEMuchO kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
-                                </p>
-                                <p>
-                                    Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
-                                    oder <a href="<%= Links.Sets() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
-                                    <ul style="list-style-type: none">
-                                        <li>
-                                            <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
-                                            In deinem Wunschwissen
-                                        </li>                                
-                                        <li>
-                                            <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
-                                            <i>Nicht</i> in deinem Wunschwissen.
-                                        </li>
-                                    </ul>
-                            
-                                </p>
-                            </div>
+                    <h3 style="margin-top: 0;">Training <span style="font-size: 12px; color: silver; padding-left: 15px;">letzte 30 Tage</span></h3>
+                
+                    <div id="chartActivityLastDays" style="margin-right: 20px; text-align: left;"></div>
+                
+                    <div class="row" style="font-size: 12px">
+                        <div class="col-md-12">
+                            <% var streak = Model.StreakDays; %>
+                            <!-- -->
+                            <span style="display: inline-block; width: 40%">Lerntage gesamt: 
+                                <b><%= streak.TotalLearningDays %></b></span> <span style="color: silver; font-weight: bold;">
+                                seit <%= Model.User.DateCreated.ToString("dd.MM.yyyy") %>
+                            </span><br />
+                        
+                            <!-- LongestStreak -->
+                            <span style="display: inline-block; width: 40%">
+                                Längste Folge: <b><%= streak.LongestLength %></b>
+                            </span>
+                            <% if (streak.LongestLength == 0){ %>
+                                <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
+                            <% } else { %>
+                                <span style="color: silver; font-weight: bold;">
+                                    <%= streak.LongestStart.ToString("dd.MM") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
+                                </span><br />
+                            <% } %>
+                        
+                            <!-- CurrentStreak -->
+                            <span style="display: inline-block; width: 40%">
+                                Aktuelle Folge: <b><%= streak.LastLength %></b>
+                            </span>
+                            <% if (streak.LastLength == 0){ %>
+                                <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
+                            <% } else { %>
+                                <%= streak.LastStart.ToString("dd.MM") %> - <%= streak.LastEnd.ToString("dd.MM.yyyy") %>
+                            <% } %>
                         </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12" style="padding: 10px;">
+                    <h3 style="margin-bottom: 3px; margin-top: 0;">Dein Wissensstand</h3>
+                    <p style="margin-bottom: 1px; font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
+                    <p>
+                        In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= Html.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= Html.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
+                        <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Fragesatz klickst."></i>
+                    </p>
+<%--                        <div class="col-xs-6">
+                            <a href="<%= Links.QuestionsWish() %>">
+                                <div class="number-box-questions2 rowBase" style="padding: 8px; margin: 0px;">
+                                    <span style="font-weight: 900; font-size: 14px; padding-left: 9px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.QuestionsCount %></span>
+                                    <span style="font-size: 14px">Fragen</span>
+                                </div>
+                            </a>
+                        </div>                    
+                        <div class="col-xs-6">
+                            <a href="<%= Links.SetsWish() %>">
+                                <div class="number-box-sets2 rowBase" style="padding: 8px; margin: 0px;">
+                                    <span style="font-weight: 900; font-size: 14px; padding-left: 15px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.SetCount %></span>
+                                    <span style="font-size: 14px">Fragesätze</span>
+                                </div>
+                            </a>
+                        </div>--%>
+                    <% if(Model.KnowledgeSummary.Total == 0) { %> <%--Warum nicht "if sets == 0 & questions == 0 then"?--%>
+                            <p>
+                                MEMuchO kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
+                            </p>
+                            <p>
+                                Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
+                                oder <a href="<%= Links.Sets() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
+                                <ul style="list-style-type: none">
+                                    <li>
+                                        <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                        In deinem Wunschwissen
+                                    </li>                                
+                                    <li>
+                                        <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                        <i>Nicht</i> in deinem Wunschwissen.
+                                    </li>
+                                </ul>
+                            
+                            </p>
                     <% }else { %>
                         <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
                     <% } %>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-3">
+<%--            <div class="col-xs-12 col-md-3">
                 <div class="row">
                     <div class="col-cs-12">
                         <h3>Im Wunschwissen</h3>        
@@ -315,13 +303,12 @@
                         </a>
                     </div>
                 </div>
-            </div>            
+            </div>   --%>         
         </div>
     
         <div class="row" style="margin-top: 25px;">
             <div class="col-xs-12 col-md-4">
-                <div class="row">
-                    <div class=" col-md-11 col-xs-12 rowBase" style="padding: 10px;">
+                    <div class="col-xs-12 rowBase" style="padding: 10px;">
                         <h3 style="margin-top: 0;">Termine</h3>
                         <% if (Model.Dates.Count ==0) { %>
                             <p>
@@ -341,23 +328,35 @@
                                 %>
                                 <div class="row" style="margin-bottom: 3px;">
                                     <div class="col-xs-9">
-                                        <div style="font-weight: bold; margin-bottom: -3px;"><%= date.Details %></div>
-                                        <span style="font-size:12px">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage</span><br />
+                                        <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
+                                        <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
                                         <% foreach(var set in date.Sets){ %>
                                             <a href="<%= Links.SetDetail(Url, set) %>">
-                                                <span class="label label-set"><%= set.Name %></span>
+                                                <span class="label label-set" style="font-size: 70%;"><%= set.Name %></span>
                                             </a>                            
                                         <% } %>
                                     </div>
                                     <div class="col-xs-3" style="opacity: .4;">
                                         <div id="chartKnowledgeDate<%=index %>"></div>
                                     </div>
+                                    <div class="col-xs-6" style="text-align: center; clear: left;">
+                                        <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
+                                            <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                                            Spiel starten
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-6" style="text-align: center;">
+                                        <a class="btn btn-sm btn-primary" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 10px; display: inline-block;">
+                                            <i class="fa fa-line-chart"></i> 
+                                            Jetzt üben
+                                        </a>
+                                    </div>
                                 </div>  
-                                <hr style="margin-top: 5px; margin-bottom: 5px;"/>  
+                                <hr style="margin: 8px 0;"/>  
                             <% } %>
                             <% if (Model.Dates.Count > 3) { %>
                                 <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= Html.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
-                                <hr style="margin: 5px 0px;"/>
+                                <hr style="margin: 8px 0px;"/>
                             <% } %>
                         <% } %>
                         <p>
@@ -365,20 +364,20 @@
                                 <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= Html.Plural(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
                                 &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
                             <% } else {  %>
-                                Keine Termine in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
-                                <br/>Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
+                                Kein Termin in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>.
+                                Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
                             <% } %>
                             
                         </p>
+                        <hr style="margin: 8px 0px;"/>
+                        <p><a href="<%= Links.Dates() %>">(Zur Terminübersicht)</a></p>
 
                     </div>
-                </div>
 
             </div>         
                
             <div class="col-xs-12 col-md-4">
-                <div class="row">
-                    <div class=" col-md-11 col-xs-12 rowBase" style="padding: 10px;">
+                    <div class="col-xs-12 rowBase" style="padding: 10px;">
                         <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
                         <% foreach(var answer in Model.AnswerRecent){ 
                             var question = answer.GetQuestion();
@@ -397,50 +396,36 @@
                             <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
                         </div>
                     </div>
-                </div>
             </div>
-            <div class="col-xs-12 col-md-4" style="opacity: 0.4;">
-                <h3>Im Netzwerk</h3>
-                
-                    <% var userRepo = Sl.Resolve<UserRepo>();
-                       var user1 = userRepo.GetById(32);
-                       var user2 = userRepo.GetById(2);
-                    %>
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-xs-3">
-                            <img src="<%= new UserImageSettings(user1.Id).GetUrl_128px_square(user1.EmailAddress).Url %>" />
-                        </div>
-                        <div class="col-xs-9" style="">
-                            <a href="#"><%= user1.Name %></a> erstellte die Frage: 
-                            <a href="#">"Wann wurde Galileo Galilei geboren?"</a>
-                        </div>
-                    </div>
-                
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-xs-3">
-                            <img src="<%= new UserImageSettings(user1.Id).GetUrl_128px_square(user1.EmailAddress).Url %>" />
-                        </div>
-                        <div class="col-xs-9" style="">
-                            <a href="#"><%= user1.Name %></a> erstellte den Fragesatz: 
-                            <span class="label label-set">Galileo Galilei</span>
-                        </div>
-                    </div>
-                
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-xs-3">
-                            <img src="<%= new UserImageSettings(user2.Id).GetUrl_128px_square(user1.EmailAddress).Url %>" />
-                        </div>
-                        <div class="col-xs-9" style="">
-                            <a href="#"><%= user2.Name %></a> erstellte die Kategorie: 
-                            <span class="label label-category">Helmut Kohl</span>
-                        </div>
-                    </div>
-                
-                    <div class="row">
-                        <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
-                    </div>
 
+            <div class="col-xs-12 col-md-4">
+                    <div class="col-xs-12 rowBase" style="padding: 10px;">
+                        <h3 style="margin-top: 0;">Im Netzwerk</h3>
+                        <% if (Model.NetworkActivities.Count == 0) { %>
+                                Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
+                                Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
+                        <% } else { %>
+                            <% foreach(var activity in Model.NetworkActivities){ %>
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-xs-3">
+                                        <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
+                                    </div>
+                                    <div class="col-xs-9" style="">
+                                        <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= Model.ConvertTime(activity.At) %></div>
+                                        <div style="clear: left;">
+                                            <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
+                                            <%= UserActivityTools.GetActionObject(activity) %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                            <div class="row" style="opacity: 0.4;">
+                                <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                            </div>
+                        <% } %>
+                    </div>
             </div>
+
         </div>
 
 <%--        <div class="column">

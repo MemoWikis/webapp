@@ -16,7 +16,7 @@ public class DateHistoryItem : HistoryItemBase
         HistoryItemType type = HistoryItemType.Any)
     {
         Id = date.Id;
-        Name = date.GetInfo();
+        Name = date.GetTitle();
         Type = type;
     }
 }

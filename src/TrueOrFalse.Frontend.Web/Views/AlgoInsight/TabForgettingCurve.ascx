@@ -67,19 +67,7 @@
 <div class="row" >
     <div class="col-md-12" style="margin-top:3px; margin-bottom:7px;">
         <h3>Vergleich Vergessenskurven</h3>
-    </div>
-   
-</div>
-
-<div class="row">
-    <div class="col-md-6">
-        <h4>Nach Klassifzierung</h4>
-        <div id="chartLinear" style="width: 100%; height: 250px"></div>
-    </div>
-    <div class="col-md-6">
-        <h4>Nach Feature</h4>
-        <div id="chartExponential" style="width: 100%; height: 250px"></div>        
-    </div>
+    </div>   
 </div>
 
 <div class="row">
@@ -100,13 +88,19 @@
         </div>
         
         <% for(var i = 0; i < 4; i++)
-           {
-               var colors = new[] {"rgb(51, 102, 204)", "", "", ""};
+            {
+                var colors = new[]
+                {
+                   "rgb(51, 102, 204)" /* blue */,
+                   "rgb(220, 57, 18)" /* red */,
+                   "rgb(255, 153, 0)" /* yellow */,
+                   "rgb(16, 150, 24)" /* green */
+               };
 
         %>
             <div class="row">
-                <div class="col-md-4" style="text-align: right; background-color: ;">
-                    Achse 1
+                <div class="col-md-4" style="text-align: right; background-color: <%= colors[i] %>;">
+                    Achse <%= i %>
                 </div>
             </div>
             <div class="row" style="padding: 3px;">
@@ -135,5 +129,24 @@
     <div class="col-md-9" style="vertical-align: top; text-align: left;">
         <div id="chartExponential2" style="width: 100%; height: 350px; vertical-align: top"></div> 
     </div>
+    
+    
+    <div class="row" >
+        <div class="col-md-12" style="margin-top:3px; margin-bottom:7px;">
+            <h3>Ausgewählte Vergessenskurven</h3>
+        </div>   
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Schwere vs. leichte Fragen (Klassifzierung)</h4>
+            <div id="chartLinear" style="width: 100%; height: 250px"></div>
+        </div>
+        <div class="col-md-6">
+            <h4>Nach Tageszeit gelernt</h4>
+            <div id="chartExponential" style="width: 100%; height: 250px"></div>        
+        </div>
+    </div>    
+
 </div>
 

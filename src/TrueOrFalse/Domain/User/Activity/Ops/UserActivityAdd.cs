@@ -55,9 +55,7 @@ public class UserActivityAdd
 
     public static void CreatedGame(Game game)
     {
-        //todo: check with Robert if Game should get Game.GetCreatorId or Game.Creator (of type User, not Player?)
-        var userCreator = game.Creator.User;
-
+        var userCreator = Sl.R<UserRepo>().GetById(game.Creator.User.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userCreator.Followers)
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity
@@ -89,6 +87,7 @@ public class UserActivityAdd
 
     public static void FollowedUser(User userFollows, User userIsFollowed)
     {
+        //var userFollowsFromDb = Sl.R<UserRepo>().GetById(userFollows.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userFollows.Followers)
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity
@@ -100,6 +99,8 @@ public class UserActivityAdd
                 UserCauser = userFollows
             });
         }
+        //not yet implemented: following the other way around (A follows B, C now follows B -> A so far does not get UserActivity [but: who would be Causer, C or B?])
+        //when implementing this, sort out doubles (A follows B and C, C now follows B -> A should get only one UserActivity)
     }
         
 }

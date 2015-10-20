@@ -12,7 +12,7 @@
     <div class="column-MainContent">
         <div class="MainContentUpper">
             <div class="TitleText" style="font-size: 20px">
-                <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName%></a> 
+                <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName.Truncate(35) %> </a> 
                 <span style="font-size: small;">(<%= Model.QuestionCount %> Fragen)</span>
                 <button class="btn btn-default btn-xs" type="button">Folgen</button>
             </div>

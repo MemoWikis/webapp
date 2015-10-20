@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<CategoriesSearchResultModel>" %>
 
-<div class="box-content">
+<div class="box-content" style="clear: all;">
     <% 
         foreach (var row in Model.Rows){
             Html.RenderPartial("CategoryRow", row);
@@ -13,4 +13,5 @@
     </div>
 
 </div>
+<div class="clearfix"></div>
 <% Html.RenderPartial("Pager", Model.Pager); %>

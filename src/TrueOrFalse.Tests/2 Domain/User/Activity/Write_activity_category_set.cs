@@ -4,7 +4,7 @@ using TrueOrFalse.Tests;
 public class Write_activity_category_set : BaseTest
 {
     [Test]
-    public void Should_write_activity_on_set_create()
+    public void Should_write_activity_on_category_set_create()
     {
         //User1 follows User2
         //User2 follows nobody (but creates one category)
