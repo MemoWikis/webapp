@@ -12,7 +12,7 @@ public class SetMap : ClassMap<Set>
         Map(x => x.TotalRelevancePersonalAvg);
         Map(x => x.TotalRelevancePersonalEntries);
 
-        HasMany(x => x.QuestionsInSet).Table("questionInSet").Cascade.Delete().OrderBy("Sort");
+        HasMany(x => x.QuestionsInSet).Table("questionInSet").Cascade.All().OrderBy("Sort");
         HasManyToMany(x => x.Categories).Table("categories_to_sets").Cascade.SaveUpdate();
                 
         References(x => x.Creator);
