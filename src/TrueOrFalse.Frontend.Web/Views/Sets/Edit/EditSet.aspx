@@ -154,7 +154,7 @@
                                         <%foreach(var questionInSet in Model.QuestionsInSet){%>
                                             <li class="questionItem ui-state-default Clearfix" data-id="<%=questionInSet.Id %>">
                                                 <div class="QuestionTools">
-                                                    <i class="fa fa-trash-o icon DeleteButton" title="Aus dem Fragesatz entfernen"></i><br/>
+                                                    <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton" title="Aus dem Fragesatz entfernen"></i><br/>
                                                     <% if (Model.IsOwner(questionInSet.Question.Creator.Id)){%>
                                                         <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Id) %>">
                                                             <i class="fa fa-pencil"></i> 

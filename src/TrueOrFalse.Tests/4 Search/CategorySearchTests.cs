@@ -52,9 +52,9 @@ namespace TrueOrFalse.Tests
                 R<SearchCategories>().Run("", orderBy: SearchCategoriesOrderBy.QuestionCount).CategoryIds);
             
             Assert.That(categories.Count, Is.EqualTo(3));
-            Assert.That(categories[0].Name, Is.EqualTo("2"));
-            Assert.That(categories[1].Name, Is.EqualTo("1"));
-            Assert.That(categories[2].Name, Is.EqualTo("3"));
+            Assert.That(categories.Count(x => x.Name == "2"), Is.EqualTo(1));
+            Assert.That(categories.Count(x => x.Name == "1"), Is.EqualTo(1));
+            Assert.That(categories.Count(x => x.Name == "3"), Is.EqualTo(1));
         }
     }
 }

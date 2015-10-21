@@ -7,6 +7,11 @@ public class VariousPublicController : Controller
         return View(new BaseModel());
     }
 
+    public ActionResult TermsAndConditions()
+    {
+        return View(new BaseModel());
+    }
+
     public ActionResult NotDoneYet()
     {
         return View(new BaseModel());

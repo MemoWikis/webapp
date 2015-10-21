@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace TrueOrFalse.Tests.Persistence
 {
@@ -9,19 +8,21 @@ namespace TrueOrFalse.Tests.Persistence
         [Test]
         public void QuestionSet_should_be_persisted()
         {
-            var context = ContextQuestion.New()
-                            .AddQuestion(questionText: "Q1", solutionText: "A1").AddCategory("A")
-                            .AddQuestion(questionText: "Q2", solutionText: "A2").AddCategory("A")
-                            .AddQuestion(questionText: "Q3", solutionText: "A3")
-                            .AddQuestion(questionText: "Q4", solutionText: "A4").AddCategory("B")
-                            .Persist();
+            var questionContext = ContextQuestion.New()
+                .AddQuestion(questionText: "Q1", solutionText: "A1").AddCategory("A")
+                .AddQuestion(questionText: "Q2", solutionText: "A2").AddCategory("A")
+                .AddQuestion(questionText: "Q3", solutionText: "A3")
+                .AddQuestion(questionText: "Q4", solutionText: "A4").AddCategory("B")
+                .Persist();
 
-            var questionSet = new Set {Creator = ContextUser.New().Add("some body").Persist().All.Last()};
-            questionSet.Add(context.All);
+            var set = new Set { Creator = ContextUser.GetUser() };
+            set.Add(questionContext.All);
 
-            Resolve<SetRepo>().Create(questionSet);
+            R<SetRepo>().Create(set);
 
-            var questionSetFromDb = Resolve<SetRepo>().GetAll()[0];
+            RecycleContainer();
+
+            var questionSetFromDb = R<SetRepo>().GetAll()[0];
             Assert.That(questionSetFromDb.QuestionsInSet.Count, Is.EqualTo(4));
         }
     }
