@@ -61,6 +61,12 @@
 
         chartExponential2 = new google.visualization.ScatterChart(document.getElementById('chartExponential2'));
         chartExponential2.draw(data, options);
+
+        chartExponential3 = new google.visualization.ScatterChart(document.getElementById('chartExponential3'));
+        chartExponential3.draw(data, options);
+
+        chartExponential4 = new google.visualization.ScatterChart(document.getElementById('chartExponential4'));
+        chartExponential4.draw(data, options);
       }
     </script>
 
@@ -98,12 +104,15 @@
                };
 
         %>
-            <div class="row">
-                <div class="col-md-4" style="text-align: right; background-color: <%= colors[i] %>;">
-                    Achse <%= i %>
+            <div class="row" style="border-bottom: 2px solid <%= colors[i] %>;">
+                <div class="col-md-12" style="">
+                    <b>Kurve <%= i %></b>
+                    400P R0.71
+                    
+                    <input type="checkbox" class="pull-right" checked="checked" style="padding-right: 3px; position: relative; top: 0px;"  />
                 </div>
             </div>
-            <div class="row" style="padding: 3px;">
+            <div class="row" style="padding: 3px; margin-top: 5px;">
                 <div class="col-md-4" style="text-align: right">Feature:</div>
                 <div class="col-md-8" style="padding-left: 0px;">
                     <select style="width: 100%">
@@ -113,7 +122,7 @@
                     </select>
                 </div>
             </div>
-            <div class="row" style="padding: 3px;">
+            <div class="row" style="padding: 3px; margin-bottom: 10px;">
                 <div class="col-md-4" style="text-align: right">Typ:</div>
                 <div class="col-md-8" style="padding-left: 0px;">
                     <select style="width: 100%;">
@@ -134,7 +143,12 @@
     <div class="row" >
         <div class="col-md-12" style="margin-top:3px; margin-bottom:7px;">
             <h3>Ausgewählte Vergessenskurven</h3>
-        </div>   
+            
+            <p>
+                Eine Auswahl besonders aussagekräftiger 
+            </p>
+
+        </div>
     </div>
 
     <div class="row">
@@ -145,6 +159,17 @@
         <div class="col-md-6">
             <h4>Nach Tageszeit gelernt</h4>
             <div id="chartExponential" style="width: 100%; height: 250px"></div>        
+        </div>
+    </div>    
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Schwere vs. leichte Fragen (Klassifzierung)</h4>
+            <div id="chartExponential3" style="width: 100%; height: 250px"></div>
+        </div>
+        <div class="col-md-6">
+            <h4>Nach Tageszeit gelernt</h4>
+            <div id="chartExponential4" style="width: 100%; height: 250px"></div>        
         </div>
     </div>    
 
