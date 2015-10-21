@@ -35,8 +35,9 @@ public class AnswerHistoryIntervals_test
 		};
         //ACT
         var answerRows = GetAnswerHistoryRows.Run(listOfAnswerHistories);
-        var intervals1 = Intervalizer.Run(answerRows, new TimeSpan(1, 0, 0, 0));
-        var intervals2 = Intervalizer.Run(new List<List<AnswerHistory>>(), new TimeSpan(1, 0, 0, 0));
+        var examinedAnswerObjects = GetExaminedAnswerObjects.Run(answerRows);
+        var intervals1 = Intervalizer.Run(examinedAnswerObjects, new TimeSpan(1, 0, 0, 0));
+        var intervals2 = Intervalizer.Run(new List<ExaminedAnswerObject>(), new TimeSpan(1, 0, 0, 0));
 
         //ASSERT
 
@@ -45,11 +46,11 @@ public class AnswerHistoryIntervals_test
 
 public class ExaminedAnswerObject
 {
+    public AnswerHistory NextAnswer;
     public AnswerHistory ExaminedAnswer;
-    public AnswerHistory PreviousAnswer;
     public List<AnswerHistory> AnswerHistoryRow;
     /// <summary>
-    /// Time span between previous and examined answer
+    /// Time span between examined and next answer
     /// </summary>
     public TimeSpan TimePassed;
     public double TimePassedInSeconds;
@@ -58,32 +59,40 @@ public class ExaminedAnswerObject
     {
         if (answerHistoryRow.Count <= 1) return;
         AnswerHistoryRow = answerHistoryRow;
-        ExaminedAnswer = answerHistoryRow[answerHistoryRow.Count - 1];
-        PreviousAnswer = answerHistoryRow[answerHistoryRow.Count - 2];
-        TimePassed = ExaminedAnswer.DateCreated.Subtract(PreviousAnswer.DateCreated);
+        NextAnswer = answerHistoryRow[answerHistoryRow.Count - 1];
+        ExaminedAnswer = answerHistoryRow[answerHistoryRow.Count - 2];
+        TimePassed = NextAnswer.DateCreated.Subtract(ExaminedAnswer.DateCreated);
         TimePassedInSeconds = TimePassed.TotalSeconds;
+    }
+}
+
+public class PrepareForgettingCurveData
+{
+    public static List<TimeIntervalWithAnswers> Run(List<AnswerHistory> answerHistories, TimeSpan intervalLength)
+    {
+        var answerHistoryRows = GetAnswerHistoryRows.Run(answerHistories);
+        var listOfExaminedAnswerObjects = GetExaminedAnswerObjects.Run(answerHistoryRows).OrderBy(x => x.TimePassedInSeconds).ToList();
+        return Intervalizer.Run(listOfExaminedAnswerObjects, intervalLength);
     }
 }
 
 public class Intervalizer
 {
-    public static List<TimeIntervalWithAnswers> Run(List<List<AnswerHistory>> answerHistoryRows, TimeSpan intervalLength)
+    public static List<TimeIntervalWithAnswers> Run(List<ExaminedAnswerObject> examinedAnswerObjects, TimeSpan intervalLength)
     {
-        var listOfExaminedAnswerObjects = GetExaminedAnswerObjects.Run(answerHistoryRows).OrderBy(x => x.TimePassedInSeconds).ToList();
-        
         var listOfIntervals = new List<TimeIntervalWithAnswers>();
-        if (listOfExaminedAnswerObjects.Any())
+        if (examinedAnswerObjects.Any())
         {
-            var maxTimeSpanInSeconds = listOfExaminedAnswerObjects.Any() ? listOfExaminedAnswerObjects.Last().TimePassedInSeconds : 0;
+            var maxTimeSpanInSeconds = examinedAnswerObjects.Any() ? examinedAnswerObjects.Last().TimePassedInSeconds : 0;
             var numberOfIntervals = (int)Math.Floor(maxTimeSpanInSeconds / intervalLength.TotalSeconds) + 1;
             for (var i = 0; i < numberOfIntervals; i++)
             {
                 listOfIntervals.Add(new TimeIntervalWithAnswers(intervalLength, i));
             }
-            listOfExaminedAnswerObjects.ForEach(x =>
+            examinedAnswerObjects.ForEach(x =>
             {
                 var intervalIndex = (int)Math.Floor(x.TimePassedInSeconds / intervalLength.TotalSeconds);
-                listOfIntervals[intervalIndex].AddPair(x.ExaminedAnswer, x.PreviousAnswer);
+                listOfIntervals[intervalIndex].AddPair(x.ExaminedAnswer, x.NextAnswer);
             });
         }
 
@@ -106,7 +115,7 @@ public class TimeIntervalWithAnswers
 {
     public TimeSpan TimeIntervalLength;
     public int IndexOfInterval;
-    public List<Tuple<AnswerHistory, AnswerHistory>> PairsOfPreviousAndExaminedAnswer = new List<Tuple<AnswerHistory, AnswerHistory>>();
+    public List<Tuple<AnswerHistory, AnswerHistory>> PairsOfExaminedAndNextAnswer = new List<Tuple<AnswerHistory, AnswerHistory>>();
     public int NumberOfPairs;
     public double ProportionAnsweredCorrect;
     public TimeSpan TimePassedLowerBound;
@@ -121,47 +130,13 @@ public class TimeIntervalWithAnswers
         NumberOfPairs = 0;
     }
 
-    public void AddPair(AnswerHistory examinedAnswer, AnswerHistory previousAnswer)
+    public void AddPair(AnswerHistory examinedAnswer, AnswerHistory nextAnswer)
     {
-        PairsOfPreviousAndExaminedAnswer.Add(new Tuple<AnswerHistory, AnswerHistory>(previousAnswer, examinedAnswer));
-        NumberOfPairs = PairsOfPreviousAndExaminedAnswer.Count;
-        ProportionAnsweredCorrect = PairsOfPreviousAndExaminedAnswer.Count(p => p.Item2.AnsweredCorrectly())/(double)NumberOfPairs;
+        PairsOfExaminedAndNextAnswer.Add(new Tuple<AnswerHistory, AnswerHistory>(examinedAnswer, nextAnswer));
+        NumberOfPairs = PairsOfExaminedAndNextAnswer.Count;
+        ProportionAnsweredCorrect = PairsOfExaminedAndNextAnswer.Count(p => p.Item2.AnsweredCorrectly())/(double)NumberOfPairs;
     }
 }
-
-public class HelpingMethods
-{
-    
-    public static List<Tuple<AnswerHistory, AnswerHistory>> GetConsecutivePairsFromAnswerHistoryRows(List<List<AnswerHistory>> answerHistoryRows)
-    {
-        var listOfPairs = new List<Tuple<AnswerHistory, AnswerHistory>>();
-
-        answerHistoryRows.ForEach(r =>
-        {
-            for (var i = 0; i < r.Count - 1; i++)
-            {
-                listOfPairs.Add(new Tuple<AnswerHistory, AnswerHistory>(r[i], r[i + 1]));
-            }
-        });
-
-        return listOfPairs;
-    }
-
-    public static List<Tuple<AnswerHistory, AnswerHistory>> GetLastPairsFromAnswerHistoryRows(List<List<AnswerHistory>> answerHistoryRows)
-    {
-        var listOfLastPairs = new List<Tuple<AnswerHistory, AnswerHistory>>();
-        answerHistoryRows.ForEach(r =>
-        {
-            if (r.Count() > 1)
-            {
-                listOfLastPairs.Add(new Tuple<AnswerHistory, AnswerHistory>(r[r.Count() - 2], r[r.Count() - 1]));
-            }
-        });
-
-        return listOfLastPairs;
-    }
-}
-
 
 
 
