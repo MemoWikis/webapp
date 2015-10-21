@@ -91,7 +91,7 @@
             Tante Geburtstag hat, wie die Telefonnummer von deinem Freund lautet oder welches dein Lieblingskuchen ist).
         </p>
         <p>
-            Denke daran, dass alle anderen Inhalte von dir von allen Memucho-Nutzern gesehen und genutzt werden können! Achte deshalb auf
+            Denke daran, dass alle anderen Inhalte von dir von allen Memucho-Nutzern gesehen und genutzt werden können! <strong>Achte deshalb auf</strong>
             <ul>
                 <li>Richtigkeit und Eindeutigkeit deiner Fragen und Antworten,</li>
                 <li>Rechtschreibung, und</li>
