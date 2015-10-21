@@ -431,6 +431,7 @@
       <DependentUpon>User.less</DependentUpon>
     </Content>
     <Content Include="Views\Users\Detail\TabKnowledge.ascx" />
+    <Content Include="Views\VariousPublic\TermsAndConditions.aspx" />
     <Content Include="Views\Welcome\Welcome.css">
       <DependentUpon>Welcome.less</DependentUpon>
     </Content>

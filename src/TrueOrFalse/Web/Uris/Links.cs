@@ -298,6 +298,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string VariousController = "VariousPublic";
         public const string Impressum = "Imprint";
+        public const string TermsAndConditions = "TermsAndConditions";
         public const string WelfareCompany = "WelfareCompany";
 
         public const string KnowledgeController = "Knowledge";
