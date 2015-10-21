@@ -33,7 +33,7 @@ public class MessageModelRow
         IsRead = message.IsRead;
         Subject = message.Subject;
         Body = message.Body;
-        When = TimeElapsedAsText.Run(message.DateCreated);
+        When = DateTimeUtils.TimeElapsedAsText(message.DateCreated);
         WhenDatetime = message.DateCreated.ToString("", new CultureInfo("de-DE"));
     }
 }

@@ -567,6 +567,7 @@
     <Compile Include="Infrastructure\Persistence\Session\NHConfigurationFileCache.cs" />
     <Compile Include="Infrastructure\ProjectionEqualityComparer.cs" />
     <Compile Include="Infrastructure\Regexes.cs" />
+    <Compile Include="Infrastructure\StringUtils.cs" />
     <Compile Include="Infrastructure\Time\Time.cs" />
     <Compile Include="Search\Category\IndexOperations\ReIndexAllCategories.cs" />
     <Compile Include="Search\Category\IndexOperations\SearchIndexCategory.cs" />

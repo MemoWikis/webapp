@@ -230,7 +230,7 @@
                     <h3 style="margin-bottom: 3px; margin-top: 0;">Dein Wissensstand</h3>
                     <p style="margin-bottom: 1px; font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
                     <p>
-                        In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= Html.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= Html.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
+                        In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= StringUtils.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
                         <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Fragesatz klickst."></i>
                     </p>
 <%--                        <div class="col-xs-6">
@@ -355,13 +355,13 @@
                                 <hr style="margin: 8px 0;"/>  
                             <% } %>
                             <% if (Model.Dates.Count > 3) { %>
-                                <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= Html.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
+                                <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
                                 <hr style="margin: 8px 0px;"/>
                             <% } %>
                         <% } %>
                         <p>
                             <% if (Model.DatesInNetwork.Count > 0) { %>
-                                <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= Html.Plural(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
+                                <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.Plural(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
                                 &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
                             <% } else {  %>
                                 Kein Termin in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>.
@@ -411,7 +411,7 @@
                                         <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
                                     </div>
                                     <div class="col-xs-9" style="">
-                                        <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= Model.ConvertTime(activity.At) %></div>
+                                        <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
                                         <div style="clear: left;">
                                             <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
                                             <%= UserActivityTools.GetActionObject(activity) %>

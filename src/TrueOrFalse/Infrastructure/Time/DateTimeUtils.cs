@@ -1,4 +1,5 @@
 ﻿using System;
+using TrueOrFalse;
 
 public static class DateTimeUtils
 {
@@ -24,6 +25,15 @@ public static class DateTimeUtils
 
     public static DateTime FirstDayOfLastMonth(){
         return new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(-1);
+    }
+
+    public static string TimeElapsedAsText(DateTime dateTimeBegin)
+    {
+        return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin);
+    }
+    public static string TimeElapsedAsText(DateTime dateTimeBegin, DateTime dateTimeEnd)
+    {
+        return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin, dateTimeEnd);
     }
 }
 
