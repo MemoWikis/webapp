@@ -10,5 +10,6 @@
         Bitte weitertippen oder anderen Suchbegriff verwenden.
     </div>
 </div>
+<div class="clearfix"></div>
 
 <% Html.RenderPartial("Pager", Model.Pager); %>

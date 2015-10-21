@@ -5,7 +5,7 @@ using TrueOrFalse.Tests;
 public class ContextSet : IRegisterAsInstancePerLifetime
 {
     private readonly ContextQuestion _contextQuestion = ContextQuestion.New();
-    private readonly ContextUser _contextUser = ContextUser.New();
+    public readonly User Creator;
     private readonly ContextCategory _contextCategory = ContextCategory.New();
     private readonly SetRepo _setRepo;
     private readonly QuestionInSetRepo _questionInSetRepo;
@@ -16,7 +16,7 @@ public class ContextSet : IRegisterAsInstancePerLifetime
         SetRepo setRepo,
         QuestionInSetRepo questionInSetRepo)
     {
-        _contextUser.Add("Context Set").Persist();
+        Creator = ContextUser.GetUser();
         _setRepo = setRepo;
         _questionInSetRepo = questionInSetRepo;
     }
@@ -36,7 +36,7 @@ public class ContextSet : IRegisterAsInstancePerLifetime
         var set = new Set{
             Name = name, 
             Text = text, 
-            Creator =  creator ?? _contextUser.All.First()
+            Creator =  creator ?? Creator
         };
             
         All.Add(set);
