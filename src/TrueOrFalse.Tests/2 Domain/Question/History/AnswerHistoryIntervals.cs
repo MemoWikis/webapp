@@ -29,9 +29,9 @@ public class AnswerHistoryIntervals_test
 		};
         //ACT
         var answerRows = GetAnswerHistoryRows.Run(listOfAnswerHistories);
-        var examinedAnswerObjects = GetExaminedAnswerObjects.Run(answerRows);
+        var examinedAnswerObjects = AnswerPairFromHistoryRows.Run(answerRows);
         var intervals1 = Intervalizer.Run(examinedAnswerObjects, new TimeSpan(1, 0, 0, 0));
-        var intervals2 = Intervalizer.Run(new List<ExaminedAnswerObject>(), new TimeSpan(1, 0, 0, 0));
+        var intervals2 = Intervalizer.Run(new List<AnswerPair>(), new TimeSpan(1, 0, 0, 0));
 
         //ASSERT
 

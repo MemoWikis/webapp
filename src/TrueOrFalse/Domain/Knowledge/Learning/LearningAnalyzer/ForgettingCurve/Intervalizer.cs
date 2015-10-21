@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 public class Intervalizer
 {
-    public static List<TimeIntervalWithAnswers> Run(List<ExaminedAnswerObject> examinedAnswerObjects, TimeSpan intervalLength)
+    public static List<IntervalizerResultItem> Run(List<AnswerPair> examinedAnswerObjects, TimeSpan intervalLength)
     {
-        var listOfIntervals = new List<TimeIntervalWithAnswers>();
+        var listOfIntervals = new List<IntervalizerResultItem>();
         if (examinedAnswerObjects.Any())
         {
             var maxTimeSpanInSeconds = examinedAnswerObjects.Any() ? examinedAnswerObjects.Last().TimePassedInSeconds : 0;
             var numberOfIntervals = (int)Math.Floor(maxTimeSpanInSeconds / intervalLength.TotalSeconds) + 1;
             for (var i = 0; i < numberOfIntervals; i++)
             {
-                listOfIntervals.Add(new TimeIntervalWithAnswers(intervalLength, i));
+                listOfIntervals.Add(new IntervalizerResultItem(intervalLength, i));
             }
             examinedAnswerObjects.ForEach(x =>
             {

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-public class TimeIntervalWithAnswers
+public class IntervalizerResultItem
 {
     public TimeSpan TimeIntervalLength;
     public int IndexOfInterval;
@@ -14,7 +12,7 @@ public class TimeIntervalWithAnswers
     public TimeSpan TimePassedLowerBound;
     public TimeSpan TimePassedUpperBound;
 
-    public TimeIntervalWithAnswers(TimeSpan timeIntervalLength, int index)
+    public IntervalizerResultItem(TimeSpan timeIntervalLength, int index)
     {
         TimeIntervalLength = timeIntervalLength;
         IndexOfInterval = index;

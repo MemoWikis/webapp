@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-public class ExaminedAnswerObject
+public class AnswerPair
 {
     public AnswerHistory NextAnswer;
     public AnswerHistory ExaminedAnswer;
@@ -15,7 +12,7 @@ public class ExaminedAnswerObject
     public TimeSpan TimePassed;
     public double TimePassedInSeconds;
 
-    public ExaminedAnswerObject(List<AnswerHistory> answerHistoryRow)
+    public AnswerPair(List<AnswerHistory> answerHistoryRow)
     {
         if (answerHistoryRow.Count <= 1) return;
         AnswerHistoryRow = answerHistoryRow;
