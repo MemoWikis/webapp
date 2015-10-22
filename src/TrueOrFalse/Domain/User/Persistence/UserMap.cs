@@ -20,17 +20,15 @@ public class UserMap : ClassMap<User>
         HasMany(x => x.MembershipPeriods)
             .Cascade.All().Not.LazyLoad();
 
-        HasManyToMany(x => x.Followers)
-            .ParentKeyColumn("User_id")
-            .ChildKeyColumn("Follower_id")
-            .Cascade.All().LazyLoad()
-            .Table("user_to_follower");
+        HasMany(x => x.Followers)
+            .KeyColumn("User_id")
+            .Cascade.All()
+            .LazyLoad();
 
-        HasManyToMany(x => x.Following)
-            .ParentKeyColumn("Follower_id")
-            .ChildKeyColumn("User_id")
-            .Cascade.All().LazyLoad()
-            .Table("user_to_follower");
+        HasMany(x => x.Following)
+            .KeyColumn("Follower_id")
+            .Cascade.All()
+            .LazyLoad();
 
         Map(x => x.Reputation);
         Map(x => x.ReputationPos);

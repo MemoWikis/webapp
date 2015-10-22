@@ -5,7 +5,7 @@ public class NetworkModel : BaseModel
 {
     public int TotalUsers;
 
-    public IEnumerable<UserRowModel> UserIFollow = new List<UserRowModel>();
+    public IEnumerable<UserRowModel> UsersIFollow = new List<UserRowModel>();
     public IEnumerable<UserRowModel> UsersFollowingMe = new List<UserRowModel>();
 
     public HeaderModel HeaderModel  = new HeaderModel();
@@ -22,10 +22,10 @@ public class NetworkModel : BaseModel
 
         var followerIAm = R<FollowerIAm>().Init(user.Following.Select(u => u.Id), UserId);
 
-        UserIFollow = user.Following.Select(u => new UserRowModel(u, -1, followerIAm));
-        UsersFollowingMe = user.Followers.Select(u => new UserRowModel(u, -1, followerIAm));
+        UsersIFollow = user.Following.Select(u => new UserRowModel(u.IFollow, -1, followerIAm));
+        UsersFollowingMe = user.Followers.Select(u => new UserRowModel(u.Follower, -1, followerIAm));
 
-        HeaderModel.TotalIFollow = UserIFollow.Count();
+        HeaderModel.TotalIFollow = UsersIFollow.Count();
         HeaderModel.TotalFollowingMe = UsersFollowingMe.Count();
     }
 }

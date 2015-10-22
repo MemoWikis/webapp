@@ -22,9 +22,9 @@ public class Write_activity_question : BaseTest
         var user3 = context.All[2];
         var user4 = context.All[3];
 
-        user4.Followers.Add(user3);
-        user4.Followers.Add(user1);
-        user2.Followers.Add(user1);
+        user4.AddFollower(user3);
+        user4.AddFollower(user1);
+        user2.AddFollower(user1);
 
         R<UserRepo>().Update(user4);
         R<UserRepo>().Update(user3);

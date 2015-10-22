@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using NHibernate;
 
 public class UserActivityAdd
 {
@@ -12,7 +8,7 @@ public class UserActivityAdd
         foreach (var follower in userCreator.Followers)
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity {
-                    UserConcerned = follower,
+                    UserConcerned = follower.Follower,
                     At = DateTime.Now,
                     Type = UserActivityType.CreatedQuestion,
                     Question = question,
@@ -28,7 +24,7 @@ public class UserActivityAdd
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity
             {
-                UserConcerned = follower,
+                UserConcerned = follower.Follower,
                 At = DateTime.Now,
                 Type = UserActivityType.CreatedSet,
                 Set = set,
@@ -44,7 +40,7 @@ public class UserActivityAdd
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity
             {
-                UserConcerned = follower,
+                UserConcerned = follower.Follower,
                 At = DateTime.Now,
                 Type = UserActivityType.CreatedCategory,
                 Category = category,
@@ -60,7 +56,7 @@ public class UserActivityAdd
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity
             {
-                UserConcerned = follower,
+                UserConcerned = follower.Follower,
                 At = DateTime.Now,
                 Type = UserActivityType.CreatedGame,
                 Game = game,
@@ -76,7 +72,7 @@ public class UserActivityAdd
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity
             {
-                UserConcerned = follower,
+                UserConcerned = follower.Follower,
                 At = DateTime.Now,
                 Type = UserActivityType.CreatedDate,
                 Date = date,
@@ -92,7 +88,7 @@ public class UserActivityAdd
         {
             Sl.R<UserActivityRepo>().Create(new UserActivity
             {
-                UserConcerned = follower,
+                UserConcerned = follower.Follower,
                 At = DateTime.Now,
                 Type = UserActivityType.FollowedUser,
                 UserIsFollowed = userIsFollowed,

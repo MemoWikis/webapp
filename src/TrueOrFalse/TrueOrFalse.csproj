@@ -515,6 +515,8 @@
     <Compile Include="Domain\User\Badges\Type\Group\BadgeTypeGroups.cs" />
     <Compile Include="Domain\User\Badges\Type\BadgeTypes.cs" />
     <Compile Include="Domain\User\Badges\Type\BadgeTypesExt.cs" />
+    <Compile Include="Domain\User\FollowerInfo.cs" />
+    <Compile Include="Domain\User\Persistence\FolowerMap.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalc.cs" />
     <Compile Include="Domain\User\Reputation\ReputationCalcResult.cs" />
     <Compile Include="Domain\User\Reputation\ReputationUpdate.cs" />
@@ -684,6 +686,7 @@
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs111.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs110.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs109.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs108.cs" />

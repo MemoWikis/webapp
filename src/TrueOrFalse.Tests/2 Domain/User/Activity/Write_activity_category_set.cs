@@ -22,9 +22,9 @@ public class Write_activity_category_set : BaseTest
         var user3 = context.All[2];
         var user4 = context.All[3];
 
-        user2.Followers.Add(user1);
-        user2.Followers.Add(user4);
-        user3.Followers.Add(user4);
+        user2.AddFollower(user1);
+        user2.AddFollower(user4);
+        user3.AddFollower(user4);
 
         R<UserRepo>().Update(user2);
         R<UserRepo>().Update(user1);

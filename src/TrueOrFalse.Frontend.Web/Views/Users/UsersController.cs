@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
@@ -104,7 +105,8 @@ public class UsersController : BaseController
     {
         var userRepo = R<UserRepo>();
         var userToUnfollow = userRepo.GetById(userId);
-        userToUnfollow.Followers.Remove(UserFresh());
+        var currentUser = userToUnfollow.Followers.First(x => x.Id == -1);
+        userToUnfollow.Followers.Remove(currentUser);
 
         userRepo.Update(userToUnfollow);
     }

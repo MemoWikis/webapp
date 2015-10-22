@@ -137,7 +137,7 @@ class UserActivityUpdate
                 UserConcerned = userFollower,
                 At = DateTime.Now,
                 Type = UserActivityType.FollowedUser,
-                UserIsFollowed = follower,
+                UserIsFollowed = follower.Follower,
                 UserCauser = userIsFollowed
             });
         }

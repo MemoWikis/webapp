@@ -23,10 +23,10 @@
                 <div class="search-section">
     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Du folgst <span class="JS-AmountFollowers"><%= Model.UserIFollow.Count() %></span> Nutzer<%= Html.Plural(Model.UserIFollow.Count(),"n","","n") %></span>
+                        <span class="ColoredUnderline User">Du folgst <span class="JS-AmountFollowers"><%= Model.UsersIFollow.Count() %></span> Nutzer<%= Html.Plural(Model.UsersIFollow.Count(),"n","","n") %></span>
                     </h4>
                     
-                    <% if(!Model.UserIFollow.Any()){ %>
+                    <% if(!Model.UsersIFollow.Any()){ %>
                         <div class="bs-callout bs-callout-info"  
                             style="margin-top: 0; margin-bottom: 10px;">
                             <h4>Noch folgst du niemanden</h4>
@@ -39,7 +39,7 @@
                     <% } else { %>
 
                         <div style="clear: both;"> 
-                            <% foreach(var row in Model.UserIFollow){
+                            <% foreach(var row in Model.UsersIFollow){
                                 Html.RenderPartial("UserRow", row);
                             } %>
                         </div>

@@ -23,20 +23,20 @@ public class User : DomainEntity
     public virtual bool ShowWishKnowledge { get; set; }
     public virtual IList<Membership> MembershipPeriods { get; set; }
 
-    public virtual IList<User> Followers { get; set; }
+    public virtual IList<FollowerInfo> Followers { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
 
     /// <summary>Users I follow</summary>
-    public virtual IList<User> Following { get; set; }
+    public virtual IList<FollowerInfo> Following { get; set; }
 
-    public virtual void AddFollower(User userFollows)
+    public virtual void AddFollower(User follower)
     {
-        Followers.Add(userFollows);
+        Followers.Add(new FollowerInfo {Follower = follower, User = this});
         Sl.R<UserRepo>().Flush();
-        UserActivityAdd.FollowedUser(userFollows, this);
-        UserActivityUpdate.NewFollower(userFollows, this);
+        UserActivityAdd.FollowedUser(follower, this);
+        UserActivityUpdate.NewFollower(follower, this);
     }
     public virtual IList<int> FollowerIds(){
         return Followers.Select(f => f.Id).ToList();
@@ -54,8 +54,8 @@ public class User : DomainEntity
     public User()
     {
         MembershipPeriods = new List<Membership>();
-        Followers = new List<User>();
-        Following = new List<User>();
+        Followers = new List<FollowerInfo>();
+        Following = new List<FollowerInfo>();
     }
 
     public virtual bool IsMember()
