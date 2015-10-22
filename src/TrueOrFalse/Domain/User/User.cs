@@ -33,7 +33,7 @@ public class User : DomainEntity
 
     public virtual void AddFollower(User follower)
     {
-        Followers.Add(new FollowerInfo {Follower = follower, User = this});
+        Followers.Add(new FollowerInfo {Follower = follower, User = this, DateCreated = DateTime.Now, DateModified = DateTime.Now});
         Sl.R<UserRepo>().Flush();
         UserActivityAdd.FollowedUser(follower, this);
         UserActivityUpdate.NewFollower(follower, this);
