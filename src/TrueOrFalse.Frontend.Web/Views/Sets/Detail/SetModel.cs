@@ -50,7 +50,7 @@ public class SetModel : BaseModel
         Creator = set.Creator;
         CreatorName = set.Creator.Name;
         CreationDate = set.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
-        CreationDateNiceText = TimeElapsedAsText.Run(set.DateCreated);
+        CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(set.DateCreated);
 
         var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);

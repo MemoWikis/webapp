@@ -27,7 +27,7 @@ public class CommentModel : BaseModel
         Creator = comment.Creator;
         CreatorName = comment.Creator.Name;
         CreationDate = comment.DateCreated.ToString("U");
-        CreationDateNiceText = TimeElapsedAsText.Run(comment.DateCreated);
+        CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(comment.DateCreated);
         ImageUrl = new UserImageSettings(comment.Creator.Id).GetUrl_128px_square(comment.Creator.EmailAddress).Url;
         Text = comment.Text;
 

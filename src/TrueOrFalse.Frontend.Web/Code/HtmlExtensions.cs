@@ -12,11 +12,4 @@ public static class HtmlExtensions
     {
         return show ? text : "";
     }
-
-    public static string Plural(this HtmlHelper helper, int amount, string pluralSuffix, string singularSuffix = "", string zeroSuffix = "")
-    {
-        if (amount > 1)
-            return pluralSuffix;
-        return amount == 0 ? zeroSuffix : singularSuffix;
-    }
 }

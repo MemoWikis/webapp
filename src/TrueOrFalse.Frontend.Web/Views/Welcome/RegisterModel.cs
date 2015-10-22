@@ -21,6 +21,7 @@ public class RegisterModel : BaseModel
 
     public string Password { get; set; }
 
-    //[DisplayName("Bitte bestätige unsere AGBs.")]
-    //public bool TermsAndConditionsApproved { get; set; }
+    [Range(typeof(bool), "true", "true", ErrorMessage = "Du musst unsere Nutzungsbedingungen (AGBs) akzeptieren.")]
+    [DisplayName("Bitte bestätige unsere AGBs.")]
+    public bool TermsAndConditionsApproved { get; set; }
 }

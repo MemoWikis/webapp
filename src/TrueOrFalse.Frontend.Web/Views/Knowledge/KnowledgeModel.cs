@@ -83,28 +83,4 @@ public class KnowledgeModel : BaseModel
         NetworkActivities = R<UserActivityRepo>().GetByUser(User, 8);
 
     }
-
-    private static string Plural(int amount, string pluralSuffix, string singularSuffix = "", string zeroSuffix = "")
-    {
-        if (amount > 1)
-            return pluralSuffix;
-        return amount == 0 ? zeroSuffix : singularSuffix;
-        //todo: Ask Robert, why I cannot use HtmlExtensions.Plural here (because it's for Views... -> well, then why implemented in such a way?)
-        //todo: Anyway: Move this function to some more accessible place.
-    }
-
-    public string ConvertTime(DateTime dateTime)
-    {
-        //todo: Ask Robert if implementating method here okay... -> should go somewhere widely accessible as static method, but where?
-        var remaining = DateTime.Now - dateTime;
-        var daysAgo = Math.Abs(Convert.ToInt32(remaining.TotalDays));
-        var hoursAgo = Math.Abs(Convert.ToInt32(remaining.TotalHours));
-        var minutesAgo = Math.Abs(Convert.ToInt32(remaining.TotalMinutes));
-
-        if (daysAgo == 0 && hoursAgo == 0)
-            return "Vor " + minutesAgo + " Minute" + Plural(minutesAgo, "n","","n");
-        if (daysAgo == 0)
-            return "Vor " + hoursAgo + " Stunde" + Plural(hoursAgo, "n");
-        return "Vor " + daysAgo + "Tag" + Plural(daysAgo, "en");
-    }
 }
