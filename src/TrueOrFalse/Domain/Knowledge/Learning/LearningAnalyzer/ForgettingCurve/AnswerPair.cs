@@ -14,7 +14,9 @@ public class AnswerPair
 
     public AnswerPair(List<AnswerHistory> answerHistoryRow)
     {
-        if (answerHistoryRow.Count <= 1) return;
+        if (answerHistoryRow.Count <= 1)
+            return;
+
         AnswerHistoryRow = answerHistoryRow;
         NextAnswer = answerHistoryRow[answerHistoryRow.Count - 1];
         ExaminedAnswer = answerHistoryRow[answerHistoryRow.Count - 2];
