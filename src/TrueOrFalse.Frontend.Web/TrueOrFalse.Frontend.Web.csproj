@@ -415,6 +415,9 @@
     </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
+    <Content Include="Views\AlgoInsight\TabForgettingCurve_.js">
+      <DependentUpon>TabForgettingCurve_.ts</DependentUpon>
+    </Content>
     <Content Include="Views\AlgoInsight\TabVarious.ascx" />
     <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
     <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
@@ -456,6 +459,8 @@
     <TypeScriptCompile Include="Scripts\hubs\GameHubEvents.ts" />
     <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
+    <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
@@ -1847,6 +1852,9 @@
     </Content>
     <Content Include="Views\Users\Detail\User.css.map">
       <DependentUpon>User.css</DependentUpon>
+    </Content>
+    <Content Include="Views\AlgoInsight\TabForgettingCurve_.js.map">
+      <DependentUpon>TabForgettingCurve_.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
