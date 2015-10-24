@@ -4,7 +4,7 @@ using System.Linq;
 
 public class Intervalizer
 {
-    public static IntervalizerResult Run(List<AnswerPair> examinedAnswerObjects, TimeSpan intervalLength)
+    public static ForgettingCurve Run(List<AnswerPair> examinedAnswerObjects, TimeSpan intervalLength)
     {
         var listOfIntervals = new List<IntervalizerResultItem>();
         if (examinedAnswerObjects.Any())
@@ -22,6 +22,6 @@ public class Intervalizer
             });
         }
 
-        return new IntervalizerResult(listOfIntervals);
+        return new ForgettingCurve(listOfIntervals);
     }
 }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class PrepareForgettingCurveData
+public class ForgettingCurveLoader
 {
-    public static IntervalizerResult Run(List<AnswerHistory> answerHistories, TimeSpan intervalLength)
+    public static ForgettingCurve Get(List<AnswerHistory> answerHistories, TimeSpan intervalLength)
     {
-        var answerHistoryPairs = GetAnswerHistoryPairs.Run(answerHistories);
+        var answerHistoryPairs = AnswerPairFromHistoryRows.Get(answerHistories);
         var listOfExaminedAnswerObjects = answerHistoryPairs.OrderBy(x => x.TimePassedInSeconds).ToList();
         return Intervalizer.Run(listOfExaminedAnswerObjects, intervalLength);
     }

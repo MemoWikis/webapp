@@ -28,7 +28,7 @@ public class AnswerHistoryIntervals_test
 		    new AnswerHistory {UserId = 3, QuestionId = 2, DateCreated = new DateTime(2015, 10, 18, 12, 00, 00)},
 		};
         //ACT
-        var answerRows = GetAnswerHistoryPairs.Run(listOfAnswerHistories);
+        var answerRows = AnswerPairFromHistoryRows.Get(listOfAnswerHistories);
         var intervals1 = Intervalizer.Run(answerRows, new TimeSpan(1, 0, 0, 0));
         var intervals2 = Intervalizer.Run(new List<AnswerPair>(), new TimeSpan(1, 0, 0, 0));
 
