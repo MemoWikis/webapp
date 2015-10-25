@@ -29,10 +29,15 @@ public class AnswerHistoryIntervals_test
 		};
         //ACT
         var answerRows = AnswerPairFromHistoryRows.Get(listOfAnswerHistories);
-        var intervals1 = Intervalizer.Run(answerRows, new TimeSpan(1, 0, 0, 0));
-        var intervals2 = Intervalizer.Run(new List<AnswerPair>(), new TimeSpan(1, 0, 0, 0));
+        var forgettingCurve1 = Intervalizer.Run(answerRows, new TimeSpan(1, 0, 0, 0));
+        var forgettingCurve2 = Intervalizer.Run(new List<AnswerPair>(), new TimeSpan(1, 0, 0, 0));
 
         //ASSERT
+        Assert.That(forgettingCurve1.TotalIntervals, Is.EqualTo(7));
+        Assert.That(forgettingCurve1.TotalPairs, Is.EqualTo(8));
+        Assert.That(forgettingCurve1.TimeSpanLength.Days, Is.EqualTo(1));
+
+        Assert.That(forgettingCurve2.TotalIntervals, Is.EqualTo(0));
 
     }
 }
