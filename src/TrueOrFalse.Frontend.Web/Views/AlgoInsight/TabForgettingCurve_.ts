@@ -5,33 +5,16 @@ google.load("visualization", "1", { packages: ["corechart"] });
 class ForgettingCurves {
 
     constructor() {
-        this.DrawExplore();    
+        $.post("/AlgoInsight/ForgettingCurvesJson",
+            {a: "b"},
+            (result) => { this.DrawExplore(result.Data); }); 
+
         this.DrawSuggested1And2();
     }
 
-    DrawExplore() {
+    DrawExplore(jsonData) {
 
-        var d2 = {
-            cols:
-            [
-                { id: 'X', label: 'NEW A', type: 'number' },
-                { id: 'Leichte', label: 'Blau', type: 'number' },
-                { id: 'Schwer', label: 'Schwer', type: 'number' },
-                { id: 'Mittel', label: 'Mittel', type: 'number' },
-                { id: 'Nobrainer', label: 'Nobrainer', type: 'number' },
-            ],
-            rows:
-            [
-                { c: [{ v: '1' }, { v: '10' }, { v: '10' }, { v: '10' }, { v: '10' }]},
-                { c: [{ v: '2' }, { v: '10' }, { v: '9' }, { v: '8' }, { v: '7' }] },
-                { c: [{ v: '3' }, { v: '10' }, { v: '8' }, { v: '6' }, { v: '4' }] },
-                { c: [{ v: '4' }, { v: '10' }, { v: '7' }, { v: '6' }, { v: '3' }] },
-                { c: [{ v: '5' }, { v: '10' }, { v: '6' }, { v: '6' }, { v: '3' }] },
-                { c: [{ v: '6' }, { v: '1' }, { v: '5' }, { v: '6' }, { v: '3' }] },
-            ]
-        }
-
-        var dt = new google.visualization.DataTable(d2);
+        var dt = new google.visualization.DataTable(jsonData);
 
         var options = this.GetOptions();
         options.legend.position = 'bottom';

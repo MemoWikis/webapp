@@ -9,7 +9,6 @@ public class AnswerHistoryIntervals_test
     public void Should_get_intervals()
     {
         //ARRANGE
-
         var listOfAnswerHistories = new List<AnswerHistory> { 
 		    new AnswerHistory {UserId = 1, QuestionId = 1, DateCreated = new DateTime(2015, 10, 8, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
 		    new AnswerHistory {UserId = 1, QuestionId = 1, DateCreated = new DateTime(2015, 10, 3, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
@@ -30,15 +29,18 @@ public class AnswerHistoryIntervals_test
         //ACT
         var answerRows = AnswerPairFromHistoryRows.Get(listOfAnswerHistories);
         var forgettingCurve1 = Intervalizer.Run(answerRows, new TimeSpan(1, 0, 0, 0));
-        var forgettingCurve2 = Intervalizer.Run(new List<AnswerPair>(), new TimeSpan(1, 0, 0, 0));
+        var forgettingCurve_noPairs = Intervalizer.Run(new List<AnswerPair>(), new TimeSpan(1, 0, 0, 0));
+        var forgettingCurve_cappedIntervals = Intervalizer.Run(answerRows, new TimeSpan(1, 0, 0, 0), maxIntervalCount:5);
 
         //ASSERT
         Assert.That(forgettingCurve1.TotalIntervals, Is.EqualTo(7));
         Assert.That(forgettingCurve1.TotalPairs, Is.EqualTo(8));
         Assert.That(forgettingCurve1.TimeSpanLength.Days, Is.EqualTo(1));
 
-        Assert.That(forgettingCurve2.TotalIntervals, Is.EqualTo(0));
+        Assert.That(forgettingCurve_noPairs.TotalIntervals, Is.EqualTo(0));
 
+        Assert.That(forgettingCurve_cappedIntervals.TotalIntervals, Is.EqualTo(5));
+        Assert.That(forgettingCurve1.TotalPairs, Is.EqualTo(8));
     }
 }
 

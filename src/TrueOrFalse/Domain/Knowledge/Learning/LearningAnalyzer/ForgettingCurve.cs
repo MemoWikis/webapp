@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-[DebuggerDisplay("Intervals {Intervals.Count}")]
+[DebuggerDisplay("Intervals {Intervals.Count} TimeSpanLength {TimeSpanLength}")]
 public class ForgettingCurve
 {
     public int TotalPairs;
