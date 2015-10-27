@@ -8,9 +8,9 @@ public class ForgettingCurveJson
         return new {};
     }
 
-    public static object GetSampleAll()
+    public static object GetSampleAll(ForgettingCurveInterval interval)
     {
-        var forgettingCurve = ForgettingCurveLoader.GetForAll(ForgettingCurveInterval.Week, 200);
+        var forgettingCurve = ForgettingCurveLoader.GetForAll(interval, 300);
 
         return new
         {
@@ -23,7 +23,7 @@ public class ForgettingCurveJson
                 },
                 rows = forgettingCurve.Intervals.Where(x => x.NumberOfPairs > 5).Select(x =>
                 {
-                    var week = Math.Round(x.TimePassedUpperBound.TotalDays / 7, 0);
+                    var numberOfInterval = x.NumberOfInterval(interval);
                     var percentage = Math.Round(x.ProportionAnsweredCorrect*100, 0);
 
                     return new
@@ -32,8 +32,8 @@ public class ForgettingCurveJson
                         {
                             new
                             {
-                                v = week,
-                                f = "Woche: " + week.ToString() + ""
+                                v = numberOfInterval,
+                                f = interval.InGerman() + ": " + numberOfInterval.ToString() + ""
                             },
                             new
                             {

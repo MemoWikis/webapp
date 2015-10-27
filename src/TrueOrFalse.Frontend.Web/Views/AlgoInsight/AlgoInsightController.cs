@@ -16,10 +16,14 @@ public class AlgoInsightController : BaseController
         return View(_viewName, new AlgoInsightModel{IsActiveTabForgettingCurve = true});
     }
 
+
+    public class CurveJsonCmd {public string Interval { get; set; } }
+
     [HttpPost]
-    public JsonResult ForgettingCurvesJson()
+    public JsonResult ForgettingCurvesJson(CurveJsonCmd curveJsonCmd)
     {
-        return Json(ForgettingCurveJson.GetSampleAll());
+        var interval = curveJsonCmd.Interval.ToForgettingCurveInterval();
+        return Json(ForgettingCurveJson.GetSampleAll(interval));
     }
 
     public ActionResult Repetition()

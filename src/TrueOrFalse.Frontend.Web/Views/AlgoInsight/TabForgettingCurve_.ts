@@ -5,11 +5,17 @@ google.load("visualization", "1", { packages: ["corechart"] });
 class ForgettingCurves {
 
     constructor() {
-        $.post("/AlgoInsight/ForgettingCurvesJson",
-            {a: "b"},
-            (result) => {window.console.log(result); this.DrawExplore(result.Data); }); 
 
+        $("#ddlInterval").change((e) => { this.LoadExploreGraph(); });
+
+        this.LoadExploreGraph();
         this.DrawSuggested1And2();
+    }
+
+    LoadExploreGraph() {
+        $.post("/AlgoInsight/ForgettingCurvesJson",
+            { Interval : $("#ddlInterval option:selected").val() },
+            (result) => { window.console.log(result); this.DrawExplore(result.Data); });
     }
 
     DrawExplore(jsonData) {

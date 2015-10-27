@@ -29,7 +29,26 @@ public static class ForgettingCurveIntervalExt
             case ForgettingCurveInterval.Hours: return new TimeSpan(1, 0, 0);
             case ForgettingCurveInterval.Days: return new TimeSpan(1, 0, 0, 0);
             case ForgettingCurveInterval.Week: return new TimeSpan(7, 0, 0, 0);
-            case ForgettingCurveInterval.Month: return new TimeSpan(30, 0, 0);
+            case ForgettingCurveInterval.Month: return new TimeSpan(30, 0, 0, 0);
+        }
+
+        throw new Exception("not implemented interval");
+    }
+
+    public static ForgettingCurveInterval ToForgettingCurveInterval(this String interval)
+    {
+        return (ForgettingCurveInterval)Enum.Parse(typeof (ForgettingCurveInterval), interval);
+    }
+
+    public static string InGerman(this ForgettingCurveInterval interval)
+    {
+        switch (interval)
+        {
+            case ForgettingCurveInterval.Minutes: return "Minute";
+            case ForgettingCurveInterval.Hours: return "Stunde";
+            case ForgettingCurveInterval.Days: return "Tag";
+            case ForgettingCurveInterval.Week: return "Woche";
+            case ForgettingCurveInterval.Month: return "Monate";
         }
 
         throw new Exception("not implemented interval");

@@ -16,12 +16,13 @@
                 Intervall:
             </div>
             <div class="col-md-8" style="padding-left: 0px;">
-                <select>
-                    <option>Minuten</option>
-                    <option>Stunden</option>
-                    <option>Tage</option>
-                    <option>Wochen</option>
-                    <option>Logarithmisch</option>
+                <select id="ddlInterval">
+                    <option value="Minutes">Minuten</option>
+                    <option value="Hours">Stunden</option>
+                    <option value="Days">Tage</option>
+                    <option value="Week">Wochen</option>
+                    <option value="Month">Monate</option>
+                    <option value="Logarithmic" disabled="disabled">Logarithmisch</option>
                 </select>
             </div>
         </div>
