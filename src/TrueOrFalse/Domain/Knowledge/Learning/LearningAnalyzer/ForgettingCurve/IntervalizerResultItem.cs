@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
+[DebuggerDisplay("NumberOfPairs: {NumberOfPairs}, Length: {TimeIntervalLength}")]
 public class IntervalizerResultItem
 {
     public TimeSpan TimeIntervalLength;

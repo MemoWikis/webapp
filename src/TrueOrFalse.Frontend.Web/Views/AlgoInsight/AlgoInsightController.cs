@@ -16,6 +16,12 @@ public class AlgoInsightController : BaseController
         return View(_viewName, new AlgoInsightModel{IsActiveTabForgettingCurve = true});
     }
 
+    [HttpPost]
+    public JsonResult ForgettingCurvesJson()
+    {
+        return Json(ForgettingCurveJson.GetSampleAll());
+    }
+
     public ActionResult Repetition()
     {
         return View(_viewName, new AlgoInsightModel{IsActiveTabRepetition = true});
