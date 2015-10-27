@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate.Util;
 
 public class Intervalizer
 {
-    public static ForgettingCurve Run(List<AnswerPair> answerPairs, TimeSpan intervalLength, int maxIntervalCount = 30)
+    public static ForgettingCurve Run(IList<AnswerPair> answerPairs, TimeSpan intervalLength, int maxIntervalCount = 30)
     {
         var listOfIntervals = new List<IntervalizerResultItem>();
         if (!answerPairs.Any())
@@ -20,7 +21,7 @@ public class Intervalizer
         answerPairs.ForEach(x =>
         {
             var intervalIndex = (int)Math.Floor(x.TimePassedInSeconds / intervalLength.TotalSeconds);
-            intervalIndex = intervalIndex > numberOfIntervals ? numberOfIntervals - 1 : intervalIndex;
+            intervalIndex = intervalIndex >= numberOfIntervals ? numberOfIntervals - 1 : intervalIndex;
 
             listOfIntervals[intervalIndex].AddPair(x.ExaminedAnswer, x.NextAnswer);
         });

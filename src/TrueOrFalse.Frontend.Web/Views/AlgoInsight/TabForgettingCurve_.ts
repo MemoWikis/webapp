@@ -7,7 +7,7 @@ class ForgettingCurves {
     constructor() {
         $.post("/AlgoInsight/ForgettingCurvesJson",
             {a: "b"},
-            (result) => { this.DrawExplore(result.Data); }); 
+            (result) => {window.console.log(result); this.DrawExplore(result.Data); }); 
 
         this.DrawSuggested1And2();
     }
@@ -19,7 +19,7 @@ class ForgettingCurves {
         var options = this.GetOptions();
         options.legend.position = 'bottom';
         options.chartArea.width = '90%';
-        options.chartArea.height = '90%';
+        options.chartArea.height = '80%';
         options.chartArea.left = "30";
         options.chartArea.top = "10";
 
@@ -40,8 +40,8 @@ class ForgettingCurves {
 
     GetOptions(): google.visualization.ScatterChartOptions {
         return {
-            hAxis: { minValue: 0, maxValue: 10 },
-            vAxis: { minValue: 0, maxValue: 10 },
+            hAxis: { minValue: 0},
+            vAxis: { minValue: 0, maxValue: 100 },
             chartArea: { width: '90%' },
             legend: { position: 'top' },
             trendlines: {

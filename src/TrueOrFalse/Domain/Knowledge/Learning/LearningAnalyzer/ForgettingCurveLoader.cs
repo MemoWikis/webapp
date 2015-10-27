@@ -4,7 +4,12 @@ using System.Linq;
 
 public class ForgettingCurveLoader
 {
-    public static ForgettingCurve Get(List<AnswerHistory> answerHistories, ForgettingCurveInterval interval)
+    public static ForgettingCurve GetForAll(ForgettingCurveInterval interval, int maxIntervalCount = 50)
+    {
+        return Get(Sl.R<AnswerHistoryRepo>().GetAll(), interval, maxIntervalCount);
+    }
+
+    public static ForgettingCurve Get(IList<AnswerHistory> answerHistories, ForgettingCurveInterval interval, int maxIntervalCount = 30)
     {
         var answerHistoryPairs = AnswerPairFromHistoryRows.Get(answerHistories);
         var listOfExaminedAnswerObjects = answerHistoryPairs.OrderBy(x => x.TimePassedInSeconds).ToList();
@@ -12,7 +17,7 @@ public class ForgettingCurveLoader
     }
 }
 
-public enum ForgettingCurveInterval{Minutes, Hours, Days, Week, Month, Logarithmic}
+public enum ForgettingCurveInterval{Minutes, Hours, Days, Week, Month, /*Logarithmic*/}
 
 public static class ForgettingCurveIntervalExt
 {

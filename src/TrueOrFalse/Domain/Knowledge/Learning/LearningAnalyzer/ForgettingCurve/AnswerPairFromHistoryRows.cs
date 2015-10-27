@@ -7,13 +7,13 @@ public class AnswerPairFromHistoryRows
     /// Returns a list of pairs, one foreach user and question.
     /// </summary>
     /// <param name="listOfAnswerHistories"></param>
-    public static List<AnswerPair> Get(List<AnswerHistory> listOfAnswerHistories)
+    public static IList<AnswerPair> Get(IList<AnswerHistory> listOfAnswerHistories)
     {
         var completeRows = GetGroupedByUserAndQuestionId(listOfAnswerHistories);
         return GetPairs(completeRows);
     }
 
-    private static List<List<AnswerHistory>> GetGroupedByUserAndQuestionId(List<AnswerHistory> listOfAnswerHistories)
+    private static IList<List<AnswerHistory>> GetGroupedByUserAndQuestionId(IList<AnswerHistory> listOfAnswerHistories)
     {
         var lists = new List<List<AnswerHistory>>();
         listOfAnswerHistories
@@ -29,7 +29,7 @@ public class AnswerPairFromHistoryRows
         return lists;
     }
 
-    private static List<AnswerPair> GetPairs(List<List<AnswerHistory>> completeAnswerRows)
+    private static IList<AnswerPair> GetPairs(IList<List<AnswerHistory>> completeAnswerRows)
     {
         var answerPairs = new List<AnswerPair>();
         completeAnswerRows.Where(r => r.Count > 1).ToList()

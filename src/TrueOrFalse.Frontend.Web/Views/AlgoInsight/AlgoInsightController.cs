@@ -19,7 +19,7 @@ public class AlgoInsightController : BaseController
     [HttpPost]
     public JsonResult ForgettingCurvesJson()
     {
-        return Json(ForgettingCurveJson.GetSample());
+        return Json(ForgettingCurveJson.GetSampleAll());
     }
 
     public ActionResult Repetition()
