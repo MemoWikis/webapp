@@ -36,6 +36,14 @@ public class AnswerHistoryRepo : RepositoryDb<AnswerHistory>
                         .List<AnswerHistory>();
     }
 
+    public IList<AnswerHistory> GetByFeature(AnswerFeature answerFeature)
+    {
+        return Session.QueryOver<AnswerHistory>()
+            .JoinQueryOver<AnswerFeature>(x => x.Features)
+            .Where(x => x.Id == answerFeature.Id)
+            .List<AnswerHistory>();
+    }
+
     public IList<AnswerHistory> GetByCategories(int categoryId)
     {
         string query = @"

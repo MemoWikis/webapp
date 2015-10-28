@@ -27,6 +27,8 @@
             </div>
         </div>
         
+        <% var allFeatures = Sl.R<AnswerFeatureRepo>().GetAll(); %>
+        
         <% for(var i = 0; i < 4; i++)
             {
                 var colors = new[]
@@ -50,9 +52,10 @@
                 <div class="col-md-4" style="text-align: right">Feature:</div>
                 <div class="col-md-8" style="padding-left: 0px;">
                     <select style="width: 100%">
-                        <option>Wiederholungen 1</option>
-                        <option>Wiederholungen 2</option>
-                        <option>Wiederholungen 3</option>
+                        <option value="all">Alle</option>
+                        <% foreach(var feature in allFeatures) { %>
+                            <option value="<%= feature.Id %>"><%= feature.Name %></option>
+                        <% } %>
                     </select>
                 </div>
             </div>

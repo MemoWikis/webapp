@@ -284,7 +284,7 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\IAnswerPattern.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\MaxStreak.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\XDaysExactly.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurveJson\CurveJsonConfig.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurveJson\CurveDesc.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurveJson\ForgettingCurveJsonLoader.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\AnswerPair.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\Intervalizer.cs" />

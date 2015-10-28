@@ -19,7 +19,7 @@ public class AnswerHistory : IPersistable, WithDateCreated
     public virtual int Milliseconds { get; set; }
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual IList<AnswerFeature> AnswerFeatures { get; set; }
+    public virtual IList<AnswerFeature> Features { get; set; }
 
     public virtual Question GetQuestion()
     {

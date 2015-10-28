@@ -9,11 +9,16 @@ public class ForgettingCurveLoader
         return Get(Sl.R<AnswerHistoryRepo>().GetAll(), interval, maxIntervalCount);
     }
 
+    public static ForgettingCurve GetForFeature(AnswerFeature answerFeature, ForgettingCurveInterval interval, int maxIntervalCount = 50)
+    {
+        return Get(Sl.R<AnswerHistoryRepo>().GetByFeature(answerFeature), interval, maxIntervalCount);
+    }
+
     public static ForgettingCurve Get(IList<AnswerHistory> answerHistories, ForgettingCurveInterval interval, int maxIntervalCount = 30)
     {
         var answerHistoryPairs = AnswerPairFromHistoryRows.Get(answerHistories);
         var listOfExaminedAnswerObjects = answerHistoryPairs.OrderBy(x => x.TimePassedInSeconds).ToList();
-        return Intervalizer.Run(listOfExaminedAnswerObjects, interval.ToTimespan());
+        return Intervalizer.Run(listOfExaminedAnswerObjects, interval.ToTimespan(), maxIntervalCount);
     }
 }
 

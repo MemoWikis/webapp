@@ -15,7 +15,7 @@ public class AnswerHistoryMap : ClassMap<AnswerHistory>
         References(x => x.Player).Cascade.None();
         References(x => x.LearningSessionStep).Cascade.None().Unique();
 
-        HasManyToMany(x => x.AnswerFeatures).
+        HasManyToMany(x => x.Features).
             Table("answerFeature_to_answerHistory");
 
         Map(x => x.Milliseconds);
