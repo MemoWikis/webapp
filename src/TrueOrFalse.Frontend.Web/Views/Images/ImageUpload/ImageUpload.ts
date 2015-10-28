@@ -24,7 +24,7 @@ class WikimediaPreview
         var self = this;
 
         $.ajax({
-            type: 'POST', true: false, cache: false,
+            type: 'POST', cache: false,
             url: "/ImageUpload/FromWikimedia/",
             data: "url=" + url,
             error: function (error) { window.console.log(error); window.alert("Ein Fehler ist aufgetreten."); },

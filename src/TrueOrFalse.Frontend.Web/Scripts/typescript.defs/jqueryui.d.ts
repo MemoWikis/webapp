@@ -51,6 +51,11 @@ declare module JQueryUI {
         minLength?: number;
         position?: string;
         source?: any; // [], string or ()
+        select?: any;
+        focus: any;
+        _renderItem: any;
+        open: any;
+        close: any;
     }
 
     interface AutocompleteUIParams {
@@ -72,7 +77,7 @@ declare module JQueryUI {
         select?: AutocompleteEvent;
     }
 
-    interface Autocomplete extends Widget, AutocompleteOptions, AutocompleteEvents {
+    interface Autocomplete extends Widget, AutocompleteOptions {
         escapeRegex: (value: string) => string;
     }
 
@@ -435,8 +440,10 @@ declare module JQueryUI {
         orientation?: string;
         range?: any; // boolean or string
         step?: number;
-        // value?: number;
-        // values?: number[];
+        value?: number;
+        values?: number[];
+        slide?: any;
+        change?: any;
     }
 
     interface SliderUIParams {
@@ -454,7 +461,7 @@ declare module JQueryUI {
         stop?: SliderEvent;
     }
 
-    interface Slider extends Widget, SliderOptions, SliderEvents {
+    interface Slider extends Widget, SliderOptions {
     }
 
 
@@ -485,6 +492,7 @@ declare module JQueryUI {
         scrollSpeed?: number;
         tolerance?: string;
         zIndex?: number;
+        stop : any;
     }
 
     interface SortableUIParams {
@@ -516,7 +524,7 @@ declare module JQueryUI {
         update?: SortableEvent;
     }
 
-    interface Sortable extends Widget, SortableOptions, SortableEvents {
+    interface Sortable extends Widget, SortableOptions {
     }
 
 
@@ -793,6 +801,7 @@ interface JQuery {
     accordion(optionLiteral: string, optionName: string, optionValue: any): JQuery;
 
     autocomplete(): JQuery;
+    autocomplete(any: any): JQuery;
     autocomplete(methodName: 'close'): void;
     autocomplete(methodName: 'destroy'): void;
     autocomplete(methodName: 'disable'): void;
@@ -948,12 +957,12 @@ interface JQuery {
     slider(methodName: 'refresh'): void;
     slider(methodName: 'value'): number;
     slider(methodName: 'value', value: number): void;
-    slider(methodName: 'values'): Array<number>;
+    slider(methodName: 'values'): any;
     slider(methodName: 'values', index: number): number;
     slider(methodName: string, index: number, value: number): void;
     slider(methodName: 'values', index: number, value: number): void;
-    slider(methodName: string, values: Array<number>): void;
-    slider(methodName: 'values', values: Array<number>): void;
+    slider(methodName: string, values: any): void;
+    slider(methodName: 'values', values: any);
     slider(methodName: 'widget'): JQuery;
     slider(methodName: string): JQuery;
     slider(options: JQueryUI.SliderOptions): JQuery;

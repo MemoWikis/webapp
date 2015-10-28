@@ -30,7 +30,7 @@
         countDowns.each(function () {
             var $this = $(this), finalDate = $(this).data('countdown-game');
 
-            $this.countdown(finalDate, event => {
+            $this.countdown(<any>finalDate, event => {
 
                 var dateStartMinus60Secs = new Date(event.finalDate);
                 dateStartMinus60Secs.setSeconds(event.finalDate.getSeconds() - 60);
@@ -47,7 +47,7 @@
                 if (currentTime > event.finalDate) {
                     $(event.target).parent().hide();
                 } else if (currentTime > dateStartMinus10Secs) {
-                    var url = $(event.target).data("game-url");
+                    var url = <any>$(event.target).data("game-url");
                     if (!window.location.href.match(new RegExp(url + "$", 'g')))
                         window.location.href = url;
                 } else if (currentTime > dateStartMinus15Secs) {

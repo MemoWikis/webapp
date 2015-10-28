@@ -56,7 +56,7 @@ class AutocompleteSets {
             },
         });
 
-        autocomplete.data("ui-autocomplete")._renderItem = function (ul, item: SetItem): any {
+        autocomplete.data("ui-autocomplete")._renderItem = <any>function (ul, item: SetItem): any {
 
             var html = "";
 

@@ -18,6 +18,9 @@ interface JQuery {
     countdown(finalDate: Date, callback: Function);
     countdown(finalDate: string, callback: Function);
     countdown(action: string);
+
+    _renderItem(p1: any);
+    _resizeMenu(p1: any);
 }
 
 interface SignalR {

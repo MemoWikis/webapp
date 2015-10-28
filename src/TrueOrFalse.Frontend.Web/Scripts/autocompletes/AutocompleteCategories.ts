@@ -95,8 +95,8 @@ class AutocompleteCategories {
             var catIdx = nextCatIdx.toString();
             nextCatIdx++;
             var catText = $(inputSelector).val();
-            var catId = $(inputSelector).data('category-id');
-            var referenceType = $(inputSelector).data('referenceType');
+            var catId = +$(inputSelector).data('category-id');
+            var referenceType = <any>$(inputSelector).data('referenceType');
 
             self._referenceId = referenceId;
             self._catId = catId;
@@ -247,7 +247,7 @@ class AutocompleteCategories {
             }
         });
 
-        autocomplete.data("ui-autocomplete")._renderItem = function (ul, item: CategoryItem): any {
+        autocomplete.data("ui-autocomplete")._renderItem = <any>function (ul, item: CategoryItem): any {
 
             if (isCategoryEdit && categoryName == item.name)
                 return "";

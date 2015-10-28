@@ -95,7 +95,7 @@
             answerRow.remove();
 
             btnSaveAnswer.click(function(e) {
-                self.SaveAnswer(e, parentContainer, html, buttonElem.data("comment-id"), answerRow);
+                self.SaveAnswer(e, parentContainer, html, <any>buttonElem.data("comment-id"), answerRow);
             });
             parentContainer.append(html);
 

@@ -15,8 +15,8 @@ declare module google {
         export interface ChartSpecs {
             chartType: string;
             containerId?: string;
-            options?: Object;
-            dataTable?: Object;
+            options?: any;
+            dataTable?: any;
             dataSourceUrl?: string;
             query?: string;
             refreshInterval?: number;
@@ -35,7 +35,7 @@ declare module google {
         // https://developers.google.com/chart/interactive/docs/reference#chartwrapperobject
         export class ChartWrapper {
             constructor(spec?: ChartSpecs);
-            draw(container_ref?: HTMLElement): void;
+            draw(container_ref?: any): void;
             toJSON(): string;
             clone():ChartWrapper;
             getDataSourceUrl(): string;
@@ -47,7 +47,7 @@ declare module google {
             getQuery(): string;
             getRefreshInterval(): number;
             getOption(key: string, default_val?: string): any;
-            getOptions(): Object;
+            getOptions(): any;
             getView(): any;
             setDataSourceUrl(url: string): void;
             setDataTable(table: DataTable): void;
@@ -57,7 +57,7 @@ declare module google {
             setQuery(query: string): void;
             setRefreshInterval(interval: number): void;
             setOption(key: string, value: any): void;
-            setOptions(options: Object): void;
+            setOptions(options: any): void;
             setView(view_spec: string): void;
         }
 
@@ -500,6 +500,7 @@ declare module google {
             tooltip?: ChartTooltip;
             vAxis?: ChartAxis;
             width?: number;
+            trendlines?: any;
         }
 
         //#endregion
@@ -730,8 +731,8 @@ declare module google {
 		{
 			draw(data: DataTable, options: AnnotationChartOptions): void;
 			draw(data: DataView, options: AnnotationChartOptions): void;
-			setVisibleChartRange(start: Date, end: Date): void;
-			getVisibleChartRange(): {start: Date; end: Date };
+			setVisibleChartRange(start: any, end: any): void;
+			getVisibleChartRange(): {start: any; end: any};
 			hideDataColumns(columnIndexes: number | number[]): void;
 			showDataColumns(columnIndexes: number | number[]): void;
 		}
@@ -761,8 +762,8 @@ declare module google {
 			scaleFormat?: string;
 			scaleType?: string;
 			thickness?: number;
-			zoomEndTime?: Date;
-			zoomStartTime?: Date;
+			zoomEndTime?: any;
+			zoomStartTime?: any;
 		}
 
         //#endregion
@@ -976,7 +977,7 @@ declare module google {
 
         // https://google-developers.appspot.com/chart/interactive/docs/gallery/timeline
         export class Timeline {
-            constructor(element: Element);
+            constructor(element: any);
             draw(data: DataTable, options?: TimelineOptions): void;
             draw(data: DataView, options?: TimelineOptions): void;
             clearChart(): void;

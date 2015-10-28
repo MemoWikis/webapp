@@ -148,7 +148,7 @@
     InitializeCountdown(selector: string) {
         $(selector).each(function () {
             var $this = $(this), finalDate = $(this).data('countdown');
-            $this.countdown(finalDate, event => {
+            $this.countdown(<any>finalDate, event => {
                 $this.html(event.strftime('%-Mm %Ss'));
             });
         });
