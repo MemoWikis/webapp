@@ -11,7 +11,7 @@ public class ForgettingCurveJson
         curvesJsonCmd.Curves.Add(new CurveDesc());
         curvesJsonCmd.Curves.ForEach(c => cols.Add(new { id = c.ColumnId, label = c.ColumnLabel, type = "number" }) );
 
-        var forgettingCurves = curvesJsonCmd.Curves.Select(x => x.LoadForgettingCurve(intervalType)).ToList();
+        var forgettingCurves = curvesJsonCmd.Curves.Select(x => x.LoadForgettingCurve(intervalType, curvesJsonCmd.IntervalCount)).ToList();
         var intervals = forgettingCurves.First().Intervals;
         var rows = intervals.Select((x, i) =>
         {
@@ -51,47 +51,7 @@ public class ForgettingCurveJson
         };
     }
 
-    public static object GetSampleAll(ForgettingCurveInterval interval)
-    {
-        var forgettingCurve = ForgettingCurveLoader.GetForAll(interval, 300);
-
-        return new
-        {
-            Data = new
-            {
-                cols = new[]
-                {
-                    new {id = "Time", label = "Time", type = "number"},
-                    new {id = "Alle", label = "Alle Fragen", type = "number"},
-                },
-                rows = forgettingCurve.Intervals.Where(x => x.NumberOfPairs > 5).Select(x =>
-                {
-                    var numberOfInterval = x.NumberOfInterval(interval);
-                    var percentage = Math.Round(x.ProportionAnsweredCorrect*100, 0);
-
-                    return new
-                    {
-                        c = new[]
-                        {
-                            new
-                            {
-                                v = numberOfInterval,
-                                f = interval.InGerman() + ": " + numberOfInterval.ToString() + ""
-                            },
-                            new
-                            {
-                                v = percentage,
-                                f = String.Format("Wahrscheinlichkeit: {0}%,  (Antworten: {1})", percentage, x.NumberOfPairs)
-                            },
-                        }
-                    };
-                }
-
-                ).ToArray()
-            }
-        };
-    }
-
+    /// <summary>exists only for reference</summary>
     public static object GetSample()
     {
         return new

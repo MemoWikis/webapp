@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class CurvesJsonCmd
 {
+    public int IntervalCount { get; set; }
     public string Interval { get; set; }
     public List<CurveDesc> Curves { get; set; }
 
@@ -49,8 +50,8 @@ public class CurveDesc
         }
     }
 
-    public ForgettingCurve LoadForgettingCurve(ForgettingCurveInterval interval)
+    public ForgettingCurve LoadForgettingCurve(ForgettingCurveInterval interval, int maxIntervalCount)
     {
-        return ForgettingCurveLoader.GetForAll(interval, 150);
+        return ForgettingCurveLoader.GetForAll(interval, maxIntervalCount);
     }
 }

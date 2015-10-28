@@ -11,22 +11,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        <div class="row" style="margin-bottom: 12px">
-            <div class="col-md-4">            
-                Intervall:
-            </div>
-            <div class="col-md-8" style="padding-left: 0px;">
-                <select id="ddlInterval">
-                    <option value="Minutes">Minuten</option>
-                    <option value="Hours">Stunden</option>
-                    <option value="Days">Tage</option>
-                    <option value="Week">Wochen</option>
-                    <option value="Month">Monate</option>
-                    <option value="Logarithmic" disabled="disabled">Logarithmisch</option>
-                </select>
-            </div>
-        </div>
-        
+                
         <% var allFeatures = Sl.R<AnswerFeatureRepo>().GetAll(); %>
         
         <% for(var i = 0; i < 4; i++)
@@ -73,7 +58,26 @@
         <% } %>
     </div>
     <div class="col-md-9" style="vertical-align: top; text-align: left;">
-        <div id="chartExplore" style="width: 100%; height: 350px; vertical-align: top"></div> 
+        <div id="chartExplore" style="width: 100%; height: 350px; vertical-align: top"></div>
+        
+        <div class="row" style="margin-bottom: 12px; padding-left: 20px;">
+            <div class="col-md-12">            
+                Intervall: &nbsp;
+                
+                <select id="ddlInterval">
+                    <option value="Minutes">Minuten</option>
+                    <option value="Hours">Stunden</option>
+                    <option value="Days">Tage</option>
+                    <option value="Week">Wochen</option>
+                    <option value="Month">Monate</option>
+                    <option value="Logarithmic" disabled="disabled">Logarithmisch</option>
+                </select>
+                &nbsp;
+                max: 
+                <input id="txtIntervalCount" type="text" value="50" style="width: 90px;" />
+            </div>
+        </div>
+
     </div>
 
     <div class="row" >

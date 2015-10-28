@@ -7,14 +7,30 @@ class ForgettingCurves {
     constructor() {
 
         $("#ddlInterval").change((e) => { this.LoadExploreGraph(); });
+        $("#txtIntervalCount").change((e) => {
+            if (!isInt($("#txtIntervalCount").val()))
+                $("#txtIntervalCount").val("30");
+
+            this.LoadExploreGraph();
+        });
 
         this.LoadExploreGraph();
         this.DrawSuggested1And2();
+
+        function isInt(value) {
+            if (isNaN(value)) {return false;}
+            var x = parseFloat(value);
+            return (x | 0) === x;
+        }
+
     }
 
     LoadExploreGraph() {
         $.post("/AlgoInsight/ForgettingCurvesJson",
-            { Interval : $("#ddlInterval option:selected").val() },
+            {
+                Interval: $("#ddlInterval option:selected").val(),
+                IntervalCount: $("#txtIntervalCount").val()
+            },
             (result) => { window.console.log(result); this.DrawExplore(result.Data); });
     }
 
