@@ -12,7 +12,7 @@
 <div class="row">
     <div class="col-md-3">
                 
-        <% var allFeatures = Sl.R<AnswerFeatureRepo>().GetAll(); %>
+        <% var allAnswerFeatures = Sl.R<AnswerFeatureRepo>().GetAll(); %>
         
         <% for(var i = 0; i < 4; i++)
             {
@@ -30,15 +30,15 @@
                     <b>Kurve <%= i %></b>
                     400P R0.71
                     
-                    <input type="checkbox" class="pull-right" checked="checked" style="padding-right: 3px; position: relative; top: 0px;"  />
+                    <input id="ckbShowCurve<%= i %>" type="checkbox" class="pull-right" checked="checked" style="padding-right: 3px; position: relative; top: 0px;"  />
                 </div>
             </div>
             <div class="row" style="padding: 3px; margin-top: 5px;">
                 <div class="col-md-4" style="text-align: right">Feature:</div>
                 <div class="col-md-8" style="padding-left: 0px;">
-                    <select style="width: 100%">
+                    <select style="width: 100%" id="ddlAnswerFeature<%= i %>">
                         <option value="all">Alle</option>
-                        <% foreach(var feature in allFeatures) { %>
+                        <% foreach(var feature in allAnswerFeatures) { %>
                             <option value="<%= feature.Id %>"><%= feature.Name %></option>
                         <% } %>
                     </select>

@@ -30,15 +30,15 @@ public class AnswerHistoryIntervals_test
         var answerRows = AnswerPairFromHistoryRows.Get(listOfAnswerHistories);
         var forgettingCurve1 = Intervalizer.Run(answerRows, new TimeSpan(1, 0, 0, 0));
         var forgettingCurve_noPairs = Intervalizer.Run(new List<AnswerPair>(), new TimeSpan(1, 0, 0, 0));
-        var forgettingCurve_cappedIntervals = Intervalizer.Run(answerRows, new TimeSpan(1, 0, 0, 0), maxIntervalCount:5);
+        var forgettingCurve_cappedIntervals = Intervalizer.Run(answerRows, new TimeSpan(1, 0, 0, 0), intervalCount:5);
 
         //ASSERT
-        Assert.That(forgettingCurve1.TotalIntervals, Is.EqualTo(7));
+        Assert.That(forgettingCurve1.TotalIntervals, Is.EqualTo(30));
         Assert.That(forgettingCurve1.TotalPairs, Is.EqualTo(8));
         Assert.That(forgettingCurve1.TimeSpanLength.Days, Is.EqualTo(1));
 
-        Assert.That(forgettingCurve_noPairs.TotalIntervals, Is.EqualTo(0));
-
+        Assert.That(forgettingCurve_noPairs.TotalIntervals, Is.EqualTo(30));
+        
         Assert.That(forgettingCurve_cappedIntervals.TotalIntervals, Is.EqualTo(5));
         Assert.That(forgettingCurve1.TotalPairs, Is.EqualTo(8));
     }

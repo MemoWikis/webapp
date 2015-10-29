@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Seedworks.Lib;
 
 public class CurvesJsonCmd
 {
@@ -11,12 +12,25 @@ public class CurvesJsonCmd
     {
         Curves = new List<CurveDesc>();
     }
-}
 
+    public void Process()
+    {
+        var answerFeatureRepo = Sl.R<AnswerFeatureRepo>();
+
+        foreach (var curve in Curves)
+        {
+            if (curve.AnswerFeatureId.IsNumeric())
+            {
+                curve.AnswerFeature = answerFeatureRepo.GetById(curve.AnswerFeatureId.ToInt32());
+            }
+        }
+    }
+}
 
 public class CurveDesc
 {
-    public string AnswerFeatureId;
+    public bool Show { get; set; }
+    public string AnswerFeatureId { get; set; }
     public AnswerFeature AnswerFeature;
 
     /// <summary>
@@ -26,7 +40,7 @@ public class CurveDesc
     /// - middle
     /// - hard
     /// </summary>
-    public string QuestionFeatureId;
+    public string QuestionFeatureId { get; set; }
     public QuestionFeature QuestionFeature;
 
     public string ColumnId { get { return ColumnLabel.Replace(" ", ""); } }
@@ -52,6 +66,9 @@ public class CurveDesc
 
     public ForgettingCurve LoadForgettingCurve(ForgettingCurveInterval interval, int maxIntervalCount)
     {
+        if (AnswerFeature != null)
+            return ForgettingCurveLoader.GetForFeature(AnswerFeature, interval, maxIntervalCount);
+
         return ForgettingCurveLoader.GetForAll(interval, maxIntervalCount);
     }
 }

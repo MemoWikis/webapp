@@ -14,6 +14,8 @@ class ForgettingCurves {
             this.LoadExploreGraph();
         });
 
+        $("#ddlAnswerFeature0, #ddlAnswerFeature1, #ddlAnswerFeature2, #ddlAnswerFeature3").change(() => { this.LoadExploreGraph(); });
+
         this.LoadExploreGraph();
         this.DrawSuggested1And2();
 
@@ -29,7 +31,13 @@ class ForgettingCurves {
         $.post("/AlgoInsight/ForgettingCurvesJson",
             {
                 Interval: $("#ddlInterval option:selected").val(),
-                IntervalCount: $("#txtIntervalCount").val()
+                IntervalCount: $("#txtIntervalCount").val(),
+                Curves: [
+                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature0").val() },
+                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature1").val() },
+                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature2").val() },
+                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature3").val() }
+                ]
             },
             (result) => { window.console.log(result); this.DrawExplore(result.Data); });
     }

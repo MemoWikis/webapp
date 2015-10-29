@@ -8,7 +8,7 @@ public class ForgettingCurveJson
     {
         var cols = new List<object> { new { id = "Time", label = "Time", type = "number" } };
 
-        curvesJsonCmd.Curves.Add(new CurveDesc());
+        curvesJsonCmd.Process();
         curvesJsonCmd.Curves.ForEach(c => cols.Add(new { id = c.ColumnId, label = c.ColumnLabel, type = "number" }) );
 
         var forgettingCurves = curvesJsonCmd.Curves.Select(x => x.LoadForgettingCurve(intervalType, curvesJsonCmd.IntervalCount)).ToList();
