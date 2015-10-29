@@ -39,11 +39,11 @@ public class User : DomainEntity
         UserActivityUpdate.NewFollower(follower, this);
     }
     public virtual IList<int> FollowerIds(){
-        return Followers.Select(f => f.Id).ToList();
+        return Followers.Select(f => f.Follower.Id).ToList();
     }
 
     public virtual IList<int> FollowingIds(){
-        return Following.Select(f => f.Id).ToList();
+        return Following.Select(f => f.IFollow.Id).ToList();
     }
 
     /// <summary>Joined list of FollowerIds and FollowingIds</summary>
