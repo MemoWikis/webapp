@@ -43,8 +43,3 @@ public class AnswerHistoryIntervals_test
         Assert.That(forgettingCurve1.TotalPairs, Is.EqualTo(8));
     }
 }
-
-
-
-
-

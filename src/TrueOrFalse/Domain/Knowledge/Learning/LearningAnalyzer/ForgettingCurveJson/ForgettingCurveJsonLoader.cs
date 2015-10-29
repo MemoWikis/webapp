@@ -12,6 +12,12 @@ public class ForgettingCurveJson
         curvesJsonCmd.Curves.ForEach(c => cols.Add(new { id = c.ColumnId, label = c.ColumnLabel, type = "number" }) );
 
         var forgettingCurves = curvesJsonCmd.Curves.Select(x => x.LoadForgettingCurve(intervalType, curvesJsonCmd.IntervalCount)).ToList();
+        foreach (var curve in forgettingCurves.Where(c => c.TotalPairs == 0))
+        {
+            curve.Intervals[0].ProportionAnsweredCorrect = 0;
+            curve.Intervals[0].NumberOfPairs = 5;
+        }
+
         var intervals = forgettingCurves.First().Intervals;
         var rows = intervals.Select((x, i) =>
         {

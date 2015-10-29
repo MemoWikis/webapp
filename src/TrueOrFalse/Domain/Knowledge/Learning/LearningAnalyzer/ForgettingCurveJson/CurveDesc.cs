@@ -54,10 +54,10 @@ public class CurveDesc
 
             var result = "";
 
-            if (AnswerFeature != null && String.IsNullOrEmpty(AnswerFeature.Name))
+            if (AnswerFeature != null && !String.IsNullOrEmpty(AnswerFeature.Name))
                 result = AnswerFeature.Name;
 
-            if (QuestionFeature != null && String.IsNullOrEmpty(QuestionFeature.Name))
+            if (QuestionFeature != null && !String.IsNullOrEmpty(QuestionFeature.Name))
                 result += " " + QuestionFeature.Name;
 
             return result;
