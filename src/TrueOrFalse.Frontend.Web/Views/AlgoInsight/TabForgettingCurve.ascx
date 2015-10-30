@@ -57,6 +57,7 @@
             </div>
         <% } %>
     </div>
+
     <div class="col-md-9" style="vertical-align: top; text-align: left;">
         <div id="chartExplore" style="width: 100%; height: 350px; vertical-align: top"></div>
         
@@ -79,7 +80,8 @@
         </div>
 
     </div>
-
+    
+    <!-- 
     <div class="row" >
         <div class="col-md-12" style="margin-top:3px; margin-bottom:7px;">
             <h3>Ausgewählte Vergessenskurven</h3>
@@ -101,6 +103,7 @@
             <div id="chartSuggested2" style="width: 100%; height: 250px"></div>        
         </div>
     </div>
+    -->
 
 </div>
 
