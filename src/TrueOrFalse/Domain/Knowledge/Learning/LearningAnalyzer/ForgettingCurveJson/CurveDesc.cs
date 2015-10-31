@@ -15,14 +15,13 @@ public class CurvesJsonCmd
 
     public void Process()
     {
-        var answerFeatureRepo = Sl.R<AnswerFeatureRepo>();
-
         foreach (var curve in Curves)
         {
             if (curve.AnswerFeatureId.IsNumeric())
-            {
-                curve.AnswerFeature = answerFeatureRepo.GetById(curve.AnswerFeatureId.ToInt32());
-            }
+                curve.AnswerFeature = Sl.R<AnswerFeatureRepo>().GetById(curve.AnswerFeatureId.ToInt32());
+
+            if(curve.QuestionFeatureId.IsNumeric())
+                curve.QuestionFeature = Sl.R<QuestionFeatureRepo>().GetById(curve.QuestionFeatureId.ToInt32());
         }
     }
 }
@@ -66,9 +65,6 @@ public class CurveDesc
 
     public ForgettingCurve LoadForgettingCurve(ForgettingCurveInterval interval, int maxIntervalCount)
     {
-        if (AnswerFeature != null)
-            return ForgettingCurveLoader.GetForFeature(AnswerFeature, interval, maxIntervalCount);
-
-        return ForgettingCurveLoader.GetForAll(interval, maxIntervalCount);
+        return ForgettingCurveLoader.GetForFeatures(AnswerFeature, QuestionFeature, interval, maxIntervalCount);
     }
 }

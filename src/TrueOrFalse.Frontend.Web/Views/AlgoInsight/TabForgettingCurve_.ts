@@ -15,6 +15,7 @@ class ForgettingCurves {
         });
 
         $("#ddlAnswerFeature0, #ddlAnswerFeature1, #ddlAnswerFeature2, #ddlAnswerFeature3").change(() => { this.LoadExploreGraph(); });
+        $("#ddlQuestionFeature0, #ddlQuestionFeature1, #ddlQuestionFeature2, #ddlQuestionFeature3").change(() => { this.LoadExploreGraph(); });
 
         this.LoadExploreGraph();
         this.DrawSuggested1And2();
@@ -33,10 +34,10 @@ class ForgettingCurves {
                 Interval: $("#ddlInterval option:selected").val(),
                 IntervalCount: $("#txtIntervalCount").val(),
                 Curves: [
-                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature0").val() },
-                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature1").val() },
-                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature2").val() },
-                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature3").val() }
+                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature0").val(), QuestionFeatureId: $("#ddlQuestionFeature0").val() },
+                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature1").val(), QuestionFeatureId: $("#ddlQuestionFeature1").val() },
+                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature2").val(), QuestionFeatureId: $("#ddlQuestionFeature2").val() },
+                    { Show: true, AnswerFeatureId: $("#ddlAnswerFeature3").val(), QuestionFeatureId: $("#ddlQuestionFeature3").val() }
                 ]
             },
             (result) => { window.console.log(result); this.DrawExplore(result.Data); });

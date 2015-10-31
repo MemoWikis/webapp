@@ -4,8 +4,10 @@ using System.Linq;
 
 public class ForgettingCurveJson
 {
-    public static object Load(ForgettingCurveInterval intervalType, CurvesJsonCmd curvesJsonCmd)
+    public static object Load(CurvesJsonCmd curvesJsonCmd)
     {
+        var intervalType = curvesJsonCmd.Interval.ToForgettingCurveInterval();
+
         var cols = new List<object> { new { id = "Time", label = "Time", type = "number" } };
 
         curvesJsonCmd.Process();

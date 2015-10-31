@@ -7,6 +7,7 @@ public class AnswerHistory : IPersistable, WithDateCreated
     public virtual int Id { get; set; }
     public virtual int UserId { get; set; }
     public virtual int QuestionId { get; set; }
+    public virtual Question Question { get; set; }
     public virtual AnswerCorrectness AnswerredCorrectly { get; set; }
     public virtual string AnswerText { get; set; }
     public virtual Round Round { get; set; }

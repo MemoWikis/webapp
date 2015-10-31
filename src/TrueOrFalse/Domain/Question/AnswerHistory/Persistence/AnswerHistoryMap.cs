@@ -8,6 +8,9 @@ public class AnswerHistoryMap : ClassMap<AnswerHistory>
 
         Map(x => x.UserId);
         Map(x => x.QuestionId);
+
+        References(x => x.Question).Column("QuestionId");
+
         Map(x => x.AnswerText);
         Map(x => x.AnswerredCorrectly);
 

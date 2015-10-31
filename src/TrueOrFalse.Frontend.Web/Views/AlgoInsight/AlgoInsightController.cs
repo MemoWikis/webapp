@@ -19,8 +19,7 @@ public class AlgoInsightController : BaseController
     [HttpPost]
     public JsonResult ForgettingCurvesJson(CurvesJsonCmd curvesJsonCmd)
     {
-        var interval = curvesJsonCmd.Interval.ToForgettingCurveInterval();
-        return Json(ForgettingCurveJson.Load(interval, curvesJsonCmd));
+        return Json(ForgettingCurveJson.Load(curvesJsonCmd));
     }
 
     public ActionResult Repetition()

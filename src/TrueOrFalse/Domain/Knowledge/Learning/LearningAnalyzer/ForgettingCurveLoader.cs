@@ -9,9 +9,9 @@ public class ForgettingCurveLoader
         return Get(Sl.R<AnswerHistoryRepo>().GetAll(), interval, maxIntervalCount);
     }
 
-    public static ForgettingCurve GetForFeature(AnswerFeature answerFeature, ForgettingCurveInterval interval, int maxIntervalCount = 50)
+    public static ForgettingCurve GetForFeatures(AnswerFeature answerFeature, QuestionFeature questionFeature, ForgettingCurveInterval interval, int maxIntervalCount = 50)
     {
-        return Get(Sl.R<AnswerHistoryRepo>().GetByFeature(answerFeature), interval, maxIntervalCount);
+        return Get(Sl.R<AnswerHistoryRepo>().GetByFeatures(answerFeature, questionFeature), interval, maxIntervalCount);
     }
 
     public static ForgettingCurve Get(IList<AnswerHistory> answerHistories, ForgettingCurveInterval interval, int maxIntervalCount = 30)

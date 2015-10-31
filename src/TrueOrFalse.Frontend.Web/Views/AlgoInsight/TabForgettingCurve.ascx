@@ -12,9 +12,11 @@
 <div class="row">
     <div class="col-md-3">
                 
-        <% var allAnswerFeatures = Sl.R<AnswerFeatureRepo>().GetAll(); %>
-        
-        <% for(var i = 0; i < 4; i++)
+        <% 
+            var allAnswerFeatures = Sl.R<AnswerFeatureRepo>().GetAll();
+            var allQuestionFeatures = Sl.Resolve<QuestionFeatureRepo>().GetAll();
+
+            for(var i = 0; i < 4; i++)
             {
                 var colors = new[]
                 {
@@ -47,11 +49,11 @@
             <div class="row" style="padding: 3px; margin-bottom: 10px;">
                 <div class="col-md-4" style="text-align: right">Typ:</div>
                 <div class="col-md-8" style="padding-left: 0px;">
-                    <select style="width: 100%;">
-                        <option>Mittelschwer</option>
-                        <option>Schwer</option>
-                        <option>Leicht</option>
-                        <option>Nobrainer</option>
+                    <select style="width: 100%;" id="ddlQuestionFeature<%= i %>">
+                        <option value="all">Alle</option>
+                        <% foreach(var feature in allQuestionFeatures) { %>
+                            <option value="<%= feature.Id %>"><%= feature.Name %></option>
+                        <% } %>
                     </select>
                 </div>
             </div>

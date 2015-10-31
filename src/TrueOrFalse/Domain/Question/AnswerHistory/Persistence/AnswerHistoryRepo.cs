@@ -36,12 +36,29 @@ public class AnswerHistoryRepo : RepositoryDb<AnswerHistory>
                         .List<AnswerHistory>();
     }
 
-    public IList<AnswerHistory> GetByFeature(AnswerFeature answerFeature)
+    public IList<AnswerHistory> GetByFeatures(AnswerFeature answerFeature, QuestionFeature questionFeature)
     {
-        return Session.QueryOver<AnswerHistory>()
-            .JoinQueryOver<AnswerFeature>(x => x.Features)
-            .Where(x => x.Id == answerFeature.Id)
-            .List<AnswerHistory>();
+        var query = Session.QueryOver<AnswerHistory>();
+
+        if (answerFeature != null)
+        {
+            AnswerFeature answerFeatureAlias = null;
+            query = query
+                .JoinAlias(x => x.Features, () => answerFeatureAlias)
+                .Where(x => answerFeatureAlias.Id == answerFeature.Id);
+        }
+
+        if (questionFeature != null)
+        {
+            Question questionAlias = null;
+            QuestionFeature questionFeatureAlias = null;
+            query = query
+                .JoinAlias(x => x.Question, () => questionAlias)
+                .JoinAlias(x => questionAlias.Features, () => questionFeatureAlias)
+                .Where(x => questionFeatureAlias.Id == questionFeature.Id);
+        }
+
+        return query.List<AnswerHistory>();
     }
 
     public IList<AnswerHistory> GetByCategories(int categoryId)
