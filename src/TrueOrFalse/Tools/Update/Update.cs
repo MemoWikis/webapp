@@ -42,6 +42,7 @@
                 .Add(109, UpdateToVs109.Run)
                 .Add(110, UpdateToVs110.Run)
                 .Add(111, UpdateToVs111.Run)
+                .Add(112, UpdateToVs112.Run)
                 .Run();
         }
     }

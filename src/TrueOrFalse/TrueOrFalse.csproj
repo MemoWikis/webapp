@@ -558,6 +558,7 @@
     <Compile Include="Domain\User\Ops\UserSummary.cs" />
     <Compile Include="Domain\User\Activity\UserActivity.cs" />
     <Compile Include="Domain\User\Ops\TotalFollowers.cs" />
+    <Compile Include="Infrastructure\DoubleExtensions.cs" />
     <Compile Include="Infrastructure\IoC\AutofacWebInitializer.cs" />
     <Compile Include="Infrastructure\Bus\Bus.cs" />
     <Compile Include="Infrastructure\Bus\BusMgmt.cs" />
@@ -694,6 +695,7 @@
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs112.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs111.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs110.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs109.cs" />
