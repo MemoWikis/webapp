@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate.Util;
 
 public class ForgettingCurveJson
 {
+    private const int MINIMUM_AMOUNT_OF_PAIRS = 3;
+
     public static object Load(CurvesJsonCmd curvesJsonCmd)
     {
         var intervalType = curvesJsonCmd.Interval.ToForgettingCurveInterval();
@@ -14,11 +17,13 @@ public class ForgettingCurveJson
         curvesJsonCmd.Curves.ForEach(c => cols.Add(new { id = c.ColumnId, label = c.ColumnLabel, type = "number" }) );
 
         var forgettingCurves = curvesJsonCmd.Curves.Select(x => x.LoadForgettingCurve(intervalType, curvesJsonCmd.IntervalCount)).ToList();
-        foreach (var curve in forgettingCurves.Where(c => c.TotalPairs == 0))
-        {
-            curve.Intervals[0].ProportionAnsweredCorrect = 0;
-            curve.Intervals[0].NumberOfPairs = 5;
-        }
+
+        forgettingCurves
+            .Where(curve => curve.Intervals.All(interval => interval.NumberOfPairs < MINIMUM_AMOUNT_OF_PAIRS))
+            .ForEach(curve => {
+                curve.Intervals[0].ProportionAnsweredCorrect = 0;
+                curve.Intervals[0].NumberOfPairs = 5;
+            });
 
         var intervals = forgettingCurves.First().Intervals;
         var rows = intervals.Select((x, i) =>
@@ -35,7 +40,7 @@ public class ForgettingCurveJson
                 var interval = curve.Intervals[i];
                 var percentage = Math.Round(interval.ProportionAnsweredCorrect * 100, 0);
 
-                if (interval.NumberOfPairs < 5)
+                if (interval.NumberOfPairs < MINIMUM_AMOUNT_OF_PAIRS)
                     cols2.Add(new {});
                 else
                     cols2.Add(new
