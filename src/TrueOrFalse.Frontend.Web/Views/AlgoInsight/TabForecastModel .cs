@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Util;
 
-public class TabForecastModel
+public class TabForecastModel : BaseModel
 {
     public IEnumerable<AlgoTesterSummary> Summaries;
 

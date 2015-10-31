@@ -22,7 +22,6 @@ public class AssignQuestionFeatures
 
                 if (feature.DoesApply(args))
                     questionFeatureRepo.InsertRelation(feature.Id, question.Id);
-
             }
         }
     }

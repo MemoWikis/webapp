@@ -186,3 +186,11 @@
     </div>
     <div class="col-md-6" style="vertical-align: top"></div>
 </div>
+
+<% if(Model.IsInstallationAdmin) { %>
+    <div class="row">
+	    <div class="col-md-12" style="text-align: right; margin-top: 50px;">
+		    <a href="<%= Url.Action("ReevaluateAlgos", "AlgoInsight") %>" class="btn btn-md btn-info">Teste Algorithmen (dauert mehrere Minuten)</a>
+	    </div>
+    </div>
+<% } %>

@@ -109,13 +109,5 @@
             </div>
         </div>
     </div>
-    
-    <% if(Model.IsInstallationAdmin) { %>
-        <div class="row">
-	        <div class="col-md-12" style="text-align: right; margin-top: 50px;">
-		        <a href="<%= Url.Action("Reevaluate", "AlgoInsight") %>" class="btn btn-md btn-info">Teste Algorithmen (dauert mehrere Minuten)</a>
-	        </div>
-        </div>
-    <% } %>
 
 </asp:Content>

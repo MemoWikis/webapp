@@ -21,4 +21,12 @@ public class QuestionFeatureRepo : RepositoryDbBase<QuestionFeature>
         _session.CreateSQLQuery("truncate table questionfeature").ExecuteUpdate();
         _session.CreateSQLQuery("truncate table questionfeature_to_question").ExecuteUpdate();
     }
+
+    public int GetFeatureCount(int featureId)
+    {
+        return Session.QueryOver<QuestionFeature>()
+            .Where(x => x.Id == featureId)
+            .JoinQueryOver(x => x.Questions)
+            .RowCount();
+    }
 }

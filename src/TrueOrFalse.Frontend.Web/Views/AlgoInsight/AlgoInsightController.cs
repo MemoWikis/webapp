@@ -34,22 +34,31 @@ public class AlgoInsightController : BaseController
     }
 
     [AccessOnlyAsAdmin]
-	public ActionResult Reevaluate()
+	public ActionResult ReevaluateAlgos()
 	{
         R<AnswerHistoryTestRepo>().TruncateTable();
         R<AnswerFeatureRepo>().TruncateTables();
-        R<QuestionFeatureRepo>().TruncateTables();
 
         GenerateAnswerFeatures.Run();
         AssignAnswerFeatures.Run();
         AlgoTester.Run();
 
+        return View("AlgoInsight", new AlgoInsightModel
+        {
+	        Message = new SuccessMessage("Eine Algorithmus-Bewertung wurde ausgeführt.")
+        });
+    }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult ReevaluateQuestionFeatures()
+    {
+        R<QuestionFeatureRepo>().TruncateTables();
         GenerateQuestionFeatures.Run();
         AssignQuestionFeatures.Run();
 
         return View("AlgoInsight", new AlgoInsightModel
         {
-	        Message = new SuccessMessage("Eine Algorithmus-Bewertung wurde ausgeführt.")
+            Message = new SuccessMessage("Eine Algorithmus-Bewertung wurde ausgeführt.")
         });
     }
 }
