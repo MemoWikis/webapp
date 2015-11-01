@@ -29,7 +29,7 @@ public class ForgettingCurveJson
         var rows = intervals.Select((x, i) =>
         {
             var numberOfInterval = x.NumberOfInterval(intervalType);
-        
+
             var cols2 = new List<object> {new{
                 v = numberOfInterval,
                 f = intervalType.InGerman() + ": " + numberOfInterval.ToString() + ""
@@ -58,38 +58,17 @@ public class ForgettingCurveJson
         {
             Data = new
             {
-                cols = cols,
-                rows = rows
-            }
-        };
-    }
-
-    /// <summary>exists only for reference</summary>
-    public static object GetSample()
-    {
-        return new
-        {
-            Data =
-                new
+                ChartInfos = forgettingCurves.Select(curve => new
                 {
-                    cols = new[]
-                    {
-                        new {id = "X", label = "X", type = "number"},
-                        new {id = "Leichte", label = "Blau", type = "number"},
-                        new {id = "Schwer", label = "Schwer", type = "number"},
-                        new {id = "Mittel", label = "Mittel", type = "number"},
-                        new {id = "Nobrainer", label = "Nobrainer", type = "number"},
-                    },
-                    rows = new[]
-                    {
-                        new {c = new[] {new {v = "1"}, new {v = "10"}, new {v = "10"}, new {v = "10"}, new {v = "10"}}},
-                        new {c = new[] {new {v = "2"}, new {v = "10"}, new {v = "9"}, new {v = "8"}, new {v = "7"}}},
-                        new {c = new[] {new {v = "3"}, new {v = "10"}, new {v = "8"}, new {v = "6"}, new {v = "4"}}},
-                        new {c = new[] {new {v = "4"}, new {v = "10"}, new {v = "7"}, new {v = "6"}, new {v = "3"}}},
-                        new {c = new[] {new {v = "5"}, new {v = "10"}, new {v = "6"}, new {v = "6"}, new {v = "3"}}},
-                        new {c = new[] {new {v = "6"}, new {v = "1"}, new {v = "5"}, new {v = "6"}, new {v = "3"}}},
-                    }
+                    TotalPairs = curve.TotalPairs,
+                    RegressionValue = "0"
+                }),
+                ChartData = new
+                {
+                    cols = cols,
+                    rows = rows
                 }
+            }
         };
     }
 }

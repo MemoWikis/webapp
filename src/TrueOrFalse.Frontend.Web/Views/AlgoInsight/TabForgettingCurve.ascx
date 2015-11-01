@@ -30,8 +30,9 @@
             <div class="row" style="border-bottom: 2px solid <%= colors[i] %>;">
                 <div class="col-md-12" style="">
                     <b>Kurve <%= i %></b>
-                    400P R0.71
-                    
+                    <span id="pairCount<%=i %>" class="show-tooltip" data-original-title="Anzahl Antwort-Paare"></span>
+                    <span id="regressionValue<%=i %>" class="show-tooltip" data-original-title="Anzahl Antwort-Paare"></span>
+
                     <input id="ckbShowCurve<%= i %>" type="checkbox" class="pull-right" checked="checked" style="padding-right: 3px; position: relative; top: 0px;"  />
                 </div>
             </div>

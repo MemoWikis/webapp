@@ -40,7 +40,16 @@ class ForgettingCurves {
                     { Show: true, AnswerFeatureId: $("#ddlAnswerFeature3").val(), QuestionFeatureId: $("#ddlQuestionFeature3").val() }
                 ]
             },
-            (result) => { window.console.log(result); this.DrawExplore(result.Data); });
+            (result) => {
+                window.console.log(result);
+                for (var i = 0; i < 4; i++) {
+                    $("#pairCount" + i).html(result.Data.ChartInfos[i].TotalPairs + "P");
+                    $("#regressionValue" + i).html("R" + result.Data.ChartInfos[i].RegressionValue);
+                    
+                }
+
+                this.DrawExplore(result.Data.ChartData);
+            });
     }
 
     DrawExplore(jsonData) {
