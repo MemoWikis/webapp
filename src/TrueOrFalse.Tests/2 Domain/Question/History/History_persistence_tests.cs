@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-public class QuestionAnswerHistoryPersistenceTests : BaseTest
+public class QuestionAnswerPersistenceTests : BaseTest
 {
     [Test]
     public void Persistence_Test()

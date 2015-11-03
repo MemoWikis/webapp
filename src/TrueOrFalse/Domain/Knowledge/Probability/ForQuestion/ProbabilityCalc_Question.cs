@@ -3,14 +3,14 @@ using System.Linq;
 
 public class ProbabilityCalc_Question : IRegisterAsInstancePerLifetime
 {
-    public static int Run(IList<Answer> answerHistoryItems)
+    public static int Run(IList<Answer> answers)
     {
-        if (!answerHistoryItems.Any())
+        if (!answers.Any())
             return 30;
 
         decimal answeredCorrectly = 
-            answerHistoryItems.Count(x => x.AnswerredCorrectly != AnswerCorrectness.False);
+            answers.Count(x => x.AnswerredCorrectly != AnswerCorrectness.False);
 
-        return (int)((answeredCorrectly / answerHistoryItems.Count()) * 100);
+        return (int)((answeredCorrectly / answers.Count()) * 100);
     }
 }

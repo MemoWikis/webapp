@@ -14,10 +14,10 @@ public class ForgettingCurveLoader
         return Get(Sl.R<AnswerRepo>().GetByFeatures(answerFeature, questionFeature), interval, maxIntervalCount);
     }
 
-    public static ForgettingCurve Get(IList<Answer> answerHistories, ForgettingCurveInterval interval, int maxIntervalCount = 30)
+    public static ForgettingCurve Get(IList<Answer> answers, ForgettingCurveInterval interval, int maxIntervalCount = 30)
     {
-        var answerHistoryPairs = AnswerPairFromHistoryRows.Get(answerHistories);
-        var listOfExaminedAnswerObjects = answerHistoryPairs.OrderBy(x => x.TimePassedInSeconds).ToList();
+        var answerPairs = AnswerPairFromHistoryRows.Get(answers);
+        var listOfExaminedAnswerObjects = answerPairs.OrderBy(x => x.TimePassedInSeconds).ToList();
         return Intervalizer.Run(listOfExaminedAnswerObjects, interval.ToTimespan(), maxIntervalCount);
     }
 }

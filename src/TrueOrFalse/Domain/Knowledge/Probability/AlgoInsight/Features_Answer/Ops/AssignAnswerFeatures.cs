@@ -13,26 +13,26 @@ public class AssignAnswerFeatures
         var allQuestions = Sl.R<QuestionRepo>().GetAll();
         var allUsers = Sl.R<UserRepo>().GetAll();
 
-        foreach (var answerHistory in allAnswers)
+        foreach (var answer in allAnswers)
         {
             foreach (var feature in allFeatures)
             {
-                var question = allQuestions.ById(answerHistory.QuestionId);
-                var user = allUsers.ById(answerHistory.UserId);
+                var question = allQuestions.ById(answer.QuestionId);
+                var user = allUsers.ById(answer.UserId);
 
                 var featureFilterParams =
                     new AnswerFeatureFilterParams {
-                        Answer = answerHistory,
+                        Answer = answer,
                         PreviousAnswers = allPreviousAnswers.By(question, user),
                         Question = question,
                         User = user
                     };
 
                 if (feature.DoesApply(featureFilterParams))
-                    answerFeatureRepo.InsertRelation(feature.Id, answerHistory.Id);
+                    answerFeatureRepo.InsertRelation(feature.Id, answer.Id);
             }
 
-            allPreviousAnswers.Add(answerHistory);
+            allPreviousAnswers.Add(answer);
         }
     }
 }

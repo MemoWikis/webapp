@@ -19,7 +19,7 @@ public class AnswerMap : ClassMap<Answer>
         References(x => x.LearningSessionStep).Cascade.None().Unique();
 
         HasManyToMany(x => x.Features).
-            Table("answerFeature_to_answerHistory");
+            Table("answerFeature_to_answer");
 
         Map(x => x.Milliseconds);
         Map(x => x.DateCreated);

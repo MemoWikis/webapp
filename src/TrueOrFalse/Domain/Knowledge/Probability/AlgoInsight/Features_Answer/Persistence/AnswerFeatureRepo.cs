@@ -7,18 +7,18 @@ public class AnswerFeatureRepo : RepositoryDbBase<AnswerFeature>
     {
     }
 
-    public void InsertRelation(int featureId, int answerHistoryId)
+    public void InsertRelation(int featureId, int answerId)
     {
         _session.CreateSQLQuery(
-            String.Format(@"INSERT INTO `answerfeature_to_answerhistory` 
-                (`AnswerFeature_id`, `AnswerHistory_id`) 
+            String.Format(@"INSERT INTO `answerfeature_to_answer` 
+                (`AnswerFeature_id`, `Answer_id`) 
               VALUES 
-                ({0}, {1});", featureId, answerHistoryId)).ExecuteUpdate();
+                ({0}, {1});", featureId, answerId)).ExecuteUpdate();
     }
 
     public void TruncateTables()
     {
         _session.CreateSQLQuery("truncate table answerfeature").ExecuteUpdate();
-        _session.CreateSQLQuery("truncate table answerfeature_to_answerhistory").ExecuteUpdate();
+        _session.CreateSQLQuery("truncate table answerfeature_to_answer").ExecuteUpdate();
     }
 }

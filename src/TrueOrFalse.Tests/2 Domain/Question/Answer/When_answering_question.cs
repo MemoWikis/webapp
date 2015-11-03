@@ -1,6 +1,4 @@
-﻿using NHibernate.Event;
-using NUnit.Framework;
-using TrueOrFalse;
+﻿using NUnit.Framework;
 
 namespace TrueOrFalse.Tests
 {
@@ -20,10 +18,10 @@ namespace TrueOrFalse.Tests
             var user = contextUsers.Users[0];
             Resolve<AnswerQuestion>().Run(createdQuestion.Id, "Some answer", user.Id);
 
-            var answerHistoryItems = Resolve<AnswerRepo>().GetAll();
-            Assert.That(answerHistoryItems.Count, Is.EqualTo(1));
-            Assert.That(answerHistoryItems[0].AnswerText, Is.EqualTo("Some answer"));
-            Assert.That(answerHistoryItems[0].UserId, Is.EqualTo(user.Id));
+            var answers = Resolve<AnswerRepo>().GetAll();
+            Assert.That(answers.Count, Is.EqualTo(1));
+            Assert.That(answers[0].AnswerText, Is.EqualTo("Some answer"));
+            Assert.That(answers[0].UserId, Is.EqualTo(user.Id));
 
             var questionValuationRepo = Resolve<QuestionValuationRepo>();
             Assert.That(questionValuationRepo.GetBy(createdQuestion.Id, user.Id).CorrectnessProbability, Is.EqualTo(100));

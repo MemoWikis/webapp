@@ -75,7 +75,7 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
                     " COUNT(ah) as total," +
                     " SUM(CASE WHEN AnswerredCorrectly = 1 THEN 1 WHEN AnswerredCorrectly = 2 THEN 1 ELSE 0 END) as totalCorrect, " +
                     " Date(DateCreated) " +
-                    "FROM AnswerHistory ah " +
+                    "FROM Answer ah " +
                     "WHERE UserId = " + userId + " ";
 
         if (onlyLearningSessions)

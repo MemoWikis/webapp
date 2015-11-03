@@ -9,23 +9,23 @@ public class AlgoTester
         var stopWatch = new Stopwatch();
         Logg.r().Information("AlgoTester Start");
 
-		var allAnswerHistoryItems = Sl.R<AnswerRepo>().GetAll().OrderBy(x => x.Id);
+		var allAnswer = Sl.R<AnswerRepo>().GetAll().OrderBy(x => x.Id);
 		var allPreviousItems = new List<Answer>();
 
-		var answerHistoryTestRepo = Sl.R<AnswerTestRepo>();
+		var answerTestRepo = Sl.R<AnswerTestRepo>();
 
 		var algos = AlgoInfoRepo.GetAll();
 
 		var index = 0;
-        foreach (var answerHistoryItem in allAnswerHistoryItems)
+        foreach (var answerItem in allAnswer)
         {
             foreach(var algo in algos)
-                CreateHistoryItem(allPreviousItems, answerHistoryItem, answerHistoryTestRepo, algo);
+                CreateHistoryItem(allPreviousItems, answerItem, answerTestRepo, algo);
 
             if (index % 10 == 0)
-                answerHistoryTestRepo.Flush();
+                answerTestRepo.Flush();
 
-            allPreviousItems.Add(answerHistoryItem);
+            allPreviousItems.Add(answerItem);
 
             index++;
         }
@@ -44,7 +44,7 @@ public class AlgoTester
 
         var result = algo.Algorithm.Run(question, user, allPreviousItems);
 
-		var answerHistoryTest = new AnswerTest
+		var answerTest = new AnswerTest
 		{
 			Answer = answerItem,
 			AlgoId = algo.Id,
@@ -54,6 +54,6 @@ public class AlgoTester
 				: result.Probability <= 50
 		};
 
-		answerTestRepo.Create(answerHistoryTest);
+		answerTestRepo.Create(answerTest);
 	}
 }

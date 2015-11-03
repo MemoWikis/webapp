@@ -10,7 +10,7 @@ public class AnswerRepo : RepositoryDb<Answer>
 
     public void DeleteFor(int questionId)
     {
-        Session.CreateSQLQuery("DELETE FROM AnswerHistory ah WHERE ah.QuestionId = :questionId")
+        Session.CreateSQLQuery("DELETE FROM Answer ah WHERE ah.QuestionId = :questionId")
                 .SetParameter("questionId", questionId);
     }
 
@@ -64,7 +64,7 @@ public class AnswerRepo : RepositoryDb<Answer>
     public IList<Answer> GetByCategories(int categoryId)
     {
         string query = @"
-            SELECT ah.Id FROM answerhistory ah
+            SELECT ah.Id FROM answer ah
             LEFT JOIN question q
             ON q.Id = ah.QuestionId
             LEFT JOIN categories_to_questions cq

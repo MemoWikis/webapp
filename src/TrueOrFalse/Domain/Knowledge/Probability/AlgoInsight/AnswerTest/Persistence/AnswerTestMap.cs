@@ -4,7 +4,7 @@ public class AnswerTestMap : ClassMap<AnswerTest>
 {
 	public AnswerTestMap()
 	{
-		Table("AnswerHistory_Test");
+		Table("answer_test");
 
 		Id(x => x.Id);
 

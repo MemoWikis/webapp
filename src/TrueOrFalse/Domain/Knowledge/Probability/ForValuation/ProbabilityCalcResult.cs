@@ -8,16 +8,16 @@ public class ProbabilityCalcResult
     public KnowledgeStatus KnowledgeStatus;
 
     public static ProbabilityCalcResult GetResult(
-        IList<Answer> answerHistoryItems, 
+        IList<Answer> answers, 
         int correctnessProbability)
     {
 	    var result = new ProbabilityCalcResult
 	    {
 	        Probability = correctnessProbability,
-            AnswerCount = answerHistoryItems.Count
+            AnswerCount = answers.Count
 	    };
 
-        if (answerHistoryItems.Count <= 4)
+        if (answers.Count <= 4)
             result.KnowledgeStatus = KnowledgeStatus.Unknown;
         else
             result.KnowledgeStatus =
