@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 
-public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
+public class AnswerLog : IRegisterAsInstancePerLifetime
 {
-    private readonly AnswerHistoryRepo _answerHistoryRepo;
+    private readonly AnswerRepo _answerRepo;
 
-    public AnswerHistoryLog(AnswerHistoryRepo answerHistoryRepo)
+    public AnswerLog(AnswerRepo answerRepo)
     {
-        _answerHistoryRepo = answerHistoryRepo;
+        _answerRepo = answerRepo;
     }
 
     public void Run(
@@ -20,7 +20,7 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
       //  bool countUnansweredAsCorrect = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        var answerHistory = new AnswerHistory
+        var answerHistory = new Answer
         {
             QuestionId = question.Id,
             UserId = userId,
@@ -34,22 +34,22 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
                 : dateCreated
         };
 
-        _answerHistoryRepo.Create(answerHistory);
+        _answerRepo.Create(answerHistory);
     }
 
     public void CountLastAnswerAsCorrect(Question question, int userId)
     {
-        var correctedAnswerHistory = _answerHistoryRepo.GetByQuestion(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
+        var correctedAnswerHistory = _answerRepo.GetByQuestion(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
         if (correctedAnswerHistory != null && correctedAnswerHistory.AnswerredCorrectly == AnswerCorrectness.False)
         {
             correctedAnswerHistory.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
-            _answerHistoryRepo.Update(correctedAnswerHistory);
+            _answerRepo.Update(correctedAnswerHistory);
         }
     }
 
     public void CountUnansweredAsCorrect(Question question, int userId)
     {
-        var answerHistory = new AnswerHistory
+        var answerHistory = new Answer
         {
             QuestionId = question.Id,
             UserId = userId,
@@ -58,6 +58,6 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
             DateCreated = DateTime.Now
         };
 
-        _answerHistoryRepo.Create(answerHistory);
+        _answerRepo.Create(answerHistory);
     }
 }

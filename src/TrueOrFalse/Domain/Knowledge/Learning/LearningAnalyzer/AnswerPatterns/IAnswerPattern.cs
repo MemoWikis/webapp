@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 public interface IAnswerPattern
 {
     string Name { get; }
-    bool IsMatch(List<AnswerHistory> listOfAnswers);
+    bool IsMatch(List<Answer> listOfAnswers);
 }
 

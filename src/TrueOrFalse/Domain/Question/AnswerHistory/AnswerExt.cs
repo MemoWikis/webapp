@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class AnswerHistoryExt 
+public static class AnswerExt 
 {
-    public static List<AnswerHistory> ByQuestionId(this IEnumerable<AnswerHistory> answerHistories, int questionId)
+    public static List<Answer> ByQuestionId(this IEnumerable<Answer> answerHistories, int questionId)
     {
         return answerHistories.Where(item => item.QuestionId == questionId).ToList();
     }
 
-    public static List<AnswerHistory> By(this IEnumerable<AnswerHistory> answerHistories, Question question, User user)
+    public static List<Answer> By(this IEnumerable<Answer> answerHistories, Question question, User user)
     {
         if(question == null || user == null)
-            return new List<AnswerHistory>();
+            return new List<Answer>();
 
         return answerHistories.Where(item => 
             item.QuestionId == question.Id &&
@@ -21,7 +21,7 @@ public static class AnswerHistoryExt
     }
 
     /// <returns>A value between 0 and 1</returns>
-    public static double AverageCorrectness(this IEnumerable<AnswerHistory> answerHistories)
+    public static double AverageCorrectness(this IEnumerable<Answer> answerHistories)
     {
         return answerHistories.Average(x => Convert.ToInt32(x.AnswerredCorrectly));
     }

@@ -51,22 +51,22 @@ public class GenerateAnswerFeatures
             Description = "Es wurde auf der AnswerPage gelernt, nicht in der Lernsitzung.",
             Group = AnswerFeatureGroups.TrainingType,
             DoesApply = param => 
-                param.AnswerHistory.Round == null && 
-                param.AnswerHistory.LearningSessionStep == null
+                param.Answer.Round == null && 
+                param.Answer.LearningSessionStep == null
         });
 
         answerFeatures.Add(new AnswerFeature{
             Id2 = "LearningSession",
             Name = "Lernsitzung",
             Group = AnswerFeatureGroups.TrainingType,
-            DoesApply = param => param.AnswerHistory.LearningSessionStep != null
+            DoesApply = param => param.Answer.LearningSessionStep != null
         });
 
         answerFeatures.Add(new AnswerFeature{
             Id2 = "InGame",
             Name = "Spiel",
             Group = AnswerFeatureGroups.TrainingType,
-            DoesApply = param => param.AnswerHistory.Round != null
+            DoesApply = param => param.Answer.Round != null
         });
 
         //USER:

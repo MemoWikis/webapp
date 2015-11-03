@@ -13,7 +13,7 @@ public class QuestionDelete
         var categoriesToDelete = question.Categories.ToList();
         questionRepo.Delete(question);
         Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToDelete);
-        Sl.R<AnswerHistoryRepo>().DeleteFor(questionId);
+        Sl.R<AnswerRepo>().DeleteFor(questionId);
 
         Sl.R<ISession>()
             .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)

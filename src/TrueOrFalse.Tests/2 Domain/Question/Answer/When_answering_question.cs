@@ -20,7 +20,7 @@ namespace TrueOrFalse.Tests
             var user = contextUsers.Users[0];
             Resolve<AnswerQuestion>().Run(createdQuestion.Id, "Some answer", user.Id);
 
-            var answerHistoryItems = Resolve<AnswerHistoryRepo>().GetAll();
+            var answerHistoryItems = Resolve<AnswerRepo>().GetAll();
             Assert.That(answerHistoryItems.Count, Is.EqualTo(1));
             Assert.That(answerHistoryItems[0].AnswerText, Is.EqualTo("Some answer"));
             Assert.That(answerHistoryItems[0].UserId, Is.EqualTo(user.Id));

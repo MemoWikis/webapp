@@ -5,12 +5,12 @@ public class AlgoTesterSummaryLoader
 {
     public static List<AlgoTesterSummary> Run()
     {
-        return GetSummaries(Sl.R<AnswerHistoryTestRepo>().LoadSummaries());
+        return GetSummaries(Sl.R<AnswerTestRepo>().LoadSummaries());
     }
 
     public static List<AlgoTesterSummary> RunWithFeature()
     {
-        return GetSummaries(Sl.R<AnswerHistoryTestRepo>().LoadSummariesWithFeatures());
+        return GetSummaries(Sl.R<AnswerTestRepo>().LoadSummariesWithFeatures());
     }
 
     private static List<AlgoTesterSummary> GetSummaries(IList<AlgoSummary> summaries)

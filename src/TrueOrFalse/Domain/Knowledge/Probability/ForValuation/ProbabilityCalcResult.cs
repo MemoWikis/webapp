@@ -8,7 +8,7 @@ public class ProbabilityCalcResult
     public KnowledgeStatus KnowledgeStatus;
 
     public static ProbabilityCalcResult GetResult(
-        IList<AnswerHistory> answerHistoryItems, 
+        IList<Answer> answerHistoryItems, 
         int correctnessProbability)
     {
 	    var result = new ProbabilityCalcResult

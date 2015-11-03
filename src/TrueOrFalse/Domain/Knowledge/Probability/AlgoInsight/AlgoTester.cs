@@ -9,10 +9,10 @@ public class AlgoTester
         var stopWatch = new Stopwatch();
         Logg.r().Information("AlgoTester Start");
 
-		var allAnswerHistoryItems = Sl.R<AnswerHistoryRepo>().GetAll().OrderBy(x => x.Id);
-		var allPreviousItems = new List<AnswerHistory>();
+		var allAnswerHistoryItems = Sl.R<AnswerRepo>().GetAll().OrderBy(x => x.Id);
+		var allPreviousItems = new List<Answer>();
 
-		var answerHistoryTestRepo = Sl.R<AnswerHistoryTestRepo>();
+		var answerHistoryTestRepo = Sl.R<AnswerTestRepo>();
 
 		var algos = AlgoInfoRepo.GetAll();
 
@@ -34,26 +34,26 @@ public class AlgoTester
     }
 
 	private static void CreateHistoryItem(
-        List<AnswerHistory> allPreviousItems, 
-        AnswerHistory answerHistoryItem, 
-        AnswerHistoryTestRepo answerHistoryTestRepo, 
+        List<Answer> allPreviousItems, 
+        Answer answerItem, 
+        AnswerTestRepo answerTestRepo, 
         AlgoInfo algo)
 	{
-	    var question = answerHistoryItem.GetQuestion();
-	    var user = answerHistoryItem.GetUser();
+	    var question = answerItem.GetQuestion();
+	    var user = answerItem.GetUser();
 
         var result = algo.Algorithm.Run(question, user, allPreviousItems);
 
-		var answerHistoryTest = new AnswerHistoryTest
+		var answerHistoryTest = new AnswerTest
 		{
-			AnswerHistory = answerHistoryItem,
+			Answer = answerItem,
 			AlgoId = algo.Id,
 			Probability = result.Probability,
-			IsCorrect = answerHistoryItem.AnsweredCorrectly()
+			IsCorrect = answerItem.AnsweredCorrectly()
 				? result.Probability > 50
 				: result.Probability <= 50
 		};
 
-		answerHistoryTestRepo.Create(answerHistoryTest);
+		answerTestRepo.Create(answerHistoryTest);
 	}
 }

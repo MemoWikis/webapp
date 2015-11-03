@@ -6,15 +6,15 @@ public class ForgettingCurveLoader
 {
     public static ForgettingCurve GetForAll(ForgettingCurveInterval interval, int maxIntervalCount = 50)
     {
-        return Get(Sl.R<AnswerHistoryRepo>().GetAll(), interval, maxIntervalCount);
+        return Get(Sl.R<AnswerRepo>().GetAll(), interval, maxIntervalCount);
     }
 
     public static ForgettingCurve GetForFeatures(AnswerFeature answerFeature, QuestionFeature questionFeature, ForgettingCurveInterval interval, int maxIntervalCount = 50)
     {
-        return Get(Sl.R<AnswerHistoryRepo>().GetByFeatures(answerFeature, questionFeature), interval, maxIntervalCount);
+        return Get(Sl.R<AnswerRepo>().GetByFeatures(answerFeature, questionFeature), interval, maxIntervalCount);
     }
 
-    public static ForgettingCurve Get(IList<AnswerHistory> answerHistories, ForgettingCurveInterval interval, int maxIntervalCount = 30)
+    public static ForgettingCurve Get(IList<Answer> answerHistories, ForgettingCurveInterval interval, int maxIntervalCount = 30)
     {
         var answerHistoryPairs = AnswerPairFromHistoryRows.Get(answerHistories);
         var listOfExaminedAnswerObjects = answerHistoryPairs.OrderBy(x => x.TimePassedInSeconds).ToList();

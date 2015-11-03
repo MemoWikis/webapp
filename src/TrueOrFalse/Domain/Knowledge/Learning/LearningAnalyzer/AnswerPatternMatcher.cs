@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class AnswerPatternMatcher
 {
-    public static List<AnswerPatternMatch> Run(List<AnswerHistory> listOfAnswers)
+    public static List<AnswerPatternMatch> Run(List<Answer> listOfAnswers)
     {
         var result = new List<AnswerPatternMatch>();
 

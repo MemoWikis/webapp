@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
-public class AnswerHistory : IPersistable, WithDateCreated
+public class Answer : IPersistable, WithDateCreated
 {
     public virtual int Id { get; set; }
     public virtual int UserId { get; set; }

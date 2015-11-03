@@ -13,35 +13,35 @@ public class Game_player_position
             new Player
             {
                 Id = 1,
-                Answers = new List<AnswerHistory> {
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.True},
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.False},
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.False}
+                Answers = new List<Answer> {
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.True},
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.False},
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.False}
                 }
             },
             new Player
             {
                 Id = 2,
-                Answers = new List<AnswerHistory> {
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.True},
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.False}
+                Answers = new List<Answer> {
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.True},
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.False}
                 }
             },
             new Player
             {
                 Id = 3,
-                Answers = new List<AnswerHistory> {
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.True},
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.False}
+                Answers = new List<Answer> {
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.True},
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.False}
                 }
             },
             new Player
             {
                 Id = 4,
-                Answers = new List<AnswerHistory> {
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.True},
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.False},
-                    new AnswerHistory {AnswerredCorrectly = AnswerCorrectness.False}
+                Answers = new List<Answer> {
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.True},
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.False},
+                    new Answer {AnswerredCorrectly = AnswerCorrectness.False}
                 }
             },
         };

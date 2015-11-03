@@ -2,8 +2,8 @@
 
 public class AnswerFeatureFilterParams
 {
-    public AnswerHistory AnswerHistory;
-    public IList<AnswerHistory> PreviousAnswers;
+    public Answer Answer;
+    public IList<Answer> PreviousAnswers;
     public Question Question;
     public User User;
 }

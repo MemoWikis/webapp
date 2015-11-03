@@ -7,8 +7,8 @@ public class AssignAnswerFeatures
         var answerFeatureRepo = Sl.R<AnswerFeatureRepo>();
 
         var allFeatures = answerFeatureRepo.GetAll();
-        var allAnswers = Sl.R<AnswerHistoryRepo>().GetAllEager();
-        var allPreviousAnswers = new List<AnswerHistory>();
+        var allAnswers = Sl.R<AnswerRepo>().GetAllEager();
+        var allPreviousAnswers = new List<Answer>();
 
         var allQuestions = Sl.R<QuestionRepo>().GetAll();
         var allUsers = Sl.R<UserRepo>().GetAll();
@@ -22,7 +22,7 @@ public class AssignAnswerFeatures
 
                 var featureFilterParams =
                     new AnswerFeatureFilterParams {
-                        AnswerHistory = answerHistory,
+                        Answer = answerHistory,
                         PreviousAnswers = allPreviousAnswers.By(question, user),
                         Question = question,
                         User = user

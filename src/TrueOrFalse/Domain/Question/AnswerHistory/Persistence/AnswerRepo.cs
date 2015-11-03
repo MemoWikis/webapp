@@ -4,9 +4,9 @@ using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 
-public class AnswerHistoryRepo : RepositoryDb<AnswerHistory> 
+public class AnswerRepo : RepositoryDb<Answer> 
 {
-    public AnswerHistoryRepo(ISession session) : base(session){}
+    public AnswerRepo(ISession session) : base(session){}
 
     public void DeleteFor(int questionId)
     {
@@ -14,31 +14,31 @@ public class AnswerHistoryRepo : RepositoryDb<AnswerHistory>
                 .SetParameter("questionId", questionId);
     }
 
-    public IList<AnswerHistory> GetByQuestion(List<int> questionsId, int userId)
+    public IList<Answer> GetByQuestion(List<int> questionsId, int userId)
     {
-        return Session.QueryOver<AnswerHistory>()
+        return Session.QueryOver<Answer>()
             .Where(Restrictions.In("QuestionId", questionsId))
             .And(q => q.UserId == userId)
             .List();
     }
 
-    public IList<AnswerHistory> GetByQuestion(int questionId)
+    public IList<Answer> GetByQuestion(int questionId)
     {
-        return Session.QueryOver<AnswerHistory>()
+        return Session.QueryOver<Answer>()
                         .Where(i => i.QuestionId == questionId)
-                        .List<AnswerHistory>();
+                        .List<Answer>();
     }
 
-    public IList<AnswerHistory> GetByQuestion(int questionId, int userId)
+    public IList<Answer> GetByQuestion(int questionId, int userId)
     {
-        return Session.QueryOver<AnswerHistory>()
+        return Session.QueryOver<Answer>()
                         .Where(i => i.QuestionId == questionId && i.UserId == userId)
-                        .List<AnswerHistory>();
+                        .List<Answer>();
     }
 
-    public IList<AnswerHistory> GetByFeatures(AnswerFeature answerFeature, QuestionFeature questionFeature)
+    public IList<Answer> GetByFeatures(AnswerFeature answerFeature, QuestionFeature questionFeature)
     {
-        var query = Session.QueryOver<AnswerHistory>();
+        var query = Session.QueryOver<Answer>();
 
         if (answerFeature != null)
         {
@@ -58,10 +58,10 @@ public class AnswerHistoryRepo : RepositoryDb<AnswerHistory>
                 .Where(x => questionFeatureAlias.Id == questionFeature.Id);
         }
 
-        return query.List<AnswerHistory>();
+        return query.List<Answer>();
     }
 
-    public IList<AnswerHistory> GetByCategories(int categoryId)
+    public IList<Answer> GetByCategories(int categoryId)
     {
         string query = @"
             SELECT ah.Id FROM answerhistory ah
@@ -75,21 +75,21 @@ public class AnswerHistoryRepo : RepositoryDb<AnswerHistory>
         return GetByIds(ids.ToArray());
     }
 
-    public IList<AnswerHistory> GetByUser(int userId)
+    public IList<Answer> GetByUser(int userId)
     {
-        return Session.QueryOver<AnswerHistory>()
+        return Session.QueryOver<Answer>()
             .Where(i => i.UserId == userId)
-            .List<AnswerHistory>();
+            .List<Answer>();
     }
 
-    public override void Create(AnswerHistory answerHistory)
+    public override void Create(Answer answer)
     {
-        _session.Save(answerHistory);
+        _session.Save(answer);
     }
 
-    public IList<AnswerHistory> GetAllEager()
+    public IList<Answer> GetAllEager()
     {
-        return Session.QueryOver<AnswerHistory>()
+        return Session.QueryOver<Answer>()
             .Fetch(x => x.Round).Eager
             .Fetch(x => x.Player).Eager
             .List();

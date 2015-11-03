@@ -29,7 +29,7 @@ public class KnowledgeModel : BaseModel
 
     public IList<Date> Dates = new List<Date>();
     public IList<Date> DatesInNetwork = new List<Date>();
-    public IList<AnswerHistory> AnswerRecent = new List<AnswerHistory>();
+    public IList<Answer> AnswerRecent = new List<Answer>();
 
     public User User = new User();
     public int ReputationRank;

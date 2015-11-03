@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-public class AnswerHistoryTest_AlgoTester : BaseTest
+public class AnswerTest_AlgoTester : BaseTest
 {
 	[Test]
 	public void Should_perform_algo_test()
@@ -15,7 +15,7 @@ public class AnswerHistoryTest_AlgoTester : BaseTest
         RecycleContainer();
 
         Assert.That(
-            Sl.R<AnswerHistoryTestRepo>().GetAll().Count, 
+            Sl.R<AnswerTestRepo>().GetAll().Count, 
             Is.EqualTo(3 * AlgoInfoRepo.GetAll().Count));
 
         AlgoTester.Run();

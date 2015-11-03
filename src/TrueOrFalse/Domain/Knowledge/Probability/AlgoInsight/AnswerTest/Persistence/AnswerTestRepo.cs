@@ -2,9 +2,9 @@
 using NHibernate;
 using NHibernate.Transform;
 
-public class AnswerHistoryTestRepo : RepositoryDbBase<AnswerHistoryTest>
+public class AnswerTestRepo : RepositoryDbBase<AnswerTest>
 {
-	public AnswerHistoryTestRepo(ISession session) : base(session)
+	public AnswerTestRepo(ISession session) : base(session)
 	{
 	}
 

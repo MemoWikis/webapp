@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 public class AnswerPair
 {
-    public AnswerHistory NextAnswer;
-    public AnswerHistory ExaminedAnswer;
-    public List<AnswerHistory> AnswerHistoryRow;
+    public Answer NextAnswer;
+    public Answer ExaminedAnswer;
+    public List<Answer> AnswerHistoryRow;
     /// <summary>
     /// Time span between examined and next answer
     /// </summary>
     public TimeSpan TimePassed;
     public double TimePassedInSeconds;
 
-    public AnswerPair(List<AnswerHistory> answerHistoryRow)
+    public AnswerPair(List<Answer> answerHistoryRow)
     {
         if (answerHistoryRow.Count <= 1)
             return;

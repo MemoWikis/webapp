@@ -9,7 +9,7 @@ public class ContextHistory
 		return new ContextHistory();
 	}
 
-	public List<AnswerHistory> All = new List<AnswerHistory>();
+	public List<Answer> All = new List<Answer>();
 	public User User;
 
 	public ContextHistory()
@@ -26,7 +26,7 @@ public class ContextHistory
     {
         var _session = Sl.R<ISession>();
 
-	    var historyItem = new AnswerHistory
+	    var historyItem = new Answer
 	    {
 		    UserId = user.Id,
 		    QuestionId = 1,

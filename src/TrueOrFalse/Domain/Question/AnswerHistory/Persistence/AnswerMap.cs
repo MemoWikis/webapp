@@ -1,8 +1,8 @@
 ﻿using FluentNHibernate.Mapping;
 
-public class AnswerHistoryMap : ClassMap<AnswerHistory>
+public class AnswerMap : ClassMap<Answer>
 {
-    public AnswerHistoryMap()
+    public AnswerMap()
     {
         Id(x => x.Id);
 

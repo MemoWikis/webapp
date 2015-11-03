@@ -8,7 +8,7 @@ public class IntervalizerResultItem
 {
     public TimeSpan TimeIntervalLength;
     public int IndexOfInterval;
-    public List<Tuple<AnswerHistory, AnswerHistory>> PairsOfExaminedAndNextAnswer = new List<Tuple<AnswerHistory, AnswerHistory>>();
+    public List<Tuple<Answer, Answer>> PairsOfExaminedAndNextAnswer = new List<Tuple<Answer, Answer>>();
     public int NumberOfPairs;
     public double ProportionAnsweredCorrect;
     public TimeSpan TimePassedLowerBound;
@@ -23,9 +23,9 @@ public class IntervalizerResultItem
         NumberOfPairs = 0;
     }
 
-    public void AddPair(AnswerHistory examinedAnswer, AnswerHistory nextAnswer)
+    public void AddPair(Answer examinedAnswer, Answer nextAnswer)
     {
-        PairsOfExaminedAndNextAnswer.Add(new Tuple<AnswerHistory, AnswerHistory>(examinedAnswer, nextAnswer));
+        PairsOfExaminedAndNextAnswer.Add(new Tuple<Answer, Answer>(examinedAnswer, nextAnswer));
         NumberOfPairs = PairsOfExaminedAndNextAnswer.Count;
         ProportionAnsweredCorrect = PairsOfExaminedAndNextAnswer.Count(p => p.Item2.AnsweredCorrectly()) / (double)NumberOfPairs;
     }

@@ -73,9 +73,9 @@
     <div style="margin-top: 30px;">
     <% foreach (var step in Model.LearningSession.Steps.Where(s => s.AnswerState != StepAnswerState.Uncompleted))
         {
-            if (step.AnswerState == StepAnswerState.Answered && step.AnswerHistory != null)
+            if (step.AnswerState == StepAnswerState.Answered && step.Answer != null)
             {
-                if (step.AnswerHistory.AnsweredCorrectly())
+                if (step.Answer.AnsweredCorrectly())
                 { %>
                     <div class="QuestionLearned AnsweredRight" style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
                         <i class="fa fa-check show-tooltip" title="Richtig beantwortet"></i>

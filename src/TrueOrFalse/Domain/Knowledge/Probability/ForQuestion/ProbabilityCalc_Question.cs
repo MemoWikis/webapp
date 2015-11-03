@@ -3,7 +3,7 @@ using System.Linq;
 
 public class ProbabilityCalc_Question : IRegisterAsInstancePerLifetime
 {
-    public static int Run(IList<AnswerHistory> answerHistoryItems)
+    public static int Run(IList<Answer> answerHistoryItems)
     {
         if (!answerHistoryItems.Any())
             return 30;

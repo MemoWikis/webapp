@@ -6,7 +6,7 @@ public abstract class ProbabilityCalc_Abstract
 {
     public ProbabilityCalcResult Run(Question question, User user)
     {
-        var answerHistoryItems = Sl.R<AnswerHistoryRepo>().GetByQuestion(question.Id, user.Id);
+        var answerHistoryItems = Sl.R<AnswerRepo>().GetByQuestion(question.Id, user.Id);
 
         if(Sl.R<ISession>().Get<Question>(question.Id) == null || Sl.R<ISession>().Get<User>(user.Id) == null)
             return new ProbabilityCalcResult { Probability = 0, KnowledgeStatus = KnowledgeStatus.Unknown };
@@ -14,7 +14,7 @@ public abstract class ProbabilityCalc_Abstract
         return Run(answerHistoryItems, question, user);
     }
 
-    public ProbabilityCalcResult Run(Question question, User user, IList<AnswerHistory> answerHistoryItems)
+    public ProbabilityCalcResult Run(Question question, User user, IList<Answer> answerHistoryItems)
     {
         if(question == null || user == null)
             return new ProbabilityCalcResult {Probability = 0, KnowledgeStatus = KnowledgeStatus.Unknown};
@@ -28,5 +28,5 @@ public abstract class ProbabilityCalc_Abstract
         return Run(answerHistoryItems, question, user);
     }
 
-	public abstract ProbabilityCalcResult Run(IList<AnswerHistory> previousHistoryItems, Question question, User user);
+	public abstract ProbabilityCalcResult Run(IList<Answer> previousHistoryItems, Question question, User user);
 }

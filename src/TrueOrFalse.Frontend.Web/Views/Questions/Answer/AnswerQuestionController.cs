@@ -14,20 +14,20 @@ public class AnswerQuestionController : BaseController
     private readonly QuestionRepo _questionRepo;
 
     private readonly AnswerQuestion _answerQuestion;
-    private readonly AnswerHistoryLog _answerHistoryLog;
+    private readonly AnswerLog _answerLog;
     private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
     private readonly SaveQuestionView _saveQuestionView;
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
     public AnswerQuestionController(QuestionRepo questionRepo,
                                     AnswerQuestion answerQuestion,
-                                    AnswerHistoryLog answerHistoryLog,
+                                    AnswerLog answerLog,
                                     UpdateQuestionAnswerCount updateQuestionAnswerCount,
                                     SaveQuestionView saveQuestionView)
     {
         _questionRepo = questionRepo;
         _answerQuestion = answerQuestion;
-        _answerHistoryLog = answerHistoryLog;
+        _answerLog = answerLog;
         _updateQuestionAnswerCount = updateQuestionAnswerCount;
         _saveQuestionView = saveQuestionView;
     }

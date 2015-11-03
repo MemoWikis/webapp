@@ -7,7 +7,7 @@ public class AssignQuestionFeatures
         var questionFeatureRepo = Sl.R<QuestionFeatureRepo>();
 
         var allFeatures = questionFeatureRepo.GetAll();
-        var allAnswers = Sl.R<AnswerHistoryRepo>().GetAllEager();
+        var allAnswers = Sl.R<AnswerRepo>().GetAllEager();
 
         var allQuestions = Sl.R<QuestionRepo>().GetAll();
 

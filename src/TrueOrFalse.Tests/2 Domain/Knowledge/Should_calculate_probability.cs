@@ -13,14 +13,14 @@ namespace TrueOrFalse.Tests
             var user = ContextUser.New().Add("User").Persist().All[0];
             var question = ContextQuestion.New().AddQuestion(questionText: "question").Persist().All[0];
 
-            Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
-                new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1) },
-                new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
+            Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
+                new Answer { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1) },
+                new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
             },question, user).Probability,Is.EqualTo(36));
 
-            Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
-                new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
-                new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
+            Assert.That(Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
+                new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
+                new Answer { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
             }, question, user).Probability, Is.EqualTo(63));            
         }
 
@@ -30,9 +30,9 @@ namespace TrueOrFalse.Tests
             var user = ContextUser.New().Add("User").Persist().All[0];
             var question = ContextQuestion.New().AddQuestion(questionText: "question").Persist().All[0];
 
-            var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
-                new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
-                new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
+            var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
+                new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-1) },
+                new Answer { AnswerredCorrectly = AnswerCorrectness.True, DateCreated = DateTime.Now.AddDays(-2) }
             }, question, user);
 
             Assert.That(correctnessProbability.Probability, Is.EqualTo(100));
@@ -44,9 +44,9 @@ namespace TrueOrFalse.Tests
             var user = ContextUser.New().Add("User").Persist().All[0];
             var question = ContextQuestion.New().AddQuestion(questionText: "question").Persist().All[0];
 
-            var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<AnswerHistory>{
-                new AnswerHistory{AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1)},
-                new AnswerHistory { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
+            var correctnessProbability = Resolve<ProbabilityCalc_Simple1>().Run(new List<Answer>{
+                new Answer{AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-1)},
+                new Answer { AnswerredCorrectly = AnswerCorrectness.False, DateCreated = DateTime.Now.AddDays(-2) }
             }, question, user);
 
             Assert.That(correctnessProbability.Probability, Is.EqualTo(0));

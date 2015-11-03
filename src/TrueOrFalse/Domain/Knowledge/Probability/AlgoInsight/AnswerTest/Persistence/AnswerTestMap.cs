@@ -1,15 +1,15 @@
 ﻿using FluentNHibernate.Mapping;
 
-public class AnswerHistoryTestMap : ClassMap<AnswerHistoryTest>
+public class AnswerTestMap : ClassMap<AnswerTest>
 {
-	public AnswerHistoryTestMap()
+	public AnswerTestMap()
 	{
 		Table("AnswerHistory_Test");
 
 		Id(x => x.Id);
 
 		Map(x => x.AlgoId);
-		References(x => x.AnswerHistory);
+		References(x => x.Answer);
 
         Map(x => x.Probability);
         Map(x => x.IsCorrect);
