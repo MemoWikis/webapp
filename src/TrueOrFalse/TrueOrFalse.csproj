@@ -695,6 +695,7 @@
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs116.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs115.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs114.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs113.cs" />
