@@ -1,3 +1,4 @@
-﻿public class TabRepetitionModel
+﻿public class TabRepetitionModel : BaseModel
 {
+
 }
