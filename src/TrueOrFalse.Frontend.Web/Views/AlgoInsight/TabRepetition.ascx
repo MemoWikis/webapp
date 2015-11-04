@@ -5,3 +5,5 @@
         <h3>Vergleich Wiedervorlage-Strategien</h3>
     </div>
 </div>
+
+<% %>

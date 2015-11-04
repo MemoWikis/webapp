@@ -3,6 +3,6 @@
 public interface IAnswerPattern
 {
     string Name { get; }
-    bool IsMatch(List<Answer> listOfAnswers);
+    bool IsMatch(IList<Answer> listOfAnswers);
 }
 
