@@ -10,14 +10,14 @@ public class AnswerRepo : RepositoryDb<Answer>
 
     public void DeleteFor(int questionId)
     {
-        Session.CreateSQLQuery("DELETE FROM Answer ah WHERE ah.QuestionId = :questionId")
+        Session.CreateSQLQuery("DELETE FROM Answer ah WHERE ah.Question.Id = :questionId")
                 .SetParameter("questionId", questionId);
     }
 
     public IList<Answer> GetByQuestion(List<int> questionsId, int userId)
     {
         return Session.QueryOver<Answer>()
-            .Where(Restrictions.In("QuestionId", questionsId))
+            .Where(Restrictions.In("Question.Id", questionsId))
             .And(q => q.UserId == userId)
             .List();
     }
