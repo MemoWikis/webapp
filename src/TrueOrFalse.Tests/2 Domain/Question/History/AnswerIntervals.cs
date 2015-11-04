@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using TrueOrFalse.Tests;
 
 [TestFixture]
 public class AnswerIntervals_test 
@@ -9,22 +10,25 @@ public class AnswerIntervals_test
     public void Should_get_intervals()
     {
         //ARRANGE
+        var question1 = ContextQuestion.GetQuestion();
+        var question2 = ContextQuestion.GetQuestion();
+
         var listOfAnswerHistories = new List<Answer> { 
-		    new Answer {UserId = 1, QuestionId = 1, DateCreated = new DateTime(2015, 10, 8, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
-		    new Answer {UserId = 1, QuestionId = 1, DateCreated = new DateTime(2015, 10, 3, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
-		    new Answer {UserId = 1, QuestionId = 1, DateCreated = new DateTime(2015, 10, 4, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
-		    new Answer {UserId = 1, QuestionId = 1, DateCreated = new DateTime(2015, 10, 6, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
-		    new Answer {UserId = 1, QuestionId = 1, DateCreated = new DateTime(2015, 10, 1, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
-		    new Answer {UserId = 1, QuestionId = 1, DateCreated = new DateTime(2015, 10, 3, 12, 00, 01), AnswerredCorrectly = AnswerCorrectness.True},
+		    new Answer {UserId = 1, Question = question1, DateCreated = new DateTime(2015, 10, 8, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
+		    new Answer {UserId = 1, Question = question1, DateCreated = new DateTime(2015, 10, 3, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
+		    new Answer {UserId = 1, Question = question1, DateCreated = new DateTime(2015, 10, 4, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
+		    new Answer {UserId = 1, Question = question1, DateCreated = new DateTime(2015, 10, 6, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
+		    new Answer {UserId = 1, Question = question1, DateCreated = new DateTime(2015, 10, 1, 12, 00, 00), AnswerredCorrectly = AnswerCorrectness.True},
+		    new Answer {UserId = 1, Question = question1, DateCreated = new DateTime(2015, 10, 3, 12, 00, 01), AnswerredCorrectly = AnswerCorrectness.True},
 		    
-            new Answer {UserId = 1, QuestionId = 2, DateCreated = new DateTime(2015, 10, 3, 12, 00, 00)},
+            new Answer {UserId = 1, Question = question2, DateCreated = new DateTime(2015, 10, 3, 12, 00, 00)},
 		    
-            new Answer {UserId = 2, QuestionId = 1, DateCreated = new DateTime(2015, 10, 3, 12, 00, 00)},
-		    new Answer {UserId = 2, QuestionId = 1, DateCreated = new DateTime(2015, 10, 3, 12, 00, 01)},
+            new Answer {UserId = 2, Question = question1, DateCreated = new DateTime(2015, 10, 3, 12, 00, 00)},
+		    new Answer {UserId = 2, Question = question1, DateCreated = new DateTime(2015, 10, 3, 12, 00, 01)},
 		    
-            new Answer {UserId = 3, QuestionId = 2, DateCreated = new DateTime(2015, 10, 11, 12, 00, 00)},
-		    new Answer {UserId = 3, QuestionId = 2, DateCreated = new DateTime(2015, 10, 12, 12, 00, 00)},
-		    new Answer {UserId = 3, QuestionId = 2, DateCreated = new DateTime(2015, 10, 18, 12, 00, 00)},
+            new Answer {UserId = 3, Question = question2, DateCreated = new DateTime(2015, 10, 11, 12, 00, 00)},
+		    new Answer {UserId = 3, Question = question2, DateCreated = new DateTime(2015, 10, 12, 12, 00, 00)},
+		    new Answer {UserId = 3, Question = question2, DateCreated = new DateTime(2015, 10, 18, 12, 00, 00)},
 		};
         //ACT
         var answerRows = AnswerPairFromHistoryRows.Get(listOfAnswerHistories);

@@ -6,7 +6,7 @@ public static class AnswerExt
 {
     public static List<Answer> ByQuestionId(this IEnumerable<Answer> answerHistories, int questionId)
     {
-        return answerHistories.Where(item => item.QuestionId == questionId).ToList();
+        return answerHistories.Where(item => item.Question.Id == questionId).ToList();
     }
 
     public static List<Answer> By(this IEnumerable<Answer> answerHistories, Question question, User user)
@@ -15,7 +15,7 @@ public static class AnswerExt
             return new List<Answer>();
 
         return answerHistories.Where(item => 
-            item.QuestionId == question.Id &&
+            item.Question.Id == question.Id &&
             item.UserId == user.Id
         ).ToList();
     }

@@ -1,16 +1,17 @@
 ﻿using NUnit.Framework;
+using TrueOrFalse.Tests;
 
 public class QuestionAnswerPersistenceTests : BaseTest
 {
     [Test]
     public void Persistence_Test()
     {
-        var questionHistory = new Answer();
-        questionHistory.QuestionId = 12;
-        questionHistory.Milliseconds = 100;
-        questionHistory.UserId = 1;
-        questionHistory.AnswerText = "asdfasfsf";
+        var answer = new Answer();
+        answer.Question = ContextQuestion.GetQuestion();
+        answer.Milliseconds = 100;
+        answer.UserId = 1;
+        answer.AnswerText = "asdfasfsf";
 
-        Resolve<AnswerRepo>().Create(questionHistory);
+        Resolve<AnswerRepo>().Create(answer);
     }
 }

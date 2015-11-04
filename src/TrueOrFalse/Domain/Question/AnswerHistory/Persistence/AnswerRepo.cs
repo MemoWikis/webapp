@@ -25,14 +25,14 @@ public class AnswerRepo : RepositoryDb<Answer>
     public IList<Answer> GetByQuestion(int questionId)
     {
         return Session.QueryOver<Answer>()
-                        .Where(i => i.QuestionId == questionId)
+                        .Where(i => i.Question.Id == questionId)
                         .List<Answer>();
     }
 
     public IList<Answer> GetByQuestion(int questionId, int userId)
     {
         return Session.QueryOver<Answer>()
-                        .Where(i => i.QuestionId == questionId && i.UserId == userId)
+                        .Where(i => i.Question.Id == questionId && i.UserId == userId)
                         .List<Answer>();
     }
 

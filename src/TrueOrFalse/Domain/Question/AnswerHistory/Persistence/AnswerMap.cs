@@ -7,7 +7,6 @@ public class AnswerMap : ClassMap<Answer>
         Id(x => x.Id);
 
         Map(x => x.UserId);
-        Map(x => x.QuestionId);
 
         References(x => x.Question).Column("QuestionId");
 

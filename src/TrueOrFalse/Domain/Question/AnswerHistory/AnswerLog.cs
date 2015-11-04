@@ -22,7 +22,7 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
     {
         var answer = new Answer
         {
-            QuestionId = question.Id,
+            Question = question,
             UserId = userId,
             AnswerText = answerQuestionResult.AnswerGiven,
             AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False,
@@ -51,7 +51,7 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
     {
         var answer = new Answer
         {
-            QuestionId = question.Id,
+            Question = question,
             UserId = userId,
             AnswerText = "",
             AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue,

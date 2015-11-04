@@ -21,7 +21,7 @@ public abstract class ProbabilityCalc_Abstract
 
         answers = answers
             .Where(x =>
-                x.QuestionId == question.Id &&
+                x.Question.Id == question.Id &&
                 x.UserId == user.Id
             ).ToList();
 

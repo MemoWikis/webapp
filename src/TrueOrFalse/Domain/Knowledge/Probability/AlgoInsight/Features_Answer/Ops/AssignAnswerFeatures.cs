@@ -17,7 +17,7 @@ public class AssignAnswerFeatures
         {
             foreach (var feature in allFeatures)
             {
-                var question = allQuestions.ById(answer.QuestionId);
+                var question = allQuestions.ById(answer.Question.Id);
                 var user = allUsers.ById(answer.UserId);
 
                 var featureFilterParams =

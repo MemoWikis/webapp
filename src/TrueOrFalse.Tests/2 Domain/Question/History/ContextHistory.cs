@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NHibernate;
+using TrueOrFalse.Tests;
 
 public class ContextHistory
 {
@@ -29,7 +30,7 @@ public class ContextHistory
 	    var historyItem = new Answer
 	    {
 		    UserId = user.Id,
-		    QuestionId = 1,
+		    Question = ContextQuestion.GetQuestion(),
 		    AnswerredCorrectly = AnswerCorrectness.True,
 		    DateCreated = DateTime.Now.AddDays(daysOffset)
 	    };

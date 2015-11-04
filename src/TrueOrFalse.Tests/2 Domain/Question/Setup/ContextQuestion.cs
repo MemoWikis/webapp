@@ -25,6 +25,11 @@ namespace TrueOrFalse.Tests
             return BaseTest.Resolve<ContextQuestion>();
         }
 
+        public static Question GetQuestion()
+        {
+            return New().AddQuestion().Persist().All[0];
+        }
+
         public ContextQuestion SetLearner(User learner){ _learner = learner; return this; }
 
         public ContextQuestion(QuestionRepo questionRepo)

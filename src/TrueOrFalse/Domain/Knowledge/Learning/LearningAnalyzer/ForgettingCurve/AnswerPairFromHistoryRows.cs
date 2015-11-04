@@ -17,7 +17,7 @@ public class AnswerPairFromHistoryRows
     {
         var lists = new List<List<Answer>>();
         listOfAnswerHistories
-            .GroupBy(ah => new { ah.UserId, ah.QuestionId })
+            .GroupBy(ah => new { ah.UserId, ah.Question.Id })
             .ToList()
             .ForEach(grouping => 
                 lists.Add(grouping

@@ -6,7 +6,6 @@ public class Answer : IPersistable, WithDateCreated
 {
     public virtual int Id { get; set; }
     public virtual int UserId { get; set; }
-    public virtual int QuestionId { get; set; }
     public virtual Question Question { get; set; }
     public virtual AnswerCorrectness AnswerredCorrectly { get; set; }
     public virtual string AnswerText { get; set; }
@@ -21,11 +20,6 @@ public class Answer : IPersistable, WithDateCreated
     public virtual DateTime DateCreated { get; set; }
 
     public virtual IList<AnswerFeature> Features { get; set; }
-
-    public virtual Question GetQuestion()
-    {
-        return Sl.R<QuestionRepo>().GetById(QuestionId);
-    }
 
     public virtual User GetUser()
     {

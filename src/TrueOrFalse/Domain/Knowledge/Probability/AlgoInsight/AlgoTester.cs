@@ -35,21 +35,21 @@ public class AlgoTester
 
 	private static void CreateHistoryItem(
         List<Answer> allPreviousItems, 
-        Answer answerItem, 
+        Answer answer, 
         AnswerTestRepo answerTestRepo, 
         AlgoInfo algo)
 	{
-	    var question = answerItem.GetQuestion();
-	    var user = answerItem.GetUser();
+	    var question = answer.Question;
+	    var user = answer.GetUser();
 
         var result = algo.Algorithm.Run(question, user, allPreviousItems);
 
 		var answerTest = new AnswerTest
 		{
-			Answer = answerItem,
+			Answer = answer,
 			AlgoId = algo.Id,
 			Probability = result.Probability,
-			IsCorrect = answerItem.AnsweredCorrectly()
+			IsCorrect = answer.AnsweredCorrectly()
 				? result.Probability > 50
 				: result.Probability <= 50
 		};
