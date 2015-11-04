@@ -12,7 +12,7 @@ public class AnswerFeature : DomainEntity
     public virtual string Name { get; set; }
     public virtual string Description { get; set; }
 
-    public virtual IList<Answer> AnswerHistories { get; set; }
+    public virtual IList<Answer> Answers { get; set; }
 
     public virtual Func<AnswerFeatureFilterParams, bool> DoesApply { get; set; }
 }

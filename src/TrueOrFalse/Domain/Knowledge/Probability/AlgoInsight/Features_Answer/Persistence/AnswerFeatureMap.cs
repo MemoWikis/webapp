@@ -12,7 +12,7 @@ public class AnswerFeatureMap : ClassMap<AnswerFeature>
         Map(x => x.Name);
         Map(x => x.Description);
 
-        HasManyToMany(x => x.AnswerHistories).
+        HasManyToMany(x => x.Answers).
             Table("answerFeature_to_answer");
 
         Map(x => x.DateCreated);
