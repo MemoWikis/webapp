@@ -7,6 +7,14 @@ public class AnswerFeatureRepo : RepositoryDbBase<AnswerFeature>
     {
     }
 
+    public int GetCount(int featureId)
+    {
+        return Session.QueryOver<AnswerFeature>()
+            .Where(f => f.Id == featureId)
+            .JoinQueryOver(f => f.Answers)
+            .RowCount();
+    }
+
     public void InsertRelation(int featureId, int answerId)
     {
         _session.CreateSQLQuery(

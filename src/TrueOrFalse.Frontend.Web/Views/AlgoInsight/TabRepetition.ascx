@@ -6,4 +6,24 @@
     </div>
 </div>
 
-<% %>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Mustername</th>
+            <th>Anzahl Treffer</th>
+            <th>Mit nächster Frage</th>
+            <th>Ø Erfolgsrate
+            </th>
+        </tr>
+    </thead>
+
+<% foreach(var pattern in Model.PatternInfos) {%>
+    <tr>
+        <td style="padding-right: 15px;" ><%= pattern.Name %></td>
+        <td><%= pattern.MatchedAnswersCount %></td>
+        <td></td>
+        <td></td>
+    </tr>
+<% } %>
+    
+</table>

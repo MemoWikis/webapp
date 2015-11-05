@@ -17,7 +17,7 @@ public class AnswerFeatureFilter
     {
         return param =>
         {
-            if (param.PreviousAnswers.Count == times)
+            if (param.Answers().Count == times)
                 return true;
 
             return false;

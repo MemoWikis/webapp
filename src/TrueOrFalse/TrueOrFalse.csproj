@@ -282,6 +282,8 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatcher.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\AnswerPatternRepo.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\IAnswerPattern.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\Info\AnswerPatternInfoLoader.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\Info\AnswerPatternInfo.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\MaxStreak.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\XDaysExactly.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurveJson\CurveDesc.cs" />
