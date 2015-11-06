@@ -217,6 +217,9 @@ a.ImageLicenseCaption {
 #modalImageMaintenance .noControls .form-control-static {
   padding-top: 0;
 }
+#modalImageMaintenance .noLabel .form-control-static {
+  margin-left: 0;
+}
 #modalImageMaintenance .aside .columnControlsFull .radio,
 #modalImageMaintenance .aside .columnControlsFull .form-control-static {
   margin-left: 0;
