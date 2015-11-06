@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Routing;
 using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Updates;
 using TrueOrFalse.Web;
 
 public class AnswerQuestionController : BaseController
@@ -14,21 +11,15 @@ public class AnswerQuestionController : BaseController
     private readonly QuestionRepo _questionRepo;
 
     private readonly AnswerQuestion _answerQuestion;
-    private readonly AnswerLog _answerLog;
-    private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
     private readonly SaveQuestionView _saveQuestionView;
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
 
     public AnswerQuestionController(QuestionRepo questionRepo,
                                     AnswerQuestion answerQuestion,
-                                    AnswerLog answerLog,
-                                    UpdateQuestionAnswerCount updateQuestionAnswerCount,
                                     SaveQuestionView saveQuestionView)
     {
         _questionRepo = questionRepo;
         _answerQuestion = answerQuestion;
-        _answerLog = answerLog;
-        _updateQuestionAnswerCount = updateQuestionAnswerCount;
         _saveQuestionView = saveQuestionView;
     }
 
@@ -207,8 +198,6 @@ public class AnswerQuestionController : BaseController
             }
         };
     }
-
-
 
     [HttpPost]
     public JsonResult GetSolution(int id, string answer)

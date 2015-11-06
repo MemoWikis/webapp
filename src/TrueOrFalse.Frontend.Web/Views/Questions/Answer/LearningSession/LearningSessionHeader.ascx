@@ -22,7 +22,7 @@
         
         <% if(Model.LearningSession.IsDateSession) { %>
             <%= Model.LearningSession.TotalPossibleQuestions %> Fragen 
-            aus dem Termin <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetInfo() %></a>
+            aus dem Termin <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
         <% } %>
         <br/>Frage <%= Model.LearningSessionCurrentStepNo %> von <%= Model.LearningSession.Steps.Count() %>        
     </div>
