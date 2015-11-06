@@ -31,9 +31,9 @@
                 <div class="col-md-12" style="">
                     <b>Kurve <%= i %></b>
                     <span id="pairCount<%=i %>" class="show-tooltip" data-original-title="Anzahl Antwort-Paare"></span>
-                    <span id="regressionValue<%=i %>" class="show-tooltip" data-original-title="Anzahl Antwort-Paare"></span>
+                    <%--<span id="regressionValue<%=i %>" class="show-tooltip" data-original-title="Regressionswert"></span>--%>
 
-                    <input id="ckbShowCurve<%= i %>" type="checkbox" class="pull-right" checked="checked" style="padding-right: 3px; position: relative; top: 0px;"  />
+                    <%--<input id="ckbShowCurve<%= i %>" type="checkbox" class="pull-right" checked="checked" style="padding-right: 3px; position: relative; top: 0px;"  />--%>
                 </div>
             </div>
             <div class="row" style="padding: 3px; margin-top: 5px;">

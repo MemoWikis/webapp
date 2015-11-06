@@ -25,15 +25,15 @@ public class AnswerRepo : RepositoryDb<Answer>
     public IList<Answer> GetByQuestion(int questionId)
     {
         return Session.QueryOver<Answer>()
-                        .Where(i => i.Question.Id == questionId)
-                        .List<Answer>();
+            .Where(i => i.Question.Id == questionId)
+            .List<Answer>();
     }
 
     public IList<Answer> GetByQuestion(int questionId, int userId)
     {
         return Session.QueryOver<Answer>()
-                        .Where(i => i.Question.Id == questionId && i.UserId == userId)
-                        .List<Answer>();
+            .Where(i => i.Question.Id == questionId && i.UserId == userId)
+            .List<Answer>();
     }
 
     public IList<Answer> GetByFeatures(AnswerFeature answerFeature, QuestionFeature questionFeature)
@@ -92,6 +92,15 @@ public class AnswerRepo : RepositoryDb<Answer>
         return Session.QueryOver<Answer>()
             .Fetch(x => x.Round).Eager
             .Fetch(x => x.Player).Eager
+            .Fetch(x => x.Question).Eager
             .List();
+    }
+
+    public Answer GetLastCreated()
+    {
+        return Session.QueryOver<Answer>()
+            .OrderBy(x => x.DateCreated).Desc
+            .Take(1)
+            .SingleOrDefault();
     }
 }
