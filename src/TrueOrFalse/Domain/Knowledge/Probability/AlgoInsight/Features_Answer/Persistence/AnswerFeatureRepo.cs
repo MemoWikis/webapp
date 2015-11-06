@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using FluentNHibernate.Utils;
 using NHibernate;
 
 public class AnswerFeatureRepo : RepositoryDbBase<AnswerFeature>
@@ -13,6 +15,16 @@ public class AnswerFeatureRepo : RepositoryDbBase<AnswerFeature>
             .Where(f => f.Id == featureId)
             .JoinQueryOver(f => f.Answers)
             .RowCount();
+    }
+
+    public IList<Answer> GetAnswersForFeature(int featureId)
+    {
+        QuestionFeature questionFeature = null;
+
+        return Session.QueryOver<Answer>()
+            .JoinAlias(c => c.Features, () => questionFeature)
+            .Where(x => questionFeature.Id == featureId)
+            .List();
     }
 
     public void InsertRelation(int featureId, int answerId)

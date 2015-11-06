@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHibernate;
 
 namespace TrueOrFalse.Tests
 {
@@ -13,6 +12,8 @@ namespace TrueOrFalse.Tests
         private readonly QuestionRepo _questionRepo;
 
         public List<Question> All = new List<Question>();
+        public List<Answer> AllAnswers = new List<Answer>();
+
         public User Creator { get { return _contextUser.All[0]; }}
 
         private User _learner;
@@ -20,9 +21,14 @@ namespace TrueOrFalse.Tests
 
         private bool _persistQuestionsImmediately;
 
-        public static ContextQuestion New()
+        public static ContextQuestion New(bool persistImmediately = false)
         {
-            return BaseTest.Resolve<ContextQuestion>();
+            var result = BaseTest.Resolve<ContextQuestion>();
+
+            if (persistImmediately)
+                result.PersistImmediately();
+
+            return result;
         }
 
         public static Question GetQuestion()
@@ -66,6 +72,18 @@ namespace TrueOrFalse.Tests
 
             if (_persistQuestionsImmediately)
                 _questionRepo.Create(question);
+
+            return this;
+        }
+
+        public ContextQuestion AddAnswer(string answer)
+        {
+            var result = Sl.Resolve<AnswerQuestion>().Run(All.Last().Id, answer, Learner.Id);
+
+            var answerRepo = Sl.R<AnswerRepo>();
+            answerRepo.Flush();
+
+            AllAnswers.Add(answerRepo.GetLastCreated());
 
             return this;
         }

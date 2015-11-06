@@ -10,12 +10,18 @@ public class AnswerPatternInfoLoader
             .Where(g => g.Group == AnswerFeatureGroups.AnswerPattern);
 
         return AnswerPatternRepo.GetAll().Select(pattern =>
-            new AnswerPatternInfo
+        {
+            var featureId = features.ByName(pattern.Name).Id;
+
+            return new AnswerPatternInfo
             {
                 Name = pattern.Name,
-                MatchedAnswersCount = Sl.R<AnswerFeatureRepo>()
-                    .GetCount(features.ByName(pattern.Name).Id)
-            }
+                MatchedAnswersCount = Sl.R<AnswerFeatureRepo>().GetCount(featureId),
+                Matches = Sl.R<AnswerFeatureRepo>().GetAnswersForFeature(featureId),
+                //NextAnswers = 
+            };
+        }
+
         ).ToList();
     }
 }
