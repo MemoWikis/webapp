@@ -26,7 +26,7 @@ namespace TrueOrFalse.Updates
             Sl.Resolve<ISession>()
               .CreateSQLQuery(
                 @"
-                    CREATE TABLE `answerfeature_to_answerhistory` (
+                    CREATE TABLE `answerfeature_to_answer` (
 	                    `AnswerFeature_id` INT(11) NOT NULL,
 	                    `AnswerHistory_id` INT(11) NOT NULL,
 	                    INDEX `AnswerHistory_id` (`AnswerHistory_id`),

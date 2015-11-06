@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 public class AnswerPatternRepo
 {
     public static List<IAnswerPattern> GetAll()
     {
-        return new List<IAnswerPattern>()
+        return new List<IAnswerPattern>
         {
             new XDaysExactly2(),
             new XDaysExactly3(),

@@ -4,15 +4,15 @@ using TrueOrFalse;
 public class AnswerQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionRepo _questionRepo;
-    private readonly AnswerHistoryLog _answerHistoryLog;
+    private readonly AnswerLog _answerLog;
     private readonly LearningSessionStepRepo _learningSessionStepRepo;
 
     public AnswerQuestion(QuestionRepo questionRepo, 
-                            AnswerHistoryLog answerHistoryLog, 
+                            AnswerLog answerLog, 
                             LearningSessionStepRepo learningSessionStepRepo)
     {
         _questionRepo = questionRepo;
-        _answerHistoryLog = answerHistoryLog;
+        _answerLog = answerLog;
         _learningSessionStepRepo = learningSessionStepRepo;
     }
 
@@ -27,7 +27,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         var round = Sl.R<RoundRepo>().GetById(roundId);
 
         return Run(questionId, answer, userId, (question, answerQuestionResult) => {
-            _answerHistoryLog.Run(question, answerQuestionResult, userId, player, round);
+            _answerLog.Run(question, answerQuestionResult, userId, player, round);
         });
     }
 
@@ -41,7 +41,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         var learningSessionStep = _learningSessionStepRepo.GetById(stepId);
 
         return Run(questionId, answer, userId, (question, answerQuestionResult) => {
-            _answerHistoryLog.Run(question, answerQuestionResult, userId, learningSessionStep: learningSessionStep, dateCreated: dateCreated);
+            _answerLog.Run(question, answerQuestionResult, userId, learningSessionStep: learningSessionStep, dateCreated: dateCreated);
             
             learningSessionStep.AnswerState = StepAnswerState.Answered;
             _learningSessionStepRepo.Update(learningSessionStep);
@@ -56,7 +56,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
         return Run(questionId, answer, userId, (question, answerQuestionResult) => {
-            _answerHistoryLog.Run(question, answerQuestionResult, userId, dateCreated: dateCreated); 
+            _answerLog.Run(question, answerQuestionResult, userId, dateCreated: dateCreated); 
         });
     }
 
@@ -75,7 +75,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             return Run(questionId, "", userId,
             (question, answerQuestionResult) =>
                 {
-                    _answerHistoryLog.CountLastAnswerAsCorrect(question, userId);
+                    _answerLog.CountLastAnswerAsCorrect(question, userId);
                 },
             countLastAnswerAsCorrect: true);
 
@@ -84,7 +84,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
                 questionId, "", userId,
                 (question, answerQuestionResult) =>
                     {
-                        _answerHistoryLog.CountUnansweredAsCorrect(question, userId);
+                        _answerLog.CountUnansweredAsCorrect(question, userId);
                     },
                 countUnansweredAsCorrect: true);
 

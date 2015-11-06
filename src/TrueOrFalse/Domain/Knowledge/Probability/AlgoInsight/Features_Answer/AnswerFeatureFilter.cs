@@ -6,8 +6,8 @@ public class AnswerFeatureFilter
     {
         return param =>
         {
-            if (param.AnswerHistory.DateCreated.Hour >= startHour &&
-                param.AnswerHistory.DateCreated.Hour <= endHour)
+            if (param.Answer.DateCreated.Hour >= startHour &&
+                param.Answer.DateCreated.Hour <= endHour)
                 return true;
 
             return false;
@@ -17,7 +17,7 @@ public class AnswerFeatureFilter
     {
         return param =>
         {
-            if (param.PreviousAnswers.Count == times)
+            if (param.Answers().Count == times)
                 return true;
 
             return false;

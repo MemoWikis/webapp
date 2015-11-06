@@ -13,7 +13,7 @@ public class LearningSessionStepMap : ClassMap<LearningSessionStep>
 
         Map(x => x.AnswerState);
 
-        HasOne(x => x.AnswerHistory).PropertyRef(x => x.LearningSessionStep);
+        HasOne(x => x.Answer).PropertyRef(x => x.LearningSessionStep);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

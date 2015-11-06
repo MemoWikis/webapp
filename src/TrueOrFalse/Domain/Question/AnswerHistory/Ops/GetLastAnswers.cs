@@ -3,13 +3,13 @@ using NHibernate;
 
 public class GetLastAnswers : IRegisterAsInstancePerLifetime
 {
-    public IList<AnswerHistory> Run(int userId, int amount)
+    public IList<Answer> Run(int userId, int amount)
     {
         return Sl.R<ISession>()
-            .QueryOver<AnswerHistory>()
+            .QueryOver<Answer>()
             .Where(a => a.UserId == userId)
             .OrderBy(a => a.DateCreated).Desc
             .Take(amount)
-            .List<AnswerHistory>();
+            .List<Answer>();
     }
 }

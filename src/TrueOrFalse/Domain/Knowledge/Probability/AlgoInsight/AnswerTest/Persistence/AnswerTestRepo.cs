@@ -2,15 +2,15 @@
 using NHibernate;
 using NHibernate.Transform;
 
-public class AnswerHistoryTestRepo : RepositoryDbBase<AnswerHistoryTest>
+public class AnswerTestRepo : RepositoryDbBase<AnswerTest>
 {
-	public AnswerHistoryTestRepo(ISession session) : base(session)
+	public AnswerTestRepo(ISession session) : base(session)
 	{
 	}
 
 	public void TruncateTable()
 	{
-		_session.CreateSQLQuery("truncate table answerhistory_test").ExecuteUpdate();
+		_session.CreateSQLQuery("truncate table answer_test").ExecuteUpdate();
 	}
 
     public IList<AlgoSummary> LoadSummaries()
@@ -33,9 +33,9 @@ public class AnswerHistoryTestRepo : RepositoryDbBase<AnswerHistoryTest>
                           WHEN False THEN POW(ABS(0 - Probability), 2)
                       END
                   ), 0) as AvgDistanceWeighted
-              FROM answerhistory_test ah_t
-              LEFT JOIN answerhistory ah
-              ON ah_t.AnswerHistory_id = ah.Id
+              FROM answer_test ah_t
+              LEFT JOIN answer ah
+              ON ah_t.Answer_id = ah.Id
               GROUP BY AlgoId";
 
 
@@ -68,11 +68,11 @@ public class AnswerHistoryTestRepo : RepositoryDbBase<AnswerHistoryTest>
                          WHEN False THEN POW(ABS(0 - Probability), 2)
                      END
                  ), 0) as AvgDistanceWeighted
-              FROM answerhistory_test ah_t
-              LEFT JOIN answerhistory ah
-              ON ah_t.AnswerHistory_id = ah.Id
-              LEFT JOIN answerfeature_to_answerhistory af_t_ah
-              ON ah.Id = af_t_ah.AnswerHistory_id
+              FROM answer_test ah_t
+              LEFT JOIN answer ah
+              ON ah_t.Answer_id = ah.Id
+              LEFT JOIN answerfeature_to_answer af_t_ah
+              ON ah.Id = af_t_ah.Answer_id
               LEFT JOIN answerfeature af
               ON af_t_ah.AnswerFeature_id = af.Id
               GROUP BY AlgoId, af.Id";

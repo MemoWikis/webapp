@@ -5,17 +5,17 @@ public class QuestionFeatureFilterParams
 {
     public Question Question;
     /// <summary>All answers for this question</summary>
-    public IList<AnswerHistory> Answers;
+    public IList<Answer> Answers;
 
-    public IList<AnswerHistory> AllFirstAnswers;
+    public IList<Answer> AllFirstAnswers;
 
-    public IList<AnswerHistory> AllSecondsAnswers;
-    public IList<AnswerHistory> AllSecondsOrLaterAnswers;
+    public IList<Answer> AllSecondsAnswers;
+    public IList<Answer> AllSecondsOrLaterAnswers;
 
-    public IList<AnswerHistory> AllThirdAnswers;
-    public IList<AnswerHistory> AllThirdOrLaterAnswers;
+    public IList<Answer> AllThirdAnswers;
+    public IList<Answer> AllThirdOrLaterAnswers;
 
-    public QuestionFeatureFilterParams(Question question, IList<AnswerHistory> answers)
+    public QuestionFeatureFilterParams(Question question, IList<Answer> answers)
     {
         Question = question;
         Answers = answers;

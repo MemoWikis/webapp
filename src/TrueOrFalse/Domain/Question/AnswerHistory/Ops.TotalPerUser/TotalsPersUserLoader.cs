@@ -48,7 +48,7 @@ public class TotalsPersUserLoader : IRegisterAsInstancePerLifetime
 	                QuestionId,
 	                CAST(SUM(CASE WHEN AnswerredCorrectly = 1 THEN 1 WHEN AnswerredCorrectly = 2 THEN 1 ELSE 0 END) AS signed INTEGER) as TotalTrue,
 	                CAST(SUM(CASE WHEN AnswerredCorrectly = 0 THEN 1 ELSE 0 END) AS signed INTEGER) as TotalFalse
-                FROM AnswerHistory
+                FROM Answer
                 WHERE UserId = {0}
                 GROUP BY QuestionId, UserId
                 HAVING UserId = {0} 

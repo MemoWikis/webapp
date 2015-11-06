@@ -21,7 +21,7 @@ public class AnswerFeature_persistence_tests : BaseTest
 
         RecycleContainer();
 
-        var answerFeatures = Sl.R<AnswerHistoryRepo>().GetAll().SelectMany(q => q.Features).ToList();
+        var answerFeatures = Sl.R<AnswerRepo>().GetAll().SelectMany(q => q.Features).ToList();
 
         Assert.That(answerFeatures.Count(x => x.Id2 == "Time-00-06"), Is.EqualTo(5));
         Assert.That(answerFeatures.Count(x => x.Id2 == "Time-12-18"), Is.EqualTo(3));

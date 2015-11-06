@@ -1,13 +1,12 @@
 ﻿using FluentNHibernate.Mapping;
 
-public class AnswerHistoryMap : ClassMap<AnswerHistory>
+public class AnswerMap : ClassMap<Answer>
 {
-    public AnswerHistoryMap()
+    public AnswerMap()
     {
         Id(x => x.Id);
 
         Map(x => x.UserId);
-        Map(x => x.QuestionId);
 
         References(x => x.Question).Column("QuestionId");
 
@@ -19,7 +18,7 @@ public class AnswerHistoryMap : ClassMap<AnswerHistory>
         References(x => x.LearningSessionStep).Cascade.None().Unique();
 
         HasManyToMany(x => x.Features).
-            Table("answerFeature_to_answerHistory");
+            Table("answerFeature_to_answer");
 
         Map(x => x.Milliseconds);
         Map(x => x.DateCreated);

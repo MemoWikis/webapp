@@ -9,23 +9,23 @@ public class AlgoTester
         var stopWatch = new Stopwatch();
         Logg.r().Information("AlgoTester Start");
 
-		var allAnswerHistoryItems = Sl.R<AnswerHistoryRepo>().GetAll().OrderBy(x => x.Id);
-		var allPreviousItems = new List<AnswerHistory>();
+		var allAnswer = Sl.R<AnswerRepo>().GetAll().OrderBy(x => x.Id);
+		var allPreviousItems = new List<Answer>();
 
-		var answerHistoryTestRepo = Sl.R<AnswerHistoryTestRepo>();
+		var answerTestRepo = Sl.R<AnswerTestRepo>();
 
 		var algos = AlgoInfoRepo.GetAll();
 
 		var index = 0;
-        foreach (var answerHistoryItem in allAnswerHistoryItems)
+        foreach (var answerItem in allAnswer)
         {
             foreach(var algo in algos)
-                CreateHistoryItem(allPreviousItems, answerHistoryItem, answerHistoryTestRepo, algo);
+                CreateHistoryItem(allPreviousItems, answerItem, answerTestRepo, algo);
 
             if (index % 10 == 0)
-                answerHistoryTestRepo.Flush();
+                answerTestRepo.Flush();
 
-            allPreviousItems.Add(answerHistoryItem);
+            allPreviousItems.Add(answerItem);
 
             index++;
         }
@@ -34,26 +34,26 @@ public class AlgoTester
     }
 
 	private static void CreateHistoryItem(
-        List<AnswerHistory> allPreviousItems, 
-        AnswerHistory answerHistoryItem, 
-        AnswerHistoryTestRepo answerHistoryTestRepo, 
+        List<Answer> allPreviousItems, 
+        Answer answer, 
+        AnswerTestRepo answerTestRepo, 
         AlgoInfo algo)
 	{
-	    var question = answerHistoryItem.GetQuestion();
-	    var user = answerHistoryItem.GetUser();
+	    var question = answer.Question;
+	    var user = answer.GetUser();
 
         var result = algo.Algorithm.Run(question, user, allPreviousItems);
 
-		var answerHistoryTest = new AnswerHistoryTest
+		var answerTest = new AnswerTest
 		{
-			AnswerHistory = answerHistoryItem,
+			Answer = answer,
 			AlgoId = algo.Id,
 			Probability = result.Probability,
-			IsCorrect = answerHistoryItem.AnsweredCorrectly()
+			IsCorrect = answer.AnsweredCorrectly()
 				? result.Probability > 50
 				: result.Probability <= 50
 		};
 
-		answerHistoryTestRepo.Create(answerHistoryTest);
+		answerTestRepo.Create(answerTest);
 	}
 }

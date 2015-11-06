@@ -7,32 +7,32 @@ public class AssignAnswerFeatures
         var answerFeatureRepo = Sl.R<AnswerFeatureRepo>();
 
         var allFeatures = answerFeatureRepo.GetAll();
-        var allAnswers = Sl.R<AnswerHistoryRepo>().GetAllEager();
-        var allPreviousAnswers = new List<AnswerHistory>();
+        var allAnswers = Sl.R<AnswerRepo>().GetAllEager();
+        var allPreviousAnswers = new List<Answer>();
 
         var allQuestions = Sl.R<QuestionRepo>().GetAll();
         var allUsers = Sl.R<UserRepo>().GetAll();
 
-        foreach (var answerHistory in allAnswers)
+        foreach (var answer in allAnswers)
         {
             foreach (var feature in allFeatures)
             {
-                var question = allQuestions.ById(answerHistory.QuestionId);
-                var user = allUsers.ById(answerHistory.UserId);
+                var question = allQuestions.ById(answer.Question.Id);
+                var user = allUsers.ById(answer.UserId);
 
                 var featureFilterParams =
                     new AnswerFeatureFilterParams {
-                        AnswerHistory = answerHistory,
+                        Answer = answer,
                         PreviousAnswers = allPreviousAnswers.By(question, user),
                         Question = question,
                         User = user
                     };
 
                 if (feature.DoesApply(featureFilterParams))
-                    answerFeatureRepo.InsertRelation(feature.Id, answerHistory.Id);
+                    answerFeatureRepo.InsertRelation(feature.Id, answer.Id);
             }
 
-            allPreviousAnswers.Add(answerHistory);
+            allPreviousAnswers.Add(answer);
         }
     }
 }

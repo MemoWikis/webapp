@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 
-public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
+public class AnswerLog : IRegisterAsInstancePerLifetime
 {
-    private readonly AnswerHistoryRepo _answerHistoryRepo;
+    private readonly AnswerRepo _answerRepo;
 
-    public AnswerHistoryLog(AnswerHistoryRepo answerHistoryRepo)
+    public AnswerLog(AnswerRepo answerRepo)
     {
-        _answerHistoryRepo = answerHistoryRepo;
+        _answerRepo = answerRepo;
     }
 
     public void Run(
@@ -20,9 +20,9 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
       //  bool countUnansweredAsCorrect = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        var answerHistory = new AnswerHistory
+        var answer = new Answer
         {
-            QuestionId = question.Id,
+            Question = question,
             UserId = userId,
             AnswerText = answerQuestionResult.AnswerGiven,
             AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False,
@@ -34,30 +34,30 @@ public class AnswerHistoryLog : IRegisterAsInstancePerLifetime
                 : dateCreated
         };
 
-        _answerHistoryRepo.Create(answerHistory);
+        _answerRepo.Create(answer);
     }
 
     public void CountLastAnswerAsCorrect(Question question, int userId)
     {
-        var correctedAnswerHistory = _answerHistoryRepo.GetByQuestion(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
-        if (correctedAnswerHistory != null && correctedAnswerHistory.AnswerredCorrectly == AnswerCorrectness.False)
+        var correctedAnswer = _answerRepo.GetByQuestion(question.Id, userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
+        if (correctedAnswer != null && correctedAnswer.AnswerredCorrectly == AnswerCorrectness.False)
         {
-            correctedAnswerHistory.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
-            _answerHistoryRepo.Update(correctedAnswerHistory);
+            correctedAnswer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
+            _answerRepo.Update(correctedAnswer);
         }
     }
 
     public void CountUnansweredAsCorrect(Question question, int userId)
     {
-        var answerHistory = new AnswerHistory
+        var answer = new Answer
         {
-            QuestionId = question.Id,
+            Question = question,
             UserId = userId,
             AnswerText = "",
             AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue,
             DateCreated = DateTime.Now
         };
 
-        _answerHistoryRepo.Create(answerHistory);
+        _answerRepo.Create(answer);
     }
 }

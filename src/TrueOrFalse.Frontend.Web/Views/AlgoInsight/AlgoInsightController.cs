@@ -35,7 +35,7 @@ public class AlgoInsightController : BaseController
     [AccessOnlyAsAdmin]
 	public ActionResult ReevaluateAlgos()
 	{
-        R<AnswerHistoryTestRepo>().TruncateTable();
+        R<AnswerTestRepo>().TruncateTable();
         R<AnswerFeatureRepo>().TruncateTables();
 
         GenerateAnswerFeatures.Run();

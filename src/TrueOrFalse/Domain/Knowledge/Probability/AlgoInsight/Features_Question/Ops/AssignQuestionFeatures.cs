@@ -7,7 +7,7 @@ public class AssignQuestionFeatures
         var questionFeatureRepo = Sl.R<QuestionFeatureRepo>();
 
         var allFeatures = questionFeatureRepo.GetAll();
-        var allAnswers = Sl.R<AnswerHistoryRepo>().GetAllEager();
+        var allAnswers = Sl.R<AnswerRepo>().GetAllEager();
 
         var allQuestions = Sl.R<QuestionRepo>().GetAll();
 
@@ -17,7 +17,7 @@ public class AssignQuestionFeatures
             {
                 var args = new QuestionFeatureFilterParams(
                     question, 
-                    allAnswers.Where(a => a.QuestionId == question.Id).ToList()
+                    allAnswers.Where(a => a.Question.Id == question.Id).ToList()
                 );
 
                 if (feature.DoesApply(args))

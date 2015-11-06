@@ -62,7 +62,7 @@ public class BadgeAwardCheckParams
 
     public int AnswerCount()
     {
-        return R<AnswerHistoryRepo>().Query
+        return R<AnswerRepo>().Query
             .Where(i => i.UserId == CurrentUser.Id)
             .RowCount();
     }

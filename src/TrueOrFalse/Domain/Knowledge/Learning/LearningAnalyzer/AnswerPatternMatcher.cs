@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 public class AnswerPatternMatcher
 {
-    public static List<AnswerPatternMatch> Run(List<AnswerHistory> listOfAnswers)
+    public static List<AnswerPatternMatch> Run(List<Answer> listOfAnswers)
     {
         var result = new List<AnswerPatternMatch>();
 

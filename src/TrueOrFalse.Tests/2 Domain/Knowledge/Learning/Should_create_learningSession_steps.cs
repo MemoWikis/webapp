@@ -83,8 +83,8 @@ public class Should_create_learningSession_steps : BaseTest
         if (IsMysqlInMemoryEngine())
             learningSessionFromDb.Steps = learningSessionFromDb.Steps.OrderBy(s => s.Id).ToList();
 
-        Assert.That(learningSessionFromDb.Steps[0].AnswerHistory.AnswerText, Is.EqualTo("answer1"));
-        Assert.That(learningSessionFromDb.Steps[1].AnswerHistory.AnswerText == "answer2");
-        Assert.That(learningSessionFromDb.Steps[2].AnswerHistory == null);
+        Assert.That(learningSessionFromDb.Steps[0].Answer.AnswerText, Is.EqualTo("answer1"));
+        Assert.That(learningSessionFromDb.Steps[1].Answer.AnswerText == "answer2");
+        Assert.That(learningSessionFromDb.Steps[2].Answer == null);
     }
 }

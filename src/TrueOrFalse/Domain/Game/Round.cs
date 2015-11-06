@@ -16,7 +16,7 @@ public class Round : DomainEntity
 
     public virtual Game Game { get; set; }
 
-    public virtual IList<AnswerHistory> Answers { get; set; }
+    public virtual IList<Answer> Answers { get; set; }
 
     /// <summary>Seconds</summary>
     public virtual int RoundLength { get { return 20; } }
@@ -34,7 +34,7 @@ public class Round : DomainEntity
 
     public Round()
     {
-        Answers = new List<AnswerHistory>();
+        Answers = new List<Answer>();
     }
 }
 

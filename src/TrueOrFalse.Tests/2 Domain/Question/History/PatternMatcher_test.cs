@@ -10,11 +10,11 @@ public class PatternMatcher_test
     public void Should_match_pattern_XDaysExactly3()
     {
         //ARRANGE
-        var listOfAnswers = new List<AnswerHistory>()
+        var listOfAnswers = new List<Answer>()
         {
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
         };
 
         //ACT
@@ -29,12 +29,12 @@ public class PatternMatcher_test
     public void Should_match_pattern_XDaysExactly4()
     {
         //ARRANGE
-        var listOfAnswers = new List<AnswerHistory>()
+        var listOfAnswers = new List<Answer>()
         {
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
         };
 
         //ACT
@@ -49,15 +49,15 @@ public class PatternMatcher_test
     public void Should_match_pattern_XDaysExactly6OrMore()
     {
         //ARRANGE
-        var listOfAnswers = new List<AnswerHistory>()
+        var listOfAnswers = new List<Answer>()
         {
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 1, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 2, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 7, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 1, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 2, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 7, 14, 00, 21)},
         };
 
         //ACT
@@ -72,11 +72,11 @@ public class PatternMatcher_test
     public void Should_not_match_pattern_XDaysExactly()
     {
         //ARRANGE
-        var listOfAnswers = new List<AnswerHistory>()
+        var listOfAnswers = new List<Answer>()
         {
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
         };
 
         //ACT
@@ -90,18 +90,18 @@ public class PatternMatcher_test
     public void Should_determine_max_streak()
     {
         //ARRANGE
-        var listOfAnswers = new List<AnswerHistory>()
+        var listOfAnswers = new List<Answer>()
         {
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 7, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 8, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 9, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 10, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 7, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 8, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 9, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 10, 14, 00, 21)},
         };
 
         //ACT
@@ -109,24 +109,24 @@ public class PatternMatcher_test
 
         //ASSERT
         Assert.That(maxStreak, Is.EqualTo(5));
-        Assert.That(MaxStreak.GetNumber(new List<AnswerHistory>()), Is.EqualTo(0));
+        Assert.That(MaxStreak.GetNumber(new List<Answer>()), Is.EqualTo(0));
     }
 
     [Test]
     public void Should_match_pattern_MaxStreakOf4()
     {
         //ARRANGE
-        var listOfAnswers = new List<AnswerHistory>()
+        var listOfAnswers = new List<Answer>()
         {
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 7, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 8, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 9, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 7, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 8, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 9, 14, 00, 21)},
         };
 
         //ACT
@@ -141,18 +141,18 @@ public class PatternMatcher_test
     public void Should_match_pattern_MaxStreakOfMoreThan5()
     {
         //ARRANGE
-        var listOfAnswers = new List<AnswerHistory>()
+        var listOfAnswers = new List<Answer>()
         {
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 7, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 8, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 9, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 4, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 6, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 7, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 8, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 9, 14, 00, 21)},
         };
 
         //ACT
@@ -167,11 +167,11 @@ public class PatternMatcher_test
     public void Should_not_match_pattern_MaxStreak()
     {
         //ARRANGE
-        var listOfAnswers = new List<AnswerHistory>()
+        var listOfAnswers = new List<Answer>()
         {
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
-            new AnswerHistory {DateCreated = new DateTime(2015, 12, 8, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 3, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 5, 14, 00, 21)},
+            new Answer {DateCreated = new DateTime(2015, 12, 8, 14, 00, 21)},
         };
 
         //ACT

@@ -24,7 +24,7 @@ public class GetStreakCorrectness
 		            ah_outer.DateCreated, 
 		            (
 			            SELECT COUNT(*)
-			            FROM AnswerHistory ah_inner
+			            FROM Answer ah_inner
 			            WHERE
 				            CASE 
 					            WHEN 
@@ -35,7 +35,7 @@ public class GetStreakCorrectness
 				            END != ah_outer.AnswerredCorrectly
 			            AND ah_inner.DateCreated < ah_outer.DateCreated
 		            ) as RunGroup
-	            FROM AnswerHistory ah_outer
+	            FROM Answer ah_outer
 	            WHERE UserId = {0}
 	            AND (
 		            AnswerredCorrectly = 1 OR 

@@ -7,7 +7,7 @@ public class Player : DomainEntity
     public virtual User User { get; set; }
     public virtual Game Game { get; set; }
 
-    public virtual IList<AnswerHistory> Answers { get; set; }
+    public virtual IList<Answer> Answers { get; set; }
 
     public virtual int AnsweredCorrectly {
         get{
@@ -27,6 +27,6 @@ public class Player : DomainEntity
 
     public Player ()
     {
-        Answers = new List<AnswerHistory>();        
+        Answers = new List<Answer>();        
     }
 }

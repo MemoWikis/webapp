@@ -16,18 +16,18 @@ public class Game_round_answers : BaseTest
         {
             var round = game.Rounds[i];
             //player 1: always wrong
-            round.Answers.Add(new AnswerHistory{
+            round.Answers.Add(new Answer{
                 AnswerredCorrectly = AnswerCorrectness.False,
-                QuestionId = round.Question.Id,
+                Question = round.Question,
                 AnswerText = "Foo",
                 Round = round,
                 UserId = player1.User.Id,
                 Player = player1
             });
             //player 2: always correct
-            round.Answers.Add(new AnswerHistory{
+            round.Answers.Add(new Answer{
                 AnswerredCorrectly = AnswerCorrectness.True,
-                QuestionId = round.Question.Id,
+                Question = round.Question,
                 AnswerText = round.Question.Text,
                 Round = round,
                 UserId = player2.User.Id,

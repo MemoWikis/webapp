@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class GenerateAnswerFeatures
 {
@@ -51,23 +52,35 @@ public class GenerateAnswerFeatures
             Description = "Es wurde auf der AnswerPage gelernt, nicht in der Lernsitzung.",
             Group = AnswerFeatureGroups.TrainingType,
             DoesApply = param => 
-                param.AnswerHistory.Round == null && 
-                param.AnswerHistory.LearningSessionStep == null
+                param.Answer.Round == null && 
+                param.Answer.LearningSessionStep == null
         });
 
         answerFeatures.Add(new AnswerFeature{
             Id2 = "LearningSession",
             Name = "Lernsitzung",
             Group = AnswerFeatureGroups.TrainingType,
-            DoesApply = param => param.AnswerHistory.LearningSessionStep != null
+            DoesApply = param => param.Answer.LearningSessionStep != null
         });
 
         answerFeatures.Add(new AnswerFeature{
             Id2 = "InGame",
             Name = "Spiel",
             Group = AnswerFeatureGroups.TrainingType,
-            DoesApply = param => param.AnswerHistory.Round != null
+            DoesApply = param => param.Answer.Round != null
         });
+
+        //ANSWER PATTERNS
+        foreach (var answerPattern in AnswerPatternRepo.GetAll())
+        {
+            answerFeatures.Add(new AnswerFeature
+            {
+                Id2 = answerPattern.Name,
+                Name = answerPattern.Name,
+                Group = AnswerFeatureGroups.AnswerPattern,
+                DoesApply = param => answerPattern.IsMatch(param.Answers())
+            });
+        }
 
         //USER:
         //- AMOUNT OF WISH-KNOWLEDGE
@@ -75,7 +88,7 @@ public class GenerateAnswerFeatures
         //- AGE/GENDER
 
         //INTERACTION:
-        //- TIME FROM LAST REPETITION (1min, 2min, 5min, 10min, 30min, 1h, 3h, 10h, 24h, 48h, 96h, 192h)
+        //- TIME FROM LAST REPETITION (1min, 2min, 5min, 10min, 30min, 1h, 3h, 10h, 24h, 48h, 96h, 192h) -> EG ForgettingCurve
         //- EEG (used eeg, value (mellowness and concentration))
         //- VIEW COUNT
 

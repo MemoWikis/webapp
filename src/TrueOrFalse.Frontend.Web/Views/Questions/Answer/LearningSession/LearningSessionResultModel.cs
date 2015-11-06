@@ -23,8 +23,8 @@ public class LearningSessionResultModel : BaseModel
         if (TotalNumberSteps > 0)
         {
             var answeredSteps = LearningSession.Steps.Where(s => s.AnswerState == StepAnswerState.Answered).ToList();
-            NumberCorrectAnswers = answeredSteps.Count(s => s.AnswerHistory.AnswerredCorrectly != AnswerCorrectness.False);
-            NumberWrongAnswers = answeredSteps.Count(s => s.AnswerHistory.AnswerredCorrectly == AnswerCorrectness.False);
+            NumberCorrectAnswers = answeredSteps.Count(s => s.Answer.AnswerredCorrectly != AnswerCorrectness.False);
+            NumberWrongAnswers = answeredSteps.Count(s => s.Answer.AnswerredCorrectly == AnswerCorrectness.False);
             NumberSkipped = LearningSession.Steps.Count(s => s.AnswerState == StepAnswerState.Skipped);
 
             NumberCorrectPercentage = (int)Math.Round(NumberCorrectAnswers / (float)TotalNumberSteps * 100);

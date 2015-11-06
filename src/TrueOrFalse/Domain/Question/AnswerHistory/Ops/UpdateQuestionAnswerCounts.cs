@@ -15,11 +15,11 @@ public class UpdateQuestionAnswerCounts : IRegisterAsInstancePerLifetime
 
         _session.CreateSQLQuery(@"UPDATE question as q
                                 SET q.TotalTrueAnswers = (SELECT count(*) as AnswerredCorrectly
-	                                    FROM AnswerHistory as aw
+	                                    FROM Answer as aw
 	                                    WHERE (AnswerredCorrectly = 2 OR AnswerredCorrectly = 1)
 	                                    AND aw.QuestionId = q.Id),
                                 q.TotalFalseAnswers = (SELECT count(*) as AnswerredCorrectly
-	                                    FROM AnswerHistory as aw
+	                                    FROM Answer as aw
 	                                    WHERE AnswerredCorrectly = 0
 	                                    AND aw.QuestionId = q.Id) 
                                 where q.Id <> -1").ExecuteUpdate();

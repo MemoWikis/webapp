@@ -14,10 +14,10 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 
     public static void Run(Question question)
     {
-        var answerHistoryItems = Sl.R<AnswerHistoryRepo>().GetByQuestion(question.Id);
+        var answers = Sl.R<AnswerRepo>().GetByQuestion(question.Id);
 
-        question.CorrectnessProbability = ProbabilityCalc_Question.Run(answerHistoryItems);
-        question.CorrectnessProbabilityAnswerCount = answerHistoryItems.Count;
+        question.CorrectnessProbability = ProbabilityCalc_Question.Run(answers);
+        question.CorrectnessProbabilityAnswerCount = answers.Count;
 
         Sl.R<QuestionRepo>().Update(question);
     }

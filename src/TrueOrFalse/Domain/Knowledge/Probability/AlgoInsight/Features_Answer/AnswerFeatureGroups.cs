@@ -19,4 +19,9 @@ public static class AnswerFeatureGroups
     /// On answer page, in learing session, in game
     /// </summary>
     public const string TrainingType = "TrainingType";
+
+    /// <summary>
+    /// On answer page, in learing session, in game
+    /// </summary>
+    public const string AnswerPattern = "AnswerPattern";
 }

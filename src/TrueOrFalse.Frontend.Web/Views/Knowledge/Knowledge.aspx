@@ -380,7 +380,7 @@
                     <div class="col-xs-12 rowBase" style="padding: 10px;">
                         <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
                         <% foreach(var answer in Model.AnswerRecent){ 
-                            var question = answer.GetQuestion();
+                            var question = answer.Question;
                         %>
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col-xs-3">
