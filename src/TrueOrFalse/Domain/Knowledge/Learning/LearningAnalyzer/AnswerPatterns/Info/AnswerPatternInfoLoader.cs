@@ -12,13 +12,14 @@ public class AnswerPatternInfoLoader
         return AnswerPatternRepo.GetAll().Select(pattern =>
         {
             var featureId = features.ByName(pattern.Name).Id;
+            var matches = Sl.R<AnswerFeatureRepo>().GetAnswersForFeature(featureId);
 
             return new AnswerPatternInfo
             {
                 Name = pattern.Name,
                 MatchedAnswersCount = Sl.R<AnswerFeatureRepo>().GetCount(featureId),
-                Matches = Sl.R<AnswerFeatureRepo>().GetAnswersForFeature(featureId),
-                //NextAnswers = 
+                Matches = matches,
+                NextAnswers = matches.Select(FollowingAnswer.Get).Where(x => x != null).ToList()
             };
         }
 

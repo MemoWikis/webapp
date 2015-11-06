@@ -23,6 +23,18 @@ public static class AnswerExt
     /// <returns>A value between 0 and 1</returns>
     public static double AverageCorrectness(this IEnumerable<Answer> answerHistories)
     {
-        return answerHistories.Average(x => Convert.ToInt32(x.AnswerredCorrectly));
+        return answerHistories.Average(x =>
+        {
+            switch (x.AnswerredCorrectly)
+            {
+                case AnswerCorrectness.MarkedAsTrue:
+                case AnswerCorrectness.True:
+                    return 1;
+                case AnswerCorrectness.False:
+                    return 0;
+                default: 
+                    throw new Exception("unknown type");
+            }
+        });
     }
 }

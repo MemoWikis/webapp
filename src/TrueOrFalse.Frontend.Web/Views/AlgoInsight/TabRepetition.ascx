@@ -21,8 +21,8 @@
     <tr>
         <td style="padding-right: 15px;" ><%= pattern.Name %></td>
         <td><%= pattern.MatchedAnswersCount %></td>
-        <td></td>
-        <td></td>
+        <td><%= pattern.NextAnswers.Count %></td>
+        <td><%= pattern.NextAnswers.Count > 0 ? Math.Round(pattern.NextAnswerAvgCorrect() * 100, 0) + "%" : "" %></td>
     </tr>
 <% } %>
     
