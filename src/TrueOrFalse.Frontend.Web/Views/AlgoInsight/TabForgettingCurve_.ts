@@ -64,7 +64,8 @@ class ForgettingCurves {
         options.chartArea.top = "10";
 
         var chartExplore = new google.visualization.ScatterChart(window.document.getElementById('chartExplore'));
-        chartExplore.draw(dt, options);
+        chartExplore.draw(dt, options); //        chartExplore.draw(this.GetSampleData() vs dt, options);
+
     }
 
     DrawSuggested1And2() {
@@ -111,13 +112,42 @@ class ForgettingCurves {
 
     GetSampleData() {
         return google.visualization.arrayToDataTable([
-            ['Age', 'Leichte', 'Schwer', 'Mittel', 'Nobrainer'],
-            [8, 3, 2, 4, 2],
-            [4, 12, 2, 1, 3],
-            [11, 12, 1, 2, 2],
-            [4, 12, 2, 4, 5],
-            [3, 12, 3, 1, 2],
-            [6.5, 3, 5, 9, 3]
+            ['Age', 'Alle (No-Brainer)', 'X-Days-Exactly-3 (Alle)', 'Max-Strak-Of-4 (Mittelschwer)'],
+            [1, 99, 89, 82],
+            [1.2, 98, 85, 70],
+            [1.3, 98, 86, 72],
+            [1.6, 95, 82, 67],
+            [1.7, 98, 83, 67],
+            [1.9, 97, , 69],
+            [2.2, 98, 79, 70],
+            [2.3, 94, 75, 68],
+            [2.5, 95, 78, 12],
+            [2.9, 93, 76, 67],
+            [3.3, 92, 67, 66],
+            [3.4, 95, , 65],
+            [3.9, 98, 62, 67],
+            [4.4, 21, , 55],
+            [4.5, 95, 60, 54],
+            [4.6, 93, , 51],
+            [4.9, 91, 40, 56],
+            [5.0, 92, 59, 40],
+            [5.2, 91, 58, 55],
+            [5.4, 90, , 56],
+            [5.5, 89, 59, 51],
+            [5.9, 81, 56, 50],
+            [6.0, 84, , 61],
+            [6.1, 83, 57, ,],
+            [6.2, 88, 53, ,],
+            [6.8, 89, 55, 45],
+            [6.9, 90, , 51],
+            [7.4, 87, 53, 40],
+            [8.3, 86, 50, 44],
+            [9.0, 92, 41, 34],
+            [9.3, 85, 38, 35],
+            [9.9, 84, 40, 30],
+            [10.3, 81, 15, 9],
+            [10.5, , , 20],
+            [10.8, 70, 33, ,]
         ]);
     }
 }

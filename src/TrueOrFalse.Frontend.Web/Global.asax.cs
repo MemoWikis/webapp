@@ -109,7 +109,7 @@ namespace TrueOrFalse.Frontend.Web
             }
 
             if(!Request.IsLocal)
-                Response.Redirect(string.Format("~/Fehler/{0}", code), false);
+                Response.Redirect(string.Format("~/Fehler/{0}", code), true);
         }
     }
 }
