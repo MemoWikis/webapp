@@ -19,8 +19,8 @@
         else
         {
             if (relevancePeronal != -2) setValuation.RelevancePersonal = relevancePeronal;
-            _setValuationRepo.Create(setValuation);                
+            _setValuationRepo.Update(setValuation);                
         }
         _setValuationRepo.Flush();
     }
-}
+} 
