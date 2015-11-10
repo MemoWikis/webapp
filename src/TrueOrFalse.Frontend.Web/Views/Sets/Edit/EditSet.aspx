@@ -32,7 +32,7 @@
     
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", 
                 "EditSet", null, FormMethod.Post,
-                new { enctype = "multipart/form-data", style = "margin:0px;"})){ %>
+                new { id="EditSetForm", enctype = "multipart/form-data", style = "margin:0px;"})){ %>
     
             
         <%: Html.HiddenFor(m => m.ImageIsNew) %>
