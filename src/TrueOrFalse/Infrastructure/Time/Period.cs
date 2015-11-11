@@ -1,4 +1,6 @@
-﻿public class Period
+﻿using System;
+
+public class Period
 {
     public Period(Time start, Time end)
     {
@@ -8,6 +10,12 @@
 
     public Time Start;
     public Time End;
+
+
+    public bool IsInPeriod(DateTime dateTime)
+    {
+        return IsInPeriod(Time.New(dateTime));
+    }
 
     public bool IsInPeriod(Time time)
     {

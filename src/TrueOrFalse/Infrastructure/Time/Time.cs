@@ -5,9 +5,12 @@ public struct Time : IComparable<Time>
     public int Hours;
     public int Minutes;
 
-    public static Time New(int hours, int minutes)
-    {
+    public static Time New(int hours, int minutes){
         return new Time(hours, minutes);
+    }
+
+    public static Time New(DateTime dateTime){
+        return new Time(dateTime);
     }
 
     public Time(int hours, int minutes)

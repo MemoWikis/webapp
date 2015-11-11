@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class LearningPlanSettings
 {
@@ -9,7 +11,7 @@ public class LearningPlanSettings
 
     /// <summary>
     /// When answer probability drops below this treshold, 
-    /// it should be trained soon.
+    /// it should be trained soon. 
     /// </summary>
     public int AnswerProbabilityTreshhold = 90;
 
@@ -22,9 +24,9 @@ public class LearningPlanSettings
 
     public LearningPlanStrategy Strategy = LearningPlanStrategy.Sustained;
 
-    public bool IsInSnoozePeriod()
+    public bool IsInSnoozePeriod(DateTime dateTime)
     {
-        throw new System.NotImplementedException();
+        return SnoozePeriods.Any(p => p.IsInPeriod(dateTime));
     }
 }
 
