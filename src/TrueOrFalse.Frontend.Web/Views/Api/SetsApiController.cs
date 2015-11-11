@@ -30,15 +30,16 @@ public class SetsApiController : BaseController
     [HttpPost]
     public void Pin(string setId)
     {
-        Resolve<UpdateSetsTotals>()
-            .UpdateRelevancePersonal(Convert.ToInt32(setId), _sessionUser.User);
+        SetInKnowledge.Pin(Convert.ToInt32(setId), _sessionUser.User);
+
     }
 
     [HttpPost]
     public void Unpin(string setId)
     {
-        Resolve<UpdateSetsTotals>()
-            .UpdateRelevancePersonal(Convert.ToInt32(setId), _sessionUser.User, -1);
+        SetInKnowledge.Unpin(Convert.ToInt32(setId), _sessionUser.User);
+        var questions = Resolve<SetRepo>().GetById(Convert.ToInt32(setId)).QuestionsInSet.Select(x => x.Question);
+
     }
 
     public JsonResult ByName(string term)

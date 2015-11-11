@@ -464,7 +464,7 @@
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotal.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\SetListExt.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\SetValuationExt.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\UpdateSetsTotals.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Ops\SetInKnowledge.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationRepo.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationMap.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\SetValuation.cs" />
