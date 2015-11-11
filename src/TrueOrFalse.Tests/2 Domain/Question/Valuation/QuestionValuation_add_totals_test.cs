@@ -29,9 +29,8 @@ namespace TrueOrFalse.Tests
                                        User = contextQuestion.Creator
                                    };
 
-            var questionTotals = Resolve<UpdateQuestionTotals>();
-            questionTotals.Run(questionVal1);
-            questionTotals.Run(questionVal2);
+            QuestionInKnowledge.Run(questionVal1);
+            QuestionInKnowledge.Run(questionVal2);
 
             Resolve<ISession>().Evict(contextQuestion.All.First());
 

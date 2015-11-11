@@ -496,7 +496,7 @@
     <Compile Include="Domain\Question\QuestionValuation\Ops\CreateOrUpdateQuestionValue.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotalResult.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotal.cs" />
-    <Compile Include="Domain\Question\QuestionValuation\Ops\UpdateQuestionTotals.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\QuestionInKnowledge.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepo.cs" />
     <Compile Include="Domain\Question\QuestionValuation\QuestionValuation.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationMap.cs" />

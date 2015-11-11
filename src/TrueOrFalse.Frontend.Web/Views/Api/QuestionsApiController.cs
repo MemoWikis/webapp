@@ -17,15 +17,13 @@ namespace Api
         [HttpPost]
         public void Pin(string questionId)
         {
-            Resolve<UpdateQuestionTotals>()
-                .UpdateRelevancePersonal(Convert.ToInt32(questionId), _sessionUser.User);
+            QuestionInKnowledge.Pin(Convert.ToInt32(questionId), _sessionUser.User);
         }
 
         [HttpPost]
         public void Unpin(string questionId)
         {
-            Resolve<UpdateQuestionTotals>()
-                .UpdateRelevancePersonal(Convert.ToInt32(questionId), _sessionUser.User, -1);
+            QuestionInKnowledge.Unpin(Convert.ToInt32(questionId), _sessionUser.User);
         }
     }
 }

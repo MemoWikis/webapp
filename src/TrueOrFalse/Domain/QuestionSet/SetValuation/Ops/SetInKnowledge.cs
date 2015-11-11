@@ -1,6 +1,6 @@
 ﻿using NHibernate;
 
-public class SetInKnowledge 
+public static class SetInKnowledge 
 {
     public static void Pin(int setId, User user)
     {

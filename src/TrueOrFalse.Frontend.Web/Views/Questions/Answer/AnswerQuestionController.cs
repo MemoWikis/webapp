@@ -237,7 +237,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult SaveQuality(int id, int newValue)
     {
-        Sl.Resolve<UpdateQuestionTotals>().UpdateQuality(id, _sessionUser.User.Id, newValue);
+        QuestionInKnowledge.UpdateQuality(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForQuality(id);
         return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
     }
@@ -245,7 +245,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult SaveRelevanceForAll(int id, int newValue)
     {
-        Sl.Resolve<UpdateQuestionTotals>().UpdateRelevanceAll(id, _sessionUser.User.Id, newValue);
+        QuestionInKnowledge.UpdateRelevanceAll(id, _sessionUser.User.Id, newValue);
         var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevanceForAll(id);
         return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
     }

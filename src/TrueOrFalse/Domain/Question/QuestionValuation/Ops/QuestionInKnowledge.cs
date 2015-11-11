@@ -1,0 +1,98 @@
+﻿using System.Text;
+using NHibernate;
+
+public static class QuestionInKnowledge
+{
+    public static void Pin(int setId, User user)
+    {
+        UpdateRelevancePersonal(setId, user);
+    }
+
+    public static void Unpin(int setId, User user)
+    {
+        UpdateRelevancePersonal(setId, user, -1);
+    }
+
+    public static void Run(QuestionValuation questionValuation)
+    {
+        Sl.Resolve<QuestionValuationRepo>().CreateOrUpdate(questionValuation);
+
+        var sb = new StringBuilder();
+
+        sb.Append(GenerateQualityQuery(questionValuation.Question.Id));
+        sb.Append(GenerateRelevanceAllQuery(questionValuation.Question.Id));
+
+        sb.Append(GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));
+        sb.Append(GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));    
+        
+        var session = Sl.Resolve<ISession>();
+        session.CreateSQLQuery(sb.ToString()).ExecuteUpdate();
+        session.Flush();
+    }
+
+    public static void UpdateQuality(int questionId, int userId, int quality)
+    {
+        Sl.R<CreateOrUpdateQuestionValue>().Run(questionId, userId, quality: quality);
+
+        var session = Sl.Resolve<ISession>();
+        session.CreateSQLQuery(GenerateQualityQuery(questionId)).ExecuteUpdate();
+        session.Flush();
+    }
+
+    private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50)
+    {
+        Sl.R<CreateOrUpdateQuestionValue>().Run(questionId, user.Id, relevancePersonal: relevance);
+
+        var session = Sl.Resolve<ISession>();
+        session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
+        session.Flush();
+
+        Sl.R<ReputationUpdate>().ForQuestion(questionId);
+    }
+
+    public static void UpdateRelevanceAll(int questionId, int userId, int relevance)
+    {
+        Sl.R<CreateOrUpdateQuestionValue>().Run(questionId, userId, relevanceForAll: relevance);
+
+        var session = Sl.Resolve<ISession>();
+        session.CreateSQLQuery(GenerateRelevanceAllQuery(questionId)).ExecuteUpdate();
+        session.Flush();            
+    }
+
+    private static string GenerateQualityQuery(int questionId)
+    {
+        return
+            GenerateEntriesQuery("TotalQuality", "Quality", questionId) + " " +
+            GenerateAvgQuery("TotalQuality", "Quality", questionId) ;
+    }
+
+    private static string GenerateRelevancePersonal(int questionId)
+    {
+        return
+            GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", questionId) + " " +
+            GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionId);
+    }
+
+    private static string GenerateRelevanceAllQuery(int questionId)
+    {
+        return
+            GenerateEntriesQuery("TotalRelevanceForAll", "RelevanceForAll", questionId) + " " +
+            GenerateAvgQuery("TotalRelevanceForAll", "RelevanceForAll", questionId);
+    }
+
+    private static string GenerateAvgQuery(string fieldToSet, string fieldSource, int questionId)
+    {
+        return "UPDATE Question SET " + fieldToSet + "Avg = " +
+                    "ROUND((SELECT SUM(" + fieldSource + ") FROM QuestionValuation " +
+                    " WHERE QuestionId = " + questionId + " AND " + fieldSource + " != -1)/ " + fieldToSet + "Entries) " +
+                "WHERE Id = " + questionId + ";";
+    }
+
+    private static string GenerateEntriesQuery(string fieldToSet, string fieldSource, int questionId)
+    {
+        return "UPDATE Question SET " + fieldToSet + "Entries = " +
+                    "(SELECT COUNT(Id) FROM QuestionValuation " +
+                    "WHERE QuestionId = " + questionId + " AND " + fieldSource + " != -1) " +
+                "WHERE Id = " + questionId + ";";
+    }
+}

@@ -15,10 +15,9 @@ namespace TrueOrFalse.Tests
                 .AddQuestion(questionText: "3", solutionText: "")
                 .Persist();
 
-            var updateTotals = Resolve<UpdateQuestionTotals>();
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, Question = context.All[0], User = context.Creator});
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, Question = context.All[1], User = context.Creator});
-            updateTotals.Run(new QuestionValuation { Question = context.All[2], User = context.Creator});
+            QuestionInKnowledge.Run(new QuestionValuation { RelevancePersonal = 100, Question = context.All[0], User = context.Creator});
+            QuestionInKnowledge.Run(new QuestionValuation { RelevancePersonal = 1, Question = context.All[1], User = context.Creator});
+            QuestionInKnowledge.Run(new QuestionValuation { Question = context.All[2], User = context.Creator});
 
             Resolve<ISession>().Flush();
 

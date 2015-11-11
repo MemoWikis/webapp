@@ -32,6 +32,10 @@ public class SetsApiController : BaseController
     {
         SetInKnowledge.Pin(Convert.ToInt32(setId), _sessionUser.User);
 
+        var questions = Resolve<SetRepo>().GetById(Convert.ToInt32(setId)).QuestionsInSet.Select(x => x.Question);
+        
+        foreach (var question in questions)
+            QuestionInKnowledge.Pin(question.Id, _sessionUser.User);
     }
 
     [HttpPost]
@@ -40,6 +44,12 @@ public class SetsApiController : BaseController
         SetInKnowledge.Unpin(Convert.ToInt32(setId), _sessionUser.User);
         var questions = Resolve<SetRepo>().GetById(Convert.ToInt32(setId)).QuestionsInSet.Select(x => x.Question);
 
+        //foreach (var question in questions)
+        //{
+        //    if()
+        //    Resolve<UpdateQuestionTotals>()
+        //    .UpdateRelevancePersonal(question.Id, _sessionUser.User, -1);
+        //}
     }
 
     public JsonResult ByName(string term)
