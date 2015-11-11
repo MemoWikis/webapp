@@ -34,7 +34,7 @@
             if (relevancePersonal != -2) questionValuation.RelevancePersonal = relevancePersonal;
             if (relevanceForAll != -2) questionValuation.RelevanceForAll = relevanceForAll;
 
-            _questionValuationRepo.Create(questionValuation);                
+            _questionValuationRepo.Update(questionValuation);                
         }
         _questionValuationRepo.Flush();
     }
