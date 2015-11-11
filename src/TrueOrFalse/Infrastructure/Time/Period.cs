@@ -11,6 +11,14 @@
 
     public bool IsInPeriod(Time time)
     {
+        if(Start < End)
+            if (time >= Start && time <= End)
+                return true;
+
+        if (Start > End)
+            if ((time >= Start && time <= Time.New(24, 00)) || (time >= Time.New(00, 00)  && time <= End))
+                return true;
+
         return false;
     }
 }

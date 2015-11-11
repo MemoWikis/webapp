@@ -37,10 +37,20 @@ public class Date_time
         Assert.That(Time.New(11, 00) >= Time.New(11, 00), Is.True);
     }
 
+    [Test]
     public void Should_detect_if_is_in_period()
     {
         var periodA = new Period(new Time(22,10), new Time(22,30));
 
         Assert.That(periodA.IsInPeriod(new Time(10, 00)), Is.False);
+        Assert.That(periodA.IsInPeriod(new Time(22, 20)), Is.True);
+        Assert.That(periodA.IsInPeriod(new Time(22, 10)), Is.True);
+
+        var periodB = new Period(new Time(22, 00), new Time(6, 00));
+        Assert.That(periodB.IsInPeriod(new Time(21, 00)), Is.False);
+        Assert.That(periodB.IsInPeriod(new Time(7, 00)), Is.False);
+        Assert.That(periodB.IsInPeriod(new Time(22, 00)), Is.True);
+        Assert.That(periodB.IsInPeriod(new Time(23, 00)), Is.True);
+        Assert.That(periodB.IsInPeriod(new Time(5, 00)), Is.True);
     }
 }
