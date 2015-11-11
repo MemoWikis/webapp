@@ -29,7 +29,7 @@ public class NextDateFill
     {
         var date = new LearningDate();
 
-        settings.IsInSnoozePeriod();
+        //settings.IsInSnoozePeriod();
 
         //get offset
         //get all probablities for given time offset
