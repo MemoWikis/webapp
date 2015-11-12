@@ -4,9 +4,10 @@ public class DateRowModel : BaseModel
 {
     public Date Date;
 
-    public int KnowledgeUnknown;
-    public int KnowledgeWeak;
-    public int KnowledgeSecure;
+    public int KnowledgeNotLearned;
+    public int KnowledgeNeedsLearning;
+    public int KnowledgeNeedsConsolidation;
+    public int KnowledgeSolid;
 
     public int AmountQuestions;
 
@@ -27,9 +28,10 @@ public class DateRowModel : BaseModel
 
         var summary = R<KnowledgeSummaryLoader>().Run(UserId, allQuestions.GetIds(), onlyValuated: false);
 
-        KnowledgeSecure = summary.Secure;
-        KnowledgeUnknown = summary.Unknown;
-        KnowledgeWeak = summary.Weak;
+        KnowledgeNotLearned = summary.NotLearned;
+        KnowledgeNeedsLearning = summary.NeedsLearning;
+        KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
+        KnowledgeSolid = summary.Solid;
 
         var remaining = date.DateTime - DateTime.Now;
         RemainingDays = Math.Abs(Convert.ToInt32(remaining.TotalDays));

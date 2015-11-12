@@ -2,17 +2,21 @@
 
 public class KnowledgeSummary
 {
-    public int Secure = 0;
-    public int SecurePercentage { get { return Percentage(Secure); } }
-    
-    public int Weak  = 0;
-    public int WeakPercentage { get { return Percentage(Weak); } }
+    public int NotLearned = 0;
+    public int NotLearnedPercentage { get { return Percentage(NotLearned); } }
 
-    public int Unknown = 0;
-    public int UnknownPercentage { get { return Percentage(Unknown); } }
+    public int NeedsLearning = 0;
+    public int NeedsLearningPercentage { get { return Percentage(NeedsLearning); } }
+
+    public int NeedsConsolidation = 0;
+    public int NeedsConsolidationPercentage { get { return Percentage(NeedsConsolidation); } }
+
+    public int Solid = 0;
+    public int SolidPercentage { get { return Percentage(Solid); } }
+
 
     /// <summary>Sum of questions in wish knowledge</summary>
-    public int Total{ get { return Secure + Weak + Unknown; }}
+    public int Total{ get { return NotLearned + NeedsLearning + NeedsConsolidation + Solid; }}
 
     private int Percentage(int amount)
     {
