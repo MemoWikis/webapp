@@ -1,9 +1,17 @@
 ﻿using System;
 
-public struct Time
+public struct Time : IComparable<Time>
 {
     public int Hours;
     public int Minutes;
+
+    public static Time New(int hours, int minutes){
+        return new Time(hours, minutes);
+    }
+
+    public static Time New(DateTime dateTime){
+        return new Time(dateTime);
+    }
 
     public Time(int hours, int minutes)
     {
@@ -49,4 +57,39 @@ public struct Time
     {
         return dateTime.Date + new TimeSpan(Hours, Minutes, 0);
     }
+
+    public int CompareTo(Time other)
+    {
+        if (this.Hours == other.Hours && this.Minutes == other.Minutes)
+            return 0;
+
+        if (this.Hours > other.Hours)
+            return 1;
+
+        if (this.Hours == other.Hours && this.Minutes > other.Minutes)
+            return 1;
+
+        return -1;
+    }
+
+    public static bool operator <(Time x, Time y)
+    {
+        return x.CompareTo(y) == -1;
+    }
+
+    public static bool operator >(Time x, Time y)
+    {
+        return x.CompareTo(y) == 1;
+    }
+
+    public static bool operator >=(Time x, Time y)
+    {
+        return x.CompareTo(y) == 1 || x.CompareTo(y) == 0;
+    }
+
+    public static bool operator <=(Time x, Time y)
+    {
+        return x.CompareTo(y) == -1 || x.CompareTo(y) == 0;
+    }
+
 }
