@@ -123,6 +123,17 @@
                 </a>
             <% } %>
             
+            <% if(Model.CountReferences > 0) { %>
+                <h4 style="margin-top: 0;">Fragen mit dieser Kategorie als Referenz (<%=Model.CountReferences %>)</h4>
+            
+                <% var index = 0; foreach(var question in Model.TopQuestionsWithReferences){ index++;%>
+                    <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
+                        - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>"><%= question.GetShortTitle(150) %></a>
+                    </div>
+                <% } %>
+
+            <% } %>
+            
             <% if(Model.TopQuestionsInSubCats.Count > 0){ %>
                 <div style="margin-bottom: 18px">
                     <h4 style="margin-top: 0;">Fragen in Kindkategorien</h4>

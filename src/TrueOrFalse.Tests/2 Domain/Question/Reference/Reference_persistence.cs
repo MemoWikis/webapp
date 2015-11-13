@@ -24,9 +24,9 @@ namespace TrueOrFalse.Tests.Persistence
             reference.AdditionalInfo = "Additional Info";
             reference.ReferenceText = "Free text reference";
 
-            R<ReferenceRepository>().Create(reference);
+            R<ReferenceRepo>().Create(reference);
 
-            var references = R<ReferenceRepository>().GetAll();
+            var references = R<ReferenceRepo>().GetAll();
             Assert.That(references[0].Category.Name, Is.EqualTo(contextCategory.All.First().Name));
         }
 
@@ -40,9 +40,9 @@ namespace TrueOrFalse.Tests.Persistence
             reference.AdditionalInfo = "Additional Info";
             reference.ReferenceText = "Free text reference";
 
-            R<ReferenceRepository>().Create(reference);
+            R<ReferenceRepo>().Create(reference);
 
-            var references = R<ReferenceRepository>().GetAll();            
+            var references = R<ReferenceRepo>().GetAll();            
             Assert.That(references.Count, Is.EqualTo(1));
             Assert.That(references[0].Category, Is.EqualTo(null));
 

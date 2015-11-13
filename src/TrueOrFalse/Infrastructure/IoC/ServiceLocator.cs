@@ -2,11 +2,14 @@
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
+using NHibernate;
 
 public class Sl
 {
     public static T Resolve<T>(){return ServiceLocator.Resolve<T>();}
     public static T R<T>() { return ServiceLocator.Resolve<T>(); }
+
+    public static ISession Session{ get { return R<ISession>(); }}
 }
 
 public static class SlExt
