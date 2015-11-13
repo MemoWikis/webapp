@@ -79,13 +79,13 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
     public override void CreateOrUpdate(SetValuation setValuation)
     {
         base.CreateOrUpdate(setValuation);
-        _searchIndexSet.Update(_setRepo.GetById(setValuation.Id));
+        _searchIndexSet.Update(_setRepo.GetById(setValuation.SetId));
     }
 
     public override void Update(SetValuation setValuation)
     {
         base.Update(setValuation);
-        _searchIndexSet.Update(_setRepo.GetById(setValuation.Id));
+        _searchIndexSet.Update(_setRepo.GetById(setValuation.SetId));
     }
 
     public void DeleteWhereSetIdIs(int setId)
