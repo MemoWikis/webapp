@@ -428,6 +428,7 @@
     <Content Include="Views\Sets\Edit\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\UnpinSetModal.ascx" />
     <Content Include="Views\Users\UserSearchResult.ascx" />
     <Content Include="Views\Sets\Edit\EditSet.css">
       <DependentUpon>EditSet.less</DependentUpon>

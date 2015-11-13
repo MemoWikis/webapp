@@ -59,7 +59,7 @@
     <% } %>
     
     <% if (!Model.IsLoggedIn) { Html.RenderPartial("Modal_LoggedIn"); } %>
-
+    <% Html.RenderPartial("UnpinSetModal"); %>
 </body>
 </html>
 <% if(Settings.GoogleKeyIsSet){ %>
