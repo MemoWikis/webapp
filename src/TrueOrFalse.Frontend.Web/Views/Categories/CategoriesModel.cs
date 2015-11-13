@@ -26,7 +26,7 @@ public class CategoriesModel : BaseModel
     public string Suggestion;
     public CategoriesSearchResultModel SearchResultModel;
 
-    public void Init(IEnumerable<Category> categories)
+    public void Init(IList<Category> categories)
     {
         SetCategories(categories);
         Pager = new PagerModel(_sessionUiData.SearchSpecCategory){
@@ -49,10 +49,24 @@ public class CategoriesModel : BaseModel
         SearchResultModel = new CategoriesSearchResultModel(this);
     }
 
-    public void SetCategories(IEnumerable<Category> categories)
+    public void SetCategories(IList<Category> categories)
     {
+        var referenceCounts = ReferenceCount.GetList(
+            categories
+                .Where(c => c.Type != CategoryType.Standard)
+                .Select(c => c.Id).ToList()
+        );
+
         var index = 0;
-        Rows = from category in categories select new CategoryRowModel(category, index++);
+        Rows = 
+            from category 
+            in categories
+            select 
+                new CategoryRowModel(
+                    category, 
+                    index++, 
+                    referenceCounts.FirstOrDefault(x => x.CategoryId == category.Id)
+                );
     }
 
 }
