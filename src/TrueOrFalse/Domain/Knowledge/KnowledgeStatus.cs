@@ -1,6 +1,7 @@
 ﻿public enum KnowledgeStatus
 {
-    Secure = 1, 
-    Weak = 2, 
-    Unknown = 3
+    NotLearned = 1,
+    NeedsLearning = 2,
+    NeedsConsolidation = 3,
+    Solid = 4
 }

@@ -60,8 +60,8 @@ namespace TrueOrFalse.Tests.Persistence
             var reference1 = ReferenceWithContext();
             var reference2 = ReferenceWithContext();
 
-            R<ReferenceRepository>().Create(reference1);
-            R<ReferenceRepository>().Create(reference2);
+            R<ReferenceRepo>().Create(reference1);
+            R<ReferenceRepo>().Create(reference2);
             RecycleContainer();
 
             var session = R<ISession>();

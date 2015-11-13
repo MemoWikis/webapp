@@ -39,14 +39,17 @@ public class KnowledgeSummaryLoader : IRegisterAsInstancePerLifetime
 
         foreach (var line in queryResult)
         {
-            if ((int) line[0] == (int)KnowledgeStatus.Secure)
-                result.Secure = (int)line[1];
+            if ((int) line[0] == (int)KnowledgeStatus.NotLearned)
+                result.NotLearned = (int)line[1];
 
-            else if ((int) line[0] == (int)KnowledgeStatus.Unknown)
-                result.Unknown = (int)line[1];
+            else if ((int) line[0] == (int)KnowledgeStatus.NeedsLearning)
+                result.NeedsLearning = (int)line[1];
 
-            else if ((int)line[0] == (int)KnowledgeStatus.Weak)
-                result.Weak = (int)line[1];
+            else if ((int)line[0] == (int)KnowledgeStatus.NeedsConsolidation)
+                result.NeedsConsolidation = (int)line[1];
+
+            else if ((int)line[0] == (int)KnowledgeStatus.Solid)
+                result.Solid = (int)line[1];
         }
 
         return result;

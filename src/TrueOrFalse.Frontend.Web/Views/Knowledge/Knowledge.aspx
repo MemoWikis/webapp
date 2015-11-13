@@ -8,13 +8,13 @@
 
     <script>
         $(function () {
-            var titles = ['Gewusst', 'Nicht gewusst', 'Unbekannt'];
+            var titles = ['Sicheres Wissen', 'Sollte gefestigt werden', 'Sollte dringend gelernt werden', 'Noch nie gelernt'];
             $("#totalKnowledgeSpark")
                 .sparkline(
-                    [<%= Model.KnowledgeSummary.Secure %>, <%= Model.KnowledgeSummary.Weak %>, <%= Model.KnowledgeSummary.Unknown %>],
+                    [<%= Model.KnowledgeSummary.Solid %>, <%= Model.KnowledgeSummary.NeedsConsolidation %>, <%= Model.KnowledgeSummary.NeedsLearning %>, <%= Model.KnowledgeSummary.NotLearned %>],
                     {
                         type: 'pie',
-                        sliceColors: ['#3e7700', '#B13A48', '#EFEFEF'],
+                        sliceColors: ['#3e7700', '#B13A48', '#EFEFEF', '#AFAFAF'],
                         tooltipFormat: '{{offset:slice}} {{value}} ({{percent.1}}%)',
                         tooltipValueLookups: {'slice': titles},
                     }
@@ -33,9 +33,9 @@
     <script>
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
-        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1) });
-        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2) });
-        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12) });
         google.setOnLoadCallback(drawActivityChart);
 
         //chartKnowledgeDate
@@ -46,10 +46,11 @@
             }
 
             var data = google.visualization.arrayToDataTable([
-                ['Task', 'Hours per Day'],
-                ['Gewusst', <%= Model.KnowledgeSummary.Secure %>],
-                ['Nicht gewusst', <%= Model.KnowledgeSummary.Weak %>],
-                ['Unbekannt', <%= Model.KnowledgeSummary.Unknown %>],
+                ['Wissenslevel', 'Anteil in %'],
+                ['Sicheres Wissen', <%= Model.KnowledgeSummary.Solid %>],
+                ['Solltest du festigen', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+                ['Solltest du lernen', <%= Model.KnowledgeSummary.NeedsLearning %>],
+                ['Noch nicht gelernt', <%= Model.KnowledgeSummary.NotLearned %>],
             ]);
 
             var options = {
@@ -61,23 +62,25 @@
                     0: { color: 'lightgreen' },
                     1: { color: 'lightsalmon' },
                     2: { color: 'silver' },
+                    3: { color: 'grey'}
                 },
-                pieStartAngle: 180
+                pieStartAngle: 0
             };
 
             var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
             chart.draw(data, options);
         }
 
-        function drawKnowledgeChartDate(chartElementId, amountGood, amountBad, amountUnknown ) {
+        function drawKnowledgeChartDate(chartElementId, amountSolid, amountToConsolidate, amountToLearn, amountNotLearned) {
 
             var chartElement = $("#" + chartElementId);
 
             var data = google.visualization.arrayToDataTable([
-                ['Task', 'Hours per Day'],
-                ['Gewusst', amountGood],
-                ['Nicht gewusst', amountBad],
-                ['Unbekannt', amountUnknown],
+                ['Wissenslevel', 'Anteil in %'],
+                ['Sicheres Wissen', amountSolid],
+                ['Solltest du festigen', amountToConsolidate],
+                ['Solltest du lernen', amountToLearn],
+                ['Noch nicht gelernt', amountNotLearned],
             ]);
 
             var options = {
@@ -90,8 +93,9 @@
                     0: { color: 'lightgreen' },
                     1: { color: 'lightsalmon' },
                     2: { color: 'silver' },
+                    3: { color: 'lightgrey' }
                 },
-                pieStartAngle: 180
+                pieStartAngle: 0
             };
 
             var chart = new google.visualization.PieChart(chartElement.get()[0]);
@@ -180,6 +184,8 @@
             Du hast momentan <%= Model.ReputationTotal %> Reputationspunkte <i class="fa fa-info-circle show-tooltip" title="Du gewinnst Reputationspunkte z.B., indem du gute Fragen, Fragesätze etc. erstellst. In der Hilfe erfährst du mehr."></i>
             (Rang <%= Model.ReputationRank %>) 
             (<a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>).
+            <br/>Solide: <%=Model.KnowledgeSummary.Solid %> -- Konsolidieren: <%=Model.KnowledgeSummary.NeedsConsolidation %> -- 
+            Lernen: <%=Model.KnowledgeSummary.NeedsLearning %> -- Nicht gelernt: <%= Model.KnowledgeSummary.NotLearned %> -- Total: <%= Model.KnowledgeSummary.Total %>
         </p>
     
         <div class="row">

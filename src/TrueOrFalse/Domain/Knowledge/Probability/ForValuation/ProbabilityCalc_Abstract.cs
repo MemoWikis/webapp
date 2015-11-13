@@ -9,7 +9,7 @@ public abstract class ProbabilityCalc_Abstract
         var answers = Sl.R<AnswerRepo>().GetByQuestion(question.Id, user.Id);
 
         if(Sl.R<ISession>().Get<Question>(question.Id) == null || Sl.R<ISession>().Get<User>(user.Id) == null)
-            return new ProbabilityCalcResult { Probability = 0, KnowledgeStatus = KnowledgeStatus.Unknown };
+            return new ProbabilityCalcResult { Probability = 0, KnowledgeStatus = KnowledgeStatus.NotLearned };
 
         return Run(answers, question, user);
     }
@@ -17,7 +17,7 @@ public abstract class ProbabilityCalc_Abstract
     public ProbabilityCalcResult Run(Question question, User user, IList<Answer> answers)
     {
         if(question == null || user == null)
-            return new ProbabilityCalcResult {Probability = 0, KnowledgeStatus = KnowledgeStatus.Unknown};
+            return new ProbabilityCalcResult {Probability = 0, KnowledgeStatus = KnowledgeStatus.NotLearned};
 
         answers = answers
             .Where(x =>

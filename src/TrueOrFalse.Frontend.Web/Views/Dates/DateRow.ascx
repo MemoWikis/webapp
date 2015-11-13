@@ -5,9 +5,10 @@
 
 <div class="rowBase date-row" style="position: relative; padding: 5px; "
     data-date-id="<%= date.Id %>"
-    data-weak="<%= Model.KnowledgeWeak %>"
-    data-unknown="<%= Model.KnowledgeUnknown %>"
-    data-secure="<%= Model.KnowledgeSecure %>">
+    data-notLearned="<%= Model.KnowledgeNotLearned %>"
+    data-needsLearning="<%= Model.KnowledgeNeedsLearning %>"
+    data-needsConsolidation="<%= Model.KnowledgeNeedsConsolidation %>"
+    data-solid="<%= Model.KnowledgeSolid %>">
     
     <div class="row">
 

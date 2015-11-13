@@ -13,6 +13,7 @@ public class CategoryModel : BaseModel
 
     public IList<Set> TopSets;
     public IList<Question> TopQuestions;
+    public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
     public IList<Question> TopWishQuestions;
     public IList<User> TopCreaters;
@@ -31,6 +32,7 @@ public class CategoryModel : BaseModel
     public bool IsOwnerOrAdmin;
 
     public int CountQuestions;
+    public int CountReferences;
     public int CountWishQuestions;
     public int CountSets;
     public int CountCreators;
@@ -64,11 +66,16 @@ public class CategoryModel : BaseModel
         var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
-        
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
         CountQuestions = category.CountQuestions +
-            R<QuestionGetCount>().Run(UserId, category.Id, new[] { QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends });
+            R<QuestionGetCount>().Run(UserId, category.Id, new[] {QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends});
+
+        CountReferences = ReferenceCount.Get(category.Id);
+
+        if (category.Type != CategoryType.Standard)
+            TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
+
         CountSets = category.CountSets;
         CountCreators = category.CountCreators;
         CountWishQuestions = wishQuestions.Total;

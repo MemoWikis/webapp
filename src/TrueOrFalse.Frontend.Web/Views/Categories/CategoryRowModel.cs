@@ -20,12 +20,15 @@ public class CategoryRowModel : BaseModel
     public int CorrectnesProbability;
     public int AnswersTotal;
 
-    public CategoryRowModel(Category category, int indexInResultSet)
+    public CategoryRowModel(Category category, int indexInResultSet, ReferenceCountPair referenceCountPair)
     {
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";
-        QuestionCount = category.CountQuestions;
+
+        QuestionCount = 
+            category.CountQuestions + 
+            (referenceCountPair == null ? 0 : referenceCountPair.ReferenceCount);
 
         UserCanEdit = _sessionUser.IsInstallationAdmin;
 

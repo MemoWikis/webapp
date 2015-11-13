@@ -28,7 +28,7 @@ namespace TrueOrFalse.Tests
 
             var summary = Resolve<KnowledgeSummaryLoader>().Run(context.Creator.Id);
             Assert.That(summary.Total, Is.EqualTo(2));
-            Assert.That(summary.Unknown, Is.EqualTo(2));
+            Assert.That(summary.NotLearned, Is.EqualTo(2));
         }
     }
 }
