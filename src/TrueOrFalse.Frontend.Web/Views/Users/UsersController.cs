@@ -105,9 +105,8 @@ public class UsersController : BaseController
     {
         var userRepo = R<UserRepo>();
         var userToUnfollow = userRepo.GetById(userId);
-        var currentUser = userToUnfollow.Followers.First(x => x.Id == -1);
-        userToUnfollow.Followers.Remove(currentUser);
-
-        userRepo.Update(userToUnfollow);
+        var followerInfoToRemove = userToUnfollow.Followers.First(x => x.Follower.Id == UserId);
+        
+        R<UserRepo>().RemoveFollowerInfo(followerInfoToRemove);
     }
 }

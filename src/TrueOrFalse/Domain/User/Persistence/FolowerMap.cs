@@ -1,9 +1,9 @@
 ﻿
 using FluentNHibernate.Mapping;
 
-public class FollowerMap : ClassMap<FollowerInfo>
+public class FollowerInfoMap : ClassMap<FollowerInfo>
 {
-    public FollowerMap()
+    public FollowerInfoMap()
     {
         Table("user_to_follower");
 
