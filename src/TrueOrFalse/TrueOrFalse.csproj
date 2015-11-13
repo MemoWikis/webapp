@@ -471,7 +471,7 @@
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotal.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\SetListExt.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\SetValuationExt.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\UpdateSetsTotals.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Ops\SetInKnowledge.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationRepo.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationMap.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\SetValuation.cs" />
@@ -503,7 +503,7 @@
     <Compile Include="Domain\Question\QuestionValuation\Ops\CreateOrUpdateQuestionValue.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotalResult.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Ops\GetQuestionTotal.cs" />
-    <Compile Include="Domain\Question\QuestionValuation\Ops\UpdateQuestionTotals.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\Ops\QuestionInKnowledge.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationRepo.cs" />
     <Compile Include="Domain\Question\QuestionValuation\QuestionValuation.cs" />
     <Compile Include="Domain\Question\QuestionValuation\Persistence\QuestionValuationMap.cs" />

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using TrueOrFalse;
 
 namespace TrueOrFalse.Tests
 {
@@ -15,11 +14,10 @@ namespace TrueOrFalse.Tests
 
             var question = contextQuestion.All.First();
             var user = contextQuestion.Creator;
-            var updateTotals = Resolve<UpdateQuestionTotals>();
 
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 100, Question = question, User = user });
-            updateTotals.Run(new QuestionValuation { RelevancePersonal = 1, Question = question, User = user });
-            updateTotals.Run(new QuestionValuation { Question = question, User = user });
+            QuestionInKnowledge.Run(new QuestionValuation { RelevancePersonal = 100, Question = question, User = user });
+            QuestionInKnowledge.Run(new QuestionValuation { RelevancePersonal = 1, Question = question, User = user });
+            QuestionInKnowledge.Run(new QuestionValuation { Question = question, User = user });
 
             Assert.That(Resolve<GetWishQuestionCount>().Run(userId:2), Is.EqualTo(2));
         }
