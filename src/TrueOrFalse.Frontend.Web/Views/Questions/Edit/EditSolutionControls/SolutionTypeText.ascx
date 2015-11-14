@@ -17,11 +17,11 @@
                 <div style="margin-bottom: 5px">Großschreibung:</div>
                 <div class="btn-group">
                     <a class="btn active">Ignorieren</a>
-                    <a class="btn btn-default">Beachten</a>
+                    <a class="btn btn-default" disabled="disabled">Beachten</a>
                 </div>
                 <div style="margin-top:10px; height: 20px;">
-                    <label class="checkbox" style="width: auto">
-                        <input type="checkbox">Exakte Schreibweise
+                    <label class="checkbox" style="width: auto" disabled="disabled">
+                        <input type="checkbox" disabled="disabled">Exakte Schreibweise
                     </label>
                     <i class="fa fa-question-circle cursor-hand" id="help"></i>
                 </div>

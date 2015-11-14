@@ -30,18 +30,18 @@ public class SolutionMetadata
 
         IsDate = tmp.Result.IsDate;
         IsNumber = tmp.Result.IsNumber;
-        IsText = tmp.Result.IsNumber;
+        IsText = tmp.Result.IsText;
     }
 
-    public SolutionMetadataDate GetAsDate(){
+    public SolutionMetadataDate GetForDate(){
         return new SolutionMetadataDate { Json = _orginalJson };
     }
 
-    public SolutionMetadataNumber GetAsNumber(){
+    public SolutionMetadataNumber GetForNumber(){
         return new SolutionMetadataNumber { Json = _orginalJson };
     }
 
-    public SolutionMetadataText GetAsText(){
+    public SolutionMetadataText GetForText(){
         return new SolutionMetadataText { Json = _orginalJson };
     }
 }
