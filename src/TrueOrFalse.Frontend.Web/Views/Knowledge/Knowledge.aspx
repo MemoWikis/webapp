@@ -184,8 +184,6 @@
             Du hast momentan <%= Model.ReputationTotal %> Reputationspunkte <i class="fa fa-info-circle show-tooltip" title="Du gewinnst Reputationspunkte z.B., indem du gute Fragen, Fragesätze etc. erstellst. In der Hilfe erfährst du mehr."></i>
             (Rang <%= Model.ReputationRank %>) 
             (<a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>).
-            <br/>Solide: <%=Model.KnowledgeSummary.Solid %> -- Konsolidieren: <%=Model.KnowledgeSummary.NeedsConsolidation %> -- 
-            Lernen: <%=Model.KnowledgeSummary.NeedsLearning %> -- Nicht gelernt: <%= Model.KnowledgeSummary.NotLearned %> -- Total: <%= Model.KnowledgeSummary.Total %>
         </p>
     
         <div class="row">
