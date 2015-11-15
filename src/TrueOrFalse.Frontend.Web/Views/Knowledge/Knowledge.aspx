@@ -14,7 +14,7 @@
                     [<%= Model.KnowledgeSummary.Solid %>, <%= Model.KnowledgeSummary.NeedsConsolidation %>, <%= Model.KnowledgeSummary.NeedsLearning %>, <%= Model.KnowledgeSummary.NotLearned %>],
                     {
                         type: 'pie',
-                        sliceColors: ['#3e7700', '#B13A48', '#EFEFEF', '#AFAFAF'],
+                        sliceColors: ['#3e7700', '#fdd648', '#B13A48', '#EFEFEF'],
                         tooltipFormat: '{{offset:slice}} {{value}} ({{percent.1}}%)',
                         tooltipValueLookups: {'slice': titles},
                     }
@@ -60,9 +60,9 @@
                 chartArea: { 'width': '100%', height: '100%', top: 10},
                 slices: {
                     0: { color: 'lightgreen' },
-                    1: { color: 'lightsalmon' },
-                    2: { color: 'silver' },
-                    3: { color: 'grey'}
+                    1: { color: '#fdd648' },
+                    2: { color: 'lightsalmon' },
+                    3: { color: 'silver'}
                 },
                 pieStartAngle: 0
             };
@@ -91,9 +91,9 @@
                 chartArea: { width: '90%', height: '90%', top: 0 },
                 slices: {
                     0: { color: 'lightgreen' },
-                    1: { color: 'lightsalmon' },
-                    2: { color: 'silver' },
-                    3: { color: 'lightgrey' }
+                    1: { color: '#fdd648' },
+                    2: { color: 'lightsalmon' },
+                    3: { color: 'silver' }
                 },
                 pieStartAngle: 0
             };
