@@ -8,7 +8,6 @@ class Pin {
 
     _changeInProgress: boolean;
     _pinRowType: PinRowType;
-    _elemPin: JQuery;
 
     constructor(pinRowType : PinRowType) {
 
@@ -17,13 +16,13 @@ class Pin {
 
         $(".Pin").find(".iAdded, .iAddedNot").click(function (e) {
 
-            self._elemPin = $($(this).parents(".Pin"));
+            var elemPin = $($(this).parents(".Pin"));
 
             var id = -1;
             if (self.IsQuestionRow())
-                id = parseInt(self._elemPin.attr("data-question-id"));
+                id = parseInt(elemPin.attr("data-question-id"));
             else if (self.IsSetRow() || self.IsSetDetail())
-                id = parseInt(self._elemPin.attr("data-set-id"));
+                id = parseInt(elemPin.attr("data-set-id"));
 
             e.preventDefault();
             if (this._changeInProgress)
@@ -34,10 +33,10 @@ class Pin {
             if ($(this).hasClass("iAddedNot")) {
 
                 self.Pin(id);
-                self._elemPin.find(".iAddedNot, .iAddSpinner").toggle();
+                elemPin.find(".iAddedNot, .iAddSpinner").toggle();
 
                 window.setTimeout(() => {
-                    self._elemPin.find(".iAdded, .iAddSpinner").toggle();
+                    elemPin.find(".iAdded, .iAddSpinner").toggle();
                     self._changeInProgress = false;
 
                     if (self.IsQuestionRow()) 
@@ -45,13 +44,25 @@ class Pin {
 
                     Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) + 1).toString());
 
-                    self.SetSidebarValue(self.GetSidebarValue(self._elemPin) + 1, self._elemPin);
+                    self.SetSidebarValue(self.GetSidebarValue(elemPin) + 1, elemPin);
                 }, 400);
 
             } else {
 
                 self.UnPin(id);
-                
+                elemPin.find(".iAdded, .iAddSpinner").toggle();
+
+                window.setTimeout(() => {
+                    elemPin.find(".iAddedNot, .iAddSpinner").toggle();
+                    self._changeInProgress = false;
+
+                    if (self.IsQuestionRow()) 
+                        Utils.MenuPinsMinusOne();
+
+                    Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) - 1).toString());
+                        
+                    self.SetSidebarValue(self.GetSidebarValue(elemPin) - 1, elemPin);
+                }, 400);
             }
         });
     }
@@ -95,24 +106,6 @@ class Pin {
                 this.UpdateViewAfterUnpin();
             });
         }
-    }
-
-    UpdateViewAfterUnpin() {
-        var self = this;
-
-        this._elemPin.find(".iAdded, .iAddSpinner").toggle();
-
-        window.setTimeout(() => {
-            self._elemPin.find(".iAddedNot, .iAddSpinner").toggle();
-            self._changeInProgress = false;
-
-            if (self.IsQuestionRow())
-                Utils.MenuPinsMinusOne();
-
-            Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) - 1).toString());
-
-            self.SetSidebarValue(self.GetSidebarValue(self._elemPin) - 1, self._elemPin);
-        }, 400);
     }
 
     IsQuestionRow(): boolean {
