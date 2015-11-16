@@ -39,18 +39,15 @@ public class SetsApiController : BaseController
     }
 
     [HttpPost]
-    public void Unpin(string setId, string unpinQuestionsToo = "true")
+    public void Unpin(string setId)
     {
         SetInKnowledge.Unpin(Convert.ToInt32(setId), _sessionUser.User);
+    }
 
-        if(unpinQuestionsToo.ToLower() == "false") return;
-
-        var questions = Resolve<SetRepo>().GetById(Convert.ToInt32(setId)).QuestionsInSet.Select(x => x.Question);
-
-        foreach (var question in questions)
-        {
-             QuestionInKnowledge.Unpin(question.Id, _sessionUser.User);
-        }
+    [HttpPost]
+    public void UnpinQuestionsInSet(string setId)
+    {
+        SetInKnowledge.UnpinQuestionsInSet(Convert.ToInt32(setId), _sessionUser.User);
     }
 
     public JsonResult ByName(string term)

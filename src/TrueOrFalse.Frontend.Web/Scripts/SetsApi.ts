@@ -4,7 +4,11 @@
         $.post("/Api/Sets/Pin/", { setId: setId });
     }
 
-    public static Unpin(setId, unpinQuestionsToo = "true") {
-        $.post("/Api/Sets/Unpin/", { setId: setId, unpinQuestionsToo: unpinQuestionsToo });
+    public static Unpin(setId) {
+        $.post("/Api/Sets/Unpin/", { setId: setId });
+    }
+
+    public static UnpinQuestionsInSet(setId) {
+        $.post("/Api/Sets/UnpinQuestionsInSet/", { setId: setId });
     }
 }

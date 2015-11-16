@@ -65,6 +65,10 @@ class Pin {
                 }, 400);
             }
         });
+
+        $("#JS-RemoveQuestions").click(() => {
+            SetsApi.UnpinQuestionsInSet($('#JS-RemoveQuestions').attr('data-set-id'));
+        });
     }
 
     SetSidebarValue(newValue: number, parent: JQuery) {
@@ -94,17 +98,11 @@ class Pin {
             QuestionsApi.Unpin(id);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
             
+            SetsApi.Unpin(id);
+
+            $("#JS-RemoveQuestions").attr("data-set-id", id);
+
             $("#UnpinSetModal").modal('show');
-
-            $("#JS-RemoveQuestions").click(() => {
-                SetsApi.Unpin(id);
-                this.UpdateViewAfterUnpin();
-            });
-
-            $("#JS-DontRemoveQuestions").click(() => {
-                SetsApi.Unpin(id, "false");
-                this.UpdateViewAfterUnpin();
-            });
         }
     }
 

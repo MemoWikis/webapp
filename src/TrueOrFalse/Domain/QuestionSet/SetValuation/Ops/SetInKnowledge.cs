@@ -1,4 +1,6 @@
-﻿using NHibernate;
+﻿using System;
+using System.Linq;
+using NHibernate;
 
 public static class SetInKnowledge 
 {
@@ -10,6 +12,37 @@ public static class SetInKnowledge
     public static void Unpin(int setId, User user)
     {
         UpdateRelevancePersonal(setId, user, -1);
+    }
+
+    public static void UnpinQuestionsInSet(int setId, User user)
+    {
+        var questionsInUnpinnedSet = Sl.Resolve<SetRepo>().GetById(setId).QuestionsInSet.Select(x => x.Question).ToList();
+        var ids = questionsInUnpinnedSet.Select(q => q.Id).ToList();
+
+        if (ids.Count == 0) return;
+
+        var query = String.Format(@"select q.Question_id from
+                                    user u
+                                    join setvaluation sv
+                                    on u.Id = sv.UserId
+                                    join questionset s
+                                    on sv.SetId = s.Id
+                                    join questioninset q
+                                    on s.Id = q.Set_id
+                                    where u.Id = {0}
+                                    and sv.SetId != {1} 
+                                    and sv.RelevancePersonal >= 0
+                                    and q.Question_id in ({2})", 
+                                    user.Id,
+                                    setId,
+                                    ids.Select(x => x.ToString()).Aggregate((a, b) => a + ", " + b));
+
+        var questionsInOtherPinnedSetsIds = Sl.Resolve<ISession>().CreateSQLQuery(query).List<int>();
+
+        foreach (var question in questionsInUnpinnedSet.Where(question => questionsInOtherPinnedSetsIds.All(id => id != question.Id)))
+        {
+            QuestionInKnowledge.Unpin(question.Id, user);
+        }
     }
 
     private static void UpdateRelevancePersonal(int setId, User user, int relevance = 50)
