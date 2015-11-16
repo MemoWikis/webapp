@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 
 public class QuestionSolutionExact : QuestionSolution
 {
@@ -13,7 +16,7 @@ public class QuestionSolutionExact : QuestionSolution
         var solutionMetadata = new SolutionMetadata{Json = MetadataSolutionJson};
         if (solutionMetadata.IsDate)
         {
-            var metaDate = solutionMetadata.GetAsDate();
+            var metaDate = solutionMetadata.GetForDate();
             var dateFromInput = DateAnswerParser.Run(answer);
             var dateAnswer = DateAnswerParser.Run(Text);
 
@@ -25,6 +28,30 @@ public class QuestionSolutionExact : QuestionSolution
 
             return dateAnswer.Valid(dateFromInput, metaDate.Precision);
         }
+
+        if (solutionMetadata.IsText)
+        {
+            var metaText = solutionMetadata.GetForText();
+
+            if (!metaText.IsCaseSensitive && !metaText.IsExactInput)
+            {
+                answer = answer.ToLower();
+
+                var answerWords = answer.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                var solutionWords = Text.ToLower().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                var removableWords = new[] { "der", "die", "das", "ein", "einer", "eine" };
+
+                if(answerWords.All(word => removableWords.Any(removable => removable == word)))
+                    return Text.ToLower() == answer;
+
+                Func<IEnumerable<string>, string> fnWithoutRemovableWords = x => x
+                    .Where(word => removableWords.All(removable => removable != word))
+                    .Aggregate((a, b) => a + " " + b);
+
+                return fnWithoutRemovableWords(solutionWords) == fnWithoutRemovableWords(answerWords);
+            }
+        }
+
         return Text == answer;
     }
 

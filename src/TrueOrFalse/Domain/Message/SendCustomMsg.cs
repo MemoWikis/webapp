@@ -11,7 +11,7 @@
             ReceiverId = receiverId,
             Subject = subject,
             Body = body,
-            MessageType = ""
+            MessageType = MessageTypes.Custom
         });
     }
 }

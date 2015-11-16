@@ -20,9 +20,13 @@ public class NetworkModel : BaseModel
 
         var user = R<UserRepo>().GetById(UserId);
 
-        var followerIAm = R<FollowerIAm>().Init(user.Following.Select(u => u.Id), UserId);
+        var allInNetwork = new List<FollowerInfo>();
+        allInNetwork.AddRange(user.Following);
+        allInNetwork.AddRange(user.Followers);
 
-        UsersIFollow = user.Following.Select(u => new UserRowModel(u.IFollow, -1, followerIAm));
+        var followerIAm = R<FollowerIAm>().Init(allInNetwork, UserId);
+
+        UsersIFollow = user.Following.Select(u => new UserRowModel(u.User, -1, followerIAm));
         UsersFollowingMe = user.Followers.Select(u => new UserRowModel(u.Follower, -1, followerIAm));
 
         HeaderModel.TotalIFollow = UsersIFollow.Count();

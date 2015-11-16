@@ -23,11 +23,10 @@ public class User : DomainEntity
     public virtual bool ShowWishKnowledge { get; set; }
     public virtual IList<Membership> MembershipPeriods { get; set; }
 
-    public virtual IList<FollowerInfo> Followers { get; set; }
-
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
 
+    public virtual IList<FollowerInfo> Followers { get; set; }
     /// <summary>Users I follow</summary>
     public virtual IList<FollowerInfo> Following { get; set; }
 
@@ -43,7 +42,7 @@ public class User : DomainEntity
     }
 
     public virtual IList<int> FollowingIds(){
-        return Following.Select(f => f.IFollow.Id).ToList();
+        return Following.Select(f => f.User.Id).ToList();
     }
 
     /// <summary>Joined list of FollowerIds and FollowingIds</summary>

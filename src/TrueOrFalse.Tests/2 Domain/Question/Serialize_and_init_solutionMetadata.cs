@@ -29,7 +29,7 @@ namespace TrueOrFalse.Tests
             var solutionMetaNew = new SolutionMetadata { Json = solutionMeta.Json };
 
             Assert.That(solutionMetaNew.IsDate, Is.True);
-            var solutionMetaDate = solutionMetaNew.GetAsDate();
+            var solutionMetaDate = solutionMetaNew.GetForDate();
             Assert.That(solutionMetaDate.Precision, Is.EqualTo(DatePrecision.Month));
         }
     }

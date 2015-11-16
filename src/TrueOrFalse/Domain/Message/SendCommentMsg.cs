@@ -64,12 +64,39 @@ public class SendCommentMsg : BaseSendMessage, IRegisterAsInstancePerLifetime
 {2}
 <p>{3}</p>", questionUrl, question.Text, shouldImproveOrRemove, comment.Text.LineBreaksToBRs());
 
+        Send_CommentToYourQuestion(body, receiverUserId: question.Creator.Id);
+
+        if(comment.AnswerTo != null && comment.AnswerTo.Creator.Id != question.Creator.Id)
+            Send_AnswerToYourComment(body, comment.AnswerTo.Creator.Id);
+
+        Send_InfoToMemucho(body, Constants.MemuchoAdminUserId);
+
+    }
+
+    public void Send_CommentToYourQuestion(string body, int receiverUserId)
+    {
         _messageRepo.Create(new Message
         {
-            ReceiverId = comment.Creator.Id,
+            ReceiverId = receiverUserId,
             Subject = "Ein neuer Kommentar",
             Body = body,
-            MessageType = "NewComment"
+            MessageType = MessageTypes.Comment
         });
+    }
+
+    public void Send_AnswerToYourComment(string body, int receiverUserId)
+    {
+        _messageRepo.Create(new Message
+        {
+            ReceiverId = receiverUserId,
+            Subject = "Antwort auf deinen Kommentar",
+            Body = body,
+            MessageType = MessageTypes.CommentAnswer
+        });
+    }
+
+    public void Send_InfoToMemucho(string body, int receiverUserId)
+    {
+        Send_CommentToYourQuestion(body, receiverUserId);
     }
 }

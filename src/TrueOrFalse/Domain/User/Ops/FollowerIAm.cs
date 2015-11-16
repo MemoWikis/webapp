@@ -9,6 +9,11 @@ public class FollowerIAm : IRegisterAsInstancePerLifetime
 
     private IList<int> _whoIFollow = new List<int>();
 
+    public FollowerIAm Init(IEnumerable<FollowerInfo> users, int myUserId)
+    {
+        return Init(users.Select(u => u.User.Id), myUserId);
+    }
+
     public FollowerIAm Init(IEnumerable<int> userIds, int myUserId)
     {
         _initialized = true;

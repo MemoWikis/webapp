@@ -27,7 +27,7 @@ Jule & Robert</p>
             ReceiverId = user.Id,
             Subject = "Willkommen bei MEMuchO",
             Body = body,
-            MessageType = "Welcome"
+            MessageType = MessageTypes.Welcome
         });
     }
 }

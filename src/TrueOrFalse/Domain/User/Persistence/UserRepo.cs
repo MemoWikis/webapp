@@ -14,8 +14,8 @@ public class UserRepo : RepositoryDbBase<User>
     public User GetByEmail(string emailAddress)
     {
         return _session.QueryOver<User>()
-                        .Where(k => k.EmailAddress == emailAddress)
-                        .SingleOrDefault<User>();
+            .Where(k => k.EmailAddress == emailAddress)
+            .SingleOrDefault<User>();
     }
 
     public User GetByName(string name)
@@ -25,7 +25,14 @@ public class UserRepo : RepositoryDbBase<User>
             .SingleOrDefault<User>();
     }
 
-    public void Update(User user)
+    public void RemoveFollowerInfo(FollowerInfo followerInfo)
+    {
+        _session
+            .CreateSQLQuery("DELETE FROM user_to_follower WHERE Id =" + followerInfo.Id)
+            .ExecuteUpdate();
+    }
+
+    public override void Update(User user)
     {
         _searchIndexUser.Update(user);
         base.Update(user);
