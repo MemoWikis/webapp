@@ -66,8 +66,6 @@
 
         $("#divAnsweredCorrect").show();
         $("#wellDoneMsg").html("" + self._successMsgs[Utils.Random(0, self._successMsgs.length - 1)]).show();
-
-        this.RenderSolutionDetails();
     }
 
     ShowSolution() {
