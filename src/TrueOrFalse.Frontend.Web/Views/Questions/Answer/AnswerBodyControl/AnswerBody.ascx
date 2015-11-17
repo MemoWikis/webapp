@@ -31,7 +31,7 @@
     
     <div class="alert alert-info" id="divWrongAnswerPlay" style="display: none; background-color: white; color:#2E487B;">
         <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
-        <div>Dein Eingabe:</div>
+        <div>Deine Eingabe:</div>
         <div style="margin-top:7px;" id="divWrongEnteredAnswer">
         </div>
     </div>
