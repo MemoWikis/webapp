@@ -86,8 +86,11 @@ public class EditQuestionController : BaseController
         }
 
         var references = model.FillReferencesFromPostData(Request, question);
-        foreach (var reference in references)
+        foreach (var reference in references){
+            reference.DateCreated = DateTime.Now;
+            reference.DateModified = DateTime.Now;
             question.References.Add(reference);
+        }
 
         DeleteUnusedImages.Run(model.QuestionExtended, question.Id);
 
