@@ -7,7 +7,7 @@ public class ProbabilityCalc_Curve
         var offsetInMinutes = offsetInSeconds*60;
 
         if (question.IsEasyQuestion())
-            return GetProbability(offsetInMinutes, );
+            return (int)GetProbability(offsetInMinutes, 2000);
 
         return -1;
     }
