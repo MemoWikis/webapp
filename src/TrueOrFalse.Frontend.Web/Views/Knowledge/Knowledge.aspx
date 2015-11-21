@@ -187,6 +187,40 @@
         </p>
     
         <div class="row">
+            
+            <div class="col-xs-12 col-md-6">
+                <div class="col-xs-12" style="padding: 10px;">
+                    <h3 style="margin-bottom: 3px; margin-top: 0;">Dein Wissensstand</h3>
+                    <p style="margin-bottom: 1px; font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
+                    <p>
+                        In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= StringUtils.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
+                        <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Fragesatz klickst."></i>
+                    </p>
+                    <% if(Model.KnowledgeSummary.Total == 0) { %> <%--Warum nicht "if sets == 0 & questions == 0 then"?--%>
+                            <p>
+                                MEMuchO kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
+                            </p>
+                            <p>
+                                Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
+                                oder <a href="<%= Links.Sets() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
+                                <ul style="list-style-type: none">
+                                    <li>
+                                        <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                        In deinem Wunschwissen
+                                    </li>                                
+                                    <li>
+                                        <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                        <i>Nicht</i> in deinem Wunschwissen.
+                                    </li>
+                                </ul>
+                            
+                            </p>
+                    <% }else { %>
+                        <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
+                    <% } %>
+                </div>
+            </div>
+
             <div class="col-xs-12 col-md-6">
                 <div class="col-xs-12" style="padding: 10px;">
 
@@ -229,90 +263,11 @@
 
                 </div>
             </div>
-            <div class="col-xs-12 col-md-6">
-                <div class="col-xs-12" style="padding: 10px;">
-                    <h3 style="margin-bottom: 3px; margin-top: 0;">Dein Wissensstand</h3>
-                    <p style="margin-bottom: 1px; font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
-                    <p>
-                        In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= StringUtils.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
-                        <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Fragesatz klickst."></i>
-                    </p>
-<%--                        <div class="col-xs-6">
-                            <a href="<%= Links.QuestionsWish() %>">
-                                <div class="number-box-questions2 rowBase" style="padding: 8px; margin: 0px;">
-                                    <span style="font-weight: 900; font-size: 14px; padding-left: 9px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.QuestionsCount %></span>
-                                    <span style="font-size: 14px">Fragen</span>
-                                </div>
-                            </a>
-                        </div>                    
-                        <div class="col-xs-6">
-                            <a href="<%= Links.SetsWish() %>">
-                                <div class="number-box-sets2 rowBase" style="padding: 8px; margin: 0px;">
-                                    <span style="font-weight: 900; font-size: 14px; padding-left: 15px;"><i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;<%= Model.SetCount %></span>
-                                    <span style="font-size: 14px">Fragesätze</span>
-                                </div>
-                            </a>
-                        </div>--%>
-                    <% if(Model.KnowledgeSummary.Total == 0) { %> <%--Warum nicht "if sets == 0 & questions == 0 then"?--%>
-                            <p>
-                                MEMuchO kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
-                            </p>
-                            <p>
-                                Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
-                                oder <a href="<%= Links.Sets() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
-                                <ul style="list-style-type: none">
-                                    <li>
-                                        <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
-                                        In deinem Wunschwissen
-                                    </li>                                
-                                    <li>
-                                        <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
-                                        <i>Nicht</i> in deinem Wunschwissen.
-                                    </li>
-                                </ul>
-                            
-                            </p>
-                    <% }else { %>
-                        <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
-                    <% } %>
-                </div>
-            </div>
-<%--            <div class="col-xs-12 col-md-3">
-                <div class="row">
-                    <div class="col-cs-12">
-                        <h3>Im Wunschwissen</h3>        
-                    </div>
-                    <div class="col-cs-12 number-box-questions">
-                        <a href="<%= Links.QuestionsWish() %>">
-                            <div>
-                                <span style="font-weight: 900; font-size: 44px; padding-left: 9px;"><%= Model.QuestionsCount %></span>
-                                <span style="font-size: 22px">Fragen</span>
-                            </div>
-                        </a>
-                    </div>                    
-                    <div class="col-cs-12 number-box-sets">
-                        <a href="<%= Links.SetsWish() %>">
-                            <div>
-                                <span style="font-weight: 900; font-size: 44px; padding-left: 15px;"><%= Model.SetCount %></span>
-                                &nbsp;<span style="font-size: 22px">Fragesätze</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-cs-12 number-box-reputation">
-                        <a href="<%= Links.UserDetail(Model.UserName, Model.UserId) %>">
-                            <div style="padding-left: 14px; padding: 8px;">                        
-                                <span>Reputation <b><%= Model.ReputationTotal %></b></span><br />
-                                <span>Platz <b><%= Model.ReputationRank %></b></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>   --%>         
         </div>
     
         <div class="row" style="margin-top: 25px;">
             <div class="col-xs-12 col-md-4">
-                    <div class="col-xs-12 rowBase" style="padding: 10px;">
+                <div class="col-xs-12 rowBase" style="padding: 10px;">
                         <h3 style="margin-top: 0;">Termine</h3>
                         <% if (Model.Dates.Count ==0) { %>
                             <p>
@@ -377,11 +332,10 @@
                         <p><a href="<%= Links.Dates() %>">(Zur Terminübersicht)</a></p>
 
                     </div>
-
             </div>         
                
             <div class="col-xs-12 col-md-4">
-                    <div class="col-xs-12 rowBase" style="padding: 10px;">
+                <div class="col-xs-12 rowBase" style="padding: 10px;">
                         <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
                         <% foreach(var answer in Model.AnswerRecent){ 
                             var question = answer.Question;
@@ -403,7 +357,7 @@
             </div>
 
             <div class="col-xs-12 col-md-4">
-                    <div class="col-xs-12 rowBase" style="padding: 10px;">
+                <div class="col-xs-12 rowBase" style="padding: 10px;">
                         <h3 style="margin-top: 0;">Im Netzwerk</h3>
                         <% if (Model.NetworkActivities.Count == 0) { %>
                                 Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
@@ -429,112 +383,7 @@
                         <% } %>
                     </div>
             </div>
-
         </div>
 
-<%--        <div class="column">
-            <h3>Wunschwissen</h3>
-            <div class="answerHistoryRow">
-                <div>
-                    <a href="<%= Links.QuestionsWish() %>">
-                        Fragen: <span><%= Model.QuestionsCount %> <span id="totalKnowledgeSpark"></span></span>
-                    </a>
-                </div>    
-            </div>
-            <div class="answerHistoryRow">
-                <div>
-                    <a href="<%= Links.SetsWish() %>">
-                        Frageseätze: <span><%= Model.SetCount %> </span><br/>
-                    </a>
-                </div>
-                
-            </div>
-            <span id="totalKnowledgeOverTime">Entwicklung über Zeit:<br /> 
-            <span id="totalKnowledgeOverTimeSpark"></span></span>
-        </div>
-        
-        <div class="column">
-            <h3>Wissenstand</h3>
-            <div class="show-tooltip" title="Die Menge der gewussten Fragen" style="padding-bottom: 10px;">Dein Wissensstand entspricht ca. <%= Model.KnowledgeSummary.SecurePercentage %>% deines Wunschwissens.</div>
-            <div class="show-tooltip" title="Als 'gewusst' gilt eine Frage dann, wenn die Wahrscheinlichkeit, dass du die Frage richtig beantworten wirst, bei über 90% liegt.">Gewusst: <%= Model.KnowledgeSummary.SecurePercentage %>% (<%= Model.KnowledgeSummary.Secure %> Fragen) </div>
-            <div class="show-tooltip" title="Als 'nicht gewusst' gilt eine Frage dann, wenn die Wahrscheinlichkeit, dass du die Frage richtig beantworten wirst, bei unter 90% liegt.">Nicht gewusst: <%= Model.KnowledgeSummary.WeakPercentage %>% (<%= Model.KnowledgeSummary.Weak %> Fragen)  </div>
-            <div class="show-tooltip" title="Wenn du die Frage seltener als 4x beantwortet hast, ist unbekannt, ob du sie weißt.">Unbekannt: <%= Model.KnowledgeSummary.UnknownPercentage %>% (<%= Model.KnowledgeSummary.Unknown %> Fragen)</div>
-        </div>
-
-        <div class="column">
-            <h3>Training</h3>
-            <div class="answerHistoryRow" style="margin-bottom: 5px;">
-                <div style="color:black;">
-                    Antworten ges.: <%= Model.AnswersEver.TotalAnswers %>
-                </div> 
-            </div>
-                
-            <div class="answerHistoryRow">    
-                <div>
-                    Diese Woche 
-                    <span class="answerAmount"><%= Model.AnswersThisWeek.TotalAnswers %></span> 
-                    <span id="answeredThisWeekSparkle"></span>
-                    
-                    &nbsp;
-                    Vorwoche
-                    <%= Model.AnswersLastWeek.TotalTrueAnswers %>
-                </div> 
-            </div>
-            <div class="answerHistoryRow">
-                <div>
-                    Diesen Monat 
-                    <span class="answerAmount"><%= Model.AnswersThisMonth.TotalAnswers %></span> 
-                    <span id="answeredThisMonthSparkle"></span>
-                    
-                    &nbsp;
-                    Vormonat
-                    <%= Model.AnswersLastMonth.TotalAnswers %>
-                </div>
-            </div>
-            <div class="answerHistoryRow">
-                <div>
-                    Dieses Jahr 
-                    <span class="answerAmount"><%= Model.AnswersThisYear.TotalAnswers %></span> 
-                    <span id="answeredThisYearSparkle"></span>
-                    
-                    &nbsp;
-                    Vorjahr
-                    <%= Model.AnswersLastYear.TotalAnswers %>
-                </div> 
-            </div>
-        </div>
-        <div style="clear:both;"></div>--%>
-        
-<%--        <div style="padding-top:20px; height: 200px; ">
-        
-            <div class="column">
-                <h3>Fragen (175)</h3>
-                <table>
-                    <tr>
-                        <td>Wann wurde xy geboren </td> 
-                        <td>14x <span id="question-1"></span> </td>
-                    </tr>
-                </table>
-            </div>
-        
-            <div class="column">
-                <h3>Fragesätze</h3>
-                <div>
-                    <span>Noch keine Fragesätze</span>
-                </div>
-            </div>
- 
-            <div class="column">
-                <h3>Kategorien (34)</h3>
-                <table>
-                    <tr>
-                        <td>Musik</td> 
-                        <td>72</td> 
-                        <td><span id="inCategory-1"></span></td>
-                        <td><span id="inCategoeryOverTime-1"></span></td>
-                    </tr>
-                </table>
-            </div>
-        </div>--%>
     <% } %>
 </asp:Content>

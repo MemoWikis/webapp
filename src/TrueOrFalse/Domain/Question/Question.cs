@@ -73,22 +73,22 @@ public class Question : DomainEntity
 
     public virtual IList<QuestionFeature> Features { get; set; }
 
-    public bool IsEasyQuestion()
+    public virtual bool IsEasyQuestion()
     {
         return false;
     }
 
-    public bool IsMediumQuestion()
+    public virtual bool IsMediumQuestion()
     {
         return false;
     }
 
-    public bool IsHardQuestion()
+    public virtual bool IsHardQuestion()
     {
         return false;
     }
 
-    public bool IsNobrainer()
+    public virtual bool IsNobrainer()
     {
         return false;
     }
