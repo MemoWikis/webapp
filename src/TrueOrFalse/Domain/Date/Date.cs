@@ -8,6 +8,9 @@ public class Date : DomainEntity
 {
     public virtual string Details { get; set; }
 
+    /// <summary>
+    /// The date and time, when the date occurs
+    /// </summary>
     public virtual DateTime DateTime { get; set; }
 
     public virtual User User { get; set; }

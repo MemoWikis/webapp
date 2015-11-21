@@ -282,7 +282,9 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatcher.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\AnswerPatternRepo.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningPlan\Configuration\LearningPlanSettings.cs" />
-    <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningPlan\Creation\AnswerProbability.cs" />
+    <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
+    <Compile Include="Domain\Knowledge\Probability\ForQuestion\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
     <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
     <Compile Include="Infrastructure\Time\Period.cs" />

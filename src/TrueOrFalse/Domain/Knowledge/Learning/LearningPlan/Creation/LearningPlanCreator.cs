@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class LearningPlanCreator
 {
@@ -16,33 +17,63 @@ public class LearningPlanCreator
 
     private IList<LearningDate> GetDates(Date date, LearningPlanSettings settings)
     {
-        var nextDate = DateTime.Now.AddMinutes(10);
+        var nextDateProposal = DateTime.Now;
+        var learningDates = new List<LearningDate>();
+        var answerProbabilities = date.AllQuestions().Select(x => new AnswerProbability{ Question = x }).ToList();
 
+        while (nextDateProposal < date.DateTime)
+        {
+            var result = GetNextDateTime(nextDateProposal, settings);
+            if (!result.HasResult)
+            {
+                var answerProbabilites = CalcAllAnswerProbablities(result.DateTime, answerProbabilities);
+                var applicable = 
+                    answerProbabilites
+                        .OrderByDescending(x => x.Probability)
+                        .Where(x => x.Probability < 90)
+                        .ToList();
 
-        
+                if (applicable.Count >= settings.QuestionsPerDate_Minimum)
+                {
+                    applicable.ForEach(x => x.TimesInDate += 1);
 
-        //settings.IsInSnoozePeriod();
+                    learningDates.Add(new LearningDate{
+                        DateTime = nextDateProposal,
+                        Questions = applicable.Select(q => q.Question).ToList()
+                    });
+                }
+            }
 
-        //get offset
-        //get all probablities for given time offset
-        //order by answer probability desc 
+            nextDateProposal = nextDateProposal.AddMinutes(15);
+        }
 
-
-        //forward 30minutes
-
-
-        return null;
+        return learningDates;
     }
 
-    private LearningDate GetNextDate()
+    public class GetNextDateTimeResult{ public bool HasResult; public DateTime DateTime; }
+
+    private GetNextDateTimeResult GetNextDateTime(DateTime nextDateProposal, LearningPlanSettings settings)
     {
-        return null;
-    }
-}
+        if (settings.IsInSnoozePeriod(nextDateProposal))
+            return new GetNextDateTimeResult{HasResult = false};
 
-public class AnswerProbability
-{
-    public TimeSpan Offset;
-    public int Probability;
-    public Question Question;
+        //  get next snoozle free time :: break
+
+        //TIME (GET NEXT possible DATE)
+
+        // if first date
+        //   is far enough from initial date
+        // else
+        //   :: advance 30m -> break
+        //
+        // if NOT is far enough away from last learningDate
+        //  :: advance 30m -> break
+
+        return new GetNextDateTimeResult { HasResult = false };
+    }
+
+    private List<AnswerProbability> CalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
+    {
+        return answerProbabilities;
+    }
 }
