@@ -266,122 +266,115 @@
         </div>
     
         <div class="row" style="margin-top: 25px;">
-            <div class="col-xs-12 col-md-4">
-                <div class="col-xs-12 rowBase" style="padding: 10px;">
-                        <h3 style="margin-top: 0;">Termine</h3>
-                        <% if (Model.Dates.Count ==0) { %>
-                            <p>
-                                Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
-                            </p>
-                            <p>
-                                <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm">
-                                    <i class="fa fa-plus-circle"></i>&nbsp;Termin erstellen
-                                </a>
-                            </p>
-                            <hr style="margin: 5px 0px;"/>
-                        <% }else { %>
-                            <%
-                            var index = 0;    
-                            foreach(var date in Model.Dates.Take(3)){
-                                index++;
-                                %>
-                                <div class="row" style="margin-bottom: 3px;">
-                                    <div class="col-xs-9">
-                                        <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
-                                        <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
-                                        <% foreach(var set in date.Sets){ %>
-                                            <a href="<%= Links.SetDetail(Url, set) %>">
-                                                <span class="label label-set" style="font-size: 70%;"><%= set.Name %></span>
-                                            </a>                            
-                                        <% } %>
-                                    </div>
-                                    <div class="col-xs-3" style="opacity: .4;">
-                                        <div id="chartKnowledgeDate<%=index %>"></div>
-                                    </div>
-                                    <div class="col-xs-6" style="text-align: center; clear: left;">
-                                        <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
-                                            <i class="fa fa-gamepad" style="font-size: 18px;"></i>
-                                            Spiel starten
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-6" style="text-align: center;">
-                                        <a class="btn btn-sm btn-primary" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 10px; display: inline-block;">
-                                            <i class="fa fa-line-chart"></i> 
-                                            Jetzt üben
-                                        </a>
-                                    </div>
-                                </div>  
-                                <hr style="margin: 8px 0;"/>  
-                            <% } %>
-                            <% if (Model.Dates.Count > 3) { %>
-                                <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
-                                <hr style="margin: 8px 0px;"/>
-                            <% } %>
-                        <% } %>
-                        <p>
-                            <% if (Model.DatesInNetwork.Count > 0) { %>
-                                <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.Plural(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
-                                &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
-                            <% } else {  %>
-                                Kein Termin in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>.
-                                Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
-                            <% } %>
-                            
-                        </p>
-                        <hr style="margin: 8px 0px;"/>
-                        <p><a href="<%= Links.Dates() %>">(Zur Terminübersicht)</a></p>
-
-                    </div>
-            </div>         
-               
-            <div class="col-xs-12 col-md-4">
-                <div class="col-xs-12 rowBase" style="padding: 10px;">
-                        <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
-                        <% foreach(var answer in Model.AnswerRecent){ 
-                            var question = answer.Question;
+            <div class="col-xs-12 col-md-4 rowBase" style="padding: 10px;">
+                <h3 style="margin-top: 0;">Termine</h3>
+                <% if (Model.Dates.Count ==0) { %>
+                    <p>
+                        Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
+                    </p>
+                    <p>
+                        <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm">
+                            <i class="fa fa-plus-circle"></i>&nbsp;Termin erstellen
+                        </a>
+                    </p>
+                    <hr style="margin: 5px 0px;"/>
+                <% }else { %>
+                    <%
+                    var index = 0;    
+                    foreach(var date in Model.Dates.Take(3)){
+                        index++;
                         %>
-                            <div class="row" style="margin-bottom: 10px;">
-                                <div class="col-xs-3">
-                                    <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question) %>
-                                </div>
-                                <div class="col-xs-9" style="">
-                                    <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.Text %></a>
-                                </div>
+                        <div class="row" style="margin-bottom: 3px;">
+                            <div class="col-xs-9">
+                                <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
+                                <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
+                                <% foreach(var set in date.Sets){ %>
+                                    <a href="<%= Links.SetDetail(Url, set) %>">
+                                        <span class="label label-set" style="font-size: 70%;"><%= set.Name %></span>
+                                    </a>                            
+                                <% } %>
                             </div>
-                        <% } %>
-                
-                        <div class="row" style="opacity: 0.4;">
-                            <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                            <div class="col-xs-3" style="opacity: .4;">
+                                <div id="chartKnowledgeDate<%=index %>"></div>
+                            </div>
+                            <div class="col-xs-6" style="text-align: center; clear: left;">
+                                <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
+                                    <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                                    Spiel starten
+                                </a>
+                            </div>
+                            <div class="col-xs-6" style="text-align: center;">
+                                <a class="btn btn-sm btn-primary" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 10px; display: inline-block;">
+                                    <i class="fa fa-line-chart"></i> 
+                                    Jetzt üben
+                                </a>
+                            </div>
+                        </div>  
+                        <hr style="margin: 8px 0;"/>  
+                    <% } %>
+                    <% if (Model.Dates.Count > 3) { %>
+                        <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
+                        <hr style="margin: 8px 0px;"/>
+                    <% } %>
+                <% } %>
+                <p>
+                    <% if (Model.DatesInNetwork.Count > 0) { %>
+                        <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.Plural(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
+                        &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
+                    <% } else {  %>
+                        Kein Termin in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>.
+                        Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
+                    <% } %>
+                            
+                </p>
+                <hr style="margin: 8px 0px;"/>
+                <p><a href="<%= Links.Dates() %>">(Zur Terminübersicht)</a></p>
+            </div>
+                           
+            <div class="col-xs-12 col-md-4 rowBase" style="padding: 10px;">
+                <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
+                <% foreach(var answer in Model.AnswerRecent){ 
+                    var question = answer.Question;
+                %>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question) %>
+                        </div>
+                        <div class="col-xs-9" style="">
+                            <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.Text %></a>
                         </div>
                     </div>
+                <% } %>
+                
+                <div class="row" style="opacity: 0.4;">
+                    <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                </div>
             </div>
 
-            <div class="col-xs-12 col-md-4">
-                <div class="col-xs-12 rowBase" style="padding: 10px;">
-                        <h3 style="margin-top: 0;">Im Netzwerk</h3>
-                        <% if (Model.NetworkActivities.Count == 0) { %>
-                                Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
-                                Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
-                        <% } else { %>
-                            <% foreach(var activity in Model.NetworkActivities){ %>
-                                <div class="row" style="margin-bottom: 10px;">
-                                    <div class="col-xs-3">
-                                        <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
-                                    </div>
-                                    <div class="col-xs-9" style="">
-                                        <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
-                                        <div style="clear: left;">
-                                            <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
-                                            <%= UserActivityTools.GetActionObject(activity) %>
-                                        </div>
-                                    </div>
-                                </div>
-                            <% } %>
-                            <div class="row" style="opacity: 0.4;">
-                                <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+            <div class="col-xs-12 col-md-4 rowBase" style="padding: 10px;">
+                <h3 style="margin-top: 0;">Im Netzwerk</h3>
+                <% if (Model.NetworkActivities.Count == 0) { %>
+                        Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
+                        Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
+                <% } else { %>
+                    <% foreach(var activity in Model.NetworkActivities){ %>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-xs-3">
+                                <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
                             </div>
-                        <% } %>
+                            <div class="col-xs-9" style="">
+                                <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
+                                <div style="clear: left;">
+                                    <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
+                                    <%= UserActivityTools.GetActionObject(activity) %>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                    <div class="row" style="opacity: 0.4;">
+                        <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
                     </div>
+                <% } %>
             </div>
         </div>
 
