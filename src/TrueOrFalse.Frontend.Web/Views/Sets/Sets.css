@@ -2,7 +2,7 @@
   background-color: #f3f5f8;
 }
 #MainFilterBarBackground .btn {
-  color: #ffffff;
+  color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #f5ebb8;
   background-image: -moz-linear-gradient(top, #f2e6a6, #f9f3d2);
@@ -50,16 +50,16 @@
   color: #203256;
   text-shadow: white;
   background-color: #ffe55c;
-  background-image: -moz-linear-gradient(top, #ffef99, #ffd700);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffef99), to(#ffd700));
-  background-image: -webkit-linear-gradient(top, #ffef99, #ffd700);
-  background-image: -o-linear-gradient(top, #ffef99, #ffd700);
-  background-image: linear-gradient(to bottom, #ffef99, #ffd700);
+  background-image: -moz-linear-gradient(top, #ffef99, #FFD700);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffef99), to(#FFD700));
+  background-image: -webkit-linear-gradient(top, #ffef99, #FFD700);
+  background-image: -o-linear-gradient(top, #ffef99, #FFD700);
+  background-image: linear-gradient(to bottom, #ffef99, #FFD700);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffef99', endColorstr='#ffffd700', GradientType=0);
-  border-color: #ffd700 #ffd700 #b39700;
+  border-color: #FFD700 #FFD700 #b39700;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #ffd700;
+  *background-color: #FFD700;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -70,7 +70,7 @@
 #MainFilterBar .btn-group.active .btn.disabled,
 #MainFilterBar .btn-group.active .btn[disabled] {
   color: #203256;
-  background-color: #ffd700;
+  background-color: #FFD700;
   *background-color: #e6c200;
 }
 #MainFilterBar .btn-group.active .btn:active,
@@ -78,7 +78,7 @@
   background-color: #ccac00 \9;
 }
 #MainFilterBar .btn-group .btn:hover {
-  background-color: #ffd700 !important;
+  background-color: #FFD700 !important;
   background-image: none !important;
 }
 @media (min-width: 768px) {
@@ -107,4 +107,3 @@
     float: left;
   }
 }
-/*# sourceMappingURL=Sets.css.map */
