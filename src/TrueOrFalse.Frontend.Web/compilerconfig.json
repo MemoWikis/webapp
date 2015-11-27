@@ -75,5 +75,12 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Views/Knowledge/Knowledge.css",
+    "inputFile": "Views/Knowledge/Knowledge.less",
+    "minify": {
+      "enabled": false
+    }
   }
 ]

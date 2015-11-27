@@ -81,7 +81,7 @@
 }
 .fa-border {
   padding: .2em .25em .15em;
-  border: solid 0.08em #eeeeee;
+  border: solid 0.08em #eee;
   border-radius: .1em;
 }
 .fa-pull-left {
@@ -196,7 +196,7 @@
   font-size: 2em;
 }
 .fa-inverse {
-  color: #ffffff;
+  color: #fff;
 }
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
    readers do not read off random characters that represent icons */
@@ -2071,10 +2071,10 @@
 /*  General styles
 ----------------------------------------------------------*/
 .link {
-  color: #2c5fb2;
+  color: #2C5FB2;
 }
 .link:hover {
-  color: #2c5fb2;
+  color: #2C5FB2;
 }
 .bold {
   font-weight: bold;
@@ -2155,11 +2155,11 @@
 ----------------------------------------------------------*/
 /*Modified styles from bootstrap website (not part of framework)*/
 .bs-callout-info {
-  background-color: #f6f8fc;
+  background-color: #F6F8FC;
   border-color: #5bc0de !important;
 }
 .bs-callout-danger {
-  background-color: #f6f8fc;
+  background-color: #F6F8FC;
   border-color: #ce4844 !important;
 }
 .bs-callout {
@@ -2228,4 +2228,3 @@
   vertical-align: bottom;
 }
 /*Have user inputs/existing data in forms bold when in editing mode*/
-/*# sourceMappingURL=shared.css.map */

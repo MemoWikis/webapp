@@ -11,5 +11,7 @@ public class QuestionFeature : DomainEntity
 
     public virtual IList<Question> Questions { get; set; }
 
+    public virtual string Group { get; set; }
+
     public virtual Func<QuestionFeatureFilterParams, bool> DoesApply { get; set; }
 }

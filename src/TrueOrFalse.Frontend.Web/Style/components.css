@@ -77,17 +77,17 @@ ul.ui-autocomplete .SetListItem span.NumberQuestions {
 }
 ul.ui-autocomplete .CatListItem a.TextLink,
 ul.ui-autocomplete .SetListItem a.TextLink {
-  color: #2c5fb2;
+  color: #2C5FB2;
   padding: 0;
   display: inline;
 }
 ul.ui-autocomplete .CatListItem a.TextLink:hover,
 ul.ui-autocomplete .SetListItem a.TextLink:hover {
-  color: #2c5fb2;
+  color: #2C5FB2;
 }
 ul.ui-autocomplete a.CatListItem:hover,
 ul.ui-autocomplete a.CatListItem:focus {
-  background-color: #efefef;
+  background-color: #EFEFEF;
 }
 ul.ui-autocomplete .Reference.DailyIssue .PublicationDate {
   display: none;
@@ -407,4 +407,3 @@ div.selected-row:hover {
     margin-right: 0;
   }
 }
-/*# sourceMappingURL=components.css.map */

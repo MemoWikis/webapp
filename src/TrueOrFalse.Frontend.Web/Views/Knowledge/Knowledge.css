@@ -33,6 +33,7 @@
   color: white;
   border-radius: 15px;
   border: 1px solid #e2f899;
+  margin-top: 3px;
 }
 .number-box-questions a {
   color: white;
@@ -50,8 +51,8 @@
   background-color: #ffd700;
   color: white;
   border-radius: 15px;
-  margin-top: 7px;
   border: 1px solid #fff09d;
+  margin-top: 3px;
 }
 .number-box-sets a {
   color: white;
@@ -66,11 +67,11 @@
   background-color: #ffe243;
 }
 .number-box-reputation {
-  margin-top: 7px;
-  border-radius: 15px;
+  font-size: 17px;
   background-color: #7ca2e1;
+  border-radius: 15px;
   color: white;
-  font-size: 16px ;
+  margin-top: 3px;
 }
 .number-box-reputation a {
   color: white;
@@ -84,4 +85,3 @@
   border-radius: 15px;
   background-color: #a4bde7;
 }
-/*# sourceMappingURL=Knowledge.css.map */

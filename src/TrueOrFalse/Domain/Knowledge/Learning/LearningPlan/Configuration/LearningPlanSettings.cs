@@ -15,9 +15,6 @@ public class LearningPlanSettings
     /// </summary>
     public int AnswerProbabilityTreshhold = 90;
 
-    public Time NoLearningTime_Start;
-    public Time NoLearningTime_End;
-
     public IList<Period> SnoozePeriods = new List<Period>{
         new Period(new Time(21, 00), new Time(9, 0))
     };

@@ -73,6 +73,26 @@ public class Question : DomainEntity
 
     public virtual IList<QuestionFeature> Features { get; set; }
 
+    public virtual bool IsEasyQuestion()
+    {
+        return false;
+    }
+
+    public virtual bool IsMediumQuestion()
+    {
+        return false;
+    }
+
+    public virtual bool IsHardQuestion()
+    {
+        return false;
+    }
+
+    public virtual bool IsNobrainer()
+    {
+        return false;
+    }
+
     public Question()
     {
         Categories = new List<Category>();
