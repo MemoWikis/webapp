@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="Mein Wissensstand" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Register Src="~/Views/Knowledge/TrainingDate.ascx" TagPrefix="uc1" TagName="TrainingDate" %>
+
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     
@@ -371,9 +373,7 @@
                     <hr style="margin: 8px 0px;"/>
                     <p><a href="<%= Links.Dates() %>">(Zur Terminübersicht)</a></p>
                 </div>
-            </div>
-                           
-            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+                
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
                     <% foreach(var answer in Model.AnswerRecent){ 
@@ -394,7 +394,17 @@
                     </div>
                 </div>
             </div>
-
+            
+            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+                <div class="rowBase" style="padding: 10px;">
+                    <h3 style="margin-top: 0; margin-bottom: 3px;">Lernsitzungen</h3>
+                    <div style="font-size: 14px">Kommende Benachrichtigungen</div>
+                    <% foreach(var training  in Model.TrainingDates) { %>
+                        <% Html.RenderPartial("TrainingDate", training); %>
+                    <% } %>
+                </div>
+            </div>
+                           
             <div class="col-xs-12 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Im Netzwerk</h3>
@@ -421,6 +431,12 @@
                         </div>
                     <% } %>
                 </div>
+            </div>
+        </div>
+    
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+                
             </div>
         </div>
 

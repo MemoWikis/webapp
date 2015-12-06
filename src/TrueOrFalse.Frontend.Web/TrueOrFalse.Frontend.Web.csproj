@@ -288,6 +288,7 @@
     <Compile Include="Views\Games\Play\BodyControls\GameReadyModel.cs" />
     <Compile Include="Views\Games\Play\PlayController.cs" />
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
+    <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
     <Compile Include="Views\Games\GamesModel.cs" />
@@ -422,6 +423,7 @@
     <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
     <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
+    <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.min.css">
       <DependentUpon>AnswerQuestion.css</DependentUpon>
     </Content>

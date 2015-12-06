@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.Optimization;
 using TrueOrFalse.Web;
 
 public class KnowledgeModel : BaseModel
@@ -12,9 +10,9 @@ public class KnowledgeModel : BaseModel
     {
         get
         {
-            if (_sessionUser.User == null)
-                return "Unbekannte(r)";
-            return _sessionUser.User.Name;
+            return _sessionUser.User == null ? 
+                "Unbekannte(r)" : 
+                _sessionUser.User.Name;
         }
     }
 
@@ -30,6 +28,7 @@ public class KnowledgeModel : BaseModel
     public IList<Date> Dates = new List<Date>();
     public IList<Date> DatesInNetwork = new List<Date>();
     public IList<Answer> AnswerRecent = new List<Answer>();
+    public IList<TrainingDateModel> TrainingDates = new List<TrainingDateModel>();
 
     public User User = new User();
     public int ReputationRank;
@@ -39,7 +38,6 @@ public class KnowledgeModel : BaseModel
 
     public IList<UserActivity> NetworkActivities;
     public IList<string> NetworkActivitiesActionString;
-
 
     public KnowledgeModel(string emailKey = null)
     {
@@ -81,6 +79,13 @@ public class KnowledgeModel : BaseModel
 
         //GET NETWORK ACTIVITY
         NetworkActivities = R<UserActivityRepo>().GetByUser(User, 8);
+
+        TrainingDates = new List<TrainingDateModel>
+        {
+            new TrainingDateModel { DateTime = DateTime.Now, QuestionCount = 3 },
+            new TrainingDateModel { DateTime = DateTime.Now, QuestionCount = 21 },
+            new TrainingDateModel { DateTime = DateTime.Now, QuestionCount = 19 }
+        };
 
     }
 }
