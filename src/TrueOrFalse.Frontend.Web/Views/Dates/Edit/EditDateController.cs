@@ -62,6 +62,8 @@ public class EditDateController : BaseController
 
         if(!model.HasSets())
             model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatze hinzu.");
+        else
+            model.FillSetsFromInput();
 
         if (!model.HasErrorMsg())
         {
