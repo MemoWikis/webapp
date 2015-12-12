@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace TrueOrFalse
 {
@@ -40,11 +37,6 @@ namespace TrueOrFalse
                 else
                     return ((int)Math.Round(elapsedTime.TotalHours, MidpointRounding.AwayFromZero)) + " Stunden";
 
-            //ToDo: Consider date, not decimal span
-
-            //temp
-
-            
             if (elapsedTime.TotalDays < 30)
                 if (calDaysPassed.TotalDays <= 1)
                     return "einem Tag";

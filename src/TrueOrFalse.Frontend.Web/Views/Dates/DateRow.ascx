@@ -14,32 +14,37 @@
 
         <div class="col-sm-2" style="">
             <div class="row">
-                <div class="col-xs-4 col-md-12" style="color: silver; font-size: 16px; font-weight: 400; padding: 2px 0 0 12px;">
+                <div class="col-xs-4 col-md-12" style="color: rgb(147, 147, 147); font-size: 12px; font-weight: 400; padding: 2px 0 0 12px;">
                     <%
                         if(Model.IsPast){
-                            Response.Write("Vorbei seit <br>");
-                            Response.Write(Model.ShowMinutesLeft ? "Minuten:" : "Tagen:");
+                            Response.Write("Vorbei seit");
                         }else { 
-                            Response.Write(Model.ShowMinutesLeft ? "Minuten" : "Noch Tage");
+                            Response.Write("Noch");
                         }
                     %>
                 </div>
-                <div class="col-xs-4 col-md-12" style="margin-bottom: -11px;">
-                    <span style="font-size: 48px; position: relative; top:-7px;">
-                        <%= Model.ShowMinutesLeft ?
-                            String.Format("{0:00}", Model.RemainingMinutes) : 
-                            String.Format("{0:00}", Model.RemainingDays)
-                        %>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <span style="font-size: 40px; position: relative; top:-10px;">
+                        <%= String.Format("{0:00}", Model.RemainingLabel.Value) %>
                     </span>
                 </div>                
-                <div class="col-md-12 " style="color: darkgrey; font-weight: bolder;  position: relative; left: 0px;">
+                <div class="col-md-8" style="font-size: 20px">
+                    <span style="padding-left: 5px;">
+                        <% Response.Write(Model.RemainingLabel.Label); %>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="color: darkgrey; font-weight: bolder;  position: relative; left: 0px;">
                     <% if(!Model.IsPast){ %>
                         <span style="font-size: 11px">bis Termin am <br/></span> 
                     <% } %>
                     <span style="font-size: 11px;">
                         <%= date.DateTime.ToString("dd.MM.yyy HH:mm") %>
                     </span>
-                </div>
+                </div>                
             </div>
         </div>
 

@@ -86,7 +86,7 @@
     </div>
         
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
 
             <% if(!Model.IsLoggedIn){ %>
 
@@ -146,8 +146,6 @@
 
             <% } %>
 
-        </div>        
-        <div class="col-md-3">
         </div>
     </div>
     

@@ -52,4 +52,24 @@ public class Date : DomainEntity
 
         return "(" + CountQuestions() + " Fragen bis zum " + DateTime.ToString("dd.MM.yyy") + ")";
     }
+
+    public virtual TimeSpan Remaining()
+    {
+        return DateTime - DateTime.Now;
+    }
+
+    public virtual int RemainingDays()
+    {
+        return Math.Abs(Convert.ToInt32(Remaining().TotalDays));
+    }
+
+    public virtual int RemainingMinutes()
+    {
+        return Math.Abs(Convert.ToInt32(Remaining().TotalMinutes));
+    }
+
+    public virtual TimeSpanLabel RemainingLabel()
+    {   
+        return new TimeSpanLabel(Remaining());
+    }
 }
