@@ -82,9 +82,29 @@ public class KnowledgeModel : BaseModel
 
         TrainingDates = new List<TrainingDateModel>
         {
-            new TrainingDateModel { DateTime = DateTime.Now, QuestionCount = 3 },
-            new TrainingDateModel { DateTime = DateTime.Now, QuestionCount = 21 },
-            new TrainingDateModel { DateTime = DateTime.Now, QuestionCount = 19 }
+            new TrainingDateModel
+            {
+                DateTime = DateTime.Now.AddHours(4),
+                QuestionCount = 12,
+                Date = new Date { Details = "Klassenarbeit DE"}
+            },
+            new TrainingDateModel
+            {
+                DateTime = DateTime.Now.AddHours(24),
+                QuestionCount = 21,
+                Date = new Date { Details = "Klassenarbeit DE"}
+            },
+            new TrainingDateModel
+            {
+                DateTime = DateTime.Now.AddHours(57),
+                QuestionCount = 19,
+                Date = new Date { Details = "Mündliche Prüfung am Fr."}
+            },
+            new TrainingDateModel
+            {
+                DateTime = DateTime.Now.AddHours(71),
+                QuestionCount = 20,
+            }
         };
 
     }

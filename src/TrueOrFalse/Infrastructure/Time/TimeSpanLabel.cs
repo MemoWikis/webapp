@@ -7,6 +7,8 @@ public class TimeSpanLabel
     public int Value;
     public TimeSpanInterval Interval;
 
+    public string Full { get { return Value + " " + Label; } }
+
     public TimeSpanLabel(TimeSpan timeSpan)
     {
         timeSpan = timeSpan.Duration();
