@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-12" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
         <% if(!Model.IsContinousLearning){ %>
-            Für Termin: <a href="<%= Links.Dates() %>">"<%= Model.GetTitle() %>"</a>
+            Termin: <a href="<%= Links.Dates() %>">"<%= Model.GetTitle() %>"</a>
         <% }else{
             Response.Write(Model.GetTitle());
         }%>

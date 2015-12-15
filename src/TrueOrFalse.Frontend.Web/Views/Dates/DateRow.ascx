@@ -12,33 +12,29 @@
     
     <div class="row">
 
-        <div class="col-sm-2" style="">
+        <div class="col-md-2" style="">
             <div class="row">
-                <div class="col-xs-4 col-md-12" style="color: rgb(147, 147, 147); font-size: 12px; font-weight: 400; padding: 2px 0 0 12px;">
+                <div class="col-md-12" style="font-size: 13px;">
                     <%
                         if(Model.IsPast){
-                            Response.Write("Vorbei seit");
+                            Response.Write("Vorbei seit ");
                         }else { 
-                            Response.Write("Noch");
+                            Response.Write("Noch ");
                         }
-                    %>
+                    %>                
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <span style="font-size: 40px; position: relative; top:-10px;">
-                        <%= String.Format("{0:00}", Model.RemainingLabel.Value) %>
-                    </span>
-                </div>                
-                <div class="col-md-8" style="font-size: 20px">
-                    <span style="padding-left: 5px;">
-                        <% Response.Write(Model.RemainingLabel.Label); %>
-                    </span>
+                <div class="col-md-12" style="font-size: 19px;">
+                    <%= Model.RemainingLabel.Value %>
+                    <% Response.Write(Model.RemainingLabel.Label); %>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" style="color: darkgrey; font-weight: bolder;  position: relative; left: 0px;">
-                    <% if(!Model.IsPast){ %>
+                <div class="col-md-12" style="color: darkgrey;  position: relative; top: 3px;">
+                    <% if(Model.IsPast){ %>
+                        <span style="font-size: 11px">Termin war am <br/></span> 
+                    <% }else{ %>
                         <span style="font-size: 11px">bis Termin am <br/></span> 
                     <% } %>
                     <span style="font-size: 11px;">
@@ -48,9 +44,9 @@
             </div>
         </div>
 
-        <div class="col-sm-7">
+        <div class="col-sm-5">
             <div class="row">
-                <div class="col-md-9 header" style="font-size: 19px">
+                <div class="col-md-9" style="font-size: 16px">
                     <%= Model.Date.Details %>
                 </div>
                 
@@ -88,26 +84,23 @@
     
             <div class="row">
                 <% if (!Model.IsNetworkDate){ %>
-                    <div class="col-xs-6" style="text-align: left">
+                    <div class="col-xs-12" style="text-align: left">
                         <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
                             style="display: inline-block; margin-top: 29px; margin-right: 11px;">
                             <i class="fa fa-gamepad" style="font-size: 18px;"></i>
                             Spiel starten
                         </a>
-                    </div>
-                    <div class="col-xs-6" style="text-align: right;">
-                        <div>
-                            <a style="display: inline-block; margin-top: 23px;"
-                                class="btn btn-sm btn-primary"
-                                data-btn="startLearningSession" 
-                                href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> 
-                                Jetzt üben
-                            </a>
-                        </div>
+                        
+                        <a style="display: inline-block;"
+                            class=""
+                            data-btn="startLearningSession" 
+                            href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> 
+                            Jetzt üben
+                        </a>
                     </div>
                 <% }else{ %>
                     <div class="col-sm-12" style="text-align: right;">
-                        <div style="margin-top: 20px;">
+                        <div style="margin-top: 29px;">
                             <a class="btn btn-sm btn-info" href="#">
                                 <i class="fa fa-files-o"></i>
                                  Termin kopieren
@@ -117,7 +110,8 @@
                 <% } %>
             </div>
         </div>
-        <div class="col-sm-3">
+
+        <div class="col-sm-2">
             <% if (!Model.IsNetworkDate){ %>
                 <div id="chartKnowledgeDate<% =date.Id %>"></div>
             <% }else{ %>
@@ -129,6 +123,34 @@
                     
                 </div>
             <% } %>
+        </div>
+        
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-md-1"><i class="fa fa-calendar"></i></div>
+                <div class="col-md-10">
+                    Übungsplan
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">ca. 7 Übungssitzungen</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">ca. 40min Übungszeit</div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"><i class="fa fa-bell"></i></div>
+                <div class="col-md-10">
+                    nächste Übungssitzung <br/>
+                    in 20min (15 Fragen)
+                </div>
+            </div>
+            <div class="row" style="height: 100%;">
+                <div class="col-md-1"><i class="fa fa-pencil"></i></div>
+                <div class="col-md-10">
+                    <a href="#" style="margin-top: 29px;">bearbeiten</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

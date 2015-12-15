@@ -3,15 +3,19 @@ using System;
 
 public class TimeSpanLabel
 {
+    private bool _useDativ;
+
     public string Label;
     public int Value;
+
     public TimeSpanInterval Interval;
 
     public string Full { get { return Value + " " + Label; } }
 
-    public TimeSpanLabel(TimeSpan timeSpan)
+    public TimeSpanLabel(TimeSpan timeSpan, bool useDativ = false)
     {
         timeSpan = timeSpan.Duration();
+        _useDativ = useDativ;
 
         var interval = GetBestRemainingInterval(timeSpan);
 
@@ -20,6 +24,7 @@ public class TimeSpanLabel
             case TimeSpanInterval.Minutes:
                 Value = (int) timeSpan.TotalMinutes;
                 Label = Value == 1 ? "Minute" : "Minuten";
+
                 break;
 
             case TimeSpanInterval.Hours:
@@ -29,7 +34,9 @@ public class TimeSpanLabel
 
             case TimeSpanInterval.Days:
                 Value = (int)timeSpan.TotalDays;
-                Label = Value == 1 ? "Tag" : "Tage";
+                Label = Value == 1 ? 
+                    "Tag" : 
+                    _useDativ ? "Tagen" : "Tage";
                 break;
 
             case TimeSpanInterval.Weeks:
@@ -39,12 +46,16 @@ public class TimeSpanLabel
 
             case TimeSpanInterval.Month:
                 Value = (int)Math.Round(timeSpan.TotalDays / 30d, 0);
-                Label = Value == 1 ? "Monat" : "Monate";
+                Label = Value == 1 ? 
+                    "Monat" : 
+                    _useDativ ? "Monaten" : "Monate";
                 break;
 
             case TimeSpanInterval.Years:
                 Value = (int)Math.Round(timeSpan.TotalDays / 365d, 0);
-                Label = Value == 1 ? "Jahr" : "Jahre";
+                Label = Value == 1 ? 
+                    "Jahr" : 
+                    _useDativ ? "Jahren" : "Jahre";
                 break;
 
             default: 

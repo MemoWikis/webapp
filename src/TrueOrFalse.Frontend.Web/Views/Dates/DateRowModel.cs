@@ -34,9 +34,8 @@ public class DateRowModel : BaseModel
         KnowledgeSolid = summary.Solid;
 
         var remaining = date.Remaining();
-        RemainingLabel = new TimeSpanLabel(remaining);
- 
         IsPast = remaining.TotalSeconds < 0;
+        RemainingLabel = new TimeSpanLabel(remaining, IsPast);
         IsNetworkDate = isNetworkDate;
     }
 }
