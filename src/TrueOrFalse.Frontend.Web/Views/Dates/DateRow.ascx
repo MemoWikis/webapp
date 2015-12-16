@@ -148,7 +148,7 @@
             <div class="row" style="height: 100%;">
                 <div class="col-md-1"><i class="fa fa-pencil"></i></div>
                 <div class="col-md-10">
-                    <a href="#" style="margin-top: 29px;">bearbeiten</a>
+                    <a href="#modalTraining" data-toggle="modal" style="margin-top: 29px;" data-dateId="<%= date.Id %>">bearbeiten</a>
                 </div>
             </div>
         </div>

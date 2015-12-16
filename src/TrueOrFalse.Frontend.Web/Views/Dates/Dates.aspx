@@ -150,5 +150,6 @@
     </div>
     
     <% Html.RenderPartial("Modals/DeleteDate"); %>
+    <% Html.RenderPartial("Modals/TrainingSettings"); %>
             
 </asp:Content>

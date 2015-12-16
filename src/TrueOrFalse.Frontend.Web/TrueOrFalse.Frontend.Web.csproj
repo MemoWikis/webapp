@@ -423,6 +423,10 @@
     <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
     <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
+    <Content Include="Views\Dates\Js\TrainingSettings.js">
+      <DependentUpon>TrainingSettings.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.min.css">
       <DependentUpon>AnswerQuestion.css</DependentUpon>
@@ -473,6 +477,7 @@
     <TypeScriptCompile Include="Views\Dates\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRowDelete.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\PreviousDates.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\TrainingSettings.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />

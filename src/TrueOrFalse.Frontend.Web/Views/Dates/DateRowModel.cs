@@ -1,6 +1,4 @@
-﻿using System;
-
-public class DateRowModel : BaseModel
+﻿public class DateRowModel : BaseModel
 {
     public Date Date;
 
