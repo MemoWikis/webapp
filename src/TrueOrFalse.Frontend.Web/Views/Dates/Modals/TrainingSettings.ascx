@@ -1,5 +1,43 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<dynamic>" %>
 
+<script>
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate1", 9, 2, 1, 2) });
+    google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate2", 4, 3, 2, 3) });
+
+    function drawKnowledgeChartDate2(chartElementId, amountSolid, amountToConsolidate, amountToLearn, amountNotLearned) {
+
+        var chartElement = $("#" + chartElementId);
+
+        var data = google.visualization.arrayToDataTable([
+            ['Wissenslevel', 'Anteil in %'],
+            ['Sicheres Wissen', amountSolid],
+            ['Solltest du festigen', amountToConsolidate],
+            ['Solltest du lernen', amountToLearn],
+            ['Noch nicht gelernt', amountNotLearned],
+        ]);
+
+        var options2 = {
+            pieHole: 0.5,
+            legend: { position: 'none' },
+            pieSliceText: 'none',
+            height: 36,
+            width: 42,
+            chartArea: { width: 42, height: 36, left: 0 },
+            slices: {
+                0: { color: 'lightgreen' },
+                1: { color: '#fdd648' },
+                2: { color: 'lightsalmon' },
+                3: { color: 'silver' }
+            },
+            pieStartAngle: 0
+        };
+
+        var chart = new google.visualization.PieChart(chartElement.get()[0]);
+        chart.draw(data, options2);
+    }
+</script>
+
 <div id="modalTraining" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -37,6 +75,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div style="height: 1px; background-color: rgb(219, 219, 219);"></div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 4px">
+                    <div class="col-md-4" style="">
+                        Noch 4 Stunden<br />
+                        13.12.2015 19:00
+                    </div>
+                    <div class="col-md-4">
+                        15 Fragen<br />
+                        ca. 20min Aufwand
+                    </div>
+                    <div class="col-xs-2">
+                        <div id="chartKnowledgeDate1"></div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div id="chartKnowledgeDate2"></div>
                     </div>
                 </div>
             </div>
