@@ -1,9 +1,25 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<dynamic>" %>
 
 <script>
-    google.load("visualization", "1", { packages: ["corechart"] });
-    google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate1", 9, 2, 1, 2) });
-    google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate2", 4, 3, 2, 3) });
+    
+    $.get("/Dates/RenderTrainingDates/?dateId=10",
+        htmlResult => {
+            $("#dateRows").append(
+                $(htmlResult)
+                    .animate({ opacity: 1.00 }, 700)
+            );
+            drawCharts();
+        }
+    );
+
+    function drawCharts() {
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate1Before", 9, 2, 1, 2) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate1After", 4, 3, 2, 3) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate2Before", 9, 2, 1, 2) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate2After", 4, 3, 2, 3) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate3Before", 9, 2, 1, 2) });
+        google.setOnLoadCallback(function () { drawKnowledgeChartDate2("chartKnowledgeDate3After", 4, 3, 2, 3) });
+    }
 
     function drawKnowledgeChartDate2(chartElementId, amountSolid, amountToConsolidate, amountToLearn, amountNotLearned) {
 
@@ -77,22 +93,7 @@
                         <div style="height: 1px; background-color: rgb(219, 219, 219);"></div>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 4px">
-                    <div class="col-md-4" style="">
-                        Noch 4 Stunden<br />
-                        13.12.2015 19:00
-                    </div>
-                    <div class="col-md-4">
-                        15 Fragen<br />
-                        ca. 20min Aufwand
-                    </div>
-                    <div class="col-xs-2">
-                        <div id="chartKnowledgeDate1"></div>
-                    </div>
-                    <div class="col-xs-2">
-                        <div id="chartKnowledgeDate2"></div>
-                    </div>
-                </div>
+                <div id="dateRows"></div>
             </div>
             <div class="modal-footer" style="padding-top: 7px; padding-bottom: 7px;">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Schliessen</a>

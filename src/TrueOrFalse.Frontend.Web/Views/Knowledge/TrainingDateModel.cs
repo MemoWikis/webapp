@@ -27,4 +27,7 @@ public class TrainingDateModel
     }
 
     public bool IsContinousLearning{ get { return Date == null; } }
+
+    public KnowledgeSummary SummaryBefore;
+    public KnowledgeSummary SummaryAfter;
 }
