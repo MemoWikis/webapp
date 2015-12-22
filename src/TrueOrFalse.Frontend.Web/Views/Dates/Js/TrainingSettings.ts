@@ -4,7 +4,6 @@
 
         $('a[href*=#modalTraining]').click(function () {
             var dateId = $(this).attr("data-dateId");
-            //self.PopulatModal(dateIdToDelete);
         });
     }
 }
