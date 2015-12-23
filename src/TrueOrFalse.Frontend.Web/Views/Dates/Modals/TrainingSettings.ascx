@@ -77,11 +77,15 @@
             <div class="modal-header" style="padding-top: 5px; padding-bottom: 5px;">
                 <button class="close" data-dismiss="modal">×</button>
                 <div class="row">
-                    <div class="col-md-6">
-                        <h3>Übungsplan</h3>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="pull-right" style="font-size: 16px; margin-top: 5px;">
+                    <div class="col-md-12">
+                        <h3 style="font-size: 22px; margin-top: 0px; display: inline-block;">
+                            Übungsplan
+                            <select style="font-size: 15px; padding-left: 3px;">
+                                <option>Klassenarbeit am 24.12.2015</option>
+                                <option>Mündliche Prüfung am Fr.</option>
+                            </select>
+                        </h3>
+                        <div class="pull-right" style="font-size: 15px; margin-top: 5px;">
                             <a href="#" id="showSettings" data-action="showSettings">zeige Einstellungen <i class="fa fa-cogs"></i></a>
                             <a href="#" style="display:none" id="closeSettings" data-action="closeSettings">verberge Einstellungen <i class="fa fa-cogs"></i></a>
                         </div>

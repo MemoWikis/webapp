@@ -3,5 +3,5 @@ $(function () {
     new PreviousDates();
     new TrainingSettings();
 
-    //$('#modalTraining').modal();
+    $('#modalTraining').modal();
 });
