@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class LearningPlanCreator
+public class TrainingPlanCreator
 {
-    public LearningPlan Run(Date date, LearningPlanSettings settings)
+    public TrainingPlan Run(Date date, TrainingPlanSettings settings)
     {
-        var learnPlan = new LearningPlan();
+        var learnPlan = new TrainingPlan();
 
         learnPlan.Date = date;
         learnPlan.Questions = date.AllQuestions();
@@ -15,10 +15,10 @@ public class LearningPlanCreator
         return learnPlan;
     }
 
-    private IList<LearningDate> GetDates(Date date, LearningPlanSettings settings)
+    private IList<TrainingDate> GetDates(Date date, TrainingPlanSettings settings)
     {
         var nextDateProposal = DateTime.Now;
-        var learningDates = new List<LearningDate>();
+        var learningDates = new List<TrainingDate>();
         var answerProbabilities = date.AllQuestions().Select(x => new AnswerProbability{ Question = x }).ToList();
 
         while (nextDateProposal < date.DateTime)
@@ -37,7 +37,7 @@ public class LearningPlanCreator
                 {
                     applicable.ForEach(x => x.TimesInDate += 1);
 
-                    learningDates.Add(new LearningDate{
+                    learningDates.Add(new TrainingDate{
                         DateTime = nextDateProposal,
                         Questions = applicable.Select(q => q.Question).ToList()
                     });
@@ -52,7 +52,7 @@ public class LearningPlanCreator
 
     public class GetNextDateTimeResult{ public bool HasResult; public DateTime DateTime; }
 
-    private GetNextDateTimeResult GetNextDateTime(DateTime nextDateProposal, LearningPlanSettings settings)
+    private GetNextDateTimeResult GetNextDateTime(DateTime nextDateProposal, TrainingPlanSettings settings)
     {
         if (settings.IsInSnoozePeriod(nextDateProposal))
             return new GetNextDateTimeResult{HasResult = false};

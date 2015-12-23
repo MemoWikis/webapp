@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using FluentNHibernate.Data;
 
-public class LearningPlan : Entity
+public class TrainingPlan : Entity
 {
-    public IList<LearningDate> LearningDates;
+    public IList<TrainingDate> LearningDates;
 
     public IList<Question> Questions;
     public Date Date;
