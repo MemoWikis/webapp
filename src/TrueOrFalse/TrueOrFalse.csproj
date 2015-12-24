@@ -289,7 +289,7 @@
     <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
     <Compile Include="Infrastructure\Time\Period.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingDate.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlan.cs" />
+    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingPlan.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlanCreator.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.FollowingAnswer\FollowingAnswer.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\IAnswerPattern.cs" />
