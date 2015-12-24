@@ -340,19 +340,20 @@
                                 <div class="col-xs-3" style="opacity: .4;">
                                     <div id="chartKnowledgeDate<%=index %>"></div>
                                 </div>
-                                <div class="col-xs-6" style="text-align: center; clear: left;">
+                            </div>  
+                            <div class="row">
+                                <div class="col-xs-12">
                                     <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
                                         <i class="fa fa-gamepad" style="font-size: 18px;"></i>
                                         Spiel starten
                                     </a>
-                                </div>
-                                <div class="col-xs-6" style="text-align: center;">
-                                    <a class="btn btn-sm btn-primary" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 10px; display: inline-block;">
+                                    &nbsp;
+                                    <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 17px; display: inline-block;">
                                         <i class="fa fa-line-chart"></i> 
                                         Jetzt üben
                                     </a>
-                                </div>
-                            </div>  
+                                </div>                                
+                            </div>
                             <hr style="margin: 8px 0;"/>  
                         <% } %>
                         <% if (Model.Dates.Count > 3) { %>

@@ -47,7 +47,7 @@
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-md-9" style="font-size: 16px">
-                    <%= Model.Date.Details %>
+                    <%= Model.Date.GetTitle() %>
                 </div>
                 
                 <div class="col-md-3 hidden-xs hidden-sm" style="text-align: right; vertical-align: bottom">
