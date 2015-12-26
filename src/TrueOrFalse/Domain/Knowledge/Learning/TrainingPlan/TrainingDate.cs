@@ -4,6 +4,6 @@ using Seedworks.Lib.Persistence;
 
 public class TrainingDate : DomainEntity
 {
-    public DateTime DateTime;
-    public IList<Question> Questions;
+    public virtual DateTime DateTime { get; set; }
+    public virtual IList<Question> Questions { get; set; }
 }

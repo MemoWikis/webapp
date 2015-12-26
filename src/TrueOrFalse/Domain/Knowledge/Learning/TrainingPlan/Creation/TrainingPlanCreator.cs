@@ -9,8 +9,7 @@ public class TrainingPlanCreator
         var learnPlan = new TrainingPlan();
 
         learnPlan.Date = date;
-        learnPlan.Questions = date.AllQuestions();
-        learnPlan.LearningDates = GetDates(date, settings);
+        learnPlan.Dates = GetDates(date, settings);
 
         return learnPlan;
     }

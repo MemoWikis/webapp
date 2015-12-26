@@ -1,14 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using FluentNHibernate.Data;
+using Seedworks.Lib.Persistence;
 
-public class TrainingPlan : Entity
+public class TrainingPlan : DomainEntity
 {
-    public IList<TrainingDate> LearningDates;
 
-    public IList<Question> Questions;
-    public Date Date;
+    public virtual Date Date { get; set; }
 
-    public TimeSpan TimeRemaining;
-    public TimeSpan TimeSpent;
+    public virtual IList<TrainingDate> Dates { get; set; }
+
+    public virtual TimeSpan TimeRemaining { get; set; }
+    public virtual TimeSpan TimeSpent { get; set; }
+
+    /// <summary>Questions to train</summary>
+    public virtual IList<Question> Questions
+    {
+        get
+        {
+            return Date == null 
+                ? new List<Question>() 
+                : Date.AllQuestions();
+        }
+    }
 }
