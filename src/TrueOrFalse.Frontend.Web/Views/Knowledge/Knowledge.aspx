@@ -398,13 +398,13 @@
             
             <div class="col-xs-12 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
-                    <h3 style="margin-top: 0; margin-bottom: 3px;">Lernsitzungen</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 3px;">Übungssitzungen</h3>
 
                     <div class="row" style="margin-bottom: 7px;">
                         <div class="col-md-12">
                             in den nächsten <b>7 Tagen</b>
                             <ul>
-                                <li>ca. <%= Model.TrainingDates.Count %> Lernsitzungen</li>
+                                <li>ca. <%= Model.TrainingDates.Count %> Übungssitzungen</li>
                                 <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.Minutes), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
                             </ul>
                         </div>
