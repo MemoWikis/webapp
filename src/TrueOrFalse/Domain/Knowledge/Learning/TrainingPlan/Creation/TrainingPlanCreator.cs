@@ -38,7 +38,9 @@ public class TrainingPlanCreator
 
                     learningDates.Add(new TrainingDate{
                         DateTime = nextDateProposal,
-                        Questions = applicable.Select(q => q.Question).ToList()
+                        Questions = applicable.Select(q => 
+                            new TrainingQuestion { Question = q.Question }
+                        ).ToList()
                     });
                 }
             }

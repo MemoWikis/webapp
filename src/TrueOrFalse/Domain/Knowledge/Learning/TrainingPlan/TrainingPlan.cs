@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 
 public class TrainingPlan : DomainEntity
@@ -13,13 +14,13 @@ public class TrainingPlan : DomainEntity
     public virtual TimeSpan TimeSpent { get; set; }
 
     /// <summary>Questions to train</summary>
-    public virtual IList<Question> Questions
+    public virtual IList<TrainingQuestion> Questions
     {
         get
         {
             return Date == null 
-                ? new List<Question>() 
-                : Date.AllQuestions();
+                ? new List<TrainingQuestion>() 
+                : Dates.SelectMany(x => x.Questions).ToList();
         }
     }
 }
