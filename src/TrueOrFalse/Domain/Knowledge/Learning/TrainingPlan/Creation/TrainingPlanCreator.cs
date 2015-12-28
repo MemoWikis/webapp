@@ -4,7 +4,7 @@ using System.Linq;
 
 public class TrainingPlanCreator
 {
-    public TrainingPlan Run(Date date, TrainingPlanSettings settings)
+    public static TrainingPlan Run(Date date, TrainingPlanSettings settings)
     {
         var learnPlan = new TrainingPlan();
 
@@ -14,7 +14,7 @@ public class TrainingPlanCreator
         return learnPlan;
     }
 
-    private IList<TrainingDate> GetDates(Date date, TrainingPlanSettings settings)
+    private static IList<TrainingDate> GetDates(Date date, TrainingPlanSettings settings)
     {
         var nextDateProposal = DateTime.Now;
         var learningDates = new List<TrainingDate>();
@@ -53,7 +53,7 @@ public class TrainingPlanCreator
 
     public class GetNextDateTimeResult{ public bool HasResult; public DateTime DateTime; }
 
-    private GetNextDateTimeResult GetNextDateTime(DateTime nextDateProposal, TrainingPlanSettings settings)
+    private static GetNextDateTimeResult GetNextDateTime(DateTime nextDateProposal, TrainingPlanSettings settings)
     {
         if (settings.IsInSnoozePeriod(nextDateProposal))
             return new GetNextDateTimeResult{HasResult = false};
@@ -73,7 +73,7 @@ public class TrainingPlanCreator
         return new GetNextDateTimeResult { HasResult = false };
     }
 
-    private List<AnswerProbability> CalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
+    private static List<AnswerProbability> CalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
     {
         return answerProbabilities;
     }
