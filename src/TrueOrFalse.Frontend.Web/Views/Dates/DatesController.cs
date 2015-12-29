@@ -34,6 +34,7 @@ public class DatesController : BaseController
     {
         var previousDates = R<DateRepo>()
             .GetBy(UserId, onlyPrevious: true)
+            .OrderByDescending(x => x.DateTime)
             .Select(d => new DateRowModel(d))
             .ToList();
 
