@@ -22,55 +22,51 @@ public class TrainingPlanCreator
 
         while (nextDateProposal < date.DateTime)
         {
-            var result = GetNextDateTime(nextDateProposal, settings);
-            if (!result.HasResult)
-            {
-                var answerProbabilites = CalcAllAnswerProbablities(result.DateTime, answerProbabilities);
-                var applicable = 
-                    answerProbabilites
-                        .OrderByDescending(x => x.Probability)
-                        .Where(x => x.Probability < 90)
-                        .ToList();
-
-                if (applicable.Count >= settings.QuestionsPerDate_Minimum)
-                {
-                    applicable.ForEach(x => x.TimesInDate += 1);
-
-                    learningDates.Add(new TrainingDate{
-                        DateTime = nextDateProposal,
-                        Questions = applicable.Select(q => 
-                            new TrainingQuestion { Question = q.Question }
-                        ).ToList()
-                    });
-                }
-            }
-
             nextDateProposal = nextDateProposal.AddMinutes(15);
+
+            if (settings.IsInSnoozePeriod(nextDateProposal))
+                continue;
+
+            AddDate(settings, nextDateProposal, answerProbabilities, learningDates);
+            nextDateProposal = nextDateProposal.AddMinutes(settings.SpacingBetweenSessionsInMinutes);
         }
 
         return learningDates;
     }
 
-    public class GetNextDateTimeResult{ public bool HasResult; public DateTime DateTime; }
-
-    private static GetNextDateTimeResult GetNextDateTime(DateTime nextDateProposal, TrainingPlanSettings settings)
+    private static void AddDate(
+        TrainingPlanSettings settings, 
+        DateTime dateTime, 
+        List<AnswerProbability> answerProbabilities,
+        List<TrainingDate> learningDates)
     {
-        if (settings.IsInSnoozePeriod(nextDateProposal))
-            return new GetNextDateTimeResult{HasResult = false};
+        var answerProbabilites = 
+            CalcAllAnswerProbablities(dateTime, answerProbabilities).
+            OrderByDescending(x => x.Probability);
 
-        //  get next snoozle free time :: break
+        var applicableCount = answerProbabilites.Count(x => x.Probability < 90);
 
-        //TIME (GET NEXT possible DATE)
+        if (applicableCount >= settings.QuestionsPerDate_Minimum)
+        {
+            var trainingDate = new TrainingDate();
+            learningDates.Add(trainingDate);
 
-        // if first date
-        //   is far enough from initial date
-        // else
-        //   :: advance 30m -> break
-        //
-        // if NOT is far enough away from last learningDate
-        //  :: advance 30m -> break
+            trainingDate.AllQuestions =
+                answerProbabilites
+                    .Select(x => new TrainingQuestion
+                    {
+                        Question = x.Question,
+                        ProbBefore = x.Probability,
+                        ProbAfter = x.Probability
+                    })
+                    .ToList();
 
-        return new GetNextDateTimeResult { HasResult = false };
+            for (int i = 0; i < applicableCount; i++)
+            {
+                trainingDate.AllQuestions[i].IsInTraining = true;
+                trainingDate.AllQuestions[i].ProbAfter = 98;
+            }
+        }
     }
 
     private static List<AnswerProbability> CalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)

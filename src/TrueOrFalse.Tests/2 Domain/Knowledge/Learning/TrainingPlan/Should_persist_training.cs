@@ -16,14 +16,14 @@ class TrainingPlan_persistence : BaseTest
         training.Dates = new List<TrainingDate>();
         training.Dates.Add(new TrainingDate
         {
-            Questions = contextSet.All[0]
+            AllQuestions = contextSet.All[0]
                 .Questions().Take(5)
                 .Select(x => new TrainingQuestion {Question = x}).ToList(),
             DateTime = DateTime.Now.AddDays(3)
         });
         training.Dates.Add(new TrainingDate
         {
-            Questions = contextSet.All[0]
+            AllQuestions = contextSet.All[0]
                 .Questions().Skip(5).Take(3)
                 .Select(x => new TrainingQuestion {Question = x}).ToList(),
             DateTime = DateTime.Now.AddDays(5)
@@ -40,7 +40,7 @@ class TrainingPlan_persistence : BaseTest
         Assert.That(allTrainingPlans[0].Dates.Count, Is.EqualTo(2));
 
         var dates = allTrainingPlans[0].Dates.OrderBy(x => x.DateTime).ToList();
-        Assert.That(dates[0].Questions.Count, Is.EqualTo(5));
-        Assert.That(dates[1].Questions.Count, Is.EqualTo(3));
+        Assert.That(dates[0].AllQuestions.Count, Is.EqualTo(5));
+        Assert.That(dates[1].AllQuestions.Count, Is.EqualTo(3));
     }
 }

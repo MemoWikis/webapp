@@ -8,4 +8,6 @@ public class TrainingQuestion : DomainEntity
     public virtual int ProbBefore { get; set; }
     /// <summary>Probability After</summary>
     public virtual int ProbAfter { get; set; }
+
+    public virtual bool IsInTraining { get; set; }
 }

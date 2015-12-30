@@ -10,5 +10,9 @@ public class Should_create_trainingsplan : BaseTest
         var contextDate = ContextDate.New().Add(contextSet.All, dateTime: DateTime.Now.AddDays(7) ).Persist();
 
         var trainingsPlan = TrainingPlanCreator.Run(contextDate.All[0], new TrainingPlanSettings());
+
+        Assert.That(trainingsPlan.Dates.Count, Is.InRange(25, 35));
+
+        trainingsPlan.DumpToConsole();
     }
 }
