@@ -12,7 +12,7 @@ public class ProbabilityCalc_Curve
         return -1;
     }
 
-    public double GetProbability(double minutes, int coefficient)
+    private double GetProbability(double minutes, int coefficient)
     {
         return Math.Pow(100*Math.E, -(1d/coefficient*minutes));
     }
