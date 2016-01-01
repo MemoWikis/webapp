@@ -1,20 +1,30 @@
 ﻿using System;
 
-public class ProbabilityCalc_Curve
+public static class ProbabilityCalc_Curve
 {
-    public int Run(Question question, int offsetInSeconds)
+    public static int GetProbability(double minutes, int coefficient)
     {
-        var offsetInMinutes = offsetInSeconds*60;
-
-        if (question.IsEasyQuestion())
-            return (int)GetProbability(offsetInMinutes, 2000);
-
-        return -1;
-    }
-
-    private double GetProbability(double minutes, int coefficient)
-    {
-        return Math.Pow(100*Math.E, -(1d/coefficient*minutes));
+        return (int) Math.Round(Math.Pow(100*Math.E, -(1d/coefficient*minutes)), 0);
     }
 }
 
+/// <summary>After 12h 50% probability</summary>
+public class ProbabilityCalc_Curve_HalfLife_12h{
+    public int Run(Question question, int offsetInMinutes){
+        return  ProbabilityCalc_Curve.GetProbability(offsetInMinutes, coefficient: 5055);
+    }
+}
+
+/// <summary>After 24h 50% probability</summary>
+public class ProbabilityCalc_Curve_HalfLife_24h{
+    public int Run(Question question, int offsetInMinutes){
+        return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, coefficient: 10109);
+    }
+}
+
+/// <summary>After 7days 50% probability</summary>
+public class ProbabilityCalc_Curve_HalfLife_7days{
+    public int Run(Question question, int offsetInMinutes){
+        return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, coefficient: 70758);
+    }
+}
