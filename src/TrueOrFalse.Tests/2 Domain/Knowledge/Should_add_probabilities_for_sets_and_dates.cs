@@ -7,7 +7,7 @@ public class Should_add_probabilities_for_sets_and_dates : BaseTest
     public void Sammple1_no_data()
     {
         var userContext = ContextUser.New().Add("Firstname Lastname").Persist();
-        R<AddProbabilitiesEntries_ForSetsAndDates>().Run(userContext.All[0]);
+        R<AddValuationEntries_ForQuestionsInSetsAndDates>().Run(userContext.All[0]);
     }
 
     [Test]
@@ -25,7 +25,7 @@ public class Should_add_probabilities_for_sets_and_dates : BaseTest
         var valuationRepo = R<QuestionValuationRepo>();
         Assert.That(valuationRepo.GetByUser(user).Count, Is.EqualTo(0));
 
-        R<AddProbabilitiesEntries_ForSetsAndDates>().Run(user);
+        R<AddValuationEntries_ForQuestionsInSetsAndDates>().Run(user);
         Assert.That(valuationRepo.GetByUser(user, onlyActiveKnowledge:false).Count, Is.EqualTo(5));
 
         var questionContext = ContextQuestion.New().AddQuestion().Persist();
@@ -35,7 +35,7 @@ public class Should_add_probabilities_for_sets_and_dates : BaseTest
             .AddSet("Set6", numberOfQuestions: 5, creator: user)
             .Persist();
 
-        R<AddProbabilitiesEntries_ForSetsAndDates>().Run(user);
+        R<AddValuationEntries_ForQuestionsInSetsAndDates>().Run(user);
         Assert.That(valuationRepo.GetByUser(dateContext.User, onlyActiveKnowledge:false).Count, Is.EqualTo(5));
     }
 

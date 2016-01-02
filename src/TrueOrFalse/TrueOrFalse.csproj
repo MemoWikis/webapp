@@ -346,7 +346,7 @@
     <Compile Include="Domain\Knowledge\Count\GetWishSetCount.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityCalc_User.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForUser\ProbabilityUpdate_User.cs" />
-    <Compile Include="Domain\Question\QuestionValuation\AddProbabilitiesEntries_ForSetsAndDates.cs" />
+    <Compile Include="Domain\Question\QuestionValuation\AddValuationEntries_ForQuestionsInSetsAndDates.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalcResult.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Simple3.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Simple2.cs" />

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 
-public class AddProbabilitiesEntries_ForSetsAndDates : IRegisterAsInstancePerLifetime
+public class AddValuationEntries_ForQuestionsInSetsAndDates : IRegisterAsInstancePerLifetime
 {
     public void RunForAllUsers()
     {
