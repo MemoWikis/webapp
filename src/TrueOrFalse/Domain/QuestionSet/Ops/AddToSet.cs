@@ -43,7 +43,7 @@ public class AddToSet : IRegisterAsInstancePerLifetime
             }
         }
 
-        Sl.R<AddProbabilitiesEntries_ForSetsAndDates>().Run(set, Sl.R<SessionUser>().User);
+        Sl.R<AddValuationEntries_ForQuestionsInSetsAndDates>().Run(set, Sl.R<SessionUser>().User);
 
         return new AddToSetResult
         {

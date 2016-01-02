@@ -90,7 +90,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult RecalculateAllKnowledgeItems()
     {
-        R<AddProbabilitiesEntries_ForSetsAndDates>().RunForAllUsers();
+        R<AddValuationEntries_ForQuestionsInSetsAndDates>().RunForAllUsers();
 
         ProbabilityUpdate_ValuationAll.Run();
         ProbabilityUpdate_Question.Run();

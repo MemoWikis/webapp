@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="Mein Wissensstand" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Register Src="~/Views/Knowledge/TrainingDate.ascx" TagPrefix="uc1" TagName="TrainingDate" %>
+
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     
@@ -338,19 +340,20 @@
                                 <div class="col-xs-3" style="opacity: .4;">
                                     <div id="chartKnowledgeDate<%=index %>"></div>
                                 </div>
-                                <div class="col-xs-6" style="text-align: center; clear: left;">
+                            </div>  
+                            <div class="row">
+                                <div class="col-xs-12">
                                     <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
                                         <i class="fa fa-gamepad" style="font-size: 18px;"></i>
                                         Spiel starten
                                     </a>
-                                </div>
-                                <div class="col-xs-6" style="text-align: center;">
-                                    <a class="btn btn-sm btn-primary" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 10px; display: inline-block;">
+                                    &nbsp;
+                                    <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 17px; display: inline-block;">
                                         <i class="fa fa-line-chart"></i> 
                                         Jetzt üben
                                     </a>
-                                </div>
-                            </div>  
+                                </div>                                
+                            </div>
                             <hr style="margin: 8px 0;"/>  
                         <% } %>
                         <% if (Model.Dates.Count > 3) { %>
@@ -371,9 +374,7 @@
                     <hr style="margin: 8px 0px;"/>
                     <p><a href="<%= Links.Dates() %>">(Zur Terminübersicht)</a></p>
                 </div>
-            </div>
-                           
-            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+                
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
                     <% foreach(var answer in Model.AnswerRecent){ 
@@ -394,7 +395,27 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+                <div class="rowBase" style="padding: 10px;">
+                    <h3 style="margin-top: 0; margin-bottom: 3px;">Übungssitzungen</h3>
 
+                    <div class="row" style="margin-bottom: 7px;">
+                        <div class="col-md-12">
+                            in den nächsten <b>7 Tagen</b>
+                            <ul>
+                                <li>ca. <%= Model.TrainingDates.Count %> Übungssitzungen</li>
+                                <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.Minutes), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <% foreach(var training  in Model.TrainingDates) { %>
+                        <% Html.RenderPartial("TrainingDate", training); %>
+                    <% } %>
+                </div>
+            </div>
+                           
             <div class="col-xs-12 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Im Netzwerk</h3>
@@ -421,6 +442,12 @@
                         </div>
                     <% } %>
                 </div>
+            </div>
+        </div>
+    
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+                
             </div>
         </div>
 

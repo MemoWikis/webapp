@@ -50,6 +50,26 @@ public class Date : DomainEntity
         if (Details.Length > 0)
             return Details;
 
-        return "(" + CountQuestions() + " Fragen bis zum " + DateTime.ToString("dd.MM.yyy") + ")";
+        return "Am " + DateTime.ToString("dd.MM.yyy") + " um " + DateTime.ToString("HH:mm");
+    }
+
+    public virtual TimeSpan Remaining()
+    {
+        return DateTime - DateTime.Now;
+    }
+
+    public virtual int RemainingDays()
+    {
+        return Math.Abs(Convert.ToInt32(Remaining().TotalDays));
+    }
+
+    public virtual int RemainingMinutes()
+    {
+        return Math.Abs(Convert.ToInt32(Remaining().TotalMinutes));
+    }
+
+    public virtual TimeSpanLabel RemainingLabel()
+    {   
+        return new TimeSpanLabel(Remaining());
     }
 }

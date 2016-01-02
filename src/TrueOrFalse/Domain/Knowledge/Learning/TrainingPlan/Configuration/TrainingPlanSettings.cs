@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class LearningPlanSettings
+public class TrainingPlanSettings
 {
     public int QuestionsPerDate_Minimum = 7;
     public int QuestionsPerDate_IdealAmount = 10;

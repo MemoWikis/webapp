@@ -9,17 +9,19 @@
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(drawKnowledgeCharts);
 
-        function drawKnowledgeChartDate(chartElementId, amountGood, amountBad, amountUnknown) {
+        function drawKnowledgeChartDate(chartElementId, notLearned, needsLearning, needsConsolidation, solid) {
 
             var chartElement = $("#" + chartElementId);
             if (chartElement.length == 0)
                 return;
 
+            //'Sicheres Wissen', 'Sollte gefestigt werden', 'Sollte dringend gelernt werden', 'Noch nie gelernt'
             var data = google.visualization.arrayToDataTable([
-                ['Task', 'Hours per Day'],
-                ['Gewusst', amountGood],
-                ['Nicht gewusst', amountBad],
-                ['Unbekannt', amountUnknown],
+                ['Wissenslevel', 'Anteil in %'],
+                ['Sicheres Wissen', solid],
+                ['Solltest du festigen', needsConsolidation],
+                ['Solltest du lernen', needsLearning],
+                ['Noch nicht gelernt', notLearned],
             ]);
 
             var options = {
@@ -32,9 +34,10 @@
                     width: '90%', height: '90%', top: 6
                 },
                 slices: {
-                    0: { color: 'lightgreen' },
-                    1: { color: 'lightsalmon' },
-                    2: { color: 'silver' },
+                    0: { color: '#3e7700' },
+                    1: { color: '#fdd648' },
+                    2: { color: '#B13A48' },
+                    3: { color: '#EFEFEF' },
                 },
                 pieStartAngle: 180
             };
@@ -50,9 +53,10 @@
 
                 drawKnowledgeChartDate(
                     "chartKnowledgeDate" + dateId,
-                    parseInt($this.attr("data-secure")),
-                    parseInt($this.attr("data-weak")),
-                    parseInt($this.attr("data-unknown")));
+                    parseInt($this.attr("data-notLearned")),
+                    parseInt($this.attr("data-needsLearning")),
+                    parseInt($this.attr("data-needsConsolidation")),
+                    parseInt($this.attr("data-solid")));
             });
         }
 
@@ -82,7 +86,7 @@
     </div>
         
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
 
             <% if(!Model.IsLoggedIn){ %>
 
@@ -142,11 +146,10 @@
 
             <% } %>
 
-        </div>        
-        <div class="col-md-3">
         </div>
     </div>
     
     <% Html.RenderPartial("Modals/DeleteDate"); %>
+    <% Html.RenderPartial("Modals/TrainingSettings"); %>
             
 </asp:Content>

@@ -84,6 +84,11 @@ public class EditDateModel : BaseModel
         return AutocompleteUtils.GetSetsFromPostData(HttpContext.Current.Request.Form).Count > 0;
     }
 
+    public void FillSetsFromInput()
+    {
+        Sets = AutocompleteUtils.GetSetsFromPostData(HttpContext.Current.Request.Form);
+    }
+
     public bool HasErrorMsg()
     {
         if (Message == null)

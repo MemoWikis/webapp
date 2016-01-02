@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 
 public class ContextDate : IRegisterAsInstancePerLifetime
@@ -20,12 +21,13 @@ public class ContextDate : IRegisterAsInstancePerLifetime
         return BaseTest.Resolve<ContextDate>();
     }
 
-    public ContextDate Add(IList<Set> sets, User creator = null)
+    public ContextDate Add(IList<Set> sets, User creator = null, DateTime dateTime = default(DateTime))
     {
         var date = new Date();
         date.Details = "Details";
         date.Sets = sets;
         date.User = creator ?? User;
+        date.DateTime = dateTime;
 
         All.Add(date);
         return this;

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -33,6 +34,7 @@ public class DatesController : BaseController
     {
         var previousDates = R<DateRepo>()
             .GetBy(UserId, onlyPrevious: true)
+            .OrderByDescending(x => x.DateTime)
             .Select(d => new DateRowModel(d))
             .ToList();
 
@@ -58,4 +60,34 @@ public class DatesController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
+
+    public string RenderTrainingDates(int dateId)
+    {
+        var trainingDatesModel = new TrainingSettingsDatesModel();
+        trainingDatesModel.Dates.Add(new TrainingDateModel
+        {
+            DateTime = DateTime.Now.AddHours(4),
+            QuestionCount = 12,
+            Date = new Date { Details = "Klassenarbeit DE" }
+        });
+        trainingDatesModel.Dates.Add(new TrainingDateModel
+        {
+            DateTime = DateTime.Now.AddHours(24),
+            QuestionCount = 21,
+            Date = new Date { Details = "Klassenarbeit DE" }
+        });
+        trainingDatesModel.Dates.Add(new TrainingDateModel
+        {
+            DateTime = DateTime.Now.AddHours(57),
+            QuestionCount = 19,
+            Date = new Date { Details = "Mündliche Prüfung am Fr." }
+        });
+
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Dates/Modals/TrainingSettingsDates.ascx",
+            trainingDatesModel,
+            ControllerContext
+        );
+    }
+
 }

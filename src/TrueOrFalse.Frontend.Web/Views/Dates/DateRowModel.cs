@@ -1,6 +1,4 @@
-﻿using System;
-
-public class DateRowModel : BaseModel
+﻿public class DateRowModel : BaseModel
 {
     public Date Date;
 
@@ -12,9 +10,9 @@ public class DateRowModel : BaseModel
     public int AmountQuestions;
 
     public bool ShowMinutesLeft;
-
-    public int RemainingDays;
-    public int RemainingMinutes;
+    public bool ShowHoursLeft;
+    
+    public TimeSpanLabel RemainingLabel;
 
     public bool IsPast;
     public bool IsNetworkDate;
@@ -33,13 +31,9 @@ public class DateRowModel : BaseModel
         KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
         KnowledgeSolid = summary.Solid;
 
-        var remaining = date.DateTime - DateTime.Now;
-        RemainingDays = Math.Abs(Convert.ToInt32(remaining.TotalDays));
-        RemainingMinutes = Math.Abs(Convert.ToInt32(remaining.TotalMinutes));
-
-        ShowMinutesLeft = RemainingDays == 0;
-
+        var remaining = date.Remaining();
         IsPast = remaining.TotalSeconds < 0;
+        RemainingLabel = new TimeSpanLabel(remaining, IsPast);
         IsNetworkDate = isNetworkDate;
     }
 }

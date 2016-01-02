@@ -62,6 +62,8 @@ public class EditDateController : BaseController
 
         if(!model.HasSets())
             model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatze hinzu.");
+        else
+            model.FillSetsFromInput();
 
         if (!model.HasErrorMsg())
         {
@@ -82,7 +84,7 @@ public class EditDateController : BaseController
 
     private void CareAboutAnswerProbability(Date date)
     {
-        R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
+        R<AddValuationEntries_ForQuestionsInSetsAndDates>().Run(date.Sets, _sessionUser.User);
         R<ProbabilityUpdate_Valuation>().Run(date.Sets, _sessionUser.UserId);
     }
 }

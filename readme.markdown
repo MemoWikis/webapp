@@ -17,7 +17,7 @@ ENGLISH:
 
 ### 1:) Non-commercial use
 
-The sources, corresponding builds and artifacts of the application TrueOrFalse (Reference: https://github.com/TrueOrFalse/TrueOrFalse), as far as they do not fall under the rights of third parties, are available for non-commercial use without restrictions .
+The sources, corresponding builds and artifacts of the application TrueOrFalse (Reference: https://github.com/TrueOrFalse/TrueOrFalse), as far as they do not fall under the rights of third parties, are available for non-commercial use without restrictions.
 
 ### 2:) Commercial use
 
