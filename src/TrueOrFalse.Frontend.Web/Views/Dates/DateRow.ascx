@@ -128,9 +128,7 @@
         <div class="col-sm-3">
             <div class="row">
                 <div class="col-md-1"><i class="fa fa-calendar"></i></div>
-                <div class="col-md-10">
-                    Übungsplan
-                </div>
+                <div class="col-md-10">Übungsplan:</div>
             </div>
             <div class="row">
                 <div class="col-md-12">ca. 7 Übungssitzungen</div>
