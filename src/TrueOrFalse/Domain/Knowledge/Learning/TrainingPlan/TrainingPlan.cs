@@ -33,7 +33,7 @@ public class TrainingPlan : DomainEntity
         foreach (var date in Dates)
         {
             sb.Append(date.DateTime.ToString("g"));
-            sb.Append("  q:" + date.AllQuestions.Count);
+            sb.Append("  q:" + date.AllQuestionsInTraining.Count +  " ");
             sb.Append(date.AllQuestions.Select(q => q.ProbBefore + "/" + q.ProbAfter).Aggregate((a, b) => a + " " + b));
             
             sb.AppendLine("");

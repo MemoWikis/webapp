@@ -7,18 +7,32 @@ public class TrainingPlanCreator
     public static TrainingPlan Run(Date date, TrainingPlanSettings settings)
     {
         var learnPlan = new TrainingPlan();
-
         learnPlan.Date = date;
-        learnPlan.Dates = GetDates(date, settings);
+
+        var answerProbabilities = 
+            date
+                .AllQuestions()
+                .Select(x => 
+                    new AnswerProbability
+                    {
+                        Question = x,
+                        CalculatedProbability = 90 /*Do: get real number..*/,
+                        CalculatedAt = DateTime.Now
+                    })
+                .ToList();
+
+        learnPlan.Dates = GetDates(date, settings, answerProbabilities);
 
         return learnPlan;
     }
 
-    private static IList<TrainingDate> GetDates(Date date, TrainingPlanSettings settings)
+    private static IList<TrainingDate> GetDates(
+        Date date, 
+        TrainingPlanSettings settings, 
+        List<AnswerProbability> answerProbabilities)
     {
         var nextDateProposal = DateTime.Now;
         var learningDates = new List<TrainingDate>();
-        var answerProbabilities = date.AllQuestions().Select(x => new AnswerProbability{ Question = x }).ToList();
 
         while (nextDateProposal < date.DateTime)
         {
@@ -35,20 +49,20 @@ public class TrainingPlanCreator
     }
 
     private static void AddDate(
-        TrainingPlanSettings settings, 
-        DateTime dateTime, 
+        TrainingPlanSettings settings,
+        DateTime dateTime,
         List<AnswerProbability> answerProbabilities,
         List<TrainingDate> learningDates)
     {
         var answerProbabilites = 
-            CalcAllAnswerProbablities(dateTime, answerProbabilities).
-            OrderByDescending(x => x.Probability);
+            ReCalcAllAnswerProbablities(dateTime, answerProbabilities).
+            OrderBy(x => x.CalculatedProbability);
 
-        var applicableCount = answerProbabilites.Count(x => x.Probability < 90);
+        var applicableCount = answerProbabilites.Count(x => x.CalculatedProbability < 90);
 
         if (applicableCount >= settings.QuestionsPerDate_Minimum)
         {
-            var trainingDate = new TrainingDate();
+            var trainingDate = new TrainingDate{DateTime = dateTime};
             learningDates.Add(trainingDate);
 
             trainingDate.AllQuestions =
@@ -56,21 +70,44 @@ public class TrainingPlanCreator
                     .Select(x => new TrainingQuestion
                     {
                         Question = x.Question,
-                        ProbBefore = x.Probability,
-                        ProbAfter = x.Probability
+                        ProbBefore = x.CalculatedProbability,
+                        ProbAfter = x.CalculatedProbability
                     })
                     .ToList();
 
             for (int i = 0; i < applicableCount; i++)
             {
-                trainingDate.AllQuestions[i].IsInTraining = true;
-                trainingDate.AllQuestions[i].ProbAfter = 98;
+                var trainingQuestion = trainingDate.AllQuestions[i];
+                trainingQuestion.IsInTraining = true;
+                /*directly after training the probability is almost 100%!*/
+                trainingQuestion.ProbAfter = 99;
+
+                answerProbabilities
+                    .By(trainingQuestion.Question.Id)
+                    .SetProbability(trainingQuestion.ProbAfter, trainingDate.DateTime);
+
+                if (settings.QuestionsPerDate_IdealAmount < i)
+                    break;
             }
         }
     }
 
-    private static List<AnswerProbability> CalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
+    private static List<AnswerProbability> ReCalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
     {
+        var forgettingCurve = new ProbabilityCalc_Curve_HalfLife_24h(); 
+
+        foreach (var answerProbability in answerProbabilities)
+        {
+             var newProbability = forgettingCurve.Run(
+                answerProbability.Question, 
+                (int) (dateTime - answerProbability.CalculatedAt).TotalMinutes,
+                answerProbability.CalculatedProbability
+            );
+
+            answerProbability.CalculatedProbability = newProbability;
+            answerProbability.CalculatedAt = dateTime;
+        }
+
         return answerProbabilities;
     }
 }
