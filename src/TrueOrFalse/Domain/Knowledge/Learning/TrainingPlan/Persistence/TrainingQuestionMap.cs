@@ -4,6 +4,8 @@ public class TrainingQuestionMap : ClassMap<TrainingQuestion>
 {
     public TrainingQuestionMap()
     {
+        Table("TrainingDate_Question");
+
         Id(x => x.Id);
 
         References(x => x.Question);
