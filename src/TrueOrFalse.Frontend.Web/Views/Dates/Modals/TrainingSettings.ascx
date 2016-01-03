@@ -153,7 +153,7 @@
                             <div class="pull-right">mind. Zeit zw. Terminen:</div>
                         </div>
                         <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>min
+                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
                         </div>
                     </div>
                 </div>
