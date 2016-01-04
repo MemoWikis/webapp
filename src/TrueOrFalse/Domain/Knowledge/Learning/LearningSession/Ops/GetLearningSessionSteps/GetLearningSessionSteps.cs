@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHibernate.Util;
 
 public class GetLearningSessionSteps
 {
@@ -50,13 +49,15 @@ public class GetLearningSessionSteps
         auxParams.AllAnswerHistories = Sl.Resolve<AnswerRepo>().GetByQuestion(allQuestionsIds, user.Id);
 
         auxParams.UnansweredQuestions = allQuestions
-            .Where(q => auxParams.AllTotals.ByQuestionId(q.Id).Total() == 0);
+            .Where(q => auxParams.AllTotals.ByQuestionId(q.Id)
+            .Total() == 0);
 
         auxParams.AnsweredQuestions = allQuestions
             .Except(auxParams.UnansweredQuestions);
 
         auxParams.QuestionsAnsweredToday = auxParams.AnsweredQuestions
-            .Where(q => auxParams.AllAnswerHistories.ByQuestionId(q.Id).Any(ah => ah.DateCreated.Date == DateTime.Today));
+            .Where(q => auxParams.AllAnswerHistories.ByQuestionId(q.Id)
+            .Any(ah => ah.DateCreated.Date == DateTime.Today));
 
         return auxParams;
     }
