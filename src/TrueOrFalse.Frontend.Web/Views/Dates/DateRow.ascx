@@ -92,7 +92,6 @@
                         </a>
                         
                         <a style="display: inline-block;"
-                            class=""
                             data-btn="startLearningSession" 
                             href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> 
                             Jetzt üben

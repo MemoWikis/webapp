@@ -46,7 +46,7 @@
             </span>
             
             <div style="margin-top: 10px;">
-                <a style="display: block" data-btn="startLearningSession" href="/Set/StartLearningSession?setId=<%=Model.Id %>"><i class="fa fa-line-chart"></i> 
+                <a style="display: block" data-allowed="logged-in"  href="/Set/StartLearningSession?setId=<%=Model.Id %>"><i class="fa fa-line-chart"></i> 
                     Jetzt üben
                 </a>
                 <a style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." >

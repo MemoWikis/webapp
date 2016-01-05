@@ -8,12 +8,5 @@ $(function() {
         });
     });
 
-    $("[data-btn=startLearningSession]").click((e) => {
-        if (NotLoggedIn.Yes()) {
-            e.preventDefault();
-            NotLoggedIn.ShowErrorMsg();
-        }
-    });
-
     new Pin(PinRowType.SetDetail);
 });

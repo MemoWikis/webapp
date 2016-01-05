@@ -41,6 +41,15 @@ function InitIconTooltips(awesomeClass : string, tooltipText : string) {
     });
 }
 
+function Allowed_only_for_active_users() {
+    $("[data-allowed=logged-in]").click(e => {
+        if (NotLoggedIn.Yes()) {
+            e.preventDefault();
+            NotLoggedIn.ShowErrorMsg();
+        }
+    });
+}
+
 $(function () {
     $("[popover-all-sets-for]").click(function (e) {
 
@@ -85,5 +94,6 @@ $(function () {
     InitIconTooltips('fa-trash-o', 'Löschen');
     InitIconTooltips('fa-pencil', 'Bearbeiten');
     Images.Init();
+    Allowed_only_for_active_users();
 });
 
