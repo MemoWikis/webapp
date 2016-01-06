@@ -2,6 +2,13 @@
 div.column-MainContent {background-color: seashell; }
 div.column-Additional { background-color: yellowgreen;}
 div.question-row{background-color:silver;}*/
+.SearchQuestionsForm {
+  /*.input-group { 
+        .xxs-stack;
+        .make-xs-column(8);
+        .make-md-column(6);
+    }*/
+}
 .SearchQuestionsForm:before,
 .SearchQuestionsForm:after {
   content: " ";
@@ -26,29 +33,6 @@ div.question-row{background-color:silver;}*/
 @media (max-width: 991px) {
   .SearchQuestionsForm .control-label {
     display: none;
-  }
-}
-.SearchQuestionsForm .input-group {
-  float: left;
-  width: 66.66666667%;
-  position: relative;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (max-width: 479px) {
-  .SearchQuestionsForm .input-group {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-    left: 0;
-    right: 0;
-  }
-}
-@media (min-width: 992px) {
-  .SearchQuestionsForm .input-group {
-    float: left;
-    width: 50%;
   }
 }
 .SearchQuestionsForm .form-group:before,
