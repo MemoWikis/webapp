@@ -1,7 +1,7 @@
 ﻿class SearchInTabs{
 
     _elemContainer: JQuery;
-    _categories: Array<number> = [];
+    _categories: Array = [];
 
     _fnOnLoadPage : Function = () => {};
 
@@ -59,10 +59,10 @@
                     $("#rowNoResults").hide();
 
                 Utils.SetElementValue("#resultCount2", data.TotalInResult.toString());
-                Utils.SetElementValue("#resultCount", data.TotalInResult.toString() + " Treffer");
+                Utils.SetElementValue("#resultCount", <any>(data.TotalInResult.toString() + " Treffer"));
                 Utils.SetElementValue2($(".JS-Tabs")
                     .find(".JS-" + data.Tab)
-                    .find("span.JS-Amount"), tabAmount);
+                    .find("span.JS-Amount"), <any>tabAmount);
 
                 me._fnOnLoadPage();
 
