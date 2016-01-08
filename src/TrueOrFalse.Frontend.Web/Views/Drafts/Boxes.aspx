@@ -15,7 +15,7 @@
 
 <a href="#">
                     <div class="thumbnail-video">
-                        <img src="http://img.youtube.com/vi/xEhaVhta7sI/0.jpg" alt="Video.Title">
+                        <img src="https://img.youtube.com/vi/xEhaVhta7sI/0.jpg" alt="Video.Title">
                         <span class="playbutton-container basic">
                             <span class="playbutton basic"></span>
                             <span class="playbutton red"></span>

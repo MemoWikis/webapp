@@ -22,7 +22,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
             return new PasswordRecoveryResult { TheEmailDoesNotExist = true, Success = false };
 
         var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
-        var passwortResetUrl = "http://memucho.de/Welcome/PasswordReset/" + token;
+        var passwortResetUrl = "https://memucho.de/Welcome/PasswordReset/" + token;
 
         _tokenRepository.Create(new PasswordRecoveryToken{ Email = email, Token = token });
         _sendMailMessage.Run(GetMailMessage(email, passwortResetUrl));

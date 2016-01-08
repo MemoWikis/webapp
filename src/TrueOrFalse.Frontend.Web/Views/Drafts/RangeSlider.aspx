@@ -5,7 +5,7 @@
     <link href="/Style/site.css" rel="stylesheet" type="text/css" />
     <link href="/Views/Drafts/RangeSlider.css" rel="stylesheet" />
     <!-- include the Tools -->
-  <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
+  <script src="//cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
    
 
 </asp:Content>
