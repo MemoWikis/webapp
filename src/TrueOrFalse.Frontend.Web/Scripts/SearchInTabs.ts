@@ -1,7 +1,7 @@
 ﻿class SearchInTabs{
 
     _elemContainer: JQuery;
-    _categories: Array = [];
+    _categories: Array<number> = [];
 
     _fnOnLoadPage : Function = () => {};
 
