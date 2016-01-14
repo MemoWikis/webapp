@@ -13,6 +13,8 @@ public class TrainingPlan : DomainEntity
     public virtual TimeSpan TimeRemaining { get; set; }
     public virtual TimeSpan TimeSpent { get; set; }
 
+    public virtual TrainingPlanSettings Settings { get; set; }
+
     /// <summary>Questions to train</summary>
     public virtual IList<TrainingQuestion> Questions
     {

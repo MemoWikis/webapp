@@ -8,6 +8,7 @@ public class TrainingPlanCreator
     {
         var learnPlan = new TrainingPlan();
         learnPlan.Date = date;
+        learnPlan.Settings = settings;
 
         var answerProbabilities = 
             date

@@ -4,12 +4,12 @@
 
         $('a[href*=#modalTraining]').click(function () {
             var dateId = $(this).attr("data-dateId");
-            self.Populate();
+            self.Populate(dateId);
         });
     }
 
-    Populate() {
-        $.get("/Dates/RenderTrainingDates/?dateId=10",
+    Populate(dateId : string) {
+        $.get("/Dates/RenderTrainingDates/?dateId=" + dateId,
             htmlResult => {
                 $("#dateRows").children().remove();
                 $("#dateRows").append(
