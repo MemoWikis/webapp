@@ -14,4 +14,12 @@ public class Should_create_trainingsplan : BaseTest
 
         trainingsPlan.DumpToConsole();
     }
+
+    [Test]
+    public void Update_plan()
+    {
+        var trainingsPlan = ContextTrainingPlan.New()
+            .Add(numberOfQuestions: 20, dateOfDate: DateTime.Now.AddDays(7))
+            .Last();
+    }
 }
