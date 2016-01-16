@@ -18,7 +18,7 @@ public class TrainingPlanCreator
                     {
                         Question = x,
                         CalculatedProbability = 90 /*Do: get real number..*/,
-                        CalculatedAt = DateTime.Now
+                        CalculatedAt = DateTimeX.Now()
                     })
                 .ToList();
 
@@ -32,7 +32,7 @@ public class TrainingPlanCreator
         TrainingPlanSettings settings, 
         List<AnswerProbability> answerProbabilities)
     {
-        var nextDateProposal = DateTime.Now;
+        var nextDateProposal = DateTimeX.Now();
         var learningDates = new List<TrainingDate>();
 
         while (nextDateProposal < date.DateTime)

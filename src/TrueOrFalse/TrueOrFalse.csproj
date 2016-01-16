@@ -283,6 +283,7 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\AnswerPatternRepo.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Configuration\TrainingPlanSettings.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\AnswerProbability.cs" />
+    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlanUpdater.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateRepo.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanMap.cs" />

@@ -31,6 +31,11 @@ public class ContextTrainingPlan
 
     public ContextTrainingPlan Persist()
     {
+        var repo = Sl.R<TrainingPlanRepo>();
+
+        foreach(var trainingsPlan in All)
+            repo.Create(trainingsPlan); 
+ 
         return this;
     }
 }
