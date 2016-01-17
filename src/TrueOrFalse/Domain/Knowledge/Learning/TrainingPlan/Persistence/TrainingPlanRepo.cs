@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using NHibernate;
+using NHibernate.Util;
 
 public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
 {
@@ -7,13 +9,24 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
     {
     }
 
-    public void DeleteDates(int trainingPlanId, DateTime after)
+    public void DeleteDates(TrainingPlan trainingPlan, DateTime after)
     {
-        Sl.Session.CreateSQLQuery(
-            "DELETE FROM trainingplan " +
-            "WHERE  Id = " + trainingPlanId + " " +
-            "AND datecreated > '" + after.ToString("yyy-MM-dd HH:mm:ss") + "'" )
-            .ExecuteUpdate();
+        trainingPlan.Dates = trainingPlan.Dates.Where(x => x.DateTime <= after).ToList();
 
+        Sl.Session.CreateSQLQuery(
+            "DELETE FROM trainingdate " +
+            "WHERE  TrainingPlan_Id = " + trainingPlan.Id + " " +
+            "AND datetime > '" + after.ToString("yyy-MM-dd HH:mm:ss") + "'" )
+            .ExecuteUpdate();
+    }
+
+    public override void Create(TrainingPlan trainingPlan)
+    {
+        trainingPlan.Dates.ForEach(x =>{
+            x.DateCreated = DateTime.Now;
+            x.DateModified = DateTime.Now;
+        });
+
+        base.Create(trainingPlan);
     }
 }

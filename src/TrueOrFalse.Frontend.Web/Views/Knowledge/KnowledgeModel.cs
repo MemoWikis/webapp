@@ -74,7 +74,7 @@ public class KnowledgeModel : BaseModel
         DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
 
 
-        AnswerRecent = R<GetLastAnswers>().Run(UserId, 5);
+        AnswerRecent = R<AnswerRepo>().GetByUser(UserId, amount: 5);
         StreakDays = R<GetStreaksDays>().Run(User);
 
         //GET NETWORK ACTIVITY

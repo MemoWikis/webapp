@@ -416,7 +416,6 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDaysResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDays.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreakCorrectness.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops\GetLastAnswers.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerExt.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityAdd.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityTools.cs" />

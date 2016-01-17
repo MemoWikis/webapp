@@ -10,15 +10,19 @@ public class TrainingPlanCreator
         learnPlan.Date = date;
         learnPlan.Settings = settings;
 
+        var answerRepo = Sl.R<AnswerRepo>();
+
         var answerProbabilities = 
             date
                 .AllQuestions()
-                .Select(x => 
+                .Select(q => 
                     new AnswerProbability
                     {
-                        Question = x,
+                        User = date.User,
+                        Question = q,
                         CalculatedProbability = 90 /*Do: get real number..*/,
-                        CalculatedAt = DateTimeX.Now()
+                        CalculatedAt = DateTimeX.Now(),
+                        History = answerRepo.GetByQuestion(q.Id, date.User.Id)
                     })
                 .ToList();
 
@@ -100,7 +104,9 @@ public class TrainingPlanCreator
         foreach (var answerProbability in answerProbabilities)
         {
              var newProbability = forgettingCurve.Run(
-                answerProbability.Question, 
+                answerProbability.History,
+                answerProbability.Question,
+                answerProbability.User,
                 (int) (dateTime - answerProbability.CalculatedAt).TotalMinutes,
                 answerProbability.CalculatedProbability
             );

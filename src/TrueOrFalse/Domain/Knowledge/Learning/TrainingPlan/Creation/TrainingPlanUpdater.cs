@@ -9,7 +9,7 @@ public class TrainingPlanUpdater
 
     public static TrainingPlan Run(TrainingPlan trainingPlan)
     {
-        Sl.R<TrainingPlanRepo>().DeleteDates(trainingPlan.Id, DateTime.Now);
+        Sl.R<TrainingPlanRepo>().DeleteDates(trainingPlan, DateTimeX.Now());
 
         return TrainingPlanCreator.Run(trainingPlan.Date, trainingPlan.Settings);
     }

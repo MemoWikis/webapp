@@ -4,11 +4,14 @@ using System.Linq;
 
 public class AnswerProbability
 {
+    public User User;
     public TimeSpan Offset;
     public Question Question;
 
     public int CalculatedProbability;
     public DateTime CalculatedAt;
+
+    public IList<Answer> History;
 
     public void SetProbability(int value, DateTime dateTime)
     {
