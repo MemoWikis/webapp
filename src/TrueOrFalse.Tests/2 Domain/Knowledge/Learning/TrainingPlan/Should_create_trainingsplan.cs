@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
-using ObjectDumper;
 
 public class Should_create_trainingsplan : BaseTest
 {
