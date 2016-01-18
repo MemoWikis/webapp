@@ -22,9 +22,14 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
 
     public override void Create(TrainingPlan trainingPlan)
     {
-        trainingPlan.Dates.ForEach(x =>{
+        trainingPlan.Dates.ForEach(x => {
             x.DateCreated = DateTime.Now;
             x.DateModified = DateTime.Now;
+
+            x.AllQuestions.ForEach(q => {
+                q.DateCreated = DateTime.Now;
+                q.DateModified = DateTime.Now;
+            });
         });
 
         base.Create(trainingPlan);

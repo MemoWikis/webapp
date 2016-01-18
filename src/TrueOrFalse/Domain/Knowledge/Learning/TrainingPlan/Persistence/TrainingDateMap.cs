@@ -8,9 +8,10 @@ public class TrainingDateMap : ClassMap<TrainingDate>
 
         Map(x => x.DateTime);
 
-        HasManyToMany(x => x.AllQuestions)
+        HasMany(x => x.AllQuestions)
             .Table("trainingdate_questions")
-            .Cascade.SaveUpdate();
+            .Cascade.SaveUpdate()
+            .Not.KeyNullable();
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

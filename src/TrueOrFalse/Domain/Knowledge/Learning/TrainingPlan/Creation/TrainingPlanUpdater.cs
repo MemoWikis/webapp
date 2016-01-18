@@ -9,8 +9,12 @@ public class TrainingPlanUpdater
 
     public static TrainingPlan Run(TrainingPlan trainingPlan)
     {
-        Sl.R<TrainingPlanRepo>().DeleteDates(trainingPlan, DateTimeX.Now());
+        var trainingPlanRepo = Sl.R<TrainingPlanRepo>();
+        trainingPlanRepo.DeleteDates(trainingPlan, DateTimeX.Now());
 
-        return TrainingPlanCreator.Run(trainingPlan.Date, trainingPlan.Settings);
+        var updatedTrainingPlan = TrainingPlanCreator.Run(trainingPlan.Date, trainingPlan.Settings);
+        trainingPlanRepo.Update(updatedTrainingPlan);
+
+        return updatedTrainingPlan;
     }
 }
