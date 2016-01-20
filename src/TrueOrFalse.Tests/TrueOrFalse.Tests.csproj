@@ -281,6 +281,7 @@
     <Compile Include="2 Domain\User\Registration\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Domain\User\Membership_persistence.cs" />
     <Compile Include="2 Domain\User\User_persistence.cs" />
+    <Compile Include="3 Infrastructure\Autofac_should_export_all_registered_services.cs" />
     <Compile Include="3 Infrastructure\Bus\BusTests.cs" />
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />

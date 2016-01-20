@@ -57,8 +57,7 @@ public class EditQuestionController : BaseController
         DeleteUnusedImages.Run(model.QuestionExtended, id);
 
         _questionRepo.Update(
-            Resolve<EditQuestionModel_to_Question>()
-                .Update(model, question, Request.Form)
+            EditQuestionModel_to_Question.Update(model, question, Request.Form)
         );
 
         UpdateSound(soundfile, id);
@@ -76,11 +75,11 @@ public class EditQuestionController : BaseController
         if (!String.IsNullOrEmpty(Request["questionId"]) && Request["questionId"] != "-1")
         {
             question = _questionRepo.GetById(Convert.ToInt32(Request["questionId"]));
-            _questionRepo.Update(R<EditQuestionModel_to_Question>().Update(model, question, Request.Form));
+            _questionRepo.Update(EditQuestionModel_to_Question.Update(model, question, Request.Form));
         }
         else
         {
-            question = R<EditQuestionModel_to_Question>().Create(model, Request.Form);
+            question = EditQuestionModel_to_Question.Create(model, Request.Form);
             question.Creator = _sessionUser.User;
             _questionRepo.Create(question);
         }
