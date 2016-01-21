@@ -1,18 +1,19 @@
 using System.Collections.Generic;
-public class ContextUser : IRegisterAsInstancePerLifetime
+
+public class ContextUser
 {
     private readonly UserRepo _userRepo;
 
     public List<User> All = new List<User>();
 
-    public ContextUser(UserRepo userRepo)
+    private ContextUser()
     {
-        _userRepo = userRepo;
+        _userRepo = Sl.R<UserRepo>();
     }
 
     public static ContextUser New()
     {
-        return BaseTest.Resolve<ContextUser>();
+        return new ContextUser();
     }
 
     public static User GetUser(string userName = "Firstname Lastname")

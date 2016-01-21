@@ -298,7 +298,6 @@
     <Compile Include="a Test MetaData\Personas\Persona.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.LoggedInUser.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.UserWhoWantsToRegister.cs" />
-    <Compile Include="_ code\AutofacTestModule.cs" />
     <Compile Include="_ code\BaseTest.cs" />
     <Compile Include="2 Domain\Question\Question_persistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -19,17 +19,24 @@ public class Should_create_trainingsplan : BaseTest
     [Test]
     public void When_not_trained__in_the_remaining_time_the_dates_amount_should_increase()
     {
-        var trainingsPlan = ContextTrainingPlan.New()
+        var trainingPlan = ContextTrainingPlan.New()
             .Add(numberOfQuestions: 20, dateOfDate: DateTime.Now.AddDays(20))
             .Persist()
             .Last();
 
-        var amountOfDatesInsLast7Days = trainingsPlan.Dates.Count(d => d.DateTime > DateTime.Now.AddDays(10));
+        var amountOfDatesInsLast7Days = trainingPlan.Dates.Count(d => d.DateTime > DateTime.Now.AddDays(10));
 
         DateTimeX.Forward(days:10);
 
-        var updatedTrainingPlan = TrainingPlanUpdater.Run(trainingsPlan.Id);
+        trainingPlan = TrainingPlanUpdater.Run(trainingPlan.Id);
 
-        Assert.That(amountOfDatesInsLast7Days, Is.LessThan(updatedTrainingPlan.DatesInFuture.Count));;
+        Assert.That(amountOfDatesInsLast7Days, Is.LessThan(trainingPlan.DatesInFuture.Count));
+
+        trainingPlan.DumpToConsole(); ;
+    }
+
+    [Test]
+    public void Test()
+    {
     }
 }

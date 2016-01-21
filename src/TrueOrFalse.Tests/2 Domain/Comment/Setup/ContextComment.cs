@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace TrueOrFalse.Tests
 {
-    public class ContextComment : IRegisterAsInstancePerLifetime
+    public class ContextComment
     {
         private readonly CommentRepository _commentRepo;
         private readonly ContextUser _contextUser = ContextUser.New();
@@ -14,8 +14,8 @@ namespace TrueOrFalse.Tests
         
         public List<Comment> All = new List<Comment>();
 
-        public ContextComment(CommentRepository commentRepo){
-            _commentRepo = commentRepo;
+        private ContextComment(){
+            _commentRepo = Sl.R<CommentRepository>() ;
 
             _user1 = _contextUser.Add("Test").Persist().All.First();
 
@@ -24,7 +24,7 @@ namespace TrueOrFalse.Tests
 
         public static ContextComment New()
         {
-            return BaseTest.Resolve<ContextComment>();
+            return new ContextComment();
         }
 
         public ContextComment Add(string text = "My comment", Comment commentTo = null)

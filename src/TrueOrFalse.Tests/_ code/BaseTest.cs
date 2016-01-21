@@ -56,31 +56,30 @@ public class BaseTest
     {
         var builder = new ContainerBuilder();
         builder.RegisterModule<AutofacCoreModule>();
-        builder.RegisterModule<AutofacTestModule>();
 
         var solrUrl = Settings.SolrUrl;
         var cores = new SolrServers {
-                            new SolrServerElement {
-                                    Id = "question",
-                                    DocumentType = typeof (QuestionSolrMap).AssemblyQualifiedName,
-                                    Url = solrUrl + "tofQuestionTest"
-                                },
-                            new SolrServerElement {   
-                                    Id = "set",
-                                    DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
-                                    Url = solrUrl + "tofSetTest"
-                                },
-                            new SolrServerElement {   
-                                    Id = "category",
-                                    DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
-                                    Url = solrUrl + "tofCategoryTest"
-                                },
-                            new SolrServerElement {   
-                                    Id = "users",
-                                    DocumentType = typeof (UserSolrMap).AssemblyQualifiedName,
-                                    Url = solrUrl + "tofUserTest"
-                                }
-                        };
+            new SolrServerElement {
+                    Id = "question",
+                    DocumentType = typeof (QuestionSolrMap).AssemblyQualifiedName,
+                    Url = solrUrl + "tofQuestionTest"
+                },
+            new SolrServerElement {
+                    Id = "set",
+                    DocumentType = typeof (SetSolrMap).AssemblyQualifiedName,
+                    Url = solrUrl + "tofSetTest"
+                },
+            new SolrServerElement {
+                    Id = "category",
+                    DocumentType = typeof (CategorySolrMap).AssemblyQualifiedName,
+                    Url = solrUrl + "tofCategoryTest"
+                },
+            new SolrServerElement {
+                    Id = "users",
+                    DocumentType = typeof (UserSolrMap).AssemblyQualifiedName,
+                    Url = solrUrl + "tofUserTest"
+                }
+        };
 
         builder.RegisterModule(new SolrNetModule(cores));
         _container = builder.Build();

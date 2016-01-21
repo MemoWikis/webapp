@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BDDish.Model;
 
-public class ContextRegisteredUser : IRegisterAsInstancePerLifetime, IContextDescription
+public class ContextRegisteredUser : IContextDescription
 {
     private readonly UserRepo _userRepo;
 
@@ -11,14 +11,14 @@ public class ContextRegisteredUser : IRegisterAsInstancePerLifetime, IContextDes
 
     public List<User> Users = new List<User>();
 
-    public ContextRegisteredUser(UserRepo userRepo)
+    private ContextRegisteredUser()
     {
-        _userRepo = userRepo;
+        _userRepo = Sl.R<UserRepo>();
     }
 
     public static ContextRegisteredUser New()
     {
-        return BaseTest.Resolve<ContextRegisteredUser>();
+        return new ContextRegisteredUser();
     }
 
     public ContextRegisteredUser Add()
