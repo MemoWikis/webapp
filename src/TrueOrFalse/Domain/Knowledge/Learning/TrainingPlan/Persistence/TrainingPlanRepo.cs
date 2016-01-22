@@ -11,21 +11,32 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
 
     public void DeleteDates(TrainingPlan trainingPlan, DateTime after)
     {
-        var trainingDateIdsToDelete = trainingPlan.Dates.Where(x => x.DateTime > after).Select(x => x.Id.ToString());
+        trainingPlan.Dates.
+            Where(d => d.DateTime > after).ToList().
+            ForEach(d => trainingPlan.Dates.Remove(d));
 
-        trainingPlan.Dates = trainingPlan.Dates.Where(x => x.DateTime <= after).ToList();
+        Update(trainingPlan);
+        Flush();
+    }
 
-        Sl.Session.CreateSQLQuery(
-            "DELETE FROM trainingdate " +
-            "WHERE  TrainingPlan_Id = " + trainingPlan.Id + " " +
-            "AND datetime > '" + after.ToString("yyy-MM-dd HH:mm:ss") + "'" )
-            .ExecuteUpdate();
+    public override void Update(TrainingPlan trainingPlan)
+    {
+        trainingPlan.Dates.ForEach(x =>
+        {
+            if (x.DateCreated == DateTime.MinValue){
+                x.DateCreated = DateTime.Now;
+                x.DateModified = DateTime.Now;
+            }
 
-        Sl.Session.CreateSQLQuery(
-            "DELETE FROM trainingdate_question " +
-            "WHERE TrainingDate_Id IN("+ trainingDateIdsToDelete.Aggregate((a,b) => a + "," + b)  +")")
-            .ExecuteUpdate();
+            x.AllQuestions.ForEach(q => {
+                if (q.DateCreated == DateTime.MinValue){
+                    q.DateCreated = DateTime.Now;
+                    q.DateModified = DateTime.Now;
+                }     
+            });
+        });
 
+        base.Update(trainingPlan);
     }
 
     public override void Create(TrainingPlan trainingPlan)

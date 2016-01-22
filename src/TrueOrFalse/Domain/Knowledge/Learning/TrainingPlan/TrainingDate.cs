@@ -11,5 +11,10 @@ public class TrainingDate : DomainEntity
     public virtual IList<TrainingQuestion> AllQuestionsInTraining
     {
         get { return AllQuestions.Where(x => x.IsInTraining).ToList(); }
-    } 
+    }
+
+    public TrainingDate()
+    {
+        AllQuestions = new List<TrainingQuestion>();
+    }
 }

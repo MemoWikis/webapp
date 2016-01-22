@@ -7,7 +7,7 @@ public class TrainingPlanMap : ClassMap<TrainingPlan>
         Id(x => x.Id);
 
         References(x => x.Date);
-        HasMany(x => x.Dates).Cascade.SaveUpdate().Not.KeyNullable();
+        HasMany(x => x.Dates).Cascade.AllDeleteOrphan().Not.KeyNullable();
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

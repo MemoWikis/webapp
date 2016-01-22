@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate;
+using NHibernate.Util;
 
 public class TrainingPlanUpdater
 {
@@ -12,9 +13,17 @@ public class TrainingPlanUpdater
         var trainingPlanRepo = Sl.R<TrainingPlanRepo>();
         trainingPlanRepo.DeleteDates(trainingPlan, DateTimeX.Now());
 
-        var updatedTrainingPlan = TrainingPlanCreator.Run(trainingPlan.Date, trainingPlan.Settings);
-        trainingPlanRepo.Update(updatedTrainingPlan);
+        var newTrainigPlan = TrainingPlanCreator.Run(trainingPlan.Date, trainingPlan.Settings);
 
-        return updatedTrainingPlan;
+        foreach (var newDate in newTrainigPlan.Dates)
+            trainingPlan.Dates.Add(new TrainingDate
+            {
+                AllQuestions = newDate.AllQuestions,
+                DateTime = newDate.DateTime,
+            });
+
+        trainingPlanRepo.Update(trainingPlan);
+        trainingPlanRepo.Flush();
+        return trainingPlan;
     }
 }

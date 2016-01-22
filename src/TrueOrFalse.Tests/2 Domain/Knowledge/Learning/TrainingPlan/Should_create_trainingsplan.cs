@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 
 public class Should_create_trainingsplan : BaseTest
@@ -38,5 +39,19 @@ public class Should_create_trainingsplan : BaseTest
     [Test]
     public void Test()
     {
+        var trainingPlan = ContextTrainingPlan.New()
+            .Add(numberOfQuestions: 20, dateOfDate: DateTime.Now.AddDays(20))
+            .Persist()
+            .Last();
+
+        RecycleContainer();
+
+        Thread.Sleep(2000);
+
+        trainingPlan.Dates.Add(new TrainingDate());
+        trainingPlan.Dates.Add(new TrainingDate());
+        trainingPlan.Dates.Add(new TrainingDate());
+
+        Sl.R<TrainingPlanRepo>().Update(trainingPlan);
     }
 }
