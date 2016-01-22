@@ -9,12 +9,10 @@ public class CategoriesController : BaseController
     private readonly CategoriesControllerSearch _categorySearch;
     private const string _viewLocation = "~/Views/Categories/Categories.aspx";
 
-    public CategoriesController(
-        CategoryRepository categoryRepo,
-        CategoriesControllerSearch categorySearch)
+    public CategoriesController(CategoryRepository categoryRepo)
     {
         _categoryRepo = categoryRepo;
-        _categorySearch = categorySearch;
+        _categorySearch = new CategoriesControllerSearch();
     }
 
     public ActionResult SearchApi(string searchTerm)

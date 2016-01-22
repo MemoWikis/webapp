@@ -13,14 +13,12 @@ namespace TrueOrFalse
         private readonly QuestionsControllerSearch _questionsControllerSearch;
         private readonly QuestionsControllerUtil _util;
          
-        public QuestionsController(
-            QuestionRepo questionRepo,
-            QuestionsControllerSearch questionsControllerSearch)
+        public QuestionsController(QuestionRepo questionRepo)
         {
             _questionRepo = questionRepo;
-            _questionsControllerSearch = questionsControllerSearch;
+            _questionsControllerSearch = new QuestionsControllerSearch();
 
-            _util = new QuestionsControllerUtil(questionsControllerSearch);
+            _util = new QuestionsControllerUtil(_questionsControllerSearch);
         }
 
         [SetMenu(MenuEntry.Questions)]
