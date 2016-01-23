@@ -16,10 +16,12 @@ public class DateRepo : RepositoryDbBase<Date>
         UserActivityAdd.CreatedDate(date);
     }
 
-    public IList<Date> GetBy(int[] userIds, bool onlyUpcoming = false, bool onlyPrevious = false)
+    public IList<Date> GetBy(int[] userIds = null, bool onlyUpcoming = false, bool onlyPrevious = false)
     {
-        var queryOver = _session.QueryOver<Date>()
-            .WhereRestrictionOn(u => u.User.Id).IsIn(userIds);
+        var queryOver = _session.QueryOver<Date>();
+
+        if(userIds != null)
+            queryOver = queryOver.WhereRestrictionOn(u => u.User.Id).IsIn(userIds);
 
         if (onlyUpcoming)
             queryOver.Where(d => d.DateTime >= DateTime.Now);

@@ -278,4 +278,14 @@ public class MaintenanceController : BaseController
 
         return ViewRenderer.RenderPartialView("ImageMaintenanceRow", imageMaintenanceInfo, ControllerContext);
     }
+
+    [AccessOnlyAsAdmin]
+    public ActionResult CreateTrainingDates()
+    {
+        var dates = Sl.R<DateRepo>().GetBy(onlyUpcoming: true);
+
+        
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Übungspläne erstellt.") });
+    }
 }

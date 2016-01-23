@@ -13,8 +13,8 @@ public class Date : DomainEntity
     /// </summary>
     public virtual DateTime DateTime { get; set; }
 
+    public virtual TrainingPlan TrainingPlan { get; set; }
     public virtual User User { get; set; }
-
     public virtual IList<Set> Sets { get; set; }
 
     public virtual DateVisibility Visibility { get; set; }

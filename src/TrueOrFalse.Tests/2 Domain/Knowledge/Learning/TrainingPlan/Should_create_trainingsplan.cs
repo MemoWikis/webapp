@@ -32,6 +32,6 @@ public class Should_create_trainingsplan : BaseTest
 
         Assert.That(amountOfDatesInsLast7Days, Is.LessThan(trainingPlan.DatesInFuture.Count));
 
-        trainingPlan.DumpToConsole(); ;
+        trainingPlan.DumpToConsole();
     }
 }

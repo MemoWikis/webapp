@@ -84,7 +84,11 @@
                 <i class="fa fa-retweet"></i> Nutzer
             </a>
         </div>        
-        <div class="col-md-6">   
+        <div class="col-md-6 MaintenanceSection">
+            <h4>Übungspläne</h4>
+            <a href="<%= Url.Action("CreateTrainingDates", "Maintenance") %>">
+                <i class="fa fa-retweet"></i> Übungspläne erstellen
+            </a>
         </div>
     </div>
 
