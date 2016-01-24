@@ -9,6 +9,15 @@ public class DateRepo : RepositoryDbBase<Date>
     {
     }
 
+    public void CreateWithTrainingsPlan(Date date)
+    {
+        Create(date);
+        var trainingPlan = TrainingPlanCreator.Run(date, new TrainingPlanSettings());
+        date.TrainingPlan = trainingPlan;
+        Sl.R<TrainingPlanRepo>().Create(trainingPlan);
+        Update(date);
+    }
+
     public override void Create(Date date)
     {
         base.Create(date);

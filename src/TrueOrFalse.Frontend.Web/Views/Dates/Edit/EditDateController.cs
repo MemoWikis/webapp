@@ -26,7 +26,8 @@ public class EditDateController : BaseController
         if (!model.HasErrorMsg())
         {
             var date = model.ToDate();
-            R<DateRepo>().Create(date);
+
+            R<DateRepo>().CreateWithTrainingsPlan(date);
 
             _sessionUiData.VisitedDatePages.Add(new DateHistoryItem(date, HistoryItemType.Edit));
 
