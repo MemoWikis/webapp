@@ -10,6 +10,9 @@ public class TrainingPlanCreator
         learnPlan.Date = date;
         learnPlan.Settings = settings;
 
+        if (date.AllQuestions().Count < settings.QuestionsPerDate_Minimum)
+            settings.QuestionsPerDate_Minimum = date.AllQuestions().Count;
+
         var answerRepo = Sl.R<AnswerRepo>();
 
         var answerProbabilities = 
