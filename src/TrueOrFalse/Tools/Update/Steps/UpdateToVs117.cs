@@ -21,7 +21,7 @@ namespace TrueOrFalse.Updates
 	                INDEX `Date_id` (`Date_id`)
                 )
                 COLLATE='utf8_general_ci'
-                ENGINE=MEMORY;").ExecuteUpdate();
+                ENGINE=innodb;").ExecuteUpdate();
 
             Sl.R<ISession>().CreateSQLQuery(@"
                 CREATE TABLE `trainingdate` (
@@ -34,7 +34,7 @@ namespace TrueOrFalse.Updates
 	                INDEX `TrainingPlan_id` (`TrainingPlan_id`)
                 )
                 COLLATE='utf8_general_ci'
-                ENGINE=MEMORY;").ExecuteUpdate();
+                ENGINE=innodb;").ExecuteUpdate();
 
             Sl.R<ISession>().CreateSQLQuery(@"
                 CREATE TABLE `trainingdate_question` (
@@ -51,7 +51,7 @@ namespace TrueOrFalse.Updates
 	                INDEX `TrainingDate_id` (`TrainingDate_id`)
                 )
                 COLLATE='utf8_general_ci'
-                ENGINE=MEMORY;").ExecuteUpdate();
+                ENGINE=innodb;").ExecuteUpdate();
         }
     }
 }
