@@ -9,6 +9,15 @@ public class DateRepo : RepositoryDbBase<Date>
     {
     }
 
+    public void CreateWithTrainingsPlan(Date date)
+    {
+        Create(date);
+        var trainingPlan = TrainingPlanCreator.Run(date, new TrainingPlanSettings());
+        date.TrainingPlan = trainingPlan;
+        Sl.R<TrainingPlanRepo>().Create(trainingPlan);
+        Update(date);
+    }
+
     public override void Create(Date date)
     {
         base.Create(date);
@@ -16,10 +25,12 @@ public class DateRepo : RepositoryDbBase<Date>
         UserActivityAdd.CreatedDate(date);
     }
 
-    public IList<Date> GetBy(int[] userIds, bool onlyUpcoming = false, bool onlyPrevious = false)
+    public IList<Date> GetBy(int[] userIds = null, bool onlyUpcoming = false, bool onlyPrevious = false)
     {
-        var queryOver = _session.QueryOver<Date>()
-            .WhereRestrictionOn(u => u.User.Id).IsIn(userIds);
+        var queryOver = _session.QueryOver<Date>();
+
+        if(userIds != null)
+            queryOver = queryOver.WhereRestrictionOn(u => u.User.Id).IsIn(userIds);
 
         if (onlyUpcoming)
             queryOver.Where(d => d.DateTime >= DateTime.Now);

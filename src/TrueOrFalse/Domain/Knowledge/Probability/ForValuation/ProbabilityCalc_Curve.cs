@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public static class ProbabilityCalc_Curve
 {
     public static int GetProbability(double minutes, int stability, int startValue = 100)
     {
-        return (int) Math.Round(Math.Pow(startValue*Math.E, -(1d * minutes / stability)) * 100, 0);
+        return (int) Math.Round(Math.Pow(Math.E, -(1d * minutes / stability)) * startValue, 0);
     }
 }
 
@@ -16,9 +18,35 @@ public class ProbabilityCalc_Curve_HalfLife_12h{
 }
 
 /// <summary>After 24h 50% probability</summary>
-public class ProbabilityCalc_Curve_HalfLife_24h{
-    public int Run(Question question, int offsetInMinutes, int startValue){
-        return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability: 10109, startValue: startValue);
+public class ProbabilityCalc_Curve_HalfLife_24h
+{
+    private const int Stability = 2048;
+
+    public int Run(
+        IList<Answer> previousAnswers,
+        Question question,
+        User user,
+        int offsetInMinutes, 
+        int startValue)
+    {
+        var stability = Stability + GetStatbilityModificator(previousAnswers);
+
+        return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, startValue: startValue);
+    }
+
+    ///naive implementation!
+    public int GetStatbilityModificator(IList<Answer> previousAnswers)
+    {
+        return previousAnswers.Sum(a =>
+        {
+            var offsetInMinutes = (DateTimeX.Now() - a.DateCreated).TotalMinutes;
+            var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, Stability, startValue: 100);
+
+            if (a.AnsweredCorrectly())
+                return 100*probability;
+            else
+                return 5*probability;
+        });
     }
 }
 

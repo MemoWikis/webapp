@@ -3,22 +3,22 @@ using System.Linq;
 
 namespace TrueOrFalse.Tests
 {
-    public class ContextCategory : IRegisterAsInstancePerLifetime
+    public class ContextCategory
     {
         private readonly CategoryRepository _categoryRepository;
         private readonly ContextUser _contextUser = ContextUser.New();
         
         public List<Category> All = new List<Category>();
 
-        public ContextCategory(CategoryRepository categoryRepository)
-        {
-            _categoryRepository = categoryRepository;
-            _contextUser.Add("Context Category" ).Persist();
-        }
-
         public static ContextCategory New()
         {
-            return BaseTest.Resolve<ContextCategory>();
+            return new ContextCategory();
+        }
+
+        private ContextCategory()
+        {
+            _categoryRepository = Sl.R<CategoryRepository>();
+            _contextUser.Add("Context Category" ).Persist();
         }
 
         public ContextCategory Add(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null)

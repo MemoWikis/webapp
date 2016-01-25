@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-public class ContextDate : IRegisterAsInstancePerLifetime
+public class ContextDate
 {
     public List<Date> All = new List<Date>();
     
@@ -10,7 +10,7 @@ public class ContextDate : IRegisterAsInstancePerLifetime
 
     public User User;
 
-    public ContextDate()
+    private ContextDate()
     {
         _dateRepo = Sl.R<DateRepo>();
         User = ContextUser.New().Add("First Name").Persist().All[0];
@@ -18,7 +18,7 @@ public class ContextDate : IRegisterAsInstancePerLifetime
 
     public static ContextDate New()
     {
-        return BaseTest.Resolve<ContextDate>();
+        return new ContextDate();
     }
 
     public ContextDate Add(IList<Set> sets, User creator = null, DateTime dateTime = default(DateTime))

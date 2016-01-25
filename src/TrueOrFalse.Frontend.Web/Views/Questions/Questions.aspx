@@ -115,40 +115,48 @@
             <% if(!Model.NotAllowed){ %>
                 <div class="search-section">
                     <div class="SearchQuestionsForm form-horizontal">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
-                                </span>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                    <%--<% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+                                        <div class="col-xs-12" style="padding-top: 10px; font-size: large">
+                                            Oder suchst du: 
+                                            <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
+                                                <%= Model.Suggestion %>
+                                            </a> ?
+                                        </div>
+                                    <% } %>--%>
+                                </div>                                
                             </div>
-                            <%--<% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
-                                <div class="col-xs-12" style="padding-top: 10px; font-size: large">
-                                    Oder suchst du: 
-                                    <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
-                                        <%= Model.Suggestion %>
-                                    </a> ?
-                                </div>
-                            <% } %>--%>
-                        </div>
-                        <div class="form-group">
-                            <div class="JS-RelatedCategories">
-                                <script type="text/javascript">
-                                    $(function () {
-                                        <%foreach (var category in Model.FilteredCategories) { %>
-                                        $("#txtCategoryFilter")
-                                            .val('<%=category.Name %>')
-                                            .data('category-id', '<%=category.Id %>')
-                                            .trigger('initCategoryFromTxt')
-                                            .trigger('initCategoryIds', '<%=category.Id %>');
-                                        <% } %>
-                                    });
-                                </script>
-                                <div class="JS-CatInputContainer ControlInline">
-                                    <input id="txtCategoryFilter" class="form-control .JS-ValidationIgnore" type="text" placeholder="Filtere nach einer Kategorie"  />
-                                </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="JS-RelatedCategories">
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                <%foreach (var category in Model.FilteredCategories) { %>
+                                                $("#txtCategoryFilter")
+                                                    .val('<%=category.Name %>')
+                                                    .data('category-id', '<%=category.Id %>')
+                                                    .trigger('initCategoryFromTxt')
+                                                    .trigger('initCategoryIds', '<%=category.Id %>');
+                                                <% } %>
+                                            });
+                                        </script>
+                                        <div class="JS-CatInputContainer ControlInline pull-right">
+                                            <input id="txtCategoryFilter" class="form-control .JS-ValidationIgnore" type="text" placeholder="Filtere nach einer Kategorie"  />
+                                        </div>
+                                    </div>
+                                </div>        
                             </div>
                         </div>
+                        
+                        
                     </div>
                     <div class="row">
                         <div class="col-xs-5">

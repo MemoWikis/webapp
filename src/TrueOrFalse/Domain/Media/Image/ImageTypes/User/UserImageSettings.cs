@@ -44,7 +44,7 @@ public class UserImageSettings : ImageSettingsBase, IImageSettings
     {
         var sanitizedEmailAdress = emailAddress.Trim().ToLowerInvariant();
         var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
-        return "http://www.gravatar.com/avatar/" +
+        return "//www.gravatar.com/avatar/" +
                 BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant() + "?s=" + width + "&d=" +
                 Uri.EscapeDataString(HttpContext.Current.Request.Url.Scheme + "://" +
                                      HttpContext.Current.Request.Url.Host +

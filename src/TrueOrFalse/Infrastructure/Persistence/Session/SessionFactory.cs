@@ -8,6 +8,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using TrueOrFalse.Infrastructure.Persistence;
+using Environment = NHibernate.Cfg.Environment;
 
 namespace TrueOrFalse
 {
@@ -19,6 +20,7 @@ namespace TrueOrFalse
         {
             var configuration = ReadConfigurationFromCacheOrBuildIt();
             _configuration = configuration;
+            _configuration.SetProperty(Environment.Hbm2ddlKeyWords, "none");
             return configuration.BuildSessionFactory();
         }
 
@@ -33,6 +35,7 @@ namespace TrueOrFalse
 
             var nhCfgCache = new NHConfigurationFileCache(assembly);
             var cachedCfg = nhCfgCache.LoadConfigurationFromFile();
+
             if (cachedCfg == null)
             {
                 nhConfigurationCache = BuildConfiguration();
@@ -51,7 +54,7 @@ namespace TrueOrFalse
                 .Database(
                     MySQLConfiguration.Standard
                         .ConnectionString(Settings.ConnectionString())
-                        .Dialect<MySQL5FlexibleDialect>
+                        .Dialect<MySQL5FlexibleDialect>()
                 )
                 .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
                 .ExposeConfiguration(SetConfig)

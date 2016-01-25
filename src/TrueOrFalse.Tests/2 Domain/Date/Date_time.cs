@@ -53,4 +53,16 @@ public class Date_time
         Assert.That(periodB.IsInPeriod(new Time(23, 00)), Is.True);
         Assert.That(periodB.IsInPeriod(new Time(5, 00)), Is.True);
     }
+
+    [Test]
+    public void Should_move_time_foraward_in_dateTimeX()
+    {
+        Assert.That(DateTimeX.Now().Second, Is.EqualTo(DateTime.Now.Second));
+        DateTimeX.Forward(mins:30);
+        Assert.That((DateTimeX.Now() - DateTime.Now).TotalSeconds, Is.EqualTo(30 * 60));
+        DateTimeX.Forward(hours:5);
+        Assert.That((DateTimeX.Now() - DateTime.Now).TotalSeconds, Is.EqualTo(30 * 60 + 5 * 3600));
+        DateTimeX.ResetOffset();
+        Assert.That(DateTimeX.Now().Second, Is.EqualTo(DateTime.Now.Second));
+    }
 }

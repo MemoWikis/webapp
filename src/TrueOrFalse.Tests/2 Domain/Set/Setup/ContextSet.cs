@@ -2,7 +2,7 @@
 using System.Linq;
 using TrueOrFalse.Tests;
 
-public class ContextSet : IRegisterAsInstancePerLifetime
+public class ContextSet
 {
     private readonly ContextQuestion _contextQuestion = ContextQuestion.New();
     public readonly User Creator;
@@ -12,18 +12,16 @@ public class ContextSet : IRegisterAsInstancePerLifetime
 
     public List<Set> All = new List<Set>();
         
-    public ContextSet(
-        SetRepo setRepo,
-        QuestionInSetRepo questionInSetRepo)
+    private ContextSet()
     {
         Creator = ContextUser.GetUser();
-        _setRepo = setRepo;
-        _questionInSetRepo = questionInSetRepo;
+        _setRepo = Sl.R<SetRepo>();
+        _questionInSetRepo = Sl.R<QuestionInSetRepo>();
     }
 
     public static ContextSet New()
     {
-        return BaseTest.Resolve<ContextSet>();
+        return new ContextSet();
     }
 
     public ContextSet AddSet(

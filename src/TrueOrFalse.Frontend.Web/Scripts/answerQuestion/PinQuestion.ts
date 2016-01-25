@@ -7,6 +7,9 @@
 
         $("#iAdded, #iAddedNot").click(function (e) {
 
+            if (NotLoggedIn.Yes())
+                return;
+
             e.preventDefault();
             if (this._changeInProgress)
                 return;

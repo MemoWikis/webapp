@@ -8,11 +8,7 @@ public class UsersController : BaseController
     private const string _viewLocationUsers = "~/Views/Users/Users.aspx";
     private const string _viewLocationNetwork = "~/Views/Users/Network.aspx";
 
-    private readonly UsersControllerSearch _usersControllerSearch;
-
-    public UsersController(UsersControllerSearch usersControllerSearch){
-        _usersControllerSearch = usersControllerSearch;
-    }
+    private readonly UsersControllerSearch _usersControllerSearch = new UsersControllerSearch();
 
     public ActionResult Search(string searchTerm, UsersModel model, string orderBy = null)
     {

@@ -283,6 +283,7 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatterns\AnswerPatternRepo.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Configuration\TrainingPlanSettings.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\AnswerProbability.cs" />
+    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlanUpdater.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateRepo.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanMap.cs" />
@@ -293,6 +294,8 @@
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
     <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
+    <Compile Include="Infrastructure\IoC\AutofacRegistrationWriter.cs" />
+    <Compile Include="Infrastructure\Time\DateTimeX.cs" />
     <Compile Include="Infrastructure\Time\Period.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingDate.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingPlan.cs" />
@@ -414,7 +417,6 @@
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDaysResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreaksDays.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Ops.Stats\GetStreakCorrectness.cs" />
-    <Compile Include="Domain\Question\AnswerHistory\Ops\GetLastAnswers.cs" />
     <Compile Include="Domain\Question\AnswerHistory\AnswerExt.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityAdd.cs" />
     <Compile Include="Domain\User\Activity\Ops\UserActivityTools.cs" />
@@ -715,6 +717,9 @@
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs119.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs118.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs117.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs116.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs115.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs114.cs" />

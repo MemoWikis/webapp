@@ -1,25 +1,11 @@
 ﻿using System.Collections.Generic;
 using TrueOrFalse.Search;
 
-public class CategoriesControllerSearch : IRegisterAsInstancePerLifetime
+public class CategoriesControllerSearch
 {
-    private readonly CategoryRepository _categoryRepo;
-    private readonly SessionUiData _sessionUiData;
-    private readonly SearchCategories _searchCategories;
-
-    public CategoriesControllerSearch(
-        CategoryRepository categoryRepo, 
-        SessionUiData sessionUiData,
-        SearchCategories searchCategories)
-    {
-        _categoryRepo = categoryRepo;
-        _sessionUiData = sessionUiData;
-        _searchCategories = searchCategories;
-    }
-
     public IList<Category> Run(){
                     
-        var solrResult = _searchCategories.Run(_sessionUiData.SearchSpecCategory);
-        return _categoryRepo.GetByIds(solrResult.CategoryIds.ToArray());
+        var solrResult = Sl.R<SearchCategories>().Run(Sl.R<SessionUiData>().SearchSpecCategory);
+        return Sl.R<CategoryRepository>().GetByIds(solrResult.CategoryIds.ToArray());
     }
 }

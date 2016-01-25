@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TrueOrFalse.Tests;
 
-public class ContextGame : IRegisterAsInstancePerLifetime
+public class ContextGame
 {
     private readonly GameRepo _gameRepo;
     private readonly ContextUser _contextUser = ContextUser.New();
 
     public List<Game> All = new List<Game>();
 
-    public ContextGame(GameRepo gameRepo)
+    private ContextGame()
     {
-        _gameRepo = gameRepo;
+        _gameRepo = Sl.R<GameRepo>();
     }
 
     public static ContextGame New()
     {
-        return BaseTest.Resolve<ContextGame>();
+        return new ContextGame();
     }
 
     public ContextGame Add(

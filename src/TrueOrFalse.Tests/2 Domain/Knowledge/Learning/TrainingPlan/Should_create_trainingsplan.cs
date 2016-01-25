@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
 
 public class Should_create_trainingsplan : BaseTest
@@ -6,17 +7,31 @@ public class Should_create_trainingsplan : BaseTest
     [Test]
     public void With_no_history()
     {
-        var contextSet = ContextSet.New().AddSet("Setname", numberOfQuestions: 20).Persist();
-        var contextDate = ContextDate.New().Add(contextSet.All, dateTime: DateTime.Now.AddDays(7) ).Persist();
+        var trainingsPlan = ContextTrainingPlan.New()
+            .Add(numberOfQuestions:20, dateOfDate:DateTime.Now.AddDays(7))
+            .Last();
 
-        var trainingsPlan = TrainingPlanCreator.Run(
-            contextDate.All[0], new TrainingPlanSettings{
-                QuestionsPerDate_IdealAmount = 5,
-                QuestionsPerDate_Minimum = 3
-            });
-
-        Assert.That(trainingsPlan.Dates.Count, Is.InRange(5, 35));
+        Assert.That(trainingsPlan.Dates.Count, Is.InRange(5, 15));
 
         trainingsPlan.DumpToConsole();
+    }
+
+    [Test]
+    public void When_not_trained__in_the_remaining_time_the_dates_amount_should_increase()
+    {
+        var trainingPlan = ContextTrainingPlan.New()
+            .Add(numberOfQuestions: 20, dateOfDate: DateTime.Now.AddDays(20))
+            .Persist()
+            .Last();
+
+        var amountOfDatesInsLast7Days = trainingPlan.Dates.Count(d => d.DateTime > DateTime.Now.AddDays(10));
+
+        DateTimeX.Forward(days:10);
+
+        trainingPlan = TrainingPlanUpdater.Run(trainingPlan.Id);
+
+        Assert.That(amountOfDatesInsLast7Days, Is.LessThan(trainingPlan.DatesInFuture.Count));
+
+        trainingPlan.DumpToConsole();
     }
 }

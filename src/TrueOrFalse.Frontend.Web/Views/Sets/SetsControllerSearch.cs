@@ -1,22 +1,11 @@
 ﻿using System.Collections.Generic;
 using TrueOrFalse.Search;
 
-public class SetsControllerSearch : IRegisterAsInstancePerLifetime
+public class SetsControllerSearch
 {
-    private readonly SetRepo _setRepo;
-    private readonly SearchSets _searchSets;
-
-    public SetsControllerSearch(
-        SetRepo setRepo, 
-        SearchSets searchSets)
-    {
-        _setRepo = setRepo;
-        _searchSets = searchSets;
-    }
-
     public IList<Set> Run(SetSearchSpec searchSpecSet)
     {
-        var solrResult = _searchSets.Run(searchSpecSet);
-        return _setRepo.GetByIds(solrResult.SetIds.ToArray());
+        var solrResult = Sl.R<SearchSets>().Run(searchSpecSet);
+        return Sl.R<SetRepo>().GetByIds(solrResult.SetIds.ToArray());
     }
 }

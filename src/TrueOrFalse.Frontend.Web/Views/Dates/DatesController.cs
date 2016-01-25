@@ -63,6 +63,9 @@ public class DatesController : BaseController
 
     public string RenderTrainingDates(int dateId)
     {
+        var date = Resolve<DateRepo>().GetById(dateId);
+        //TrainingPlanCreator.Run(date, new TrainingPlanSettings());
+
         var trainingDatesModel = new TrainingSettingsDatesModel();
         trainingDatesModel.Dates.Add(new TrainingDateModel
         {
