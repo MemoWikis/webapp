@@ -19,6 +19,11 @@ public class Date : DomainEntity
 
     public virtual DateVisibility Visibility { get; set; }
 
+    public virtual TimeSpan TimeRemaining => TrainingPlan.TimeRemaining;
+    public virtual TimeSpan TimeSpent => TrainingPlan.TimeSpent;
+    public virtual bool HasDatesInFuture => TrainingPlan.HasDatesInFuture;
+    public virtual TimeSpan TimeToNextDate => TrainingPlan.TimeToNextDate;
+
     public Date()
     {
         Sets = new List<Set>();

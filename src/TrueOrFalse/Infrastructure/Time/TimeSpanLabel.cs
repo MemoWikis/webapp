@@ -1,21 +1,22 @@
-﻿
-using System;
+﻿using System;
 
 public class TimeSpanLabel
 {
-    private bool _useDativ;
-
+    private readonly bool _showTimeUnit;
     public string Label;
     public int Value;
 
     public TimeSpanInterval Interval;
 
-    public string Full { get { return Value + " " + Label; } }
+    public string Full => _showTimeUnit 
+        ? Value + Label
+        : Value + " " + Label;
 
-    public TimeSpanLabel(TimeSpan timeSpan, bool useDativ = false)
+    public TimeSpanLabel(TimeSpan timeSpan, bool useDativ = false, bool showTimeUnit = false)
     {
+        _showTimeUnit = showTimeUnit;
+
         timeSpan = timeSpan.Duration();
-        _useDativ = useDativ;
 
         var interval = GetBestRemainingInterval(timeSpan);
 
@@ -23,39 +24,47 @@ public class TimeSpanLabel
         {
             case TimeSpanInterval.Minutes:
                 Value = (int) timeSpan.TotalMinutes;
-                Label = Value == 1 ? "Minute" : "Minuten";
 
+                Label = showTimeUnit 
+                    ? "min" 
+                    : Value == 1  ? "Minute" : "Minuten";
                 break;
 
             case TimeSpanInterval.Hours:
                 Value = (int)timeSpan.TotalHours;
-                Label = Value == 1 ? "Stunde" : "Stunden";
+                Label = showTimeUnit
+                    ? "h"
+                    : Value == 1 ? "Stunde" : "Stunden";
                 break;
 
             case TimeSpanInterval.Days:
                 Value = (int)timeSpan.TotalDays;
-                Label = Value == 1 ? 
-                    "Tag" : 
-                    _useDativ ? "Tagen" : "Tage";
+                Label = showTimeUnit
+                    ? "t"
+                    : Value == 1 
+                        ? "Tag" 
+                        : useDativ ? "Tagen" : "Tage";
                 break;
 
             case TimeSpanInterval.Weeks:
                 Value = (int)Math.Round(timeSpan.TotalDays / 7d, 0);
-                Label = Value == 1 ? "Woche" : "Wochen";
+                Label = showTimeUnit
+                    ? "w" 
+                    : Value == 1  ? "Woche"  : "Wochen";
                 break;
 
             case TimeSpanInterval.Month:
                 Value = (int)Math.Round(timeSpan.TotalDays / 30d, 0);
                 Label = Value == 1 ? 
-                    "Monat" : 
-                    _useDativ ? "Monaten" : "Monate";
+                    "Monat" :
+                    useDativ ? "Monaten" : "Monate";
                 break;
 
             case TimeSpanInterval.Years:
                 Value = (int)Math.Round(timeSpan.TotalDays / 365d, 0);
                 Label = Value == 1 ? 
-                    "Jahr" : 
-                    _useDativ ? "Jahren" : "Jahre";
+                    "Jahr" :
+                    useDativ ? "Jahren" : "Jahre";
                 break;
 
             default: 

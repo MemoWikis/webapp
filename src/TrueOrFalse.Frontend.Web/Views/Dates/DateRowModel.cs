@@ -17,6 +17,11 @@
     public bool IsPast;
     public bool IsNetworkDate;
 
+    public int TrainingDateCount;
+    public string TrainingLength;
+
+    public TrainingPlan TrainingPlan;
+
     public DateRowModel(Date date, bool isNetworkDate = false)
     {
         Date = date;
@@ -30,6 +35,10 @@
         KnowledgeNeedsLearning = summary.NeedsLearning;
         KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
         KnowledgeSolid = summary.Solid;
+
+        TrainingPlan = date.TrainingPlan;
+        TrainingDateCount = date.TrainingPlan.DatesInFuture.Count;
+        TrainingLength = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full;
 
         var remaining = date.Remaining();
         IsPast = remaining.TotalSeconds < 0;
