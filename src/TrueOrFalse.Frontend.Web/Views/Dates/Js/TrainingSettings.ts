@@ -8,7 +8,8 @@
         });
     }
 
-    Populate(dateId : string) {
+    Populate(dateId: string) {
+
         $.get("/Dates/RenderTrainingDates/?dateId=" + dateId,
             htmlResult => {
                 $("#dateRows").children().remove();
@@ -17,8 +18,8 @@
                     .animate({ opacity: 1.00 }, 700)
                 ).after(() => {
                     drawCharts();
+                    $('#modalTraining').modal();
                 });
-                
             }
         );
         

@@ -273,6 +273,7 @@
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
+    <Compile Include="Views\Api\TrainingPlanApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
@@ -413,6 +414,9 @@
     <Content Include="Images\Team\team_jule201509-2_600.jpg" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
+    <Content Include="Scripts\TrainingPlan.js">
+      <DependentUpon>TrainingPlan.ts</DependentUpon>
+    </Content>
     <Content Include="Style\site.min.css">
       <DependentUpon>site.css</DependentUpon>
     </Content>
@@ -475,6 +479,7 @@
     <TypeScriptCompile Include="Scripts\hubs\GameHubEvents.ts" />
     <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
+    <TypeScriptCompile Include="Scripts\TrainingPlan.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
@@ -1087,6 +1092,9 @@
     <Content Include="Style\includes\extends.css.map">
       <DependentUpon>extends.css</DependentUpon>
     </Content>
+    <Content Include="Scripts\TrainingPlan.js.map">
+      <DependentUpon>TrainingPlan.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\menu.css">
@@ -1197,7 +1205,6 @@
     <Compile Include="Views\Api\ExportController.cs" />
     <Compile Include="Views\Administrative\PersonaController.cs" />
     <Compile Include="Views\Api\ExportModel.cs" />
-    <Compile Include="Views\Api\Intern\ValidationController.cs" />
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />

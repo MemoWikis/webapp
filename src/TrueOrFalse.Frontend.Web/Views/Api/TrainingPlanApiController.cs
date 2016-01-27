@@ -2,8 +2,16 @@
 
 public class TrainingPlanApiController : BaseController
 {
-    public JsonResult GetByDateId(int trainingsPlanId)
+    [HttpPost]
+    public JsonResult GetByDateId(int trainingPlanId)
     {
-        return new JsonResult();
+        var trainingPlan = R<TrainingPlanRepo>().GetById(trainingPlanId);
+
+        return Json(new
+        {
+            RemainingTime = "",
+            RemainingDates = 1,
+            QuestionCount = 1,
+        });
     }
 }

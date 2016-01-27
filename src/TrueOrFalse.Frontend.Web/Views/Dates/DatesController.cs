@@ -64,27 +64,8 @@ public class DatesController : BaseController
     public string RenderTrainingDates(int dateId)
     {
         var date = Resolve<DateRepo>().GetById(dateId);
-        //TrainingPlanCreator.Run(date, new TrainingPlanSettings());
 
-        var trainingDatesModel = new TrainingSettingsDatesModel();
-        trainingDatesModel.Dates.Add(new TrainingDateModel
-        {
-            DateTime = DateTime.Now.AddHours(4),
-            QuestionCount = 12,
-            Date = new Date { Details = "Klassenarbeit DE" }
-        });
-        trainingDatesModel.Dates.Add(new TrainingDateModel
-        {
-            DateTime = DateTime.Now.AddHours(24),
-            QuestionCount = 21,
-            Date = new Date { Details = "Klassenarbeit DE" }
-        });
-        trainingDatesModel.Dates.Add(new TrainingDateModel
-        {
-            DateTime = DateTime.Now.AddHours(57),
-            QuestionCount = 19,
-            Date = new Date { Details = "Mündliche Prüfung am Fr." }
-        });
+        var trainingDatesModel = new TrainingSettingsDatesModel(date);
 
         return ViewRenderer.RenderPartialView(
             "~/Views/Dates/Modals/TrainingSettingsDates.ascx",
