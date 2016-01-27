@@ -1,7 +1,4 @@
-﻿using NHibernate;
-using NHibernate.Util;
-
-public class TrainingPlanUpdater
+﻿public class TrainingPlanUpdater
 {
     public static TrainingPlan Run(int trainingPlanId)
     {

@@ -71,8 +71,7 @@ public class EditDateController : BaseController
             var dateRepo = R<DateRepo>();
             var date = dateRepo.GetById(model.DateId);
 
-            dateRepo.Update(model.FillDateFromInput(date));
-            dateRepo.Flush();
+            dateRepo.UpdateWithTrainingsPlan(model.FillDateFromInput(date));
 
             CareAboutAnswerProbability(date);
 
