@@ -285,7 +285,7 @@ img {
 
 .use-alternative-memo-logo(true);
 .use-alternative-memo-logo-without-body(false);
-.use-new-memo-logo(false);
+
 
 .use-alternative-memo-logo(@use-alternative-memo-logo) when (@use-alternative-memo-logo) {
     #MasterHeader span#logo {
@@ -311,26 +311,6 @@ img {
     }
 }
 
-.use-new-memo-logo(@use-new-memo-logo) when (@use-new-memo-logo) {
-    #logo {
-        display: none !important;
-    }
-
-    #memo {
-        position: absolute;
-        top: -2px;
-        left: 220px;
-        z-index: 10000;
-        width: 30px;
-        height: auto;
-    }
-}
-
-.use-new-memo-logo(@use-new-memo-logo) when (default()) {
-    #memo {
-        display: none;
-    }
-}
 //Alternative memo logos end
 
 
