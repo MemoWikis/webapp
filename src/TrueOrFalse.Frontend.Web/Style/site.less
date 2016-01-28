@@ -243,32 +243,6 @@ img {
         }
     }
 
-    span#logo {
-        display: inline-block;
-        background-image: url('/images/toflogo.png');
-        background-position: center;
-        background-color: @light-blue;
-        width: 64px;
-        height: 64px;
-        -moz-background-size: 86%;
-        -o-background-size: 86%;
-        -webkit-background-size: 86%;
-        background-size: 86%;
-        background-repeat: no-repeat;
-        border-radius: 32px;
-        position: absolute;
-        top: 3px;
-        left: 200px;
-        border: solid 2px @dark-blue;
-        z-index: 101;
-        box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
-        display: none;
-
-        @media (min-width: @screen-md-min) {
-            display: block;
-        }
-    }
-
     .col-LoginAndHelp {
         width: auto;
         float: right;
@@ -280,39 +254,6 @@ img {
         height: @masterHeaderMainRowHeight-xs;
     }
 }
-
-//Alternative memo logos start
-
-.use-alternative-memo-logo(true);
-.use-alternative-memo-logo-without-body(false);
-
-
-.use-alternative-memo-logo(@use-alternative-memo-logo) when (@use-alternative-memo-logo) {
-    #MasterHeader span#logo {
-        background-image: url('/images/memo_liegend_bearbeitet4.png');
-        background-size: 83% !important;
-        -moz-transition: background-size 0.2s ease-in;
-        -o-transition: background-size 0.2s ease-in;
-        -webkit-transition: background-size 0.2s ease-in;
-        transition: background-size 0.2s ease-in;
-
-
-        &:hover {
-            background-size: 100% !important;
-        }
-    }
-}    
-
-.use-alternative-memo-logo-without-body(@use-alternative-memo-logo-without-body) when (@use-alternative-memo-logo-without-body) {
-    
-    #MasterHeader span#logo {
-        background-image: url('/images/memo_mit_laptop_ohne_koerper.png');
-        background-size: 73% !important;
-    }
-}
-
-//Alternative memo logos end
-
 
 #loginAndHelp {
     color: @light-blue;

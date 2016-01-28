@@ -251,32 +251,6 @@ img {
   -webkit-text-shadow: rgba(0, 0, 0, 0.5) 3px 1px 1px;
   text-shadow: rgba(0, 0, 0, 0.5) 3px 1px 1px;
 }
-#MasterHeader span#logo {
-  display: inline-block;
-  background-image: url('/images/toflogo.png');
-  background-position: center;
-  background-color: #e7ecf6;
-  width: 64px;
-  height: 64px;
-  -moz-background-size: 86%;
-  -o-background-size: 86%;
-  -webkit-background-size: 86%;
-  background-size: 86%;
-  background-repeat: no-repeat;
-  border-radius: 32px;
-  position: absolute;
-  top: 3px;
-  left: 200px;
-  border: solid 2px #2e487b;
-  z-index: 101;
-  box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
-  display: none;
-}
-@media (min-width: 992px) {
-  #MasterHeader span#logo {
-    display: block;
-  }
-}
 #MasterHeader .col-LoginAndHelp {
   width: auto;
   float: right;
@@ -288,17 +262,6 @@ img {
     padding-left: 0;
     float: right;
   }
-}
-#MasterHeader span#logo {
-  background-image: url('/images/memo_liegend_bearbeitet4.png');
-  background-size: 83% !important;
-  -moz-transition: background-size 0.2s ease-in;
-  -o-transition: background-size 0.2s ease-in;
-  -webkit-transition: background-size 0.2s ease-in;
-  transition: background-size 0.2s ease-in;
-}
-#MasterHeader span#logo:hover {
-  background-size: 100% !important;
 }
 #loginAndHelp {
   color: #e7ecf6;
