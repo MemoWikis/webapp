@@ -208,49 +208,6 @@ img {
     margin-bottom: 6px;
   }
 }
-#MasterHeader .col-title {
-  width: auto;
-  height: 100%;
-  float: left;
-}
-@media (max-width: 479px) {
-  #MasterHeader .col-title {
-    width: 70%;
-    padding-right: 0;
-  }
-}
-#MasterHeader a.title {
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  position: relative;
-  top: 1px;
-}
-@media (min-width: 768px) {
-  #MasterHeader a.title {
-    top: 0;
-  }
-}
-#MasterHeader a.title:hover {
-  text-decoration: none;
-}
-#MasterHeader h1 {
-  margin: 0;
-  border: none;
-  display: inline-block;
-  height: 100%;
-  background: none;
-  position: relative;
-  padding-left: 0;
-  -webkit-text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
-  text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
-  line-height: 34px;
-  color: #afd534;
-}
-#MasterHeader h1:hover {
-  -webkit-text-shadow: rgba(0, 0, 0, 0.5) 3px 1px 1px;
-  text-shadow: rgba(0, 0, 0, 0.5) 3px 1px 1px;
-}
 #MasterHeader .col-LoginAndHelp {
   width: auto;
   float: right;
