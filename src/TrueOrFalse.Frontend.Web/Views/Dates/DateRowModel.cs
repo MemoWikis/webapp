@@ -29,7 +29,7 @@
         var allQuestions = date.AllQuestions();
         AmountQuestions = allQuestions.Count;
 
-        var summary = R<KnowledgeSummaryLoader>().Run(UserId, allQuestions.GetIds(), onlyValuated: false);
+        var summary = KnowledgeSummaryLoader.Run(UserId, allQuestions.GetIds(), onlyValuated: false);
 
         KnowledgeNotLearned = summary.NotLearned;
         KnowledgeNeedsLearning = summary.NeedsLearning;

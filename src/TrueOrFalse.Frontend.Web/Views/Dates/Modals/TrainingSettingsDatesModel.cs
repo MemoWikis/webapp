@@ -12,9 +12,12 @@ public class TrainingSettingsDatesModel
         {
             Dates.Add(new TrainingDateModel
             {
+                Id = trainingDate.Id,
                 DateTime = trainingDate.DateTime,
                 QuestionCount = trainingDate.AllQuestionsInTraining.Count,
-                Date = date
+                Date = date,
+                SummaryBefore = trainingDate.GetSummaryBefore(),
+                SummaryAfter = trainingDate.GetSummaryAfter()
             });
         }
     }

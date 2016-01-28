@@ -23,3 +23,11 @@ class TrainingDateLoader {
         return new TrainingPlan();
     }
 }
+
+class KnowledgeSummary
+{
+    NotLearned;
+    NeedsLearning;
+    NeedsConsolidation;
+    Solid;
+}

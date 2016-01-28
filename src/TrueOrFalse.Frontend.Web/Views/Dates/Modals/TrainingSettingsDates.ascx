@@ -5,7 +5,7 @@
     foreach (var trainingDate in Model.Dates) {
         index++;
 %>
-    <div class="row" style="margin-top: 10px">
+    <div class="row" style="margin-top: 10px" data-trainingDateId="<%=trainingDate.Id %>">
         <div class="col-md-4" style="">
             Noch <%= trainingDate.TimeSpanLabel.Full %><br />
             <%= trainingDate.DateTime.ToString("dd.mm.yyyy HH:MM") %>Uhr
@@ -15,10 +15,10 @@
             ca. <%= trainingDate.Minutes %>min Aufwand
         </div>
         <div class="col-xs-2">
-            <div id="chartKnowledgeDate<%= index %>Before"></div>
+            <div data-knowledgeSummary='<%= trainingDate.SummaryBefore.ToJson() %>'></div>
         </div>
         <div class="col-xs-2">
-            <div id="chartKnowledgeDate<%= index %>After"></div>
+            <div data-knowledgeSummary='<%= trainingDate.SummaryAfter.ToJson() %>' ></div>
         </div>
     </div>
 <% } %>

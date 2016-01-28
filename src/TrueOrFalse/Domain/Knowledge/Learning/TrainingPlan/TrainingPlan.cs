@@ -9,8 +9,8 @@ public class TrainingPlan : DomainEntity
     public virtual Date Date { get; set; }
 
     public virtual IList<TrainingDate> Dates { get; set; } = new List<TrainingDate>();
-    public virtual IList<TrainingDate> DatesInFuture{ get { return Dates.Where(d => d.DateTime > DateTimeX.Now()).ToList(); }}
-    public virtual IList<TrainingDate> DatesInPast { get { return Dates.Where(d => d.DateTime <= DateTimeX.Now()).ToList(); } }
+    public virtual IList<TrainingDate> DatesInFuture => Dates.Where(d => d.DateTime > DateTimeX.Now()).ToList();
+    public virtual IList<TrainingDate> DatesInPast => Dates.Where(d => d.DateTime <= DateTimeX.Now()).ToList();
 
     public virtual TimeSpan TimeRemaining => new TimeSpan(0, 0, seconds: (DatesInFuture.Count * Questions.Count) * 20);
     public virtual TimeSpan TimeSpent => new TimeSpan(0, 0, seconds: (DatesInPast.Count * Questions.Count) * 20);
