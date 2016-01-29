@@ -8,7 +8,7 @@
     <div class="row" style="margin-top: 10px" data-trainingDateId="<%=trainingDate.Id %>">
         <div class="col-md-4" style="">
             Noch <%= trainingDate.TimeSpanLabel.Full %><br />
-            <%= trainingDate.DateTime.ToString("dd.mm.yyyy HH:MM") %>Uhr
+            <%= trainingDate.DateTime.ToString("dd.MM.yyyy HH:mm") %>Uhr
         </div>
         <div class="col-md-4">
             <%= trainingDate.QuestionCount %> <%= "Frage".Plural(trainingDate.QuestionCount, "n")%> <br />
