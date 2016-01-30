@@ -6,9 +6,15 @@
             var dateId = $(this).attr("data-dateId");
             self.Populate(dateId);
         });
+
+        $("#txtQuestionsPerDateIdealAmount").change(() => {
+            console.log("txtQuestionsPerDateIdealAmount");
+        });
     }
 
     Populate(dateId: string) {
+
+        var self = this;
 
         $.get("/Dates/RenderTrainingDates/?dateId=" + dateId,
             htmlResult => {
@@ -17,43 +23,47 @@
                     $(htmlResult)
                     .animate({ opacity: 1.00 }, 700)
                 ).after(() => {
-                    this.drawCharts();
+                    this.DrawCharts();
                     $('#modalTraining').modal();
                 });
             }
         );
-        
-        $(() => {
-            $("[data-action=closeSettings]").click(() => {
-                $("#settings").hide(300);
-                $("#showSettings").show();
-                $("#closeSettings").hide();
-            });
+
+        $("[data-action=closeSettings]").click(() => {
+            self.HideSettings();
         });
 
-        $(() => {
-            $("[data-action=showSettings]").click(() => {
-                $("#settings").show(300);
-                $("#showSettings").hide();
-                $("#closeSettings").show();
-            });
+        $("[data-action=showSettings]").click(() => {
+            self.ShowSettings();
         });
     }
 
-    drawCharts() {
+    HideSettings() {
+        $("#settings").hide(300);
+        $("#showSettings").show();
+        $("#closeSettings").hide();
+    }
+
+    ShowSettings() {
+        $("#settings").show(300);
+        $("#showSettings").hide();
+        $("#closeSettings").show();
+    }
+
+    DrawCharts() {
 
         var self = this;
 
         $("#modalTraining div[data-trainingDateId]").each(function () {
 
             $(this).find("[data-knowledgeSummary]").each(function() {
-                self.drawKnowledgeChartDate2($(this));
+                self.DrawKnowledgeChartDate2($(this));
             });
 
         });
     }
 
-    drawKnowledgeChartDate2(div: JQuery) {
+    DrawKnowledgeChartDate2(div: JQuery) {
 
         var json = div.attr("data-knowledgeSummary");
         var summary = <KnowledgeSummary>JSON.parse(json);
